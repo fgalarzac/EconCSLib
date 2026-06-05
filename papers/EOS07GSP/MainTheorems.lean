@@ -1,4 +1,4 @@
-import EconCSLib.MechanismDesign.Auctions.MainTheorems
+import EOS07GSP.AuctionMainTheorems
 
 /-!
 # Paper-Facing Theorems: Generalized Second-Price Auctions

@@ -1,6 +1,6 @@
 import EOS07GSP.MainTheorems
 import EOS07GSP.ProofInterface
-import EconCSLib.MechanismDesign.Auctions.Theorem8SourceBridges
+import EOS07GSP.Theorem8SourceBridges
 
 /-!
 # EOS07GSP post-paper audit
