@@ -1,8 +1,16 @@
 # Final Validation Report: EOS07GSP
 
+## 1. Human Verdict
+
+- Lean formalization status: partially formalized
+- Human dashboard review status: 0/42 rows reviewed; 0 stale; 0 mismatches.
+- Human summary: Non-truthfulness, examples, Theorem 7, and finite Theorem 8 direct-PBE endpoints are exposed; full source-game completion remains open.
+
+### Report Metadata
+
 Date: 2026-06-03
 
-## Verdict
+### Verdict
 
 This paper is not yet fully formalized in Lean. The current folder has a compiling
 post-paper audit ledger and strong paper-facing endpoints for Sections 2.2--2.3,
@@ -14,17 +22,9 @@ generalized-English source game: concrete belief consistency, the game-level
 source sequential-rationality iff, and exact terminal-record generation when no
 schedule, no-overshoot, or clock-discipline evidence is supplied.
 
-## Current handoff note
+## 2. Source and Scope
 
-Start with `START_HERE_NEXT_AGENT.md` before continuing Theorem 8. It is the
-short pickup file and points to the live proof plan, audit report, and older
-detailed handoff. The latest source obligation additions expose direct
-source-iff, no-overshoot terminal/dynamic, clock-disciplined terminal-history,
-and finite exact-record direct-PBE wrappers in `PaperInterface.lean`. The
-latest theorem edits compiled under `lake build EOS07GSP`; rerun that target
-after any further Lean edits.
-
-## Source version
+### Source version
 
 - Paper: *Internet Advertising and the Generalized Second-Price Auction:
   Selling Billions of Dollars Worth of Keywords*
@@ -43,21 +43,9 @@ cross-check and renumbers the analogous main results as Theorems 1--2, so this
 folder keeps the NBER numbering used by the cached source. The DAG inventory
 therefore starts at Remarks 1--3 before Definition 4.
 
-## Current Lean coverage
+## 3. What Has Been Proven
 
-| Paper item | Status | Human verification entry point |
-|---|---|---|
-| GSP non-truthfulness and running examples | formalized | `PaperInterface.lean` counterexample and running-example declarations |
-| Remark 1, same-bid GSP payment dominates VCG payment, `EOS07GSP.txt:372` | formalized | generic ranked VCG-tail induction plus concrete GSP/VCG revenue comparison |
-| Remark 2, VCG truthfulness, `EOS07GSP.txt:388` | formalized with certificate | `PaperInterface.lean` exposes the generic VCG position-mechanism truthfulness theorem from reported-welfare maximization, the externality-tax utility identity, and own-report-independent taxes |
-| Remark 3, GSP is not truthful, `EOS07GSP.txt:390` | formalized | `PaperInterface.lean` GSP counterexample declaration |
-| Definition 4, locally envy-free equilibrium, `EOS07GSP.txt:443` | formalized | locally-envy-free audit declarations |
-| Lemma 5, locally envy-free equilibrium gives stable assignment, `EOS07GSP.txt:465` | conditional | current bridge assumes the formal all-assigned-slot no-rematch predicate; paper appendix's adjacent-LEF/equilibrium/order/telescoping derivation remains to be formalized |
-| Lemma 6, stable assignment gives locally envy-free outcome, `EOS07GSP.txt:466` | conditional | current bridge is outcome-level; paper's `N > K`, Shapley-Shubik characterization, bid construction, and static-equilibrium converse remain to be linked |
-| Theorem 7, `B*` locally envy-free equilibrium and revenue comparison, `EOS07GSP.txt:481` | conditional | `PaperInterface.lean` ranked `B*` paper conclusion plus canonical-tail audit declarations |
-| Theorem 8, generalized-English unique PBE, `EOS07GSP.txt:539` | conditional, with finite direct-PBE/no-overshoot/clock-disciplined source routes closed | `PaperInterface.lean` source-iff, no-overshoot terminal/dynamic, clock-disciplined terminal-history, finite exact-record direct-PBE, and source-extensive terminal-record endpoints |
-
-## Important completed endpoints
+### Important completed endpoints
 
 - Theorem 7 now has a bundled endpoint showing that, under nonnegative values,
   the constructed ranked `B*` outcome itself has no positive transfers while
@@ -624,7 +612,159 @@ therefore starts at Remarks 1--3 before Definition 4.
   equality from behavioral uniqueness plus constructed-outcome agreement, so
   slot/payment equality is not a separate source-PBE obligation.
 
-## Remaining obligations
+## 4. Paper Definitions Checked
+
+<!-- lean-derived-definitions:start -->
+### Lean-Derived Dashboard Definitions
+
+| Paper-facing item | Lean declaration | Source-facing statement |
+| --- | --- | --- |
+| abbrev definition4_locally_envy_free | `definition4_locally_envy_free` | - Definition 4: locally envy-free outcome predicate. |
+| abbrev stable_assignment | `stable_assignment` | - Stable-assignment predicate used by the paper's stable-assignment bridge. |
+| abbrev remark1_gsp_payments_weakly_dominate_vcg | `remark1_gsp_payments_weakly_dominate_vcg` | - Remark 1: truthful GSP payments weakly dominate VCG per-click payments. |
+| abbrev remark2_vcg_truthful | `remark2_vcg_truthful` | - Remark 2: VCG position mechanism is truthful. |
+| abbrev remark3_gsp_not_truthful | `remark3_gsp_not_truthful` | - Remark 3: GSP is not dominant-strategy truthful. |
+| abbrev running_example_truthful_gsp_nash | `running_example_truthful_gsp_nash` | - Running example: truthful GSP bids are a Nash equilibrium. |
+| abbrev running_example_truthful_gsp_revenue_comparison | `running_example_truthful_gsp_revenue_comparison` | - Running example: truthful GSP revenue exceeds VCG revenue. |
+| abbrev lemma5_locally_envy_free_stable | `lemma5_locally_envy_free_stable` | - Lemma 5: locally envy-free equilibrium gives a stable assignment. |
+| abbrev lemma6_stable_assignment_slot_envy_free | `lemma6_stable_assignment_slot_envy_free` | - Lemma 6: stable assignment gives a locally envy-free outcome. |
+| abbrev theorem7_bstar_payment_identity | `theorem7_bstar_payment_identity` | - Theorem 7: ranked `B*` payment identity. |
+| abbrev theorem7_no_positive_transfer_conclusion | `theorem7_no_positive_transfer_conclusion` | - Theorem 7: canonical tail conclusion with no positive transfers. |
+| abbrev theorem8_dropout_price_bstar | `theorem8_dropout_price_bstar` | - Theorem 8: dropout price equals the `B*` bid. |
+| abbrev theorem8_no_overshoot_dropout_step_exact_record | `theorem8_no_overshoot_dropout_step_exact_record` | - Theorem 8: no-overshoot dropout steps record exactly the finite `B*` bid. |
+| abbrev theorem8_dropout_step_no_overshoot_iff_exact_record | `theorem8_dropout_step_no_overshoot_iff_exact_record` | - Theorem 8: exact dropout records are equivalent to realized no overshoot. |
+| abbrev theorem8_realized_dropout_no_overshoot_source_timing_bridge | `theorem8_realized_dropout_no_overshoot_source_timing_bridge` | - Theorem 8: named source-timing bridge for realized dropout no-overshoot. |
+| abbrev theorem8_source_extensive_pbe_iff_named_strategy_review | `theorem8_source_extensive_pbe_iff_named_strategy_review` | - Theorem 8: source-extensive PBE iff named strategy. |
+| abbrev theorem8_source_extensive_outcome_eq_vcg | `theorem8_source_extensive_outcome_eq_vcg` | - Theorem 8: source-extensive PBE has the VCG outcome under no overshoot. |
+| abbrev theorem8_local_advance_safe_completed_rank_source_extensive | `theorem8_local_advance_safe_completed_rank_source_extensive` | - Theorem 8: local-advance-safe histories satisfy finite `B*` formulas. |
+| abbrev theorem8_cold_start_local_advance_safe_completed_rank_source_extensive | `theorem8_cold_start_local_advance_safe_completed_rank_source_extensive` | - Theorem 8: cold-start local-advance-safe histories satisfy finite `B*` formulas. |
+| abbrev theorem8_local_deviation_terminal_record_completed_schedule | `theorem8_local_deviation_terminal_record_completed_schedule` | - Theorem 8: local-deviation terminal records satisfy finite `B*` formulas. |
+| abbrev theorem8_local_deviation_terminal_dynamic_full_conclusion | `theorem8_local_deviation_terminal_dynamic_full_conclusion` | - Theorem 8: local-deviation terminal-dynamic full PBE conclusion. |
+| abbrev theorem8_exact_record_full_vcg_conclusion | `theorem8_exact_record_full_vcg_conclusion` | - Theorem 8: exact-record source game full VCG conclusion. |
+| abbrev theorem8_finite_active_exact_record_pbe_ordered_conclusion | `theorem8_finite_active_exact_record_pbe_ordered_conclusion` | - Theorem 8: finite exact-record source PBE gives ordered payoff formulas. |
+| abbrev theorem8_finite_active_exact_record_belief_pbe_ordered_conclusion | `theorem8_finite_active_exact_record_belief_pbe_ordered_conclusion` | - Theorem 8: belief source PBE gives finite exact-record ordered payoff formulas. |
+| abbrev theorem8_finite_schedule_pbe_ordered_conclusion | `theorem8_finite_schedule_pbe_ordered_conclusion` | - Theorem 8: threshold-sorted finite schedule PBE gives ordered payoff formulas. |
+| abbrev theorem8_finite_schedule_belief_pbe_ordered_conclusion | `theorem8_finite_schedule_belief_pbe_ordered_conclusion` | - Theorem 8: belief finite schedule PBE gives ordered payoff formulas. |
+| abbrev theorem8_complete_finite_schedule_source_extensive_displayed_conclusion | `theorem8_complete_finite_schedule_source_extensive_displayed_conclusion` | - Theorem 8: complete finite source schedule gives the displayed PBE formulas. |
+| abbrev theorem8_complete_finite_schedule_pbe_displayed_ordered_conclusion | `theorem8_complete_finite_schedule_pbe_displayed_ordered_conclusion` | - Theorem 8: complete finite schedule PBE gives displayed ordered formulas. |
+| abbrev theorem8_complete_finite_schedule_belief_pbe_displayed_ordered_conclusion | `theorem8_complete_finite_schedule_belief_pbe_displayed_ordered_conclusion` | - Theorem 8: belief complete finite schedule PBE gives displayed ordered formulas. |
+| abbrev theorem8_price_sorted_finite_schedule_source_event_boundary | `theorem8_price_sorted_finite_schedule_source_event_boundary` | - Theorem 8: price-sorted finite schedule discharges source-event obligations. |
+| abbrev theorem8_price_sorted_finite_schedule_source_event_threshold_event_vcg | `theorem8_price_sorted_finite_schedule_source_event_threshold_event_vcg` | - Theorem 8: price-sorted finite source event gives full VCG conclusion. |
+| abbrev theorem8_price_sorted_finite_schedule_belief_source_event_threshold_event_vcg | `theorem8_price_sorted_finite_schedule_belief_source_event_threshold_event_vcg` | - Theorem 8: belief price-sorted finite source event gives full VCG conclusion. |
+| abbrev theorem8_price_sorted_finite_schedule_source_event_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_source_event_ordered_displayed_conclusion` | - Theorem 8: price-sorted finite schedule gives ordered displayed PBE formulas. |
+| abbrev theorem8_price_sorted_finite_schedule_source_event_threshold_event_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_source_event_threshold_event_ordered_displayed_conclusion` | - Theorem 8: price-sorted finite schedule gives threshold-event ordered formulas. |
+| abbrev theorem8_price_sorted_finite_schedule_belief_source_event_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_belief_source_event_ordered_displayed_conclusion` | - Theorem 8: belief-explicit price-sorted finite schedule conclusion. |
+| abbrev theorem8_price_sorted_finite_schedule_belief_source_event_threshold_event_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_belief_source_event_threshold_event_ordered_displayed_conclusion` | - Theorem 8: belief price-sorted threshold-event ordered conclusion. |
+| abbrev theorem8_price_sorted_finite_schedule_pbe_displayed_ordered_conclusion | `theorem8_price_sorted_finite_schedule_pbe_displayed_ordered_conclusion` | - Theorem 8: price-sorted finite source PBE gives displayed ordered formulas. |
+| abbrev theorem8_price_sorted_finite_schedule_belief_pbe_displayed_ordered_conclusion | `theorem8_price_sorted_finite_schedule_belief_pbe_displayed_ordered_conclusion` | - Theorem 8: belief price-sorted finite source PBE gives displayed ordered formulas. |
+| abbrev theorem8_price_sorted_finite_schedule_source_event_boundary_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_source_event_boundary_ordered_displayed_conclusion` | - Theorem 8: price-sorted finite source-event boundary plus ordered payoff. |
+| abbrev theorem8_price_sorted_finite_schedule_source_event_boundary_threshold_event_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_source_event_boundary_threshold_event_ordered_displayed_conclusion` | - Theorem 8: price-sorted boundary plus threshold-event ordered payoff. |
+| abbrev theorem8_price_sorted_finite_schedule_belief_source_event_boundary_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_belief_source_event_boundary_ordered_displayed_conclusion` | - Theorem 8: belief price-sorted source-event boundary plus ordered payoff. |
+| abbrev theorem8_price_sorted_finite_schedule_belief_source_event_boundary_threshold_event_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_belief_source_event_boundary_threshold_event_ordered_displayed_conclusion` | - Theorem 8: belief price-sorted boundary plus threshold-event ordered payoff. |
+<!-- lean-derived-definitions:end -->
+
+## 5. Named Theorem Statements Checked
+
+### Current Lean coverage
+
+| Paper item | Status | Human verification entry point |
+|---|---|---|
+| GSP non-truthfulness and running examples | formalized | `PaperInterface.lean` counterexample and running-example declarations |
+| Remark 1, same-bid GSP payment dominates VCG payment, `EOS07GSP.txt:372` | formalized | generic ranked VCG-tail induction plus concrete GSP/VCG revenue comparison |
+| Remark 2, VCG truthfulness, `EOS07GSP.txt:388` | formalized with certificate | `PaperInterface.lean` exposes the generic VCG position-mechanism truthfulness theorem from reported-welfare maximization, the externality-tax utility identity, and own-report-independent taxes |
+| Remark 3, GSP is not truthful, `EOS07GSP.txt:390` | formalized | `PaperInterface.lean` GSP counterexample declaration |
+| Definition 4, locally envy-free equilibrium, `EOS07GSP.txt:443` | formalized | locally-envy-free audit declarations |
+| Lemma 5, locally envy-free equilibrium gives stable assignment, `EOS07GSP.txt:465` | conditional | current bridge assumes the formal all-assigned-slot no-rematch predicate; paper appendix's adjacent-LEF/equilibrium/order/telescoping derivation remains to be formalized |
+| Lemma 6, stable assignment gives locally envy-free outcome, `EOS07GSP.txt:466` | conditional | current bridge is outcome-level; paper's `N > K`, Shapley-Shubik characterization, bid construction, and static-equilibrium converse remain to be linked |
+| Theorem 7, `B*` locally envy-free equilibrium and revenue comparison, `EOS07GSP.txt:481` | conditional | `PaperInterface.lean` ranked `B*` paper conclusion plus canonical-tail audit declarations |
+| Theorem 8, generalized-English unique PBE, `EOS07GSP.txt:539` | conditional, with finite direct-PBE/no-overshoot/clock-disciplined source routes closed | `PaperInterface.lean` source-iff, no-overshoot terminal/dynamic, clock-disciplined terminal-history, finite exact-record direct-PBE, and source-extensive terminal-record endpoints |
+
+## 6. Paper-Facing Statement Validator Ledger
+
+Generated from dashboard status export:
+
+`python3 scripts/review_dashboard.py --paper EOS07GSP --export-format validators-md`
+
+| Paper-facing statement | Lean declaration | Validators | Validator comments |
+| --- | --- | --- | --- |
+| abbrev definition4_locally_envy_free | `definition4_locally_envy_free` | None recorded | None |
+| abbrev lemma5_locally_envy_free_stable | `lemma5_locally_envy_free_stable` | None recorded | None |
+| abbrev lemma6_stable_assignment_slot_envy_free | `lemma6_stable_assignment_slot_envy_free` | None recorded | None |
+| abbrev remark1_gsp_payments_weakly_dominate_vcg | `remark1_gsp_payments_weakly_dominate_vcg` | None recorded | None |
+| abbrev remark2_vcg_truthful | `remark2_vcg_truthful` | None recorded | None |
+| abbrev remark3_gsp_not_truthful | `remark3_gsp_not_truthful` | None recorded | None |
+| abbrev running_example_truthful_gsp_nash | `running_example_truthful_gsp_nash` | None recorded | None |
+| abbrev running_example_truthful_gsp_revenue_comparison | `running_example_truthful_gsp_revenue_comparison` | None recorded | None |
+| abbrev stable_assignment | `stable_assignment` | None recorded | None |
+| abbrev theorem7_bstar_payment_identity | `theorem7_bstar_payment_identity` | None recorded | None |
+| abbrev theorem7_no_positive_transfer_conclusion | `theorem7_no_positive_transfer_conclusion` | None recorded | None |
+| abbrev theorem8_cold_start_local_advance_safe_completed_rank_source_extensive | `theorem8_cold_start_local_advance_safe_completed_rank_source_extensive` | None recorded | None |
+| abbrev theorem8_complete_finite_schedule_belief_pbe_displayed_ordered_conclusion | `theorem8_complete_finite_schedule_belief_pbe_displayed_ordered_conclusion` | None recorded | None |
+| abbrev theorem8_complete_finite_schedule_pbe_displayed_ordered_conclusion | `theorem8_complete_finite_schedule_pbe_displayed_ordered_conclusion` | None recorded | None |
+| abbrev theorem8_complete_finite_schedule_source_extensive_displayed_conclusion | `theorem8_complete_finite_schedule_source_extensive_displayed_conclusion` | None recorded | None |
+| abbrev theorem8_dropout_price_bstar | `theorem8_dropout_price_bstar` | None recorded | None |
+| abbrev theorem8_dropout_step_no_overshoot_iff_exact_record | `theorem8_dropout_step_no_overshoot_iff_exact_record` | None recorded | None |
+| abbrev theorem8_exact_record_full_vcg_conclusion | `theorem8_exact_record_full_vcg_conclusion` | None recorded | None |
+| abbrev theorem8_finite_active_exact_record_belief_pbe_ordered_conclusion | `theorem8_finite_active_exact_record_belief_pbe_ordered_conclusion` | None recorded | None |
+| abbrev theorem8_finite_active_exact_record_pbe_ordered_conclusion | `theorem8_finite_active_exact_record_pbe_ordered_conclusion` | None recorded | None |
+| abbrev theorem8_finite_schedule_belief_pbe_ordered_conclusion | `theorem8_finite_schedule_belief_pbe_ordered_conclusion` | None recorded | None |
+| abbrev theorem8_finite_schedule_pbe_ordered_conclusion | `theorem8_finite_schedule_pbe_ordered_conclusion` | None recorded | None |
+| abbrev theorem8_local_advance_safe_completed_rank_source_extensive | `theorem8_local_advance_safe_completed_rank_source_extensive` | None recorded | None |
+| abbrev theorem8_local_deviation_terminal_dynamic_full_conclusion | `theorem8_local_deviation_terminal_dynamic_full_conclusion` | None recorded | None |
+| abbrev theorem8_local_deviation_terminal_record_completed_schedule | `theorem8_local_deviation_terminal_record_completed_schedule` | None recorded | None |
+| abbrev theorem8_no_overshoot_dropout_step_exact_record | `theorem8_no_overshoot_dropout_step_exact_record` | None recorded | None |
+| abbrev theorem8_price_sorted_finite_schedule_belief_pbe_displayed_ordered_conclusion | `theorem8_price_sorted_finite_schedule_belief_pbe_displayed_ordered_conclusion` | None recorded | None |
+| abbrev theorem8_price_sorted_finite_schedule_belief_source_event_boundary_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_belief_source_event_boundary_ordered_displayed_conclusion` | None recorded | None |
+| abbrev theorem8_price_sorted_finite_schedule_belief_source_event_boundary_threshold_event_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_belief_source_event_boundary_threshold_event_ordered_displayed_conclusion` | None recorded | None |
+| abbrev theorem8_price_sorted_finite_schedule_belief_source_event_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_belief_source_event_ordered_displayed_conclusion` | None recorded | None |
+| abbrev theorem8_price_sorted_finite_schedule_belief_source_event_threshold_event_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_belief_source_event_threshold_event_ordered_displayed_conclusion` | None recorded | None |
+| abbrev theorem8_price_sorted_finite_schedule_belief_source_event_threshold_event_vcg | `theorem8_price_sorted_finite_schedule_belief_source_event_threshold_event_vcg` | None recorded | None |
+| abbrev theorem8_price_sorted_finite_schedule_pbe_displayed_ordered_conclusion | `theorem8_price_sorted_finite_schedule_pbe_displayed_ordered_conclusion` | None recorded | None |
+| abbrev theorem8_price_sorted_finite_schedule_source_event_boundary | `theorem8_price_sorted_finite_schedule_source_event_boundary` | None recorded | None |
+| abbrev theorem8_price_sorted_finite_schedule_source_event_boundary_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_source_event_boundary_ordered_displayed_conclusion` | None recorded | None |
+| abbrev theorem8_price_sorted_finite_schedule_source_event_boundary_threshold_event_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_source_event_boundary_threshold_event_ordered_displayed_conclusion` | None recorded | None |
+| abbrev theorem8_price_sorted_finite_schedule_source_event_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_source_event_ordered_displayed_conclusion` | None recorded | None |
+| abbrev theorem8_price_sorted_finite_schedule_source_event_threshold_event_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_source_event_threshold_event_ordered_displayed_conclusion` | None recorded | None |
+| abbrev theorem8_price_sorted_finite_schedule_source_event_threshold_event_vcg | `theorem8_price_sorted_finite_schedule_source_event_threshold_event_vcg` | None recorded | None |
+| abbrev theorem8_realized_dropout_no_overshoot_source_timing_bridge | `theorem8_realized_dropout_no_overshoot_source_timing_bridge` | None recorded | None |
+| abbrev theorem8_source_extensive_outcome_eq_vcg | `theorem8_source_extensive_outcome_eq_vcg` | None recorded | None |
+| abbrev theorem8_source_extensive_pbe_iff_named_strategy_review | `theorem8_source_extensive_pbe_iff_named_strategy_review` | None recorded | None |
+
+Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
+
+## 7. Additional Assumptions Beyond Paper
+
+None separately recorded in the existing report.
+
+## 8. Proof-Strategy Deviations
+
+None separately recorded in the existing report.
+
+## 9. Proof Tricks Worth Reusing
+
+None separately recorded in the existing report.
+
+## 10. Library Lift Pass
+
+None separately recorded in the existing report.
+
+## 11. DAG Audit
+
+No separate DAG audit note is recorded in the existing report.
+
+## 12. Conditional Results and Remaining Gaps
+
+### Current handoff note
+
+Start with `START_HERE_NEXT_AGENT.md` before continuing Theorem 8. It is the
+short pickup file and points to the live proof plan, audit report, and older
+detailed handoff. The latest source obligation additions expose direct
+source-iff, no-overshoot terminal/dynamic, clock-disciplined terminal-history,
+and finite exact-record direct-PBE wrappers in `PaperInterface.lean`. The
+latest theorem edits compiled under `lake build EOS07GSP`; rerun that target
+after any further Lean edits.
+
+### Remaining obligations
 
 - Theorem 7: the strongest revenue-minimality theorem still keeps the
   comparison-outcome no-positive-transfers/no-subsidy premise explicit.
@@ -642,7 +782,13 @@ therefore starts at Remarks 1--3 before Definition 4.
   exact-drop, schedule, or clock-discipline premise is needed for terminal
   record generation.
 
-## Commands run
+## 13. Suspected Paper Errors or Inconsistencies
+
+None separately recorded in the existing report.
+
+## 14. Validation Checks
+
+### Commands run
 
 ```bash
 lake build EOS07GSP
@@ -776,10 +922,15 @@ issues outside EOS07GSP: unexpected root statuses for
 root status row for `IM05MarriageHonestyStability`, and warnings in GS62, IM05,
 and Roth README status rows.
 
-## Cross-check summary
+### Cross-check summary
 
 - `PostPaperAudit.lean` imports and compiles from the paper root.
 - `README.md`, `POST_PAPER_AUDIT_REPORT.md`, the project `README.md`, and
   `docs/ECONCSLEAN_CURRENT_STATUS.md` record the same conditional boundary.
 - `DependencyDAG.tex` was rendered after the Theorem 7 and Theorem 8 node
   updates.
+
+## 15. Final Verdict
+
+- Completion status: partially formalized.
+- Summary: Non-truthfulness, examples, Theorem 7, and finite Theorem 8 direct-PBE endpoints are exposed; full source-game completion remains open.
