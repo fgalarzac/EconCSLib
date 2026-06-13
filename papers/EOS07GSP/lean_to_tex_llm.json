@@ -1,0 +1,346 @@
+{
+  "generated_at": "2026-06-13T21:27:54Z",
+  "generator": "gpt-5-codex",
+  "generator_type": "model",
+  "items": {
+    "definition4_locally_envy_free": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "2712f12b1ad7bd5dab272b546731a88ac3404203fe1f2bc19fd9d122668646e7",
+      "tex_statement": "= @locallyEnvyFree",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "lemma5_locally_envy_free_stable": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "357dfb866610d837efd4578e6e670b6f12dc8ed0d7184dfd756d7bc6f46bfe8f",
+      "tex_statement": "= @EOS07GSP.audit_lemma5_locally_envy_free_equilibrium_stable_assignment",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "lemma6_stable_assignment_slot_envy_free": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "bec9cbdd871df1b0d75b4e506da20bddca7a9ca9d0f808b7ac156a7571e4fa0d",
+      "tex_statement": "= @EOS07GSP.audit_lemma6_stable_assignment_slot_envy_free",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "remark1_gsp_payments_weakly_dominate_vcg": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "f7427e4c20d44c85598b53afc3880ebd4390cfdf7806a772edbe8806a650c8c7",
+      "tex_statement": "= @EOS07GSP.audit_remark1_truthful_gsp_payment_weakly_dominates_vcg_per_click",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "remark2_vcg_truthful": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "d18009cbd2eaab34c54ad5a46826a858a18a4b198f97d5c11eca83859422b378",
+      "tex_statement": "= @EOS07GSP.audit_remark2_vcg_position_mechanism_truthful",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "remark3_gsp_not_truthful": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "5185a01ad5160f20b5ebedac9fabf6188b7ac2831c0da835b26857e229fe671a",
+      "tex_statement": "= @EOS07GSP.audit_gsp_not_dominant_strategy_truthful",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "running_example_truthful_gsp_nash": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "d7a7b83a110c79770df6249c9b4ebf602bea2ac6242145af92a617a365f3ae9d",
+      "tex_statement": "= @EOS07GSP.audit_running_example_truthful_gsp_is_nash",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "running_example_truthful_gsp_revenue_comparison": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "88bc8d1bccd88b18f5d87ae6725ffa4ad4d45c55f75ebba40508d34d486849c3",
+      "tex_statement": "= @EOS07GSP.audit_running_example_truthful_gsp_revenue_gt_vcg_revenue",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "stable_assignment": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "d67a2198e830c98ba6d06b2bbb562f3441034594a9d1962b2a4e21047ed4703f",
+      "tex_statement": "= @stableAssignment",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem7_bstar_payment_identity": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "c0e917abba497ac1427be7e9c12f02ddbb96249e044b70c369255394ddb2e021",
+      "tex_statement": "= @EOS07GSP.audit_theorem7_bstar_payment_identity",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem7_no_positive_transfer_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "2bc0dcf2c3093ef11ccce340f6c76a51fd0f83c75d7427172f2b4507ee6bb6d0",
+      "tex_statement": "= @EOS07GSP.audit_theorem7_ordered_ranked_canonical_tail_no_positive_transfer_paper_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_cold_start_local_advance_safe_completed_rank_source_extensive": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "852407f5ae2ad4663110150b5a7f4d1cb54a1a4e1791ba51e332e2837b5fa568",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_cold_start_strategy_history_local_advance_safe_trace_completed_threshold_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_complete_finite_schedule_belief_pbe_displayed_ordered_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "5249dc74d2892aa8bc8f72f5267c0bcec89a4ed5355d7b55c5c8bf920056a41a",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_complete_fin_schedule_belief_pbe_threshold_event_advance_safe_ordered_displayed_paper_conclusion_of_threshold_sorted",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_complete_finite_schedule_pbe_displayed_ordered_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "830e965189aad3a7b2cfa16011af0c71eaa4897ff77654528ddb7f9ce78e7036",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_complete_fin_schedule_pbe_threshold_event_advance_safe_ordered_displayed_paper_conclusion_of_threshold_sorted",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_complete_finite_schedule_source_extensive_displayed_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "36eab5f20fc1a8131c7e26cc985751f84e5c4d45dbea4d089a85e499e80a6a0b",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_complete_fin_schedule_source_extensive_trace_full_displayed_conclusion_of_threshold_sorted",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_dropout_price_bstar": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "0287e5390c081c6d61cafe8581cc540db4e364609bd2d05d0bbb36e73af759a9",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_ranked_dropout_price_eq_bstar_bid_of_vcg_tail",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_dropout_step_no_overshoot_iff_exact_record": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "c4ac2a04e26ffda060553905b947b958fa9a6bc5e4f22ee902e6b7be0a8f77c3",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strategy_step_new_dropout_no_overshoot_iff_record_eq_threshold",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_exact_record_full_vcg_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "ca5add2b93ebbf75f8b078ac4e59ecdd3ac6603f4abd3747b6e10eee3c816bb4",
+      "tex_statement": "= @theorem8_finite_active_exact_record_source_game_full_vcg_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_finite_active_exact_record_belief_pbe_ordered_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "7a5371db7e21d3fd511755d7562d1526c3f9efb24a6d929b37c57d8e02d4d430",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_finite_active_exact_record_belief_pbe_threshold_event_advance_safe_ordered_paper_conclusion_of_no_active",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_finite_active_exact_record_pbe_ordered_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "3e8c1156bfee13e21b8174baae19a7f057fec532745e1128c914a36466afd699",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_finite_active_exact_record_pbe_threshold_event_advance_safe_ordered_paper_conclusion_of_no_active",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_finite_schedule_belief_pbe_ordered_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "19182e3d78f9735c3d93701eb01a3c69a77e7afa121721c03c050dea98dbef70",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_finite_active_exact_record_schedule_belief_pbe_threshold_event_advance_safe_ordered_paper_conclusion_of_threshold_sorted",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_finite_schedule_pbe_ordered_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "29eb56a33bb8f7a4b1b5360b818d1c0b7a6b70b5f2641d31b8e1b28e53e6f21e",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_finite_active_exact_record_schedule_pbe_threshold_event_advance_safe_ordered_paper_conclusion_of_threshold_sorted",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_local_advance_safe_completed_rank_source_extensive": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "fa8079ec20e37151d3c3d2eb803d129b924a585085d373517e0f0470fde1d3d4",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strategy_history_local_advance_safe_trace_completed_threshold_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_local_deviation_terminal_dynamic_full_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "0c512ec59b9c396f3f6c4d8a7493a4433033d00d054d0bd7bf00fc8ccf106c26",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_local_deviation_cold_start_threshold_sorted_terminal_dynamic_full_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_local_deviation_terminal_record_completed_schedule": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "b02388453da8929090b9f4c8a6718b134dd1756e900cc8a30900a6d129a2e6ac",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_terminal_record_local_deviation_cold_start_threshold_sorted_all_completed_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_no_overshoot_dropout_step_exact_record": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "f5f203fe80512ab628e45ddc9c40980b4fdc27bda25d21a5ef59497be58315f0",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_bstar_ranked_threshold_strategy_step_new_dropout_record_eq_threshold_of_no_overshoot",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_price_sorted_finite_schedule_belief_pbe_displayed_ordered_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "3bc234daf7888d104e3c669809dcf4d01c57366b5d25ce3b4c221251bc24779d",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_price_sorted_fin_schedule_belief_pbe_threshold_event_advance_safe_ordered_displayed_paper_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_price_sorted_finite_schedule_belief_source_event_boundary_ordered_displayed_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "8f54ddcc9b1c2ce01c23e3411598e3e18537ccb3918f289f21cc559c20f16561",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_price_sorted_fin_schedule_belief_source_event_boundary_ordered_displayed_paper_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_price_sorted_finite_schedule_belief_source_event_boundary_threshold_event_ordered_displayed_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "904fea27e1426dec3283ecfd29e7237d85afd595ee6ec46e07cbf05c92690a86",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_price_sorted_fin_schedule_belief_source_event_boundary_threshold_event_ordered_displayed_paper_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_price_sorted_finite_schedule_belief_source_event_ordered_displayed_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "84775e242fb52a75bf283ba9e9a4ca9c3d4055b49a0b118d88e9dd206b9538a7",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_price_sorted_fin_schedule_belief_source_event_trace_ordered_displayed_paper_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_price_sorted_finite_schedule_belief_source_event_threshold_event_ordered_displayed_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "53c81a2d38d159dbd71ce0282ea94acfc23ebf570437eeb2f5bd6187b3ac4f34",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_price_sorted_fin_schedule_belief_source_event_trace_threshold_event_ordered_displayed_paper_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_price_sorted_finite_schedule_belief_source_event_threshold_event_vcg": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "d62e26d1ee2b00265f5ba454f596a495baaa13f387a6c87b312f33eed94ff8e0",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_price_sorted_fin_schedule_belief_source_event_threshold_event_trace_full_vcg_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_price_sorted_finite_schedule_pbe_displayed_ordered_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "a6e8c44b63384551e616a71ea53ae8320a41e8a7e90519b68bb866ea1e79763f",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_price_sorted_fin_schedule_pbe_threshold_event_advance_safe_ordered_displayed_paper_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_price_sorted_finite_schedule_source_event_boundary": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "2ac080d5f1e821f17573f5849f2c106fc1dd146d83cf7e47edca180730b98d2f",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_price_sorted_fin_schedule_source_event_boundary",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_price_sorted_finite_schedule_source_event_boundary_ordered_displayed_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "f726162d559ad6ea8b181acd00e79219e9a382ec10b063674e4ea0119b25c90c",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_price_sorted_fin_schedule_source_event_boundary_ordered_displayed_paper_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_price_sorted_finite_schedule_source_event_boundary_threshold_event_ordered_displayed_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "57cce987c80c2a9610d413aa529519e4af38ffcd74371e7de86c27241b89627c",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_price_sorted_fin_schedule_source_event_boundary_threshold_event_ordered_displayed_paper_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_price_sorted_finite_schedule_source_event_ordered_displayed_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "76b8ae8ec5ad92faffbd260712076d0470cedd5b8f2e977749a22c3caaa13afc",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_price_sorted_fin_schedule_source_event_trace_ordered_displayed_paper_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_price_sorted_finite_schedule_source_event_threshold_event_ordered_displayed_conclusion": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "bf9479b9a754460db481508982f349f36d31deb248aac935996de96240a662c3",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_price_sorted_fin_schedule_source_event_trace_threshold_event_ordered_displayed_paper_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_price_sorted_finite_schedule_source_event_threshold_event_vcg": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "2377477019883aa7be7a2c67eddd57970e5665291256bf387b6fae2b681d3790",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_strict_ordered_price_sorted_fin_schedule_source_event_threshold_event_trace_full_vcg_conclusion",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_realized_dropout_no_overshoot_source_timing_bridge": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "8407908bbfefd44539b52bb6a42d9a354e4ab0540ffb47b30ce8b8d72b6097ac",
+      "tex_statement": "= @EOS07GSP.audit_theorem8_bstar_ranked_threshold_strategy_history_to_no_overshoot_strategy_history_of_realized_new_dropout_no_overshoot_statement",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_source_extensive_outcome_eq_vcg": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "64bb54fd73d55d04d12f510fb638ca25f8649f0a0ba7395171813aae77d07f2e",
+      "tex_statement": "= @theorem8_source_extensive_pbe_outcome_eq_vcg_of_no_overshoot",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "theorem8_source_extensive_pbe_iff_named_strategy_review": {
+      "comment": "Context-free Lean-to-TeX translation for the current PaperInterface row.",
+      "lean_statement_sha256": "6cd803e3d2c97c13c592cb3ecd4dedaa21c2eececba690e66f25ab1a852d7379",
+      "tex_statement": "= @EOS07GSP.PaperInterface.theorem8_source_extensive_pbe_iff_named_strategy",
+      "validated_at": "2026-06-13T21:27:54Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    }
+  },
+  "paper": "EOS07GSP",
+  "prompt_version": "lean-to-tex-v2-strict-context-free",
+  "schema": 1
+}
