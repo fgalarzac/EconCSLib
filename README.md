@@ -77,6 +77,7 @@ published citation title and year.
 | [LOS02 Combinatorial Auctions](papers/LOS02CombinatorialAuctions) | Partially formalized | 0/30 | OK: 371 lines | Greedy approximation, truthfulness, and Theorem 6.1 reductions are formalized. Full formalization requires computational complexity results that are out of scope. |
 | [LMMS04 Fair Division](papers/LMMS04FairDivision) | Partially formalized | 0/31 | OK: 267 lines | Sections 2 and 4 are fully formalized. Section 3 has query/descent/rounded-search support. The PTAS/FPTAS runtime layer needs reusable fixed-dimension IP complexity infrastructure. |
 | [PRPKG24 Accuracy Diversity](papers/PRPKG24AccuracyDiversity) | Partially formalized | 0/27 | OK: 247 lines | Fully formalizing Proposition 4 requires a general Laplace-principle-related analysis library. |
+| [GKGMM19 Iterative Local Voting](papers/GKGMM19IterativeLocalVoting) | Conditional | 0/42 | OK: 2723 lines | Conditional formalization: source-facing formulas and bridge theorems compile, with the remaining intentional boundary isolated to the SSGM convergence theorem. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition. |
 <!-- END GENERATED PAPER STATUS TABLE -->
 
 For more detail, use:

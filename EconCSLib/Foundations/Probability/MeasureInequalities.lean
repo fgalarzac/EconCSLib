@@ -6,8 +6,10 @@ import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 import Mathlib.MeasureTheory.Measure.WithDensity
 import Mathlib.MeasureTheory.Integral.Lebesgue.Map
 import Mathlib.MeasureTheory.Integral.Lebesgue.Markov
+import Mathlib.MeasureTheory.OuterMeasure.BorelCantelli
 import Mathlib.Order.Filter.AtTopBot.Basic
 import Mathlib.Probability.Independence.InfinitePi
+import Mathlib.Probability.Martingale.Convergence
 import Mathlib.Probability.Moments.SubGaussian
 import Mathlib.Probability.ProductMeasure
 import Mathlib.Probability.ProbabilityMassFunction.Constructions
@@ -16,7 +18,7 @@ import Mathlib.Probability.ProbabilityMassFunction.Integrals
 open MeasureTheory
 open ProbabilityTheory
 open Filter
-open scoped ENNReal symmDiff
+open scoped ENNReal NNReal MeasureTheory symmDiff
 
 namespace EconCSLib
 
@@ -689,6 +691,660 @@ theorem measure_sum_centered_bounded_ge_le_exp_of_iIndepFun
       (μ := μ) hcenter_indep (s := s) hsub hε)
 
 /--
+Kernel-level Hoeffding lemma for bounded centered variables.  If almost every
+conditional measure supplied by a Markov kernel sees `X` as a measurable,
+bounded, mean-zero real variable, then `X` is sub-Gaussian with respect to the
+kernel.  This is the reusable bridge needed before applying mathlib's
+conditional/Azuma-Hoeffding theorem to adapted finite selected-voter
+increments.
+-/
+theorem kernel_hasSubgaussianMGF_of_ae_mem_Icc_of_integral_eq_zero
+    {α β : Type*} [MeasurableSpace α] [MeasurableSpace β]
+    {ν : Measure α} {κ : Kernel α β} [IsMarkovKernel κ]
+    {X : β → ℝ} {a b : ℝ}
+    (h_integrable :
+      ∀ t : ℝ, Integrable (fun ω => Real.exp (t * X ω)) (κ ∘ₘ ν))
+    (h_meas : ∀ᵐ x ∂ν, AEMeasurable X (κ x))
+    (h_bound : ∀ᵐ x ∂ν, ∀ᵐ ω ∂κ x, X ω ∈ Set.Icc a b)
+    (h_mean : ∀ᵐ x ∂ν, ∫ ω, X ω ∂κ x = 0) :
+    Kernel.HasSubgaussianMGF X ((‖b - a‖₊ / 2) ^ 2) κ ν where
+  integrable_exp_mul := h_integrable
+  mgf_le := by
+    filter_upwards [h_meas, h_bound, h_mean] with x hx_meas hx_bound hx_mean t
+    exact
+      (ProbabilityTheory.hasSubgaussianMGF_of_mem_Icc_of_integral_eq_zero
+        (μ := κ x) (X := X) hx_meas hx_bound hx_mean).mgf_le t
+
+/--
+If a real process converges almost surely, then almost surely each path has an
+eventual finite lower bound.  This is the deterministic pathwise step used when
+turning martingale convergence into eventual fluctuation control.
+-/
+theorem ae_eventually_ge_of_ae_exists_tendsto
+    {α : Type*} [MeasurableSpace α] (μ : Measure α)
+    {S : ℕ → α → ℝ}
+    (hconv :
+      ∀ᵐ ω ∂μ, ∃ c : ℝ, Tendsto (fun n : ℕ => S n ω) atTop (nhds c)) :
+    ∀ᵐ ω ∂μ, ∃ lower : ℝ, ∃ T : ℕ,
+      ∀ n : ℕ, T ≤ n → lower ≤ S n ω := by
+  filter_upwards [hconv] with ω hω
+  rcases hω with ⟨c, hc⟩
+  have h_event :
+      ∀ᶠ n : ℕ in atTop, c - 1 < S n ω := by
+    exact hc.eventually (Ioi_mem_nhds (by linarith : c - 1 < c))
+  rcases Filter.eventually_atTop.mp h_event with ⟨T, hT⟩
+  exact ⟨c - 1, T, fun n hn => le_of_lt (hT n hn)⟩
+
+/--
+If a real process converges almost surely, then almost surely each path has an
+eventual finite upper bound.
+-/
+theorem ae_eventually_le_of_ae_exists_tendsto
+    {α : Type*} [MeasurableSpace α] (μ : Measure α)
+    {S : ℕ → α → ℝ}
+    (hconv :
+      ∀ᵐ ω ∂μ, ∃ c : ℝ, Tendsto (fun n : ℕ => S n ω) atTop (nhds c)) :
+    ∀ᵐ ω ∂μ, ∃ upper : ℝ, ∃ T : ℕ,
+      ∀ n : ℕ, T ≤ n → S n ω ≤ upper := by
+  filter_upwards [hconv] with ω hω
+  rcases hω with ⟨c, hc⟩
+  have h_event :
+      ∀ᶠ n : ℕ in atTop, S n ω < c + 1 := by
+    exact hc.eventually (Iio_mem_nhds (by linarith : c < c + 1))
+  rcases Filter.eventually_atTop.mp h_event with ⟨T, hT⟩
+  exact ⟨c + 1, T, fun n hn => le_of_lt (hT n hn)⟩
+
+/--
+L1-bounded submartingales have an almost-sure eventual lower bound on each
+path.  This packages Mathlib's a.e. martingale convergence theorem in the
+shape needed by finite-dot fluctuation arguments.
+-/
+theorem ae_eventually_ge_of_submartingale_L1_bdd
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    [IsFiniteMeasure μ]
+    {S : ℕ → Ω → ℝ} {ℱ : Filtration (Ω := Ω) ℕ mΩ} {R : ℝ≥0}
+    (hS : Submartingale S ℱ μ)
+    (hL1 : ∀ n : ℕ, eLpNorm (S n) 1 μ ≤ R) :
+    ∀ᵐ ω ∂μ, ∃ lower : ℝ, ∃ T : ℕ,
+      ∀ n : ℕ, T ≤ n → lower ≤ S n ω := by
+  exact ae_eventually_ge_of_ae_exists_tendsto μ
+    (Submartingale.exists_ae_tendsto_of_bdd hS hL1)
+
+/--
+L1-bounded submartingales have an almost-sure eventual upper bound on each
+path.
+-/
+theorem ae_eventually_le_of_submartingale_L1_bdd
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    [IsFiniteMeasure μ]
+    {S : ℕ → Ω → ℝ} {ℱ : Filtration (Ω := Ω) ℕ mΩ} {R : ℝ≥0}
+    (hS : Submartingale S ℱ μ)
+    (hL1 : ∀ n : ℕ, eLpNorm (S n) 1 μ ≤ R) :
+    ∀ᵐ ω ∂μ, ∃ upper : ℝ, ∃ T : ℕ,
+      ∀ n : ℕ, T ≤ n → S n ω ≤ upper := by
+  exact ae_eventually_le_of_ae_exists_tendsto μ
+    (Submartingale.exists_ae_tendsto_of_bdd hS hL1)
+
+/--
+Martingale specialization of
+`ae_eventually_ge_of_submartingale_L1_bdd`.
+-/
+theorem ae_eventually_ge_of_martingale_L1_bdd
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    [IsFiniteMeasure μ]
+    {S : ℕ → Ω → ℝ} {ℱ : Filtration (Ω := Ω) ℕ mΩ} {R : ℝ≥0}
+    (hS : Martingale S ℱ μ)
+    (hL1 : ∀ n : ℕ, eLpNorm (S n) 1 μ ≤ R) :
+    ∀ᵐ ω ∂μ, ∃ lower : ℝ, ∃ T : ℕ,
+      ∀ n : ℕ, T ≤ n → lower ≤ S n ω := by
+  exact ae_eventually_ge_of_submartingale_L1_bdd
+    (hS := hS.submartingale) hL1
+
+/--
+Martingale specialization of
+`ae_eventually_le_of_submartingale_L1_bdd`.
+-/
+theorem ae_eventually_le_of_martingale_L1_bdd
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    [IsFiniteMeasure μ]
+    {S : ℕ → Ω → ℝ} {ℱ : Filtration (Ω := Ω) ℕ mΩ} {R : ℝ≥0}
+    (hS : Martingale S ℱ μ)
+    (hL1 : ∀ n : ℕ, eLpNorm (S n) 1 μ ≤ R) :
+    ∀ᵐ ω ∂μ, ∃ upper : ℝ, ∃ T : ℕ,
+      ∀ n : ℕ, T ≤ n → S n ω ≤ upper := by
+  exact ae_eventually_le_of_submartingale_L1_bdd
+    (hS := hS.submartingale) hL1
+
+/--
+Probability-space `L2`-bounded martingales have an almost-sure eventual upper
+bound on each path.  This is the square-summable-moment handoff shape used
+before invoking Mathlib's `L1` martingale convergence theorem.
+-/
+theorem ae_eventually_le_of_martingale_L2_bdd
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    [IsProbabilityMeasure μ]
+    {S : ℕ → Ω → ℝ} {ℱ : Filtration (Ω := Ω) ℕ mΩ} {R : ℝ≥0}
+    (hS : Martingale S ℱ μ)
+    (hL2 : ∀ n : ℕ, eLpNorm (S n) 2 μ ≤ R) :
+    ∀ᵐ ω ∂μ, ∃ upper : ℝ, ∃ T : ℕ,
+      ∀ n : ℕ, T ≤ n → S n ω ≤ upper := by
+  exact ae_eventually_le_of_martingale_L1_bdd
+    (hS := hS)
+    (hL1 := fun n =>
+      (eLpNorm_le_eLpNorm_of_exponent_le
+        (μ := μ) (f := S n)
+        (by norm_num : (1 : ℝ≥0∞) ≤ 2)
+        ((hS.stronglyMeasurable n).mono (ℱ.le n)).aestronglyMeasurable).trans
+          (hL2 n))
+
+/--
+For real random variables, a concrete second-moment bound supplies the
+corresponding `eLpNorm _ 2` bound.  This keeps martingale-convergence callers
+from having to state their square-moment estimates directly in `ENNReal`
+seminorm form.
+-/
+theorem eLpNorm_two_le_nnreal_of_integral_sq_le
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    [IsFiniteMeasure μ]
+    {X : Ω → ℝ} {R : ℝ≥0}
+    (hX : MemLp X 2 μ)
+    (hsecond : (∫ ω, X ω ^ 2 ∂μ) ≤ (R : ℝ) ^ 2) :
+    eLpNorm X 2 μ ≤ R := by
+  rw [hX.eLpNorm_eq_integral_rpow_norm
+    (by norm_num : (2 : ℝ≥0∞) ≠ 0) ENNReal.ofNat_ne_top]
+  have hnorm_sq :
+      (∫ ω, ‖X ω‖ ^ (2 : ℝ) ∂μ) = ∫ ω, X ω ^ 2 ∂μ := by
+    apply integral_congr_ae
+    filter_upwards [] with ω
+    rw [Real.rpow_two, Real.norm_eq_abs, sq_abs]
+  have hsecond_norm :
+      (∫ ω, ‖X ω‖ ^ (2 : ℝ) ∂μ) ≤ (R : ℝ) ^ 2 := by
+    simpa [hnorm_sq] using hsecond
+  have hroot :
+      (∫ ω, ‖X ω‖ ^ (2 : ℝ) ∂μ) ^ ((2 : ℝ)⁻¹) ≤ (R : ℝ) := by
+    have hsqrt :
+        √(∫ ω, ‖X ω‖ ^ (2 : ℝ) ∂μ) ≤ √((R : ℝ) ^ 2) :=
+      Real.sqrt_le_sqrt hsecond_norm
+    rw [show ((2 : ℝ)⁻¹) = (1 / 2 : ℝ) by norm_num,
+      ← Real.sqrt_eq_rpow]
+    exact hsqrt.trans_eq (Real.sqrt_sq R.2)
+  simpa [show ((2 : ℝ≥0∞).toReal) = (2 : ℝ) by norm_num] using
+    (ENNReal.ofReal_le_ofReal hroot)
+
+/--
+Partial sums of a strongly adapted real process are strongly adapted to the
+same filtration.
+-/
+theorem stronglyAdapted_partial_sum_of_stronglyAdapted
+    {Ω : Type*} {mΩ : MeasurableSpace Ω}
+    {Y : ℕ → Ω → ℝ} {ℱ : Filtration (Ω := Ω) ℕ mΩ}
+    (hY : StronglyAdapted ℱ Y) :
+    StronglyAdapted ℱ (fun n ω => ∑ i ∈ Finset.range n, Y i ω) := by
+  intro n
+  have hsum : StronglyMeasurable[ℱ n] (∑ i ∈ Finset.range n, Y i) :=
+    Finset.stronglyMeasurable_sum (Finset.range n) fun i hi =>
+      (hY i).mono (ℱ.mono (Nat.le_of_lt (Finset.mem_range.mp hi)))
+  convert hsum using 1
+  ext ω
+  simp
+
+/--
+Centered partial sums are a martingale when their one-step increments have
+zero conditional expectation.  The statement keeps the adaptedness and
+integrability hypotheses on the partial-sum process, which is the shape most
+often available after a concrete sampling construction has supplied the
+one-step mean-zero fact.
+-/
+theorem martingale_partial_sum_of_condExp_eq_zero
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    [IsFiniteMeasure μ]
+    {Y : ℕ → Ω → ℝ} {ℱ : Filtration (Ω := Ω) ℕ mΩ}
+    (hadapted :
+      StronglyAdapted ℱ (fun n ω => ∑ i ∈ Finset.range n, Y i ω))
+    (hintegrable :
+      ∀ n : ℕ, Integrable (fun ω => ∑ i ∈ Finset.range n, Y i ω) μ)
+    (hcond_zero : ∀ n : ℕ, μ[Y n | ℱ n] =ᵐ[μ] 0) :
+    Martingale (fun n ω => ∑ i ∈ Finset.range n, Y i ω) ℱ μ := by
+  let S : ℕ → Ω → ℝ := fun n ω => ∑ i ∈ Finset.range n, Y i ω
+  have hcond :
+      ∀ n : ℕ, μ[S (n + 1) - S n | ℱ n] =ᵐ[μ] 0 := by
+    intro n
+    have hinc :
+        (fun ω => S (n + 1) ω - S n ω) =ᵐ[μ] Y n := by
+      exact Filter.Eventually.of_forall fun ω => by
+        change
+          (∑ i ∈ Finset.range (n + 1), Y i ω) -
+              (∑ i ∈ Finset.range n, Y i ω) =
+            Y n ω
+        rw [Finset.sum_range_succ]
+        ring
+    exact (condExp_congr_ae hinc).trans (hcond_zero n)
+  exact
+    MeasureTheory.martingale_of_condExp_sub_eq_zero_nat
+      (𝒢 := ℱ) (f := S) hadapted hintegrable hcond
+
+/--
+Partial-sum version of martingale convergence: adapted, integrable centered
+increments with zero conditional expectation and an L1-bounded partial-sum
+process are eventually bounded above almost surely.
+-/
+theorem ae_eventually_le_of_partial_sum_condExp_zero_L1_bdd
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    [IsFiniteMeasure μ]
+    {Y : ℕ → Ω → ℝ} {ℱ : Filtration (Ω := Ω) ℕ mΩ} {R : ℝ≥0}
+    (hadapted :
+      StronglyAdapted ℱ (fun n ω => ∑ i ∈ Finset.range n, Y i ω))
+    (hintegrable :
+      ∀ n : ℕ, Integrable (fun ω => ∑ i ∈ Finset.range n, Y i ω) μ)
+    (hcond_zero : ∀ n : ℕ, μ[Y n | ℱ n] =ᵐ[μ] 0)
+    (hL1 :
+      ∀ n : ℕ, eLpNorm (fun ω => ∑ i ∈ Finset.range n, Y i ω) 1 μ ≤ R) :
+    ∀ᵐ ω ∂μ, ∃ upper : ℝ, ∃ T : ℕ, ∀ n : ℕ, T ≤ n →
+      (∑ i ∈ Finset.range n, Y i ω) ≤ upper := by
+  exact ae_eventually_le_of_martingale_L1_bdd
+    (hS := martingale_partial_sum_of_condExp_eq_zero
+      (Y := Y) (ℱ := ℱ) hadapted hintegrable hcond_zero)
+    hL1
+
+/--
+Partial-sum version of the `L2` martingale-convergence adapter: adapted,
+integrable centered increments with zero conditional expectation and an
+`L2`-bounded partial-sum process are eventually bounded above almost surely.
+-/
+theorem ae_eventually_le_of_partial_sum_condExp_zero_L2_bdd
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    [IsProbabilityMeasure μ]
+    {Y : ℕ → Ω → ℝ} {ℱ : Filtration (Ω := Ω) ℕ mΩ} {R : ℝ≥0}
+    (hadapted :
+      StronglyAdapted ℱ (fun n ω => ∑ i ∈ Finset.range n, Y i ω))
+    (hintegrable :
+      ∀ n : ℕ, Integrable (fun ω => ∑ i ∈ Finset.range n, Y i ω) μ)
+    (hcond_zero : ∀ n : ℕ, μ[Y n | ℱ n] =ᵐ[μ] 0)
+    (hL2 :
+      ∀ n : ℕ, eLpNorm (fun ω => ∑ i ∈ Finset.range n, Y i ω) 2 μ ≤ R) :
+    ∀ᵐ ω ∂μ, ∃ upper : ℝ, ∃ T : ℕ, ∀ n : ℕ, T ≤ n →
+      (∑ i ∈ Finset.range n, Y i ω) ≤ upper := by
+  exact ae_eventually_le_of_martingale_L2_bdd
+    (hS := martingale_partial_sum_of_condExp_eq_zero
+      (Y := Y) (ℱ := ℱ) hadapted hintegrable hcond_zero)
+    hL2
+
+/--
+Second-moment form of the partial-sum martingale-convergence adapter.  This is
+the paper-facing square-summable-moment shape: once a caller proves a uniform
+bound on the second moments of the centered partial sums, the `L2` seminorm
+premise is discharged mechanically.
+-/
+theorem ae_eventually_le_of_partial_sum_condExp_zero_secondMoment_bdd
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    [IsProbabilityMeasure μ]
+    {Y : ℕ → Ω → ℝ} {ℱ : Filtration (Ω := Ω) ℕ mΩ} {R : ℝ≥0}
+    (hadapted :
+      StronglyAdapted ℱ (fun n ω => ∑ i ∈ Finset.range n, Y i ω))
+    (hintegrable :
+      ∀ n : ℕ, Integrable (fun ω => ∑ i ∈ Finset.range n, Y i ω) μ)
+    (hmemL2 :
+      ∀ n : ℕ, MemLp (fun ω => ∑ i ∈ Finset.range n, Y i ω) 2 μ)
+    (hcond_zero : ∀ n : ℕ, μ[Y n | ℱ n] =ᵐ[μ] 0)
+    (hsecond :
+      ∀ n : ℕ,
+        (∫ ω, (∑ i ∈ Finset.range n, Y i ω) ^ 2 ∂μ) ≤ (R : ℝ) ^ 2) :
+    ∀ᵐ ω ∂μ, ∃ upper : ℝ, ∃ T : ℕ, ∀ n : ℕ, T ≤ n →
+      (∑ i ∈ Finset.range n, Y i ω) ≤ upper := by
+  exact ae_eventually_le_of_partial_sum_condExp_zero_L2_bdd
+    (Y := Y) (ℱ := ℱ) hadapted hintegrable hcond_zero
+    (fun n =>
+      eLpNorm_two_le_nnreal_of_integral_sq_le
+        (hX := hmemL2 n) (hsecond := hsecond n))
+
+/--
+Orthogonality from conditional mean zero.  If `f` is measurable with respect
+to a sub-sigma-algebra and `g` has zero conditional expectation there, then the
+cross integral of `f * g` is zero.
+-/
+theorem integral_mul_eq_zero_of_stronglyMeasurable_condExp_eq_zero
+    {Ω : Type*} {mΩ m : MeasurableSpace Ω} {μ : @Measure Ω mΩ}
+    [IsFiniteMeasure μ]
+    {f g : Ω → ℝ}
+    (hm : m ≤ mΩ)
+    (hf : StronglyMeasurable[m] f)
+    (hfg : Integrable (f * g) μ)
+    (hg : Integrable g μ)
+    (hcond_zero : μ[g | m] =ᵐ[μ] 0) :
+    ∫ ω, f ω * g ω ∂μ = 0 := by
+  have hpull :
+      μ[f * g | m] =ᵐ[μ] f * μ[g | m] := by
+    exact condExp_mul_of_stronglyMeasurable_left hf hfg hg
+  have hce_zero : μ[f * g | m] =ᵐ[μ] 0 := by
+    filter_upwards [hpull, hcond_zero] with ω hpullω hzeroω
+    simpa [Pi.mul_apply, hzeroω] using hpullω
+  calc
+    ∫ ω, f ω * g ω ∂μ = ∫ ω, (μ[f * g | m]) ω ∂μ := by
+      exact (integral_condExp (μ := μ) (m := m) (m₀ := mΩ) hm
+        (f := f * g)).symm
+    _ = ∫ ω, (0 : ℝ) ∂μ := integral_congr_ae hce_zero
+    _ = 0 := by simp
+
+/--
+Partial-sum orthogonality from one-step conditional mean zero.
+-/
+theorem partial_sum_cross_integral_eq_zero_of_condExp_eq_zero
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    [IsFiniteMeasure μ]
+    {Y : ℕ → Ω → ℝ} {ℱ : Filtration (Ω := Ω) ℕ mΩ}
+    (hadapted :
+      StronglyAdapted ℱ (fun n ω => ∑ i ∈ Finset.range n, Y i ω))
+    (hcross_int :
+      ∀ n : ℕ,
+        Integrable (fun ω => (∑ i ∈ Finset.range n, Y i ω) * Y n ω) μ)
+    (hY_integrable : ∀ n : ℕ, Integrable (Y n) μ)
+    (hcond_zero : ∀ n : ℕ, μ[Y n | ℱ n] =ᵐ[μ] 0) :
+    ∀ n : ℕ,
+      (∫ ω, (∑ i ∈ Finset.range n, Y i ω) * Y n ω ∂μ) = 0 := by
+  intro n
+  exact
+    integral_mul_eq_zero_of_stronglyMeasurable_condExp_eq_zero
+      (m := ℱ n)
+      (hm := ℱ.le n)
+      (hf := hadapted n)
+      (hfg := hcross_int n)
+      (hg := hY_integrable n)
+      (hcond_zero := hcond_zero n)
+
+/--
+Nonpositive cross-moment corollary of partial-sum orthogonality.
+-/
+theorem partial_sum_cross_integral_nonpos_of_condExp_eq_zero
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    [IsFiniteMeasure μ]
+    {Y : ℕ → Ω → ℝ} {ℱ : Filtration (Ω := Ω) ℕ mΩ}
+    (hadapted :
+      StronglyAdapted ℱ (fun n ω => ∑ i ∈ Finset.range n, Y i ω))
+    (hcross_int :
+      ∀ n : ℕ,
+        Integrable (fun ω => (∑ i ∈ Finset.range n, Y i ω) * Y n ω) μ)
+    (hY_integrable : ∀ n : ℕ, Integrable (Y n) μ)
+    (hcond_zero : ∀ n : ℕ, μ[Y n | ℱ n] =ᵐ[μ] 0) :
+    ∀ n : ℕ,
+      (∫ ω, (∑ i ∈ Finset.range n, Y i ω) * Y n ω ∂μ) ≤ 0 := by
+  intro n
+  rw [partial_sum_cross_integral_eq_zero_of_condExp_eq_zero
+    hadapted hcross_int hY_integrable hcond_zero n]
+
+/--
+On a probability space, an almost-sure absolute bound gives a second-moment
+bound.
+-/
+theorem integral_sq_le_sq_of_ae_abs_le
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    [IsProbabilityMeasure μ]
+    {X : Ω → ℝ} {c : ℝ}
+    (hX_sq_int : Integrable (fun ω => (X ω) ^ 2) μ)
+    (hc : 0 ≤ c)
+    (hbound : ∀ᵐ ω ∂μ, |X ω| ≤ c) :
+    (∫ ω, (X ω) ^ 2 ∂μ) ≤ c ^ 2 := by
+  have hle :
+      (fun ω => (X ω) ^ 2) ≤ᵐ[μ] fun _ : Ω => c ^ 2 := by
+    filter_upwards [hbound] with ω hω
+    exact sq_le_sq.2 (by simpa [abs_of_nonneg hc] using hω)
+  calc
+    (∫ ω, (X ω) ^ 2 ∂μ) ≤ ∫ _ : Ω, c ^ 2 ∂μ := by
+      exact integral_mono_ae hX_sq_int (integrable_const (c ^ 2)) hle
+    _ = c ^ 2 := by simp
+
+/--
+Sequence form of `integral_sq_le_sq_of_ae_abs_le`.
+-/
+theorem integral_sq_le_sq_of_ae_abs_le_sequence
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    [IsProbabilityMeasure μ]
+    {Y : ℕ → Ω → ℝ} {c : ℕ → ℝ}
+    (hY_sq_int : ∀ n : ℕ, Integrable (fun ω => (Y n ω) ^ 2) μ)
+    (hc : ∀ n : ℕ, 0 ≤ c n)
+    (hbound : ∀ n : ℕ, ∀ᵐ ω ∂μ, |Y n ω| ≤ c n) :
+    ∀ n : ℕ, (∫ ω, (Y n ω) ^ 2 ∂μ) ≤ (c n) ^ 2 := by
+  intro n
+  exact integral_sq_le_sq_of_ae_abs_le
+    (hX_sq_int := hY_sq_int n) (hc := hc n) (hbound := hbound n)
+
+/--
+On a finite measure space, an a.e. bounded real random variable has integrable
+square.
+-/
+theorem integrable_sq_of_ae_abs_le
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    [IsFiniteMeasure μ]
+    {X : Ω → ℝ} {c : ℝ}
+    (hX : AEStronglyMeasurable X μ)
+    (hc : 0 ≤ c)
+    (hbound : ∀ᵐ ω ∂μ, |X ω| ≤ c) :
+    Integrable (fun ω => (X ω) ^ 2) μ := by
+  refine Integrable.of_bound (C := c ^ 2) ?_ ?_
+  · exact hX.pow 2
+  · filter_upwards [hbound] with ω hω
+    have hsq : (X ω) ^ 2 ≤ c ^ 2 := by
+      exact sq_le_sq.2 (by simpa [abs_of_nonneg hc] using hω)
+    simpa [Real.norm_eq_abs, abs_of_nonneg (sq_nonneg (X ω))] using hsq
+
+/--
+Sequence form of `integrable_sq_of_ae_abs_le`.
+-/
+theorem integrable_sq_of_ae_abs_le_sequence
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    [IsFiniteMeasure μ]
+    {Y : ℕ → Ω → ℝ} {c : ℕ → ℝ}
+    (hY : ∀ n : ℕ, AEStronglyMeasurable (Y n) μ)
+    (hc : ∀ n : ℕ, 0 ≤ c n)
+    (hbound : ∀ n : ℕ, ∀ᵐ ω ∂μ, |Y n ω| ≤ c n) :
+    ∀ n : ℕ, Integrable (fun ω => (Y n ω) ^ 2) μ := by
+  intro n
+  exact integrable_sq_of_ae_abs_le
+    (hX := hY n) (hc := hc n) (hbound := hbound n)
+
+/--
+A nonnegative summable real sequence has uniformly bounded finite partial sums,
+with the bound packaged as a square of an `NNReal`.
+-/
+theorem exists_nnreal_sq_bound_of_summable_nonneg
+    {b : ℕ → ℝ}
+    (hsum : Summable b)
+    (hnonneg : ∀ n : ℕ, 0 ≤ b n) :
+    ∃ R : ℝ≥0, ∀ n : ℕ, (∑ i ∈ Finset.range n, b i) ≤ (R : ℝ) ^ 2 := by
+  let S : ℝ := ∑' n : ℕ, b n
+  let R : ℝ≥0 := ⟨max 1 S, by
+    exact le_trans zero_le_one (le_max_left 1 S)⟩
+  refine ⟨R, ?_⟩
+  intro n
+  have hpartial : (∑ i ∈ Finset.range n, b i) ≤ S := by
+    exact hsum.sum_le_tsum (Finset.range n) (fun i _hi => hnonneg i)
+  have hR_ge_one : (1 : ℝ) ≤ max 1 S := le_max_left 1 S
+  have hR_ge_S : S ≤ max 1 S := le_max_right 1 S
+  have hR_le_sq : max 1 S ≤ (max 1 S) ^ 2 := by
+    nlinarith [hR_ge_one]
+  have hS_le_sq : S ≤ (max 1 S) ^ 2 := le_trans hR_ge_S hR_le_sq
+  exact le_trans hpartial (by simpa [R] using hS_le_sq)
+
+/--
+Finite partial-sum second-moment induction with explicit cross-term control.
+If each increment has second moment at most `b n` and the current partial sum
+has nonpositive cross moment with the next increment, then the second moment of
+the partial sum is bounded by the accumulated `b` values.
+-/
+theorem partial_sum_secondMoment_le_sum_of_cross_nonpos
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    {Y : ℕ → Ω → ℝ} {b : ℕ → ℝ}
+    (hsum_sq_int :
+      ∀ n : ℕ, Integrable (fun ω => (∑ i ∈ Finset.range n, Y i ω) ^ 2) μ)
+    (hcross_int :
+      ∀ n : ℕ,
+        Integrable (fun ω => (∑ i ∈ Finset.range n, Y i ω) * Y n ω) μ)
+    (hY_sq_int : ∀ n : ℕ, Integrable (fun ω => (Y n ω) ^ 2) μ)
+    (hY_second :
+      ∀ n : ℕ, (∫ ω, (Y n ω) ^ 2 ∂μ) ≤ b n)
+    (hcross_nonpos :
+      ∀ n : ℕ,
+        (∫ ω, (∑ i ∈ Finset.range n, Y i ω) * Y n ω ∂μ) ≤ 0) :
+    ∀ n : ℕ,
+      (∫ ω, (∑ i ∈ Finset.range n, Y i ω) ^ 2 ∂μ) ≤
+        ∑ i ∈ Finset.range n, b i := by
+  intro n
+  induction n with
+  | zero =>
+      simp
+  | succ n ih =>
+      have hsplit :
+          (∫ ω, (∑ i ∈ Finset.range (n + 1), Y i ω) ^ 2 ∂μ) =
+            (∫ ω, (∑ i ∈ Finset.range n, Y i ω) ^ 2 ∂μ) +
+              2 * (∫ ω, (∑ i ∈ Finset.range n, Y i ω) * Y n ω ∂μ) +
+                ∫ ω, (Y n ω) ^ 2 ∂μ := by
+        have hpoint :
+            (fun ω => (∑ i ∈ Finset.range (n + 1), Y i ω) ^ 2) =ᵐ[μ]
+              fun ω =>
+                (∑ i ∈ Finset.range n, Y i ω) ^ 2 +
+                  2 * ((∑ i ∈ Finset.range n, Y i ω) * Y n ω) +
+                    (Y n ω) ^ 2 := by
+          exact Filter.Eventually.of_forall fun ω => by
+            change
+              (∑ i ∈ Finset.range (n + 1), Y i ω) ^ 2 =
+                (∑ i ∈ Finset.range n, Y i ω) ^ 2 +
+                  2 * ((∑ i ∈ Finset.range n, Y i ω) * Y n ω) +
+                    (Y n ω) ^ 2
+            rw [Finset.sum_range_succ]
+            ring
+        calc
+          (∫ ω, (∑ i ∈ Finset.range (n + 1), Y i ω) ^ 2 ∂μ)
+              = ∫ ω,
+                  (∑ i ∈ Finset.range n, Y i ω) ^ 2 +
+                    2 * ((∑ i ∈ Finset.range n, Y i ω) * Y n ω) +
+                      (Y n ω) ^ 2 ∂μ := integral_congr_ae hpoint
+          _ = (∫ ω,
+                  (∑ i ∈ Finset.range n, Y i ω) ^ 2 +
+                    2 * ((∑ i ∈ Finset.range n, Y i ω) * Y n ω) ∂μ) +
+                ∫ ω, (Y n ω) ^ 2 ∂μ := by
+              exact integral_add
+                ((hsum_sq_int n).add ((hcross_int n).const_mul 2))
+                (hY_sq_int n)
+          _ = ((∫ ω, (∑ i ∈ Finset.range n, Y i ω) ^ 2 ∂μ) +
+                  ∫ ω, 2 * ((∑ i ∈ Finset.range n, Y i ω) * Y n ω) ∂μ) +
+                ∫ ω, (Y n ω) ^ 2 ∂μ := by
+              rw [integral_add (hsum_sq_int n) ((hcross_int n).const_mul 2)]
+          _ = (∫ ω, (∑ i ∈ Finset.range n, Y i ω) ^ 2 ∂μ) +
+                2 * (∫ ω, (∑ i ∈ Finset.range n, Y i ω) * Y n ω ∂μ) +
+                  ∫ ω, (Y n ω) ^ 2 ∂μ := by
+              rw [integral_const_mul]
+      calc
+        (∫ ω, (∑ i ∈ Finset.range (n + 1), Y i ω) ^ 2 ∂μ)
+            = (∫ ω, (∑ i ∈ Finset.range n, Y i ω) ^ 2 ∂μ) +
+                2 * (∫ ω, (∑ i ∈ Finset.range n, Y i ω) * Y n ω ∂μ) +
+                  ∫ ω, (Y n ω) ^ 2 ∂μ := hsplit
+        _ ≤ (∫ ω, (∑ i ∈ Finset.range n, Y i ω) ^ 2 ∂μ) +
+              ∫ ω, (Y n ω) ^ 2 ∂μ := by
+            have hcross := hcross_nonpos n
+            linarith
+        _ ≤ (∑ i ∈ Finset.range n, b i) + b n := by
+            exact add_le_add ih (hY_second n)
+        _ = ∑ i ∈ Finset.range (n + 1), b i := by
+            rw [Finset.sum_range_succ]
+
+/--
+Uniform version of `partial_sum_secondMoment_le_sum_of_cross_nonpos`.
+-/
+theorem partial_sum_secondMoment_le_of_cross_nonpos
+    {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
+    {Y : ℕ → Ω → ℝ} {b : ℕ → ℝ} {R : ℝ≥0}
+    (hsum_sq_int :
+      ∀ n : ℕ, Integrable (fun ω => (∑ i ∈ Finset.range n, Y i ω) ^ 2) μ)
+    (hcross_int :
+      ∀ n : ℕ,
+        Integrable (fun ω => (∑ i ∈ Finset.range n, Y i ω) * Y n ω) μ)
+    (hY_sq_int : ∀ n : ℕ, Integrable (fun ω => (Y n ω) ^ 2) μ)
+    (hY_second :
+      ∀ n : ℕ, (∫ ω, (Y n ω) ^ 2 ∂μ) ≤ b n)
+    (hcross_nonpos :
+      ∀ n : ℕ,
+        (∫ ω, (∑ i ∈ Finset.range n, Y i ω) * Y n ω ∂μ) ≤ 0)
+    (hbound : ∀ n : ℕ, (∑ i ∈ Finset.range n, b i) ≤ (R : ℝ) ^ 2) :
+    ∀ n : ℕ,
+      (∫ ω, (∑ i ∈ Finset.range n, Y i ω) ^ 2 ∂μ) ≤ (R : ℝ) ^ 2 := by
+  intro n
+  exact
+    (partial_sum_secondMoment_le_sum_of_cross_nonpos
+      (Y := Y) (b := b) hsum_sq_int hcross_int hY_sq_int hY_second
+      hcross_nonpos n).trans (hbound n)
+
+/--
+Borel-Cantelli pathwise eventual-control wrapper for bad events.  If the
+probabilities of bad events are summable, then almost surely there is a tail
+after which no bad event occurs.
+-/
+theorem ae_eventually_notMem_of_tsum_measure_ne_top
+    {α : Type*} [MeasurableSpace α] (μ : Measure α)
+    {bad : ℕ → Set α}
+    (hsum : (∑' n, μ (bad n)) ≠ ∞) :
+    ∀ᵐ ω ∂μ, ∃ T : ℕ, ∀ n : ℕ, T ≤ n → ω ∉ bad n := by
+  have hbc :
+      ∀ᵐ ω ∂μ, ∀ᶠ n in Filter.atTop, ω ∉ bad n :=
+    MeasureTheory.ae_eventually_notMem (μ := μ) (s := bad) hsum
+  filter_upwards [hbc] with ω hω
+  rcases Filter.eventually_atTop.mp hω with ⟨T, hT⟩
+  exact ⟨T, fun n hn => hT n hn⟩
+
+/--
+Predicate form of `ae_eventually_notMem_of_tsum_measure_ne_top`.
+-/
+theorem ae_eventually_not_of_tsum_measure_setOf_ne_top
+    {α : Type*} [MeasurableSpace α] (μ : Measure α)
+    {bad : ℕ → α → Prop}
+    (hsum : (∑' n, μ {ω | bad n ω}) ≠ ∞) :
+    ∀ᵐ ω ∂μ, ∃ T : ℕ, ∀ n : ℕ, T ≤ n → ¬ bad n ω := by
+  simpa using
+    ae_eventually_notMem_of_tsum_measure_ne_top
+      (μ := μ) (bad := fun n => {ω | bad n ω}) hsum
+
+/--
+Real-valued Borel-Cantelli corollary.  If the events where `lhs n` exceeds
+`rhs n` have summable probabilities, then almost surely `lhs n <= rhs n`
+eventually.
+-/
+theorem ae_eventually_le_of_tsum_measure_lt_ne_top
+    {α : Type*} [MeasurableSpace α] (μ : Measure α)
+    {lhs rhs : ℕ → α → ℝ}
+    (hsum : (∑' n, μ {ω | rhs n ω < lhs n ω}) ≠ ∞) :
+    ∀ᵐ ω ∂μ, ∃ T : ℕ, ∀ n : ℕ, T ≤ n → lhs n ω ≤ rhs n ω := by
+  have hbc :
+      ∀ᵐ ω ∂μ, ∃ T : ℕ, ∀ n : ℕ, T ≤ n → ¬ rhs n ω < lhs n ω :=
+    ae_eventually_not_of_tsum_measure_setOf_ne_top
+      (μ := μ) (bad := fun n ω => rhs n ω < lhs n ω) hsum
+  filter_upwards [hbc] with ω hω
+  rcases hω with ⟨T, hT⟩
+  exact ⟨T, fun n hn => not_lt.mp (hT n hn)⟩
+
+/--
+Convert real-valued per-event bounds into the ENNReal summability hypothesis
+used by Borel-Cantelli.
+-/
+theorem tsum_measure_ne_top_of_measureReal_le_of_tsum_ofReal_ne_top
+    {α : Type*} [MeasurableSpace α] (μ : Measure α) [IsFiniteMeasure μ]
+    {bad : ℕ → Set α} {bound : ℕ → ℝ}
+    (hbound_nonneg : ∀ n : ℕ, 0 ≤ bound n)
+    (hle : ∀ n : ℕ, μ.real (bad n) ≤ bound n)
+    (hsum_bound : (∑' n, ENNReal.ofReal (bound n)) ≠ ∞) :
+    (∑' n, μ (bad n)) ≠ ∞ := by
+  have hterm :
+      ∀ n : ℕ, μ (bad n) ≤ ENNReal.ofReal (bound n) := by
+    intro n
+    exact
+      (ENNReal.le_ofReal_iff_toReal_le
+        (measure_ne_top μ (bad n)) (hbound_nonneg n)).2
+        (by simpa [Measure.real] using hle n)
+  have hsum_le :
+      (∑' n, μ (bad n)) ≤ ∑' n, ENNReal.ofReal (bound n) :=
+    ENNReal.tsum_le_tsum hterm
+  exact
+    (lt_top_iff_ne_top.mp
+      (lt_of_le_of_lt hsum_le (lt_top_iff_ne_top.mpr hsum_bound)))
+
+/--
 Lower-tail Hoeffding bound for independent `[0,1]` indicators with mean
 `1/2`, in the form used by random half-sample arguments: the probability that
 the observed count is at most one third of the set size is bounded by the
@@ -1255,6 +1911,24 @@ theorem lowerLeftRectangleMass_pos_of_isOpenPosMeasure
     exact ⟨hp.1.le, hp.2.le⟩
   have hpos :
       0 < μ {p : ℝ × ℝ | p.1 ≤ x ∧ p.2 ≤ y} :=
+    lt_of_lt_of_le (hopen.measure_pos μ hnonempty) (measure_mono hsubset)
+  exact ENNReal.toReal_pos (ne_of_gt hpos) (measure_ne_top μ _)
+
+/-- A second-coordinate lower half-space has positive mass under an open-positive finite joint law. -/
+theorem secondCoordinateLowerMass_pos_of_isOpenPosMeasure
+    (μ : Measure (ℝ × ℝ)) [IsFiniteMeasure μ]
+    [Measure.IsOpenPosMeasure μ] (y : ℝ) :
+    0 < secondCoordinateLowerMass μ y := by
+  let openHalf : Set (ℝ × ℝ) := {p : ℝ × ℝ | p.2 < y}
+  have hopen : IsOpen openHalf := by
+    simpa [openHalf] using isOpen_lt continuous_snd continuous_const
+  have hnonempty : openHalf.Nonempty := by
+    refine ⟨(0, y - 1), ?_⟩
+    simp [openHalf]
+  have hsubset : openHalf ⊆ {p : ℝ × ℝ | p.2 ≤ y} := by
+    intro p hp
+    exact (show p.2 < y from by simpa [openHalf] using hp).le
+  have hpos : 0 < μ {p : ℝ × ℝ | p.2 ≤ y} :=
     lt_of_lt_of_le (hopen.measure_pos μ hnonempty) (measure_mono hsubset)
   exact ENNReal.toReal_pos (ne_of_gt hpos) (measure_ne_top μ _)
 

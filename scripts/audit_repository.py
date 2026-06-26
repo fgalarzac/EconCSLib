@@ -72,6 +72,23 @@ REVIEW_LAUNCHER_TARGET = "scripts/launch_review_dashboard.sh"
 REVIEW_TRACE_CACHE = ".review_traces/paper_interface_cache.json"
 DEFAULT_LLM_ASSUMPTION_JUDGE_FILE = "assumption_match_llm.json"
 DEFAULT_ASSUMPTION_SOURCE_FILE = "Assumptions.lean"
+DEFAULT_SOURCE_RECORD_AUDIT_FILE = "source_record_audit.json"
+DEFAULT_SOURCE_RECORD_JUDGE_FILE = "source_record_match_llm.json"
+SOURCE_RECORD_AUDIT_HELPER = ROOT / "skills" / "econcs-formalizer" / "scripts" / "source_record_audit.py"
+APPROVED_SOURCE_RECORD_CLASSIFICATIONS = {
+    "container_recursively_audited",
+    "derived_consequence_record",
+    "nonpropositional_witness_data",
+    "proved_from_primitives",
+    "validated_source_assumption",
+    "approved_external_boundary",
+}
+UNRESOLVED_SOURCE_RECORD_CLASSIFICATIONS = {
+    "unresolved_assumed_math",
+    "uncertain",
+    "mismatch",
+    "unknown",
+}
 REVIEW_ROW_WARN_THRESHOLD = 80
 PAPER_STATUS_FILE = PAPERS / "status.json"
 PAPER_INTERFACE_OVERSIZED_LINE_THRESHOLD = 3000
@@ -82,6 +99,7 @@ ROOT_STATUS_VALUES = {
     "Main endpoints formalized",
     "Main endpoints formalized with documented deviations",
     "Partially formalized",
+    "Conditional",
     "Scaffold",
     "Not formalized",
     "Active validation",
@@ -138,13 +156,13 @@ LEAN_DECL_RE = re.compile(r"^\s*(?:theorem|lemma|def|abbrev|structure|class|indu
 REVIEW_DECL_RE = re.compile(
     r"^\s*(?:(?:@[A-Za-z_][A-Za-z0-9_]*(?:\([^)]*\))?\s+)*)?"
     r"(?:(?:noncomputable|private|protected)\s+)*"
-    r"(?:theorem|lemma|def|abbrev)\s+([A-Za-z_][A-Za-z0-9_']*)\b",
+    r"(?:theorem|lemma|def|abbrev|axiom)\s+([A-Za-z_][A-Za-z0-9_']*)\b",
     re.M,
 )
 REVIEW_DECL_KIND_RE = re.compile(
     r"^\s*(?:(?:@[A-Za-z_][A-Za-z0-9_]*(?:\([^)]*\))?\s+)*)?"
     r"(?:(?:noncomputable|private|protected)\s+)*"
-    r"(theorem|lemma|def|abbrev)\s+([A-Za-z_][A-Za-z0-9_']*)\b",
+    r"(theorem|lemma|def|abbrev|axiom)\s+([A-Za-z_][A-Za-z0-9_']*)\b",
     re.M,
 )
 LIBRARY_DECL_KIND_RE = re.compile(
@@ -215,8 +233,15 @@ ASSUMPTION_POLICY_STRICT_VALUES = {
     "strict",
     "source_assumptions_only",
 }
+ASSUMPTION_POLICY_ALLOWED_VALUES = ASSUMPTION_POLICY_STRICT_VALUES | {
+    "source-plus-proof-boundary",
+}
 ASSUMPTION_DECL_NAME_RE = re.compile(
     r"^(?:paper_)?assumption(?:_|$)|^source_assumption(?:_|$)|_assumption(?:_|$)"
+)
+AXIOM_LIKE_DECL_NAME_RE = re.compile(
+    r"^\s*(?:axiom|opaque|constant|unsafe\s+(?:axiom|def|theorem|lemma))\s+"
+    r"(?P<name>[A-Za-z_][A-Za-z0-9_']*)\b"
 )
 ASSUMPTION_AUDIT_PREMISE_RE = re.compile(r"^\s*--\s*audit-premise:\s*(.+?)\s*$")
 APPROVED_ASSUMPTION_JUDGMENTS = {
@@ -653,14 +678,48 @@ def check_sorries(include_active: bool) -> list[Finding]:
     return check_sorries_in_files(lean_files(include_active))
 
 
+def approved_paper_proof_boundary_declarations() -> dict[Path, set[str]]:
+    """Return paper-local Assumptions.lean declarations approved as proof debt."""
+
+    approved: dict[Path, set[str]] = {}
+    if not PAPERS.exists():
+        return approved
+    for status_path in sorted(PAPERS.glob("*/status.json")):
+        try:
+            payload = json.loads(status_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        review_surface = payload.get("review_surface")
+        if not isinstance(review_surface, dict):
+            continue
+        raw_names = review_surface.get("proof_boundary_names")
+        if not isinstance(raw_names, list):
+            continue
+        names = {name for name in raw_names if isinstance(name, str) and name}
+        if not names:
+            continue
+        raw_source = review_surface.get("assumption_source_file")
+        if isinstance(raw_source, str) and raw_source:
+            source_path = ROOT / raw_source
+        else:
+            source_path = status_path.parent / DEFAULT_ASSUMPTION_SOURCE_FILE
+        approved.setdefault(source_path.resolve(), set()).update(names)
+    return approved
+
+
 def check_axiom_like_declarations_in_files(files: list[Path]) -> list[Finding]:
     """Reject declarations that can hide unproved premises from paper audits."""
 
     findings: list[Finding] = []
+    approved_boundaries = approved_paper_proof_boundary_declarations()
     for path in files:
+        approved_names = approved_boundaries.get(path.resolve(), set())
         for line_no, code in lean_code_lines(path):
             stripped = code.strip()
             if AXIOM_LIKE_DECL_RE.match(stripped):
+                match = AXIOM_LIKE_DECL_NAME_RE.match(stripped)
+                if match and match.group("name") in approved_names:
+                    continue
                 findings.append(
                     Finding(
                         "ERROR",
@@ -1114,6 +1173,7 @@ def check_paper_interface_axiom_closure(
     include_names: list[str],
     declaration_blocks: dict[str, tuple[int, str, str]],
     status: object,
+    approved_boundary_axioms: set[str] | None = None,
 ) -> list[Finding]:
     """Run Lean-native `#print axioms` on paper-facing review rows.
 
@@ -1200,6 +1260,11 @@ def check_paper_interface_axiom_closure(
         ]
 
     parsed = parse_print_axioms_output(proc.stdout)
+    approved_boundary_axioms = approved_boundary_axioms or set()
+    approved_axioms = set(APPROVED_LEAN_AXIOMS)
+    for name in approved_boundary_axioms:
+        approved_axioms.add(name)
+        approved_axioms.add(f"{paper_id}.{name}")
     findings: list[Finding] = []
     for name, qualified_name, line_no in rows:
         if qualified_name not in parsed:
@@ -1212,7 +1277,7 @@ def check_paper_interface_axiom_closure(
                 )
             )
             continue
-        unapproved = sorted(parsed[qualified_name] - APPROVED_LEAN_AXIOMS)
+        unapproved = sorted(parsed[qualified_name] - approved_axioms)
         if not unapproved:
             continue
         findings.append(
@@ -1223,8 +1288,9 @@ def check_paper_interface_axiom_closure(
                 "unapproved Lean axiom(s): "
                 + ", ".join(unapproved)
                 + ". Only "
-                + ", ".join(sorted(APPROVED_LEAN_AXIOMS))
-                + " are accepted as standard Lean/mathlib foundations.",
+                + ", ".join(sorted(approved_axioms))
+                + " are accepted as standard Lean/mathlib foundations or "
+                "declared paper-local proof boundaries.",
             )
         )
     return findings
@@ -1489,6 +1555,42 @@ def review_surface_assumption_names(review_surface: dict[str, object]) -> tuple[
     return names, problems
 
 
+def review_surface_proof_boundary_names(review_surface: dict[str, object]) -> tuple[set[str], list[str]]:
+    """Read approved paper-local proof-boundary declarations from status.json."""
+
+    raw = review_surface.get("proof_boundary_names")
+    if raw is None:
+        return set(), []
+    if not isinstance(raw, list):
+        return set(), ["`review_surface.proof_boundary_names` should be a string list"]
+    names: set[str] = set()
+    problems: list[str] = []
+    for index, value in enumerate(raw, start=1):
+        if not isinstance(value, str) or not value.strip():
+            problems.append(f"`review_surface.proof_boundary_names[{index}]` should be a nonempty string")
+            continue
+        names.add(value.strip())
+    return names, problems
+
+
+def review_surface_auxiliary_names(review_surface: dict[str, object]) -> tuple[set[str], list[str]]:
+    """Read proof-facing declarations intentionally excluded from statement review."""
+
+    raw = review_surface.get("auxiliary_names")
+    if raw is None:
+        return set(), []
+    if not isinstance(raw, list):
+        return set(), ["`review_surface.auxiliary_names` should be a string list"]
+    names: set[str] = set()
+    problems: list[str] = []
+    for index, value in enumerate(raw, start=1):
+        if not isinstance(value, str) or not value.strip():
+            problems.append(f"`review_surface.auxiliary_names[{index}]` should be a nonempty string")
+            continue
+        names.add(value.strip())
+    return names, problems
+
+
 def assumption_source_file_path(folder: Path, review_surface: dict[str, object]) -> Path:
     """Return the paper-local Lean file that declares reviewed assumptions."""
 
@@ -1507,6 +1609,311 @@ def assumption_judgment_file_path(folder: Path, review_surface: dict[str, object
         if isinstance(raw_path, str) and raw_path.strip():
             return ROOT / raw_path.strip()
     return folder / DEFAULT_LLM_ASSUMPTION_JUDGE_FILE
+
+
+def source_record_audit_file_path(folder: Path, review_surface: dict[str, object]) -> Path:
+    """Return the paper-root generated source-record audit payload path."""
+
+    llm_source_record_review = review_surface.get("llm_source_record_review")
+    if isinstance(llm_source_record_review, dict):
+        raw_path = llm_source_record_review.get("source_record_audit_file")
+        if isinstance(raw_path, str) and raw_path.strip():
+            return ROOT / raw_path.strip()
+    return folder / DEFAULT_SOURCE_RECORD_AUDIT_FILE
+
+
+def source_record_judgment_file_path(folder: Path, review_surface: dict[str, object]) -> Path:
+    """Return the paper-root LLM source-record judgment sidecar path."""
+
+    llm_source_record_review = review_surface.get("llm_source_record_review")
+    if isinstance(llm_source_record_review, dict):
+        raw_path = llm_source_record_review.get("source_record_judgment_file")
+        if isinstance(raw_path, str) and raw_path.strip():
+            return ROOT / raw_path.strip()
+    return folder / DEFAULT_SOURCE_RECORD_JUDGE_FILE
+
+
+def load_json_object(path: Path) -> dict[str, object] | None:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def run_source_record_audit_helper(paper_id: str) -> tuple[dict[str, object] | None, str]:
+    """Run the skill-bundled source-record audit helper and return its JSON payload."""
+
+    if not SOURCE_RECORD_AUDIT_HELPER.exists():
+        return None, f"missing source-record audit helper `{SOURCE_RECORD_AUDIT_HELPER.relative_to(ROOT)}`"
+    with tempfile.NamedTemporaryFile("w", suffix=".json", encoding="utf-8", delete=False) as handle:
+        out_path = Path(handle.name)
+    try:
+        proc = subprocess.run(
+            [
+                "python3",
+                str(SOURCE_RECORD_AUDIT_HELPER),
+                "--paper",
+                paper_id,
+                "--out",
+                str(out_path),
+                "--max-lean-output-chars",
+                "30000",
+            ],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=False,
+        )
+        payload = load_json_object(out_path)
+        if proc.returncode != 0:
+            excerpt = "\n".join(proc.stdout.splitlines()[-30:]) if proc.stdout else ""
+            if payload is not None:
+                recursion_failures = payload.get("recursion_failures")
+                if isinstance(recursion_failures, list) and recursion_failures:
+                    excerpt = "; ".join(
+                        str(item.get("message") or item)
+                        for item in recursion_failures[:5]
+                        if isinstance(item, dict)
+                    )
+                lean_check = payload.get("lean_check")
+                if not excerpt and isinstance(lean_check, dict):
+                    output = str(lean_check.get("output") or "")
+                    if output:
+                        excerpt = "\n".join(output.splitlines()[-30:])
+            return payload, f"source-record audit helper failed with exit code {proc.returncode}: {excerpt}"
+        if payload is None:
+            return None, "source-record audit helper did not write a JSON object"
+        return payload, ""
+    finally:
+        try:
+            out_path.unlink()
+        except FileNotFoundError:
+            pass
+
+
+def source_record_judgment_items(path: Path, paper_id: str) -> dict[str, dict[str, object]]:
+    """Load LLM source-record field judgments keyed by `Structure.field`."""
+
+    payload = load_json_object(path)
+    if not payload or payload.get("schema") != 1:
+        return {}
+    if payload.get("paper") not in {None, paper_id}:
+        return {}
+    items = payload.get("items")
+    if not isinstance(items, dict):
+        items = payload.get("field_judgments")
+    if not isinstance(items, dict):
+        return {}
+    out: dict[str, dict[str, object]] = {}
+    for raw_key, raw_item in items.items():
+        key = str(raw_key).strip()
+        if not key:
+            continue
+        if isinstance(raw_item, dict):
+            classification = str(
+                raw_item.get("classification")
+                or raw_item.get("judgment")
+                or raw_item.get("verdict")
+                or raw_item.get("status")
+                or ""
+            ).strip()
+            out[key] = {**raw_item, "classification": classification}
+        else:
+            out[key] = {"classification": str(raw_item).strip()}
+    return out
+
+
+def check_source_record_audit(
+    paper_id: str,
+    folder: Path,
+    review_surface: dict[str, object],
+    status: object,
+    strict_assumption_policy: bool,
+) -> list[Finding]:
+    """Run and validate recursive source-record audit coverage for a paper."""
+
+    severity = assumption_finding_severity(strict_assumption_policy, status)
+    payload, error = run_source_record_audit_helper(paper_id)
+    if error:
+        return [Finding(severity, folder / "PaperInterface.lean", f"`{paper_id}` source-record audit failed: {error}")]
+    if payload is None:
+        return [Finding(severity, folder / "PaperInterface.lean", f"`{paper_id}` source-record audit produced no payload")]
+
+    field_count = int(payload.get("recursive_field_count") or 0)
+    row_count = len(payload.get("rows_with_record_premises") or [])
+    recursion_failures = [
+        item for item in payload.get("recursion_failures") or []
+        if isinstance(item, dict)
+    ]
+    if recursion_failures:
+        return [
+            Finding(
+                severity,
+                folder / "PaperInterface.lean",
+                f"`{paper_id}` source-record recursion failed before reaching source-backed leaves: "
+                + "; ".join(
+                    str(item.get("path") or item.get("structure") or item)
+                    + ": "
+                    + str(item.get("message") or item.get("kind") or "unexplained recursion failure")
+                    for item in recursion_failures[:5]
+                )
+                + ("; ..." if len(recursion_failures) > 5 else ""),
+            )
+        ]
+    if field_count <= 0 and row_count <= 0:
+        return []
+
+    digest = str(payload.get("source_record_audit_sha256") or "").strip()
+    expected_keys = {
+        str(key).strip()
+        for key in payload.get("expected_field_judgment_keys") or []
+        if str(key).strip()
+    }
+    findings: list[Finding] = []
+    audit_file = source_record_audit_file_path(folder, review_surface)
+    judgment_file = source_record_judgment_file_path(folder, review_surface)
+    saved_audit = load_json_object(audit_file)
+    if not saved_audit:
+        findings.append(
+            Finding(
+                severity,
+                audit_file,
+                f"`{paper_id}` source-record audit found {row_count} record-backed row(s) "
+                f"and {field_count} recursive field(s), but `{audit_file.relative_to(ROOT)}` is missing. "
+                "Run the source-record audit helper and feed the generated Lean-checked field payload to the LLM judge.",
+            )
+        )
+    else:
+        saved_digest = str(saved_audit.get("source_record_audit_sha256") or "").strip()
+        if digest and saved_digest != digest:
+            findings.append(
+                Finding(
+                    severity,
+                    audit_file,
+                    f"`{paper_id}` source-record audit payload is stale: saved digest "
+                    f"`{saved_digest or 'missing'}` but current digest is `{digest}`.",
+                )
+            )
+
+    judgments = source_record_judgment_items(judgment_file, paper_id)
+    if not judgments:
+        findings.append(
+            Finding(
+                severity,
+                judgment_file,
+                f"`{paper_id}` source-record judge has {field_count} field(s) requiring LLM provenance judgments, "
+                f"but `{judgment_file.relative_to(ROOT)}` is missing or invalid.",
+            )
+        )
+        return findings
+
+    field_items = {
+        str(item.get("judgment_key") or "").strip(): item
+        for item in payload.get("recursive_field_items") or []
+        if isinstance(item, dict) and str(item.get("judgment_key") or "").strip()
+    }
+    nested_children: dict[str, set[str]] = {}
+    for key, item in field_items.items():
+        children: set[str] = set()
+        for nested_name in item.get("nested_structures") or []:
+            nested = str(nested_name).strip()
+            if not nested:
+                continue
+            children.update(
+                child_key for child_key, child in field_items.items()
+                if str(child.get("structure") or "").strip() == nested
+            )
+        nested_children[key] = children
+
+    missing = sorted(expected_keys - set(judgments))
+    extra = sorted(set(judgments) - expected_keys)
+    unresolved = sorted(
+        key
+        for key, item in judgments.items()
+        if key in expected_keys
+        and str(item.get("classification") or "").strip() not in APPROVED_SOURCE_RECORD_CLASSIFICATIONS
+    )
+    invalid_context: list[str] = []
+    for key in sorted(expected_keys & set(judgments)):
+        classification = str(judgments[key].get("classification") or "").strip()
+        field_item = field_items.get(key, {})
+        nested = [str(name).strip() for name in field_item.get("nested_structures") or [] if str(name).strip()]
+        if nested and classification not in {
+            "container_recursively_audited",
+            "approved_external_boundary",
+            "derived_consequence_record",
+        }:
+            invalid_context.append(
+                f"{key} classified `{classification or 'missing'}` but points to nested source record(s) "
+                + ", ".join(nested)
+            )
+        if classification == "container_recursively_audited":
+            children = nested_children.get(key, set())
+            if not nested or not children:
+                invalid_context.append(
+                    f"{key} classified `container_recursively_audited` but no nested audited field judgments were found"
+                )
+                continue
+            bad_children = sorted(
+                child for child in children
+                if child not in judgments
+                or str(judgments[child].get("classification") or "").strip()
+                not in APPROVED_SOURCE_RECORD_CLASSIFICATIONS
+            )
+            if bad_children:
+                invalid_context.append(
+                    f"{key} classified `container_recursively_audited` but nested field(s) are missing/unapproved: "
+                    + ", ".join(bad_children[:5])
+                    + ("; ..." if len(bad_children) > 5 else "")
+                )
+        if classification == "nonpropositional_witness_data" and nested:
+            invalid_context.append(
+                f"{key} classified `nonpropositional_witness_data` but points to nested source record(s) "
+                + ", ".join(nested)
+            )
+    if missing:
+        findings.append(
+            Finding(
+                severity,
+                judgment_file,
+                f"`{paper_id}` source-record judge is missing {len(missing)} field judgment(s): "
+                + ", ".join(missing[:8])
+                + ("; ..." if len(missing) > 8 else ""),
+            )
+        )
+    if extra:
+        findings.append(
+            Finding(
+                "WARN",
+                judgment_file,
+                f"`{paper_id}` source-record judge has {len(extra)} stale/extra field judgment(s): "
+                + ", ".join(extra[:8])
+                + ("; ..." if len(extra) > 8 else ""),
+            )
+        )
+    if unresolved:
+        findings.append(
+            Finding(
+                severity,
+                judgment_file,
+                f"`{paper_id}` source-record judge marks {len(unresolved)} field(s) as unresolved or unapproved: "
+                + ", ".join(unresolved[:8])
+                + ("; ..." if len(unresolved) > 8 else ""),
+            )
+        )
+    if invalid_context:
+        findings.append(
+            Finding(
+                severity,
+                judgment_file,
+                f"`{paper_id}` source-record judge has {len(invalid_context)} context-invalid classification(s): "
+                + "; ".join(invalid_context[:5])
+                + ("; ..." if len(invalid_context) > 5 else ""),
+            )
+        )
+    return findings
 
 
 def assumption_declarations_from_file(path: Path) -> dict[str, tuple[int, str, str]]:
@@ -3026,7 +3433,10 @@ def root_status_interface_required_papers(readme: Path) -> set[str]:
     return required
 
 
-def check_machine_paper_status(library_premise_audit: bool = False) -> list[Finding]:
+def check_machine_paper_status(
+    library_premise_audit: bool = False,
+    paper_filter: str | None = None,
+) -> list[Finding]:
     findings: list[Finding] = []
     if not PAPER_STATUS_FILE.exists():
         findings.append(Finding("ERROR", PAPER_STATUS_FILE, "missing machine-readable paper status file"))
@@ -3059,6 +3469,8 @@ def check_machine_paper_status(library_premise_audit: bool = False) -> list[Find
         if paper_id in entries:
             findings.append(Finding("ERROR", PAPER_STATUS_FILE, f"duplicate paper status entry `{paper_id}`"))
         entries[paper_id] = entry
+        if paper_filter is not None and paper_id != paper_filter:
+            continue
 
         paper_status_file = PAPERS / paper_id / "status.json"
         if not paper_status_file.exists():
@@ -3146,15 +3558,44 @@ def check_machine_paper_status(library_premise_audit: bool = False) -> list[Find
         assumption_names, assumption_name_problems = review_surface_assumption_names(review_surface)
         for problem in assumption_name_problems:
             findings.append(Finding("ERROR", PAPER_STATUS_FILE, f"`{paper_id}` {problem}"))
+        proof_boundary_names, proof_boundary_name_problems = review_surface_proof_boundary_names(review_surface)
+        for problem in proof_boundary_name_problems:
+            findings.append(Finding("ERROR", PAPER_STATUS_FILE, f"`{paper_id}` {problem}"))
+        missing_boundary_assumptions = proof_boundary_names - assumption_names
+        if missing_boundary_assumptions:
+            findings.append(
+                Finding(
+                    "ERROR",
+                    PAPER_STATUS_FILE,
+                    f"`{paper_id}` proof_boundary_names must also be listed in "
+                    "`review_surface.assumption_names`: "
+                    + ", ".join(sorted(missing_boundary_assumptions)),
+                )
+            )
+        auxiliary_names, auxiliary_name_problems = review_surface_auxiliary_names(review_surface)
+        for problem in auxiliary_name_problems:
+            findings.append(Finding("ERROR", PAPER_STATUS_FILE, f"`{paper_id}` {problem}"))
+        auxiliary_overlap = auxiliary_names.intersection(set(include_names)).union(
+            auxiliary_names.intersection(assumption_names)
+        )
+        if auxiliary_overlap:
+            findings.append(
+                Finding(
+                    "ERROR",
+                    PAPER_STATUS_FILE,
+                    f"`{paper_id}` auxiliary_names overlap reviewed or assumption declarations: "
+                    + ", ".join(sorted(auxiliary_overlap)),
+                )
+            )
         assumption_policy = str(review_surface.get("assumption_policy") or "").strip().lower()
         strict_assumption_policy = assumption_policy in ASSUMPTION_POLICY_STRICT_VALUES
-        if assumption_policy and not strict_assumption_policy:
+        if assumption_policy and assumption_policy not in ASSUMPTION_POLICY_ALLOWED_VALUES:
             findings.append(
                 Finding(
                     "ERROR",
                     PAPER_STATUS_FILE,
                     f"`{paper_id}.review_surface.assumption_policy` should be one of "
-                    + ", ".join(sorted(ASSUMPTION_POLICY_STRICT_VALUES)),
+                    + ", ".join(sorted(ASSUMPTION_POLICY_ALLOWED_VALUES)),
                 )
             )
 
@@ -3271,6 +3712,16 @@ def check_machine_paper_status(library_premise_audit: bool = False) -> list[Find
                 include_names,
                 declaration_blocks,
                 status,
+                proof_boundary_names,
+            )
+        )
+        findings.extend(
+            check_source_record_audit(
+                paper_id,
+                PAPERS / paper_id,
+                review_surface,
+                status,
+                strict_assumption_policy,
             )
         )
         if assumption_names:
@@ -3578,9 +4029,15 @@ def check_machine_paper_status(library_premise_audit: bool = False) -> list[Find
             findings.append(
                 Finding("ERROR", PAPER_STATUS_FILE, f"`{paper_id}` review_rows should match human_review.total_rows")
             )
-        if isinstance(total_rows, int) and include_names and len(include_names) != total_rows:
+        configured_review_surface_names = set(include_names).union(assumption_names)
+        if isinstance(total_rows, int) and include_names and len(configured_review_surface_names) != total_rows:
             findings.append(
-                Finding("ERROR", PAPER_STATUS_FILE, f"`{paper_id}` include_names length should match human_review.total_rows")
+                Finding(
+                    "ERROR",
+                    PAPER_STATUS_FILE,
+                    f"`{paper_id}` include_names plus assumption_names length should match "
+                    "human_review.total_rows",
+                )
             )
         missing_review_names = set(include_names) - set(actual_review_names)
         if missing_review_names:
@@ -3590,6 +4047,29 @@ def check_machine_paper_status(library_premise_audit: bool = False) -> list[Find
                     PAPER_STATUS_FILE,
                     f"`{paper_id}` status names are not exported by PaperInterface.lean: "
                     + ", ".join(sorted(missing_review_names)),
+                )
+            )
+        missing_auxiliary_names = auxiliary_names - set(actual_review_names)
+        if missing_auxiliary_names:
+            findings.append(
+                Finding(
+                    "ERROR",
+                    PAPER_STATUS_FILE,
+                    f"`{paper_id}` auxiliary_names are not exported by PaperInterface.lean: "
+                    + ", ".join(sorted(missing_auxiliary_names)),
+                )
+            )
+        unclassified_review_names = (
+            set(actual_review_names) - set(include_names) - assumption_names - auxiliary_names
+        )
+        if unclassified_review_names:
+            findings.append(
+                Finding(
+                    "ERROR",
+                    PAPER_STATUS_FILE,
+                    f"`{paper_id}` PaperInterface.lean declarations are neither reviewed, "
+                    "assumptions, nor explicit auxiliary proof-facing rows: "
+                    + ", ".join(sorted(unclassified_review_names)),
                 )
             )
 
@@ -4169,6 +4649,7 @@ def run(
     include_active: bool,
     strict_style: bool,
     library_premise_audit: bool = False,
+    paper_filter: str | None = None,
 ) -> list[Finding]:
     findings: list[Finding] = []
     findings.extend(check_sorries(include_active))
@@ -4186,7 +4667,12 @@ def run(
     findings.extend(check_dag_status_styles())
     findings.extend(check_paper_facing_ledgers(include_active))
     findings.extend(check_post_paper_audit_interfaces(include_active))
-    findings.extend(check_machine_paper_status(library_premise_audit=library_premise_audit))
+    findings.extend(
+        check_machine_paper_status(
+            library_premise_audit=library_premise_audit,
+            paper_filter=paper_filter,
+        )
+    )
     findings.extend(check_status_label_vocabulary())
     findings.extend(check_readme_status_tables(include_active))
     findings.extend(check_tracked_artifacts(include_active))
@@ -4253,6 +4739,7 @@ def write_markdown_report(
     strict_style: bool,
     library_premise_audit: bool,
     library_only: bool,
+    paper_filter: str | None = None,
 ) -> None:
     """Write a durable paper-by-paper audit report.
 
@@ -4278,6 +4765,8 @@ def write_markdown_report(
         command_bits.append("--library-premise-audit")
     if library_only:
         command_bits.append("--library-only")
+    if paper_filter:
+        command_bits.extend(["--paper", paper_filter])
     command_bits.append("--info-limit 0")
     command_bits.append(f"--write-report {report_path.as_posix()}")
 
@@ -4287,6 +4776,7 @@ def write_markdown_report(
         f"- Generated: {date.today().isoformat()}",
         f"- Command: `{' '.join(command_bits)}`",
         f"- Scope: {'library only' if library_only else 'papers and reusable library'}",
+        f"- Paper filter: `{paper_filter}`" if paper_filter else "- Paper filter: none",
         f"- Active paper folders: {'included' if include_active else 'skipped'}",
         f"- Strict style: {'included' if strict_style else 'not included'}",
         f"- Library premise audit: {'included' if library_premise_audit else 'not included'}",
@@ -4361,6 +4851,13 @@ def main() -> int:
         help="audit only reusable EconCSLib code and library provenance checks",
     )
     parser.add_argument(
+        "--paper",
+        help=(
+            "restrict machine-readable paper status checks to one paper folder; "
+            "other generic repository checks still run unless --library-only is used"
+        ),
+    )
+    parser.add_argument(
         "--info-limit",
         type=int,
         default=80,
@@ -4386,6 +4883,7 @@ def main() -> int:
             include_active=args.include_active,
             strict_style=args.strict_style,
             library_premise_audit=args.library_premise_audit,
+            paper_filter=args.paper,
         )
     if args.write_report:
         write_markdown_report(
@@ -4395,6 +4893,7 @@ def main() -> int:
             strict_style=args.strict_style,
             library_premise_audit=args.library_premise_audit,
             library_only=args.library_only,
+            paper_filter=args.paper,
         )
         print(f"Wrote Markdown audit report to {args.write_report}")
     printed_infos = 0
@@ -4421,6 +4920,7 @@ def main() -> int:
         + ("; strict style included" if args.strict_style else "")
         + ("; library premise audit included" if args.library_premise_audit else "")
         + ("; library-only" if args.library_only else "")
+        + (f"; paper filter {args.paper}" if args.paper else "")
         + (f"; {len(infos)} info finding(s)" if infos else "")
     )
     return 1 if errors else 0

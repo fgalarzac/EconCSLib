@@ -22,6 +22,10 @@
       "publication": "Manufacturing & Service Operations Management 23(3), 2020",
       "year": 2020
     },
+    "GKGMM19IterativeLocalVoting": {
+      "publication": "JAIR 64, 2019",
+      "year": 2019
+    },
     "GN21DriverSurgePricing": {
       "publication": "Management Science, 2022",
       "year": 2022
@@ -69,6 +73,7 @@
     "GGSG19TopThree": "https://arxiv.org/pdf/1906.08160",
     "GHW01DigitalGoods": "https://www.cs.miami.edu/home/burt/learning/Csc597.052/docs/goldberg.pdf",
     "GJ18InformativeRatingSystems": "https://doi.org/10.1287/msom.2020.0921",
+    "GKGMM19IterativeLocalVoting": "https://www.jair.org/index.php/jair/article/view/11358",
     "GN21DriverSurgePricing": "https://arxiv.org/pdf/1905.07544",
     "GS62CollegeAdmissions": "http://www.jstor.org/stable/2312726",
     "LG21TestOptionalPolicies": "https://arxiv.org/pdf/2107.08922",
@@ -95,7 +100,8 @@
         "DSWG24DiscretizationBias",
         "LMMS04FairDivision",
         "GN21DriverSurgePricing",
-        "LG21TestOptionalPolicies"
+        "LG21TestOptionalPolicies",
+        "GKGMM19IterativeLocalVoting"
       ]
     },
     {
@@ -111,7 +117,8 @@
         "GN21DriverSurgePricing",
         "LG21TestOptionalPolicies",
         "GGSG19TopThree",
-        "GJ18InformativeRatingSystems"
+        "GJ18InformativeRatingSystems",
+        "GKGMM19IterativeLocalVoting"
       ]
     },
     {
@@ -125,7 +132,8 @@
         "MSVV07AdWords",
         "GN21DriverSurgePricing",
         "LG21TestOptionalPolicies",
-        "LMMS04FairDivision"
+        "LMMS04FairDivision",
+        "GKGMM19IterativeLocalVoting"
       ]
     },
     {
@@ -203,7 +211,8 @@
       "examples": "Ranking profiles, Kendall distance and Mallows-style sequential ranking models, score/payoff interfaces, envy graphs, bounded-envy allocations, and indivisible-goods fairness statements.",
       "papers": [
         "LMMS04FairDivision",
-        "GGSG19TopThree"
+        "GGSG19TopThree",
+        "GKGMM19IterativeLocalVoting"
       ]
     }
   ]

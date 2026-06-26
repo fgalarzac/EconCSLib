@@ -17,6 +17,7 @@ defaultTargets = [
   "PKG25NoFreeLunch",
   "LMMS04FairDivision",
   "LOS02CombinatorialAuctions",
+  "GKGMM19IterativeLocalVoting",
 ]
 
 [leanOptions]
@@ -104,4 +105,8 @@ srcDir = "papers"
 
 [[lean_lib]]
 name = "PKG25NoFreeLunch"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "GKGMM19IterativeLocalVoting"
 srcDir = "papers"
