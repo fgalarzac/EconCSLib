@@ -9,6 +9,13 @@ optimization proof seam should stay paper-local or move to `EconCSLib`.
 
 ## Proof Seams
 
+- Before adding a paper-local equilibrium, optimizer, threshold, cutoff,
+  certificate, or a.e. exception wrapper, write the shared-library reuse
+  checkpoint in the paper plan. The checkpoint should name the relevant
+  `EconCSLib` modules/declarations inspected and the shared API being used, or
+  state the source-specific obstruction. If the code starts accumulating local
+  wrappers for a standard concept, stop and refresh this checkpoint before
+  adding another wrapper.
 - For "candidate plus universal bound" proofs, use
   `EconCSLib.Optimization.UpperBoundCertificate` for maximization and
   `EconCSLib.Optimization.LowerBoundCertificate` for minimization. These are
@@ -31,6 +38,14 @@ optimization proof seam should stay paper-local or move to `EconCSLib`.
   the expectation operator. Prove a monotone/linear expectation interface once,
   then instantiate paper theorems by rewriting the expected paper objective to
   the generic expected objective.
+- For stochastic-gradient, stochastic-subgradient, or SSGM convergence seams,
+  do not assume the final paper endpoints directly. Encode the algorithm,
+  source distributions, norms, objectives, and finite-dimensional hypotheses as
+  concrete source-model records; define theorem-shaped convergence records for
+  the reusable analytic theorem; and, if needed, use a single paper-local axiom
+  for that convergence record. Then prove the paper endpoints from the source
+  model plus that axiom so the recursive audit exposes exactly the external
+  theorem boundary.
 - For paper statements that say an optimizer exists, avoid hiding the optimizer
   in an opaque certificate. Prove the argmax/existence theorem in the generic
   library and make the paper theorem a thin wrapper with exact assumptions.
@@ -44,6 +59,23 @@ optimization proof seam should stay paper-local or move to `EconCSLib`.
   `noProfitableBinaryChoiceDeviation_of_choiceEquilibrium_payoff_projection`
   or `noProfitableUnchosenDeviation_of_choiceEquilibrium_payoff_projection`
   rather than restating the full equilibrium.
+- For continuous type spaces, cutoff ties, or "except on a null set"
+  equilibrium prose, check `ChoiceEquilibriumAE` before writing any
+  paper-local a.e. equilibrium wrapper. Its constructors and projections
+  (`isChoiceEquilibriumAE_of_pointwise`,
+  `isChoiceEquilibriumAE_of_forall_not_mem_null`,
+  `isChoiceEquilibriumAE_best_response_ae`, and
+  `isChoiceEquilibriumAE_consistency`) should be the default route for
+  continuous admissions/testing/strategic-ranking equilibria. Put the null
+  cutoff/tie set and model-specific payoff rewrite in the paper; keep the
+  a.e. equilibrium shell in the library.
+- If a continuous equilibrium proof starts accumulating paper-local wrappers
+  for ranks, endogenous cutoffs, tie-breaking, or effort-allocation best
+  responses, pause before adding the next wrapper and search both
+  `EconCSLib.Foundations.Optimization` and the relevant probability/ranking
+  modules for an existing bridge. A missed shared API is a workflow bug: update
+  the outside-of-Lean plan with the declarations inspected and either use the
+  shared theorem or record the source-specific obstruction.
 - For two-action best-response/cutoff proofs, use
   `EconCSLib.Foundations.Optimization.BinaryChoice`:
   `NoProfitableBinaryChoiceDeviation`,
@@ -107,6 +139,19 @@ optimization proof seam should stay paper-local or move to `EconCSLib`.
   one-sided local improvement/decrease lemmas.  Keep paper-local wrappers when
   the source names the endpoint claim, but do not duplicate the generic
   calculus proof in the paper folder.
+- For optimization claims proved in the source by a first-order condition,
+  never let `derivative = 0` stand in for a global maximum.  First write the
+  objective as a function of the paper's choice variable, compute the
+  derivative condition, and identify the global shape condition that turns a
+  stationary point into an optimum.  For one-dimensional weighted tradeoffs
+  `W_beta = beta*M + (1-beta)*U`, a natural repair is monotonicity of the
+  marginal tradeoff `-U'/M'`, equivalently a supporting-hyperplane/frontier
+  condition; componentwise concavity is often too strong or simply the wrong
+  condition.  Test any proposed primitive repair on the simplest source-shaped
+  primitives allowed by the paper before treating it as derivable.  If the
+  paper's primitives do not imply the shape condition, expose it as a visible
+  source assumption or mark the result partial; do not hide it in a certificate
+  or endpoint wrapper.
 - When the approximation seeds are bounded but the canonical objects may be
   unbounded, do not use the bounded seed type as the descent domain.  Embed the
   bounded seeds into a finite coded domain that also represents rays, tails, or
