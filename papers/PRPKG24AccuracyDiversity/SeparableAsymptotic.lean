@@ -351,6 +351,54 @@ theorem finiteDiscreteTopMassPromotingEvent_lower_geometric_at_a
     _ ≤ finiteDiscreteTopMassPromotingEvent k a q rho := hbase
 
 /--
+The paper's `γ = ∞` profile: all representation mass is assigned to a chosen
+type whose likelihood is maximal.
+-/
+structure InfiniteGammaHomogeneityProfile (T : ℕ) where
+  likelihood : ItemType T → ℝ
+  best : ItemType T
+  isArgmax : ∀ t : ItemType T, likelihood t ≤ likelihood best
+
+namespace InfiniteGammaHomogeneityProfile
+
+/-- Target share for the `γ = ∞` profile. -/
+noncomputable def targetShare {T : ℕ}
+    (G : InfiniteGammaHomogeneityProfile T) (t : ItemType T) : ℝ :=
+  if t = G.best then 1 else 0
+
+/-- Forget the `γ = ∞` label and keep only the induced target-share profile. -/
+noncomputable def toHomogeneityProfile {T : ℕ}
+    (G : InfiniteGammaHomogeneityProfile T) : HomogeneityProfile T where
+  targetShare := G.targetShare
+
+/-- Exact `γ = ∞` homogeneity for a finite allocation. -/
+noncomputable def Exact {T : ℕ}
+    (G : InfiniteGammaHomogeneityProfile T) (a : CountAllocation T) : Prop :=
+  CountAllocation.HasExactRepresentation a G.targetShare
+
+@[simp] theorem targetShare_best {T : ℕ}
+    (G : InfiniteGammaHomogeneityProfile T) :
+    G.targetShare G.best = 1 := by
+  simp [targetShare]
+
+theorem targetShare_of_ne {T : ℕ}
+    (G : InfiniteGammaHomogeneityProfile T) {t : ItemType T}
+    (h : t ≠ G.best) :
+    G.targetShare t = 0 := by
+  simp [targetShare, h]
+
+end InfiniteGammaHomogeneityProfile
+
+/-- Build the paper's `γ = ∞` profile from a likelihood maximizer. -/
+noncomputable def infiniteLikelihoodProfile {T : ℕ}
+    (likelihood : ItemType T → ℝ) (best : ItemType T)
+    (hbest : ∀ t : ItemType T, likelihood t ≤ likelihood best) :
+    InfiniteGammaHomogeneityProfile T where
+  likelihood := likelihood
+  best := best
+  isArgmax := hbest
+
+/--
 The paper's equation (5) profile: target shares proportional to
 `likelihood t ^ gamma`.
 -/

@@ -113,9 +113,9 @@ continuity, response semantics, or trajectory semantics; the proof fields that
 constrain those witnesses must still be audited separately. Do not accept
 `matches` for a row whose decisive math appears only as a record field
 projection.
-The normal provenance checks now invoke this helper: `python3
-scripts/audit_repository.py --paper <paper-folder> --include-active --info-limit
-0` and `python3 scripts/review_dashboard.py --paper <paper-folder> --precheck`
+The normal provenance checks now invoke this helper:
+`python3 scripts/audit_repository.py --paper <paper-folder> --paper-closeout --include-active --info-limit 0`
+and `python3 scripts/review_dashboard.py --paper <paper-folder> --precheck`
 must report missing, stale, or unresolved `source_record_audit.json` /
 `source_record_match_llm.json` sidecars as assumption/provenance findings.
 Treat `PaperInterface.lean` as a closed review surface, not a scratch file.
@@ -380,6 +380,15 @@ inside a generic axiom that the recursive audit cannot identify.
 Do not use `formalized with caveat` for source-quality notes, poor OCR, or an
 audit observation that does not change the closed paper-facing theorem. Put that
 note in the final report and leave the status `formalized`.
+When a fully proved endpoint exposes a standard regularity condition needed to
+interpret a source formula (for example continuity/positivity needed for a
+Laplace-principle reading), classify it as a validation note if the user/source
+review accepts that reading and the Lean theorem does not leave proof debt.
+Record the condition in `Assumptions.lean` and the assumption sidecar with
+`paper_condition`, `source_text`, or `human_verified_source_implicit` premise
+judgments as appropriate; do not mark it `partial_boundary` or
+`documented_caveat` unless it is actually an undischarged theorem import or a
+source-statement repair.
 For generated status files, keep `main_caveat` blank on clean `formalized`
 papers. Do not put provenance summaries such as "axiom audit clean",
 "assumptions source-matched", "human verified", or "no hidden premises" in a
@@ -1658,6 +1667,11 @@ the Lean statements against the paper.
      include that qualifier in `paper_statement_map.json` and judge any
      deterministic Lean wrapper as conditional unless Lean also models the
      probability space/event and proves the qualifier.
+     When a public repo omits the private paper text cache, carry the audited
+     source snippets through `paper_statement_map.json` and include exact
+     `source_status`/`source_note` fields for every mapped row, even when the
+     intended value is blank, so statement-match and review-surface digests are
+     reproducible after sync.
      For rows that mention records/certificates/source models, first generate
      or refresh `source_record_audit.json` with the skill helper. Feed the
      relevant row and field entries, including Lean `#check` output, to the
@@ -1726,6 +1740,14 @@ the Lean statements against the paper.
   - classify proof-boundary axioms as `partial_boundary`, not as source
     assumptions, and give item-level `premise_judgments` for each exact
     `-- audit-premise` line in `Assumptions.lean`;
+  - update `DependencyDAG.tex`, render and visually inspect
+    `DependencyDAG.pdf`, and record that DAG audit evidence in both
+    `FINAL_VALIDATION_REPORT.md` and `POST_FORMALIZATION_AUDIT.md`;
+  - run `python3 scripts/audit_repository.py --paper <paper-folder> --paper-closeout --include-active --info-limit 0`
+    after the DAG/report updates. This targeted repository audit includes the
+    DAG/final-report closeout gate; do not claim post-formalization completion
+    while it reports a paper-specific missing/stale DAG or validation-report
+    finding;
   - rerun the paper precheck and record all remaining unresolved `mismatch`,
     `mismatch` with `resolution: "conditional_boundary"`, `uncertain`, stale,
     missing, or broad-surface findings in the final report.
@@ -1770,6 +1792,14 @@ the Lean statements against the paper.
   use the model or agent name from `statement_match_llm.json`. Keep the human
   review counter human-only; use the validator ledger for mixed human/model
   provenance, dates, judgments, stale flags, and comments.
+- Do not conflate agent/formalization release readiness with human dashboard
+  completion. A paper can be marked `formalized` for public status when Lean
+  builds, statement/assumption validators are current, the paper-closeout audit
+  passes, DAG/report evidence is current, and generated status surfaces are in
+  sync, even if `0/N` saved human reviews remain. In that case the final report
+  must say that human dashboard review is pending; if the user or release
+  policy requires human approval, treat that as a separate promotion gate, not
+  as a Lean proof gap.
 - `./review-dashboard.sh` always regenerates the lightweight heuristic
   Lean-to-TeX preview from the current declarations on launch. Treat that as a
   fallback preview only. The independent statement-review workflow still
@@ -2522,6 +2552,14 @@ pass:
   stale blocked-command language. If it reads like a helper-theorem ledger,
   proof-script changelog, or shell transcript, rewrite it before claiming
   post-validation is complete.
+  The report and DAG are also machine-audited closeout artifacts. Completed or
+  conditional papers must have a current DAG audit/status section, validation
+  checks section, explicit `DependencyDAG.tex` and `DependencyDAG.pdf` evidence,
+  rendered/visual inspection notes, and the targeted `audit_repository.py
+  --paper <paper-folder> --paper-closeout --include-active --info-limit 0`
+  command. Run that audit after editing the report or DAG; do not rely on prose
+  memory that those checks happened. Use `--paper-closeout` for completion
+  claims so unrelated paper-folder maintenance cannot mask this paper's status.
   Follow the current report template order, not an older partially reorganized
   report. In particular, keep the paper-interface review sections at the end:
   `Paper Definitions Checked`, `Named Theorem Statements Checked`, and
@@ -2706,11 +2744,20 @@ pass:
     conversion. Fix overlap between boxes, legends, labels, metadata, and
     arrows; preserve visible whitespace between neighboring nodes and clear
     routing lanes between columns.
-- Run `python3 scripts/audit_repository.py` after post-paper cleanup. Treat its
-  PaperInterface/PostPaperAudit findings as part of the final audit: no tuple
-  witness interfaces, no standalone proof-facing formula aliases in the audit
-  ledger, no stale `Lean witness` report language, and no completed-paper status
-  rows that hide caveats in prose.
+- Run `python3 scripts/audit_repository.py --paper <paper-folder> --paper-closeout --include-active --info-limit 0`
+  after post-paper cleanup and after every report/DAG closeout edit. Treat its
+  PaperInterface/PostPaperAudit and
+  DAG/report closeout findings as part of the final audit: no tuple witness
+  interfaces, no standalone proof-facing formula aliases in the audit ledger,
+  no stale `Lean witness` report language, no completed-paper status rows that
+  hide caveats in prose, and no missing/stale DAG audit, final validation
+  report, rendered DAG PDF, or visual-inspection evidence.
+  Also run the unfiltered `python3 scripts/audit_repository.py` before broad
+  repository handoff when you need global hygiene, but the paper-specific
+  targeted command is the mandatory post-formalization gate for the paper being
+  closed. If the unfiltered audit reports findings from other papers, record
+  them separately; do not downgrade or delay a paper whose `--paper-closeout`
+  audit and paper-local validation gates pass.
   Also run `python3 scripts/audit_repository.py --library-only --library-premise-audit` when a
   completed paper uses recently added or extracted library APIs. Informational
   library certificate findings are not errors by themselves, but any completed

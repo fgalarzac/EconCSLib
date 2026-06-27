@@ -3,9 +3,11 @@ import PRPKG24AccuracyDiversity.ProofInterface
 /-!
 # Paper Assumptions: PRPKG24 Accuracy-Diversity
 
-This file records source theorem-domain conditions and documented partial
-boundaries used by the paper-facing review surface. The main remaining partial
-boundary is Proposition 4's continuous sphere/Laplace analytic layer.
+This file records source theorem-domain conditions and validation notes used by
+the paper-facing review surface. Proposition 4's concrete sphere/uniform-measure
+argument is proved; its ledger row records the regularity and paper-`Gamma`
+interpretation used to read the displayed limit as the compact supremum
+objective used by the Lean theorem.
 -/
 
 namespace PRPKG24AccuracyDiversity
@@ -126,13 +128,40 @@ abbrev assumption_varying_bernoulli_probability_domain {T : ℕ}
 abbrev assumption_uniform_top_k_positive_count_domain (kseq : ℕ → ℕ) : Prop :=
   ∀ N, 0 < N → 0 < kseq N
 
-/-- Proposition 4's full continuous-sphere theorem remains at the Laplace analytic boundary. -/
--- audit-premise: C : Proposition4ContinuousSphereCertificate Profile
-abbrev assumption_proposition4_continuous_sphere_laplace_boundary : Prop := True
+/--
+Lemma D.2 uses the bounded-tail CDF power sandwich, monotonicity/range facts,
+and bounded-support saturation for the reflected CDF.
+-/
+-- audit-premise: tail : BoundedTailCDFPowerSandwich G β c
+-- audit-premise: k_pos : 0 < k
+-- audit-premise: hM_pos : 0 < M
+-- audit-premise: hG_measurable : Measurable G
+-- audit-premise: hG_mono : Monotone G
+-- audit-premise: hG_nonneg : ∀ x : ℝ, 0 ≤ G x
+-- audit-premise: hG_le_one : ∀ x : ℝ, G x ≤ 1
+-- audit-premise: hG_eq_one_of_support : ∀ x : ℝ, M ≤ x → G x = 1
+abbrev assumption_lemmaD2_cdf_power_sandwich_monotone_bounded_support
+    {G : ℝ → ℝ} (β c M : ℝ) (k : ℕ) : Prop :=
+  BoundedTailCDFPowerSandwich G β c ∧
+    0 < k ∧
+      0 < M ∧
+        Measurable G ∧
+          Monotone G ∧
+            (∀ x : ℝ, 0 ≤ G x) ∧
+              (∀ x : ℝ, G x ≤ 1) ∧
+                (∀ x : ℝ, M ≤ x → G x = 1)
 
-/-- Lemma D.2's finite split-integral endpoint remains at the analytic asymptotic boundary. -/
--- audit-premise: C : BoundedLemmaD2SplitIntegralFiniteCertificate beta c k G
-abbrev assumption_lemmaD2_split_integral_analytic_boundary : Prop := True
+/--
+Proposition 4's concrete continuous-sphere theorem is proved in
+`ContinuousSphereConcrete.lean` under the source-shaped regularity that the
+radial kernel is continuous and positive on the unit-sphere distance range.
+Validation note: the paper's displayed `Gamma` limit notation is read as the
+Lean supremum objective supplied by the positive-Laplace library theorem.
+-/
+-- audit-premise: hp : Continuous q
+-- audit-premise: hp_pos : ∀ r ∈ Set.Icc (0 : ℝ) 2, 0 < q r
+-- audit-premise: hGamma : paper Γ(α) is interpreted by the Laplace-defined supremum objective
+abbrev assumption_proposition4_continuous_sphere_laplace_boundary : Prop := True
 
 /-- Lemma D.5's finite rounding endpoint is stated for positive `N`. -/
 -- audit-premise: hNpos : 0 < N

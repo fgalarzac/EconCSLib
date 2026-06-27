@@ -262,6 +262,14 @@ the dashboard as oversized and curate `PaperInterface.lean` or
 
 - [ ] Run a library elevation pass over paper-local proof modules and record
       reusable candidates or completed extractions in `FINAL_VALIDATION_REPORT.md`.
+- [ ] Update `DependencyDAG.tex`, rerender `DependencyDAG.pdf`, inspect the
+      rendered diagram, and record the DAG audit evidence in both
+      `FINAL_VALIDATION_REPORT.md` and `POST_FORMALIZATION_AUDIT.md`.
+- [ ] Run the targeted repository audit after the report/DAG updates:
+      `python3 scripts/audit_repository.py --paper {folder} --paper-closeout --include-active --info-limit 0`.
+      This audit includes the DAG/final-report closeout gate; resolve all
+      findings for this paper before claiming the post-formalization workflow is
+      complete.
 - [ ] Run the combined recursive provenance audit and write a closeout report:
       `python3 scripts/audit_repository.py --include-active --library-premise-audit --info-limit 0 --write-report docs/RECURSIVE_PROVENANCE_AUDIT_<date>.md`.
       Resolve all findings for this paper before claiming `formalized`; if a
@@ -890,9 +898,11 @@ as a true paper/source model assumption.
 ## 12. Validation Checks
 - Not run.
 - Required closeout checks include targeted Lean build, statement precheck,
-  assumption/hidden-premise precheck, repository audit, and library premise
-  audit when reusable certificate APIs are used or when preparing a public PR.
-  The repository audit must also be clean of axiom-like declarations.
+  assumption/hidden-premise precheck, targeted repository audit, DAG/report
+  closeout audit, and library premise audit when reusable certificate APIs are
+  used or when preparing a public PR. The repository audit must also be clean of
+  axiom-like declarations, stale final-report placeholders, missing
+  `DependencyDAG.pdf`, and unrecorded DAG visual-inspection evidence.
 
 ## 13. Final Verdict
 - Completion status: not formalized

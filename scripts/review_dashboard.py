@@ -45,10 +45,10 @@ DEFAULT_ASSUMPTION_SOURCE_FILE = "Assumptions.lean"
 PAPER_STATEMENT_MAP_FILE = "paper_statement_map.json"
 REVIEW_SURFACE_LLM_AUDIT_THRESHOLD = 30
 REVIEW_SURFACE_WARN_THRESHOLD = 50
-PAPER_INTERFACE_CACHE_SCHEMA = 14
+PAPER_INTERFACE_CACHE_SCHEMA = 15
 REVIEW_SURFACE_SCHEMA = 1
 REVIEW_SOURCE_FILENAME = "PaperInterface.lean"
-REVIEW_DECL_KINDS = {"theorem", "lemma", "def", "abbrev"}
+REVIEW_DECL_KINDS = {"theorem", "lemma", "def", "abbrev", "axiom"}
 ASSUMPTION_DECL_NAME_RE = re.compile(
     r"^(?:paper_)?assumption(?:_|$)|^source_assumption(?:_|$)|_assumption(?:_|$)"
 )
@@ -57,6 +57,16 @@ APPROVED_ASSUMPTION_JUDGMENTS = {
     "paper_condition",
     "documented_caveat",
     "partial_boundary",
+}
+CONDITIONAL_BOUNDARY_RESOLUTION = "conditional_boundary"
+CONDITIONAL_BOUNDARY_RESOLUTION_ALIASES = {
+    "conditional_boundary",
+    "accepted_boundary",
+    "known_boundary",
+    "external_library_boundary",
+    "known_dependence_on_external_library",
+    "known_external_library_dependence",
+    "intentional_mismatch",
 }
 APPROVED_ASSUMPTION_PREMISE_JUDGMENTS = {
     "paper_assumption",
@@ -80,7 +90,7 @@ SOURCE_TEXT_ASSUMPTION_PREMISE_JUDGMENTS = {
 DECL_RE = re.compile(
     r"^(?P<indent>\s*)(?:(?:@[A-Za-z_][A-Za-z0-9_]*(?:\([^)]*\))?\s+)*)?"
     r"(?:(?:noncomputable|private|protected)\s+)*"
-    r"(?P<kind>theorem|lemma|def|abbrev)\s+(?P<name>[A-Za-z_][A-Za-z0-9_']*)\b"
+    r"(?P<kind>theorem|lemma|def|abbrev|axiom)\s+(?P<name>[A-Za-z_][A-Za-z0-9_']*)\b"
 )
 EXPORT_OPEN_RE = re.compile(
     r"^\s*export\s+(?P<source>[A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)*)\s+\((?P<rest>.*)$"
@@ -333,6 +343,11 @@ class ReviewItem:
     llm_match_validator: str = ""
     llm_match_validator_type: str = ""
     llm_match_validated_at: str = ""
+    llm_match_resolution: str = ""
+    llm_match_boundary_type: str = ""
+    llm_match_boundary_names: list[str] | None = None
+    llm_match_conditional_premises: list[str] | None = None
+    llm_match_resolution_reason: str = ""
     is_assumption: bool = False
     llm_assumption_judgment: str = ""
     llm_assumption_reason: str = ""
@@ -900,8 +915,8 @@ def parse_paper_text_statements(folder: Path) -> dict[str, str]:
     return statements
 
 
-def parse_paper_statement_map(folder: Path) -> dict[str, str]:
-    """Load explicit paper-source line ranges for dashboard statements."""
+def _paper_statement_map_raw_items(folder: Path) -> dict[str, Any]:
+    """Load raw paper-statement-map items, returning an empty map on errors."""
 
     map_path = folder / PAPER_STATEMENT_MAP_FILE
     if not map_path.exists() or not map_path.is_file():
@@ -914,6 +929,15 @@ def parse_paper_statement_map(folder: Path) -> dict[str, str]:
 
     raw_items = payload.get("items", payload) if isinstance(payload, dict) else {}
     if not isinstance(raw_items, dict):
+        return {}
+    return raw_items
+
+
+def parse_paper_statement_map(folder: Path) -> dict[str, str]:
+    """Load explicit paper-source line ranges for dashboard statements."""
+
+    raw_items = _paper_statement_map_raw_items(folder)
+    if not raw_items:
         return {}
 
     statements: dict[str, str] = {}
@@ -961,6 +985,50 @@ def parse_paper_statement_map(folder: Path) -> dict[str, str]:
             if isinstance(alias, str) and alias.strip():
                 _add_statement_variant(statements, alias.strip(), text)
     return statements
+
+
+def _add_statement_metadata_variant(
+    mapping: dict[str, tuple[str, str]], key: str, status: str, note: str
+) -> None:
+    """Add source-status metadata under the same tolerant keys as statements."""
+
+    if not key.strip():
+        return
+    variants: set[str] = {key}
+    normalized = _normalize_name_key(key)
+    if normalized:
+        variants.add(normalized)
+    lowered = key.lower()
+    if lowered:
+        variants.add(lowered)
+    lowered_normalized = normalized.lower()
+    if lowered_normalized:
+        variants.add(lowered_normalized)
+    for variant in variants:
+        if variant:
+            mapping[variant] = (status, note)
+
+
+def parse_paper_statement_map_source_metadata(folder: Path) -> dict[str, tuple[str, str]]:
+    """Load optional source-status metadata from `paper_statement_map.json`."""
+
+    raw_items = _paper_statement_map_raw_items(folder)
+    if not raw_items:
+        return {}
+
+    metadata: dict[str, tuple[str, str]] = {}
+    for key, raw_item in raw_items.items():
+        if not isinstance(key, str) or not key.strip() or not isinstance(raw_item, dict):
+            continue
+        if "source_status" not in raw_item and "source_note" not in raw_item:
+            continue
+        status = str(raw_item.get("source_status") or "").strip()
+        note = str(raw_item.get("source_note") or "").strip()
+        _add_statement_metadata_variant(metadata, key.strip(), status, note)
+        for alias in raw_item.get("aliases", []) or []:
+            if isinstance(alias, str) and alias.strip():
+                _add_statement_metadata_variant(metadata, alias.strip(), status, note)
+    return metadata
 
 
 def parse_paper_text_statement_locations(folder: Path) -> list[dict[str, Any]]:
@@ -1021,7 +1089,7 @@ def load_llm_lean_to_tex_draft_entries(folder: Path) -> dict[str, dict[str, str]
     items = payload.get("items")
     if not isinstance(items, dict):
         return {}
-    out: dict[str, dict[str, str]] = {}
+    out: dict[str, dict[str, Any]] = {}
     source = path.name
     for raw_name, raw_value in items.items():
         name = str(raw_name).strip()
@@ -1081,7 +1149,45 @@ def _normalize_llm_match_judgment(raw: Any) -> str:
     return value
 
 
-def load_llm_statement_judgments(folder: Path) -> dict[str, dict[str, str]]:
+def _normalize_llm_match_resolution(raw: Any) -> str:
+    """Normalize optional LLM statement-match resolution categories."""
+
+    value = str(raw or "").strip().lower()
+    if not value or value in {"none", "unresolved", "open"}:
+        return ""
+    if value in CONDITIONAL_BOUNDARY_RESOLUTION_ALIASES:
+        return CONDITIONAL_BOUNDARY_RESOLUTION
+    return value
+
+
+def _normalize_string_list(raw: Any) -> list[str]:
+    """Normalize scalar/list sidecar fields into a stable string list."""
+
+    if raw is None:
+        return []
+    if isinstance(raw, (list, tuple, set)):
+        values = raw
+    else:
+        values = str(raw).split(",")
+    out: list[str] = []
+    for value in values:
+        text = str(value or "").strip()
+        if text:
+            out.append(text)
+    return out
+
+
+def _is_conditional_boundary_judgment(judgment: dict[str, Any]) -> bool:
+    """Return whether a strict mismatch has an accepted conditional-boundary resolution."""
+
+    return (
+        str(judgment.get("judgment") or "").strip() == "mismatch"
+        and _normalize_llm_match_resolution(judgment.get("resolution"))
+        == CONDITIONAL_BOUNDARY_RESOLUTION
+    )
+
+
+def load_llm_statement_judgments(folder: Path) -> dict[str, dict[str, Any]]:
     """Load optional third-LLM judgments comparing paper text and Lean-to-TeX drafts."""
 
     path = llm_statement_judgments_file(folder)
@@ -1168,6 +1274,33 @@ def load_llm_statement_judgments(folder: Path) -> dict[str, dict[str, str]]:
                 or payload_comment
                 or ""
             ).strip()
+            resolution = _normalize_llm_match_resolution(
+                raw_value.get("resolution")
+                or raw_value.get("accepted_resolution")
+                or raw_value.get("review_resolution")
+            )
+            boundary_type = str(
+                raw_value.get("boundary_type")
+                or raw_value.get("resolution_type")
+                or raw_value.get("boundary_kind")
+                or ""
+            ).strip()
+            boundary_names = _normalize_string_list(
+                raw_value.get("boundary_names")
+                or raw_value.get("boundaries")
+                or raw_value.get("boundary_name")
+            )
+            conditional_premises = _normalize_string_list(
+                raw_value.get("conditional_premises")
+                or raw_value.get("extra_premises")
+                or raw_value.get("conditional_on")
+            )
+            resolution_reason = str(
+                raw_value.get("resolution_reason")
+                or raw_value.get("boundary_reason")
+                or raw_value.get("resolution_notes")
+                or ""
+            ).strip()
             out[name] = {
                 "judgment": judgment,
                 "reason": reason,
@@ -1176,6 +1309,11 @@ def load_llm_statement_judgments(folder: Path) -> dict[str, dict[str, str]]:
                 "validator_type": validator_type,
                 "validated_at": validated_at,
                 "comment": comment,
+                "resolution": resolution,
+                "boundary_type": boundary_type,
+                "boundary_names": boundary_names,
+                "conditional_premises": conditional_premises,
+                "resolution_reason": resolution_reason,
                 "lean_statement_sha256": str(raw_value.get("lean_statement_sha256") or "").strip(),
                 "paper_statement_sha256": str(raw_value.get("paper_statement_sha256") or "").strip(),
                 "tex_statement_sha256": str(raw_value.get("tex_statement_sha256") or "").strip(),
@@ -1191,6 +1329,11 @@ def load_llm_statement_judgments(folder: Path) -> dict[str, dict[str, str]]:
                     "validator_type": payload_validator_type,
                     "validated_at": payload_validated_at,
                     "comment": payload_comment,
+                    "resolution": "",
+                    "boundary_type": "",
+                    "boundary_names": [],
+                    "conditional_premises": [],
+                    "resolution_reason": "",
                 }
     return out
 
@@ -1884,6 +2027,7 @@ def load_review_slice_payload(folder: Path) -> dict[str, Any]:
                 include_names = review_surface.get("include_names")
                 slices = review_surface.get("slices")
                 assumption_names = review_surface.get("assumption_names")
+                auxiliary_names = review_surface.get("auxiliary_names")
                 assumption_source_file = review_surface.get("assumption_source_file")
                 assumption_policy = review_surface.get("assumption_policy")
                 if isinstance(include_names, list):
@@ -1892,6 +2036,8 @@ def load_review_slice_payload(folder: Path) -> dict[str, Any]:
                     payload["slices"] = slices
                 if isinstance(assumption_names, list):
                     payload["assumption_names"] = assumption_names
+                if isinstance(auxiliary_names, list):
+                    payload["auxiliary_names"] = auxiliary_names
                 if isinstance(assumption_source_file, str) and assumption_source_file.strip():
                     payload["assumption_source_file"] = assumption_source_file
                 if isinstance(assumption_policy, str):
@@ -1900,6 +2046,7 @@ def load_review_slice_payload(folder: Path) -> dict[str, Any]:
                     "include_names" in payload
                     or "slices" in payload
                     or "assumption_names" in payload
+                    or "auxiliary_names" in payload
                     or "assumption_source_file" in payload
                     or "assumption_policy" in payload
                 ):
@@ -1950,6 +2097,16 @@ def review_assumption_names(folder: Path) -> set[str]:
     return {str(name).strip() for name in names if str(name).strip()}
 
 
+def review_auxiliary_names(folder: Path) -> set[str]:
+    """Return proof-facing declarations intentionally excluded from statement review."""
+
+    payload = load_review_slice_payload(folder)
+    names = payload.get("auxiliary_names")
+    if not isinstance(names, list):
+        return set()
+    return {str(name).strip() for name in names if str(name).strip()}
+
+
 def is_assumption_item_name(name: str) -> bool:
     """Heuristic for assumption declarations before status.json has been filled."""
 
@@ -1993,6 +2150,9 @@ def apply_review_slices(folder: Path, items: list[ReviewItem]) -> list[ReviewIte
     if include_names is not None:
         assumption_names = review_assumption_names(folder)
         items = [item for item in items if item.name in include_names or item.name in assumption_names]
+    auxiliary_names = review_auxiliary_names(folder)
+    if auxiliary_names:
+        items = [item for item in items if item.name not in auxiliary_names]
 
     rules = review_slice_rules(folder)
     if not rules:
@@ -2090,6 +2250,10 @@ def collect_review_decl_text(lines: list[str], start: int, kind: str) -> tuple[s
     while j < len(lines):
         sig_line = lines[j]
         sig_lines.append(sig_line)
+        if kind == "axiom" and (
+            j + 1 >= len(lines) or _is_interface_decl_boundary(lines[j + 1])
+        ):
+            return "\n".join(sig_lines).strip(), j + 1
         if ":=" in sig_line:
             idx = sig_line.find(":=")
             if kind in {"def", "abbrev"}:
@@ -2213,6 +2377,7 @@ def parse_interface_items(
         source_statements = parse_paper_text_statements(paper_folder)
     paper_statements.update(source_statements)
     paper_statements.update(parse_paper_statement_map(paper_folder))
+    paper_statement_source_metadata = parse_paper_statement_map_source_metadata(paper_folder)
     llm_tex_drafts = load_llm_lean_to_tex_drafts(paper_folder)
     llm_judgments = load_llm_statement_judgments(paper_folder)
     assumption_names = review_assumption_names(paper_folder)
@@ -2249,14 +2414,20 @@ def parse_interface_items(
         )
         candidates = paper_statement_candidate_keys(name, full_name)
         paper_text = ""
+        paper_statement_key = ""
         for candidate in candidates:
             if candidate and candidate in paper_statements:
                 paper_text = paper_statements[candidate]
+                paper_statement_key = candidate
                 break
         comment_text, source_status, source_note = split_source_metadata(doc_comment or "")
         if paper_text:
             displayed_paper_statement = paper_text
-            source_status = source_status or "direct source text"
+            map_metadata = paper_statement_source_metadata.get(paper_statement_key)
+            if map_metadata is not None:
+                source_status, source_note = map_metadata
+            else:
+                source_status = source_status or "direct source text"
         else:
             displayed_paper_statement = comment_text
         agent_statement = (
@@ -2324,6 +2495,11 @@ def parse_interface_items(
                 llm_match_validator=judgment.get("validator", ""),
                 llm_match_validator_type=judgment.get("validator_type", ""),
                 llm_match_validated_at=judgment.get("validated_at", ""),
+                llm_match_resolution=judgment.get("resolution", ""),
+                llm_match_boundary_type=judgment.get("boundary_type", ""),
+                llm_match_boundary_names=judgment.get("boundary_names") or [],
+                llm_match_conditional_premises=judgment.get("conditional_premises") or [],
+                llm_match_resolution_reason=judgment.get("resolution_reason", ""),
                 is_assumption=is_assumption,
                 llm_assumption_judgment=assumption_judgment.get("judgment", ""),
                 llm_assumption_reason=assumption_judgment.get("reason", "")
@@ -2500,6 +2676,19 @@ def load_cached_review_rows(folder: Path) -> list[ReviewItem] | None:
         llm_match_validator = str(raw_row.get("llm_match_validator") or "").strip()
         llm_match_validator_type = str(raw_row.get("llm_match_validator_type") or "").strip()
         llm_match_validated_at = str(raw_row.get("llm_match_validated_at") or "").strip()
+        llm_match_resolution = _normalize_llm_match_resolution(
+            raw_row.get("llm_match_resolution")
+        )
+        llm_match_boundary_type = str(raw_row.get("llm_match_boundary_type") or "").strip()
+        llm_match_boundary_names = _normalize_string_list(
+            raw_row.get("llm_match_boundary_names")
+        )
+        llm_match_conditional_premises = _normalize_string_list(
+            raw_row.get("llm_match_conditional_premises")
+        )
+        llm_match_resolution_reason = str(
+            raw_row.get("llm_match_resolution_reason") or ""
+        ).strip()
         is_assumption = bool(raw_row.get("is_assumption") or False)
         llm_assumption_judgment = str(raw_row.get("llm_assumption_judgment") or "").strip()
         llm_assumption_reason = str(raw_row.get("llm_assumption_reason") or "").strip()
@@ -2535,6 +2724,11 @@ def load_cached_review_rows(folder: Path) -> list[ReviewItem] | None:
                 llm_match_validator=llm_match_validator,
                 llm_match_validator_type=llm_match_validator_type,
                 llm_match_validated_at=llm_match_validated_at,
+                llm_match_resolution=llm_match_resolution,
+                llm_match_boundary_type=llm_match_boundary_type,
+                llm_match_boundary_names=llm_match_boundary_names,
+                llm_match_conditional_premises=llm_match_conditional_premises,
+                llm_match_resolution_reason=llm_match_resolution_reason,
                 is_assumption=is_assumption,
                 llm_assumption_judgment=llm_assumption_judgment,
                 llm_assumption_reason=llm_assumption_reason,
@@ -2677,6 +2871,8 @@ def statement_translation_audit_summary(folder: Path, items: list[ReviewItem]) -
     missing_judgment: list[str] = []
     stale_judgment: list[str] = []
     mismatch: list[str] = []
+    conditional_boundary: list[str] = []
+    unresolved_mismatch: list[str] = []
     uncertain: list[str] = []
     unknown: list[str] = []
     matches = 0
@@ -2702,6 +2898,10 @@ def statement_translation_audit_summary(folder: Path, items: list[ReviewItem]) -
             matches += 1
         elif value == "mismatch":
             mismatch.append(item.name)
+            if _is_conditional_boundary_judgment(judgment):
+                conditional_boundary.append(item.name)
+            else:
+                unresolved_mismatch.append(item.name)
         elif value == "uncertain":
             uncertain.append(item.name)
         else:
@@ -2715,7 +2915,7 @@ def statement_translation_audit_summary(folder: Path, items: list[ReviewItem]) -
         or stale_draft
         or missing_judgment
         or stale_judgment
-        or mismatch
+        or unresolved_mismatch
         or uncertain
         or unknown
     )
@@ -2725,6 +2925,8 @@ def statement_translation_audit_summary(folder: Path, items: list[ReviewItem]) -
         "judgment_count": len(judgments),
         "matches": matches,
         "mismatch_count": len(mismatch),
+        "conditional_boundary_count": len(conditional_boundary),
+        "unresolved_mismatch_count": len(unresolved_mismatch),
         "uncertain_count": len(uncertain),
         "unknown_count": len(unknown),
         "missing_draft_count": len(missing_draft),
@@ -2732,6 +2934,8 @@ def statement_translation_audit_summary(folder: Path, items: list[ReviewItem]) -
         "missing_judgment_count": len(missing_judgment),
         "stale_judgment_count": len(stale_judgment),
         "mismatch": mismatch,
+        "conditional_boundary": conditional_boundary,
+        "unresolved_mismatch": unresolved_mismatch,
         "uncertain": uncertain,
         "unknown": unknown,
         "missing_draft": missing_draft,
@@ -3148,6 +3352,28 @@ def build_review_status(papers: list[dict[str, Any]], reviews: list[dict[str, An
                 if validator_entry is not None:
                     validators.append(validator_entry)
             if item.get("llm_match_judgment"):
+                llm_comment = str(item.get("llm_match_reason") or "").strip()
+                llm_resolution = str(item.get("llm_match_resolution") or "").strip()
+                if llm_resolution:
+                    resolution_bits = [f"resolution={llm_resolution}"]
+                    boundary_names = _normalize_string_list(item.get("llm_match_boundary_names"))
+                    conditional_premises = _normalize_string_list(
+                        item.get("llm_match_conditional_premises")
+                    )
+                    resolution_reason = str(item.get("llm_match_resolution_reason") or "").strip()
+                    if boundary_names:
+                        resolution_bits.append("boundaries=" + ", ".join(boundary_names))
+                    if conditional_premises:
+                        resolution_bits.append(
+                            "conditional_premises=" + ", ".join(conditional_premises)
+                        )
+                    if resolution_reason:
+                        resolution_bits.append("reason=" + resolution_reason)
+                    llm_comment = (
+                        f"{llm_comment} [{'; '.join(resolution_bits)}]"
+                        if llm_comment
+                        else "; ".join(resolution_bits)
+                    )
                 validator_entry = _validator_entry(
                     validator=str(
                         item.get("llm_match_validator")
@@ -3157,7 +3383,7 @@ def build_review_status(papers: list[dict[str, Any]], reviews: list[dict[str, An
                     validator_type=str(item.get("llm_match_validator_type") or "").strip(),
                     validated_at=str(item.get("llm_match_validated_at") or "").strip(),
                     judgment=str(item.get("llm_match_judgment") or "").strip(),
-                    comment=str(item.get("llm_match_reason") or "").strip(),
+                    comment=llm_comment,
                     source=str(item.get("llm_match_source") or "").strip(),
                     stale=bool(item.get("llm_match_stale", False)),
                 )
@@ -3214,6 +3440,15 @@ def build_review_status(papers: list[dict[str, Any]], reviews: list[dict[str, An
                     "llm_match_validator": item.get("llm_match_validator", ""),
                     "llm_match_validator_type": item.get("llm_match_validator_type", ""),
                     "llm_match_validated_at": item.get("llm_match_validated_at", ""),
+                    "llm_match_resolution": item.get("llm_match_resolution", ""),
+                    "llm_match_boundary_type": item.get("llm_match_boundary_type", ""),
+                    "llm_match_boundary_names": _normalize_string_list(
+                        item.get("llm_match_boundary_names")
+                    ),
+                    "llm_match_conditional_premises": _normalize_string_list(
+                        item.get("llm_match_conditional_premises")
+                    ),
+                    "llm_match_resolution_reason": item.get("llm_match_resolution_reason", ""),
                     "llm_assumption_judgment": item.get("llm_assumption_judgment", ""),
                     "llm_assumption_reason": item.get("llm_assumption_reason", ""),
                     "llm_assumption_stale": bool(item.get("llm_assumption_stale", False)),
@@ -3267,6 +3502,7 @@ def render_csv_summary(rows: list[dict[str, Any]]) -> str:
         "source_status",
         "source_note",
         "llm_match_judgment",
+        "llm_match_resolution",
         "llm_match_stale",
     ]
     out = io.StringIO()
@@ -3293,6 +3529,7 @@ def render_csv_summary(rows: list[dict[str, Any]]) -> str:
                 row.get("source_status", ""),
                 row.get("source_note", ""),
                 row.get("llm_match_judgment", ""),
+                row.get("llm_match_resolution", ""),
                 "true" if row.get("llm_match_stale") else "false",
             ]
         )
@@ -3307,8 +3544,8 @@ def _escape_md(value: Any) -> str:
 
 def render_markdown_summary(rows: list[dict[str, Any]]) -> str:
     lines = [
-        "| Paper | Slice | Theorem | Kind | Line | Reviewed | Reviews | Needs attention | Latest | Latest timestamp | Matches | Validators | Lean stale | Paper stale | Source stale | Source status | Source note | LLM judgment | LLM stale | Notes |",
-        "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+        "| Paper | Slice | Theorem | Kind | Line | Reviewed | Reviews | Needs attention | Latest | Latest timestamp | Matches | Validators | Lean stale | Paper stale | Source stale | Source status | Source note | LLM judgment | LLM resolution | LLM stale | Notes |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     for row in rows:
         lines.append(
@@ -3332,6 +3569,7 @@ def render_markdown_summary(rows: list[dict[str, Any]]) -> str:
                     _escape_md(row.get("source_status", "")),
                     _escape_md(row.get("source_note", "")),
                     _escape_md(row.get("llm_match_judgment", "")),
+                    _escape_md(row.get("llm_match_resolution", "")),
                     "yes" if row.get("llm_match_stale") else "no",
                     _escape_md(row.get("latest_notes", "")),
                 ]
@@ -3447,6 +3685,35 @@ def assumption_audit_rows(papers: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return rows
 
 
+def conditional_boundary_statement_premises(folder: Path) -> dict[str, list[str]]:
+    """Return accepted statement-level conditional premises keyed by review row."""
+
+    out: dict[str, list[str]] = {}
+    for name, judgment in load_llm_statement_judgments(folder).items():
+        if not _is_conditional_boundary_judgment(judgment):
+            continue
+        premises = _normalize_string_list(judgment.get("conditional_premises"))
+        if premises:
+            out[name] = premises
+    return out
+
+
+def _default_hidden_premise_row(paper_name: str) -> dict[str, Any]:
+    """Create the hidden-premise audit row shape used by CLI prechecks."""
+
+    return {
+        "paper": paper_name,
+        "hidden_premise_count": 0,
+        "hidden_premise_error_count": 0,
+        "hidden_premise_warning_count": 0,
+        "hidden_premise_samples": [],
+        "accepted_conditional_premise_count": 0,
+        "accepted_conditional_premise_samples": [],
+        "needs_attention": False,
+        "has_warning": False,
+    }
+
+
 def hidden_premise_repository_audit_rows(paper: str | None) -> list[dict[str, Any]]:
     """Return hidden-premise findings from the repository audit for CLI prechecks."""
 
@@ -3465,9 +3732,50 @@ def hidden_premise_repository_audit_rows(paper: str | None) -> list[dict[str, An
         ]
 
     marker = "has premises not routed through explicit Assumptions.lean paper assumptions"
+    variable_marker = "proof-boundary `variable` premise"
+    source_record_markers = (
+        "source-record audit",
+        "source-record judge",
+    )
     rows: dict[str, dict[str, Any]] = {}
-    for finding in audit_repository.run(include_active=False, strict_style=False):
-        if marker not in finding.message:
+    accepted_conditional_premises: dict[str, dict[str, list[str]]] = {}
+
+    def paper_conditional_premises(paper_name: str) -> dict[str, list[str]]:
+        cached = accepted_conditional_premises.get(paper_name)
+        if cached is not None:
+            return cached
+        folder = ROOT / "papers" / paper_name
+        cached = conditional_boundary_statement_premises(folder) if folder.exists() else {}
+        accepted_conditional_premises[paper_name] = cached
+        return cached
+
+    def finding_is_accepted_conditional(paper_name: str, message: str) -> bool:
+        for row_name, premises in paper_conditional_premises(paper_name).items():
+            if f"`{row_name}`" not in message:
+                continue
+            if any(premise and premise in message for premise in premises):
+                return True
+        return False
+
+    findings = list(
+        audit_repository.check_machine_paper_status(
+            library_premise_audit=False,
+            paper_filter=paper,
+        )
+    )
+    if paper:
+        paper_dir = ROOT / "papers" / paper
+        if paper_dir.exists():
+            paper_files = sorted(path for path in paper_dir.rglob("*.lean") if path.is_file())
+            findings.extend(audit_repository.check_hidden_variable_premises_in_files(paper_files))
+    else:
+        findings.extend(audit_repository.check_hidden_variable_premises(include_active=False))
+    for finding in findings:
+        if (
+            marker not in finding.message
+            and variable_marker not in finding.message
+            and not any(source_marker in finding.message for source_marker in source_record_markers)
+        ):
             continue
         rel_path = finding.path.relative_to(ROOT) if finding.path.is_absolute() else finding.path
         parts = rel_path.parts
@@ -3476,19 +3784,15 @@ def hidden_premise_repository_audit_rows(paper: str | None) -> list[dict[str, An
         paper_name = parts[1]
         if paper and paper_name != paper:
             continue
-        row = rows.setdefault(
-            paper_name,
-            {
-                "paper": paper_name,
-                "hidden_premise_count": 0,
-                "hidden_premise_error_count": 0,
-                "hidden_premise_warning_count": 0,
-                "hidden_premise_samples": [],
-                "needs_attention": True,
-                "has_warning": True,
-            },
-        )
+        row = rows.setdefault(paper_name, _default_hidden_premise_row(paper_name))
+        if finding_is_accepted_conditional(paper_name, finding.message):
+            row["accepted_conditional_premise_count"] += 1
+            if len(row["accepted_conditional_premise_samples"]) < 5:
+                row["accepted_conditional_premise_samples"].append(finding.message)
+            continue
         row["hidden_premise_count"] += 1
+        row["needs_attention"] = True
+        row["has_warning"] = True
         if finding.severity == "ERROR":
             row["hidden_premise_error_count"] += 1
         elif finding.severity == "WARN":
@@ -3507,10 +3811,11 @@ def merge_hidden_premise_audit_rows(
     for hidden in hidden_premise_repository_audit_rows(paper):
         paper_name = str(hidden.get("paper") or "")
         row = merged.setdefault(paper_name, {"paper": paper_name})
+        prior_needs_attention = bool(row.get("needs_attention"))
+        prior_has_warning = bool(row.get("has_warning"))
         row.update(hidden)
-        if hidden.get("needs_attention"):
-            row["needs_attention"] = True
-            row["has_warning"] = True
+        row["needs_attention"] = prior_needs_attention or bool(hidden.get("needs_attention"))
+        row["has_warning"] = prior_has_warning or bool(hidden.get("has_warning"))
     return list(merged.values())
 
 
@@ -4255,11 +4560,15 @@ HTML_PAGE = """
 
     function llmJudgmentLabel(item) {
       const value = String(item.llm_match_judgment || "").toLowerCase();
+      const resolution = String(item.llm_match_resolution || "").toLowerCase();
       if (item.llm_match_stale) {
         return "Stale LLM judgment";
       }
       if (value === "matches") {
         return "LLM: matches";
+      }
+      if (value === "mismatch" && resolution === "conditional_boundary") {
+        return "LLM: conditional boundary";
       }
       if (value === "mismatch") {
         return "LLM: mismatch";
@@ -4272,11 +4581,15 @@ HTML_PAGE = """
 
     function llmJudgmentClass(item) {
       const value = String(item.llm_match_judgment || "").toLowerCase();
+      const resolution = String(item.llm_match_resolution || "").toLowerCase();
       if (item.llm_match_stale) {
         return "warn";
       }
       if (value === "matches") {
         return "ok";
+      }
+      if (value === "mismatch" && resolution === "conditional_boundary") {
+        return "warn";
       }
       if (value === "mismatch") {
         return "bad";
@@ -4309,6 +4622,21 @@ HTML_PAGE = """
       }
       if (item.llm_match_stale) {
         bits.push("The saved judgment predates the current Lean, paper, or TeX statement.");
+      }
+      if (item.llm_match_resolution) {
+        bits.push(`Resolution: ${item.llm_match_resolution}`);
+      }
+      if (Array.isArray(item.llm_match_boundary_names) && item.llm_match_boundary_names.length) {
+        bits.push(`Boundary: ${item.llm_match_boundary_names.join(", ")}`);
+      }
+      if (
+        Array.isArray(item.llm_match_conditional_premises)
+        && item.llm_match_conditional_premises.length
+      ) {
+        bits.push(`Conditional premises: ${item.llm_match_conditional_premises.join(", ")}`);
+      }
+      if (item.llm_match_resolution_reason) {
+        bits.push(String(item.llm_match_resolution_reason));
       }
       if (!bits.length) {
         bits.push(item.llm_match_judgment
@@ -5746,8 +6074,12 @@ def print_statement_audit_warnings(rows: list[dict[str, Any]], label: str) -> bo
             reasons.append(f"{row['missing_judgment_count']} missing statement-judge row(s)")
         if row.get("stale_judgment_count"):
             reasons.append(f"{row['stale_judgment_count']} stale statement-judge row(s)")
-        if row.get("mismatch_count"):
-            reasons.append(f"{row['mismatch_count']} mismatch judgment(s)")
+        if row.get("unresolved_mismatch_count"):
+            reasons.append(f"{row['unresolved_mismatch_count']} unresolved mismatch judgment(s)")
+        if row.get("conditional_boundary_count"):
+            reasons.append(
+                f"{row['conditional_boundary_count']} conditional-boundary mismatch judgment(s)"
+            )
         if row.get("uncertain_count"):
             reasons.append(f"{row['uncertain_count']} uncertain judgment(s)")
         if row.get("unknown_count"):
@@ -5764,7 +6096,8 @@ def print_statement_audit_warnings(rows: list[dict[str, Any]], label: str) -> bo
             )
         samples: list[str] = []
         for key, label_text in [
-            ("mismatch", "mismatch"),
+            ("unresolved_mismatch", "unresolved mismatch"),
+            ("conditional_boundary", "conditional boundary"),
             ("uncertain", "uncertain"),
             ("stale_judgment", "stale judgment"),
             ("stale_draft", "stale draft"),
@@ -5809,10 +6142,18 @@ def print_statement_audit_status(paper: str | None, slice_filter: str | None = N
     total_rows = sum(int(row.get("row_count") or 0) for row in rows)
     total_drafts = sum(int(row.get("draft_count") or 0) for row in rows)
     total_judgments = sum(int(row.get("judgment_count") or 0) for row in rows)
+    total_conditional_boundaries = sum(
+        int(row.get("conditional_boundary_count") or 0) for row in rows
+    )
+    boundary_note = (
+        f", {total_conditional_boundaries} strict mismatch row(s) accepted as conditional boundaries"
+        if total_conditional_boundaries
+        else ", no missing/stale/flagged items"
+    )
     print(
         f"Statement-translation audits for {label} are current: "
         f"{total_rows} row(s), {total_drafts} Lean-to-TeX draft(s), "
-        f"{total_judgments} statement-judge row(s), no missing/stale/flagged items."
+        f"{total_judgments} statement-judge row(s){boundary_note}."
     )
     print(
         "This is only the row-local statement match lane. Before treating these "
@@ -5868,6 +6209,10 @@ def print_assumption_audit_warnings(rows: list[dict[str, Any]], label: str) -> b
             if row.get("hidden_premise_warning_count"):
                 hidden_bits.append(f"{row['hidden_premise_warning_count']} warning")
             reasons.append(", ".join(hidden_bits))
+        if row.get("accepted_conditional_premise_count"):
+            reasons.append(
+                f"{row['accepted_conditional_premise_count']} accepted conditional-premise finding(s)"
+            )
         if row.get("hidden_premise_audit_error"):
             reasons.append(f"could not run hidden-premise audit: {row['hidden_premise_audit_error']}")
         if not reasons:
@@ -5893,11 +6238,15 @@ def print_assumption_audit_warnings(rows: list[dict[str, Any]], label: str) -> b
             print(f"   {sample}")
         for sample in list(row.get("hidden_premise_samples") or [])[:3]:
             print(f"   hidden premise: {sample}")
+        for sample in list(row.get("accepted_conditional_premise_samples") or [])[:3]:
+            print(f"   accepted conditional premise: {sample}")
     print(
         "Every paper-facing theorem premise that is not derived in Lean must be "
         "declared in Assumptions.lean, listed in "
         "status.json review_surface.assumption_names, and judged in "
-        "assumption_match_llm.json as a true paper/source model assumption."
+        "assumption_match_llm.json as a true paper/source model assumption, "
+        "unless it is an explicitly accepted statement-level conditional "
+        "boundary recorded in statement_match_llm.json."
     )
     return True
 
@@ -6151,7 +6500,10 @@ class ReviewHTTPHandler(BaseHTTPRequestHandler):
                     "totals": status_totals(rows),
                     "surface_audits": surface_audit_rows(papers),
                     "statement_audits": statement_audit_rows(papers),
-                    "assumption_audits": assumption_audit_rows(papers),
+                    "assumption_audits": merge_hidden_premise_audit_rows(
+                        assumption_audit_rows(papers),
+                        requested_paper or self.paper_filter,
+                    ),
                 },
             )
             return
@@ -6346,7 +6698,10 @@ def main() -> None:
                     "totals": status_totals(rows),
                     "surface_audits": surface_audit_rows(papers),
                     "statement_audits": statement_audit_rows(papers),
-                    "assumption_audits": assumption_audit_rows(papers),
+                    "assumption_audits": merge_hidden_premise_audit_rows(
+                        assumption_audit_rows(papers),
+                        args.paper,
+                    ),
                 },
                 indent=2,
             )

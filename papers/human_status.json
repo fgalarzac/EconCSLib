@@ -242,6 +242,38 @@
       }
     },
     {
+      "id": "PRPKG24AccuracyDiversity",
+      "title": "Reconciling the Accuracy-Diversity Trade-off in Recommendations",
+      "authors": "Kenny Peng, Manish Raghavan, Emma Pierson, Jon Kleinberg, and Nikhil Garg",
+      "publication": "The ACM Web Conference, 2024",
+      "publication_year": 2024,
+      "source_url": "https://arxiv.org/abs/2307.15142",
+      "paper_info": "Reconciling the Accuracy-Diversity Trade-off in Recommendations by Kenny Peng, Manish Raghavan, Emma Pierson, Jon Kleinberg, and Nikhil Garg; The ACM Web Conference, 2024.",
+      "status": "Formalized",
+      "human_review": "0/42",
+      "human_translation": "0/42 reviewed",
+      "llm_as_judge_translation": "27/27 match",
+      "lean_loc": 52018,
+      "main_note": "Lean formalizes the paper-facing results, including the concrete Proposition 4 sphere endpoint. Proposition 2's printed finite bound appears to miss a factor of 2; Lean proves the corrected finite bound, which is sufficient for the asymptotic 1/2-homogeneity result. The validation report notes the continuity/Laplace regularity used by the Proposition 4 wrapper.",
+      "main_note_citation": null,
+      "main_note_review": {
+        "status": "human_approved",
+        "note": "Do not rewrite this summary without explicit human instruction."
+      },
+      "paper_folder": "papers/PRPKG24AccuracyDiversity",
+      "review_entrypoint": "papers/PRPKG24AccuracyDiversity/FINAL_VALIDATION_REPORT.md",
+      "artifacts": {
+        "readme": "papers/PRPKG24AccuracyDiversity/README.md",
+        "paper_interface": "papers/PRPKG24AccuracyDiversity/PaperInterface.lean",
+        "final_validation_report": "papers/PRPKG24AccuracyDiversity/FINAL_VALIDATION_REPORT.md",
+        "post_formalization_audit": "papers/PRPKG24AccuracyDiversity/POST_FORMALIZATION_AUDIT.md",
+        "dependency_dag_tex": "papers/PRPKG24AccuracyDiversity/DependencyDAG.tex",
+        "dependency_dag_pdf": "papers/PRPKG24AccuracyDiversity/DependencyDAG.pdf",
+        "source_text": "papers/PRPKG24AccuracyDiversity/PRPKG24AccuracyDiversity.txt",
+        "assumptions": "papers/PRPKG24AccuracyDiversity/Assumptions.lean"
+      }
+    },
+    {
       "id": "GCG24UserItemFairness",
       "title": "User-item fairness tradeoffs in recommendations",
       "authors": "Sophie Greenwood, Sudalakshmee Chiniah, and Nikhil Garg",
@@ -411,38 +443,6 @@
         "proof_interface": "papers/LMMS04FairDivision/ProofInterface.lean",
         "source_text": "papers/LMMS04FairDivision/LMMS04FairDivision.txt",
         "assumptions": "papers/LMMS04FairDivision/Assumptions.lean"
-      }
-    },
-    {
-      "id": "PRPKG24AccuracyDiversity",
-      "title": "Reconciling the Accuracy-Diversity Trade-off in Recommendations",
-      "authors": "Kenny Peng, Manish Raghavan, Emma Pierson, Jon Kleinberg, and Nikhil Garg",
-      "publication": "The ACM Web Conference, 2024",
-      "publication_year": 2024,
-      "source_url": "https://arxiv.org/abs/2307.15142",
-      "paper_info": "Reconciling the Accuracy-Diversity Trade-off in Recommendations by Kenny Peng, Manish Raghavan, Emma Pierson, Jon Kleinberg, and Nikhil Garg; The ACM Web Conference, 2024.",
-      "status": "Partially formalized",
-      "human_review": "0/27",
-      "human_translation": "0/27 reviewed",
-      "llm_as_judge_translation": "27/27 match",
-      "lean_loc": 48617,
-      "main_note": "Fully formalizing Proposition 4 requires a general Laplace-principle-related analysis library.",
-      "main_note_citation": null,
-      "main_note_review": {
-        "status": "human_approved",
-        "note": "Top-level summary is limited to the remaining formalization boundary; source-discrepancy details belong in the validation report."
-      },
-      "paper_folder": "papers/PRPKG24AccuracyDiversity",
-      "review_entrypoint": "papers/PRPKG24AccuracyDiversity/FINAL_VALIDATION_REPORT.md",
-      "artifacts": {
-        "readme": "papers/PRPKG24AccuracyDiversity/README.md",
-        "paper_interface": "papers/PRPKG24AccuracyDiversity/PaperInterface.lean",
-        "final_validation_report": "papers/PRPKG24AccuracyDiversity/FINAL_VALIDATION_REPORT.md",
-        "post_formalization_audit": "papers/PRPKG24AccuracyDiversity/POST_FORMALIZATION_AUDIT.md",
-        "dependency_dag_tex": "papers/PRPKG24AccuracyDiversity/DependencyDAG.tex",
-        "dependency_dag_pdf": "papers/PRPKG24AccuracyDiversity/DependencyDAG.pdf",
-        "source_text": "papers/PRPKG24AccuracyDiversity/PRPKG24AccuracyDiversity.txt",
-        "assumptions": "papers/PRPKG24AccuracyDiversity/Assumptions.lean"
       }
     },
     {

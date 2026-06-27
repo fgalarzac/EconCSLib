@@ -918,6 +918,47 @@ FINAL_REPORT_PARTIAL_RE = re.compile(
     r"(?mi)^\s*(?:-\s*)?(?:Completion status|Lean formalization status)\s*:\s*"
     r"(?:partially formalized|partial(?:ly)?)(?:\s|\.|$)"
 )
+CLOSEOUT_PAPER_STATUSES = {
+    "formalized",
+    "formalized with caveat",
+    "conditional",
+}
+CLOSEOUT_DAG_REPORT_HEADING_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?DAG\s+(?:Audit|Status)\b"
+)
+CLOSEOUT_VALIDATION_HEADING_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?Validation\s+(?:Checks|Commands)\b"
+)
+CLOSEOUT_AUDIT_DAG_HEADING_RE = re.compile(r"(?mi)^##+\s+DAG\s+(?:Audit|Status)\b")
+CLOSEOUT_AUDIT_COMMANDS_HEADING_RE = re.compile(
+    r"(?mi)^##+\s+(?:Validation\s+)?Commands\b"
+)
+CLOSEOUT_STALE_PLACEHOLDER_RE = re.compile(
+    r"(?mi)"
+    r"^\s*-\s*(?:Rendered artifact|Topology|Layout)\s*:\s*not checked\s*$|"
+    r"^\s*-\s*Not run\.\s*$|"
+    r"\b(?:TODO|TBD|to be filled|not yet rendered|not inspected)\b"
+)
+CLOSEOUT_VISUAL_DAG_EVIDENCE_RE = re.compile(
+    r"\b(?:visual(?:ly)?|render(?:ed|ing)?|layout|overlap|pdflatex|latexmk|mutool|png)\b",
+    re.I,
+)
+
+
+def paper_local_status(folder: Path) -> str:
+    status_file = folder / "status.json"
+    if not status_file.exists():
+        return ""
+    try:
+        payload = json.loads(status_file.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return ""
+    status = payload.get("status")
+    return status.strip().lower() if isinstance(status, str) else ""
+
+
+def is_closeout_status(status: str) -> bool:
+    return status in CLOSEOUT_PAPER_STATUSES or status.startswith("formalized")
 
 
 def check_final_report_status_alignment(include_active: bool) -> list[Finding]:
@@ -955,6 +996,159 @@ def check_final_report_status_alignment(include_active: bool) -> list[Finding]:
                     "but paper-local status.json is formalized",
                 )
             )
+    return findings
+
+
+def check_dag_and_validation_report_closeout(
+    include_active: bool,
+    paper_filter: str | None = None,
+) -> list[Finding]:
+    """Ensure completed paper closeout audits include DAG/report evidence."""
+
+    findings: list[Finding] = []
+    for folder in paper_dirs():
+        if paper_filter is not None and folder.name != paper_filter:
+            continue
+        if folder.name in ACTIVE_PAPERS and not include_active:
+            continue
+        status = paper_local_status(folder)
+        if not is_closeout_status(status):
+            continue
+
+        report = folder / "FINAL_VALIDATION_REPORT.md"
+        post_audit = folder / "POST_FORMALIZATION_AUDIT.md"
+        dag_tex = folder / "DependencyDAG.tex"
+        dag_pdf = folder / "DependencyDAG.pdf"
+
+        if not report.exists():
+            findings.append(
+                Finding(
+                    "ERROR",
+                    folder,
+                    "completed paper is missing `FINAL_VALIDATION_REPORT.md`",
+                )
+            )
+        else:
+            report_text = report.read_text(encoding="utf-8")
+            if not CLOSEOUT_DAG_REPORT_HEADING_RE.search(report_text):
+                findings.append(
+                    Finding(
+                        "WARN",
+                        report,
+                        "final validation report should include a `DAG Audit` or `DAG Status` section",
+                    )
+                )
+            if not CLOSEOUT_VALIDATION_HEADING_RE.search(report_text):
+                findings.append(
+                    Finding(
+                        "WARN",
+                        report,
+                        "final validation report should include a `Validation Checks` or `Validation Commands` section",
+                    )
+                )
+            for artifact in ("DependencyDAG.tex", "DependencyDAG.pdf"):
+                if artifact not in report_text:
+                    findings.append(
+                        Finding(
+                            "WARN",
+                            report,
+                            f"final validation report should name `{artifact}` in the DAG audit evidence",
+                        )
+                    )
+            if not CLOSEOUT_VISUAL_DAG_EVIDENCE_RE.search(report_text):
+                findings.append(
+                    Finding(
+                        "WARN",
+                        report,
+                        "final validation report should record rendered/visual DAG inspection evidence",
+                    )
+                )
+            if f"--paper {folder.name}" not in report_text or "scripts/audit_repository.py" not in report_text:
+                findings.append(
+                    Finding(
+                        "WARN",
+                        report,
+                        "final validation report should record the targeted repository audit command",
+                    )
+                )
+            if CLOSEOUT_STALE_PLACEHOLDER_RE.search(report_text):
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        report,
+                        "completed-paper final validation report still contains stale placeholder audit language",
+                    )
+                )
+
+        if not post_audit.exists():
+            findings.append(
+                Finding(
+                    "WARN",
+                    folder,
+                    "completed paper should include `POST_FORMALIZATION_AUDIT.md` with DAG/report audit evidence",
+                )
+            )
+        else:
+            audit_text = post_audit.read_text(encoding="utf-8")
+            if not CLOSEOUT_AUDIT_DAG_HEADING_RE.search(audit_text):
+                findings.append(
+                    Finding(
+                        "WARN",
+                        post_audit,
+                        "post-formalization audit should include a `DAG Audit` section",
+                    )
+                )
+            if not CLOSEOUT_AUDIT_COMMANDS_HEADING_RE.search(audit_text):
+                findings.append(
+                    Finding(
+                        "WARN",
+                        post_audit,
+                        "post-formalization audit should include a commands/validation commands section",
+                    )
+                )
+            for artifact in ("FINAL_VALIDATION_REPORT.md", "DependencyDAG.tex", "DependencyDAG.pdf"):
+                if artifact not in audit_text:
+                    findings.append(
+                        Finding(
+                            "WARN",
+                            post_audit,
+                            f"post-formalization audit should name `{artifact}`",
+                        )
+                    )
+            if f"--paper {folder.name}" not in audit_text or "scripts/audit_repository.py" not in audit_text:
+                findings.append(
+                    Finding(
+                        "WARN",
+                        post_audit,
+                        "post-formalization audit should record the targeted repository audit command",
+                    )
+                )
+            if CLOSEOUT_STALE_PLACEHOLDER_RE.search(audit_text):
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        post_audit,
+                        "completed-paper post-formalization audit still contains stale placeholder audit language",
+                    )
+                )
+
+        if not dag_pdf.exists():
+            findings.append(
+                Finding(
+                    "ERROR",
+                    dag_pdf,
+                    "completed paper is missing rendered `DependencyDAG.pdf`",
+                )
+            )
+        elif dag_tex.exists() and dag_pdf.stat().st_mtime + 1 < dag_tex.stat().st_mtime:
+            findings.append(
+                Finding(
+                    "WARN",
+                    dag_pdf,
+                    "`DependencyDAG.pdf` is older than `DependencyDAG.tex`; rerender and visually inspect it",
+                )
+            )
+
     return findings
 
 
@@ -4663,6 +4857,12 @@ def run(
     findings.extend(check_generic_source_reference_hygiene())
     findings.extend(check_paper_contract(include_active))
     findings.extend(check_final_report_status_alignment(include_active))
+    findings.extend(
+        check_dag_and_validation_report_closeout(
+            include_active=include_active,
+            paper_filter=paper_filter,
+        )
+    )
     findings.extend(check_review_launcher_readiness(include_active))
     findings.extend(check_dag_status_styles())
     findings.extend(check_paper_facing_ledgers(include_active))
@@ -4701,6 +4901,21 @@ def finding_paper_id(finding: Finding) -> str:
     return "REPO"
 
 
+def finding_is_for_paper_closeout(finding: Finding, paper_id: str) -> bool:
+    """Return whether a finding belongs to one paper's closeout surface."""
+
+    path = finding.path
+    rel = path.relative_to(ROOT) if path.is_absolute() else path
+    parts = rel.parts
+    if len(parts) >= 2 and parts[0] == "papers":
+        if parts[1] == paper_id or parts[1] == f"{paper_id}.lean":
+            if PUBLIC_RELEASE and "no cached source PDF found" in finding.message:
+                return False
+            return True
+        return False
+    return paper_id in finding.message
+
+
 def paper_status_label(paper_id: str) -> str:
     status_path = PAPERS / paper_id / "status.json"
     if not status_path.exists():
@@ -4729,6 +4944,8 @@ def deep_audit_category(message: str) -> str:
         or "source-row formula boundary" in message
     ):
         return "hidden premise / certificate boundary"
+    if "DAG" in message or "final validation report" in message or "post-formalization audit" in message:
+        return "DAG/report closeout audit"
     return "other repository audit finding"
 
 
@@ -4858,6 +5075,14 @@ def main() -> int:
         ),
     )
     parser.add_argument(
+        "--paper-closeout",
+        action="store_true",
+        help=(
+            "with --paper, print and fail only on findings belonging to that paper's "
+            "post-formalization closeout surface"
+        ),
+    )
+    parser.add_argument(
         "--info-limit",
         type=int,
         default=80,
@@ -4872,6 +5097,8 @@ def main() -> int:
         help="write a Markdown report grouping actionable findings by paper",
     )
     args = parser.parse_args()
+    if args.paper_closeout and not args.paper:
+        parser.error("--paper-closeout requires --paper <paper-folder>")
 
     if args.library_only:
         findings = run_library(
@@ -4885,6 +5112,12 @@ def main() -> int:
             library_premise_audit=args.library_premise_audit,
             paper_filter=args.paper,
         )
+    if args.paper_closeout:
+        findings = [
+            finding
+            for finding in findings
+            if finding_is_for_paper_closeout(finding, args.paper)
+        ]
     if args.write_report:
         write_markdown_report(
             args.write_report,
@@ -4921,6 +5154,7 @@ def main() -> int:
         + ("; library premise audit included" if args.library_premise_audit else "")
         + ("; library-only" if args.library_only else "")
         + (f"; paper filter {args.paper}" if args.paper else "")
+        + ("; paper-closeout scope" if args.paper_closeout else "")
         + (f"; {len(infos)} info finding(s)" if infos else "")
     )
     return 1 if errors else 0

@@ -19,7 +19,7 @@
 ]
 
 % --- Legend: README status vocabulary plus formalized node-type styles. ---
-  \dagPaperMetadata{Reconciling the accuracy-diversity trade-off in recommendations}{Kenny Peng, Manish Raghavan, Emma Pierson, Jon Kleinberg, and Nikhil Garg}{arXiv:2307.15142v1}{2023}{https://arxiv.org/pdf/2307.15142}
+  \dagPaperMetadata{Reconciling the accuracy-diversity trade-off in recommendations}{Kenny Peng, Manish Raghavan, Emma Pierson, Jon Kleinberg, and Nikhil Garg}{The ACM Web Conference 2024; source cache arXiv:2307.15142v1}{2024}{https://arxiv.org/pdf/2307.15142}
 \dagPaperLegendRightOfMetadata{
 \node[dag_result, dag_template_legend] (legRes) at (0,0) {formalized\\result};
 \node[dag_lemma, dag_template_legend] (legLem) at (4.2,0) {formalized\\lemma};
@@ -45,8 +45,8 @@
 \node[dag_model] (Def1) at (0,0) {
   \textbf{Definition 1} \\
   $\gamma$-homogeneity \\
-  equation (5) target share \\
-  $\gamma=\infty$ is a limit note
+  equation (5) and \\
+  $\gamma=\infty$ argmax case
 };
 \node[dag_model] (Def2) at (6.8,0) {
   \textbf{Definition 2} \\
@@ -72,10 +72,10 @@
   identity
 };
 \node[dag_lemma] (DensityBridge) at (0,-12.8) {
-  \textbf{Bounded density bridge} \\
+  \textbf{Lemma 1 density condition} \\
   reflected pdf ratio \\
   plus tail integral \\
-  $\Rightarrow$ upper-tail mass
+  gives upper-tail mass
 };
 \node[dag_lemma] (LemmaD2) at (6.8,-12.8) {
   \textbf{Lemma D.2} \\
@@ -151,17 +151,12 @@
   and all-consumed part (iv) \\
   homogeneity regimes
 };
-\node[dag_result] (Prop4Avg) at (15.0,-28.8) {
-  \textbf{Proposition 4 checkpoint} \\
-  averaging/kernel symmetry \\
-  minimization layer
-};
-\node[dag_conditional] (Prop4) at (26.4,-28.8) {
-  \textbf{Full Proposition 4} \\
-  continuous sphere model \\
-  needs general \\
-  Laplace-principle \\
-  analysis library
+\node[dag_result] (Prop4) at (22.0,-28.8) {
+  \textbf{Proposition 4} \\
+  concrete continuous \\
+  sphere endpoint \\
+  Laplace-defined \\
+  objective route
 };
 
 % --- Definition and source-identity edges. ---
@@ -187,7 +182,6 @@
 \draw[dag_arrow] (Thm3.east) -- (Cor3.west);
 \draw[dag_arrow] (Cor3.east) -- (Thm2.west);
 \draw[dag_arrow] (LemmaD1.east) -- ++(0.7,0) |- (Thm2.north west);
-\draw[dag_arrow] (Prop4Avg.east) -- (Prop4.west);
 
 \end{dagPaperBody}
 \end{tikzpicture}
