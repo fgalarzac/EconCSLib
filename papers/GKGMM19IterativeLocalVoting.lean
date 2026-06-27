@@ -1,0 +1,2 @@
+import GKGMM19IterativeLocalVoting.PaperInterface
+import GKGMM19IterativeLocalVoting.ProofInterface

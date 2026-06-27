@@ -90,6 +90,49 @@ theorem weighted_sum_le_bound_of_nonneg_sum_le_one
     (by intro i _; exact hvalue i)
     hB
 
+theorem weighted_abs_sum_le_bound_of_nonneg_sum_le_one
+    {α : Type*} [Fintype α] (weight value : α → ℝ) {B : ℝ}
+    (hweight_nonneg : ∀ i, 0 ≤ weight i)
+    (hweight_sum : (∑ i : α, weight i) ≤ 1)
+    (hvalue : ∀ i, |value i| ≤ B)
+    (hB : 0 ≤ B) :
+    |∑ i : α, weight i * value i| ≤ B := by
+  calc
+    |∑ i : α, weight i * value i|
+        ≤ ∑ i : α, |weight i * value i| := by
+          simpa using
+            (Finset.abs_sum_le_sum_abs
+              (fun i : α => weight i * value i) Finset.univ)
+    _ =
+        ∑ i : α, weight i * |value i| := by
+          apply Finset.sum_congr rfl
+          intro i _hi
+          rw [abs_mul, abs_of_nonneg (hweight_nonneg i)]
+    _ ≤ B := by
+          exact weighted_sum_le_bound_of_nonneg_sum_le_one
+            weight (fun i => |value i|) hweight_nonneg hweight_sum
+            hvalue hB
+
+theorem weighted_centered_value_mem_Icc_of_abs_le_bound
+    {α : Type*} [Fintype α] (weight value : α → ℝ) {B : ℝ}
+    (hweight_nonneg : ∀ i, 0 ≤ weight i)
+    (hweight_sum : (∑ i : α, weight i) ≤ 1)
+    (hvalue : ∀ i, |value i| ≤ B)
+    (hB : 0 ≤ B) (i : α) :
+    value i - (∑ j : α, weight j * value j) ∈ Set.Icc (-(2 * B)) (2 * B) := by
+  let mean : ℝ := ∑ j : α, weight j * value j
+  have hmean : |mean| ≤ B := by
+    simpa [mean] using
+      weighted_abs_sum_le_bound_of_nonneg_sum_le_one
+        weight value hweight_nonneg hweight_sum hvalue hB
+  have hcenter : |value i - mean| ≤ 2 * B := by
+    have htri : |value i - mean| ≤ |value i| + |mean| := by
+      simpa [sub_eq_add_neg, abs_neg] using abs_add_le (value i) (-mean)
+    have hsum : |value i| + |mean| ≤ B + B :=
+      add_le_add (hvalue i) hmean
+    linarith
+  exact abs_le.mp hcenter
+
 /-- If every term in a finite set is at most `C`, the finite sum is at most
 the set cardinality times `C`. -/
 theorem finset_sum_le_card_mul_of_forall_le
@@ -203,6 +246,298 @@ theorem pair_sum_eq_ordered_swap_sum
         if a < b then t a b + t b a else 0 :=
   pair_sum_eq_ordered_swap_sum_of_injective_key (fun a : α => a)
     (fun _ _ h => h) t hdiag
+
+/--
+The ordered-pair product sum is half the off-diagonal part of the square of
+the total mass.  This is the finite algebra behind constant-weight interval
+partition objectives.
+-/
+theorem ordered_pair_mul_sum_eq_sq_sub_sum_sq_div_two
+    {α : Type*} [Fintype α] [DecidableEq α] [LinearOrder α]
+    (mass : α → ℝ) :
+    (∑ i : α, ∑ j : α, if i < j then mass i * mass j else 0) =
+      (((∑ i : α, mass i) ^ 2 - ∑ i : α, (mass i) ^ 2) / 2) := by
+  classical
+  let offDiag : α → α → ℝ := fun i j =>
+    if i = j then 0 else mass i * mass j
+  have hdiag : ∀ i : α, offDiag i i = 0 := by
+    intro i
+    simp [offDiag]
+  have hpair := pair_sum_eq_ordered_swap_sum offDiag hdiag
+  have hordered :
+      (∑ i : α, ∑ j : α,
+          if i < j then offDiag i j + offDiag j i else 0) =
+        2 * (∑ i : α, ∑ j : α,
+          if i < j then mass i * mass j else 0) := by
+    calc
+      (∑ i : α, ∑ j : α,
+          if i < j then offDiag i j + offDiag j i else 0)
+          = ∑ i : α, ∑ j : α,
+              2 * (if i < j then mass i * mass j else 0) := by
+            refine Finset.sum_congr rfl ?_
+            intro i _
+            refine Finset.sum_congr rfl ?_
+            intro j _
+            by_cases hij : i < j
+            · have hne : i ≠ j := ne_of_lt hij
+              have hne' : j ≠ i := hne.symm
+              simp [hij, offDiag, hne, hne']
+              ring
+            · simp [hij]
+      _ = 2 * (∑ i : α, ∑ j : α,
+          if i < j then mass i * mass j else 0) := by
+            simp_rw [Finset.mul_sum]
+  have hdouble :
+      (∑ i : α, ∑ j : α, offDiag i j) =
+        (∑ i : α, ∑ j : α, mass i * mass j) -
+          ∑ i : α, (mass i) ^ 2 := by
+    calc
+      (∑ i : α, ∑ j : α, offDiag i j)
+          = ∑ i : α, ((∑ j : α, mass i * mass j) - (mass i) ^ 2) := by
+            refine Finset.sum_congr rfl ?_
+            intro i _
+            have herase :
+                ∑ j ∈ (Finset.univ : Finset α).erase i, mass i * mass j =
+                  (∑ j : α, mass i * mass j) - mass i * mass i := by
+              have hsum_erase :=
+                Finset.sum_erase_add
+                  (s := (Finset.univ : Finset α))
+                  (f := fun j : α => mass i * mass j)
+                  (a := i) (by simp)
+              linarith
+            calc
+              (∑ j : α, offDiag i j)
+                  = ∑ j ∈ (Finset.univ : Finset α).erase i,
+                      mass i * mass j := by
+                    have hsum_erase_off :=
+                      Finset.sum_erase_add
+                        (s := (Finset.univ : Finset α))
+                        (f := fun j : α => offDiag i j)
+                        (a := i) (by simp)
+                    have hoff_self : offDiag i i = 0 := by
+                      simp [offDiag]
+                    calc
+                      (∑ j : α, offDiag i j)
+                          = ∑ j ∈ (Finset.univ : Finset α),
+                              offDiag i j := by simp
+                      _ = ∑ j ∈ (Finset.univ : Finset α).erase i,
+                              offDiag i j := by
+                            linarith
+                      _ = ∑ j ∈ (Finset.univ : Finset α).erase i,
+                              mass i * mass j := by
+                            refine Finset.sum_congr rfl ?_
+                            intro j hj
+                            have hji : j ≠ i := (Finset.mem_erase.mp hj).1
+                            have hij : i ≠ j := hji.symm
+                            simp [offDiag, hij]
+              _ = (∑ j : α, mass i * mass j) - (mass i) ^ 2 := by
+                    rw [herase]
+                    ring
+      _ = (∑ i : α, ∑ j : α, mass i * mass j) -
+            ∑ i : α, (mass i) ^ 2 := by
+            rw [Finset.sum_sub_distrib]
+  have hsq :
+      (∑ i : α, ∑ j : α, mass i * mass j) =
+        (∑ i : α, mass i) ^ 2 := by
+    rw [sq]
+    rw [Finset.sum_mul]
+    simp_rw [Finset.mul_sum]
+  have hmain :
+      2 * (∑ i : α, ∑ j : α,
+          if i < j then mass i * mass j else 0) =
+        (∑ i : α, mass i) ^ 2 - ∑ i : α, (mass i) ^ 2 := by
+    calc
+      2 * (∑ i : α, ∑ j : α,
+          if i < j then mass i * mass j else 0)
+          = ∑ i : α, ∑ j : α, offDiag i j := by
+            rw [← hordered, ← hpair]
+      _ = (∑ i : α, mass i) ^ 2 - ∑ i : α, (mass i) ^ 2 := by
+            rw [hdouble, hsq]
+  linarith
+
+/--
+If finite masses sum to one, the ordered-pair product sum is
+`(1 - ∑ᵢ massᵢ²) / 2`.
+-/
+theorem ordered_pair_mul_sum_eq_one_sub_sum_sq_div_two
+    {α : Type*} [Fintype α] [DecidableEq α] [LinearOrder α]
+    (mass : α → ℝ) (hsum : (∑ i : α, mass i) = 1) :
+    (∑ i : α, ∑ j : α, if i < j then mass i * mass j else 0) =
+      ((1 - ∑ i : α, (mass i) ^ 2) / 2) := by
+  rw [ordered_pair_mul_sum_eq_sq_sub_sum_sq_div_two mass, hsum]
+  ring
+
+/-- Prefix sum of finite interval gaps before index `i`. -/
+def finitePartitionPrefix (gap : ℕ → ℝ) (i : ℕ) : ℝ :=
+  ∑ k ∈ Finset.range i, gap k
+
+/-- Midpoint of the interval whose left endpoint is the prefix before `i`. -/
+noncomputable def finitePartitionMidpoint (gap : ℕ → ℝ) (i : ℕ) : ℝ :=
+  finitePartitionPrefix gap i + gap i / 2
+
+/--
+The tail-weighted midpoint identity behind one-dimensional linear-distance
+partition objectives.
+-/
+theorem sum_range_prefix_sub_midpoint_mul_gap_eq_sq_div_two
+    (gap : ℕ → ℝ) (n : ℕ) :
+    (∑ i ∈ Finset.range n,
+        (finitePartitionPrefix gap n - finitePartitionMidpoint gap i) *
+          gap i) =
+      (finitePartitionPrefix gap n) ^ 2 / 2 := by
+  induction n with
+  | zero =>
+      simp [finitePartitionPrefix]
+  | succ n ih =>
+      have hprefix_succ :
+          finitePartitionPrefix gap (n + 1) =
+            finitePartitionPrefix gap n + gap n := by
+        simp [finitePartitionPrefix, Finset.sum_range_succ]
+      have hsum_shift :
+          (∑ i ∈ Finset.range n,
+              (finitePartitionPrefix gap (n + 1) -
+                  finitePartitionMidpoint gap i) * gap i) =
+            ∑ i ∈ Finset.range n,
+              ((finitePartitionPrefix gap n -
+                    finitePartitionMidpoint gap i) * gap i +
+                gap n * gap i) := by
+        refine Finset.sum_congr rfl ?_
+        intro i _hi
+        rw [hprefix_succ]
+        ring
+      have hlast :
+          (finitePartitionPrefix gap (n + 1) -
+              finitePartitionMidpoint gap n) * gap n =
+            gap n ^ 2 / 2 := by
+        rw [hprefix_succ]
+        simp [finitePartitionMidpoint]
+        ring
+      have hmul_sum :
+          (∑ i ∈ Finset.range n, gap n * gap i) =
+            gap n * finitePartitionPrefix gap n := by
+        simp [finitePartitionPrefix, Finset.mul_sum]
+      rw [Finset.sum_range_succ, hsum_shift, hlast,
+        Finset.sum_add_distrib, ih, hmul_sum, hprefix_succ]
+      ring
+
+/--
+Linear-distance source objective for a finite ordered interval partition,
+written in terms of interval gaps.
+-/
+noncomputable def orderedPairLinearGapObjectiveRange (gap : ℕ → ℝ) (M : ℕ) : ℝ :=
+  ∑ i ∈ Finset.range M, ∑ j ∈ Finset.range M,
+    if i < j then
+      (finitePartitionMidpoint gap j - finitePartitionMidpoint gap i) *
+        gap i * gap j
+    else 0
+
+/--
+The ordered-pair linear-distance gap objective equals
+`((sum gaps)^3 - sum gap^3) / 6`.  This is the finite algebraic form of the
+standard interval-integral identity
+`∫_{x<y} (y-x) - ∑ intervals ∫_{x<y in interval} (y-x)`.
+-/
+theorem orderedPairLinearGapObjectiveRange_eq_cube_sub_sum_cube_div_six
+    (gap : ℕ → ℝ) (M : ℕ) :
+    orderedPairLinearGapObjectiveRange gap M =
+      ((finitePartitionPrefix gap M) ^ 3 -
+          ∑ i ∈ Finset.range M, (gap i) ^ 3) / 6 := by
+  induction M with
+  | zero =>
+      simp [orderedPairLinearGapObjectiveRange, finitePartitionPrefix]
+  | succ M ih =>
+      have hlastrow :
+          (∑ j ∈ Finset.range (M + 1),
+              if M < j then
+                (finitePartitionMidpoint gap j -
+                    finitePartitionMidpoint gap M) * gap M * gap j
+              else 0) = 0 := by
+        apply Finset.sum_eq_zero
+        intro j hj
+        have hjle : j ≤ M := Nat.le_of_lt_succ (Finset.mem_range.mp hj)
+        have hnot : ¬ M < j := not_lt.mpr hjle
+        simp [hnot]
+      have hsplit :
+          orderedPairLinearGapObjectiveRange gap (M + 1) =
+            orderedPairLinearGapObjectiveRange gap M +
+              ∑ i ∈ Finset.range M,
+                (finitePartitionMidpoint gap M -
+                    finitePartitionMidpoint gap i) * gap i * gap M := by
+        unfold orderedPairLinearGapObjectiveRange
+        rw [Finset.sum_range_succ, hlastrow, add_zero]
+        calc
+          (∑ i ∈ Finset.range M, ∑ j ∈ Finset.range (M + 1),
+              if i < j then
+                (finitePartitionMidpoint gap j -
+                    finitePartitionMidpoint gap i) * gap i * gap j
+              else 0)
+              =
+            ∑ i ∈ Finset.range M,
+              ((∑ j ∈ Finset.range M,
+                  if i < j then
+                    (finitePartitionMidpoint gap j -
+                        finitePartitionMidpoint gap i) * gap i * gap j
+                  else 0) +
+                (finitePartitionMidpoint gap M -
+                    finitePartitionMidpoint gap i) * gap i * gap M) := by
+                refine Finset.sum_congr rfl ?_
+                intro i hi
+                rw [Finset.sum_range_succ]
+                have hiM : i < M := Finset.mem_range.mp hi
+                simp [hiM]
+          _ =
+            (∑ i ∈ Finset.range M, ∑ j ∈ Finset.range M,
+              if i < j then
+                (finitePartitionMidpoint gap j -
+                    finitePartitionMidpoint gap i) * gap i * gap j
+              else 0) +
+              ∑ i ∈ Finset.range M,
+                (finitePartitionMidpoint gap M -
+                    finitePartitionMidpoint gap i) * gap i * gap M := by
+                rw [Finset.sum_add_distrib]
+      have hprefix_succ :
+          finitePartitionPrefix gap (M + 1) =
+            finitePartitionPrefix gap M + gap M := by
+        simp [finitePartitionPrefix, Finset.sum_range_succ]
+      have htail :
+          (∑ i ∈ Finset.range M,
+              (finitePartitionMidpoint gap M -
+                  finitePartitionMidpoint gap i) * gap i * gap M) =
+            (finitePartitionPrefix gap M) ^ 2 / 2 * gap M +
+              (gap M / 2 * finitePartitionPrefix gap M) * gap M := by
+        have hmid :
+            finitePartitionMidpoint gap M =
+              finitePartitionPrefix gap M + gap M / 2 := rfl
+        calc
+          (∑ i ∈ Finset.range M,
+              (finitePartitionMidpoint gap M -
+                  finitePartitionMidpoint gap i) * gap i * gap M)
+              =
+            ∑ i ∈ Finset.range M,
+              ((finitePartitionPrefix gap M -
+                    finitePartitionMidpoint gap i) * gap i * gap M +
+                (gap M / 2 * gap i) * gap M) := by
+                refine Finset.sum_congr rfl ?_
+                intro i _hi
+                rw [hmid]
+                ring
+          _ =
+            (∑ i ∈ Finset.range M,
+              (finitePartitionPrefix gap M -
+                  finitePartitionMidpoint gap i) * gap i) * gap M +
+              (∑ i ∈ Finset.range M, gap M / 2 * gap i) * gap M := by
+                rw [Finset.sum_add_distrib]
+                congr 1
+                · rw [Finset.sum_mul]
+                · rw [Finset.sum_mul]
+          _ =
+            (finitePartitionPrefix gap M) ^ 2 / 2 * gap M +
+              (gap M / 2 * finitePartitionPrefix gap M) * gap M := by
+                rw [sum_range_prefix_sub_midpoint_mul_gap_eq_sq_div_two]
+                congr 1
+                simp [finitePartitionPrefix, Finset.mul_sum]
+      rw [hsplit, ih, htail, hprefix_succ, Finset.sum_range_succ]
+      ring
 
 /--
 Pairwise cross-ratio dominance implies a cleared weighted-average comparison.

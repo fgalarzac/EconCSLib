@@ -444,6 +444,40 @@
         "source_text": "papers/PRPKG24AccuracyDiversity/PRPKG24AccuracyDiversity.txt",
         "assumptions": "papers/PRPKG24AccuracyDiversity/Assumptions.lean"
       }
+    },
+    {
+      "id": "GKGMM19IterativeLocalVoting",
+      "title": "Iterative Local Voting for Collective Decision-making in Continuous Spaces",
+      "authors": "Nikhil Garg; Vijay Kamble; Ashish Goel; David Marn; Kamesh Munagala",
+      "publication": "JAIR 64, 2019",
+      "publication_year": 2019,
+      "source_url": "https://www.jair.org/index.php/jair/article/view/11358",
+      "paper_info": "Iterative Local Voting for Collective Decision-making in Continuous Spaces by Nikhil Garg; Vijay Kamble; Ashish Goel; David Marn; Kamesh Munagala; JAIR 64, 2019.",
+      "status": "Conditional",
+      "human_review": "0/42",
+      "human_translation": "0/42 reviewed",
+      "llm_as_judge_translation": "35/40 match; 5 mismatch",
+      "lean_loc": 23379,
+      "main_note": "Conditional formalization: source-facing formulas and bridge theorems compile, with the remaining intentional boundary isolated to the SSGM convergence theorem. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition.",
+      "main_note_citation": null,
+      "main_note_review": {
+        "status": "draft",
+        "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction."
+      },
+      "paper_folder": "papers/GKGMM19IterativeLocalVoting",
+      "review_entrypoint": "papers/GKGMM19IterativeLocalVoting/FINAL_VALIDATION_REPORT.md",
+      "artifacts": {
+        "assumptions": "papers/GKGMM19IterativeLocalVoting/Assumptions.lean",
+        "dependency_dag_pdf": "papers/GKGMM19IterativeLocalVoting/DependencyDAG.pdf",
+        "dependency_dag_tex": "papers/GKGMM19IterativeLocalVoting/DependencyDAG.tex",
+        "final_validation_report": "papers/GKGMM19IterativeLocalVoting/FINAL_VALIDATION_REPORT.md",
+        "paper_interface": "papers/GKGMM19IterativeLocalVoting/PaperInterface.lean",
+        "paper_statement_map": "papers/GKGMM19IterativeLocalVoting/paper_statement_map.json",
+        "proof_interface": "papers/GKGMM19IterativeLocalVoting/ProofInterface.lean",
+        "readme": "papers/GKGMM19IterativeLocalVoting/README.md",
+        "review_status_export": "papers/GKGMM19IterativeLocalVoting/review_status_export.json",
+        "validator_ledger": "papers/GKGMM19IterativeLocalVoting/VALIDATOR_LEDGER.md"
+      }
     }
   ]
 }
