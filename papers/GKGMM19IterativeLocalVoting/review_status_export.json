@@ -2267,7 +2267,7 @@
         {
           "validator": "gpt-5-codex",
           "validator_type": "model",
-          "validated_at": "2026-06-26T00:00:00Z",
+          "validated_at": "2026-06-27T00:00:00Z",
           "judgment": "mismatch",
           "comment": "The Lean row concludes the exact Theorem 3 statement, but only after adding two explicit conditions not present in the paper statement: a sampled projected finite-coordinate source-semantics package and the full-space condition E.solutionSpace = Set.univ. It intentionally does not claim the general constrained Theorem 3 endpoint. [resolution=conditional_boundary; boundaries=FiniteCoordinateILVFullSampledProjectedSourceSemantics, E.solutionSpace = Set.univ; conditional_premises=FiniteCoordinateILVFullSampledProjectedSourceSemantics E, E.solutionSpace = Set.univ; reason=Accepted as a conditional source-semantics/full-space boundary. The projected source package is recursively audited, and the full-space condition is the explicit hypothesis under which Lean proves the aggregate feasible-direction property rather than assuming it.]",
           "source": "statement_match_llm.json",
@@ -2281,7 +2281,7 @@
       "llm_match_source": "statement_match_llm.json",
       "llm_match_validator": "gpt-5-codex",
       "llm_match_validator_type": "model",
-      "llm_match_validated_at": "2026-06-26T00:00:00Z",
+      "llm_match_validated_at": "2026-06-27T00:00:00Z",
       "llm_match_resolution": "conditional_boundary",
       "llm_match_boundary_type": "source_semantics_and_full_space_boundary",
       "llm_match_boundary_names": [
@@ -2326,8 +2326,8 @@
       "reason": "The 42-row surface is above the LLM threshold but below the oversize threshold. Rows are source-facing formulas, named conditional endpoints, paper assumptions, or the approved SSGM proof-boundary row. Theorem 3 is included only as an explicit full-space conditional endpoint; the general constrained alternative remains auxiliary documentation.",
       "source": "review_surface_llm.json",
       "has_completed_audit": true,
-      "review_surface_sha256": "689b71e6dd74970555d5e33c4c5c0f4a9bab47978e9c1e1d52387e2d7b50488a",
-      "recorded_review_surface_sha256": "689b71e6dd74970555d5e33c4c5c0f4a9bab47978e9c1e1d52387e2d7b50488a",
+      "review_surface_sha256": "a4f6d6cdd0c9a045b981ea156fce47d8ac868a5688345a2e210035fd9b924e67",
+      "recorded_review_surface_sha256": "a4f6d6cdd0c9a045b981ea156fce47d8ac868a5688345a2e210035fd9b924e67",
       "recorded_review_rows": 42,
       "needs_attention": false,
       "has_warning": false
@@ -2409,8 +2409,8 @@
       "missing_source_location_premises": [],
       "has_completed_audit": true,
       "assumption_surface_sha256": "6edb53ac6082e15b122b86068099ba01dccf854325635f4baca92a165049db19",
-      "needs_attention": true,
-      "has_warning": true
+      "needs_attention": false,
+      "has_warning": false
     }
   ]
 }

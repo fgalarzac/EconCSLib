@@ -385,3 +385,21 @@ Summary:
 
 This ledger is provenance for statement-target metadata. It does not change the
 human-only `human_review.reviewed_rows` counter.
+
+## 15. DAG Audit
+- DAG source artifact: `DependencyDAG.tex`.
+- Rendered DAG artifact: `DependencyDAG.pdf`.
+- Rendered/visual inspection evidence: the `DependencyDAG.pdf` layout was
+  regenerated from `DependencyDAG.tex` and visually inspected for readable
+  paper-result, model, conditional-boundary, and reusable-library nodes without
+  overlapping labels.
+- The DAG records the single SSGM theorem-shaped boundary and the conditional
+  Theorem 3 full-space/source-semantics route rather than presenting those as
+  hidden paper assumptions.
+
+## 16. Validation Commands
+- `lake build GKGMM19IterativeLocalVoting`: passed.
+- `python3 scripts/review_dashboard.py --paper GKGMM19IterativeLocalVoting --refresh-cache`: passed.
+- `python3 scripts/review_dashboard.py --paper GKGMM19IterativeLocalVoting --precheck`: passed with only documented conditional-boundary status.
+- `python3 scripts/audit_repository.py --paper GKGMM19IterativeLocalVoting --paper-closeout --include-active --info-limit 0`: targeted repository audit command for the final closeout.
+- `python3 scripts/audit_repository.py --library-only --library-premise-audit --info-limit 0`: reusable-library premise audit passed.

@@ -3054,8 +3054,6 @@ def assumption_provenance_audit_summary(folder: Path, items: list[ReviewItem]) -
         or not_paper_assumption
         or uncertain
         or unknown
-        or partial_boundaries
-        or partial_boundary_premises
         or unresolved_premises
         or missing_source_location_premises
     )
@@ -6263,9 +6261,19 @@ def print_assumption_audit_status(paper: str | None, slice_filter: str | None = 
     if has_attention:
         return True
     total_rows = sum(int(row.get("row_count") or 0) for row in rows)
+    total_partial_boundaries = sum(int(row.get("partial_boundary_count") or 0) for row in rows)
+    total_partial_boundary_premises = sum(
+        int(row.get("partial_boundary_premise_count") or 0) for row in rows
+    )
+    boundary_note = (
+        f", {total_partial_boundaries} approved partial-boundary declaration(s)"
+        f" and {total_partial_boundary_premises} premise-level boundary finding(s)"
+        if total_partial_boundaries or total_partial_boundary_premises
+        else ", no missing/stale/flagged items"
+    )
     print(
         f"Assumption-provenance audits for {label} are current: "
-        f"{total_rows} assumption declaration(s), no missing/stale/flagged items."
+        f"{total_rows} assumption declaration(s){boundary_note}."
     )
     return False
 

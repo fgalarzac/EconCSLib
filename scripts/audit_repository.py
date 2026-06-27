@@ -3310,7 +3310,7 @@ def check_review_launcher_readiness(include_active: bool) -> list[Finding]:
         if not cache.exists():
             findings.append(
                 Finding(
-                    "WARN",
+                    "INFO",
                     folder,
                     "review dashboard cache is absent; run `python3 scripts/review_dashboard.py --paper "
                     f"{folder.name} --refresh-cache` before a review session",
@@ -4029,9 +4029,14 @@ def check_machine_paper_status(
                             )
                             continue
                         if premise_judgment == "partial_boundary":
+                            boundary_severity = (
+                                "ERROR"
+                                if status in {"formalized", "formalized with caveat"}
+                                else "INFO"
+                            )
                             findings.append(
                                 Finding(
-                                    "ERROR" if status in {"formalized", "formalized with caveat"} else "WARN",
+                                    boundary_severity,
                                     assumption_judge_file,
                                     f"`{paper_id}` assumption `{assumption_name}` premise `{premise}` "
                                     "is a visible partial-formalization boundary, not a source-text assumption",
