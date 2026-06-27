@@ -28,6 +28,7 @@ import EconCSLib.Foundations.Probability.GaussianQuantile
 import EconCSLib.Foundations.Probability.InformationOrder
 import EconCSLib.Foundations.Probability.IIDLargeDeviations
 import EconCSLib.Foundations.Probability.IndependentProduct
+import EconCSLib.Foundations.Probability.IntegralLargeDeviations
 import EconCSLib.Foundations.Probability.Kernel
 import EconCSLib.Foundations.Probability.LargeDeviations
 import EconCSLib.Foundations.Probability.MarkovChain
@@ -74,7 +75,8 @@ Aggregate import for reusable probability infrastructure.
   `EconCSLib.Foundations.Probability.FiniteSupportMGF`,
   `EconCSLib.Foundations.Probability.FiniteMultinomialEntropy`,
   `EconCSLib.Foundations.Probability.FiniteProductMultinomialCounts`,
-  `EconCSLib.Foundations.Probability.IIDLargeDeviations`, and
+  `EconCSLib.Foundations.Probability.IIDLargeDeviations`,
+  `EconCSLib.Foundations.Probability.IntegralLargeDeviations`, and
   `EconCSLib.Foundations.Probability.LargeDeviations`.
 - Finite information orders:
   `EconCSLib.Foundations.Probability.InformationOrder`.

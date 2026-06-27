@@ -1,5 +1,7 @@
 import Mathlib.Data.Real.Basic
+import Mathlib.Data.Real.Archimedean
 import Mathlib.Data.Set.Basic
+import Mathlib.Order.ConditionallyCompleteLattice.Basic
 
 namespace EconCSLib
 namespace Optimization
@@ -13,16 +15,94 @@ optimization arguments.
 ## Main declarations
 
 - `IsMaximizerOn`, `IsMinimizerOn`: optimality on an explicit feasible set.
+- `IsLexicographicMaximizerOn`: primary-objective maximization with a
+  secondary tie-breaker objective.
 - `UpperBoundCertificate`: a candidate value plus a universal upper bound.
 - `LowerBoundCertificate`: a candidate value plus a universal lower bound.
 - `StrictUpperBoundCertificate`, `StrictLowerBoundCertificate`: uniqueness
   variants based on strict bounds away from the candidate.
+- `bddAbove_range_of_forall_le`: a pointwise upper bound yields boundedness of
+  the objective range.
+- `le_sSup_range`: any achieved value is at most the supremum of a bounded
+  range.
+- `sSup_range_eq_of_forall_le_of_exists_eq`: an attained upper bound is the
+  supremum of the range.
 -/
 
 /-- Objective values achieved by feasible points. -/
 def feasibleValueSet {α : Type*} (feasible : α → Prop)
     (objective : α → ℝ) : Set ℝ :=
   {v | ∃ x, feasible x ∧ v = objective x}
+
+/--
+An achieved value is bounded by the supremum of the range when that range is
+bounded above.
+-/
+theorem le_sSup_range {α : Type*} (f : α → ℝ) (x : α)
+    (hbdd : BddAbove (Set.range f)) :
+    f x ≤ sSup (Set.range f) :=
+  le_csSup hbdd (Set.mem_range_self x)
+
+/--
+Pointwise version of `le_sSup_range` for a family of functions.
+-/
+theorem le_sSup_range_apply {α β : Type*} (f : α → β → ℝ)
+    (hbdd : ∀ a : α, BddAbove (Set.range (f a))) :
+    ∀ a : α, ∀ b : β, f a b ≤ sSup (Set.range (f a)) := by
+  intro a b
+  exact le_sSup_range (f a) b (hbdd a)
+
+/--
+A pointwise upper bound gives boundedness above of the objective range.
+-/
+theorem bddAbove_range_of_forall_le {α : Type*} (f : α → ℝ) {M : ℝ}
+    (hupper : ∀ x : α, f x ≤ M) :
+    BddAbove (Set.range f) :=
+  ⟨M, by
+    rintro y ⟨x, rfl⟩
+    exact hupper x⟩
+
+/--
+Pointwise version of `bddAbove_range_of_forall_le` for a family of functions.
+-/
+theorem bddAbove_range_apply_of_forall_le {α β : Type*}
+    (f : α → β → ℝ) {M : α → ℝ}
+    (hupper : ∀ a : α, ∀ b : β, f a b ≤ M a) :
+    ∀ a : α, BddAbove (Set.range (f a)) := by
+  intro a
+  exact bddAbove_range_of_forall_le (f a) (hupper a)
+
+/--
+An upper bound that is attained is the supremum of the range.
+-/
+theorem sSup_range_eq_of_forall_le_of_exists_eq {α : Type*}
+    (f : α → ℝ) {M : ℝ}
+    (hupper : ∀ x : α, f x ≤ M)
+    (hattain : ∃ x : α, f x = M) :
+    sSup (Set.range f) = M := by
+  rcases hattain with ⟨x0, hx0⟩
+  have hbdd : BddAbove (Set.range f) := by
+    exact bddAbove_range_of_forall_le f hupper
+  apply le_antisymm
+  · exact csSup_le ⟨f x0, Set.mem_range_self x0⟩
+      (by
+        rintro y ⟨x, rfl⟩
+        exact hupper x)
+  · rw [← hx0]
+    exact le_sSup_range f x0 hbdd
+
+/--
+Pointwise version of `sSup_range_eq_of_forall_le_of_exists_eq` for a family of
+functions.
+-/
+theorem sSup_range_apply_eq_of_forall_le_of_exists_eq {α β : Type*}
+    (f : α → β → ℝ) {M : α → ℝ}
+    (hupper : ∀ a : α, ∀ b : β, f a b ≤ M a)
+    (hattain : ∀ a : α, ∃ b : β, f a b = M a) :
+    ∀ a : α, sSup (Set.range (f a)) = M a := by
+  intro a
+  exact sSup_range_eq_of_forall_le_of_exists_eq
+    (f a) (hupper a) (hattain a)
 
 /-- `x` maximizes `objective` over the feasible region. -/
 def IsMaximizerOn {α : Type*} (feasible : α → Prop)
@@ -43,6 +123,17 @@ def IsStrictMaximizerOn {α : Type*} (feasible : α → Prop)
 def IsStrictMinimizerOn {α : Type*} (feasible : α → Prop)
     (objective : α → ℝ) (x : α) : Prop :=
   feasible x ∧ ∀ y, feasible y → y ≠ x → objective x < objective y
+
+/--
+`x` is lexicographically maximal: every feasible alternative has either a
+strictly smaller primary objective, or the same primary objective and no larger
+secondary objective.
+-/
+def IsLexicographicMaximizerOn {α : Type*} (feasible : α → Prop)
+    (primary secondary : α → ℝ) (x : α) : Prop :=
+  feasible x ∧ ∀ y, feasible y →
+    primary y < primary x ∨
+      (primary y = primary x ∧ secondary y ≤ secondary x)
 
 namespace IsMaximizerOn
 
@@ -77,6 +168,48 @@ theorem objective_eq_of_isMaximizerOn
   le_antisymm (hy.le hx.isFeasible) (hx.le hy.isFeasible)
 
 end IsMaximizerOn
+
+namespace IsLexicographicMaximizerOn
+
+variable {α : Type*} {feasible : α → Prop}
+  {primary secondary : α → ℝ} {x y : α}
+
+/-- A lexicographic maximizer is feasible. -/
+theorem isFeasible
+    (h : IsLexicographicMaximizerOn feasible primary secondary x) :
+    feasible x :=
+  h.1
+
+/-- Every feasible alternative is lexicographically dominated by the maximizer. -/
+theorem le_or_tie_le
+    (h : IsLexicographicMaximizerOn feasible primary secondary x)
+    (hy : feasible y) :
+    primary y < primary x ∨
+      (primary y = primary x ∧ secondary y ≤ secondary x) :=
+  h.2 y hy
+
+end IsLexicographicMaximizerOn
+
+/--
+Primary optimality plus secondary optimality on the primary-optimal fiber gives
+lexicographic optimality.  This is the reusable certificate pattern for papers
+that first maximize a limiting objective and then maximize a convergence-rate
+objective among limiting-objective maximizers.
+-/
+theorem isLexicographicMaximizerOn_of_primary_and_secondary_on_tie
+    {α : Type*} {feasible : α → Prop} {primary secondary : α → ℝ} {x : α}
+    (hprimary : IsMaximizerOn feasible primary x)
+    (hsecondary :
+      ∀ y, feasible y → primary y = primary x → secondary y ≤ secondary x) :
+    IsLexicographicMaximizerOn feasible primary secondary x := by
+  refine ⟨hprimary.isFeasible, ?_⟩
+  intro y hy
+  by_cases hlt : primary y < primary x
+  · exact Or.inl hlt
+  · have hle : primary y ≤ primary x := hprimary.le hy
+    have hge : primary x ≤ primary y := le_of_not_gt hlt
+    have heq : primary y = primary x := le_antisymm hle hge
+    exact Or.inr ⟨heq, hsecondary y hy heq⟩
 
 namespace IsMinimizerOn
 

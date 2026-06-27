@@ -207,6 +207,29 @@ When the agent says a paper is done, inspect:
 4. `README.md`
 5. `PostPaperAudit.lean`, only if an exhaustive endpoint ledger is needed
 
+The post-formalization audit must inspect the report and DAG before handoff.
+After the final report, `POST_FORMALIZATION_AUDIT.md`, or `DependencyDAG.tex`
+changes, run:
+
+```bash
+python3 scripts/audit_repository.py --paper <paper> --paper-closeout --include-active --info-limit 0
+```
+
+This targeted audit includes the DAG/final-report closeout gate: completed or
+conditional papers must name the DAG TeX/PDF artifacts, record rendered/visual
+DAG inspection evidence, include validation checks, and avoid stale placeholder
+language such as `not checked` or `not run`. The `--paper-closeout` flag filters
+out unrelated paper-folder maintenance so another paper's status cannot decide
+this paper's completion claim.
+
+Agent/formalization readiness is separate from saved human dashboard review.
+If Lean builds, statement/assumption validators are current, the
+paper-closeout audit passes, DAG/report evidence is current, and generated
+status files are synced, the paper may be reported as formalized even with
+`0/N` saved human review entries. The final report must still disclose the
+human review count; if a release requires human approval, track that as a
+separate promotion gate rather than as Lean proof debt.
+
 The human-facing files should let a reader compare the formalized statements to
 the paper without opening lower proof files.
 
@@ -228,6 +251,16 @@ python3 scripts/sync_paper_status.py --check
 python3 scripts/audit_repository.py
 git diff --check
 ```
+
+For paper closeout or post-formalization work, run the targeted paper audit
+after the final report and DAG updates:
+
+```bash
+python3 scripts/audit_repository.py --paper <paper> --paper-closeout --include-active --info-limit 0
+```
+
+Treat paper-specific DAG/report findings from that command as blockers for a
+completion claim, even if unrelated global repository findings remain.
 
 For paper work, build the paper root when available:
 
@@ -334,6 +367,10 @@ At a statement-review boundary, run the independent LLM statement workflow:
    non-source hypothesis, changed quantifier/domain, changed constant or
    normalizer, sign error, inequality-direction change, broad aggregate row,
    source-row package, certificate package, or weakened/strengthened theorem.
+   When the source paper text cache is private or omitted from a public repo,
+   preserve the audited source snippets in `paper_statement_map.json`; include
+   `source_status` and `source_note` fields, even when intentionally blank, so
+   review-surface and statement-judge digests remain reproducible.
 4. For every displayed or source-defining formula used by a paper-facing result,
    expose an exact formula/subclaim row in `PaperInterface.lean`. A broad row
    that summarizes a numbered result, theorem family, metric package, or source

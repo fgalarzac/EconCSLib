@@ -91,17 +91,17 @@
               <tr>
                 <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Foundations/Math">Foundations: finite math and graph tools</a></td>
                 <td>Finite-sum rewrites, order/rank lemmas, threshold and interval characterizations, asymptotic/exponential estimates, and cycle extraction in finite directed graphs.</td>
-                <td>8,223</td>
+                <td>8,508</td>
               </tr>
               <tr>
                 <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Foundations/Probability">Foundations: probability and stochastic processes</a></td>
                 <td>Finite distributions, conditional expectations, kernels, atom and variance lemmas, Gaussian and exponential calculations, stochastic dominance, Markov chains, MDPs, CTMCs, and renewal-reward identities.</td>
-                <td>50,740</td>
+                <td>55,604</td>
               </tr>
               <tr>
                 <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Foundations/Optimization">Foundations: optimization and certificates</a></td>
                 <td>Argmax and endpoint principles, finite-search certificates, approximation guarantees, linear-program certificates, binary-choice optimality, move-graph descent, and choice-equilibrium existence.</td>
-                <td>2,753</td>
+                <td>2,886</td>
               </tr>
               <tr>
                 <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Foundations/Econometrics/RatingModels">Rating-system applications</a></td>
@@ -268,6 +268,17 @@
               </tr>
               <tr>
                 <td>
+                  <a class="paper-source" href="https://arxiv.org/abs/2307.15142"><cite>Reconciling the Accuracy-Diversity Trade-off in Recommendations</cite></a> by
+                  Kenny Peng, Manish Raghavan, Emma Pierson, Jon Kleinberg, and Nikhil Garg; The ACM Web Conference, 2024.
+                </td>
+                <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/PRPKG24AccuracyDiversity/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/PRPKG24AccuracyDiversity/DependencyDAG.pdf">DAG</a></div></td>
+                <td>52,018</td>
+                <td>Lean formalizes the paper-facing results, including the concrete Proposition 4 sphere endpoint. Proposition 2&#x27;s printed finite bound appears to miss a factor of 2; Lean proves the corrected finite bound, which is sufficient for the asymptotic 1/2-homogeneity result. The validation report notes the continuity/Laplace regularity used by the Proposition 4 wrapper.</td>
+                <td>0/42 reviewed</td>
+                <td>27/27 match</td>
+              </tr>
+              <tr>
+                <td>
                   <a class="paper-source" href="https://openreview.net/pdf?id=ZOZjMs3JTs"><cite>User-item fairness tradeoffs in recommendations</cite></a> by
                   Sophie Greenwood, Sudalakshmee Chiniah, and Nikhil Garg; NeurIPS, 2024.
                 </td>
@@ -331,17 +342,6 @@
                 <td>Sections 2 and 4 are fully formalized. Section 3 has query/descent/rounded-search support. The PTAS/FPTAS runtime layer needs reusable fixed-dimension IP complexity infrastructure.</td>
                 <td>0/31 reviewed</td>
                 <td>31/31 match</td>
-              </tr>
-              <tr>
-                <td>
-                  <a class="paper-source" href="https://arxiv.org/abs/2307.15142"><cite>Reconciling the Accuracy-Diversity Trade-off in Recommendations</cite></a> by
-                  Kenny Peng, Manish Raghavan, Emma Pierson, Jon Kleinberg, and Nikhil Garg; The ACM Web Conference, 2024.
-                </td>
-                <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/PRPKG24AccuracyDiversity/FINAL_VALIDATION_REPORT.md">Partially formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/PRPKG24AccuracyDiversity/DependencyDAG.pdf">DAG</a></div></td>
-                <td>48,617</td>
-                <td>Fully formalizing Proposition 4 requires a general Laplace-principle-related analysis library.</td>
-                <td>0/27 reviewed</td>
-                <td>27/27 match</td>
               </tr>
               <!-- END GENERATED PAPER STATUS ROWS -->
             </tbody>

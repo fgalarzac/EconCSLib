@@ -244,6 +244,60 @@ theorem paper_definition1_gamma_homogeneity_exact_iff
           exact gammaLikelihoodProfile_targetShare_eq likelihood γ t hnorm
 
 /--
+Source Definition 1, `γ = ∞` clause: exact representation agrees with the
+complete-homogeneity profile concentrated on a likelihood maximizer.
+-/
+theorem paper_definition1_infinite_homogeneity_exact_iff
+    {T : ℕ} (a : CountAllocation T)
+    (G : InfiniteGammaHomogeneityProfile T) :
+    G.Exact a ↔
+      CountAllocation.representation a G.best = 1 ∧
+        ∀ t : ItemType T, t ≠ G.best →
+          CountAllocation.representation a t = 0 := by
+  constructor
+  · intro h
+    unfold InfiniteGammaHomogeneityProfile.Exact
+      CountAllocation.HasExactRepresentation at h
+    constructor
+    · simpa [InfiniteGammaHomogeneityProfile.targetShare] using h G.best
+    · intro t ht
+      simpa [InfiniteGammaHomogeneityProfile.targetShare, ht] using h t
+  · intro h
+    unfold InfiniteGammaHomogeneityProfile.Exact
+      CountAllocation.HasExactRepresentation
+    intro t
+    by_cases ht : t = G.best
+    · subst t
+      simpa [InfiniteGammaHomogeneityProfile.targetShare] using h.1
+    · simpa [InfiniteGammaHomogeneityProfile.targetShare, ht] using h.2 t ht
+
+/--
+Source Definition 1, complete paper-facing statement: finite real `γ` uses
+equation (5), while `γ = ∞` is the complete-homogeneity profile concentrated on
+a chosen likelihood maximizer.
+-/
+theorem paper_definition1_gamma_homogeneity_complete
+    {T : ℕ} (a : CountAllocation T) (likelihood : ItemType T → ℝ)
+    (γ : ℝ)
+    (hnorm : (∑ i : ItemType T, (likelihood i) ^ γ) ≠ 0)
+    (best : ItemType T)
+    (hbest : ∀ t : ItemType T, likelihood t ≤ likelihood best) :
+    ((gammaLikelihoodProfile likelihood γ).Exact a ↔
+      ∀ t : ItemType T,
+        CountAllocation.representation a t =
+          (likelihood t) ^ γ /
+            ∑ i : ItemType T, (likelihood i) ^ γ) ∧
+    ((infiniteLikelihoodProfile likelihood best hbest).Exact a ↔
+      CountAllocation.representation a best = 1 ∧
+        ∀ t : ItemType T, t ≠ best →
+          CountAllocation.representation a t = 0) := by
+  constructor
+  · exact paper_definition1_gamma_homogeneity_exact_iff a likelihood γ hnorm
+  · simpa [infiniteLikelihoodProfile] using
+      paper_definition1_infinite_homogeneity_exact_iff
+        (a := a) (G := infiniteLikelihoodProfile likelihood best hbest)
+
+/--
 Source Definition 2, sequence γ-homogeneity: convergence of type
 representations agrees with the paper formula `p_t^γ / ∑_i p_i^γ`.
 -/
@@ -3913,6 +3967,32 @@ theorem paper_lemmaD2_bounded_integral_top_k_loss_asymptotic_of_split_certificat
           boundedTailScale β a) :=
   boundedLemmaD2IntegralTopKLoss_asymptoticEquivalent_of_split_certificate
     G C
+
+/--
+Source Lemma D.2, actual integral finite assembly from the bounded-tail CDF
+asymptotic, monotonicity of the reflected CDF, and bounded support.
+-/
+theorem
+    paper_lemmaD2_bounded_integral_top_k_loss_asymptotic_of_cdf_power_sandwich_monotone_bounded_support
+    {β c : ℝ} {k : ℕ} {G : ℝ → ℝ} {M : ℝ}
+    (tail : BoundedTailCDFPowerSandwich G β c)
+    (k_pos : 0 < k)
+    (hM_pos : 0 < M)
+    (hG_measurable : Measurable G)
+    (hG_mono : Monotone G)
+    (hG_nonneg : ∀ x : ℝ, 0 ≤ G x)
+    (hG_le_one : ∀ x : ℝ, G x ≤ 1)
+    (hG_eq_one_of_support : ∀ x : ℝ, M ≤ x → G x = 1) :
+    EconCSLib.Math.AsymptoticEquivalent
+      (boundedLemmaD2TopKLoss k (boundedLemmaD2IndexedIntegralTerm G))
+      (fun a =>
+        (∑ p : BoundedLemmaD2Index k,
+          boundedLemmaD2LimitCoeff β c p.2.val) *
+          boundedTailScale β a) :=
+  paper_lemmaD2_bounded_integral_top_k_loss_asymptotic_of_split_certificate G
+    (paper_lemmaD2_bounded_split_finite_certificate_of_cdf_power_sandwich_monotone_bounded_support
+      tail k_pos hM_pos hG_measurable hG_mono hG_nonneg hG_le_one
+      hG_eq_one_of_support)
 
 /--
 Source Theorem 1(ii), equations (91)-(96) from the paper-style
@@ -9678,7 +9758,8 @@ namespace Proposition4AveragingCertificate
 /--
 The source-shaped averaging certificate implies the older coarser
 continuous-sphere certificate.  This keeps the two Proposition 4 interfaces
-consistent while the sphere/Fubini/Laplace layer is still being instantiated.
+consistent; the concrete sphere/Fubini/Laplace-defined endpoint is instantiated
+in `ContinuousSphereConcrete.lean`.
 -/
 def toContinuousSphereCertificate {Profile User : Type*}
     (C : Proposition4AveragingCertificate Profile User) :
@@ -9722,8 +9803,8 @@ Source Proposition 4, finite-user averaging endpoint.
 
 For finite nonempty user spaces, the average-to-witness step is discharged by
 the reusable finite-average lemma.  This is a finite approximation of the
-continuous sphere averaging argument; the full continuous statement still needs
-the measure/integral sphere layer.
+continuous sphere averaging argument; the concrete probability-measure sphere
+endpoint is instantiated separately in `ContinuousSphereConcrete.lean`.
 -/
 theorem paper_proposition4_finite_averaging_uniform_minimizes
     {Profile User : Type*} [Fintype User] [Nonempty User]
@@ -9742,6 +9823,233 @@ theorem paper_proposition4_finite_averaging_uniform_minimizes
       gamma rho uniformProfile uniformValue uniform_gamma_eq
       average_rho_eq_uniformValue rho_le_gamma
   simpa [C] using C.uniform_minimizes
+
+/--
+Source Proposition 4, finite-user averaging endpoint with `Gamma` instantiated
+as a bounded user-level supremum.
+-/
+theorem paper_proposition4_finite_averaging_uniform_minimizes_of_supremum
+    {Profile User : Type*} [Fintype User] [Nonempty User]
+    (gamma : Profile → ℝ) (rho : Profile → User → ℝ)
+    (uniformProfile : Profile) (uniformValue : ℝ)
+    (uniform_gamma_eq : gamma uniformProfile = uniformValue)
+    (average_rho_eq_uniformValue :
+      ∀ alpha : Profile,
+        (∑ u : User, rho alpha u) / (Fintype.card User : ℝ) =
+          uniformValue)
+    (rho_bddAbove : ∀ alpha : Profile, BddAbove (Set.range (rho alpha)))
+    (gamma_eq_sSup_range :
+      ∀ alpha : Profile, gamma alpha = sSup (Set.range (rho alpha))) :
+    ∀ alpha : Profile, gamma uniformProfile ≤ gamma alpha := by
+  classical
+  let C :=
+    Proposition4AveragingCertificate.ofFiniteUniformAverageOfSupremum
+      gamma rho uniformProfile uniformValue uniform_gamma_eq
+      average_rho_eq_uniformValue rho_bddAbove gamma_eq_sSup_range
+  simpa [C] using C.uniform_minimizes
+
+/--
+Source Proposition 4 Laplace bridge: exact-rate uniqueness turns a source
+Laplace integral rate `-Gamma(alpha)` and a Laplace-principle computation of
+the same rate as `-sup_u rho(alpha,u)` into the supremum convention consumed by
+the averaging endpoints.
+-/
+theorem paper_proposition4_gamma_eq_sSup_range_of_laplace_rate_unique
+    {Profile User : Type*}
+    (gamma : Profile → ℝ) (rho : Profile → User → ℝ)
+    (laplace : Profile → ℕ → ℝ)
+    (hgamma :
+      ∀ alpha : Profile,
+        EconCSLib.Probability.HasExponentialRate
+          (laplace alpha) (-(gamma alpha)))
+    (hsup :
+      ∀ alpha : Profile,
+        EconCSLib.Probability.HasExponentialRate
+          (laplace alpha) (-(sSup (Set.range (rho alpha))))) :
+    ∀ alpha : Profile,
+      gamma alpha = sSup (Set.range (rho alpha)) :=
+  Proposition4AveragingCertificate.gamma_eq_sSup_range_of_laplace_rate_unique
+    gamma rho laplace hgamma hsup
+
+/--
+Source Proposition 4 attained-maximum bridge: when `Gamma(alpha)` is an
+attained pointwise maximum of the user-level payoff, it is exactly the
+supremum convention consumed by the averaging endpoints.
+-/
+theorem paper_proposition4_gamma_eq_sSup_range_of_attained_pointwise_max
+    {Profile User : Type*}
+    (gamma : Profile → ℝ) (rho : Profile → User → ℝ)
+    (hmax : ∀ alpha : Profile, ∀ u : User, rho alpha u ≤ gamma alpha)
+    (hattain : ∀ alpha : Profile, ∃ u : User, rho alpha u = gamma alpha) :
+    ∀ alpha : Profile,
+      gamma alpha = sSup (Set.range (rho alpha)) :=
+  Proposition4AveragingCertificate.gamma_eq_sSup_range_of_attained_pointwise_max
+    gamma rho hmax hattain
+
+/--
+Source Proposition 4 positive-Laplace bridge: a weighted compact Laplace
+integral of `exp (n * rho)` has exact exponential rate equal to the negative
+attained maximum.
+-/
+theorem paper_proposition4_positive_laplace_rate_of_attained_pointwise_max_uniformWeightLower
+    {Profile User : Type*} [TopologicalSpace User] [MeasurableSpace User]
+    [OpensMeasurableSpace User]
+    (userMeasure : Profile → MeasureTheory.Measure User)
+    (w : Profile → User → ℝ) (gamma : Profile → ℝ)
+    (rho : Profile → User → ℝ) (W c : Profile → ℝ)
+    (hfinite :
+      ∀ alpha : Profile, MeasureTheory.IsFiniteMeasure (userMeasure alpha))
+    (hopen :
+      ∀ alpha : Profile,
+        MeasureTheory.Measure.IsOpenPosMeasure (userMeasure alpha))
+    (hF_int :
+      ∀ alpha : Profile, ∀ n : ℕ,
+        MeasureTheory.Integrable
+          (fun u : User =>
+            w alpha u * Real.exp ((n : ℝ) * rho alpha u))
+          (userMeasure alpha))
+    (hw_int :
+      ∀ alpha : Profile,
+        MeasureTheory.Integrable (w alpha) (userMeasure alpha))
+    (hWpos : ∀ alpha : Profile, 0 < W alpha)
+    (hcpos : ∀ alpha : Profile, 0 < c alpha)
+    (hw_lower :
+      ∀ alpha : Profile,
+        ∀ᵐ u ∂userMeasure alpha, c alpha ≤ w alpha u)
+    (hw_bound :
+      ∀ alpha : Profile,
+        ∀ᵐ u ∂userMeasure alpha, w alpha u ≤ W alpha)
+    (x0 : Profile → User)
+    (hmax : ∀ alpha : Profile, ∀ u : User, rho alpha u ≤ gamma alpha)
+    (hx0 : ∀ alpha : Profile, rho alpha (x0 alpha) = gamma alpha)
+    (hcont : ∀ alpha : Profile, ContinuousAt (rho alpha) (x0 alpha)) :
+    ∀ alpha : Profile,
+      EconCSLib.Probability.ExponentialRateCertificate
+        (fun n : ℕ =>
+          ∫ u, w alpha u * Real.exp ((n : ℝ) * rho alpha u)
+            ∂userMeasure alpha)
+        (-(gamma alpha)) :=
+  Proposition4AveragingCertificate.positive_laplace_rate_of_attained_pointwise_max_uniformWeightLower
+    userMeasure w gamma rho W c hfinite hopen hF_int hw_int hWpos
+    hcpos hw_lower hw_bound x0 hmax hx0 hcont
+
+/--
+Source Proposition 4 unit-weight positive-Laplace bridge: the compact Laplace
+integral `∫ exp (n * rho)` has exact exponential rate equal to the negative
+attained maximum.
+-/
+theorem paper_proposition4_positive_laplace_rate_of_attained_pointwise_max_unitWeight
+    {Profile User : Type*} [TopologicalSpace User] [MeasurableSpace User]
+    [OpensMeasurableSpace User]
+    (userMeasure : Profile → MeasureTheory.Measure User)
+    (gamma : Profile → ℝ) (rho : Profile → User → ℝ)
+    (hfinite :
+      ∀ alpha : Profile, MeasureTheory.IsFiniteMeasure (userMeasure alpha))
+    (hopen :
+      ∀ alpha : Profile,
+        MeasureTheory.Measure.IsOpenPosMeasure (userMeasure alpha))
+    (hF_int :
+      ∀ alpha : Profile, ∀ n : ℕ,
+        MeasureTheory.Integrable
+          (fun u : User => Real.exp ((n : ℝ) * rho alpha u))
+          (userMeasure alpha))
+    (x0 : Profile → User)
+    (hmax : ∀ alpha : Profile, ∀ u : User, rho alpha u ≤ gamma alpha)
+    (hx0 : ∀ alpha : Profile, rho alpha (x0 alpha) = gamma alpha)
+    (hcont : ∀ alpha : Profile, ContinuousAt (rho alpha) (x0 alpha)) :
+    ∀ alpha : Profile,
+      EconCSLib.Probability.ExponentialRateCertificate
+        (fun n : ℕ =>
+          ∫ u, Real.exp ((n : ℝ) * rho alpha u) ∂userMeasure alpha)
+        (-(gamma alpha)) :=
+  Proposition4AveragingCertificate.positive_laplace_rate_of_attained_pointwise_max_unitWeight
+    userMeasure gamma rho hfinite hopen hF_int x0 hmax hx0 hcont
+
+/--
+Source Proposition 4 positive-Laplace uniqueness bridge: a source exact rate
+for the same weighted compact Laplace integral, together with the attained
+maximum Laplace-principle computation, identifies `Gamma(alpha)` with the
+user-level supremum consumed by the averaging endpoints.
+-/
+theorem paper_proposition4_gamma_eq_sSup_range_of_positive_laplace_rate_unique_attained_max_uniformWeightLower
+    {Profile User : Type*} [TopologicalSpace User] [MeasurableSpace User]
+    [OpensMeasurableSpace User]
+    (userMeasure : Profile → MeasureTheory.Measure User)
+    (w : Profile → User → ℝ) (gamma supValue : Profile → ℝ)
+    (rho : Profile → User → ℝ) (W c : Profile → ℝ)
+    (hsource :
+      ∀ alpha : Profile,
+        EconCSLib.Probability.HasExponentialRate
+          (fun n : ℕ =>
+            ∫ u, w alpha u * Real.exp ((n : ℝ) * rho alpha u)
+              ∂userMeasure alpha)
+          (-(gamma alpha)))
+    (hfinite :
+      ∀ alpha : Profile, MeasureTheory.IsFiniteMeasure (userMeasure alpha))
+    (hopen :
+      ∀ alpha : Profile,
+        MeasureTheory.Measure.IsOpenPosMeasure (userMeasure alpha))
+    (hF_int :
+      ∀ alpha : Profile, ∀ n : ℕ,
+        MeasureTheory.Integrable
+          (fun u : User =>
+            w alpha u * Real.exp ((n : ℝ) * rho alpha u))
+          (userMeasure alpha))
+    (hw_int :
+      ∀ alpha : Profile,
+        MeasureTheory.Integrable (w alpha) (userMeasure alpha))
+    (hWpos : ∀ alpha : Profile, 0 < W alpha)
+    (hcpos : ∀ alpha : Profile, 0 < c alpha)
+    (hw_lower :
+      ∀ alpha : Profile,
+        ∀ᵐ u ∂userMeasure alpha, c alpha ≤ w alpha u)
+    (hw_bound :
+      ∀ alpha : Profile,
+        ∀ᵐ u ∂userMeasure alpha, w alpha u ≤ W alpha)
+    (x0 : Profile → User)
+    (hmax : ∀ alpha : Profile, ∀ u : User, rho alpha u ≤ supValue alpha)
+    (hx0 : ∀ alpha : Profile, rho alpha (x0 alpha) = supValue alpha)
+    (hcont : ∀ alpha : Profile, ContinuousAt (rho alpha) (x0 alpha)) :
+    ∀ alpha : Profile,
+      gamma alpha = sSup (Set.range (rho alpha)) :=
+  Proposition4AveragingCertificate.gamma_eq_sSup_range_of_positive_laplace_rate_unique_attained_max_uniformWeightLower
+    userMeasure w gamma supValue rho W c hsource hfinite hopen hF_int hw_int
+    hWpos hcpos hw_lower hw_bound x0 hmax hx0 hcont
+
+/--
+Source Proposition 4 unit-weight positive-Laplace uniqueness bridge.
+-/
+theorem paper_proposition4_gamma_eq_sSup_range_of_positive_laplace_rate_unique_attained_max_unitWeight
+    {Profile User : Type*} [TopologicalSpace User] [MeasurableSpace User]
+    [OpensMeasurableSpace User]
+    (userMeasure : Profile → MeasureTheory.Measure User)
+    (gamma supValue : Profile → ℝ)
+    (rho : Profile → User → ℝ)
+    (hsource :
+      ∀ alpha : Profile,
+        EconCSLib.Probability.HasExponentialRate
+          (fun n : ℕ =>
+            ∫ u, Real.exp ((n : ℝ) * rho alpha u) ∂userMeasure alpha)
+          (-(gamma alpha)))
+    (hfinite :
+      ∀ alpha : Profile, MeasureTheory.IsFiniteMeasure (userMeasure alpha))
+    (hopen :
+      ∀ alpha : Profile,
+        MeasureTheory.Measure.IsOpenPosMeasure (userMeasure alpha))
+    (hF_int :
+      ∀ alpha : Profile, ∀ n : ℕ,
+        MeasureTheory.Integrable
+          (fun u : User => Real.exp ((n : ℝ) * rho alpha u))
+          (userMeasure alpha))
+    (x0 : Profile → User)
+    (hmax : ∀ alpha : Profile, ∀ u : User, rho alpha u ≤ supValue alpha)
+    (hx0 : ∀ alpha : Profile, rho alpha (x0 alpha) = supValue alpha)
+    (hcont : ∀ alpha : Profile, ContinuousAt (rho alpha) (x0 alpha)) :
+    ∀ alpha : Profile,
+      gamma alpha = sSup (Set.range (rho alpha)) :=
+  Proposition4AveragingCertificate.gamma_eq_sSup_range_of_positive_laplace_rate_unique_attained_max_unitWeight
+    userMeasure gamma supValue rho hsource hfinite hopen hF_int x0 hmax
+    hx0 hcont
 
 /--
 Source Proposition 4, probability-user averaging endpoint.
@@ -9770,6 +10078,188 @@ theorem paper_proposition4_probability_averaging_uniform_minimizes
       userMeasure gamma rho uniformProfile uniformValue rho_integrable
       uniform_gamma_eq integral_rho_eq_uniformValue rho_le_gamma
   simpa [C] using C.uniform_minimizes
+
+/--
+Source Proposition 4, probability-user averaging endpoint with `Gamma`
+instantiated as a bounded user-level supremum.
+-/
+theorem paper_proposition4_probability_averaging_uniform_minimizes_of_supremum
+    {Profile User : Type*} [MeasurableSpace User]
+    (userMeasure : MeasureTheory.Measure User)
+    [MeasureTheory.IsProbabilityMeasure userMeasure]
+    (gamma : Profile → ℝ) (rho : Profile → User → ℝ)
+    (uniformProfile : Profile) (uniformValue : ℝ)
+    (rho_integrable :
+      ∀ alpha : Profile, MeasureTheory.Integrable (rho alpha) userMeasure)
+    (uniform_gamma_eq : gamma uniformProfile = uniformValue)
+    (integral_rho_eq_uniformValue :
+      ∀ alpha : Profile,
+        (∫ u, rho alpha u ∂userMeasure) = uniformValue)
+    (rho_bddAbove : ∀ alpha : Profile, BddAbove (Set.range (rho alpha)))
+    (gamma_eq_sSup_range :
+      ∀ alpha : Profile, gamma alpha = sSup (Set.range (rho alpha))) :
+    ∀ alpha : Profile, gamma uniformProfile ≤ gamma alpha := by
+  let C :=
+    Proposition4AveragingCertificate.ofProbabilityIntegralAverageOfSupremum
+      userMeasure gamma rho uniformProfile uniformValue rho_integrable
+      uniform_gamma_eq integral_rho_eq_uniformValue rho_bddAbove
+      gamma_eq_sSup_range
+  simpa [C] using C.uniform_minimizes
+
+/--
+Source Proposition 4, probability-user averaging endpoint with `Gamma`
+instantiated by a positive-Laplace uniqueness computation instead of an
+explicit supremum certificate.
+-/
+theorem paper_proposition4_probability_averaging_uniform_minimizes_of_positive_laplace_rate_unique_attained_max_uniformWeightLower
+    {Profile User : Type*} [TopologicalSpace User] [MeasurableSpace User]
+    [OpensMeasurableSpace User]
+    (userMeasure : MeasureTheory.Measure User)
+    [MeasureTheory.IsProbabilityMeasure userMeasure]
+    (w : Profile → User → ℝ) (gamma supValue : Profile → ℝ)
+    (rho : Profile → User → ℝ) (W c : Profile → ℝ)
+    (uniformProfile : Profile) (uniformValue : ℝ)
+    (hsource :
+      ∀ alpha : Profile,
+        EconCSLib.Probability.HasExponentialRate
+          (fun n : ℕ =>
+            ∫ u, w alpha u * Real.exp ((n : ℝ) * rho alpha u)
+              ∂userMeasure)
+          (-(gamma alpha)))
+    (hopen : MeasureTheory.Measure.IsOpenPosMeasure userMeasure)
+    (hF_int :
+      ∀ alpha : Profile, ∀ n : ℕ,
+        MeasureTheory.Integrable
+          (fun u : User =>
+            w alpha u * Real.exp ((n : ℝ) * rho alpha u))
+          userMeasure)
+    (hw_int :
+      ∀ alpha : Profile,
+        MeasureTheory.Integrable (w alpha) userMeasure)
+    (hWpos : ∀ alpha : Profile, 0 < W alpha)
+    (hcpos : ∀ alpha : Profile, 0 < c alpha)
+    (hw_lower :
+      ∀ alpha : Profile,
+        ∀ᵐ u ∂userMeasure, c alpha ≤ w alpha u)
+    (hw_bound :
+      ∀ alpha : Profile,
+        ∀ᵐ u ∂userMeasure, w alpha u ≤ W alpha)
+    (rho_integrable :
+      ∀ alpha : Profile, MeasureTheory.Integrable (rho alpha) userMeasure)
+    (uniform_gamma_eq : gamma uniformProfile = uniformValue)
+    (integral_rho_eq_uniformValue :
+      ∀ alpha : Profile, (∫ u, rho alpha u ∂userMeasure) =
+        uniformValue)
+    (x0 : Profile → User)
+    (hmax : ∀ alpha : Profile, ∀ u : User, rho alpha u ≤ supValue alpha)
+    (hx0 : ∀ alpha : Profile, rho alpha (x0 alpha) = supValue alpha)
+    (hcont : ∀ alpha : Profile, ContinuousAt (rho alpha) (x0 alpha)) :
+    ∀ alpha : Profile, gamma uniformProfile ≤ gamma alpha := by
+  let C :=
+    Proposition4AveragingCertificate.ofProbabilityIntegralAverageOfPositiveLaplaceRateUniqueAttainedMaxUniformWeightLower
+      userMeasure w gamma supValue rho W c uniformProfile uniformValue
+      hsource hopen hF_int hw_int hWpos hcpos hw_lower hw_bound
+      rho_integrable uniform_gamma_eq integral_rho_eq_uniformValue
+      x0 hmax hx0 hcont
+  simpa [C] using C.uniform_minimizes
+
+/--
+Source Proposition 4, probability-user averaging endpoint with `Gamma`
+instantiated by a unit-weight positive-Laplace uniqueness computation.
+-/
+theorem paper_proposition4_probability_averaging_uniform_minimizes_of_positive_laplace_rate_unique_attained_max_unitWeight
+    {Profile User : Type*} [TopologicalSpace User] [MeasurableSpace User]
+    [OpensMeasurableSpace User]
+    (userMeasure : MeasureTheory.Measure User)
+    [MeasureTheory.IsProbabilityMeasure userMeasure]
+    (gamma supValue : Profile → ℝ)
+    (rho : Profile → User → ℝ)
+    (uniformProfile : Profile) (uniformValue : ℝ)
+    (hsource :
+      ∀ alpha : Profile,
+        EconCSLib.Probability.HasExponentialRate
+          (fun n : ℕ =>
+            ∫ u, Real.exp ((n : ℝ) * rho alpha u) ∂userMeasure)
+          (-(gamma alpha)))
+    (hopen : MeasureTheory.Measure.IsOpenPosMeasure userMeasure)
+    (hF_int :
+      ∀ alpha : Profile, ∀ n : ℕ,
+        MeasureTheory.Integrable
+          (fun u : User => Real.exp ((n : ℝ) * rho alpha u))
+          userMeasure)
+    (rho_integrable :
+      ∀ alpha : Profile, MeasureTheory.Integrable (rho alpha) userMeasure)
+    (uniform_gamma_eq : gamma uniformProfile = uniformValue)
+    (integral_rho_eq_uniformValue :
+      ∀ alpha : Profile, (∫ u, rho alpha u ∂userMeasure) =
+        uniformValue)
+    (x0 : Profile → User)
+    (hmax : ∀ alpha : Profile, ∀ u : User, rho alpha u ≤ supValue alpha)
+    (hx0 : ∀ alpha : Profile, rho alpha (x0 alpha) = supValue alpha)
+    (hcont : ∀ alpha : Profile, ContinuousAt (rho alpha) (x0 alpha)) :
+    ∀ alpha : Profile, gamma uniformProfile ≤ gamma alpha := by
+  have hgamma_eq :
+      ∀ alpha : Profile, gamma alpha = sSup (Set.range (rho alpha)) :=
+    paper_proposition4_gamma_eq_sSup_range_of_positive_laplace_rate_unique_attained_max_unitWeight
+      (fun _ : Profile => userMeasure) gamma supValue rho hsource
+      (fun _ => inferInstance) (fun _ => hopen) hF_int x0 hmax hx0 hcont
+  exact
+    paper_proposition4_probability_averaging_uniform_minimizes_of_supremum
+      userMeasure gamma rho uniformProfile uniformValue rho_integrable
+      uniform_gamma_eq integral_rho_eq_uniformValue
+      (EconCSLib.Optimization.bddAbove_range_apply_of_forall_le rho hmax)
+      hgamma_eq
+
+/--
+Source Proposition 4 kernel-integral Laplace bridge: exact-rate uniqueness
+identifies `Gamma(alpha)` with the supremum of the user-indexed profile/kernel
+integral once a Laplace-principle theorem computes the same source integral.
+-/
+theorem paper_proposition4_gamma_eq_sSup_kernelIntegral_range_of_laplace_rate_unique
+    {Profile User Item : Type*} [MeasurableSpace Item]
+    (profileMeasure : Profile → MeasureTheory.Measure Item)
+    (gamma : Profile → ℝ) (kernel : Item → User → ℝ)
+    (laplace : Profile → ℕ → ℝ)
+    (hgamma :
+      ∀ alpha : Profile,
+        EconCSLib.Probability.HasExponentialRate
+          (laplace alpha) (-(gamma alpha)))
+    (hsup :
+      ∀ alpha : Profile,
+        EconCSLib.Probability.HasExponentialRate
+          (laplace alpha)
+          (-(sSup
+            (Set.range
+              (fun u : User =>
+                ∫ x, kernel x u ∂profileMeasure alpha))))) :
+    ∀ alpha : Profile,
+      gamma alpha =
+        sSup
+          (Set.range
+            (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha)) :=
+  Proposition4AveragingCertificate.gamma_eq_sSup_kernelIntegral_range_of_laplace_rate_unique
+    profileMeasure gamma kernel laplace hgamma hsup
+
+/--
+Source Proposition 4 kernel-integral attained-maximum bridge.
+-/
+theorem paper_proposition4_gamma_eq_sSup_kernelIntegral_range_of_attained_pointwise_max
+    {Profile User Item : Type*} [MeasurableSpace Item]
+    (profileMeasure : Profile → MeasureTheory.Measure Item)
+    (gamma : Profile → ℝ) (kernel : Item → User → ℝ)
+    (hmax :
+      ∀ alpha : Profile, ∀ u : User,
+        (∫ x, kernel x u ∂profileMeasure alpha) ≤ gamma alpha)
+    (hattain :
+      ∀ alpha : Profile, ∃ u : User,
+        (∫ x, kernel x u ∂profileMeasure alpha) = gamma alpha) :
+    ∀ alpha : Profile,
+      gamma alpha =
+        sSup
+          (Set.range
+            (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha)) :=
+  Proposition4AveragingCertificate.gamma_eq_sSup_kernelIntegral_range_of_attained_pointwise_max
+    profileMeasure gamma kernel hmax hattain
 
 /--
 Source Proposition 4, probability-kernel averaging endpoint.
@@ -9812,6 +10302,51 @@ theorem paper_proposition4_probability_kernel_averaging_uniform_minimizes
   simpa [C] using C.uniform_minimizes
 
 /--
+Source Proposition 4, probability-kernel averaging endpoint with `Gamma`
+instantiated as a bounded supremum over user-level kernel integrals.
+-/
+theorem paper_proposition4_probability_kernel_averaging_uniform_minimizes_of_supremum
+    {Profile User Item : Type*} [MeasurableSpace User] [MeasurableSpace Item]
+    (userMeasure : MeasureTheory.Measure User)
+    [MeasureTheory.IsProbabilityMeasure userMeasure]
+    (profileMeasure : Profile → MeasureTheory.Measure Item)
+    (profile_probability :
+      ∀ alpha : Profile,
+        MeasureTheory.IsProbabilityMeasure (profileMeasure alpha))
+    (gamma : Profile → ℝ) (kernel : Item → User → ℝ)
+    (uniformProfile : Profile) (uniformValue : ℝ)
+    (rho_integrable :
+      ∀ alpha : Profile,
+        MeasureTheory.Integrable
+          (fun u => ∫ x, kernel x u ∂profileMeasure alpha) userMeasure)
+    (uniform_gamma_eq : gamma uniformProfile = uniformValue)
+    (integral_kernel_swap :
+      ∀ alpha : Profile,
+        (∫ u, (∫ x, kernel x u ∂profileMeasure alpha) ∂userMeasure) =
+          ∫ x, (∫ u, kernel x u ∂userMeasure) ∂profileMeasure alpha)
+    (kernel_user_integral_eq :
+      ∀ x : Item, (∫ u, kernel x u ∂userMeasure) = uniformValue)
+    (rho_bddAbove :
+      ∀ alpha : Profile,
+        BddAbove
+          (Set.range
+            (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha)))
+    (gamma_eq_sSup_range :
+      ∀ alpha : Profile,
+        gamma alpha =
+          sSup
+            (Set.range
+              (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha))) :
+    ∀ alpha : Profile, gamma uniformProfile ≤ gamma alpha := by
+  let C :=
+    Proposition4AveragingCertificate.ofProbabilityKernelAverageOfSupremum
+      userMeasure profileMeasure profile_probability gamma kernel
+      uniformProfile uniformValue rho_integrable uniform_gamma_eq
+      integral_kernel_swap kernel_user_integral_eq rho_bddAbove
+      gamma_eq_sSup_range
+  simpa [C] using C.uniform_minimizes
+
+/--
 Source Proposition 4, product-integrable probability-kernel averaging endpoint.
 
 This is the Fubini-ready version of the kernel endpoint: product integrability
@@ -9846,6 +10381,385 @@ theorem
       uniformProfile uniformValue kernel_integrable uniform_gamma_eq
       kernel_user_integral_eq rho_le_gamma
   simpa [C] using C.uniform_minimizes
+
+/--
+Source Proposition 4, product-integrable probability-kernel averaging endpoint
+with `Gamma` instantiated as a bounded supremum over user-level kernel
+integrals.
+-/
+theorem
+    paper_proposition4_probability_kernel_integrable_averaging_uniform_minimizes_of_supremum
+    {Profile User Item : Type*} [MeasurableSpace User] [MeasurableSpace Item]
+    (userMeasure : MeasureTheory.Measure User)
+    [MeasureTheory.IsProbabilityMeasure userMeasure]
+    (profileMeasure : Profile → MeasureTheory.Measure Item)
+    (profile_probability :
+      ∀ alpha : Profile,
+        MeasureTheory.IsProbabilityMeasure (profileMeasure alpha))
+    (gamma : Profile → ℝ) (kernel : Item → User → ℝ)
+    (uniformProfile : Profile) (uniformValue : ℝ)
+    (kernel_integrable :
+      ∀ alpha : Profile,
+        MeasureTheory.Integrable (Function.uncurry kernel)
+          ((profileMeasure alpha).prod userMeasure))
+    (uniform_gamma_eq : gamma uniformProfile = uniformValue)
+    (kernel_user_integral_eq :
+      ∀ x : Item, (∫ u, kernel x u ∂userMeasure) = uniformValue)
+    (rho_bddAbove :
+      ∀ alpha : Profile,
+        BddAbove
+          (Set.range
+            (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha)))
+    (gamma_eq_sSup_range :
+      ∀ alpha : Profile,
+        gamma alpha =
+          sSup
+            (Set.range
+              (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha))) :
+    ∀ alpha : Profile, gamma uniformProfile ≤ gamma alpha := by
+  let C :=
+    Proposition4AveragingCertificate.ofProbabilityKernelAverageOfIntegrableOfSupremum
+      userMeasure profileMeasure profile_probability gamma kernel
+      uniformProfile uniformValue kernel_integrable uniform_gamma_eq
+      kernel_user_integral_eq rho_bddAbove gamma_eq_sSup_range
+  simpa [C] using C.uniform_minimizes
+
+/--
+Source Proposition 4, product-integrable probability-kernel averaging endpoint
+with `Gamma` instantiated by a positive-Laplace uniqueness computation instead
+of an explicit supremum certificate.
+-/
+theorem
+    paper_proposition4_probability_kernel_integrable_averaging_uniform_minimizes_of_positive_laplace_rate_unique_attained_max_uniformWeightLower
+    {Profile User Item : Type*} [TopologicalSpace User]
+    [MeasurableSpace User] [OpensMeasurableSpace User] [MeasurableSpace Item]
+    (userMeasure : MeasureTheory.Measure User)
+    [MeasureTheory.IsProbabilityMeasure userMeasure]
+    (profileMeasure : Profile → MeasureTheory.Measure Item)
+    (profile_probability :
+      ∀ alpha : Profile,
+        MeasureTheory.IsProbabilityMeasure (profileMeasure alpha))
+    (w : Profile → User → ℝ) (gamma supValue : Profile → ℝ)
+    (kernel : Item → User → ℝ) (W c : Profile → ℝ)
+    (uniformProfile : Profile) (uniformValue : ℝ)
+    (hsource :
+      ∀ alpha : Profile,
+        EconCSLib.Probability.HasExponentialRate
+          (fun n : ℕ =>
+            ∫ u,
+              w alpha u *
+                Real.exp
+                  ((n : ℝ) *
+                    (∫ x, kernel x u ∂profileMeasure alpha))
+              ∂userMeasure)
+          (-(gamma alpha)))
+    (hopen : MeasureTheory.Measure.IsOpenPosMeasure userMeasure)
+    (hF_int :
+      ∀ alpha : Profile, ∀ n : ℕ,
+        MeasureTheory.Integrable
+          (fun u : User =>
+            w alpha u *
+              Real.exp
+                ((n : ℝ) * (∫ x, kernel x u ∂profileMeasure alpha)))
+          userMeasure)
+    (hw_int :
+      ∀ alpha : Profile,
+        MeasureTheory.Integrable (w alpha) userMeasure)
+    (hWpos : ∀ alpha : Profile, 0 < W alpha)
+    (hcpos : ∀ alpha : Profile, 0 < c alpha)
+    (hw_lower :
+      ∀ alpha : Profile,
+        ∀ᵐ u ∂userMeasure, c alpha ≤ w alpha u)
+    (hw_bound :
+      ∀ alpha : Profile,
+        ∀ᵐ u ∂userMeasure, w alpha u ≤ W alpha)
+    (kernel_integrable :
+      ∀ alpha : Profile,
+        MeasureTheory.Integrable (Function.uncurry kernel)
+          ((profileMeasure alpha).prod userMeasure))
+    (uniform_gamma_eq : gamma uniformProfile = uniformValue)
+    (kernel_user_integral_eq :
+      ∀ x : Item, (∫ u, kernel x u ∂userMeasure) = uniformValue)
+    (x0 : Profile → User)
+    (hmax :
+      ∀ alpha : Profile, ∀ u : User,
+        (∫ x, kernel x u ∂profileMeasure alpha) ≤ supValue alpha)
+    (hx0 :
+      ∀ alpha : Profile,
+        (∫ x, kernel x (x0 alpha) ∂profileMeasure alpha) =
+          supValue alpha)
+    (hcont :
+      ∀ alpha : Profile,
+        ContinuousAt
+          (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha)
+          (x0 alpha)) :
+    ∀ alpha : Profile, gamma uniformProfile ≤ gamma alpha := by
+  let C :=
+    Proposition4AveragingCertificate.ofProbabilityKernelAverageOfIntegrableOfPositiveLaplaceRateUniqueAttainedMaxUniformWeightLower
+      userMeasure profileMeasure profile_probability w gamma supValue kernel
+      W c uniformProfile uniformValue hsource hopen hF_int hw_int hWpos
+      hcpos hw_lower hw_bound kernel_integrable uniform_gamma_eq
+      kernel_user_integral_eq x0 hmax hx0 hcont
+  simpa [C] using C.uniform_minimizes
+
+/--
+Source Proposition 4, product-integrable probability-kernel averaging endpoint
+with `Gamma` instantiated by a unit-weight positive-Laplace uniqueness
+computation.
+-/
+theorem
+    paper_proposition4_probability_kernel_integrable_averaging_uniform_minimizes_of_positive_laplace_rate_unique_attained_max_unitWeight
+    {Profile User Item : Type*} [TopologicalSpace User]
+    [MeasurableSpace User] [OpensMeasurableSpace User] [MeasurableSpace Item]
+    (userMeasure : MeasureTheory.Measure User)
+    [MeasureTheory.IsProbabilityMeasure userMeasure]
+    (profileMeasure : Profile → MeasureTheory.Measure Item)
+    (profile_probability :
+      ∀ alpha : Profile,
+        MeasureTheory.IsProbabilityMeasure (profileMeasure alpha))
+    (gamma supValue : Profile → ℝ)
+    (kernel : Item → User → ℝ)
+    (uniformProfile : Profile) (uniformValue : ℝ)
+    (hsource :
+      ∀ alpha : Profile,
+        EconCSLib.Probability.HasExponentialRate
+          (fun n : ℕ =>
+            ∫ u,
+              Real.exp
+                ((n : ℝ) * (∫ x, kernel x u ∂profileMeasure alpha))
+              ∂userMeasure)
+          (-(gamma alpha)))
+    (hopen : MeasureTheory.Measure.IsOpenPosMeasure userMeasure)
+    (hF_int :
+      ∀ alpha : Profile, ∀ n : ℕ,
+        MeasureTheory.Integrable
+          (fun u : User =>
+            Real.exp
+              ((n : ℝ) * (∫ x, kernel x u ∂profileMeasure alpha)))
+          userMeasure)
+    (kernel_integrable :
+      ∀ alpha : Profile,
+        MeasureTheory.Integrable (Function.uncurry kernel)
+          ((profileMeasure alpha).prod userMeasure))
+    (uniform_gamma_eq : gamma uniformProfile = uniformValue)
+    (kernel_user_integral_eq :
+      ∀ x : Item, (∫ u, kernel x u ∂userMeasure) = uniformValue)
+    (x0 : Profile → User)
+    (hmax :
+      ∀ alpha : Profile, ∀ u : User,
+        (∫ x, kernel x u ∂profileMeasure alpha) ≤ supValue alpha)
+    (hx0 :
+      ∀ alpha : Profile,
+        (∫ x, kernel x (x0 alpha) ∂profileMeasure alpha) =
+          supValue alpha)
+    (hcont :
+      ∀ alpha : Profile,
+        ContinuousAt
+          (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha)
+          (x0 alpha)) :
+    ∀ alpha : Profile, gamma uniformProfile ≤ gamma alpha := by
+  let rho : Profile → User → ℝ :=
+    fun alpha u => ∫ x, kernel x u ∂profileMeasure alpha
+  have hgamma_eq :
+      ∀ alpha : Profile,
+        gamma alpha =
+          sSup
+            (Set.range
+              (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha)) := by
+    simpa [rho] using
+      paper_proposition4_gamma_eq_sSup_range_of_positive_laplace_rate_unique_attained_max_unitWeight
+        (fun _ : Profile => userMeasure) gamma supValue rho hsource
+        (fun _ => inferInstance) (fun _ => hopen) hF_int x0 hmax hx0
+        hcont
+  exact
+    paper_proposition4_probability_kernel_integrable_averaging_uniform_minimizes_of_supremum
+      userMeasure profileMeasure profile_probability gamma kernel
+      uniformProfile uniformValue kernel_integrable uniform_gamma_eq
+      kernel_user_integral_eq
+      (EconCSLib.Optimization.bddAbove_range_apply_of_forall_le
+        (fun alpha u => ∫ x, kernel x u ∂profileMeasure alpha) hmax)
+      hgamma_eq
+
+/--
+Source Proposition 4, symmetry-driven product-integrable probability-kernel
+endpoint with `Gamma` instantiated by a unit-weight positive-Laplace
+uniqueness computation.  The symmetry hypotheses supply the constant
+item-level user integral, so callers only need the anchor integral.
+-/
+theorem
+    paper_proposition4_probability_kernel_symmetry_integrable_averaging_uniform_minimizes_of_positive_laplace_rate_unique_attained_max_unitWeight
+    {Profile User Item Sym : Type*} [TopologicalSpace User]
+    [MeasurableSpace User] [OpensMeasurableSpace User] [MeasurableSpace Item]
+    (userMeasure : MeasureTheory.Measure User)
+    [MeasureTheory.IsProbabilityMeasure userMeasure]
+    (profileMeasure : Profile → MeasureTheory.Measure Item)
+    (profile_probability :
+      ∀ alpha : Profile,
+        MeasureTheory.IsProbabilityMeasure (profileMeasure alpha))
+    (gamma supValue : Profile → ℝ)
+    (kernel : Item → User → ℝ)
+    (uniformProfile : Profile) (uniformValue : ℝ)
+    (hsource :
+      ∀ alpha : Profile,
+        EconCSLib.Probability.HasExponentialRate
+          (fun n : ℕ =>
+            ∫ u,
+              Real.exp
+                ((n : ℝ) * (∫ x, kernel x u ∂profileMeasure alpha))
+              ∂userMeasure)
+          (-(gamma alpha)))
+    (hopen : MeasureTheory.Measure.IsOpenPosMeasure userMeasure)
+    (hF_int :
+      ∀ alpha : Profile, ∀ n : ℕ,
+        MeasureTheory.Integrable
+          (fun u : User =>
+            Real.exp
+              ((n : ℝ) * (∫ x, kernel x u ∂profileMeasure alpha)))
+          userMeasure)
+    (kernel_integrable :
+      ∀ alpha : Profile,
+        MeasureTheory.Integrable (Function.uncurry kernel)
+          ((profileMeasure alpha).prod userMeasure))
+    (uniform_gamma_eq : gamma uniformProfile = uniformValue)
+    (userAction : Sym → User → User)
+    (itemAction : Sym → Item → Item)
+    (anchor : Item)
+    (userAction_measurePreserving :
+      ∀ g : Sym,
+        MeasureTheory.MeasurePreserving (userAction g) userMeasure
+          userMeasure)
+    (userAction_measurableEmbedding :
+      ∀ g : Sym, MeasurableEmbedding (userAction g))
+    (kernel_diagonal_invariant :
+      ∀ g : Sym, ∀ x : Item, ∀ u : User,
+        kernel (itemAction g x) (userAction g u) = kernel x u)
+    (itemAction_transitive :
+      ∀ x : Item, ∃ g : Sym, itemAction g anchor = x)
+    (anchor_integral_eq_uniformValue :
+      (∫ u, kernel anchor u ∂userMeasure) = uniformValue)
+    (x0 : Profile → User)
+    (hmax :
+      ∀ alpha : Profile, ∀ u : User,
+        (∫ x, kernel x u ∂profileMeasure alpha) ≤ supValue alpha)
+    (hx0 :
+      ∀ alpha : Profile,
+        (∫ x, kernel x (x0 alpha) ∂profileMeasure alpha) =
+          supValue alpha)
+    (hcont :
+      ∀ alpha : Profile,
+        ContinuousAt
+          (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha)
+          (x0 alpha)) :
+    ∀ alpha : Profile, gamma uniformProfile ≤ gamma alpha := by
+  have hkernel_user_integral_eq :
+      ∀ x : Item, (∫ u, kernel x u ∂userMeasure) = uniformValue := by
+    intro x
+    calc
+      (∫ u, kernel x u ∂userMeasure)
+          = ∫ u, kernel anchor u ∂userMeasure :=
+            EconCSLib.Probability.integral_kernel_eq_anchor_of_transitive_diagonal_invariance
+              userMeasure userAction itemAction kernel anchor
+              userAction_measurePreserving userAction_measurableEmbedding
+              kernel_diagonal_invariant itemAction_transitive x
+      _ = uniformValue := anchor_integral_eq_uniformValue
+  exact
+    paper_proposition4_probability_kernel_integrable_averaging_uniform_minimizes_of_positive_laplace_rate_unique_attained_max_unitWeight
+      userMeasure profileMeasure profile_probability gamma supValue kernel
+      uniformProfile uniformValue hsource hopen hF_int kernel_integrable
+      uniform_gamma_eq hkernel_user_integral_eq x0 hmax hx0 hcont
+
+/--
+Source Proposition 4, symmetry-driven product-integrable probability-kernel
+endpoint for the Laplace-defined objective.
+
+This variant removes the explicit source-rate identity premise by using the
+shared positive-Laplace theorem directly.  It proves the uniform-minimizer
+conclusion for the objective value computed by that Laplace theorem; the
+paper-local concrete sphere endpoint instantiates the radial log-kernel and
+normalized uniform measure in `ContinuousSphereConcrete.lean`. Validation note:
+the paper-facing endpoint reads the source notation for `Gamma` as this
+Laplace-defined objective under the needed radial-kernel regularity.
+-/
+theorem
+    paper_proposition4_probability_kernel_symmetry_integrable_averaging_uniform_minimizes_of_laplace_defined_gamma
+    {Profile User Item Sym : Type*} [TopologicalSpace User]
+    [MeasurableSpace User] [OpensMeasurableSpace User] [MeasurableSpace Item]
+    (userMeasure : MeasureTheory.Measure User)
+    [MeasureTheory.IsProbabilityMeasure userMeasure]
+    (profileMeasure : Profile → MeasureTheory.Measure Item)
+    (profile_probability :
+      ∀ alpha : Profile,
+        MeasureTheory.IsProbabilityMeasure (profileMeasure alpha))
+    (supValue : Profile → ℝ)
+    (kernel : Item → User → ℝ)
+    (uniformProfile : Profile) (uniformValue : ℝ)
+    (hopen : MeasureTheory.Measure.IsOpenPosMeasure userMeasure)
+    (hF_int :
+      ∀ alpha : Profile, ∀ n : ℕ,
+        MeasureTheory.Integrable
+          (fun u : User =>
+            Real.exp
+              ((n : ℝ) * (∫ x, kernel x u ∂profileMeasure alpha)))
+          userMeasure)
+    (kernel_integrable :
+      ∀ alpha : Profile,
+        MeasureTheory.Integrable (Function.uncurry kernel)
+          ((profileMeasure alpha).prod userMeasure))
+    (uniform_sup_eq : supValue uniformProfile = uniformValue)
+    (userAction : Sym → User → User)
+    (itemAction : Sym → Item → Item)
+    (anchor : Item)
+    (userAction_measurePreserving :
+      ∀ g : Sym,
+        MeasureTheory.MeasurePreserving (userAction g) userMeasure
+          userMeasure)
+    (userAction_measurableEmbedding :
+      ∀ g : Sym, MeasurableEmbedding (userAction g))
+    (kernel_diagonal_invariant :
+      ∀ g : Sym, ∀ x : Item, ∀ u : User,
+        kernel (itemAction g x) (userAction g u) = kernel x u)
+    (itemAction_transitive :
+      ∀ x : Item, ∃ g : Sym, itemAction g anchor = x)
+    (anchor_integral_eq_uniformValue :
+      (∫ u, kernel anchor u ∂userMeasure) = uniformValue)
+    (x0 : Profile → User)
+    (hmax :
+      ∀ alpha : Profile, ∀ u : User,
+        (∫ x, kernel x u ∂profileMeasure alpha) ≤ supValue alpha)
+    (hx0 :
+      ∀ alpha : Profile,
+        (∫ x, kernel x (x0 alpha) ∂profileMeasure alpha) =
+          supValue alpha)
+    (hcont :
+      ∀ alpha : Profile,
+        ContinuousAt
+          (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha)
+          (x0 alpha)) :
+    ∀ alpha : Profile, supValue uniformProfile ≤ supValue alpha := by
+  let rho : Profile → User → ℝ :=
+    fun alpha u => ∫ x, kernel x u ∂profileMeasure alpha
+  have hsource :
+      ∀ alpha : Profile,
+        EconCSLib.Probability.HasExponentialRate
+          (fun n : ℕ =>
+            ∫ u,
+              Real.exp
+                ((n : ℝ) * (∫ x, kernel x u ∂profileMeasure alpha))
+              ∂userMeasure)
+          (-(supValue alpha)) := by
+    intro alpha
+    simpa [rho] using
+      (paper_proposition4_positive_laplace_rate_of_attained_pointwise_max_unitWeight
+        (fun _ : Profile => userMeasure) supValue rho
+        (fun _ => inferInstance) (fun _ => hopen) hF_int x0 hmax hx0
+        hcont alpha).has_rate
+  simpa using
+    paper_proposition4_probability_kernel_symmetry_integrable_averaging_uniform_minimizes_of_positive_laplace_rate_unique_attained_max_unitWeight
+      userMeasure profileMeasure profile_probability supValue supValue kernel
+      uniformProfile uniformValue hsource hopen hF_int kernel_integrable
+      uniform_sup_eq userAction itemAction anchor userAction_measurePreserving
+      userAction_measurableEmbedding kernel_diagonal_invariant
+      itemAction_transitive anchor_integral_eq_uniformValue x0 hmax hx0 hcont
 
 /--
 Source Proposition 4, symmetry-driven product-integrable probability-kernel
@@ -9903,6 +10817,258 @@ theorem
   simpa [C] using C.uniform_minimizes
 
 /--
+Source Proposition 4, symmetry-driven product-integrable probability-kernel
+averaging endpoint with `Gamma` instantiated as a bounded supremum over
+user-level kernel integrals.
+-/
+theorem
+    paper_proposition4_probability_kernel_symmetry_integrable_averaging_uniform_minimizes_of_supremum
+    {Profile User Item Sym : Type*} [MeasurableSpace User]
+    [MeasurableSpace Item]
+    (userMeasure : MeasureTheory.Measure User)
+    [MeasureTheory.IsProbabilityMeasure userMeasure]
+    (profileMeasure : Profile → MeasureTheory.Measure Item)
+    (profile_probability :
+      ∀ alpha : Profile,
+        MeasureTheory.IsProbabilityMeasure (profileMeasure alpha))
+    (gamma : Profile → ℝ) (kernel : Item → User → ℝ)
+    (uniformProfile : Profile) (uniformValue : ℝ)
+    (kernel_integrable :
+      ∀ alpha : Profile,
+        MeasureTheory.Integrable (Function.uncurry kernel)
+          ((profileMeasure alpha).prod userMeasure))
+    (uniform_gamma_eq : gamma uniformProfile = uniformValue)
+    (userAction : Sym → User → User)
+    (itemAction : Sym → Item → Item)
+    (anchor : Item)
+    (userAction_measurePreserving :
+      ∀ g : Sym,
+        MeasureTheory.MeasurePreserving (userAction g) userMeasure
+          userMeasure)
+    (userAction_measurableEmbedding :
+      ∀ g : Sym, MeasurableEmbedding (userAction g))
+    (kernel_diagonal_invariant :
+      ∀ g : Sym, ∀ x : Item, ∀ u : User,
+        kernel (itemAction g x) (userAction g u) = kernel x u)
+    (itemAction_transitive :
+      ∀ x : Item, ∃ g : Sym, itemAction g anchor = x)
+    (anchor_integral_eq_uniformValue :
+      (∫ u, kernel anchor u ∂userMeasure) = uniformValue)
+    (rho_bddAbove :
+      ∀ alpha : Profile,
+        BddAbove
+          (Set.range
+            (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha)))
+    (gamma_eq_sSup_range :
+      ∀ alpha : Profile,
+        gamma alpha =
+          sSup
+            (Set.range
+              (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha))) :
+    ∀ alpha : Profile, gamma uniformProfile ≤ gamma alpha := by
+  let C :=
+    Proposition4AveragingCertificate.ofProbabilityKernelSymmetryAverageOfIntegrableOfSupremum
+      userMeasure profileMeasure profile_probability gamma kernel
+      uniformProfile uniformValue kernel_integrable uniform_gamma_eq
+      userAction itemAction anchor userAction_measurePreserving
+      userAction_measurableEmbedding kernel_diagonal_invariant
+      itemAction_transitive anchor_integral_eq_uniformValue rho_bddAbove
+      gamma_eq_sSup_range
+  simpa [C] using C.uniform_minimizes
+
+/--
+Source Proposition 4, two-measure probability-kernel endpoint.
+
+The paper's Proposition 4 uses a full-support preference measure for the
+Laplace limit defining `Gamma`, then uses the uniform sphere measure for the
+Fubini/symmetry averaging step.  This theorem keeps those measures separate:
+`preferenceMeasure` appears in the source Laplace-rate premise, while
+`uniformUserMeasure` appears in the product-integrability and symmetry
+premises used by the averaging argument.
+-/
+theorem
+    paper_proposition4_probability_kernel_symmetry_integrable_averaging_uniform_minimizes_of_preference_laplace_and_uniform_average
+    {Profile User Item Sym : Type*} [TopologicalSpace User]
+    [MeasurableSpace User] [OpensMeasurableSpace User] [MeasurableSpace Item]
+    (preferenceMeasure uniformUserMeasure : MeasureTheory.Measure User)
+    [MeasureTheory.IsProbabilityMeasure preferenceMeasure]
+    [MeasureTheory.IsProbabilityMeasure uniformUserMeasure]
+    (profileMeasure : Profile → MeasureTheory.Measure Item)
+    (profile_probability :
+      ∀ alpha : Profile,
+        MeasureTheory.IsProbabilityMeasure (profileMeasure alpha))
+    (gamma supValue : Profile → ℝ)
+    (kernel : Item → User → ℝ)
+    (uniformProfile : Profile) (uniformValue : ℝ)
+    (hsource :
+      ∀ alpha : Profile,
+        EconCSLib.Probability.HasExponentialRate
+          (fun n : ℕ =>
+            ∫ u,
+              Real.exp
+                ((n : ℝ) * (∫ x, kernel x u ∂profileMeasure alpha))
+              ∂preferenceMeasure)
+          (-(gamma alpha)))
+    (hopen : MeasureTheory.Measure.IsOpenPosMeasure preferenceMeasure)
+    (hF_int :
+      ∀ alpha : Profile, ∀ n : ℕ,
+        MeasureTheory.Integrable
+          (fun u : User =>
+            Real.exp
+              ((n : ℝ) * (∫ x, kernel x u ∂profileMeasure alpha)))
+          preferenceMeasure)
+    (kernel_integrable_uniform :
+      ∀ alpha : Profile,
+        MeasureTheory.Integrable (Function.uncurry kernel)
+          ((profileMeasure alpha).prod uniformUserMeasure))
+    (uniform_gamma_eq : gamma uniformProfile = uniformValue)
+    (userAction : Sym → User → User)
+    (itemAction : Sym → Item → Item)
+    (anchor : Item)
+    (userAction_measurePreserving_uniform :
+      ∀ g : Sym,
+        MeasureTheory.MeasurePreserving (userAction g) uniformUserMeasure
+          uniformUserMeasure)
+    (userAction_measurableEmbedding :
+      ∀ g : Sym, MeasurableEmbedding (userAction g))
+    (kernel_diagonal_invariant :
+      ∀ g : Sym, ∀ x : Item, ∀ u : User,
+        kernel (itemAction g x) (userAction g u) = kernel x u)
+    (itemAction_transitive :
+      ∀ x : Item, ∃ g : Sym, itemAction g anchor = x)
+    (anchor_integral_eq_uniformValue :
+      (∫ u, kernel anchor u ∂uniformUserMeasure) = uniformValue)
+    (x0 : Profile → User)
+    (hmax :
+      ∀ alpha : Profile, ∀ u : User,
+        (∫ x, kernel x u ∂profileMeasure alpha) ≤ supValue alpha)
+    (hx0 :
+      ∀ alpha : Profile,
+        (∫ x, kernel x (x0 alpha) ∂profileMeasure alpha) =
+          supValue alpha)
+    (hcont :
+      ∀ alpha : Profile,
+        ContinuousAt
+          (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha)
+          (x0 alpha)) :
+    ∀ alpha : Profile, gamma uniformProfile ≤ gamma alpha := by
+  let rho : Profile → User → ℝ :=
+    fun alpha u => ∫ x, kernel x u ∂profileMeasure alpha
+  have hgamma_eq :
+      ∀ alpha : Profile,
+        gamma alpha =
+          sSup
+            (Set.range
+              (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha)) := by
+    simpa [rho] using
+      paper_proposition4_gamma_eq_sSup_range_of_positive_laplace_rate_unique_attained_max_unitWeight
+        (fun _ : Profile => preferenceMeasure) gamma supValue rho hsource
+        (fun _ => inferInstance) (fun _ => hopen) hF_int x0 hmax hx0
+        hcont
+  exact
+    paper_proposition4_probability_kernel_symmetry_integrable_averaging_uniform_minimizes_of_supremum
+      uniformUserMeasure profileMeasure profile_probability gamma kernel
+      uniformProfile uniformValue kernel_integrable_uniform uniform_gamma_eq
+      userAction itemAction anchor userAction_measurePreserving_uniform
+      userAction_measurableEmbedding kernel_diagonal_invariant
+      itemAction_transitive anchor_integral_eq_uniformValue
+      (EconCSLib.Optimization.bddAbove_range_apply_of_forall_le
+        (fun alpha u => ∫ x, kernel x u ∂profileMeasure alpha) hmax)
+      hgamma_eq
+
+/--
+Source Proposition 4, source-faithful two-measure endpoint for the
+Laplace-defined objective.
+
+This removes the explicit source-rate identity premise by deriving the
+positive-Laplace rate from the shared large-deviations theorem over the
+preference measure.  The uniform measure is used only for the sphere averaging
+and symmetry argument, matching the proof text.
+-/
+theorem
+    paper_proposition4_probability_kernel_symmetry_integrable_averaging_uniform_minimizes_of_preference_laplace_and_uniform_average_laplace_defined_gamma
+    {Profile User Item Sym : Type*} [TopologicalSpace User]
+    [MeasurableSpace User] [OpensMeasurableSpace User] [MeasurableSpace Item]
+    (preferenceMeasure uniformUserMeasure : MeasureTheory.Measure User)
+    [MeasureTheory.IsProbabilityMeasure preferenceMeasure]
+    [MeasureTheory.IsProbabilityMeasure uniformUserMeasure]
+    (profileMeasure : Profile → MeasureTheory.Measure Item)
+    (profile_probability :
+      ∀ alpha : Profile,
+        MeasureTheory.IsProbabilityMeasure (profileMeasure alpha))
+    (supValue : Profile → ℝ)
+    (kernel : Item → User → ℝ)
+    (uniformProfile : Profile) (uniformValue : ℝ)
+    (hopen : MeasureTheory.Measure.IsOpenPosMeasure preferenceMeasure)
+    (hF_int :
+      ∀ alpha : Profile, ∀ n : ℕ,
+        MeasureTheory.Integrable
+          (fun u : User =>
+            Real.exp
+              ((n : ℝ) * (∫ x, kernel x u ∂profileMeasure alpha)))
+          preferenceMeasure)
+    (kernel_integrable_uniform :
+      ∀ alpha : Profile,
+        MeasureTheory.Integrable (Function.uncurry kernel)
+          ((profileMeasure alpha).prod uniformUserMeasure))
+    (uniform_sup_eq : supValue uniformProfile = uniformValue)
+    (userAction : Sym → User → User)
+    (itemAction : Sym → Item → Item)
+    (anchor : Item)
+    (userAction_measurePreserving_uniform :
+      ∀ g : Sym,
+        MeasureTheory.MeasurePreserving (userAction g) uniformUserMeasure
+          uniformUserMeasure)
+    (userAction_measurableEmbedding :
+      ∀ g : Sym, MeasurableEmbedding (userAction g))
+    (kernel_diagonal_invariant :
+      ∀ g : Sym, ∀ x : Item, ∀ u : User,
+        kernel (itemAction g x) (userAction g u) = kernel x u)
+    (itemAction_transitive :
+      ∀ x : Item, ∃ g : Sym, itemAction g anchor = x)
+    (anchor_integral_eq_uniformValue :
+      (∫ u, kernel anchor u ∂uniformUserMeasure) = uniformValue)
+    (x0 : Profile → User)
+    (hmax :
+      ∀ alpha : Profile, ∀ u : User,
+        (∫ x, kernel x u ∂profileMeasure alpha) ≤ supValue alpha)
+    (hx0 :
+      ∀ alpha : Profile,
+        (∫ x, kernel x (x0 alpha) ∂profileMeasure alpha) =
+          supValue alpha)
+    (hcont :
+      ∀ alpha : Profile,
+        ContinuousAt
+          (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha)
+          (x0 alpha)) :
+    ∀ alpha : Profile, supValue uniformProfile ≤ supValue alpha := by
+  let rho : Profile → User → ℝ :=
+    fun alpha u => ∫ x, kernel x u ∂profileMeasure alpha
+  have hsource :
+      ∀ alpha : Profile,
+        EconCSLib.Probability.HasExponentialRate
+          (fun n : ℕ =>
+            ∫ u,
+              Real.exp
+                ((n : ℝ) * (∫ x, kernel x u ∂profileMeasure alpha))
+              ∂preferenceMeasure)
+          (-(supValue alpha)) := by
+    intro alpha
+    simpa [rho] using
+      (paper_proposition4_positive_laplace_rate_of_attained_pointwise_max_unitWeight
+        (fun _ : Profile => preferenceMeasure) supValue rho
+        (fun _ => inferInstance) (fun _ => hopen) hF_int x0 hmax hx0
+        hcont alpha).has_rate
+  simpa using
+    paper_proposition4_probability_kernel_symmetry_integrable_averaging_uniform_minimizes_of_preference_laplace_and_uniform_average
+      preferenceMeasure uniformUserMeasure profileMeasure profile_probability
+      supValue supValue kernel uniformProfile uniformValue hsource hopen hF_int
+      kernel_integrable_uniform uniform_sup_eq userAction itemAction anchor
+      userAction_measurePreserving_uniform userAction_measurableEmbedding
+      kernel_diagonal_invariant itemAction_transitive
+      anchor_integral_eq_uniformValue x0 hmax hx0 hcont
+
+/--
 Source Proposition 4, bounded probability-kernel averaging endpoint.
 
 Measurability plus a uniform a.e. bound supplies the product integrability
@@ -9939,6 +11105,52 @@ theorem
       userMeasure profileMeasure profile_probability gamma kernel
       uniformProfile uniformValue C kernel_aestronglyMeasurable
       kernel_norm_le uniform_gamma_eq kernel_user_integral_eq rho_le_gamma
+  simpa [Ccert] using Ccert.uniform_minimizes
+
+/--
+Source Proposition 4, bounded probability-kernel averaging endpoint with
+`Gamma` instantiated as a bounded supremum over user-level kernel integrals.
+-/
+theorem
+    paper_proposition4_probability_kernel_bounded_averaging_uniform_minimizes_of_supremum
+    {Profile User Item : Type*} [MeasurableSpace User] [MeasurableSpace Item]
+    (userMeasure : MeasureTheory.Measure User)
+    [MeasureTheory.IsProbabilityMeasure userMeasure]
+    (profileMeasure : Profile → MeasureTheory.Measure Item)
+    (profile_probability :
+      ∀ alpha : Profile,
+        MeasureTheory.IsProbabilityMeasure (profileMeasure alpha))
+    (gamma : Profile → ℝ) (kernel : Item → User → ℝ)
+    (uniformProfile : Profile) (uniformValue : ℝ) (C : ℝ)
+    (kernel_aestronglyMeasurable :
+      ∀ alpha : Profile,
+        MeasureTheory.AEStronglyMeasurable (Function.uncurry kernel)
+          ((profileMeasure alpha).prod userMeasure))
+    (kernel_norm_le :
+      ∀ alpha : Profile,
+        ∀ᵐ xu ∂((profileMeasure alpha).prod userMeasure),
+          ‖Function.uncurry kernel xu‖ ≤ C)
+    (uniform_gamma_eq : gamma uniformProfile = uniformValue)
+    (kernel_user_integral_eq :
+      ∀ x : Item, (∫ u, kernel x u ∂userMeasure) = uniformValue)
+    (rho_bddAbove :
+      ∀ alpha : Profile,
+        BddAbove
+          (Set.range
+            (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha)))
+    (gamma_eq_sSup_range :
+      ∀ alpha : Profile,
+        gamma alpha =
+          sSup
+            (Set.range
+              (fun u : User => ∫ x, kernel x u ∂profileMeasure alpha))) :
+    ∀ alpha : Profile, gamma uniformProfile ≤ gamma alpha := by
+  let Ccert :=
+    Proposition4AveragingCertificate.ofProbabilityKernelAverageOfBoundedOfSupremum
+      userMeasure profileMeasure profile_probability gamma kernel
+      uniformProfile uniformValue C kernel_aestronglyMeasurable
+      kernel_norm_le uniform_gamma_eq kernel_user_integral_eq
+      rho_bddAbove gamma_eq_sSup_range
   simpa [Ccert] using Ccert.uniform_minimizes
 
 /--

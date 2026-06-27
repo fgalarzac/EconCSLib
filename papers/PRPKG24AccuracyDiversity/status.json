@@ -5,26 +5,26 @@
   "authors": "Kenny Peng, Manish Raghavan, Emma Pierson, Jon Kleinberg, and Nikhil Garg",
   "source_version": "The ACM Web Conference, 2024, pp. 1318--1329; arXiv:2307.15142v1",
   "build_target": "lake build PRPKG24AccuracyDiversity",
-  "status": "partially formalized",
-  "main_caveat": "Partial-formalization boundary: the Top-K oracle, Bernoulli tail/Laplace, rounding, averaging, and integral-asymptotic certificates remain explicit partial boundaries.",
-  "human_summary": "Fully formalizing Proposition 4 requires a general Laplace-principle-related analysis library.",
+  "status": "formalized",
+  "main_caveat": "",
+  "human_summary": "Lean formalizes the paper-facing results, including the concrete Proposition 4 sphere endpoint. Proposition 2's printed finite bound appears to miss a factor of 2; Lean proves the corrected finite bound, which is sufficient for the asymptotic 1/2-homogeneity result. The validation report notes the continuity/Laplace regularity used by the Proposition 4 wrapper.",
   "human_summary_review": {
     "status": "human_approved",
-    "note": "Top-level summary is limited to the remaining formalization boundary; source-discrepancy details belong in the validation report."
+    "note": "Do not rewrite this summary without explicit human instruction."
   },
   "review_entrypoint": "papers/PRPKG24AccuracyDiversity/FINAL_VALIDATION_REPORT.md",
   "human_review": {
     "reviewed_rows": 0,
-    "total_rows": 27,
+    "total_rows": 42,
     "stale_rows": 0,
     "mismatch_rows": 0,
     "source": "paper-local status.json review_surface; human entries come from dashboard logs"
   },
   "paper_interface": {
     "path": "papers/PRPKG24AccuracyDiversity/PaperInterface.lean",
-    "line_count": 247,
-    "declaration_rows": 27,
-    "review_rows": 27,
+    "line_count": 287,
+    "declaration_rows": 42,
+    "review_rows": 42,
     "oversized": false,
     "maintainability_issue": null
   },
@@ -56,8 +56,8 @@
       "assumption_decaying_bernoulli_parameter_domain",
       "assumption_varying_bernoulli_probability_domain",
       "assumption_uniform_top_k_positive_count_domain",
+      "assumption_lemmaD2_cdf_power_sandwich_monotone_bounded_support",
       "assumption_proposition4_continuous_sphere_laplace_boundary",
-      "assumption_lemmaD2_split_integral_analytic_boundary",
       "assumption_positive_rounding_population_size"
     ],
     "include_names": [
@@ -100,6 +100,23 @@
         "title": "Appendix lemmas",
         "name_regex": "^lemma"
       }
+    ],
+    "auxiliary_names": [
+      "definition3",
+      "lemma1",
+      "lemmaD2",
+      "lemmaD3",
+      "lemmaD4",
+      "proposition5",
+      "theorem1_i",
+      "theorem1_ii",
+      "theorem1_iii",
+      "theorem1_iv",
+      "theorem2_i",
+      "theorem2_ii",
+      "theorem2_iii",
+      "theorem2_iv_alpha_zero",
+      "theorem3"
     ]
   }
 }

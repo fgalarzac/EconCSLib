@@ -3,8 +3,8 @@
   "paper": "PRPKG24AccuracyDiversity",
   "validator": "gpt-5-codex",
   "validator_type": "model",
-  "validated_at": "2026-06-12T00:00:00Z",
-  "comment": "Premise-level source/provenance audit against the local arXiv/source-text cache. Each audit-premise from Assumptions.lean is judged individually; group-level approval is not sufficient.",
+  "validated_at": "2026-06-26T00:00:00Z",
+  "comment": "Premise-level source/provenance audit against the local arXiv/source-text cache. Each audit-premise from Assumptions.lean is judged individually; group-level approval is not sufficient. Proposition 4's regularity row is a validation note, not a caveat or partial boundary.",
   "items": {
     "assumption_example1_positive_calibrated_exponential_parameters": {
       "judgment": "paper_condition",
@@ -322,29 +322,74 @@
         }
       }
     },
-    "assumption_proposition4_continuous_sphere_laplace_boundary": {
-      "judgment": "partial_boundary",
-      "reason": "The folder currently stops Proposition 4 at an averaging/kernel checkpoint; the full continuous sphere, uniform measure, cosine-kernel/Fubini/symmetry, and Laplace-principle analytic instantiation remain a known partial analytic boundary rather than a source caveat.",
-      "source_location": "PRPKG24AccuracyDiversity.txt:1122-1184, Proposition 4",
-      "premise_count": 1,
+    "assumption_lemmaD2_cdf_power_sandwich_monotone_bounded_support": {
+      "judgment": "paper_condition",
+      "reason": "Lemma D.2's bounded-tail route uses the reflected-CDF power-tail asymptotic, monotonicity/range facts, positive rank count, and bounded-support saturation.",
+      "source_location": "PRPKG24AccuracyDiversity.txt:701-713 and Appendix D.2, especially equations (91)-(96)",
+      "premise_count": 8,
       "premise_judgments": {
-        "C : Proposition4ContinuousSphereCertificate Profile": {
-          "judgment": "partial_boundary",
-          "source_location": "PRPKG24AccuracyDiversity.txt:1122-1184, Proposition 4",
-          "reason": "The certificate packages the continuous-sphere uniform-measure, symmetry/Fubini, and Laplace analytic ingredients that remain the paper's Proposition 4 partial boundary, not a source caveat."
+        "tail : BoundedTailCDFPowerSandwich G β c": {
+          "judgment": "paper_condition",
+          "source_location": "PRPKG24AccuracyDiversity.txt:701-713 and 2181-2205: bounded upper endpoint density/tail condition with beta,c > 0",
+          "reason": "The CDF power sandwich is the Lean source-shaped form of the paper's upper-endpoint tail-density asymptotic used in Lemma D.2."
+        },
+        "k_pos : 0 < k": {
+          "judgment": "source_text_model_primitive",
+          "source_location": "PRPKG24AccuracyDiversity.txt:65-69 and Appendix D.2: top-k recommendation count",
+          "reason": "The top-k loss expression is stated for a nonempty finite k."
+        },
+        "hM_pos : 0 < M": {
+          "judgment": "source_text_model_primitive",
+          "source_location": "PRPKG24AccuracyDiversity.txt:351-366 and 701-713: bounded support endpoint M for nonnegative values",
+          "reason": "Lean records the nondegenerate positive bounded-support endpoint used by the reflected-CDF route."
+        },
+        "hG_measurable : Measurable G": {
+          "judgment": "source_text_model_primitive",
+          "source_location": "PRPKG24AccuracyDiversity.txt:701-713 and Appendix D.2: G is the reflected distribution/tail mass function",
+          "reason": "Measurability is the standard measurable-distribution condition needed for the integral representation."
+        },
+        "hG_mono : Monotone G": {
+          "judgment": "derived_from_source_primitives",
+          "source_location": "PRPKG24AccuracyDiversity.txt:701-713 and Appendix D.2: G is a CDF/reflected tail mass",
+          "reason": "The reflected CDF/tail-mass function is monotone in the threshold variable."
+        },
+        "hG_nonneg : ∀ x : ℝ, 0 ≤ G x": {
+          "judgment": "derived_from_source_primitives",
+          "source_location": "PRPKG24AccuracyDiversity.txt:701-713 and Appendix D.2: G is a probability mass/CDF quantity",
+          "reason": "Probability masses are nonnegative."
+        },
+        "hG_le_one : ∀ x : ℝ, G x ≤ 1": {
+          "judgment": "derived_from_source_primitives",
+          "source_location": "PRPKG24AccuracyDiversity.txt:701-713 and Appendix D.2: G is a probability mass/CDF quantity",
+          "reason": "Probability masses are bounded above by one."
+        },
+        "hG_eq_one_of_support : ∀ x : ℝ, M ≤ x → G x = 1": {
+          "judgment": "derived_from_source_primitives",
+          "source_location": "PRPKG24AccuracyDiversity.txt:351-366 and 701-713: D has support bounded above by M",
+          "reason": "For the reflected CDF, thresholds beyond the support width saturate the probability mass."
         }
       }
     },
-    "assumption_lemmaD2_split_integral_analytic_boundary": {
-      "judgment": "partial_boundary",
-      "reason": "Lemma D.2's finite split-integral assembly is conditional on the near-zero/tail asymptotic split certificate; this is part of the same known partial analytic asymptotic boundary as the continuous/Laplace layer, not a source caveat.",
-      "source_location": "PRPKG24AccuracyDiversity.txt:2181-2205 and Appendix D.2",
-      "premise_count": 1,
+    "assumption_proposition4_continuous_sphere_laplace_boundary": {
+      "judgment": "paper_condition",
+      "reason": "Proposition 4's concrete sphere endpoint is formalized. This row records the theorem-level regularity and Gamma-interpretation note used by the paper-facing wrapper, not an open proof boundary.",
+      "source_location": "PRPKG24AccuracyDiversity.txt:1122-1184, Proposition 4",
+      "premise_count": 3,
       "premise_judgments": {
-        "C : BoundedLemmaD2SplitIntegralFiniteCertificate beta c k G": {
-          "judgment": "partial_boundary",
-          "source_location": "PRPKG24AccuracyDiversity.txt:2181-2205 and Appendix D.2 bounded upper-endpoint derivation",
-          "reason": "The certificate supplies the analytic split-integral asymptotic used by Lemma D.2; the current Lean development has not fully derived that analytic asymptotic from measure/integration primitives, so this remains a partial boundary."
+        "hp : Continuous q": {
+          "judgment": "paper_condition",
+          "source_location": "PRPKG24AccuracyDiversity.txt:1122-1184, Proposition 4; human validation note 2026-06-26",
+          "reason": "Continuity is the regularity needed by the formal Laplace-principle route for the radial kernel and is recorded as a validation note rather than proof debt."
+        },
+        "hp_pos : ∀ r ∈ Set.Icc (0 : ℝ) 2, 0 < q r": {
+          "judgment": "source_text",
+          "source_location": "PRPKG24AccuracyDiversity.txt:1122-1184: p(u,v): S^d x S^d -> (0,1] and p(u,v)=q(||u-v||)",
+          "reason": "The Lean interval `[0,2]` is the unit-sphere distance range; positivity follows from the source codomain `(0,1]`."
+        },
+        "hGamma : paper Γ(α) is interpreted by the Laplace-defined supremum objective": {
+          "judgment": "paper_condition",
+          "source_location": "PRPKG24AccuracyDiversity.txt:1122-1184, Proposition 4; human validation note 2026-06-26",
+          "reason": "The source presents Gamma through the large-n error-probability limit; Lean's wrapper records the Laplace-defined compact-supremum reading used for that endpoint."
         }
       }
     },

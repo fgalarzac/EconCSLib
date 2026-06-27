@@ -59,6 +59,57 @@ def logDecay (p : ℕ → ℝ) (n : ℕ) : ℝ :=
 def HasExponentialRate (p : ℕ → ℝ) (rate : ℝ) : Prop :=
   Tendsto (logDecay p) atTop (nhds rate)
 
+namespace HasExponentialRate
+
+/--
+Exponential rates are invariant under eventual equality of the underlying
+error-probability sequence.
+-/
+theorem congr {p q : ℕ → ℝ} {rate : ℝ}
+    (hpq : p =ᶠ[atTop] q) (h : HasExponentialRate p rate) :
+    HasExponentialRate q rate := by
+  rw [HasExponentialRate] at h ⊢
+  refine h.congr' ?_
+  filter_upwards [hpq] with n hn
+  simp [logDecay, hn]
+
+/--
+Pointwise equality is a convenient special case of eventual congruence for
+exponential rates.
+-/
+theorem congr_of_forall {p q : ℕ → ℝ} {rate : ℝ}
+    (hpq : ∀ n, p n = q n) (h : HasExponentialRate p rate) :
+    HasExponentialRate q rate :=
+  congr (Eventually.of_forall hpq) h
+
+/-- Exact exponential rates are unique. -/
+theorem unique {p : ℕ → ℝ} {rate₁ rate₂ : ℝ}
+    (h₁ : HasExponentialRate p rate₁)
+    (h₂ : HasExponentialRate p rate₂) :
+    rate₁ = rate₂ :=
+  tendsto_nhds_unique h₁ h₂
+
+/--
+Finite families of exponential-rate convergences are uniform over the finite
+index set. This is the certificate-level form of taking the maximum burn-in
+over finitely many large-deviation components.
+-/
+theorem uniform_logDecay_fintype
+    {ι : Type*} [Fintype ι] {p : ι → ℕ → ℝ} {rate : ι → ℝ}
+    (h : ∀ i : ι, HasExponentialRate (p i) (rate i)) :
+    ∀ ε > 0, ∀ᶠ n in atTop,
+      ∀ i : ι, |logDecay (p i) n - rate i| ≤ ε := by
+  intro ε hε
+  have hclose :
+      ∀ i : ι, ∀ᶠ n in atTop,
+        |logDecay (p i) n - rate i| < ε := by
+    intro i
+    have hi : Tendsto (logDecay (p i)) atTop (nhds (rate i)) := h i
+    exact (Metric.tendsto_nhds.1 hi) ε hε
+  exact (eventually_all.2 hclose).mono fun _n hn i => (hn i).le
+
+end HasExponentialRate
+
 /--
 Extended paper-style exponential rate.  A finite real rate is the usual
 `HasExponentialRate`; `⊤` records the boundary case where the error
@@ -196,6 +247,110 @@ theorem tendsto_zero_of_pos_rate {p : ℕ → ℝ} {rate : ℝ}
     exact hn.1
   · filter_upwards [hCevent] with n hn
     exact hn.2
+
+/--
+If `1 - P_n` has a positive exponential upper bound, then `P_n` tends to one.
+-/
+theorem tendsto_one_of_one_sub_pos_rate {P : ℕ → ℝ} {rate : ℝ}
+    (h : HasExpUpperBoundWithConst (fun n : ℕ => 1 - P n) rate)
+    (hrate : 0 < rate) :
+    Tendsto P atTop (nhds 1) := by
+  have hzero : Tendsto (fun n : ℕ => 1 - P n) atTop (nhds 0) :=
+    h.tendsto_zero_of_pos_rate hrate
+  have hone_sub :
+      Tendsto (fun n : ℕ => 1 - (1 - P n)) atTop (nhds (1 - 0)) :=
+    tendsto_const_nhds.sub hzero
+  simpa using hone_sub
+
+/--
+A sequence that is frequently bounded below by a fixed positive constant cannot
+have an exponential upper bound at a positive rate.
+-/
+theorem not_of_frequently_ge_pos {p : ℕ → ℝ} {rate ε : ℝ}
+    (hrate : 0 < rate) (hε : 0 < ε)
+    (hfreq : ∃ᶠ n in atTop, ε ≤ p n) :
+    ¬ HasExpUpperBoundWithConst p rate := by
+  intro hupper
+  have hzero : Tendsto p atTop (nhds 0) :=
+    hupper.tendsto_zero_of_pos_rate hrate
+  have hsmall : ∀ᶠ n : ℕ in atTop, p n < ε := by
+    have hmetric := (Metric.tendsto_nhds.mp hzero) ε hε
+    filter_upwards [hmetric] with n hn
+    have hlt := (abs_lt.mp hn).2
+    simpa using hlt
+  rcases (hfreq.and_eventually hsmall).exists with ⟨n, hge, hlt⟩
+  exact not_lt_of_ge hge hlt
+
+/--
+A sequence that is frequently at least `exp (-n * lowerRate)` cannot have an
+eventual exponential upper bound at any strictly larger rate.
+-/
+theorem not_of_frequently_ge_exp_neg_mul
+    {p : ℕ → ℝ} {upperRate lowerRate : ℝ}
+    (hlt_rate : lowerRate < upperRate)
+    (hfreq : ∃ᶠ n : ℕ in atTop,
+      Real.exp (-(n : ℝ) * lowerRate) ≤ p n) :
+    ¬ HasExpUpperBoundWithConst p upperRate := by
+  intro hupper
+  rcases hupper with ⟨C, hCpos, hCevent⟩
+  let gap : ℝ := upperRate - lowerRate
+  have hgap_pos : 0 < gap := by
+    dsimp [gap]
+    linarith
+  let rho : ℝ := Real.exp (-gap)
+  have hrho_nonneg : 0 ≤ rho := (Real.exp_pos _).le
+  have hrho_lt_one : rho < 1 := by
+    dsimp [rho]
+    rw [← Real.exp_zero]
+    exact Real.exp_lt_exp.mpr (by linarith)
+  have hpow : Tendsto (fun n : ℕ => rho ^ n) atTop (nhds 0) :=
+    tendsto_pow_atTop_nhds_zero_of_lt_one hrho_nonneg hrho_lt_one
+  have hratio :
+      Tendsto
+        (fun n : ℕ => C * Real.exp (-(n : ℝ) * gap))
+        atTop (nhds 0) := by
+    have hCpow : Tendsto (fun n : ℕ => C * rho ^ n) atTop (nhds 0) := by
+      simpa using hpow.const_mul C
+    refine hCpow.congr' ?_
+    filter_upwards with n
+    dsimp [rho]
+    rw [← Real.exp_nat_mul]
+    congr 1
+    ring_nf
+  have hratio_lt_one :
+      ∀ᶠ n : ℕ in atTop,
+        C * Real.exp (-(n : ℝ) * gap) < 1 :=
+    hratio.eventually (Iio_mem_nhds zero_lt_one)
+  have hupper_strict :
+      ∀ᶠ n : ℕ in atTop,
+        p n < Real.exp (-(n : ℝ) * lowerRate) := by
+    filter_upwards [hCevent, hratio_lt_one] with n hn hratio_n
+    have hexp_lower_pos : 0 < Real.exp (-(n : ℝ) * lowerRate) :=
+      Real.exp_pos _
+    have hCexp_lt :
+        C * Real.exp (-(n : ℝ) * upperRate) <
+          Real.exp (-(n : ℝ) * lowerRate) := by
+      calc
+        C * Real.exp (-(n : ℝ) * upperRate)
+            =
+            (C * Real.exp (-(n : ℝ) * gap)) *
+              Real.exp (-(n : ℝ) * lowerRate) := by
+              have hexp :
+                  Real.exp (-(n : ℝ) * upperRate) =
+                    Real.exp (-(n : ℝ) * gap) *
+                      Real.exp (-(n : ℝ) * lowerRate) := by
+                rw [← Real.exp_add]
+                congr 1
+                dsimp [gap]
+                ring
+              rw [hexp]
+              ring
+        _ < 1 * Real.exp (-(n : ℝ) * lowerRate) :=
+            mul_lt_mul_of_pos_right hratio_n hexp_lower_pos
+        _ = Real.exp (-(n : ℝ) * lowerRate) := by ring
+    exact hn.2.trans_lt hCexp_lt
+  rcases (hfreq.and_eventually hupper_strict).exists with ⟨n, hge, hlt⟩
+  exact not_lt_of_ge hge hlt
 
 end HasExpUpperBoundWithConst
 
@@ -530,7 +685,125 @@ theorem hasExponentialRate_of_expUpperLowerBounds
       exact neg_le_neg hdiv_le
     exact lt_of_le_of_lt hdecay_le (by linarith)
 
+/--
+A positive sequence has exponential rate zero when it is eventually bounded
+above by a fixed positive constant and has exponential lower bounds at every
+positive rate.
+
+This is the sequence-level skeleton behind many "no exponentially small loss"
+arguments: the upper side at negative target rates follows from the constant
+bound, while the lower side is supplied by local positive-mass witnesses.
+-/
+theorem hasExponentialRate_zero_of_eventually_le_const_and_expLowerBounds
+    {p : ℕ → ℝ} {B : ℝ}
+    (hBpos : 0 < B)
+    (hpos : ∀ᶠ n in atTop, 0 < p n)
+    (hupper_const : ∀ᶠ n in atTop, p n ≤ B)
+    (hlower : ∀ targetRate : ℝ, 0 < targetRate →
+      HasExpLowerBoundWithConst p targetRate) :
+    HasExponentialRate p 0 := by
+  refine hasExponentialRate_of_expUpperLowerBounds hpos ?_ ?_
+  · intro targetRate htarget
+    refine HasExpUpperBoundWithConst.of_eventually_le
+      (C := B) hBpos ?_
+    filter_upwards [hpos, hupper_const] with n hp_pos hp_le
+    refine ⟨hp_pos.le, hp_le.trans ?_⟩
+    have hexp_ge_one : (1 : ℝ) ≤ Real.exp (-(n : ℝ) * targetRate) := by
+      rw [← Real.exp_zero]
+      apply Real.exp_le_exp.mpr
+      have hn_nonneg : 0 ≤ (n : ℝ) := Nat.cast_nonneg n
+      nlinarith
+    exact le_mul_of_one_le_right hBpos.le hexp_ge_one
+  · intro targetRate htarget
+    exact hlower targetRate htarget
+
+/--
+Compose an exact exponential rate with the deterministic floor scale
+`floor (k * g)`. If `p_n` has rate `rate`, then `p_{floor(k g)}` has rate
+`g * rate`.
+-/
+theorem HasExponentialRate.comp_nat_floor_mul_const
+    {p : ℕ → ℝ} {rate g : ℝ}
+    (h : HasExponentialRate p rate) (hg : 0 < g) :
+    HasExponentialRate
+      (fun k : ℕ => p (Nat.floor ((k : ℝ) * g)))
+      (g * rate) := by
+  rw [HasExponentialRate] at h ⊢
+  let floorCount : ℕ → ℕ := fun k => Nat.floor ((k : ℝ) * g)
+  have hfloor_atTop : Tendsto floorCount atTop atTop :=
+    EconCSLib.Math.tendsto_nat_floor_mul_const_atTop hg
+  have hcomp :
+      Tendsto (fun k : ℕ => logDecay p (floorCount k)) atTop
+        (nhds rate) :=
+    h.comp hfloor_atTop
+  have hratio :
+      Tendsto
+        (fun k : ℕ => ((floorCount k : ℕ) : ℝ) / (k : ℝ))
+        atTop (nhds g) := by
+    simpa [floorCount] using
+      EconCSLib.Math.tendsto_nat_floor_mul_const_div_nat hg.le
+  have hmul :
+      Tendsto
+        (fun k : ℕ =>
+          (((floorCount k : ℕ) : ℝ) / (k : ℝ)) *
+            logDecay p (floorCount k))
+        atTop (nhds (g * rate)) := by
+    simpa [mul_comm, mul_left_comm, mul_assoc] using hratio.mul hcomp
+  refine hmul.congr' ?_
+  have hfloor_pos_event : ∀ᶠ k : ℕ in atTop, 0 < floorCount k :=
+    hfloor_atTop.eventually (eventually_gt_atTop 0)
+  filter_upwards [eventually_gt_atTop 0, hfloor_pos_event] with k hk hfloor_pos
+  have hk_pos : 0 < (k : ℝ) := by exact_mod_cast hk
+  have hfloor_ne_real : ((floorCount k : ℕ) : ℝ) ≠ 0 := by
+    exact_mod_cast (Nat.ne_of_gt hfloor_pos)
+  unfold logDecay
+  field_simp [hk_pos.ne', hfloor_ne_real]
+  ring
+
 namespace ExponentialRateCertificate
+
+/--
+Eventually equal sequences have the same exact exponential-rate certificate.
+-/
+theorem congr
+    {p q : ℕ → ℝ} {rate : ℝ}
+    (heq : ∀ᶠ n in atTop, p n = q n)
+    (h : ExponentialRateCertificate q rate) :
+    ExponentialRateCertificate p rate where
+  eventually_pos := by
+    filter_upwards [heq, h.eventually_pos] with n hpq hqpos
+    simpa [hpq] using hqpos
+  has_rate :=
+    HasExponentialRate.congr (heq.mono fun _n hpq => hpq.symm) h.has_rate
+
+/--
+Finite families of exact exponential-rate certificates give uniform
+normalized-log convergence over the finite component index set.
+-/
+theorem uniform_logDecay_fintype
+    {ι : Type*} [Fintype ι] {p : ι → ℕ → ℝ} {rate : ι → ℝ}
+    (h : ∀ i : ι, ExponentialRateCertificate (p i) (rate i)) :
+    ∀ ε > 0, ∀ᶠ n in atTop,
+      ∀ i : ι, |logDecay (p i) n - rate i| ≤ ε :=
+  HasExponentialRate.uniform_logDecay_fintype fun i => (h i).has_rate
+
+/--
+Compose an exact exponential-rate certificate with the deterministic floor
+scale `floor (k * g)`.
+-/
+theorem comp_nat_floor_mul_const
+    {p : ℕ → ℝ} {rate g : ℝ}
+    (h : ExponentialRateCertificate p rate) (hg : 0 < g) :
+    ExponentialRateCertificate
+      (fun k : ℕ => p (Nat.floor ((k : ℝ) * g)))
+      (g * rate) := by
+  let floorCount : ℕ → ℕ := fun k => Nat.floor ((k : ℝ) * g)
+  have hfloor_atTop : Tendsto floorCount atTop atTop :=
+    EconCSLib.Math.tendsto_nat_floor_mul_const_atTop hg
+  refine
+    { eventually_pos := ?_
+      has_rate := h.has_rate.comp_nat_floor_mul_const hg }
+  exact hfloor_atTop.eventually h.eventually_pos
 
 /--
 An exact exponential-rate certificate gives an eventual exponential upper
@@ -606,6 +879,110 @@ theorem tendsto_zero_of_pos_rate
   exact
     (h.hasExpUpperBoundWithConst_of_lt hhalf_lt).tendsto_zero_of_pos_rate
       hhalf_pos
+
+/--
+If `1 - P_n` has an exact positive exponential-rate certificate, then `P_n`
+tends to one.
+-/
+theorem tendsto_one_of_one_sub_pos_rate
+    {P : ℕ → ℝ} {rate : ℝ}
+    (h : ExponentialRateCertificate (fun n : ℕ => 1 - P n) rate)
+    (hrate : 0 < rate) :
+    Tendsto P atTop (nhds 1) := by
+  have hzero : Tendsto (fun n : ℕ => 1 - P n) atTop (nhds 0) :=
+    h.tendsto_zero_of_pos_rate hrate
+  have hone_sub :
+      Tendsto (fun n : ℕ => 1 - (1 - P n)) atTop (nhds (1 - 0)) :=
+    tendsto_const_nhds.sub hzero
+  simpa using hone_sub
+
+/--
+A sequence that is frequently bounded below by a fixed positive constant cannot
+carry an exact exponential-rate certificate at a positive rate.
+-/
+theorem not_of_frequently_ge_pos
+    {p : ℕ → ℝ} {rate ε : ℝ}
+    (hrate : 0 < rate) (hε : 0 < ε)
+    (hfreq : ∃ᶠ n in atTop, ε ≤ p n) :
+    ¬ ExponentialRateCertificate p rate := by
+  intro hcert
+  have hhalf_lt : rate / 2 < rate := by linarith
+  have hhalf_pos : 0 < rate / 2 := by linarith
+  exact
+    HasExpUpperBoundWithConst.not_of_frequently_ge_pos hhalf_pos hε hfreq
+      (hcert.hasExpUpperBoundWithConst_of_lt hhalf_lt)
+
+/--
+A sequence that is frequently at least `exp (-n * lowerRate)` cannot carry an
+exact exponential-rate certificate at any strictly larger positive rate.
+-/
+theorem not_of_frequently_ge_exp_neg_mul
+    {p : ℕ → ℝ} {rate lowerRate : ℝ}
+    (hlower_lt : lowerRate < rate)
+    (hfreq : ∃ᶠ n : ℕ in atTop,
+      Real.exp (-(n : ℝ) * lowerRate) ≤ p n) :
+    ¬ ExponentialRateCertificate p rate := by
+  intro hcert
+  let upperRate : ℝ := (lowerRate + rate) / 2
+  have hlower_upper : lowerRate < upperRate := by
+    dsimp [upperRate]
+    linarith
+  have hupper_rate : upperRate < rate := by
+    dsimp [upperRate]
+    linarith
+  exact
+    HasExpUpperBoundWithConst.not_of_frequently_ge_exp_neg_mul
+      hlower_upper hfreq (hcert.hasExpUpperBoundWithConst_of_lt hupper_rate)
+
+/--
+Subexponential lower hits rule out every positive exact exponential-rate
+certificate.  This is the certificate-level shape used when a continuum model
+can make pairwise errors at least `exp (-δ n)` infinitely often for every
+`δ > 0`.
+-/
+theorem not_of_frequently_ge_subexponential
+    {p : ℕ → ℝ} {rate : ℝ}
+    (hrate : 0 < rate)
+    (hfreq : ∀ δ : ℝ, 0 < δ →
+      ∃ᶠ n : ℕ in atTop, Real.exp (-(n : ℝ) * δ) ≤ p n) :
+    ¬ ExponentialRateCertificate p rate := by
+  have hhalf_pos : 0 < rate / 2 := by linarith
+  have hhalf_lt : rate / 2 < rate := by linarith
+  exact
+    not_of_frequently_ge_exp_neg_mul hhalf_lt
+      (hfreq (rate / 2) hhalf_pos)
+
+/--
+An exact zero exponential rate rules out any positive exact exponential-rate
+certificate for the same sequence.
+-/
+theorem not_of_hasExponentialRate_zero
+    {p : ℕ → ℝ} {rate : ℝ}
+    (hrate : 0 < rate)
+    (hzero : HasExponentialRate p 0) :
+    ¬ ExponentialRateCertificate p rate := by
+  intro hcert
+  have hrate_eq_zero : rate = 0 :=
+    HasExponentialRate.unique hcert.has_rate hzero
+  linarith
+
+/--
+Logical packaging for source statements of the form "a structural property
+holds iff the error sequence has some positive exact exponential rate."  The
+forward direction supplies the positive-rate certificate; the reverse direction
+is discharged by proving exact zero rate when the structural property fails.
+-/
+theorem exists_pos_rate_iff_of_forward_and_zero_reverse
+    {p : ℕ → ℝ} {P : Prop}
+    (hforward : P → ∃ rate : ℝ, 0 < rate ∧ ExponentialRateCertificate p rate)
+    (hzero_reverse : ¬ P → HasExponentialRate p 0) :
+    P ↔ ∃ rate : ℝ, 0 < rate ∧ ExponentialRateCertificate p rate := by
+  constructor
+  · exact hforward
+  · intro hpos
+    by_contra hnot
+    rcases hpos with ⟨rate, hrate, hcert⟩
+    exact not_of_hasExponentialRate_zero hrate (hzero_reverse hnot) hcert
 
 /--
 If a certified exact-rate sequence is eventually bounded above at exponential
@@ -724,6 +1101,38 @@ theorem of_eventually_const_sandwich
       _ ≤ p n := hsandwich_n.1
 
 end ExponentialRateCertificate
+
+/--
+Zero-rate lower-bound transfer. If a positive zero-rate obstruction sequence
+is eventually bounded above by a target sequence, and the target sequence has
+a fixed positive constant upper bound, then the target sequence also has exact
+exponential rate zero.
+
+This is the sequence-level bridge used to lift local positive-mass
+obstructions to larger error integrals.
+-/
+theorem hasExponentialRate_zero_of_eventually_le_const_of_zero_rate_minorant
+    {minorant target : ℕ → ℝ} {B : ℝ}
+    (hBpos : 0 < B)
+    (hminorant_pos : ∀ᶠ n in atTop, 0 < minorant n)
+    (hminorant_zero : HasExponentialRate minorant 0)
+    (hminorant_le_target : ∀ᶠ n in atTop, minorant n ≤ target n)
+    (htarget_upper_const : ∀ᶠ n in atTop, target n ≤ B) :
+    HasExponentialRate target 0 := by
+  have htarget_pos : ∀ᶠ n in atTop, 0 < target n := by
+    filter_upwards [hminorant_pos, hminorant_le_target] with n hpos hle
+    exact hpos.trans_le hle
+  refine
+    hasExponentialRate_zero_of_eventually_le_const_and_expLowerBounds
+      hBpos htarget_pos htarget_upper_const ?_
+  intro targetRate htargetRate
+  have hminorant_cert : ExponentialRateCertificate minorant 0 :=
+    ⟨hminorant_pos, hminorant_zero⟩
+  rcases hminorant_cert.hasExpLowerBoundWithConst_of_gt htargetRate with
+    ⟨c, hcpos, hc⟩
+  refine ⟨c, hcpos, ?_⟩
+  filter_upwards [hc, hminorant_le_target] with n hcn hle
+  exact hcn.trans hle
 
 theorem finite_weighted_sum_hasExpUpperBoundWithConst
     {ι : Type*} [Fintype ι]
@@ -1080,6 +1489,49 @@ theorem finite_weighted_sum_hasExponentialRate_of_min_component_cert_or_eventual
       finite_weighted_sum_hasExpLowerBoundWithConst_of_component
         hweight_nonneg hp_nonneg iMin hweight_pos
         (hmin.hasExpLowerBoundWithConst_of_gt htarget)
+
+/--
+Finite weighted-sum exact rate when every component has an exact certificate
+and one positive-weight component attains the minimum rate.
+-/
+theorem finite_weighted_sum_hasExponentialRate_of_min_component_certificates
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    {p : ι → ℕ → ℝ} {weight rate : ι → ℝ}
+    (hweight_nonneg : ∀ i, 0 ≤ weight i)
+    (hcert : ∀ i, ExponentialRateCertificate (p i) (rate i))
+    (iMin : ι) (hweight_pos : 0 < weight iMin)
+    (hrate_ge : ∀ i, rate iMin ≤ rate i) :
+    HasExponentialRate
+      (fun n => ∑ i : ι, weight i * p i n)
+      (rate iMin) :=
+  finite_weighted_sum_hasExponentialRate_of_min_component_cert_or_eventually_zero
+    hweight_nonneg iMin hweight_pos (hcert iMin) fun i =>
+      Or.inl ⟨rate i, hrate_ge i, hcert i⟩
+
+/--
+Finite weighted-sum exact rate from a dominating subfamily.  The selected
+subfamily contains a positive-weight component attaining the subfamily
+minimum, and every ambient component has rate at least one selected
+subfamily rate.
+-/
+theorem finite_weighted_sum_hasExponentialRate_of_dominating_subfamily_certificates
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    {σ : Type*}
+    {p : ι → ℕ → ℝ} {weight rate : ι → ℝ}
+    (select : σ → ι)
+    (hweight_nonneg : ∀ i, 0 ≤ weight i)
+    (hcert : ∀ i, ExponentialRateCertificate (p i) (rate i))
+    (aMin : σ)
+    (hweight_pos : 0 < weight (select aMin))
+    (hsub_min : ∀ a : σ, rate (select aMin) ≤ rate (select a))
+    (hdominates : ∀ i : ι, ∃ a : σ, rate (select a) ≤ rate i) :
+    HasExponentialRate
+      (fun n => ∑ i : ι, weight i * p i n)
+      (rate (select aMin)) :=
+  finite_weighted_sum_hasExponentialRate_of_min_component_certificates
+    hweight_nonneg hcert (select aMin) hweight_pos fun i => by
+      rcases hdominates i with ⟨a, ha⟩
+      exact (hsub_min a).trans ha
 
 /--
 Automatic finite weighted-sum dichotomy for mixed exact/eventually-zero

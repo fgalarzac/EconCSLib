@@ -1,4 +1,5 @@
 import PRPKG24AccuracyDiversity.ProofInterface
+import PRPKG24AccuracyDiversity.ContinuousSphereConcrete
 import PRPKG24AccuracyDiversity.Assumptions
 
 /-!
@@ -18,9 +19,12 @@ namespace PaperInterface
 
 /-! ## Definitions and Example -/
 
-/-- Definition 1: exact finite gamma-homogeneity, equation (5). -/
+/--
+Definition 1: exact gamma-homogeneity. Finite real `gamma` satisfies equation
+(5), and `gamma = infinity` is complete homogeneity at a likelihood maximizer.
+-/
 abbrev definition1 :=
-  @definition1_gamma_homogeneity_exact_iff
+  @definition1_gamma_homogeneity_complete
 
 /-- Definition 2: sequence gamma-homogeneity, equation (6). -/
 abbrev definition2 :=
@@ -171,9 +175,45 @@ abbrev corollary3 :=
 abbrev proposition2 :=
   @proposition2_uniform_top_k_corrected_sequence_homogeneity_of_paper_bound
 
-/-- Proposition 4: full continuous-sphere endpoint, with explicit certificate. -/
-abbrev proposition4 :=
-  @proposition4_continuous_sphere_uniform_minimizes
+/--
+Proposition 4: two-measure symmetry-driven kernel endpoint with the
+positive-Laplace bridge exposed.
+
+Source status: formalized
+Source note: the generic positive-Laplace step is Lean-proved through the
+large-deviation library. The paper-facing endpoint is specialized to a unit
+sphere and log radial-distance kernel; Lean proves the linear-isometry action,
+measurable-embedding, diagonal radial-kernel invariance, sphere transitivity,
+normalized Haar-sphere measure preservation, uniform-profile objective value,
+and compact-sphere maximizer. The strongest endpoint fixes the ambient Haar
+measure to mathlib's finite-dimensional inner-product-space volume, takes
+relaxed profiles to be literal probability measures on the unit sphere, defines
+the profile objective as the user supremum, and derives the needed continuity
+and integrability facts from compactness plus joint continuity of the kernel.
+The exposed source-shaped wrapper derives joint kernel continuity from
+continuity of the radial function and positivity on the unit-sphere distance
+range `[0,2]`. Validation note: the wrapper reads the paper's source `Gamma`
+notation as the Laplace-defined compact-supremum objective under these
+regularity hypotheses.
+-/
+theorem proposition4
+    {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+    [MeasurableSpace E] [BorelSpace E]
+    [OpensMeasurableSpace (Proposition4Sphere.UnitSphere E)]
+    [FiniteDimensional ℝ E] [Nontrivial E]
+    (preferenceMeasure : MeasureTheory.Measure (Proposition4Sphere.UnitSphere E))
+    [MeasureTheory.IsProbabilityMeasure preferenceMeasure]
+    (p : ℝ → ℝ)
+    (hopen : MeasureTheory.Measure.IsOpenPosMeasure preferenceMeasure)
+    (anchor : Proposition4Sphere.UnitSphere E)
+    (hp : Continuous p)
+    (hp_pos : ∀ r : ℝ, r ∈ Set.Icc (0 : ℝ) 2 → 0 < p r) :
+    ∀ alpha : MeasureTheory.ProbabilityMeasure (Proposition4Sphere.UnitSphere E),
+      Proposition4Sphere.logRadialDistanceProfileSupValue (E := E) p
+          (Proposition4Sphere.sphereVolumeUniformProbabilityMeasure (E := E)) ≤
+        Proposition4Sphere.logRadialDistanceProfileSupValue (E := E) p alpha :=
+  Proposition4Sphere.radialDistanceKernel_probabilityProfile_sphereVolumeUniform_minimizes_of_continuous_positive_profileSup
+    (E := E) preferenceMeasure p hopen anchor hp hp_pos
 
 /-- Proposition 5: uniform `[0,1]` order-statistic identity. -/
 abbrev proposition5 :=
@@ -197,14 +237,14 @@ abbrev lemmaD1 :=
 
 /-- Lemma D.2: bounded-tail integral asymptotic. -/
 abbrev lemmaD2 :=
-  @lemmaD2_bounded_integral_top_k_loss_asymptotic_of_split_certificate
+  @paper_lemmaD2_bounded_integral_top_k_loss_asymptotic_of_cdf_power_sandwich_monotone_bounded_support
 
 /--
 Lemma D.2: bounded-tail integral asymptotic.
 Source status: direct source formula
 -/
 abbrev lemmaD2_formula :=
-  @lemmaD2_bounded_integral_top_k_loss_asymptotic_of_split_certificate
+  @paper_lemmaD2_bounded_integral_top_k_loss_asymptotic_of_cdf_power_sandwich_monotone_bounded_support
 
 /-- Lemma 1: bounded iid upper-endpoint tail loss-to-marginal bridge. -/
 abbrev lemma1 :=
