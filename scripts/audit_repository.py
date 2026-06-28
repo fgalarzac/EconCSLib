@@ -938,6 +938,12 @@ FINAL_REPORT_REMAINING_BOUNDARIES_RE = re.compile(
 FINAL_REPORT_ADDITIONAL_ASSUMPTIONS_RE = re.compile(
     r"(?mi)^##+\s+(?:\d+\.\s*)?Additional\s+Assumptions\s+Beyond\s+Paper\b"
 )
+FINAL_REPORT_ADDITIONAL_BOUNDARY_RE = re.compile(
+    r"\b(?:partial[- ]formalization|external[- ]library|library|analytic|solver|"
+    r"runtime|source[- ]certificate|proof)\s+boundar(?:y|ies)\b|"
+    r"\bboundar(?:y|ies)\s+(?:assumption|for|from|in|remain|through|to|work)\b",
+    re.I,
+)
 FINAL_REPORT_PROOF_DEVIATIONS_RE = re.compile(
     r"(?mi)^##+\s+(?:\d+\.\s*)?Proof-Strategy\s+Deviations\b"
 )
@@ -1061,6 +1067,17 @@ def check_final_report_status_alignment(
                 )
             )
     return findings
+
+
+def markdown_section_body(report_text: str, heading: re.Match[str]) -> str:
+    """Return text under a Markdown heading up to the next same-or-higher heading."""
+
+    heading_line = report_text[heading.start(): report_text.find("\n", heading.start())]
+    heading_level = len(re.match(r"#+", heading_line.strip()).group(0)) if heading_line else 2
+    next_heading_re = re.compile(rf"(?m)^#{{1,{heading_level}}}\s+")
+    next_heading = next_heading_re.search(report_text, heading.end())
+    end = next_heading.start() if next_heading else len(report_text)
+    return report_text[heading.end():end]
 
 
 def check_final_report_human_facing_front_matter(
@@ -1202,6 +1219,18 @@ def check_final_report_human_facing_front_matter(
                     "Detailed Formalization Evidence",
                 )
             )
+        if additional and folder.name != "TEMPLATE":
+            additional_body = markdown_section_body(report_text, additional)
+            if FINAL_REPORT_ADDITIONAL_BOUNDARY_RE.search(additional_body):
+                findings.append(
+                    Finding(
+                        "WARN",
+                        report,
+                        "`Additional Assumptions Beyond Paper` should list only genuine "
+                        "non-paper hypotheses; put partial/library/proof boundaries in "
+                        "`Remaining Boundaries and Gaps`",
+                    )
+                )
         if detailed:
             pre_detail = report_text[human_verdict.start():detailed.start()]
             if FINAL_REPORT_CHECKLIST_HEADING_RE.search(pre_detail):

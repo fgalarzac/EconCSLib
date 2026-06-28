@@ -360,8 +360,8 @@ Closeout results:
 - Repository paper-closeout audit exits successfully for the public partial
   checkpoint. Broad theorem wrappers are retained as auxiliary proof-facing
   rows outside the reviewed public surface, and the remaining stopping
-  certificate premise shapes are documented caveats rather than hidden
-  assumptions.
+  certificate premise shapes are visible formalization boundaries rather than
+  hidden assumptions.
 - `DependencyDAG.tex` and `DependencyDAG.pdf` are present as a human-facing
   roadmap with paper-facing node text rather than Lean declaration names.
 - `python3 scripts/sync_paper_status.py` completes without the earlier timeout;

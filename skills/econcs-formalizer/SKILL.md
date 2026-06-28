@@ -3017,6 +3017,10 @@ source-record packages here.
 
 ## 6. Additional Assumptions Beyond Paper
 - `<assumption declaration>`: <why needed, where used>
+- Do not list partial-formalization, external-library, analytic, solver,
+  runtime, or source-certificate boundaries here. Those belong in `Remaining
+  Boundaries and Gaps` unless they are genuinely non-paper hypotheses added to
+  prove a claimed endpoint.
 - If none: `None`
 
 ## 7. Proof-Strategy Deviations
@@ -3065,6 +3069,14 @@ declaration may also have top-level `judgment: "partial_boundary"` when the
 whole declaration is a known external/library/analytic boundary. Do not use
 `documented_caveat` for that case unless the paper statement itself needs a
 repair.
+When rendering this information in a human-facing report, translate raw
+validator enums to paper-facing labels: `source_text_model_primitive`,
+`source_text`, and `paper_condition` become `source condition`;
+`derived_from_source_primitives` becomes `derived`; a genuine non-paper
+hypothesis becomes `additional assumption`; `partial_boundary` becomes
+`formalization boundary`; `documented_caveat` becomes `paper caveat`; and helper
+or plumbing rows become `not paper-facing`. Do not show raw enum labels in the
+researcher-facing tables unless the section is explicitly a machine ledger.
 
 | Assumption declaration | Lean declaration | Source location / statement | Assumption validators | Comments |
 | --- | --- | --- | --- | --- |

@@ -850,10 +850,15 @@ language before listing Lean declarations, validator rows, or proof plumbing
 below.
 
 ## 5. Remaining Boundaries and Gaps
-All named results remain open.
+All named results remain open. Put partial-formalization, external-library,
+analytic, solver, runtime, or source-certificate boundaries here, not in the
+additional-assumptions section.
 
 ## 6. Additional Assumptions Beyond Paper
 - None
+Only list hypotheses added by the formalization that are not paper assumptions
+or source theorem conditions. If a dependency is open formalization work rather
+than a hypothesis, describe it in Section 5.
 
 ## 7. Proof-Strategy Deviations
 - None
@@ -872,6 +877,15 @@ Every paper-facing theorem premise that is not derived in Lean should appear as
 a named assumption declaration in `Assumptions.lean`, be listed in `status.json`
 `review_surface.assumption_names`, and be checked in `assumption_match_llm.json`
 as a true paper/source model assumption.
+If an assumption declaration has `-- audit-premise:` comments, every exact
+premise must have a premise-level source/provenance judgment. Use
+`partial_boundary` for any premise that is visible but not yet source-matched or
+derived; the paper remains partial until those boundaries are closed. Use
+top-level `partial_boundary` for an assumption declaration that is itself a
+known external/library/analytic/runtime/solver boundary, not a source caveat.
+In human-facing tables, display validator labels as `source condition`,
+`derived`, `additional assumption`, `formalization boundary`, `paper caveat`,
+or `not paper-facing`; keep raw enum labels only in machine-readable JSON.
 
 | Assumption declaration | Lean declaration | Source location / statement | Assumption validators | Comments |
 | --- | --- | --- | --- | --- |

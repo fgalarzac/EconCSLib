@@ -43,13 +43,12 @@ below.
 The only intended remaining mathematical boundary for Theorems 1-2 and Propositions 1-2 is the reusable stochastic subgradient descent convergence theorem. Theorem 3 has no SSGM boundary; in general constrained spaces Lean proves the constrained alternative, and the original statement is recovered under the explicit full-space condition.
 
 ## 6. Additional Assumptions Beyond Paper
-- `assumption_ssgm_convergence_theorem` is the only paper-local Lean axiom.
-- It is not classified as a source assumption. It is a temporary, named,
-  theorem-shaped proof boundary for the stochastic subgradient convergence
-  theorem bundle.
-- The result remains partially formalized until that theorem is proved in a shared
-  stochastic approximation library and instantiated for the finite-coordinate
-  ILV source model.
+- None.
+
+The SSGM convergence theorem is not an additional paper assumption. It is the
+remaining reusable-library theorem recorded in Section 5, and the paper remains
+partially formalized until that theorem is proved and instantiated for the
+finite-coordinate ILV source model.
 
 ## 7. Proof-Strategy Deviations
 None. The human-facing differences are formalization boundaries, not separate
@@ -154,8 +153,8 @@ Theorem 3 appears to need an explicit feasibility condition for the aggregate di
 ## 11. Paper Assumption Provenance
 | Assumption declaration | Validator judgment | Source / boundary | Premise judgments | Comments |
 | --- | --- | --- | --- | --- |
-| `assumption_conditions_c123` | `paper_condition` | JAIR 2019 Section 3, conditions C1-C3 | `hC : assumption_conditions_c123 E` is `source_text_model_primitive` | Bundles the stated model conditions: nonempty bounded closed convex solution space, unique ideal points, and bounded measurable density for independently drawn ideal points. |
-| `assumption_ssgm_convergence_theorem` | `partial_boundary` | Future SSGM convergence theorem, not a source assumption | `hSSGM : assumption_ssgm_convergence_theorem E` is `partial_boundary` | Single approved theorem-shaped proof boundary returning `FiniteCoordinateILVSSGMConvergenceTheorems E`; endpoint consequences are derived separately. |
+| `assumption_conditions_c123` | source condition | JAIR 2019 Section 3, conditions C1-C3 | `hC : assumption_conditions_c123 E` is source text | Bundles the stated model conditions: nonempty bounded closed convex solution space, unique ideal points, and bounded measurable density for independently drawn ideal points. |
+| `assumption_ssgm_convergence_theorem` | formalization boundary | Future SSGM convergence theorem, not a source assumption | `hSSGM : assumption_ssgm_convergence_theorem E` is a formalization boundary | Single approved theorem-shaped library boundary returning `FiniteCoordinateILVSSGMConvergenceTheorems E`; endpoint consequences are derived separately. |
 
 ## 12. Statement Validator Findings
 The declaration-keyed source/subclaim map and all LLM sidecars are current.
