@@ -306,7 +306,7 @@ def llm_translation_label_from_counts(
     total: int,
     matches: int,
     mismatch: int = 0,
-    additional_assumption: int = 0,
+    formalization_boundary: int = 0,
     uncertain: int = 0,
     unknown: int = 0,
     missing: int = 0,
@@ -314,14 +314,14 @@ def llm_translation_label_from_counts(
 ) -> str:
     if total <= 0:
         return "not run"
-    if not any([matches, mismatch, additional_assumption, uncertain, unknown, stale]) and missing >= total:
+    if not any([matches, mismatch, formalization_boundary, uncertain, unknown, stale]) and missing >= total:
         return "not run"
     parts = [f"{matches}/{total} match"]
     if mismatch:
         parts.append(f"{mismatch} mismatch")
-    if additional_assumption:
-        label = "additional assumption" if additional_assumption == 1 else "additional assumptions"
-        parts.append(f"{additional_assumption} {label}")
+    if formalization_boundary:
+        label = "formalization-boundary row" if formalization_boundary == 1 else "formalization-boundary rows"
+        parts.append(f"{formalization_boundary} {label}")
     if uncertain:
         parts.append(f"{uncertain} uncertain")
     if unknown:
@@ -354,7 +354,7 @@ def llm_translation_label(
                         summary.get("mismatch_count", 0),
                     )
                 ),
-                additional_assumption=int(summary.get("conditional_boundary_count", 0)),
+                formalization_boundary=int(summary.get("conditional_boundary_count", 0)),
                 uncertain=int(summary.get("uncertain_count", 0)),
                 unknown=int(summary.get("unknown_count", 0)),
                 missing=int(summary.get("missing_judgment_count", 0)),
@@ -375,7 +375,7 @@ def llm_translation_label(
     if not judgments:
         return "not run"
 
-    matches = mismatch = additional_assumption = uncertain = unknown = missing = 0
+    matches = mismatch = formalization_boundary = uncertain = unknown = missing = 0
     for name in names:
         judgment = judgments.get(name)
         if judgment is None:
@@ -386,7 +386,7 @@ def llm_translation_label(
             matches += 1
         elif value == "mismatch":
             if judgment.get("resolution") == "conditional_boundary":
-                additional_assumption += 1
+                formalization_boundary += 1
             else:
                 mismatch += 1
         elif value == "uncertain":
@@ -398,7 +398,7 @@ def llm_translation_label(
         total=total,
         matches=matches,
         mismatch=mismatch,
-        additional_assumption=additional_assumption,
+        formalization_boundary=formalization_boundary,
         uncertain=uncertain,
         unknown=unknown,
         missing=missing,
@@ -525,7 +525,8 @@ def human_payload(
             "human_translation reports saved human dashboard judgments. "
             "llm_as_judge_translation reports context-free Lean-to-TeX plus "
             "paper-vs-translation LLM-judge counts, including stale/missing/uncertain "
-            "flags when available."
+            "flags when available; accepted conditional-boundary mismatches are shown "
+            "as formalization-boundary rows rather than assumption-provenance entries."
         ),
         "lean_loc_policy": (
             "lean_loc sums all .lean files under each paper folder, including proof "

@@ -1641,6 +1641,12 @@ the Lean statements against the paper.
   A judge result of `uncertain` means the statement target is not certified yet;
   do not rewrite it as "formalized with caveat" or "partial formalization"
   unless the mathematical formalization itself has that status.
+  In generated public tables, keep `LLM-as-judge statement translation` as a
+  translation/equivalence status column, not an assumption-provenance column.
+  Raw judge rows with `resolution: conditional_boundary` should render as
+  paper-facing `formalization-boundary rows`; do not label them "additional
+  assumptions" unless they are genuine non-paper hypotheses in the separate
+  assumptions section.
 - Use the dashboard's normalized `statement_digest` values for sidecar digests,
   not raw SHA-256 of unnormalized strings. Lean-statement sidecar hashes must
   be source-stable: hash the source declaration text exposed by the review

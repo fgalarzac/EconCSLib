@@ -91,6 +91,7 @@ UNRESOLVED_SOURCE_RECORD_CLASSIFICATIONS = {
 }
 REVIEW_ROW_WARN_THRESHOLD = 80
 PAPER_STATUS_FILE = PAPERS / "status.json"
+HUMAN_STATUS_FILE = PAPERS / "human_status.json"
 PAPER_INTERFACE_OVERSIZED_LINE_THRESHOLD = 3000
 ROOT_STATUS_VALUES = {
     "Formalized",
@@ -4672,6 +4673,33 @@ def check_status_label_vocabulary() -> list[Finding]:
     return findings
 
 
+def check_generated_human_status_labels() -> list[Finding]:
+    findings: list[Finding] = []
+    if not HUMAN_STATUS_FILE.exists():
+        return findings
+    try:
+        data = json.loads(HUMAN_STATUS_FILE.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        return [Finding("ERROR", HUMAN_STATUS_FILE, f"invalid JSON: {exc.msg}")]
+    papers = data.get("papers")
+    if not isinstance(papers, list):
+        return findings
+    for idx, entry in enumerate(papers, start=1):
+        if not isinstance(entry, dict):
+            continue
+        paper_id = str(entry.get("id") or f"row {idx}")
+        label = str(entry.get("llm_as_judge_translation") or "")
+        if re.search(r"\badditional assumptions?\b", label, re.I):
+            findings.append(
+                Finding(
+                    "ERROR",
+                    HUMAN_STATUS_FILE,
+                    f"`{paper_id}.llm_as_judge_translation` should describe statement translation/boundary rows, not additional assumptions",
+                )
+            )
+    return findings
+
+
 def check_readme_status_tables(include_active: bool) -> list[Finding]:
     findings: list[Finding] = []
     suspicious_caveat = re.compile(
@@ -5127,6 +5155,7 @@ def run(
         )
     )
     findings.extend(check_status_label_vocabulary())
+    findings.extend(check_generated_human_status_labels())
     findings.extend(check_readme_status_tables(include_active))
     findings.extend(check_tracked_artifacts(include_active))
     findings.extend(check_stale_architecture_terms())
