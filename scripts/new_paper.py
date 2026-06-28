@@ -840,10 +840,21 @@ completed yet, and no human dashboard sign-off has been recorded.
 - DAG artifacts: `papers/{folder}/DependencyDAG.tex`, `papers/{folder}/DependencyDAG.pdf`
 - Lean footprint: not measured
 
-## 3. What Has Been Proven
+## 3. Researcher Summary of Checked Results
+None yet. Summarize checked paper definitions and named results here in paper
+language before listing Lean declarations, validator rows, or proof plumbing
+below.
+
+## 4. Remaining Boundaries and Gaps
+All named results remain open.
+
+## 5. Paper Issues or Formalization Caveats
+None.
+
+## 6. Detailed Formalization Evidence
 None yet.
 
-## 4. Paper Assumption Provenance
+## 7. Paper Assumption Provenance
 Every paper-facing theorem premise that is not derived in Lean should appear as
 a named assumption declaration in `Assumptions.lean`, be listed in `status.json`
 `review_surface.assumption_names`, and be checked in `assumption_match_llm.json`
@@ -853,16 +864,16 @@ as a true paper/source model assumption.
 | --- | --- | --- | --- | --- |
 | None | `none` | None | None | No paper assumptions recorded yet. |
 
-## 5. Additional Assumptions Beyond Paper
+## 8. Additional Assumptions Beyond Paper
 - None
 
-## 6. Proof-Strategy Deviations
+## 9. Proof-Strategy Deviations
 - None
 
-## 7. Proof Tricks Worth Reusing
+## 10. Proof Tricks Worth Reusing
 - None
 
-## 8. Library Lift Pass
+## 11. Library Lift Pass
 - Reusable library extraction candidates: None
 - Library certificate/source-boundary audit: not run. Before a completion
   claim, summarize whether certificate-taking library APIs used by paper
@@ -877,18 +888,12 @@ as a true paper/source model assumption.
   If a finding remains, record it here and mark the endpoint partially
   formalized.
 
-## 9. DAG Audit
+## 12. DAG Audit
 - Rendered artifact: not checked
 - Topology: not checked
 - Layout: not checked
 
-## 10. Partially Formalized Results and Remaining Gaps
-- All named results remain open.
-
-## 11. Suspected Paper Errors or Inconsistencies
-- None
-
-## 12. Validation Checks
+## 13. Validation Checks
 - Not run.
 - Required closeout checks include targeted Lean build, statement precheck,
   assumption/hidden-premise precheck, targeted repository audit, DAG/report
@@ -899,10 +904,6 @@ as a true paper/source model assumption.
 - Machine-required closeout evidence may include the exact targeted repository
   audit command here, but keep commands out of the executive verdict and proof
   narrative.
-
-## 13. Closeout Status
-- Completion status: not formalized
-- One-sentence recap: Scaffold only.
 
 ## 14. Paper Definitions Checked
 - None yet.
@@ -927,6 +928,10 @@ validator ledger rather than from memory.
 Human dashboard reviews and model/agent statement checks may both appear here.
 This table is provenance for the statement targets; it does not change the
 human-only `human_review.reviewed_rows` counter.
+
+## 17. Closeout Status
+- Completion status: not formalized
+- One-sentence recap: Scaffold only.
 """
 
 

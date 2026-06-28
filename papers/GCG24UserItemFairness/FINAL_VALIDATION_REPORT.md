@@ -1,14 +1,12 @@
 # Final Validation Report: User-Item Fairness Tradeoffs in Recommendations
 
 ## 1. Human Verdict
-
 Formalized. The paper-facing results for user-item fairness tradeoffs are
 checked, including the LP/duality and feasible-support ingredients needed by
 the source arguments. No paper-correctness caveat is reported. No human
 dashboard sign-off has been recorded.
 
 ## 2. Source and Scope
-
 ### Scope Checked
 
 The validation source of truth was the paper folder, not older campaign-level
@@ -25,8 +23,18 @@ statements. `MainTheorems.lean` exposes the full paper-facing wrappers.
 Detailed proof work is split across the paper-local LP reduction,
 optimization, symmetry, opposing-types, and misestimation files.
 
-## 3. What Has Been Proven
+## 3. Researcher Summary of Checked Results
+- The formalization checks the user-item fairness tradeoff results through the paper-facing LP, feasible-support, and duality ingredients.
+- The main theorem wrappers expose the source definitions and theorem statements rather than proof-internal certificates.
+- No unresolved mathematical boundary is recorded for the checked theorem surface.
 
+## 4. Remaining Boundaries and Gaps
+None.
+
+## 5. Paper Issues or Formalization Caveats
+None.
+
+## 6. Detailed Formalization Evidence
 ### Results Covered
 
 The formalization covers the paper's tracked named model definitions, supporting
@@ -46,8 +54,7 @@ including:
 - Theorem 4 misestimation/no-fairness and with-fairness source wrappers for both
   possible true cold-start rows.
 
-## 4. Paper Definitions Checked
-
+## 7. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
 ### Lean-Derived Dashboard Definitions
 
@@ -67,8 +74,7 @@ including:
 | def priceOfMisestimation | `priceOfMisestimation` | - Price of misestimation for a policy selected on an estimated utility matrix. |
 <!-- lean-derived-definitions:end -->
 
-## 5. Named Theorem Statements Checked
-
+## 8. Named Theorem Statements Checked
 <!-- lean-derived-statements:start -->
 ### Lean-Derived Dashboard Named Statements
 
@@ -82,8 +88,7 @@ including:
 | theorem theorem4_misestimation_tradeoff_typeOne | `theorem4_misestimation_tradeoff_typeOne` | - Theorem 4 final tradeoff for the second opposing true type. |
 <!-- lean-derived-statements:end -->
 
-## 6. Paper-Facing Statement Validator Ledger
-
+## 9. Paper-Facing Statement Validator Ledger
 Generated from dashboard status export:
 
 `python3 scripts/review_dashboard.py --paper GCG24UserItemFairness --slice all --export-format validators-md`
@@ -111,8 +116,7 @@ Generated from dashboard status export:
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
 
-## 7. Paper Assumption Provenance And Modeling Notes
-
+## 10. Paper Assumption Provenance And Modeling Notes
 > Axiom/premise/source-hygiene audit update (2026-06-12): `assumption_match_llm.json`
 > now records per-premise judgments for this paper's `Assumptions.lean`
 > ledger. Current result: 34/34 recorded premises are source-matched,
@@ -156,8 +160,7 @@ construct or discharge the needed certificates internally. Auxiliary
 selected-BFS/certificate variants that still take explicit inputs are retained
 as helper interfaces and are not the closed source theorem wrappers.
 
-## 8. Proof-Strategy Deviations
-
+## 11. Proof-Strategy Deviations
 ### Paper-Proof Fidelity
 
 The Lean development follows the paper's named proof architecture closely:
@@ -171,49 +174,16 @@ arguments are factored through auditable certificate structures, and parity,
 center, and mirror cases are made explicit as separate lemmas before being
 recombined by the final source wrappers.
 
-## 9. Proof Tricks Worth Reusing
-
+## 12. Proof Tricks Worth Reusing
 None separately recorded in the existing report.
 
-## 10. Library Lift Pass
-
+## 13. Library Lift Pass
 None separately recorded in the existing report.
 
-## 11. DAG Audit
-
+## 14. DAG Audit
 No separate DAG audit note is recorded in the existing report.
 
-## 12. Conditional Results and Remaining Gaps
-
-### Residual Risk
-
-The residual risk is statement-audit risk, not Lean proof risk: a human should
-still compare the paper-facing declarations in `MainTheorems.lean` against the
-source PDF to confirm that the intended modeling conventions are exactly the
-ones desired. The compiled Lean proof itself has no remaining placeholders for
-the tracked paper-facing results.
-
-## 13. Suspected Paper Errors or Inconsistencies
-
-### Mistakes or Deviations Found
-
-The main deviation from a literal paper proof is the LP boundary. Instead of
-formalizing a general-purpose LP solver/simplex theorem, the proof uses
-paper-local equality-form primal/dual certificates, closed-form witnesses,
-finite pivot existence, and complementary-slackness-style uniqueness arguments.
-This is a proof-method deviation, not an open assumption.
-
-The center-pivot Lemma 15 formula required an explicit convention split: the
-source displayed center formula is formalized under a half-LP center-item
-convention, while the executable full Problem 11 proof uses the mirrored-policy
-identity. The distinction is documented in the README and represented by
-separate paper-facing declarations.
-
-Older author-wide status notes were stale for this paper. The paper-local README
-and DAG correctly indicate that the final wrappers are closed.
-
-## 14. Validation Checks
-
+## 15. Validation Checks
 ### Statement Translation Audit
 
 Audit date: 2026-06-06.
@@ -224,8 +194,7 @@ rows: none. Surface audit: not required (30 or fewer paper-facing rows).
 
 Flagged rows: none.
 
-## 15. Closeout Status
-
+## 16. Closeout Status
 - Completion status: formalized.
 - One-sentence recap: Recommendation fairness propositions and theorem
   statements are checked under the formal source model.

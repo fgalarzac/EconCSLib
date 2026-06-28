@@ -28,7 +28,19 @@ below.
 - Machine export:
   `papers/GKGMM19IterativeLocalVoting/review_status_export.json`.
 
-## 3. What Has Been Proven
+## 3. Researcher Summary of Checked Results
+- The paper's ILV definitions and source models are represented at the paper-facing interface.
+- Theorems 1-2 and Propositions 1-2 are proved up to the single reusable stochastic-subgradient convergence theorem.
+- Theorem 3 is proved as a constrained alternative in general, and the original statement is recovered under the explicit full-space condition.
+- No other non-paper mathematical assumption is intended beyond the SSGM convergence boundary.
+
+## 4. Remaining Boundaries and Gaps
+The only intended remaining mathematical boundary for Theorems 1-2 and Propositions 1-2 is the reusable stochastic subgradient descent convergence theorem. Theorem 3 has no SSGM boundary; in general constrained spaces Lean proves the constrained alternative, and the original statement is recovered under the explicit full-space condition.
+
+## 5. Paper Issues or Formalization Caveats
+Theorem 3 appears to need an explicit feasibility condition for the aggregate direction at a constrained limit point. In full space this condition is automatic, and the formalization recovers the paper's stated conclusion; for general constrained spaces, the formalized result is the weaker alternative that either the aggregate directional field vanishes or the aggregate direction is not feasible. This is recorded as a statement-level caveat, not as a broader objection to the economic model.
+
+## 6. Detailed Formalization Evidence
 - The source-facing definition and formula rows compile for C1-C3, the
   Algorithm 1 radius schedule, radius limit-to-zero, squared-radius
   summability, divergent positive-radius partial sums, positive-radius
@@ -116,13 +128,13 @@ below.
   which recovers the original directional-equilibrium endpoint when
   `E.solutionSpace = Set.univ`.
 
-## 4. Paper Assumption Provenance
+## 7. Paper Assumption Provenance
 | Assumption declaration | Validator judgment | Source / boundary | Premise judgments | Comments |
 | --- | --- | --- | --- | --- |
 | `assumption_conditions_c123` | `paper_condition` | JAIR 2019 Section 3, conditions C1-C3 | `hC : assumption_conditions_c123 E` is `source_text_model_primitive` | Bundles the stated model conditions: nonempty bounded closed convex solution space, unique ideal points, and bounded measurable density for independently drawn ideal points. |
 | `assumption_ssgm_convergence_theorem` | `partial_boundary` | Future SSGM convergence theorem, not a source assumption | `hSSGM : assumption_ssgm_convergence_theorem E` is `partial_boundary` | Single approved theorem-shaped proof boundary returning `FiniteCoordinateILVSSGMConvergenceTheorems E`; endpoint consequences are derived separately. |
 
-## 5. Statement Validator Findings
+## 8. Statement Validator Findings
 The declaration-keyed source/subclaim map and all LLM sidecars are current.
 `python3 scripts/review_dashboard.py --paper GKGMM19IterativeLocalVoting --statement-precheck`
 reports no missing or stale sidecars.
@@ -155,7 +167,7 @@ concrete `FiniteTheorem3DirectionalFieldModel` supplies the displayed field
 formula, so the remaining mismatch is source-semantics/trace alignment with the
 abstract paper theorem statement, not an abstract-field representation gap.
 
-## 6. Additional Assumptions Beyond Paper
+## 9. Additional Assumptions Beyond Paper
 - `assumption_ssgm_convergence_theorem` is the only paper-local Lean axiom.
 - It is not classified as a source assumption. It is a temporary, named,
   theorem-shaped proof boundary for the stochastic subgradient convergence
@@ -164,13 +176,13 @@ abstract paper theorem statement, not an abstract-field representation gap.
   stochastic approximation library and instantiated for the finite-coordinate
   ILV source model.
 
-## 7. Proof-Strategy Deviations
+## 10. Proof-Strategy Deviations
 None. The human-facing differences are formalization boundaries, not separate
 proof-strategy deviations: Theorems 1-2 and Propositions 1-2 depend on the
 single reusable-library stochastic subgradient convergence theorem, and Theorem
 3 is reported as a statement/status boundary in the verdict and DAG.
 
-## 8. Library Lift Pass
+## 11. Library Lift Pass
 - Reusable modules already introduced or used include:
   `EconCSLib.Foundations.Math.FiniteDimensionalNorms`,
   `EconCSLib.Foundations.Math.FiniteDimensionalNormsDerivative`,
@@ -183,7 +195,7 @@ single reusable-library stochastic subgradient convergence theorem, and Theorem
   assumption-source files so proof-boundary axioms appear in the assumption
   provenance surface and cannot be hidden from the closeout metadata.
 
-## 9. DAG Audit
+## 12. DAG Audit
 - DAG source: `papers/GKGMM19IterativeLocalVoting/DependencyDAG.tex`.
 - Rendered DAG PDF: `papers/GKGMM19IterativeLocalVoting/DependencyDAG.pdf`.
 - Visual layout inspection: completed after regenerating the DAG PDF from the
@@ -194,71 +206,7 @@ single reusable-library stochastic subgradient convergence theorem, and Theorem
   Theorem 3 constrained alternative, and the exact Theorem 3 full-space
   recovery rather than presenting those as hidden paper assumptions.
 
-## 10. Partially Formalized Results and Remaining Gaps
-- Theorem 1: conditional only on `assumption_ssgm_convergence_theorem`; the
-  deterministic source case certificate is constructed from the visible paper
-  hypotheses.
-- Theorem 2: conditional on sampled source semantics
-  `Theorem2SampledSourceSemantics E` and
-  `assumption_ssgm_convergence_theorem`.  Lean derives the older primitive
-  deterministic trace source from the sampled selected-voter process, C3
-  marginal-law alignment, bad-event measurability, raw Model B update formula,
-  and projected update field.
-- Proposition 1: conditional on sampled concrete component source semantics
-  `Proposition1ConcreteComponentSampledSourceSemantics E` and on
-  `assumption_ssgm_convergence_theorem`.  Lean derives the old deterministic
-  component source record from sampled component ideals, component marginal
-  laws, bad-event measurability, Algorithm 2 raw generation, and projection.
-  From there it derives the weighted sample-subgradient trace, trajectory
-  feasibility, SSGM step-size package, and social-objective bridge.
-- Proposition 2: conditional on `Proposition2FiniteCoordinateSourceSemantics E`
-  and
-  `assumption_ssgm_convergence_theorem`. The non-SSGM source-semantics work is
-  to construct the coordinate-wise median-set membership formula and, in finite
-  coordinate models, product-box solution-space closure for coordinate updates.
-  Lean derives the median carrier, product-coordinate
-  replacement property, and local `L∞` response bridge from those data.  For a
-  fixed supplied decomposition, Lean now has a narrower proof route that uses
-  exactly those fixed-decomposition source fields rather than the global
-  all-decompositions source package.
-- Theorem 3: no SSGM axiom is used.  Lean proves the concrete finite
-  normalized-gradient formula for the paper's directional field, derives the
-  nonzero-field drift contradiction from coordinatewise convergence, proves the
-  finite-dot raw-response expectation identities, proves the projection
-  residual identity and nonpositivity geometry, and proves the iid weighted-voter
-  concentration route used by the corrected global projected trace.  The
-  strongest exact-statement adapter is
-  `theorem3_statement_of_full_sampled_projected_source_semantics_univ`, which
-  proves `theorem3Statement E` from sampled projected source semantics under
-  `E.solutionSpace = Set.univ`.  For general constrained solution spaces Lean
-  proves the constrained alternative
-  `theorem3_zero_or_no_aggregate_feasible_direction_formula` instead of assuming
-  the old aggregate feasible-direction field.  That old condition is not
-  derivable from the current C1/convexity, projection, convergence, and
-  directional-field hypotheses alone: `proof_singleton_solutionSpace_not_force_aggregate_feasible_direction`
-  shows a singleton convex solution space blocks any positive feasible step
-  along a nonzero aggregate direction, and
-  `proof_theorem3_abstract_hypotheses_do_not_imply_statement` gives the
-  one-dimensional `X = {0}` counterexample to the abstract theorem route.
-
-## 11. Suspected Paper Issues or Inconsistencies
-- Theorem 3 appears to need an explicit feasibility condition for the aggregate
-  direction at a constrained limit point. In full space this condition is
-  automatic, and the formalization recovers the paper's stated conclusion; for
-  general constrained spaces, the formalized result is the weaker alternative
-  that either the aggregate directional field vanishes or the aggregate
-  direction is not feasible. This is recorded as a statement-level caveat, not
-  as a broader objection to the economic model.
-- Theorem 2 states `p > 0`, `q > 0` while using norm language. The Lean
-  differentiability/subgradient route uses stricter convex differentiability
-  hypotheses where needed.
-- Appendix C.7 appears to duplicate the `(p = 1, q = inf)` label where the
-  surrounding Theorem 1 case should include `(p = inf, q = 1)`.
-- The paper switches between utility maximization and cost minimization. The
-  Lean development makes that sign bridge explicit in the Model A and Model B
-  rows.
-
-## 12. Validation Checks
+## 13. Validation Checks
 - `lake build GKGMM19IterativeLocalVoting`: passed.
 - `python3 -m py_compile scripts/review_dashboard.py`: passed after the axiom
   parser update.
@@ -297,12 +245,6 @@ single reusable-library stochastic subgradient convergence theorem, and Theorem
   The approved `partial_boundary` axiom/premise remains intentional; there is
   no hidden-premise/source-record warning.
 
-## 13. Closeout Status
-
-- Completion status: partially formalized.
-- One-sentence recap: Only SSGM convergence remains as a reusable-library
-  boundary; Theorem 3 is handled by the constrained/full-space split above.
-
 ## 14. Paper-Facing Statement Validator Ledger
 The full generated validator ledger is stored at
 `papers/GKGMM19IterativeLocalVoting/VALIDATOR_LEDGER.md`.
@@ -337,3 +279,8 @@ human-only `human_review.reviewed_rows` counter.
 - `python3 scripts/review_dashboard.py --paper GKGMM19IterativeLocalVoting --precheck`: passed with only documented conditional-boundary status.
 - `python3 scripts/audit_repository.py --paper GKGMM19IterativeLocalVoting --paper-closeout --include-active --info-limit 0`: targeted repository audit command for the final closeout.
 - `python3 scripts/audit_repository.py --library-only --library-premise-audit --info-limit 0`: reusable-library premise audit passed.
+
+## 17. Closeout Status
+- Completion status: partially formalized.
+- One-sentence recap: Only SSGM convergence remains as a reusable-library
+  boundary; Theorem 3 is handled by the constrained/full-space split above.

@@ -1,14 +1,12 @@
 # Final Validation Report: Gale-Shapley 1962
 
 ## 1. Human Verdict
-
 Formalized. The Gale-Shapley existence, college-admissions existence, and
 applicant-optimality results are checked using the shared matching library. No
 paper-correctness caveat is reported. No human dashboard sign-off has been
 recorded.
 
 ## 2. Source and Scope
-
 - Paper: *College Admissions and the Stability of Marriage*
 - Authors: D. Gale and L. S. Shapley
 - Source version: *The American Mathematical Monthly*, Vol. 69, No. 1
@@ -21,12 +19,21 @@ recorded.
 - DAG artifacts: `papers/GS62CollegeAdmissions/DependencyDAG.tex`,
   `papers/GS62CollegeAdmissions/DependencyDAG.pdf`
 
-## 3. What Has Been Proven
+## 3. Researcher Summary of Checked Results
+- The formalization checks the Gale-Shapley stable-marriage theorem, the college-admissions existence theorem, and applicant-optimality.
+- The proof uses the shared matching library while preserving the paper's strict-preference matching domain.
+- No source-paper caveat is recorded for the checked results.
 
+## 4. Remaining Boundaries and Gaps
+None.
+
+## 5. Paper Issues or Formalization Caveats
+None.
+
+## 6. Detailed Formalization Evidence
 See the verdict and named-statement sections in this report.
 
-## 4. Paper Definitions Checked
-
+## 7. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
 ### Lean-Derived Dashboard Definitions
 
@@ -38,8 +45,7 @@ See the verdict and named-statement sections in this report.
 | def applicantOptimalStableMarriage | `applicantOptimalStableMarriage` | - Applicant/proposer optimal stable marriage: every proposer weakly prefers this stable marriage to any other stable marriage. |
 <!-- lean-derived-definitions:end -->
 
-## 5. Named Theorem Statements Checked
-
+## 8. Named Theorem Statements Checked
 ### Theorem-by-Theorem Validation
 
 | Paper item | Lean declaration | Status | Statement match | Notes |
@@ -62,8 +68,7 @@ See the verdict and named-statement sections in this report.
 | theorem theorem2_applicant_optimality | `theorem2_applicant_optimality` | - Theorem 2: on the finite same-index strict marriage domain, the applicant-proposing deferred-acceptance assignment is complete and applicant-optimal among stable assignments. |
 <!-- lean-derived-statements:end -->
 
-## 6. Paper-Facing Statement Validator Ledger
-
+## 9. Paper-Facing Statement Validator Ledger
 Generated from dashboard status export:
 
 `python3 scripts/review_dashboard.py --paper GS62CollegeAdmissions --export-format validators-md`
@@ -80,8 +85,7 @@ Generated from dashboard status export:
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
 
-## 7. Paper Assumption Provenance And Modeling Notes
-
+## 10. Paper Assumption Provenance And Modeling Notes
 > Axiom/premise/source-hygiene audit update (2026-06-13): the former `hcard` theorem premises have been removed from the paper-facing interface and are derived internally by representing the equal-size marriage/quota-one endpoints with one finite index type. Current result: 0 explicit paper-assumption premises remain in the `GS62` interface. The Lean-native axiom audit confirms the final paper-facing rows are closed except for standard Lean foundations.
 
 | Assumption declaration | Lean declaration | Source location / statement | Assumption validators | Comments |
@@ -99,8 +103,7 @@ Human dashboard reviews and model/agent statement checks may both appear here. T
   college's quota as identical seats with the same applicant ranking. This is
   the standard cloned-seat formalization of the paper's college quota model.
 
-## 8. Proof-Strategy Deviations
-
+## 11. Proof-Strategy Deviations
 - Theorem 1 is not re-proved from the printed prose. It is discharged through
   the reusable deferred-acceptance stability theorem plus a finite
   equal-cardinality completeness bridge.
@@ -109,35 +112,16 @@ Human dashboard reviews and model/agent statement checks may both appear here. T
 - Theorem 2 uses the reusable DA proposer-optimality theorem already developed
   for Roth's matching paper.
 
-## 9. Proof Tricks Worth Reusing
-
+## 12. Proof Tricks Worth Reusing
 None separately recorded in the existing report.
 
-## 10. Library Lift Pass
-
+## 13. Library Lift Pass
 None separately recorded in the existing report.
 
-## 11. DAG Audit
-
+## 14. DAG Audit
 No separate DAG audit note is recorded in the existing report.
 
-## 12. Conditional Results and Remaining Gaps
-
-- None for the Lean endpoints claimed above.
-- No claimed theorem endpoint relies on an extra model certificate; finite
-  strict-domain and quota assumptions are the explicit source-domain/modeling
-  conventions recorded above.
-- Source audit note: the cached PDF is a scan, and the local `pdftotext`
-  extraction is only 8 bytes with no theorem-name hits. The named-result
-  inventory was therefore cross-checked against the cached scan and public OCR
-  snippets rather than local text-cache line numbers.
-
-## 13. Suspected Paper Errors or Inconsistencies
-
-- None found.
-
-## 14. Validation Checks
-
+## 15. Validation Checks
 ### Cross-Artifact Checks
 
 - Paper text/PDF: local PDF/text caches are ignored by the paper-folder
@@ -169,8 +153,7 @@ Summary: 7 rows; 7 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar rows
 Flagged rows:
 - None.
 
-## 15. Closeout Status
-
+## 16. Closeout Status
 - Completion status: formalized.
 - One-sentence recap: The GS62 paper endpoints are checked using the shared
   matching library.

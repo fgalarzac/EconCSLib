@@ -1,7 +1,6 @@
 # Final Validation Report: Quantifying Spatial Under-reporting Disparities
 
 ## 1. Human Verdict
-
 Partially formalized. The checked results cover the source-facing likelihood,
 interarrival-kernel, preprocessing-window, MLE, regression, and zero-inflation
 algebra. Full formalization still requires deriving the homogeneous Poisson
@@ -11,7 +10,6 @@ broader economic-model caveat is claimed. No human dashboard sign-off has been
 recorded.
 
 ## 2. Source and Scope
-
 - Paper: *Quantifying Spatial Under-reporting Disparities in Resident Crowdsourcing*
 - Authors: Zhi Liu, Uma Bhandaram, Nikhil Garg
 - Source version: arXiv `2204.08620` v4, revised 2023-12-06, cross-checked
@@ -22,8 +20,19 @@ recorded.
 - Human-facing theorem file: `papers/LBG24SpatialUnderreporting/PaperInterface.lean`
 - Paper assumption file: `papers/LBG24SpatialUnderreporting/Assumptions.lean`
 
-## 3. What Has Been Proven
+## 3. Researcher Summary of Checked Results
+- Source-facing likelihood, reporting-delay, interarrival-kernel, preprocessing-window, MLE, regression, and zero-inflation algebra are checked.
+- Lemma 1's detection, thinning, and observed-rate formulas are checked in the formal model.
+- Appendix Lemma 2 / Theorem 2 zero/one/multi-report factorization algebra is checked up to the Poisson-process and stopping-time certificate.
+- Full closure still depends on deriving that process/stopping certificate from primitive continuous-time assumptions.
 
+## 4. Remaining Boundaries and Gaps
+Full formalization requires deriving the homogeneous Poisson counting-process law and stopping-time certificate from primitive continuous-time process assumptions. A secondary library/modeling gap is deriving the Lemma 1 IID unit-interval count law and one-period mean from a primitive Poisson thinning or steady-state model.
+
+## 5. Paper Issues or Formalization Caveats
+Appendix B.2 appears to invert the residual factor in the multi-report case: the source text prints `(e-s)^M / M!`, while the algebra needs `M! / (e-s)^M`. The main theorem remains correct because it only needs the lambda-independent kernel form, so this is not treated as an economic-model caveat.
+
+## 6. Detailed Formalization Evidence
 - Eq. (2): source Poisson count PMF formula, grounded in mathlib's Poisson
   measure through `EconCSLib.Foundations.Probability.PoissonProcess`.
 - Homogeneous at-least-one-report probability:
@@ -152,8 +161,7 @@ recorded.
 - Eq. (7): generic and regression-rate-substituted zero-inflated likelihood
   case splits, plus nonnegativity under `0 <= gamma <= 1` and nonnegative mean.
 
-## 4. Paper Assumption Provenance
-
+## 7. Paper Assumption Provenance
 Paper-local source assumptions currently exported from `Assumptions.lean` and
 listed in `status.json` `review_surface.assumption_names` include
 `theorem2_poisson_process_and_condition_semantics`,
@@ -187,8 +195,7 @@ current for the public partial checkpoint. It classifies audited containers,
 source-model data, and approved external-boundary leaves; it does not turn the
 remaining stopping-certificate boundary into a completed theorem.
 
-## 5. Additional Assumptions Beyond Paper
-
+## 8. Additional Assumptions Beyond Paper
 - None added as hidden assumptions.
 - Visible theorem side conditions include nonzero first-report probabilities,
   nonzero exposure, positive reporting rate for exponential waiting-time
@@ -196,8 +203,7 @@ remaining stopping-certificate boundary into a completed theorem.
   zero-inflation parameter bounds. These are ordinary mathematical domain
   conditions, not hidden paper assumptions.
 
-## 6. Proof-Strategy Deviations
-
+## 9. Proof-Strategy Deviations
 - Continuous source expressions such as `P(S=t | ...)`, `P(E=t | ...)`, and
   `P(T_j=t_j | ...)` are treated as density/likelihood-kernel factors rather
   than literal point probabilities.
@@ -209,8 +215,7 @@ remaining stopping-certificate boundary into a completed theorem.
   stochastic work is deriving the IID/integrability and one-period-mean
   premises from a thinning/steady-state Poisson model.
 
-## 7. Proof Tricks Worth Reusing
-
+## 10. Proof Tricks Worth Reusing
 - `EconCSLib.Foundations.Probability.PoissonProcess` now provides reusable
   Poisson count-likelihood, no-arrival, interarrival-density, jump-time
   telescoping, ordered-timeline gap/tail nonnegativity, finite-product,
@@ -244,8 +249,7 @@ remaining stopping-certificate boundary into a completed theorem.
 - `poissonRateLogLikelihoodKernel_le_at_mle` proves the reusable global
   positive-rate Poisson log-likelihood kernel maximizer.
 
-## 8. Library Lift Pass
-
+## 11. Library Lift Pass
 Completed:
 
 - Added `EconCSLib/Foundations/Probability/PoissonProcess.lean`.
@@ -323,40 +327,7 @@ Deferred reusable candidates:
   premises from a primitive incident model. The Poisson-binomial thinning
   algebra itself is now checked.
 
-## 9. Conditional Results and Remaining Gaps
-
-Primary gap:
-
-- Prove the source assumption bundle
-  `assumption_theorem2_poisson_process_and_conditions` from primitive
-  continuous-time Poisson-process/stopping-window semantics and the paper's
-  Conditions 1/2, instead of taking that bundle as a visible construction
-  boundary. The zero-report no-arrival kernel is tied directly to
-  `HomogeneousCountProcessLaw`, and the one/multi interarrival kernels are
-  connected to exponential PDF/survival formulas; what remains is the
-  stochastic process theorem producing the shared process law and condition
-  functions from the paper's conditional process semantics.
-
-Secondary gap:
-
-- Derive the Lemma 1 IID unit-interval count law and one-period mean from a
-  primitive Poisson thinning/steady-state model.
-
-## 10. Suspected Paper Errors or Inconsistencies
-
-Appendix B.2, `M > 1` case:
-
-- Eq. (31) isolates `lambda^M exp(-lambda(e-s))` times a rate-independent
-  kernel factor.
-- The displayed Poisson PMF includes `(lambda(e-s))^M / M!`.
-- Therefore the residual needed for Eq. (32) is the kernel factor times
-  `M! / (e-s)^M`.
-- The source text and Nature supplementary material print `(e-s)^M / M!`
-  instead. The main theorem remains correct because it only requires the
-  existence of a rate-independent residual.
-
-## 11. Validation Checks
-
+## 12. Validation Checks
 Run so far:
 
 ```bash
@@ -392,14 +363,7 @@ Closeout results:
   aggregate generated status files have been refreshed from the paper-local
   `status.json`.
 
-## 12. Closeout Status
-
-- Completion status: partially formalized.
-- One-sentence recap: The algebraic factorization core is checked; full closure
-  needs the homogeneous Poisson process and stopping-time certificate.
-
 ## 13. Named Theorem Statements Checked
-
 - `equation2_poisson_count_pmf_formula`
 - `first_report_probability_formula`
 - `lemma1_continuous_duration_first_report_probability_integral`
@@ -457,10 +421,14 @@ Closeout results:
 - `equation7_zero_inflated_likelihood_nonnegative`
 
 ## 14. Paper-Facing Statement Validator Ledger
-
 Statement validator sidecars are populated for this checkpoint. Recheck them
 with:
 
 ```bash
 python3 scripts/review_dashboard.py --paper LBG24SpatialUnderreporting --precheck
 ```
+
+## 15. Closeout Status
+- Completion status: partially formalized.
+- One-sentence recap: The algebraic factorization core is checked; full closure
+  needs the homogeneous Poisson process and stopping-time certificate.

@@ -627,6 +627,8 @@ def render_readme(records: list[tuple[Path, dict[str, Any]]]) -> str:
     current = README.read_text(encoding="utf-8")
     start = current.find(README_STATUS_BEGIN)
     end = current.find(README_STATUS_END)
+    if start < 0 and end < 0:
+        return current
     if start < 0 or end < 0 or end < start:
         raise ValueError(
             f"{README.relative_to(ROOT)} should contain generated status markers "

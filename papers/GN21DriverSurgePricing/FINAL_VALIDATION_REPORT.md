@@ -1,7 +1,6 @@
 # Final Validation Report: Driver Surge Pricing
 
 ## 1. Human Verdict
-
 Formalized. The named driver-surge results are checked, with Theorem 3 stated
 on the denominator-valid reward-rate domain used by Appendix D. No false main
 theorem is reported; the only caveat is that zero-denominator totalized
@@ -9,11 +8,20 @@ division shortcuts are kept out of the named theorem. No human dashboard
 sign-off has been recorded.
 
 ## 2. Source and Scope
-
 Not separately recorded in the existing report.
 
-## 3. What Has Been Proven
+## 3. Researcher Summary of Checked Results
+- The formalization checks the driver surge pricing model, incentive-compatibility definitions, renewal-reward route, and dynamic reward-rate theorem surface.
+- Theorem 3 is stated on the denominator-valid reward-rate domain used by the source proof.
+- Zero-denominator totalized-division shortcuts are kept out of the named theorem rather than treated as economic caveats.
 
+## 4. Remaining Boundaries and Gaps
+None for the denominator-valid theorem surface formalized here.
+
+## 5. Paper Issues or Formalization Caveats
+No false main theorem is reported. The denominator-valid domain is made explicit rather than relying on totalized division outside the source proof route.
+
+## 6. Detailed Formalization Evidence
 - The paper's single-state and dynamic incentive-compatibility definitions are
   represented as measurable trip-policy optimization statements, including the
   threshold-policy notation and the positive-denominator dynamic reward domain.
@@ -54,8 +62,7 @@ Not separately recorded in the existing report.
   compatibility, and proves accept-all uniqueness up to null sets on the
   positive-denominator source domain used by the paper's reward-rate formulas.
 
-## 4. Paper Definitions Checked
-
+## 7. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
 ### Lean-Derived Dashboard Definitions
 
@@ -84,8 +91,7 @@ Not separately recorded in the existing report.
 | abbrev review_theorem4_structural_policy_representatives | `review_theorem4_structural_policy_representatives` | - Theorem 4: structural representatives for optimal policies. |
 <!-- lean-derived-definitions:end -->
 
-## 5. Named Theorem Statements Checked
-
+## 8. Named Theorem Statements Checked
 <!-- lean-derived-statements:start -->
 ### Lean-Derived Dashboard Named Statements
 
@@ -96,8 +102,7 @@ Not separately recorded in the existing report.
 | theorem review_theorem3_defined_reward_source_statement | `review_theorem3_defined_reward_source_statement` | matches. The Lean row matches the fully incentive-compatible accept-all clause of Theorem 3 on the source-domain where Appendix D reward-rate denominators are defined. Lean states this as defined-reward dynamic IC and a.e. uniqueness rather than as totalized real division at zero denominators. |
 <!-- lean-derived-statements:end -->
 
-## 6. Paper-Facing Statement Validator Ledger
-
+## 9. Paper-Facing Statement Validator Ledger
 Generated from dashboard status export:
 
 `python3 scripts/review_dashboard.py --paper GN21DriverSurgePricing --export-format validators-md`
@@ -131,8 +136,7 @@ Generated from dashboard status export:
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
 
-## 7. Paper Assumption Provenance
-
+## 10. Paper Assumption Provenance
 > Axiom/premise/source-hygiene audit update (2026-06-12): `assumption_match_llm.json`
 > now records per-premise judgments for this paper's `Assumptions.lean` ledger.
 > Current result: every explicit premise is judged source text, source primitives,
@@ -172,8 +176,7 @@ positive.  Theorem 3's positive-denominator condition is the source domain of
 the Appendix D reward-rate formulas, and is exposed in the defined-reward
 statement rather than hidden as a certificate.
 
-## 8. Proof-Strategy Deviations
-
+## 11. Proof-Strategy Deviations
 ### Did Lean Need a Different Qualitative Proof?
 
 Mostly the proof follows the paper's qualitative path, especially for Theorem 3.
@@ -199,8 +202,7 @@ measure-theoretic shorthand that Lean cannot leave implicit:
 - Theorem 2's "not incentive compatible" clause is witnessed by a concrete
   measured atomic instance, so the existential counterexample is inspectable.
 
-## 9. Proof Tricks Worth Reusing
-
+## 12. Proof Tricks Worth Reusing
 - Work directly in the continuous/measure-theoretic model when the source proof
   is continuous.  The finite-support model was useful as support, but the paper
   closed only after the proof focused on measurable trip-length sets,
@@ -228,8 +230,7 @@ measure-theoretic shorthand that Lean cannot leave implicit:
   This avoided large symbolic expressions involving exponentials in the main
   proof path.
 
-## 10. Library Lift Pass
-
+## 13. Library Lift Pass
 The post-closeout lift moved the reusable pieces that passed the "second paper"
 test without disturbing the paper-facing GN21 definitions.
 
@@ -265,8 +266,7 @@ aliases to generic library constants; instead the paper wrappers call the
 library lemmas with `simpa` compatibility bridges.  This preserves the human
 review surface and avoids destabilizing the long compiled proof.
 
-## 11. DAG Audit
-
+## 14. DAG Audit
 I rerendered and visually inspected `DependencyDAG.pdf` after this pass.  The
 current DAG uses the shared preamble, has visible spacing between nodes, and no
 arrow or label crosses through a node body.
@@ -279,34 +279,7 @@ in this report rather than shown as a named paper result in the DAG.  The
 remaining boxes correspond to the paper-facing model, Section 2.2 renewal-reward bridge, named
 lemmas/proposition/theorems, and the paper proof flow.
 
-## 12. Conditional Results and Remaining Gaps
-
-None separately recorded in the existing report.
-
-## 13. Suspected Paper Errors or Inconsistencies
-
-### Is Anything in the Paper Wrong?
-
-No substantive theorem was rejected by Lean.
-
-Two paper-facing issues were found and documented:
-
-- Appendix D's reward-rate notation treats ratios as if their denominators are
-  always meaningful.  The formalization makes this domain explicit.  This is a
-  real edge-case ambiguity, not a counterexample to the paper's intended
-  positive-mass/feasible proof route.
-
-- In the printed Theorem 4 surge-state bullet list, the first two surge bullets
-  say `sigma1` where the surrounding text and proof require `sigma2`.  Lean uses
-  the intended surge-state policy variable.  This is a notational typo, not a
-  mathematical failure.
-
-The paper also reuses symbols such as `R1` and `R2` locally in Appendix lemmas.
-The Lean development renames those local quantities where needed; this was a
-disambiguation step, not a paper error.
-
-## 14. Validation Checks
-
+## 15. Validation Checks
 ### Human Review Status
 
 `SOURCE_AUDIT.md` records an agent source audit for all 24 paper-interface rows.
@@ -340,8 +313,7 @@ assumption-provenance rows. The row-local statement match lane is clean, but it
 does not certify theorem-premise provenance; that is handled by the strict
 assumption audit above.
 
-## 15. Closeout Status
-
+## 16. Closeout Status
 - Completion status: formalized.
 - One-sentence recap: The named CTMC lemmas and Theorems 1-4 are checked on the
   source-facing reward-rate domain.

@@ -1,14 +1,12 @@
 # Validation Report: Roth 1982 Matching
 
 ## 1. Human Verdict
-
 Formalized. Roth's named Theorems 1--7, Lemmas 1--2, and Corollary 5.1 are
 checked on the paper's strict one-to-one marriage domain. No source-paper error
 is reported. No current human dashboard sign-off has been recorded; older local
 dashboard entries should be re-saved if human review is needed.
 
 ## 2. Source and Scope
-
 - Paper: *The Economics of Matching: Stability and Incentives* (Roth 1982)
 - Source version: Mathematics of Operations Research, Vol. 7, No. 4 (Nov., 1982)
 - Lean folder: `papers/Roth82StableMatching/`
@@ -18,8 +16,18 @@ dashboard entries should be re-saved if human review is needed.
 - DAG source: tracked `papers/Roth82StableMatching/DependencyDAG.tex`; local
   rendered PDF output is ignored by the paper-folder `.gitignore`
 
-## 3. What Has Been Proven
+## 3. Researcher Summary of Checked Results
+- Roth's named Theorems 1-7, Lemmas 1-2, and Corollary 5.1 are checked on the paper's strict one-to-one marriage domain.
+- The proof builds on the shared matching library while keeping the paper-facing result inventory explicit.
+- No source-paper error is recorded for the checked theorem surface.
 
+## 4. Remaining Boundaries and Gaps
+None.
+
+## 5. Paper Issues or Formalization Caveats
+None.
+
+## 6. Detailed Formalization Evidence
 ### 1 Post-Paper Audit Checklist
 
 - Local cached-text named-result inventory:
@@ -70,8 +78,7 @@ dashboard entries should be re-saved if human review is needed.
   names and statements are still paper-facing wrappers; moving them cleanly
   should be a separate API-design pass.
 
-## 4. Paper Definitions Checked
-
+## 7. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
 ### Lean-Derived Dashboard Definitions
 
@@ -96,8 +103,7 @@ dashboard entries should be re-saved if human review is needed.
 | def reportMisrepresentsKthChoice | `reportMisrepresentsKthChoice` | - A report changes the identity of some alternative that was truly ranked `k`. |
 <!-- lean-derived-definitions:end -->
 
-## 5. Named Theorem Statements Checked
-
+## 8. Named Theorem Statements Checked
 ### Theorem-by-Theorem Validation
 
 | Paper item | Lean declaration | Status | Statement match | Notes |
@@ -130,8 +136,7 @@ dashboard entries should be re-saved if human review is needed.
 | theorem theorem7_arbitrary_k_on_strict_profiles | `theorem7_arbitrary_k_on_strict_profiles` | - Theorem 7: for any `k > 1`, some finite balanced strict-profile market admits a profitable stable-procedure `k`th-choice manipulation. |
 <!-- lean-derived-statements:end -->
 
-## 6. Paper-Facing Statement Validator Ledger
-
+## 9. Paper-Facing Statement Validator Ledger
 Generated from dashboard status export:
 
 `python3 scripts/review_dashboard.py --paper Roth82StableMatching --export-format validators-md`
@@ -168,8 +173,7 @@ Generated from dashboard status export:
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
 
-## 7. Paper Assumption Provenance And Modeling Notes
-
+## 10. Paper Assumption Provenance And Modeling Notes
 > Axiom/premise/source-hygiene audit update (2026-06-12): `assumption_match_llm.json` records per-premise judgments for this paper's `Assumptions.lean` ledger. Current result: 2/2 premises are independently matched to source text and 0/2 remain partial-formalization boundaries.
 
 Every paper-facing theorem premise that is not derived in Lean is routed through
@@ -207,8 +211,7 @@ Every paper-facing theorem premise that is not derived in Lean is routed through
   no-profitable-false-top wrapper retained as a compatibility API; it is
   stronger than Roth's proof-language reading.
 
-## 8. Proof-Strategy Deviations
-
+## 11. Proof-Strategy Deviations
 - Theorem 2's men side is proved by carrying a reusable DA
   rejected-pair-impossibility invariant through the finite fold; this formalizes
   Roth's "possible woman" induction. The women side is then proved by the
@@ -268,8 +271,7 @@ Every paper-facing theorem premise that is not derived in Lean is routed through
   true rank `r + 2`, and reducing padded stable outcomes back to the strict
   Theorem 3 stable-set enumeration.
 
-## 9. Proof Tricks Worth Reusing
-
+## 12. Proof Tricks Worth Reusing
 ### 2 Proof Tricks Worth Reusing
 
 - Keep `PaperInterface.lean` at the source-paper granularity and move
@@ -282,28 +284,13 @@ Every paper-facing theorem premise that is not derived in Lean is routed through
   a family certificate, and a direct source-facing arbitrary-`k` theorem rather
   than asking reviewers to inspect the padding construction.
 
-## 10. Library Lift Pass
-
+## 13. Library Lift Pass
 None separately recorded in the existing report.
 
-## 11. DAG Audit
-
+## 14. DAG Audit
 No separate DAG audit note is recorded in the existing report.
 
-## 12. Conditional Results and Remaining Gaps
-
-### No Source-Theorem Gaps
-
-- No source-theorem gaps remain for the named results in the cached Roth 1982
-  text. Older generic/certificate APIs remain as compatibility surfaces outside
-  the source-domain endpoints.
-
-## 13. Suspected Paper Errors or Inconsistencies
-
-- None
-
-## 14. Validation Checks
-
+## 15. Validation Checks
 ### Statement Translation Audit
 
 Audit date: 2026-06-06.
@@ -314,8 +301,7 @@ Summary: 27 rows; 26 match, 1 uncertain, 0 mismatch, 0 missing. Stale sidecar ro
 Flagged rows:
 - `serialDictatorshipMechanism`: uncertain. The draft leaves the mechanism as an opaque named expression and does not spell out the serial dictatorship rule in paper language.
 
-## 15. Closeout Status
-
+## 16. Closeout Status
 - Completion status: formalized.
 - One-sentence recap: Roth's named Theorems 1-7, Lemmas 1-2, and Corollary 5.1
   are checked on the stated strict marriage domain.

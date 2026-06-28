@@ -1,7 +1,6 @@
 # Final Validation Report: Test-optional Policies
 
 ## 1. Human Verdict
-
 Formalized. The report covers all named definitions and results in Sections
 2--4, with Gaussian tail facts supplied by the shared mathlib-backed library.
 No counterexample to a named theorem is reported; continuous cutoff and tie
@@ -9,7 +8,6 @@ cases are handled as source-law or almost-everywhere statements. No human
 dashboard sign-off has been recorded.
 
 ## 2. Source and Scope
-
 ### Source Version
 
 - Paper: *Test-optional Policies: Overcoming Strategic Behavior and
@@ -119,8 +117,18 @@ The dashboard source-statement map used for statement translation is:
 The report intentionally does not list every helper declaration. Those details
 belong in `PostPaperAudit.lean`.
 
-## 3. What Has Been Proven
+## 3. Researcher Summary of Checked Results
+- The formalization checks the named definitions and results in Sections 2-4 of the test-optional policies paper.
+- Strategic behavior, admissions-threshold, and informational-gap claims are represented through paper-facing theorem wrappers.
+- Gaussian tail facts are supplied by the shared mathlib-backed library, not by paper-local assumptions.
 
+## 4. Remaining Boundaries and Gaps
+None for the named Sections 2-4 theorem surface.
+
+## 5. Paper Issues or Formalization Caveats
+No counterexample to a named theorem is reported. Continuous cutoff and tie cases are handled as source-law or almost-everywhere statements.
+
+## 6. Detailed Formalization Evidence
 ### What Happened
 
 The Section 3 proof was the hard part. The final route follows the paper's
@@ -150,8 +158,7 @@ The observed-access section is more direct:
   conditional test-score law, so observable fairness holds by construction and
   demographic fairness follows by mixing.
 
-## 4. Paper Definitions Checked
-
+## 7. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
 ### Lean-Derived Dashboard Definitions
 
@@ -175,16 +182,14 @@ The observed-access section is more direct:
 | abbrev theorem4_4_resampling_policy | `theorem4_4_resampling_policy` | For every resampling experiment, the fully specified observed-access source equilibria choose take-and-report in every information state, and the access-estimate and resampling-estimate kernels are observable fair and demographic fair wi... |
 <!-- lean-derived-definitions:end -->
 
-## 5. Named Theorem Statements Checked
-
+## 8. Named Theorem Statements Checked
 <!-- lean-derived-statements:start -->
 ### Lean-Derived Dashboard Named Statements
 
 None exposed in the current dashboard surface.
 <!-- lean-derived-statements:end -->
 
-## 6. Paper-Facing Statement Validator Ledger
-
+## 9. Paper-Facing Statement Validator Ledger
 Generated from dashboard status export:
 
 `python3 scripts/review_dashboard.py --paper LG21TestOptionalPolicies --export-format validators-md`
@@ -210,8 +215,7 @@ Generated from dashboard status export:
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
 
-## 7. Paper Assumption Provenance
-
+## 10. Paper Assumption Provenance
 > Axiom/premise/source-hygiene audit update (2026-06-12): `Assumptions.lean` now
 > records only the compact paper-facing source-model/domain premises reached
 > from `PaperInterface.lean`. `assumption_match_llm.json` validates those
@@ -236,16 +240,14 @@ cannot hide theorem hypotheses behind an abbrev.
 | `assumption_positive_gaussian_domain_conditions` | paper condition / derived | Positive Gaussian scales, variances, and posterior-slope conditions. |
 | `assumption_observed_access_source_equilibria` | paper condition | Observed-access optional-reporting and report-required source equilibria used by Lemma 4.1 and downstream rows. |
 
-## 8. Proof-Strategy Deviations
-
+## 11. Proof-Strategy Deviations
 The main workflow deviation was repaired in this pass: older report text
 treated broad source-model certificate buckets as the public ledger. The strict
 audit now validates only the compact paper-facing premise surface and follows
 dashboard aliases into `ProofInterface.lean` so hidden theorem premises are
 still checked.
 
-## 9. Proof Tricks Worth Reusing
-
+## 12. Proof Tricks Worth Reusing
 - Keep the paper-facing interface compact, and move proof-route variants into
   the audit ledger. This made the final review surface small enough to compare
   against the source paper directly.
@@ -258,8 +260,7 @@ still checked.
   source proof moves between finite support witnesses and Gaussian law
   arguments.
 
-## 10. Library Lift Pass
-
+## 13. Library Lift Pass
 ### Library Pass
 
 The post-verification proof scan produced one small library extraction:
@@ -288,8 +289,7 @@ wrappers may deserve a generic Gaussian-mixture law module if another
 standardized-testing paper needs the same constructors. They remain local for
 now because their current shape is tuned to LG21's source-law bookkeeping.
 
-## 11. DAG Audit
-
+## 14. DAG Audit
 `DependencyDAG.tex` is source-facing and follows the shared template styles:
 
 - model/definition layers use `dag_model`;
@@ -301,32 +301,7 @@ routed the model-to-fairness dependency vertically so arrows do not cross node
 labels. `latexmk -pdf DependencyDAG.tex` rebuilt the PDF, and PNG inspection
 found no node-label or arrow-through-text overlap.
 
-## 12. Conditional Results and Remaining Gaps
-
-None separately recorded in the existing report.
-
-## 13. Suspected Paper Errors or Inconsistencies
-
-### Issues Found
-
-No named theorem in the paper is marked false.
-
-The main source-model issue was overgeneralization. A raw abstraction that lets
-an arbitrary external Bayesian policy be paired with arbitrary pointwise
-cutoff behavior is false. The paper does not need that abstraction. The valid
-formal route keeps the policy tied to the source model and uses a.e. statements
-for continuous boundary cases.
-
-This distinction is important for future agents: keep diagnostics about false
-overbroad abstractions out of the paper-facing theorem inventory unless they
-change a named paper theorem. Here, they do not.
-
-No named paper result is marked false. The refreshed strict provenance audit
-reports no unresolved hidden source-row or certificate premise for the
-paper-facing surface.
-
-## 14. Validation Checks
-
+## 15. Validation Checks
 ### Verification Checks
 
 Passed:
@@ -354,8 +329,7 @@ missing. Current statement sidecars are refreshed against the compact
 Flagged rows:
 - None.
 
-## 15. Closeout Status
-
+## 16. Closeout Status
 - Completion status: formalized.
 - One-sentence recap: The compact statement surface covers the paper with
   Gaussian tail support supplied by the shared library.

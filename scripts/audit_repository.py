@@ -926,6 +926,18 @@ FINAL_REPORT_HUMAN_VERDICT_RE = re.compile(
 FINAL_REPORT_SOURCE_SCOPE_RE = re.compile(
     r"(?mi)^##+\s+(?:\d+\.\s*)?Source\s+(?:and|And)\s+Scope\b"
 )
+FINAL_REPORT_RESEARCHER_SUMMARY_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?Researcher\s+Summary\s+of\s+Checked\s+Results\b"
+)
+FINAL_REPORT_REMAINING_BOUNDARIES_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?Remaining\s+Boundaries\s+and\s+Gaps\b"
+)
+FINAL_REPORT_ISSUES_CAVEATS_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?Paper\s+Issues\s+or\s+Formalization\s+Caveats\b"
+)
+FINAL_REPORT_DETAILED_EVIDENCE_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?Detailed\s+Formalization\s+Evidence\b"
+)
 FINAL_REPORT_MACHINE_FRONT_MATTER_RE = re.compile(
     r"(?i)\b("
     r"python3|lake\s+build|#print|transitive-source-premise-audit|"
@@ -938,6 +950,18 @@ FINAL_REPORT_MACHINE_FRONT_MATTER_RE = re.compile(
 )
 FINAL_REPORT_OLD_FINAL_VERDICT_RE = re.compile(
     r"(?mi)^##+\s+\d+\.\s+Final\s+Verdict\b"
+)
+FINAL_REPORT_OLD_WHAT_PROVEN_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?(?:What\s+Has\s+Been\s+Proven|What\s+Lean\s+Proves)\b"
+)
+FINAL_REPORT_CHECKLIST_HEADING_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?"
+    r"(?:Paper\s+Assumption\s+Provenance|Displayed\s+Formula\s+Provenance|"
+    r"Additional\s+Assumptions\s+Beyond\s+Paper|Proof-Strategy\s+Deviations|"
+    r"Proof\s+Tricks\s+Worth\s+Reusing|Library\s+Lift\s+Pass|DAG\s+Audit|"
+    r"Validation\s+Checks|Validation\s+Commands|Paper\s+Definitions\s+Checked|"
+    r"Named\s+Theorem\s+Statements\s+Checked|Paper-Facing\s+Statement\s+Validator\s+Ledger|"
+    r"Statement\s+Validator\s+Ledger|Statement\s+Validator\s+Findings)\b"
 )
 CLOSEOUT_PAPER_STATUSES = {
     "formalized",
@@ -1100,6 +1124,61 @@ def check_final_report_human_facing_front_matter(
                     "use `Closeout Status` instead of a repetitive `Final Verdict` section",
                 )
             )
+        if FINAL_REPORT_OLD_WHAT_PROVEN_RE.search(report_text):
+            findings.append(
+                Finding(
+                    "WARN",
+                    report,
+                    "use `Researcher Summary of Checked Results` plus later "
+                    "`Detailed Formalization Evidence`, not `What Has Been Proven`",
+                )
+            )
+
+        summary = FINAL_REPORT_RESEARCHER_SUMMARY_RE.search(report_text)
+        remaining = FINAL_REPORT_REMAINING_BOUNDARIES_RE.search(report_text)
+        issues = FINAL_REPORT_ISSUES_CAVEATS_RE.search(report_text)
+        detailed = FINAL_REPORT_DETAILED_EVIDENCE_RE.search(report_text)
+        required_front = [
+            ("Source and Scope", source_scope),
+            ("Researcher Summary of Checked Results", summary),
+            ("Remaining Boundaries and Gaps", remaining),
+            ("Paper Issues or Formalization Caveats", issues),
+            ("Detailed Formalization Evidence", detailed),
+        ]
+        for title, match in required_front:
+            if not match:
+                findings.append(
+                    Finding(
+                        "WARN",
+                        report,
+                        f"final validation report should include `{title}` in its standard front order",
+                    )
+                )
+        present_positions = [
+            human_verdict.start(),
+            *[match.start() for _, match in required_front if match],
+        ]
+        if present_positions != sorted(present_positions):
+            findings.append(
+                Finding(
+                    "WARN",
+                    report,
+                    "final validation report should order front sections as Human Verdict, "
+                    "Source and Scope, Researcher Summary, Remaining Boundaries, "
+                    "Paper Issues, then Detailed Formalization Evidence",
+                )
+            )
+        if detailed:
+            pre_detail = report_text[human_verdict.start():detailed.start()]
+            if FINAL_REPORT_CHECKLIST_HEADING_RE.search(pre_detail):
+                findings.append(
+                    Finding(
+                        "WARN",
+                        report,
+                        "checklist/provenance/Lean evidence headings should appear after "
+                        "`Detailed Formalization Evidence`, not in the researcher-facing front matter",
+                    )
+                )
     return findings
 
 

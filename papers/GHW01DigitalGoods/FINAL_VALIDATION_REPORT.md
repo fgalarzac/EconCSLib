@@ -1,7 +1,6 @@
 # Final Validation Report: Competitive Auctions and Digital Goods
 
 ## 1. Human Verdict
-
 Formalized. The report covers the SODA paper's competitive-auction results,
 with Theorem 8.2 stated using the later journal version's monotone-auction
 refinement. No inconsistency is reported for the formalized target; the source
@@ -9,7 +8,6 @@ version distinction is documented below. No human dashboard sign-off has been
 recorded.
 
 ## 2. Source and Scope
-
 - Primary formalization target: *Competitive Auctions and Digital Goods* by
   Andrew V. Goldberg, Jason D. Hartline, and Andrew Wright, the SODA 2001
   digital-goods paper.
@@ -24,8 +22,18 @@ recorded.
 - Importable audit ledger: `PostPaperAudit.lean`.
 - DAG artifacts: `DependencyDAG.tex` and regenerated `DependencyDAG.pdf`.
 
-## 3. What Has Been Proven
+## 3. Researcher Summary of Checked Results
+- The formalization checks the digital-goods competitive-auction results for the SODA target.
+- Theorem 8.2 is checked using the later journal version's monotone-auction refinement, which is documented as the control source for that theorem.
+- Journal-only results outside that target are not claimed as part of this report.
 
+## 4. Remaining Boundaries and Gaps
+None for the SODA target formalized here. Journal-only results outside that target are not claimed.
+
+## 5. Paper Issues or Formalization Caveats
+Theorem 8.2 is formalized using the later journal version's monotone-auction refinement. This is a source-version choice, not a reported inconsistency in the SODA target.
+
+## 6. Detailed Formalization Evidence
 The paper's digital-goods mechanism definitions, truthful threshold mechanisms,
 fixed-price benchmarks, random-sampling bounds, weighted-pairing bounds,
 Section 8.2 monotone randomized-auction revenue upper bound, deterministic
@@ -41,8 +49,7 @@ representation as a public assumption; the deterministic set-of-bids source
 model is explicit in `Assumptions.lean`, validated against the source text, and
 the erased-list/list-price bridge is discharged internally.
 
-## 4. Paper Definitions Checked
-
+## 7. Paper Definitions Checked
 - Digital-goods revenue: total payments collected from all bidders. Lean:
   `PaperInterface.revenue`.
 - Dominant-strategy truthfulness: truthful reporting weakly dominates any
@@ -55,8 +62,7 @@ the erased-list/list-price bridge is discharged internally.
 - Weighted-pairing expected revenue. Lean:
   `PaperInterface.weightedPairingRevenue`.
 
-## 5. Named Theorem Statements Checked
-
+## 8. Named Theorem Statements Checked
 - Theorem 4.1: high-value profiles satisfy the logarithmic fixed-price lower
   bound. Lean: `theorem4_1_high_value`. Status: formalized.
 - Corollary 4.2: cutoff truncation gives the factor-four fixed-price lower
@@ -82,8 +88,7 @@ the erased-list/list-price bridge is discharged internally.
 - Theorem 9.3: deterministic truthful auctions have the lower-bound witness.
   Lean: `theorem9_3_deterministic_truthful_lower_bound`. Status: formalized.
 
-## 6. Paper-Facing Statement Validator Ledger
-
+## 9. Paper-Facing Statement Validator Ledger
 The paper-facing review surface contains 18 rows: 7 definitions and 11 theorem,
 lemma, or corollary endpoints. The Section 8.2 source-version audit endpoint is
 kept in `PostPaperAudit.lean` and is not part of this paper-facing inventory.
@@ -91,8 +96,7 @@ kept in `PostPaperAudit.lean` and is not part of this paper-facing inventory.
 Summary: 18 rows; 18 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar
 rows: none after removing the non-paper-facing audit row from the sidecars.
 
-## 7. Paper Assumption Provenance
-
+## 10. Paper Assumption Provenance
 Every paper-facing premise is routed through
 `GHW01DigitalGoods/Assumptions.lean` and checked by
 `assumption_match_llm.json`. These rows are theorem-domain conditions from the
@@ -125,21 +129,18 @@ values/prices where the auction model requires them, journal raw-CDF
 monotonicity for Section 8.2, and anonymous set-of-bids/masked-vector behavior
 for Section 9.3.
 
-## 8. Proof-Strategy Deviations
-
+## 11. Proof-Strategy Deviations
 - Section 8.2 is checked against the later journal monotone-auction statement.
   Lean proves a finite raw-CDF/PMF version of the journal argument.
 - Section 9.3 derives the erased-list/list-price bridge internally from the
   paper's set-of-bids convention and Lemma 9.2.
 
-## 9. Proof Tricks Worth Reusing
-
+## 12. Proof Tricks Worth Reusing
 - For finite randomized digital-goods auctions, raw CDF monotonicity can often
   be pushed directly to acceptance probabilities and surplus recursions using
   finite PMF layer-cake sums.
 
-## 10. Library Lift Pass
-
+## 13. Library Lift Pass
 Reusable digital-goods auction material now lives in
 `EconCSLib/MechanismDesign/Auctions/DigitalGoods.lean`, alongside the
 `Position.lean` and `Combinatorial.lean` auction modules. The GHW
@@ -148,37 +149,19 @@ endpoints. A future second-paper use case could factor the finite PMF
 layer-cake surplus lemmas behind Theorem 8.2 into a smaller stochastic-ordering
 API; no risky extraction is needed for this closeout.
 
-## 11. DAG Audit
-
+## 14. DAG Audit
 `DependencyDAG.tex` identifies the SODA paper as the target and notes that
 Section 8.2 uses the journal refinement. The DAG uses closed dependency arrows
 only; there are no open or conditional DAG nodes.
 
-## 12. Conditional Results and Remaining Gaps
-
-None under the source-version choice recorded above. Theorem 8.2 is the journal
-raw-CDF monotone-offer theorem. Theorem 9.3 is the deterministic truthful
-theorem under the paper's set-of-bids focused-outcome convention. All
-bridge/adaptation work from those source-shaped models is discharged
-internally. Older coupled-offer and proof-adapter declarations remain only as
-auxiliary reusable-library/audit material.
-
-## 13. Suspected Paper Errors or Inconsistencies
-
-No paper error is reported for the formalized target. The only recorded issue
-is a source-version distinction in Section 8.2; it is documented under
-Source-Version Notes.
-
-## Source-Version Notes
-
+## 15. Source-Version Notes
 Section 8.2 is a source-version distinction: the SODA paper's wording is
 broader than the later journal theorem, while the journal version states and
 proves the revenue upper bound for monotone truthful randomized auctions. This
 folder therefore uses the journal statement for the Section 8.2 endpoint and
 retains the preliminary wording only as provenance/audit material.
 
-## 14. Validation Checks
-
+## 16. Validation Checks
 - `lake build GHW01DigitalGoods`: passed in the private and public checkouts.
 - `python3 scripts/sync_paper_status.py`: passed in the private and public
   checkouts.
@@ -193,8 +176,7 @@ retains the preliminary wording only as provenance/audit material.
 - `latexmk -pdf -interaction=nonstopmode -halt-on-error
   garg_econcslib_2026.tex`: passed in the workshop paper folder.
 
-## 15. Closeout Status
-
+## 17. Closeout Status
 - Completion status: formalized.
 - One-sentence recap: The SODA digital-goods results are checked, with Theorem
   8.2 using the later journal monotone-auction refinement.

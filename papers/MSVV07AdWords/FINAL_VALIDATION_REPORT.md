@@ -1,14 +1,12 @@
 # Final Validation Report: MSVV07 AdWords
 
 ## 1. Human Verdict
-
 Formalized. The Balance/MSVV structure, Section 6 and 8 extensions, and
 Theorem 9 lower-bound endpoint are checked. No suspected paper error is
 reported, and helper certificates remain internal to the proof rather than
 paper-facing assumptions. No human dashboard sign-off has been recorded.
 
 ## 2. Source and Scope
-
 - Paper: *AdWords and Generalized Online Matching*.
 - Source version: Journal of the ACM 54(5), 2007, Article 22, DOI
   `10.1145/1284320.1284321`; public author PDF:
@@ -20,8 +18,18 @@ paper-facing assumptions. No human dashboard sign-off has been recorded.
 - DAG artifacts: `papers/MSVV07AdWords/DependencyDAG.tex` and
   `papers/MSVV07AdWords/DependencyDAG.pdf`.
 
-## 3. What Has Been Proven
+## 3. Researcher Summary of Checked Results
+- The formalization checks the Balance/MSVV online matching structure, the Section 6 and 8 extensions, and the Theorem 9 lower-bound endpoint.
+- Helper certificates are internal proof devices and are not exposed as paper-facing assumptions.
+- No suspected paper error is recorded for the checked surface.
 
+## 4. Remaining Boundaries and Gaps
+None.
+
+## 5. Paper Issues or Formalization Caveats
+None.
+
+## 6. Detailed Formalization Evidence
 The paper's finite AdWords model, budget feasibility, small-bids condition,
 fractional LP benchmark, Balance/MSVV score and choice rule, Theorem 8
 competitive-ratio guarantee, Section 6 extensions, Section 8 weighted-bid
@@ -32,8 +40,7 @@ Theorem 8 route. They are not part of the compact dashboard surface because the
 review surface is reserved for paper-facing formulas and final section/theorem
 endpoints.
 
-## 4. Paper Assumption Provenance
-
+## 7. Paper Assumption Provenance
 > Axiom/premise/source-hygiene audit update (2026-06-12): `assumption_match_llm.json` records per-premise judgments for this paper's `Assumptions.lean` ledger. Current result: 13/13 premises are judged source model primitives, derived representation conditions, or paper-statement conditions; 0 premises remain as partial-formalization boundaries.
 
 Every paper-facing premise is routed through `MSVV07AdWords/Assumptions.lean`
@@ -58,8 +65,7 @@ Additional assumptions beyond the paper: none. Relevant finite-history,
 nonnegative-bid, positive-budget, distinctness, and small-bids side conditions
 appear explicitly in the Lean statements and in the provenance ledger above.
 
-## 5. Proof-Strategy Deviations
-
+## 8. Proof-Strategy Deviations
 - Theorem 8 is proved through finite Balance history accounting with an
   explicit small-bids error term, then wrapped as the paper-level limiting
   theorem.
@@ -69,39 +75,27 @@ appear explicitly in the Lean statements and in the provenance ledger above.
   observed-prefix and integral-prefix support endpoints are kept out of the
   dashboard surface.
 
-## 6. Proof Tricks Worth Reusing
-
+## 9. Proof Tricks Worth Reusing
 - Package small-bids limit assumptions as explicit finite-instance families.
 - Separate online-run feasibility, revenue accounting, dual feasibility, and
   explicit error terms before taking limits.
 - For lower bounds, separate the hard distribution, payoff definition,
   harmonic cap, and randomized/Yao wrapper.
 
-## 7. Library Lift Pass
-
+## 10. Library Lift Pass
 Reusable finite AdWords infrastructure already lives in
 `EconCSLib/Algorithms/Online/AdWords.lean`. The paper folder retains
 source-route lemmas, Section 6/8 wrappers, and Theorem 9 lower-bound endpoints.
 No additional lift is needed for this closeout.
 
-## 8. DAG Audit
-
+## 11. DAG Audit
 - Rendered artifact: `DependencyDAG.pdf` exists.
 - Topology: the DAG covers the finite model, Balance rule, source-route
   Lemmas 1--7, Theorem 8, Section 6/8 extensions, and Theorem 9.
 - Layout: the rendered artifact was previously checked for legible metadata,
   labels, and routing; this curation pass did not change the DAG source.
 
-## 9. Conditional Results and Remaining Gaps
-
-None. The paper-facing endpoints listed below are formalized.
-
-## 10. Suspected Paper Errors or Inconsistencies
-
-None found.
-
-## 11. Validation Checks
-
+## 12. Validation Checks
 - Dashboard review surface curated from 39 rows to 26 rows. Removed rows were
   broad proof-adapter variants, duplicate payoff aliases, or support endpoints
   already represented by final source-section statements.
@@ -111,14 +105,7 @@ None found.
 - `python3 scripts/review_dashboard.py --paper MSVV07AdWords --assumption-precheck`:
   10 assumption declarations; no missing, stale, or flagged provenance rows.
 
-## 12. Closeout Status
-
-- Completion status: formalized.
-- One-sentence recap: The Balance/MSVV, Section 6/8 extension, and Theorem 9
-  lower-bound endpoints are checked.
-
 ## 13. Paper Definitions Checked
-
 These mathematical objects are exposed in `PaperInterface.lean` through
 source-equation or source-condition wrapper rows.
 
@@ -144,7 +131,6 @@ source-equation or source-condition wrapper rows.
   `theorem9CappedNormalizedRevenue_formula`.
 
 ## 14. Named Theorem Statements Checked
-
 ### Theorem 8
 
 **Paper statement.** Balance/MSVV is `1 - 1/e` competitive in the small-bids
@@ -205,7 +191,6 @@ lemmas support the proof of Theorem 8.
 compact dashboard surface.
 
 ## 15. Paper-Facing Statement Validator Ledger
-
 Generated from the curated dashboard surface. Human dashboard reviews and
 model/agent statement checks may both appear here; this table records statement
 target provenance and does not change the human-only review counter.
@@ -238,3 +223,8 @@ target provenance and does not change the human-only review counter.
 | Theorem 9 capped normalized payoff | `theorem9CappedNormalizedRevenue_formula` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
 | Theorem 9 hard distribution | `theorem9HardDistribution_uniform` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
 | Theorem 9 randomized-online lower bound | `theorem9_no_randomized_online_algorithm_beats_msvv_ratio` | gpt-5-codex (model; matches; 2026-06-07T00:00:39Z) | Paper and Lean statements match at comparable granularity. |
+
+## 16. Closeout Status
+- Completion status: formalized.
+- One-sentence recap: The Balance/MSVV, Section 6/8 extension, and Theorem 9
+  lower-bound endpoints are checked.

@@ -13,10 +13,19 @@ completed yet, and no human dashboard sign-off has been recorded.
 - DAG artifacts: `papers/TEMPLATE/DependencyDAG.tex`, `papers/TEMPLATE/DependencyDAG.pdf`
 - Lean footprint: not measured
 
-## 3. What Has Been Proven
+## 3. Researcher Summary of Checked Results
+None yet. Summarize checked paper definitions and named results here in paper language before listing Lean declarations or validator ledgers below.
+
+## 4. Remaining Boundaries and Gaps
+All named results remain open.
+
+## 5. Paper Issues or Formalization Caveats
+None.
+
+## 6. Detailed Formalization Evidence
 None yet.
 
-## 4. Paper Assumption Provenance
+## 7. Paper Assumption Provenance
 Every paper-facing theorem premise that is not derived in Lean should appear as
 a named assumption declaration in `Assumptions.lean`, be listed in `status.json`
 `review_surface.assumption_names`, and be checked in `assumption_match_llm.json`
@@ -32,7 +41,7 @@ known external/library/analytic/runtime/solver boundary, not a source caveat.
 | --- | --- | --- | --- | --- |
 | None | `none` | None | None | No paper assumptions recorded yet. |
 
-## 5. Displayed Formula Provenance
+## 8. Displayed Formula Provenance
 Every displayed or source-defining formula used by a named result should have
 an exact paper-facing row or exact subclaim row. Broad aggregate rows are not
 enough for full validation. Formula rows are closed only when the formula is
@@ -43,16 +52,16 @@ assumptions.
 | --- | --- | --- | --- | --- |
 | None | `none` | None | None | No displayed formulas checked yet. |
 
-## 6. Additional Assumptions Beyond Paper
+## 9. Additional Assumptions Beyond Paper
 - None
 
-## 7. Proof-Strategy Deviations
+## 10. Proof-Strategy Deviations
 - None
 
-## 8. Proof Tricks Worth Reusing
+## 11. Proof Tricks Worth Reusing
 - None
 
-## 9. Library Lift Pass
+## 12. Library Lift Pass
 - Reusable library extraction candidates: None
 - Library certificate/source-boundary audit: not run. Before a completion
   claim, summarize whether certificate-taking library APIs used by paper
@@ -63,18 +72,12 @@ assumptions.
   source-row formula boundaries, hidden premises, or transitive library
   certificate findings.
 
-## 10. DAG Audit
+## 13. DAG Audit
 - Rendered artifact: not checked
 - Topology: not checked
 - Layout: not checked
 
-## 11. Conditional Results and Remaining Gaps
-- All named results remain open.
-
-## 12. Suspected Paper Errors or Inconsistencies
-- None
-
-## 13. Validation Checks
+## 14. Validation Checks
 - Not run.
 - Required closeout checks include targeted Lean build, statement precheck,
   assumption/hidden-premise precheck, repository audit, and library premise
@@ -83,10 +86,6 @@ assumptions.
 - Machine-required closeout evidence may include the exact targeted repository
   audit command here, but keep commands out of the executive verdict and proof
   narrative.
-
-## 14. Closeout Status
-- Completion status: not formalized
-- One-sentence recap: Scaffold only.
 
 ## 15. Paper Definitions Checked
 - None yet.
@@ -111,3 +110,7 @@ validator ledger rather than from memory.
 Human dashboard reviews and model/agent statement checks may both appear here.
 This table is provenance for the statement targets; it does not change the
 human-only `human_review.reviewed_rows` counter.
+
+## 18. Closeout Status
+- Completion status: not formalized
+- One-sentence recap: Scaffold only.

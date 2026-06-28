@@ -1,13 +1,11 @@
 # Final Validation Report: GGSG19 Top Three
 
 ## 1. Human Verdict
-
 Formalized. The finite-candidate Top Three theorem surface is checked with the
 finite-support conditions made explicit. No source-paper error is reported for
 the formalized results. No human dashboard sign-off has been recorded.
 
 ## 2. Source and Scope
-
 - Paper: *Who is in Your Top Three? Optimizing Learning in Elections with Many Candidates*.
 - Publication venue: HCOMP 2019.
 - Source version: arXiv 1906.08160 TeX/PDF, 2019.
@@ -16,8 +14,18 @@ the formalized results. No human dashboard sign-off has been recorded.
 - Detailed post-formalization audit: `papers/GGSG19TopThree/POST_FORMALIZATION_AUDIT.md`.
 - DAG artifacts: `papers/GGSG19TopThree/DependencyDAG.tex`, `papers/GGSG19TopThree/DependencyDAG.pdf`.
 
-## 3. What Has Been Proven
+## 3. Researcher Summary of Checked Results
+- The formalization checks the finite-candidate Top Three theorem surface.
+- The large-deviation-rate definition, Propositions 1-4, randomized scoring/K-approval results, and Mallows special cases are represented in the paper-facing interface.
+- The finite-support conditions needed by the source arguments are explicit.
 
+## 4. Remaining Boundaries and Gaps
+None.
+
+## 5. Paper Issues or Formalization Caveats
+None.
+
+## 6. Detailed Formalization Evidence
 The formalization covers the finite-candidate source theorem surface: the
 large-deviation-rate definition, Propositions 1-4, randomized scoring,
 randomized K-approval, the constructed W-selection randomization-improvement
@@ -35,8 +43,7 @@ kept only as proof/library infrastructure, not as the paper-facing row.
 The paper's empirical and numerical sections are treated as reproducibility
 artifacts rather than Lean theorem targets.
 
-## 4. Paper Definitions Checked
-
+## 7. Paper Definitions Checked
 - Large-deviation rate: `r = -lim_N (1 / N) log A_N`.
   Lean: `paper_definition_large_deviation_rate`.
 
@@ -48,8 +55,7 @@ artifacts rather than Lean theorem targets.
 | abbrev paper_definition_large_deviation_rate | `paper_definition_large_deviation_rate` | - Paper definition of an exponential large-deviation rate. |
 <!-- lean-derived-definitions:end -->
 
-## 5. Named Theorem Statements Checked
-
+## 8. Named Theorem Statements Checked
 ### Proposition 1
 
 **Paper statement.** Strict top-prefix cross-tier dominance characterizes the
@@ -103,8 +109,7 @@ claims.
 | theorem source_theorem_lem_mallowsnotWK_counterexample | `source_theorem_lem_mallowsnotWK_counterexample` | - Source Theorem `lem:mallowsnotWK`: a four-candidate high-noise Mallows counterexample where W-approval is not approval-rate optimal. |
 <!-- lean-derived-statements:end -->
 
-## 6. Paper-Facing Statement Validator Ledger
-
+## 9. Paper-Facing Statement Validator Ledger
 Generated from dashboard status export:
 
 `python3 scripts/review_dashboard.py --paper GGSG19TopThree --export-format validators-md`
@@ -124,8 +129,7 @@ Generated from dashboard status export:
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
 
-## 7. Paper Assumption Provenance
-
+## 10. Paper Assumption Provenance
 > Axiom/premise/source-hygiene audit update (2026-06-12): `assumption_match_llm.json`
 > records per-premise judgments for this paper's `Assumptions.lean` ledger.
 > Current result: 9/9 explicit premises are source-matched or derived from
@@ -146,23 +150,20 @@ Mallows/K-approval domains. None are proof-only certificates.
 | `assumption_mallows_nontrivial_winner_and_noise` | paper condition | Mallows top-W pivotal-pair regime, including the non-uniform Mallows domain. |
 | `assumption_nontrivial_k_approval_cutoffs` | source text | Positive proper K-approval cutoffs in the randomized family. |
 
-## 8. Proof-Strategy Deviations
-
+## 11. Proof-Strategy Deviations
 - Propositions 2-4: Lean states finite-support boundary branches explicitly
   rather than folding them into prose.
 - Empirical/numerical sections: treated as reproducibility artifacts outside
   the Lean theorem surface.
 
-## 9. Proof Tricks Worth Reusing
-
+## 12. Proof Tricks Worth Reusing
 - Use `WithTop` rates for finite-support large-deviation boundary cases.
 - Split ranking-learning proofs into pairwise finite-support rates, K-approval
   ternary specialization, and finite relevant-pair aggregation.
 - Keep one-loser/all-but-one K-approval facts in the shared social-choice
   library and paper-specific terminology as thin wrappers.
 
-## 10. Library Lift Pass
-
+## 13. Library Lift Pass
 - `EconCSLib.Foundations.Probability.FiniteSupportMGF`: finite-support
   log-MGF, rate, extended-rate, and pairwise threshold-rate APIs.
 - `EconCSLib.Foundations.Probability.LargeDeviations`: finite weighted-sum and
@@ -174,29 +175,18 @@ Mallows/K-approval domains. None are proof-only certificates.
 
 Further candidates are recorded in `POST_FORMALIZATION_AUDIT.md`.
 
-## 11. DAG Audit
-
+## 14. DAG Audit
 - Rendered artifact: yes, `DependencyDAG.pdf`.
 - Topology: source-facing named-result topology; empirical sections omitted.
 - Layout: visually inspected after rerendering; no known overlap or unintended
   dashed-edge semantics.
 
-## 12. Conditional Results and Remaining Gaps
-
-None for the source-facing finite-candidate theorem surface.
-
-## 13. Suspected Paper Errors or Inconsistencies
-
-None.
-
-## 14. Validation Checks
-
+## 15. Validation Checks
 The targeted paper build passed for `lake build GGSG19TopThree`. The DAG was
 rendered from the paper folder with `latexmk`, converted to PNG, and visually
 inspected. Targeted `git diff --check` passed for the changed GGSG documents.
 
-## 15. Closeout Status
-
+## 16. Closeout Status
 - Completion status: formalized.
 - One-sentence recap: The finite-candidate Top Three theorem surface is checked
   with explicit finite-support handling.

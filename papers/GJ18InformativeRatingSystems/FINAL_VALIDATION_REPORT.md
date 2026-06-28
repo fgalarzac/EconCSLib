@@ -1,13 +1,11 @@
 # Final Validation Report: GJ18 Informative Rating Systems
 
 ## 1. Human Verdict
-
 Formalized. Theorem 1 is checked for the finite ordinal rating support used by
 the paper, with the bottom/top atom conditions derived from that support. No
 source-paper error is reported. No human dashboard sign-off has been recorded.
 
 ## 2. Source and Scope
-
 - Paper: *Designing Informative Rating Systems: Evidence from an Online Labor Market*.
 - Publication version: Manufacturing & Service Operations Management 23(3):589-605, published online 2020 (issue 2021); DOI `10.1287/msom.2020.0921`.
 - Formalized source/PDF: arXiv 1810.13028 TeX/PDF cache.
@@ -20,8 +18,18 @@ The official publisher article is the MSOM/INFORMS version. The arXiv
 are local source-audit artifacts and are not part of the public theorem surface
 unless redistribution rights are checked separately.
 
-## 3. What Has Been Proven
+## 3. Researcher Summary of Checked Results
+- The formalization checks Theorem 1 for the finite ordinal rating support used by the paper.
+- The bottom/top atom and threshold-support conditions needed by the source proof are made explicit.
+- The paper-facing surface focuses on the finite-support rating-system theorem rather than broader empirical claims.
 
+## 4. Remaining Boundaries and Gaps
+None.
+
+## 5. Paper Issues or Formalization Caveats
+None.
+
+## 6. Detailed Formalization Evidence
 Lean exposes the paper's finite ordered seller-type model, finite rating levels,
 single-rating log-MGF, Legendre rate function, pairwise threshold-rate formula,
 finite MGF factorizations, integer-rate and floor-count objective bridges, the
@@ -43,8 +51,7 @@ supply stronger real-valued boundedness or domain hypotheses.
 Empirical, simulation, and data-analysis sections are source scope notes, not
 Lean theorem targets.
 
-## 4. Paper Definitions Checked
-
+## 7. Paper Definitions Checked
 - Log-MGF `Lambda(z | theta) = log sum_y rho(theta,y|Y) exp(z phi(y))`.
   Lean: `definition_log_mgf_formula`.
 - Rate function `I(a | theta) = sup_z {za - Lambda(z | theta)}`.
@@ -59,8 +66,7 @@ Lean theorem targets.
 - Kendall-style objective `W_k` through finite weighted pair aggregation.
   Lean: `theorem1_floor_pk_complement_error_eq_one_sub_weighted_objective`.
 
-## 5. Named Theorem Statements Checked
-
+## 8. Named Theorem Statements Checked
 ### Appendix Lemma `problessthan`
 
 **Paper statement.** The pairwise score-comparison error has exponential rate
@@ -123,8 +129,7 @@ real-rate compatibility wrapper for stronger all-real domain conventions.
 | theorem theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_threshold_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds_of_extended_min_eq | `theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_threshold_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds_of_extended_min_eq` | optional real-rate compatibility statement for stronger all-real domain conventions. |
 <!-- lean-derived-statements:end -->
 
-## 6. Paper-Facing Statement Validator Ledger
-
+## 9. Paper-Facing Statement Validator Ledger
 Generated from dashboard status export:
 
 `python3 scripts/review_dashboard.py --paper GJ18InformativeRatingSystems --export-format validators-md`
@@ -142,8 +147,7 @@ Generated from dashboard status export:
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
 
-## 7. Paper Assumption Provenance
-
+## 10. Paper Assumption Provenance
 > Axiom/premise/source-hygiene audit update (2026-06-12): `assumption_match_llm.json` now records per-premise judgments for this paper's `Assumptions.lean` ledger. Current result: 15/15 premises are judged source, paper-condition, or derived-from-source conditions; 0/15 remain visible partial-formalization boundaries. The canonical Theorem 1 endpoint may be treated as fully formalized under the source finite-rating model and support-safe finite-rate convention.
 
 Every paper-facing premise is routed through
@@ -169,8 +173,7 @@ Additional assumptions beyond the paper: none for the canonical support-safe
 Theorem 1 endpoint. Finite seller types, finite rating levels, and floor-count
 sample sizes are part of the source model.
 
-## 8. Proof-Strategy Deviations
-
+## 11. Proof-Strategy Deviations
 - Lean uses finite-support MGF/Cramer certificates and method-of-types support
   machinery rather than treating the appendix's large-deviation and Laplace
   principle steps as a single black-box calculation.
@@ -180,8 +183,7 @@ sample sizes are part of the source model.
 - The support-safe finite-support rate convention is treated as the canonical
   statement, not as a caveat in the finite model or adjacent aggregation.
 
-## 9. Proof Tricks Worth Reusing
-
+## 12. Proof Tricks Worth Reusing
 - Separate pairwise LDP certificates from finite aggregation and objective
   transfer.
 - Use displayed pairwise-objective endpoints to isolate the finite LDP work
@@ -194,8 +196,7 @@ sample sizes are part of the source model.
 - Represent source floor counts directly, then use normalization/equality
   lemmas only where the proof route needs them.
 
-## 10. Library Lift Pass
-
+## 13. Library Lift Pass
 - `EconCSLib.Foundations.Probability.FiniteRatingComparison`: extracted the
   generic finite-rating comparison spine from this paper's implementation file:
   source-facing log-MGF/rate wrappers, support-safe pairwise threshold rates,
@@ -221,35 +222,14 @@ The old real-valued threshold-minimum equality can remain as an optional
 compatibility theorem for users who choose a stronger all-real domain
 convention.
 
-## 11. DAG Audit
-
+## 14. DAG Audit
 - Rendered artifact: `DependencyDAG.pdf`.
 - Topology: source-facing model, finite FOSD/tail-dominance bridge, Appendix
   Lemma C support, `P_k` transfer, and one formalized Theorem 1 endpoint.
 - Layout: rendered and visually inspected after the formalized-status change.
 - Status: no partial/caveat node remains on the main Theorem 1 path.
 
-## 12. Conditional Results and Remaining Gaps
-
-### Conditional Helper Results
-
-- `lemmaC_floor_score_gap_rate_from_logMGF_derivative_threshold_minimizer_of_straddling_support`: auxiliary derivative/minimizer route retained for reuse.
-- `theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_objective_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds`: finite objective layer is closed at the displayed adjacent-objective minimum.
-- `theorem1_finite_chain_adjacent_threshold_rate_top_min_eq_displayed_objective_min_of_logMGF_derivatives`: support-safe extended source-rate identification is closed.
-- `theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_pairwise_threshold_rate_regularity`: source-facing extended-rate Theorem 1 endpoint is closed from the compact pairwise regularity package.
-- `theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_rating_tail_dominance_and_full_support`: main source-facing Theorem 1 endpoint.
-- `theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_threshold_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds_of_extended_min_eq`: optional real-rate compatibility statement for stronger all-real domain conventions.
-- Optional strengthening: remove or prove the bounded-rate side condition in
-  the Fenchel-derived all-threshold variant.
-
-## 13. Suspected Paper Errors or Inconsistencies
-
-None identified. Lean uses the support-safe finite-rate convention for the
-paper's finite rating model and records full finite ordinal rating support as
-the source-shaped finite-support regularity condition.
-
-## 14. Validation Checks
-
+## 15. Validation Checks
 The GJ18 paper build passes. The DAG was regenerated from the paper folder,
 converted to PNG, and visually inspected. Generated status artifacts were
 refreshed with `scripts/sync_paper_status.py`, and the sync check passed.
@@ -266,8 +246,7 @@ Flagged rows: none. The auxiliary proof-route lemma
 remains available internally but is no longer part of the paper-facing dashboard
 surface.
 
-## 15. Closeout Status
-
+## 16. Closeout Status
 - Completion status: formalized.
 - One-sentence recap: The finite rating model and Theorem 1 are checked through
   the support-safe threshold-rate minimum.
