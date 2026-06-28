@@ -150,9 +150,10 @@
           <p>
             The public repository currently contains formalized papers and
             selected public partial formalizations whose remaining assumptions
-            are explicit. Human review and LLM-as-judge statement translation
-            refer to validation that the Lean statement corresponds to the
-            corresponding mathematical statement in the paper.
+            are explicit. Human review counts the full review surface. The
+            LLM-as-judge column separately reports statement translation rows
+            and explicit source-condition rows, so its components reconcile to
+            the same surface.
           </p>
         </div>
 
@@ -173,7 +174,7 @@
                 <th>Full proof LOC</th>
                 <th>Note</th>
                 <th>Human review</th>
-                <th>LLM-as-judge statement translation</th>
+                <th>LLM-as-judge checks</th>
               </tr>
             </thead>
             <tbody>
@@ -264,7 +265,7 @@
                 <td>142,927</td>
                 <td></td>
                 <td>0/34 reviewed</td>
-                <td>24/24 match</td>
+                <td>24/24 statement rows match; 10 source-condition rows</td>
               </tr>
               <tr>
                 <td>
@@ -275,7 +276,7 @@
                 <td>52,018</td>
                 <td>Proposition 2&#x27;s printed finite bound appears to miss a factor of 2; Lean proves the corrected finite bound, which is sufficient for the asymptotic 1/2-homogeneity result.</td>
                 <td>0/42 reviewed</td>
-                <td>27/27 match</td>
+                <td>27/27 statement rows match; 15 source-condition rows</td>
               </tr>
               <tr>
                 <td>
@@ -319,7 +320,7 @@
                 <td>680</td>
                 <td>Formalization required an additional interior-quality assumption (0 &lt; q_v &lt; 1) for the strict variance-decrease statement.</td>
                 <td>10/27 reviewed; 2 uncertain</td>
-                <td>17/17 match</td>
+                <td>17/17 statement rows match; 10 source-condition rows</td>
               </tr>
               <tr>
                 <td>
@@ -341,7 +342,7 @@
                 <td>80,496</td>
                 <td>Sections 2 and 4 are fully formalized. Section 3 has query/descent/rounded-search support. The PTAS/FPTAS runtime layer needs reusable fixed-dimension IP complexity infrastructure.</td>
                 <td>0/35 reviewed</td>
-                <td>31/35 match; 4 formalization-boundary rows</td>
+                <td>31/35 match; 4 formalization-boundary statement rows</td>
               </tr>
               <tr>
                 <td>
@@ -352,7 +353,7 @@
                 <td>23,379</td>
                 <td>Full formalization requires proving stochastic subgradient descent convergence. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition.</td>
                 <td>0/42 reviewed</td>
-                <td>35/40 match; 5 formalization-boundary rows</td>
+                <td>35/40 statement rows match; 5 formalization-boundary statement rows; 2 source-condition rows</td>
               </tr>
               <tr>
                 <td>
@@ -363,7 +364,7 @@
                 <td>18,540</td>
                 <td>Full formalization requires a homogeneous Poisson process and stopping time derivation</td>
                 <td>0/87 reviewed</td>
-                <td>28/84 match; 56 formalization-boundary rows</td>
+                <td>28/84 statement rows match; 56 formalization-boundary statement rows; 3 source-condition rows</td>
               </tr>
               <!-- END GENERATED PAPER STATUS ROWS -->
             </tbody>

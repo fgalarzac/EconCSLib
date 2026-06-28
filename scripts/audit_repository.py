@@ -4697,6 +4697,24 @@ def check_generated_human_status_labels() -> list[Finding]:
                     f"`{paper_id}.llm_as_judge_translation` should describe statement translation/boundary rows, not additional assumptions",
                 )
             )
+        human_match = re.fullmatch(r"\d+/(\d+)", str(entry.get("human_review") or "").strip())
+        llm_match = re.search(r"\b\d+/(\d+)(?: statement rows)? match\b", label)
+        if human_match and llm_match:
+            human_total = int(human_match.group(1))
+            statement_total = int(llm_match.group(1))
+            source_total = sum(
+                int(match.group(1))
+                for match in re.finditer(r"\b(\d+) source-condition rows?\b", label)
+            )
+            if statement_total + source_total != human_total:
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        HUMAN_STATUS_FILE,
+                        f"`{paper_id}.llm_as_judge_translation` covers {statement_total + source_total} row(s), "
+                        f"but human_review covers {human_total}",
+                    )
+                )
     return findings
 
 

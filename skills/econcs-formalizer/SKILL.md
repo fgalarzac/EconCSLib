@@ -1644,9 +1644,13 @@ the Lean statements against the paper.
   In generated public tables, keep `LLM-as-judge statement translation` as a
   translation/equivalence status column, not an assumption-provenance column.
   Raw judge rows with `resolution: conditional_boundary` should render as
-  paper-facing `formalization-boundary rows`; do not label them "additional
-  assumptions" unless they are genuine non-paper hypotheses in the separate
-  assumptions section.
+  paper-facing `formalization-boundary statement rows`; do not label them
+  "additional assumptions" unless they are genuine non-paper hypotheses in the
+  separate assumptions section.
+  If the same public table also shows a human-review denominator, the LLM row
+  summary must reconcile with that denominator: report statement-translation
+  rows and explicit source-condition/assumption rows as separate components
+  instead of showing an unexplained smaller statement-only total.
 - Use the dashboard's normalized `statement_digest` values for sidecar digests,
   not raw SHA-256 of unnormalized strings. Lean-statement sidecar hashes must
   be source-stable: hash the source declaration text exposed by the review
