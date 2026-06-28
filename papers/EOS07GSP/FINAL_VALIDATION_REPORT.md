@@ -1,7 +1,6 @@
 # Final Validation Report: EOS07GSP
 
 ## 1. Human Verdict
-
 - Lean formalization status: partially formalized
 - Human dashboard review status: 0/42 rows reviewed; 0 stale; 0 mismatches.
 - Human summary: Non-truthfulness, examples, Theorem 7, and finite Theorem 8 direct-PBE endpoints are exposed; full source-game completion remains open.
@@ -23,7 +22,6 @@ source sequential-rationality iff, and exact terminal-record generation when no
 schedule, no-overshoot, or clock-discipline evidence is supplied.
 
 ## 2. Source and Scope
-
 ### Source version
 
 - Paper: *Internet Advertising and the Generalized Second-Price Auction:
@@ -43,8 +41,44 @@ cross-check and renumbers the analogous main results as Theorems 1--2, so this
 folder keeps the NBER numbering used by the cached source. The DAG inventory
 therefore starts at Remarks 1--3 before Definition 4.
 
-## 3. What Has Been Proven
+## 3. Researcher Summary of Checked Results
+- This report records the current generalized-second-price auction formalization checkpoint.
+- See the detailed evidence section for the exact auction model, equilibrium, and welfare/revenue results currently represented.
+- Any remaining proof boundary should be stated in the next section rather than hidden in Lean implementation detail.
 
+## 4. Remaining Boundaries and Gaps
+### Current handoff note
+
+Start with `START_HERE_NEXT_AGENT.md` before continuing Theorem 8. It is the
+short pickup file and points to the live proof plan, audit report, and older
+detailed handoff. The latest source obligation additions expose direct
+source-iff, no-overshoot terminal/dynamic, clock-disciplined terminal-history,
+and finite exact-record direct-PBE wrappers in `PaperInterface.lean`. The
+latest theorem edits compiled under `lake build EOS07GSP`; rerun that target
+after any further Lean edits.
+
+### Remaining obligations
+
+- Theorem 7: the strongest revenue-minimality theorem still keeps the
+  comparison-outcome no-positive-transfers/no-subsidy premise explicit.
+- Theorem 8: concrete belief consistency and the game-level iff between
+  `isSequentiallyRational` and the source-shaped reachable/off-path predicate
+  for the real generalized-English game are now the main source-semantics
+  obligations. The direct source-iff wrappers then provide the full conclusion
+  when generated PBE histories, no-overshoot timing, and outcome/VCG
+  identifications are supplied, and the no-overshoot terminal/dynamic wrappers
+  use the same source iff when those history facts are already packaged.
+  Clock-disciplined terminal histories and finite sorted schedules now have
+  trace-full endpoints with exact finite `B*` dropout histories and
+  completed-rank terminal-record formulas. Bare arbitrary strategy histories
+  remain too weak: the formal overshoot witness shows why a no-overshoot,
+  exact-drop, schedule, or clock-discipline premise is needed for terminal
+  record generation.
+
+## 5. Paper Issues or Formalization Caveats
+None separately recorded in the existing report.
+
+## 6. Detailed Formalization Evidence
 ### Important completed endpoints
 
 - Theorem 7 now has a bundled endpoint showing that, under nonnegative values,
@@ -612,8 +646,7 @@ therefore starts at Remarks 1--3 before Definition 4.
   equality from behavioral uniqueness plus constructed-outcome agreement, so
   slot/payment equality is not a separate source-PBE obligation.
 
-## 4. Paper Definitions Checked
-
+## 7. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
 ### Lean-Derived Dashboard Definitions
 
@@ -663,8 +696,7 @@ therefore starts at Remarks 1--3 before Definition 4.
 | abbrev theorem8_price_sorted_finite_schedule_belief_source_event_boundary_threshold_event_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_belief_source_event_boundary_threshold_event_ordered_displayed_conclusion` | - Theorem 8: belief price-sorted boundary plus threshold-event ordered payoff. |
 <!-- lean-derived-definitions:end -->
 
-## 5. Named Theorem Statements Checked
-
+## 8. Named Theorem Statements Checked
 ### Current Lean coverage
 
 | Paper item | Status | Human verification entry point |
@@ -679,8 +711,7 @@ therefore starts at Remarks 1--3 before Definition 4.
 | Theorem 7, `B*` locally envy-free equilibrium and revenue comparison, `EOS07GSP.txt:481` | conditional | `PaperInterface.lean` ranked `B*` paper conclusion plus canonical-tail audit declarations |
 | Theorem 8, generalized-English unique PBE, `EOS07GSP.txt:539` | conditional, with finite direct-PBE/no-overshoot/clock-disciplined source routes closed | `PaperInterface.lean` source-iff, no-overshoot terminal/dynamic, clock-disciplined terminal-history, finite exact-record direct-PBE, and source-extensive terminal-record endpoints |
 
-## 6. Paper-Facing Statement Validator Ledger
-
+## 9. Paper-Facing Statement Validator Ledger
 Generated from dashboard status export:
 
 `python3 scripts/review_dashboard.py --paper EOS07GSP --export-format validators-md`
@@ -732,62 +763,22 @@ Generated from dashboard status export:
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
 
-## 7. Additional Assumptions Beyond Paper
-
+## 10. Additional Assumptions Beyond Paper
 None separately recorded in the existing report.
 
-## 8. Proof-Strategy Deviations
-
+## 11. Proof-Strategy Deviations
 None separately recorded in the existing report.
 
-## 9. Proof Tricks Worth Reusing
-
+## 12. Proof Tricks Worth Reusing
 None separately recorded in the existing report.
 
-## 10. Library Lift Pass
-
+## 13. Library Lift Pass
 None separately recorded in the existing report.
 
-## 11. DAG Audit
-
+## 14. DAG Audit
 No separate DAG audit note is recorded in the existing report.
 
-## 12. Conditional Results and Remaining Gaps
-
-### Current handoff note
-
-Start with `START_HERE_NEXT_AGENT.md` before continuing Theorem 8. It is the
-short pickup file and points to the live proof plan, audit report, and older
-detailed handoff. The latest source obligation additions expose direct
-source-iff, no-overshoot terminal/dynamic, clock-disciplined terminal-history,
-and finite exact-record direct-PBE wrappers in `PaperInterface.lean`. The
-latest theorem edits compiled under `lake build EOS07GSP`; rerun that target
-after any further Lean edits.
-
-### Remaining obligations
-
-- Theorem 7: the strongest revenue-minimality theorem still keeps the
-  comparison-outcome no-positive-transfers/no-subsidy premise explicit.
-- Theorem 8: concrete belief consistency and the game-level iff between
-  `isSequentiallyRational` and the source-shaped reachable/off-path predicate
-  for the real generalized-English game are now the main source-semantics
-  obligations. The direct source-iff wrappers then provide the full conclusion
-  when generated PBE histories, no-overshoot timing, and outcome/VCG
-  identifications are supplied, and the no-overshoot terminal/dynamic wrappers
-  use the same source iff when those history facts are already packaged.
-  Clock-disciplined terminal histories and finite sorted schedules now have
-  trace-full endpoints with exact finite `B*` dropout histories and
-  completed-rank terminal-record formulas. Bare arbitrary strategy histories
-  remain too weak: the formal overshoot witness shows why a no-overshoot,
-  exact-drop, schedule, or clock-discipline premise is needed for terminal
-  record generation.
-
-## 13. Suspected Paper Errors or Inconsistencies
-
-None separately recorded in the existing report.
-
-## 14. Validation Checks
-
+## 15. Validation Checks
 ### Commands run
 
 ```bash
@@ -930,7 +921,6 @@ and Roth README status rows.
 - `DependencyDAG.tex` was rendered after the Theorem 7 and Theorem 8 node
   updates.
 
-## 15. Closeout Status
-
+## 16. Closeout Status
 - Completion status: partially formalized.
 - Summary: Non-truthfulness, examples, Theorem 7, and finite Theorem 8 direct-PBE endpoints are exposed; full source-game completion remains open.
