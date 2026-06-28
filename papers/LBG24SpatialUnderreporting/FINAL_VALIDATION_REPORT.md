@@ -9,7 +9,12 @@ appendix proof-formula typo is noted for the multi-report residual factor; no
 broader economic-model caveat is claimed. No human dashboard sign-off has been
 recorded.
 
-## 2. Source and Scope
+## 2. Closeout Status
+- Completion status: partially formalized.
+- One-sentence recap: The algebraic factorization core is checked; full closure
+  needs the homogeneous Poisson process and stopping-time certificate.
+
+## 3. Source and Scope
 - Paper: *Quantifying Spatial Under-reporting Disparities in Resident Crowdsourcing*
 - Authors: Zhi Liu, Uma Bhandaram, Nikhil Garg
 - Source version: arXiv `2204.08620` v4, revised 2023-12-06, cross-checked
@@ -20,19 +25,73 @@ recorded.
 - Human-facing theorem file: `papers/LBG24SpatialUnderreporting/PaperInterface.lean`
 - Paper assumption file: `papers/LBG24SpatialUnderreporting/Assumptions.lean`
 
-## 3. Researcher Summary of Checked Results
+## 4. Researcher Summary of Checked Results
 - Source-facing likelihood, reporting-delay, interarrival-kernel, preprocessing-window, MLE, regression, and zero-inflation algebra are checked.
 - Lemma 1's detection, thinning, and observed-rate formulas are checked in the formal model.
 - Appendix Lemma 2 / Theorem 2 zero/one/multi-report factorization algebra is checked up to the Poisson-process and stopping-time certificate.
 - Full closure still depends on deriving that process/stopping certificate from primitive continuous-time assumptions.
 
-## 4. Remaining Boundaries and Gaps
+## 5. Remaining Boundaries and Gaps
 Full formalization requires deriving the homogeneous Poisson counting-process law and stopping-time certificate from primitive continuous-time process assumptions. A secondary library/modeling gap is deriving the Lemma 1 IID unit-interval count law and one-period mean from a primitive Poisson thinning or steady-state model.
 
-## 5. Paper Issues or Formalization Caveats
+## 6. Additional Assumptions Beyond Paper
+- None added as hidden assumptions.
+- Visible theorem side conditions include nonzero first-report probabilities,
+  nonzero exposure, positive reporting rate for exponential waiting-time
+  statements, positive total exposure/nonzero total count for global MLE, and
+  zero-inflation parameter bounds. These are ordinary mathematical domain
+  conditions, not hidden paper assumptions.
+
+## 7. Proof-Strategy Deviations
+- Continuous source expressions such as `P(S=t | ...)`, `P(E=t | ...)`, and
+  `P(T_j=t_j | ...)` are treated as density/likelihood-kernel factors rather
+  than literal point probabilities.
+- Appendix B.2's printed `M > 1` residual appears inverted relative to the
+  displayed Poisson PMF. The Lean theorem proves the corrected factor
+  `M! / exposure^M` in the residual.
+- Proposition 1 now has homogeneous and finite-duration collision theorems,
+  positive-premise variants, and an IID unit-interval LLN route. The remaining
+  stochastic work is deriving the IID/integrability and one-period-mean
+  premises from a thinning/steady-state Poisson model.
+
+## 8. Proof Tricks Worth Reusing
+- `EconCSLib.Foundations.Probability.PoissonProcess` now provides reusable
+  Poisson count-likelihood, no-arrival, interarrival-density, jump-time
+  telescoping, ordered-timeline gap/tail nonnegativity, finite-product,
+  zero-inflated, nonnegativity, source-kernel certificate, Poisson-binomial
+  thinning algebra, and MLE kernel algebra.
+- `interarrivalTailLikelihood_eq_exposure_rawShape` is the reusable collection
+  step for products of homogeneous Poisson interarrival densities plus a
+  terminal no-arrival tail.
+- `interarrivalDensityKernel_eq_exponential_pdfReal`,
+  `OneInterarrivalTailKernel.likelihood_eq_exponential_pdfReal_mul_tail`, and
+  `FinInterarrivalTailKernel.likelihood_eq_exponential_pdfReal_prod_mul_tail`
+  connect the interarrival kernels to exponential PDF/survival formulas once
+  nonnegative gaps and tails are available.
+- The ordered-window specializations
+  `OneInterarrivalTailKernel.fromOrderedWindow_likelihood_eq_exponential_pdfReal_mul_tail`
+  and
+  `FinInterarrivalTailKernel.fromOrderedTimeline_likelihood_eq_exponential_pdfReal_prod_mul_tail`
+  package those nonnegativity proofs for observed ordered timelines.
+- `ratePowerExp_factor_countLikelihood` is the reusable bridge from
+  arrival-time density algebra to Poisson count-likelihood factorization.
+- `Theorem2ProcessKernelCase` is the paper-local explicit source-kernel
+  implementation bridge, and `Theorem2ProcessSourceData` is the narrower
+  source-data audit layer below the theorem-facing source assumption.
+- `HomogeneousArrivalDensityLaw` and `HomogeneousPoissonProcessLaw` are the new
+  reusable boundary interfaces for ordered jump-time densities plus interval
+  count laws with a shared Poisson rate.
+- `Theorem2ProcessLawCase` is the paper-local audit point for applying that
+  combined process law uniformly across the zero/one/multi Appendix B.2 cases,
+  below `Theorem2ObservedWindowCase` and
+  `assumption_theorem2_poisson_process_and_conditions`.
+- `poissonRateLogLikelihoodKernel_le_at_mle` proves the reusable global
+  positive-rate Poisson log-likelihood kernel maximizer.
+
+## 9. Paper Issues or Caveats
 Appendix B.2 appears to invert the residual factor in the multi-report case: the source text prints `(e-s)^M / M!`, while the algebra needs `M! / (e-s)^M`. The main theorem remains correct because it only needs the lambda-independent kernel form, so this is not treated as an economic-model caveat.
 
-## 6. Detailed Formalization Evidence
+## 10. Detailed Formalization Evidence
 - Eq. (2): source Poisson count PMF formula, grounded in mathlib's Poisson
   measure through `EconCSLib.Foundations.Probability.PoissonProcess`.
 - Homogeneous at-least-one-report probability:
@@ -161,7 +220,7 @@ Appendix B.2 appears to invert the residual factor in the multi-report case: the
 - Eq. (7): generic and regression-rate-substituted zero-inflated likelihood
   case splits, plus nonnegativity under `0 <= gamma <= 1` and nonnegative mean.
 
-## 7. Paper Assumption Provenance
+## 11. Paper Assumption Provenance
 Paper-local source assumptions currently exported from `Assumptions.lean` and
 listed in `status.json` `review_surface.assumption_names` include
 `theorem2_poisson_process_and_condition_semantics`,
@@ -195,61 +254,7 @@ current for the public partial checkpoint. It classifies audited containers,
 source-model data, and approved external-boundary leaves; it does not turn the
 remaining stopping-certificate boundary into a completed theorem.
 
-## 8. Additional Assumptions Beyond Paper
-- None added as hidden assumptions.
-- Visible theorem side conditions include nonzero first-report probabilities,
-  nonzero exposure, positive reporting rate for exponential waiting-time
-  statements, positive total exposure/nonzero total count for global MLE, and
-  zero-inflation parameter bounds. These are ordinary mathematical domain
-  conditions, not hidden paper assumptions.
-
-## 9. Proof-Strategy Deviations
-- Continuous source expressions such as `P(S=t | ...)`, `P(E=t | ...)`, and
-  `P(T_j=t_j | ...)` are treated as density/likelihood-kernel factors rather
-  than literal point probabilities.
-- Appendix B.2's printed `M > 1` residual appears inverted relative to the
-  displayed Poisson PMF. The Lean theorem proves the corrected factor
-  `M! / exposure^M` in the residual.
-- Proposition 1 now has homogeneous and finite-duration collision theorems,
-  positive-premise variants, and an IID unit-interval LLN route. The remaining
-  stochastic work is deriving the IID/integrability and one-period-mean
-  premises from a thinning/steady-state Poisson model.
-
-## 10. Proof Tricks Worth Reusing
-- `EconCSLib.Foundations.Probability.PoissonProcess` now provides reusable
-  Poisson count-likelihood, no-arrival, interarrival-density, jump-time
-  telescoping, ordered-timeline gap/tail nonnegativity, finite-product,
-  zero-inflated, nonnegativity, source-kernel certificate, Poisson-binomial
-  thinning algebra, and MLE kernel algebra.
-- `interarrivalTailLikelihood_eq_exposure_rawShape` is the reusable collection
-  step for products of homogeneous Poisson interarrival densities plus a
-  terminal no-arrival tail.
-- `interarrivalDensityKernel_eq_exponential_pdfReal`,
-  `OneInterarrivalTailKernel.likelihood_eq_exponential_pdfReal_mul_tail`, and
-  `FinInterarrivalTailKernel.likelihood_eq_exponential_pdfReal_prod_mul_tail`
-  connect the interarrival kernels to exponential PDF/survival formulas once
-  nonnegative gaps and tails are available.
-- The ordered-window specializations
-  `OneInterarrivalTailKernel.fromOrderedWindow_likelihood_eq_exponential_pdfReal_mul_tail`
-  and
-  `FinInterarrivalTailKernel.fromOrderedTimeline_likelihood_eq_exponential_pdfReal_prod_mul_tail`
-  package those nonnegativity proofs for observed ordered timelines.
-- `ratePowerExp_factor_countLikelihood` is the reusable bridge from
-  arrival-time density algebra to Poisson count-likelihood factorization.
-- `Theorem2ProcessKernelCase` is the paper-local explicit source-kernel
-  implementation bridge, and `Theorem2ProcessSourceData` is the narrower
-  source-data audit layer below the theorem-facing source assumption.
-- `HomogeneousArrivalDensityLaw` and `HomogeneousPoissonProcessLaw` are the new
-  reusable boundary interfaces for ordered jump-time densities plus interval
-  count laws with a shared Poisson rate.
-- `Theorem2ProcessLawCase` is the paper-local audit point for applying that
-  combined process law uniformly across the zero/one/multi Appendix B.2 cases,
-  below `Theorem2ObservedWindowCase` and
-  `assumption_theorem2_poisson_process_and_conditions`.
-- `poissonRateLogLikelihoodKernel_le_at_mle` proves the reusable global
-  positive-rate Poisson log-likelihood kernel maximizer.
-
-## 11. Library Lift Pass
+## 12. Library Lift Pass
 Completed:
 
 - Added `EconCSLib/Foundations/Probability/PoissonProcess.lean`.
@@ -327,7 +332,7 @@ Deferred reusable candidates:
   premises from a primitive incident model. The Poisson-binomial thinning
   algebra itself is now checked.
 
-## 12. Validation Checks
+## 13. Validation Checks
 Run so far:
 
 ```bash
@@ -363,7 +368,7 @@ Closeout results:
   aggregate generated status files have been refreshed from the paper-local
   `status.json`.
 
-## 13. Named Theorem Statements Checked
+## 14. Named Theorem Statements Checked
 - `equation2_poisson_count_pmf_formula`
 - `first_report_probability_formula`
 - `lemma1_continuous_duration_first_report_probability_integral`
@@ -420,15 +425,10 @@ Closeout results:
 - `theorem2_corrected_case_factorization`
 - `equation7_zero_inflated_likelihood_nonnegative`
 
-## 14. Paper-Facing Statement Validator Ledger
+## 15. Paper-Facing Statement Validator Ledger
 Statement validator sidecars are populated for this checkpoint. Recheck them
 with:
 
 ```bash
 python3 scripts/review_dashboard.py --paper LBG24SpatialUnderreporting --precheck
 ```
-
-## 15. Closeout Status
-- Completion status: partially formalized.
-- One-sentence recap: The algebraic factorization core is checked; full closure
-  needs the homogeneous Poisson process and stopping-time certificate.

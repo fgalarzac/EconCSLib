@@ -6,7 +6,12 @@ applicant-optimality results are checked using the shared matching library. No
 paper-correctness caveat is reported. No human dashboard sign-off has been
 recorded.
 
-## 2. Source and Scope
+## 2. Closeout Status
+- Completion status: formalized.
+- One-sentence recap: The GS62 paper endpoints are checked using the shared
+  matching library.
+
+## 3. Source and Scope
 - Paper: *College Admissions and the Stability of Marriage*
 - Authors: D. Gale and L. S. Shapley
 - Source version: *The American Mathematical Monthly*, Vol. 69, No. 1
@@ -19,21 +24,36 @@ recorded.
 - DAG artifacts: `papers/GS62CollegeAdmissions/DependencyDAG.tex`,
   `papers/GS62CollegeAdmissions/DependencyDAG.pdf`
 
-## 3. Researcher Summary of Checked Results
+## 4. Researcher Summary of Checked Results
 - The formalization checks the Gale-Shapley stable-marriage theorem, the college-admissions existence theorem, and applicant-optimality.
 - The proof uses the shared matching library while preserving the paper's strict-preference matching domain.
 - No source-paper caveat is recorded for the checked results.
 
-## 4. Remaining Boundaries and Gaps
+## 5. Remaining Boundaries and Gaps
 None.
 
-## 5. Paper Issues or Formalization Caveats
-None.
+## 6. Additional Assumptions Beyond Paper
+- None
 
-## 6. Detailed Formalization Evidence
+## 7. Proof-Strategy Deviations
+- Theorem 1 is not re-proved from the printed prose. It is discharged through
+  the reusable deferred-acceptance stability theorem plus a finite
+  equal-cardinality completeness bridge.
+- The college-admissions quota theorem uses the cloned-seat reduction rather
+  than a separate many-to-one rejection-process proof.
+- Theorem 2 uses the reusable DA proposer-optimality theorem already developed
+  for Roth's matching paper.
+
+## 8. Proof Tricks Worth Reusing
+None separately recorded in the existing report.
+
+## 9. Paper Issues or Caveats
+None found.
+
+## 10. Detailed Formalization Evidence
 See the verdict and named-statement sections in this report.
 
-## 7. Paper Definitions Checked
+## 11. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
 ### Lean-Derived Dashboard Definitions
 
@@ -45,7 +65,7 @@ See the verdict and named-statement sections in this report.
 | def applicantOptimalStableMarriage | `applicantOptimalStableMarriage` | - Applicant/proposer optimal stable marriage: every proposer weakly prefers this stable marriage to any other stable marriage. |
 <!-- lean-derived-definitions:end -->
 
-## 8. Named Theorem Statements Checked
+## 12. Named Theorem Statements Checked
 ### Theorem-by-Theorem Validation
 
 | Paper item | Lean declaration | Status | Statement match | Notes |
@@ -68,7 +88,7 @@ See the verdict and named-statement sections in this report.
 | theorem theorem2_applicant_optimality | `theorem2_applicant_optimality` | - Theorem 2: on the finite same-index strict marriage domain, the applicant-proposing deferred-acceptance assignment is complete and applicant-optimal among stable assignments. |
 <!-- lean-derived-statements:end -->
 
-## 9. Paper-Facing Statement Validator Ledger
+## 13. Paper-Facing Statement Validator Ledger
 Generated from dashboard status export:
 
 `python3 scripts/review_dashboard.py --paper GS62CollegeAdmissions --export-format validators-md`
@@ -85,9 +105,7 @@ Generated from dashboard status export:
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
 
-## 10. Paper Assumption Provenance And Modeling Notes
-> Axiom/premise/source-hygiene audit update (2026-06-13): the former `hcard` theorem premises have been removed from the paper-facing interface and are derived internally by representing the equal-size marriage/quota-one endpoints with one finite index type. Current result: 0 explicit paper-assumption premises remain in the `GS62` interface. The Lean-native axiom audit confirms the final paper-facing rows are closed except for standard Lean foundations.
-
+## 14. Paper Assumption Provenance And Modeling Notes
 | Assumption declaration | Lean declaration | Source location / statement | Assumption validators | Comments |
 | --- | --- | --- | --- | --- |
 | None | `none` | None | None | No explicit paper-assumption premises remain; equal cardinality is derived from the same-index finite representation. |
@@ -103,25 +121,13 @@ Human dashboard reviews and model/agent statement checks may both appear here. T
   college's quota as identical seats with the same applicant ranking. This is
   the standard cloned-seat formalization of the paper's college quota model.
 
-## 11. Proof-Strategy Deviations
-- Theorem 1 is not re-proved from the printed prose. It is discharged through
-  the reusable deferred-acceptance stability theorem plus a finite
-  equal-cardinality completeness bridge.
-- The college-admissions quota theorem uses the cloned-seat reduction rather
-  than a separate many-to-one rejection-process proof.
-- Theorem 2 uses the reusable DA proposer-optimality theorem already developed
-  for Roth's matching paper.
-
-## 12. Proof Tricks Worth Reusing
+## 15. Library Lift Pass
 None separately recorded in the existing report.
 
-## 13. Library Lift Pass
-None separately recorded in the existing report.
-
-## 14. DAG Audit
+## 16. DAG Audit
 No separate DAG audit note is recorded in the existing report.
 
-## 15. Validation Checks
+## 17. Validation Checks
 ### Cross-Artifact Checks
 
 - Paper text/PDF: local PDF/text caches are ignored by the paper-folder
@@ -152,8 +158,3 @@ Summary: 7 rows; 7 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar rows
 
 Flagged rows:
 - None.
-
-## 16. Closeout Status
-- Completion status: formalized.
-- One-sentence recap: The GS62 paper endpoints are checked using the shared
-  matching library.

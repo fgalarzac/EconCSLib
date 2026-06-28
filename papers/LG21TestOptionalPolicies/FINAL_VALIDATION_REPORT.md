@@ -7,7 +7,12 @@ No counterexample to a named theorem is reported; continuous cutoff and tie
 cases are handled as source-law or almost-everywhere statements. No human
 dashboard sign-off has been recorded.
 
-## 2. Source and Scope
+## 2. Closeout Status
+- Completion status: formalized.
+- One-sentence recap: The compact statement surface covers the paper with
+  Gaussian tail support supplied by the shared library.
+
+## 3. Source and Scope
 ### Source Version
 
 - Paper: *Test-optional Policies: Overcoming Strategic Behavior and
@@ -117,18 +122,41 @@ The dashboard source-statement map used for statement translation is:
 The report intentionally does not list every helper declaration. Those details
 belong in `PostPaperAudit.lean`.
 
-## 3. Researcher Summary of Checked Results
+## 4. Researcher Summary of Checked Results
 - The formalization checks the named definitions and results in Sections 2-4 of the test-optional policies paper.
 - Strategic behavior, admissions-threshold, and informational-gap claims are represented through paper-facing theorem wrappers.
 - Gaussian tail facts are supplied by the shared mathlib-backed library, not by paper-local assumptions.
 
-## 4. Remaining Boundaries and Gaps
+## 5. Remaining Boundaries and Gaps
 None for the named Sections 2-4 theorem surface.
 
-## 5. Paper Issues or Formalization Caveats
+## 6. Additional Assumptions Beyond Paper
+- None
+
+## 7. Proof-Strategy Deviations
+The main workflow deviation was repaired in this pass: older report text
+treated broad source-model certificate buckets as the public ledger. The strict
+audit now validates only the compact paper-facing premise surface and follows
+dashboard aliases into `ProofInterface.lean` so hidden theorem premises are
+still checked.
+
+## 8. Proof Tricks Worth Reusing
+- Keep the paper-facing interface compact, and move proof-route variants into
+  the audit ledger. This made the final review surface small enough to compare
+  against the source paper directly.
+- Use a.e. equilibrium for continuous cutoff models when the paper proof only
+  needs best response off measure-zero tie boundaries.
+- Package fairness impossibility as a source-model certificate: prove the
+  unraveling/no-relevance implication once, then instantiate it for optional
+  reporting and report-required regimes.
+- Maintain finite event-share and continuous-law routes in parallel when the
+  source proof moves between finite support witnesses and Gaussian law
+  arguments.
+
+## 9. Paper Issues or Caveats
 No counterexample to a named theorem is reported. Continuous cutoff and tie cases are handled as source-law or almost-everywhere statements.
 
-## 6. Detailed Formalization Evidence
+## 10. Detailed Formalization Evidence
 ### What Happened
 
 The Section 3 proof was the hard part. The final route follows the paper's
@@ -158,7 +186,7 @@ The observed-access section is more direct:
   conditional test-score law, so observable fairness holds by construction and
   demographic fairness follows by mixing.
 
-## 7. Paper Definitions Checked
+## 11. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
 ### Lean-Derived Dashboard Definitions
 
@@ -182,14 +210,14 @@ The observed-access section is more direct:
 | abbrev theorem4_4_resampling_policy | `theorem4_4_resampling_policy` | For every resampling experiment, the fully specified observed-access source equilibria choose take-and-report in every information state, and the access-estimate and resampling-estimate kernels are observable fair and demographic fair wi... |
 <!-- lean-derived-definitions:end -->
 
-## 8. Named Theorem Statements Checked
+## 12. Named Theorem Statements Checked
 <!-- lean-derived-statements:start -->
 ### Lean-Derived Dashboard Named Statements
 
 None exposed in the current dashboard surface.
 <!-- lean-derived-statements:end -->
 
-## 9. Paper-Facing Statement Validator Ledger
+## 13. Paper-Facing Statement Validator Ledger
 Generated from dashboard status export:
 
 `python3 scripts/review_dashboard.py --paper LG21TestOptionalPolicies --export-format validators-md`
@@ -215,13 +243,7 @@ Generated from dashboard status export:
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
 
-## 10. Paper Assumption Provenance
-> Axiom/premise/source-hygiene audit update (2026-06-12): `Assumptions.lean` now
-> records only the compact paper-facing source-model/domain premises reached
-> from `PaperInterface.lean`. `assumption_match_llm.json` validates those
-> premises individually. Current result: 20/20 premises are source-matched or
-> source-derived, with no visible partial-boundary premises.
-
+## 14. Paper Assumption Provenance
 Every non-derived compact paper-facing premise is routed through
 `LG21TestOptionalPolicies/Assumptions.lean` and checked by
 `assumption_match_llm.json`. LG21 has many source-model helper declarations in
@@ -240,27 +262,7 @@ cannot hide theorem hypotheses behind an abbrev.
 | `assumption_positive_gaussian_domain_conditions` | paper condition / derived | Positive Gaussian scales, variances, and posterior-slope conditions. |
 | `assumption_observed_access_source_equilibria` | paper condition | Observed-access optional-reporting and report-required source equilibria used by Lemma 4.1 and downstream rows. |
 
-## 11. Proof-Strategy Deviations
-The main workflow deviation was repaired in this pass: older report text
-treated broad source-model certificate buckets as the public ledger. The strict
-audit now validates only the compact paper-facing premise surface and follows
-dashboard aliases into `ProofInterface.lean` so hidden theorem premises are
-still checked.
-
-## 12. Proof Tricks Worth Reusing
-- Keep the paper-facing interface compact, and move proof-route variants into
-  the audit ledger. This made the final review surface small enough to compare
-  against the source paper directly.
-- Use a.e. equilibrium for continuous cutoff models when the paper proof only
-  needs best response off measure-zero tie boundaries.
-- Package fairness impossibility as a source-model certificate: prove the
-  unraveling/no-relevance implication once, then instantiate it for optional
-  reporting and report-required regimes.
-- Maintain finite event-share and continuous-law routes in parallel when the
-  source proof moves between finite support witnesses and Gaussian law
-  arguments.
-
-## 13. Library Lift Pass
+## 15. Library Lift Pass
 ### Library Pass
 
 The post-verification proof scan produced one small library extraction:
@@ -289,7 +291,7 @@ wrappers may deserve a generic Gaussian-mixture law module if another
 standardized-testing paper needs the same constructors. They remain local for
 now because their current shape is tuned to LG21's source-law bookkeeping.
 
-## 14. DAG Audit
+## 16. DAG Audit
 `DependencyDAG.tex` is source-facing and follows the shared template styles:
 
 - model/definition layers use `dag_model`;
@@ -301,7 +303,7 @@ routed the model-to-fairness dependency vertically so arrows do not cross node
 labels. `latexmk -pdf DependencyDAG.tex` rebuilt the PDF, and PNG inspection
 found no node-label or arrow-through-text overlap.
 
-## 15. Validation Checks
+## 17. Validation Checks
 ### Verification Checks
 
 Passed:
@@ -328,8 +330,3 @@ missing. Current statement sidecars are refreshed against the compact
 
 Flagged rows:
 - None.
-
-## 16. Closeout Status
-- Completion status: formalized.
-- One-sentence recap: The compact statement surface covers the paper with
-  Gaussian tail support supplied by the shared library.

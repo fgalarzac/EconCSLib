@@ -7,7 +7,12 @@ classes. No paper-correctness issue is claimed; Theorem 2(iii) is stated as the
 source-facing necessary condition for weighted-objective maximizers. No human
 dashboard sign-off has been recorded.
 
-## 2. Source and Scope
+## 2. Closeout Status
+- Completion status: formalized.
+- One-sentence recap: The paper-facing definitions and Theorems 1-2 are checked
+  on the recorded multiclass domain.
+
+## 3. Source and Scope
 - Paper: *Addressing Discretization-Induced Bias in Demographic Prediction*
 - Authors: Evan Dong, Aaron Schein, Yixin Wang, and Nikhil Garg
 - Source checked: cached arXiv:2405.16762 / ACM FAccT 2024 PDF, created
@@ -29,21 +34,48 @@ The cached source text has two named source results: Theorem 1 and Theorem 2.
 No source-named Lemmas, Propositions, Corollaries, or numbered Definitions were
 found.
 
-## 3. Researcher Summary of Checked Results
+## 4. Researcher Summary of Checked Results
 - The formalization checks the paper's source-facing classifier, calibration, bias, and MAE objects on the recorded multiclass domain.
 - The main argmax-bias and discretization-bias bounds are formalized with the required finite-sample/source-measure hypotheses exposed.
 - Theorem 2(iii) is represented as the source-facing necessary condition for weighted-objective maximizers rather than as a stronger internal iff route.
 
-## 4. Remaining Boundaries and Gaps
+## 5. Remaining Boundaries and Gaps
 No unresolved formalization boundary is recorded. The former dashboard mismatches for the marginal label share and aggregate posterior rows are closed, and the Theorem 2(iii) endpoint is the source-facing necessary condition.
 
-## 5. Paper Issues or Formalization Caveats
+## 6. Additional Assumptions Beyond Paper
+- None
+
+## 7. Proof-Strategy Deviations
+### Proof Deviations and Assumptions
+
+- **Theorem 1 proof deviation.** The paper's continuous source-transformation
+  proof sketch is underspecified at the measurable transformation step and in
+  the multiclass `S_b/S_d` mass accounting. Lean proves the same paper-facing
+  bound directly from calibration, and formalizes the source-transformation
+  route using an explicit real-coordinate sweep with coordinate pushforward and
+  pullback. This is a proof-strategy deviation, not a theorem-statement change.
+- **Theorem 2 Bayes assumption.** The paper phrase "Bayes optimal `q`" is
+  represented by row-wise Bayes identities. A finite Bayes dataset model is
+  provided as a reusable discharger for those identities.
+- **Standard formal assumptions.** Lean exposes finite type, decidable equality,
+  posterior-simplex, measurability, integrability, finite-measure, and
+  non-trivial-reference assumptions where the paper leaves them implicit.
+- **Optional future strengthening.** The accepted Theorem 1 source route uses a
+  concrete coordinate sweep. A fully abstract arbitrary nonatomic transport
+  theorem could later replace this proof seam. More automatic arbitrary-measure
+  conditional-expectation dischargers and randomized-rule measurability wrappers
+  would be reusable conveniences, not missing theorem endpoints.
+
+## 8. Proof Tricks Worth Reusing
+None separately recorded in the existing report.
+
+## 9. Paper Issues or Caveats
 No paper-correctness issue is claimed. Theorem 2(iii) is intentionally stated as the source-facing necessary condition rather than a stronger proof-internal iff route.
 
-## 6. Detailed Formalization Evidence
+## 10. Detailed Formalization Evidence
 See the verdict and named-statement sections in this report.
 
-## 7. Paper Definitions Checked
+## 11. Paper Definitions Checked
 These are the mathematical objects from the paper interface. All are exposed in
 `PaperInterface.lean`.
 
@@ -109,7 +141,7 @@ These are the mathematical objects from the paper interface. All are exposed in
 | def sourceSe | `sourceSe` | - Source proof region `S_e`: focal posterior is `0`. |
 <!-- lean-derived-definitions:end -->
 
-## 8. Named Theorem Statements Checked
+## 12. Named Theorem Statements Checked
 ### Theorem 1
 
 **Paper statement.** For a calibrated classifier `q`, the argmax decision rule,
@@ -192,7 +224,7 @@ interfaces for independent deterministic and randomized rules.
 | theorem theorem2iii_strict_disagreement_not_weighted_objective_maximizer | `theorem2iii_strict_disagreement_not_weighted_objective_maximizer` | states the accuracy-boundary strict-disagreement non-maximality claim. |
 <!-- lean-derived-statements:end -->
 
-## 9. Paper-Facing Statement Validator Ledger
+## 13. Paper-Facing Statement Validator Ledger
 Generated from dashboard status export:
 
 `python3 scripts/review_dashboard.py --paper DSWG24DiscretizationBias --export-format validators-md`
@@ -234,14 +266,7 @@ Generated from dashboard status export:
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
 
-## 10. Paper Assumption Provenance
-> Axiom/premise/source-hygiene audit update (2026-06-12): `assumption_match_llm.json`
-> now records per-premise judgments for this paper's `Assumptions.lean`
-> ledger. Current result: 9/9 recorded assumption-premises are source-matched,
-> source-derived, or human-verified as implicit source conditions; 0/9 remain
-> visible partial-boundary premises. This closes the stale missing-source-text
-> premise issue, but it does not by itself make the whole paper fully closed.
-
+## 14. Paper Assumption Provenance
 Every paper-facing premise is routed through
 `DSWG24DiscretizationBias/Assumptions.lean` and checked by
 `assumption_match_llm.json`. These are source theorem conditions or standard
@@ -262,37 +287,13 @@ extra proof certificates.
 
 Additional assumptions beyond the paper: none.
 
-## 11. Proof-Strategy Deviations
-### Proof Deviations and Assumptions
-
-- **Theorem 1 proof deviation.** The paper's continuous source-transformation
-  proof sketch is underspecified at the measurable transformation step and in
-  the multiclass `S_b/S_d` mass accounting. Lean proves the same paper-facing
-  bound directly from calibration, and formalizes the source-transformation
-  route using an explicit real-coordinate sweep with coordinate pushforward and
-  pullback. This is a proof-strategy deviation, not a theorem-statement change.
-- **Theorem 2 Bayes assumption.** The paper phrase "Bayes optimal `q`" is
-  represented by row-wise Bayes identities. A finite Bayes dataset model is
-  provided as a reusable discharger for those identities.
-- **Standard formal assumptions.** Lean exposes finite type, decidable equality,
-  posterior-simplex, measurability, integrability, finite-measure, and
-  non-trivial-reference assumptions where the paper leaves them implicit.
-- **Optional future strengthening.** The accepted Theorem 1 source route uses a
-  concrete coordinate sweep. A fully abstract arbitrary nonatomic transport
-  theorem could later replace this proof seam. More automatic arbitrary-measure
-  conditional-expectation dischargers and randomized-rule measurability wrappers
-  would be reusable conveniences, not missing theorem endpoints.
-
-## 12. Proof Tricks Worth Reusing
+## 15. Library Lift Pass
 None separately recorded in the existing report.
 
-## 13. Library Lift Pass
-None separately recorded in the existing report.
-
-## 14. DAG Audit
+## 16. DAG Audit
 No separate DAG audit note is recorded in the existing report.
 
-## 15. Validation Checks
+## 17. Validation Checks
 ### Verification Checks
 
 - The paper target `DSWG24DiscretizationBias` builds successfully.
@@ -313,8 +314,3 @@ Scope: current dashboard rows from `PaperInterface.lean`; `lean_to_tex_llm.json`
 Summary: 32 rows; 32 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar rows: none.
 
 Flagged rows: none.
-
-## 16. Closeout Status
-- Completion status: formalized.
-- One-sentence recap: The paper-facing definitions and Theorems 1-2 are checked
-  on the recorded multiclass domain.

@@ -4,7 +4,11 @@
 Not started. No formalization or paper-correctness assessment has been
 completed yet, and no human dashboard sign-off has been recorded.
 
-## 2. Source and Scope
+## 2. Closeout Status
+- Completion status: not formalized
+- One-sentence recap: Scaffold only.
+
+## 3. Source and Scope
 - Paper: <title>
 - Source version: <arXiv/publisher URL + version/date>
 - Lean folder: `papers/TEMPLATE`
@@ -13,19 +17,28 @@ completed yet, and no human dashboard sign-off has been recorded.
 - DAG artifacts: `papers/TEMPLATE/DependencyDAG.tex`, `papers/TEMPLATE/DependencyDAG.pdf`
 - Lean footprint: not measured
 
-## 3. Researcher Summary of Checked Results
+## 4. Researcher Summary of Checked Results
 None yet. Summarize checked paper definitions and named results here in paper language before listing Lean declarations or validator ledgers below.
 
-## 4. Remaining Boundaries and Gaps
+## 5. Remaining Boundaries and Gaps
 All named results remain open.
 
-## 5. Paper Issues or Formalization Caveats
-None.
+## 6. Additional Assumptions Beyond Paper
+- None
 
-## 6. Detailed Formalization Evidence
+## 7. Proof-Strategy Deviations
+- None
+
+## 8. Proof Tricks Worth Reusing
+- None
+
+## 9. Paper Issues or Caveats
+None found.
+
+## 10. Detailed Formalization Evidence
 None yet.
 
-## 7. Paper Assumption Provenance
+## 11. Paper Assumption Provenance
 Every paper-facing theorem premise that is not derived in Lean should appear as
 a named assumption declaration in `Assumptions.lean`, be listed in `status.json`
 `review_surface.assumption_names`, and be checked in `assumption_match_llm.json`
@@ -41,7 +54,7 @@ known external/library/analytic/runtime/solver boundary, not a source caveat.
 | --- | --- | --- | --- | --- |
 | None | `none` | None | None | No paper assumptions recorded yet. |
 
-## 8. Displayed Formula Provenance
+## 12. Displayed Formula Provenance
 Every displayed or source-defining formula used by a named result should have
 an exact paper-facing row or exact subclaim row. Broad aggregate rows are not
 enough for full validation. Formula rows are closed only when the formula is
@@ -52,16 +65,7 @@ assumptions.
 | --- | --- | --- | --- | --- |
 | None | `none` | None | None | No displayed formulas checked yet. |
 
-## 9. Additional Assumptions Beyond Paper
-- None
-
-## 10. Proof-Strategy Deviations
-- None
-
-## 11. Proof Tricks Worth Reusing
-- None
-
-## 12. Library Lift Pass
+## 13. Library Lift Pass
 - Reusable library extraction candidates: None
 - Library certificate/source-boundary audit: not run. Before a completion
   claim, summarize whether certificate-taking library APIs used by paper
@@ -72,12 +76,12 @@ assumptions.
   source-row formula boundaries, hidden premises, or transitive library
   certificate findings.
 
-## 13. DAG Audit
+## 14. DAG Audit
 - Rendered artifact: not checked
 - Topology: not checked
 - Layout: not checked
 
-## 14. Validation Checks
+## 15. Validation Checks
 - Not run.
 - Required closeout checks include targeted Lean build, statement precheck,
   assumption/hidden-premise precheck, repository audit, and library premise
@@ -87,10 +91,10 @@ assumptions.
   audit command here, but keep commands out of the executive verdict and proof
   narrative.
 
-## 15. Paper Definitions Checked
+## 16. Paper Definitions Checked
 - None yet.
 
-## 16. Named Theorem Statements Checked
+## 17. Named Theorem Statements Checked
 ### Theorem <n>
 **Paper statement.** <one theorem-box-level statement matching the source>
 
@@ -99,7 +103,7 @@ assumptions.
 
 **Status.** not formalized.
 
-## 17. Paper-Facing Statement Validator Ledger
+## 18. Paper-Facing Statement Validator Ledger
 This table is one row per dashboard/PaperInterface row. Generate it from the
 validator ledger rather than from memory.
 
@@ -110,7 +114,3 @@ validator ledger rather than from memory.
 Human dashboard reviews and model/agent statement checks may both appear here.
 This table is provenance for the statement targets; it does not change the
 human-only `human_review.reviewed_rows` counter.
-
-## 18. Closeout Status
-- Completion status: not formalized
-- One-sentence recap: Scaffold only.

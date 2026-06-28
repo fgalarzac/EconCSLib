@@ -923,6 +923,9 @@ FINAL_REPORT_PARTIAL_RE = re.compile(
 FINAL_REPORT_HUMAN_VERDICT_RE = re.compile(
     r"(?mi)^##+\s+(?:\d+\.\s*)?Human\s+Verdict\b"
 )
+FINAL_REPORT_CLOSEOUT_STATUS_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?Closeout\s+Status\b"
+)
 FINAL_REPORT_SOURCE_SCOPE_RE = re.compile(
     r"(?mi)^##+\s+(?:\d+\.\s*)?Source\s+(?:and|And)\s+Scope\b"
 )
@@ -932,8 +935,17 @@ FINAL_REPORT_RESEARCHER_SUMMARY_RE = re.compile(
 FINAL_REPORT_REMAINING_BOUNDARIES_RE = re.compile(
     r"(?mi)^##+\s+(?:\d+\.\s*)?Remaining\s+Boundaries\s+and\s+Gaps\b"
 )
+FINAL_REPORT_ADDITIONAL_ASSUMPTIONS_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?Additional\s+Assumptions\s+Beyond\s+Paper\b"
+)
+FINAL_REPORT_PROOF_DEVIATIONS_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?Proof-Strategy\s+Deviations\b"
+)
+FINAL_REPORT_PROOF_TRICKS_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?Proof\s+Tricks\s+Worth\s+Reusing\b"
+)
 FINAL_REPORT_ISSUES_CAVEATS_RE = re.compile(
-    r"(?mi)^##+\s+(?:\d+\.\s*)?Paper\s+Issues\s+or\s+Formalization\s+Caveats\b"
+    r"(?mi)^##+\s+(?:\d+\.\s*)?Paper\s+Issues\s+or\s+Caveats\b"
 )
 FINAL_REPORT_DETAILED_EVIDENCE_RE = re.compile(
     r"(?mi)^##+\s+(?:\d+\.\s*)?Detailed\s+Formalization\s+Evidence\b"
@@ -951,14 +963,16 @@ FINAL_REPORT_MACHINE_FRONT_MATTER_RE = re.compile(
 FINAL_REPORT_OLD_FINAL_VERDICT_RE = re.compile(
     r"(?mi)^##+\s+\d+\.\s+Final\s+Verdict\b"
 )
+FINAL_REPORT_OLD_ISSUES_CAVEATS_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?Paper\s+Issues\s+or\s+(?:Formalization\s+Caveats|Errors)\b"
+)
 FINAL_REPORT_OLD_WHAT_PROVEN_RE = re.compile(
     r"(?mi)^##+\s+(?:\d+\.\s*)?(?:What\s+Has\s+Been\s+Proven|What\s+Lean\s+Proves)\b"
 )
 FINAL_REPORT_CHECKLIST_HEADING_RE = re.compile(
     r"(?mi)^##+\s+(?:\d+\.\s*)?"
     r"(?:Paper\s+Assumption\s+Provenance|Displayed\s+Formula\s+Provenance|"
-    r"Additional\s+Assumptions\s+Beyond\s+Paper|Proof-Strategy\s+Deviations|"
-    r"Proof\s+Tricks\s+Worth\s+Reusing|Library\s+Lift\s+Pass|DAG\s+Audit|"
+    r"Library\s+Lift\s+Pass|DAG\s+Audit|"
     r"Validation\s+Checks|Validation\s+Commands|Paper\s+Definitions\s+Checked|"
     r"Named\s+Theorem\s+Statements\s+Checked|Paper-Facing\s+Statement\s+Validator\s+Ledger|"
     r"Statement\s+Validator\s+Ledger|Statement\s+Validator\s+Findings)\b"
@@ -1075,8 +1089,8 @@ def check_final_report_human_facing_front_matter(
                 )
             )
             continue
-        source_scope = FINAL_REPORT_SOURCE_SCOPE_RE.search(report_text, human_verdict.end())
-        front_matter_end = source_scope.start() if source_scope else min(
+        next_heading = re.search(r"(?m)^##+\s+", report_text[human_verdict.end():])
+        front_matter_end = human_verdict.end() + next_heading.start() if next_heading else min(
             len(report_text),
             human_verdict.start() + 3000,
         )
@@ -1124,6 +1138,15 @@ def check_final_report_human_facing_front_matter(
                     "use `Closeout Status` instead of a repetitive `Final Verdict` section",
                 )
             )
+        if FINAL_REPORT_OLD_ISSUES_CAVEATS_RE.search(report_text):
+            findings.append(
+                Finding(
+                    "WARN",
+                    report,
+                    "use the human-facing `Paper Issues or Caveats` section title, "
+                    "even when the body is `None found.`",
+                )
+            )
         if FINAL_REPORT_OLD_WHAT_PROVEN_RE.search(report_text):
             findings.append(
                 Finding(
@@ -1134,15 +1157,24 @@ def check_final_report_human_facing_front_matter(
                 )
             )
 
+        closeout = FINAL_REPORT_CLOSEOUT_STATUS_RE.search(report_text)
+        source_scope = FINAL_REPORT_SOURCE_SCOPE_RE.search(report_text, human_verdict.end())
         summary = FINAL_REPORT_RESEARCHER_SUMMARY_RE.search(report_text)
         remaining = FINAL_REPORT_REMAINING_BOUNDARIES_RE.search(report_text)
+        additional = FINAL_REPORT_ADDITIONAL_ASSUMPTIONS_RE.search(report_text)
+        deviations = FINAL_REPORT_PROOF_DEVIATIONS_RE.search(report_text)
+        tricks = FINAL_REPORT_PROOF_TRICKS_RE.search(report_text)
         issues = FINAL_REPORT_ISSUES_CAVEATS_RE.search(report_text)
         detailed = FINAL_REPORT_DETAILED_EVIDENCE_RE.search(report_text)
         required_front = [
+            ("Closeout Status", closeout),
             ("Source and Scope", source_scope),
             ("Researcher Summary of Checked Results", summary),
             ("Remaining Boundaries and Gaps", remaining),
-            ("Paper Issues or Formalization Caveats", issues),
+            ("Additional Assumptions Beyond Paper", additional),
+            ("Proof-Strategy Deviations", deviations),
+            ("Proof Tricks Worth Reusing", tricks),
+            ("Paper Issues or Caveats", issues),
             ("Detailed Formalization Evidence", detailed),
         ]
         for title, match in required_front:
@@ -1164,8 +1196,10 @@ def check_final_report_human_facing_front_matter(
                     "WARN",
                     report,
                     "final validation report should order front sections as Human Verdict, "
-                    "Source and Scope, Researcher Summary, Remaining Boundaries, "
-                    "Paper Issues, then Detailed Formalization Evidence",
+                    "Closeout Status, Source and Scope, Researcher Summary, "
+                    "Remaining Boundaries, Additional Assumptions, Proof-Strategy "
+                    "Deviations, Proof Tricks, Paper Issues or Caveats, then "
+                    "Detailed Formalization Evidence",
                 )
             )
         if detailed:
@@ -5178,7 +5212,7 @@ def write_markdown_report(
     command_bits.append(f"--write-report {report_path.as_posix()}")
 
     lines: list[str] = [
-        "# Axiom, Premise, And Source-Hygiene Audit Findings",
+        "# Recursive Provenance Audit Findings",
         "",
         f"- Generated: {date.today().isoformat()}",
         f"- Command: `{' '.join(command_bits)}`",

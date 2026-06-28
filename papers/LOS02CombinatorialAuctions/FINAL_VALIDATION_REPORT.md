@@ -7,7 +7,12 @@ Full formalization still requires reusable computational-complexity
 infrastructure for the final native complexity claims. No auction-theoretic
 paper error is reported. No human dashboard sign-off has been recorded.
 
-## 2. Source and Scope
+## 2. Closeout Status
+- Completion status: partially formalized.
+- One-sentence recap: Greedy approximation, truthfulness, and Theorem 6.1
+  reductions are checked; full closure needs reusable complexity infrastructure.
+
+## 3. Source and Scope
 - Paper: *Truth Revelation in Approximately Efficient Combinatorial Auctions*
 - Authors: Daniel Lehmann, Liadan Ita O'Callaghan, and Yoav Shoham
 - Source version: Journal of the ACM 49(5), 2002
@@ -16,25 +21,35 @@ paper error is reported. No human dashboard sign-off has been recorded.
 - DAG artifacts: `LOS02CombinatorialAuctions/DependencyDAG.tex`, `LOS02CombinatorialAuctions/DependencyDAG.pdf`
 - Supporting audit ledger: `LOS02CombinatorialAuctions/POST_FORMALIZATION_AUDIT.md`
 
-## 3. Researcher Summary of Checked Results
+## 4. Researcher Summary of Checked Results
 - The finite combinatorial-auction core is checked: utility/truthfulness predicates, generalized Vickrey truthfulness, single-minded welfare encoding, greedy approximation, critical values, and average-greedy truthfulness.
 - Theorem 6.1 reductions are formalized.
 - The remaining gap is the reusable computational-complexity infrastructure needed for the native complexity claims.
 
-## 4. Remaining Boundaries and Gaps
+## 5. Remaining Boundaries and Gaps
 Full formalization requires reusable computational-complexity infrastructure for the final native complexity claims.
 
-## 5. Paper Issues or Formalization Caveats
+## 6. Additional Assumptions Beyond Paper
+- None
+
+## 7. Proof-Strategy Deviations
+- The source complexity claims are represented by abstract consequence
+  interfaces rather than a native computational model.
+- The auction-mechanism portions otherwise follow the paper's finite
+  combinatorial-auction and single-minded-bidder proof structure.
+
+## 8. Proof Tricks Worth Reusing
+None separately recorded in the existing report.
+
+## 9. Paper Issues or Caveats
 No auction-theoretic paper error is reported.
 
-## 6. Detailed Formalization Evidence
+## 10. Detailed Formalization Evidence
 The formalization closes the finite combinatorial-auction core used by the paper: utility and truthfulness predicates, generalized Vickrey auction truthfulness and nonnegative truthful utility, the single-minded welfare/set-packing encodings, the greedy square-root approximation, the critical-value lemmas, and the average-greedy mechanism truthfulness theorem.
 
 The theorem endpoints involving native computational complexity are intentionally partial. Lean exposes exact and approximation-preserving solver consequences through abstract class and external-consequence interfaces, but it does not yet contain a reusable machine-level theory of polynomial-time reductions, NP-hardness/inapproximability, ZPP, or the cited clique/set-packing hardness facts.
 
-## 7. Paper Assumption Provenance And Boundary Ledger
-> Axiom/premise/source-hygiene audit update (2026-06-12): `assumption_match_llm.json` now records per-premise judgments for this paper's `Assumptions.lean` ledger. Current result: 6/8 premises are source-matched to the local JACM text and 2/8 remain visible partial-formalization boundaries. The remaining boundaries are exactly the external Theorem 6.1 complexity facts: native NP-hardness/inapproximability and the machine-level `NP = ZPP` consequence.
-
+## 11. Paper Assumption Provenance And Boundary Ledger
 Every paper-facing premise is now routed through
 `LOS02CombinatorialAuctions/Assumptions.lean` and checked by
 `assumption_match_llm.json`. The auction-theoretic premises below are source
@@ -58,22 +73,13 @@ machine-level NP-hardness and `NP = ZPP` consequences remain partial because
 the repository does not yet contain reusable machine-level complexity-class and
 hardness infrastructure.
 
-## 8. Proof-Strategy Deviations
-- The source complexity claims are represented by abstract consequence
-  interfaces rather than a native computational model.
-- The auction-mechanism portions otherwise follow the paper's finite
-  combinatorial-auction and single-minded-bidder proof structure.
-
-## 9. Proof Tricks Worth Reusing
+## 12. Library Lift Pass
 None separately recorded in the existing report.
 
-## 10. Library Lift Pass
-None separately recorded in the existing report.
-
-## 11. DAG Audit
+## 13. DAG Audit
 No separate DAG audit note is recorded in the existing report.
 
-## 12. Validation Checks
+## 14. Validation Checks
 Recent checks built the LOS02 paper target, the reusable complexity-class
 module, the full `EconCSLib` target, and the dependency DAG. The repository
 audit records the LOS02 dashboard surface as informational; unrelated warnings
@@ -101,7 +107,7 @@ Flagged rows:
 - `averageGreedyAcceptedSet`: uncertain. The draft is mostly a Lean function signature and does not state the average-greedy accepted set in paper language.
 - `averageGreedyPayment`: uncertain. The draft is mostly a Lean function signature and does not state the payment formula in paper language.
 
-## 13. Paper Definitions Checked
+## 15. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
 ### Lean-Derived Dashboard Definitions
 
@@ -139,7 +145,7 @@ Flagged rows:
 | abbrev theorem10_2_averageGreedy_truthful | `theorem10_2_averageGreedy_truthful` | - Theorem 10.2 average-order greedy mechanism truthfulness. |
 <!-- lean-derived-definitions:end -->
 
-## 14. Named Theorem Statements Checked
+## 16. Named Theorem Statements Checked
 ### Theorem-by-Theorem Validation
 
 | Paper item | Status | Statement match | Notes |
@@ -158,7 +164,7 @@ Flagged rows:
 | Definition 10.1, greedy payment scheme | formalized | exact finite model | Represents denied/no-next/next payment cases and accepted-bid criticality. |
 | Theorem 10.2, average-order greedy mechanism truthfulness | formalized | exact source domain | Concrete allocation and payment rule are truthful on nonempty nonnegative single-minded profiles. |
 
-## 15. Paper-Facing Statement Validator Ledger
+## 17. Paper-Facing Statement Validator Ledger
 | Paper-facing statement | Lean declaration | Validators | Validator comments |
 | --- | --- | --- | --- |
 | abbrev averageAmountPerGood | `averageAmountPerGood` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z): The draft is mostly a Lean function signature and does not state the average-demand quantity in paper language. |
@@ -193,8 +199,3 @@ Flagged rows:
 | abbrev weightedSetPackingValue | `weightedSetPackingValue` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z): The draft is mostly a Lean function signature and does not state the weighted set-packing objective formula. |
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
-
-## 16. Closeout Status
-- Completion status: partially formalized.
-- One-sentence recap: Greedy approximation, truthfulness, and Theorem 6.1
-  reductions are checked; full closure needs reusable complexity infrastructure.

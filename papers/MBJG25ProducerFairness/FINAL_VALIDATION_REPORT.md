@@ -3,33 +3,44 @@
 ## 1. Human Verdict
 Formalized with a documented caveat. The strict variance-decrease statement
 uses the interior-quality condition that qualities lie strictly between zero and
-one. No unresolved zero-denominator caveat remains. Human dashboard review has
-saved entries for 10 of 17 rows, with no stale entries or human mismatches.
+one. Human dashboard review has saved entries for 10 of 17 rows, with no stale
+entries or human mismatches.
 
-## 2. Source and Scope
+## 2. Closeout Status
+- Completion status: formalized.
+- One-sentence recap: Theorems 3.1 and 3.2 are checked, with the strict
+  variance-decrease caveat handled by the interior-quality condition.
+
+## 3. Source and Scope
 - Paper: *Balancing Producer Fairness and Efficiency via Prior-Weighted Rating System Design*
 - Source version: [arXiv:2207.04369](https://arxiv.org/abs/2207.04369) / ICWSM 2025
 - Lean folder: `MBJG25ProducerFairness/`
 - Human-facing theorem file: `MBJG25ProducerFairness/PaperInterface.lean`
 - DAG artifacts: `MBJG25ProducerFairness/DependencyDAG.tex`
 
-## 3. Researcher Summary of Checked Results
+## 4. Researcher Summary of Checked Results
 - The paper-facing producer-fairness definitions and named results compile in Lean.
 - The strict variance-decrease statement is formalized under the explicit interior-quality condition.
-- The earlier zero-denominator issue is resolved by derivation rather than kept as a paper-facing assumption.
 
-## 4. Remaining Boundaries and Gaps
+## 5. Remaining Boundaries and Gaps
 None beyond the documented interior-quality caveat for strict variance decrease.
 
-## 5. Paper Issues or Formalization Caveats
-The strict variance-decrease statement uses the explicit interior-quality condition `0 < q_v < 1`; this is the documented caveat. No unresolved zero-denominator caveat remains.
+## 6. Additional Assumptions Beyond Paper
+- None
 
-## 6. Detailed Formalization Evidence
+## 7. Proof-Strategy Deviations
+- None. The proof follows the algebraic structure of the paper's fixed-model definitions.
+
+## 8. Proof Tricks Worth Reusing
+None separately recorded in the existing report.
+
+## 9. Paper Issues or Caveats
+The strict variance-decrease statement uses the explicit interior-quality condition `0 < q_v < 1`; this is the documented caveat.
+
+## 10. Detailed Formalization Evidence
 The paper-facing definitions and named results compile in Lean; detailed definition, theorem, and validator ledgers are collected at the end of the report. The current LLM statement-translation audit validates all 17 dashboard rows against the context-free Lean-to-TeX drafts. The saved human dashboard review is partial: 10 rows have human entries, two of those entries are intentionally marked uncertain because they require deciding how much trust to place in shared-library predicates, and 7 rows still need initial human review.
 
-## 7. Paper Assumption Provenance And Modeling Notes
-> Axiom/premise/source-hygiene audit update (2026-06-12): `assumption_match_llm.json` records per-premise judgments for this paper's `Assumptions.lean` ledger. Current result: 11/11 visible premises are judged as source model primitives, paper-statement conditions, or the documented strict-variance caveat; 0 premises remain as partial-formalization boundaries. The former nonzero-denominator proof condition for Theorem 3.2 convexity has been removed from the assumption ledger and is now derived in Lean from positive prior-shape mass, nonnegative prior strength, and positive time.
-
+## 11. Paper Assumption Provenance And Modeling Notes
 Every paper-facing theorem premise that is not derived in Lean is routed through
 `Assumptions.lean` and checked separately as a paper/source condition or a
 documented caveat.
@@ -52,22 +63,14 @@ documented caveat.
 - The only non-source condition is the documented caveat `0 < q_v < 1` for
   strict variance decrease. It is recorded as a repair to the paper's boundary
   bug, not as a hidden proof assumption.
-- The Theorem 3.2 convexity denominator condition is not exposed as a paper
-  assumption. It is derived in Lean from source-domain conditions.
 
-## 8. Proof-Strategy Deviations
-- None. The proof follows the algebraic structure of the paper's fixed-model definitions.
-
-## 9. Proof Tricks Worth Reusing
+## 12. Library Lift Pass
 None separately recorded in the existing report.
 
-## 10. Library Lift Pass
-None separately recorded in the existing report.
-
-## 11. DAG Audit
+## 13. DAG Audit
 No separate DAG audit note is recorded in the existing report.
 
-## 12. Validation Checks
+## 14. Validation Checks
 ### Statement Translation Audit
 
 Audit date: 2026-06-06.
@@ -82,7 +85,7 @@ Human-review flags:
 - Human reviewer marked `paper_facing_theorem3_2_squared_bias_global_min_at_prior_mean` uncertain because this requires trusting or auditing `EconCSLib.Statistics.GlobalMinAt`.
 - All saved human-review entries are current with respect to the dashboard statement hashes.
 
-## 13. Paper Definitions Checked
+## 15. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
 ### Lean-Derived Dashboard Definitions
 
@@ -97,7 +100,7 @@ Human-review flags:
 | Expected regret | `paper_facing_expected_regret` | Section 4 expected regret: total expected regret across a finite time horizon. |
 <!-- lean-derived-definitions:end -->
 
-## 14. Named Theorem Statements Checked
+## 16. Named Theorem Statements Checked
 ### Theorem-by-Theorem Validation
 
 | Paper item | Lean declaration | Status | Statement match | Notes |
@@ -118,7 +121,7 @@ The context-free Lean-to-TeX drafts and source-facing statement judgments are
 tracked in `lean_to_tex_llm.json` and `statement_match_llm.json`; the compact
 human-facing ledger appears below.
 
-## 15. Paper-Facing Statement Validator Ledger
+## 17. Paper-Facing Statement Validator Ledger
 Generated from the current dashboard status, condensed for PDF readability.
 Detailed timestamped evidence remains in `.review_traces/paper_theorem_validations.jsonl`
 and `statement_match_llm.json`.
@@ -146,8 +149,3 @@ and `statement_match_llm.json`.
 All saved human-review entries are current. The remaining open human-review work
 is the set of rows marked `not yet reviewed`, plus the policy question around
 how to audit shared-library predicates used by rows marked `uncertain`.
-
-## 16. Closeout Status
-- Completion status: formalized.
-- One-sentence recap: Theorems 3.1 and 3.2 are checked, with the strict
-  variance-decrease caveat handled by the interior-quality condition.

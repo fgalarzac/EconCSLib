@@ -8,7 +8,12 @@ runtime infrastructure for the PTAS/FPTAS layer. No fatal paper error is
 reported; one Lemma 2.4 prose typo and several implicit modeling choices are
 documented below. No human dashboard sign-off has been recorded.
 
-## 2. Source and Scope
+## 2. Closeout Status
+- Completion status: partially formalized.
+- One-sentence recap: Sections 2 and 4 are checked; the PTAS/FPTAS runtime
+  layer needs reusable fixed-dimension IP complexity infrastructure.
+
+## 3. Source and Scope
 - Paper: *On Approximately Fair Allocations of Indivisible Goods*
 - Authors: Richard J. Lipton, Evangelos Markakis, Elchanan Mossel, and Amin Saberi
 - Source version: EC 2004 paper, ACM DOI 10.1145/988772.988792
@@ -17,25 +22,38 @@ documented below. No human dashboard sign-off has been recorded.
 - DAG artifacts: `LMMS04FairDivision/DependencyDAG.tex`, `LMMS04FairDivision/DependencyDAG.pdf`
 - Supporting audit ledger: `LMMS04FairDivision/POST_FORMALIZATION_AUDIT.md`
 
-## 3. Researcher Summary of Checked Results
+## 4. Researcher Summary of Checked Results
 - Sections 2 and 4 are checked: finite-allocation envy, envy-cycle reduction, bounded-envy allocation, and finite truthfulness results.
 - Section 3 has the query, descent, and rounded-search support needed for the approximation route.
 - The PTAS/FPTAS runtime layer remains outside the current proof until reusable fixed-dimension integer-programming complexity infrastructure is available.
 
-## 4. Remaining Boundaries and Gaps
+## 5. Remaining Boundaries and Gaps
 Full formalization requires reusable fixed-dimension integer-programming runtime infrastructure for the PTAS/FPTAS layer.
 
-## 5. Paper Issues or Formalization Caveats
+## 6. Additional Assumptions Beyond Paper
+- None
+
+## 7. Proof-Strategy Deviations
+- Theorem 4.1 is proved with a smaller finite counterexample than the source
+  exposition. This is sufficient for the impossibility theorem.
+- Claim 3.4 required a more explicit finite-descent proof than the prose
+  presentation. The formal proof separates high-source moves from low-only
+  tie-breaking moves.
+- Theorem 4.2 is recorded as the finite inequality used by the proof rather
+  than a separate asymptotic Big-O wrapper.
+
+## 8. Proof Tricks Worth Reusing
+None separately recorded in the existing report.
+
+## 9. Paper Issues or Caveats
 One Lemma 2.4 prose typo and several implicit modeling choices are documented in the detailed evidence below; no fatal paper error is reported.
 
-## 6. Detailed Formalization Evidence
+## 10. Detailed Formalization Evidence
 The formalization closes the Section 2 finite-allocation envy interface, the envy-cycle reduction, the bounded-envy allocation theorem, and the real-interval/atom-bound route used for the measure-valued allocation theorem. It also closes the Section 4 finite truthfulness results: the no-truthful-envy-free/minimum-envy counterexample route and the uniform randomized mechanism with its explicit probability bound.
 
 Section 3 has substantial formal content but remains partial at the runtime boundary. The Lean development includes adaptive-query lower-bound wrappers, the Graham-scheduling consequence used by the paper, rounded type/value-pair search infrastructure, bounded-optimal allocation certificates, and ratio-transfer lemmas. The final PTAS/FPTAS theorem is not closed because the reusable fixed-dimension integer-program runtime theorem is not yet in the library.
 
-## 7. Paper Assumption Provenance
-> Axiom/premise/source-hygiene audit update (2026-06-12): `assumption_match_llm.json` now records per-premise judgments for this paper's `Assumptions.lean` ledger. Current result: 28/28 explicit proof premises in the compact paper-facing surface are matched to, or derived from, source-model conditions. The selected min/max rounded-type identification helper is no longer exposed as a paper-facing row; it remains available in `ProofInterface.lean` for proof engineering.
-
+## 11. Paper Assumption Provenance
 Every non-derived paper-facing premise is routed through
 `LMMS04FairDivision/Assumptions.lean` and checked by
 `assumption_match_llm.json`. Most rows are theorem-domain conditions already
@@ -75,25 +93,13 @@ than paper assumptions:
 | `assumption_additive_transfer_load_window_conditions` | paper condition | Lemma 3.5 load-window transfer conditions. |
 | `assumption_uniform_random_weight_normalization` | paper condition | Theorem 4.2 normalized nonnegative additive utilities. |
 
-## 8. Proof-Strategy Deviations
-- Theorem 4.1 is proved with a smaller finite counterexample than the source
-  exposition. This is sufficient for the impossibility theorem.
-- Claim 3.4 required a more explicit finite-descent proof than the prose
-  presentation. The formal proof separates high-source moves from low-only
-  tie-breaking moves.
-- Theorem 4.2 is recorded as the finite inequality used by the proof rather
-  than a separate asymptotic Big-O wrapper.
-
-## 9. Proof Tricks Worth Reusing
+## 12. Library Lift Pass
 None separately recorded in the existing report.
 
-## 10. Library Lift Pass
-None separately recorded in the existing report.
-
-## 11. DAG Audit
+## 13. DAG Audit
 No separate DAG audit note is recorded in the existing report.
 
-## 12. Validation Checks
+## 14. Validation Checks
 Recent checks built the LMMS paper module, `PaperInterface.lean`, the Section 3
 support modules, the relevant fair-division/probability support, the dependency
 DAG, and the review dashboard. The dashboard reads 32 source-facing paper rows
@@ -110,7 +116,7 @@ Summary: 44 rows; 44 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar ro
 
 Flagged rows: none.
 
-## 13. Paper Definitions Checked
+## 15. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
 ### Lean-Derived Dashboard Definitions
 
@@ -150,7 +156,7 @@ Flagged rows: none.
 | abbrev theorem4_2_uniform_random_max_envy_probability_bound | `theorem4_2_uniform_random_max_envy_probability_bound` | - Theorem 4.2 uniform-random maximum-envy probability bound. |
 <!-- lean-derived-definitions:end -->
 
-## 14. Named Theorem Statements Checked
+## 16. Named Theorem Statements Checked
 ### Theorem-by-Theorem Validation
 
 | Paper item | Status | Statement match | Notes |
@@ -167,7 +173,7 @@ Flagged rows: none.
 | Theorem 4.1, no truthful minimum-envy mechanism | formalized | proof-strengthening | Lean uses a two-player/eight-egg finite counterexample with the same manipulation structure as the paper's larger example. |
 | Theorem 4.2, randomized truthful allocation bound | formalized | finite explicit bound | Lean proves the independent uniform assignment truthfulness and the explicit Chebyshev/union-bound probability inequality. |
 
-## 15. Paper-Facing Statement Validator Ledger
+## 17. Paper-Facing Statement Validator Ledger
 | Paper-facing statement | Lean declaration | Validators | Validator comments |
 | --- | --- | --- | --- |
 | abbrev claim3_4_bounded_optimal_certificate | `claim3_4_bounded_optimal_certificate` | gpt-5-codex (model; matches; 2026-06-06T20:39:43Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:43Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
@@ -204,8 +210,3 @@ Flagged rows: none.
 | def truthful | `truthful` | gpt-5-codex (model; matches; 2026-06-06T20:39:43Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:43Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
-
-## 16. Closeout Status
-- Completion status: partially formalized.
-- One-sentence recap: Sections 2 and 4 are checked; the PTAS/FPTAS runtime
-  layer needs reusable fixed-dimension IP complexity infrastructure.

@@ -1516,7 +1516,8 @@ the Lean statements against the paper.
   the premise type head, then use exact premise comments in `Assumptions.lean`
   to show how the assumption judge reviewed it. Use Lean's axiom printer, not a
   custom recursive text scan, for transitive proof dependencies.
-  At closeout/public-promotion boundaries run the combined axiom/premise/source-hygiene report:
+  At closeout/public-promotion boundaries run the combined recursive
+  provenance audit:
   `python3 scripts/audit_repository.py --include-active --library-premise-audit --info-limit 0 --write-report docs/RECURSIVE_PROVENANCE_AUDIT_<date>.md`.
   Use `--include-active` when the paper being closed is in the active-paper
   allowlist; otherwise it may be omitted. Treat the generated Markdown as the
@@ -2918,7 +2919,8 @@ pass:
 - Distinguish agent audit from human review. A report may say an agent
   source-audited every row, but it must not say rows were "reviewed" or imply
   dashboard completion unless a human actually saved those dashboard reviews.
-- If no extra assumptions, deviations, or errors were needed/found, state that explicitly in the report rather than leaving sections implicit.
+- If no extra assumptions, deviations, or caveats were needed/found, state that
+  explicitly in the report rather than leaving sections implicit.
 - Keep the report human-facing. Do not include routine shell commands such as
   `rg -n ...` scans or full build command blocks unless the exact invocation is
   essential to understanding a caveat. Summarize validation/build checks in prose
@@ -2926,21 +2928,27 @@ pass:
   stop and replace that section by a short paper-definition/theorem interface
   plus one main declaration name for each paper-facing theorem or definition.
 - The report should read top-down for a researcher who cares about the paper,
-  not Lean. Put the human verdict, source/scope, a short researcher summary of
-  checked results, remaining mathematical boundaries, and paper issues/caveats
-  before any proof ledger. Put validation evidence, audit commands, row counts,
-  generated ledgers, declaration inventories, and proof plumbing near the end.
-  Do not place hidden-premise audit blocks, command transcripts, validator
-  ledgers, or long Lean-centered proof inventories before
-  `Detailed Formalization Evidence`.
+  not Lean. Put the human verdict, closeout status, source/scope, a short
+  researcher summary of checked results, remaining mathematical boundaries,
+  extra assumptions, proof-strategy deviations, reusable proof ideas, and paper
+  issues/caveats before any proof ledger. Put validation evidence, audit
+  commands, row counts, generated ledgers, declaration inventories, and proof
+  plumbing near the end. Do not place hidden-premise audit blocks, command
+  transcripts, validator ledgers, or long Lean-centered proof inventories
+  before `Detailed Formalization Evidence`.
+- Do not paste standalone generated-audit prose into the final validation
+  report. In particular, do not add a generated-audit front-matter section or
+  dated generated-audit blockquotes. If the result matters to the reader,
+  summarize it once in ordinary language under `Validation Checks` or
+  `Paper Assumption Provenance`.
 - Do not title the front proof summary `What Has Been Proven`. In practice that
   heading invites long implementation ledgers. Use `Researcher Summary of
   Checked Results` for the short paper-facing summary and
   `Detailed Formalization Evidence` later for Lean/provenance detail.
 - Avoid repetition. Do not include both a long top verdict and a long final
-  verdict saying the same thing. If a closeout audit needs a machine-readable
-  status line, put a short `Completion status: ...` line in a final
-  `Closeout Status` section and keep the explanation in `Human Verdict`.
+  verdict saying the same thing. Put a short `Completion status: ...` line in
+  `Closeout Status` immediately after `Human Verdict`, and keep the explanation
+  in `Human Verdict`.
 - The `Human Verdict` section must be a two-to-four sentence executive summary
   for a non-Lean reader. It should state the formalization status, the main
   remaining mathematical/library boundary if any, whether a paper-correctness
@@ -2959,11 +2967,11 @@ pass:
   or remaining-gaps sections.
 - Put theorem-statement caveats, missing hypotheses, duplicated case labels,
   ambiguous definitions, sign-convention inconsistencies, or other possible
-  source-paper issues in `Suspected Paper Issues or Inconsistencies`, even when
-  they are already reflected in the DAG or remaining-gaps section. Write these
-  as short human-facing mathematical notes and avoid Lean declaration names.
-  When the evidence is only a formalization caveat, say that directly instead
-  of claiming the paper is wrong.
+  source-paper issues in `Paper Issues or Caveats`, even when they are already
+  reflected in the DAG or remaining-gaps section. Write these as short
+  human-facing mathematical notes and avoid Lean declaration names. When the
+  evidence is only a formalization caveat, say that directly instead of claiming
+  the paper is wrong. Include the section even when the body is `None found.`.
 - Avoid wide Markdown tables for definition inventories when the notation or
   declaration names are long. Use a concise bullet checklist instead, with the
   paper notation first and the Lean interface declaration second.
@@ -2981,7 +2989,11 @@ paper-correctness issue is being claimed, and whether human dashboard sign-off
 exists. Do not include Lean declaration names, validator counts, audit digests,
 source-record inventories, command outputs, or Lean footprint numbers here.>
 
-## 2. Source and Scope
+## 2. Closeout Status
+- Completion status: <formalized / formalized with caveat / partially formalized / not formalized>
+- One-sentence recap: <do not repeat the whole human verdict>
+
+## 3. Source and Scope
 - Paper: <title>
 - Source version: <arXiv/publisher URL + version/date>
 - Lean folder: <folder path>
@@ -2989,28 +3001,46 @@ source-record inventories, command outputs, or Lean footprint numbers here.>
 - DAG artifacts: <tikz file>, <rendered image>
 - Lean footprint: <total paper-local Lean LOC>, <PaperInterface LOC>, <review rows>
 
-## 3. Researcher Summary of Checked Results
+## 4. Researcher Summary of Checked Results
 Summarize the checked paper definitions and named results in 3-6 concise
 paper-language bullets. This is for a researcher skimming the report; do not
 list Lean helper lemmas, declaration inventories, validator row counts, or
 source-record packages here.
 
-## 4. Remaining Boundaries and Gaps
+## 5. Remaining Boundaries and Gaps
 - `<paper item>`: <exact remaining mathematical/library boundary in paper
   language, with the formal assumption name only if needed>
 - If none: `None`
 
-## 5. Paper Issues or Formalization Caveats
-- `<location in paper>`: <issue description + formalization evidence in
-  paper language>
+## 6. Additional Assumptions Beyond Paper
+- `<assumption declaration>`: <why needed, where used>
 - If none: `None`
 
-## 6. Detailed Formalization Evidence
+## 7. Proof-Strategy Deviations
+- `<paper result>`: <human-facing mathematical departure from the paper proof
+  route or theorem statement, and why>
+- Do not list Lean architecture, source-record packages, certificate plumbing,
+  parser/audit changes, or declaration names here.
+- If only explicit assumptions or remaining proof boundaries differ from full
+  formalization, write `None beyond the formalization boundaries already
+  recorded above` and refer to the assumptions/gaps sections.
+- If none: `None`
+
+## 8. Proof Tricks Worth Reusing
+- <modeling/proof/library-seam lesson that should inform future papers>
+- If none: `None`
+
+## 9. Paper Issues or Caveats
+- `<location in paper>`: <issue description + formalization evidence in
+  paper language>
+- If none: `None found.`
+
+## 10. Detailed Formalization Evidence
 Record the detailed proof inventory here after the researcher-facing summary,
 gaps, and caveats. Lean declaration names are allowed here when they are useful
 evidence, but keep the paper result or formula first.
 
-## 7. Paper Assumption Provenance
+## 11. Paper Assumption Provenance
 Every paper-facing theorem premise that is not derived in Lean should appear as
 a named assumption declaration in `Assumptions.lean`, be listed in `status.json`
 `review_surface.assumption_names`, and be checked in `assumption_match_llm.json`
@@ -3037,7 +3067,7 @@ repair.
 | --- | --- | --- | --- | --- |
 | None | `none` | None | None | No paper assumptions recorded. |
 
-## 8. Displayed Formula Provenance
+## 12. Displayed Formula Provenance
 Every displayed or source-defining formula used by a named result should have
 an exact paper-facing row or exact subclaim row. Broad aggregate rows are not
 enough for full validation. Formula rows are closed only when the formula is
@@ -3048,40 +3078,22 @@ assumptions.
 | --- | --- | --- | --- | --- |
 | None | `none` | None | None | No displayed formulas checked. |
 
-## 9. Additional Assumptions Beyond Paper
-- `<assumption declaration>`: <why needed, where used>
-- If none: `None`
-
-## 10. Proof-Strategy Deviations
-- `<paper result>`: <human-facing mathematical departure from the paper proof
-  route or theorem statement, and why>
-- Do not list Lean architecture, source-record packages, certificate plumbing,
-  parser/audit changes, or declaration names here.
-- If only explicit assumptions or remaining proof boundaries differ from full
-  formalization, write `None beyond the formalization boundaries already
-  recorded above` and refer to the assumptions/gaps sections.
-- If none: `None`
-
-## 11. Proof Tricks Worth Reusing
-- <modeling/proof/library-seam lesson that should inform future papers>
-- If none: `None`
-
-## 12. Library Lift Pass
+## 13. Library Lift Pass
 - <paper-local component>: <target EconCSLib module and extraction status>
 - If none: `None`
 
-## 13. DAG Audit
+## 14. DAG Audit
 - Rendered artifact: <yes/no, visual inspection method>
 - Topology: <missing/extra boxes fixed or none>
 - Layout: <overlap/routing status>
 
-## 14. Validation Checks
+## 15. Validation Checks
 - <build/audit/DAG/no-placeholder outcomes in prose>
 - Machine-required closeout evidence may include the exact targeted repository
   audit command here, but keep commands out of the executive verdict and proof
   narrative.
 
-## 15. Paper Definitions Checked
+## 16. Paper Definitions Checked
 These are the mathematical objects from the paper interface. All should be
 exposed in `PaperInterface.lean`.
 
@@ -3090,7 +3102,7 @@ exposed in `PaperInterface.lean`.
 - <Next paper object>: <paper notation and one-line statement>.
   Lean: `<PaperInterface.definitionName>`.
 
-## 16. Named Theorem Statements Checked
+## 17. Named Theorem Statements Checked
 ### Theorem <n>
 **Paper statement.** <one theorem-box-level statement matching the source>
 
@@ -3099,17 +3111,13 @@ exposed in `PaperInterface.lean`.
 
 **Status.** <formalized / conditional / not formalized>. <1-4 lines of caveats only if needed.>
 
-## 17. Paper-Facing Statement Validator Ledger
+## 18. Paper-Facing Statement Validator Ledger
 This table is one row per dashboard/PaperInterface row. Generate it from the
 validator ledger rather than from memory.
 
 | Paper-facing statement | Lean declaration | Validators | Validator comments |
 | --- | --- | --- | --- |
 | <paper item label> | `<PaperInterface.declaration>` | <human/model/agent validators, judgments, dates, stale flags> | <validator comments or `None`> |
-
-## 18. Closeout Status
-- Completion status: <formalized / formalized with caveat / partially formalized / not formalized>
-- One-sentence recap: <do not repeat the whole human verdict>
 
 ```
 

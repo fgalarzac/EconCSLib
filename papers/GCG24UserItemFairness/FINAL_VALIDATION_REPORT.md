@@ -6,7 +6,12 @@ checked, including the LP/duality and feasible-support ingredients needed by
 the source arguments. No paper-correctness caveat is reported. No human
 dashboard sign-off has been recorded.
 
-## 2. Source and Scope
+## 2. Closeout Status
+- Completion status: formalized.
+- One-sentence recap: Recommendation fairness propositions and theorem
+  statements are checked under the formal source model.
+
+## 3. Source and Scope
 ### Scope Checked
 
 The validation source of truth was the paper folder, not older campaign-level
@@ -23,18 +28,38 @@ statements. `MainTheorems.lean` exposes the full paper-facing wrappers.
 Detailed proof work is split across the paper-local LP reduction,
 optimization, symmetry, opposing-types, and misestimation files.
 
-## 3. Researcher Summary of Checked Results
+## 4. Researcher Summary of Checked Results
 - The formalization checks the user-item fairness tradeoff results through the paper-facing LP, feasible-support, and duality ingredients.
 - The main theorem wrappers expose the source definitions and theorem statements rather than proof-internal certificates.
 - No unresolved mathematical boundary is recorded for the checked theorem surface.
 
-## 4. Remaining Boundaries and Gaps
+## 5. Remaining Boundaries and Gaps
 None.
 
-## 5. Paper Issues or Formalization Caveats
-None.
+## 6. Additional Assumptions Beyond Paper
+- None
 
-## 6. Detailed Formalization Evidence
+## 7. Proof-Strategy Deviations
+### Paper-Proof Fidelity
+
+The Lean development follows the paper's named proof architecture closely:
+symmetry reduction, sparse support and opposing-types reductions, canonical
+pivot/closed-form constructions for Problem 6, mirror symmetry for the second
+half of Theorem 3, and the Appendix E Problem 11/cold-start construction for
+Theorem 4.
+
+Where the Lean proof differs, the difference is mainly organizational: LP
+arguments are factored through auditable certificate structures, and parity,
+center, and mirror cases are made explicit as separate lemmas before being
+recombined by the final source wrappers.
+
+## 8. Proof Tricks Worth Reusing
+None separately recorded in the existing report.
+
+## 9. Paper Issues or Caveats
+None found.
+
+## 10. Detailed Formalization Evidence
 ### Results Covered
 
 The formalization covers the paper's tracked named model definitions, supporting
@@ -54,7 +79,7 @@ including:
 - Theorem 4 misestimation/no-fairness and with-fairness source wrappers for both
   possible true cold-start rows.
 
-## 7. Paper Definitions Checked
+## 11. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
 ### Lean-Derived Dashboard Definitions
 
@@ -74,7 +99,7 @@ including:
 | def priceOfMisestimation | `priceOfMisestimation` | - Price of misestimation for a policy selected on an estimated utility matrix. |
 <!-- lean-derived-definitions:end -->
 
-## 8. Named Theorem Statements Checked
+## 12. Named Theorem Statements Checked
 <!-- lean-derived-statements:start -->
 ### Lean-Derived Dashboard Named Statements
 
@@ -88,7 +113,7 @@ including:
 | theorem theorem4_misestimation_tradeoff_typeOne | `theorem4_misestimation_tradeoff_typeOne` | - Theorem 4 final tradeoff for the second opposing true type. |
 <!-- lean-derived-statements:end -->
 
-## 9. Paper-Facing Statement Validator Ledger
+## 13. Paper-Facing Statement Validator Ledger
 Generated from dashboard status export:
 
 `python3 scripts/review_dashboard.py --paper GCG24UserItemFairness --slice all --export-format validators-md`
@@ -116,15 +141,7 @@ Generated from dashboard status export:
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
 
-## 10. Paper Assumption Provenance And Modeling Notes
-> Axiom/premise/source-hygiene audit update (2026-06-12): `assumption_match_llm.json`
-> now records per-premise judgments for this paper's `Assumptions.lean`
-> ledger. Current result: 34/34 recorded premises are source-matched,
-> source-model primitives, or source theorem conditions; 0 remain partial
-> boundaries. The old Theorem 3 constrained-optimum bridge certificates were
-> removed from the paper-facing interface and replaced by closed source-shaped
-> first-half and second-half wrappers.
-
+## 14. Paper Assumption Provenance And Modeling Notes
 Every paper-facing theorem premise that is not derived in Lean is routed through
 `Assumptions.lean` and checked separately as either a paper/source model
 assumption or a paper-statement condition.
@@ -160,30 +177,13 @@ construct or discharge the needed certificates internally. Auxiliary
 selected-BFS/certificate variants that still take explicit inputs are retained
 as helper interfaces and are not the closed source theorem wrappers.
 
-## 11. Proof-Strategy Deviations
-### Paper-Proof Fidelity
-
-The Lean development follows the paper's named proof architecture closely:
-symmetry reduction, sparse support and opposing-types reductions, canonical
-pivot/closed-form constructions for Problem 6, mirror symmetry for the second
-half of Theorem 3, and the Appendix E Problem 11/cold-start construction for
-Theorem 4.
-
-Where the Lean proof differs, the difference is mainly organizational: LP
-arguments are factored through auditable certificate structures, and parity,
-center, and mirror cases are made explicit as separate lemmas before being
-recombined by the final source wrappers.
-
-## 12. Proof Tricks Worth Reusing
+## 15. Library Lift Pass
 None separately recorded in the existing report.
 
-## 13. Library Lift Pass
-None separately recorded in the existing report.
-
-## 14. DAG Audit
+## 16. DAG Audit
 No separate DAG audit note is recorded in the existing report.
 
-## 15. Validation Checks
+## 17. Validation Checks
 ### Statement Translation Audit
 
 Audit date: 2026-06-06.
@@ -193,8 +193,3 @@ Summary: 28 rows; 28 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar
 rows: none. Surface audit: not required (30 or fewer paper-facing rows).
 
 Flagged rows: none.
-
-## 16. Closeout Status
-- Completion status: formalized.
-- One-sentence recap: Recommendation fairness propositions and theorem
-  statements are checked under the formal source model.

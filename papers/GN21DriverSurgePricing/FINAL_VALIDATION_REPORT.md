@@ -7,21 +7,83 @@ theorem is reported; the only caveat is that zero-denominator totalized
 division shortcuts are kept out of the named theorem. No human dashboard
 sign-off has been recorded.
 
-## 2. Source and Scope
+## 2. Closeout Status
+- Completion status: formalized.
+- One-sentence recap: The named CTMC lemmas and Theorems 1-4 are checked on the
+  source-facing reward-rate domain.
+
+## 3. Source and Scope
 Not separately recorded in the existing report.
 
-## 3. Researcher Summary of Checked Results
+## 4. Researcher Summary of Checked Results
 - The formalization checks the driver surge pricing model, incentive-compatibility definitions, renewal-reward route, and dynamic reward-rate theorem surface.
 - Theorem 3 is stated on the denominator-valid reward-rate domain used by the source proof.
 - Zero-denominator totalized-division shortcuts are kept out of the named theorem rather than treated as economic caveats.
 
-## 4. Remaining Boundaries and Gaps
+## 5. Remaining Boundaries and Gaps
 None for the denominator-valid theorem surface formalized here.
 
-## 5. Paper Issues or Formalization Caveats
+## 6. Additional Assumptions Beyond Paper
+- None
+
+## 7. Proof-Strategy Deviations
+### Did Lean Need a Different Qualitative Proof?
+
+Mostly the proof follows the paper's qualitative path, especially for Theorem 3.
+The differences are the places where the paper uses standard continuous-time or
+measure-theoretic shorthand that Lean cannot leave implicit:
+
+- Continuous trip policies are handled directly as measurable sets of positive
+  real trip lengths, with almost-everywhere equality for structural policy
+  forms.  The proof did not detour through a finite discretization.
+
+- The renewal-reward bridge is proved with explicit IID cycles and strong-law
+  wrappers rather than an informal limit argument.
+
+- Theorem 1 handles atoms at threshold boundaries using one-sided
+  dominated-convergence arguments instead of assuming away boundary mass.
+
+- Theorem 3 separates defined-reward positive-mass reasoning from optional
+  totalized zero-mass extensions.  The compact paper-facing theorem uses the
+  defined-reward source domain; Lean also records obstruction lemmas showing
+  that an overbroad zero-mass-dominance certificate would be false without
+  extra hypotheses.
+
+- Theorem 2's "not incentive compatible" clause is witnessed by a concrete
+  measured atomic instance, so the existential counterexample is inspectable.
+
+## 8. Proof Tricks Worth Reusing
+- Work directly in the continuous/measure-theoretic model when the source proof
+  is continuous.  The finite-support model was useful as support, but the paper
+  closed only after the proof focused on measurable trip-length sets,
+  integrals, and a.e. policy equality.
+
+- State positive-denominator domains early.  The biggest avoidable delay was
+  discovering that the paper's reward-rate notation assumes accepted-trip
+  mass/time denominators are meaningful, while Lean's real division totalizes
+  zero denominators.  This should have been surfaced earlier as a human-facing
+  source-domain decision: prove the intended defined-reward theorem now,
+  expose the denominator-valid domain, and only then decide whether an
+  all-feasible zero-mass totalization strengthening is worth pursuing.
+
+- Follow the paper's sequential Theorem 3 route.  The successful path first
+  applies the surge Lemma 9 construction, then transports current bounds, then
+  applies the non-surge Lemma 10 construction.  Symmetric all-at-once wrappers
+  created stronger and sometimes false side obligations.
+
+- Separate stochastic limit, algebraic reward-rate, and policy-shape work.
+  Renewal-reward strong-law wrappers, CTMC scalar identities, and Lemma 5
+  a.e. policy-form selectors each became tractable only after being isolated.
+
+- For existential counterexamples, build a concrete measured atomic instance
+  and reduce it to named aggregate primitives before doing strict inequalities.
+  This avoided large symbolic expressions involving exponentials in the main
+  proof path.
+
+## 9. Paper Issues or Caveats
 No false main theorem is reported. The denominator-valid domain is made explicit rather than relying on totalized division outside the source proof route.
 
-## 6. Detailed Formalization Evidence
+## 10. Detailed Formalization Evidence
 - The paper's single-state and dynamic incentive-compatibility definitions are
   represented as measurable trip-policy optimization statements, including the
   threshold-policy notation and the positive-denominator dynamic reward domain.
@@ -62,7 +124,7 @@ No false main theorem is reported. The denominator-valid domain is made explicit
   compatibility, and proves accept-all uniqueness up to null sets on the
   positive-denominator source domain used by the paper's reward-rate formulas.
 
-## 7. Paper Definitions Checked
+## 11. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
 ### Lean-Derived Dashboard Definitions
 
@@ -91,7 +153,7 @@ No false main theorem is reported. The denominator-valid domain is made explicit
 | abbrev review_theorem4_structural_policy_representatives | `review_theorem4_structural_policy_representatives` | - Theorem 4: structural representatives for optimal policies. |
 <!-- lean-derived-definitions:end -->
 
-## 8. Named Theorem Statements Checked
+## 12. Named Theorem Statements Checked
 <!-- lean-derived-statements:start -->
 ### Lean-Derived Dashboard Named Statements
 
@@ -102,7 +164,7 @@ No false main theorem is reported. The denominator-valid domain is made explicit
 | theorem review_theorem3_defined_reward_source_statement | `review_theorem3_defined_reward_source_statement` | matches. The Lean row matches the fully incentive-compatible accept-all clause of Theorem 3 on the source-domain where Appendix D reward-rate denominators are defined. Lean states this as defined-reward dynamic IC and a.e. uniqueness rather than as totalized real division at zero denominators. |
 <!-- lean-derived-statements:end -->
 
-## 9. Paper-Facing Statement Validator Ledger
+## 13. Paper-Facing Statement Validator Ledger
 Generated from dashboard status export:
 
 `python3 scripts/review_dashboard.py --paper GN21DriverSurgePricing --export-format validators-md`
@@ -136,19 +198,7 @@ Generated from dashboard status export:
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
 
-## 10. Paper Assumption Provenance
-> Axiom/premise/source-hygiene audit update (2026-06-12): `assumption_match_llm.json`
-> now records per-premise judgments for this paper's `Assumptions.lean` ledger.
-> Current result: every explicit premise is judged source text, source primitives,
-> direct source-derived conditions, or explicit paper/local-calculus
-> conditions. The Lemma 6 upper-endpoint row now proves the exact derivative
-> identity without assuming positive endpoint density; positive density is only
-> the conditional premise for strict sign transfer. The Theorem 1/Lemma 4
-> positive accept-all payment premise is now
-> derived from the source proof branch with nonnegative on-trip rates and
-> positive mass on positive payouts.
-> This note supersedes any older group-level wording in this section.
-
+## 14. Paper Assumption Provenance
 Every paper-facing premise is routed through
 `GN21DriverSurgePricing/Assumptions.lean` and checked by
 `assumption_match_llm.json`. The assumption ledger separates source-domain
@@ -176,61 +226,7 @@ positive.  Theorem 3's positive-denominator condition is the source domain of
 the Appendix D reward-rate formulas, and is exposed in the defined-reward
 statement rather than hidden as a certificate.
 
-## 11. Proof-Strategy Deviations
-### Did Lean Need a Different Qualitative Proof?
-
-Mostly the proof follows the paper's qualitative path, especially for Theorem 3.
-The differences are the places where the paper uses standard continuous-time or
-measure-theoretic shorthand that Lean cannot leave implicit:
-
-- Continuous trip policies are handled directly as measurable sets of positive
-  real trip lengths, with almost-everywhere equality for structural policy
-  forms.  The proof did not detour through a finite discretization.
-
-- The renewal-reward bridge is proved with explicit IID cycles and strong-law
-  wrappers rather than an informal limit argument.
-
-- Theorem 1 handles atoms at threshold boundaries using one-sided
-  dominated-convergence arguments instead of assuming away boundary mass.
-
-- Theorem 3 separates defined-reward positive-mass reasoning from optional
-  totalized zero-mass extensions.  The compact paper-facing theorem uses the
-  defined-reward source domain; Lean also records obstruction lemmas showing
-  that an overbroad zero-mass-dominance certificate would be false without
-  extra hypotheses.
-
-- Theorem 2's "not incentive compatible" clause is witnessed by a concrete
-  measured atomic instance, so the existential counterexample is inspectable.
-
-## 12. Proof Tricks Worth Reusing
-- Work directly in the continuous/measure-theoretic model when the source proof
-  is continuous.  The finite-support model was useful as support, but the paper
-  closed only after the proof focused on measurable trip-length sets,
-  integrals, and a.e. policy equality.
-
-- State positive-denominator domains early.  The biggest avoidable delay was
-  discovering that the paper's reward-rate notation assumes accepted-trip
-  mass/time denominators are meaningful, while Lean's real division totalizes
-  zero denominators.  This should have been surfaced earlier as a human-facing
-  source-domain decision: prove the intended defined-reward theorem now,
-  expose the denominator-valid domain, and only then decide whether an
-  all-feasible zero-mass totalization strengthening is worth pursuing.
-
-- Follow the paper's sequential Theorem 3 route.  The successful path first
-  applies the surge Lemma 9 construction, then transports current bounds, then
-  applies the non-surge Lemma 10 construction.  Symmetric all-at-once wrappers
-  created stronger and sometimes false side obligations.
-
-- Separate stochastic limit, algebraic reward-rate, and policy-shape work.
-  Renewal-reward strong-law wrappers, CTMC scalar identities, and Lemma 5
-  a.e. policy-form selectors each became tractable only after being isolated.
-
-- For existential counterexamples, build a concrete measured atomic instance
-  and reduce it to named aggregate primitives before doing strict inequalities.
-  This avoided large symbolic expressions involving exponentials in the main
-  proof path.
-
-## 13. Library Lift Pass
+## 15. Library Lift Pass
 The post-closeout lift moved the reusable pieces that passed the "second paper"
 test without disturbing the paper-facing GN21 definitions.
 
@@ -266,7 +262,7 @@ aliases to generic library constants; instead the paper wrappers call the
 library lemmas with `simpa` compatibility bridges.  This preserves the human
 review surface and avoids destabilizing the long compiled proof.
 
-## 14. DAG Audit
+## 16. DAG Audit
 I rerendered and visually inspected `DependencyDAG.pdf` after this pass.  The
 current DAG uses the shared preamble, has visible spacing between nodes, and no
 arrow or label crosses through a node body.
@@ -279,7 +275,7 @@ in this report rather than shown as a named paper result in the DAG.  The
 remaining boxes correspond to the paper-facing model, Section 2.2 renewal-reward bridge, named
 lemmas/proposition/theorems, and the paper proof flow.
 
-## 15. Validation Checks
+## 17. Validation Checks
 ### Human Review Status
 
 `SOURCE_AUDIT.md` records an agent source audit for all 24 paper-interface rows.
@@ -312,8 +308,3 @@ rows: none. The 34 rows consist of 24 paper-interface rows plus 10 typed
 assumption-provenance rows. The row-local statement match lane is clean, but it
 does not certify theorem-premise provenance; that is handled by the strict
 assumption audit above.
-
-## 16. Closeout Status
-- Completion status: formalized.
-- One-sentence recap: The named CTMC lemmas and Theorems 1-4 are checked on the
-  source-facing reward-rate domain.
