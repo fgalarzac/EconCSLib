@@ -930,7 +930,7 @@ and Roth README status rows.
 - `DependencyDAG.tex` was rendered after the Theorem 7 and Theorem 8 node
   updates.
 
-## 15. Final Verdict
+## 15. Closeout Status
 
 - Completion status: partially formalized.
 - Summary: Non-truthfulness, examples, Theorem 7, and finite Theorem 8 direct-PBE endpoints are exposed; full source-game completion remains open.
