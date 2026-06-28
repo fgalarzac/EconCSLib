@@ -528,9 +528,10 @@ logs.
 When private GitHub Actions fails but `gh` cannot read logs because local
 authentication is stale, reproduce the workflow commands locally before
 guessing at the failure: `scripts/sync_paper_status.py --check`, the
-library-premise audit, `lake build`, and the full repository audit. Treat a
-clean local reproduction as the basis for a scoped CI fix, and report that
-remote logs were unavailable.
+library-premise audit, and the relevant `lake build`. Run the full repository
+audit only when the failure came from the manual closeout workflow path or the
+user explicitly asks for closeout validation. Treat a clean local reproduction
+as the basis for a scoped CI fix, and report that remote logs were unavailable.
 Keep CI fast by separating metadata/workflow churn from proof changes. A
 skill-only commit should not run full Lean CI; configure workflow
 `paths-ignore` for `skills/**` and commit proof-affecting changes separately.
@@ -538,7 +539,9 @@ Use GitHub Actions `concurrency` with `cancel-in-progress: true` for Lean CI so
 superseded pushes on the same branch do not burn a full build. In the workflow,
 run fast source-only checks such as `scripts/sync_paper_status.py --check` and
 the library premise audit before `leanprover/lean-action`; that fails status or
-provenance drift before the expensive Lean build starts.
+provenance drift before the expensive Lean build starts. Keep the full
+repository closeout audit behind `workflow_dispatch`, not routine push/PR CI,
+unless the branch is specifically being promoted or released.
 Do not block your own work by watching GitHub CI unless the next action
 actually depends on the result, such as merging a PR, cutting a public release,
 or diagnosing a known failure. For routine pushes, confirm that the run started

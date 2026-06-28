@@ -248,7 +248,7 @@ For reusable library work, prefer targeted builds first:
 ```bash
 lake build EconCSLib.Foundations
 python3 scripts/sync_paper_status.py --check
-python3 scripts/audit_repository.py
+python3 scripts/audit_repository.py --library-only --library-premise-audit --info-limit 0
 git diff --check
 ```
 
@@ -261,6 +261,10 @@ python3 scripts/audit_repository.py --paper <paper> --paper-closeout --include-a
 
 Treat paper-specific DAG/report findings from that command as blockers for a
 completion claim, even if unrelated global repository findings remain.
+
+The unfiltered full repository audit is a closeout/public-promotion check. It
+is available through manual CI dispatch and should not run on routine push/PR
+CI for ordinary documentation or proof-development churn.
 
 For paper work, build the paper root when available:
 
