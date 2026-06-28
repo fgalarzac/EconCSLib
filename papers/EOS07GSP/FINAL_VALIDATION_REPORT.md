@@ -1,27 +1,13 @@
 # Final Validation Report: EOS07GSP
 
 ## 1. Human Verdict
-- Lean formalization status: partially formalized
-- Human dashboard review status: 0/42 rows reviewed; 0 stale; 0 mismatches.
-- Human summary: Non-truthfulness, examples, Theorem 7, and finite Theorem 8 direct-PBE endpoints are exposed; full source-game completion remains open.
+Partially formalized. Non-truthfulness, examples, Theorem 7, and finite Theorem 8 direct-PBE endpoints are exposed. The remaining work is the full generalized-English source game: concrete belief consistency, source-game sequential rationality, and exact terminal-record generation without extra schedule, no-overshoot, or clock-discipline evidence. No human dashboard rows are reviewed yet.
 
-### Report Metadata
+## 2. Closeout Status
+- Completion status: partially formalized.
+- Summary: Non-truthfulness, examples, Theorem 7, and finite Theorem 8 direct-PBE endpoints are exposed; full source-game completion remains open.
 
-Date: 2026-06-03
-
-### Verdict
-
-This paper is not yet fully formalized in Lean. The current folder has a compiling
-post-paper audit ledger and strong paper-facing endpoints for Sections 2.2--2.3,
-Theorem 7, and finite/no-overshoot/clock-disciplined source routes for Theorem
-8. The finite exact-record version now has direct source-game PBE endpoints for
-complete displayed finite schedules and for the canonical price-sorted `Fin n`
-schedule, ordinary and belief-explicit. The remaining gap is the unconstrained
-generalized-English source game: concrete belief consistency, the game-level
-source sequential-rationality iff, and exact terminal-record generation when no
-schedule, no-overshoot, or clock-discipline evidence is supplied.
-
-## 2. Source and Scope
+## 3. Source and Scope
 ### Source version
 
 - Paper: *Internet Advertising and the Generalized Second-Price Auction:
@@ -41,12 +27,12 @@ cross-check and renumbers the analogous main results as Theorems 1--2, so this
 folder keeps the NBER numbering used by the cached source. The DAG inventory
 therefore starts at Remarks 1--3 before Definition 4.
 
-## 3. Researcher Summary of Checked Results
+## 4. Researcher Summary of Checked Results
 - This report records the current generalized-second-price auction formalization checkpoint.
 - See the detailed evidence section for the exact auction model, equilibrium, and welfare/revenue results currently represented.
 - Any remaining proof boundary should be stated in the next section rather than hidden in Lean implementation detail.
 
-## 4. Remaining Boundaries and Gaps
+## 5. Remaining Boundaries and Gaps
 ### Current handoff note
 
 Start with `START_HERE_NEXT_AGENT.md` before continuing Theorem 8. It is the
@@ -75,10 +61,19 @@ after any further Lean edits.
   exact-drop, schedule, or clock-discipline premise is needed for terminal
   record generation.
 
-## 5. Paper Issues or Formalization Caveats
+## 6. Additional Assumptions Beyond Paper
 None separately recorded in the existing report.
 
-## 6. Detailed Formalization Evidence
+## 7. Proof-Strategy Deviations
+None separately recorded in the existing report.
+
+## 8. Proof Tricks Worth Reusing
+None separately recorded in the existing report.
+
+## 9. Paper Issues or Caveats
+None separately recorded in the existing report.
+
+## 10. Detailed Formalization Evidence
 ### Important completed endpoints
 
 - Theorem 7 now has a bundled endpoint showing that, under nonnegative values,
@@ -646,7 +641,7 @@ None separately recorded in the existing report.
   equality from behavioral uniqueness plus constructed-outcome agreement, so
   slot/payment equality is not a separate source-PBE obligation.
 
-## 7. Paper Definitions Checked
+## 11. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
 ### Lean-Derived Dashboard Definitions
 
@@ -696,7 +691,7 @@ None separately recorded in the existing report.
 | abbrev theorem8_price_sorted_finite_schedule_belief_source_event_boundary_threshold_event_ordered_displayed_conclusion | `theorem8_price_sorted_finite_schedule_belief_source_event_boundary_threshold_event_ordered_displayed_conclusion` | - Theorem 8: belief price-sorted boundary plus threshold-event ordered payoff. |
 <!-- lean-derived-definitions:end -->
 
-## 8. Named Theorem Statements Checked
+## 12. Named Theorem Statements Checked
 ### Current Lean coverage
 
 | Paper item | Status | Human verification entry point |
@@ -711,7 +706,7 @@ None separately recorded in the existing report.
 | Theorem 7, `B*` locally envy-free equilibrium and revenue comparison, `EOS07GSP.txt:481` | conditional | `PaperInterface.lean` ranked `B*` paper conclusion plus canonical-tail audit declarations |
 | Theorem 8, generalized-English unique PBE, `EOS07GSP.txt:539` | conditional, with finite direct-PBE/no-overshoot/clock-disciplined source routes closed | `PaperInterface.lean` source-iff, no-overshoot terminal/dynamic, clock-disciplined terminal-history, finite exact-record direct-PBE, and source-extensive terminal-record endpoints |
 
-## 9. Paper-Facing Statement Validator Ledger
+## 13. Paper-Facing Statement Validator Ledger
 Generated from dashboard status export:
 
 `python3 scripts/review_dashboard.py --paper EOS07GSP --export-format validators-md`
@@ -763,22 +758,13 @@ Generated from dashboard status export:
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
 
-## 10. Additional Assumptions Beyond Paper
+## 14. Library Lift Pass
 None separately recorded in the existing report.
 
-## 11. Proof-Strategy Deviations
-None separately recorded in the existing report.
-
-## 12. Proof Tricks Worth Reusing
-None separately recorded in the existing report.
-
-## 13. Library Lift Pass
-None separately recorded in the existing report.
-
-## 14. DAG Audit
+## 15. DAG Audit
 No separate DAG audit note is recorded in the existing report.
 
-## 15. Validation Checks
+## 16. Validation Checks
 ### Commands run
 
 ```bash
@@ -920,7 +906,3 @@ and Roth README status rows.
   `docs/ECONCSLEAN_CURRENT_STATUS.md` record the same conditional boundary.
 - `DependencyDAG.tex` was rendered after the Theorem 7 and Theorem 8 node
   updates.
-
-## 16. Closeout Status
-- Completion status: partially formalized.
-- Summary: Non-truthfulness, examples, Theorem 7, and finite Theorem 8 direct-PBE endpoints are exposed; full source-game completion remains open.
