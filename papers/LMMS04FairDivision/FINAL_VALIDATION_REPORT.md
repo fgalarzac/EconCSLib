@@ -2,21 +2,12 @@
 
 ## 1. Human Verdict
 
-- Lean formalization status: partially formalized.
-- Human dashboard review status: 0/31 rows reviewed; 0 stale; 0 mismatches.
-- LLM statement-translation audit: 42/42 row-local LLM-as-judge statement rows match, including 11 explicit assumption/dependency rows; 0 stale, missing, uncertain, or mismatch rows.
-- Paper correctness verdict: no fatal error found. Formalization exposed several implicit modeling choices and one source-prose typo in the Lemma 2.4 partition argument.
-- Qualitative proof verdict: Sections 2 and 4 follow the paper-level proof structure. Section 3 is intentionally stopped at a reusable complexity boundary.
-- Lean footprint: 80,424 paper-local Lean lines across 24 files; `PaperInterface.lean` has 249 lines and 31 review rows.
-- Human summary: Sections 2 and 4 are closed; Section 3 has query/descent/rounded-search support. The PTAS/FPTAS runtime layer needs reusable fixed-dimension IP complexity infrastructure.
-
-<!-- transitive-source-premise-audit:start -->
-### Axiom, Premise, And Source-Hygiene Audit
-
-The current axiom/premise/source-hygiene audit does not yet pass for full-status provenance. It uses Lean-native #print axioms for transitive proof debt, expanded paper-facing signatures for visible premises, and source-assumption ledgers for any non-derived assumptions.
-
-Current result: the Section 3 runtime/search layer and some rounded-IP/counterexample endpoints remain certificate boundaries; Sections 2 and 4 stay formalized at their existing boundary.
-<!-- transitive-source-premise-audit:end -->
+Partially formalized. Sections 2 and 4 are checked, and Section 3 has the
+query, descent, and rounded-search support needed for the approximation route.
+Full formalization still requires reusable fixed-dimension integer-programming
+runtime infrastructure for the PTAS/FPTAS layer. No fatal paper error is
+reported; one Lemma 2.4 prose typo and several implicit modeling choices are
+documented below. No human dashboard sign-off has been recorded.
 
 ## 2. Source and Scope
 
@@ -133,16 +124,11 @@ Summary: 44 rows; 44 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar ro
 
 Flagged rows: none.
 
-## 12. Final Verdict
-
-LMMS04 is suitable as a public partial formalization. Sections 2 and 4 are
-closed in the current paper-facing model, and Section 3 exposes substantial
-verified fair-division and rounded-search infrastructure. The status remains
-partial because the final PTAS/FPTAS runtime claim depends on a reusable
-fixed-dimension IP complexity theorem that is not yet present in the library.
+## 12. Closeout Status
 
 - Completion status: partially formalized.
-- Summary: Sections 2 and 4 are closed; Section 3 has query/descent/rounded-search support. The PTAS/FPTAS runtime layer needs reusable fixed-dimension IP complexity infrastructure.
+- One-sentence recap: Sections 2 and 4 are checked; the PTAS/FPTAS runtime
+  layer needs reusable fixed-dimension IP complexity infrastructure.
 
 ## 13. Paper Definitions Checked
 

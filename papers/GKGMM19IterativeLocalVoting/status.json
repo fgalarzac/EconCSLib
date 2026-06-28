@@ -22,10 +22,10 @@
     "stale_rows": 0,
     "total_rows": 42
   },
-  "human_summary": "Conditional formalization: source-facing formulas and bridge theorems compile, with the remaining intentional boundary isolated to the SSGM convergence theorem. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition.",
+  "human_summary": "Full formalization requires proving stochastic subgradient descent convergence. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition.",
   "human_summary_review": {
-    "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction.",
-    "status": "draft"
+    "note": "Human-written summary supplied on 2026-06-28; preserve verbatim unless a human explicitly asks for a change.",
+    "status": "human_written"
   },
   "id": "GKGMM19IterativeLocalVoting",
   "main_caveat": "The source-facing Lean interface builds and the only Lean axiom is the theorem-shaped SSGM boundary `assumption_ssgm_convergence_theorem`. The recursive source-record audit is synced to digest `95b8554bfdc06bcb346443e11bdaa7cd49de7da918adedef8339c71b7cda45d9` and reports no unresolved/unapproved source-record fields. For general constrained solution spaces, the paper-facing formalization no longer claims the exact Theorem 3 endpoint from a hidden aggregate-feasibility source record: Lean proves the constrained alternative `theorem3_zero_or_no_aggregate_feasible_direction_formula`, and proves the exact original `theorem3Statement` from the sampled projected source package only under the explicit full-space condition `E.solutionSpace = Set.univ`. The prior counterexample lemmas still document why C1/convexity, projection, convergence, and directional-field continuity alone do not imply positive aggregate feasible directions in arbitrary constrained spaces.",
@@ -273,6 +273,6 @@
   },
   "schema": 1,
   "source_version": "JAIR 64 (2019), 315-355; published 2019-02-18",
-  "status": "conditional",
+  "status": "partially formalized",
   "title": "Iterative Local Voting for Collective Decision-making in Continuous Spaces"
 }

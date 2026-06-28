@@ -1,55 +1,12 @@
 # Final Validation Report: Iterative Local Voting for Collective Decision-making in Continuous Spaces
 
 ## 1. Human Verdict
-- Lean formalization status: conditional.
-- Human dashboard review status: 0 human-reviewed rows.
-- Model/agent statement validator status: current for the 40 non-assumption
-  dashboard rows:
-  35 `matches`, 5 strict `mismatch` rows accepted as
-  `conditional_boundary`, 0 unresolved mismatches, 0 `uncertain`, 0 missing,
-  0 stale.
-- Assumption/proof-boundary validator status: current, with 2 configured rows:
-  1 source paper condition and 1 approved `partial_boundary`.
-- Review-surface validator status: current for 42 dashboard rows, above the LLM
-  threshold of 30 but below the warning threshold of 50.
-- Paper correctness verdict: not assessed.
-- Final formalization verdict: conditional.  The only paper-local Lean axiom is
-  the theorem-shaped SSGM boundary `assumption_ssgm_convergence_theorem`.
-  Theorems 1-2 and Propositions 1-2 are derived from that theorem plus explicit
-  finite-coordinate source semantics.  The current public closeout route is
-  `FiniteCoordinateILVFullSampledProjectedSourceSemantics`: it keeps the sampled
-  Theorem 2/Proposition 1 route, Proposition 2 source semantics, and the Theorem
-  3 projected update/convergence/field/continuity/convexity obligations visible
-  without an aggregate-feasibility source premise.  The proof-facing endpoint
-  `proof_finiteCoordinateILVFullProjectedPaperConsequences_of_fullSampledProjectedSourceSemantics`
-  proves the represented finite-coordinate consequences from that record and
-  the single SSGM axiom.  Theorem 3 does not use the SSGM axiom; Lean proves a
-  constrained alternative in general and the exact original `theorem3Statement`
-  under the explicit full-space condition `E.solutionSpace = Set.univ`.
-
-Current recursive source-record audit status: the source-record judge sidecar is
-current for audit digest
-`95b8554bfdc06bcb346443e11bdaa7cd49de7da918adedef8339c71b7cda45d9`
-and reports 0 missing, stale, unresolved, or unapproved source-record fields.
-The sampled source route now resolves the old active Theorem 2 and Proposition 1
-noncollision/projected-update debts: `FiniteModelBILVAlgorithm1SampledTraceSource`
-and `WeightedEuclideanL2ConcreteComponentSampledTraceSource` expose the sampled
-selected-voter process, marginal-law alignment, bad-event measurability, raw
-generation, and projection steps; Lean derives the deterministic records through
-`proof_finiteModelBILVAlgorithm1PrimitiveTraceSource_of_sampledTrace` and
-`proof_weightedEuclideanL2ConcreteComponentTraceSource_of_sampledTrace`.
-The stricter "only SSGM remains" source-record standard is therefore met.  The
-general constrained Theorem 3 exact endpoint is not claimed from a hidden
-aggregate feasible-direction source record; it is documented by the Lean
-alternative.  The old premise is not derivable from current C1/convexity,
-projection, convergence, and directional-field hypotheses: Lean proves
-`proof_singleton_solutionSpace_not_force_aggregate_feasible_direction` and the
-abstract `X = {0}` counterexample
-`proof_theorem3_abstract_hypotheses_do_not_imply_statement`.  Lean also proves
-the constrained alternative
-`proof_theorem3_finite_zero_or_no_aggregateFeasibleDirectionFormula_of_convergent_projectedUpdate`
-and the full-space recovery theorem
-`proof_theorem3Statement_of_fullSampledProjectedSourceSemantics_univ_solutionSpace`.
+Partially formalized. Theorems 1-2 and Propositions 1-2 are formalized except
+for a single reusable-library theorem proving stochastic subgradient descent
+convergence. Theorem 3 is proved as a constrained alternative in general and
+recovers the paper's original statement under the explicit full-space condition.
+No human dashboard sign-off has been recorded; detailed validation evidence is
+below.
 
 ## 2. Source and Scope
 - Paper: Garg, Kamble, Goel, Marn, and Munagala, "Iterative Local Voting for
@@ -203,41 +160,15 @@ abstract paper theorem statement, not an abstract-field representation gap.
 - It is not classified as a source assumption. It is a temporary, named,
   theorem-shaped proof boundary for the stochastic subgradient convergence
   theorem bundle.
-- The result remains conditional until that theorem is proved in a shared
+- The result remains partially formalized until that theorem is proved in a shared
   stochastic approximation library and instantiated for the finite-coordinate
   ILV source model.
 
 ## 7. Proof-Strategy Deviations
-- The formalization makes deterministic source semantics explicit rather than
-  hiding endpoint conclusions behind an axiom. The remaining axiom supplies a
-  theorem bundle consumed by theorem-specific source-semantics bridges.  The
-  review surface includes the granular Theorem 3 source-semantics adapter, so
-  non-SSGM obligations can be audited field-by-field.
-- The source-semantics premises are stronger than the paper's prose theorem
-  statements. They record deterministic finite-coordinate artifacts that are
-  needed to apply the future SSGM theorem and the Theorem 3 projected-trace
-  proof: norm semantics, C3/product-density data, trace semantics, target
-  identification, and response bridges.
-- Theorem 3 is outside the SSGM boundary, so it must not be hidden inside that
-  approved axiom.  The replacement route uses a concrete finite normalized-field
-  model, corrected global Algorithm 1 tail radii, selected-voter concentration,
-  and explicit projection residual geometry; the interface now exposes the
-  finite-dot expected raw-increment identities, normal-cone,
-  residual-nonpositivity, and projected-step progress lemmas used by that route,
-  along with the iid weighted-voter finite-dot concentration theorem for the
-  corrected global-tail radii.  The remaining non-SSGM data is primitive
-  trace/source semantics: proving that a concrete ILV instance supplies
-  `FiniteTheorem3GlobalProjectedAlgorithm1TraceSource` and concrete
-  field-continuity source data recorded in
-  `FiniteCoordinateILVFullPrimitiveSourceSemantics`.  Lean derives the older
-  deterministic trace core and the proof-facing skeletons afterward.  The
-  explicit full-space bridge
-  `finiteTheorem3GlobalProjectedAggregateFeasibilitySource_of_univ_solutionSpace`
-  and proof-interface theorem
-  `proof_theorem3_finite_directionalEquilibrium_of_convergent_projectedUpdate_univ_solutionSpace`
-  show that this geometric field is automatically available for the
-  unconstrained/full-space case; the general constrained case remains the
-  source-record debt described above.
+None. The human-facing differences are formalization boundaries, not separate
+proof-strategy deviations: Theorems 1-2 and Propositions 1-2 depend on the
+single reusable-library stochastic subgradient convergence theorem, and Theorem
+3 is reported as a statement/status boundary in the verdict and DAG.
 
 ## 8. Library Lift Pass
 - Reusable modules already introduced or used include:
@@ -254,11 +185,16 @@ abstract paper theorem statement, not an abstract-field representation gap.
 
 ## 9. DAG Audit
 - DAG source: `papers/GKGMM19IterativeLocalVoting/DependencyDAG.tex`.
-- Rendered DAG PDF: not generated in this closeout pass.
-- Visual layout inspection: not completed in this closeout pass.
-- The report status therefore does not claim a clean rendered DAG audit.
+- Rendered DAG PDF: `papers/GKGMM19IterativeLocalVoting/DependencyDAG.pdf`.
+- Visual layout inspection: completed after regenerating the DAG PDF from the
+  updated TeX source; the rendered graph has readable paper-result, model,
+  partial-boundary, and reusable-library nodes without overlapping labels,
+  boxes, or arrows.
+- The DAG records the single SSGM theorem-shaped boundary, the Lean-proved
+  Theorem 3 constrained alternative, and the exact Theorem 3 full-space
+  recovery rather than presenting those as hidden paper assumptions.
 
-## 10. Conditional Results and Remaining Gaps
+## 10. Partially Formalized Results and Remaining Gaps
 - Theorem 1: conditional only on `assumption_ssgm_convergence_theorem`; the
   deterministic source case certificate is constructed from the visible paper
   hypotheses.
@@ -306,6 +242,13 @@ abstract paper theorem statement, not an abstract-field representation gap.
   one-dimensional `X = {0}` counterexample to the abstract theorem route.
 
 ## 11. Suspected Paper Issues or Inconsistencies
+- Theorem 3 appears to need an explicit feasibility condition for the aggregate
+  direction at a constrained limit point. In full space this condition is
+  automatic, and the formalization recovers the paper's stated conclusion; for
+  general constrained spaces, the formalized result is the weaker alternative
+  that either the aggregate directional field vanishes or the aggregate
+  direction is not feasible. This is recorded as a statement-level caveat, not
+  as a broader objection to the economic model.
 - Theorem 2 states `p > 0`, `q > 0` while using norm language. The Lean
   differentiability/subgradient route uses stricter convex differentiability
   hypotheses where needed.
@@ -354,20 +297,11 @@ abstract paper theorem statement, not an abstract-field representation gap.
   The approved `partial_boundary` axiom/premise remains intentional; there is
   no hidden-premise/source-record warning.
 
-## 13. Final Verdict
-Completion status: conditional.
+## 13. Closeout Status
 
-The GKGMM formalization is closed at the sampled projected finite-coordinate
-source-semantics boundary with no hidden aggregate-feasibility source premise.
-The only paper-local Lean axiom is the SSGM theorem bundle.  The proof-facing
-theorem
-`proof_finiteCoordinateILVFullProjectedPaperConsequences_of_fullSampledProjectedSourceSemantics`
-proves the represented named results from sampled projected source semantics
-plus that SSGM boundary where applicable.  The remaining conditional status is
-intentional: Theorem 1-2 and Propositions 1-2 still depend on the SSGM
-convergence theorem, and Theorem 3's exact original statement is recovered under
-the explicit full-space condition while the general constrained route is stated
-as the Lean-proved constrained alternative.
+- Completion status: partially formalized.
+- One-sentence recap: Only SSGM convergence remains as a reusable-library
+  boundary; Theorem 3 is handled by the constrained/full-space split above.
 
 ## 14. Paper-Facing Statement Validator Ledger
 The full generated validator ledger is stored at
@@ -391,11 +325,11 @@ human-only `human_review.reviewed_rows` counter.
 - Rendered DAG artifact: `DependencyDAG.pdf`.
 - Rendered/visual inspection evidence: the `DependencyDAG.pdf` layout was
   regenerated from `DependencyDAG.tex` and visually inspected for readable
-  paper-result, model, conditional-boundary, and reusable-library nodes without
-  overlapping labels.
-- The DAG records the single SSGM theorem-shaped boundary and the conditional
-  Theorem 3 full-space/source-semantics route rather than presenting those as
-  hidden paper assumptions.
+  paper-result, model, partial-boundary, and reusable-library nodes without
+  overlapping labels, boxes, or arrows.
+- The DAG records the single SSGM theorem-shaped boundary, the Lean-proved
+  Theorem 3 constrained alternative, and the exact Theorem 3 full-space
+  recovery rather than presenting those as hidden paper assumptions.
 
 ## 16. Validation Commands
 - `lake build GKGMM19IterativeLocalVoting`: passed.

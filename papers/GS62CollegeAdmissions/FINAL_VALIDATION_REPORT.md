@@ -2,17 +2,10 @@
 
 ## 1. Human Verdict
 
-- Lean formalization status: formalized
-- Human dashboard review status: 0/7 rows reviewed; 0 stale; 0 mismatches.
-- Human summary: This only uses a few lines of code as its infrastructure has largely been elevated to the shared matching library.
-
-<!-- transitive-source-premise-audit:start -->
-### Lean Axiom And Premise Audit
-
-The paper-facing interface passes the Lean-native axiom-closure audit. `#print axioms` on each dashboard row reports no unapproved proof debt; theorem rows use only the standard Lean foundations `propext`, `Classical.choice`, and `Quot.sound`, while definition rows have no axioms. The dashboard-expanded statements expose no remaining certificate/source-row assumptions.
-
-Current result: the Gale-Shapley existence, college-admissions existence, and applicant-optimality rows are closed. The deferred-acceptance invariant, termination, stability, and optimality facts they use are proved internally in the shared matching library rather than assumed by the paper interface.
-<!-- transitive-source-premise-audit:end -->
+Formalized. The Gale-Shapley existence, college-admissions existence, and
+applicant-optimality results are checked using the shared matching library. No
+paper-correctness caveat is reported. No human dashboard sign-off has been
+recorded.
 
 ## 2. Source and Scope
 
@@ -176,7 +169,8 @@ Summary: 7 rows; 7 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar rows
 Flagged rows:
 - None.
 
-## 15. Final Verdict
+## 15. Closeout Status
 
 - Completion status: formalized.
-- Summary: This only uses a few lines of code as its infrastructure has largely been elevated to the shared matching library.
+- One-sentence recap: The GS62 paper endpoints are checked using the shared
+  matching library.

@@ -7,7 +7,7 @@ Terminology rule: in this repository, a paper/result that is verified by Lean is
 called `formalized`. Do not use `Verified in Lean` as a separate status label;
 Lean verification is the mechanism, not a distinct paper-status category.
 
-Allowed paper-row statuses:
+Allowed public paper-row statuses:
 
 - `formalized`: The listed Lean declaration(s) close the intended paper item.
   The remaining-assumptions cell must be `None` or start with `None;` followed
@@ -24,16 +24,14 @@ Allowed paper-row statuses:
   broader abstraction outside the paper model; mark the paper theorem
   `formalized` and record the overbroad target as a scope note. DAG style:
   `dag_caveat`.
-- `partially formalized`: Substantial definitions, helper lemmas, or finite
-  analogues are formalized, but the full source item is not closed. DAG style:
-  `dag_partial`.
-- `conditional`: A paper-facing statement or reduction is proved only under an
-  explicit extra certificate, bridge theorem, or hypothesis not yet discharged.
-  A capacity equation, threshold identity, density formula, source row,
-  selection-mass expression, or certificate field is conditional unless it is
-  derived in Lean or separately validated as an explicit source/model
-  assumption.
-  DAG style: `dag_conditional`.
+- `partially formalized`: Substantial definitions, helper lemmas, finite
+  analogues, or boundary-dependent variants are formalized, but the full source
+  item is not closed. Use this public status for results that remain conditional
+  on an explicit extra certificate, bridge theorem, external theorem, or
+  hypothesis not yet discharged; name that boundary in the notes rather than
+  using `conditional` as a separate public status label. DAG style:
+  `dag_partial`, with `dag_conditional` reserved for visual boundary/certificate
+  nodes when useful.
 - `scaffold`: Names, interfaces, or theorem shells exist, but no substantive
   source proof has been closed. DAG style: `dag_scaffold`.
 - `not started`: No meaningful Lean artifact exists yet for the paper item.

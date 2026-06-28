@@ -2,19 +2,10 @@
 
 ## 1. Human Verdict
 
-- Lean formalization status: formalized
-- LLM statement-translation audit: 17/17 dashboard rows match; 0 stale, missing, uncertain, or mismatch rows.
-- Human dashboard review status: 10/17 rows have saved human review entries; 0 stale entries; 0 human mismatches.
-- Human review notes: 8 reviewed rows were marked matching. Two reviewed rows were marked uncertain because the human review depends on trusting shared-library predicates (`EconCSLib.Statistics.JensenConvex` and `EconCSLib.Statistics.GlobalMinAt`).
-- Human summary: Formalization required an interior-quality assumption (`0 < q_v < 1`) for the strict variance-decrease statement.
-
-<!-- transitive-source-premise-audit:start -->
-### Axiom, Premise, And Source-Hygiene Audit
-
-The current axiom/premise/source-hygiene audit passes for full-status provenance. It uses Lean-native #print axioms for transitive proof debt, expanded paper-facing signatures for visible premises, and source-assumption ledgers for any non-derived assumptions.
-
-Current result: the axiom/premise/source-hygiene audit finds no unresolved certificate/source-boundary dependency for the current paper-facing status; the documented MBJG caveat is the interior-quality condition for the strict variance-decrease statement. The former zero-denominator proof condition is derived in Lean and is no longer a caveat.
-<!-- transitive-source-premise-audit:end -->
+Formalized with a documented caveat. The strict variance-decrease statement
+uses the interior-quality condition that qualities lie strictly between zero and
+one. No unresolved zero-denominator caveat remains. Human dashboard review has
+saved entries for 10 of 17 rows, with no stale entries or human mismatches.
 
 ## 2. Source and Scope
 
@@ -99,10 +90,11 @@ Human-review flags:
 - Human reviewer marked `paper_facing_theorem3_2_squared_bias_global_min_at_prior_mean` uncertain because this requires trusting or auditing `EconCSLib.Statistics.GlobalMinAt`.
 - All saved human-review entries are current with respect to the dashboard statement hashes.
 
-## 12. Final Verdict
+## 12. Closeout Status
 
 - Completion status: formalized.
-- Summary: The core mathematical results of the Prior-Weighted Rating System Design paper (Theorems 3.1 and 3.2) are formalized in Lean. A boundary bug in the strictness of the variance-decrease clause was identified and corrected with an interior-quality assumption. The LLM statement-translation audit is current and all-match. The human dashboard review is partially complete and records a remaining review policy question about shared-library predicates (`JensenConvex` and `GlobalMinAt`).
+- One-sentence recap: Theorems 3.1 and 3.2 are checked, with the strict
+  variance-decrease caveat handled by the interior-quality condition.
 
 ## 13. Paper Definitions Checked
 

@@ -2,28 +2,11 @@
 
 ## 1. Human Verdict
 
-- Lean formalization status: formalized.
-- Human dashboard review status: 0/18 rows reviewed; 0 stale; 0 mismatches.
-- LLM statement-translation audit: 18/18 rows match.
-- Human summary: Formalizes the SODA paper; Theorem 8.2 uses the
-  refined monotone-auction wording from the journal version.
-- Paper correctness verdict: no inconsistency is reported for the formalized
-  target. The source-version note is that preliminary Section 8.2 wording is
-  broader than the later journal theorem; this folder uses the journal
-  monotone-auction statement for Theorem 8.2.
-- Qualitative proof verdict: the formalization follows the SODA paper's section
-  structure, with Theorem 8.2 checked against the journal refinement. The
-  theorem-domain premises that remain visible are routed through
-  `Assumptions.lean` and validated as source assumptions rather than hidden
-  proof certificates.
-
-<!-- transitive-source-premise-audit:start -->
-### Axiom, Premise, And Source-Hygiene Audit
-
-The current axiom/premise/source-hygiene audit passes for full-status provenance. It uses Lean-native #print axioms for transitive proof debt, expanded paper-facing signatures for visible premises, and source-assumption ledgers for any non-derived assumptions.
-
-Current result: no unresolved hidden source-row or certificate premise remains in the paper-facing review surface.
-<!-- transitive-source-premise-audit:end -->
+Formalized. The report covers the SODA paper's competitive-auction results,
+with Theorem 8.2 stated using the later journal version's monotone-auction
+refinement. No inconsistency is reported for the formalized target; the source
+version distinction is documented below. No human dashboard sign-off has been
+recorded.
 
 ## 2. Source and Scope
 
@@ -210,12 +193,8 @@ retains the preliminary wording only as provenance/audit material.
 - `latexmk -pdf -interaction=nonstopmode -halt-on-error
   garg_econcslib_2026.tex`: passed in the workshop paper folder.
 
-## 15. Final Verdict
+## 15. Closeout Status
 
-Completion status: formalized.
-
-Summary: The folder formalizes the SODA paper. Theorem 8.2 uses the refined
-monotone-auction wording from the journal version, and Theorem 9.3's
-deterministic set-of-bids source convention is explicit and validated as a
-paper model assumption. This is not a full inventory of all named results in
-the 2006 journal article.
+- Completion status: formalized.
+- One-sentence recap: The SODA digital-goods results are checked, with Theorem
+  8.2 using the later journal monotone-auction refinement.

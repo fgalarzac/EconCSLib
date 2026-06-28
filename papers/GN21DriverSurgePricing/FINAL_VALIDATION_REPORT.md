@@ -2,38 +2,11 @@
 
 ## 1. Human Verdict
 
-- Lean formalization status: formalized
-- Human dashboard review status: 0/24 rows reviewed; 0 stale; 0 mismatches.
-- Main caveat: none for the named paper-facing results.  Theorem 3 is stated
-  on the denominator-valid defined-reward domain used by the Appendix D
-  reward-rate formulas; broader totalized real-division behavior at zero
-  denominators is audit-only.
-
-The GN21 driver-surge paper has compiling paper-facing definitions and named
-result endpoints represented in `PaperInterface.lean`.  The current strict
-provenance audit reports no unresolved hidden source-row or certificate
-premise.  Human dashboard review is still external; the dashboard should
-currently show `0/24` rows reviewed until a human reviewer saves those rows.
-
-The formalization did not find a false main theorem.  It did make one implicit
-domain convention explicit: Appendix D reward rates divide by accepted-trip
-mass/time quantities.  The compact paper-facing Theorem 3 row therefore uses
-`DynamicDefinedReward.of_total`, so policies are compared exactly where the
-paper's reward-rate expressions are defined.  Separate obstruction lemmas record
-why a broader totalized real-valued division shortcut would need extra
-hypotheses, but that shortcut is not part of the named Theorem 3 endpoint.
-
-Lean footprint: the paper folder contains 142,478 lines of paper-local Lean
-code across 13 `.lean` files.  The human-review surface is deliberately much
-smaller: `PaperInterface.lean` is 379 lines and exposes 24 dashboard rows.
-
-<!-- transitive-source-premise-audit:start -->
-### Axiom, Premise, And Source-Hygiene Audit
-
-The current axiom/premise/source-hygiene audit passes for full-status provenance. It uses Lean-native #print axioms for transitive proof debt, expanded paper-facing signatures for visible premises, and source-assumption ledgers for any non-derived assumptions.
-
-Current result: no unresolved hidden source-row or certificate premise remains in the paper-facing review surface.
-<!-- transitive-source-premise-audit:end -->
+Formalized. The named driver-surge results are checked, with Theorem 3 stated
+on the denominator-valid reward-rate domain used by Appendix D. No false main
+theorem is reported; the only caveat is that zero-denominator totalized
+division shortcuts are kept out of the named theorem. No human dashboard
+sign-off has been recorded.
 
 ## 2. Source and Scope
 
@@ -367,24 +340,8 @@ assumption-provenance rows. The row-local statement match lane is clean, but it
 does not certify theorem-premise provenance; that is handled by the strict
 assumption audit above.
 
-## 15. Final Verdict
-
-### Final Status
-
-Lean formalization: formalized. The represented paper-facing
-definitions and named results compile, and explicit proof premises are
-source-matched, source-derived, or listed as explicit paper/local-calculus
-conditions in the assumption ledger. The Lemma 6 derivative formula has been
-strengthened so endpoint-density positivity is no longer a theorem premise; it
-appears only as the conditional hypothesis for strict sign transfer. Lemmas 9
-and 10 now use interval-density source wrappers that construct the derivative
-data internally.
-
-Human validation: pending.  The next step is dashboard review of the 24
-`PaperInterface.lean` rows, not more Lean proof work.
+## 15. Closeout Status
 
 - Completion status: formalized.
-- Summary: Named CTMC lemmas and Theorems 1--4 are exposed and compile, with
-  explicit premises source-matched, source-derived, or recorded as explicit
-  paper/local-calculus conditions. The current strict provenance audit reports
-  no hidden source-row or certificate boundary in the paper-facing surface.
+- One-sentence recap: The named CTMC lemmas and Theorems 1-4 are checked on the
+  source-facing reward-rate domain.

@@ -160,11 +160,10 @@ is closed and the remaining assumptions cell is `None`.
 Keep the dashboard surface small: one row per paper-facing definition or named
 result, not every helper theorem, certificate, or proof-route alias.
 
-Use the controlled status vocabulary from `../../docs/STATUS.md`:
-`formalized`, `formalized with caveat`, `partially formalized`, `conditional`,
-`scaffold`, `not started`, and `not formalized`. Keep detailed caveats,
-remaining certificates, or proof-route notes in the final column rather than in
-the status cell.
+Use the controlled status vocabulary from `../../docs/STATUS.md`. Public-facing
+rows should use `partially formalized` for results that still depend on an
+external theorem, certificate, or proof boundary, and should name that boundary
+in the final column rather than using `conditional` as a separate status label.
 Keep theorem/table content synchronized with `DependencyDAG.tex` node styles and
 `MainTheorems.lean` declarations before marking a row `formalized`. Keep
 `status.json` as the source of truth for review rows, artifact paths, and the
@@ -544,7 +543,7 @@ def dag_text() -> str:
 
 \node[dag_conditional] (Bridge) at (6.4,-7.4) {
   \textbf{Bridge Theorem} \\
-  Conditional paper-facing reduction
+  Boundary-dependent paper-facing reduction
 };
 \node[dag_unformalized] (Open) at (12.8,-7.4) {
   \textbf{Open Source Result} \\
@@ -829,11 +828,8 @@ def final_validation_report_text(title: str, folder: str) -> str:
     return f"""# Final Validation Report: {title_text}
 
 ## 1. Human Verdict
-- Lean formalization status: not started
-- Human dashboard review status: 0 reviewed, 0 stale, 0 mismatches
-- Paper correctness verdict: not assessed
-- Qualitative proof verdict: not assessed
-- Lean footprint: not measured
+Not started. No formalization or paper-correctness assessment has been
+completed yet, and no human dashboard sign-off has been recorded.
 
 ## 2. Source and Scope
 - Paper: <title>
@@ -842,6 +838,7 @@ def final_validation_report_text(title: str, folder: str) -> str:
 - Human-facing theorem file: `papers/{folder}/PaperInterface.lean`
 - Paper assumption file: `papers/{folder}/Assumptions.lean`
 - DAG artifacts: `papers/{folder}/DependencyDAG.tex`, `papers/{folder}/DependencyDAG.pdf`
+- Lean footprint: not measured
 
 ## 3. What Has Been Proven
 None yet.
@@ -868,28 +865,24 @@ as a true paper/source model assumption.
 ## 8. Library Lift Pass
 - Reusable library extraction candidates: None
 - Library certificate/source-boundary audit: not run. Before a completion
-  claim, run `python3 scripts/audit_repository.py --library-only --library-premise-audit` and
-  confirm any certificate-taking library APIs used by paper wrappers are
-  constructed internally, validated as paper assumptions, or listed as partial
-  boundaries. This audit follows transitive helper chains, not only direct
-  aliases.
+  claim, summarize whether certificate-taking library APIs used by paper
+  wrappers are constructed internally, validated as paper assumptions, or listed
+  as partial boundaries.
 - Paper-local hidden-premise audit: not run. The default repository audit should
-  report no reviewed row that recursively depends on a local helper with an
-  unvalidated certificate, source-row equation, hidden hypothesis, or other
-  proof-boundary premise.
+  be summarized before closeout, including any unresolved broad rows,
+  source-row formula boundaries, hidden premises, or transitive library
+  certificate findings.
 - Recursive provenance closeout report: not run. Before a completion claim,
-  run `python3 scripts/audit_repository.py --include-active --library-premise-audit --info-limit 0 --write-report docs/RECURSIVE_PROVENANCE_AUDIT_<date>.md`
-  and confirm this paper has no unresolved broad/opaque row, source-row formula
-  boundary, paper-local hidden premise, or transitive library certificate
-  finding. If a finding remains, record it here and mark the endpoint
-  partial/conditional.
+  summarize whether this paper has any unresolved recursive provenance finding.
+  If a finding remains, record it here and mark the endpoint partially
+  formalized.
 
 ## 9. DAG Audit
 - Rendered artifact: not checked
 - Topology: not checked
 - Layout: not checked
 
-## 10. Conditional Results and Remaining Gaps
+## 10. Partially Formalized Results and Remaining Gaps
 - All named results remain open.
 
 ## 11. Suspected Paper Errors or Inconsistencies
@@ -903,10 +896,13 @@ as a true paper/source model assumption.
   used or when preparing a public PR. The repository audit must also be clean of
   axiom-like declarations, stale final-report placeholders, missing
   `DependencyDAG.pdf`, and unrecorded DAG visual-inspection evidence.
+- Machine-required closeout evidence may include the exact targeted repository
+  audit command here, but keep commands out of the executive verdict and proof
+  narrative.
 
-## 13. Final Verdict
+## 13. Closeout Status
 - Completion status: not formalized
-- Summary: Scaffold only.
+- One-sentence recap: Scaffold only.
 
 ## 14. Paper Definitions Checked
 - None yet.
@@ -921,9 +917,8 @@ as a true paper/source model assumption.
 **Status.** not formalized.
 
 ## 16. Paper-Facing Statement Validator Ledger
-This table is one row per dashboard/PaperInterface row. Regenerate it with:
-
-`python3 scripts/review_dashboard.py --paper {folder} --export-format validators-md`
+This table is one row per dashboard/PaperInterface row. Generate it from the
+validator ledger rather than from memory.
 
 | Paper-facing statement | Lean declaration | Validators | Validator comments |
 | --- | --- | --- | --- |

@@ -35,12 +35,12 @@ declaration in `Assumptions.lean`, listed in `status.json`
 `review_surface.assumption_names`, and checked by `assumption_match_llm.json`
 as a true paper/source model assumption.
 
-Use the controlled status vocabulary from `../../docs/STATUS.md`:
-`formalized`, `formalized with caveat`, `partially formalized`, `conditional`,
-`scaffold`, `not started`, and `not formalized`. Keep detailed caveats,
-remaining certificates, or proof-route notes in the final column rather than in
-the status cell. Keep `status.json` as the source of truth for review rows,
-artifact paths, and the paper's top-level public status, then run
+Use the controlled status vocabulary from `../../docs/STATUS.md`. Public-facing
+rows should use `partially formalized` for results that still depend on an
+external theorem, certificate, or proof boundary, and should name that boundary
+in the final column rather than using `conditional` as a separate status label.
+Keep `status.json` as the source of truth for review rows, artifact paths, and
+the paper's top-level public status, then run
 `python3 scripts/sync_paper_status.py` from the repository root.
 
 At the start of the paper, run the smaller statement target-setting pass before

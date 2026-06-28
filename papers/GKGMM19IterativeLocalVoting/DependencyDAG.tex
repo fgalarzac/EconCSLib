@@ -25,7 +25,7 @@
 \begin{tikzpicture}[
   x=1cm,
   y=1cm,
-  every node/.append style={outer sep=4pt}
+  every node/.append style={outer sep=4pt, font=\sffamily\normalsize}
 ]
 
 \dagPaperMetadata{Iterative Local Voting for Collective Decision-making in Continuous Spaces}{N. Garg, V. Kamble, A. Goel, D. Marn, K. Munagala}{JAIR 64:315--355}{2019}{https://doi.org/10.1613/jair.1.11358}
@@ -37,83 +37,70 @@
 \node[dag_model, dag_template_legend] (legDef) at (8.4,0) {formalized\\definition};
 \node[dag_caveat_legend] (legCav) at (12.6,0) {formalized\\with caveat};
 \node[dag_partial, dag_template_legend] (legPart) at (0,-2.6) {partially\\formalized};
-\node[dag_conditional, dag_template_legend] (legCond) at (4.2,-2.6) {conditional};
-\node[dag_scaffold, dag_template_legend] (legScaf) at (8.4,-2.6) {scaffold};
-\node[dag_unformalized, dag_template_legend] (legNot) at (12.6,-2.6) {not started /\\not formalized};
+\node[dag_scaffold, dag_template_legend] (legScaf) at (4.2,-2.6) {scaffold};
+\node[dag_unformalized, dag_template_legend] (legNot) at (8.4,-2.6) {not started /\\not formalized};
 }
-\daglegend{(legRes)(legLem)(legDef)(legCav)(legPart)(legCond)(legScaf)(legNot)}{Legend}
+\daglegend{(legRes)(legLem)(legDef)(legCav)(legPart)(legScaf)(legNot)}{Legend}
 
 \begin{dagPaperBody}
 
-\node[dag_model] (C123) at (0,-4.2) {
+\node[dag_model] (C123) at (0,-4.4) {
   \textbf{C1--C3 / Algorithm 1} \\
   Convex bounded space, unique ideals, bounded density, radius $r_0/t$
 };
-\node[dag_model] (UtilityDefs) at (6.4,-4.2) {
+\node[dag_model] (UtilityDefs) at (8.4,-4.4) {
   \textbf{Definitions 1--3} \\
-  $L^p$ utilities, weighted Euclidean utilities, decomposable utilities
+  $L^p$, weighted Euclidean, and decomposable utility classes
 };
-\node[dag_lemma] (FiniteNorms) at (12.8,-4.2) {
-  \textbf{Finite-Norm / Recurrence Layer} \\
-  $L^p/L^q$ gradients, subgradients, projections, SSGM shape
-};
-
-\node[dag_partial] (SmallRegion) at (0,-7.6) {
-  \textbf{Lemmas 1, 2, 4} \\
-  Null reductions formalized; small-region estimates are boundary inputs
-};
-\node[dag_unformalized] (SSGM) at (6.4,-7.6) {
-  \textbf{Single SSGM / Certificate Boundary} \\
-  Source-to-input, C3 interpretation, stochastic convergence
-};
-\node[dag_lemma] (DualGradient) at (12.8,-7.6) {
-  \textbf{Lemma 3} \\
-  Holder-dual gradient norm, derivative, subgradient bridge
+\node[dag_lemma] (FiniteSupport) at (16.8,-4.4) {
+  \textbf{Finite Analytic Support} \\
+  Lemma 3, finite norms, gradients, projections, sampled traces
 };
 
-\node[dag_conditional] (Thm1) at (0,-11.0) {
-  \textbf{Theorem 1} \\
-  $L^p$ utilities, Model A/B, three dual cases converge to SO
+\node[dag_partial] (SourceSemantics) at (0,-10.0) {
+  \textbf{Finite-Coordinate Source Semantics} \\
+  Lemmas 1, 2, 4 and theorem-specific source records made explicit
 };
-\node[dag_conditional] (Thm2) at (6.4,-11.0) {
-  \textbf{Theorem 2} \\
-  Model B finite Holder-dual norms converge to SO
+\node[dag_unformalized] (SSGM) at (8.4,-10.0) {
+  \textbf{SSGM Convergence Theorem} \\
+  Remaining reusable-library stochastic subgradient proof
 };
-\node[dag_conditional] (Prop1) at (12.8,-11.0) {
-  \textbf{Proposition 1} \\
-  Weighted Euclidean utilities, $L^2$ neighborhoods converge to SO
+\node[dag_result] (Theorem3Drift) at (16.8,-10.0) {
+  \textbf{Theorem 3 Drift Argument} \\
+  Projected global-tail update and finite-directional-field contradiction
 };
 
-\node[dag_conditional] (Prop2) at (3.2,-14.4) {
-  \textbf{Proposition 2} \\
-  Decomposable utilities, $L^\infty$ neighborhoods converge to medians
+\node[dag_partial, text width=9.2cm, minimum width=9.8cm] (SSGMEndpoints) at (4.2,-16.0) {
+  \textbf{Theorems 1--2 and Propositions 1--2} \\
+  Convergence endpoints are derived from explicit source semantics
+  plus the reusable-library SSGM theorem
 };
-\node[dag_partial] (Drift) at (9.6,-14.4) {
-  \textbf{Theorem 3 Escape Boundary} \\
-  Selected finite-dot concentration plus projected trace facts remain;
-  slack is trace-derived residual geometry
+\node[dag_result] (Thm3Constrained) at (15.6,-16.0) {
+  \textbf{Theorem 3 Constrained Alternative} \\
+  Projected convergence gives $G(x^*)=0$ or no aggregate feasible direction
 };
-\node[dag_conditional] (Thm3) at (9.6,-17.8) {
+\node[dag_caveat, text width=4.8cm, minimum height=2.25cm] (Thm3Full) at (15.6,-21.2) {
   \textbf{Theorem 3} \\
-  Any convergent Model B/$L^2$ trajectory reaches directional equilibrium
+  Original endpoint under explicit full-space condition
+};
+\node[dag_partial, text width=9.2cm, minimum width=9.8cm] (PaperStatus) at (4.2,-21.2) {
+  \textbf{Paper Status} \\
+  Partially formalized: only the reusable-library SSGM convergence theorem remains
 };
 
-\draw[dag_arrow] (C123) -- (SmallRegion);
-\draw[dag_arrow] (C123) -- (SSGM);
-\draw[dag_arrow] (C123) -- (Drift);
-\draw[dag_arrow] (UtilityDefs) -- (SmallRegion);
-\draw[dag_arrow] (UtilityDefs) -- (DualGradient);
-\draw[dag_arrow] (UtilityDefs) -- (Prop1);
-\draw[dag_arrow] (FiniteNorms) -- (SmallRegion);
-\draw[dag_arrow] (FiniteNorms) -- (DualGradient);
-\draw[dag_dashed_arrow] (SmallRegion) -- (Thm1);
-\draw[dag_dashed_arrow] (SSGM) -- (Thm1);
-\draw[dag_dashed_arrow] (SSGM) -- (Thm2);
-\draw[dag_dashed_arrow] (DualGradient) -- (Thm2);
-\draw[dag_dashed_arrow] (SmallRegion) -- (Prop1);
-\draw[dag_dashed_arrow] (SSGM) -- (Prop1);
-\draw[dag_dashed_arrow] (Thm1) -- (Prop2);
-\draw[dag_dashed_arrow] (Drift) -- (Thm3);
+\draw[dag_arrow] (C123) -- (SourceSemantics);
+\draw[dag_arrow] (UtilityDefs.south west) -- (SourceSemantics.north east);
+\draw[dag_arrow] (UtilityDefs) -- (SSGM);
+\draw[dag_arrow] (FiniteSupport.south west) -- (SSGM.north east);
+\draw[dag_arrow] (FiniteSupport) -- (Theorem3Drift);
+\draw[dag_arrow] (C123.east) -- (UtilityDefs.west);
+\draw[dag_arrow] (UtilityDefs.east) -- (FiniteSupport.west);
+\draw[dag_arrow] (SourceSemantics.south east) -- (SSGMEndpoints.north west);
+\draw[dag_dashed_arrow] (SSGM.south) -- (SSGMEndpoints.north);
+\draw[dag_arrow] (Theorem3Drift) -- (Thm3Constrained);
+\draw[dag_arrow] (Thm3Constrained) -- (Thm3Full);
+\draw[dag_dashed_arrow] (SSGMEndpoints) -- (PaperStatus);
+\draw[dag_arrow] (Thm3Full.west) -- (PaperStatus.east);
 \end{dagPaperBody}
 \end{tikzpicture}
 \end{document}

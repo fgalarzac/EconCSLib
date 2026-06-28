@@ -2,60 +2,11 @@
 
 ## 1. Human Verdict
 
-- Lean formalization status: formalized.
-- Human dashboard review status: 0/16 rows reviewed; 0 stale; 0 mismatches.
-- Main caveat: none. The axiom/premise/source-hygiene audit records all
-  explicit source-model/domain premises as source-matched or source-derived,
-  and the refreshed dashboard cache exposes the mathlib-backed Gaussian
-  lower-tail instantiation rather than a hidden certificate premise.
-
-### Verdict
-
-The paper-facing statement surface is compact and covers all named definitions
-and results in Sections 2--4. Every non-derived source-model/domain premise is
-listed in `Assumptions.lean` and validated premise-by-premise in
-`assumption_match_llm.json`. The Gaussian lower-tail fact used by the observed
-access rows is instantiated from the shared mathlib-backed
-`standardGaussianLowerTailMeanCertificate`.
-
-All named definitions and named results in Sections 2--4 have compiling Lean
-endpoints in the compact human-review interface. The formalization did not find
-a counterexample to a named theorem in the paper. The current audit checks the
-target declarations reached by the dashboard aliases in `ProofInterface.lean`
-and confirms that their explicit source-model/domain premises are routed
-through the paper-local assumption ledger; no hidden certificate dependency is
-reported for the compact paper-facing surface.
-
-The existing proof work also identified two places where the informal source
-proof needs to be represented carefully:
-
-- continuous cutoff and tie cases should be stated as source-law or a.e.
-  equilibrium facts, since boundary types have measure zero;
-- arbitrary raw-policy abstractions are broader than the paper's source model
-  and can be false, so they are recorded only as diagnostics.
-
-Those are modeling repairs to the formal statement surface, not paper-error
-caveats.
-
-Human review is still external: the dashboard currently reports `0/16`
-reviewed interface items. The model statement-translation and statement-match
-sidecars are current for all 16 compact rows; human review remains a separate
-dashboard lane.
-
-### Lean Footprint
-
-- Paper-local Lean files: 127,936 total lines across nine modules.
-- `PaperInterface.lean`: 77 lines.
-- Human-review surface: 16 declarations.
-- `PostPaperAudit.lean`: 1,073 importable audit declarations.
-
-<!-- transitive-source-premise-audit:start -->
-### Axiom, Premise, And Source-Hygiene Audit
-
-The current axiom/premise/source-hygiene audit passes for full-status provenance. It uses Lean-native #print axioms for transitive proof debt, expanded paper-facing signatures for visible premises, and source-assumption ledgers for any non-derived assumptions.
-
-Current result: no unresolved hidden source-row or certificate premise remains in the paper-facing review surface.
-<!-- transitive-source-premise-audit:end -->
+Formalized. The report covers all named definitions and results in Sections
+2--4, with Gaussian tail facts supplied by the shared mathlib-backed library.
+No counterexample to a named theorem is reported; continuous cutoff and tie
+cases are handled as source-law or almost-everywhere statements. No human
+dashboard sign-off has been recorded.
 
 ## 2. Source and Scope
 
@@ -403,11 +354,8 @@ missing. Current statement sidecars are refreshed against the compact
 Flagged rows:
 - None.
 
-## 15. Final Verdict
+## 15. Closeout Status
 
 - Completion status: formalized.
-- Summary: The compact statement surface covers the paper. The statement
-  translation lane is current for all 16 rows, and the assumption-provenance
-  lane validates the compact-source premises. The Gaussian lower-tail rows use
-  the shared mathlib-backed standard Gaussian certificate, and the refreshed
-  audit reports no hidden certificate boundary on the paper-facing surface.
+- One-sentence recap: The compact statement surface covers the paper with
+  Gaussian tail support supplied by the shared library.

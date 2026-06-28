@@ -2,27 +2,10 @@
 
 ## 1. Human Verdict
 
-- Lean formalization status: formalized.
-- Human dashboard review status: 0/26 rows reviewed; 0 stale; 0 mismatches.
-- LLM statement-translation audit: 26/26 dashboard rows match; the 10
-  assumption-ledger rows also have current statement translations and
-  statement-judge entries.
-- Paper correctness verdict: no suspected paper error found.
-- Qualitative proof verdict: the Balance/MSVV structure, Section 6/8
-  extensions, and Theorem 9 lower-bound endpoint are exposed and compile. The
-  paper-facing formulas and final source-section endpoints pass the current
-  source-premise audit; certificate-heavy helper APIs remain internal proof
-  infrastructure rather than dashboard targets.
-- Lean footprint: 13,598 paper-local Lean lines, including 902 lines in
-  `PaperInterface.lean` and 26 dashboard review rows.
-
-<!-- transitive-source-premise-audit:start -->
-### Axiom, Premise, And Source-Hygiene Audit
-
-The current axiom/premise/source-hygiene audit passes for full-status provenance. It uses Lean-native #print axioms for transitive proof debt, expanded paper-facing signatures for visible premises, and source-assumption ledgers for any non-derived assumptions.
-
-Current result: no unresolved hidden source-row or certificate premise remains in the paper-facing review surface.
-<!-- transitive-source-premise-audit:end -->
+Formalized. The Balance/MSVV structure, Section 6 and 8 extensions, and
+Theorem 9 lower-bound endpoint are checked. No suspected paper error is
+reported, and helper certificates remain internal to the proof rather than
+paper-facing assumptions. No human dashboard sign-off has been recorded.
 
 ## 2. Source and Scope
 
@@ -128,14 +111,11 @@ None found.
 - `python3 scripts/review_dashboard.py --paper MSVV07AdWords --assumption-precheck`:
   10 assumption declarations; no missing, stale, or flagged provenance rows.
 
-## 12. Final Verdict
+## 12. Closeout Status
 
 - Completion status: formalized.
-- Summary: MSVV's paper-facing statement surface compiles, and the human review
-  surface now contains 26 curated paper-facing rows rather than the previous
-  39-row mixed surface. The approximation-accounting, state-invariant, and
-  factor-revealing LP certificate APIs remain as internal proof infrastructure,
-  not as unresolved paper-facing assumptions.
+- One-sentence recap: The Balance/MSVV, Section 6/8 extension, and Theorem 9
+  lower-bound endpoints are checked.
 
 ## 13. Paper Definitions Checked
 

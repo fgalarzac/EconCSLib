@@ -2,27 +2,9 @@
 
 ## 1. Human Verdict
 
-- Lean formalization status: formalized
-- Human dashboard review status: 0/7 rows reviewed; 0 stale; 0 mismatches.
-- Human summary: Fully formalized.
-
-- Lean formalization status: formalized.
-- Human dashboard review status: 0 reviewed rows, 0 stale rows, 0 mismatch rows, 8 total rows.
-- Paper correctness verdict: no source error identified; Lean records full finite ordinal rating support and derives the bottom/top atom support used by the finite-support lower-bound route.
-- Qualitative proof verdict: Lean exposes Theorem 1 as a source-facing
-  support-safe finite-rate endpoint from ordinal upper-tail dominance, monotone
-  scores, positive match rates, and full finite ordinal rating support. The
-  older all-real real-rate statement remains as a compatibility bridge for
-  stronger domain conventions, not as the canonical finite-support theorem.
-- Lean footprint: 7,027 paper-local Lean LOC, 2,940 `PaperInterface.lean` LOC, 8 curated review rows.
-
-<!-- transitive-source-premise-audit:start -->
-### Axiom, Premise, And Source-Hygiene Audit
-
-The current axiom/premise/source-hygiene audit passes for full-status provenance. It uses Lean-native #print axioms for transitive proof debt, expanded paper-facing signatures for visible premises, and source-assumption ledgers for any non-derived assumptions.
-
-Current result: no unresolved hidden source-row or certificate premise remains in the paper-facing review surface.
-<!-- transitive-source-premise-audit:end -->
+Formalized. Theorem 1 is checked for the finite ordinal rating support used by
+the paper, with the bottom/top atom conditions derived from that support. No
+source-paper error is reported. No human dashboard sign-off has been recorded.
 
 ## 2. Source and Scope
 
@@ -284,10 +266,8 @@ Flagged rows: none. The auxiliary proof-route lemma
 remains available internally but is no longer part of the paper-facing dashboard
 surface.
 
-## 15. Final Verdict
+## 15. Closeout Status
 
 - Completion status: formalized.
-- Summary: GJ18's finite model and Theorem 1 are exposed through the
-  support-safe threshold-rate minimum. Auxiliary real-rate wrappers remain for
-  stronger conventions, but the paper-facing finite-rating endpoint is closed
-  under the current provenance audit.
+- One-sentence recap: The finite rating model and Theorem 1 are checked through
+  the support-safe threshold-rate minimum.

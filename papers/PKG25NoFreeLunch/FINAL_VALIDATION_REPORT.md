@@ -1,11 +1,10 @@
 # Final Validation Report: A No Free Lunch Theorem for Human-AI Collaboration
 
 ## 1. Human Verdict
-- Lean formalization status: formalized
-- Human dashboard review status: 0 reviewed, 0 stale, 0 mismatches
-- Paper correctness verdict: main theorem proof checked; one minor source display uses loss notation while the surrounding text and proof use accuracy
-- Qualitative proof verdict: source proof reproduced with finite calibrated settings and explicit mixtures
-- Lean footprint: `PaperInterface.lean` has 71 lines and 6 paper-facing rows
+Formalized. The main theorem proof is checked for finite calibrated settings
+and explicit mixtures. No major paper-correctness issue is reported; one minor
+display uses loss notation where the surrounding text and proof use accuracy.
+No human dashboard sign-off has been recorded.
 
 ## 2. Source and Scope
 - Paper: *A No Free Lunch Theorem for Human-AI Collaboration*
@@ -92,6 +91,7 @@ human-only `human_review.reviewed_rows` counter.
 - Lean axiom checks for `reliableFinite_exists_defers_away`, `reliableFinite_constant_on_half`, `main_no_free_lunch_finite`, `reliableFinite_of_reliable`, `main_no_free_lunch`, and `theorem_main_no_free_lunch` report only the ordinary Lean/Classical base axioms `propext`, `Classical.choice`, and `Quot.sound`.
 - `python3 scripts/review_dashboard.py --paper PKG25NoFreeLunch --statement-check` reports six current Lean-to-TeX drafts, six statement-judge rows, and no missing/stale/flagged items.
 
-## 15. Final Verdict
-- Completion status: formalized
-- Summary: The main no-free-lunch theorem is proved from explicit finite calibrated collaboration settings, including the linear-combination construction, Proposition 1, Proposition 2, and the final non-collaboration conclusion.
+## 15. Closeout Status
+- Completion status: formalized.
+- One-sentence recap: The main no-free-lunch theorem is checked for finite
+  calibrated collaboration settings.

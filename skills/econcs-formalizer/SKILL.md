@@ -227,6 +227,11 @@ than a code exception. This audit reduces hidden-premise and generic-code
 drift, but it still does not prove source formulas correct by itself; do the
 outside-Lean formula sanity pass and derive formula-bearing claims from
 primitives whenever possible.
+Shared-library comments and docstrings are part of this generic surface: do
+not describe reusable results as "Theorem 1", "Lemma 2", or by a paper ID even
+when the result was extracted for a paper. Use paper-neutral mathematical
+language such as "finite-product likelihood factorization" and leave the
+paper-number crosswalk in the paper folder, final report, or status metadata.
 
 Unless told otherwise, you do not have a time limit; keep going until you reach
 the requested stopping condition or a clean theorem/compile boundary. Run the
@@ -600,12 +605,24 @@ generated table/doc refreshes until a named paper result closes, a status note
 changes, a final report/handoff is prepared, or the user explicitly asks. If
 README/docs/site/table text is wrong, fix the paper-local `status.json` and
 rerun the sync script at that milestone.
+Keep `sync_paper_status.py` metadata-only and fast by default. It should not
+import dashboard code, run Lean previews, refresh LLM sidecars, or perform
+closeout checks unless an explicit opt-in flag such as `--dashboard-audit` is
+used. CI should run `scripts/sync_paper_status.py --check` as an early source
+check; if that step times out or fails before Lean, first suspect stale
+generated status or an accidental slow import in the sync path, not a proof
+failure.
 Use `human_summary` for the short public-facing note in generated tables.
 Formalized papers should usually have an empty summary; add text only for a
 reader-relevant source-version, proof-route, or caveat note. Human-review counts
 mean saved dashboard rows by a human reviewer: `reviewed_rows / total_rows`.
 Agent source audits, validation reports, and compile checks do not increment
 human review.
+For a partial or conditional public entry, make `human_summary` one concise
+sentence: name the paper-facing results already closed and the exact remaining
+external/library/model certificate. Avoid Lean declaration names, helper-layer
+names, route history, and process words; a reader should understand the status
+from the source theorem labels and the mathematical boundary alone.
 If `status.json` includes `human_summary_review.status = "human_approved"` or
 `"human_written"`, preserve the summary verbatim unless a human explicitly asks
 for that summary to be edited. Automation may require a nonempty summary for
@@ -1165,6 +1182,12 @@ Think of the repository as having two distinct roles: **`EconCSLib` is the textb
   paper folders, and the relevant `lake build` targets before pushing. When the
   filtered branch is approved, fast-forward public `main` to that audited
   commit rather than redoing the merge from private.
+  If public or private CI fails in the status aggregate step before Lean, treat
+  it as a generated-status consistency failure: rerun
+  `scripts/sync_paper_status.py --check` in the exact checkout whose CI failed,
+  regenerate status there if needed, commit the generated outputs from that
+  checkout, and push. Do not copy aggregate tables across the private/public
+  split or infer a theorem/proof failure from a pre-Lean status check.
 - Before moving work from a private incubator into the public repository, run a
   release-hygiene pass. Public commits should not contain source-paper PDFs,
   extracted source-paper `.txt` caches, unpacked publisher/arXiv source
@@ -1795,6 +1818,12 @@ the Lean statements against the paper.
   The assumption precheck may count those named `conditional_premises` as
   accepted conditional-premise findings; do not treat unlisted hidden premises
   as covered by the boundary.
+  If only prompt/audit code changed and the Lean/source statements are
+  unchanged, refresh the digest metadata from the current checkout and keep the
+  validator judgments verbatim only after confirming the normalized source
+  statement, Lean declaration text, and boundary metadata are identical. Never
+  rewrite a `mismatch` or `uncertain` to `matches` merely because a digest or
+  prompt version changed.
 - Command recipe: use `--statement-precheck` or `--statement-check` for the
   beginning-of-paper target-setting pass; use `--precheck` or `--check` for the
   full review-boundary pass. The statement-only commands intentionally ignore
@@ -1947,6 +1976,14 @@ the Lean statements against the paper.
     theorem names, or citation keys in DAG node text. Labels such as
     `thm:...`, `lem:...`, and `source_...` belong in `PaperInterface.lean`,
     README rows, audit ledgers, or final reports, not in the visual DAG.
+    Before accepting a DAG, mechanically scan the node text for `\texttt`,
+    underscores, CamelCase record/theorem identifiers, and Lean-style prefixes
+    such as `theorem1_`; any remaining instance must be paper notation rather
+    than an implementation name. Treat this as a closeout audit requirement,
+    not a cosmetic preference. If the DAG communicates through Lean function
+    names, certificate type names, or implementation route labels, the paper is
+    not public-ready until the DAG is rewritten in source-paper language and
+    rerendered.
   - **Closed theorem text stays short:** Once a theorem is closed, the theorem
     node should describe the source theorem's statement, not the Lean proof
     machinery that closed it. Do not fill a closed theorem box with internal
@@ -2783,6 +2820,11 @@ pass:
     and long declaration fragments; count occurrences of each numbered
     result header; and visually confirm every green result node states the
     paper-facing conclusion rather than the implementation route.
+    Run this DAG audit as part of the post-formalization closeout command path.
+    Do not wait for a human to ask whether the DAG and validation report satisfy
+    the workflow; if the paper is being claimed complete or public-ready, the
+    DAG, rendered PDF, status rows, and final report must already have passed
+    this paper-facing audit.
   - Use the shared DAG template's node-type styles, not just status color:
     `dag_model` for definitions/model layers, `dag_lemma` for lemmas/supporting
     lemma clusters, and `dag_result` for theorems, propositions, corollaries,
@@ -2883,6 +2925,39 @@ pass:
   instead. If the report is getting long because it lists every helper theorem,
   stop and replace that section by a short paper-definition/theorem interface
   plus one main declaration name for each paper-facing theorem or definition.
+- The report should read top-down for a researcher who cares about the paper,
+  not Lean. Put the human verdict and paper-facing theorem status first; put
+  validation evidence, audit commands, row counts, generated ledgers, and proof
+  plumbing near the end. Do not place hidden-premise audit blocks, command
+  transcripts, or validator ledgers between `Human Verdict` and `Source and
+  Scope`.
+- Avoid repetition. Do not include both a long top verdict and a long final
+  verdict saying the same thing. If a closeout audit needs a machine-readable
+  status line, put a short `Completion status: ...` line in a final
+  `Closeout Status` section and keep the explanation in `Human Verdict`.
+- The `Human Verdict` section must be a two-to-four sentence executive summary
+  for a non-Lean reader. It should state the formalization status, the main
+  remaining mathematical/library boundary if any, whether a paper-correctness
+  issue is being claimed, and whether human dashboard sign-off exists. Do not
+  put Lean declaration names, validator row counts, audit digests, source-record
+  inventories, command outputs, proof adapter names, or Lean footprint numbers
+  in this section; put those details in the later source, assumption, DAG,
+  statement-validator, and validation-command sections.
+- The `Proof-Strategy Deviations` section is only for human-facing
+  mathematical departures from the paper's proof route or theorem statement.
+  Do not list source-record packages, deterministic certificate plumbing, proof
+  adapter names, declaration inventories, audit architecture, dashboard parser
+  changes, or other Lean implementation route notes there. If the only
+  differences are explicit formalization boundaries, say `None beyond the
+  formalization boundaries already recorded above` and point to the assumptions
+  or remaining-gaps sections.
+- Put theorem-statement caveats, missing hypotheses, duplicated case labels,
+  ambiguous definitions, sign-convention inconsistencies, or other possible
+  source-paper issues in `Suspected Paper Issues or Inconsistencies`, even when
+  they are already reflected in the DAG or remaining-gaps section. Write these
+  as short human-facing mathematical notes and avoid Lean declaration names.
+  When the evidence is only a formalization caveat, say that directly instead
+  of claiming the paper is wrong.
 - Avoid wide Markdown tables for definition inventories when the notation or
   declaration names are long. Use a concise bullet checklist instead, with the
   paper notation first and the Lean interface declaration second.
@@ -2894,11 +2969,11 @@ Use this report template (create in the paper folder, for example
 # Final Validation Report: <Paper Short Name>
 
 ## 1. Human Verdict
-- Lean formalization status: <formalized / formalized with caveat / partially formalized / not formalized>
-- Human dashboard review status: <reviewed count, stale count, mismatch count>
-- Paper correctness verdict: <nothing wrong found / ambiguity / suspected error>
-- Qualitative proof verdict: <followed paper proof / deviations needed>
-- Lean footprint: <total paper-local Lean LOC>, <PaperInterface LOC>, <review rows>
+<Two-to-four plain-language sentences. State the current formalization status,
+the main remaining mathematical/library boundary if any, whether a
+paper-correctness issue is being claimed, and whether human dashboard sign-off
+exists. Do not include Lean declaration names, validator counts, audit digests,
+source-record inventories, command outputs, or Lean footprint numbers here.>
 
 ## 2. Source and Scope
 - Paper: <title>
@@ -2906,6 +2981,7 @@ Use this report template (create in the paper folder, for example
 - Lean folder: <folder path>
 - Human-facing theorem file: <file path>
 - DAG artifacts: <tikz file>, <rendered image>
+- Lean footprint: <total paper-local Lean LOC>, <PaperInterface LOC>, <review rows>
 
 ## 3. What Has Been Proven
 Summarize the completed proof in paper language, grouping source definitions
@@ -2955,7 +3031,13 @@ assumptions.
 - If none: `None`
 
 ## 7. Proof-Strategy Deviations
-- `<paper result/declaration>`: <what changed qualitatively in strategy and why>
+- `<paper result>`: <human-facing mathematical departure from the paper proof
+  route or theorem statement, and why>
+- Do not list Lean architecture, source-record packages, certificate plumbing,
+  parser/audit changes, or declaration names here.
+- If only explicit assumptions or remaining proof boundaries differ from full
+  formalization, write `None beyond the formalization boundaries already
+  recorded above` and refer to the assumptions/gaps sections.
 - If none: `None`
 
 ## 8. Proof Tricks Worth Reusing
@@ -2981,10 +3063,13 @@ assumptions.
 
 ## 13. Validation Checks
 - <build/audit/DAG/no-placeholder outcomes in prose>
+- Machine-required closeout evidence may include the exact targeted repository
+  audit command here, but keep commands out of the executive verdict and proof
+  narrative.
 
-## 14. Final Verdict
+## 14. Closeout Status
 - Completion status: <formalized / formalized with caveat / partially formalized / not formalized>
-- Summary: <2-5 lines>
+- One-sentence recap: <do not repeat the whole human verdict>
 
 ## 15. Paper Definitions Checked
 These are the mathematical objects from the paper interface. All should be

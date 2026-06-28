@@ -920,6 +920,25 @@ FINAL_REPORT_PARTIAL_RE = re.compile(
     r"(?mi)^\s*(?:-\s*)?(?:Completion status|Lean formalization status)\s*:\s*"
     r"(?:partially formalized|partial(?:ly)?)(?:\s|\.|$)"
 )
+FINAL_REPORT_HUMAN_VERDICT_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?Human\s+Verdict\b"
+)
+FINAL_REPORT_SOURCE_SCOPE_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?Source\s+(?:and|And)\s+Scope\b"
+)
+FINAL_REPORT_MACHINE_FRONT_MATTER_RE = re.compile(
+    r"(?i)\b("
+    r"python3|lake\s+build|#print|transitive-source-premise-audit|"
+    r"Axiom,\s*Premise|Lean\s+Axiom|Lean\s+footprint|"
+    r"LLM\s+statement-translation\s+audit|Model/agent|validator\s+rows?|"
+    r"validator\s+status|audit\s+digest|source-record\s+audit|"
+    r"source-record\s+sidecar|Lean\s+formalization\s+status|"
+    r"Human\s+dashboard\s+review\s+status|Paper\s+interface:|Review\s+surface:"
+    r")\b"
+)
+FINAL_REPORT_OLD_FINAL_VERDICT_RE = re.compile(
+    r"(?mi)^##+\s+\d+\.\s+Final\s+Verdict\b"
+)
 CLOSEOUT_PAPER_STATUSES = {
     "formalized",
     "formalized with caveat",
@@ -963,9 +982,14 @@ def is_closeout_status(status: str) -> bool:
     return status in CLOSEOUT_PAPER_STATUSES or status.startswith("formalized")
 
 
-def check_final_report_status_alignment(include_active: bool) -> list[Finding]:
+def check_final_report_status_alignment(
+    include_active: bool,
+    paper_filter: str | None = None,
+) -> list[Finding]:
     findings: list[Finding] = []
     for folder in paper_dirs():
+        if paper_filter is not None and folder.name != paper_filter:
+            continue
         if folder.name in ACTIVE_PAPERS and not include_active:
             continue
         status_file = folder / "status.json"
@@ -996,6 +1020,84 @@ def check_final_report_status_alignment(include_active: bool) -> list[Finding]:
                     report,
                     "final validation report has a whole-paper partial verdict line, "
                     "but paper-local status.json is formalized",
+                )
+            )
+    return findings
+
+
+def check_final_report_human_facing_front_matter(
+    include_active: bool,
+    paper_filter: str | None = None,
+) -> list[Finding]:
+    """Keep the top of final reports useful to researchers before audit detail."""
+
+    findings: list[Finding] = []
+    for folder in paper_dirs(include_template=True):
+        if paper_filter is not None and folder.name != paper_filter:
+            continue
+        if folder.name in ACTIVE_PAPERS and not include_active:
+            continue
+        report = folder / "FINAL_VALIDATION_REPORT.md"
+        if not report.exists():
+            continue
+        report_text = report.read_text(encoding="utf-8")
+        human_verdict = FINAL_REPORT_HUMAN_VERDICT_RE.search(report_text)
+        if not human_verdict:
+            findings.append(
+                Finding(
+                    "WARN",
+                    report,
+                    "final validation report should start with a short `Human Verdict` section",
+                )
+            )
+            continue
+        source_scope = FINAL_REPORT_SOURCE_SCOPE_RE.search(report_text, human_verdict.end())
+        front_matter_end = source_scope.start() if source_scope else min(
+            len(report_text),
+            human_verdict.start() + 3000,
+        )
+        front_matter = report_text[human_verdict.start():front_matter_end]
+        verdict_body = front_matter.split("\n", 1)[1] if "\n" in front_matter else ""
+
+        if re.search(r"(?m)^###", verdict_body):
+            findings.append(
+                Finding(
+                    "WARN",
+                    report,
+                    "Human Verdict should be concise prose, not nested audit subsections",
+                )
+            )
+        if FINAL_REPORT_MACHINE_FRONT_MATTER_RE.search(verdict_body):
+            findings.append(
+                Finding(
+                    "WARN",
+                    report,
+                    "Human Verdict should avoid commands, Lean identifiers, validator ledgers, "
+                    "and audit counters; move machine evidence below Source and Scope",
+                )
+            )
+        if len(re.findall(r"\b\w+\b", verdict_body)) > 140:
+            findings.append(
+                Finding(
+                    "WARN",
+                    report,
+                    "Human Verdict is too long; keep it to a few researcher-facing sentences",
+                )
+            )
+        if len(re.findall(r"(?m)^\s*-\s+", verdict_body)) >= 3:
+            findings.append(
+                Finding(
+                    "WARN",
+                    report,
+                    "Human Verdict looks like an audit ledger; use short prose instead",
+                )
+            )
+        if FINAL_REPORT_OLD_FINAL_VERDICT_RE.search(report_text):
+            findings.append(
+                Finding(
+                    "WARN",
+                    report,
+                    "use `Closeout Status` instead of a repetitive `Final Verdict` section",
                 )
             )
     return findings
@@ -4859,7 +4961,13 @@ def run(
     findings.extend(check_library_source_hygiene())
     findings.extend(check_generic_source_reference_hygiene())
     findings.extend(check_paper_contract(include_active))
-    findings.extend(check_final_report_status_alignment(include_active))
+    findings.extend(check_final_report_status_alignment(include_active, paper_filter=paper_filter))
+    findings.extend(
+        check_final_report_human_facing_front_matter(
+            include_active,
+            paper_filter=paper_filter,
+        )
+    )
     findings.extend(
         check_dag_and_validation_report_closeout(
             include_active=include_active,

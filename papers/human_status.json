@@ -446,37 +446,6 @@
       }
     },
     {
-      "id": "LBG24SpatialUnderreporting",
-      "title": "Quantifying Spatial Under-reporting Disparities in Resident Crowdsourcing",
-      "authors": "Zhi Liu, Uma Bhandaram, Nikhil Garg",
-      "publication": "Nature Computational Science 4, 57-65 (2024); version of record published 2023-12-05; DOI 10.1038/s43588-023-00572-6",
-      "publication_year": 9999,
-      "source_url": "",
-      "paper_info": "Quantifying Spatial Under-reporting Disparities in Resident Crowdsourcing by Zhi Liu, Uma Bhandaram, Nikhil Garg; Nature Computational Science 4, 57-65 (2024); version of record published 2023-12-05; DOI 10.1038/s43588-023-00572-6.",
-      "status": "Partially formalized",
-      "human_review": "0/87",
-      "human_translation": "0/87 reviewed",
-      "llm_as_judge_translation": "28/84 match; 56 additional assumptions",
-      "lean_loc": 18540,
-      "main_note": "Poisson likelihood algebra, Lemma 1/2 consequences, MLE/regression/zero-inflation rows, and the Eq. (33)/(34) stopping-window bridge compile; full formalization requires a compact homogeneous Poisson process, stopping-certificate, and fixed-kernel certificate bundle.",
-      "main_note_citation": null,
-      "main_note_review": {
-        "status": "draft",
-        "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction."
-      },
-      "paper_folder": "papers/LBG24SpatialUnderreporting",
-      "review_entrypoint": "papers/LBG24SpatialUnderreporting/FINAL_VALIDATION_REPORT.md",
-      "artifacts": {
-        "readme": "papers/LBG24SpatialUnderreporting/README.md",
-        "paper_interface": "papers/LBG24SpatialUnderreporting/PaperInterface.lean",
-        "assumptions": "papers/LBG24SpatialUnderreporting/Assumptions.lean",
-        "final_validation_report": "papers/LBG24SpatialUnderreporting/FINAL_VALIDATION_REPORT.md",
-        "dependency_dag_tex": "papers/LBG24SpatialUnderreporting/DependencyDAG.tex",
-        "dependency_dag_pdf": "papers/LBG24SpatialUnderreporting/DependencyDAG.pdf",
-        "source_record_audit": "papers/LBG24SpatialUnderreporting/source_record_audit.json"
-      }
-    },
-    {
       "id": "GKGMM19IterativeLocalVoting",
       "title": "Iterative Local Voting for Collective Decision-making in Continuous Spaces",
       "authors": "Nikhil Garg; Vijay Kamble; Ashish Goel; David Marn; Kamesh Munagala",
@@ -484,16 +453,16 @@
       "publication_year": 2019,
       "source_url": "https://www.jair.org/index.php/jair/article/view/11358",
       "paper_info": "Iterative Local Voting for Collective Decision-making in Continuous Spaces by Nikhil Garg; Vijay Kamble; Ashish Goel; David Marn; Kamesh Munagala; JAIR 64, 2019.",
-      "status": "Conditional",
+      "status": "Partially formalized",
       "human_review": "0/42",
       "human_translation": "0/42 reviewed",
       "llm_as_judge_translation": "35/40 match; 5 additional assumptions",
       "lean_loc": 23379,
-      "main_note": "Conditional formalization: source-facing formulas and bridge theorems compile, with the remaining intentional boundary isolated to the SSGM convergence theorem. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition.",
+      "main_note": "Full formalization requires proving stochastic subgradient descent convergence. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition.",
       "main_note_citation": null,
       "main_note_review": {
-        "status": "draft",
-        "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction."
+        "status": "human_written",
+        "note": "Human-written summary supplied on 2026-06-28; preserve verbatim unless a human explicitly asks for a change."
       },
       "paper_folder": "papers/GKGMM19IterativeLocalVoting",
       "review_entrypoint": "papers/GKGMM19IterativeLocalVoting/FINAL_VALIDATION_REPORT.md",
@@ -510,6 +479,37 @@
         "start_here_next_agent": "papers/GKGMM19IterativeLocalVoting/START_HERE_NEXT_AGENT.md",
         "validator_ledger": "papers/GKGMM19IterativeLocalVoting/VALIDATOR_LEDGER.md",
         "week_pause_handoff": "papers/GKGMM19IterativeLocalVoting/HANDOFF_2026-06-19_WEEK_PAUSE.md"
+      }
+    },
+    {
+      "id": "LBG24SpatialUnderreporting",
+      "title": "Quantifying Spatial Under-reporting Disparities in Resident Crowdsourcing",
+      "authors": "Zhi Liu, Uma Bhandaram, Nikhil Garg",
+      "publication": "Nature Computational Science 4, 57-65 (2024); version of record published 2023-12-05; DOI 10.1038/s43588-023-00572-6",
+      "publication_year": 9999,
+      "source_url": "",
+      "paper_info": "Quantifying Spatial Under-reporting Disparities in Resident Crowdsourcing by Zhi Liu, Uma Bhandaram, Nikhil Garg; Nature Computational Science 4, 57-65 (2024); version of record published 2023-12-05; DOI 10.1038/s43588-023-00572-6.",
+      "status": "Partially formalized",
+      "human_review": "0/87",
+      "human_translation": "0/87 reviewed",
+      "llm_as_judge_translation": "28/84 match; 56 additional assumptions",
+      "lean_loc": 18540,
+      "main_note": "Full formalization requires a homogeneous Poisson process and stopping time derivation",
+      "main_note_citation": null,
+      "main_note_review": {
+        "status": "human_written",
+        "note": "Human-written summary supplied on 2026-06-28; preserve verbatim unless a human explicitly asks for a change."
+      },
+      "paper_folder": "papers/LBG24SpatialUnderreporting",
+      "review_entrypoint": "papers/LBG24SpatialUnderreporting/FINAL_VALIDATION_REPORT.md",
+      "artifacts": {
+        "readme": "papers/LBG24SpatialUnderreporting/README.md",
+        "paper_interface": "papers/LBG24SpatialUnderreporting/PaperInterface.lean",
+        "assumptions": "papers/LBG24SpatialUnderreporting/Assumptions.lean",
+        "final_validation_report": "papers/LBG24SpatialUnderreporting/FINAL_VALIDATION_REPORT.md",
+        "dependency_dag_tex": "papers/LBG24SpatialUnderreporting/DependencyDAG.tex",
+        "dependency_dag_pdf": "papers/LBG24SpatialUnderreporting/DependencyDAG.pdf",
+        "source_record_audit": "papers/LBG24SpatialUnderreporting/source_record_audit.json"
       }
     }
   ]

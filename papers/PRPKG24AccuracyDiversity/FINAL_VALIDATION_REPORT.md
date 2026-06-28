@@ -2,13 +2,12 @@
 
 ## 1. Human Verdict
 
-- Lean formalization status: formalized.
-- Paper interface: `papers/PRPKG24AccuracyDiversity/PaperInterface.lean`, 284 LOC.
-- Review surface: 42 dashboard rows, consisting of 27 paper-facing result rows and 15 explicit assumption/provenance rows.
-- Human dashboard entries: 0 saved manual reviews, 0 stale manual reviews, 0 manual mismatches. The machine validator lanes are current.
-- Qualitative verdict: the paper-facing Lean surface closes Example 1, Definitions 1-3, Theorems 1-3, Corollaries 1 and 3, Proposition 2's corrected finite/asymptotic route, Proposition 4's concrete continuous-sphere endpoint, Proposition 5, Lemma 1, and Lemmas D.1-D.5.
-
-The main source-quality notes are unchanged: Proposition 2's printed finite constant appears to miss a factor of 2, and Lemma D.1(i)'s printed sign convention is not the convention used by the downstream proof route. Proposition 4 is not recorded as a caveat; the continuity and Laplace/Gamma interpretation are recorded as validation notes for the concrete sphere endpoint.
+Formalized. The paper-facing surface covers the main examples, definitions,
+theorems, corollaries, propositions, and appendix lemmas listed below.
+Source-quality notes remain for Proposition 2's printed finite constant and
+Lemma D.1(i)'s sign convention; Proposition 4 is treated as validated for the
+concrete sphere endpoint rather than as a caveat. No human dashboard sign-off
+has been recorded.
 
 ## 2. Source And Scope
 
@@ -115,6 +114,8 @@ pre-existing tracked source-PDF artifact in
 
 The proof-hole scan found no Lean proof holes in PRPKG files; matches were historical documentation lines mentioning `sorry`/`admit` commands or notes.
 
-## 10. Final Verdict
+## 10. Closeout Status
 
-PRPKG24 is formalized at the current paper-facing Lean surface. The remaining items are documentation/source-quality notes, not open Lean proof boundaries for the claimed endpoint: Proposition 2's printed finite constant, Lemma D.1(i)'s printed sign convention, and Proposition 4's continuity/Laplace-Gamma validation note.
+- Completion status: formalized.
+- One-sentence recap: The accuracy-diversity paper surface is checked, with
+  source-quality notes recorded separately from proof boundaries.

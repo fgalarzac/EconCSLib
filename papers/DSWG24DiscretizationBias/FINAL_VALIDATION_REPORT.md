@@ -2,23 +2,11 @@
 
 ## 1. Human Verdict
 
-- Lean formalization status: formalized
-- Human dashboard review status: 0/32 rows reviewed; 0 stale; 0 mismatches.
-- Main caveat: none. Status note: the axiom/premise/source-hygiene audit is
-  closed for the recorded assumption ledger, including the human-verified
-  implicit `K >= 2` multiclass condition. The Theorem 2(iii)
-  weighted-objective row is now the
-  certificate-free source-facing necessary condition: for `γ < 1`, a
-  weighted-objective maximizing independent rule must agree with argmax almost
-  surely.
-
-<!-- transitive-source-premise-audit:start -->
-### Axiom, Premise, And Source-Hygiene Audit
-
-The current axiom/premise/source-hygiene audit passes for full-status provenance. It uses Lean-native #print axioms for transitive proof debt, expanded paper-facing signatures for visible premises, and source-assumption ledgers for any non-derived assumptions.
-
-Current result: the axiom/premise/source-hygiene audit finds no unresolved certificate/source-boundary dependency for the current paper-facing status. Explicit assumptions remain source-matched, including the human-verified implicit multiclass condition.
-<!-- transitive-source-premise-audit:end -->
+Formalized. The named discretization-bias results are checked on the recorded
+multiclass domain, including the implicit condition that there are at least two
+classes. No paper-correctness issue is claimed; Theorem 2(iii) is stated as the
+source-facing necessary condition for weighted-objective maximizers. No human
+dashboard sign-off has been recorded.
 
 ## 2. Source and Scope
 
@@ -342,18 +330,8 @@ Summary: 32 rows; 32 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar ro
 
 Flagged rows: none.
 
-## 15. Final Verdict
-
-Completion status: formalized.
-
-The paper-facing definitions, Theorem 1, and Theorem 2 are represented by
-compiling Lean declarations. The recorded assumption-premises now have
-source/provenance judgments, including the human-verified implicit multiclass
-condition `K >= 2`; the two previous finite-sample definition mismatches are
-closed. The Theorem 2(iii) public endpoint is the certificate-free
-source-facing necessary condition, while broader optimizer/maximality helper
-routes remain internal auxiliary material.
+## 15. Closeout Status
 
 - Completion status: formalized.
-- Summary: axiom/premise/source-hygiene and statement audits are clean for the
-  current dashboard.
+- One-sentence recap: The paper-facing definitions and Theorems 1-2 are checked
+  on the recorded multiclass domain.

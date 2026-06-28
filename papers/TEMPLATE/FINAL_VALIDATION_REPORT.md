@@ -1,11 +1,8 @@
 # Final Validation Report: [Paper Short Name]
 
 ## 1. Human Verdict
-- Lean formalization status: not started
-- Human dashboard review status: 0 reviewed, 0 stale, 0 mismatches
-- Paper correctness verdict: not assessed
-- Qualitative proof verdict: not assessed
-- Lean footprint: not measured
+Not started. No formalization or paper-correctness assessment has been
+completed yet, and no human dashboard sign-off has been recorded.
 
 ## 2. Source and Scope
 - Paper: <title>
@@ -14,6 +11,7 @@
 - Human-facing theorem file: `papers/TEMPLATE/PaperInterface.lean`
 - Paper assumption file: `papers/TEMPLATE/Assumptions.lean`
 - DAG artifacts: `papers/TEMPLATE/DependencyDAG.tex`, `papers/TEMPLATE/DependencyDAG.pdf`
+- Lean footprint: not measured
 
 ## 3. What Has Been Proven
 None yet.
@@ -57,21 +55,13 @@ assumptions.
 ## 9. Library Lift Pass
 - Reusable library extraction candidates: None
 - Library certificate/source-boundary audit: not run. Before a completion
-  claim, run `python3 scripts/audit_repository.py --library-premise-audit` and
-  confirm any certificate-taking library APIs used by paper wrappers are
-  constructed internally, validated as paper assumptions, or listed as partial
-  boundaries. This audit follows transitive helper chains, not only direct
-  aliases.
-- Paper-local hidden-premise audit: not run. The default repository audit should
-  report no reviewed row that recursively depends on a local helper with an
-  unvalidated certificate, source-row equation, hidden hypothesis, or other
-  proof-boundary premise.
-- Recursive provenance closeout report: not run. Before a completion claim,
-  run `python3 scripts/audit_repository.py --include-active --library-premise-audit --info-limit 0 --write-report docs/RECURSIVE_PROVENANCE_AUDIT_<date>.md`
-  and confirm this paper has no unresolved broad/opaque row, source-row formula
-  boundary, paper-local hidden premise, or transitive library certificate
-  finding. If a finding remains, record it here and mark the endpoint
-  partial/conditional.
+  claim, summarize whether certificate-taking library APIs used by paper
+  wrappers are constructed internally, validated as paper assumptions, or listed
+  as partial boundaries.
+- Paper-local hidden-premise audit: not run. Before a completion claim,
+  summarize whether the recursive provenance audit found unresolved broad rows,
+  source-row formula boundaries, hidden premises, or transitive library
+  certificate findings.
 
 ## 10. DAG Audit
 - Rendered artifact: not checked
@@ -90,10 +80,13 @@ assumptions.
   assumption/hidden-premise precheck, repository audit, and library premise
   audit when reusable certificate APIs are used or when preparing a public PR.
   The repository audit must also be clean of axiom-like declarations.
+- Machine-required closeout evidence may include the exact targeted repository
+  audit command here, but keep commands out of the executive verdict and proof
+  narrative.
 
-## 14. Final Verdict
+## 14. Closeout Status
 - Completion status: not formalized
-- Summary: Scaffold only.
+- One-sentence recap: Scaffold only.
 
 ## 15. Paper Definitions Checked
 - None yet.
@@ -108,9 +101,8 @@ assumptions.
 **Status.** not formalized.
 
 ## 17. Paper-Facing Statement Validator Ledger
-This table is one row per dashboard/PaperInterface row. Regenerate it with:
-
-`python3 scripts/review_dashboard.py --paper TEMPLATE --export-format validators-md`
+This table is one row per dashboard/PaperInterface row. Generate it from the
+validator ledger rather than from memory.
 
 | Paper-facing statement | Lean declaration | Validators | Validator comments |
 | --- | --- | --- | --- |

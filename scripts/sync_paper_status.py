@@ -32,6 +32,7 @@ STATUS_LABELS = {
     "formalized": "Formalized",
     "formalized with caveat": "Formalized with caveat",
     "partially formalized": "Partially formalized",
+    "conditional": "Partially formalized",
     "scaffold": "Scaffold",
     "not started": "Not started",
     "not formalized": "Not formalized",
@@ -41,6 +42,7 @@ STATUS_GROUPS = {
     "formalized": 0,
     "formalized with caveat": 0,
     "partially formalized": 1,
+    "conditional": 1,
 }
 
 def load_catalog() -> dict[str, Any]:

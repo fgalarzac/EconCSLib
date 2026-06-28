@@ -34,11 +34,11 @@ is closed and the remaining assumptions cell is `None`.
 Keep the dashboard surface small: one row per paper-facing definition or named
 result, not every helper theorem, certificate, or proof-route alias.
 
-Use the controlled status vocabulary from `../../docs/STATUS.md`:
-`formalized`, `formalized with caveat`, `partially formalized`, `conditional`,
-`scaffold`, `not started`, and `not formalized`. Keep detailed caveats,
-remaining certificates, or proof-route notes in the final column rather than in
-the status cell.
+Use the controlled status vocabulary from `../../docs/STATUS.md`. Public-facing
+rows should use `partially formalized` for results that remain conditional on
+an external theorem, certificate, or proof boundary, and should name that
+boundary in the final column rather than using `conditional` as a separate
+status label.
 Keep theorem/table content synchronized with `DependencyDAG.tex` node styles and
 `MainTheorems.lean` declarations before marking a row `formalized`. Keep
 `status.json` as the source of truth for review rows, artifact paths, and the
@@ -186,17 +186,17 @@ the dashboard as oversized and curate `PaperInterface.lean` or
 | Proposition 2 product-box source | `finite_coordinate_product_box_solution_space_source_formula` | formalized | `PaperInterface.lean` | None; expands the finite-coordinate product-box solution-space closure used by the `L∞` coordinate replacement proof |
 | Proposition 2 finite-coordinate `L∞` replacement source | `finite_coordinate_linf_coordinate_replacement_source_formula` | formalized | `PaperInterface.lean` | None; expands the finite norm, product-box, and coordinate-projection fields that derive `DecomposableLinfCoordinateReplacement` |
 | Proposition 2 finite-coordinate source semantics | `proposition2_finite_coordinate_source_semantics_formula` | formalized | `PaperInterface.lean` | None; expands the paper-faithful finite-coordinate source route from finite norm semantics, product-box closure, and coordinatewise median-set source formulas |
-| Proposition 2 finite-coordinate median convergence | `proposition2_finite_coordinate_decomposable_linf_medians` | conditional | `PaperInterface.lean` | Proves the finite-coordinate/product-box Proposition 2 endpoint from finite-coordinate source semantics plus the single theorem-shaped SSGM boundary |
-| Theorem 1, Lp utilities and dual cases | `theorem1_lp_normed_dual_cases` | conditional | `PaperInterface.lean` | Finite-coordinate route; deterministic case certificate is built from visible source hypotheses; consumes only the single theorem-shaped axiom `assumption_ssgm_convergence_theorem` |
-| Theorem 2, Model B finite Holder-dual norms | `theorem2_modelB_holder_dual_norms` | conditional | `PaperInterface.lean` | Finite-coordinate route; consumes `Theorem2PrimitiveSourceSemantics` plus the single theorem-shaped axiom `assumption_ssgm_convergence_theorem`; Lemma 3 candidate-gradient algebra, derivative attachment, and the Model B-to-projected-SSGM bridge are separated and formalized |
-| Proposition 1, weighted-Euclidean L2 convergence | `proposition1_weighted_euclidean_l2` | conditional | `PaperInterface.lean` | Finite-coordinate route; consumes `Proposition1SourceSemantics` plus the single theorem-shaped axiom `assumption_ssgm_convergence_theorem` |
-| Proposition 2, decomposable Linf median convergence | `proposition2_decomposable_linf_medians` | conditional | `PaperInterface.lean` | Finite-coordinate route; consumes `Proposition2FiniteCoordinateSourceSemantics` plus the single theorem-shaped axiom `assumption_ssgm_convergence_theorem`; the old arbitrary-decomposition replacement premise has been replaced by the paper's coordinate/product-box reading |
-| Theorem 3, convergent Model B/L2 trajectory implies directional equilibrium | `theorem3_convergent_l2_modelB_is_directional_equilibrium_global_projected_trace` | conditional | `PaperInterface.lean` | No SSGM boundary premise; the corrected global-radius route uses `FiniteTheorem3DirectionalFieldModel`, explicit finite-coordinate trajectory convergence, and `FiniteTheorem3ConcreteFiniteDotProjectedTraceGlobalPathwiseSemantics` |
-| Theorem 3, almost-sure global trace route | `theorem3_convergent_l2_modelB_is_directional_equilibrium_global_ae_trace` | conditional | `PaperInterface.lean` | No SSGM boundary premise; uses the global AE trace skeleton and the selected-voter concentration theorem proved in `ProofInterface.lean` |
+| Proposition 2 finite-coordinate median convergence | `proposition2_finite_coordinate_decomposable_linf_medians` | partially formalized | `PaperInterface.lean` | Proves the finite-coordinate/product-box Proposition 2 endpoint from finite-coordinate source semantics plus the single theorem-shaped SSGM boundary |
+| Theorem 1, Lp utilities and dual cases | `theorem1_lp_normed_dual_cases` | partially formalized | `PaperInterface.lean` | Finite-coordinate route; deterministic case certificate is built from visible source hypotheses; consumes only the single theorem-shaped axiom `assumption_ssgm_convergence_theorem` |
+| Theorem 2, Model B finite Holder-dual norms | `theorem2_modelB_holder_dual_norms` | partially formalized | `PaperInterface.lean` | Finite-coordinate route; consumes `Theorem2PrimitiveSourceSemantics` plus the single theorem-shaped axiom `assumption_ssgm_convergence_theorem`; Lemma 3 candidate-gradient algebra, derivative attachment, and the Model B-to-projected-SSGM bridge are separated and formalized |
+| Proposition 1, weighted-Euclidean L2 convergence | `proposition1_weighted_euclidean_l2` | partially formalized | `PaperInterface.lean` | Finite-coordinate route; consumes `Proposition1SourceSemantics` plus the single theorem-shaped axiom `assumption_ssgm_convergence_theorem` |
+| Proposition 2, decomposable Linf median convergence | `proposition2_decomposable_linf_medians` | partially formalized | `PaperInterface.lean` | Finite-coordinate route; consumes `Proposition2FiniteCoordinateSourceSemantics` plus the single theorem-shaped axiom `assumption_ssgm_convergence_theorem`; the old arbitrary-decomposition replacement premise has been replaced by the paper's coordinate/product-box reading |
+| Theorem 3, convergent Model B/L2 trajectory implies directional equilibrium | `theorem3_convergent_l2_modelB_is_directional_equilibrium_global_projected_trace` | partially formalized | `PaperInterface.lean` | No SSGM boundary premise; the corrected global-radius route uses `FiniteTheorem3DirectionalFieldModel`, explicit finite-coordinate trajectory convergence, and `FiniteTheorem3ConcreteFiniteDotProjectedTraceGlobalPathwiseSemantics` |
+| Theorem 3, almost-sure global trace route | `theorem3_convergent_l2_modelB_is_directional_equilibrium_global_ae_trace` | partially formalized | `PaperInterface.lean` | No SSGM boundary premise; uses the global AE trace skeleton and the selected-voter concentration theorem proved in `ProofInterface.lean` |
 | Theorem 3 constrained projected alternative | `theorem3_zero_or_no_aggregate_feasible_direction_formula` | formalized | `PaperInterface.lean` | None; proves that projected updates plus convergence give either `G(x*) = 0` or the record-free aggregate feasible-direction formula fails |
-| Theorem 3, exact full-space adapter | `theorem3_statement_of_full_sampled_projected_source_semantics_univ` | conditional | `PaperInterface.lean` | Proves `theorem3Statement E` from sampled projected source semantics under the explicit condition `E.solutionSpace = Set.univ` |
-| SSGM consequence bundle from source semantics | `finite_coordinate_source_semantics_ssgm_consequences` | conditional | `PaperInterface.lean` | Proves the four SSGM-backed endpoint consequences from separate theorem source semantics plus an explicit `FiniteCoordinateILVSSGMConvergenceTheorems E` bundle |
-| Sampled projected paper closeout from source semantics | `finite_coordinate_full_sampled_projected_paper_consequences_with_ssgm` / `finite_coordinate_full_sampled_projected_paper_consequences` | conditional | `PaperInterface.lean` | Proves the represented finite-coordinate consequences from sampled projected source semantics; the second row uses only `assumption_ssgm_convergence_theorem` as the paper-local axiom and records Theorem 3 as constrained alternative plus full-space exact recovery |
+| Theorem 3, exact full-space adapter | `theorem3_statement_of_full_sampled_projected_source_semantics_univ` | partially formalized | `PaperInterface.lean` | Proves `theorem3Statement E` from sampled projected source semantics under the explicit condition `E.solutionSpace = Set.univ` |
+| SSGM consequence bundle from source semantics | `finite_coordinate_source_semantics_ssgm_consequences` | partially formalized | `PaperInterface.lean` | Proves the four SSGM-backed endpoint consequences from separate theorem source semantics plus an explicit `FiniteCoordinateILVSSGMConvergenceTheorems E` bundle |
+| Sampled projected paper closeout from source semantics | `finite_coordinate_full_sampled_projected_paper_consequences_with_ssgm` / `finite_coordinate_full_sampled_projected_paper_consequences` | partially formalized | `PaperInterface.lean` | Proves the represented finite-coordinate consequences from sampled projected source semantics; the second row uses only `assumption_ssgm_convergence_theorem` as the paper-local axiom and records Theorem 3 as constrained alternative plus full-space exact recovery |
 
 ## Major Assumption Boundary
 
@@ -255,7 +255,7 @@ completion route may port the narrow Optlib convex/subgradient and deterministic
 first-order-method interfaces, then build the required stochastic convergence
 theorem on top of mathlib probability/process infrastructure. Until that exists,
 the theorem rows depending on the single SSGM convergence axiom remain
-`conditional`.
+`partially formalized`.
 
 ## Intake Checklist
 

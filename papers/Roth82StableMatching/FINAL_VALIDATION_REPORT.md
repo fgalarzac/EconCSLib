@@ -2,33 +2,10 @@
 
 ## 1. Human Verdict
 
-- Lean formalization status: formalized
-- Human dashboard review status: 0/27 rows reviewed; 0 stale; 0 mismatches.
-- Main caveat: none. The cached paper's named theorem endpoints are represented
-  on Roth's stated strict marriage domain. The strict audit now treats visible
-  source predicates such as stability as theorem/definition content rather than
-  hidden certificate assumptions.
-
-- Lean formalization status: complete for the cached paper's named Theorems
-  1--7, Lemmas 1--2, and Corollary 5.1.
-- Human dashboard review status: compact 27-row `PaperInterface.lean` surface;
-  the ignored local dashboard log currently contains stale older entries and
-  should be re-saved by a human reviewer if dashboard review is needed.
-- Paper correctness verdict: no source error found; strict-preference and
-  one-to-one marriage-domain scope follows Roth's stated source route.
-- Qualitative proof verdict: source route followed where practical, with
-  documented Lean proof decompositions for deferred-acceptance invariants,
-  first-choice trace coupling, and the padded Theorem 7 family.
-- Lean footprint: 8,877 paper-local Lean lines; `PaperInterface.lean` is 490
-  lines and 27 dashboard rows.
-
-<!-- transitive-source-premise-audit:start -->
-### Axiom, Premise, And Source-Hygiene Audit
-
-The current axiom/premise/source-hygiene audit passes for full-status provenance. It uses Lean-native #print axioms for transitive proof debt, expanded paper-facing signatures for visible premises, and source-assumption ledgers for any non-derived assumptions.
-
-Current result: the Roth paper-facing rows have no unresolved certificate/source-boundary dependency for the current formalized status. Stable-matching predicates that appear as antecedents inside definitions such as men-optimality and women-optimality are visible source statement content, not hidden assumptions.
-<!-- transitive-source-premise-audit:end -->
+Formalized. Roth's named Theorems 1--7, Lemmas 1--2, and Corollary 5.1 are
+checked on the paper's strict one-to-one marriage domain. No source-paper error
+is reported. No current human dashboard sign-off has been recorded; older local
+dashboard entries should be re-saved if human review is needed.
 
 ## 2. Source and Scope
 
@@ -337,24 +314,8 @@ Summary: 27 rows; 26 match, 1 uncertain, 0 mismatch, 0 missing. Stale sidecar ro
 Flagged rows:
 - `serialDictatorshipMechanism`: uncertain. The draft leaves the mechanism as an opaque named expression and does not spell out the serial dictatorship rule in paper language.
 
-## 15. Final Verdict
+## 15. Closeout Status
 
 - Completion status: formalized.
-- Summary: The paper-facing definitions, Theorem 1 DA stable-complete existence,
-  Theorem 2 source strict-domain men/women optimal stable outcomes, Theorem 3 strict-profile finite
-  counterexample impossibility, Theorem 4 indexed finite-domain serial-dictatorship
-  construction, Theorem 5 equal-size strict-domain one-sided truthfulness, Lemma 1
-  strict simple-report route, Lemma 2
-  strict simple-report source route, Corollary 5.1 source-faithful strict-domain
-  endpoint, Theorem 6 source-domain
-  weak Pareto endpoint through DA completeness and the final-active-step route
-  plus the certificate-parametrized weak Pareto compatibility
-  wrapper, Theorem 7 arbitrary `k > 1` strict-profile padded counterexample family, DA step-invariant preservation,
-  finite-fold termination, and the generic fold/invariant proof path to stability
-  compile. The strict audit reports no unresolved certificate/source-boundary
-  dependency for the current paper-facing surface.
-
-- Completion status: formalized.
-- Summary: The cached paper's named Theorems 1--7, Lemmas 1--2, and Corollary 5.1
-  are closed on Roth's stated strict marriage domain without extra
-  model-certificate assumptions.
+- One-sentence recap: Roth's named Theorems 1-7, Lemmas 1-2, and Corollary 5.1
+  are checked on the stated strict marriage domain.

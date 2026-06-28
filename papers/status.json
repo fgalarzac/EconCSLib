@@ -536,10 +536,10 @@
         "stale_rows": 0,
         "total_rows": 42
       },
-      "human_summary": "Conditional formalization: source-facing formulas and bridge theorems compile, with the remaining intentional boundary isolated to the SSGM convergence theorem. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition.",
+      "human_summary": "Full formalization requires proving stochastic subgradient descent convergence. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition.",
       "human_summary_review": {
-        "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction.",
-        "status": "draft"
+        "note": "Human-written summary supplied on 2026-06-28; preserve verbatim unless a human explicitly asks for a change.",
+        "status": "human_written"
       },
       "id": "GKGMM19IterativeLocalVoting",
       "main_caveat": "The source-facing Lean interface builds and the only Lean axiom is the theorem-shaped SSGM boundary `assumption_ssgm_convergence_theorem`. The recursive source-record audit is synced to digest `95b8554bfdc06bcb346443e11bdaa7cd49de7da918adedef8339c71b7cda45d9` and reports no unresolved/unapproved source-record fields. For general constrained solution spaces, the paper-facing formalization no longer claims the exact Theorem 3 endpoint from a hidden aggregate-feasibility source record: Lean proves the constrained alternative `theorem3_zero_or_no_aggregate_feasible_direction_formula`, and proves the exact original `theorem3Statement` from the sampled projected source package only under the explicit full-space condition `E.solutionSpace = Set.univ`. The prior counterexample lemmas still document why C1/convexity, projection, convergence, and directional-field continuity alone do not imply positive aggregate feasible directions in arbitrary constrained spaces.",
@@ -787,7 +787,7 @@
       },
       "schema": 1,
       "source_version": "JAIR 64 (2019), 315-355; published 2019-02-18",
-      "status": "conditional",
+      "status": "partially formalized",
       "title": "Iterative Local Voting for Collective Decision-making in Continuous Spaces"
     },
     {
@@ -981,10 +981,10 @@
       "build_target": "lake build LBG24SpatialUnderreporting",
       "status": "partially formalized",
       "main_caveat": "The Poisson count algebra, Lemma 1 continuous-duration observed-rate formula and probability bounds, finite-duration weighted-average detection-probability identity, continuous-duration Poisson thinning count law, IID unit-interval LLN route to the continuous observed rate, exponential reporting-delay mean, Appendix B.2 zero/one/multi-report source-case algebra, condition-function and observed-jump-time source-data constructors including ordered-window jump-time rows, explicit no-arrival/interarrival process-kernel collection, finite-product likelihood kernels, full Poisson-binomial thinning algebra, Lemma 2 restricted-start tail, memoryless-ratio, PMF-mass, density-mixture bridges, one/finite-jump process-law normalization, ordered-region volume normalization, generic arrival-kernel case factorization, Eq. (33)/(34) min-censored stopping-window construction from endpoint stopping-time premises, deterministic endpoint specializations, first-count-arrival certificate variants, duration-censored local stopping certificate route including stochastic endpoint, pathwise deterministic-window projections, and zero/one/multi-report source-data factorization over certified pathwise windows, fixed-function Condition 1/2 density-source route, non-identifiability collisions including positive-premise variants, MLE score/global log-likelihood optimality, Poisson-regression likelihood, and zero-inflated likelihood rows are Lean-checked. The preferred finite Theorem 1 / Appendix Theorem 2 rows now route through `Theorem2PrimitiveSourceModel`: fixed `g(s)` and `h_m(e)` data build the rate-indexed source model with rate-independence proved by reflexivity, and the homogeneous count-process law drives the Poisson PMF consequences plus constructed `FinitePoissonCountFamily` witnesses. The legacy source bundle `assumption_theorem2_poisson_process_and_conditions` remains an audit layer. Future reusable-library work is narrowed to proving/supplying the homogeneous Poisson counting-process law and the duration-censored stopping certificate fields for the concrete process/endpoints, together with fixed paper Condition 1/2 kernels.",
-      "human_summary": "Poisson likelihood algebra, Lemma 1/2 consequences, MLE/regression/zero-inflation rows, and the Eq. (33)/(34) stopping-window bridge compile; full formalization requires a compact homogeneous Poisson process, stopping-certificate, and fixed-kernel certificate bundle.",
+      "human_summary": "Full formalization requires a homogeneous Poisson process and stopping time derivation",
       "human_summary_review": {
-        "status": "draft",
-        "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction."
+        "status": "human_written",
+        "note": "Human-written summary supplied on 2026-06-28; preserve verbatim unless a human explicitly asks for a change."
       },
       "review_entrypoint": "papers/LBG24SpatialUnderreporting/FINAL_VALIDATION_REPORT.md",
       "human_review": {

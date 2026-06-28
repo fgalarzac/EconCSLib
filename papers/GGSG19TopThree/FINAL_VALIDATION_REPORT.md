@@ -2,25 +2,9 @@
 
 ## 1. Human Verdict
 
-- Lean formalization status: formalized
-- Human dashboard review status: 0/10 rows reviewed; 0 stale; 0 mismatches.
-- Axiom/premise/source-hygiene audit: 9/9 explicit premises are source-matched or derived from source primitives.
-
-- Lean formalization status: formalized.
-- Human dashboard review status: 0 reviewed rows, 0 stale rows, 0 mismatch rows, 10 total rows.
-- Paper correctness verdict: no source error found for the formalized finite-candidate theorem surface.
-- Qualitative proof verdict: the finite-candidate theorem surface is exposed
-  with explicit finite-support boundary handling. The remaining visible
-  premises are source-matched or derived from source primitives.
-- Lean footprint: 34,984 paper-local Lean LOC, 308 `PaperInterface.lean` LOC, 10 review rows.
-
-<!-- transitive-source-premise-audit:start -->
-### Axiom, Premise, And Source-Hygiene Audit
-
-The current axiom/premise/source-hygiene audit passes for full-status provenance. It uses Lean-native #print axioms for transitive proof debt, expanded paper-facing signatures for visible premises, and source-assumption ledgers for any non-derived assumptions.
-
-Current result: no unresolved hidden source-row or certificate premise remains in the paper-facing review surface.
-<!-- transitive-source-premise-audit:end -->
+Formalized. The finite-candidate Top Three theorem surface is checked with the
+finite-support conditions made explicit. No source-paper error is reported for
+the formalized results. No human dashboard sign-off has been recorded.
 
 ## 2. Source and Scope
 
@@ -211,9 +195,8 @@ The targeted paper build passed for `lake build GGSG19TopThree`. The DAG was
 rendered from the paper folder with `latexmk`, converted to PNG, and visually
 inspected. Targeted `git diff --check` passed for the changed GGSG documents.
 
-## 15. Final Verdict
+## 15. Closeout Status
 
 - Completion status: formalized.
-- Summary: The finite-candidate source theorem surface is represented in Lean,
-  including the finite-support boundary branches and randomized pivotal-pair
-  cases exposed in the paper-facing interface.
+- One-sentence recap: The finite-candidate Top Three theorem surface is checked
+  with explicit finite-support handling.

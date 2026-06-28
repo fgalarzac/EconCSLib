@@ -2,32 +2,10 @@
 
 ## 1. Human Verdict
 
-- Lean formalization status: formalized
-- Human dashboard review status: 0/18 rows reviewed; 0 stale; 0 mismatches.
-- Main caveat: none.
-
-### Report Metadata
-
-Date: 2026-05-01
-
-### Verdict
-
-The tracked paper-facing formalization for *User-item fairness tradeoffs in
-recommendations* is formalized under the current provenance standard.
-
-The targeted paper build completed successfully and a Lean-file placeholder scan
-found no real `sorry`, `admit`, or `axiom` proof gaps in
-`papers/GCG24UserItemFairness`; matches were only comment prose. The current
-paper-facing wrappers construct or discharge the earlier LP/duality and
-feasible-support certificate inputs internally.
-
-<!-- transitive-source-premise-audit:start -->
-### Axiom, Premise, And Source-Hygiene Audit
-
-The current axiom/premise/source-hygiene audit passes for full-status provenance. It uses Lean-native #print axioms for transitive proof debt, expanded paper-facing signatures for visible premises, and source-assumption ledgers for any non-derived assumptions.
-
-Current result: no unresolved hidden source-row or certificate premise remains in the paper-facing review surface.
-<!-- transitive-source-premise-audit:end -->
+Formalized. The paper-facing results for user-item fairness tradeoffs are
+checked, including the LP/duality and feasible-support ingredients needed by
+the source arguments. No paper-correctness caveat is reported. No human
+dashboard sign-off has been recorded.
 
 ## 2. Source and Scope
 
@@ -246,11 +224,8 @@ rows: none. Surface audit: not required (30 or fewer paper-facing rows).
 
 Flagged rows: none.
 
-## 15. Final Verdict
+## 15. Closeout Status
 
 - Completion status: formalized.
-- Summary: Recommendation fairness propositions and theorem statements compile
-  under the formal source model, with 34/34 recorded theorem premises
-  source-matched or source-conditioned. The earlier LP/duality and
-  feasible-support certificate boundary has been removed from the closed
-  paper-facing wrappers.
+- One-sentence recap: Recommendation fairness propositions and theorem
+  statements are checked under the formal source model.

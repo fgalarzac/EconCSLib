@@ -2,21 +2,11 @@
 
 ## 1. Human Verdict
 
-- Lean formalization status: partially formalized.
-- Human dashboard review status: 0/30 rows reviewed; 0 stale; 0 mismatches.
-- LLM statement-translation audit: 17/30 LLM-as-judge statement rows match; 13 are uncertain; 0 stale, missing, or mismatch rows.
-- Paper correctness verdict: no auction-theoretic error found.
-- Qualitative proof verdict: The auction, greedy, critical-price, and single-minded truthfulness arguments are formalized in the paper-facing model. The final native complexity claims are intentionally stopped at a reusable computational-complexity boundary.
-- Lean footprint: 7,288 paper-local Lean lines across 3 files; `PaperInterface.lean` has 174 lines and 30 review rows.
-- Human summary: Greedy approximation, truthfulness, and Theorem 6.1 reductions are formalized. Full formalization requires computational complexity results that are out of scope.
-
-<!-- transitive-source-premise-audit:start -->
-### Axiom, Premise, And Source-Hygiene Audit
-
-The current axiom/premise/source-hygiene audit does not yet pass for full-status provenance. It uses Lean-native #print axioms for transitive proof debt, expanded paper-facing signatures for visible premises, and source-assumption ledgers for any non-derived assumptions.
-
-Current result: the external complexity consequences, critical-value infinity axioms, and greedy-order blocking windows remain explicit partial boundaries.
-<!-- transitive-source-premise-audit:end -->
+Partially formalized. The auction model, greedy approximation, critical-price
+arguments, single-minded truthfulness, and Theorem 6.1 reductions are checked.
+Full formalization still requires reusable computational-complexity
+infrastructure for the final native complexity claims. No auction-theoretic
+paper error is reported. No human dashboard sign-off has been recorded.
 
 ## 2. Source and Scope
 
@@ -122,15 +112,11 @@ Flagged rows:
 - `averageGreedyAcceptedSet`: uncertain. The draft is mostly a Lean function signature and does not state the average-greedy accepted set in paper language.
 - `averageGreedyPayment`: uncertain. The draft is mostly a Lean function signature and does not state the payment formula in paper language.
 
-## 12. Final Verdict
-
-LOS02 is suitable as a public partial formalization. The EconCS auction and
-truthfulness content is formalized in the current model, while the final
-machine-level complexity conclusions remain conditional on reusable complexity
-infrastructure that is not yet in the library.
+## 12. Closeout Status
 
 - Completion status: partially formalized.
-- Summary: Greedy approximation, truthfulness, and Theorem 6.1 reductions are formalized. Full formalization requires computational complexity results that are out of scope.
+- One-sentence recap: Greedy approximation, truthfulness, and Theorem 6.1
+  reductions are checked; full closure needs reusable complexity infrastructure.
 
 ## 13. Paper Definitions Checked
 

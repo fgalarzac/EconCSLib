@@ -1,47 +1,14 @@
 # Final Validation Report: Quantifying Spatial Under-reporting Disparities
 
-This is a partial validation report, not a completion certificate. The paper is
-partially formalized and ready to be presented as a public partial checkpoint.
-
-Status checkpoint: 2026-06-28, after tightening the finite observed-window and
-local stopping-certificate proof campaign to a compact primitive-wrapper
-boundary. The checked Theorem 1 / Appendix Theorem 2 route now starts from
-`Theorem2PrimitiveSourceModel`, which packages a homogeneous Poisson count law
-with fixed paper `g(s)` and `h_m(e)` kernels, proves the zero/one/multi
-observed-window factorizations, and constructs finite independent Poisson
-count-family witnesses whose product likelihood collapses to one total-count
-PMF. The Eq. (33)/(34) min-censored preprocessing windows now have checked
-stopping-time closure under explicit endpoint stopping-time premises, fixed
-endpoint specializations, and first-count-arrival certificates whose level sets
-are adapted count-threshold events. The local finite-observation certificate
-now packages count observability, first-count level sets, endpoint stopping
-facts, and duration censoring into one library-level stopping-window theorem.
-The same local certificate route now also has stochastic-endpoint
-paper-facing rows and pathwise deterministic `ObservationWindow` projections
-from the certified stopping windows. The realized stopping-window bridge now
-also feeds the Appendix B.2 zero/one/multi source-data factorization rows, and
-the NYC/Chicago local-count preprocessing rows include zero/one/multi-report
-factorization over the certified pathwise exposure.
-Proving or supplying the compact process/stopping/kernel certificate bundle
-remains the next closure target: the homogeneous counting-process law, fixed
-Condition 1/2 kernels, and local stopping-certificate fields for the concrete
-process/endpoints. Under the standard homogeneous Poisson process model this is
-expected to be true, but shrinking it further requires deeper
-continuous-time/natural-filtration library work.
-
 ## 1. Human Verdict
 
-- Lean formalization status: partially formalized
-- Human dashboard review status: current closeout surface has 87 unreviewed
-  items: 84 paper-interface rows plus 3 explicit assumption rows. The
-  statement, assumption, review-surface, and source-record sidecars are current
-  for this public partial checkpoint.
-- Paper correctness verdict: theorem target selected; one appendix proof-formula
-  typo identified in the `M > 1` residual factor
-- Qualitative proof verdict: source-facing Poisson, interarrival-kernel,
-  min-censored preprocessing-window, MLE, regression, and zero-inflation algebra
-  is Lean-checked; the full continuous-time source-record construction remains
-- Lean footprint: `lake build LBG24SpatialUnderreporting` passes
+Partially formalized. The checked results cover the source-facing likelihood,
+interarrival-kernel, preprocessing-window, MLE, regression, and zero-inflation
+algebra. Full formalization still requires deriving the homogeneous Poisson
+process and stopping-time certificate from primitive process assumptions. One
+appendix proof-formula typo is noted for the multi-report residual factor; no
+broader economic-model caveat is claimed. No human dashboard sign-off has been
+recorded.
 
 ## 2. Source and Scope
 
@@ -425,20 +392,11 @@ Closeout results:
   aggregate generated status files have been refreshed from the paper-local
   `status.json`.
 
-## 12. Final Verdict
+## 12. Closeout Status
 
-Completion status: partially formalized.
-
-The algebraic theorem core is checked in Lean and the finite source/density
-surface is explicit as an audit layer. The preferred public route is now the
-compact `Theorem2PrimitiveSourceModel` plus
-`DurationCensoredFirstCountObservationCertificate` boundary. The Eq. (33)/(34)
-min-censoring stopping-window bookkeeping is checked from endpoint
-stopping-time premises, fixed endpoint specializations, and first-count-arrival
-certificates. The paper is not yet fully formalized because the concrete
-continuous-time process theorem has not been used to supply the homogeneous
-count-process law, fixed `g`/`h_m` kernels, and local stopping-certificate
-fields for the actual process/endpoints.
+- Completion status: partially formalized.
+- One-sentence recap: The algebraic factorization core is checked; full closure
+  needs the homogeneous Poisson process and stopping-time certificate.
 
 ## 13. Named Theorem Statements Checked
 
