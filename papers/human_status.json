@@ -371,7 +371,7 @@
       "human_translation": "10/27 reviewed; 2 uncertain",
       "llm_as_judge_translation": "17/17 match",
       "lean_loc": 680,
-      "main_note": "Formalization required an interior-quality assumption (0 < q_v < 1) for the strict variance-decrease statement.",
+      "main_note": "Formalization required an additional interior-quality assumption (0 < q_v < 1) for the strict variance-decrease statement.",
       "main_note_citation": null,
       "main_note_review": null,
       "paper_folder": "papers/MBJG25ProducerFairness",
