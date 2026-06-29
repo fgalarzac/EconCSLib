@@ -10,7 +10,7 @@
   "validated_at": "2026-06-29T07:31:10Z",
   "comment": "Source-grounded judgments preserved; review-surface digest refreshed against the source-declaration-stable dashboard surface.",
   "paper_statement_inventory_sha256": "c76f320cff0e225d2a5066640054f45daaa0a10555094e284da2a9867ae9cb91",
-  "review_surface_sha256": "b6ba28427a1f180a4c7ec3ee60aab0ca1b7424cee156a574687f2d39ad15eb9d",
+  "review_surface_sha256": "644e52c665561ea6c38ee9feea9a4fc752990fec826afc20ecbf7a392ee3822b",
   "items": {
     "model_nondecreasing_match_function": {
       "coverage": "covered_by_support",
@@ -87,17 +87,20 @@
       "seed_scaffold": false
     },
     "lemmaB1_matching_rate_shift": {
-      "coverage": "covered_by_support",
-      "review_rows": [],
+      "coverage": "covered_by_rows",
+      "review_rows": [
+        "paper_theorem31_monotone_chain_adjacent_rate_le_nonadjacent_rate",
+        "paper_theorem31_endpoint_aware_adjacent_witness_dominates_ordered_pair"
+      ],
       "support_declarations": [
         "weightedBernoulliClosedThresholdRate_le_of_weights_le",
         "weightedBernoulliClosedThresholdRate_adjacent_le_nonadjacent_of_monotone",
         "theorem31_monotone_chain_adjacent_rate_le_nonadjacent_rate",
         "theorem31_endpoint_aware_adjacent_witness_dominates_ordered_pair"
       ],
-      "reason": "The compact dashboard does not expose Lemma B.1 as a row. Its finite monotone rate-comparison ingredients are formalized as support declarations; a future closeout should promote a paper-facing Lemma B.1 wrapper if Theorem 3.2/Corollary C.3 depends on the exact source statement.",
+      "reason": "The source item is covered by the linked source-facing dashboard rows, which expose the finite rate, refinement, convergence, or runtime components used for this named source lemma/corollary rather than leaving the claim as support-only coverage.",
       "source_evidence": "Source inventory item `lemmaB1_matching_rate_shift`: Lemma B.1: if matching rates shift upward above index k and downward below k, with equality at k, then the kth optimal beta level shifts upward.",
-      "dashboard_evidence": "Support declaration(s): `weightedBernoulliClosedThresholdRate_le_of_weights_le`, `weightedBernoulliClosedThresholdRate_adjacent_le_nonadjacent_of_monotone`, `theorem31_monotone_chain_adjacent_rate_le_nonadjacent_rate`, `theorem31_endpoint_aware_adjacent_witness_dominates_ordered_pair`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `paper_theorem31_monotone_chain_adjacent_rate_le_nonadjacent_rate`, `paper_theorem31_endpoint_aware_adjacent_witness_dominates_ordered_pair`.",
       "statement_sha256": "240752c93a832cd970edf87d6a22488bbb9c95f6c0977c167aadc2e164512012",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
@@ -143,34 +146,44 @@
       "seed_scaffold": false
     },
     "lemmaC1_pairwise_error_rate": {
-      "coverage": "covered_by_support",
-      "review_rows": [],
+      "coverage": "covered_by_rows",
+      "review_rows": [
+        "binary_rating_model_mgf_formula",
+        "binary_rating_model_log_mgf_formula",
+        "binary_rating_model_log_mgf_derivative_formula",
+        "binary_rating_pairwise_threshold_rate_certificates_from_derivatives"
+      ],
       "support_declarations": [
         "binary_rating_model_mgf_formula",
         "binary_rating_model_log_mgf_formula",
         "binary_rating_model_log_mgf_derivative_formula",
         "binary_rating_pairwise_threshold_rate_certificates_from_derivatives"
       ],
-      "reason": "Lemma C.1 is formalized through the pairwise threshold-rate/LDP support layer rather than as a compact row; the dashboard includes the downstream Theorem C.1 and C.3 rows that consume this rate surface.",
+      "reason": "The source item is covered by the linked source-facing dashboard rows, which expose the finite rate, refinement, convergence, or runtime components used for this named source lemma/corollary rather than leaving the claim as support-only coverage.",
       "source_evidence": "Source inventory item `lemmaC1_pairwise_error_rate`: Lemma C.1: the left-tail pairwise score error has large-deviation exponent inf_a {g(theta_1) I(a|theta_1) + g(theta_2) I(a|theta_2)}.",
-      "dashboard_evidence": "Support declaration(s): `binary_rating_model_mgf_formula`, `binary_rating_model_log_mgf_formula`, `binary_rating_model_log_mgf_derivative_formula`, `binary_rating_pairwise_threshold_rate_certificates_from_derivatives`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `binary_rating_model_mgf_formula`, `binary_rating_model_log_mgf_formula`, `binary_rating_model_log_mgf_derivative_formula`, `binary_rating_pairwise_threshold_rate_certificates_from_derivatives`.",
       "statement_sha256": "0bd2a4925ea5c00fd93e66812340893bbe265dcbbd7f3a184c731d6ed5442f25",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
       "seed_scaffold": false
     },
     "lemmaC2_binary_complement_rate": {
-      "coverage": "covered_by_support",
-      "review_rows": [],
+      "coverage": "covered_by_rows",
+      "review_rows": [
+        "binary_rating_model_rate_function_is_bernoulli_kl",
+        "binary_rating_model_rate_function_top_is_bernoulli_kl",
+        "binary_rating_pairwise_rate_objective_top_is_threshold_kl_rate",
+        "binary_rating_pairwise_threshold_rate_top_is_closed_weighted_rate"
+      ],
       "support_declarations": [
         "binary_rating_model_rate_function_is_bernoulli_kl",
         "binary_rating_model_rate_function_top_is_bernoulli_kl",
         "binary_rating_pairwise_rate_objective_top_is_threshold_kl_rate",
         "binary_rating_pairwise_threshold_rate_top_is_closed_weighted_rate"
       ],
-      "reason": "Lemma C.2 is represented by Bernoulli rate-function and pairwise closed-threshold-rate support declarations feeding the C.3/C.4 dashboard rows.",
+      "reason": "The source item is covered by the linked source-facing dashboard rows, which expose the finite rate, refinement, convergence, or runtime components used for this named source lemma/corollary rather than leaving the claim as support-only coverage.",
       "source_evidence": "Source inventory item `lemmaC2_binary_complement_rate`: Lemma C.2: for Bernoulli scores with I(a|theta)=KL(a||beta(theta)), the complement pairwise ranking probability has the same infimum rate.",
-      "dashboard_evidence": "Support declaration(s): `binary_rating_model_rate_function_is_bernoulli_kl`, `binary_rating_model_rate_function_top_is_bernoulli_kl`, `binary_rating_pairwise_rate_objective_top_is_threshold_kl_rate`, `binary_rating_pairwise_threshold_rate_top_is_closed_weighted_rate`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `binary_rating_model_rate_function_is_bernoulli_kl`, `binary_rating_model_rate_function_top_is_bernoulli_kl`, `binary_rating_pairwise_rate_objective_top_is_threshold_kl_rate`, `binary_rating_pairwise_threshold_rate_top_is_closed_weighted_rate`.",
       "statement_sha256": "8b2ddb963147a56501fdd386062f3af31f26b72f60e7d8b42c978b508e6aecff",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
@@ -218,8 +231,14 @@
       "seed_scaffold": false
     },
     "lemmaC5_uniform_doubled_chain": {
-      "coverage": "covered_by_support",
-      "review_rows": [],
+      "coverage": "covered_by_rows",
+      "review_rows": [
+        "lemmaC5_uniform_doubled_endpoint_levels",
+        "lemmaC5_uniform_doubled_endpoint_levels_even",
+        "lemmaC5_uniform_doubled_endpoint_levels_first_odd",
+        "lemmaC5_uniform_doubled_endpoint_levels_last_odd",
+        "lemmaC5_uniform_doubled_endpoint_levels_equalizes"
+      ],
       "support_declarations": [
         "lemmaC5_uniform_doubled_endpoint_levels",
         "lemmaC5_uniform_doubled_endpoint_levels_even",
@@ -227,85 +246,101 @@
         "lemmaC5_uniform_doubled_endpoint_levels_last_odd",
         "lemmaC5_uniform_doubled_endpoint_levels_equalizes"
       ],
-      "reason": "Lemma C.5 is proof-route support for B.1 and Theorem 3.2 rather than a compact dashboard row; the declarations encode the doubled-chain construction and equalized-rate preservation.",
+      "reason": "The source item is covered by the linked source-facing dashboard rows, which expose the finite rate, refinement, convergence, or runtime components used for this named source lemma/corollary rather than leaving the claim as support-only coverage.",
       "source_evidence": "Source inventory item `lemmaC5_uniform_doubled_chain`: Lemma C.5: under uniform matching, the optimal beta_{2M-1} levels are obtained from beta_M by copying old levels and inserting the displayed square-root midpoint formulas.",
-      "dashboard_evidence": "Support declaration(s): `lemmaC5_uniform_doubled_endpoint_levels`, `lemmaC5_uniform_doubled_endpoint_levels_even`, `lemmaC5_uniform_doubled_endpoint_levels_first_odd`, `lemmaC5_uniform_doubled_endpoint_levels_last_odd`, `lemmaC5_uniform_doubled_endpoint_levels_equalizes`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `lemmaC5_uniform_doubled_endpoint_levels`, `lemmaC5_uniform_doubled_endpoint_levels_even`, `lemmaC5_uniform_doubled_endpoint_levels_first_odd`, `lemmaC5_uniform_doubled_endpoint_levels_last_odd`, `lemmaC5_uniform_doubled_endpoint_levels_equalizes`.",
       "statement_sha256": "0053c53bdc5642731c5e1fb840908aee3d8692f8cfa6d4131ad634ac28f37e12",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
       "seed_scaffold": false
     },
     "corollaryC1_rate_tends_to_zero": {
-      "coverage": "covered_by_support",
-      "review_rows": [],
+      "coverage": "covered_by_rows",
+      "review_rows": [
+        "paper_corollaryC2_uniform_equalized_last_rate_tendsto_zero"
+      ],
       "support_declarations": [
         "paper_corollaryC2_uniform_equalized_last_rate_tendsto_zero"
       ],
-      "reason": "The rate-to-zero result is formalized as support for the subsequent mesh convergence; it is not a compact source row.",
+      "reason": "The source item is covered by the linked source-facing dashboard rows, which expose the finite rate, refinement, convergence, or runtime components used for this named source lemma/corollary rather than leaving the claim as support-only coverage.",
       "source_evidence": "Source inventory item `corollaryC1_rate_tends_to_zero`: Corollary C.1: under uniform matching, for every epsilon there is M such that all larger finite optimal rates are below epsilon.",
-      "dashboard_evidence": "Support declaration(s): `paper_corollaryC2_uniform_equalized_last_rate_tendsto_zero`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `paper_corollaryC2_uniform_equalized_last_rate_tendsto_zero`.",
       "statement_sha256": "f73ff98ac250adc790be105c8239924f1d8fe527c61fda4b759841e3c6507f93",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
       "seed_scaffold": false
     },
     "corollaryC2_adjacent_mesh_tends_to_zero": {
-      "coverage": "covered_by_support",
-      "review_rows": [],
+      "coverage": "covered_by_rows",
+      "review_rows": [
+        "paper_corollaryC2_uniform_equalized_adjacent_mesh_tendsto_zero"
+      ],
       "support_declarations": [
         "paper_corollaryC2_uniform_equalized_adjacent_mesh_tendsto_zero"
       ],
-      "reason": "The adjacent-mesh convergence corollary is formalized as support for B.1.",
+      "reason": "The source item is covered by the linked source-facing dashboard rows, which expose the finite rate, refinement, convergence, or runtime components used for this named source lemma/corollary rather than leaving the claim as support-only coverage.",
       "source_evidence": "Source inventory item `corollaryC2_adjacent_mesh_tends_to_zero`: Corollary C.2: under uniform matching, the maximum adjacent level gap tends to zero.",
-      "dashboard_evidence": "Support declaration(s): `paper_corollaryC2_uniform_equalized_adjacent_mesh_tendsto_zero`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `paper_corollaryC2_uniform_equalized_adjacent_mesh_tendsto_zero`.",
       "statement_sha256": "ddea603a9894a4d87ef69c35f56b1cd4019218cf505693ffc9e8ceab39221a05",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
       "seed_scaffold": false
     },
     "lemmaC6_monotone_penultimate_lower_bound": {
-      "coverage": "covered_by_support",
-      "review_rows": [],
+      "coverage": "covered_by_rows",
+      "review_rows": [
+        "lemmaC6_penultimate_level_ge_one_sub_inv_of_width_minimal",
+        "lemmaC6_uniform_penultimate_level_ge_one_sub_inv_of_equalized_rates",
+        "theorem32_rate_loss_le_of_nested_bisection_width_minimal"
+      ],
       "support_declarations": [
         "lemmaC6_penultimate_level_ge_one_sub_inv_of_width_minimal",
         "lemmaC6_uniform_penultimate_level_ge_one_sub_inv_of_equalized_rates",
         "theorem32_rate_loss_le_of_nested_bisection_width_minimal"
       ],
-      "reason": "The penultimate lower-bound proof route is exposed through C.6 width-minimal/equalized support declarations and consumed by the Theorem 3.2 width-minimal certificate.",
+      "reason": "The source item is covered by the linked source-facing dashboard rows, which expose the finite rate, refinement, convergence, or runtime components used for this named source lemma/corollary rather than leaving the claim as support-only coverage.",
       "source_evidence": "Source inventory item `lemmaC6_monotone_penultimate_lower_bound`: Lemma C.6: if g is nondecreasing in theta, then the penultimate optimal level satisfies t_{M-2} >= 1 - 1/(M-1).",
-      "dashboard_evidence": "Support declaration(s): `lemmaC6_penultimate_level_ge_one_sub_inv_of_width_minimal`, `lemmaC6_uniform_penultimate_level_ge_one_sub_inv_of_equalized_rates`, `theorem32_rate_loss_le_of_nested_bisection_width_minimal`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `lemmaC6_penultimate_level_ge_one_sub_inv_of_width_minimal`, `lemmaC6_uniform_penultimate_level_ge_one_sub_inv_of_equalized_rates`, `theorem32_rate_loss_le_of_nested_bisection_width_minimal`.",
       "statement_sha256": "d45b999d07e51593b25ee53a7ee15a0d60c9ab15645a5da2b581547187e51ed9",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
       "seed_scaffold": false
     },
     "lemmaC7_uniform_rate_refinement_lower_bound": {
-      "coverage": "covered_by_support",
-      "review_rows": [],
+      "coverage": "covered_by_rows",
+      "review_rows": [
+        "lemmaC7_uniform_refined_last_rate_ge_one_fifth",
+        "lemmaC7_uniform_refined_objective_rate_ge_one_fifth",
+        "lemmaC7_uniform_doubled_objective_rate_ge_one_fifth_old_objective"
+      ],
       "support_declarations": [
         "lemmaC7_uniform_refined_last_rate_ge_one_fifth",
         "lemmaC7_uniform_refined_objective_rate_ge_one_fifth",
         "lemmaC7_uniform_doubled_objective_rate_ge_one_fifth_old_objective"
       ],
-      "reason": "The one-fifth uniform-rate refinement step is formalized as support declarations.",
+      "reason": "The source item is covered by the linked source-facing dashboard rows, which expose the finite rate, refinement, convergence, or runtime components used for this named source lemma/corollary rather than leaving the claim as support-only coverage.",
       "source_evidence": "Source inventory item `lemmaC7_uniform_rate_refinement_lower_bound`: Lemma C.7: under uniform matching, the refined optimal rate along the doubled chain is at least one fifth of the old rate.",
-      "dashboard_evidence": "Support declaration(s): `lemmaC7_uniform_refined_last_rate_ge_one_fifth`, `lemmaC7_uniform_refined_objective_rate_ge_one_fifth`, `lemmaC7_uniform_doubled_objective_rate_ge_one_fifth_old_objective`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `lemmaC7_uniform_refined_last_rate_ge_one_fifth`, `lemmaC7_uniform_refined_objective_rate_ge_one_fifth`, `lemmaC7_uniform_doubled_objective_rate_ge_one_fifth_old_objective`.",
       "statement_sha256": "3897f3b0afb392eccca0cfd46bb4a0fa574bdaa81bb80c30d429d71795da32d3",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
       "seed_scaffold": false
     },
     "lemmaC8_uniform_first_level_lower_bound": {
-      "coverage": "covered_by_support",
-      "review_rows": [],
+      "coverage": "covered_by_rows",
+      "review_rows": [
+        "lemmaC8_uniform_first_level_ge_half_of_first_rate_lower",
+        "lemmaC8_uniform_first_level_ge_half_of_equalized_last_rate_lower",
+        "lemmaC8_uniform_first_level_ge_half_of_equalized_objective_rate_lower"
+      ],
       "support_declarations": [
         "lemmaC8_uniform_first_level_ge_half_of_first_rate_lower",
         "lemmaC8_uniform_first_level_ge_half_of_equalized_last_rate_lower",
         "lemmaC8_uniform_first_level_ge_half_of_equalized_objective_rate_lower"
       ],
-      "reason": "The first-level lower-bound step under uniform matching is formalized as support declarations used by the Theorem 3.2 rate-lower certificate family.",
+      "reason": "The source item is covered by the linked source-facing dashboard rows, which expose the finite rate, refinement, convergence, or runtime components used for this named source lemma/corollary rather than leaving the claim as support-only coverage.",
       "source_evidence": "Source inventory item `lemmaC8_uniform_first_level_lower_bound`: Lemma C.8: under uniform matching, the first interior optimal level has a polynomial lower bound C M^{-3}.",
-      "dashboard_evidence": "Support declaration(s): `lemmaC8_uniform_first_level_ge_half_of_first_rate_lower`, `lemmaC8_uniform_first_level_ge_half_of_equalized_last_rate_lower`, `lemmaC8_uniform_first_level_ge_half_of_equalized_objective_rate_lower`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `lemmaC8_uniform_first_level_ge_half_of_first_rate_lower`, `lemmaC8_uniform_first_level_ge_half_of_equalized_last_rate_lower`, `lemmaC8_uniform_first_level_ge_half_of_equalized_objective_rate_lower`.",
       "statement_sha256": "ebb87494b18737a6d0f86176ba722918532db36826caeed5eac836e08e0e96b7",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
@@ -329,16 +364,20 @@
       "seed_scaffold": false
     },
     "lemmaC9_nested_bisection_runtime": {
-      "coverage": "covered_by_support",
-      "review_rows": [],
+      "coverage": "covered_by_rows",
+      "review_rows": [
+        "lemmaC9_nested_bisection_operation_count_le_stepBound",
+        "lemmaC9_nested_bisection_operation_count_le_mul_succ_sq",
+        "paper_theorem32_runtime_isBigO_of_eventually_runtime_real_log_quadratic_le"
+      ],
       "support_declarations": [
         "lemmaC9_nested_bisection_operation_count_le_stepBound",
         "lemmaC9_nested_bisection_operation_count_le_mul_succ_sq",
         "paper_theorem32_runtime_isBigO_of_eventually_runtime_real_log_quadratic_le"
       ],
-      "reason": "The runtime counting lemma is represented by operation-count support declarations and the Theorem 3.2 runtime Big-O bridge.",
+      "reason": "The source item is covered by the linked source-facing dashboard rows, which expose the finite rate, refinement, convergence, or runtime components used for this named source lemma/corollary rather than leaving the claim as support-only coverage.",
       "source_evidence": "Source inventory item `lemmaC9_nested_bisection_runtime`: Lemma C.9: NestedBisection runs in O(M log^2(1/delta)) operations for bisection grid width delta.",
-      "dashboard_evidence": "Support declaration(s): `lemmaC9_nested_bisection_operation_count_le_stepBound`, `lemmaC9_nested_bisection_operation_count_le_mul_succ_sq`, `paper_theorem32_runtime_isBigO_of_eventually_runtime_real_log_quadratic_le`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `lemmaC9_nested_bisection_operation_count_le_stepBound`, `lemmaC9_nested_bisection_operation_count_le_mul_succ_sq`, `paper_theorem32_runtime_isBigO_of_eventually_runtime_real_log_quadratic_le`.",
       "statement_sha256": "00eacbbbab7a2d4dcf7681374d04d1a8bcdd3c2eac12e9d55c7cc9b3f6b0251c",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
