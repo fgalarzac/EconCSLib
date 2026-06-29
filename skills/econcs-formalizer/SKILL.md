@@ -1580,6 +1580,23 @@ the Lean statements against the paper.
   paper dashboard cache, regenerate `paper_coverage_llm.json`, rerun the
   assumption-provenance audit, and refresh `source_record_audit.json` plus its
   judgment digest if the expected source-record field set is unchanged.
+- Treat source-to-Lean coverage as a chained audit, not two unrelated green
+  checks. A source item marked `covered` in `paper_coverage_llm.json` must link
+  to concrete `review_rows`, and those rows must have current row-local LLM
+  correctness judgments in `statement_match_llm.json`, even when the row is an
+  assumption row. The statement-match judgment must be for the exact current
+  dashboard paper statement of the linked row; the script checks the saved
+  paper-statement digest automatically, so a green judgment for an old or
+  different statement does not count. `assumption_match_llm.json` is a separate
+  provenance/boundary lane for whether an assumption is source-derived or a
+  partial formalization boundary. Run
+  `python3 scripts/review_dashboard.py --paper <paper-folder> --source-to-lean-precheck`
+  before claiming a paper is complete; use `--source-to-lean-check` as the
+  blocking version once any intentional support-only legacy rows have been
+  promoted or reclassified. A theorem/lemma/proposition/corollary source item
+  covered only by `support_declarations` is a warning sign: promote it to a
+  source-facing `PaperInterface.lean` row with Lean-to-TeX and statement-match
+  judgments, or mark the paper status/coverage boundary honestly.
 - Treat paper coverage as three separate LLM-as-judge lanes:
   1. **Source inventory lane.** Read the source PDF/TeX/text (or a previously
      recorded source inventory with source locations) and write
@@ -1602,9 +1619,21 @@ the Lean statements against the paper.
      "exact_key_scaffold"` and must not pass a closeout audit.
   3. **Row-local statement lane.** Generate `lean_to_tex_llm.json` from Lean
      statements alone, then have another judge compare that translation against
-     the source statement text in `statement_match_llm.json`. This answers
-     whether a dashboard row says what the source says; it does not answer
-     whether all source statements are represented.
+     the dashboard row's paper statement text in `statement_match_llm.json`.
+     Every row-local judgment must save Lean, TeX, and paper-statement digests;
+     the source-to-Lean audit uses those digests to ensure the judge checked
+     the same statement that the linked row currently claims to cover. This
+     answers whether a dashboard row says what its displayed paper statement
+     says; it does not answer whether all source statements are represented.
+  4. **Joined source-to-Lean lane.** The dashboard script joins
+     `paper_coverage_llm.json` to the row-local correctness files and emits
+     `row_statement_match_links`/`row_correctness_*` JSON records with source
+     digests, row digests, row names, validators, timestamps, and stale flags.
+     Inspect these records when debugging a false completion: the paper is not
+     actually source-to-Lean clean unless every covered source statement either
+     has passing linked row correctness judgments for the same current row
+     statements, or is explicitly and honestly marked as conditional/out of
+     scope/support-only.
 - Paper-facing definitions in `PaperInterface.lean` must show their actual
   Lean definition bodies, not only their function types or an opaque imported
   library name. If a dashboard row for a definition renders as only

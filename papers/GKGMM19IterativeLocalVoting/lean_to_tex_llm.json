@@ -161,6 +161,18 @@
       "lean_statement_sha256": "9b5c230534ab6f603ae3787abd20ead7714741b6a919432d2096f18bf69a75b4",
       "comment": "Digest metadata refreshed against the source declaration text; TeX text preserved.",
       "validated_at": "2026-06-29T07:14:13Z"
+    },
+    "assumption_conditions_c123": {
+      "lean_statement_sha256": "4d4c573f30032e5b28fe7976acac0ce721b10278a1d5577f2902463f3d913fc1",
+      "tex_statement": "\\mathrm{assumption\\_conditions\\_c123}(E) :\\iff E.\\mathrm{solutionSpace\\_nonempty\\_bounded\\_closed\\_convex} \\land E.\\mathrm{uniqueIdealSolutions} \\land E.\\mathrm{idealDistribution\\_bounded\\_measurable\\_density}.",
+      "comment": "Added for source-to-Lean joined audit; Lean abbreviation body is displayed directly.",
+      "validated_at": "2026-06-29T00:00:00Z"
+    },
+    "assumption_ssgm_convergence_theorem": {
+      "lean_statement_sha256": "69711b911a751bc25aaf4f6e4c5d4937e6c4ae5c011d2463a45010ad47285db6",
+      "tex_statement": "\\forall\\,\\{Voter,Coord\\}\\,[\\mathrm{Fintype}\\ Coord]\\,[\\mathrm{Nonempty}\\ Coord]\\,(E : \\mathrm{ILVEnvironment}\\ Voter\\ (Coord\\to\\mathbb{R})),\\ \\mathrm{FiniteCoordinateILVSSGMConvergenceTheorems}(E).",
+      "comment": "Added for source-to-Lean joined audit; this is the theorem-shaped SSGM boundary row.",
+      "validated_at": "2026-06-29T00:00:00Z"
     }
   },
   "paper": "GKGMM19IterativeLocalVoting",

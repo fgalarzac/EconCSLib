@@ -451,6 +451,17 @@
       "validated_at": "2026-06-28T00:20:22Z",
       "validator": "gpt-5-codex",
       "validator_type": "model"
+    },
+    "assumption_lemmaD2_cdf_power_sandwich_monotone_bounded_support": {
+      "comment": "Added for source-to-Lean joined audit.",
+      "judgment": "matches",
+      "lean_statement_sha256": "7f991fdb0d70581fe484ebe168c84e4cc4b1965b485d1f91f80b213841c85f62",
+      "paper_statement_sha256": "0d3c80371b4da3c10e53acef6e80e0f4d09a0a309e40c30d8b675268eaf028bf",
+      "reason": "The row-local Lean statement exposes the bounded-tail CDF power sandwich, positive rank and support bounds, measurability, monotonicity, CDF range facts, and bounded-support saturation used by Lemma D.2.",
+      "tex_statement_sha256": "68c5541cbc5884145de8b76c4c25fc398e00f37f45dd07e9a045da81ee3facfa",
+      "validated_at": "2026-06-29T00:00:00Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
     }
   },
   "paper": "PRPKG24AccuracyDiversity",

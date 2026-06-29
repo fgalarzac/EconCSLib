@@ -10,7 +10,7 @@
   "validated_at": "2026-06-29T07:31:10Z",
   "comment": "Source-grounded judgments preserved; review-surface digest refreshed against the source-declaration-stable dashboard surface.",
   "paper_statement_inventory_sha256": "fcb59b6cee044f2734529e776b39d9cddbc49d4e2b2d4465a43a4f9b39a18f2e",
-  "review_surface_sha256": "166227957a236ae425f0d9e60850e085ef2fa7959cf9a3493208eecd540b4af3",
+  "review_surface_sha256": "68a5a79d658e89debd73153031ef8c0ceb5104bedd2ed512af254b8bb45d80db",
   "items": {
     "algorithm1_local_neighborhood_formula": {
       "coverage": "covered",
@@ -182,11 +182,11 @@
       "seed_scaffold": false
     },
     "assumption_ssgm_convergence_theorem": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "assumption_ssgm_convergence_theorem"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Approved proof-boundary theorem, not a source assumption: a future stochastic subgradient method theorem should prove the finite-coordinate SSGM convergence bundle consumed by the formalized deterministic ILV source-model bridges. The dashboard row `assumption_ssgm_convergence_theorem` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Approved proof-boundary theorem, not a source assumption: a future stochastic subgradient method theorem should prove the finite-coordinate SSGM convergence bundle consumed by the formalized deterministic ILV source-model bridges. The dashboard row `assumption_ssgm_convergence_theorem` exposes the corresponding Lean boundary statement for that same source claim, and the row-local assumption judge records this as a partial formalization boundary.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Approved proof-boundary theorem, not a source assumption: a future stochastic subgradient method theorem should prove the finite-coordinate SSGM convergence bundle consumed by the formalized deterministic ILV source-model bridges.",
       "dashboard_evidence": "Current human-dashboard row(s): `assumption_ssgm_convergence_theorem`.",
       "statement_sha256": "5a460885042cdb2a00a6cfd4d44cbfd9a8ea7d076a437c4e4ac5af5960775b7b",

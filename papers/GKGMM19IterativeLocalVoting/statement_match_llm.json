@@ -450,6 +450,35 @@
       "validator": "gpt-5-codex",
       "validator_type": "model",
       "comment": "Digest snapshot refreshed after source-grounded coverage audit; substantive judgment unchanged."
+    },
+    "assumption_conditions_c123": {
+      "judgment": "matches",
+      "lean_statement_sha256": "4d4c573f30032e5b28fe7976acac0ce721b10278a1d5577f2902463f3d913fc1",
+      "paper_statement_sha256": "9689895facfbb46f1ff736294d264ea3e539a4875e92110ebb6c8fbd0caf07e6",
+      "reason": "The row-local Lean statement expands the C1-C3 assumption abbreviation into the three source-facing conditions: nonempty bounded closed convex solution space, unique ideal points, and bounded measurable ideal-distribution density.",
+      "tex_statement_sha256": "dfe9f6edd40a407338f1cb26225e43d580900ea96cd806d2e345211ee4d11996",
+      "validated_at": "2026-06-29T00:00:00Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
+    },
+    "assumption_ssgm_convergence_theorem": {
+      "boundary_names": [
+        "FiniteCoordinateILVSSGMConvergenceTheorems"
+      ],
+      "boundary_type": "external_ssgm_convergence_theorem_boundary",
+      "conditional_premises": [
+        "FiniteCoordinateILVSSGMConvergenceTheorems E"
+      ],
+      "judgment": "mismatch",
+      "lean_statement_sha256": "69711b911a751bc25aaf4f6e4c5d4937e6c4ae5c011d2463a45010ad47285db6",
+      "paper_statement_sha256": "5a460885042cdb2a00a6cfd4d44cbfd9a8ea7d076a437c4e4ac5af5960775b7b",
+      "reason": "The row is intentionally not a source theorem statement. It states the external stochastic-subgradient convergence theorem bundle that remains as a formalization boundary and is consumed by the formalized deterministic ILV source-model bridges.",
+      "resolution": "conditional_boundary",
+      "resolution_reason": "Accepted only as the documented SSGM convergence boundary for this partially formalized paper.",
+      "tex_statement_sha256": "7ddaad8d03e0d281d18e93b43855a1c3ad71c1f943389be4c8fc50c5063f1d8d",
+      "validated_at": "2026-06-29T00:00:00Z",
+      "validator": "gpt-5-codex",
+      "validator_type": "model"
     }
   },
   "paper": "GKGMM19IterativeLocalVoting",

@@ -372,6 +372,15 @@
       "lean_statement_sha256": "52a0d2726a57158444792f5c0555d79d4a5b3791a12fce1dece9fa339252d4de",
       "paper_statement_sha256": "877cff66d36b7e94e4e58801627408b15d46ab65f4c1afaab124b77f0a3780a6",
       "tex_statement": "\\forall {T : \u2115} [NeZero T] (B : BernoulliSatisfactionModel T), (\\forall (t : ItemType T), 0 < successProb t) \\to (\\forall (t : ItemType T), successProb t < 1) \\to (\\forall (t : ItemType T), 0 < likelihood t) \\to \\forall (seq : OptimalAllocationSequence fun x  =>  toConsumptionModel) (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds (theorem3LogShareWeight B t / \\sum i, theorem3LogShareWeight B i))"
+    },
+    "assumption_lemmaD2_cdf_power_sandwich_monotone_bounded_support": {
+      "comment": "Added for source-to-Lean joined audit; Lean abbreviation body is displayed directly.",
+      "generated_at": "2026-06-29T00:00:00Z",
+      "generator": "gpt-5-codex",
+      "generator_type": "model",
+      "lean_statement_sha256": "7f991fdb0d70581fe484ebe168c84e4cc4b1965b485d1f91f80b213841c85f62",
+      "paper_statement_sha256": "0d3c80371b4da3c10e53acef6e80e0f4d09a0a309e40c30d8b675268eaf028bf",
+      "tex_statement": "\\mathrm{assumption\\_lemmaD2\\_cdf\\_power\\_sandwich\\_monotone\\_bounded\\_support}(G,\\beta,c,M,k) :\\iff \\mathrm{BoundedTailCDFPowerSandwich}(G,\\beta,c) \\land 0<k \\land 0<M \\land \\mathrm{Measurable}(G) \\land \\mathrm{Monotone}(G) \\land (\\forall x, 0\\le G(x)) \\land (\\forall x, G(x)\\le 1) \\land (\\forall x, M\\le x \\to G(x)=1)."
     }
   },
   "paper": "PRPKG24AccuracyDiversity",

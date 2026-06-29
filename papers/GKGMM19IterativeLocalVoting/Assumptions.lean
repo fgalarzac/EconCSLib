@@ -36,7 +36,9 @@ bounded measurable density for independently drawn ideal points.
 -- audit-premise: hC : assumption_conditions_c123 E
 abbrev assumption_conditions_c123 {Voter Point : Type*}
     (E : ILVEnvironment Voter Point) : Prop :=
-  ConditionsC123 E
+  E.solutionSpace_nonempty_bounded_closed_convex ∧
+    E.uniqueIdealSolutions ∧
+      E.idealDistribution_bounded_measurable_density
 
 /--
 Single theorem-shaped boundary for the analytic convergence layer.

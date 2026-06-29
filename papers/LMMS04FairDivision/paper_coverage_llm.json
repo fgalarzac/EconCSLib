@@ -91,11 +91,11 @@
       "seed_scaffold": false
     },
     "assumption_external_graham_scheduling_boundary": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "assumption_external_graham_scheduling_boundary"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 3.2 cites Graham's scheduling approximation theorem; this folder formalizes the fair-division consequence from that scheduling certificate. The dashboard row `assumption_external_graham_scheduling_boundary` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 3.2 cites Graham's scheduling approximation theorem; this folder formalizes the fair-division consequence from that scheduling certificate. The dashboard row `assumption_external_graham_scheduling_boundary` exposes the corresponding Lean boundary statement for that same source claim, and the row-local assumption judge records this as a partial formalization boundary.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/LMMS04FairDivision.txt, local PDF cache, and validation report. Source inventory item: Theorem 3.2 cites Graham's scheduling approximation theorem; this folder formalizes the fair-division consequence from that scheduling certificate.",
       "dashboard_evidence": "Current human-dashboard row(s): `assumption_external_graham_scheduling_boundary`.",
       "statement_sha256": "bd028c2549fa058cd673f94cef9fda83c77cf27e4052a374466d5bdde20a574f",
@@ -104,11 +104,11 @@
       "seed_scaffold": false
     },
     "assumption_fixed_dimension_ip_runtime_boundary": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "assumption_fixed_dimension_ip_runtime_boundary"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: The final PTAS/FPTAS runtime conclusion is conditional on reusable fixed-dimension integer-program complexity infrastructure. The dashboard row `assumption_fixed_dimension_ip_runtime_boundary` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: The final PTAS/FPTAS runtime conclusion is conditional on reusable fixed-dimension integer-program complexity infrastructure. The dashboard row `assumption_fixed_dimension_ip_runtime_boundary` exposes the corresponding Lean boundary statement for that same source claim, and the row-local assumption judge records this as a partial formalization boundary.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/LMMS04FairDivision.txt, local PDF cache, and validation report. Source inventory item: The final PTAS/FPTAS runtime conclusion is conditional on reusable fixed-dimension integer-program complexity infrastructure.",
       "dashboard_evidence": "Current human-dashboard row(s): `assumption_fixed_dimension_ip_runtime_boundary`.",
       "statement_sha256": "0d62ee590c0b74223d417e5d0ff8e7445112b45c256292551998c0d002218a54",

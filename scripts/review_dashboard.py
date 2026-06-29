@@ -376,6 +376,9 @@ class ReviewItem:
     llm_match_validator: str = ""
     llm_match_validator_type: str = ""
     llm_match_validated_at: str = ""
+    llm_match_lean_statement_sha256: str = ""
+    llm_match_paper_statement_sha256: str = ""
+    llm_match_tex_statement_sha256: str = ""
     llm_match_resolution: str = ""
     llm_match_boundary_type: str = ""
     llm_match_boundary_names: list[str] | None = None
@@ -389,6 +392,8 @@ class ReviewItem:
     llm_assumption_validator: str = ""
     llm_assumption_validator_type: str = ""
     llm_assumption_validated_at: str = ""
+    llm_assumption_lean_statement_sha256: str = ""
+    llm_assumption_paper_statement_sha256: str = ""
     llm_assumption_premise_judgments: dict[str, dict[str, str]] | None = None
     paper_statement_image_url: str = ""
     line_number: int = 0
@@ -2717,7 +2722,7 @@ def parse_interface_items(
             continue
         check_map = check_maps.get(source_path, {})
         check_statement = check_map.get(full_name) or check_map.get(name)
-        lean_statement = raw_sig if kind == "def" else (
+        lean_statement = raw_sig if kind in {"def", "abbrev"} else (
             f"@{full_name} :\n{check_statement}" if check_statement else raw_sig
         )
         candidates = paper_statement_candidate_keys(name, full_name)
@@ -2797,6 +2802,9 @@ def parse_interface_items(
                 llm_match_validator=judgment.get("validator", ""),
                 llm_match_validator_type=judgment.get("validator_type", ""),
                 llm_match_validated_at=judgment.get("validated_at", ""),
+                llm_match_lean_statement_sha256=judgment.get("lean_statement_sha256", ""),
+                llm_match_paper_statement_sha256=judgment.get("paper_statement_sha256", ""),
+                llm_match_tex_statement_sha256=judgment.get("tex_statement_sha256", ""),
                 llm_match_resolution=judgment.get("resolution", ""),
                 llm_match_boundary_type=judgment.get("boundary_type", ""),
                 llm_match_boundary_names=judgment.get("boundary_names") or [],
@@ -2811,6 +2819,8 @@ def parse_interface_items(
                 llm_assumption_validator=assumption_judgment.get("validator", ""),
                 llm_assumption_validator_type=assumption_judgment.get("validator_type", ""),
                 llm_assumption_validated_at=assumption_judgment.get("validated_at", ""),
+                llm_assumption_lean_statement_sha256=assumption_judgment.get("lean_statement_sha256", ""),
+                llm_assumption_paper_statement_sha256=assumption_judgment.get("paper_statement_sha256", ""),
                 llm_assumption_premise_judgments=assumption_judgment.get("premise_judgments") or {},
                 line_number=line_number,
             )
@@ -3281,6 +3291,85 @@ def paper_coverage_audit_required(folder: Path, inventory: dict[str, dict[str, A
     return bool(inventory and (folder / PAPER_STATEMENT_MAP_FILE).exists())
 
 
+SOURCE_NAMED_CLAIM_RE = re.compile(
+    r"^\s*(theorem|lemma|proposition|corollary)\b", re.IGNORECASE
+)
+
+
+def _source_inventory_item_is_named_claim(key: str, item: dict[str, Any]) -> bool:
+    """Return whether a source inventory item should have row-level statement audit."""
+
+    statement = str(item.get("statement") or "").strip()
+    key_text = str(key or "").strip()
+    return bool(SOURCE_NAMED_CLAIM_RE.search(statement) or SOURCE_NAMED_CLAIM_RE.match(key_text))
+
+
+def _coverage_link_label(source_key: str, row_name: str) -> str:
+    return f"{source_key} -> {row_name}"
+
+
+def _row_statement_match_record(
+    source_key: str,
+    source_item: dict[str, Any],
+    coverage: str,
+    row_name: str,
+    row_item: ReviewItem,
+) -> dict[str, Any]:
+    """Return a compact JSON record linking source coverage to row-local LLM audit."""
+
+    source_statement_sha256 = str(source_item.get("statement_sha256") or "").strip()
+    row_paper_statement_sha256 = statement_digest(row_item.paper_statement)
+    judgment = str(row_item.llm_match_judgment or "").strip()
+    resolution = _normalize_llm_match_resolution(row_item.llm_match_resolution)
+    stale = bool(row_item.llm_match_stale)
+    source = str(row_item.llm_match_source or "")
+    validator = str(row_item.llm_match_validator or "")
+    validated_at = str(row_item.llm_match_validated_at or "")
+    recorded_paper_statement_sha256 = str(row_item.llm_match_paper_statement_sha256 or "").strip()
+    recorded_lean_statement_sha256 = str(row_item.llm_match_lean_statement_sha256 or "").strip()
+    recorded_tex_statement_sha256 = str(row_item.llm_match_tex_statement_sha256 or "").strip()
+    assumption_judgment = str(row_item.llm_assumption_judgment or "").strip()
+    return {
+        "source_statement": source_key,
+        "source_statement_sha256": source_statement_sha256,
+        "review_row": row_name,
+        "review_row_is_assumption": bool(row_item.is_assumption),
+        "review_row_paper_statement_sha256": row_paper_statement_sha256,
+        "review_row_paper_statement_matches_source": bool(
+            source_statement_sha256 and source_statement_sha256 == row_paper_statement_sha256
+        ),
+        "coverage": coverage,
+        "row_correctness_lane": "statement_match",
+        "row_correctness_judgment": judgment,
+        "row_correctness_resolution": resolution,
+        "row_correctness_stale": stale,
+        "row_correctness_source": source,
+        "row_correctness_validator": validator,
+        "row_correctness_validated_at": validated_at,
+        "row_correctness_paper_statement_sha256": recorded_paper_statement_sha256,
+        "row_correctness_lean_statement_sha256": recorded_lean_statement_sha256,
+        "row_correctness_tex_statement_sha256": recorded_tex_statement_sha256,
+        "row_correctness_matches_review_row_statement": bool(
+            recorded_paper_statement_sha256
+            and recorded_paper_statement_sha256 == row_paper_statement_sha256
+        ),
+        "row_assumption_provenance_judgment": assumption_judgment,
+        "row_assumption_provenance_stale": bool(row_item.llm_assumption_stale),
+        "row_assumption_provenance_source": str(row_item.llm_assumption_source or ""),
+        "row_assumption_provenance_validator": str(row_item.llm_assumption_validator or ""),
+        "row_assumption_provenance_validated_at": str(row_item.llm_assumption_validated_at or ""),
+        "row_statement_match_judgment": judgment,
+        "row_statement_match_resolution": resolution,
+        "row_statement_match_stale": stale,
+        "row_statement_match_source": source,
+        "row_statement_match_validator": validator,
+        "row_statement_match_validated_at": validated_at,
+        "row_statement_match_paper_statement_sha256": recorded_paper_statement_sha256,
+        "row_statement_match_lean_statement_sha256": recorded_lean_statement_sha256,
+        "row_statement_match_tex_statement_sha256": recorded_tex_statement_sha256,
+    }
+
+
 def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[str, Any]:
     """Summarize source-paper statement coverage by the review dashboard surface."""
 
@@ -3374,6 +3463,7 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
             or not audit_source_grounded
         )
     )
+    row_items = {item.name: item for item in items}
 
     covered: list[str] = []
     conditional_boundary: list[str] = []
@@ -3392,6 +3482,24 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
     support_without_source_evidence: list[str] = []
     out_of_scope_without_reason: list[str] = []
     out_of_scope_without_source_evidence: list[str] = []
+    row_statement_match_links: list[dict[str, Any]] = []
+    row_statement_match_missing: list[str] = []
+    row_statement_match_stale: list[str] = []
+    row_statement_match_mismatch: list[str] = []
+    row_statement_match_uncertain: list[str] = []
+    row_statement_match_unknown: list[str] = []
+    row_statement_match_conditional: list[str] = []
+    row_statement_match_conditional_without_coverage_boundary: list[str] = []
+    row_statement_match_missing_statement_digest: list[str] = []
+    row_statement_match_wrong_statement_digest: list[str] = []
+    row_assumption_provenance_missing: list[str] = []
+    row_assumption_provenance_stale: list[str] = []
+    row_assumption_provenance_mismatch: list[str] = []
+    row_assumption_provenance_uncertain: list[str] = []
+    row_assumption_provenance_unknown: list[str] = []
+    row_assumption_provenance_conditional: list[str] = []
+    row_assumption_provenance_conditional_without_coverage_boundary: list[str] = []
+    support_only_named_claims: list[str] = []
     for key, item in audit_items.items():
         if key not in inventory:
             continue
@@ -3412,6 +3520,56 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
                 covered_with_seed_reason.append(key)
             if not source_evidence:
                 covered_without_source_evidence.append(key)
+            for row_name in rows:
+                row_item = row_items.get(row_name)
+                if row_item is None:
+                    continue
+                link_label = _coverage_link_label(key, row_name)
+                row_statement_match_links.append(
+                    _row_statement_match_record(key, inventory[key], coverage, row_name, row_item)
+                )
+                recorded_paper_digest = str(row_item.llm_match_paper_statement_sha256 or "").strip()
+                row_paper_digest = statement_digest(row_item.paper_statement)
+                if not recorded_paper_digest:
+                    row_statement_match_missing_statement_digest.append(link_label)
+                elif recorded_paper_digest != row_paper_digest:
+                    row_statement_match_wrong_statement_digest.append(link_label)
+                judgment = str(row_item.llm_match_judgment or "").strip()
+                resolution = _normalize_llm_match_resolution(row_item.llm_match_resolution)
+                if row_item.llm_match_stale:
+                    row_statement_match_stale.append(link_label)
+                if not judgment:
+                    row_statement_match_missing.append(link_label)
+                elif judgment == "matches":
+                    pass
+                elif judgment == "mismatch" and resolution == CONDITIONAL_BOUNDARY_RESOLUTION:
+                    row_statement_match_conditional.append(link_label)
+                    if coverage not in {"conditional_boundary", "covered_with_boundary"}:
+                        row_statement_match_conditional_without_coverage_boundary.append(link_label)
+                elif judgment == "mismatch":
+                    row_statement_match_mismatch.append(link_label)
+                elif judgment == "uncertain":
+                    row_statement_match_uncertain.append(link_label)
+                else:
+                    row_statement_match_unknown.append(link_label)
+                if row_item.is_assumption:
+                    assumption_judgment = str(row_item.llm_assumption_judgment or "").strip()
+                    if row_item.llm_assumption_stale:
+                        row_assumption_provenance_stale.append(link_label)
+                    if not assumption_judgment:
+                        row_assumption_provenance_missing.append(link_label)
+                    elif assumption_judgment in {"paper_assumption", "paper_condition", "documented_caveat"}:
+                        pass
+                    elif assumption_judgment == "partial_boundary":
+                        row_assumption_provenance_conditional.append(link_label)
+                        if coverage not in {"conditional_boundary", "covered_with_boundary"}:
+                            row_assumption_provenance_conditional_without_coverage_boundary.append(link_label)
+                    elif assumption_judgment == "not_paper_assumption":
+                        row_assumption_provenance_mismatch.append(link_label)
+                    elif assumption_judgment == "uncertain":
+                        row_assumption_provenance_uncertain.append(link_label)
+                    else:
+                        row_assumption_provenance_unknown.append(link_label)
         elif coverage in {"out_of_scope", "not_a_paper_target", "not_a_theorem_statement"}:
             out_of_scope.append(key)
             reason = str(item.get("reason") or "").strip()
@@ -3431,6 +3589,8 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
                 support_without_reason.append(key)
             if not source_evidence:
                 support_without_source_evidence.append(key)
+            if _source_inventory_item_is_named_claim(key, inventory[key]):
+                support_only_named_claims.append(key)
         elif coverage == "partially_covered":
             partial.append(key)
         elif coverage == "missing":
@@ -3440,7 +3600,7 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
         else:
             unknown.append(key)
 
-    needs_attention = bool(
+    coverage_needs_attention = bool(
         missing_inventory
         or unresolved_statement_map
         or (audit_required and inventory_is_scaffold)
@@ -3467,6 +3627,24 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
         or support_without_source_evidence
         or out_of_scope_without_reason
         or out_of_scope_without_source_evidence
+    )
+    source_to_lean_needs_attention = bool(
+        coverage_needs_attention
+        or support_only_named_claims
+        or row_statement_match_missing
+        or row_statement_match_stale
+        or row_statement_match_mismatch
+        or row_statement_match_uncertain
+        or row_statement_match_unknown
+        or row_statement_match_conditional_without_coverage_boundary
+        or row_statement_match_missing_statement_digest
+        or row_statement_match_wrong_statement_digest
+        or row_assumption_provenance_missing
+        or row_assumption_provenance_stale
+        or row_assumption_provenance_mismatch
+        or row_assumption_provenance_uncertain
+        or row_assumption_provenance_unknown
+        or row_assumption_provenance_conditional_without_coverage_boundary
     )
     return {
         "inventory_count": len(inventory),
@@ -3501,8 +3679,30 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
         "support_without_declarations_count": len(support_without_declarations),
         "support_without_reason_count": len(support_without_reason),
         "support_without_source_evidence_count": len(support_without_source_evidence),
+        "support_only_named_claim_count": len(support_only_named_claims),
         "out_of_scope_without_reason_count": len(out_of_scope_without_reason),
         "out_of_scope_without_source_evidence_count": len(out_of_scope_without_source_evidence),
+        "row_statement_match_link_count": len(row_statement_match_links),
+        "row_statement_match_missing_count": len(row_statement_match_missing),
+        "row_statement_match_stale_count": len(row_statement_match_stale),
+        "row_statement_match_mismatch_count": len(row_statement_match_mismatch),
+        "row_statement_match_uncertain_count": len(row_statement_match_uncertain),
+        "row_statement_match_unknown_count": len(row_statement_match_unknown),
+        "row_statement_match_conditional_count": len(row_statement_match_conditional),
+        "row_statement_match_conditional_without_coverage_boundary_count": len(
+            row_statement_match_conditional_without_coverage_boundary
+        ),
+        "row_statement_match_missing_statement_digest_count": len(row_statement_match_missing_statement_digest),
+        "row_statement_match_wrong_statement_digest_count": len(row_statement_match_wrong_statement_digest),
+        "row_assumption_provenance_missing_count": len(row_assumption_provenance_missing),
+        "row_assumption_provenance_stale_count": len(row_assumption_provenance_stale),
+        "row_assumption_provenance_mismatch_count": len(row_assumption_provenance_mismatch),
+        "row_assumption_provenance_uncertain_count": len(row_assumption_provenance_uncertain),
+        "row_assumption_provenance_unknown_count": len(row_assumption_provenance_unknown),
+        "row_assumption_provenance_conditional_count": len(row_assumption_provenance_conditional),
+        "row_assumption_provenance_conditional_without_coverage_boundary_count": len(
+            row_assumption_provenance_conditional_without_coverage_boundary
+        ),
         "stale_inventory": stale_inventory,
         "stale_surface": stale_surface,
         "audit_kind": audit_kind,
@@ -3529,15 +3729,34 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
         "support_without_declarations": support_without_declarations,
         "support_without_reason": support_without_reason,
         "support_without_source_evidence": support_without_source_evidence,
+        "support_only_named_claims": support_only_named_claims,
         "out_of_scope_without_reason": out_of_scope_without_reason,
         "out_of_scope_without_source_evidence": out_of_scope_without_source_evidence,
+        "row_statement_match_links": row_statement_match_links,
+        "row_statement_match_missing": row_statement_match_missing,
+        "row_statement_match_stale": row_statement_match_stale,
+        "row_statement_match_mismatch": row_statement_match_mismatch,
+        "row_statement_match_uncertain": row_statement_match_uncertain,
+        "row_statement_match_unknown": row_statement_match_unknown,
+        "row_statement_match_conditional": row_statement_match_conditional,
+        "row_statement_match_conditional_without_coverage_boundary": row_statement_match_conditional_without_coverage_boundary,
+        "row_statement_match_missing_statement_digest": row_statement_match_missing_statement_digest,
+        "row_statement_match_wrong_statement_digest": row_statement_match_wrong_statement_digest,
+        "row_assumption_provenance_missing": row_assumption_provenance_missing,
+        "row_assumption_provenance_stale": row_assumption_provenance_stale,
+        "row_assumption_provenance_mismatch": row_assumption_provenance_mismatch,
+        "row_assumption_provenance_uncertain": row_assumption_provenance_uncertain,
+        "row_assumption_provenance_unknown": row_assumption_provenance_unknown,
+        "row_assumption_provenance_conditional": row_assumption_provenance_conditional,
+        "row_assumption_provenance_conditional_without_coverage_boundary": row_assumption_provenance_conditional_without_coverage_boundary,
         "source": str(audit.get("source") or "") if audit_items else "",
         "paper_statement_inventory_sha256": inventory_hash,
         "recorded_paper_statement_inventory_sha256": recorded_inventory_hash,
         "review_surface_sha256": surface_hash,
         "recorded_review_surface_sha256": recorded_surface_hash,
         "has_completed_audit": bool(audit_items),
-        "needs_attention": needs_attention,
+        "needs_attention": coverage_needs_attention,
+        "source_to_lean_needs_attention": source_to_lean_needs_attention,
     }
 
 
@@ -6767,13 +6986,23 @@ def print_statement_audit_status(paper: str | None, slice_filter: str | None = N
     return False
 
 
-def print_paper_coverage_audit_warnings(rows: list[dict[str, Any]], label: str) -> bool:
+def print_paper_coverage_audit_warnings(
+    rows: list[dict[str, Any]], label: str, *, source_to_lean: bool = False
+) -> bool:
     """Print paper-level source-statement coverage audit warnings."""
 
-    warnings = [row for row in rows if row.get("needs_attention")]
+    warnings = [
+        row
+        for row in rows
+        if row.get("needs_attention")
+        or (source_to_lean and row.get("source_to_lean_needs_attention"))
+    ]
     if not warnings:
         return False
-    print(f"\nPaper-coverage audit warnings for {label}:")
+    if source_to_lean:
+        print(f"\nSource-to-Lean audit warnings for {label}:")
+    else:
+        print(f"\nPaper-coverage audit warnings for {label}:")
     for row in warnings:
         paper = row.get("paper") or "unknown paper"
         reasons: list[str] = []
@@ -6843,6 +7072,66 @@ def print_paper_coverage_audit_warnings(rows: list[dict[str, Any]], label: str) 
             reasons.append(
                 f"{row['support_without_source_evidence_count']} support-covered source statement(s) lack source evidence"
             )
+        if source_to_lean and row.get("support_only_named_claim_count"):
+            reasons.append(
+                f"{row['support_only_named_claim_count']} theorem-like source statement(s) are only support-covered, without review-row statement-match audit"
+            )
+        if source_to_lean and row.get("row_statement_match_missing_count"):
+            reasons.append(
+                f"{row['row_statement_match_missing_count']} source-to-row link(s) lack row-local LLM correctness judgments"
+            )
+        if source_to_lean and row.get("row_statement_match_stale_count"):
+            reasons.append(
+                f"{row['row_statement_match_stale_count']} source-to-row link(s) use stale row-local LLM correctness judgments"
+            )
+        if source_to_lean and row.get("row_statement_match_mismatch_count"):
+            reasons.append(
+                f"{row['row_statement_match_mismatch_count']} source-to-row link(s) point to row-local LLM correctness mismatches"
+            )
+        if source_to_lean and row.get("row_statement_match_uncertain_count"):
+            reasons.append(
+                f"{row['row_statement_match_uncertain_count']} source-to-row link(s) point to uncertain row-local LLM correctness judgments"
+            )
+        if source_to_lean and row.get("row_statement_match_unknown_count"):
+            reasons.append(
+                f"{row['row_statement_match_unknown_count']} source-to-row link(s) point to unknown row-local LLM correctness judgments"
+            )
+        if source_to_lean and row.get("row_statement_match_conditional_without_coverage_boundary_count"):
+            reasons.append(
+                f"{row['row_statement_match_conditional_without_coverage_boundary_count']} source-to-row link(s) rely on conditional row-local mismatches while source coverage is marked direct"
+            )
+        if source_to_lean and row.get("row_statement_match_missing_statement_digest_count"):
+            reasons.append(
+                f"{row['row_statement_match_missing_statement_digest_count']} source-to-row link(s) have row-local statement judgments without saved paper-statement digests"
+            )
+        if source_to_lean and row.get("row_statement_match_wrong_statement_digest_count"):
+            reasons.append(
+                f"{row['row_statement_match_wrong_statement_digest_count']} source-to-row link(s) have row-local statement judgments for a different current row statement"
+            )
+        if source_to_lean and row.get("row_assumption_provenance_missing_count"):
+            reasons.append(
+                f"{row['row_assumption_provenance_missing_count']} assumption-linked source-to-row link(s) lack assumption-provenance judgments"
+            )
+        if source_to_lean and row.get("row_assumption_provenance_stale_count"):
+            reasons.append(
+                f"{row['row_assumption_provenance_stale_count']} assumption-linked source-to-row link(s) use stale assumption-provenance judgments"
+            )
+        if source_to_lean and row.get("row_assumption_provenance_mismatch_count"):
+            reasons.append(
+                f"{row['row_assumption_provenance_mismatch_count']} assumption-linked source-to-row link(s) are judged not to be source assumptions"
+            )
+        if source_to_lean and row.get("row_assumption_provenance_uncertain_count"):
+            reasons.append(
+                f"{row['row_assumption_provenance_uncertain_count']} assumption-linked source-to-row link(s) have uncertain assumption-provenance judgments"
+            )
+        if source_to_lean and row.get("row_assumption_provenance_unknown_count"):
+            reasons.append(
+                f"{row['row_assumption_provenance_unknown_count']} assumption-linked source-to-row link(s) have unknown assumption-provenance judgments"
+            )
+        if source_to_lean and row.get("row_assumption_provenance_conditional_without_coverage_boundary_count"):
+            reasons.append(
+                f"{row['row_assumption_provenance_conditional_without_coverage_boundary_count']} assumption-linked source-to-row link(s) are partial boundaries while source coverage is marked direct"
+            )
         if row.get("out_of_scope_without_reason_count"):
             reasons.append(
                 f"{row['out_of_scope_without_reason_count']} out-of-scope source statement(s) lack reasons"
@@ -6857,7 +7146,7 @@ def print_paper_coverage_audit_warnings(rows: list[dict[str, Any]], label: str) 
             reasons.append("paper-coverage audit needs attention")
         print(f" - {paper}: {'; '.join(str(reason) for reason in reasons)}.")
         samples: list[str] = []
-        for key, label_text in [
+        sample_specs = [
             ("missing_coverage", "missing coverage"),
             ("inventory_missing_source_url", "missing source URL"),
             ("inventory_missing_source_provenance", "missing source provenance"),
@@ -6878,7 +7167,34 @@ def print_paper_coverage_audit_warnings(rows: list[dict[str, Any]], label: str) 
             ("out_of_scope_without_source_evidence", "out-of-scope missing source evidence"),
             ("extra_coverage", "extra stale item"),
             ("unknown", "unknown"),
-        ]:
+        ]
+        if source_to_lean:
+            sample_specs.extend(
+                [
+                    ("support_only_named_claims", "support-only named claim"),
+                    ("row_statement_match_missing", "missing row correctness"),
+                    ("row_statement_match_stale", "stale row correctness"),
+                    ("row_statement_match_mismatch", "mismatched row correctness"),
+                    ("row_statement_match_uncertain", "uncertain row correctness"),
+                    ("row_statement_match_unknown", "unknown row correctness"),
+                    (
+                        "row_statement_match_conditional_without_coverage_boundary",
+                        "conditional row but direct coverage",
+                    ),
+                    ("row_statement_match_missing_statement_digest", "missing row-statement digest"),
+                    ("row_statement_match_wrong_statement_digest", "wrong row-statement digest"),
+                    ("row_assumption_provenance_missing", "missing assumption provenance"),
+                    ("row_assumption_provenance_stale", "stale assumption provenance"),
+                    ("row_assumption_provenance_mismatch", "assumption provenance mismatch"),
+                    ("row_assumption_provenance_uncertain", "uncertain assumption provenance"),
+                    ("row_assumption_provenance_unknown", "unknown assumption provenance"),
+                    (
+                        "row_assumption_provenance_conditional_without_coverage_boundary",
+                        "partial assumption but direct coverage",
+                    ),
+                ]
+            )
+        for key, label_text in sample_specs:
             sample = _format_name_sample(list(row.get(key) or []))
             if sample:
                 samples.append(f"{label_text}: {sample}")
@@ -6891,9 +7207,11 @@ def print_paper_coverage_audit_warnings(rows: list[dict[str, Any]], label: str) 
         "more dashboard rows. Save that semantic source-to-dashboard judgment in "
         "paper_coverage_llm.json with audit_kind=source_to_dashboard_llm, "
         "source_grounded=true, source evidence, linked dashboard rows, and a "
-        "nontrivial match reason. Exact-key seeding is only a scaffold. This is "
-        "separate from statement_match_llm.json, which only checks rows that "
-        "already exist."
+        "nontrivial match reason. Exact-key seeding is only a scaffold. The "
+        "stricter source-to-Lean lane also requires those linked rows to have "
+        "current row-local LLM correctness judgments in statement_match_llm.json "
+        "for the same current dashboard paper statement; assumption_match_llm.json "
+        "is checked separately for assumption provenance and partial-boundary status."
     )
     return True
 
@@ -6901,6 +7219,8 @@ def print_paper_coverage_audit_warnings(rows: list[dict[str, Any]], label: str) 
 def print_paper_coverage_audit_status(
     paper: str | None,
     slice_filter: str | None = None,
+    *,
+    source_to_lean: bool = False,
 ) -> bool:
     """Print only paper-level source-coverage diagnostics."""
 
@@ -6909,7 +7229,9 @@ def print_paper_coverage_audit_status(
     label = paper or "all papers"
     if slice_filter:
         label = f"{label} slice {slice_filter}"
-    has_attention = print_paper_coverage_audit_warnings(rows, label)
+    has_attention = print_paper_coverage_audit_warnings(
+        rows, label, source_to_lean=source_to_lean
+    )
     if has_attention:
         return True
     total_inventory = sum(int(row.get("inventory_count") or 0) for row in rows)
@@ -6919,7 +7241,7 @@ def print_paper_coverage_audit_status(
     total_out_of_scope = sum(int(row.get("out_of_scope_count") or 0) for row in rows)
     required = sum(1 for row in rows if row.get("audit_required"))
     print(
-        f"Paper-coverage audits for {label} are current: "
+        f"{'Source-to-Lean' if source_to_lean else 'Paper-coverage'} audits for {label} are current: "
         f"{total_covered}/{total_inventory} source statement(s) covered directly, "
         f"{total_conditional} covered with conditional boundaries, "
         f"{total_support} covered by support declarations, "
@@ -7378,6 +7700,19 @@ def main() -> None:
         help="Like --paper-coverage-precheck, but return non-zero for missing/stale/flagged coverage rows.",
     )
     parser.add_argument(
+        "--source-to-lean-precheck",
+        action="store_true",
+        help="Print source-paper-to-Lean row correctness diagnostics, then exit.",
+    )
+    parser.add_argument(
+        "--source-to-lean-check",
+        action="store_true",
+        help=(
+            "Like --source-to-lean-precheck, but return non-zero when source coverage "
+            "lacks current row-local LLM correctness judgments."
+        ),
+    )
+    parser.add_argument(
         "--assumption-precheck",
         action="store_true",
         help="Print only paper-assumption provenance audit diagnostics, then exit.",
@@ -7418,6 +7753,14 @@ def main() -> None:
     if args.paper_coverage_precheck or args.paper_coverage_check:
         has_attention = print_paper_coverage_audit_status(args.paper, args.slice_filter)
         if args.paper_coverage_check and has_attention:
+            sys.exit(1)
+        return
+
+    if args.source_to_lean_precheck or args.source_to_lean_check:
+        has_attention = print_paper_coverage_audit_status(
+            args.paper, args.slice_filter, source_to_lean=True
+        )
+        if args.source_to_lean_check and has_attention:
             sys.exit(1)
         return
 

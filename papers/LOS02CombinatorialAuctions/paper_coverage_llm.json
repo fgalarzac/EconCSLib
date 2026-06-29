@@ -26,11 +26,11 @@
       "seed_scaffold": false
     },
     "assumption_external_approximation_set_packing_complexity_boundary": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "assumption_external_approximation_set_packing_complexity_boundary"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: External set-packing inapproximability and polynomial-time transfer facts for the paper's Theorem 6.1 approximation consequence. The dashboard row `assumption_external_approximation_set_packing_complexity_boundary` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: External set-packing inapproximability and polynomial-time transfer facts for the paper's Theorem 6.1 approximation consequence. The dashboard row `assumption_external_approximation_set_packing_complexity_boundary` exposes the corresponding Lean boundary statement for that same source claim, and the row-local assumption judge records this as a partial formalization boundary.",
       "source_evidence": "Source basis: arXiv cs/0202017 source inventory from prior source audit and validation report. Source inventory item: External set-packing inapproximability and polynomial-time transfer facts for the paper's Theorem 6.1 approximation consequence.",
       "dashboard_evidence": "Current human-dashboard row(s): `assumption_external_approximation_set_packing_complexity_boundary`.",
       "statement_sha256": "56d86e5365ee02b6f0d2b77b6a1a51347bb47b8db8c280062b8580ac65ff4d95",
@@ -39,11 +39,11 @@
       "seed_scaffold": false
     },
     "assumption_external_exact_set_packing_complexity_boundary": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "assumption_external_exact_set_packing_complexity_boundary"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: External exact set-packing hardness and polynomial-time transfer facts for the paper's Theorem 6.1 complexity consequence. The dashboard row `assumption_external_exact_set_packing_complexity_boundary` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: External exact set-packing hardness and polynomial-time transfer facts for the paper's Theorem 6.1 complexity consequence. The dashboard row `assumption_external_exact_set_packing_complexity_boundary` exposes the corresponding Lean boundary statement for that same source claim, and the row-local assumption judge records this as a partial formalization boundary.",
       "source_evidence": "Source basis: arXiv cs/0202017 source inventory from prior source audit and validation report. Source inventory item: External exact set-packing hardness and polynomial-time transfer facts for the paper's Theorem 6.1 complexity consequence.",
       "dashboard_evidence": "Current human-dashboard row(s): `assumption_external_exact_set_packing_complexity_boundary`.",
       "statement_sha256": "b3e84c82d8d2cc28cb6fb169273450690c0fff9ad8d6fbf6ae8b15adc183f04c",
