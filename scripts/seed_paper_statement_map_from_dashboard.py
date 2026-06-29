@@ -19,29 +19,24 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 PAPERS_DIR = ROOT / "papers"
+CATALOG = PAPERS_DIR / "catalog.json"
 
 sys.path.insert(0, str(ROOT / "scripts"))
 from review_dashboard import PAPER_STATEMENT_MAP_FILE, review_items_for_paper  # noqa: E402
 
-SOURCE_URLS = {
-    "DSWG24DiscretizationBias": "https://arxiv.org/pdf/2405.16762",
-    "GCG24UserItemFairness": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-    "GGSG19TopThree": "https://arxiv.org/pdf/1906.08160",
-    "GHW01DigitalGoods": "http://www.eecs.northwestern.edu/~hartline/papers/auctions-SODA-01.pdf; journal cross-check: http://www.eecs.northwestern.edu/~hartline/papers/auctions-journal.pdf; https://doi.org/10.1016/j.geb.2006.02.003",
-    "GJ18InformativeRatingSystems": "https://arxiv.org/pdf/1810.13028",
-    "GKGMM19IterativeLocalVoting": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
-    "GN21DriverSurgePricing": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
-    "GS62CollegeAdmissions": "https://doi.org/10.1080/00029890.1962.11989827; https://www.jstor.org/stable/2312726",
-    "LBG24SpatialUnderreporting": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
-    "LG21TestOptionalPolicies": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
-    "LMMS04FairDivision": "https://www.stat.berkeley.edu/~mossel/publications/happy.pdf; https://doi.org/10.1145/988772.988792",
-    "LOS02CombinatorialAuctions": "https://arxiv.org/pdf/cs/0202017v1; https://doi.org/10.1145/585265.585266",
-    "MBJG25ProducerFairness": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-    "MSVV07AdWords": "https://people.eecs.berkeley.edu/~vazirani/pubs/adwords.pdf; https://doi.org/10.1145/1284320.1284321",
-    "PKG25NoFreeLunch": "https://ojs.aaai.org/index.php/AAAI/article/view/33574/35729; https://arxiv.org/pdf/2411.15230",
-    "PRPKG24AccuracyDiversity": "https://arxiv.org/pdf/2307.15142",
-    "Roth82StableMatching": "https://web.stanford.edu/~alroth/papers/1982_MOR_EconomicsOfMatching.pdf; https://doi.org/10.1287/moor.7.4.617",
-}
+
+def load_catalog_source_urls() -> dict[str, str]:
+    if not CATALOG.exists():
+        return {}
+    payload = json.loads(CATALOG.read_text(encoding="utf-8"))
+    raw = payload.get("source_url_overrides", {}) if isinstance(payload, dict) else {}
+    if not isinstance(raw, dict):
+        return {}
+    return {
+        str(paper_id): str(url).strip()
+        for paper_id, url in raw.items()
+        if str(url).strip()
+    }
 
 
 def load_status_title(folder: Path) -> str:
@@ -65,7 +60,7 @@ def item_statement(item: Any) -> str:
 
 def map_payload(folder: Path) -> dict[str, Any]:
     items = review_items_for_paper(folder, use_cache=True)
-    source_url = SOURCE_URLS.get(folder.name, "")
+    source_url = load_catalog_source_urls().get(folder.name, "")
     return {
         "schema": 1,
         "paper": folder.name,

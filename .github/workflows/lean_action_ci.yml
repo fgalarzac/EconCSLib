@@ -27,5 +27,7 @@ jobs:
       - name: Audit reusable library provenance
         run: python3 scripts/audit_repository.py --library-only --library-premise-audit --info-limit 0
       - uses: leanprover/lean-action@v1
-      - name: Audit repository
-        run: python3 scripts/audit_repository.py
+      - name: Audit statement translations
+        run: python3 scripts/review_dashboard.py --statement-check
+      - name: Audit paper coverage
+        run: python3 scripts/review_dashboard.py --paper-coverage-check

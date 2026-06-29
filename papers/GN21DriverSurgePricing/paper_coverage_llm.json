@@ -7,10 +7,10 @@
   "seed_scaffold": false,
   "validator": "codex source-grounded audit pass",
   "validator_type": "agent",
-  "validated_at": "2026-06-29T05:52:06Z",
+  "validated_at": "2026-06-29T06:57:12Z",
   "comment": "Source-grounded source-to-dashboard judgments preserved; review-surface digest refreshed against the current public dashboard rows.",
   "paper_statement_inventory_sha256": "964726949f6734f211f080d5e96e5c11605c8a7b48cea129b92ba6c509ae392f",
-  "review_surface_sha256": "892023a5c48bf0009079ece2efab73701cd6b5b0b275eaa0e289df83b0602329",
+  "review_surface_sha256": "a569173c785a5f6f0b46ef226e8ff55af0351ea136621451d19f4e02a40b0f06",
   "items": {
     "assumption_affine_response_shape_domains": {
       "coverage": "covered",

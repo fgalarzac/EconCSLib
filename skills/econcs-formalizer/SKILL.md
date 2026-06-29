@@ -3320,8 +3320,8 @@ formalizations: a C.4-style positive-support witness model, an `S*`
 compact/continuous optimizer package, or an Appendix-B common-floor selector
 package can be scientifically useful, but the full paper remains partial until
 those packages are derived or explicitly accepted as source assumptions.
-For GJ19-style continuum work, source-facing premise reductions are useful but
-not closure. A finite-vector `S*` objective wrapper reduces an opaque
+For continuum formalization work, source-facing premise reductions are useful
+but not closure. A finite-vector `S*` objective wrapper reduces an opaque
 range-dependence premise, a global floor-tracking wrapper reduces a dyadic
 selector-envelope premise, and a positive-support `_fields` wrapper reduces a
 record-construction premise; none of these derives the paper's arbitrary
