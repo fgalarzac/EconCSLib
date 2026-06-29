@@ -3096,7 +3096,7 @@ def review_surface_digest(items: list[ReviewItem]) -> str:
         {
             "name": item.name,
             "kind": item.kind,
-            "lean_statement": normalize_statement(item.lean_statement),
+            "lean_statement": normalize_statement(item.interface_source or item.lean_statement),
             "paper_statement": normalize_statement(item.paper_statement),
             "source_status": normalize_statement(item.source_status),
             "source_note": normalize_statement(item.source_note),

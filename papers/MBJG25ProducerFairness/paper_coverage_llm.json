@@ -7,10 +7,10 @@
   "seed_scaffold": false,
   "validator": "codex source-grounded audit pass",
   "validator_type": "agent",
-  "validated_at": "2026-06-29T00:41:48Z",
-  "comment": "Source-grounded pass using source PDF/text where locally available or prior source-inventory reports otherwise. Exact-key scaffold coverage was replaced with semantic source-to-dashboard judgments.",
+  "validated_at": "2026-06-29T07:31:10Z",
+  "comment": "Source-grounded judgments preserved; review-surface digest refreshed against the source-declaration-stable dashboard surface.",
   "paper_statement_inventory_sha256": "4d692fb1614f74581e7189dc922f89dd39286c6ad23e889202f98b5d6d2ffc26",
-  "review_surface_sha256": "e2e8e9e53c5d3108f93b0bdd5b09fe12f76d3e20eeca36231a3420436b5428d9",
+  "review_surface_sha256": "18aaea21e0197dfcd9ed870355f82f817bc10b57995cc132260d6c32c4cd6c74",
   "items": {
     "assumption_nonnegative_time": {
       "coverage": "covered",

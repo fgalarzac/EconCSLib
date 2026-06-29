@@ -7,10 +7,10 @@
   "seed_scaffold": false,
   "validator": "gpt-5-codex",
   "validator_type": "agent",
-  "validated_at": "2026-06-29T04:20:00Z",
-  "comment": "Source-grounded coverage audit from local PMLR main/supplement text to current GJ19 dashboard/support declarations. Corollary C.3 is exposed as a compact paper-facing row, and Theorem 3.2 is covered by the source-grid calculated-recursion endpoint plus runtime-support declarations.",
+  "validated_at": "2026-06-29T07:31:10Z",
+  "comment": "Source-grounded judgments preserved; review-surface digest refreshed against the source-declaration-stable dashboard surface.",
   "paper_statement_inventory_sha256": "c76f320cff0e225d2a5066640054f45daaa0a10555094e284da2a9867ae9cb91",
-  "review_surface_sha256": "00a839007d78b314c154684dc6af1c681dd4b3df11251c59018659f33013b70a",
+  "review_surface_sha256": "b6ba28427a1f180a4c7ec3ee60aab0ca1b7424cee156a574687f2d39ad15eb9d",
   "items": {
     "model_nondecreasing_match_function": {
       "coverage": "covered_by_support",
