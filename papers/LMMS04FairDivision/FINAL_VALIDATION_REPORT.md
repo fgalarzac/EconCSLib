@@ -81,17 +81,17 @@ than paper assumptions:
 
 | Lean assumption/condition | Judgment | Source role |
 | --- | --- | --- |
-| `assumption_nonnegative_alpha_bound` | paper condition | Nonnegative alpha for bounded-envy finite allocations. |
-| `assumption_duplicate_free_goods_enumeration` | paper condition | Constructive algorithm list enumerates the finite good set. |
-| `assumption_positive_atom_bound` | paper condition | Positive atom-size bound for Theorem 2.3/Lemma 2.4. |
-| `assumption_ptas_error_parameter_range` | paper condition | Positive PTAS/FPTAS error parameter, with finite wrapper range. |
-| `assumption_external_graham_scheduling_boundary` | external theorem dependency | Graham scheduling theorem is cited externally by the source paper; Lean proves the fair-division consequence from it. |
-| `assumption_fixed_dimension_ip_runtime_boundary` | partial library boundary | Fixed-dimension IP runtime theorem remains reusable library infrastructure work. |
-| `assumption_positive_rounding_and_load_parameters` | paper condition | Positive load and rounding parameters in Section 3. |
-| `assumption_base_load_at_most_rounded_average` | paper condition | Capped rounded-supply helper domain. |
-| `assumption_claim34_positive_small_goods_domain` | paper condition | Claim 3.4 small-good model domain. |
-| `assumption_additive_transfer_load_window_conditions` | paper condition | Lemma 3.5 load-window transfer conditions. |
-| `assumption_uniform_random_weight_normalization` | paper condition | Theorem 4.2 normalized nonnegative additive utilities. |
+| `assumption_nonnegative_alpha_bound` | source condition | Nonnegative alpha for bounded-envy finite allocations. |
+| `assumption_duplicate_free_goods_enumeration` | source condition | Constructive algorithm list enumerates the finite good set. |
+| `assumption_positive_atom_bound` | source condition | Positive atom-size bound for Theorem 2.3/Lemma 2.4. |
+| `assumption_ptas_error_parameter_range` | source condition | Positive PTAS/FPTAS error parameter, with finite wrapper range. |
+| `assumption_external_graham_scheduling_boundary` | formalization boundary | Graham scheduling theorem is cited externally by the source paper; Lean proves the fair-division consequence from it. |
+| `assumption_fixed_dimension_ip_runtime_boundary` | formalization boundary | Fixed-dimension IP runtime theorem remains reusable library infrastructure work. |
+| `assumption_positive_rounding_and_load_parameters` | source condition | Positive load and rounding parameters in Section 3. |
+| `assumption_base_load_at_most_rounded_average` | source condition | Capped rounded-supply helper domain. |
+| `assumption_claim34_positive_small_goods_domain` | source condition | Claim 3.4 small-good model domain. |
+| `assumption_additive_transfer_load_window_conditions` | source condition | Lemma 3.5 load-window transfer conditions. |
+| `assumption_uniform_random_weight_normalization` | source condition | Theorem 4.2 normalized nonnegative additive utilities. |
 
 ## 12. Library Lift Pass
 None separately recorded in the existing report.

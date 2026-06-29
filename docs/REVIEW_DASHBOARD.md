@@ -363,8 +363,10 @@ includes this lane.
 Because the hidden-premise lane expands Lean declarations, assumption checks may
 need built `.olean` artifacts even when a paper has no explicit
 `Assumptions.lean` rows. If a fresh checkout is slow locally, use the JSON
-dashboard export only for triage and rely on the full repository audit in CI
-before declaring the paper clean.
+dashboard export only for triage and rely on the targeted paper closeout audit
+before declaring the paper clean. Routine push/PR CI should not run the full
+repository audit; reserve that gate for manual closeout or public-promotion
+validation.
 
 ## Review-Surface Audit
 

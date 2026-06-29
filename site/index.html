@@ -150,10 +150,12 @@
           <p>
             The public repository currently contains formalized papers and
             selected public partial formalizations whose remaining assumptions
-            are explicit. Human review and LLM-as-judge statement translation
-            validate individual Lean statements against corresponding
-            mathematical statements in the paper; LLM-as-judge paper coverage
-            validates the paper-level source inventory against the review rows.
+            are explicit. Human review counts the full review surface.
+            LLM-as-judge statement translation validates individual Lean
+            statements against corresponding mathematical statements in the
+            paper, including explicit source-condition rows; LLM-as-judge
+            paper coverage validates the paper-level source inventory against
+            the review rows.
           </p>
         </div>
 
@@ -286,7 +288,7 @@
                 <td>142,927</td>
                 <td></td>
                 <td>0/34 reviewed</td>
-                <td>24/24 match</td>
+                <td>24/24 statement rows match; 10 source-condition rows</td>
                 <td>34/35 covered; 1 out of scope</td>
               </tr>
               <tr>
@@ -298,7 +300,7 @@
                 <td>52,018</td>
                 <td>Proposition 2&#x27;s printed finite bound appears to miss a factor of 2; Lean proves the corrected finite bound, which is sufficient for the asymptotic 1/2-homogeneity result.</td>
                 <td>0/42 reviewed</td>
-                <td>27/27 match</td>
+                <td>27/27 statement rows match; 15 source-condition rows</td>
                 <td>42/42 covered</td>
               </tr>
               <tr>
@@ -344,9 +346,9 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/MBJG25ProducerFairness/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/MBJG25ProducerFairness/DependencyDAG.pdf">DAG</a></div></td>
                 <td>680</td>
-                <td>Formalization required an interior-quality assumption (0 &lt; q_v &lt; 1) for the strict variance-decrease statement.</td>
+                <td>Formalization required an additional interior-quality assumption (0 &lt; q_v &lt; 1) for the strict variance-decrease statement.</td>
                 <td>10/27 reviewed; 2 uncertain</td>
-                <td>17/17 match</td>
+                <td>17/17 statement rows match; 10 source-condition rows</td>
                 <td>27/27 covered</td>
               </tr>
               <tr>
@@ -370,7 +372,7 @@
                 <td>80,496</td>
                 <td>Sections 2 and 4 are fully formalized. Section 3 has query/descent/rounded-search support. The PTAS/FPTAS runtime layer needs reusable fixed-dimension IP complexity infrastructure.</td>
                 <td>0/35 reviewed</td>
-                <td>31/35 match; 4 additional assumptions</td>
+                <td>31/35 match; 4 formalization-boundary statement rows</td>
                 <td>45/49 covered; 4 conditional boundaries</td>
               </tr>
               <tr>
@@ -382,7 +384,7 @@
                 <td>23,379</td>
                 <td>Full formalization requires proving stochastic subgradient descent convergence. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition.</td>
                 <td>0/42 reviewed</td>
-                <td>35/40 match; 5 additional assumptions</td>
+                <td>35/40 statement rows match; 5 formalization-boundary statement rows; 2 source-condition rows</td>
                 <td>38/47 covered; 5 conditional boundaries; 4 out of scope</td>
               </tr>
               <tr>
@@ -394,7 +396,7 @@
                 <td>18,540</td>
                 <td>Full formalization requires a homogeneous Poisson process and stopping time derivation</td>
                 <td>0/27 reviewed</td>
-                <td>16/24 match; 8 additional assumptions</td>
+                <td>16/24 statement rows match; 8 formalization-boundary statement rows; 3 source-condition rows</td>
                 <td>16/24 covered; 8 conditional boundaries</td>
               </tr>
               <!-- END GENERATED PAPER STATUS ROWS -->

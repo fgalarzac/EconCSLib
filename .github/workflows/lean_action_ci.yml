@@ -31,3 +31,6 @@ jobs:
         run: python3 scripts/review_dashboard.py --statement-check
       - name: Audit paper coverage
         run: python3 scripts/review_dashboard.py --paper-coverage-check
+      - name: Full repository closeout audit
+        if: github.event_name == 'workflow_dispatch'
+        run: python3 scripts/audit_repository.py --include-active --library-premise-audit --info-limit 0

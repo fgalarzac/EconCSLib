@@ -91,6 +91,7 @@ UNRESOLVED_SOURCE_RECORD_CLASSIFICATIONS = {
 }
 REVIEW_ROW_WARN_THRESHOLD = 80
 PAPER_STATUS_FILE = PAPERS / "status.json"
+HUMAN_STATUS_FILE = PAPERS / "human_status.json"
 PAPER_INTERFACE_OVERSIZED_LINE_THRESHOLD = 3000
 ROOT_STATUS_VALUES = {
     "Formalized",
@@ -938,6 +939,12 @@ FINAL_REPORT_REMAINING_BOUNDARIES_RE = re.compile(
 FINAL_REPORT_ADDITIONAL_ASSUMPTIONS_RE = re.compile(
     r"(?mi)^##+\s+(?:\d+\.\s*)?Additional\s+Assumptions\s+Beyond\s+Paper\b"
 )
+FINAL_REPORT_ADDITIONAL_BOUNDARY_RE = re.compile(
+    r"\b(?:partial[- ]formalization|external[- ]library|library|analytic|solver|"
+    r"runtime|source[- ]certificate|proof)\s+boundar(?:y|ies)\b|"
+    r"\bboundar(?:y|ies)\s+(?:assumption|for|from|in|remain|through|to|work)\b",
+    re.I,
+)
 FINAL_REPORT_PROOF_DEVIATIONS_RE = re.compile(
     r"(?mi)^##+\s+(?:\d+\.\s*)?Proof-Strategy\s+Deviations\b"
 )
@@ -1061,6 +1068,17 @@ def check_final_report_status_alignment(
                 )
             )
     return findings
+
+
+def markdown_section_body(report_text: str, heading: re.Match[str]) -> str:
+    """Return text under a Markdown heading up to the next same-or-higher heading."""
+
+    heading_line = report_text[heading.start(): report_text.find("\n", heading.start())]
+    heading_level = len(re.match(r"#+", heading_line.strip()).group(0)) if heading_line else 2
+    next_heading_re = re.compile(rf"(?m)^#{{1,{heading_level}}}\s+")
+    next_heading = next_heading_re.search(report_text, heading.end())
+    end = next_heading.start() if next_heading else len(report_text)
+    return report_text[heading.end():end]
 
 
 def check_final_report_human_facing_front_matter(
@@ -1202,6 +1220,18 @@ def check_final_report_human_facing_front_matter(
                     "Detailed Formalization Evidence",
                 )
             )
+        if additional and folder.name != "TEMPLATE":
+            additional_body = markdown_section_body(report_text, additional)
+            if FINAL_REPORT_ADDITIONAL_BOUNDARY_RE.search(additional_body):
+                findings.append(
+                    Finding(
+                        "WARN",
+                        report,
+                        "`Additional Assumptions Beyond Paper` should list only genuine "
+                        "non-paper hypotheses; put partial/library/proof boundaries in "
+                        "`Remaining Boundaries and Gaps`",
+                    )
+                )
         if detailed:
             pre_detail = report_text[human_verdict.start():detailed.start()]
             if FINAL_REPORT_CHECKLIST_HEADING_RE.search(pre_detail):
@@ -4679,6 +4709,51 @@ def check_status_label_vocabulary() -> list[Finding]:
     return findings
 
 
+def check_generated_human_status_labels() -> list[Finding]:
+    findings: list[Finding] = []
+    if not HUMAN_STATUS_FILE.exists():
+        return findings
+    try:
+        data = json.loads(HUMAN_STATUS_FILE.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        return [Finding("ERROR", HUMAN_STATUS_FILE, f"invalid JSON: {exc.msg}")]
+    papers = data.get("papers")
+    if not isinstance(papers, list):
+        return findings
+    for idx, entry in enumerate(papers, start=1):
+        if not isinstance(entry, dict):
+            continue
+        paper_id = str(entry.get("id") or f"row {idx}")
+        label = str(entry.get("llm_as_judge_translation") or "")
+        if re.search(r"\badditional assumptions?\b", label, re.I):
+            findings.append(
+                Finding(
+                    "ERROR",
+                    HUMAN_STATUS_FILE,
+                    f"`{paper_id}.llm_as_judge_translation` should describe statement translation/boundary rows, not additional assumptions",
+                )
+            )
+        human_match = re.fullmatch(r"\d+/(\d+)", str(entry.get("human_review") or "").strip())
+        llm_match = re.search(r"\b\d+/(\d+)(?: statement rows)? match\b", label)
+        if human_match and llm_match:
+            human_total = int(human_match.group(1))
+            statement_total = int(llm_match.group(1))
+            source_total = sum(
+                int(match.group(1))
+                for match in re.finditer(r"\b(\d+) source-condition rows?\b", label)
+            )
+            if statement_total + source_total != human_total:
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        HUMAN_STATUS_FILE,
+                        f"`{paper_id}.llm_as_judge_translation` covers {statement_total + source_total} row(s), "
+                        f"but human_review covers {human_total}",
+                    )
+                )
+    return findings
+
+
 def check_readme_status_tables(include_active: bool) -> list[Finding]:
     findings: list[Finding] = []
     suspicious_caveat = re.compile(
@@ -5134,6 +5209,7 @@ def run(
         )
     )
     findings.extend(check_status_label_vocabulary())
+    findings.extend(check_generated_human_status_labels())
     findings.extend(check_readme_status_tables(include_active))
     findings.extend(check_tracked_artifacts(include_active))
     findings.extend(check_stale_architecture_terms())

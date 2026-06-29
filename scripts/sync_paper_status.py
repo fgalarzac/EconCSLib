@@ -311,27 +311,52 @@ def load_json_object(path: Path) -> dict[str, Any]:
     return payload if isinstance(payload, dict) else {}
 
 
+def source_condition_rows_for_payload(payload: dict[str, Any], statement_total: int) -> int:
+    review_surface = payload.get("review_surface", {})
+    assumption_names = review_surface.get("assumption_names") if isinstance(review_surface, dict) else None
+    assumption_count = (
+        len([str(name).strip() for name in assumption_names if str(name).strip()])
+        if isinstance(assumption_names, list)
+        else 0
+    )
+    human_total = int(payload.get("human_review", {}).get("total_rows", 0))
+    return max(0, min(assumption_count, human_total - statement_total))
+
+
 def llm_translation_label_from_counts(
     *,
     total: int,
     matches: int,
     mismatch: int = 0,
-    additional_assumption: int = 0,
+    formalization_boundary: int = 0,
+    source_condition_rows: int = 0,
     uncertain: int = 0,
     unknown: int = 0,
     missing: int = 0,
     stale: int = 0,
 ) -> str:
     if total <= 0:
+        if source_condition_rows:
+            label = "source-condition row" if source_condition_rows == 1 else "source-condition rows"
+            return f"{source_condition_rows} {label}"
         return "not run"
-    if not any([matches, mismatch, additional_assumption, uncertain, unknown, stale]) and missing >= total:
+    if (
+        not any([matches, mismatch, formalization_boundary, source_condition_rows, uncertain, unknown, stale])
+        and missing >= total
+    ):
         return "not run"
-    parts = [f"{matches}/{total} match"]
+    if source_condition_rows:
+        parts = [f"{matches}/{total} statement rows match"]
+    else:
+        parts = [f"{matches}/{total} match"]
     if mismatch:
         parts.append(f"{mismatch} mismatch")
-    if additional_assumption:
-        label = "additional assumption" if additional_assumption == 1 else "additional assumptions"
-        parts.append(f"{additional_assumption} {label}")
+    if formalization_boundary:
+        label = "formalization-boundary statement row" if formalization_boundary == 1 else "formalization-boundary statement rows"
+        parts.append(f"{formalization_boundary} {label}")
+    if source_condition_rows:
+        label = "source-condition row" if source_condition_rows == 1 else "source-condition rows"
+        parts.append(f"{source_condition_rows} {label}")
     if uncertain:
         parts.append(f"{uncertain} uncertain")
     if unknown:
@@ -388,14 +413,16 @@ def llm_translation_label(
     *,
     use_dashboard_audit: bool = False,
 ) -> str:
+    review_surface = payload.get("review_surface", {})
     if use_dashboard_audit:
         try:
             import review_dashboard
 
             items = review_dashboard.review_items_for_paper(folder, use_cache=True)
             summary = review_dashboard.statement_translation_audit_summary(folder, items)
+            statement_total = int(summary.get("row_count", 0))
             return llm_translation_label_from_counts(
-                total=int(summary.get("row_count", 0)),
+                total=statement_total,
                 matches=int(summary.get("matches", 0)),
                 mismatch=int(
                     summary.get(
@@ -403,7 +430,8 @@ def llm_translation_label(
                         summary.get("mismatch_count", 0),
                     )
                 ),
-                additional_assumption=int(summary.get("conditional_boundary_count", 0)),
+                formalization_boundary=int(summary.get("conditional_boundary_count", 0)),
+                source_condition_rows=source_condition_rows_for_payload(payload, statement_total),
                 uncertain=int(summary.get("uncertain_count", 0)),
                 unknown=int(summary.get("unknown_count", 0)),
                 missing=int(summary.get("missing_judgment_count", 0)),
@@ -412,7 +440,6 @@ def llm_translation_label(
         except Exception:
             pass
 
-    review_surface = payload.get("review_surface", {})
     include_names = review_surface.get("include_names") if isinstance(review_surface, dict) else None
     names = [str(name).strip() for name in include_names if str(name).strip()] if isinstance(include_names, list) else []
     judgments = load_llm_statement_judgments(folder)
@@ -421,10 +448,16 @@ def llm_translation_label(
         names = list(judgments)
     else:
         total = len(names)
+    source_condition_rows = source_condition_rows_for_payload(payload, total)
     if not judgments:
-        return "not run"
+        return llm_translation_label_from_counts(
+            total=total,
+            matches=0,
+            missing=total,
+            source_condition_rows=source_condition_rows,
+        )
 
-    matches = mismatch = additional_assumption = uncertain = unknown = missing = 0
+    matches = mismatch = formalization_boundary = uncertain = unknown = missing = 0
     for name in names:
         judgment = judgments.get(name)
         if judgment is None:
@@ -435,7 +468,7 @@ def llm_translation_label(
             matches += 1
         elif value == "mismatch":
             if judgment.get("resolution") == "conditional_boundary":
-                additional_assumption += 1
+                formalization_boundary += 1
             else:
                 mismatch += 1
         elif value == "uncertain":
@@ -447,7 +480,8 @@ def llm_translation_label(
         total=total,
         matches=matches,
         mismatch=mismatch,
-        additional_assumption=additional_assumption,
+        formalization_boundary=formalization_boundary,
+        source_condition_rows=source_condition_rows,
         uncertain=uncertain,
         unknown=unknown,
         missing=missing,
@@ -699,7 +733,10 @@ def human_payload(
             "human_translation reports saved human dashboard judgments. "
             "llm_as_judge_translation reports context-free Lean-to-TeX plus "
             "paper-vs-translation LLM-judge counts, including stale/missing/uncertain "
-            "flags when available. llm_as_judge_paper_coverage reports the "
+            "flags when available; accepted conditional-boundary mismatches are shown "
+            "as formalization-boundary statement rows and explicit assumption/source "
+            "conditions are shown as source-condition rows so totals reconcile with "
+            "the human-review surface. llm_as_judge_paper_coverage reports the "
             "paper-level source-inventory-to-dashboard-row coverage audit."
         ),
         "lean_loc_policy": (

@@ -58,14 +58,14 @@ boundaries.
 
 | Lean assumption/condition | Judgment | Source role |
 | --- | --- | --- |
-| `assumption_admissible_combinatorial_report_domain` | source-matched paper condition | Definition 3.2 truthfulness is stated over true bidder types and declaration vectors. |
-| `assumption_theorem7_optimal_allocation_feasible` | source-matched paper condition | Theorem 7.2 compares greedy with `OP`, the optimal feasible allocation. |
-| `assumption_theorem7_optimal_bidders_in_order` | source-matched paper condition | Theorem 7.2 processes the sorted bid list containing the optimal bids under comparison. |
-| `assumption_lemma9_denied_bidder_case` | source-matched paper condition | Lemma 9.2 is exactly the denied-bidder case. |
-| `assumption_lemma9_nonnegative_value_deviation` | source-matched paper condition | Single-minded value deviations stay in the nonnegative source declaration domain. |
-| `assumption_lemma9_finite_large_threshold` | source-matched paper condition | Lemma 9.5 handles the finite critical-price comparison for the larger desired set. |
-| `assumption_external_exact_set_packing_complexity_boundary` | partial boundary | External Karp/Hastad-style hardness and polynomial-time transfer facts. |
-| `assumption_external_approximation_set_packing_complexity_boundary` | partial boundary | External inapproximability and randomized-complexity consequence facts. |
+| `assumption_admissible_combinatorial_report_domain` | source condition | Definition 3.2 truthfulness is stated over true bidder types and declaration vectors. |
+| `assumption_theorem7_optimal_allocation_feasible` | source condition | Theorem 7.2 compares greedy with `OP`, the optimal feasible allocation. |
+| `assumption_theorem7_optimal_bidders_in_order` | source condition | Theorem 7.2 processes the sorted bid list containing the optimal bids under comparison. |
+| `assumption_lemma9_denied_bidder_case` | source condition | Lemma 9.2 is exactly the denied-bidder case. |
+| `assumption_lemma9_nonnegative_value_deviation` | source condition | Single-minded value deviations stay in the nonnegative source declaration domain. |
+| `assumption_lemma9_finite_large_threshold` | source condition | Lemma 9.5 handles the finite critical-price comparison for the larger desired set. |
+| `assumption_external_exact_set_packing_complexity_boundary` | formalization boundary | External Karp/Hastad-style hardness and polynomial-time transfer facts. |
+| `assumption_external_approximation_set_packing_complexity_boundary` | formalization boundary | External inapproximability and randomized-complexity consequence facts. |
 
 Additional assumptions beyond the paper: none for the auction, greedy,
 critical-price, or single-minded-truthfulness portions. The final Theorem 6.1

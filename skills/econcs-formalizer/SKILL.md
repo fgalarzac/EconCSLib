@@ -592,9 +592,10 @@ logs.
 When private GitHub Actions fails but `gh` cannot read logs because local
 authentication is stale, reproduce the workflow commands locally before
 guessing at the failure: `scripts/sync_paper_status.py --check`, the
-library-premise audit, `lake build`, and the full repository audit. Treat a
-clean local reproduction as the basis for a scoped CI fix, and report that
-remote logs were unavailable.
+library-premise audit, and the relevant `lake build`. Run the full repository
+audit only when the failure came from the manual closeout workflow path or the
+user explicitly asks for closeout validation. Treat a clean local reproduction
+as the basis for a scoped CI fix, and report that remote logs were unavailable.
 Keep CI fast by separating metadata/workflow churn from proof changes. A
 skill-only commit should not run full Lean CI; configure workflow
 `paths-ignore` for `skills/**` and commit proof-affecting changes separately.
@@ -602,7 +603,9 @@ Use GitHub Actions `concurrency` with `cancel-in-progress: true` for Lean CI so
 superseded pushes on the same branch do not burn a full build. In the workflow,
 run fast source-only checks such as `scripts/sync_paper_status.py --check` and
 the library premise audit before `leanprover/lean-action`; that fails status or
-provenance drift before the expensive Lean build starts.
+provenance drift before the expensive Lean build starts. Keep the full
+repository closeout audit behind `workflow_dispatch`, not routine push/PR CI,
+unless the branch is specifically being promoted or released.
 Do not block your own work by watching GitHub CI unless the next action
 actually depends on the result, such as merging a PR, cutting a public release,
 or diagnosing a known failure. For routine pushes, confirm that the run started
@@ -1832,6 +1835,16 @@ the Lean statements against the paper.
   A judge result of `uncertain` means the statement target is not certified yet;
   do not rewrite it as "formalized with caveat" or "partial formalization"
   unless the mathematical formalization itself has that status.
+  In generated public tables, keep `LLM-as-judge statement translation` as a
+  translation/equivalence status column, not an assumption-provenance column.
+  Raw judge rows with `resolution: conditional_boundary` should render as
+  paper-facing `formalization-boundary statement rows`; do not label them
+  "additional assumptions" unless they are genuine non-paper hypotheses in the
+  separate assumptions section.
+  If the same public table also shows a human-review denominator, the LLM row
+  summary must reconcile with that denominator: report statement-translation
+  rows and explicit source-condition/assumption rows as separate components
+  instead of showing an unexplained smaller statement-only total.
 - Use the dashboard's normalized `statement_digest` values for sidecar digests,
   not raw SHA-256 of unnormalized strings. Lean-statement sidecar hashes must
   be source-stable: hash the source declaration text exposed by the review
@@ -3264,6 +3277,10 @@ source-record packages here.
 
 ## 6. Additional Assumptions Beyond Paper
 - `<assumption declaration>`: <why needed, where used>
+- Do not list partial-formalization, external-library, analytic, solver,
+  runtime, or source-certificate boundaries here. Those belong in `Remaining
+  Boundaries and Gaps` unless they are genuinely non-paper hypotheses added to
+  prove a claimed endpoint.
 - If none: `None`
 
 ## 7. Proof-Strategy Deviations
@@ -3328,6 +3345,14 @@ record-construction premise; none of these derives the paper's arbitrary
 optimal selector, concrete weighted objective continuity, finite-level source
 realization equality, or non-finite-range witness from primitive global paper
 assumptions by itself.
+When rendering this information in a human-facing report, translate raw
+validator enums to paper-facing labels: `source_text_model_primitive`,
+`source_text`, and `paper_condition` become `source condition`;
+`derived_from_source_primitives` becomes `derived`; a genuine non-paper
+hypothesis becomes `additional assumption`; `partial_boundary` becomes
+`formalization boundary`; `documented_caveat` becomes `paper caveat`; and helper
+or plumbing rows become `not paper-facing`. Do not show raw enum labels in the
+researcher-facing tables unless the section is explicitly a machine ledger.
 
 | Assumption declaration | Lean declaration | Source location / statement | Assumption validators | Comments |
 | --- | --- | --- | --- | --- |

@@ -3117,7 +3117,7 @@
       "source_version": "Journal of the ACM 49(5), 2002",
       "build_target": "lake build LOS02CombinatorialAuctions",
       "status": "partially formalized",
-      "main_caveat": "Partial-formalization boundary: the external complexity consequences, critical-value infinity axioms, and greedy-order blocking windows remain explicit partial boundaries.",
+      "main_caveat": "Partial-formalization boundary: the external computational-complexity consequences for the native Theorem 6.1 hardness and NP=ZPP claims remain reusable library infrastructure work.",
       "human_summary": "Greedy approximation, truthfulness, and Theorem 6.1 reductions are formalized. Full formalization requires computational complexity results that are out of scope.",
       "review_entrypoint": "papers/LOS02CombinatorialAuctions/FINAL_VALIDATION_REPORT.md",
       "human_review": {
@@ -3255,8 +3255,8 @@
       "source_version": "ICWSM 2025 / arXiv:2207.04369",
       "build_target": "lake build MBJG25ProducerFairness",
       "status": "formalized",
-      "main_caveat": "The strict variance-decrease statement is formalized with the documented interior-quality condition 0 < q_v < 1; the report records boundary counterexamples at q_v = 0 and q_v = 1.",
-      "human_summary": "Formalization required an interior-quality assumption (0 < q_v < 1) for the strict variance-decrease statement.",
+      "main_caveat": "Additional assumption: the strict variance-decrease statement is formalized with the interior-quality condition 0 < q_v < 1; boundary rows record why the unconditional strict statement is not claimed at q_v = 0 or q_v = 1.",
+      "human_summary": "Formalization required an additional interior-quality assumption (0 < q_v < 1) for the strict variance-decrease statement.",
       "review_entrypoint": "papers/MBJG25ProducerFairness/FINAL_VALIDATION_REPORT.md",
       "human_review": {
         "reviewed_rows": 10,
