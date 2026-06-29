@@ -13,13 +13,13 @@
       "validator_type": "model"
     },
     "college_admissions_stable_assignment_exists": {
-      "comment": "",
+      "comment": "Digest metadata refreshed against the source declaration text; judgment text preserved.",
       "judgment": "matches",
-      "lean_statement_sha256": "bf9b19433b76b27ac6082a611418f40a56809b1a7b157af555aab8410d8ef8eb",
+      "lean_statement_sha256": "c19cf30c007d6862fba9c3bd685f218f050e623466ba70bca09be18c6532efbc",
       "paper_statement_sha256": "c5b6b154030e8b9835926d0f73662296c20c7fa2ee27ad5eff826522ab731c7e",
       "reason": "Translation preserves finite applicants and colleges, arbitrary quotas and utilities, and existence of a stable many-to-one assignment.",
       "tex_statement_sha256": "c5639f42ad79b489833aa68a21f7bb2ef81548260beb844d10a3566382420d86",
-      "validated_at": "2026-06-13T21:43:40Z",
+      "validated_at": "2026-06-29T07:14:13Z",
       "validator": "gpt-5-codex",
       "validator_type": "model"
     },

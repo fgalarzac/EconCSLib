@@ -50,7 +50,7 @@
     },
     "c3_product_density_coordinate_noncollision_ae": {
       "lean_statement_sha256": "4e97fd597abf0f12d7ecf4a2fc6be333c4dbbe26267dad1cd401d98960eab329",
-      "tex_statement": "\\forall {Coord : Type u_1} [inst : Fintype Coord] (D : FiniteCoordinateIdealDistributionData Coord) (x : Coord \\to \\mathbb{R}), \\forallᵐ (ideal : Coord \\to \\mathbb{R}) \\,\\partial idealMeasure, \\forall (i : Coord), x i \\ne ideal i"
+      "tex_statement": "\\forall {Coord : Type u_1} [inst : Fintype Coord] (D : FiniteCoordinateIdealDistributionData Coord) (x : Coord \\to \\mathbb{R}), \\forall\u1d50 (ideal : Coord \\to \\mathbb{R}) \\,\\partial idealMeasure, \\forall (i : Coord), x i \\ne ideal i"
     },
     "conditions_c123_formula": {
       "lean_statement_sha256": "83cfce09253e41195df8508c22a72548c0e88df840055ea572809a8252bfd4c7",
@@ -94,7 +94,7 @@
     },
     "lemma3_coordinate_noncollision_ae_from_productMeasure": {
       "lean_statement_sha256": "db3d9c64b9427784ea4b061f4ddcf28b2e148aa3939e115a769c3fe59e2203fd",
-      "tex_statement": "\\forall {Coord : Type u_1} [inst : Fintype Coord] (\\rho : Measure \\mathbb{R}) [SigmaFinite \\rho] [NoAtoms \\rho] {\\mu : Measure (Coord \\to \\mathbb{R})} {C : ENNReal}, HasBoundedDensity (pi fun x  =>  \\rho) \\mu C \\to \\forall (x : Coord \\to \\mathbb{R}), \\forallᵐ (ideal : Coord \\to \\mathbb{R}) \\,\\partial \\mu, \\forall (i : Coord), x i \\ne ideal i"
+      "tex_statement": "\\forall {Coord : Type u_1} [inst : Fintype Coord] (\\rho : Measure \\mathbb{R}) [SigmaFinite \\rho] [NoAtoms \\rho] {\\mu : Measure (Coord \\to \\mathbb{R})} {C : ENNReal}, HasBoundedDensity (pi fun x  =>  \\rho) \\mu C \\to \\forall (x : Coord \\to \\mathbb{R}), \\forall\u1d50 (ideal : Coord \\to \\mathbb{R}) \\,\\partial \\mu, \\forall (i : Coord), x i \\ne ideal i"
     },
     "lemma3_finite_holder_dual_gradient_candidate_norm_formula": {
       "lean_statement_sha256": "6404db0d4c4949d60acdf1115bd54f7524f81a096f71882aa7dc3c501d2cf1f4",
@@ -158,7 +158,9 @@
     },
     "theorem3_statement_of_full_sampled_projected_source_semantics_univ": {
       "tex_statement": "For every finite voter type, finite nonempty coordinate type, measurable singleton voter space, ILV environment E over finite-coordinate real vectors, and sampled projected source-semantics record M, if E.solutionSpace = Set.univ, then the exact paper Theorem 3 statement theorem3Statement E holds.",
-      "lean_statement_sha256": "4d277b95651acbfe45e75ab15120e6cb5d35f052056b5ee479913efe944a6950"
+      "lean_statement_sha256": "9b5c230534ab6f603ae3787abd20ead7714741b6a919432d2096f18bf69a75b4",
+      "comment": "Digest metadata refreshed against the source declaration text; TeX text preserved.",
+      "validated_at": "2026-06-29T07:14:13Z"
     }
   },
   "paper": "GKGMM19IterativeLocalVoting",
