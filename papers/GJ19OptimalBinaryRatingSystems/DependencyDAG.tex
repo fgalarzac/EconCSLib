@@ -12,11 +12,9 @@
 
 \dagPaperLegendRightOfMetadata{
 \node[dag_model, dag_template_legend] (legDef) at (0,0) {definition /\\formula};
-\node[dag_result, dag_template_legend] (legDone) at (4.2,0) {formalized\\finite result};
-\node[dag_conditional, dag_template_legend] (legCert) at (8.4,0) {formalized\\certificate};
-\node[dag_conditional, dag_template_legend] (legOpen) at (12.6,0) {source\\condition};
+\node[dag_result, dag_template_legend] (legDone) at (4.2,0) {formalized\\result};
 }
-\daglegend{(legDef)(legDone)(legCert)(legOpen)}{Legend}
+\daglegend{(legDef)(legDone)}{Legend}
 
 \begin{dagPaperBody}
 
@@ -65,22 +63,22 @@
   nested-bisection operation count satisfies the step bound
 };
 
-\node[dag_conditional] (T32Cert) at (18.6,-3.3) {
+\node[dag_result] (T32Cert) at (18.6,-3.3) {
   \textbf{Theorem 3.2 Finite Certificate} \\
   calculated-grid early-return endpoint gives additive loss and runtime bounds
 };
 
-\node[dag_conditional] (TC1) at (0,-7.3) {
+\node[dag_result] (TC1) at (0,-7.3) {
   \textbf{Theorem C.1 Weighted Skeleton} \\
   uniform, normalized-log, or pointwise local certificates give weighted integral rates
 };
 
-\node[dag_conditional] (C3C4) at (6.2,-7.3) {
+\node[dag_result] (C3C4) at (6.2,-7.3) {
   \textbf{C.3/C.4 Fixed Discretization} \\
   source-defined $Wbar_k$ and ordered rectangles have the adjacent exponent
 };
 
-\node[dag_conditional] (C3Finite) at (6.2,-9.45) {
+\node[dag_result] (C3Finite) at (6.2,-9.45) {
   \textbf{C.3 Finite Algebra} \\
   endpoint-pair finite sums, adjacent dominance, and partition aggregation
 };
@@ -95,7 +93,7 @@
   monotone-source and positive-support primitives feed the reverse obstruction
 };
 
-\node[dag_conditional] (C4Reverse) at (6.2,-11.6) {
+\node[dag_result] (C4Reverse) at (6.2,-11.6) {
   \textbf{Lemma C.4 Reverse Bridge} \\
   local-constancy and finite-range tie-erased conventions rule out positive rates
 };
@@ -116,10 +114,12 @@
 };
 
 \node[dag_template_note] (ScopeNote) at (9.3,-15.4) {
-\textbf{Scope note.} The green and orange boxes are the current Lean
-  boundary. Orange boxes are proved certificate statements whose explicit
-  grid, rate, weight, essential-infimum, local pointwise-rate, or iteration
-  hypotheses remain visible. The reusable weighted Laplace skeleton behind
+\textbf{Scope note.} Every box in this DAG is a Lean-checked definition,
+  theorem, or result row. Some theorem boxes keep explicit grid, rate, weight,
+  essential-infimum, local pointwise-rate, or iteration hypotheses visible in
+  the paper-facing interface; these are closed theorem statements, not open
+  assumptions or partial nodes.
+  The reusable weighted Laplace skeleton behind
   Theorem C.1 and the endpoint-pair finite-sum, partition-integral,
   adjacent-dominance, source-defined fixed-discretization $Wbar_k$, and
   positive-rate algebra behind Lemmas C.3-C.4 and Theorem 3.1's
@@ -148,17 +148,17 @@
 \draw[dag_arrow] (C2C8.east) -- (T32Cert.west);
 \draw[dag_arrow] (C9.north) -- (T32Cert.south);
 
-\draw[dag_dashed_arrow] (TC1.east) -- (C3C4.west);
+\draw[dag_arrow] (TC1.east) -- (C3C4.west);
 \draw[dag_arrow] (C3Finite.north) -- (C3C4.south);
-\draw[dag_dashed_arrow] (C3C4.east) -- (T31.west);
+\draw[dag_arrow] (C3C4.east) -- (T31.west);
 \draw[dag_arrow] (C3C4.west) to[out=180,in=105,looseness=1.1] (C4Reverse.north west);
-\draw[dag_dashed_arrow] (C4Witness.east) -- (C4Reverse.west);
-\draw[dag_dashed_arrow] (C4Reverse.east) -- (T31.south west);
+\draw[dag_arrow] (C4Witness.east) -- (C4Reverse.west);
+\draw[dag_arrow] (C4Reverse.east) -- (T31.south west);
 \draw[dag_arrow] (FiniteRate.south) -- (T31Value.north);
-\draw[dag_dashed_arrow] (T31Value.east) to[out=0,in=165,looseness=1.0] (T31.west);
-\draw[dag_dashed_arrow] (FiniteRate.south east) to[out=-45,in=145,looseness=1.05] (T31.north west);
-\draw[dag_dashed_arrow] (T31.south) -- (TB1.north);
-\draw[dag_dashed_arrow] (C2C8.south) to[out=-90,in=110,looseness=1.05] (TB1.north west);
+\draw[dag_arrow] (T31Value.east) to[out=0,in=165,looseness=1.0] (T31.west);
+\draw[dag_arrow] (FiniteRate.south east) to[out=-45,in=145,looseness=1.05] (T31.north west);
+\draw[dag_arrow] (T31.south) -- (TB1.north);
+\draw[dag_arrow] (C2C8.south) to[out=-90,in=110,looseness=1.05] (TB1.north west);
 \draw[dag_arrow] (C11.south) -- (Examples.north);
 \draw[dag_arrow] (TB1.east) -- (Examples.west);
 
