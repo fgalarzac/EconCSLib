@@ -2196,6 +2196,16 @@ the Lean statements against the paper.
     through certificates, finite analogues, positive-base restrictions,
     two-sided support, or other undisclosed hypotheses, mark the downstream
     theorem conditional/partial rather than green.
+  - **Do not use scope notes as theorem inventory:** A prose scope note may
+    clarify a diagram, but it must never be the only place where named source
+    results appear. Every named Definition, Lemma, Proposition, Theorem,
+    Corollary, and appendix result in `paper_statement_map.json` or the source
+    inventory must be represented by a visible DAG node. Grouping is allowed
+    for tightly related results, but the grouped node header must explicitly
+    name the included source results, for example `\textbf{Cor. C.1-C.2;
+    Lemmas C.6-C.8}`. At closeout, compare the source inventory against DAG
+    node headers and treat any result that appears only in a scope note as
+    missing from the DAG.
   - **Blueprint/source-map consistency:** Treat the DAG as a human-readable
     view over the source-block map, not as the source of truth. Before closeout
     or any public-facing handoff, cross-check three inventories: source-block

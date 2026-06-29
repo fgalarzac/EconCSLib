@@ -38,129 +38,135 @@
   endpoint-aware equalized levels exist, are unique, and are maximin optimal
 };
 
-\node[dag_result] (FiniteRate) at (0,-3.3) {
+\node[dag_result] (T31Lex) at (24.8,0) {
+  \textbf{Theorem 3.1 Lexicographic Optimality} \\
+  value first, then rate, characterizes optimal binary systems
+};
+
+\node[dag_model] (MatchModel) at (0,-3.3) {
+  \textbf{Monotone Match Model} \\
+  nondecreasing match-function primitive used by appendix rates
+};
+
+\node[dag_result] (C1C2) at (6.2,-3.3) {
+  \textbf{Lemmas C.1-C.2} \\
+  pairwise binary error probabilities have the Bernoulli exponent
+};
+
+\node[dag_result] (FiniteRate) at (12.4,-3.3) {
   \textbf{Finite Adjacent Objective} \\
   endpoint/source-shaped rows construct finite certificates and give exact rates
 };
 
-\node[dag_result] (T31Value) at (0,-5.25) {
-  \textbf{Theorem 3.1 Value Logic} \\
-  bounded convergence and two-stage value/rate lexicographic optimality
+\node[dag_result] (T31Branches) at (18.6,-3.3) {
+  \textbf{Theorem 3.1 Fixed/Continuum Branches} \\
+  fixed discretizations and continuum cell integrals realize the same optimum
 };
 
-\node[dag_result] (C5) at (6.2,-3.3) {
-  \textbf{Lemma C.5} \\
-  doubled endpoint chain is feasible and equalizes adjacent rates
-};
-
-\node[dag_result] (C2C8) at (12.4,-3.3) {
-  \textbf{Cor. C.2; Lemmas C.6-C.8} \\
-  common rate goes to zero, mesh shrinks, and finite support bounds hold
-};
-
-\node[dag_result] (C9) at (18.6,-6.6) {
-  \textbf{Lemma C.9} \\
-  nested-bisection operation count satisfies the step bound
-};
-
-\node[dag_result] (T32Cert) at (18.6,-3.3) {
-  \textbf{Theorem 3.2 Finite Certificate} \\
-  calculated-grid early-return endpoint gives additive loss and runtime bounds
-};
-
-\node[dag_result] (TC1) at (0,-7.3) {
-  \textbf{Theorem C.1 Weighted Skeleton} \\
-  uniform, normalized-log, or pointwise local certificates give weighted integral rates
-};
-
-\node[dag_result] (C3C4) at (6.2,-7.3) {
-  \textbf{C.3/C.4 Fixed Discretization} \\
-  source-defined $Wbar_k$ and ordered rectangles have the adjacent exponent
-};
-
-\node[dag_result] (C3Finite) at (6.2,-9.45) {
-  \textbf{C.3 Finite Algebra} \\
-  endpoint-pair finite sums, adjacent dominance, and partition aggregation
-};
-
-\node[dag_result] (T31) at (12.4,-7.3) {
+\node[dag_result] (T31) at (24.8,-3.3) {
   \textbf{Full Theorem 3.1} \\
   continuum optimal discretization and maximin decomposition are checked
 };
 
-\node[dag_result] (C4Witness) at (0,-11.6) {
-  \textbf{C.4 Source Bridge} \\
-  monotone-source and positive-support primitives feed the reverse obstruction
+\node[dag_result] (TC1) at (0,-6.6) {
+  \textbf{Theorem C.1} \\
+  weighted Laplace principle converts local rates to integral rates
 };
 
-\node[dag_result] (C4Reverse) at (6.2,-11.6) {
-  \textbf{Lemma C.4 Reverse Bridge} \\
-  local-constancy and finite-range tie-erased conventions rule out positive rates
+\node[dag_result] (C3) at (6.2,-6.6) {
+  \textbf{Lemma C.3} \\
+  piecewise-constant partitions aggregate by the minimum adjacent exponent
 };
 
-\node[dag_result] (TB1) at (12.4,-10.9) {
-  \textbf{Theorem B.1 Bridge} \\
+\node[dag_result] (C4) at (12.4,-6.6) {
+  \textbf{Lemma C.4} \\
+  positive rate occurs exactly for the source piecewise-constant case
+};
+
+\node[dag_result] (C5) at (0,-9.9) {
+  \textbf{Lemma C.5} \\
+  doubled endpoint chain is feasible and equalizes adjacent rates
+};
+
+\node[dag_result] (C1C2C6C8) at (6.2,-9.9) {
+  \textbf{Cor. C.1-C.2; Lemmas C.6-C.8} \\
+  rate vanishes, mesh shrinks, and finite-support bounds hold
+};
+
+\node[dag_result] (C3Cor) at (12.4,-9.9) {
+  \textbf{Corollary C.3} \\
+  monotone first-level lower bound supports the finite grid guarantee
+};
+
+\node[dag_result] (C9) at (18.6,-9.9) {
+  \textbf{Lemma C.9} \\
+  nested-bisection operation count satisfies the step bound
+};
+
+\node[dag_result] (T32Cert) at (24.8,-9.9) {
+  \textbf{Theorem 3.2} \\
+  calculated grid gives additive loss and runtime bounds
+};
+
+\node[dag_result] (B1Lemma) at (0,-13.2) {
+  \textbf{Lemma B.1} \\
+  matching-rate shifts preserve the limiting comparison
+};
+
+\node[dag_result] (TB1) at (6.2,-13.2) {
+  \textbf{Theorem B.1} \\
   quantile-floor representation and uniform convergence give uniform limits
 };
 
-\node[dag_result] (C11) at (18.6,-8.75) {
+\node[dag_result] (B2B3) at (12.4,-13.2) {
+  \textbf{Lemmas B.2-B.3} \\
+  known-type and unknown-type learning converge uniformly
+};
+
+\node[dag_model] (DefC1) at (18.6,-13.2) {
+  \textbf{Definition C.1} \\
+  Kendall and Spearman population objectives
+};
+
+\node[dag_result] (C10C12) at (24.8,-13.2) {
   \textbf{Lemmas C.10-C.12} \\
-  Spearman reduction and Kendall/Spearman finite objectives favor equispaced cutpoints
+  Spearman reduction and Kendall/Spearman objectives favor equispaced cutpoints
 };
 
-\node[dag_result] (Examples) at (18.6,-11.5) {
-  \textbf{Definition C.1; Lemma C.10; Cor. C.4} \\
-  finite reductions and equispaced Kendall/Spearman bridge are checked
-};
-
-\node[dag_template_note] (ScopeNote) at (9.3,-15.4) {
-\textbf{Scope note.} Every box in this DAG is a Lean-checked definition,
-  theorem, or result row. Some theorem boxes keep explicit grid, rate, weight,
-  essential-infimum, local pointwise-rate, or iteration hypotheses visible in
-  the paper-facing interface; these are closed theorem statements, not open
-  assumptions or partial nodes.
-  The reusable weighted Laplace skeleton behind
-  Theorem C.1 and the endpoint-pair finite-sum, partition-integral,
-  adjacent-dominance, source-defined fixed-discretization $Wbar_k$, and
-  positive-rate algebra behind Lemmas C.3-C.4 and Theorem 3.1's
-  fixed-discretization bridge are formalized under visible hypotheses.
-  Corollary C.2, the finite Lemma C.10-C.12 example reductions, the reverse
-  C.4 obstruction core, the concrete monotone-interval/local-constancy and
-  finite-range pointwise-LDP reverse bridges, the Theorem 3.2
-  calculated-grid early-return endpoint, and the common floor-coordinate /
-  canonical B.1/Corollary C.4 convergence branches are formalized. The full
-  Theorem 3.1 continuum discretization path and the Kendall/Spearman
-  convergence examples are closed in the paper-facing interface.
-  The finite Appendix B.2/B.3 learning wrappers are Lean-checked; the
-  empirical/visualization material remains source scope but is not a
-  theorem-DAG target here.
+\node[dag_result] (CorC4) at (24.8,-16.5) {
+  \textbf{Corollary C.4} \\
+  equispaced Kendall/Spearman rules arise along a uniform optimal subsequence
 };
 
 \draw[dag_arrow] (KL.east) -- (AdjRate.west);
 \draw[dag_arrow] (AdjRate.east) -- (ClosedRate.west);
 \draw[dag_arrow] (ClosedRate.east) -- (LevelOpt.west);
+\draw[dag_arrow] (LevelOpt.east) -- (T31Lex.west);
 
-\draw[dag_arrow] (KL.south) -- (FiniteRate.north);
-\draw[dag_arrow] (AdjRate.south west) to[out=-135,in=55,looseness=1.0] (FiniteRate.north east);
+\draw[dag_arrow] (KL.south east) -- (C1C2.north west);
+\draw[dag_arrow] (AdjRate.south) -- (C1C2.north);
+\draw[dag_arrow] (C1C2.east) -- (FiniteRate.west);
+\draw[dag_arrow] (FiniteRate.east) -- (T31Branches.west);
+\draw[dag_arrow] (T31Branches.east) -- (T31.west);
+\draw[dag_arrow] (T31Lex.south) -- (T31.north);
 
-\draw[dag_arrow] (LevelOpt.south west) to[out=-120,in=35,looseness=1.05] (C5.north east);
-\draw[dag_arrow] (C5.east) -- (C2C8.west);
-\draw[dag_arrow] (C2C8.east) -- (T32Cert.west);
-\draw[dag_arrow] (C9.north) -- (T32Cert.south);
+\draw[dag_arrow] (MatchModel.south east) -- (C3.north west);
+\draw[dag_arrow] (TC1.east) -- (C3.west);
+\draw[dag_arrow] (C3.east) -- (C4.west);
+\draw[dag_arrow] (C4.north east) -- (T31Branches.south west);
 
-\draw[dag_arrow] (TC1.east) -- (C3C4.west);
-\draw[dag_arrow] (C3Finite.north) -- (C3C4.south);
-\draw[dag_arrow] (C3C4.east) -- (T31.west);
-\draw[dag_arrow] (C3C4.west) to[out=180,in=105,looseness=1.1] (C4Reverse.north west);
-\draw[dag_arrow] (C4Witness.east) -- (C4Reverse.west);
-\draw[dag_arrow] (C4Reverse.east) -- (T31.south west);
-\draw[dag_arrow] (FiniteRate.south) -- (T31Value.north);
-\draw[dag_arrow] (T31Value.east) to[out=0,in=165,looseness=1.0] (T31.west);
-\draw[dag_arrow] (FiniteRate.south east) to[out=-45,in=145,looseness=1.05] (T31.north west);
-\draw[dag_arrow] (T31.south) -- (TB1.north);
-\draw[dag_arrow] (C2C8.south) to[out=-90,in=110,looseness=1.05] (TB1.north west);
-\draw[dag_arrow] (C11.south) -- (Examples.north);
-\draw[dag_arrow] (TB1.east) -- (Examples.west);
+\draw[dag_arrow] (C5.east) -- (C1C2C6C8.west);
+\draw[dag_arrow] (C1C2C6C8.east) -- (C3Cor.west);
+\draw[dag_arrow] (C3Cor.east) -- (C9.west);
+\draw[dag_arrow] (C9.east) -- (T32Cert.west);
+
+\draw[dag_arrow] (B1Lemma.east) -- (TB1.west);
+\draw[dag_arrow] (C1C2C6C8.south) to[out=-90,in=115,looseness=1.05] (TB1.north west);
+\draw[dag_arrow] (TB1.east) -- (B2B3.west);
+
+\draw[dag_arrow] (DefC1.east) -- (C10C12.west);
+\draw[dag_arrow] (C10C12.south) -- (CorC4.north);
+\draw[dag_arrow] (TB1.south east) to[out=-30,in=180,looseness=1.1] (CorC4.west);
 
 \end{dagPaperBody}
 \end{tikzpicture}
