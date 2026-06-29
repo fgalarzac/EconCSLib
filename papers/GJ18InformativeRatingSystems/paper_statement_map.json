@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "paper": "GJ18InformativeRatingSystems",
+  "title": "Designing Informative Rating Systems: Evidence from an Online Labor Market",
+  "generated_at": "2026-06-29T00:40:45Z",
+  "source_inventory_policy": "Source basis: /tmp/econcs_source_text/GJ18InformativeRatingSystems.txt and validation report/source audit notes. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
+  "source_url": "https://arxiv.org/pdf/1810.13028",
+  "items": {
+    "definition_log_mgf_formula": {
+      "statement": "-\nThe paper's log-MGF formula `\u039b(z | \u03b8)`.\nmoment generating function of one rating.",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "source_location": "Direct source formula.",
+      "aliases": [
+        "definition_log_mgf_formula"
+      ]
+    },
+    "definition_rate_function_formula": {
+      "statement": "-\nThe paper's Legendre-transform formula `I(a | \u03b8)`.\nLegendre transform of the source log-MGF.",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "source_location": "Direct source formula.",
+      "aliases": [
+        "definition_rate_function_formula"
+      ]
+    },
+    "lemmaC_pk_complement_source_threshold_rate_from_logMGF_derivatives": {
+      "statement": "integer-rate source-threshold transfer for `1 - P_k`.",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "source_location": "Source lemma bridge.",
+      "aliases": [
+        "lemmaC_pk_complement_source_threshold_rate_from_logMGF_derivatives"
+      ]
+    },
+    "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_joint_floor_rating_law": {
+      "statement": "finite ordered floor-count endpoint using the concrete joint floor-rating law and adjacent reduction.",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "source_location": "direct source text",
+      "aliases": [
+        "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_joint_floor_rating_law"
+      ]
+    },
+    "theorem1_finite_chain_adjacent_threshold_rate_top_min_eq_displayed_objective_min_of_logMGF_derivatives": {
+      "statement": "support-safe extended source threshold-rate minimum equals the displayed adjacent-objective minimum.",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "source_location": "Derived source-rate identification.",
+      "aliases": [
+        "theorem1_finite_chain_adjacent_threshold_rate_top_min_eq_displayed_objective_min_of_logMGF_derivatives"
+      ]
+    },
+    "theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_rating_tail_dominance_and_full_support": {
+      "statement": "source-facing support-safe endpoint from ordinal upper-tail dominance, monotone scores, positive match rates, and full finite ordinal rating support; bottom/top atom support is derived internally.",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "source_location": "Main source theorem endpoint.",
+      "aliases": [
+        "theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_rating_tail_dominance_and_full_support"
+      ]
+    },
+    "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_threshold_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds_of_extended_min_eq": {
+      "statement": "optional real-rate compatibility statement from the support-safe endpoint under a stronger all-real domain convention.",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "source_location": "Compatibility wrapper.",
+      "aliases": [
+        "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_threshold_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds_of_extended_min_eq"
+      ]
+    },
+    "assumption_positive_match_rates": {
+      "statement": "- Sellers receive positive asymptotic match/sample rates.",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_positive_match_rates"
+      ]
+    },
+    "assumption_positive_integer_sample_rates": {
+      "statement": "- Integer-rate helper rows require positive integer sample rates.",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_positive_integer_sample_rates"
+      ]
+    },
+    "assumption_nonpositive_common_dual_parameters": {
+      "statement": "- Common-dual large-deviation helper rows use nonpositive dual parameters.",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_nonpositive_common_dual_parameters"
+      ]
+    },
+    "assumption_pairwise_threshold_minimizer": {
+      "statement": "- Auxiliary Appendix C route exposes the source threshold minimizer condition.",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_pairwise_threshold_minimizer"
+      ]
+    },
+    "assumption_two_sided_score_witnesses": {
+      "statement": "- Finite-support lower-bound helper rows use positive and negative score witnesses.",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_two_sided_score_witnesses"
+      ]
+    },
+    "assumption_monotone_rating_scores": {
+      "statement": "- Source rating scores are monotone in the finite ordinal rating level.",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_monotone_rating_scores"
+      ]
+    },
+    "assumption_full_finite_ordinal_rating_support": {
+      "statement": "- The canonical finite ordinal source endpoint uses full rating-law support.",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_full_finite_ordinal_rating_support"
+      ]
+    },
+    "assumption_score_range_and_strict_span": {
+      "statement": "- Compatibility real-rate wrappers expose the source score range.",
+      "source_url": "https://arxiv.org/pdf/1810.13028",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_score_range_and_strict_span"
+      ]
+    }
+  },
+  "source_inventory_kind": "source_curated",
+  "source_curated": true
+}

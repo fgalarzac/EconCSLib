@@ -1,126 +1,289 @@
 {
   "schema": 1,
-  "source_text_note": "Line numbers are 1-indexed inclusive ranges into the local extracted paper text cache, source.txt. The text cache is intentionally ignored by git.",
+  "paper": "GN21DriverSurgePricing",
+  "title": "Driver Surge Pricing",
+  "generated_at": "2026-06-29T00:41:01Z",
+  "source_inventory_policy": "Source basis: /tmp/econcs_source_text/GN21DriverSurgePricing.txt and paper-local SOURCE_AUDIT.md. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
+  "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
   "items": {
     "review_definition_single_state_ic": {
-      "source_text_file": "source.txt",
-      "start_line": 269,
-      "end_line": 275
+      "statement": "-\nDefinition: single-state incentive compatibility.  Accepting all feasible trips\nis optimal: every measurable feasible one-state trip policy earns no more than\naccept-all.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "direct paper definition",
+      "aliases": [
+        "review_definition_single_state_ic"
+      ]
     },
     "review_definition_dynamic_ic": {
-      "source_text_file": "source.txt",
-      "start_line": 269,
-      "end_line": 275
+      "statement": "-\nDefinition: two-state dynamic incentive compatibility.  Accepting all feasible\ntrips in both CTMC states is optimal against dynamic policy deviations.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "direct paper definition",
+      "aliases": [
+        "review_definition_dynamic_ic"
+      ]
     },
     "review_definition_threshold_policy": {
-      "source_text_file": "source.txt",
-      "start_line": 2149,
-      "end_line": 2152
+      "statement": "-\nDefinition: threshold policies.  A trip policy accepts exactly the positive\ntrip lengths whose payment-per-time `w \u03c4 / \u03c4` is at least the cutoff `c`.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "direct paper definition",
+      "aliases": [
+        "review_definition_threshold_policy"
+      ]
     },
     "review_definition_dynamic_defined_reward": {
-      "source_text_file": "source.txt",
-      "start_line": 308,
-      "end_line": 319
+      "statement": "-\nDefinition: dynamic reward with positive-mass denominators.  The Appendix D\nreward formulas are formalized as a reward value defined on feasible dynamic\npolicies where the accepted-trip mass denominators are positive.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-domain formalization",
+      "aliases": [
+        "review_definition_dynamic_defined_reward"
+      ]
     },
     "review_section2_single_state_renewal_reward_iid_bridge": {
-      "source_text_file": "source.txt",
-      "start_line": 279,
-      "end_line": 292
+      "statement": "-\nSection 2.2: IID renewal-reward bridge for the single-state result.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_section2_single_state_renewal_reward_iid_bridge"
+      ]
     },
     "review_proposition3_1_affine_single_state_ic": {
-      "source_text_file": "source.txt",
-      "start_line": 499,
-      "end_line": 499
+      "statement": "-\nProposition 3.1: affine single-state pricing is incentive compatible.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_proposition3_1_affine_single_state_ic"
+      ]
     },
     "review_theorem1_single_state_threshold_best_response": {
-      "source_text_file": "source.txt",
-      "start_line": 455,
-      "end_line": 459
+      "statement": "-\nTheorem 1: optimal single-state policies are threshold policies.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_theorem1_single_state_threshold_best_response"
+      ]
     },
     "review_lemma4_single_state_threshold_uniqueness": {
-      "source_text_file": "source.txt",
-      "start_line": 2375,
-      "end_line": 2379
+      "statement": "-\nLemma 4: threshold optimizer uniqueness up to null sets.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_lemma4_single_state_threshold_uniqueness"
+      ]
     },
     "review_lemma1_measured_dynamic_reward_decomposition": {
-      "source_text_file": "source.txt",
-      "start_line": 2492,
-      "end_line": 2502
+      "statement": "-\nLemma 1: dynamic reward decomposition.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_lemma1_measured_dynamic_reward_decomposition"
+      ]
     },
     "review_lemma2_switch_probability_formula": {
-      "source_text_file": "source.txt",
-      "start_line": 2470,
-      "end_line": 2474
+      "statement": "-\nLemma 2: CTMC switch-probability formula.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_lemma2_switch_probability_formula"
+      ]
     },
     "review_lemma3_measured_time_fraction_formula": {
-      "source_text_file": "source.txt",
-      "start_line": 2503,
-      "end_line": 2510
+      "statement": "-\nLemma 3: state time-fraction formula.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_lemma3_measured_time_fraction_formula"
+      ]
     },
     "review_remark1_switch_probability_per_time_strictAntiOn": {
-      "source_text_file": "source.txt",
-      "start_line": 3050,
-      "end_line": 3068
+      "statement": "-\nRemark 1: switch probability per unit time is strictly decreasing.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_remark1_switch_probability_per_time_strictAntiOn"
+      ]
     },
     "review_remark3_switch_probability_per_time_tendsto_at_zero": {
-      "source_text_file": "source.txt",
-      "start_line": 3089,
-      "end_line": 3089
+      "statement": "-\nRemark 3: small-time switch probability per unit time tends to the switch rate.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_remark3_switch_probability_per_time_tendsto_at_zero"
+      ]
     },
     "review_remark4_switch_time_minus_switch_probability_nonneg": {
-      "source_text_file": "source.txt",
-      "start_line": 3091,
-      "end_line": 3092
+      "statement": "-\nRemark 4: `lambda * t - q(t)` is nonnegative.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_remark4_switch_time_minus_switch_probability_nonneg"
+      ]
     },
     "review_lemma5_fixed_response_policy_form": {
-      "source_text_file": "source.txt",
-      "start_line": 2689,
-      "end_line": 2720
+      "statement": "-\nLemma 5: fixed-response feasible policy form almost everywhere.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_lemma5_fixed_response_policy_form"
+      ]
     },
     "review_lemma6_upper_endpoint_derivative_formula": {
-      "source_text_file": "source.txt",
-      "start_line": 3724,
-      "end_line": 3745
+      "statement": "-\nLemma 6: upper-endpoint derivative formula.\n\nproves the exact endpoint derivative formula without assuming positive endpoint\ndensity; positive density is only the conditional premise for the strict\nsign-transfer corollary in the conclusion.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_lemma6_upper_endpoint_derivative_formula"
+      ]
     },
     "review_lemma7_affine_positive_additive_response_quasi_convex": {
-      "source_text_file": "source.txt",
-      "start_line": 3072,
-      "end_line": 3073
+      "statement": "-\nLemma 7: positive-additive affine response is quasi-convex.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_lemma7_affine_positive_additive_response_quasi_convex"
+      ]
     },
     "review_lemma8_affine_negative_additive_response_quasi_concave": {
-      "source_text_file": "source.txt",
-      "start_line": 3075,
-      "end_line": 3076
+      "statement": "-\nLemma 8: negative-additive affine response is quasi-concave.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_lemma8_affine_negative_additive_response_quasi_concave"
+      ]
     },
     "review_lemma9_surge_derivative_positive_of_acceptAll_bounds": {
-      "source_text_file": "source.txt",
-      "start_line": 3809,
-      "end_line": 3829
+      "statement": "-\nLemma 9: surge-state derivative positivity under accept-all bounds.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_lemma9_surge_derivative_positive_of_acceptAll_bounds"
+      ]
     },
     "review_lemma10_nonsurge_derivative_positive_of_acceptAll_bounds": {
-      "source_text_file": "source.txt",
-      "start_line": 3834,
-      "end_line": 3854
+      "statement": "-\nLemma 10: non-surge-state derivative positivity under accept-all bounds.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_lemma10_nonsurge_derivative_positive_of_acceptAll_bounds"
+      ]
     },
     "review_theorem2_multiplicative_policy_shape_ae": {
-      "source_text_file": "source.txt",
-      "start_line": 516,
-      "end_line": 539
+      "statement": "-\nTheorem 2: multiplicative-pricing optimal-policy shape handoff.\n\nLean states the policy-shape clause separately from the explicit non-IC\ncounterexample because the paper's theorem combines a structural statement with\nan existential example.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem split",
+      "aliases": [
+        "review_theorem2_multiplicative_policy_shape_ae"
+      ]
     },
     "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_states": {
-      "source_text_file": "source.txt",
-      "start_line": 516,
-      "end_line": 539
+      "statement": "-\nTheorem 2: explicit multiplicative-pricing instance with positive finite\ncutoff deviations in both states, and hence measured dynamic non-IC.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem split",
+      "aliases": [
+        "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_states"
+      ]
     },
     "review_theorem4_structural_policy_representatives": {
-      "source_text_file": "source.txt",
-      "start_line": 3128,
-      "end_line": 3148
+      "statement": "-\nTheorem 4: structural representatives for optimal policies.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-facing theorem summary",
+      "aliases": [
+        "review_theorem4_structural_policy_representatives"
+      ]
     },
     "review_theorem3_defined_reward_source_statement": {
-      "source_text_file": "source.txt",
-      "start_line": 722,
-      "end_line": 733
+      "statement": "-\nTheorem 3: denominator-valid dynamic incentive compatibility for structured\nsurge prices.  There are prices of the paper's form\n`m_i * tau + z_i * q_{i->j}(tau)` such that accept-all is optimal for every\nfeasible dynamic policy whose Appendix-D reward-rate denominators are defined,\nand every defined-reward optimum agrees with accept-all almost everywhere.\n\nreward-rate formulas divide by accepted-trip mass/time quantities, so Lean\nstates the theorem over `DynamicDefinedReward.of_total` rather than over the\nbroader real-division totalization at zero denominators.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "source-domain theorem endpoint",
+      "aliases": [
+        "review_theorem3_defined_reward_source_statement"
+      ]
+    },
+    "assumption_affine_single_state_parameter_domain": {
+      "statement": "- Affine single-state pricing parameter domain.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_affine_single_state_parameter_domain"
+      ]
+    },
+    "assumption_single_state_defined_reward_domain": {
+      "statement": "- Single-state reward/threshold domain for Theorem 1's nontrivial payout branch.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_single_state_defined_reward_domain"
+      ]
+    },
+    "assumption_dynamic_time_fraction_denominators": {
+      "statement": "- Dynamic time-fraction denominators are nonzero.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_dynamic_time_fraction_denominators"
+      ]
+    },
+    "assumption_switch_rate_domain": {
+      "statement": "- Switch-rate parameters are in the positive/nonnegative CTMC domain.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_switch_rate_domain"
+      ]
+    },
+    "assumption_fixed_response_policy_form_conditions": {
+      "statement": "- Lemma 5 fixed-response policy form uses measurable responses and optimal policies.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_fixed_response_policy_form_conditions"
+      ]
+    },
+    "assumption_upper_endpoint_derivative_domain": {
+      "statement": "- Lemma 6 endpoint derivative formula domain.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_upper_endpoint_derivative_domain"
+      ]
+    },
+    "assumption_affine_response_shape_domains": {
+      "statement": "- Lemma 7/8 affine additive response domains.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_affine_response_shape_domains"
+      ]
+    },
+    "assumption_surge_derivative_source_bounds": {
+      "statement": "- Lemma 9 surge-state derivative source-data formulas and bounds.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_surge_derivative_source_bounds"
+      ]
+    },
+    "assumption_nonsurge_derivative_source_bounds": {
+      "statement": "- Lemma 10 non-surge derivative source-data formulas and bounds.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_nonsurge_derivative_source_bounds"
+      ]
+    },
+    "assumption_theorem3_source_data_domain": {
+      "statement": "- Theorem 3 source-data domain for sequential current bounds.",
+      "source_url": "https://arxiv.org/pdf/1905.07544; published article: https://doi.org/10.1287/mnsc.2021.4058",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_theorem3_source_data_domain"
+      ]
+    },
+    "source_remark2_out_of_scope": {
+      "statement": "Source Remark 2 is visible in the paper but is not currently represented as a separate dashboard target.",
+      "source_location": "Remark 2 in source text; flagged by source-grounding audit as omitted from dashboard inventory.",
+      "aliases": []
     }
-  }
+  },
+  "source_inventory_kind": "source_curated",
+  "source_curated": true
 }

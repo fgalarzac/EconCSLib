@@ -1,0 +1,12 @@
+*.pdf
+!DependencyDAG.pdf
+/source/
+/source_tex/
+*.tar.gz
+source.txt
+*-supplement.txt
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.synctex.gz

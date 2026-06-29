@@ -1,5 +1,5 @@
 {
-  "comment": "Recursive source-record judge for the LBG24 public partial checkpoint. Nested containers are recursively audited; leaf fields are the approved compact Poisson/stopping/kernel certificate boundary.",
+  "comment": "Recursive source-record judge for the LBG24 public partial checkpoint. Nested containers are recursively audited; leaf fields are the approved compact Poisson/stopping/kernel certificate boundary. Digest refreshed after curating LBG24 human review surface from 87 rows to 24 source-facing rows plus 3 visible boundary assumptions; expected field judgment keys are unchanged.",
   "items": {
     "DurationCensoredFirstCountObservationCertificate.count": {
       "classification": "approved_external_boundary",
@@ -1314,8 +1314,8 @@
   },
   "paper": "LBG24SpatialUnderreporting",
   "schema": 1,
-  "source_record_audit_sha256": "206a009577f8d298da44da7c8327e2b88fa64ffa6232c21cc9cbb46fb5e02900",
-  "validated_at": "2026-06-28T12:00:00Z",
+  "source_record_audit_sha256": "604603ea8d7c210b5926d8e159e2ba8de4d79693660eba60c06bab6fbeb4c5ca",
+  "validated_at": "2026-06-28T00:00:00Z",
   "validator": "gpt-5-codex",
   "validator_type": "model"
 }

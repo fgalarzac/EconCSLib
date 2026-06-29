@@ -1,0 +1,404 @@
+{
+  "schema": 1,
+  "paper": "LMMS04FairDivision",
+  "title": "On Approximately Fair Allocations of Indivisible Goods",
+  "generated_at": "2026-06-29T01:27:19Z",
+  "source_inventory_policy": "Source basis: /tmp/econcs_source_text/LMMS04FairDivision.txt, local PDF cache, and validation report. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
+  "source_url": "https://www.stat.berkeley.edu/~mossel/publications/happy.pdf; https://doi.org/10.1145/988772.988792",
+  "items": {
+    "envy": {
+      "statement": "- Envy of agent `i` toward agent `j`: positive part of the value difference.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "envy"
+      ]
+    },
+    "envyFree": {
+      "statement": "- Envy-free allocations have no positive envy between any ordered pair.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "envyFree"
+      ]
+    },
+    "envyBoundedBy": {
+      "statement": "- Bounded-envy predicate used in Theorem 2.1.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "envyBoundedBy"
+      ]
+    },
+    "maxMarginal": {
+      "statement": "- Maximum marginal item value.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "maxMarginal"
+      ]
+    },
+    "isAllocationOf": {
+      "statement": "- Allocation of exactly the specified finite set of goods.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "isAllocationOf"
+      ]
+    },
+    "lemma2_2_acyclic_reduction": {
+      "statement": "- Lemma 2.2: envy-cycle elimination produces an acyclic envy graph.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "lemma2_2_acyclic_reduction"
+      ]
+    },
+    "theorem2_1_bounded_envy_allocation_exists": {
+      "statement": "- Theorem 2.1: bounded-envy allocation existence.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem2_1_bounded_envy_allocation_exists"
+      ]
+    },
+    "theorem2_1_alpha_bounded_allocation_exists": {
+      "statement": "- Theorem 2.1 alpha-bounded form.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem2_1_alpha_bounded_allocation_exists"
+      ]
+    },
+    "theorem2_1_algorithm_correct_list_toFinset": {
+      "statement": "- Theorem 2.1 constructive list algorithm form.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem2_1_algorithm_correct_list_toFinset"
+      ]
+    },
+    "theorem2_3_real_interval_supported_atom_bound": {
+      "statement": "-\nTheorem 2.3 real-interval supported atom-bound endpoint.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "direct source text",
+      "aliases": [
+        "theorem2_3_real_interval_supported_atom_bound"
+      ]
+    },
+    "theorem3_1_eventually_minimum_envy_lower_bound_from_twoBit_adaptive_queries": {
+      "statement": "-\nTheorem 3.1 adaptive-query lower bound.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "direct source text",
+      "aliases": [
+        "theorem3_1_eventually_minimum_envy_lower_bound_from_twoBit_adaptive_queries"
+      ]
+    },
+    "theorem3_1_eventually_minimum_envy_ratio_lower_bound_from_twoBit_adaptive_queries": {
+      "statement": "-\nTheorem 3.1 adaptive-query ratio lower bound.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "direct source text",
+      "aliases": [
+        "theorem3_1_eventually_minimum_envy_ratio_lower_bound_from_twoBit_adaptive_queries"
+      ]
+    },
+    "theorem3_2_graham_certificate_to_envy_ratio_bound": {
+      "statement": "-\nTheorem 3.2 Graham-certificate fair-division consequence.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "partial external dependency",
+      "aliases": [
+        "theorem3_2_graham_certificate_to_envy_ratio_bound"
+      ]
+    },
+    "theorem3_2_graham_factor_eq_seven_fifths": {
+      "statement": "-\nTheorem 3.2 evaluates the Graham factor as seven fifths.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "direct source formula",
+      "aliases": [
+        "theorem3_2_graham_factor_eq_seven_fifths"
+      ]
+    },
+    "theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee": {
+      "statement": "-\nTheorem 3.3 conditional fixed-dimension IP summary.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "partial boundary",
+      "aliases": [
+        "theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee"
+      ]
+    },
+    "theorem3_3_external_solver_selected_pair_full_summary_source_output_package": {
+      "statement": "-\nTheorem 3.3 compact external-solver package.\nruntime/FPTAS conclusion is exactly the supplied external solver consequence.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "partial boundary",
+      "aliases": [
+        "theorem3_3_external_solver_selected_pair_full_summary_source_output_package"
+      ]
+    },
+    "theorem3_3_external_solver_selected_pair_full_summary_source_output_payload": {
+      "statement": "-\nTheorem 3.3 compact external-solver payload projection.\npayload from the conditional external-solver package.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "partial boundary",
+      "aliases": [
+        "theorem3_3_external_solver_selected_pair_full_summary_source_output_payload"
+      ]
+    },
+    "theorem3_3_external_solver_selected_pair_full_summary_source_output_consequence": {
+      "statement": "-\nTheorem 3.3 compact external-solver consequence projection.\nthe external solver consequence, pending the reusable fixed-dimension IP theorem.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "partial boundary",
+      "aliases": [
+        "theorem3_3_external_solver_selected_pair_full_summary_source_output_consequence"
+      ]
+    },
+    "theorem3_3_external_solver_consequence_and_selected_pair_full_summary_source_output_of_claim_3_4_source_average_forward_additive_no_top_of_margin": {
+      "statement": "-\nTheorem 3.3 strongest Claim-3.4 additive external-solver endpoint.\nselected-pair estimates, this returns the compact external-solver package.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "partial boundary",
+      "aliases": [
+        "theorem3_3_external_solver_consequence_and_selected_pair_full_summary_source_output_of_claim_3_4_source_average_forward_additive_no_top_of_margin"
+      ]
+    },
+    "theorem3_3_claim34_fixed_rounding_ratio_endpoint": {
+      "statement": "-\nClaim 3.4 fixed-rounding ratio endpoint.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "partial boundary",
+      "aliases": [
+        "theorem3_3_claim34_fixed_rounding_ratio_endpoint"
+      ]
+    },
+    "theorem3_3_claim34_capped_weighted_supply_ratio_endpoint": {
+      "statement": "-\nClaim 3.4 capped weighted-supply endpoint.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "partial boundary",
+      "aliases": [
+        "theorem3_3_claim34_capped_weighted_supply_ratio_endpoint"
+      ]
+    },
+    "claim3_4_bounded_optimal_of_exact_allocations_with_nonempty_positive_goods": {
+      "statement": "- Claim 3.4 exact-allocation bounded optimum endpoint.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "claim3_4_bounded_optimal_of_exact_allocations_with_nonempty_positive_goods"
+      ]
+    },
+    "claim3_4_identical_utilities_bounded_optimum_bound": {
+      "statement": "-\nClaim 3.4 identical-utilities bounded optimum bound.\nSection 3 rounded-search runtime layer remains a partial boundary.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "partial boundary",
+      "aliases": [
+        "claim3_4_identical_utilities_bounded_optimum_bound"
+      ]
+    },
+    "theorem3_3_ratio_transfer_certificate_epsilon_of_agentwise_additive_loads": {
+      "statement": "-\nTheorem 3.3 additive-load ratio transfer.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "direct source proof step",
+      "aliases": [
+        "theorem3_3_ratio_transfer_certificate_epsilon_of_agentwise_additive_loads"
+      ]
+    },
+    "lemma3_5_additive_transfer_epsilon_bound": {
+      "statement": "-\nLemma 3.5 additive transfer epsilon bound.\ncertificate/load-window premises are recorded in the paper assumption ledger.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "partial boundary",
+      "aliases": [
+        "lemma3_5_additive_transfer_epsilon_bound"
+      ]
+    },
+    "directMechanism_fields": {
+      "statement": "-\nA direct no-transfer mechanism consists only of an allocation rule.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "direct paper definition",
+      "aliases": [
+        "directMechanism_fields"
+      ]
+    },
+    "randomizedDirectMechanism_fields": {
+      "statement": "-\nA randomized direct no-transfer mechanism consists only of an allocation law.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "direct paper definition",
+      "aliases": [
+        "randomizedDirectMechanism_fields"
+      ]
+    },
+    "truthful": {
+      "statement": "- Dominant-strategy truthfulness for direct fair-division mechanisms.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "truthful"
+      ]
+    },
+    "randomizedTruthful": {
+      "statement": "- Expected-utility truthfulness for randomized direct mechanisms.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "randomizedTruthful"
+      ]
+    },
+    "theorem4_1_source_goods_content": {
+      "statement": "-\nTheorem 4.1 uses the full finite source universe: two named goods plus eight\negg goods, for ten goods total and two agents.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem4_1_source_goods_content"
+      ]
+    },
+    "theorem4_1_true_report_formula": {
+      "statement": "-\nTheorem 4.1's truthful report is the additive bundle valuation generated by\nthe displayed two-player item weights.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "direct source formula",
+      "aliases": [
+        "theorem4_1_true_report_formula"
+      ]
+    },
+    "theorem4_1_source_not_truthful_envy_free_whenever_exists": {
+      "statement": "- Theorem 4.1 envy-free mechanism impossibility.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem4_1_source_not_truthful_envy_free_whenever_exists"
+      ]
+    },
+    "theorem4_1_source_minimum_envy_not_truthful": {
+      "statement": "- Theorem 4.1 minimum-envy mechanism impossibility.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem4_1_source_minimum_envy_not_truthful"
+      ]
+    },
+    "theorem4_2_uniform_random_mechanism_truthful": {
+      "statement": "- Theorem 4.2 uniform-random mechanism truthfulness.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem4_2_uniform_random_mechanism_truthful"
+      ]
+    },
+    "theorem4_2_uniform_random_max_envy_probability_bound": {
+      "statement": "-\nTheorem 4.2 uniform-random maximum-envy probability bound.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "direct source formula",
+      "aliases": [
+        "theorem4_2_uniform_random_max_envy_probability_bound"
+      ]
+    },
+    "assumption_nonnegative_alpha_bound": {
+      "statement": "- The alpha-bounded envy statements use a nonnegative marginal-value bound.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_nonnegative_alpha_bound"
+      ]
+    },
+    "assumption_alpha_marginal_value_bound": {
+      "statement": "- The alpha-bounded form assumes every marginal item value is at most `alpha`.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_alpha_marginal_value_bound"
+      ]
+    },
+    "assumption_duplicate_free_goods_enumeration": {
+      "statement": "- The constructive algorithm endpoint enumerates the input goods without duplicates.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_duplicate_free_goods_enumeration"
+      ]
+    },
+    "assumption_positive_atom_bound": {
+      "statement": "- The measure-valued envy theorem is stated for a positive atom bound.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_positive_atom_bound"
+      ]
+    },
+    "assumption_ptas_error_parameter_range": {
+      "statement": "- PTAS/FPTAS ratio statements quantify over the usual positive error range.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_ptas_error_parameter_range"
+      ]
+    },
+    "assumption_external_graham_scheduling_boundary": {
+      "statement": "-\nTheorem 3.2 cites Graham's scheduling approximation theorem; this folder\nformalizes the fair-division consequence from that scheduling certificate.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_external_graham_scheduling_boundary"
+      ]
+    },
+    "assumption_fixed_dimension_ip_runtime_boundary": {
+      "statement": "-\nThe final PTAS/FPTAS runtime conclusion is conditional on reusable\nfixed-dimension integer-program complexity infrastructure.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_fixed_dimension_ip_runtime_boundary"
+      ]
+    },
+    "assumption_positive_rounding_and_load_parameters": {
+      "statement": "- Rounded-search statements expose the paper's positive load and rounding-scale domain.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_positive_rounding_and_load_parameters"
+      ]
+    },
+    "assumption_base_load_at_most_rounded_average": {
+      "statement": "- Capped rounded-supply endpoints compare the base load with the rounded average.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_base_load_at_most_rounded_average"
+      ]
+    },
+    "assumption_claim34_positive_small_goods_domain": {
+      "statement": "- Claim 3.4 finite small-good model uses positive goods whose value is below `L`.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_claim34_positive_small_goods_domain"
+      ]
+    },
+    "assumption_claim34_rounded_type_window_condition": {
+      "statement": "-\nClaim 3.4's finite rounded-type assignment endpoints use the source rounded\ntype window for the selected min/max pair.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_claim34_rounded_type_window_condition"
+      ]
+    },
+    "assumption_additive_transfer_load_window_conditions": {
+      "statement": "-\nLemma 3.5's algebraic transfer row exposes positivity and half-load window\nconditions for the source, rounded, and output loads.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_additive_transfer_load_window_conditions"
+      ]
+    },
+    "assumption_uniform_random_weight_normalization": {
+      "statement": "- The randomized allocation concentration bound uses normalized nonnegative item weights.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_uniform_random_weight_normalization"
+      ]
+    },
+    "lemma2_4_real_interval_low_value_partition": {
+      "statement": "- Lemma 2.4: partition the real interval support into finitely many low-value pieces under the paper atom-bound hypothesis.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "Lemma 2.4; formalized through Lemma24MeasurePartition.lean and the Theorem 2.3 real-interval bridge",
+      "aliases": [
+        "lemma2_4_real_interval_low_value_partition"
+      ]
+    }
+  },
+  "source_inventory_kind": "source_curated",
+  "source_curated": true
+}

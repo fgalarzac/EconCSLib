@@ -174,11 +174,19 @@ At the start of the paper, fill in the `FORMALIZATION_PLAN.md`
 source, sanity-check every named result and formula-bearing displayed claim for
 signs, constants, normalizations, quantifiers, domains, and dependencies, and
 record suspected bugs, missing assumptions, formula ambiguities, and proof
-strategy consequences. Alert the user early about any major issue. After that
-source inventory and the first compact `PaperInterface.lean` skeleton exist,
-run the smaller statement target-setting pass: populate `lean_to_tex_llm.json`,
-populate `statement_match_llm.json`, and run
+strategy consequences. The initial plan is a hard start gate: include the
+source/version inventory, complete named-result ledger, formula/dependency
+sanity pass, shared-library reuse checkpoint, and formal target/boundary map
+before serious theorem proving. Alert the user early about any major issue.
+After that source inventory and the first compact `PaperInterface.lean`
+skeleton exist, run the smaller statement target-setting pass: populate
+`lean_to_tex_llm.json`, populate `statement_match_llm.json`, and run
 `python3 scripts/review_dashboard.py --paper {folder} --statement-precheck`.
+Also populate `paper_statement_map.json` for the paper's source definitions,
+formulas, and named claims, then run the paper-level coverage pass and save
+`paper_coverage_llm.json`: this asks whether every source statement that should
+be represented is covered by at least one dashboard row. This source-to-row
+accounting is separate from the row-local statement judge.
 Then run `python3 scripts/review_dashboard.py --paper {folder}
 --assumption-precheck`: the statement judge is row-local and does not certify
 that theorem premises are source assumptions or derived facts. Use this pass
@@ -218,9 +226,12 @@ Do not use `axiom`, `constant`, `opaque`, or unsafe declarations to bypass that
 provenance boundary.
 If the dashboard has more than 30 rows, also populate `review_surface_llm.json`
 with a no-paper-context LLM audit that checks whether every dashboard row is a
-paper-facing definition, formula, or named statement. At 50 or more rows, treat
+paper-facing definition, formula, or named statement. At 120 or more rows, treat
 the dashboard as oversized and curate `PaperInterface.lean` or
 `status.json.review_surface.include_names` before broad human review.
+Before a full-formalization closeout, rerun
+`python3 scripts/review_dashboard.py --paper {folder} --paper-coverage-precheck`
+and resolve missing, stale, partial, or uncertain source coverage.
 
 ## Theorem Status
 
@@ -235,6 +246,10 @@ the dashboard as oversized and curate `PaperInterface.lean` or
 - [ ] Fill in `FORMALIZATION_PLAN.md` with the initial outside-Lean paper audit,
       formula/result sanity check, proof strategy, and likely hard seams before
       deep Lean work.
+- [ ] Record the shared-library reuse checkpoint: mathlib, cslib, optlib, and
+      `EconCSLib` modules/declarations inspected; API chosen; near-misses.
+- [ ] Record the formal target map: rows to prove, empirical/out-of-scope rows,
+      and any explicit boundary that would remain if the paper cannot close now.
 - [ ] Run the lightweight statement target-setting pass and fix mismatched
       theorem targets before serious proof work.
 - [ ] Run the assumption/hidden-premise precheck after the statement pass; do
@@ -251,7 +266,7 @@ the dashboard as oversized and curate `PaperInterface.lean` or
 - [ ] Route every non-derived paper-facing theorem premise through
       `Assumptions.lean`, then run the assumption-provenance LLM judge.
 - [ ] If the dashboard has more than 30 rows, run the LLM review-surface audit;
-      if it has 50 or more rows, curate the interface before broad review.
+      if it has 120 or more rows, curate the interface before broad review.
 - [ ] Run the context-free Lean-to-TeX translation and third-LLM match judgment
       workflow before asking for human dashboard review.
 - [ ] Update `status.json`, then run `python3 scripts/sync_paper_status.py`.
@@ -330,9 +345,10 @@ def status_text(args: argparse.Namespace, folder: str) -> str:
                     "lean_to_tex_file": f"papers/{folder}/lean_to_tex_llm.json",
                     "match_judgment_file": f"papers/{folder}/statement_match_llm.json",
                     "review_surface_audit_file": f"papers/{folder}/review_surface_llm.json",
+                    "paper_coverage_audit_file": f"papers/{folder}/paper_coverage_llm.json",
                     "assumption_judgment_file": f"papers/{folder}/assumption_match_llm.json",
                     "surface_audit_threshold": 30,
-                    "surface_warning_threshold": 50,
+                    "surface_warning_threshold": 120,
                     "policy": (
                         "Translate each Lean statement with an LLM that has no paper context "
                         "and require it to preserve every visible binder, hypothesis, domain "
@@ -346,8 +362,18 @@ def status_text(args: argparse.Namespace, folder: str) -> str:
                         "`mismatch` or `uncertain`. Record the model/agent validator metadata "
                         "and iterate on PaperInterface.lean until the full statement matches. "
                         "If the dashboard has more than 30 rows, run a no-paper-context LLM "
-                        "audit that checks whether every row is paper-facing; at 50 or more "
+                        "audit that checks whether every row is paper-facing; at 120 or more "
                         "rows, curate the surface before broad human review."
+                    ),
+                },
+                "llm_paper_coverage_review": {
+                    "paper_coverage_audit_file": f"papers/{folder}/paper_coverage_llm.json",
+                    "policy": (
+                        "Maintain a paper_statement_map.json inventory of source definitions, "
+                        "formulas, and named statements, then use a separate LLM pass to judge "
+                        "whether each source item is covered by one or more dashboard rows. "
+                        "This paper-level accounting is required before calling a full-paper "
+                        "formalization closed and is separate from row-local statement matching."
                     ),
                 },
                 "llm_assumption_review": {
@@ -361,6 +387,7 @@ def status_text(args: argparse.Namespace, folder: str) -> str:
                 },
                 "assumption_policy": "strict",
                 "assumption_names": [],
+                "paper_coverage_required": False,
                 "include_names": [],
                 "slices": [
                     {
@@ -429,6 +456,24 @@ def review_surface_llm_text(folder: str) -> str:
             "judgment": "",
             "reason": "",
             "review_rows": 0,
+            "review_surface_sha256": "",
+            "items": {},
+        },
+        indent=2,
+    ) + "\n"
+
+
+def paper_coverage_llm_text(folder: str) -> str:
+    return json.dumps(
+        {
+            "schema": 1,
+            "paper": folder,
+            "prompt_version": "paper-coverage-v1-source-inventory-to-review-surface",
+            "validator": "",
+            "validator_type": "",
+            "validated_at": "",
+            "comment": "Judge whether each canonical source-paper statement is covered by one or more dashboard rows. This is separate from row-local statement matching.",
+            "paper_statement_inventory_sha256": "",
             "review_surface_sha256": "",
             "items": {},
         },
@@ -784,12 +829,22 @@ useful; it is not the final validation report.
 ## Initial Outside-Lean Paper Audit
 
 - Source version / local files inspected:
+- Source/version mismatch notes:
+- Complete named-result ledger status:
 - Formula sanity check:
   - Signs, constants, normalizations, quantifiers, domains:
+  - Density vs mass / likelihood-kernel representation issues:
+  - Dependency map between named source results:
   - Formula-bearing displayed claims that need derivation, not source-row assumptions:
 - Named result sanity check:
   - Results that look correct as stated:
   - Suspected bugs, missing assumptions, or ambiguous wording:
+- Shared-library reuse checkpoint:
+  - Mathlib declarations/modules inspected:
+  - Cslib declarations/modules inspected:
+  - Optlib declarations/modules inspected:
+  - Existing `EconCSLib` declarations/modules inspected:
+  - API chosen and near-misses:
 - Proof strategy consequences:
   - Source proof route to follow:
   - Cleaner Lean route or reusable library route:
@@ -806,7 +861,31 @@ useful; it is not the final validation report.
 - Main theorem chain:
 - Likely reusable `EconCSLib` seams:
 - Paper steps that look underspecified or analytically hard:
+- Formal target map:
+  - Rows to fully prove now:
+  - Empirical/descriptive rows out of formal theorem scope:
+  - Explicit assumption/certificate boundaries, if any:
 - Planned fallback route if the source proof is too informal:
+
+## Reusable-Library TODO
+
+- Library APIs to use directly:
+- Small reusable lemmas to add now:
+- Larger reusable components to defer:
+- Library-audit risks:
+
+## Execution Checklist
+
+- [ ] Download/cache source PDFs and text extracts, with redistribution notes.
+- [ ] Complete named-result and formula-bearing displayed-claim inventory.
+- [ ] Fill the formal target map and declare any intended boundary/certificate.
+- [ ] Build or select reusable library APIs before adding paper-local wrappers.
+- [ ] Replace paper scaffold with source-facing Lean definitions and rows.
+- [ ] Prove all rows marked in-scope, or downgrade them with an explicit
+      boundary note.
+- [ ] Update README, status, DAG, and validation report from the same row list.
+- [ ] Run build, audits, placeholder/provenance checks, and DAG validation.
+- [ ] Record any unresolved source bug, assumption, or library debt.
 
 ## Active Scratchpad
 
@@ -820,6 +899,7 @@ useful; it is not the final validation report.
 - Source imprecision or proof deviation to report later:
 - Genuine paper assumptions to declare in `Assumptions.lean`:
 - Temporary certificate fields to discharge:
+- Validation/audit checks that must inspect these assumptions:
 """
 
 
@@ -989,6 +1069,7 @@ def main() -> int:
     write_file(paper_dir / "lean_to_tex_llm.json", lean_to_tex_llm_text(folder), args.force)
     write_file(paper_dir / "statement_match_llm.json", statement_match_llm_text(folder), args.force)
     write_file(paper_dir / "review_surface_llm.json", review_surface_llm_text(folder), args.force)
+    write_file(paper_dir / "paper_coverage_llm.json", paper_coverage_llm_text(folder), args.force)
     write_file(paper_dir / "assumption_match_llm.json", assumption_match_llm_text(folder), args.force)
     launch_script = paper_dir / "review-dashboard.sh"
     write_file(

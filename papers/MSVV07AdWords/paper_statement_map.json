@@ -1,0 +1,356 @@
+{
+  "schema": 1,
+  "paper": "MSVV07AdWords",
+  "title": "AdWords and Generalized Online Matching",
+  "generated_at": "2026-06-29T01:27:19Z",
+  "source_inventory_policy": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
+  "source_url": "https://people.eecs.berkeley.edu/~vazirani/pubs/adwords.pdf; https://doi.org/10.1145/1284320.1284321",
+  "items": {
+    "paperSlotsPerPageDistinct_iff": {
+      "statement": "- Paper multiple-slot distinctness spelled out by original query and slot.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper model extension",
+      "aliases": [
+        "paperSlotsPerPageDistinct_iff"
+      ]
+    },
+    "paperSpend_formula": {
+      "statement": "- Paper spend formula for advertiser `a` under assignment `A`.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper formula",
+      "aliases": [
+        "paperSpend_formula"
+      ]
+    },
+    "paperRevenue_formula": {
+      "statement": "- Paper revenue formula for an assignment.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper formula",
+      "aliases": [
+        "paperRevenue_formula"
+      ]
+    },
+    "paperFeasible_iff": {
+      "statement": "- Paper budget feasibility: no advertiser spends more than her budget.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper constraint",
+      "aliases": [
+        "paperFeasible_iff"
+      ]
+    },
+    "paperSmallBids_iff": {
+      "statement": "- Paper small-bids condition: every bid is at most an `epsilon` budget fraction.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper assumption",
+      "aliases": [
+        "paperSmallBids_iff"
+      ]
+    },
+    "paperFractionalRevenue_formula": {
+      "statement": "- Paper fractional LP value.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper formula",
+      "aliases": [
+        "paperFractionalRevenue_formula"
+      ]
+    },
+    "paperFractionalFeasible_iff": {
+      "statement": "- Paper fractional LP feasibility constraints.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper constraints",
+      "aliases": [
+        "paperFractionalFeasible_iff"
+      ]
+    },
+    "paperTradeoff_formula": {
+      "statement": "- The paper's MSVV/Balance tradeoff function at spent fraction `s`.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper formula",
+      "aliases": [
+        "paperTradeoff_formula"
+      ]
+    },
+    "paperMsvvRatio_formula": {
+      "statement": "- The paper's competitive ratio `1 - 1/e`.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper formula",
+      "aliases": [
+        "paperMsvvRatio_formula"
+      ]
+    },
+    "paperBalanceScore_formula": {
+      "statement": "- Paper Balance/MSVV scaled bid.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper formula",
+      "aliases": [
+        "paperBalanceScore_formula"
+      ]
+    },
+    "paperCanAssign_iff": {
+      "statement": "- Paper feasibility for assigning query `q` next to advertiser `a`.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper budget constraint",
+      "aliases": [
+        "paperCanAssign_iff"
+      ]
+    },
+    "paperIsBalanceChoice_iff": {
+      "statement": "-\nPaper Balance/MSVV choice rule: advertiser `a` is feasible for query `q` and\nmaximizes the scaled bid among feasible advertisers.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper algorithm rule",
+      "aliases": [
+        "paperIsBalanceChoice_iff"
+      ]
+    },
+    "paperSmallBidsLimitFamily_fields": {
+      "statement": "-\nPaper-facing small-bids limiting family: bids become small relative to budgets,\noffline optimum converges to `optLimit`, and Balance/MSVV revenue converges to\n`revenueLimit`.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "formalization bridge for Theorem 8 limiting statement",
+      "aliases": [
+        "paperSmallBidsLimitFamily_fields"
+      ]
+    },
+    "theorem8_balance_msvv_competitive_of_small_bids_limit_family": {
+      "statement": "paper-level limiting endpoint.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper theorem",
+      "aliases": [
+        "theorem8_balance_msvv_competitive_of_small_bids_limit_family"
+      ]
+    },
+    "section6_different_budgets_and_nonexhaustive_optimum_theorem8_finite_explicit_error": {
+      "statement": "-\nSection 6 items 1--2. Different advertiser budgets and nonexhaustive optima are\nalready part of the base AdWords model, so the finite explicit Theorem 8\nguarantee applies without changing the instance.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "section6_different_budgets_and_nonexhaustive_optimum_theorem8_finite_explicit_error"
+      ]
+    },
+    "section6_next_highest_bid_all_formula": {
+      "statement": "-\nThe all-bidders Section 6 next-price charge is the maximum of zero and the\nlargest bid from an advertiser other than `a`, or zero when there is no other\nadvertiser.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper model extension",
+      "aliases": [
+        "section6_next_highest_bid_all_formula"
+      ]
+    },
+    "section6_next_highest_bid_alive_formula": {
+      "statement": "-\nThe alive-bidders Section 6 next-price charge is the maximum of zero and the\nlargest bid from an alive advertiser other than `a`, or zero when no such\nadvertiser exists.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper model extension",
+      "aliases": [
+        "section6_next_highest_bid_alive_formula"
+      ]
+    },
+    "section6_next_highest_bid_all_theorem8_finite_explicit_error": {
+      "statement": "- Section 6 next-highest-bid charges, all-bidders variant.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "section6_next_highest_bid_all_theorem8_finite_explicit_error"
+      ]
+    },
+    "section6_next_highest_bid_alive_theorem8_finite_explicit_error": {
+      "statement": "- Section 6 next-highest-bid charges, alive-bidders variant.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "section6_next_highest_bid_alive_theorem8_finite_explicit_error"
+      ]
+    },
+    "section6_click_through_rates_theorem8_finite_explicit_error": {
+      "statement": "- Section 6 click-through rates: finite explicit Theorem 8 guarantee.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "section6_click_through_rates_theorem8_finite_explicit_error"
+      ]
+    },
+    "section6_availability_theorem8_finite_explicit_error": {
+      "statement": "- Section 6 delayed-entry availability: finite explicit Theorem 8 guarantee.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "section6_availability_theorem8_finite_explicit_error"
+      ]
+    },
+    "section6_page_top_balance_theorem8_finite_explicit_error": {
+      "statement": "-\nSection 6 multiple slots: source-shaped page-level finite explicit Theorem 8\nguarantee. On each page `q`, Balance chooses the top `slots q` distinct feasible\nadvertisers by current scaled bid, and competes with the page-level offline\noptimum subject to the same per-page cardinality and advertiser-budget\nconstraints.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "section6_page_top_balance_theorem8_finite_explicit_error"
+      ]
+    },
+    "section8_weighted_bids_theorem8_finite_explicit_error_of_weighted_small_bids": {
+      "statement": "-\nSection 8 advertiser weights, stated directly for the weighted effective-bid\nsmall-bids regime.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "section8_weighted_bids_theorem8_finite_explicit_error_of_weighted_small_bids"
+      ]
+    },
+    "theorem9HardDistribution_uniform": {
+      "statement": "- The hard distribution in Theorem 9 is uniform over bidder permutations.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem9HardDistribution_uniform"
+      ]
+    },
+    "theorem9CappedNormalizedRevenue_formula": {
+      "statement": "-\nTheorem 9 capped normalized revenue is the average capped prefix spend across\nall bidders.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper proof formula",
+      "aliases": [
+        "theorem9CappedNormalizedRevenue_formula"
+      ]
+    },
+    "theorem9_no_randomized_online_algorithm_beats_msvv_ratio": {
+      "statement": "-\nTheorem 9, paper-facing randomized online algorithm endpoint in the finite\nprefix model.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "direct paper theorem",
+      "aliases": [
+        "theorem9_no_randomized_online_algorithm_beats_msvv_ratio"
+      ]
+    },
+    "assumption_nonnegative_bids": {
+      "statement": "- The AdWords model has nonnegative bids.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_nonnegative_bids"
+      ]
+    },
+    "assumption_full_distinct_query_history": {
+      "statement": "- The finite query history enumerates the finite query set exactly once.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_full_distinct_query_history"
+      ]
+    },
+    "assumption_epsilon_range": {
+      "statement": "- The explicit finite-error theorem uses an epsilon in `[0,1]`.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_epsilon_range"
+      ]
+    },
+    "assumption_alive_bidder_predicate": {
+      "statement": "- Section 6 alive-bidder next-price rule is parameterized by an alive predicate.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_alive_bidder_predicate"
+      ]
+    },
+    "assumption_next_highest_all_small_bids": {
+      "statement": "- Section 6 all-bidders next-price charges satisfy the effective small-bids condition.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_next_highest_all_small_bids"
+      ]
+    },
+    "assumption_next_highest_alive_small_bids": {
+      "statement": "- Section 6 alive-bidders next-price charges satisfy the effective small-bids condition.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_next_highest_alive_small_bids"
+      ]
+    },
+    "assumption_click_through_rates_probability_bounds": {
+      "statement": "- Section 6 click-through rates are probabilities.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_click_through_rates_probability_bounds"
+      ]
+    },
+    "assumption_availability_predicate": {
+      "statement": "- Section 6 delayed-entry extension is parameterized by an availability predicate.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_availability_predicate"
+      ]
+    },
+    "assumption_weighted_bids_nonnegative_weights": {
+      "statement": "- Section 8 advertiser weights are nonnegative.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_weighted_bids_nonnegative_weights"
+      ]
+    },
+    "assumption_weighted_effective_small_bids": {
+      "statement": "- Section 8 weighted effective bids satisfy the small-bids condition.",
+      "source_url": "https://doi.org/10.1145/1284320.1284321",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_weighted_effective_small_bids"
+      ]
+    },
+    "section4_lemma1_balance_pays_no_later_slab": {
+      "statement": "- Section 4 Lemma 1: in the equal-bids Balance case, if OPT's bidder is still active in a no-later slab, Balance pays no later than the OPT type.",
+      "source_url": "https://doi.org/10.1145/1143844.1143848",
+      "source_location": "Section 4 Lemma 1",
+      "aliases": [
+        "section4_lemma1_balance_pays_no_later_slab"
+      ]
+    },
+    "section4_lemma2_factor_revealing_lp_constraint": {
+      "statement": "- Section 4 Lemma 2: Lemma 1's prefix accounting yields the factor-revealing LP row constraint.",
+      "source_url": "https://doi.org/10.1145/1143844.1143848",
+      "source_location": "Section 4 Lemma 2",
+      "aliases": [
+        "section4_lemma2_factor_revealing_lp_constraint"
+      ]
+    },
+    "section4_lemma3_factor_revealing_lp_optimality": {
+      "statement": "- Section 4 Lemma 3: the displayed primal and dual factor-revealing LP witnesses give the limiting value N/e.",
+      "source_url": "https://doi.org/10.1145/1143844.1143848",
+      "source_location": "Section 4 Lemma 3",
+      "aliases": [
+        "section4_lemma3_factor_revealing_lp_optimality"
+      ]
+    },
+    "section5_lemma4_dual_optimal_from_primal_dual_match": {
+      "statement": "- Section 5 Lemma 4: matching feasible primal and dual objectives certify optimality for the tradeoff-revealing LP.",
+      "source_url": "https://doi.org/10.1145/1143844.1143848",
+      "source_location": "Section 5 Lemma 4",
+      "aliases": [
+        "section5_lemma4_dual_optimal_from_primal_dual_match"
+      ]
+    },
+    "section5_lemma5_tradeoff_rhs_eq_base_add_delta": {
+      "statement": "- Section 5 Lemma 5: the perturbed tradeoff-revealing LP right-hand side equals the base LP right-hand side plus the paper delta term.",
+      "source_url": "https://doi.org/10.1145/1143844.1143848",
+      "source_location": "Section 5 Lemma 5",
+      "aliases": [
+        "section5_lemma5_tradeoff_rhs_eq_base_add_delta"
+      ]
+    },
+    "section5_lemma6_per_query_tradeoff": {
+      "statement": "- Section 5 Lemma 6: each query satisfies the pointwise tradeoff inequality used in the perturbation argument.",
+      "source_url": "https://doi.org/10.1145/1143844.1143848",
+      "source_location": "Section 5 Lemma 6",
+      "aliases": [
+        "section5_lemma6_per_query_tradeoff"
+      ]
+    },
+    "section5_lemma7_weighted_perturbation_bound": {
+      "statement": "- Section 5 Lemma 7: summing the pointwise tradeoff inequalities yields the weighted perturbation bound, including the paper-shaped N/k form.",
+      "source_url": "https://doi.org/10.1145/1143844.1143848",
+      "source_location": "Section 5 Lemma 7",
+      "aliases": [
+        "section5_lemma7_weighted_perturbation_bound"
+      ]
+    }
+  },
+  "source_inventory_kind": "source_curated",
+  "source_curated": true
+}

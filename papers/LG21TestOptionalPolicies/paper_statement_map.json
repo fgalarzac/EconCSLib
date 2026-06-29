@@ -1,0 +1,196 @@
+{
+  "schema": 1,
+  "paper": "LG21TestOptionalPolicies",
+  "title": "Test-optional Policies: Overcoming Strategic Behavior and Informational Gaps",
+  "generated_at": "2026-06-29T00:41:22Z",
+  "source_inventory_policy": "Source basis: /tmp/econcs_source_text/LG21TestOptionalPolicies.txt and paper-local SOURCE_AUDIT.md. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
+  "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+  "items": {
+    "definition1_source_equilibrium": {
+      "statement": "A source equilibrium consists of feasible access decisions, best-response utility maximization among feasible actions in every student information state, and estimation consistency.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "direct source text",
+      "aliases": [
+        "definition1_source_equilibrium"
+      ]
+    },
+    "definition2_latent_skill_fair": {
+      "statement": "A policy surface is latent-skill fair when, in every equilibrium, applicants with the same latent skill and base group receive the same estimate law whether or not they have access.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "direct source text",
+      "aliases": [
+        "definition2_latent_skill_fair"
+      ]
+    },
+    "definition3_observable_fair": {
+      "statement": "A policy surface is observably fair when, in every equilibrium and base group, the access and no-access observable estimate laws are equal.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "direct source text",
+      "aliases": [
+        "definition3_observable_fair"
+      ]
+    },
+    "definition4_demographic_fair": {
+      "statement": "A policy surface is demographically fair when, in every equilibrium, the demographic access and no-access estimate laws are equal.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "direct source text",
+      "aliases": [
+        "definition4_demographic_fair"
+      ]
+    },
+    "definition5_test_blank": {
+      "statement": "A policy surface is test-blank when, in every equilibrium, base group, and test value, the base-only estimate equals the full-feature estimate.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "direct source text",
+      "aliases": [
+        "definition5_test_blank"
+      ]
+    },
+    "theorem3_1_optional_reporting": {
+      "statement": "In the hidden-access optional-reporting source model, when access fractions are below one, every source equilibrium has strategic withholding: everyone takes the test, some base-score pair is not reported, reporting is cutoff-shaped within each base group, and the base-mixed Gaussian posterior-law surface is not latent-skill fair, not observable fair, and not demographic fair.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "direct source text",
+      "aliases": [
+        "theorem3_1_optional_reporting"
+      ]
+    },
+    "theorem3_1_report_required": {
+      "statement": "In the hidden-access report-required source model with positive slopes and access fractions below one, every source equilibrium has strategic withholding: some base-skill pair does not take the test, taking is cutoff-shaped within each base group, and the base-mixed affine-skill posterior-law surface is not latent-skill fair, not observable fair, and not demographic fair.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "direct source text",
+      "aliases": [
+        "theorem3_1_report_required"
+      ]
+    },
+    "theorem3_2_optional_reporting_fairness_impossibility": {
+      "statement": "In the optional-reporting source model, under source-equilibrium, threshold-reporting, and the no-reporter-to-test-blank normalization, latent-skill fairness or observable fairness of the event-share binary-mixture surface implies test-blankness.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "direct source text",
+      "aliases": [
+        "theorem3_2_optional_reporting_fairness_impossibility"
+      ]
+    },
+    "theorem3_2_optional_reporting_no_test_relevance": {
+      "statement": "Under the same optional-reporting hypotheses, if the event-share binary-mixture surface is latent-skill fair or observable fair, then there is no base/test triple where the base-only and full-feature estimates differ.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "direct source text",
+      "aliases": [
+        "theorem3_2_optional_reporting_no_test_relevance"
+      ]
+    },
+    "theorem3_2_report_required_fairness_impossibility": {
+      "statement": "In the report-required source model, under source-equilibrium, threshold-taking, and the no-taker-to-test-blank normalization, latent-skill fairness or observable fairness of the event-share binary-mixture surface implies test-blankness.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "direct source text",
+      "aliases": [
+        "theorem3_2_report_required_fairness_impossibility"
+      ]
+    },
+    "theorem3_2_report_required_no_test_relevance": {
+      "statement": "Under the same report-required hypotheses, if the event-share binary-mixture surface is latent-skill fair or observable fair, then there is no base/test triple where the base-only and full-feature estimates differ.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "direct source text",
+      "aliases": [
+        "theorem3_2_report_required_no_test_relevance"
+      ]
+    },
+    "lemma4_1_observed_access_strategy_proofness": {
+      "statement": "With observed access and a positive test scale, the fully specified optional-reporting and report-required source equilibria choose take-and-report in every student information state, giving the strategy-proofness step.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "direct source text",
+      "aliases": [
+        "lemma4_1_observed_access_strategy_proofness"
+      ]
+    },
+    "proposition4_2_bayesian_access_estimates_not_latent_skill_fair": {
+      "statement": "For the fully specified observed-access source equilibria, any positive-slope base-indexed one-test posterior-law surface chooses take-and-report in every information state and is not latent-skill fair.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "direct source text",
+      "aliases": [
+        "proposition4_2_bayesian_access_estimates_not_latent_skill_fair"
+      ]
+    },
+    "proposition4_3_bayesian_optimal_not_observable_or_demographic_fair": {
+      "statement": "For the fully specified observed-access source equilibria, any base-mixed extra-signal posterior-law surface with positive extra-noise variance chooses take-and-report in every information state and is not observable fair or demographic fair.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "direct source text",
+      "aliases": [
+        "proposition4_3_bayesian_optimal_not_observable_or_demographic_fair"
+      ]
+    },
+    "definition6_resampling_policy": {
+      "statement": "The resampling policy uses the resampling experiment's conditional signal-given-base kernel.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "direct source text",
+      "aliases": [
+        "definition6_resampling_policy"
+      ]
+    },
+    "theorem4_4_resampling_policy": {
+      "statement": "For every resampling experiment, the fully specified observed-access source equilibria choose take-and-report in every information state, and the access-estimate and resampling-estimate kernels are observable fair and demographic fair with respect to the base profile.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "direct source text",
+      "aliases": [
+        "theorem4_4_resampling_policy"
+      ]
+    },
+    "assumption_section3_access_fraction_domain": {
+      "statement": "- Section 3 assumes an interior access/non-reporting mixture share.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_section3_access_fraction_domain"
+      ]
+    },
+    "assumption_section3_source_equilibrium_instances": {
+      "statement": "- Source-equilibrium hypotheses used by the Section 3 fairness-impossibility routes.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_section3_source_equilibrium_instances"
+      ]
+    },
+    "assumption_source_model_event_and_consistency_predicates": {
+      "statement": "- Source event and estimation-consistency predicates used by Section 3 and observed-access source models.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_source_model_event_and_consistency_predicates"
+      ]
+    },
+    "assumption_section3_threshold_decision_shapes": {
+      "statement": "- Threshold-shaped reporting/taking rules used in the Section 3 unraveling proof.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_section3_threshold_decision_shapes"
+      ]
+    },
+    "assumption_section3_zero_positive_event_blank_branch": {
+      "statement": "- Zero-positive-reporter/taker branches are treated as already test-blank.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_section3_zero_positive_event_blank_branch"
+      ]
+    },
+    "assumption_positive_gaussian_domain_conditions": {
+      "statement": "- Positive Gaussian/domain quantities used by the observed-access endpoints.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_positive_gaussian_domain_conditions"
+      ]
+    },
+    "assumption_observed_access_source_equilibria": {
+      "statement": "- Observed-access endpoints are stated for source equilibria in both policy regimes.",
+      "source_url": "https://arxiv.org/pdf/2107.08922; published proceedings: https://doi.org/10.1145/3465416.3483293",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_observed_access_source_equilibria"
+      ]
+    }
+  },
+  "source_inventory_kind": "source_curated",
+  "source_curated": true
+}

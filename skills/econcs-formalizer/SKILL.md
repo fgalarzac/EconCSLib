@@ -9,6 +9,21 @@ Use this skill to turn economics-and-computation papers into maintainable Lean
 code. Keep repository-specific status out of this file; in `EconCSLib`, that
 belongs in `docs/ECONCSLEAN_CURRENT_STATUS.md`.
 
+For new Lean files, new shared-library APIs, new paper-facing declarations, and
+code already being substantially rewritten, follow
+`skills/lean-community-conventions/SKILL.md`. Apply those conventions
+forward-looking only: do not start broad repository-wide renaming, formatting,
+import, or documentation refactors during active proof work unless the user
+explicitly asks for a cleanup pass. Paper-local source-indexed names may remain
+when needed for source auditability; shared reusable APIs should follow the
+convention style.
+
+When updating skills from prior sessions or user corrections, use
+`skills/econcs-session-insights/SKILL.md` as the provenance workflow. Promote
+durable day-to-day formalization rules into this skill or its proof references;
+do not leave them as a parallel operational rulebook in the session-insights
+skill.
+
 When planning automation-heavy formalization workflows, multi-agent proof
 campaigns, retrieval-grounded statement translation, or compiler-guided repair
 loops, also consult `skills/ai-formalization-workflows/SKILL.md`. That skill is
@@ -119,10 +134,21 @@ continuity, response semantics, or trajectory semantics; the proof fields that
 constrain those witnesses must still be audited separately. Do not accept
 `matches` for a row whose decisive math appears only as a record field
 projection.
-The normal provenance checks now invoke this helper:
-`python3 scripts/audit_repository.py --paper <paper-folder> --paper-closeout --include-active --info-limit 0`
-and `python3 scripts/review_dashboard.py --paper <paper-folder> --precheck`
-must report missing, stale, or unresolved `source_record_audit.json` /
+At a real closeout/publication boundary, the provenance gate invokes
+`python3 scripts/audit_repository.py --paper <paper-folder> --paper-closeout --include-active --info-limit 0`.
+During active formalization on an unfinished paper, do not run that closeout
+gate unless the user explicitly asks for post-validation; use targeted Lean
+builds, placeholder scans, and row-scoped LLM-as-judge checks for the exact
+changed statements, assumptions, or source-record fields. Do not start the full
+dashboard/sidecar/final-report audit loop merely because a proof-surface row,
+source record, or status entry changed while the paper is still known
+unfinished. If a proof pass adds or changes source-record fields, run the
+code-backed recursive audit or LLM judge only for those changed records/rows
+when needed to prevent hidden assumptions, but defer full dashboard prechecks,
+full statement sidecar regeneration, DAG/final-report audit updates, and
+`--paper-closeout` until the paper is actually done or the user explicitly asks
+for that validation phase. The eventual closeout gate must report missing,
+stale, or unresolved `source_record_audit.json` /
 `source_record_match_llm.json` sidecars as assumption/provenance findings.
 Treat `PaperInterface.lean` as a closed review surface, not a scratch file.
 Every declaration exported there must be classified in `status.json`
@@ -131,10 +157,13 @@ Every declaration exported there must be classified in `status.json`
 helpers intentionally excluded from statement review, and never to hide a named
 paper theorem or a non-source premise. If a helper theorem needs a
 `...Certificate`, `...Model`, `...Semantics`, `...Bridge`, `...Package`,
-`...Inputs`, or `...Consequences` premise that is not itself derived from prior
-Lean code, keep it in `ProofInterface.lean`/`MainTheorems.lean` unless it is a
-reviewed row or a validated assumption/proof boundary. After any
-`PaperInterface.lean` edit, run
+`...Inputs`, `...Process`, or `...Consequences` premise that is not itself
+derived from prior Lean code, keep it in
+`ProofInterface.lean`/`MainTheorems.lean` unless it is a reviewed row or a
+validated assumption/proof boundary. During active proof work, after a
+`PaperInterface.lean` edit run targeted checks for the changed declarations and
+premises; do not enter the full dashboard/sidecar workflow solely because the
+review surface changed. At closeout or user-requested post-validation, run
 `python3 scripts/review_dashboard.py --paper <paper-folder> --precheck` or the
 paper-specific machine-status audit; a clean statement-judge sidecar alone is
 not evidence that hidden premises or unreviewed helpers are absent.
@@ -239,14 +268,43 @@ full post-paper checklist, review-dashboard/audit workflow, and polished
 `FINAL_VALIDATION_REPORT.md` update only when the paper is genuinely finished
 or the user explicitly asks for post-validation. For intermediate progress on
 an unfinished paper, use targeted Lean builds and a short status/handoff update
-instead of spending tokens on the full audit/report cycle.
+instead of spending tokens on the full audit/report cycle. Do not run
+`scripts/audit_repository.py --paper <paper> --paper-closeout` for routine
+progress on a paper that is still `partially formalized`, `conditional`, or
+known to have remaining library/proof-boundary work, unless the user explicitly
+requests closeout/post-validation or the next action is a public PR/release
+handoff. In-progress checks should normally be limited to the edited Lean
+targets, JSON/line-count sanity checks, placeholder scans, and optional
+row-scoped LLM-as-judge checks for newly changed statements, assumptions, or
+source-record fields. Defer dashboard prechecks and full sidecar/report
+regeneration until the paper is actually done or the user requests
+post-validation.
 
-Do not confuse "keep going" with broad exploration. Move in tight compile/proof
-loops: identify the exact current theorem seam, make the smallest coherent
-batch of edits, run only the requested or necessary targeted build, and patch
-the compiler's concrete line errors. Avoid rereading large files after you
-already know the relevant structure; use `rg` for exact declaration names and
-narrow line windows around compiler diagnostics.
+Do not confuse "keep going" with broad exploration or with optimizing for the
+fastest next small lemma. Default to a top-down completion plan for the whole
+paper. Start from the named paper results that remain unclosed, identify the
+source-model or library layer that would discharge each visible certificate or
+conditional premise, and order the work by the shortest route to full
+paper-level closure. Use small theorem batches as the execution unit only
+after that overall route is clear, and choose those batches because they remove
+a paper-facing obstacle on the completion path. Avoid adding local helper
+wrappers merely because they are easy unless they visibly reduce the final
+theorem assumptions or turn a documented source-model gap into a proved bridge.
+
+Once the top-down route is clear, move in tight compile/proof loops: identify
+the current paper-facing theorem seam, make a coherent batch of edits, run only
+the requested or necessary targeted build, and patch the compiler's concrete
+line errors. Avoid rereading large files after you already know the relevant
+structure; use `rg` for exact declaration names and narrow line windows around
+compiler diagnostics.
+If an active proof batch edits shared `EconCSLib/` library code, still stay in
+the targeted-build loop: build the touched library module or namespace root and
+the active paper root that imports it. Do not run a broad/full repository build
+merely because a shared library file changed while the paper is still in
+progress. Save broad builds for natural stopping points: the paper is complete
+or being handed off, you are about to commit/push a significant integration
+batch, preparing a public PR/release, or the user explicitly asks for a broad
+integration check.
 Do not run concurrent `lake build` commands in the same worktree: Lean cache
 writes can race on `.olean`/`.ilean` outputs and produce spurious missing-file
 failures. Prefer one targeted Lean build at a time, especially in shared
@@ -400,6 +458,12 @@ Record the condition in `Assumptions.lean` and the assumption sidecar with
 judgments as appropriate; do not mark it `partial_boundary` or
 `documented_caveat` unless it is actually an undischarged theorem import or a
 source-statement repair.
+When the paper itself defines a convention that selects, erases, normalizes, or
+packages terms, do not re-label that convention as a caveat merely because an
+alternative raw mathematical object would differ. Close the source-shaped
+statement, record the convention in an agent-facing audit note if future agents
+are likely to confuse it, and keep the public status and human verdict focused
+on whether the paper-facing theorem is closed.
 For generated status files, keep `main_caveat` blank on clean `formalized`
 papers. Do not put provenance summaries such as "axiom audit clean",
 "assumptions source-matched", "human verified", or "no hidden premises" in a
@@ -547,7 +611,7 @@ actually depends on the result, such as merging a PR, cutting a public release,
 or diagnosing a known failure. For routine pushes, confirm that the run started
 or was intentionally skipped, record the run if useful, and keep working.
 Treat suffix-named structures such as `...Certificate`, `...Oracle`,
-`...Window`, `...Package`, `...Regularity`, and `...Invariant` as
+`...Window`, `...Package`, `...Process`, `...Regularity`, and `...Invariant` as
 proof-boundary evidence even when they are not named `hcert`. Do not keep these
 as namespace/section-level `variable`s in reusable code; pass them explicitly to
 each theorem/definition that consumes them so callers cannot inherit the
@@ -631,6 +695,13 @@ If `status.json` includes `human_summary_review.status = "human_approved"` or
 for that summary to be edited. Automation may require a nonempty summary for
 non-formalized papers, but it should not rewrite human-written or
 human-approved prose merely to shorten, polish, or normalize it.
+When doing an all-public-paper audit or syncing public status into the paper
+or website, derive the paper list from the active public checkout's tracked
+paper-local `status.json` files, `papers/human_status.json`, or the sync
+script output. Do not rely on a manually remembered list of "public papers";
+selected public partials are easy to omit, and private/in-progress papers are
+easy to leak. Run the aggregate status sync in the checkout whose outputs will
+be committed, because private and public aggregate tables intentionally differ.
 If the user asks for DAG regeneration, commit, or push at the next milestone,
 treat the milestone as a green named theorem seam plus the relevant targeted
 builds and hygiene checks, not as every helper alias. At that milestone, refresh
@@ -645,7 +716,12 @@ new scaffold intake, a theorem/status row changing, a review-surface change, a
 final report/handoff/publication pass, or an explicit user request. For
 ordinary proof edits, formula wrappers, small library lemmas, and compiler-fix
 iterations, rely on targeted `lake build` checks and update status once the
-batch has a stable boundary.
+batch has a stable boundary. This includes mechanical metadata such as
+`line_count`, `declaration_rows`, `review_rows`, `total_rows`, and review-slice
+lists: do not chase those counts after each interface helper or proof wrapper.
+Let them be temporarily stale during active development and reconcile them in a
+single pass at the next real review, report, commit, publication, or handoff
+boundary.
 Keep broader human-facing document churn low for the same reason. During an
 active proof session, do not refresh READMEs, DAGs, final-validation reports,
 website tables, or public status summaries for every helper lemma or small
@@ -872,15 +948,38 @@ proof dependencies look mathematically correct. Separately think through the
 formal proof strategy: the main theorem chain, likely reusable library seams,
 underspecified paper steps, necessary assumptions or certificates, and fallback
 proof paths. Write these initial learnings in `FORMALIZATION_PLAN.md` under an
-`Initial Outside-Lean Paper Audit` section before proving. Use `.txt`/`.tex`
-only when that is genuinely more convenient for a detailed derivation, and link
-or summarize it from the plan. Keep the artifact functional rather than
-polished: it is a scratchpad for thinking and early risk detection. If this
-pass finds a likely source bug, missing assumption, formula ambiguity, or
-strategy-changing issue, alert the user early instead of silently encoding the
-printed formula as a source row. Then start executing the plan in Lean. As the
-formal proof progresses, edit the plan to record strategy changes, patched
-source gaps, discharged seams, and remaining blockers.
+`Initial Outside-Lean Paper Audit` section before proving. Treat this as a
+hard start gate, not an optional narrative note. Use
+`templates/FORMALIZATION_PLAN.md` as the section/checklist template when
+creating or refreshing a paper plan. The plan must explicitly contain:
+
+- source/version inventory: official source, open/cached source, local PDF/text
+  cache paths, and any source mismatch between publication versions;
+- source theorem ledger: every named definition, proposition, theorem, lemma,
+  corollary, algorithm, and theorem-like displayed formula that could become a
+  Lean review row, with source locations when available;
+- formula/dependency sanity pass: signs, constants, denominators,
+  normalizations, quantifiers, domains, density-vs-mass interpretation, and
+  which earlier paper objects each result depends on;
+- shared-library reuse checkpoint: mathlib/cslib/optlib/EconCSLib modules or
+  declarations inspected, the API chosen, and near-misses that explain any new
+  reusable library definitions;
+- formal target map: which source rows will be fully proved now, which rows are
+  empirical or out of theorem scope, and which candidate boundaries would be
+  explicit assumptions/certificates if the paper cannot be closed immediately;
+- execution checklist: concrete start-to-closeout tasks for source intake,
+  reusable-library work, scaffold replacement, proof closure or downgrade,
+  status/DAG/report updates, audits, and unresolved source/library debt.
+
+Use `.txt`/`.tex` only when that is genuinely more convenient for a detailed
+derivation, and link or summarize it from the plan. Keep the artifact
+functional rather than polished: it is a scratchpad for thinking and early risk
+detection. If this pass finds a likely source bug, missing assumption, formula
+ambiguity, continuous-density encoding issue, or strategy-changing issue, alert
+the user early instead of silently encoding the printed formula as a source
+row. Then start executing the plan in Lean. As the formal proof progresses,
+edit the plan to record strategy changes, patched source gaps, discharged seams,
+and remaining blockers.
 For a post-validation or post-formalization audit pass, keep
 `FORMALIZATION_PLAN.md` as the working scratchpad unless the user explicitly
 asks to retire it. Put the durable human-facing audit in a separate paper-local
@@ -968,11 +1067,10 @@ reductions and solver transfers from external machine-level class semantics.
 Think of the repository as having two distinct roles: **`EconCSLib` is the textbook. The `papers/` directory is the audit trail.**
 
 - **`EconCSLib/` (The Textbook):** Put generic, abstracted EC/CS/econ results here. If a definition, algorithm, or theorem is foundational enough that a graduate student should know it, or if a second paper might build on it (e.g., Gale-Shapley, Nash equilibrium, LP duality), it belongs in the core library.
-  - **Abstraction:** Code here should be highly abstracted and stripped of paper-specific notation. Use generic types (`α`, `β`) and naming conventions consistent with `Mathlib`.
-  - **Lean Style:** Follow `docs/LEAN_STYLE.md`: `UpperCamelCase.lean` module
-    names, narrow leaf imports, module docstrings with `## Main declarations`
-    for new reusable modules, `UpperCamelCase` structures/predicates,
-    `lowerCamelCase` definitions/data, and `snake_case` theorem names.
+  - **Abstraction:** Code here should be highly abstracted and stripped of
+    paper-specific notation. Use generic types (`α`, `β`) and follow
+    `skills/lean-community-conventions/SKILL.md` for reusable API naming,
+    style, and documentation.
   - **Ownership:** Main library modules own reusable primitives: allocations, valuations, mechanisms, rankings, PMFs, finite expectations, graph/path lemmas, and generic algorithm correctness patterns.
 
 - **`papers/` (The Audit Trail):** Each paper-specific folder is a formalization artifact proving that the specific claims in a specific PDF are true.
@@ -1191,6 +1289,14 @@ Think of the repository as having two distinct roles: **`EconCSLib` is the textb
   regenerate status there if needed, commit the generated outputs from that
   checkout, and push. Do not copy aggregate tables across the private/public
   split or infer a theorem/proof failure from a pre-Lean status check.
+- Public promotion audits should run both statement and assumption validation
+  for every public paper row, including intentionally public partial papers.
+  Conditional-boundary rows are acceptable only when the same boundary is named
+  in the paper-local `status.json`, statement/assumption sidecars, README or
+  validation report, and DAG if the row appears there. Do not "fix" an
+  intentional conditional result by weakening the table text to look fully
+  formalized, and do not treat a public partial as invisible just because it is
+  not a finished paper.
 - Before moving work from a private incubator into the public repository, run a
   release-hygiene pass. Public commits should not contain source-paper PDFs,
   extracted source-paper `.txt` caches, unpacked publisher/arXiv source
@@ -1346,6 +1452,14 @@ the Lean statements against the paper.
   obligation, but should still foreground the paper statement. During a pause
   or handoff pass, audit the DAG for this specifically: if a node reads like a
   session log, rewrite it before rendering.
+  Visual DAG nodes must be paper-facing, not Lean-code-facing: do not put Lean
+  declaration/function/theorem names, record names, helper identifiers,
+  wildcard declaration families, or `\texttt{...}` code labels in DAG node
+  text. A node should say "Theorem 1 likelihood decomposition" or "compact
+  process/stopping certificate", not a Lean identifier such as
+  `theorem1_...`, `Theorem2PrimitiveSourceModel`, or
+  `HomogeneousPoisson...`. Put Lean names in README/status/final-report audit
+  rows, not in the visual DAG.
   Compatibility routes, older sufficient endpoints, alternate proof attempts,
   and implementation-only wrappers are not DAG node content once the
   paper-facing result is represented. Record them in the README or final
@@ -1394,10 +1508,16 @@ the Lean statements against the paper.
   paper ready for review.
   As a concrete dashboard rule, more than 30 rows requires a no-paper-context
   LLM review-surface audit saved as `review_surface_llm.json`, checking whether
-  every row is genuinely paper-facing and should be present. At 50 or more rows,
+  every row is genuinely paper-facing and should be present. At 120 or more rows,
   the dashboard should warn even if an audit exists; treat that as a prompt to
   curate `PaperInterface.lean` or `status.json` `review_surface.include_names`
   before broad human review.
+  Do not overcorrect by shrinking a substantial completed paper to only a few
+  formula rows. A final review surface should cover all main source theorem
+  blocks, key displayed formulas, examples, and appendix/convergence pieces
+  that support the paper claim. For a large paper, a compact curated surface is
+  often roughly 20-30 rows; fewer than about 10 rows is suspicious unless the
+  source paper itself has very few named results.
   A dashboard with hundreds of rows is almost always a sign that implementation
   endpoints leaked into the human interface. Curate the source-facing
   definitions/results in the paper-local `status.json` `review_surface`, and
@@ -1418,6 +1538,73 @@ the Lean statements against the paper.
   If there are many extra rows or the LLM says `needs_curation`, first trim
   `PaperInterface.lean`, then narrow `status.json` `review_surface.include_names`;
   do not use slices to legitimize a bloated human review file.
+- Do not confuse row-local validation with paper-level coverage. A clean
+  `statement_match_llm.json` only says that existing dashboard rows match their
+  supplied source statements; it does not say that every paper statement is
+  represented. Maintain an explicit `paper_statement_map.json` inventory of the
+  source paper's definitions, displayed/source-defining formulas, theorem
+  blocks, named subclaims, and appendix results that are intended formalization
+  targets. Then populate `paper_coverage_llm.json` with an independent
+  source-to-row judgment: each inventory item should be `covered` by one or more
+  dashboard row names, `conditional_boundary` when the row-level statement judge
+  records an explicit boundary assumption, `covered_by_support` when a named
+  source proof-route lemma is formalized in support declarations but omitted
+  from the compact dashboard, `partially_covered`, `missing`, or explicitly
+  `out_of_scope`/`not_a_paper_target` with a reason. Run
+  `python3 scripts/review_dashboard.py --paper <paper-folder> --paper-coverage-precheck`.
+  For public-facing statuses (`formalized` or `partially formalized`), the
+  audit requires an explicit source inventory; heuristic source-text extraction
+  is only a seeding aid and must not satisfy closeout by itself.
+  The inventory must be resolvable in the repo where the audit runs: if raw
+  source text/PDF cannot be tracked publicly, put a compact source statement or
+  paraphrase plus citation/location directly in `paper_statement_map.json`
+  rather than pointing to a private `source.txt`.
+  If you create the map with
+  `scripts/seed_paper_statement_map_from_dashboard.py`, mark it as
+  `source_inventory_kind: "dashboard_seeded_preliminary"` and
+  `source_curated: false`. That map is useful for making the coverage machinery
+  concrete, but it is not evidence that the paper source has been exhaustively
+  inventoried. A very large count can mean the dashboard contains many
+  formula/proof-support rows, not that the paper has that many named source
+  statements; for example, an 80+ row source inventory should trigger a source
+  curation pass that separates named paper statements from subformula/support
+  rows.
+  Before preparing a public PR, replace any dashboard-seeded preliminary map
+  with a curated source inventory whenever the row count is inflated by
+  alternative theorem routes, kernel/probability support lemmas, or
+  implementation sanity checks. Keep explicit boundary assumptions in
+  `review_surface.assumption_names` and `assumption_match_llm.json`; do not
+  count those rows as ordinary source statements in `paper_statement_map.json`
+  unless the paper itself states them as theorem targets.
+  After changing the review surface or assumption-source metadata, refresh the
+  paper dashboard cache, regenerate `paper_coverage_llm.json`, rerun the
+  assumption-provenance audit, and refresh `source_record_audit.json` plus its
+  judgment digest if the expected source-record field set is unchanged.
+- Treat paper coverage as three separate LLM-as-judge lanes:
+  1. **Source inventory lane.** Read the source PDF/TeX/text (or a previously
+     recorded source inventory with source locations) and write
+     `paper_statement_map.json` from paper statements, not from Lean names.
+     Mark source-derived inventories as `source_inventory_kind:
+     "source_curated"` and `source_curated: true`. Include source evidence such
+     as theorem/equation number, section, source-cache line, or a compact quote
+     or paraphrase. If an item is intentionally out of scope, record that
+     explicitly rather than omitting it silently.
+  2. **Source-to-dashboard lane.** A separate judge reads each source inventory
+     item and the candidate human-dashboard rows, then records in
+     `paper_coverage_llm.json` whether the source item is `covered`,
+     `conditional_boundary`, `covered_by_support`, `partially_covered`,
+     `missing`, or `out_of_scope`. The sidecar must use `audit_kind:
+     "source_to_dashboard_llm"` (or `"source_to_dashboard_agent"`),
+     `source_grounded: true`, linked `review_rows` for dashboard coverage,
+     `support_declarations` for support-only coverage, `source_evidence`, and a
+     nontrivial match reason. Exact name/alias matches from
+     `scripts/seed_paper_coverage.py` are only `audit_kind:
+     "exact_key_scaffold"` and must not pass a closeout audit.
+  3. **Row-local statement lane.** Generate `lean_to_tex_llm.json` from Lean
+     statements alone, then have another judge compare that translation against
+     the source statement text in `statement_match_llm.json`. This answers
+     whether a dashboard row says what the source says; it does not answer
+     whether all source statements are represented.
 - Paper-facing definitions in `PaperInterface.lean` must show their actual
   Lean definition bodies, not only their function types or an opaque imported
   library name. If a dashboard row for a definition renders as only
@@ -1437,6 +1624,12 @@ the Lean statements against the paper.
   routed through `Assumptions.lean` and approved by the source-assumption judge.
   The repository audit checks this failure mode when an included alias has an
   available source-equation wrapper.
+  The dashboard/audit parser treats `paper_...` declarations in
+  `PaperInterface.lean` as review rows even if their docstrings are removed or
+  converted to ordinary comments. Do not keep auxiliary `paper_...` aliases in
+  `PaperInterface.lean` merely to support downstream proof code. Move or omit
+  them, and expose only the source-shaped wrapper row, such as a finite-vector
+  objective wrapper or an explicit `_fields` wrapper, in the review surface.
   Every displayed or source-defining formula used by a paper-facing result
   should have an exact formula/subclaim row. Do not collapse several displayed
   formulas or subclaims into a broad numbered-result row such as a metric
@@ -1467,7 +1660,8 @@ the Lean statements against the paper.
   sidecars do not change a Lean proof, but they invalidate the current
   source-match claim until regenerated and rechecked. After renaming aliases,
   splitting aggregate rows, or changing source-provenance docstrings, refresh
-  the sidecars, remove obsolete keys, and run the paper's statement precheck
+  the uncached dashboard cache, regenerate tracked sidecars from that current
+  cache/surface, remove obsolete keys, and run the paper's statement precheck
   before carrying the result into a report, generated status table, or public PR.
   Broad aggregate rows are not acceptable substitutes for formula-level review.
   If one Lean declaration summarizes several paper formulas or subclaims, expose
@@ -1668,10 +1862,23 @@ the Lean statements against the paper.
      or library-internal facts unless they are explicitly paper-facing.
   2. If the dashboard has more than 30 rows, run a no-paper-context surface
      pass over the row list and save `review_surface_llm.json`. The pass asks
-     only whether each row belongs on the human-facing paper surface. At 50 or
+     only whether each row belongs on the human-facing paper surface. At 120 or
      more rows, treat the surface as a warning even if an audit exists; shrink
      it unless there is a concrete paper-facing reason for every row.
-  3. Generate `lean_to_tex_llm.json` from the Lean statements alone, with no
+  3. Build or refresh `paper_statement_map.json` from the source paper itself,
+     not from the Lean row list. It should be a canonical source inventory with
+     aliases only as lookup aids. Then generate `paper_coverage_llm.json` with
+     a separate paper-level judge that asks whether each source inventory item
+     is represented by one or more current dashboard rows. This is the only
+     LLM-as-judge lane that answers "did we include every paper statement?";
+     the row-local statement judge below cannot answer that question.
+     A dashboard-seeded map is only a temporary scaffold; before citing it as
+     paper coverage, compare it against the source PDF/TeX and either add
+     missing named statements, mark support-only proof-route lemmas as
+     `covered_by_support` with explicit `support_declarations`, mark rows that
+     match only under a declared proof boundary as `conditional_boundary`, or
+     mark non-target source material as `out_of_scope` with reasons.
+  4. Generate `lean_to_tex_llm.json` from the Lean statements alone, with no
      paper text and no proof context. Use one item per current dashboard row.
      The translator prompt must be literal rather than explanatory: preserve
      every visible binder, variable, hypothesis, domain restriction, premise,
@@ -1682,7 +1889,7 @@ the Lean statements against the paper.
      `{ "tex_statement": "...", "lean_statement_sha256": "..." }`. Legacy plain
      string entries are accepted, but object entries make stale-draft checks
      possible.
-  4. Generate `statement_match_llm.json` with a separate judge that sees only
+  5. Generate `statement_match_llm.json` with a separate judge that sees only
      the original paper statement and the Lean-to-TeX draft, not the Lean proof
      or surrounding paper. The paper statement supplied to the judge must be the
      complete source theorem/definition/formula text or an explicitly named
@@ -1731,11 +1938,6 @@ the Lean statements against the paper.
      include that qualifier in `paper_statement_map.json` and judge any
      deterministic Lean wrapper as conditional unless Lean also models the
      probability space/event and proves the qualifier.
-     When a public repo omits the private paper text cache, carry the audited
-     source snippets through `paper_statement_map.json` and include exact
-     `source_status`/`source_note` fields for every mapped row, even when the
-     intended value is blank, so statement-match and review-surface digests are
-     reproducible after sync.
      For rows that mention records/certificates/source models, first generate
      or refresh `source_record_audit.json` with the skill helper. Feed the
      relevant row and field entries, including Lean `#check` output, to the
@@ -1749,8 +1951,17 @@ the Lean statements against the paper.
      because those paths enter the audit prompt/digest surface and can make a
      fresh CI checkout report stale `source_record_audit_sha256` values even
      when the Lean statements are unchanged. After touching the source-record
-     helper, regenerate affected `source_record_audit.json` and
-     `source_record_match_llm.json` files and run the full repository audit.
+     helper, source maps, `PaperInterface.lean`, or source-record-bearing
+     theorem signatures, regenerate both the code-backed
+     `source_record_audit.json` payload and the matching
+     `source_record_match_llm.json` sidecar for the affected rows before using
+     them as evidence. The helper must distinguish source assumptions declared
+     in `Assumptions.lean` from ordinary paper-interface rows; otherwise an
+     assumption can be falsely judged as a theorem translation. During active
+     proof work, run targeted script/unit checks and regenerate only the
+     affected audit payloads needed for the changed rows. Run the full
+     repository audit only at closeout/public-promotion time or when the user
+     explicitly asks for post-validation.
   5. Treat `mismatch` or `uncertain` as a problem with the formalized statement
      unless the translation is plainly wrong. Usually the fix is to make the
      `PaperInterface.lean` declaration more paper-facing and self-contained,
@@ -1759,11 +1970,24 @@ the Lean statements against the paper.
      try to clear CI by lengthening preview timeouts, relying on ignored
      dashboard caches, or copying hashes from a warm checkout. Regenerate the
      tracked sidecars from the current uncached review surface and store the
-     source-stable Lean declaration digest. Then run a cache-free paper-local
-     summary or `--statement-check`, followed by `scripts/audit_repository.py`
-     or CI. If local dashboard checks pass but CI reports every row stale for a
+     source-stable Lean declaration digest. During closeout, run a cache-free
+     paper-local summary or `--statement-check`, followed by
+     `scripts/audit_repository.py` or CI. If local dashboard checks pass but CI
+     reports every row stale for a
      paper, suspect environment-dependent preview hashing first; fix the digest
      source rather than fighting the build cache.
+     If stale rows appear after a public/private copy or a CI checkout while
+     the Lean code is unchanged, first refresh the uncached dashboard surface
+     and tracked LLM sidecars from that checkout. Do not copy ignored dashboard
+     caches from another machine or assume stale sidecars are human-review
+     failures; human review can be unreviewed, but only generated model/agent
+     sidecars become stale.
+     If only prompt/audit code changed and the Lean/source statements are
+     unchanged, refresh the digest metadata from the current checkout and keep
+     the validator judgments verbatim only after confirming the normalized
+     source statement, Lean declaration text, and boundary metadata are
+     identical. Never rewrite a `mismatch` or `uncertain` to `matches` merely
+     because a digest or prompt version changed.
   6. Record statement-translation results in the final report's validator
      surfaces, not in an ad-hoc extra report heading. Summarize row counts,
      match/uncertain/mismatch counts, stale status, and surface-audit status in
@@ -1781,14 +2005,28 @@ the Lean statements against the paper.
   automatically before committing or pushing. A user request such as "post paper
   workflow", "audits", "finish the paper", or "commit and push after closeout"
   is sufficient trigger; do not wait for a separate request to generate or
-  refresh the LLM sidecars. The automatic closeout pass must:
+  refresh the LLM sidecars. This is not an in-progress proof check: if the paper
+  is still known to be unfinished or waiting on library work, skip the closeout
+  pass unless the user explicitly asks for it, and report targeted build/status
+  results instead. The automatic closeout pass must:
   - refresh the uncached dashboard row surface for the paper;
+  - ensure every `PaperInterface.lean` declaration is classified: reviewed rows
+    in `review_surface.include_names`, paper assumptions in
+    `assumption_names`, and all proof-facing helper declarations in
+    `auxiliary_names`; auxiliary slice buckets may be added solely to satisfy
+    audit/readiness row-count checks, but they do not make those helpers part of
+    the visible human dashboard;
   - run the no-paper-context review-surface judge when the row count exceeds
     the surface threshold and save `review_surface_llm.json`;
+  - refresh the explicit source statement inventory in `paper_statement_map.json`
+    and generate `paper_coverage_llm.json`, checking source-paper items against
+    current dashboard row names. For a public-facing status, a missing explicit
+    inventory is a closeout blocker even if the dashboard has few rows or all
+    existing rows have clean statement judgments;
   - generate `lean_to_tex_llm.json` for every current non-assumption review row
     from the Lean statement alone, using source-stable declaration digests;
   - generate the code-backed recursive source-record audit for every row whose
-    statement or visible premises mention a record/certificate/source model,
+    statement or visible premises mention a record/certificate/process/source model,
     and save it as `source_record_audit.json` or a dated equivalent;
   - keep the recursive audit conservative but precise: if it reports a missing
     source-shaped type solely because a primitive enum/base carrier name ends in
@@ -1832,12 +2070,6 @@ the Lean statements against the paper.
   The assumption precheck may count those named `conditional_premises` as
   accepted conditional-premise findings; do not treat unlisted hidden premises
   as covered by the boundary.
-  If only prompt/audit code changed and the Lean/source statements are
-  unchanged, refresh the digest metadata from the current checkout and keep the
-  validator judgments verbatim only after confirming the normalized source
-  statement, Lean declaration text, and boundary metadata are identical. Never
-  rewrite a `mismatch` or `uncertain` to `matches` merely because a digest or
-  prompt version changed.
 - Command recipe: use `--statement-precheck` or `--statement-check` for the
   beginning-of-paper target-setting pass; use `--precheck` or `--check` for the
   full review-boundary pass. The statement-only commands intentionally ignore
@@ -1993,11 +2225,11 @@ the Lean statements against the paper.
     Before accepting a DAG, mechanically scan the node text for `\texttt`,
     underscores, CamelCase record/theorem identifiers, and Lean-style prefixes
     such as `theorem1_`; any remaining instance must be paper notation rather
-    than an implementation name. Treat this as a closeout audit requirement,
-    not a cosmetic preference. If the DAG communicates through Lean function
-    names, certificate type names, or implementation route labels, the paper is
-    not public-ready until the DAG is rewritten in source-paper language and
-    rerendered.
+    than an implementation name.
+    Treat this as a closeout audit requirement, not a cosmetic preference. If
+    the DAG communicates through Lean function names, certificate type names, or
+    implementation route labels, the paper is not public-ready until the DAG is
+    rewritten in source-paper language and rerendered.
   - **Closed theorem text stays short:** Once a theorem is closed, the theorem
     node should describe the source theorem's statement, not the Lean proof
     machinery that closed it. Do not fill a closed theorem box with internal
@@ -2527,6 +2759,10 @@ exit $status
 
 - Prefer `lake build <touched-root-module>` over full `lake build` until the
   paper slice is ready for integration.
+- After shared-library edits during active paper proof work, build the touched
+  library module and the active paper root. Do not broaden to full `lake build`
+  until a natural stopping point: paper completion/handoff, commit/push of an
+  integration batch, public PR/release preparation, or explicit user request.
 - After splitting out a proof-route file, build that route module first, then
   the parent theorem root such as `PaperName.MainTheorems`. Do not broaden to a
   full `lake build` until the route import boundary is stable or the task is at
@@ -2654,14 +2890,23 @@ pass:
   stale blocked-command language. If it reads like a helper-theorem ledger,
   proof-script changelog, or shell transcript, rewrite it before claiming
   post-validation is complete.
-  The report and DAG are also machine-audited closeout artifacts. Completed or
-  conditional papers must have a current DAG audit/status section, validation
-  checks section, explicit `DependencyDAG.tex` and `DependencyDAG.pdf` evidence,
+  Put source-convention details, source-record field inventories, and
+  warnings meant mainly to prevent future agent confusion in
+  `POST_FORMALIZATION_AUDIT.md` or another agent-facing note. Include them in
+  the human-facing final report only when they change the theorem statement,
+  require an additional assumption, identify a source-paper issue, or explain a
+  real remaining boundary.
+  The report and DAG are also machine-audited closeout artifacts. A paper at a
+  final closeout status, including an intentionally conditional/approved-boundary
+  closeout, must have a current DAG audit/status section, validation checks
+  section, explicit `DependencyDAG.tex` and `DependencyDAG.pdf` evidence,
   rendered/visual inspection notes, and the targeted `audit_repository.py
   --paper <paper-folder> --paper-closeout --include-active --info-limit 0`
-  command. Run that audit after editing the report or DAG; do not rely on prose
-  memory that those checks happened. Use `--paper-closeout` for completion
-  claims so unrelated paper-folder maintenance cannot mask this paper's status.
+  command. Run that audit after editing the report or DAG at closeout; do not
+  rely on prose memory that those checks happened. Use `--paper-closeout` for
+  completion claims so unrelated paper-folder maintenance cannot mask this
+  paper's status, but do not apply this paragraph to an unfinished active paper
+  merely because it is temporarily conditional or partially formalized.
   Follow the current report template order, not an older partially reorganized
   report. In particular, keep the paper-interface review sections at the end:
   `Paper Definitions Checked`, `Named Theorem Statements Checked`, and
@@ -2739,7 +2984,7 @@ pass:
   inventory from helper lemmas.
 - Before final handoff or publish, require fresh tracked LLM sidecars for the
   curated paper surface. `lean_to_tex_llm.json`, `statement_match_llm.json`,
-  `review_surface_llm.json` when threshold-triggered, and
+  `paper_coverage_llm.json`, `review_surface_llm.json` when threshold-triggered, and
   `assumption_match_llm.json` for all `assumption_names` and
   `proof_boundary_names` must be current. If any sidecar is missing, stale, or
   reports `uncertain`/`mismatch`/`partial_boundary`, the final report must list
@@ -2852,7 +3097,12 @@ pass:
     arrows; preserve visible whitespace between neighboring nodes and clear
     routing lanes between columns.
 - Run `python3 scripts/audit_repository.py --paper <paper-folder> --paper-closeout --include-active --info-limit 0`
-  after post-paper cleanup and after every report/DAG closeout edit. Treat its
+  after post-paper cleanup and after every report/DAG closeout edit, but only
+  once the paper is at a real closeout/publication boundary or the user has
+  explicitly requested post-validation. Do not run this command just because an
+  unfinished paper reached a clean compile point; use targeted builds,
+  placeholder scans, and row-scoped judge checks for active formalization work.
+  Treat its
   PaperInterface/PostPaperAudit and
   DAG/report closeout findings as part of the final audit: no tuple witness
   interfaces, no standalone proof-facing formula aliases in the audit ledger,
@@ -3079,6 +3329,22 @@ declaration may also have top-level `judgment: "partial_boundary"` when the
 whole declaration is a known external/library/analytic boundary. Do not use
 `documented_caveat` for that case unless the paper statement itself needs a
 repair.
+When a theorem closes only after assuming a rich source-model record, selector
+convention, argmax witness, or local-support witness, treat that record as a
+boundary unless there is a separate reviewed Lean theorem deriving the record
+fields from the paper's primitive assumptions. This matters for continuum
+formalizations: a C.4-style positive-support witness model, an `S*`
+compact/continuous optimizer package, or an Appendix-B common-floor selector
+package can be scientifically useful, but the full paper remains partial until
+those packages are derived or explicitly accepted as source assumptions.
+For continuum formalization work, source-facing premise reductions are useful
+but not closure. A finite-vector `S*` objective wrapper reduces an opaque
+range-dependence premise, a global floor-tracking wrapper reduces a dyadic
+selector-envelope premise, and a positive-support `_fields` wrapper reduces a
+record-construction premise; none of these derives the paper's arbitrary
+optimal selector, concrete weighted objective continuity, finite-level source
+realization equality, or non-finite-range witness from primitive global paper
+assumptions by itself.
 When rendering this information in a human-facing report, translate raw
 validator enums to paper-facing labels: `source_text_model_primitive`,
 `source_text`, and `paper_condition` become `source condition`;

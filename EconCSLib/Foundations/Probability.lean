@@ -1,6 +1,7 @@
 import EconCSLib.Foundations.Probability.Admissions
 import EconCSLib.Foundations.Probability.Averaging
 import EconCSLib.Foundations.Probability.Bernoulli
+import EconCSLib.Foundations.Probability.BinaryRatingLDP
 import EconCSLib.Foundations.Probability.BivariateGaussian
 import EconCSLib.Foundations.Probability.CTMC
 import EconCSLib.Foundations.Probability.Conditional
@@ -11,6 +12,7 @@ import EconCSLib.Foundations.Probability.FiniteExpectation
 import EconCSLib.Foundations.Probability.FiniteEmpiricalMultinomialCounts
 import EconCSLib.Foundations.Probability.FiniteLabel
 import EconCSLib.Foundations.Probability.FiniteMixture
+import EconCSLib.Foundations.Probability.FiniteMeasurablePartition
 import EconCSLib.Foundations.Probability.FiniteMultinomialEntropy
 import EconCSLib.Foundations.Probability.FiniteProductMultinomialCounts
 import EconCSLib.Foundations.Probability.FiniteProductTernaryCounts

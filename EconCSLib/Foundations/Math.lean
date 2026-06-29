@@ -18,3 +18,6 @@ import EconCSLib.Foundations.Math.ExponentialBounds
 import EconCSLib.Foundations.Math.IntervalCrossing
 import EconCSLib.Foundations.Math.EpsilonContinuity
 import EconCSLib.Foundations.Math.ThresholdCharacterization
+import EconCSLib.Foundations.Math.OrderedPairs
+import EconCSLib.Foundations.Math.MonotoneContinuity
+import EconCSLib.Foundations.Math.UniformConvergence

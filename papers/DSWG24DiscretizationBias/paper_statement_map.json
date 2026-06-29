@@ -1,0 +1,340 @@
+{
+  "schema": 1,
+  "paper": "DSWG24DiscretizationBias",
+  "title": "Addressing Discretization-Induced Bias in Demographic Prediction",
+  "generated_at": "2026-06-29T00:40:14Z",
+  "source_inventory_policy": "Source basis: /tmp/econcs_source_text/DSWG24DiscretizationBias.txt, PDF cache, and validation report. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
+  "source_url": "https://arxiv.org/pdf/2405.16762",
+  "items": {
+    "prior": {
+      "statement": "-\nPrior class probability `Pr(y)`.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "direct source definition",
+      "aliases": [
+        "prior"
+      ]
+    },
+    "marginalLabelShare": {
+      "statement": "- Marginal label share `\\hat p_marg(y) = (1/N) sum_i 1[\\hat y_i = y]`.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "direct source formula",
+      "aliases": [
+        "marginalLabelShare"
+      ]
+    },
+    "aggregatePosterior": {
+      "statement": "- Aggregate posterior `p_agg^q(y) = (1/N) sum_i q(y,x_i)`.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "direct source formula",
+      "aliases": [
+        "aggregatePosterior"
+      ]
+    },
+    "bias": {
+      "statement": "-\nBias `bias(y, \\hat y, p_ref) = \\hat p_marg(y) - p_ref(y)`.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "direct source formula",
+      "aliases": [
+        "bias"
+      ]
+    },
+    "fidelity": {
+      "statement": "-\nDistributional fidelity `fid(p_ref, \\hat y) = -sum_y |bias(y,\\hat y,p_ref)|`.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "direct source formula",
+      "aliases": [
+        "fidelity"
+      ]
+    },
+    "classifierMAE": {
+      "statement": "- Predictive MAE for Bayes posterior scores: `E_X sum_y q(y,x)(1-q(y,x))`.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "classifierMAE"
+      ]
+    },
+    "continuousMarginalLabelShare": {
+      "statement": "-\nContinuous marginal label share: `\u222b x, 1[rule x = y] d\u03bc(x)`.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "continuous source analogue",
+      "aliases": [
+        "continuousMarginalLabelShare"
+      ]
+    },
+    "continuousAggregatePosterior": {
+      "statement": "- Continuous aggregate posterior reference: `\u222b x, q x y d\u03bc(x)`.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "continuousAggregatePosterior"
+      ]
+    },
+    "continuousBias": {
+      "statement": "- Continuous bias relative to a supplied reference distribution.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "continuousBias"
+      ]
+    },
+    "continuousAggregateBias": {
+      "statement": "- Continuous aggregate-posterior bias.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "continuousAggregateBias"
+      ]
+    },
+    "continuousClassifierMAE": {
+      "statement": "- Continuous predictive MAE.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "continuousClassifierMAE"
+      ]
+    },
+    "continuousJointPriorBias": {
+      "statement": "- Joint prior-reference bias for Theorem 1's continuous statement.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "continuousJointPriorBias"
+      ]
+    },
+    "continuousJointClassifierMAE": {
+      "statement": "- Joint predictive MAE for Theorem 1's continuous statement.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "continuousJointClassifierMAE"
+      ]
+    },
+    "posteriorSimplex": {
+      "statement": "-\nPosterior-simplex condition: each `q(x)` is a probability vector.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "source model condition",
+      "aliases": [
+        "posteriorSimplex"
+      ]
+    },
+    "isArgmaxRule": {
+      "statement": "- Tie-broken argmax rule: the selected label has maximal posterior score.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "isArgmaxRule"
+      ]
+    },
+    "calibrated": {
+      "statement": "-\nCalibration: for every label and every measurable score event, the true label\nmass on that score event equals the aggregate posterior score mass on the same\nevent.  This is the paper's `Pr(Y=y | q(y,x)=c)=c` condition in\nevent-preimage form.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "source model condition",
+      "aliases": [
+        "calibrated"
+      ]
+    },
+    "objective": {
+      "statement": "-\nPaper objective `O_N^gamma` for one observed dataset: `\u03b3` times average\nposterior score plus `(1 - \u03b3)` times the fidelity term.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "objective"
+      ]
+    },
+    "expectedObjective": {
+      "statement": "- Expected paper objective using true-label accuracy plus expected fidelity.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "expectedObjective"
+      ]
+    },
+    "sourceSa": {
+      "statement": "- Source proof region `S_a`: focal posterior is `1`.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "sourceSa"
+      ]
+    },
+    "sourceSb": {
+      "statement": "- Source proof region `S_b`: focal posterior is in `(1/K,1)`.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "sourceSb"
+      ]
+    },
+    "sourceSc": {
+      "statement": "- Source proof region `S_c`: focal posterior is exactly `1/K`.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "sourceSc"
+      ]
+    },
+    "sourceSd": {
+      "statement": "- Source proof region `S_d`: focal posterior is in `(0,1/K)`.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "sourceSd"
+      ]
+    },
+    "sourceSe": {
+      "statement": "- Source proof region `S_e`: focal posterior is `0`.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "sourceSe"
+      ]
+    },
+    "theorem1i_no_information_bias": {
+      "statement": "states the no-information plurality-class and non-plurality-class bias formulas for both prior and aggregate-posterior references.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "direct theorem clause",
+      "aliases": [
+        "theorem1i_no_information_bias"
+      ]
+    },
+    "theorem1ii_perfect_classifier_zero_bias": {
+      "statement": "states the perfect-classifier zero-bias claim.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "direct source text",
+      "aliases": [
+        "theorem1ii_perfect_classifier_zero_bias"
+      ]
+    },
+    "theorem1iii_argmax_bias_le_mae": {
+      "statement": "states the calibrated argmax bias bound by predictive MAE.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "direct source text",
+      "aliases": [
+        "theorem1iii_argmax_bias_le_mae"
+      ]
+    },
+    "theorem1iii_tight_binary_example": {
+      "statement": "states the tight binary example where argmax bias equals MAE.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "direct source text",
+      "aliases": [
+        "theorem1iii_tight_binary_example"
+      ]
+    },
+    "theorem2i_joint_rule_exists": {
+      "statement": "states existence of a joint expected-objective maximizer.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "direct theorem clause",
+      "aliases": [
+        "theorem2i_joint_rule_exists"
+      ]
+    },
+    "theorem2ii_argmax_accuracy_maximizing": {
+      "statement": "states argmax expected-accuracy optimality for Bayes-optimal scores.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "direct source text",
+      "aliases": [
+        "theorem2ii_argmax_accuracy_maximizing"
+      ]
+    },
+    "theorem2iii_non_argmax_not_pareto": {
+      "statement": "states that a positively disagreeing independent rule is not Pareto optimal under a non-trivial reference distribution.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "direct theorem clause",
+      "aliases": [
+        "theorem2iii_non_argmax_not_pareto"
+      ]
+    },
+    "theorem2iii_weighted_objective_maximizer_agrees_argmax": {
+      "statement": "states that any `gamma < 1` weighted-objective maximizing independent rule agrees with argmax almost surely.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "direct theorem clause",
+      "aliases": [
+        "theorem2iii_weighted_objective_maximizer_agrees_argmax"
+      ]
+    },
+    "theorem2iii_strict_disagreement_not_weighted_objective_maximizer": {
+      "statement": "states the accuracy-boundary strict-disagreement non-maximality claim.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "source-domain strengthening",
+      "aliases": [
+        "theorem2iii_strict_disagreement_not_weighted_objective_maximizer"
+      ]
+    },
+    "assumption_theorem1_no_information_case": {
+      "statement": "- Theorem 1(i) no-information regime.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_theorem1_no_information_case"
+      ]
+    },
+    "assumption_theorem1_plurality_argmax_class": {
+      "statement": "- Theorem 1(i) fixes a plurality/argmax class for the no-information regime.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_theorem1_plurality_argmax_class"
+      ]
+    },
+    "assumption_theorem1_perfect_classifier": {
+      "statement": "- Theorem 1(ii) perfect-classifier regime.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_theorem1_perfect_classifier"
+      ]
+    },
+    "assumption_theorem1_argmax_rule_measurable": {
+      "statement": "- The continuous Theorem 1(iii) wrapper requires a measurable argmax rule.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_theorem1_argmax_rule_measurable"
+      ]
+    },
+    "assumption_theorem1_calibrated_classifier": {
+      "statement": "- Theorem 1 is stated for calibrated classifiers.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_theorem1_calibrated_classifier"
+      ]
+    },
+    "assumption_theorem2_at_least_two_classes": {
+      "statement": "- Theorem 2 assumes at least two classes in the finite Lean wrapper.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_theorem2_at_least_two_classes"
+      ]
+    },
+    "assumption_theorem2_more_rows_than_classes": {
+      "statement": "- Theorem 2 states the sample-size condition `N > K`.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_theorem2_more_rows_than_classes"
+      ]
+    },
+    "assumption_theorem2_positive_sample_count": {
+      "statement": "- Positive sample size is the formal consequence of the source `N > K` condition.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_theorem2_positive_sample_count"
+      ]
+    },
+    "assumption_theorem2_reference_nonnegative": {
+      "statement": "- Non-trivial reference distributions are probability distributions.",
+      "source_url": "https://arxiv.org/pdf/2405.16762",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_theorem2_reference_nonnegative"
+      ]
+    }
+  },
+  "source_inventory_kind": "source_curated",
+  "source_curated": true
+}

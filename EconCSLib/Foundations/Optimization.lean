@@ -1,5 +1,6 @@
 import EconCSLib.Foundations.Optimization.Approximation
 import EconCSLib.Foundations.Optimization.Argmax
+import EconCSLib.Foundations.Optimization.Bisection
 import EconCSLib.Foundations.Optimization.ChoiceEquilibrium
 import EconCSLib.Foundations.Optimization.ChoiceEquilibriumAE
 import EconCSLib.Foundations.Optimization.BinaryChoice
@@ -32,6 +33,8 @@ Aggregate import for reusable optimization primitives.
   cutoff consequences.
 - `EconCSLib.Foundations.Optimization.Approximation`: primal-dual/benchmark
   sandwich certificates for approximation and competitive-ratio proofs.
+- `EconCSLib.Foundations.Optimization.Bisection`: concrete loop-count helpers
+  for nested bisection style algorithms.
 - `EconCSLib.Foundations.Optimization.Certificate`: reusable optimality
   certificates for maximization/minimization arguments over explicit feasible
   sets.

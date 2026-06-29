@@ -1,0 +1,160 @@
+{
+  "schema": 1,
+  "paper": "PKG25NoFreeLunch",
+  "prompt_version": "paper-coverage-v2-source-grounded-source-to-dashboard",
+  "audit_kind": "source_to_dashboard_agent",
+  "source_grounded": true,
+  "seed_scaffold": false,
+  "validator": "codex source-grounded audit pass",
+  "validator_type": "agent",
+  "validated_at": "2026-06-29T07:31:10Z",
+  "comment": "Source-grounded judgments preserved; review-surface digest refreshed against the source-declaration-stable dashboard surface.",
+  "paper_statement_inventory_sha256": "f852b593533ebb369f69b833a402cc46c35c77d037cad1624a8bea3d8f16e03c",
+  "review_surface_sha256": "a05fb7cfe47a0a02b2a98a840e21559b69fa004ffa4b5ef303193e290e01b077",
+  "items": {
+    "definition_collaboration_strategy": {
+      "coverage": "covered",
+      "review_rows": [
+        "definition_collaboration_strategy"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: deterministic collaboration strategy from prediction profiles to labels. The dashboard row `definition_collaboration_strategy` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: /tmp/econcs_source_text/PKG25NoFreeLunch.txt, PDF cache, and validation report. Definition from Section 3.. Source inventory item: deterministic collaboration strategy from prediction profiles to labels.",
+      "dashboard_evidence": "Current human-dashboard row(s): `definition_collaboration_strategy`.",
+      "statement_sha256": "b31041d74b0061aaed5241d1d95ffd103e3f0c3d871eccdb77639510ec9c0436",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "definition_interior_prediction_profile": {
+      "coverage": "covered",
+      "review_rows": [
+        "definition_interior_prediction_profile"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: source domain `(0,1)^n`. The dashboard row `definition_interior_prediction_profile` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: /tmp/econcs_source_text/PKG25NoFreeLunch.txt, PDF cache, and validation report. Definition 4 constrains the strategy only on `(0,1)^n`; boundary. Source inventory item: source domain `(0,1)^n`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `definition_interior_prediction_profile`.",
+      "statement_sha256": "6f60ea03913ea9ab4e8f605348f450f2c62448bae0961dec84bd3139760ca861",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "definition_non_collaborative": {
+      "coverage": "covered",
+      "review_rows": [
+        "definition_non_collaborative"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: fixed agent off ties and fixed tie label on the half slice. The dashboard row `definition_non_collaborative` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: /tmp/econcs_source_text/PKG25NoFreeLunch.txt, PDF cache, and validation report. Definition 4.. Source inventory item: fixed agent off ties and fixed tie label on the half slice.",
+      "dashboard_evidence": "Current human-dashboard row(s): `definition_non_collaborative`.",
+      "statement_sha256": "1894edd6dd6458fda6b5434a67d5ecfe103716876aaba8483613088feea0d55b",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "definition_reliable": {
+      "coverage": "covered",
+      "review_rows": [
+        "definition_reliable"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: source reliability over all collaboration-setting accuracy surfaces. The dashboard row `definition_reliable` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: /tmp/econcs_source_text/PKG25NoFreeLunch.txt, PDF cache, and validation report. Definition 3.  The finite adversarial settings used in the proof. Source inventory item: source reliability over all collaboration-setting accuracy surfaces.",
+      "dashboard_evidence": "Current human-dashboard row(s): `definition_reliable`.",
+      "statement_sha256": "21567e3a21a2aae7840fd4c39a5420d027a81520182c49865668e274881430d6",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "definition_rounding_convention": {
+      "coverage": "covered",
+      "review_rows": [
+        "definition_rounding_convention"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: source rounding convention `round(1/2) = 1`. The dashboard row `definition_rounding_convention` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: /tmp/econcs_source_text/PKG25NoFreeLunch.txt, PDF cache, and validation report. Definition from Section 3, immediately before the individual. Source inventory item: source rounding convention `round(1/2) = 1`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `definition_rounding_convention`.",
+      "statement_sha256": "1bec226d6885d186f46931d80ca90571066d2f81eec2880f7c8efcd13a85c84e",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "source_definition1_out_of_scope": {
+      "coverage": "out_of_scope",
+      "review_rows": [],
+      "reason": "The current public surface formalizes the collaboration/non-collaboration/reliability definitions and main theorem; this preliminary/source-support definition is recorded as out of scope for the dashboard.",
+      "source_evidence": "Source basis: /tmp/econcs_source_text/PKG25NoFreeLunch.txt, PDF cache, and validation report. Definition 1 in source text; flagged by source-grounding audit.. Source Definition 1 is visible in the paper but is not part of the current six-row public dashboard inventory.",
+      "dashboard_evidence": "No dashboard row: explicitly marked out of scope for the current public review surface.",
+      "statement_sha256": "11b9ea486eede73fa3aa24976e5e3aa9b41c702a4708bdf5b75bdb3df770a834",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "source_definition5_out_of_scope": {
+      "coverage": "out_of_scope",
+      "review_rows": [],
+      "reason": "Definition 5 is not exposed as a standalone target in the current public review surface; it is recorded explicitly rather than omitted.",
+      "source_evidence": "Source basis: /tmp/econcs_source_text/PKG25NoFreeLunch.txt, PDF cache, and validation report. Definition 5 in source text; flagged by source-grounding audit.. Source Definition 5 is visible in the paper but is not part of the current six-row public dashboard inventory.",
+      "dashboard_evidence": "No dashboard row: explicitly marked out of scope for the current public review surface.",
+      "statement_sha256": "a6e97d51eae8cda9fff81b60809327e420413e782858804ec4f01f5a7d7660ae",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "source_lemma8_out_of_scope": {
+      "coverage": "out_of_scope",
+      "review_rows": [],
+      "reason": "Lemma 8 is proof-support material not currently surfaced as a standalone human dashboard row.",
+      "source_evidence": "Source basis: /tmp/econcs_source_text/PKG25NoFreeLunch.txt, PDF cache, and validation report. Lemma 8 in source text; flagged by source-grounding audit.. Source Lemma 8 is visible proof-level material outside the current public dashboard target list.",
+      "dashboard_evidence": "No dashboard row: explicitly marked out of scope for the current public review surface.",
+      "statement_sha256": "9f8a44e24a92c6e7fb071e39c482f76ddddc69a09d86daca24969061edd6a13a",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "source_proposition6_out_of_scope": {
+      "coverage": "out_of_scope",
+      "review_rows": [],
+      "reason": "The current public formalization surface centers the main no-free-lunch theorem and its core definitions; Proposition 6 is proof/support material not separately reviewed.",
+      "source_evidence": "Source basis: /tmp/econcs_source_text/PKG25NoFreeLunch.txt, PDF cache, and validation report. Proposition 6 in source text; flagged by source-grounding audit.. Source Proposition 6 is visible proof-level material outside the current public dashboard target list.",
+      "dashboard_evidence": "No dashboard row: explicitly marked out of scope for the current public review surface.",
+      "statement_sha256": "b45ba6bb3d02c5739eec8f50fc9c3642ce6a4e253318366b149c9ccf91bc23cd",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "source_proposition7_out_of_scope": {
+      "coverage": "out_of_scope",
+      "review_rows": [],
+      "reason": "The current public formalization surface centers the main no-free-lunch theorem and core definitions; Proposition 7 is recorded as out of scope for the dashboard.",
+      "source_evidence": "Source basis: /tmp/econcs_source_text/PKG25NoFreeLunch.txt, PDF cache, and validation report. Proposition 7 in source text; flagged by source-grounding audit.. Source Proposition 7 is visible proof-level material outside the current public dashboard target list.",
+      "dashboard_evidence": "No dashboard row: explicitly marked out of scope for the current public review surface.",
+      "statement_sha256": "8e7cd2f1f63f3656508e789c449d77b2eeaa7a573b70ef2bf21d30f3d6f0b0ae",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "source_proposition9_out_of_scope": {
+      "coverage": "out_of_scope",
+      "review_rows": [],
+      "reason": "Proposition 9 is proof/support material not currently surfaced as a standalone human dashboard row.",
+      "source_evidence": "Source basis: /tmp/econcs_source_text/PKG25NoFreeLunch.txt, PDF cache, and validation report. Proposition 9 in source text; flagged by source-grounding audit.. Source Proposition 9 is visible proof-level material outside the current public dashboard target list.",
+      "dashboard_evidence": "No dashboard row: explicitly marked out of scope for the current public review surface.",
+      "statement_sha256": "ae2d2eddaebab33a24fe8c48e426d585709894d1f6726af6abc4b0ca12fd013a",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "theorem_main_no_free_lunch": {
+      "coverage": "covered",
+      "review_rows": [
+        "theorem_main_no_free_lunch"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: for a nonempty finite agent set, `Reliable C -> NonCollaborative C`. The dashboard row `theorem_main_no_free_lunch` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: /tmp/econcs_source_text/PKG25NoFreeLunch.txt, PDF cache, and validation report. Theorem 1.  Proposition 1, the counterexample lemma, the linear. Source inventory item: for a nonempty finite agent set, `Reliable C -> NonCollaborative C`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `theorem_main_no_free_lunch`.",
+      "statement_sha256": "974f37c7d9435bb8e0b3bfb83ee10b33d5885b0b88a34521f240d930633c72d7",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    }
+  }
+}

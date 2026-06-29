@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "paper": "LBG24SpatialUnderreporting",
+  "title": "Quantifying Spatial Under-reporting Disparities in Resident Crowdsourcing",
+  "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+  "source_inventory_kind": "source_curated",
+  "source_curated": true,
+  "source_inventory_policy": "Source basis: /tmp/econcs_source_text/LBG24SpatialUnderreporting.txt and validation report. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
+  "generated_at": "2026-06-29T00:41:12Z",
+  "items": {
+    "equation2_poisson_count_pmf_formula": {
+      "statement": "- Eq. (2): the Poisson count probability mass used throughout the paper.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Main text Eq. (2)",
+      "aliases": []
+    },
+    "first_report_probability_formula": {
+      "statement": "- Homogeneous probability that an active incident receives at least one report.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Main text reporting-probability formula preceding Lemma 1",
+      "aliases": []
+    },
+    "lemma1_continuous_duration_first_report_probability_integral": {
+      "statement": "- Lemma 1 continuous-duration homogeneous integral formula.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Main text Lemma 1",
+      "aliases": []
+    },
+    "lemma1_continuous_duration_observed_rate_integral": {
+      "statement": "- Lemma 1 continuous-duration observed unique-incident rate formula.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Main text Lemma 1",
+      "aliases": []
+    },
+    "lemma1_finite_duration_first_report_weighted_average": {
+      "statement": "-\nLemma 1 finite-duration mixture form: normalized duration weights turn the\nfinite-duration first-report probability into the weighted average of\nper-duration first-report probabilities.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Main text Lemma 1 finite-duration analogue",
+      "aliases": []
+    },
+    "lemma1_continuous_duration_poisson_thinning_count_law": {
+      "statement": "-\nLemma 1 continuous-duration thinning count law: a latent Poisson incident\ncount, thinned by the continuous-duration detection probability, has observed\ncount likelihood with mean equal to the continuous observed incident rate.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Main text Lemma 1 thinning/count implication",
+      "aliases": []
+    },
+    "lemma2_exponential_waiting_tail": {
+      "statement": "-\nAppendix Lemma 2 tail form after the source proof's sum/integral collapse:\nintegrating the independent no-arrival tail against the normalized start-time\ndensity on `s >= lower`, with the shifted Poisson count mass inside the\nintegrand, gives the tail probability of an exponential waiting-time model.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Appendix Lemma 2",
+      "aliases": []
+    },
+    "lemma2_exponential_waiting_tail_memoryless_ratio": {
+      "statement": "-\nAppendix Lemma 2 memoryless-tail form: after conditioning on survival through\nan elapsed waiting time, the exponential tail ratio equals the tail probability\nof the remaining future wait.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Appendix Lemma 2 memoryless step",
+      "aliases": []
+    },
+    "equation3_mle_score_equation": {
+      "statement": "- Eq. (3): the displayed closed-form rate estimator.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Main text Eq. (3)",
+      "aliases": []
+    },
+    "equation3_mle_global_logLikelihood_max": {
+      "statement": "-\nEq. (3): the displayed estimator globally maximizes the rate-dependent\nPoisson log-likelihood kernel over positive reporting rates.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Main text Eq. (3) MLE characterization",
+      "aliases": []
+    },
+    "equation5_poisson_regression_rate_formula": {
+      "statement": "- Eq. (5), supplementary numbering: the same Poisson regression log-link.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Supplement Eq. (5)",
+      "aliases": []
+    },
+    "equation6_poisson_regression_likelihood_formula": {
+      "statement": "- Eq. (6): the incident likelihood is proportional to the Poisson PMF factor.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Supplement Eq. (6)",
+      "aliases": []
+    },
+    "equation7_zero_inflated_likelihood_zero": {
+      "statement": "- Eq. (7), zero-count case: structural zero plus ordinary Poisson zero mass.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Supplement Eq. (7), zero-count case",
+      "aliases": []
+    },
+    "equation7_zero_inflated_likelihood_positive_count": {
+      "statement": "- Eq. (7), positive-count case: only the ordinary Poisson component contributes.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Supplement Eq. (7), positive-count case",
+      "aliases": []
+    },
+    "proposition1_homogeneous_nonidentifiability": {
+      "statement": "-\nProposition 1, homogeneous algebraic core: unique observed incident rates alone\ndo not identify the reporting rate, because occurrence rates can compensate for\ndifferent reporting probabilities and produce the same observed rate.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Main text Proposition 1, homogeneous case",
+      "aliases": []
+    },
+    "proposition1_continuous_duration_nonidentifiability": {
+      "statement": "-\nProposition 1 continuous-duration core: unique observed incident rates still do\nnot identify the reporting rate after averaging over incident durations.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Main text Proposition 1, continuous-duration case",
+      "aliases": []
+    },
+    "theorem1_likelihood_decomposition_from_poisson_increment_laws": {
+      "statement": "-\nTheorem 1 / Appendix Theorem 2, preferred source-assumption factorization\nform: given a homogeneous Poisson process via mathlib Poisson increment laws\nplus Condition 1/2 source assumptions, any observed zero/one/multi-report\nwindow case has likelihood equal to a rate-independent residual times the\nPoisson count PMF.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Main text Theorem 1 likelihood decomposition",
+      "aliases": []
+    },
+    "theorem1_likelihood_product_decomposition_from_poisson_increment_laws": {
+      "statement": "-\nTheorem 1 finite-product form from mathlib Poisson increment laws: under the\npaper's homogeneous Poisson process plus Condition 1/2 source assumptions, a\nfinite product of observed zero/one/multi-report window cases collapses to one\ntotal-count Poisson PMF, up to a rate-independent residual.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Main text Theorem 1 finite-product likelihood decomposition",
+      "aliases": []
+    },
+    "theorem2_zero_report_source_case": {
+      "statement": "- Appendix B.2 Eq. (20), zero reports in `(s,e]`.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Appendix Theorem 2 / Eq. (20), zero-report case",
+      "aliases": []
+    },
+    "theorem2_one_report_source_case": {
+      "statement": "- Appendix B.2 Eq. (26), one report in `(s,e]`.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Appendix Theorem 2 / Eq. (26), one-report case",
+      "aliases": []
+    },
+    "theorem2_multi_report_source_case": {
+      "statement": "- Appendix B.2 Eq. (32), two or more reports in `(s,e]`.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Appendix Theorem 2 / Eq. (32), multi-report case",
+      "aliases": []
+    },
+    "theorem2_corrected_case_factorization": {
+      "statement": "-\nAppendix Theorem 2 proof algebra: a case likelihood whose rate dependence has\nthe raw density shape `rate^M * exp(-rate * exposure)` factors into the Poisson\ncount PMF after absorbing `M! / exposure^M` into the residual.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Appendix Theorem 2 proof algebra; corrected multi-report residual noted in validation report",
+      "aliases": []
+    },
+    "equation33_nyc_preprocessing_stopping_observation_window": {
+      "statement": "-\nEq. (33), NYC preprocessing stopping-time form: if the first-report time,\ninspection time, and work-order time are stopping times, then the paper's\nmin-censored preprocessing rule defines a stopping observation window.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Supplement Eq. (33), NYC preprocessing window",
+      "aliases": []
+    },
+    "equation34_chicago_preprocessing_stopping_observation_window": {
+      "statement": "-\nEq. (34), Chicago preprocessing stopping-time form: if the first-report time,\nclosed time, and dataset retrieval/update time are stopping times, then the\npaper's min-censored preprocessing rule defines a stopping observation window.",
+      "source_url": "https://arxiv.org/pdf/2204.08620; published article: https://doi.org/10.1038/s43588-023-00572-6",
+      "source_location": "Supplement Eq. (34), Chicago preprocessing window",
+      "aliases": []
+    }
+  }
+}

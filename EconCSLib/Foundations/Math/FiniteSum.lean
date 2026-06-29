@@ -1,4 +1,5 @@
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+import Mathlib.Algebra.BigOperators.Fin
 import Mathlib.Algebra.BigOperators.Ring.Finset
 import Mathlib.Algebra.Order.BigOperators.Group.Finset
 import Mathlib.Algebra.Order.BigOperators.Ring.Finset
@@ -370,6 +371,69 @@ theorem ordered_pair_mul_sum_eq_one_sub_sum_sq_div_two
 /-- Prefix sum of finite interval gaps before index `i`. -/
 def finitePartitionPrefix (gap : ℕ → ℝ) (i : ℕ) : ℝ :=
   ∑ k ∈ Finset.range i, gap k
+
+/-- Extend a finite gap vector by zero outside its index range. -/
+def finiteGapExtend {M : ℕ} (gap : Fin M → ℝ) (k : ℕ) : ℝ :=
+  if h : k < M then gap ⟨k, h⟩ else 0
+
+/-- Cutpoints induced by finite gaps, represented as prefix sums. -/
+def finiteGapCutpoint {M : ℕ} (gap : Fin M → ℝ) (i : ℕ) : ℝ :=
+  finitePartitionPrefix (finiteGapExtend gap) i
+
+/-- Prefix sums of a nonnegative sequence are monotone. -/
+theorem finitePartitionPrefix_monotone_of_nonneg
+    (gap : ℕ → ℝ) (hgap_nonneg : ∀ k : ℕ, 0 ≤ gap k) :
+    Monotone (finitePartitionPrefix gap) := by
+  intro i j hij
+  refine Nat.le_induction ?base ?step j hij
+  · exact le_rfl
+  · intro n _hin ih
+    have hsucc :
+        finitePartitionPrefix gap (n + 1) =
+          finitePartitionPrefix gap n + gap n := by
+      simp [finitePartitionPrefix, Finset.sum_range_succ]
+    linarith [hgap_nonneg n]
+
+/-- The first cutpoint induced by finite gaps is zero. -/
+theorem finiteGapCutpoint_zero {M : ℕ} (gap : Fin M → ℝ) :
+    finiteGapCutpoint gap 0 = 0 := by
+  simp [finiteGapCutpoint, finitePartitionPrefix]
+
+/-- The terminal cutpoint induced by finite gaps is the total gap mass. -/
+theorem finiteGapCutpoint_self_eq_sum {M : ℕ} (gap : Fin M → ℝ) :
+    finiteGapCutpoint gap M = ∑ i : Fin M, gap i := by
+  unfold finiteGapCutpoint finitePartitionPrefix finiteGapExtend
+  simpa using (Finset.sum_fin_eq_sum_range fun i : Fin M => gap i).symm
+
+/-- Adjacent finite-gap cutpoints differ by the corresponding gap. -/
+theorem finiteGapCutpoint_succ_sub {M : ℕ} (gap : Fin M → ℝ)
+    {i : ℕ} (hi : i < M) :
+    finiteGapCutpoint gap (i + 1) - finiteGapCutpoint gap i =
+      gap ⟨i, hi⟩ := by
+  simp [finiteGapCutpoint, finitePartitionPrefix, finiteGapExtend,
+    Finset.sum_range_succ, hi]
+
+/-- Positive finite gaps induce strictly increasing adjacent cutpoints. -/
+theorem finiteGapCutpoint_strict_adjacent_of_pos {M : ℕ}
+    (gap : Fin M → ℝ) (hgap_pos : ∀ i : Fin M, 0 < gap i)
+    {i : ℕ} (hi : i < M) :
+    finiteGapCutpoint gap i < finiteGapCutpoint gap (i + 1) := by
+  have hsub := finiteGapCutpoint_succ_sub gap hi
+  have hpos : 0 < finiteGapCutpoint gap (i + 1) -
+      finiteGapCutpoint gap i := by
+    simpa [hsub] using hgap_pos ⟨i, hi⟩
+  linarith
+
+/-- Nonnegative finite gaps induce monotone cutpoints. -/
+theorem finiteGapCutpoint_monotone_of_nonneg {M : ℕ}
+    (gap : Fin M → ℝ) (hgap_nonneg : ∀ i : Fin M, 0 ≤ gap i) :
+    Monotone (finiteGapCutpoint gap) := by
+  exact
+    finitePartitionPrefix_monotone_of_nonneg (finiteGapExtend gap) (by
+      intro k
+      by_cases hk : k < M
+      · simp [finiteGapExtend, hk, hgap_nonneg ⟨k, hk⟩]
+      · simp [finiteGapExtend, hk])
 
 /-- Midpoint of the interval whose left endpoint is the prefix before `i`. -/
 noncomputable def finitePartitionMidpoint (gap : ℕ → ℝ) (i : ℕ) : ℝ :=

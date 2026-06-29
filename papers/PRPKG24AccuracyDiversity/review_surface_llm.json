@@ -4,9 +4,10 @@
   "prompt_version": "review-surface-v1",
   "reason": "Current dashboard rows are paper-facing definitions, named statements, explicit source-condition rows, or validation-note rows; premise provenance is audited separately. Hash refreshed against the current dashboard row surface.",
   "review_rows": 42,
-  "review_surface_sha256": "88fb801dd94cf08da0749a8b98291dea5f3e97869a489fd91fd3dd5f5caf9b1e",
+  "review_surface_sha256": "a52094c16fb1e2742b2793faefe976ff24c19d5bfe543e3aee75e81e497e69ab",
   "schema": 1,
-  "validated_at": "2026-06-28T01:10:04Z",
+  "validated_at": "2026-06-29T07:31:10Z",
   "validator": "gpt-5-codex",
-  "validator_type": "model"
+  "validator_type": "model",
+  "comment": "Review-surface digest refreshed against the source-declaration-stable dashboard surface."
 }

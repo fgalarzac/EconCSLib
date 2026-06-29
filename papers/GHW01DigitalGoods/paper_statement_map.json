@@ -1,0 +1,252 @@
+{
+  "schema": 1,
+  "paper": "GHW01DigitalGoods",
+  "title": "Competitive Auctions and Digital Goods",
+  "generated_at": "2026-06-29T00:40:37Z",
+  "source_inventory_policy": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
+  "source_url": "http://www.eecs.northwestern.edu/~hartline/papers/auctions-SODA-01.pdf; journal cross-check: http://www.eecs.northwestern.edu/~hartline/papers/auctions-journal.pdf; https://doi.org/10.1016/j.geb.2006.02.003",
+  "items": {
+    "revenue": {
+      "statement": "- Digital-goods auction revenue: total payments collected from all bidders.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "revenue"
+      ]
+    },
+    "truthful": {
+      "statement": "-\nDominant-strategy truthfulness: truthful bidding weakly dominates replacing\none agent's value report by any alternative report.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "truthful"
+      ]
+    },
+    "singlePriceRevenue": {
+      "statement": "- Single-price revenue at price `p`.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "singlePriceRevenue"
+      ]
+    },
+    "fixedPriceBenchmark": {
+      "statement": "-\nFixed-price benchmark over bidder-value candidate prices, requiring at least\n`minWinners` winners.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "fixedPriceBenchmark"
+      ]
+    },
+    "twoWinnerBenchmark": {
+      "statement": "-\nTwo-winner fixed-price benchmark `F^(2)`: the best single-price revenue selling\nto at least two bidders.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "twoWinnerBenchmark"
+      ]
+    },
+    "totalValue": {
+      "statement": "-\nTotal bid value `T = sum_i v_i`.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "direct source text.",
+      "aliases": [
+        "totalValue"
+      ]
+    },
+    "weightedPairingRevenue": {
+      "statement": "- Expected revenue of the weighted-pairing auction.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "weightedPairingRevenue"
+      ]
+    },
+    "theorem4_1_high_value": {
+      "statement": "- Theorem 4.1: high-value profiles have a logarithmic fixed-price lower bound.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem4_1_high_value"
+      ]
+    },
+    "corollary4_2_fixed_price_lower_bound": {
+      "statement": "-\nCorollary 4.2: truncating bids below `h / n` and applying Theorem 4.1 gives\nthe logarithmic fixed-price lower bound.\n\ninternally from the source proof.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "source corollary endpoint.",
+      "aliases": [
+        "corollary4_2_fixed_price_lower_bound"
+      ]
+    },
+    "lemma6_1_fair_coin": {
+      "statement": "-\nLemma 6.1: fair-coin random sampling lower-tail estimate.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "source lemma endpoint.",
+      "aliases": [
+        "lemma6_1_fair_coin"
+      ]
+    },
+    "theorem6_2_random_sampling": {
+      "statement": "-\nTheorem 6.2: random-sampling auction revenue guarantee for finite candidate\nbenchmark inputs satisfying `alpha * h <= F`.\n\n`alpha * h <= F` is the source theorem condition.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "source theorem endpoint.",
+      "aliases": [
+        "theorem6_2_random_sampling"
+      ]
+    },
+    "theorem7_1_weighted_pairing": {
+      "statement": "-\nTheorem 7.1: weighted pairing gets a logarithmic guarantee when `4h <= T`.\n\npaper's `Omega(T / log h)` bound under the displayed side condition.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "source theorem endpoint.",
+      "aliases": [
+        "theorem7_1_weighted_pairing"
+      ]
+    },
+    "theorem7_2_weighted_pairing_benchmark": {
+      "statement": "- Theorem 7.2: weighted pairing competes with the two-winner benchmark.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem7_2_weighted_pairing_benchmark"
+      ]
+    },
+    "lemma8_1_truthful_monotone": {
+      "statement": "- Lemma 8.1: truthfulness implies monotone own-bid allocation.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "lemma8_1_truthful_monotone"
+      ]
+    },
+    "theorem8_2_truthful_revenue_upper_bound": {
+      "statement": "-\nTheorem 8.2 source-version endpoint.\n\nFor Section 8.2, the paper-facing formalization follows the journal version's\nrefined monotone truthful randomized offer-auction wording. Every such auction\nhas expected revenue at most the fixed-price benchmark `F`.\n\nThis is the Theorem 8.2 endpoint used for the SODA paper. The preliminary\nunrestricted wording is tracked separately as source-version audit material,\nnot as a paper-facing theorem.\n\nwording that refines the preliminary SODA Section 8.2 statement.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "source-version endpoint.",
+      "aliases": [
+        "theorem8_2_truthful_revenue_upper_bound"
+      ]
+    },
+    "theorem9_1_bid_independent_lower_bound": {
+      "statement": "-\nTheorem 9.1: bid-independent auctions have a lower-bound witness.\n\nthe paper's positive `alpha` large-market condition.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "source theorem endpoint.",
+      "aliases": [
+        "theorem9_1_bid_independent_lower_bound"
+      ]
+    },
+    "lemma9_2_threshold_domination": {
+      "statement": "-\nLemma 9.2: deterministic truthful binary auctions admit threshold offers.\n\ntruthful deterministic auctions are bid-independent lemma.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "source lemma endpoint.",
+      "aliases": [
+        "lemma9_2_threshold_domination"
+      ]
+    },
+    "theorem9_3_deterministic_truthful_lower_bound": {
+      "statement": "-\nTheorem 9.3: deterministic truthful auctions have a lower-bound witness.\nThe source model supplies the paper's set-of-bids focused-outcome convention;\nerased-list relabeling and then Lemma 9.2's anonymous list-price\nrepresentation are constructed internally for the original auction family.\n\nmodel input; the erased-list/list-price bridge is derived internally.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "source theorem endpoint.",
+      "aliases": [
+        "theorem9_3_deterministic_truthful_lower_bound"
+      ]
+    },
+    "assumption_high_value_scale_conditions": {
+      "statement": "- The paper normalizes the lowest/highest bid scale in the high-value theorems.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_high_value_scale_conditions"
+      ]
+    },
+    "assumption_bid_value_range_conditions": {
+      "statement": "- High-value theorem inputs have bids in the normalized range.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_bid_value_range_conditions"
+      ]
+    },
+    "assumption_high_value_attained": {
+      "statement": "- Corollary 4.2 fixes `h` as a maximum bid.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_high_value_attained"
+      ]
+    },
+    "assumption_total_value_notation": {
+      "statement": "- Weighted-pairing statements expose the paper's total-value notation.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_total_value_notation"
+      ]
+    },
+    "assumption_weighted_pairing_large_market": {
+      "statement": "- Theorem 7.1 assumes the high-bid value is small relative to total value.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_weighted_pairing_large_market"
+      ]
+    },
+    "assumption_two_winner_benchmark_large_enough": {
+      "statement": "- Theorem 7.2 assumes the two-winner benchmark is at least twice the high bid.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_two_winner_benchmark_large_enough"
+      ]
+    },
+    "assumption_weighted_pairing_log_factor": {
+      "statement": "- Theorem 7.2 packages the logarithmic factor with `s`.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_weighted_pairing_log_factor"
+      ]
+    },
+    "assumption_truthful_auction_condition": {
+      "statement": "- Lemma 8.1 and Lemma 9.2 are stated for truthful auctions.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_truthful_auction_condition"
+      ]
+    },
+    "assumption_low_bid_below_high_bid": {
+      "statement": "- Lemma 8.1 compares a lower bid with a higher bid.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_low_bid_below_high_bid"
+      ]
+    },
+    "assumption_lower_bound_positive_alpha": {
+      "statement": "- Lower-bound theorems quantify over positive constants.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_lower_bound_positive_alpha"
+      ]
+    },
+    "assumption_theorem8_2_journal_raw_cdf_monotone_offer_source_model": {
+      "statement": "-\nTheorem 8.2 is checked against the later journal version's monotone randomized\noffer formulation rather than the broader preliminary SODA wording.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_theorem8_2_journal_raw_cdf_monotone_offer_source_model"
+      ]
+    },
+    "assumption_theorem9_3_primitive_set_of_bids_deterministic_source_model": {
+      "statement": "-\nTheorem 9.3 uses the paper's deterministic set-of-bids convention and focused\nslice `A_i(B_i^x)` to represent each bidder's offer from the other bids and the\nbidder's own reported value.",
+      "source_url": "https://doi.org/10.5555/365411.365768; journal cross-check: https://doi.org/10.1016/j.geb.2006.02.003",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_theorem9_3_primitive_set_of_bids_deterministic_source_model"
+      ]
+    }
+  },
+  "source_inventory_kind": "source_curated",
+  "source_curated": true
+}

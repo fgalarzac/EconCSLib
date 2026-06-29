@@ -105,6 +105,10 @@ name = "GJ18InformativeRatingSystems"
 srcDir = "papers"
 
 [[lean_lib]]
+name = "GJ19OptimalBinaryRatingSystems"
+srcDir = "papers"
+
+[[lean_lib]]
 name = "GGSG19TopThree"
 srcDir = "papers"
 

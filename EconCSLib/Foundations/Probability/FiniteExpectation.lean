@@ -53,6 +53,22 @@ noncomputable def pmfProduct (ι α : Type*) [Fintype ι] [DecidableEq ι] [Fint
     (ENNReal.toReal_prod
       (s := (Finset.univ : Finset ι)) (f := fun i : ι => μ (f i)))
 
+/-- An iid finite-product atom is positive when each coordinate atom is positive. -/
+theorem pmfProduct_apply_toReal_pos_of_forall
+    {ι α : Type*} [Fintype ι] [DecidableEq ι] [Fintype α]
+    (μ : PMF α) (f : ι → α)
+    (hpos : ∀ i : ι, 0 < (μ (f i)).toReal) :
+    0 < (pmfProduct ι α μ f).toReal := by
+  rw [pmfProduct_apply_toReal]
+  exact Finset.prod_pos (fun i _ => hpos i)
+
+/-- Constant iid finite-product samples have positive mass when the atom does. -/
+theorem pmfProduct_const_apply_toReal_pos
+    {ι α : Type*} [Fintype ι] [DecidableEq ι] [Fintype α]
+    (μ : PMF α) (a : α) (hpos : 0 < (μ a).toReal) :
+    0 < (pmfProduct ι α μ (fun _ : ι => a)).toReal :=
+  pmfProduct_apply_toReal_pos_of_forall μ (fun _ : ι => a) (fun _ => hpos)
+
 /-- Add one independent draw to a sample indexed by `ι`. -/
 def extendDraw {ι α : Type*} (sample : ι → α) (newItem : α) : Option ι → α
   | none => newItem

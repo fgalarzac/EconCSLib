@@ -30,6 +30,15 @@ def finiteIidScoreSum {ι : Type*} [Fintype ι]
     (score : α → ℝ) (sample : ι → α) : ℝ :=
   ∑ i : ι, score (sample i)
 
+/-- The finite-sample sum of the complementary score `1 - score`. -/
+theorem finiteIidScoreSum_one_sub_eq_card_sub {ι : Type*} [Fintype ι]
+    (score : α → ℝ) (sample : ι → α) :
+    finiteIidScoreSum (fun a : α => 1 - score a) sample =
+      (Fintype.card ι : ℝ) - finiteIidScoreSum score sample := by
+  unfold finiteIidScoreSum
+  rw [Finset.sum_sub_distrib]
+  simp [Finset.sum_const, nsmul_eq_mul]
+
 /-- Empirical count of a value in a finite sample. -/
 def empiricalCount {ι : Type*} [Fintype ι]
     (sample : ι → α) (a : α) : ℕ :=

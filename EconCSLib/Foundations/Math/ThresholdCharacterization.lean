@@ -24,7 +24,11 @@ comparisons into threshold statements.
 - `bool_lowerCutoff_if_true_iff`
 - `bool_lowerCutoff_true_of_le`
 - `bool_lowerCutoff_false_of_lt`
+- `CapacityThreshold`
 - `exists_threshold_of_continuous_strictMonoOn_Icc`
+- `exists_threshold_of_continuous_strictMonoOn_Icc_crossing_interval`
+- `exists_threshold_of_continuous_strictMonoOn_Icc_interval`
+- `exists_threshold_le_of_continuous_strictMonoOn_Icc_interval`
 - `exists_threshold_le_of_continuous_strictMonoOn_Icc`
 - `exists_threshold_of_continuous_strictAntiOn_Icc_crossing`
 - `exists_threshold_of_continuous_strictAntiOn_Icc_crossing_interval`
@@ -42,6 +46,16 @@ namespace EconCSLib
 noncomputable section
 
 open Set
+
+/--
+Capacity-realizing upper-threshold condition for a scalar mass curve.
+
+The value `threshold` realizes `capacity`, and the set of cutoffs whose mass is
+at most capacity is exactly the upper ray above `threshold`.
+-/
+def CapacityThreshold (mass : ℝ → ℝ) (capacity threshold : ℝ) : Prop :=
+  mass threshold = capacity ∧
+    ∀ z : ℝ, mass z ≤ capacity ↔ threshold ≤ z
 
 /-- A one-dimensional decision rule is a lower-cutoff rule. -/
 def LowerCutoffStrategy (choose : ℝ → Prop) : Prop :=
@@ -389,6 +403,145 @@ theorem continuousOn_rightInverse_of_strictMono
       hbase_mono.monotone hle
     have hroot_z : base (root z) = z := hroot z hs
     linarith
+
+/--
+Interval version of `continuousOn_rightInverse_of_strictMono`.  The inverse
+only needs to take values in the interior of the bracket on which the base map
+is strictly increasing.
+-/
+theorem continuousOn_rightInverse_of_strictMonoOn_Icc
+    {base root : ℝ → ℝ} {s : Set ℝ} {left right : ℝ}
+    (hbase_mono : StrictMonoOn base (Icc left right))
+    (hroot_mem : ∀ y ∈ s, root y ∈ Ioo left right)
+    (hroot : ∀ y ∈ s, base (root y) = y) :
+    ContinuousOn root s := by
+  intro y hy
+  have hyroot_mem_Ioo : root y ∈ Ioo left right := hroot_mem y hy
+  have hyroot_mem_Icc : root y ∈ Icc left right :=
+    ⟨hyroot_mem_Ioo.1.le, hyroot_mem_Ioo.2.le⟩
+  rw [ContinuousWithinAt]
+  refine tendsto_order.2 ⟨?_, ?_⟩
+  · intro lower hlower
+    by_cases hlower_left : lower < left
+    · filter_upwards [self_mem_nhdsWithin] with z hz
+      exact hlower_left.trans (hroot_mem z hz).1
+    · have hleft_lower : left ≤ lower := le_of_not_gt hlower_left
+      have hlower_right : lower < right := hlower.trans hyroot_mem_Ioo.2
+      have hlower_mem : lower ∈ Icc left right :=
+        ⟨hleft_lower, hlower_right.le⟩
+      have hbase_lower_lt_y : base lower < y := by
+        simpa [hroot y hy] using
+          hbase_mono hlower_mem hyroot_mem_Icc hlower
+      have hevent :
+          ∀ᶠ z in nhdsWithin y s, base lower < z :=
+        mem_nhdsWithin_of_mem_nhds (Ioi_mem_nhds hbase_lower_lt_y)
+      filter_upwards [hevent, self_mem_nhdsWithin] with z hz hs
+      by_contra hnot
+      have hle : root z ≤ lower := le_of_not_gt hnot
+      have hzroot_mem_Ioo : root z ∈ Ioo left right := hroot_mem z hs
+      have hzroot_mem_Icc : root z ∈ Icc left right :=
+        ⟨hzroot_mem_Ioo.1.le, hzroot_mem_Ioo.2.le⟩
+      have hbase_le : base (root z) ≤ base lower := by
+        rcases lt_or_eq_of_le hle with hlt | heq
+        · exact le_of_lt (hbase_mono hzroot_mem_Icc hlower_mem hlt)
+        · rw [heq]
+      have hroot_z : base (root z) = z := hroot z hs
+      linarith
+  · intro upper hupper
+    by_cases hright_upper : right < upper
+    · filter_upwards [self_mem_nhdsWithin] with z hz
+      exact (hroot_mem z hz).2.trans hright_upper
+    · have hupper_right : upper ≤ right := le_of_not_gt hright_upper
+      have hleft_upper : left < upper := hyroot_mem_Ioo.1.trans hupper
+      have hupper_mem : upper ∈ Icc left right :=
+        ⟨hleft_upper.le, hupper_right⟩
+      have hy_lt_base_upper : y < base upper := by
+        simpa [hroot y hy] using
+          hbase_mono hyroot_mem_Icc hupper_mem hupper
+      have hevent :
+          ∀ᶠ z in nhdsWithin y s, z < base upper :=
+        mem_nhdsWithin_of_mem_nhds (Iio_mem_nhds hy_lt_base_upper)
+      filter_upwards [hevent, self_mem_nhdsWithin] with z hz hs
+      by_contra hnot
+      have hle : upper ≤ root z := le_of_not_gt hnot
+      have hzroot_mem_Ioo : root z ∈ Ioo left right := hroot_mem z hs
+      have hzroot_mem_Icc : root z ∈ Icc left right :=
+        ⟨hzroot_mem_Ioo.1.le, hzroot_mem_Ioo.2.le⟩
+      have hbase_le : base upper ≤ base (root z) := by
+        rcases lt_or_eq_of_le hle with hlt | heq
+        · exact le_of_lt (hbase_mono hupper_mem hzroot_mem_Icc hlt)
+        · rw [← heq]
+      have hroot_z : base (root z) = z := hroot z hs
+      linarith
+
+/--
+Strictly decreasing analogue of
+`continuousOn_rightInverse_of_strictMonoOn_Icc`.
+-/
+theorem continuousOn_rightInverse_of_strictAntiOn_Icc
+    {base root : ℝ → ℝ} {s : Set ℝ} {left right : ℝ}
+    (hbase_anti : StrictAntiOn base (Icc left right))
+    (hroot_mem : ∀ y ∈ s, root y ∈ Ioo left right)
+    (hroot : ∀ y ∈ s, base (root y) = y) :
+    ContinuousOn root s := by
+  intro y hy
+  have hyroot_mem_Ioo : root y ∈ Ioo left right := hroot_mem y hy
+  have hyroot_mem_Icc : root y ∈ Icc left right :=
+    ⟨hyroot_mem_Ioo.1.le, hyroot_mem_Ioo.2.le⟩
+  rw [ContinuousWithinAt]
+  refine tendsto_order.2 ⟨?_, ?_⟩
+  · intro lower hlower
+    by_cases hlower_left : lower < left
+    · filter_upwards [self_mem_nhdsWithin] with z hz
+      exact hlower_left.trans (hroot_mem z hz).1
+    · have hleft_lower : left ≤ lower := le_of_not_gt hlower_left
+      have hlower_right : lower < right := hlower.trans hyroot_mem_Ioo.2
+      have hlower_mem : lower ∈ Icc left right :=
+        ⟨hleft_lower, hlower_right.le⟩
+      have hy_lt_base_lower : y < base lower := by
+        simpa [hroot y hy] using
+          hbase_anti hlower_mem hyroot_mem_Icc hlower
+      have hevent :
+          ∀ᶠ z in nhdsWithin y s, z < base lower :=
+        mem_nhdsWithin_of_mem_nhds (Iio_mem_nhds hy_lt_base_lower)
+      filter_upwards [hevent, self_mem_nhdsWithin] with z hz hs
+      by_contra hnot
+      have hle : root z ≤ lower := le_of_not_gt hnot
+      have hzroot_mem_Ioo : root z ∈ Ioo left right := hroot_mem z hs
+      have hzroot_mem_Icc : root z ∈ Icc left right :=
+        ⟨hzroot_mem_Ioo.1.le, hzroot_mem_Ioo.2.le⟩
+      have hbase_le : base lower ≤ base (root z) := by
+        rcases lt_or_eq_of_le hle with hlt | heq
+        · exact le_of_lt (hbase_anti hzroot_mem_Icc hlower_mem hlt)
+        · rw [heq]
+      have hroot_z : base (root z) = z := hroot z hs
+      linarith
+  · intro upper hupper
+    by_cases hright_upper : right < upper
+    · filter_upwards [self_mem_nhdsWithin] with z hz
+      exact (hroot_mem z hz).2.trans hright_upper
+    · have hupper_right : upper ≤ right := le_of_not_gt hright_upper
+      have hleft_upper : left < upper := hyroot_mem_Ioo.1.trans hupper
+      have hupper_mem : upper ∈ Icc left right :=
+        ⟨hleft_upper.le, hupper_right⟩
+      have hbase_upper_lt_y : base upper < y := by
+        simpa [hroot y hy] using
+          hbase_anti hyroot_mem_Icc hupper_mem hupper
+      have hevent :
+          ∀ᶠ z in nhdsWithin y s, base upper < z :=
+        mem_nhdsWithin_of_mem_nhds (Ioi_mem_nhds hbase_upper_lt_y)
+      filter_upwards [hevent, self_mem_nhdsWithin] with z hz hs
+      by_contra hnot
+      have hle : upper ≤ root z := le_of_not_gt hnot
+      have hzroot_mem_Ioo : root z ∈ Ioo left right := hroot_mem z hs
+      have hzroot_mem_Icc : root z ∈ Icc left right :=
+        ⟨hzroot_mem_Ioo.1.le, hzroot_mem_Ioo.2.le⟩
+      have hbase_le : base (root z) ≤ base upper := by
+        rcases lt_or_eq_of_le hle with hlt | heq
+        · exact le_of_lt (hbase_anti hupper_mem hzroot_mem_Icc hlt)
+        · rw [← heq]
+      have hroot_z : base (root z) = z := hroot z hs
+      linarith
 
 /--
 Unbounded intermediate-value cutoff for a continuous scalar function with
@@ -786,6 +939,245 @@ theorem exists_threshold_le_of_continuous_strictMonoOn_Icc
           linarith
         · intro hx_le_zero
           have hx_eq : x = 0 := le_antisymm hx_le_zero hx.1
+          subst x
+          linarith
+
+/--
+Interval version of
+`exists_threshold_of_continuous_strictMonoOn_Icc_crossing`.
+
+If a scalar function is continuous and strictly increasing on `[left, right]`,
+with the level strictly between its endpoint values, then the threshold lies in
+the interval interior and comparisons to the level are exactly comparisons to
+that threshold.
+-/
+theorem exists_threshold_of_continuous_strictMonoOn_Icc_crossing_interval
+    {f : ℝ → ℝ} {level left right : ℝ}
+    (hleft_right : left < right)
+    (hf_cont : ContinuousOn f (Icc left right))
+    (hf_mono : StrictMonoOn f (Icc left right))
+    (hleft : f left < level) (hright : level < f right) :
+    ∃ threshold : ℝ, threshold ∈ Ioo left right ∧ f threshold = level ∧
+      (∀ x ∈ Icc left right, f x < level ↔ x < threshold) ∧
+      (∀ x ∈ Icc left right, level < f x ↔ threshold < x) ∧
+      (∀ x ∈ Icc left right, f x ≤ level ↔ x ≤ threshold) ∧
+      (∀ x ∈ Icc left right, level ≤ f x ↔ threshold ≤ x) := by
+  have hlevel_mem : level ∈ Icc (f left) (f right) :=
+    ⟨hleft.le, hright.le⟩
+  rcases intermediate_value_Icc hleft_right.le hf_cont hlevel_mem with
+    ⟨threshold, hthreshold_mem, hthreshold_eq⟩
+  have hthreshold_gt_left : left < threshold := by
+    have hne : threshold ≠ left := by
+      intro h
+      subst threshold
+      linarith
+    exact lt_of_le_of_ne hthreshold_mem.1 (Ne.symm hne)
+  have hthreshold_lt_right : threshold < right := by
+    have hne : threshold ≠ right := by
+      intro h
+      subst threshold
+      linarith
+    exact lt_of_le_of_ne hthreshold_mem.2 hne
+  have hlt_level :
+      ∀ x ∈ Icc left right, f x < level ↔ x < threshold := by
+    intro x hx
+    constructor
+    · intro hxlevel
+      by_contra hnot
+      have htx : threshold ≤ x := le_of_not_gt hnot
+      have hx_eq : x = threshold := by
+        by_contra hx_ne
+        have htx_strict : threshold < x := lt_of_le_of_ne htx (Ne.symm hx_ne)
+        have hfx_gt : f threshold < f x :=
+          hf_mono hthreshold_mem hx htx_strict
+        linarith
+      subst x
+      linarith
+    · intro hx_threshold
+      have hfx : f x < f threshold :=
+        hf_mono hx hthreshold_mem hx_threshold
+      linarith
+  have hlevel_lt :
+      ∀ x ∈ Icc left right, level < f x ↔ threshold < x := by
+    intro x hx
+    constructor
+    · intro hxlevel
+      by_contra hnot
+      have hxt : x ≤ threshold := le_of_not_gt hnot
+      have hx_eq : x = threshold := by
+        by_contra hx_ne
+        have hxt_strict : x < threshold := lt_of_le_of_ne hxt hx_ne
+        have hfx_lt : f x < f threshold :=
+          hf_mono hx hthreshold_mem hxt_strict
+        linarith
+      subst x
+      linarith
+    · intro hthreshold_x
+      have hfx : f threshold < f x :=
+        hf_mono hthreshold_mem hx hthreshold_x
+      linarith
+  have hle_level :
+      ∀ x ∈ Icc left right, f x ≤ level ↔ x ≤ threshold := by
+    intro x hx
+    constructor
+    · intro hfx_level
+      by_contra hnot
+      have hthreshold_x : threshold < x := lt_of_not_ge hnot
+      have hlevel_x : level < f x := (hlevel_lt x hx).mpr hthreshold_x
+      linarith
+    · intro hx_threshold
+      rcases lt_or_eq_of_le hx_threshold with hlt | rfl
+      · have hfx_level : f x < level := (hlt_level x hx).mpr hlt
+        exact le_of_lt hfx_level
+      · linarith
+  have hlevel_le :
+      ∀ x ∈ Icc left right, level ≤ f x ↔ threshold ≤ x := by
+    intro x hx
+    constructor
+    · intro hlevel_x
+      by_contra hnot
+      have hx_threshold : x < threshold := lt_of_not_ge hnot
+      have hfx_level : f x < level := (hlt_level x hx).mpr hx_threshold
+      linarith
+    · intro hthreshold_x
+      rcases lt_or_eq_of_le hthreshold_x with hlt | hEq
+      · have hlevel_x : level < f x := (hlevel_lt x hx).mpr hlt
+        exact le_of_lt hlevel_x
+      · subst x
+        linarith
+  exact
+    ⟨threshold, ⟨hthreshold_gt_left, hthreshold_lt_right⟩,
+      hthreshold_eq, hlt_level, hlevel_lt, hle_level, hlevel_le⟩
+
+/--
+If a scalar function is continuous and strictly increasing on `[left, right]`,
+then for any level there is a real threshold whose lower set on that interval
+is exactly `{x | f x < level}`.
+-/
+theorem exists_threshold_of_continuous_strictMonoOn_Icc_interval
+    {f : ℝ → ℝ} {level left right : ℝ}
+    (hleft_right : left < right)
+    (hf_cont : ContinuousOn f (Icc left right))
+    (hf_mono : StrictMonoOn f (Icc left right)) :
+    ∃ threshold : ℝ,
+      ∀ x ∈ Icc left right, f x < level ↔ x < threshold := by
+  have hleft_mem : left ∈ Icc left right :=
+    ⟨le_rfl, hleft_right.le⟩
+  have hright_mem : right ∈ Icc left right :=
+    ⟨hleft_right.le, le_rfl⟩
+  by_cases hleft_level : f left < level
+  · by_cases hright_level : level < f right
+    · rcases exists_threshold_of_continuous_strictMonoOn_Icc_crossing_interval
+        hleft_right hf_cont hf_mono hleft_level hright_level with
+        ⟨threshold, _hthreshold, _hroot, hlt, _hgt, _hle, _hge⟩
+      exact ⟨threshold, hlt⟩
+    · have hright_le : f right ≤ level := le_of_not_gt hright_level
+      by_cases hright_lt : f right < level
+      · refine ⟨right + 1, ?_⟩
+        intro x hx
+        constructor
+        · intro _hfx
+          linarith [hx.2]
+        · intro _hx
+          by_cases hx_right : x = right
+          · simpa [hx_right] using hright_lt
+          · have hx_lt_right : x < right := lt_of_le_of_ne hx.2 hx_right
+            have hfx_lt_right : f x < f right :=
+              hf_mono hx hright_mem hx_lt_right
+            exact lt_trans hfx_lt_right hright_lt
+      · have hright_eq : f right = level :=
+          le_antisymm hright_le (le_of_not_gt hright_lt)
+        refine ⟨right, ?_⟩
+        intro x hx
+        constructor
+        · intro hfx
+          by_contra hnot
+          have hle : right ≤ x := le_of_not_gt hnot
+          have hx_eq : x = right := le_antisymm hx.2 hle
+          subst x
+          linarith
+        · intro hx_lt_right
+          have hfx_lt_right : f x < f right :=
+            hf_mono hx hright_mem hx_lt_right
+          simpa [hright_eq] using hfx_lt_right
+  · have hlevel_le_left : level ≤ f left := le_of_not_gt hleft_level
+    refine ⟨left, ?_⟩
+    intro x hx
+    constructor
+    · intro hfx
+      by_cases hx_left : x = left
+      · subst x
+        linarith
+      · have hx_gt_left : left < x := lt_of_le_of_ne hx.1 (Ne.symm hx_left)
+        have hleft_lt_fx : f left < f x :=
+          hf_mono hleft_mem hx hx_gt_left
+        linarith
+    · intro hx_lt_left
+      linarith [hx.1]
+
+/--
+If a scalar function is continuous and strictly increasing on `[left, right]`,
+then for any level there is a real threshold whose weak lower set on that
+interval is exactly `{x | f x ≤ level}`.
+-/
+theorem exists_threshold_le_of_continuous_strictMonoOn_Icc_interval
+    {f : ℝ → ℝ} {level left right : ℝ}
+    (hleft_right : left < right)
+    (hf_cont : ContinuousOn f (Icc left right))
+    (hf_mono : StrictMonoOn f (Icc left right)) :
+    ∃ threshold : ℝ,
+      ∀ x ∈ Icc left right, f x ≤ level ↔ x ≤ threshold := by
+  have hleft_mem : left ∈ Icc left right :=
+    ⟨le_rfl, hleft_right.le⟩
+  have hright_mem : right ∈ Icc left right :=
+    ⟨hleft_right.le, le_rfl⟩
+  by_cases hlevel_lt_left : level < f left
+  · refine ⟨left - 1, ?_⟩
+    intro x hx
+    constructor
+    · intro hfx
+      by_cases hx_left : x = left
+      · subst x
+        linarith
+      · have hx_gt_left : left < x := lt_of_le_of_ne hx.1 (Ne.symm hx_left)
+        have hleft_lt_fx : f left < f x :=
+          hf_mono hleft_mem hx hx_gt_left
+        linarith
+    · intro hx_le
+      linarith [hx.1, hx_le]
+  · have hleft_le_level : f left ≤ level := le_of_not_gt hlevel_lt_left
+    by_cases hright_le_level : f right ≤ level
+    · refine ⟨right, ?_⟩
+      intro x hx
+      constructor
+      · intro _hfx
+        exact hx.2
+      · intro _hx
+        by_cases hx_right : x = right
+        · simpa [hx_right] using hright_le_level
+        · have hx_lt_right : x < right := lt_of_le_of_ne hx.2 hx_right
+          have hfx_lt_right : f x < f right :=
+            hf_mono hx hright_mem hx_lt_right
+          exact (lt_of_lt_of_le hfx_lt_right hright_le_level).le
+    · have hlevel_lt_right : level < f right := lt_of_not_ge hright_le_level
+      by_cases hleft_lt_level : f left < level
+      · rcases exists_threshold_of_continuous_strictMonoOn_Icc_crossing_interval
+          hleft_right hf_cont hf_mono hleft_lt_level hlevel_lt_right with
+          ⟨threshold, _hthreshold, _hroot, _hlt, _hgt, hle, _hge⟩
+        exact ⟨threshold, hle⟩
+      · have hleft_eq : f left = level :=
+          le_antisymm hleft_le_level (le_of_not_gt hleft_lt_level)
+        refine ⟨left, ?_⟩
+        intro x hx
+        constructor
+        · intro hfx
+          by_contra hnot
+          have hx_gt_left : left < x := lt_of_not_ge hnot
+          have hleft_lt_fx : f left < f x :=
+            hf_mono hleft_mem hx hx_gt_left
+          linarith
+        · intro hx_le_left
+          have hx_eq : x = left := le_antisymm hx_le_left hx.1
           subst x
           linarith
 

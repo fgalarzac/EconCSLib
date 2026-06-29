@@ -91,17 +91,17 @@
               <tr>
                 <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Foundations/Math">Foundations: finite math and graph tools</a></td>
                 <td>Finite-sum rewrites, order/rank lemmas, threshold and interval characterizations, asymptotic/exponential estimates, and cycle extraction in finite directed graphs.</td>
-                <td>9,263</td>
+                <td>11,645</td>
               </tr>
               <tr>
                 <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Foundations/Probability">Foundations: probability and stochastic processes</a></td>
                 <td>Finite distributions, conditional expectations, kernels, atom and variance lemmas, Gaussian and exponential calculations, stochastic dominance, Markov chains, MDPs, CTMCs, and renewal-reward identities.</td>
-                <td>63,440</td>
+                <td>75,265</td>
               </tr>
               <tr>
                 <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Foundations/Optimization">Foundations: optimization and certificates</a></td>
                 <td>Argmax and endpoint principles, finite-search certificates, approximation guarantees, linear-program certificates, binary-choice optimality, move-graph descent, and choice-equilibrium existence.</td>
-                <td>2,923</td>
+                <td>4,028</td>
               </tr>
               <tr>
                 <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Foundations/Econometrics/RatingModels">Rating-system applications</a></td>
@@ -150,10 +150,12 @@
           <p>
             The public repository currently contains formalized papers and
             selected public partial formalizations whose remaining assumptions
-            are explicit. Human review counts the full review surface. The
-            LLM-as-judge column separately reports statement translation rows
-            and explicit source-condition rows, so its components reconcile to
-            the same surface.
+            are explicit. Human review counts the full review surface.
+            LLM-as-judge statement translation validates individual Lean
+            statements against corresponding mathematical statements in the
+            paper, including explicit source-condition rows; LLM-as-judge
+            paper coverage validates the paper-level source inventory against
+            the review rows.
           </p>
         </div>
 
@@ -166,6 +168,7 @@
               <col class="note-col">
               <col class="human-col">
               <col class="judge-col">
+              <col class="judge-col">
             </colgroup>
             <thead>
               <tr>
@@ -174,7 +177,8 @@
                 <th>Full proof LOC</th>
                 <th>Note</th>
                 <th>Human review</th>
-                <th>LLM-as-judge checks</th>
+                <th>LLM-as-judge statement translation</th>
+                <th>LLM-as-judge paper coverage</th>
               </tr>
             </thead>
             <tbody>
@@ -189,6 +193,7 @@
                 <td>This only uses a few lines of code as its infrastructure has largely been elevated to the shared matching library.</td>
                 <td>0/7 reviewed</td>
                 <td>7/7 match</td>
+                <td>7/7 covered</td>
               </tr>
               <tr>
                 <td>
@@ -200,6 +205,7 @@
                 <td></td>
                 <td>0/27 reviewed</td>
                 <td>27/27 match</td>
+                <td>29/29 covered</td>
               </tr>
               <tr>
                 <td>
@@ -211,6 +217,7 @@
                 <td>Formalizes the SODA paper; Theorem 8.2 uses the refined monotone-auction wording from the journal version <a href="https://www.sciencedirect.com/science/article/pii/S0899825606000303">Goldberg-Hartline-Karlin-Saks-Wright 2006</a>.</td>
                 <td>0/18 reviewed</td>
                 <td>18/18 match</td>
+                <td>30/30 covered</td>
               </tr>
               <tr>
                 <td>
@@ -222,6 +229,19 @@
                 <td></td>
                 <td>0/26 reviewed</td>
                 <td>26/26 match</td>
+                <td>36/43 covered; 7 support-only</td>
+              </tr>
+              <tr>
+                <td>
+                  <a class="paper-source" href="https://proceedings.mlr.press/v89/garg19a/garg19a.pdf"><cite>Designing Optimal Binary Rating Systems</cite></a> by
+                  Nikhil Garg, Ramesh Johari; AISTATS / PMLR 89, 2019.
+                </td>
+                <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GJ19OptimalBinaryRatingSystems/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GJ19OptimalBinaryRatingSystems/DependencyDAG.pdf">DAG</a></div></td>
+                <td>85,767</td>
+                <td></td>
+                <td>0/26 reviewed</td>
+                <td>26/26 match</td>
+                <td>16/28 covered; 12 support-only</td>
               </tr>
               <tr>
                 <td>
@@ -233,6 +253,7 @@
                 <td></td>
                 <td>0/10 reviewed</td>
                 <td>10/10 match</td>
+                <td>15/17 covered; 2 out of scope</td>
               </tr>
               <tr>
                 <td>
@@ -244,6 +265,7 @@
                 <td></td>
                 <td>0/7 reviewed</td>
                 <td>7/7 match</td>
+                <td>15/15 covered</td>
               </tr>
               <tr>
                 <td>
@@ -255,6 +277,7 @@
                 <td></td>
                 <td>0/16 reviewed</td>
                 <td>16/16 match</td>
+                <td>23/23 covered</td>
               </tr>
               <tr>
                 <td>
@@ -266,6 +289,7 @@
                 <td></td>
                 <td>0/34 reviewed</td>
                 <td>24/24 statement rows match; 10 source-condition rows</td>
+                <td>34/35 covered; 1 out of scope</td>
               </tr>
               <tr>
                 <td>
@@ -277,6 +301,7 @@
                 <td>Proposition 2&#x27;s printed finite bound appears to miss a factor of 2; Lean proves the corrected finite bound, which is sufficient for the asymptotic 1/2-homogeneity result.</td>
                 <td>0/42 reviewed</td>
                 <td>27/27 statement rows match; 15 source-condition rows</td>
+                <td>42/42 covered</td>
               </tr>
               <tr>
                 <td>
@@ -288,6 +313,7 @@
                 <td></td>
                 <td>0/18 reviewed</td>
                 <td>18/18 match</td>
+                <td>28/30 covered; 2 out of scope</td>
               </tr>
               <tr>
                 <td>
@@ -299,6 +325,7 @@
                 <td></td>
                 <td>0/6 reviewed</td>
                 <td>6/6 match</td>
+                <td>6/12 covered; 6 out of scope</td>
               </tr>
               <tr>
                 <td>
@@ -310,6 +337,7 @@
                 <td></td>
                 <td>0/32 reviewed</td>
                 <td>32/32 match</td>
+                <td>41/41 covered</td>
               </tr>
               <tr>
                 <td>
@@ -321,6 +349,7 @@
                 <td>Formalization required an additional interior-quality assumption (0 &lt; q_v &lt; 1) for the strict variance-decrease statement.</td>
                 <td>10/27 reviewed; 2 uncertain</td>
                 <td>17/17 statement rows match; 10 source-condition rows</td>
+                <td>27/27 covered</td>
               </tr>
               <tr>
                 <td>
@@ -332,6 +361,7 @@
                 <td>Greedy approximation, truthfulness, and Theorem 6.1 reductions are formalized. Full formalization requires computational complexity results that are out of scope.</td>
                 <td>0/30 reviewed</td>
                 <td>30/30 match</td>
+                <td>39/39 covered</td>
               </tr>
               <tr>
                 <td>
@@ -343,6 +373,7 @@
                 <td>Sections 2 and 4 are fully formalized. Section 3 has query/descent/rounded-search support. The PTAS/FPTAS runtime layer needs reusable fixed-dimension IP complexity infrastructure.</td>
                 <td>0/35 reviewed</td>
                 <td>31/35 match; 4 formalization-boundary statement rows</td>
+                <td>45/49 covered; 4 conditional boundaries</td>
               </tr>
               <tr>
                 <td>
@@ -354,6 +385,7 @@
                 <td>Full formalization requires proving stochastic subgradient descent convergence. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition.</td>
                 <td>0/42 reviewed</td>
                 <td>35/40 statement rows match; 5 formalization-boundary statement rows; 2 source-condition rows</td>
+                <td>38/47 covered; 5 conditional boundaries; 4 out of scope</td>
               </tr>
               <tr>
                 <td>
@@ -363,8 +395,9 @@
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/LBG24SpatialUnderreporting/FINAL_VALIDATION_REPORT.md">Partially formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/LBG24SpatialUnderreporting/DependencyDAG.pdf">DAG</a></div></td>
                 <td>18,540</td>
                 <td>Full formalization requires a homogeneous Poisson process and stopping time derivation</td>
-                <td>0/87 reviewed</td>
-                <td>28/84 statement rows match; 56 formalization-boundary statement rows; 3 source-condition rows</td>
+                <td>0/27 reviewed</td>
+                <td>16/24 statement rows match; 8 formalization-boundary statement rows; 3 source-condition rows</td>
+                <td>16/24 covered; 8 conditional boundaries</td>
               </tr>
               <!-- END GENERATED PAPER STATUS ROWS -->
             </tbody>

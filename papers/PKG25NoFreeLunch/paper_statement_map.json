@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "paper": "PKG25NoFreeLunch",
+  "title": "A No Free Lunch Theorem for Human-AI Collaboration",
+  "generated_at": "2026-06-29T00:41:56Z",
+  "source_inventory_policy": "Source basis: /tmp/econcs_source_text/PKG25NoFreeLunch.txt, PDF cache, and validation report. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
+  "source_url": "https://ojs.aaai.org/index.php/AAAI/article/view/33574/35729; https://arxiv.org/pdf/2411.15230",
+  "items": {
+    "definition_rounding_convention": {
+      "statement": "source rounding convention `round(1/2) = 1`.",
+      "source_url": "https://ojs.aaai.org/index.php/AAAI/article/view/33574/35729; https://arxiv.org/pdf/2411.15230",
+      "source_location": "Definition from Section 3, immediately before the individual",
+      "aliases": [
+        "definition_rounding_convention"
+      ]
+    },
+    "definition_collaboration_strategy": {
+      "statement": "deterministic collaboration strategy from prediction profiles to labels.",
+      "source_url": "https://ojs.aaai.org/index.php/AAAI/article/view/33574/35729; https://arxiv.org/pdf/2411.15230",
+      "source_location": "Definition from Section 3.",
+      "aliases": [
+        "definition_collaboration_strategy"
+      ]
+    },
+    "definition_interior_prediction_profile": {
+      "statement": "source domain `(0,1)^n`.",
+      "source_url": "https://ojs.aaai.org/index.php/AAAI/article/view/33574/35729; https://arxiv.org/pdf/2411.15230",
+      "source_location": "Definition 4 constrains the strategy only on `(0,1)^n`; boundary",
+      "aliases": [
+        "definition_interior_prediction_profile"
+      ]
+    },
+    "definition_non_collaborative": {
+      "statement": "fixed agent off ties and fixed tie label on the half slice.",
+      "source_url": "https://ojs.aaai.org/index.php/AAAI/article/view/33574/35729; https://arxiv.org/pdf/2411.15230",
+      "source_location": "Definition 4.",
+      "aliases": [
+        "definition_non_collaborative"
+      ]
+    },
+    "definition_reliable": {
+      "statement": "source reliability over all collaboration-setting accuracy surfaces.",
+      "source_url": "https://ojs.aaai.org/index.php/AAAI/article/view/33574/35729; https://arxiv.org/pdf/2411.15230",
+      "source_location": "Definition 3.  The finite adversarial settings used in the proof",
+      "aliases": [
+        "definition_reliable"
+      ]
+    },
+    "theorem_main_no_free_lunch": {
+      "statement": "for a nonempty finite agent set, `Reliable C -> NonCollaborative C`.",
+      "source_url": "https://ojs.aaai.org/index.php/AAAI/article/view/33574/35729; https://arxiv.org/pdf/2411.15230",
+      "source_location": "Theorem 1.  Proposition 1, the counterexample lemma, the linear",
+      "aliases": [
+        "theorem_main_no_free_lunch"
+      ]
+    },
+    "source_definition1_out_of_scope": {
+      "statement": "Source Definition 1 is visible in the paper but is not part of the current six-row public dashboard inventory.",
+      "source_location": "Definition 1 in source text; flagged by source-grounding audit.",
+      "aliases": []
+    },
+    "source_definition5_out_of_scope": {
+      "statement": "Source Definition 5 is visible in the paper but is not part of the current six-row public dashboard inventory.",
+      "source_location": "Definition 5 in source text; flagged by source-grounding audit.",
+      "aliases": []
+    },
+    "source_proposition6_out_of_scope": {
+      "statement": "Source Proposition 6 is visible proof-level material outside the current public dashboard target list.",
+      "source_location": "Proposition 6 in source text; flagged by source-grounding audit.",
+      "aliases": []
+    },
+    "source_proposition7_out_of_scope": {
+      "statement": "Source Proposition 7 is visible proof-level material outside the current public dashboard target list.",
+      "source_location": "Proposition 7 in source text; flagged by source-grounding audit.",
+      "aliases": []
+    },
+    "source_lemma8_out_of_scope": {
+      "statement": "Source Lemma 8 is visible proof-level material outside the current public dashboard target list.",
+      "source_location": "Lemma 8 in source text; flagged by source-grounding audit.",
+      "aliases": []
+    },
+    "source_proposition9_out_of_scope": {
+      "statement": "Source Proposition 9 is visible proof-level material outside the current public dashboard target list.",
+      "source_location": "Proposition 9 in source text; flagged by source-grounding audit.",
+      "aliases": []
+    }
+  },
+  "source_inventory_kind": "source_curated",
+  "source_curated": true
+}

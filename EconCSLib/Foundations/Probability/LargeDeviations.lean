@@ -90,6 +90,28 @@ theorem unique {p : ℕ → ℝ} {rate₁ rate₂ : ℝ}
   tendsto_nhds_unique h₁ h₂
 
 /--
+A nonnegative sequence with a strictly positive exact exponential rate is
+eventually positive.  This packages the standard paper convention that a
+positive finite log-decay rate rules out infinitely many zero error terms.
+-/
+theorem eventually_pos_of_eventually_nonneg_of_pos_rate
+    {p : ℕ → ℝ} {rate : ℝ}
+    (h : HasExponentialRate p rate) (hrate : 0 < rate)
+    (hnonneg : ∀ᶠ n in atTop, 0 ≤ p n) :
+    ∀ᶠ n in atTop, 0 < p n := by
+  have hhalf_pos : 0 < rate / 2 := by linarith
+  have hhalf_lt : rate / 2 < rate := by linarith
+  have hdecay : ∀ᶠ n in atTop, rate / 2 ≤ logDecay p n :=
+    h.eventually_const_le hhalf_lt
+  filter_upwards [hnonneg, hdecay] with n hp_nonneg hdecay_n
+  by_contra hnot_pos
+  have hp_le : p n ≤ 0 := le_of_not_gt hnot_pos
+  have hp_zero : p n = 0 := le_antisymm hp_le hp_nonneg
+  have hlogDecay_zero : logDecay p n = 0 := by
+    simp [logDecay, hp_zero, Real.log_zero]
+  linarith
+
+/--
 Finite families of exponential-rate convergences are uniform over the finite
 index set. This is the certificate-level form of taking the maximum burn-in
 over finitely many large-deviation components.
@@ -763,6 +785,19 @@ theorem HasExponentialRate.comp_nat_floor_mul_const
 namespace ExponentialRateCertificate
 
 /--
+Build an exact exponential-rate certificate from a positive exact rate and
+eventual nonnegativity.
+-/
+theorem of_has_rate_of_eventually_nonneg_of_pos_rate
+    {p : ℕ → ℝ} {rate : ℝ}
+    (h : HasExponentialRate p rate) (hrate : 0 < rate)
+    (hnonneg : ∀ᶠ n in atTop, 0 ≤ p n) :
+    ExponentialRateCertificate p rate where
+  eventually_pos :=
+    h.eventually_pos_of_eventually_nonneg_of_pos_rate hrate hnonneg
+  has_rate := h
+
+/--
 Eventually equal sequences have the same exact exponential-rate certificate.
 -/
 theorem congr
@@ -775,6 +810,34 @@ theorem congr
     simpa [hpq] using hqpos
   has_rate :=
     HasExponentialRate.congr (heq.mono fun _n hpq => hpq.symm) h.has_rate
+
+/--
+Adding a term that is eventually exactly zero preserves an exact
+exponential-rate certificate.  This is the valid residual-erasure form; a
+merely zero-rate residual is not negligible for positive-rate existence.
+-/
+theorem congr_add_eventually_zero
+    {target selected extra : ℕ → ℝ} {rate : ℝ}
+    (hdecomp : ∀ᶠ n in atTop, target n = selected n + extra n)
+    (hextra_zero : ∀ᶠ n in atTop, extra n = 0)
+    (h : ExponentialRateCertificate selected rate) :
+    ExponentialRateCertificate target rate := by
+  refine congr ?_ h
+  filter_upwards [hdecomp, hextra_zero] with n hn hzero
+  rw [hn, hzero, add_zero]
+
+/--
+Existential positive-rate form of `congr_add_eventually_zero`.
+-/
+theorem exists_pos_of_eventually_eq_add_eventually_zero
+    {target selected extra : ℕ → ℝ}
+    (hdecomp : ∀ᶠ n in atTop, target n = selected n + extra n)
+    (hextra_zero : ∀ᶠ n in atTop, extra n = 0)
+    (hselected :
+      ∃ rate : ℝ, 0 < rate ∧ ExponentialRateCertificate selected rate) :
+    ∃ rate : ℝ, 0 < rate ∧ ExponentialRateCertificate target rate := by
+  rcases hselected with ⟨rate, hrate, hcert⟩
+  exact ⟨rate, hrate, congr_add_eventually_zero hdecomp hextra_zero hcert⟩
 
 /--
 Finite families of exact exponential-rate certificates give uniform
@@ -983,6 +1046,25 @@ theorem exists_pos_rate_iff_of_forward_and_zero_reverse
     by_contra hnot
     rcases hpos with ⟨rate, hrate, hcert⟩
     exact not_of_hasExponentialRate_zero hrate (hzero_reverse hnot) hcert
+
+/--
+Logical packaging for source statements where the reverse branch rules out
+positive exact exponential-rate certificates directly, without first proving an
+exact zero-rate theorem.  This is the form used by subexponential lower-bound
+arguments.
+-/
+theorem exists_pos_rate_iff_of_forward_and_no_positive_reverse
+    {p : ℕ → ℝ} {P : Prop}
+    (hforward : P → ∃ rate : ℝ, 0 < rate ∧ ExponentialRateCertificate p rate)
+    (hno_positive_reverse :
+      ¬ P → ∀ rate : ℝ, 0 < rate → ¬ ExponentialRateCertificate p rate) :
+    P ↔ ∃ rate : ℝ, 0 < rate ∧ ExponentialRateCertificate p rate := by
+  constructor
+  · exact hforward
+  · intro hpos
+    by_contra hnot
+    rcases hpos with ⟨rate, hrate, hcert⟩
+    exact hno_positive_reverse hnot rate hrate hcert
 
 /--
 If a certified exact-rate sequence is eventually bounded above at exponential
