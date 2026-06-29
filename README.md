@@ -88,3 +88,10 @@ Unless otherwise noted, the Lean source, scripts, documentation, and site source
 are licensed under the Apache License, Version 2.0. See [`LICENSE`](LICENSE).
 Source-paper PDFs and extracted text caches are not included in the public
 repository unless redistribution rights have been checked separately.
+
+See also [this paper](https://arxiv.org/abs/2606.16144) and [Lean Project](https://github.com/gametheoryinlean/EconCSLib),
+also called EconCSLib. The two projects are separate and independently (and
+concurrently) developed, with different focuses: our project focuses on
+automated formalization of research papers (with human-in-the-loop translation
+validation), while their project focuses on human curation (with LLM support)
+of a library of concepts for Economics and Computation.
