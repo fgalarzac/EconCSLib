@@ -518,6 +518,7 @@
       "title": "Designing Optimal Binary Rating Systems",
       "authors": "Nikhil Garg, Ramesh Johari",
       "source_version": "AISTATS 2019 / PMLR 89 version, 2019",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a/garg19a.pdf",
       "build_target": "lake build GJ19OptimalBinaryRatingSystems",
       "status": "formalized",
       "main_caveat": "",
