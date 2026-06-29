@@ -61,6 +61,34 @@ theorem setIntegral_mono_subset_of_eqOn_of_ae_nonneg
       setIntegral_mono_subset_of_ae_nonneg hglobal_int hglobal_nonneg hst
 
 /--
+Local-to-global integral monotonicity when the local witness integrand is
+pointwise bounded above by the global integrand on the witness set.  This is
+the inequality version of `setIntegral_mono_subset_of_eqOn_of_ae_nonneg`,
+useful when a paper convention keeps at least the local large-deviation
+obstruction but changes the global kernel elsewhere.
+-/
+theorem setIntegral_mono_subset_of_leOn_of_ae_nonneg
+    {α : Type*} [MeasurableSpace α] {μ : Measure α}
+    {localF globalF : α → ℝ} {s t : Set α}
+    (hs : MeasurableSet s)
+    (hlocal_int : IntegrableOn localF s μ)
+    (hglobal_int : IntegrableOn globalF t μ)
+    (hglobal_nonneg : ∀ᵐ x ∂μ.restrict t, 0 ≤ globalF x)
+    (hst : s ⊆ t)
+    (hle : ∀ x, x ∈ s → localF x ≤ globalF x) :
+    ∫ x in s, localF x ∂μ ≤ ∫ x in t, globalF x ∂μ := by
+  have hglobal_int_s : IntegrableOn globalF s μ :=
+    hglobal_int.mono_set hst
+  have hlocal_le_global :
+      ∫ x in s, localF x ∂μ ≤ ∫ x in s, globalF x ∂μ := by
+    exact integral_mono_ae hlocal_int hglobal_int_s
+      (by
+        filter_upwards [ae_restrict_mem hs] with x hx
+        exact hle x hx)
+  exact hlocal_le_global.trans
+    (setIntegral_mono_subset_of_ae_nonneg hglobal_int hglobal_nonneg hst)
+
+/--
 Real-valued essential-infimum interface tailored to Laplace-principle proofs.
 
 `HasAEEssentialInfimum μ phi rate` records the two mathematical facts needed
@@ -2427,6 +2455,106 @@ theorem weightedKernelIntegral_hasExponentialRate_zero_of_eventually_le_const_an
           mul_le_mul_of_nonneg_right hx.1 hexp_nonneg
     _ ≤ weight x * kernel n x :=
           mul_le_mul_of_nonneg_left hkernel_lower hweight_nonneg
+
+/--
+Construct the explicit near-minimizer sets used by continuum Laplace lower
+bounds.  A continuous zero of the limiting rate in the closure of the cell's
+interior, together with a continuous positive weight, gives positive-measure
+sets on which the weight is uniformly positive, the rate is within any target
+gap, and a global uniform normalized-log certificate restricts locally.
+-/
+theorem localUniformNormalizedLogRateCertificate_nearRate_sets_of_continuousAt_zero_weight_pos_restrict_closure_interior_of_cell_subset_certSet
+    {α : Type*} [TopologicalSpace α] [MeasurableSpace α]
+    [OpensMeasurableSpace α]
+    (μ : Measure α) [IsFiniteMeasure μ] [Measure.IsOpenPosMeasure μ]
+    {cell certSet : Set α} (hcell : MeasurableSet cell)
+    {weight : α → ℝ} {kernel : ℕ → α → ℝ} {rate : α → ℝ}
+    (hkernel_int :
+      ∀ n : ℕ,
+        Integrable (fun x : α => weight x * kernel n x) (μ.restrict cell))
+    (C : UniformNormalizedLogRateCertificateOn kernel rate certSet)
+    (hcell_subset_certSet : cell ⊆ certSet)
+    (x0 : α)
+    (hrate_x0 : rate x0 = 0)
+    (hrate_cont : ContinuousAt rate x0)
+    (hweight_cont : ContinuousAt weight x0)
+    (hweight_x0_pos : 0 < weight x0)
+    (hclosure : x0 ∈ closure (interior cell)) :
+    ∀ targetRate : ℝ, 0 < targetRate →
+      ∃ nearMinimizers : Set α, ∃ c : ℝ, ∃ δ : ℝ,
+        MeasurableSet nearMinimizers ∧
+          0 < (μ.restrict cell).real nearMinimizers ∧
+            0 < c ∧ 0 < δ ∧
+              (∀ n : ℕ,
+                IntegrableOn
+                  (fun x : α => weight x * kernel n x)
+                  nearMinimizers (μ.restrict cell)) ∧
+                (∀ᵐ x ∂(μ.restrict cell).restrict nearMinimizers,
+                  c ≤ weight x) ∧
+                  (∀ x : α, x ∈ nearMinimizers →
+                    rate x + δ ≤ targetRate) ∧
+                    UniformNormalizedLogRateCertificateOn
+                      kernel rate nearMinimizers := by
+  intro targetRate htarget
+  let ε : ℝ := targetRate / 2
+  have hεpos : 0 < ε := by
+    dsimp [ε]
+    linarith
+  let c : ℝ := weight x0 / 2
+  have hcpos : 0 < c := by
+    dsimp [c]
+    linarith
+  have hw_target : {y : ℝ | c < y} ∈ 𝓝 (weight x0) :=
+    IsOpen.mem_nhds isOpen_Ioi (by dsimp [c]; linarith)
+  have hrate_target : {y : ℝ | y < ε} ∈ 𝓝 (rate x0) := by
+    rw [hrate_x0]
+    exact IsOpen.mem_nhds isOpen_Iio hεpos
+  have hw_pre : {x : α | c < weight x} ∈ 𝓝 x0 :=
+    hweight_cont hw_target
+  have hrate_pre : {x : α | rate x < ε} ∈ 𝓝 x0 :=
+    hrate_cont hrate_target
+  have hpre :
+      ({x : α | c < weight x} ∩ {x : α | rate x < ε}) ∈ 𝓝 x0 :=
+    Filter.inter_mem hw_pre hrate_pre
+  rcases mem_nhds_iff.mp hpre with ⟨U, hUsub, hUopen, hxU⟩
+  let nearMinimizers : Set α := cell ∩ U
+  have hnear_meas : MeasurableSet nearMinimizers :=
+    hcell.inter hUopen.measurableSet
+  have hlocal_pos : 0 < μ (cell ∩ U) :=
+    HasAEEssentialInfimum.local_pos_of_mem_closure_interior
+      μ hclosure U hUopen hxU
+  have hrestrict_pos : 0 < (μ.restrict cell) nearMinimizers := by
+    rw [Measure.restrict_apply hnear_meas]
+    have hset_eq : (cell ∩ U) ∩ cell = cell ∩ U := by
+      ext x
+      constructor
+      · intro hx
+        exact ⟨hx.1.1, hx.1.2⟩
+      · intro hx
+        exact ⟨hx, hx.1⟩
+    simpa [nearMinimizers, hset_eq] using hlocal_pos
+  have hnear_real_pos : 0 < (μ.restrict cell).real nearMinimizers :=
+    ENNReal.toReal_pos (ne_of_gt hrestrict_pos)
+      (measure_ne_top (μ.restrict cell) nearMinimizers)
+  refine
+    ⟨nearMinimizers, c, ε, hnear_meas, hnear_real_pos, hcpos, hεpos,
+      ?_, ?_, ?_, ?_⟩
+  · intro n
+    exact (hkernel_int n).integrableOn
+  · exact
+      ae_restrict_of_forall_mem hnear_meas (by
+        intro x hx
+        have hxU' : x ∈ U := hx.2
+        exact le_of_lt (hUsub hxU').1)
+  · intro x hx
+    have hxU' : x ∈ U := hx.2
+    have hrate_lt : rate x < ε := (hUsub hxU').2
+    have hrate_le_half : rate x ≤ targetRate / 2 := by
+      dsimp [ε] at hrate_lt
+      linarith
+    dsimp [ε]
+    linarith
+  · exact C.mono (fun x hx => hcell_subset_certSet hx.1)
 
 /--
 Restricted-cell continuous zero-rate bridge for weighted kernels.  A

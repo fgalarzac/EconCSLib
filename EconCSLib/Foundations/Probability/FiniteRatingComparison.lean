@@ -3,6 +3,7 @@ import EconCSLib.Foundations.Probability.FiniteTypeLogMass
 import EconCSLib.Foundations.Probability.IndependentProduct
 import EconCSLib.Foundations.Probability.IIDLargeDeviations
 import EconCSLib.Foundations.Probability.FiniteRankingEvents
+import EconCSLib.Foundations.Probability.IntegralLargeDeviations
 import EconCSLib.Foundations.Probability.LargeDeviations
 import Mathlib.Logic.Equiv.Fin.Basic
 
@@ -1671,6 +1672,154 @@ def twoSampleScoreGapLeftTailProb
   EconCSLib.pmfProb (twoSampleRatingLaw M hi lo nHi nLo)
     (fun sample => twoSampleScoreGapSum M cHi cLo sample ≤ 0)
 
+/--
+If low-type scores are pointwise nonnegative and the low-type nonpositive
+sample tail has probability one, then the two-sample nonpositive score-gap
+event reduces to the high-type nonpositive iid tail.
+-/
+theorem twoSampleScoreGapLeftTailProb_eq_hi_leftTail_of_lo_nonneg_leftTail_prob_one
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (cHi cLo : ℝ)
+    (hcHi : 0 < cHi)
+    (hlo_score_nonneg : ∀ r : Rating, 0 ≤ M.score r)
+    (hlo_leftTail_one :
+      finiteIidScoreLeftTailProb (M.typeLaw lo) M.score 0 nLo = 1) :
+    twoSampleScoreGapLeftTailProb M hi lo nHi nLo cHi cLo =
+      finiteIidScoreLeftTailProb (M.typeLaw hi) M.score 0 nHi := by
+  classical
+  unfold twoSampleScoreGapLeftTailProb finiteIidScoreLeftTailProb
+    twoSampleRatingLaw
+  refine
+    EconCSLib.pmfProb_pmfProd_eq_fst_of_snd_prob_one
+      (EconCSLib.pmfProduct (Fin nHi) Rating (M.typeLaw hi))
+      (EconCSLib.pmfProduct (Fin nLo) Rating (M.typeLaw lo))
+      (fun hiSample : Fin nHi → Rating =>
+        finiteIidScoreSum M.score hiSample ≤ 0)
+      (fun loSample : Fin nLo → Rating =>
+        finiteIidScoreSum M.score loSample ≤ 0)
+      (fun sample : (Fin nHi → Rating) × (Fin nLo → Rating) =>
+        twoSampleScoreGapSum M cHi cLo sample ≤ 0)
+      hlo_leftTail_one ?_
+  intro hiSample loSample hlo_left
+  have hlo_sum :
+      finiteIidScoreSum M.score loSample = 0 := by
+    have hlo_nonneg : 0 ≤ finiteIidScoreSum M.score loSample := by
+      unfold finiteIidScoreSum
+      exact Finset.sum_nonneg (fun i _ => hlo_score_nonneg (loSample i))
+    exact le_antisymm hlo_left hlo_nonneg
+  have hgap :
+      twoSampleScoreGapSum M cHi cLo (hiSample, loSample) =
+        cHi * finiteIidScoreSum M.score hiSample := by
+    simp [twoSampleScoreGapSum, hlo_sum]
+  change
+    twoSampleScoreGapSum M cHi cLo (hiSample, loSample) ≤ 0 ↔
+      finiteIidScoreSum M.score hiSample ≤ 0
+  rw [hgap]
+  constructor
+  · intro h
+    have hmul :
+        cHi * finiteIidScoreSum M.score hiSample ≤ cHi * 0 := by
+      simpa using h
+    nlinarith [hmul, hcHi]
+  · intro h
+    simpa using mul_nonpos_of_nonneg_of_nonpos hcHi.le h
+
+/--
+If high-type scores are pointwise at most one and the high complementary-score
+nonpositive tail has probability one, then the two-sample nonpositive score-gap
+event reduces to the low-type complementary-score nonpositive iid tail.
+-/
+theorem twoSampleScoreGapLeftTailProb_eq_lo_complement_leftTail_of_hi_complement_leftTail_prob_one
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (cHi cLo : ℝ)
+    (hnHi : 0 < nHi) (hnLo : 0 < nLo)
+    (hcHi : cHi = ((nHi : ℕ) : ℝ)⁻¹)
+    (hcLo : cLo = ((nLo : ℕ) : ℝ)⁻¹)
+    (hhi_score_le_one : ∀ r : Rating, M.score r ≤ 1)
+    (hhi_complement_leftTail_one :
+      finiteIidScoreLeftTailProb (M.typeLaw hi)
+        (fun r : Rating => 1 - M.score r) 0 nHi = 1) :
+    twoSampleScoreGapLeftTailProb M hi lo nHi nLo cHi cLo =
+      finiteIidScoreLeftTailProb (M.typeLaw lo)
+        (fun r : Rating => 1 - M.score r) 0 nLo := by
+  classical
+  unfold twoSampleScoreGapLeftTailProb finiteIidScoreLeftTailProb
+    twoSampleRatingLaw
+  refine
+    EconCSLib.pmfProb_pmfProd_eq_snd_of_fst_prob_one
+      (EconCSLib.pmfProduct (Fin nHi) Rating (M.typeLaw hi))
+      (EconCSLib.pmfProduct (Fin nLo) Rating (M.typeLaw lo))
+      (fun hiSample : Fin nHi → Rating =>
+        finiteIidScoreSum (fun r : Rating => 1 - M.score r) hiSample ≤ 0)
+      (fun loSample : Fin nLo → Rating =>
+        finiteIidScoreSum (fun r : Rating => 1 - M.score r) loSample ≤ 0)
+      (fun sample : (Fin nHi → Rating) × (Fin nLo → Rating) =>
+        twoSampleScoreGapSum M cHi cLo sample ≤ 0)
+      hhi_complement_leftTail_one ?_
+  intro hiSample loSample hhi_left
+  have hhi_comp_nonneg :
+      0 ≤ finiteIidScoreSum (fun r : Rating => 1 - M.score r) hiSample := by
+    unfold finiteIidScoreSum
+    exact Finset.sum_nonneg
+      (fun i _ => sub_nonneg.mpr (hhi_score_le_one (hiSample i)))
+  have hhi_comp_zero :
+      finiteIidScoreSum (fun r : Rating => 1 - M.score r) hiSample = 0 :=
+    le_antisymm hhi_left hhi_comp_nonneg
+  have hhi_rel :
+      finiteIidScoreSum (fun r : Rating => 1 - M.score r) hiSample =
+        (nHi : ℝ) - finiteIidScoreSum M.score hiSample := by
+    simpa using
+      finiteIidScoreSum_one_sub_eq_card_sub M.score hiSample
+  have hhi_sum :
+      finiteIidScoreSum M.score hiSample = (nHi : ℝ) := by
+    nlinarith
+  have hnHi_real_pos : 0 < (nHi : ℝ) := by exact_mod_cast hnHi
+  have hnLo_real_pos : 0 < (nLo : ℝ) := by exact_mod_cast hnLo
+  have hhi_scaled :
+      cHi * finiteIidScoreSum M.score hiSample = 1 := by
+    rw [hhi_sum, hcHi]
+    field_simp [hnHi_real_pos.ne']
+  have hlo_rel :
+      finiteIidScoreSum (fun r : Rating => 1 - M.score r) loSample =
+        (nLo : ℝ) - finiteIidScoreSum M.score loSample := by
+    simpa using
+      finiteIidScoreSum_one_sub_eq_card_sub M.score loSample
+  have hgap :
+      twoSampleScoreGapSum M cHi cLo (hiSample, loSample) =
+        1 - cLo * finiteIidScoreSum M.score loSample := by
+    simp [twoSampleScoreGapSum, hhi_scaled]
+  change
+    twoSampleScoreGapSum M cHi cLo (hiSample, loSample) ≤ 0 ↔
+      finiteIidScoreSum (fun r : Rating => 1 - M.score r) loSample ≤ 0
+  rw [hgap, hlo_rel, hcLo]
+  constructor
+  · intro h
+    have hmul :=
+      mul_le_mul_of_nonneg_left h hnLo_real_pos.le
+    have htarget :
+        (nLo : ℝ) - finiteIidScoreSum M.score loSample ≤ 0 := by
+      have htmp : (nLo : ℝ) *
+          (1 - (nLo : ℝ)⁻¹ * finiteIidScoreSum M.score loSample) ≤ 0 := by
+        simpa using hmul
+      have htmp' := htmp
+      field_simp [hnLo_real_pos.ne'] at htmp'
+      simpa using htmp'
+    simpa using htarget
+  · intro h
+    have hmul :
+        (nLo : ℝ) *
+          (1 - (nLo : ℝ)⁻¹ * finiteIidScoreSum M.score loSample) ≤
+            (nLo : ℝ) * 0 := by
+      have htmp :
+          (nLo : ℝ) *
+            (1 - (nLo : ℝ)⁻¹ * finiteIidScoreSum M.score loSample) =
+              (nLo : ℝ) - finiteIidScoreSum M.score loSample := by
+        field_simp [hnLo_real_pos.ne']
+      simpa [htmp] using h
+    exact le_of_mul_le_mul_left hmul hnLo_real_pos
+
 /-- Strict-left comparison probability for the scaled two-sample score gap. -/
 def twoSampleScoreGapStrictLeftProb
     {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
@@ -1717,6 +1866,187 @@ def twoSamplePkComplementErrorProb
   2 * twoSampleScoreGapStrictLeftProb M hi lo nHi nLo cHi cLo +
     twoSampleScoreGapTieProb M hi lo nHi nLo cHi cLo
 
+/--
+If the two seller laws put positive mass on ratings whose scaled constant
+samples have equal score, then the two-sample score gap has positive tie
+probability.
+-/
+theorem twoSampleScoreGapTieProb_pos_of_scaled_score_atoms
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (cHi cLo : ℝ)
+    (rHi rLo : Rating)
+    (hmass_hi : 0 < (M.typeLaw hi rHi).toReal)
+    (hmass_lo : 0 < (M.typeLaw lo rLo).toReal)
+    (hscaled :
+      cHi * ((nHi : ℝ) * M.score rHi) =
+        cLo * ((nLo : ℝ) * M.score rLo)) :
+    0 < twoSampleScoreGapTieProb M hi lo nHi nLo cHi cLo := by
+  classical
+  let sample : (Fin nHi → Rating) × (Fin nLo → Rating) :=
+    (fun _ : Fin nHi => rHi, fun _ : Fin nLo => rLo)
+  refine
+    EconCSLib.pmfProb_pos_of_mass
+      (twoSampleRatingLaw M hi lo nHi nLo)
+      (fun sample : (Fin nHi → Rating) × (Fin nLo → Rating) =>
+        twoSampleScoreGapSum M cHi cLo sample = 0)
+      sample ?_ ?_
+  · have hhi_sum :
+        finiteIidScoreSum M.score sample.1 =
+          (nHi : ℝ) * M.score rHi := by
+      simp [sample, finiteIidScoreSum, Finset.sum_const, nsmul_eq_mul]
+    have hlo_sum :
+        finiteIidScoreSum M.score sample.2 =
+          (nLo : ℝ) * M.score rLo := by
+      simp [sample, finiteIidScoreSum, Finset.sum_const, nsmul_eq_mul]
+    simp [twoSampleScoreGapSum, hhi_sum, hlo_sum, hscaled]
+  · unfold twoSampleRatingLaw
+    rw [EconCSLib.pmfProd_apply_toReal]
+    exact mul_pos
+      (EconCSLib.pmfProduct_const_apply_toReal_pos
+        (ι := Fin nHi) (α := Rating) (M.typeLaw hi) rHi hmass_hi)
+      (EconCSLib.pmfProduct_const_apply_toReal_pos
+        (ι := Fin nLo) (α := Rating) (M.typeLaw lo) rLo hmass_lo)
+
+/--
+Positive scaled-atom tie mass makes the paper complement error `1 - P_k`
+positive.
+-/
+theorem twoSamplePkComplementErrorProb_pos_of_scaled_score_atoms
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (cHi cLo : ℝ)
+    (rHi rLo : Rating)
+    (hmass_hi : 0 < (M.typeLaw hi rHi).toReal)
+    (hmass_lo : 0 < (M.typeLaw lo rLo).toReal)
+    (hscaled :
+      cHi * ((nHi : ℝ) * M.score rHi) =
+        cLo * ((nLo : ℝ) * M.score rLo)) :
+    0 < twoSamplePkComplementErrorProb M hi lo nHi nLo cHi cLo := by
+  classical
+  have htie :
+      0 < twoSampleScoreGapTieProb M hi lo nHi nLo cHi cLo :=
+    twoSampleScoreGapTieProb_pos_of_scaled_score_atoms
+      M hi lo nHi nLo cHi cLo rHi rLo hmass_hi hmass_lo hscaled
+  have hstrict_nonneg :
+      0 ≤ twoSampleScoreGapStrictLeftProb M hi lo nHi nLo cHi cLo :=
+    EconCSLib.pmfProb_nonneg
+      (twoSampleRatingLaw M hi lo nHi nLo)
+      (fun sample : (Fin nHi → Rating) × (Fin nLo → Rating) =>
+        twoSampleScoreGapSum M cHi cLo sample < 0)
+  unfold twoSamplePkComplementErrorProb
+  nlinarith
+
+/--
+If the two seller laws put positive mass on zero-score ratings, then the
+scaled two-sample score gap has positive tie probability.  The witness is the
+constant sample using those two positive-mass zero-score ratings.
+-/
+theorem twoSampleScoreGapTieProb_pos_of_zero_score_atoms
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (cHi cLo : ℝ)
+    (rHi rLo : Rating)
+    (hmass_hi : 0 < (M.typeLaw hi rHi).toReal)
+    (hmass_lo : 0 < (M.typeLaw lo rLo).toReal)
+    (hscore_hi : M.score rHi = 0)
+    (hscore_lo : M.score rLo = 0) :
+    0 < twoSampleScoreGapTieProb M hi lo nHi nLo cHi cLo := by
+  classical
+  let sample : (Fin nHi → Rating) × (Fin nLo → Rating) :=
+    (fun _ : Fin nHi => rHi, fun _ : Fin nLo => rLo)
+  refine
+    EconCSLib.pmfProb_pos_of_mass
+      (twoSampleRatingLaw M hi lo nHi nLo)
+      (fun sample : (Fin nHi → Rating) × (Fin nLo → Rating) =>
+        twoSampleScoreGapSum M cHi cLo sample = 0)
+      sample ?_ ?_
+  · have hhi_sum :
+        finiteIidScoreSum M.score sample.1 =
+          (nHi : ℝ) * M.score rHi := by
+      simp [sample, finiteIidScoreSum, Finset.sum_const, nsmul_eq_mul]
+    have hlo_sum :
+        finiteIidScoreSum M.score sample.2 =
+          (nLo : ℝ) * M.score rLo := by
+      simp [sample, finiteIidScoreSum, Finset.sum_const, nsmul_eq_mul]
+    simp [twoSampleScoreGapSum, hhi_sum, hlo_sum, hscore_hi, hscore_lo]
+  · unfold twoSampleRatingLaw
+    rw [EconCSLib.pmfProd_apply_toReal]
+    exact mul_pos
+      (EconCSLib.pmfProduct_const_apply_toReal_pos
+        (ι := Fin nHi) (α := Rating) (M.typeLaw hi) rHi hmass_hi)
+      (EconCSLib.pmfProduct_const_apply_toReal_pos
+        (ι := Fin nLo) (α := Rating) (M.typeLaw lo) rLo hmass_lo)
+
+/--
+If the two seller laws put positive mass on zero-score ratings, then the
+nonpositive two-sample score-gap event has positive probability.
+-/
+theorem twoSampleScoreGapLeftTailProb_pos_of_zero_score_atoms
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (cHi cLo : ℝ)
+    (rHi rLo : Rating)
+    (hmass_hi : 0 < (M.typeLaw hi rHi).toReal)
+    (hmass_lo : 0 < (M.typeLaw lo rLo).toReal)
+    (hscore_hi : M.score rHi = 0)
+    (hscore_lo : M.score rLo = 0) :
+    0 < twoSampleScoreGapLeftTailProb M hi lo nHi nLo cHi cLo := by
+  classical
+  let sample : (Fin nHi → Rating) × (Fin nLo → Rating) :=
+    (fun _ : Fin nHi => rHi, fun _ : Fin nLo => rLo)
+  refine
+    EconCSLib.pmfProb_pos_of_mass
+      (twoSampleRatingLaw M hi lo nHi nLo)
+      (fun sample : (Fin nHi → Rating) × (Fin nLo → Rating) =>
+        twoSampleScoreGapSum M cHi cLo sample ≤ 0)
+      sample ?_ ?_
+  · have hhi_sum :
+        finiteIidScoreSum M.score sample.1 =
+          (nHi : ℝ) * M.score rHi := by
+      simp [sample, finiteIidScoreSum, Finset.sum_const, nsmul_eq_mul]
+    have hlo_sum :
+        finiteIidScoreSum M.score sample.2 =
+          (nLo : ℝ) * M.score rLo := by
+      simp [sample, finiteIidScoreSum, Finset.sum_const, nsmul_eq_mul]
+    simp [twoSampleScoreGapSum, hhi_sum, hlo_sum, hscore_hi, hscore_lo]
+  · unfold twoSampleRatingLaw
+    rw [EconCSLib.pmfProd_apply_toReal]
+    exact mul_pos
+      (EconCSLib.pmfProduct_const_apply_toReal_pos
+        (ι := Fin nHi) (α := Rating) (M.typeLaw hi) rHi hmass_hi)
+      (EconCSLib.pmfProduct_const_apply_toReal_pos
+        (ι := Fin nLo) (α := Rating) (M.typeLaw lo) rLo hmass_lo)
+
+/--
+If the two seller laws have positive-mass zero-score atoms, then the paper
+complement error `1 - P_k` is positive.
+-/
+theorem twoSamplePkComplementErrorProb_pos_of_zero_score_atoms
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (cHi cLo : ℝ)
+    (rHi rLo : Rating)
+    (hmass_hi : 0 < (M.typeLaw hi rHi).toReal)
+    (hmass_lo : 0 < (M.typeLaw lo rLo).toReal)
+    (hscore_hi : M.score rHi = 0)
+    (hscore_lo : M.score rLo = 0) :
+    0 < twoSamplePkComplementErrorProb M hi lo nHi nLo cHi cLo := by
+  classical
+  have htie :
+      0 < twoSampleScoreGapTieProb M hi lo nHi nLo cHi cLo :=
+    twoSampleScoreGapTieProb_pos_of_zero_score_atoms
+      M hi lo nHi nLo cHi cLo rHi rLo hmass_hi hmass_lo
+      hscore_hi hscore_lo
+  have hstrict_nonneg :
+      0 ≤ twoSampleScoreGapStrictLeftProb M hi lo nHi nLo cHi cLo :=
+    EconCSLib.pmfProb_nonneg
+      (twoSampleRatingLaw M hi lo nHi nLo)
+      (fun sample : (Fin nHi → Rating) × (Fin nLo → Rating) =>
+        twoSampleScoreGapSum M cHi cLo sample < 0)
+  unfold twoSamplePkComplementErrorProb
+  nlinarith
+
 /-- Paper sample count `n_k(theta) = floor(k * g(theta))`. -/
 def floorSampleCount {Seller : Type*} (sampleRate : Seller → ℝ)
     (θ : Seller) (k : ℕ) : ℕ :=
@@ -1743,6 +2073,36 @@ theorem floorSampleCount_eq_mul_of_nat_sampleRate
   exact Nat.floor_natCast (k * g)
 
 /--
+Uniform positivity of floor sample counts on a set where the sampling rate has
+a positive lower bound.
+-/
+theorem eventually_floorSampleCount_pos_of_uniform_lower
+    {Seller : Type*} (sampleRate : Seller → ℝ) {s : Set Seller} {c : ℝ}
+    (hc : 0 < c)
+    (hlower : ∀ θ, θ ∈ s → c ≤ sampleRate θ) :
+    ∀ᶠ k : ℕ in atTop,
+      ∀ θ, θ ∈ s → 0 < floorSampleCount sampleRate θ k := by
+  let K : ℕ := Nat.floor (1 / c) + 1
+  have hK_gt : 1 / c < (K : ℝ) := by
+    dsimp [K]
+    simpa [Nat.cast_add, Nat.cast_one] using
+      Nat.lt_floor_add_one (1 / c)
+  refine (eventually_ge_atTop K).mono ?_
+  intro k hk θ hθ
+  have hk_real : (K : ℝ) ≤ (k : ℝ) := by exact_mod_cast hk
+  have hone_lt_kc : 1 < (k : ℝ) * c := by
+    have hlt : 1 / c < (k : ℝ) := lt_of_lt_of_le hK_gt hk_real
+    have hmul := mul_lt_mul_of_pos_right hlt hc
+    field_simp [hc.ne'] at hmul
+    simpa [mul_comm] using hmul
+  have hkc_le_kg : (k : ℝ) * c ≤ (k : ℝ) * sampleRate θ :=
+    mul_le_mul_of_nonneg_left (hlower θ hθ) (Nat.cast_nonneg k)
+  have hone_le_kg : 1 ≤ (k : ℝ) * sampleRate θ :=
+    le_trans (le_of_lt hone_lt_kc) hkc_le_kg
+  simpa [floorSampleCount] using
+    (Nat.floor_pos (a := (k : ℝ) * sampleRate θ)).mpr hone_le_kg
+
+/--
 Source-shaped floor-count left-tail comparison probability for the two-seller
 score-average gap.
 -/
@@ -1756,6 +2116,186 @@ def twoSampleFloorScoreGapLeftTailProb
     ((nHi : ℝ)⁻¹) ((nLo : ℝ)⁻¹)
 
 /--
+Floor-count version of
+`twoSampleScoreGapLeftTailProb_pos_of_zero_score_atoms`.
+-/
+theorem twoSampleFloorScoreGapLeftTailProb_pos_of_zero_score_atoms
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) (k : ℕ)
+    (rHi rLo : Rating)
+    (hmass_hi : 0 < (M.typeLaw hi rHi).toReal)
+    (hmass_lo : 0 < (M.typeLaw lo rLo).toReal)
+    (hscore_hi : M.score rHi = 0)
+    (hscore_lo : M.score rLo = 0) :
+    0 < twoSampleFloorScoreGapLeftTailProb M sampleRate hi lo k := by
+  unfold twoSampleFloorScoreGapLeftTailProb
+  exact
+    twoSampleScoreGapLeftTailProb_pos_of_zero_score_atoms
+      M hi lo
+      (floorSampleCount sampleRate hi k)
+      (floorSampleCount sampleRate lo k)
+      (((floorSampleCount sampleRate hi k : ℕ) : ℝ)⁻¹)
+      (((floorSampleCount sampleRate lo k : ℕ) : ℝ)⁻¹)
+      rHi rLo hmass_hi hmass_lo hscore_hi hscore_lo
+
+/--
+Floor-count exact-rate certificate for a degenerate low type: when low-type
+ratings have zero score with probability one, the two-sample error rate is the
+high-type one-sided zero-score rate scaled by the high sampling rate.
+-/
+theorem twoSampleFloorScoreGapLeftTail_exponentialRateCertificate_of_lo_scores_zero
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller)
+    (hgHi : 0 < sampleRate hi)
+    (hhi_support_nonneg :
+      ∀ r, 0 < (M.typeLaw hi r).toReal → 0 ≤ M.score r)
+    (hlo_score_nonneg : ∀ r : Rating, 0 ≤ M.score r)
+    {pZero : ℝ}
+    (hhi_zero_prob :
+      EconCSLib.pmfProb (M.typeLaw hi) (fun r => M.score r = 0) = pZero)
+    (hpZero_pos : 0 < pZero)
+    (hlo_zero_prob :
+      EconCSLib.pmfProb (M.typeLaw lo) (fun r => M.score r = 0) = 1) :
+    ExponentialRateCertificate
+      (twoSampleFloorScoreGapLeftTailProb M sampleRate hi lo)
+      (sampleRate hi * (-Real.log pZero)) := by
+  let highTail : ℕ → ℝ :=
+    fun n => finiteIidScoreLeftTailProb (M.typeLaw hi) M.score 0 n
+  have Chigh :
+      ExponentialRateCertificate highTail (-Real.log pZero) :=
+    finiteIidScoreLeftTail_exponentialRateCertificate_of_support_nonneg_zero_prob
+      (M.typeLaw hi) M.score hhi_support_nonneg hhi_zero_prob hpZero_pos
+  have Cfloor :
+      ExponentialRateCertificate
+        (fun k : ℕ =>
+          highTail (Nat.floor ((k : ℝ) * sampleRate hi)))
+        (sampleRate hi * (-Real.log pZero)) :=
+    Chigh.comp_nat_floor_mul_const hgHi
+  have heq :
+      ∀ᶠ k : ℕ in atTop,
+        twoSampleFloorScoreGapLeftTailProb M sampleRate hi lo k =
+          highTail (Nat.floor ((k : ℝ) * sampleRate hi)) := by
+    have hfloor_atTop :
+        Tendsto (fun k : ℕ => floorSampleCount sampleRate hi k)
+          atTop atTop := by
+      simpa [floorSampleCount] using
+        EconCSLib.Math.tendsto_nat_floor_mul_const_atTop hgHi
+    have hnHi_pos_event :
+        ∀ᶠ k : ℕ in atTop, 0 < floorSampleCount sampleRate hi k :=
+      hfloor_atTop.eventually (eventually_gt_atTop 0)
+    filter_upwards [hnHi_pos_event] with k hnHi_pos
+    let nHi := floorSampleCount sampleRate hi k
+    let nLo := floorSampleCount sampleRate lo k
+    have hcHi : 0 < (((nHi : ℕ) : ℝ)⁻¹) := by
+      exact inv_pos.mpr (by exact_mod_cast hnHi_pos)
+    have hlo_leftTail_one :
+        finiteIidScoreLeftTailProb (M.typeLaw lo) M.score 0 nLo = 1 := by
+      rw [finiteIidScoreLeftTailProb_eq_zero_score_prob_pow_of_support_nonneg
+        (M.typeLaw lo) M.score (fun r _hmass => hlo_score_nonneg r) nLo]
+      rw [hlo_zero_prob]
+      simp
+    have hcollapse :=
+      twoSampleScoreGapLeftTailProb_eq_hi_leftTail_of_lo_nonneg_leftTail_prob_one
+        M hi lo nHi nLo (((nHi : ℕ) : ℝ)⁻¹) (((nLo : ℕ) : ℝ)⁻¹)
+        hcHi hlo_score_nonneg hlo_leftTail_one
+    simpa [twoSampleFloorScoreGapLeftTailProb, highTail, nHi, nLo,
+      floorSampleCount] using hcollapse
+  refine
+    { eventually_pos := ?_
+      has_rate := ?_ }
+  · filter_upwards [Cfloor.eventually_pos, heq] with k hpos hk
+    simpa [hk] using hpos
+  · refine Cfloor.has_rate.congr' ?_
+    filter_upwards [heq] with k hk
+    simp [logDecay, hk]
+
+/--
+Floor-count exact-rate certificate for a degenerate high type: when high-type
+ratings have score one with probability one, the two-sample error rate is the
+low-type one-sided complementary-score rate scaled by the low sampling rate.
+-/
+theorem twoSampleFloorScoreGapLeftTail_exponentialRateCertificate_of_hi_scores_one
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller)
+    (hgHi : 0 < sampleRate hi) (hgLo : 0 < sampleRate lo)
+    (hscore_le_one : ∀ r : Rating, M.score r ≤ 1)
+    {pOne : ℝ}
+    (hlo_one_prob :
+      EconCSLib.pmfProb (M.typeLaw lo)
+        (fun r => 1 - M.score r = 0) = pOne)
+    (hpOne_pos : 0 < pOne)
+    (hhi_one_prob :
+      EconCSLib.pmfProb (M.typeLaw hi)
+        (fun r => 1 - M.score r = 0) = 1) :
+    ExponentialRateCertificate
+      (twoSampleFloorScoreGapLeftTailProb M sampleRate hi lo)
+      (sampleRate lo * (-Real.log pOne)) := by
+  let loTail : ℕ → ℝ :=
+    fun n =>
+      finiteIidScoreLeftTailProb (M.typeLaw lo)
+        (fun r : Rating => 1 - M.score r) 0 n
+  have Clo :
+      ExponentialRateCertificate loTail (-Real.log pOne) :=
+    finiteIidScoreLeftTail_exponentialRateCertificate_of_support_nonneg_zero_prob
+      (M.typeLaw lo) (fun r : Rating => 1 - M.score r)
+      (fun r _hmass => sub_nonneg.mpr (hscore_le_one r))
+      hlo_one_prob hpOne_pos
+  have Cfloor :
+      ExponentialRateCertificate
+        (fun k : ℕ =>
+          loTail (Nat.floor ((k : ℝ) * sampleRate lo)))
+        (sampleRate lo * (-Real.log pOne)) :=
+    Clo.comp_nat_floor_mul_const hgLo
+  have heq :
+      ∀ᶠ k : ℕ in atTop,
+        twoSampleFloorScoreGapLeftTailProb M sampleRate hi lo k =
+          loTail (Nat.floor ((k : ℝ) * sampleRate lo)) := by
+    have hfloor_hi_atTop :
+        Tendsto (fun k : ℕ => floorSampleCount sampleRate hi k)
+          atTop atTop := by
+      simpa [floorSampleCount] using
+        EconCSLib.Math.tendsto_nat_floor_mul_const_atTop hgHi
+    have hfloor_lo_atTop :
+        Tendsto (fun k : ℕ => floorSampleCount sampleRate lo k)
+          atTop atTop := by
+      simpa [floorSampleCount] using
+        EconCSLib.Math.tendsto_nat_floor_mul_const_atTop hgLo
+    have hnHi_pos_event :
+        ∀ᶠ k : ℕ in atTop, 0 < floorSampleCount sampleRate hi k :=
+      hfloor_hi_atTop.eventually (eventually_gt_atTop 0)
+    have hnLo_pos_event :
+        ∀ᶠ k : ℕ in atTop, 0 < floorSampleCount sampleRate lo k :=
+      hfloor_lo_atTop.eventually (eventually_gt_atTop 0)
+    filter_upwards [hnHi_pos_event, hnLo_pos_event] with k hnHi_pos hnLo_pos
+    let nHi := floorSampleCount sampleRate hi k
+    let nLo := floorSampleCount sampleRate lo k
+    have hhi_leftTail_one :
+        finiteIidScoreLeftTailProb (M.typeLaw hi)
+            (fun r : Rating => 1 - M.score r) 0 nHi = 1 := by
+      rw [finiteIidScoreLeftTailProb_eq_zero_score_prob_pow_of_support_nonneg
+        (M.typeLaw hi) (fun r : Rating => 1 - M.score r)
+        (fun r _hmass => sub_nonneg.mpr (hscore_le_one r)) nHi]
+      rw [hhi_one_prob]
+      simp
+    have hcollapse :=
+      twoSampleScoreGapLeftTailProb_eq_lo_complement_leftTail_of_hi_complement_leftTail_prob_one
+        M hi lo nHi nLo (((nHi : ℕ) : ℝ)⁻¹) (((nLo : ℕ) : ℝ)⁻¹)
+        hnHi_pos hnLo_pos rfl rfl hscore_le_one hhi_leftTail_one
+    simpa [twoSampleFloorScoreGapLeftTailProb, loTail, nHi, nLo,
+      floorSampleCount] using hcollapse
+  refine
+    { eventually_pos := ?_
+      has_rate := ?_ }
+  · filter_upwards [Cfloor.eventually_pos, heq] with k hpos hk
+    simpa [hk] using hpos
+  · refine Cfloor.has_rate.congr' ?_
+    filter_upwards [heq] with k hk
+    simp [logDecay, hk]
+
+/--
 Source-shaped floor-count `1 - P_k` comparison error for a two-seller pair.
 -/
 def twoSampleFloorPkComplementErrorProb
@@ -1766,6 +2306,78 @@ def twoSampleFloorPkComplementErrorProb
   let nLo := floorSampleCount sampleRate lo k
   twoSamplePkComplementErrorProb M hi lo nHi nLo
     ((nHi : ℝ)⁻¹) ((nLo : ℝ)⁻¹)
+
+/--
+Floor-count `1 - P_k` is positive for every `k` when both type laws have
+positive-mass zero-score atoms.
+-/
+theorem twoSampleFloorPkComplementErrorProb_pos_of_zero_score_atoms
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) (k : ℕ)
+    (rHi rLo : Rating)
+    (hmass_hi : 0 < (M.typeLaw hi rHi).toReal)
+    (hmass_lo : 0 < (M.typeLaw lo rLo).toReal)
+    (hscore_hi : M.score rHi = 0)
+    (hscore_lo : M.score rLo = 0) :
+    0 < twoSampleFloorPkComplementErrorProb M sampleRate hi lo k := by
+  unfold twoSampleFloorPkComplementErrorProb
+  exact
+    twoSamplePkComplementErrorProb_pos_of_zero_score_atoms
+      M hi lo
+      (floorSampleCount sampleRate hi k)
+      (floorSampleCount sampleRate lo k)
+      (((floorSampleCount sampleRate hi k : ℕ) : ℝ)⁻¹)
+      (((floorSampleCount sampleRate lo k : ℕ) : ℝ)⁻¹)
+      rHi rLo hmass_hi hmass_lo hscore_hi hscore_lo
+
+/--
+Floor-count `1 - P_k` is eventually positive when both type laws have
+positive-mass one-score atoms and both sample rates are positive.
+-/
+theorem twoSampleFloorPkComplementErrorProb_eventually_pos_of_one_score_atoms
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller)
+    (hgHi : 0 < sampleRate hi) (hgLo : 0 < sampleRate lo)
+    (rHi rLo : Rating)
+    (hmass_hi : 0 < (M.typeLaw hi rHi).toReal)
+    (hmass_lo : 0 < (M.typeLaw lo rLo).toReal)
+    (hscore_hi : M.score rHi = 1)
+    (hscore_lo : M.score rLo = 1) :
+    ∀ᶠ k : ℕ in atTop,
+      0 < twoSampleFloorPkComplementErrorProb M sampleRate hi lo k := by
+  have hfloor_hi_atTop :
+      Tendsto (fun k : ℕ => floorSampleCount sampleRate hi k)
+        atTop atTop := by
+    simpa [floorSampleCount] using
+      EconCSLib.Math.tendsto_nat_floor_mul_const_atTop hgHi
+  have hfloor_lo_atTop :
+      Tendsto (fun k : ℕ => floorSampleCount sampleRate lo k)
+        atTop atTop := by
+    simpa [floorSampleCount] using
+      EconCSLib.Math.tendsto_nat_floor_mul_const_atTop hgLo
+  have hnHi_pos_event :
+      ∀ᶠ k : ℕ in atTop, 0 < floorSampleCount sampleRate hi k :=
+    hfloor_hi_atTop.eventually (eventually_gt_atTop 0)
+  have hnLo_pos_event :
+      ∀ᶠ k : ℕ in atTop, 0 < floorSampleCount sampleRate lo k :=
+    hfloor_lo_atTop.eventually (eventually_gt_atTop 0)
+  filter_upwards [hnHi_pos_event, hnLo_pos_event] with k hnHi_pos hnLo_pos
+  let nHi := floorSampleCount sampleRate hi k
+  let nLo := floorSampleCount sampleRate lo k
+  have hnHi_real_pos : 0 < (nHi : ℝ) := by exact_mod_cast hnHi_pos
+  have hnLo_real_pos : 0 < (nLo : ℝ) := by exact_mod_cast hnLo_pos
+  have hscaled :
+      ((nHi : ℝ)⁻¹) * ((nHi : ℝ) * M.score rHi) =
+        ((nLo : ℝ)⁻¹) * ((nLo : ℝ) * M.score rLo) := by
+    rw [hscore_hi, hscore_lo]
+    field_simp [hnHi_real_pos.ne', hnLo_real_pos.ne']
+  unfold twoSampleFloorPkComplementErrorProb
+  exact
+    twoSamplePkComplementErrorProb_pos_of_scaled_score_atoms
+      M hi lo nHi nLo ((nHi : ℝ)⁻¹) ((nLo : ℝ)⁻¹)
+      rHi rLo hmass_hi hmass_lo hscaled
 
 /--
 Support-safe pairwise LDP certificate for the finite-support threshold-rate
@@ -2363,6 +2975,60 @@ theorem twoSamplePkComplementErrorProb_sandwich_leftTail
   unfold twoSamplePkComplementErrorProb
   constructor <;> nlinarith [hleft_eq, hstrict_nonneg, htie_nonneg]
 
+/-- Two-sample nonpositive score-gap probabilities are nonnegative. -/
+theorem twoSampleScoreGapLeftTailProb_nonneg
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (cHi cLo : ℝ) :
+    0 ≤ twoSampleScoreGapLeftTailProb M hi lo nHi nLo cHi cLo := by
+  classical
+  let μ := twoSampleRatingLaw M hi lo nHi nLo
+  let gap :
+      (Fin nHi → Rating) × (Fin nLo → Rating) → ℝ :=
+    fun sample => twoSampleScoreGapSum M cHi cLo sample
+  simpa [twoSampleScoreGapLeftTailProb, μ, gap] using
+    EconCSLib.pmfProb_nonneg μ (fun sample => gap sample ≤ 0)
+
+/-- Two-sample nonpositive score-gap probabilities are bounded by one. -/
+theorem twoSampleScoreGapLeftTailProb_le_one
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (cHi cLo : ℝ) :
+    twoSampleScoreGapLeftTailProb M hi lo nHi nLo cHi cLo ≤ 1 := by
+  classical
+  let μ := twoSampleRatingLaw M hi lo nHi nLo
+  let gap :
+      (Fin nHi → Rating) × (Fin nLo → Rating) → ℝ :=
+    fun sample => twoSampleScoreGapSum M cHi cLo sample
+  simpa [twoSampleScoreGapLeftTailProb, μ, gap] using
+    EconCSLib.pmfProb_le_one μ (fun sample => gap sample ≤ 0)
+
+/-- The fixed-pair `1 - P_k` comparison error is nonnegative. -/
+theorem twoSamplePkComplementErrorProb_nonneg
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (cHi cLo : ℝ) :
+    0 ≤ twoSamplePkComplementErrorProb M hi lo nHi nLo cHi cLo := by
+  have htail_nonneg :=
+    twoSampleScoreGapLeftTailProb_nonneg M hi lo nHi nLo cHi cLo
+  have hsandwich :=
+    (twoSamplePkComplementErrorProb_sandwich_leftTail
+      M hi lo nHi nLo cHi cLo).1
+  exact htail_nonneg.trans hsandwich
+
+/-- The fixed-pair `1 - P_k` comparison error is bounded by `2`. -/
+theorem twoSamplePkComplementErrorProb_le_two
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (cHi cLo : ℝ) :
+    twoSamplePkComplementErrorProb M hi lo nHi nLo cHi cLo ≤ 2 := by
+  have htail_le :=
+    twoSampleScoreGapLeftTailProb_le_one M hi lo nHi nLo cHi cLo
+  have hsandwich :=
+    (twoSamplePkComplementErrorProb_sandwich_leftTail
+      M hi lo nHi nLo cHi cLo).2
+  nlinarith
+
 /--
 Floor-count version of the `Pk_LD` constant-factor comparison.
 -/
@@ -2383,6 +3049,348 @@ theorem twoSampleFloorPkComplementErrorProb_sandwich_leftTail
       (floorSampleCount sampleRate lo k)
       (((floorSampleCount sampleRate hi k : ℕ) : ℝ)⁻¹)
       (((floorSampleCount sampleRate lo k : ℕ) : ℝ)⁻¹)
+
+/--
+Uniform exponential-rate transfer from the source left-tail score-gap kernel to
+the floor-count complement-error kernel.  The transfer is exactly the
+constant-factor `Pk_LD` sandwich: the lower side is
+unchanged, and the upper constant is multiplied by `2`.
+-/
+def twoSampleFloorPkComplementError_uniformExponentialRateCertificateOn_of_leftTail
+    {Seller Rating α : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : α → Seller) {rate : α → ℝ} {s : Set α}
+    (C :
+      UniformExponentialRateCertificateOn
+        (fun k x =>
+          twoSampleFloorScoreGapLeftTailProb M sampleRate
+            (pairHi x) (pairLo x) k)
+        rate s) :
+    UniformExponentialRateCertificateOn
+      (fun k x =>
+        twoSampleFloorPkComplementErrorProb M sampleRate
+          (pairHi x) (pairLo x) k)
+      rate s where
+  lowerConst := C.lowerConst
+  upperConst := 2 * C.upperConst
+  lowerConst_pos := C.lowerConst_pos
+  upperConst_pos := mul_pos (by norm_num) C.upperConst_pos
+  lower := by
+    intro ε hε
+    filter_upwards [C.lower ε hε] with k hk x hx
+    have hsandwich :=
+      twoSampleFloorPkComplementErrorProb_sandwich_leftTail
+        M sampleRate (pairHi x) (pairLo x) k
+    exact (hk x hx).trans hsandwich.1
+  upper := by
+    intro ε hε
+    filter_upwards [C.upper ε hε] with k hk x hx
+    have hsandwich :=
+      twoSampleFloorPkComplementErrorProb_sandwich_leftTail
+        M sampleRate (pairHi x) (pairLo x) k
+    calc
+      twoSampleFloorPkComplementErrorProb M sampleRate (pairHi x) (pairLo x) k
+          ≤ 2 *
+              twoSampleFloorScoreGapLeftTailProb M sampleRate
+                (pairHi x) (pairLo x) k := hsandwich.2
+      _ ≤ 2 * (C.upperConst * Real.exp (-(k : ℝ) * (rate x - ε))) :=
+          mul_le_mul_of_nonneg_left (hk x hx) (by norm_num : (0 : ℝ) ≤ 2)
+      _ = (2 * C.upperConst) *
+            Real.exp (-(k : ℝ) * (rate x - ε)) := by ring
+
+/--
+Normalized-log version of
+`twoSampleFloorPkComplementError_uniformExponentialRateCertificateOn_of_leftTail`.
+-/
+def twoSampleFloorPkComplementError_uniformNormalizedLogRateCertificateOn_of_leftTail
+    {Seller Rating α : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : α → Seller) {rate : α → ℝ} {s : Set α}
+    (C :
+      UniformExponentialRateCertificateOn
+        (fun k x =>
+          twoSampleFloorScoreGapLeftTailProb M sampleRate
+            (pairHi x) (pairLo x) k)
+        rate s) :
+    UniformNormalizedLogRateCertificateOn
+      (fun k x =>
+        twoSampleFloorPkComplementErrorProb M sampleRate
+          (pairHi x) (pairLo x) k)
+      rate s :=
+  (twoSampleFloorPkComplementError_uniformExponentialRateCertificateOn_of_leftTail
+    M sampleRate pairHi pairLo C).toUniformNormalizedLogRateCertificateOn
+
+/-- Floor-count two-sample nonpositive score-gap probabilities are nonnegative. -/
+theorem twoSampleFloorScoreGapLeftTailProb_nonneg
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) (k : ℕ) :
+    0 ≤ twoSampleFloorScoreGapLeftTailProb M sampleRate hi lo k := by
+  unfold twoSampleFloorScoreGapLeftTailProb
+  exact
+    twoSampleScoreGapLeftTailProb_nonneg M hi lo
+      (floorSampleCount sampleRate hi k)
+      (floorSampleCount sampleRate lo k)
+      (((floorSampleCount sampleRate hi k : ℕ) : ℝ)⁻¹)
+      (((floorSampleCount sampleRate lo k : ℕ) : ℝ)⁻¹)
+
+/-- Floor-count two-sample nonpositive score-gap probabilities are bounded by one. -/
+theorem twoSampleFloorScoreGapLeftTailProb_le_one
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) (k : ℕ) :
+    twoSampleFloorScoreGapLeftTailProb M sampleRate hi lo k ≤ 1 := by
+  unfold twoSampleFloorScoreGapLeftTailProb
+  exact
+    twoSampleScoreGapLeftTailProb_le_one M hi lo
+      (floorSampleCount sampleRate hi k)
+      (floorSampleCount sampleRate lo k)
+      (((floorSampleCount sampleRate hi k : ℕ) : ℝ)⁻¹)
+      (((floorSampleCount sampleRate lo k : ℕ) : ℝ)⁻¹)
+
+/-- The floor-count `1 - P_k` comparison error is nonnegative. -/
+theorem twoSampleFloorPkComplementErrorProb_nonneg
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) (k : ℕ) :
+    0 ≤ twoSampleFloorPkComplementErrorProb M sampleRate hi lo k := by
+  unfold twoSampleFloorPkComplementErrorProb
+  exact
+    twoSamplePkComplementErrorProb_nonneg M hi lo
+      (floorSampleCount sampleRate hi k)
+      (floorSampleCount sampleRate lo k)
+      (((floorSampleCount sampleRate hi k : ℕ) : ℝ)⁻¹)
+      (((floorSampleCount sampleRate lo k : ℕ) : ℝ)⁻¹)
+
+/-- The floor-count `1 - P_k` comparison error is bounded by `2`. -/
+theorem twoSampleFloorPkComplementErrorProb_le_two
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) (k : ℕ) :
+    twoSampleFloorPkComplementErrorProb M sampleRate hi lo k ≤ 2 := by
+  unfold twoSampleFloorPkComplementErrorProb
+  exact
+    twoSamplePkComplementErrorProb_le_two M hi lo
+      (floorSampleCount sampleRate hi k)
+      (floorSampleCount sampleRate lo k)
+      (((floorSampleCount sampleRate hi k : ℕ) : ℝ)⁻¹)
+      (((floorSampleCount sampleRate lo k : ℕ) : ℝ)⁻¹)
+
+/-- The fixed-pair paper objective `P_k` is bounded in absolute value by `1`. -/
+theorem twoSamplePkObjectiveProb_abs_le_one
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (cHi cLo : ℝ) :
+    |twoSamplePkObjectiveProb M hi lo nHi nLo cHi cLo| ≤ 1 := by
+  have herror_nonneg :=
+    twoSamplePkComplementErrorProb_nonneg M hi lo nHi nLo cHi cLo
+  have herror_le :=
+    twoSamplePkComplementErrorProb_le_two M hi lo nHi nLo cHi cLo
+  have herror_eq :=
+    twoSamplePkComplementErrorProb_eq_one_sub_pkObjectiveProb
+      M hi lo nHi nLo cHi cLo
+  rw [abs_le]
+  constructor <;> linarith
+
+/-- The floor-count paper objective `P_k` is bounded in absolute value by `1`. -/
+theorem twoSampleFloorPkObjectiveProb_abs_le_one
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) (k : ℕ) :
+    |twoSampleFloorPkObjectiveProb M sampleRate hi lo k| ≤ 1 := by
+  unfold twoSampleFloorPkObjectiveProb
+  exact
+    twoSamplePkObjectiveProb_abs_le_one M hi lo
+      (floorSampleCount sampleRate hi k)
+      (floorSampleCount sampleRate lo k)
+      (((floorSampleCount sampleRate hi k : ℕ) : ℝ)⁻¹)
+      (((floorSampleCount sampleRate lo k : ℕ) : ℝ)⁻¹)
+
+/-- Finite weighted `1 - P_k` aggregate errors are nonnegative. -/
+theorem finiteFloorPkComplementError_nonneg
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller) (weight : Pair → ℝ)
+    (hweight_nonneg : ∀ p : Pair, 0 ≤ weight p) (k : ℕ) :
+    0 ≤ finiteFloorPkComplementError M sampleRate pairHi pairLo weight k := by
+  classical
+  unfold finiteFloorPkComplementError
+  refine Finset.sum_nonneg ?_
+  intro p _hp
+  exact mul_nonneg (hweight_nonneg p)
+    (twoSampleFloorPkComplementErrorProb_nonneg
+      M sampleRate (pairHi p) (pairLo p) k)
+
+/--
+Finite weighted `1 - P_k` aggregate errors are bounded by twice the total
+comparison weight.
+-/
+theorem finiteFloorPkComplementError_le_two_mul_weight_sum
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller) (weight : Pair → ℝ)
+    (hweight_nonneg : ∀ p : Pair, 0 ≤ weight p) (k : ℕ) :
+    finiteFloorPkComplementError M sampleRate pairHi pairLo weight k ≤
+      2 * ∑ p : Pair, weight p := by
+  classical
+  unfold finiteFloorPkComplementError
+  calc
+    ∑ p : Pair,
+        weight p *
+          twoSampleFloorPkComplementErrorProb M sampleRate
+            (pairHi p) (pairLo p) k
+        ≤ ∑ p : Pair, weight p * 2 := by
+          refine Finset.sum_le_sum ?_
+          intro p _hp
+          exact mul_le_mul_of_nonneg_left
+            (twoSampleFloorPkComplementErrorProb_le_two
+              M sampleRate (pairHi p) (pairLo p) k)
+            (hweight_nonneg p)
+    _ = 2 * ∑ p : Pair, weight p := by
+          rw [← Finset.sum_mul]
+          ring
+
+/-- Normalized finite weighted `1 - P_k` aggregate errors are bounded by `2`. -/
+theorem finiteFloorPkComplementError_le_two_of_weight_sum
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller) (weight : Pair → ℝ)
+    (hweight_nonneg : ∀ p : Pair, 0 ≤ weight p)
+    (hweight_sum : ∑ p : Pair, weight p = 1) (k : ℕ) :
+    finiteFloorPkComplementError M sampleRate pairHi pairLo weight k ≤ 2 := by
+  have hle :=
+    finiteFloorPkComplementError_le_two_mul_weight_sum
+      M sampleRate pairHi pairLo weight hweight_nonneg k
+  rw [hweight_sum] at hle
+  simpa using hle
+
+/-- Normalized finite ranking objective errors `1 - W_k` are nonnegative. -/
+theorem one_sub_finiteFloorPkObjective_nonneg_of_weight_sum
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller) (weight : Pair → ℝ)
+    (hweight_nonneg : ∀ p : Pair, 0 ≤ weight p)
+    (hweight_sum : ∑ p : Pair, weight p = 1) (k : ℕ) :
+    0 ≤ 1 - finiteFloorPkObjective M sampleRate pairHi pairLo weight k := by
+  rw [← finiteFloorPkComplementError_eq_one_sub_objective
+    M sampleRate pairHi pairLo weight hweight_sum k]
+  exact finiteFloorPkComplementError_nonneg
+    M sampleRate pairHi pairLo weight hweight_nonneg k
+
+/-- Normalized finite ranking objective errors `1 - W_k` are bounded by `2`. -/
+theorem one_sub_finiteFloorPkObjective_le_two_of_weight_sum
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller) (weight : Pair → ℝ)
+    (hweight_nonneg : ∀ p : Pair, 0 ≤ weight p)
+    (hweight_sum : ∑ p : Pair, weight p = 1) (k : ℕ) :
+    1 - finiteFloorPkObjective M sampleRate pairHi pairLo weight k ≤ 2 := by
+  rw [← finiteFloorPkComplementError_eq_one_sub_objective
+    M sampleRate pairHi pairLo weight hweight_sum k]
+  exact finiteFloorPkComplementError_le_two_of_weight_sum
+    M sampleRate pairHi pairLo weight hweight_nonneg hweight_sum k
+
+/-- Integer-rate weighted `1 - P_n` aggregate errors are nonnegative. -/
+theorem finiteIntegerRatePkComplementError_nonneg
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair]
+    (M : FiniteRatingLDPModel Seller Rating)
+    (pairHi pairLo : Pair → Seller) (gHi gLo : Pair → ℕ)
+    (weight : Pair → ℝ)
+    (hweight_nonneg : ∀ p : Pair, 0 ≤ weight p) (n : ℕ) :
+    0 ≤ finiteIntegerRatePkComplementError M pairHi pairLo gHi gLo weight n := by
+  classical
+  unfold finiteIntegerRatePkComplementError
+  refine Finset.sum_nonneg ?_
+  intro p _hp
+  exact mul_nonneg (hweight_nonneg p)
+    (twoSamplePkComplementErrorProb_nonneg
+      M (pairHi p) (pairLo p) (n * gHi p) (n * gLo p)
+      (((gHi p : ℕ) : ℝ)⁻¹) (((gLo p : ℕ) : ℝ)⁻¹))
+
+/--
+Integer-rate weighted `1 - P_n` aggregate errors are bounded by twice the
+total comparison weight.
+-/
+theorem finiteIntegerRatePkComplementError_le_two_mul_weight_sum
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair]
+    (M : FiniteRatingLDPModel Seller Rating)
+    (pairHi pairLo : Pair → Seller) (gHi gLo : Pair → ℕ)
+    (weight : Pair → ℝ)
+    (hweight_nonneg : ∀ p : Pair, 0 ≤ weight p) (n : ℕ) :
+    finiteIntegerRatePkComplementError M pairHi pairLo gHi gLo weight n ≤
+      2 * ∑ p : Pair, weight p := by
+  classical
+  unfold finiteIntegerRatePkComplementError
+  calc
+    ∑ p : Pair,
+        weight p *
+          twoSamplePkComplementErrorProb M (pairHi p) (pairLo p)
+            (n * gHi p) (n * gLo p)
+            (((gHi p : ℕ) : ℝ)⁻¹) (((gLo p : ℕ) : ℝ)⁻¹)
+        ≤ ∑ p : Pair, weight p * 2 := by
+          refine Finset.sum_le_sum ?_
+          intro p _hp
+          exact mul_le_mul_of_nonneg_left
+            (twoSamplePkComplementErrorProb_le_two
+              M (pairHi p) (pairLo p) (n * gHi p) (n * gLo p)
+              (((gHi p : ℕ) : ℝ)⁻¹) (((gLo p : ℕ) : ℝ)⁻¹))
+            (hweight_nonneg p)
+    _ = 2 * ∑ p : Pair, weight p := by
+          rw [← Finset.sum_mul]
+          ring
+
+/-- Normalized integer-rate weighted `1 - P_n` aggregate errors are bounded by `2`. -/
+theorem finiteIntegerRatePkComplementError_le_two_of_weight_sum
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair]
+    (M : FiniteRatingLDPModel Seller Rating)
+    (pairHi pairLo : Pair → Seller) (gHi gLo : Pair → ℕ)
+    (weight : Pair → ℝ)
+    (hweight_nonneg : ∀ p : Pair, 0 ≤ weight p)
+    (hweight_sum : ∑ p : Pair, weight p = 1) (n : ℕ) :
+    finiteIntegerRatePkComplementError M pairHi pairLo gHi gLo weight n ≤ 2 := by
+  have hle :=
+    finiteIntegerRatePkComplementError_le_two_mul_weight_sum
+      M pairHi pairLo gHi gLo weight hweight_nonneg n
+  rw [hweight_sum] at hle
+  simpa using hle
+
+/-- Normalized integer-rate ranking objective errors `1 - W_n` are nonnegative. -/
+theorem one_sub_finiteIntegerRatePkObjective_nonneg_of_weight_sum
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair]
+    (M : FiniteRatingLDPModel Seller Rating)
+    (pairHi pairLo : Pair → Seller) (gHi gLo : Pair → ℕ)
+    (weight : Pair → ℝ)
+    (hweight_nonneg : ∀ p : Pair, 0 ≤ weight p)
+    (hweight_sum : ∑ p : Pair, weight p = 1) (n : ℕ) :
+    0 ≤ 1 - finiteIntegerRatePkObjective M pairHi pairLo gHi gLo weight n := by
+  rw [← finiteIntegerRatePkComplementError_eq_one_sub_objective
+    M pairHi pairLo gHi gLo weight hweight_sum n]
+  exact finiteIntegerRatePkComplementError_nonneg
+    M pairHi pairLo gHi gLo weight hweight_nonneg n
+
+/-- Normalized integer-rate ranking objective errors `1 - W_n` are bounded by `2`. -/
+theorem one_sub_finiteIntegerRatePkObjective_le_two_of_weight_sum
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair]
+    (M : FiniteRatingLDPModel Seller Rating)
+    (pairHi pairLo : Pair → Seller) (gHi gLo : Pair → ℕ)
+    (weight : Pair → ℝ)
+    (hweight_nonneg : ∀ p : Pair, 0 ≤ weight p)
+    (hweight_sum : ∑ p : Pair, weight p = 1) (n : ℕ) :
+    1 - finiteIntegerRatePkObjective M pairHi pairLo gHi gLo weight n ≤ 2 := by
+  rw [← finiteIntegerRatePkComplementError_eq_one_sub_objective
+    M pairHi pairLo gHi gLo weight hweight_sum n]
+  exact finiteIntegerRatePkComplementError_le_two_of_weight_sum
+    M pairHi pairLo gHi gLo weight hweight_nonneg hweight_sum n
 
 /--
 Two-population finite MGF factorization.  For independent high and low samples,
@@ -5366,6 +6374,343 @@ theorem twoSampleFloorPkComplementError_exponentialRateCertificate_of_leftTail
     twoSampleFloorPkComplementErrorProb_sandwich_leftTail
       M sampleRate hi lo k
   simpa using hsandwich
+
+/--
+Convert a family of support-safe pairwise floor-count left-tail certificates
+into exact certificates for the source `1 - P_k` pairwise errors.
+-/
+def PairwiseThresholdRateTopLdpCertificate.toFloorPkComplementErrorRateCertificate
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller)
+    (C : PairwiseThresholdRateTopLdpCertificate M sampleRate pairHi pairLo) :
+    FiniteErrorRateCertificate Pair where
+  errorProb := fun p =>
+    twoSampleFloorPkComplementErrorProb M sampleRate (pairHi p) (pairLo p)
+  rate := C.rate
+  has_rate := fun p =>
+    twoSampleFloorPkComplementError_exponentialRateCertificate_of_leftTail
+      M sampleRate (pairHi p) (pairLo p) (C.leftTail p)
+
+/--
+Finite weighted floor-count `1 - P_k` aggregates inherit an exponential upper
+bound from pairwise threshold-rate LDP certificates.
+-/
+theorem finiteFloorPkComplementError_hasExpUpperBoundWithConst_of_pairwiseThresholdRateTopLdpCertificate
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller)
+    (C : PairwiseThresholdRateTopLdpCertificate M sampleRate pairHi pairLo)
+    {weight : Pair → ℝ} {targetRate : ℝ}
+    (hweight : ∀ p : Pair, 0 ≤ weight p)
+    (hrate : ∀ p : Pair, targetRate < C.rate p) :
+    HasExpUpperBoundWithConst
+      (finiteFloorPkComplementError M sampleRate pairHi pairLo weight)
+      targetRate := by
+  let E :=
+    C.toFloorPkComplementErrorRateCertificate M sampleRate pairHi pairLo
+  simpa [FiniteErrorRateCertificate.aggregateError, E,
+    PairwiseThresholdRateTopLdpCertificate.toFloorPkComplementErrorRateCertificate,
+    finiteFloorPkComplementError] using
+    E.aggregateError_hasExpUpperBoundWithConst_of_lt hweight hrate
+
+/--
+Finite weighted floor-count `1 - P_k` aggregates inherit the exact exponential
+rate of any positive-weight minimum-rate component from pairwise threshold-rate
+LDP certificates.
+-/
+theorem finiteFloorPkComplementError_hasExponentialRate_of_pairwiseThresholdRateTopLdpCertificate_min_component
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair] [DecidableEq Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller)
+    (C : PairwiseThresholdRateTopLdpCertificate M sampleRate pairHi pairLo)
+    {weight : Pair → ℝ} (hweight_nonneg : ∀ p : Pair, 0 ≤ weight p)
+    (pMin : Pair) (hweight_pos : 0 < weight pMin)
+    (hrate_ge : ∀ p : Pair, C.rate pMin ≤ C.rate p) :
+    HasExponentialRate
+      (finiteFloorPkComplementError M sampleRate pairHi pairLo weight)
+      (C.rate pMin) := by
+  let E :=
+    C.toFloorPkComplementErrorRateCertificate M sampleRate pairHi pairLo
+  simpa [FiniteErrorRateCertificate.aggregateError, E,
+    PairwiseThresholdRateTopLdpCertificate.toFloorPkComplementErrorRateCertificate,
+    finiteFloorPkComplementError] using
+    E.aggregateError_hasExponentialRate_of_min_component
+      hweight_nonneg pMin hweight_pos rfl hrate_ge
+
+/--
+Finite weighted floor-count `1 - P_k` aggregates inherit the exact exponential
+rate of a positive-weight minimum component from any explicit pairwise error
+rate certificate.
+-/
+theorem finiteFloorPkComplementError_hasExponentialRate_of_finiteErrorRateCertificate_min_component
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair] [DecidableEq Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller)
+    (E : FiniteErrorRateCertificate Pair)
+    (herror :
+      ∀ p : Pair,
+        E.errorProb p =
+          twoSampleFloorPkComplementErrorProb M sampleRate (pairHi p) (pairLo p))
+    {weight : Pair → ℝ} (hweight_nonneg : ∀ p : Pair, 0 ≤ weight p)
+    (pMin : Pair) (hweight_pos : 0 < weight pMin)
+    (hrate_ge : ∀ p : Pair, E.rate pMin ≤ E.rate p) :
+    HasExponentialRate
+      (finiteFloorPkComplementError M sampleRate pairHi pairLo weight)
+      (E.rate pMin) := by
+  have h :=
+    E.aggregateError_hasExponentialRate_of_min_component
+      hweight_nonneg pMin hweight_pos rfl hrate_ge
+  rw [HasExponentialRate] at h ⊢
+  refine h.congr' ?_
+  filter_upwards with k
+  unfold logDecay
+  have heq :
+      finiteFloorPkComplementError M sampleRate pairHi pairLo weight k =
+        E.aggregateError weight k := by
+    unfold finiteFloorPkComplementError FiniteErrorRateCertificate.aggregateError
+    refine Finset.sum_congr rfl ?_
+    intro p _hp
+    rw [herror p]
+  rw [heq]
+
+/--
+Source objective form: when the finite pair weights sum to one, `1 - W_k` has
+the same exponential upper bound as the weighted aggregate of pairwise
+`1 - P_k` errors.
+-/
+theorem one_sub_finiteFloorPkObjective_hasExpUpperBoundWithConst_of_pairwiseThresholdRateTopLdpCertificate
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller)
+    (C : PairwiseThresholdRateTopLdpCertificate M sampleRate pairHi pairLo)
+    {weight : Pair → ℝ} {targetRate : ℝ}
+    (hweight : ∀ p : Pair, 0 ≤ weight p)
+    (hweight_sum : ∑ p : Pair, weight p = 1)
+    (hrate : ∀ p : Pair, targetRate < C.rate p) :
+    HasExpUpperBoundWithConst
+      (fun k : ℕ =>
+        1 - finiteFloorPkObjective M sampleRate pairHi pairLo weight k)
+      targetRate := by
+  have h :=
+    finiteFloorPkComplementError_hasExpUpperBoundWithConst_of_pairwiseThresholdRateTopLdpCertificate
+      M sampleRate pairHi pairLo C hweight hrate
+  rcases h with ⟨K, hKpos, hbound⟩
+  refine ⟨K, hKpos, ?_⟩
+  filter_upwards [hbound] with k hk
+  simpa [finiteFloorPkComplementError_eq_one_sub_objective
+    M sampleRate pairHi pairLo weight hweight_sum k] using hk
+
+/--
+Uniform-pair specialization of the source objective bound.
+-/
+theorem one_sub_finiteUniformFloorPkObjective_hasExpUpperBoundWithConst_of_pairwiseThresholdRateTopLdpCertificate
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair] [Nonempty Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller)
+    (C : PairwiseThresholdRateTopLdpCertificate M sampleRate pairHi pairLo)
+    {targetRate : ℝ}
+    (hrate : ∀ p : Pair, targetRate < C.rate p) :
+    HasExpUpperBoundWithConst
+      (fun k : ℕ =>
+        1 - finiteUniformFloorPkObjective M sampleRate pairHi pairLo k)
+      targetRate := by
+  simpa [finiteUniformFloorPkObjective] using
+    one_sub_finiteFloorPkObjective_hasExpUpperBoundWithConst_of_pairwiseThresholdRateTopLdpCertificate
+    M sampleRate pairHi pairLo C
+      (uniformPairWeight_nonneg Pair)
+      (uniformPairWeight_sum_eq_one Pair)
+      hrate
+
+/--
+Source objective form: when finite pair weights sum to one, `1 - W_k` has the
+same exact exponential rate as the weighted aggregate of pairwise `1 - P_k`
+errors.
+-/
+theorem one_sub_finiteFloorPkObjective_hasExponentialRate_of_pairwiseThresholdRateTopLdpCertificate_min_component
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair] [DecidableEq Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller)
+    (C : PairwiseThresholdRateTopLdpCertificate M sampleRate pairHi pairLo)
+    {weight : Pair → ℝ}
+    (hweight_nonneg : ∀ p : Pair, 0 ≤ weight p)
+    (hweight_sum : ∑ p : Pair, weight p = 1)
+    (pMin : Pair) (hweight_pos : 0 < weight pMin)
+    (hrate_ge : ∀ p : Pair, C.rate pMin ≤ C.rate p) :
+    HasExponentialRate
+      (fun k : ℕ =>
+        1 - finiteFloorPkObjective M sampleRate pairHi pairLo weight k)
+      (C.rate pMin) := by
+  have h :=
+    finiteFloorPkComplementError_hasExponentialRate_of_pairwiseThresholdRateTopLdpCertificate_min_component
+      M sampleRate pairHi pairLo C hweight_nonneg pMin hweight_pos hrate_ge
+  rw [HasExponentialRate] at h ⊢
+  refine h.congr' ?_
+  filter_upwards with k
+  unfold logDecay
+  rw [finiteFloorPkComplementError_eq_one_sub_objective
+    M sampleRate pairHi pairLo weight hweight_sum k]
+
+/--
+Source objective form for an explicit finite pairwise error-rate certificate:
+when finite pair weights sum to one, `1 - W_k` has the exact exponential rate
+of the minimum positive-weight component.
+-/
+theorem one_sub_finiteFloorPkObjective_hasExponentialRate_of_finiteErrorRateCertificate_min_component
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair] [DecidableEq Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller)
+    (E : FiniteErrorRateCertificate Pair)
+    (herror :
+      ∀ p : Pair,
+        E.errorProb p =
+          twoSampleFloorPkComplementErrorProb M sampleRate (pairHi p) (pairLo p))
+    {weight : Pair → ℝ}
+    (hweight_nonneg : ∀ p : Pair, 0 ≤ weight p)
+    (hweight_sum : ∑ p : Pair, weight p = 1)
+    (pMin : Pair) (hweight_pos : 0 < weight pMin)
+    (hrate_ge : ∀ p : Pair, E.rate pMin ≤ E.rate p) :
+    HasExponentialRate
+      (fun k : ℕ =>
+        1 - finiteFloorPkObjective M sampleRate pairHi pairLo weight k)
+      (E.rate pMin) := by
+  have h :=
+    finiteFloorPkComplementError_hasExponentialRate_of_finiteErrorRateCertificate_min_component
+      M sampleRate pairHi pairLo E herror
+      hweight_nonneg pMin hweight_pos hrate_ge
+  rw [HasExponentialRate] at h ⊢
+  refine h.congr' ?_
+  filter_upwards with k
+  unfold logDecay
+  rw [finiteFloorPkComplementError_eq_one_sub_objective
+    M sampleRate pairHi pairLo weight hweight_sum k]
+
+/--
+Source objective exact-rate bridge from pairwise nonpositive score-gap
+left-tail certificates. The fixed `Pk_LD` sandwich converts each left-tail
+certificate into a `1 - P_k` error certificate before finite aggregation.
+-/
+theorem one_sub_finiteFloorPkObjective_hasExponentialRate_of_leftTail_certificates_min_component
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair] [DecidableEq Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller)
+    (rate : Pair → ℝ)
+    (leftTail :
+      ∀ p : Pair,
+        ExponentialRateCertificate
+          (twoSampleFloorScoreGapLeftTailProb M sampleRate (pairHi p) (pairLo p))
+          (rate p))
+    {weight : Pair → ℝ}
+    (hweight_nonneg : ∀ p : Pair, 0 ≤ weight p)
+    (hweight_sum : ∑ p : Pair, weight p = 1)
+    (pMin : Pair) (hweight_pos : 0 < weight pMin)
+    (hrate_ge : ∀ p : Pair, rate pMin ≤ rate p) :
+    HasExponentialRate
+      (fun k : ℕ =>
+        1 - finiteFloorPkObjective M sampleRate pairHi pairLo weight k)
+      (rate pMin) := by
+  let E : FiniteErrorRateCertificate Pair :=
+    { errorProb := fun p =>
+        twoSampleFloorPkComplementErrorProb M sampleRate (pairHi p) (pairLo p)
+      rate := rate
+      has_rate := fun p =>
+        twoSampleFloorPkComplementError_exponentialRateCertificate_of_leftTail
+          M sampleRate (pairHi p) (pairLo p) (leftTail p) }
+  exact
+    one_sub_finiteFloorPkObjective_hasExponentialRate_of_finiteErrorRateCertificate_min_component
+      M sampleRate pairHi pairLo E (fun _p => rfl)
+      hweight_nonneg hweight_sum pMin hweight_pos hrate_ge
+
+/--
+Uniform-pair specialization of the exact source objective rate.
+-/
+theorem one_sub_finiteUniformFloorPkObjective_hasExponentialRate_of_pairwiseThresholdRateTopLdpCertificate_min_component
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair] [DecidableEq Pair] [Nonempty Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller)
+    (C : PairwiseThresholdRateTopLdpCertificate M sampleRate pairHi pairLo)
+    (pMin : Pair)
+    (hrate_ge : ∀ p : Pair, C.rate pMin ≤ C.rate p) :
+    HasExponentialRate
+      (fun k : ℕ =>
+        1 - finiteUniformFloorPkObjective M sampleRate pairHi pairLo k)
+      (C.rate pMin) := by
+  simpa [finiteUniformFloorPkObjective] using
+    one_sub_finiteFloorPkObjective_hasExponentialRate_of_pairwiseThresholdRateTopLdpCertificate_min_component
+      M sampleRate pairHi pairLo C
+      (uniformPairWeight_nonneg Pair)
+      (uniformPairWeight_sum_eq_one Pair)
+      pMin
+      (uniformPairWeight_pos Pair pMin)
+      hrate_ge
+
+/--
+Uniform-pair source objective exact-rate bridge from pairwise nonpositive
+score-gap left-tail certificates.
+-/
+theorem one_sub_finiteUniformFloorPkObjective_hasExponentialRate_of_leftTail_certificates_min_component
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair] [DecidableEq Pair] [Nonempty Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller)
+    (rate : Pair → ℝ)
+    (leftTail :
+      ∀ p : Pair,
+        ExponentialRateCertificate
+          (twoSampleFloorScoreGapLeftTailProb M sampleRate (pairHi p) (pairLo p))
+          (rate p))
+    (pMin : Pair)
+    (hrate_ge : ∀ p : Pair, rate pMin ≤ rate p) :
+    HasExponentialRate
+      (fun k : ℕ =>
+        1 - finiteUniformFloorPkObjective M sampleRate pairHi pairLo k)
+      (rate pMin) := by
+  simpa [finiteUniformFloorPkObjective] using
+    one_sub_finiteFloorPkObjective_hasExponentialRate_of_leftTail_certificates_min_component
+      M sampleRate pairHi pairLo rate leftTail
+      (uniformPairWeight_nonneg Pair)
+      (uniformPairWeight_sum_eq_one Pair)
+      pMin
+      (uniformPairWeight_pos Pair pMin)
+      hrate_ge
+
+/--
+Uniform-pair specialization of the exact source objective rate from an
+explicit finite pairwise error-rate certificate.
+-/
+theorem one_sub_finiteUniformFloorPkObjective_hasExponentialRate_of_finiteErrorRateCertificate_min_component
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    [Fintype Pair] [DecidableEq Pair] [Nonempty Pair]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller)
+    (E : FiniteErrorRateCertificate Pair)
+    (herror :
+      ∀ p : Pair,
+        E.errorProb p =
+          twoSampleFloorPkComplementErrorProb M sampleRate (pairHi p) (pairLo p))
+    (pMin : Pair)
+    (hrate_ge : ∀ p : Pair, E.rate pMin ≤ E.rate p) :
+    HasExponentialRate
+      (fun k : ℕ =>
+        1 - finiteUniformFloorPkObjective M sampleRate pairHi pairLo k)
+      (E.rate pMin) := by
+  simpa [finiteUniformFloorPkObjective] using
+    one_sub_finiteFloorPkObjective_hasExponentialRate_of_finiteErrorRateCertificate_min_component
+      M sampleRate pairHi pairLo E herror
+      (uniformPairWeight_nonneg Pair)
+      (uniformPairWeight_sum_eq_one Pair)
+      pMin
+      (uniformPairWeight_pos Pair pMin)
+      hrate_ge
 
 /--
 Threshold-rate floor-count `Pk_LD` certificate from shifted high/low Cramer

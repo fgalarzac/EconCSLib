@@ -401,6 +401,35 @@
       }
     },
     {
+      "id": "GJ19OptimalBinaryRatingSystems",
+      "title": "Designing Optimal Binary Rating Systems",
+      "authors": "Nikhil Garg, Ramesh Johari",
+      "publication": "AISTATS 2019 / PMLR 89 version, 2019",
+      "publication_year": 9999,
+      "source_url": "",
+      "paper_info": "Designing Optimal Binary Rating Systems by Nikhil Garg, Ramesh Johari; AISTATS 2019 / PMLR 89 version, 2019.",
+      "status": "Formalized",
+      "human_review": "0/26",
+      "human_translation": "0/26 reviewed",
+      "llm_as_judge_translation": "26/26 match",
+      "llm_as_judge_paper_coverage": "16/28 covered; 12 support-only",
+      "lean_loc": 85767,
+      "main_note": "",
+      "main_note_citation": null,
+      "main_note_review": null,
+      "paper_folder": "papers/GJ19OptimalBinaryRatingSystems",
+      "review_entrypoint": "papers/GJ19OptimalBinaryRatingSystems/FINAL_VALIDATION_REPORT.md",
+      "artifacts": {
+        "readme": "papers/GJ19OptimalBinaryRatingSystems/README.md",
+        "paper_interface": "papers/GJ19OptimalBinaryRatingSystems/PaperInterface.lean",
+        "assumptions": "papers/GJ19OptimalBinaryRatingSystems/Assumptions.lean",
+        "final_validation_report": "papers/GJ19OptimalBinaryRatingSystems/FINAL_VALIDATION_REPORT.md",
+        "post_formalization_audit": "papers/GJ19OptimalBinaryRatingSystems/POST_FORMALIZATION_AUDIT.md",
+        "dependency_dag_tex": "papers/GJ19OptimalBinaryRatingSystems/DependencyDAG.tex",
+        "dependency_dag_pdf": "papers/GJ19OptimalBinaryRatingSystems/DependencyDAG.pdf"
+      }
+    },
+    {
       "id": "LOS02CombinatorialAuctions",
       "title": "Truth Revelation in Approximately Efficient Combinatorial Auctions",
       "authors": "Daniel Lehmann, Liadan Ita O'Callaghan, and Yoav Shoham",

@@ -1,9 +1,11 @@
+import Mathlib.Analysis.Asymptotics.Defs
 import Mathlib.Topology.Instances.Real.Lemmas
 import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Data.Fintype.BigOperators
 
 open Filter Topology
+open Asymptotics
 open scoped BigOperators
 
 namespace EconCSLib
@@ -16,6 +18,48 @@ def TendsToZero (ε : ℕ → ℝ) : Prop :=
 /-- `x n` is asymptotically equivalent to `y n`, expressed as `x n / y n -> 1`. -/
 def AsymptoticEquivalent (x y : ℕ → ℝ) : Prop :=
   Tendsto (fun n => x n / y n) atTop (nhds 1)
+
+/--
+Eventual nonnegative upper bounds give ordinary Big-O bounds.  This is a
+small bridge from exact algorithmic runtime inequalities to paper-style
+Landau notation.
+-/
+theorem isBigO_of_eventually_abs_le
+    {α : Type*} {l : Filter α} {f g : α → ℝ}
+    (hg_nonneg : ∀ᶠ x in l, 0 ≤ g x)
+    (hbound : ∀ᶠ x in l, |f x| ≤ g x) :
+    Asymptotics.IsBigO l f g := by
+  refine Asymptotics.IsBigO.of_bound' ?_
+  filter_upwards [hg_nonneg, hbound] with x hg hx
+  simpa [Real.norm_eq_abs, abs_of_nonneg hg] using hx
+
+/--
+Nonnegative functions bounded by a nonnegative comparison function are Big-O of
+that comparison function.
+-/
+theorem isBigO_of_eventually_nonneg_le
+    {α : Type*} {l : Filter α} {f g : α → ℝ}
+    (hf_nonneg : ∀ᶠ x in l, 0 ≤ f x)
+    (hg_nonneg : ∀ᶠ x in l, 0 ≤ g x)
+    (hle : ∀ᶠ x in l, f x ≤ g x) :
+    Asymptotics.IsBigO l f g := by
+  refine isBigO_of_eventually_abs_le hg_nonneg ?_
+  filter_upwards [hf_nonneg, hle] with x hf hx
+  simpa [abs_of_nonneg hf] using hx
+
+/--
+Specialized Big-O bridge for quadratic log-style runtime envelopes
+`C * g^2`.
+-/
+theorem isBigO_of_eventually_le_mul_sq
+    {α : Type*} {l : Filter α} {f g : α → ℝ} {C : ℝ}
+    (hC : 0 ≤ C)
+    (hf_nonneg : ∀ᶠ x in l, 0 ≤ f x)
+    (hle : ∀ᶠ x in l, f x ≤ C * (g x) ^ 2) :
+    Asymptotics.IsBigO l f (fun x => C * (g x) ^ 2) := by
+  refine isBigO_of_eventually_nonneg_le hf_nonneg ?_ hle
+  filter_upwards with x
+  exact mul_nonneg hC (sq_nonneg (g x))
 
 /-- A sequence is bounded by C / N. -/
 def TendsToZeroInv (ε : ℕ → ℝ) : Prop :=
@@ -585,6 +629,266 @@ theorem tendsto_nat_floor_mul_const_div_nat
       field_simp [hNpos.ne']
     exact hdiv.trans_eq hright
 
+/--
+Uniform one-step floor-grid approximation: for `Q > 0` and `x ≥ 0`,
+`floor (Q*x)/Q` is within `1/Q` of `x`.
+-/
+theorem nat_floor_mul_div_sub_abs_lt_inv
+    {Q : ℕ} (hQ : 0 < Q) {x : ℝ} (hx : 0 ≤ x) :
+    |(((Nat.floor ((Q : ℝ) * x) : ℝ) / (Q : ℝ)) - x)| <
+      1 / (Q : ℝ) := by
+  let n : ℕ := Nat.floor ((Q : ℝ) * x)
+  have hQpos : 0 < (Q : ℝ) := by exact_mod_cast hQ
+  have hfloor_le : (n : ℝ) ≤ (Q : ℝ) * x := by
+    dsimp [n]
+    exact Nat.floor_le (mul_nonneg hQpos.le hx)
+  have hfloor_div_le : (n : ℝ) / (Q : ℝ) ≤ x := by
+    rw [div_le_iff₀ hQpos]
+    simpa [mul_comm] using hfloor_le
+  have hscaled_lt : (Q : ℝ) * x < (n : ℝ) + 1 := by
+    dsimp [n]
+    exact Nat.lt_floor_add_one ((Q : ℝ) * x)
+  have hx_lt : x < ((n : ℝ) + 1) / (Q : ℝ) := by
+    rw [lt_div_iff₀ hQpos]
+    simpa [mul_comm] using hscaled_lt
+  have hright : (n : ℝ) / (Q : ℝ) - x < 1 / (Q : ℝ) := by
+    have hnonpos : (n : ℝ) / (Q : ℝ) - x ≤ 0 := by linarith
+    have hone_pos : 0 < 1 / (Q : ℝ) := by positivity
+    linarith
+  have hleft : -(1 / (Q : ℝ)) < (n : ℝ) / (Q : ℝ) - x := by
+    have hx_lt_add : x < (n : ℝ) / (Q : ℝ) + 1 / (Q : ℝ) := by
+      calc
+        x < ((n : ℝ) + 1) / (Q : ℝ) := hx_lt
+        _ = (n : ℝ) / (Q : ℝ) + 1 / (Q : ℝ) := by ring
+    linarith
+  simpa [n] using abs_lt.mpr ⟨hleft, hright⟩
+
+/--
+One-step dyadic floor-window arithmetic.  For `x ∈ [0,1]`, the refined grid
+index `floor((2*M - 1) * x)` stays within the two-index window around
+`2 * floor(M*x)`.
+-/
+theorem nat_floor_two_mul_sub_one_mul_window
+    {M : ℕ} (hM : 0 < M) {x : ℝ} (hx0 : 0 ≤ x) (hx1 : x ≤ 1) :
+    let old := Nat.floor ((M : ℝ) * x)
+    let refined := Nat.floor (((2 : ℝ) * (M : ℝ) - 1) * x)
+    refined ≤ 2 * old + 1 ∧ 2 * old ≤ refined + 2 := by
+  let old := Nat.floor ((M : ℝ) * x)
+  let refined := Nat.floor (((2 : ℝ) * (M : ℝ) - 1) * x)
+  have hMpos : 0 < (M : ℝ) := by exact_mod_cast hM
+  have hMx_nonneg : 0 ≤ (M : ℝ) * x :=
+    mul_nonneg hMpos.le hx0
+  have hold_le : (old : ℝ) ≤ (M : ℝ) * x := by
+    dsimp [old]
+    exact Nat.floor_le hMx_nonneg
+  have hMx_lt : (M : ℝ) * x < (old : ℝ) + 1 := by
+    dsimp [old]
+    exact Nat.lt_floor_add_one ((M : ℝ) * x)
+  have href_lt :
+      ((2 : ℝ) * (M : ℝ) - 1) * x < (refined : ℝ) + 1 := by
+    dsimp [refined]
+    exact Nat.lt_floor_add_one (((2 : ℝ) * (M : ℝ) - 1) * x)
+  constructor
+  · have hscale_le : ((2 : ℝ) * (M : ℝ) - 1) * x ≤
+        ((2 : ℝ) * (M : ℝ)) * x := by
+      nlinarith [hx0]
+    have hscale_lt : ((2 : ℝ) * (M : ℝ) - 1) * x <
+        ((2 * old + 2 : ℕ) : ℝ) := by
+      norm_num [Nat.cast_add, Nat.cast_mul]
+      nlinarith [hscale_le, hMx_lt]
+    have hfloor_lt : refined < 2 * old + 2 := by
+      have hn : 2 * old + 2 ≠ 0 := by omega
+      exact (Nat.floor_lt' (a := ((2 : ℝ) * (M : ℝ) - 1) * x) hn).2
+        (by simpa using hscale_lt)
+    omega
+  · have hscale_lower :
+        ((2 : ℝ) * (M : ℝ)) * x ≤
+          ((2 : ℝ) * (M : ℝ) - 1) * x + 1 := by
+      nlinarith [hx1]
+    have href_plus :
+        ((2 : ℝ) * (M : ℝ) - 1) * x + 1 <
+          (refined : ℝ) + 2 := by
+      linarith
+    have hreal : ((2 * old : ℕ) : ℝ) ≤ ((refined + 2 : ℕ) : ℝ) := by
+      norm_num [Nat.cast_add, Nat.cast_mul]
+      nlinarith [hold_le, hscale_lower, href_plus]
+    have hnat : 2 * old ≤ refined + 2 := by
+      exact_mod_cast hreal
+    simpa [old, refined] using hnat
+
+/--
+Dyadic floor-window arithmetic for repeated `M ↦ 2*M - 1` refinements.  The
+refined grid size `2^q*(M-1)+1` stays in a `2^q`-wide index window around
+`2^q * floor(M*x)` for `x ∈ [0,1]`.
+-/
+theorem nat_floor_dyadic_pred_add_one_mul_window
+    {M q : ℕ} (hM : 0 < M) {x : ℝ} (hx0 : 0 ≤ x) (hx1 : x ≤ 1) :
+    let scale := 2 ^ q
+    let old := Nat.floor ((M : ℝ) * x)
+    let refined := Nat.floor (((scale * (M - 1) + 1 : ℕ) : ℝ) * x)
+    refined ≤ scale * old + scale ∧
+      scale * old ≤ refined + scale := by
+  let scale : ℕ := 2 ^ q
+  let old := Nat.floor ((M : ℝ) * x)
+  let refined := Nat.floor (((scale * (M - 1) + 1 : ℕ) : ℝ) * x)
+  have hscale_pos : 0 < scale := by
+    dsimp [scale]
+    positivity
+  have hscale_nonneg_real : 0 ≤ (scale : ℝ) := by exact_mod_cast hscale_pos.le
+  have hMx_nonneg : 0 ≤ (M : ℝ) * x :=
+    mul_nonneg (by exact_mod_cast hM.le) hx0
+  have hold_le : (old : ℝ) ≤ (M : ℝ) * x := by
+    dsimp [old]
+    exact Nat.floor_le hMx_nonneg
+  have hMx_lt : (M : ℝ) * x < (old : ℝ) + 1 := by
+    dsimp [old]
+    exact Nat.lt_floor_add_one ((M : ℝ) * x)
+  have href_lt :
+      ((scale * (M - 1) + 1 : ℕ) : ℝ) * x < (refined : ℝ) + 1 := by
+    dsimp [refined]
+    exact Nat.lt_floor_add_one
+      (((scale * (M - 1) + 1 : ℕ) : ℝ) * x)
+  have hM_decomp : M = (M - 1) + 1 := by omega
+  have hscaleM_decomp :
+      scale * M = (scale * (M - 1) + 1) + (scale - 1) := by
+    calc
+      scale * M = scale * ((M - 1) + 1) :=
+        congrArg (fun n : ℕ => scale * n) hM_decomp
+      _ = scale * (M - 1) + scale := by
+        rw [Nat.mul_add, Nat.mul_one]
+      _ = (scale * (M - 1) + 1) + (scale - 1) := by
+        omega
+  have href_grid_le :
+      scale * (M - 1) + 1 ≤ scale * M := by
+    rw [hscaleM_decomp]
+    omega
+  constructor
+  · have hscale_le :
+        ((scale * (M - 1) + 1 : ℕ) : ℝ) * x ≤
+          ((scale * M : ℕ) : ℝ) * x := by
+      exact mul_le_mul_of_nonneg_right
+        (by exact_mod_cast href_grid_le) hx0
+    have hscaleM_x_eq :
+        ((scale * M : ℕ) : ℝ) * x = (scale : ℝ) * ((M : ℝ) * x) := by
+      norm_num [Nat.cast_mul]
+      ring
+    have hscaled_Mx_lt :
+        ((scale * M : ℕ) : ℝ) * x <
+          (scale : ℝ) * ((old : ℝ) + 1) := by
+      rw [hscaleM_x_eq]
+      exact mul_lt_mul_of_pos_left hMx_lt (by exact_mod_cast hscale_pos)
+    have hscale_le_norm :
+        (((scale : ℝ) * ((M - 1 : ℕ) : ℝ) + 1) * x) ≤
+          ((scale * M : ℕ) : ℝ) * x := by
+      simpa [Nat.cast_add, Nat.cast_mul] using hscale_le
+    have hscaled_Mx_lt_norm :
+        ((scale * M : ℕ) : ℝ) * x <
+          (scale : ℝ) * (old : ℝ) + (scale : ℝ) := by
+      nlinarith [hscaled_Mx_lt]
+    have hscale_lt :
+        ((scale * (M - 1) + 1 : ℕ) : ℝ) * x <
+          ((scale * old + scale + 1 : ℕ) : ℝ) := by
+      norm_num [Nat.cast_add, Nat.cast_mul]
+      nlinarith [hscale_le_norm, hscaled_Mx_lt_norm]
+    have hfloor_lt : refined < scale * old + scale + 1 := by
+      have hn : scale * old + scale + 1 ≠ 0 := by omega
+      exact
+        (Nat.floor_lt'
+          (a := ((scale * (M - 1) + 1 : ℕ) : ℝ) * x) hn).2
+          (by simpa using hscale_lt)
+    have hle_local : refined ≤ scale * old + scale :=
+      Nat.le_of_lt_succ (by
+        simpa [Nat.succ_eq_add_one, add_assoc] using hfloor_lt)
+    simpa [scale, old, refined] using hle_local
+  · have hscaleM_decomp_real :
+        ((scale * M : ℕ) : ℝ) =
+          ((scale * (M - 1) + 1 : ℕ) : ℝ) +
+            ((scale - 1 : ℕ) : ℝ) := by
+      exact_mod_cast hscaleM_decomp
+    have hscaleM_le :
+        ((scale * M : ℕ) : ℝ) * x ≤
+          ((scale * (M - 1) + 1 : ℕ) : ℝ) * x +
+            ((scale - 1 : ℕ) : ℝ) := by
+      calc
+        ((scale * M : ℕ) : ℝ) * x =
+            (((scale * (M - 1) + 1 : ℕ) : ℝ) +
+              ((scale - 1 : ℕ) : ℝ)) * x := by
+                rw [hscaleM_decomp_real]
+        _ = ((scale * (M - 1) + 1 : ℕ) : ℝ) * x +
+            ((scale - 1 : ℕ) : ℝ) * x := by ring
+        _ ≤ ((scale * (M - 1) + 1 : ℕ) : ℝ) * x +
+            ((scale - 1 : ℕ) : ℝ) := by
+              have hsub_nonneg : 0 ≤ ((scale - 1 : ℕ) : ℝ) := by positivity
+              have hmul :
+                  ((scale - 1 : ℕ) : ℝ) * x ≤
+                    ((scale - 1 : ℕ) : ℝ) * 1 :=
+                mul_le_mul_of_nonneg_left hx1 hsub_nonneg
+              nlinarith
+    have hold_scaled :
+        ((scale * old : ℕ) : ℝ) ≤ ((scale * M : ℕ) : ℝ) * x := by
+      have hscaleM_x_eq :
+          ((scale * M : ℕ) : ℝ) * x = (scale : ℝ) * ((M : ℝ) * x) := by
+        norm_num [Nat.cast_mul]
+        ring
+      rw [hscaleM_x_eq]
+      norm_num [Nat.cast_mul]
+      exact mul_le_mul_of_nonneg_left hold_le hscale_nonneg_real
+    have hscale_sub_add_cast :
+        ((scale - 1 : ℕ) : ℝ) + 1 = (scale : ℝ) := by
+      exact_mod_cast (Nat.sub_add_cancel hscale_pos)
+    have hscaleM_le_norm :
+        ((scale * M : ℕ) : ℝ) * x ≤
+          (((scale : ℝ) * ((M - 1 : ℕ) : ℝ) + 1) * x) +
+            ((scale - 1 : ℕ) : ℝ) := by
+      simpa [Nat.cast_add, Nat.cast_mul] using hscaleM_le
+    have href_lt_norm :
+        (((scale : ℝ) * ((M - 1 : ℕ) : ℝ) + 1) * x) <
+          (refined : ℝ) + 1 := by
+      simpa [Nat.cast_add, Nat.cast_mul] using href_lt
+    have hold_scaled_norm :
+        (scale : ℝ) * (old : ℝ) ≤ ((scale * M : ℕ) : ℝ) * x := by
+      simpa [Nat.cast_mul] using hold_scaled
+    have hreal_norm :
+        (scale : ℝ) * (old : ℝ) ≤ (refined : ℝ) + (scale : ℝ) := by
+      nlinarith [hold_scaled_norm, hscaleM_le_norm, href_lt_norm,
+        hscale_sub_add_cast]
+    have hreal :
+        ((scale * old : ℕ) : ℝ) ≤ ((refined + scale : ℕ) : ℝ) := by
+      simpa [Nat.cast_add, Nat.cast_mul] using hreal_norm
+    exact_mod_cast hreal
+
+/--
+Equispaced quantile grids converge uniformly to the identity on `[0,1]`.
+This is the reusable floor-grid scaffold behind interval-quantile
+convergence arguments.
+-/
+theorem tendstoUniformlyOn_nat_floor_mul_div_Icc_zero_one :
+    TendstoUniformlyOn
+      (fun Q : ℕ => fun x : ℝ =>
+        (Nat.floor ((Q : ℝ) * x) : ℝ) / (Q : ℝ))
+      (fun x : ℝ => x) atTop (Set.Icc (0 : ℝ) 1) := by
+  rw [Metric.tendstoUniformlyOn_iff]
+  intro ε hε
+  rcases exists_nat_one_div_lt hε with ⟨m, hm⟩
+  refine eventually_atTop.2 ⟨m + 1, ?_⟩
+  intro Q hQ x hx
+  have hQpos_nat : 0 < Q := Nat.succ_pos m |>.trans_le hQ
+  have hQpos : 0 < (Q : ℝ) := by exact_mod_cast hQpos_nat
+  have hmpos : 0 < ((m + 1 : ℕ) : ℝ) := by positivity
+  have hrec :
+      1 / (Q : ℝ) ≤ 1 / (((m + 1 : ℕ) : ℝ)) := by
+    exact one_div_le_one_div_of_le hmpos (by exact_mod_cast hQ)
+  have hclose :=
+    nat_floor_mul_div_sub_abs_lt_inv (Q := Q) hQpos_nat (x := x) hx.1
+  calc
+    dist x ((Nat.floor ((Q : ℝ) * x) : ℝ) / (Q : ℝ))
+        = |((Nat.floor ((Q : ℝ) * x) : ℝ) / (Q : ℝ)) - x| := by
+          rw [Real.dist_eq, abs_sub_comm]
+    _ < 1 / (Q : ℝ) := hclose
+    _ ≤ 1 / (((m + 1 : ℕ) : ℝ)) := hrec
+    _ < ε := by
+          simpa [Nat.cast_add, Nat.cast_one] using hm
+
 /-- If `g > 0`, then `floor (N * g)` diverges to infinity. -/
 theorem tendsto_nat_floor_mul_const_atTop
     {g : ℝ} (hg_pos : 0 < g) :
@@ -787,6 +1091,29 @@ theorem tendsto_nat_sqrt_atTop :
 theorem tendsto_nat_succ_cast_atTop :
     Tendsto (fun N : ℕ => (((N + 1 : ℕ) : ℝ))) atTop atTop :=
   tendsto_natCast_atTop_atTop.comp (tendsto_add_atTop_nat 1)
+
+/--
+The elementary logarithmic endpoint rate `-log(1 - 1/(N+1))` tends to zero.
+-/
+theorem tendsto_neg_log_one_sub_inv_nat_succ_nhds_zero :
+    Tendsto
+      (fun N : ℕ => -Real.log (1 - 1 / (((N + 1 : ℕ) : ℝ))))
+      atTop (nhds 0) := by
+  have hinv :
+      Tendsto (fun N : ℕ => (1 : ℝ) / (((N + 1 : ℕ) : ℝ)))
+        atTop (nhds 0) :=
+    Filter.Tendsto.const_div_atTop tendsto_nat_succ_cast_atTop (1 : ℝ)
+  have harg :
+      Tendsto (fun N : ℕ => 1 - (1 : ℝ) / (((N + 1 : ℕ) : ℝ)))
+        atTop (nhds 1) := by
+    simpa using tendsto_const_nhds.sub hinv
+  have hlog :
+      Tendsto
+        (fun N : ℕ => Real.log (1 - (1 : ℝ) / (((N + 1 : ℕ) : ℝ))))
+        atTop (nhds 0) := by
+    simpa [Real.log_one] using
+      (Real.continuousAt_log (by norm_num : (1 : ℝ) ≠ 0)).tendsto.comp harg
+  simpa using hlog.neg
 
 /-- Adding a real constant to `(N + 1 : ℝ)` still tends to infinity. -/
 theorem tendsto_nat_succ_cast_add_const_atTop (d : ℝ) :

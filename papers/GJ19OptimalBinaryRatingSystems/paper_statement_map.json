@@ -1,0 +1,180 @@
+{
+  "schema": 1,
+  "paper": "GJ19OptimalBinaryRatingSystems",
+  "title": "Designing Optimal Binary Rating Systems",
+  "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+  "source_inventory_kind": "source_curated",
+  "source_curated": true,
+  "source_inventory_policy": "Curated from the local PMLR main-paper and supplement text caches in source/garg19a.txt and source/garg19a-supp.txt. Items are source-facing theorem, lemma, definition, equation, and model-condition statements; support-only proof-route lemmas are retained so paper-level completeness does not depend only on compact dashboard rows.",
+  "generated_at": "2026-06-29T02:15:07Z",
+  "items": {
+    "model_nondecreasing_match_function": {
+      "statement": "Model setup: item quality is matched according to a nondecreasing match function g(theta), bounded above and bounded away from zero.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Main paper Section 3.1, model and problem specification, lines 204-211 in local extracted text.",
+      "aliases": []
+    },
+    "theorem31_two_stage_optimality": {
+      "statement": "Theorem 3.1: the optimal beta decomposes into an optimal discretization S* maximizing the limiting value and optimal levels t* maximizing the large-deviation rate among those discretizations.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Main paper Theorem 3.1, around lines 487-506 in local extracted text.",
+      "aliases": []
+    },
+    "theorem31_adjacent_rate_expression": {
+      "statement": "Theorem 3.1 rate expression: r(t) is the minimum over adjacent intervals of inf_a {g_{i+1} KL(a||t_{i+1}) + g_i KL(a||t_i)}.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Main paper Theorem 3.1 display (3), around lines 500-506 in local extracted text.",
+      "aliases": []
+    },
+    "lemma31_equalized_rates_optimize": {
+      "statement": "Lemma 3.1: the unique endpoint-normalized solution equalizing all adjacent rates maximizes r(t).",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Main paper Lemma 3.1, around lines 534-548 in local extracted text; supplement Section C.4 proof.",
+      "aliases": []
+    },
+    "theorem32_nested_bisection_runtime": {
+      "statement": "Theorem 3.2: NestedBisection finds an epsilon-optimal t in O(M log^2(M/epsilon)) operations.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Main paper Theorem 3.2, around lines 587-598 in local extracted text; supplement Algorithm 1 and Section C.6 proof.",
+      "aliases": []
+    },
+    "lemmaB1_matching_rate_shift": {
+      "statement": "Lemma B.1: if matching rates shift upward above index k and downward below k, with equality at k, then the kth optimal beta level shifts upward.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section B.3 Lemma B.1, around lines 854-865 in local extracted text.",
+      "aliases": []
+    },
+    "theoremB1_uniform_subsequence_convergence": {
+      "statement": "Theorem B.1: for uniform g, if the interval-quantile maps q_M^w converge uniformly, every dyadic subsequence beta_{C 2^N + 1}^w has a uniform limit.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section B.4 Theorem B.1, around lines 896-905 and Section C.7 proof around lines 2385-2506 in local extracted text.",
+      "aliases": []
+    },
+    "lemmaB2_known_type_learning": {
+      "statement": "Lemma B.2: with KnownTypeExperiment and Lipschitz psi(theta,y), empirical estimates converge uniformly to psi as the number of samples and representatives grow.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section B.5 Lemma B.2, around lines 943-957 in local extracted text.",
+      "aliases": []
+    },
+    "lemmaB3_unknown_type_learning": {
+      "statement": "Lemma B.3: with UnknownTypeExperiment and Lipschitz psi(theta,y), empirical estimates converge uniformly to psi as item count and samples grow.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section B.5 Lemma B.3, around lines 960-980 in local extracted text.",
+      "aliases": []
+    },
+    "lemmaC1_pairwise_error_rate": {
+      "statement": "Lemma C.1: the left-tail pairwise score error has large-deviation exponent inf_a {g(theta_1) I(a|theta_1) + g(theta_2) I(a|theta_2)}.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.1 Lemma C.1, around lines 1003-1038 in local extracted text.",
+      "aliases": []
+    },
+    "lemmaC2_binary_complement_rate": {
+      "statement": "Lemma C.2: for Bernoulli scores with I(a|theta)=KL(a||beta(theta)), the complement pairwise ranking probability has the same infimum rate.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.1 Lemma C.2, around lines 1050-1076 in local extracted text.",
+      "aliases": []
+    },
+    "theoremC1_laplace_principle": {
+      "statement": "Theorem C.1: under compactness, finite measure, nonnegativity, essential infima, and uniform convergence of rate functions, the integral of exp(-n phi_n) has exponent -phi.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.2 Theorem C.1, around lines 1086-1138 in local extracted text.",
+      "aliases": []
+    },
+    "lemmaC3_piecewise_constant_rate": {
+      "statement": "Lemma C.3: for piecewise constant beta with levels t_i, Wbar_k has exponent equal to the minimum adjacent Bernoulli rate.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.3 Lemma C.3, around lines 1155-1270 in local extracted text.",
+      "aliases": []
+    },
+    "lemmaC4_positive_rate_iff_piecewise_constant": {
+      "statement": "Lemma C.4: beta is piecewise constant if and only if Wbar_k has a positive exponential convergence rate.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.3 Lemma C.4, around lines 1282-1315 in local extracted text.",
+      "aliases": []
+    },
+    "lemmaC5_uniform_doubled_chain": {
+      "statement": "Lemma C.5: under uniform matching, the optimal beta_{2M-1} levels are obtained from beta_M by copying old levels and inserting the displayed square-root midpoint formulas.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.4 Lemma C.5, around lines 1631-1945 in local extracted text.",
+      "aliases": []
+    },
+    "corollaryC1_rate_tends_to_zero": {
+      "statement": "Corollary C.1: under uniform matching, for every epsilon there is M such that all larger finite optimal rates are below epsilon.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.5 Corollary C.1, around lines 1958-2010 in local extracted text.",
+      "aliases": []
+    },
+    "corollaryC2_adjacent_mesh_tends_to_zero": {
+      "statement": "Corollary C.2: under uniform matching, the maximum adjacent level gap tends to zero.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.5 Corollary C.2, around lines 2010-2047 in local extracted text.",
+      "aliases": []
+    },
+    "lemmaC6_monotone_penultimate_lower_bound": {
+      "statement": "Lemma C.6: if g is nondecreasing in theta, then the penultimate optimal level satisfies t_{M-2} >= 1 - 1/(M-1).",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.5 Lemma C.6, around lines 2047-2076 in local extracted text.",
+      "aliases": []
+    },
+    "lemmaC7_uniform_rate_refinement_lower_bound": {
+      "statement": "Lemma C.7: under uniform matching, the refined optimal rate along the doubled chain is at least one fifth of the old rate.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.5 Lemma C.7, around lines 2077-2150 in local extracted text.",
+      "aliases": []
+    },
+    "lemmaC8_uniform_first_level_lower_bound": {
+      "statement": "Lemma C.8: under uniform matching, the first interior optimal level has a polynomial lower bound C M^{-3}.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.5 Lemma C.8, around lines 2150-2184 in local extracted text.",
+      "aliases": []
+    },
+    "corollaryC3_monotone_first_level_lower_bound": {
+      "statement": "Corollary C.3: under monotonically nondecreasing g, the first interior optimal level has a polynomial lower bound C M^{-3}, using Lemma B.1.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.5 Corollary C.3, around lines 2184-2191 in local extracted text.",
+      "aliases": []
+    },
+    "lemmaC9_nested_bisection_runtime": {
+      "statement": "Lemma C.9: NestedBisection runs in O(M log^2(1/delta)) operations for bisection grid width delta.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.5 Lemma C.9, around lines 2191-2205 in local extracted text.",
+      "aliases": []
+    },
+    "definitionC1_kendall_spearman_population_objectives": {
+      "statement": "Definition C.1: population Kendall tau and Spearman rho objectives are proportional to the displayed integrals of P_k.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.8 Definition C.1, around lines 2515-2530 in local extracted text.",
+      "aliases": []
+    },
+    "lemmaC10_spearman_weight_reduction": {
+      "statement": "Lemma C.10: Spearman rho can be written as an ordered-pair objective with weight w(theta_1,theta_2)=theta_1-theta_2.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.8 Lemma C.10, around lines 2531-2614 in local extracted text.",
+      "aliases": []
+    },
+    "lemmaC11_kendall_equispaced_intervals": {
+      "statement": "Lemma C.11: with constant weight, the Kendall interval objective is maximized by equispaced cutpoints.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.8 Lemma C.11, around lines 2614-2629 in local extracted text.",
+      "aliases": []
+    },
+    "lemmaC12_spearman_equispaced_intervals": {
+      "statement": "Lemma C.12: with weight theta_1-theta_2, the Spearman interval objective is maximized by equispaced cutpoints.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.8 Lemma C.12, around lines 2629-2645 in local extracted text.",
+      "aliases": []
+    },
+    "corollaryC4_kendall_spearman_uniform_subsequence": {
+      "statement": "Corollary C.4: for Kendall tau and Spearman rho, there exists beta such that beta_{2^N} converges uniformly.",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Supplement Section C.7 Corollary C.4, around lines 2506-2512 in local extracted text.",
+      "aliases": []
+    },
+    "source_definition_bernoulli_kl_formula": {
+      "statement": "Definition below Theorem 3.1: Bernoulli KL divergence KL(a||b) = a log(a/b) + (1-a) log((1-a)/(1-b)).",
+      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
+      "source_location": "Main paper Theorem 3.1 footnote/display, around lines 520-523 in local extracted text.",
+      "aliases": []
+    }
+  }
+}

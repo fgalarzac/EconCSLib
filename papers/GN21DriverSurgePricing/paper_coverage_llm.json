@@ -7,10 +7,10 @@
   "seed_scaffold": false,
   "validator": "codex source-grounded audit pass",
   "validator_type": "agent",
-  "validated_at": "2026-06-29T00:41:10Z",
-  "comment": "Source-grounded pass using source PDF/text where locally available or prior source-inventory reports otherwise. Exact-key scaffold coverage was replaced with semantic source-to-dashboard judgments.",
+  "validated_at": "2026-06-29T05:52:06Z",
+  "comment": "Source-grounded source-to-dashboard judgments preserved; review-surface digest refreshed against the current public dashboard rows.",
   "paper_statement_inventory_sha256": "964726949f6734f211f080d5e96e5c11605c8a7b48cea129b92ba6c509ae392f",
-  "review_surface_sha256": "a569173c785a5f6f0b46ef226e8ff55af0351ea136621451d19f4e02a40b0f06",
+  "review_surface_sha256": "892023a5c48bf0009079ece2efab73701cd6b5b0b275eaa0e289df83b0602329",
   "items": {
     "assumption_affine_response_shape_domains": {
       "coverage": "covered",
@@ -186,8 +186,8 @@
       "review_rows": [
         "review_definition_threshold_policy"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Definition: threshold policies. A trip policy accepts exactly the positive trip lengths whose payment-per-time `w \u03c4 / \u03c4` is at least the cutoff `c`. The dashboard row `review_definition_threshold_policy` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GN21DriverSurgePricing.txt and paper-local SOURCE_AUDIT.md. direct paper definition. Source inventory item: Definition: threshold policies. A trip policy accepts exactly the positive trip lengths whose payment-per-time `w \u03c4 / \u03c4` is at least the cutoff `c`.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Definition: threshold policies. A trip policy accepts exactly the positive trip lengths whose payment-per-time `w τ / τ` is at least the cutoff `c`. The dashboard row `review_definition_threshold_policy` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: /tmp/econcs_source_text/GN21DriverSurgePricing.txt and paper-local SOURCE_AUDIT.md. direct paper definition. Source inventory item: Definition: threshold policies. A trip policy accepts exactly the positive trip lengths whose payment-per-time `w τ / τ` is at least the cutoff `c`.",
       "dashboard_evidence": "Current human-dashboard row(s): `review_definition_threshold_policy`.",
       "statement_sha256": "2120dacda0715d4dfc97a2c29590e802c7db482c59af6d2bc765e96b13fa1358",
       "audit_kind": "source_to_dashboard_agent",

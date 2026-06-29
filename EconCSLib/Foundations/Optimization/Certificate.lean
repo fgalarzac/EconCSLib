@@ -2,6 +2,9 @@ import Mathlib.Data.Real.Basic
 import Mathlib.Data.Real.Archimedean
 import Mathlib.Data.Set.Basic
 import Mathlib.Order.ConditionallyCompleteLattice.Basic
+import Mathlib.Topology.MetricSpace.Pseudo.Lemmas
+import Mathlib.Topology.MetricSpace.Pseudo.Real
+import Mathlib.Topology.Order.Compact
 
 namespace EconCSLib
 namespace Optimization
@@ -21,6 +24,14 @@ optimization arguments.
 - `LowerBoundCertificate`: a candidate value plus a universal lower bound.
 - `StrictUpperBoundCertificate`, `StrictLowerBoundCertificate`: uniqueness
   variants based on strict bounds away from the candidate.
+- `AlgorithmMinimizerCertificate`, `AlgorithmMaximizerCertificate`: pointwise
+  optimality certificates for an algorithm together with an abstract
+  operation-count bound.
+- `AlgorithmSoundnessCertificate`: pointwise specification certificate for an
+  algorithm together with an abstract operation-count bound.
+- `exists_isMaximizerOn_of_isCompact_continuousOn`,
+  `exists_isMinimizerOn_of_isCompact_continuousOn`: extreme-value theorem
+  wrappers in the local `IsMaximizerOn`/`IsMinimizerOn` certificate language.
 - `bddAbove_range_of_forall_le`: a pointwise upper bound yields boundedness of
   the objective range.
 - `le_sSup_range`: any achieved value is at most the supremum of a bounded
@@ -125,6 +136,30 @@ def IsStrictMinimizerOn {α : Type*} (feasible : α → Prop)
   feasible x ∧ ∀ y, feasible y → y ≠ x → objective x < objective y
 
 /--
+Extreme-value theorem in `IsMaximizerOn` form: a continuous real objective on
+a nonempty compact feasible set attains a maximum.
+-/
+theorem exists_isMaximizerOn_of_isCompact_continuousOn
+    {α : Type*} [TopologicalSpace α] {s : Set α} (hs : IsCompact s)
+    (hne : s.Nonempty) (objective : α → ℝ)
+    (hcont : ContinuousOn objective s) :
+    ∃ opt : α, IsMaximizerOn (fun x => x ∈ s) objective opt := by
+  rcases hs.exists_isMaxOn hne hcont with ⟨opt, hopt_mem, hopt⟩
+  exact ⟨opt, hopt_mem, fun _y hy => hopt hy⟩
+
+/--
+Extreme-value theorem in `IsMinimizerOn` form: a continuous real objective on
+a nonempty compact feasible set attains a minimum.
+-/
+theorem exists_isMinimizerOn_of_isCompact_continuousOn
+    {α : Type*} [TopologicalSpace α] {s : Set α} (hs : IsCompact s)
+    (hne : s.Nonempty) (objective : α → ℝ)
+    (hcont : ContinuousOn objective s) :
+    ∃ opt : α, IsMinimizerOn (fun x => x ∈ s) objective opt := by
+  rcases hs.exists_isMinOn hne hcont with ⟨opt, hopt_mem, hopt⟩
+  exact ⟨opt, hopt_mem, fun _y hy => hopt hy⟩
+
+/--
 `x` is lexicographically maximal: every feasible alternative has either a
 strictly smaller primary objective, or the same primary objective and no larger
 secondary objective.
@@ -169,6 +204,57 @@ theorem objective_eq_of_isMaximizerOn
 
 end IsMaximizerOn
 
+/--
+Compact lexicographic extreme-value theorem.  A continuous primary objective
+and a continuous secondary tie-breaker on a nonempty compact feasible set admit
+a lexicographic maximizer: first maximize the primary objective, then maximize
+the secondary objective on the primary-optimal fiber.
+-/
+theorem exists_isLexicographicMaximizerOn_of_isCompact_continuousOn
+    {α : Type*} [TopologicalSpace α] [T2Space α] {s : Set α}
+    (hs : IsCompact s) (hne : s.Nonempty) (primary secondary : α → ℝ)
+    (hprimary : ContinuousOn primary s)
+    (hsecondary : ContinuousOn secondary s) :
+    ∃ opt : α,
+      IsLexicographicMaximizerOn (fun x => x ∈ s) primary secondary opt := by
+  rcases exists_isMaximizerOn_of_isCompact_continuousOn
+      hs hne primary hprimary with
+    ⟨primaryOpt, hprimaryOpt⟩
+  let fiber : Set α := s ∩ primary ⁻¹' {primary primaryOpt}
+  have hfiber_closed : IsClosed fiber := by
+    simpa [fiber] using
+      hprimary.preimage_isClosed_of_isClosed hs.isClosed
+        (isClosed_singleton : IsClosed ({primary primaryOpt} : Set ℝ))
+  have hfiber_compact : IsCompact fiber :=
+    hs.of_isClosed_subset hfiber_closed (by
+      intro x hx
+      exact hx.1)
+  have hfiber_nonempty : fiber.Nonempty :=
+    ⟨primaryOpt, hprimaryOpt.isFeasible, by simp⟩
+  have hsecondary_fiber : ContinuousOn secondary fiber :=
+    hsecondary.mono (by
+      intro x hx
+      exact hx.1)
+  rcases exists_isMaximizerOn_of_isCompact_continuousOn
+      hfiber_compact hfiber_nonempty secondary hsecondary_fiber with
+    ⟨opt, hopt⟩
+  refine ⟨opt, ?_⟩
+  have hopt_mem_s : opt ∈ s := hopt.isFeasible.1
+  have hopt_primary : primary opt = primary primaryOpt := by
+    simpa [fiber] using hopt.isFeasible.2
+  refine ⟨hopt_mem_s, ?_⟩
+  intro y hy
+  by_cases hlt : primary y < primary opt
+  · exact Or.inl hlt
+  · have hy_le_primaryOpt : primary y ≤ primary primaryOpt :=
+      hprimaryOpt.le hy
+    have hy_le_opt : primary y ≤ primary opt := by
+      simpa [hopt_primary] using hy_le_primaryOpt
+    have hopt_le_y : primary opt ≤ primary y := le_of_not_gt hlt
+    have heq : primary y = primary opt := le_antisymm hy_le_opt hopt_le_y
+    refine Or.inr ⟨heq, ?_⟩
+    exact hopt.le ⟨hy, by simpa [fiber, hopt_primary, heq]⟩
+
 namespace IsLexicographicMaximizerOn
 
 variable {α : Type*} {feasible : α → Prop}
@@ -210,6 +296,21 @@ theorem isLexicographicMaximizerOn_of_primary_and_secondary_on_tie
     have hge : primary x ≤ primary y := le_of_not_gt hlt
     have heq : primary y = primary x := le_antisymm hle hge
     exact Or.inr ⟨heq, hsecondary y hy heq⟩
+
+/--
+Primary optimality plus an `IsMaximizerOn` certificate for the secondary
+objective on the primary-optimal fiber gives lexicographic optimality.  This
+is the source-shaped form of the common two-stage optimization argument.
+-/
+theorem isLexicographicMaximizerOn_of_primary_and_secondary_maximizer_on_tie
+    {α : Type*} {feasible : α → Prop} {primary secondary : α → ℝ} {x : α}
+    (hprimary : IsMaximizerOn feasible primary x)
+    (hsecondary :
+      IsMaximizerOn (fun y => feasible y ∧ primary y = primary x)
+        secondary x) :
+    IsLexicographicMaximizerOn feasible primary secondary x :=
+  isLexicographicMaximizerOn_of_primary_and_secondary_on_tie hprimary
+    (fun y hy heq => hsecondary.le ⟨hy, heq⟩)
 
 namespace IsMinimizerOn
 
@@ -532,6 +633,119 @@ theorem eq_of_isMinimizerOn
   cert.isStrictMinimizerOn.eq_of_isMinimizerOn hy
 
 end StrictLowerBoundCertificate
+
+/--
+A pointwise certificate that an algorithm returns a minimizer and satisfies an
+abstract operation-count bound.
+
+The operation model is deliberately a parameter: downstream modules can use
+Turing-machine time, comparison counts, arithmetic-operation counts, or
+application-level pseudocode costs while reusing the same optimality wrapper.
+-/
+structure AlgorithmMinimizerCertificate {Input Output : Type*}
+    (algorithm : Input → Output)
+    (feasible : Input → Output → Prop)
+    (objective : Input → Output → ℝ)
+    (operationCount operationBound : Input → ℕ) where
+  optimal : ∀ input, IsMinimizerOn (feasible input) (objective input) (algorithm input)
+  operationCount_le : ∀ input, operationCount input ≤ operationBound input
+
+/--
+A pointwise certificate that an algorithm returns a maximizer and satisfies an
+abstract operation-count bound.
+-/
+structure AlgorithmMaximizerCertificate {Input Output : Type*}
+    (algorithm : Input → Output)
+    (feasible : Input → Output → Prop)
+    (objective : Input → Output → ℝ)
+    (operationCount operationBound : Input → ℕ) where
+  optimal : ∀ input, IsMaximizerOn (feasible input) (objective input) (algorithm input)
+  operationCount_le : ∀ input, operationCount input ≤ operationBound input
+
+/--
+A pointwise certificate that an algorithm's output satisfies a specification
+and has an abstract operation-count bound.
+
+Use this for soundness claims that are not optimization problems, such as
+preprocessing, reduction, feasibility filtering, or verified transformations.
+-/
+structure AlgorithmSoundnessCertificate {Input Output : Type*}
+    (algorithm : Input → Output)
+    (specification : Input → Output → Prop)
+    (operationCount operationBound : Input → ℕ) where
+  sound : ∀ input, specification input (algorithm input)
+  operationCount_le : ∀ input, operationCount input ≤ operationBound input
+
+namespace AlgorithmMinimizerCertificate
+
+variable {Input Output : Type*} {algorithm : Input → Output}
+  {feasible : Input → Output → Prop} {objective : Input → Output → ℝ}
+  {operationCount operationBound : Input → ℕ}
+
+/-- The certified algorithm output is feasible for each input. -/
+theorem output_feasible
+    (cert :
+      AlgorithmMinimizerCertificate algorithm feasible objective
+        operationCount operationBound)
+    (input : Input) :
+    feasible input (algorithm input) :=
+  (cert.optimal input).isFeasible
+
+/-- The certified algorithm output weakly minimizes the objective for each input. -/
+theorem objective_le
+    (cert :
+      AlgorithmMinimizerCertificate algorithm feasible objective
+        operationCount operationBound)
+    (input : Input) {output : Output}
+    (houtput : feasible input output) :
+    objective input (algorithm input) ≤ objective input output :=
+  (cert.optimal input).le houtput
+
+end AlgorithmMinimizerCertificate
+
+namespace AlgorithmMaximizerCertificate
+
+variable {Input Output : Type*} {algorithm : Input → Output}
+  {feasible : Input → Output → Prop} {objective : Input → Output → ℝ}
+  {operationCount operationBound : Input → ℕ}
+
+/-- The certified algorithm output is feasible for each input. -/
+theorem output_feasible
+    (cert :
+      AlgorithmMaximizerCertificate algorithm feasible objective
+        operationCount operationBound)
+    (input : Input) :
+    feasible input (algorithm input) :=
+  (cert.optimal input).isFeasible
+
+/-- The certified algorithm output weakly maximizes the objective for each input. -/
+theorem objective_le_output
+    (cert :
+      AlgorithmMaximizerCertificate algorithm feasible objective
+        operationCount operationBound)
+    (input : Input) {output : Output}
+    (houtput : feasible input output) :
+    objective input output ≤ objective input (algorithm input) :=
+  (cert.optimal input).le houtput
+
+end AlgorithmMaximizerCertificate
+
+namespace AlgorithmSoundnessCertificate
+
+variable {Input Output : Type*} {algorithm : Input → Output}
+  {specification : Input → Output → Prop}
+  {operationCount operationBound : Input → ℕ}
+
+/-- The certified algorithm output satisfies the requested specification. -/
+theorem output_spec
+    (cert :
+      AlgorithmSoundnessCertificate algorithm specification
+        operationCount operationBound)
+    (input : Input) :
+    specification input (algorithm input) :=
+  cert.sound input
+
+end AlgorithmSoundnessCertificate
 
 end Optimization
 end EconCSLib

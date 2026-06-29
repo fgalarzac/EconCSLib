@@ -1805,6 +1805,22 @@ theorem withTopRealScale_nonneg_of_nonneg {c : ℝ} (hc : 0 ≤ c)
         exact_mod_cast (mul_nonneg hc hx_real)
       simpa [withTopRealScale] using hmul
 
+/-- Nonnegative extended rates are monotone in the real scaling factor. -/
+theorem withTopRealScale_le_of_le_of_nonneg {c d : ℝ}
+    (hc : 0 ≤ c) (hcd : c ≤ d) {x : WithTop ℝ}
+    (hx : (0 : WithTop ℝ) ≤ x) :
+    withTopRealScale c x ≤ withTopRealScale d x := by
+  cases x with
+  | top =>
+      simp [withTopRealScale]
+  | coe r =>
+      have hr : 0 ≤ r := by
+        exact_mod_cast hx
+      have hmul : c * r ≤ d * r := mul_le_mul_of_nonneg_right hcd hr
+      have hmul_top : ((c * r : ℝ) : WithTop ℝ) ≤ ((d * r : ℝ) : WithTop ℝ) := by
+        exact_mod_cast hmul
+      simpa [withTopRealScale] using hmul_top
+
 /--
 Finite signal model for pairwise score-gap LDP calculations, e.g. election
 papers comparing the two candidates' per-voter score contributions under a
@@ -1968,6 +1984,85 @@ theorem pairwiseRateObjectiveTop_nonneg
     withTopRealScale_nonneg_of_nonneg hgLo
       (finiteRateFunctionTop_nonneg (M.typeLaw lo) M.score a)
   simpa [pairwiseRateObjectiveTop] using add_nonneg hhi hlo
+
+/--
+The support-safe pairwise source objective is monotone in the two sample-rate
+weights. This is useful when a paper replaces a continuum sample rate by an
+interval lower bound.
+-/
+theorem pairwiseRateObjectiveTop_le_of_sampleRate_le
+    (M : FiniteRatingLDPModel θ Rating) {sampleRate sampleRate' : θ → ℝ}
+    (hi lo : θ) (a : ℝ)
+    (hgHi : 0 ≤ sampleRate hi) (hgLo : 0 ≤ sampleRate lo)
+    (hhi_le : sampleRate hi ≤ sampleRate' hi)
+    (hlo_le : sampleRate lo ≤ sampleRate' lo) :
+    M.pairwiseRateObjectiveTop sampleRate hi lo a ≤
+      M.pairwiseRateObjectiveTop sampleRate' hi lo a := by
+  have hhi :
+      withTopRealScale (sampleRate hi) (M.rateFunctionTop hi a) ≤
+        withTopRealScale (sampleRate' hi) (M.rateFunctionTop hi a) :=
+    withTopRealScale_le_of_le_of_nonneg hgHi hhi_le
+      (finiteRateFunctionTop_nonneg (M.typeLaw hi) M.score a)
+  have hlo :
+      withTopRealScale (sampleRate lo) (M.rateFunctionTop lo a) ≤
+        withTopRealScale (sampleRate' lo) (M.rateFunctionTop lo a) :=
+    withTopRealScale_le_of_le_of_nonneg hgLo hlo_le
+      (finiteRateFunctionTop_nonneg (M.typeLaw lo) M.score a)
+  simpa [pairwiseRateObjectiveTop] using add_le_add hhi hlo
+
+/--
+The support-safe pairwise threshold exponent is bounded above by the
+support-safe objective at any displayed threshold.
+-/
+theorem pairwiseThresholdRateTop_le_pairwiseRateObjectiveTop
+    (M : FiniteRatingLDPModel θ Rating) (sampleRate : θ → ℝ)
+    (hi lo : θ) (a : ℝ)
+    (hgHi : 0 ≤ sampleRate hi) (hgLo : 0 ≤ sampleRate lo) :
+    M.pairwiseThresholdRateTop sampleRate hi lo ≤
+      M.pairwiseRateObjectiveTop sampleRate hi lo a := by
+  unfold pairwiseThresholdRateTop
+  have hbdd :
+      BddBelow
+        (Set.range fun b : ℝ =>
+          M.pairwiseRateObjectiveTop sampleRate hi lo b) := by
+    refine ⟨(0 : WithTop ℝ), ?_⟩
+    intro z hz
+    rcases hz with ⟨b, rfl⟩
+    exact M.pairwiseRateObjectiveTop_nonneg sampleRate hi lo b hgHi hgLo
+  exact csInf_le hbdd ⟨a, rfl⟩
+
+/--
+Increasing both sample-rate weights can only increase the support-safe
+pairwise threshold exponent.
+-/
+theorem pairwiseThresholdRateTop_le_of_sampleRate_le
+    (M : FiniteRatingLDPModel θ Rating) {sampleRate sampleRate' : θ → ℝ}
+    (hi lo : θ)
+    (hgHi : 0 ≤ sampleRate hi) (hgLo : 0 ≤ sampleRate lo)
+    (hhi_le : sampleRate hi ≤ sampleRate' hi)
+    (hlo_le : sampleRate lo ≤ sampleRate' lo) :
+    M.pairwiseThresholdRateTop sampleRate hi lo ≤
+      M.pairwiseThresholdRateTop sampleRate' hi lo := by
+  unfold pairwiseThresholdRateTop
+  have hnonempty :
+      (Set.range fun a : ℝ =>
+        M.pairwiseRateObjectiveTop sampleRate' hi lo a).Nonempty :=
+    ⟨M.pairwiseRateObjectiveTop sampleRate' hi lo 0, ⟨0, rfl⟩⟩
+  refine le_csInf hnonempty ?_
+  intro y hy
+  rcases hy with ⟨a, rfl⟩
+  have hbdd :
+      BddBelow
+        (Set.range fun b : ℝ =>
+          M.pairwiseRateObjectiveTop sampleRate hi lo b) := by
+    refine ⟨(0 : WithTop ℝ), ?_⟩
+    intro z hz
+    rcases hz with ⟨b, rfl⟩
+    exact M.pairwiseRateObjectiveTop_nonneg sampleRate hi lo b hgHi hgLo
+  exact
+    (csInf_le hbdd ⟨a, rfl⟩).trans
+      (M.pairwiseRateObjectiveTop_le_of_sampleRate_le hi lo a
+        hgHi hgLo hhi_le hlo_le)
 
 /--
 If a displayed common threshold minimizes the pairwise source objective over

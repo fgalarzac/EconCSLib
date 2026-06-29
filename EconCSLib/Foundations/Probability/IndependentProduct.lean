@@ -495,6 +495,126 @@ theorem pmfProb_pmfProd_and_eq_mul_pmfProb {α β : Type*}
   rw [pmfExp_pmfProd_eq_pairExp]
   exact pmfPairExp_indicator_and_eq_mul_pmfProb μ ν p q
 
+/-- Under an independent product PMF, a first-coordinate event has its marginal probability. -/
+theorem pmfProb_pmfProd_fst_eq {α β : Type*}
+    [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
+    (μ : PMF α) (ν : PMF β)
+    (p : α → Prop) [DecidablePred p] :
+    pmfProb (pmfProd μ ν) (fun x : α × β => p x.1) =
+      pmfProb μ p := by
+  classical
+  unfold pmfProb
+  rw [pmfExp_pmfProd_eq_pairExp]
+  exact pmfPairExp_ignore_right μ ν (fun a => if p a then (1 : ℝ) else 0)
+
+/-- Under an independent product PMF, a second-coordinate event has its marginal probability. -/
+theorem pmfProb_pmfProd_snd_eq {α β : Type*}
+    [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
+    (μ : PMF α) (ν : PMF β)
+    (q : β → Prop) [DecidablePred q] :
+    pmfProb (pmfProd μ ν) (fun x : α × β => q x.2) =
+      pmfProb ν q := by
+  classical
+  unfold pmfProb
+  rw [pmfExp_pmfProd_eq_pairExp]
+  exact pmfPairExp_ignore_left μ ν (fun b => if q b then (1 : ℝ) else 0)
+
+/--
+If a second-coordinate event has probability one, then a product event that
+agrees with a first-coordinate event on that full-probability slice has the
+first marginal probability.
+-/
+theorem pmfProb_pmfProd_eq_fst_of_snd_prob_one {α β : Type*}
+    [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
+    (μ : PMF α) (ν : PMF β)
+    (p : α → Prop) (q : β → Prop) (r : α × β → Prop)
+    [DecidablePred p] [DecidablePred q] [DecidablePred r]
+    (hq_one : pmfProb ν q = 1)
+    (hr : ∀ a b, q b → (r (a, b) ↔ p a)) :
+    pmfProb (pmfProd μ ν) r = pmfProb μ p := by
+  classical
+  let prod := pmfProd μ ν
+  let good : α × β → Prop := fun x => q x.2
+  have hsplit :=
+    pmfProb_eq_inter_add_inter_not prod r good
+  have hbad_zero :
+      pmfProb prod (fun x => r x ∧ ¬ good x) = 0 := by
+    have hbad_le :
+        pmfProb prod (fun x => r x ∧ ¬ good x) ≤
+          pmfProb prod (fun x => ¬ good x) :=
+      pmfProb_le_of_imp prod (fun x => r x ∧ ¬ good x)
+        (fun x => ¬ good x) (fun x hx => hx.2)
+    have hnot_good :
+        pmfProb prod (fun x => ¬ good x) = 0 := by
+      rw [pmfProb_pmfProd_snd_eq μ ν (fun b => ¬ q b)]
+      rw [pmfProb_compl ν q, hq_one]
+      norm_num
+    exact le_antisymm (hbad_le.trans (le_of_eq hnot_good))
+      (pmfProb_nonneg prod (fun x => r x ∧ ¬ good x))
+  have hgood_eq :
+      pmfProb prod (fun x => r x ∧ good x) = pmfProb μ p := by
+    have hcongr :
+        pmfProb prod (fun x => r x ∧ good x) =
+          pmfProb prod (fun x => p x.1 ∧ q x.2) :=
+      pmfProb_congr prod (by
+        intro x
+        constructor
+        · intro hx
+          exact ⟨(hr x.1 x.2 hx.2).1 hx.1, hx.2⟩
+        · intro hx
+          exact ⟨(hr x.1 x.2 hx.2).2 hx.1, hx.2⟩)
+    rw [hcongr, pmfProb_pmfProd_and_eq_mul_pmfProb μ ν p q, hq_one]
+    ring
+  rw [hsplit, hbad_zero, hgood_eq, add_zero]
+
+/--
+If a first-coordinate event has probability one, then a product event that
+agrees with a second-coordinate event on that full-probability slice has the
+second marginal probability.
+-/
+theorem pmfProb_pmfProd_eq_snd_of_fst_prob_one {α β : Type*}
+    [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
+    (μ : PMF α) (ν : PMF β)
+    (p : α → Prop) (q : β → Prop) (r : α × β → Prop)
+    [DecidablePred p] [DecidablePred q] [DecidablePred r]
+    (hp_one : pmfProb μ p = 1)
+    (hr : ∀ a b, p a → (r (a, b) ↔ q b)) :
+    pmfProb (pmfProd μ ν) r = pmfProb ν q := by
+  classical
+  let prod := pmfProd μ ν
+  let good : α × β → Prop := fun x => p x.1
+  have hsplit :=
+    pmfProb_eq_inter_add_inter_not prod r good
+  have hbad_zero :
+      pmfProb prod (fun x => r x ∧ ¬ good x) = 0 := by
+    have hbad_le :
+        pmfProb prod (fun x => r x ∧ ¬ good x) ≤
+          pmfProb prod (fun x => ¬ good x) :=
+      pmfProb_le_of_imp prod (fun x => r x ∧ ¬ good x)
+        (fun x => ¬ good x) (fun x hx => hx.2)
+    have hnot_good :
+        pmfProb prod (fun x => ¬ good x) = 0 := by
+      rw [pmfProb_pmfProd_fst_eq μ ν (fun a => ¬ p a)]
+      rw [pmfProb_compl μ p, hp_one]
+      norm_num
+    exact le_antisymm (hbad_le.trans (le_of_eq hnot_good))
+      (pmfProb_nonneg prod (fun x => r x ∧ ¬ good x))
+  have hgood_eq :
+      pmfProb prod (fun x => r x ∧ good x) = pmfProb ν q := by
+    have hcongr :
+        pmfProb prod (fun x => r x ∧ good x) =
+          pmfProb prod (fun x => p x.1 ∧ q x.2) :=
+      pmfProb_congr prod (by
+        intro x
+        constructor
+        · intro hx
+          exact ⟨hx.2, (hr x.1 x.2 hx.2).1 hx.1⟩
+        · intro hx
+          exact ⟨(hr x.1 x.2 hx.1).2 hx.2, hx.1⟩)
+    rw [hcongr, pmfProb_pmfProd_and_eq_mul_pmfProb μ ν p q, hp_one]
+    ring
+  rw [hsplit, hbad_zero, hgood_eq, add_zero]
+
 /-- The expectation of a separable product factors under independent draws. -/
 theorem pmfPairExp_mul_separable {α β : Type*}
     [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
