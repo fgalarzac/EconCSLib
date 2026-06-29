@@ -1,0 +1,324 @@
+{
+  "schema": 1,
+  "paper": "LOS02CombinatorialAuctions",
+  "title": "Truth Revelation in Approximately Efficient Combinatorial Auctions",
+  "generated_at": "2026-06-29T00:41:38Z",
+  "source_inventory_policy": "Source basis: arXiv cs/0202017 source inventory from prior source audit and validation report. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
+  "source_url": "https://arxiv.org/pdf/cs/0202017v1; https://doi.org/10.1145/585265.585266",
+  "items": {
+    "utility_formula": {
+      "statement": "-\nUtility is value for the allocated bundle minus the bidder's payment.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "direct source formula",
+      "aliases": [
+        "utility_formula"
+      ]
+    },
+    "truthfulOn_iff": {
+      "statement": "-\nTruthfulness means every admissible value profile weakly prefers reporting\ntruthfully to replacing bidder `i`'s report by any alternative bundle valuation.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "direct source definition",
+      "aliases": [
+        "truthfulOn_iff"
+      ]
+    },
+    "generalizedVickreyAuction_allocation_payment": {
+      "statement": "-\nThe generalized Vickrey auction uses the supplied allocation rule and Clarke\npivot payments.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "direct source formula",
+      "aliases": [
+        "generalizedVickreyAuction_allocation_payment"
+      ]
+    },
+    "singleMindedAcceptedMechanism_fields": {
+      "statement": "-\nA single-minded accepted-set mechanism consists of an accepted-bidder rule and\na payment rule.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "direct source definition",
+      "aliases": [
+        "singleMindedAcceptedMechanism_fields"
+      ]
+    },
+    "singleMindedTruthfulOn_iff": {
+      "statement": "-\nSingle-minded truthfulness allows no admissible single-bidder deviation to\nraise the true single-minded utility.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "direct source definition",
+      "aliases": [
+        "singleMindedTruthfulOn_iff"
+      ]
+    },
+    "nonnegativeNonemptySingleMindedProfile_iff": {
+      "statement": "-\nEvery single-minded bid has a nonempty desired bundle and nonnegative value.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "direct source condition",
+      "aliases": [
+        "nonnegativeNonemptySingleMindedProfile_iff"
+      ]
+    },
+    "weightedSetPackingValue_formula": {
+      "statement": "-\nThe weighted set-packing objective sums the selected bidders' weights.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "direct source formula",
+      "aliases": [
+        "weightedSetPackingValue_formula"
+      ]
+    },
+    "setPackingSingleMindedBids_formula": {
+      "statement": "-\nThe set-packing encoding gives bidder `i` desired set `sets i` and value\n`weights i`.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "direct source formula",
+      "aliases": [
+        "setPackingSingleMindedBids_formula"
+      ]
+    },
+    "averageAmountPerGood_formula": {
+      "statement": "-\nAverage amount per good is the bid value divided by the desired-bundle size.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "direct source formula",
+      "aliases": [
+        "averageAmountPerGood_formula"
+      ]
+    },
+    "averageOrderOf_rule": {
+      "statement": "-\nThe concrete average order lists every bidder exactly once and is weakly\ndescending in average amount per good.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "direct source rule",
+      "aliases": [
+        "averageOrderOf_rule"
+      ]
+    },
+    "greedyAcceptedFromOrder_formula": {
+      "statement": "-\nThe greedy accepted set starts empty and folds through the order, accepting a\nbid iff it conflicts with no already accepted bid.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "direct source formula",
+      "aliases": [
+        "greedyAcceptedFromOrder_formula"
+      ]
+    },
+    "averageGreedyAcceptedSet_formula": {
+      "statement": "-\nAverage-greedy accepts the greedy set from the concrete average order.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "direct source formula",
+      "aliases": [
+        "averageGreedyAcceptedSet_formula"
+      ]
+    },
+    "averageGreedyPayment_formula": {
+      "statement": "-\nDefinition 10.1 payment: denied bidders pay zero; accepted bidders pay zero\nwhen there is no later denied blocker, and otherwise pay their bundle size\ntimes that blocker bid's average amount per good.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "direct source formula",
+      "aliases": [
+        "averageGreedyPayment_formula"
+      ]
+    },
+    "theorem4_1_generalized_vickrey_truthful": {
+      "statement": "- Theorem 4.1: generalized Vickrey auctions are truthful.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem4_1_generalized_vickrey_truthful"
+      ]
+    },
+    "proposition4_2_generalized_vickrey_truthful_utility_nonneg": {
+      "statement": "- Proposition 4.2: truthful GVA bidder utility is nonnegative.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "proposition4_2_generalized_vickrey_truthful_utility_nonneg"
+      ]
+    },
+    "theorem6_1_set_packing_feasibility_encoding_correct": {
+      "statement": "- Theorem 6.1 set-packing feasibility encoding.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem6_1_set_packing_feasibility_encoding_correct"
+      ]
+    },
+    "theorem6_1_set_packing_value_encoding_correct": {
+      "statement": "- Theorem 6.1 set-packing value encoding.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem6_1_set_packing_value_encoding_correct"
+      ]
+    },
+    "theorem6_1_weighted_set_packing_reduction": {
+      "statement": "- Theorem 6.1 weighted set-packing reduction.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem6_1_weighted_set_packing_reduction"
+      ]
+    },
+    "theorem6_1_clique_decision_single_minded_welfare_reduction": {
+      "statement": "- Theorem 6.1 clique-to-single-minded welfare reduction.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem6_1_clique_decision_single_minded_welfare_reduction"
+      ]
+    },
+    "theorem6_1_external_optimal_solver_np_eq_zpp": {
+      "statement": "-\nTheorem 6.1 external exact-solver complexity consequence.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "partial external complexity boundary",
+      "aliases": [
+        "theorem6_1_external_optimal_solver_np_eq_zpp"
+      ]
+    },
+    "theorem6_1_external_approximation_solver_np_eq_zpp": {
+      "statement": "-\nTheorem 6.1 external approximation-solver complexity consequence.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "partial external complexity boundary",
+      "aliases": [
+        "theorem6_1_external_approximation_solver_np_eq_zpp"
+      ]
+    },
+    "complexity_note_np_eq_zpp_implies_randomized_collapse": {
+      "statement": "-\nComplexity-class note: `NP = ZPP` implies the randomized collapse.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "partial external complexity boundary",
+      "aliases": [
+        "complexity_note_np_eq_zpp_implies_randomized_collapse"
+      ]
+    },
+    "theorem7_2_sqrt_norm_approx_of_sorted_order": {
+      "statement": "- Theorem 7.2 greedy allocation square-root approximation.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem7_2_sqrt_norm_approx_of_sorted_order"
+      ]
+    },
+    "lemma9_1_exists_nonnegative_critical_value_of_monotonicity": {
+      "statement": "- Lemma 9.1 critical-value existence from monotonicity.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "lemma9_1_exists_nonnegative_critical_value_of_monotonicity"
+      ]
+    },
+    "lemma9_2_denied_bidder_utility_eq_zero": {
+      "statement": "-\nLemma 9.2 denied-bidder utility is zero.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "direct source lemma endpoint",
+      "aliases": [
+        "lemma9_2_denied_bidder_utility_eq_zero"
+      ]
+    },
+    "lemma9_3_truthful_utility_nonnegative_condition": {
+      "statement": "-\nLemma 9.3 truth-telling utility is nonnegative under critical-value conditions.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "direct source lemma endpoint with visible certificate boundary",
+      "aliases": [
+        "lemma9_3_truthful_utility_nonnegative_condition"
+      ]
+    },
+    "lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms": {
+      "statement": "- Lemma 9.4 no profitable value-only lie under nonnegative infinity axioms.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms"
+      ]
+    },
+    "lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate": {
+      "statement": "-\nLemma 9.5 finite threshold monotonicity.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "direct source lemma endpoint",
+      "aliases": [
+        "lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate"
+      ]
+    },
+    "theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms": {
+      "statement": "- Theorem 9.6 critical axioms imply truthfulness for single-minded bidders.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms"
+      ]
+    },
+    "theorem10_2_averageGreedy_truthful": {
+      "statement": "- Theorem 10.2 average-order greedy mechanism truthfulness.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem10_2_averageGreedy_truthful"
+      ]
+    },
+    "assumption_admissible_combinatorial_report_domain": {
+      "statement": "- Truthfulness is stated relative to an admissible declaration domain.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_admissible_combinatorial_report_domain"
+      ]
+    },
+    "assumption_external_exact_set_packing_complexity_boundary": {
+      "statement": "-\nExternal exact set-packing hardness and polynomial-time transfer facts for the\npaper's Theorem 6.1 complexity consequence.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_external_exact_set_packing_complexity_boundary"
+      ]
+    },
+    "assumption_external_approximation_set_packing_complexity_boundary": {
+      "statement": "-\nExternal set-packing inapproximability and polynomial-time transfer facts for\nthe paper's Theorem 6.1 approximation consequence.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_external_approximation_set_packing_complexity_boundary"
+      ]
+    },
+    "assumption_theorem7_optimal_allocation_feasible": {
+      "statement": "- The optimal allocation considered in Theorem 7.2 is feasible.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_theorem7_optimal_allocation_feasible"
+      ]
+    },
+    "assumption_theorem7_optimal_bidders_in_order": {
+      "statement": "- The fixed greedy order contains every bidder in the optimal allocation.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_theorem7_optimal_bidders_in_order"
+      ]
+    },
+    "assumption_lemma9_denied_bidder_case": {
+      "statement": "- Lemma 9.2 is the denied-bidder case.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_lemma9_denied_bidder_case"
+      ]
+    },
+    "assumption_lemma9_nonnegative_value_deviation": {
+      "statement": "- Lemma 9.4 ranges over nonnegative single-minded value declarations.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_lemma9_nonnegative_value_deviation"
+      ]
+    },
+    "assumption_lemma9_nonnegative_critical_value_axioms": {
+      "statement": "-\nThe Lemma 9.3--9.6 critical-price rows are stated relative to the paper's\ncritical-value axioms on the nonnegative single-minded declaration domain.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_lemma9_nonnegative_critical_value_axioms"
+      ]
+    },
+    "assumption_lemma9_finite_large_threshold": {
+      "statement": "- Lemma 9.5 is the finite-threshold case for the larger desired set.",
+      "source_url": "https://doi.org/10.1145/585265.585266",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_lemma9_finite_large_threshold"
+      ]
+    }
+  },
+  "source_inventory_kind": "source_curated",
+  "source_curated": true
+}

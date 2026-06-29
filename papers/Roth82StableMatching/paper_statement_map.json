@@ -1,0 +1,244 @@
+{
+  "schema": 1,
+  "paper": "Roth82StableMatching",
+  "title": "The Economics of Matching: Stability and Incentives",
+  "generated_at": "2026-06-29T00:42:08Z",
+  "source_inventory_policy": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
+  "source_url": "https://web.stanford.edu/~alroth/papers/1982_MOR_EconomicsOfMatching.pdf; https://doi.org/10.1287/moor.7.4.617",
+  "items": {
+    "preferenceProfile": {
+      "statement": "- Roth preference profile `P`: one score table for each side.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "preferenceProfile"
+      ]
+    },
+    "completeMarriageOutcome": {
+      "statement": "- Marriage-problem outcome: a complete one-to-one matching.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "completeMarriageOutcome"
+      ]
+    },
+    "stable": {
+      "statement": "-\nStable matching: every assigned partner is acceptable and no man-woman pair\nstrictly blocks the matching.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "stable"
+      ]
+    },
+    "strictMarriageDomain": {
+      "statement": "-\nStrict marriage domain: each side has strict rankings over the opposite side,\nand every potential pair is strictly preferred to being unmatched.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "strictMarriageDomain"
+      ]
+    },
+    "stableOutcomes": {
+      "statement": "- The stable-outcome set `C(P)` for a reported preference profile.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "stableOutcomes"
+      ]
+    },
+    "menOptimal": {
+      "statement": "- A stable matching is men-optimal if every man weakly prefers it to any stable matching.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "menOptimal"
+      ]
+    },
+    "womenOptimal": {
+      "statement": "- Women-optimal stable matching, with the symmetric weak-preference condition.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "womenOptimal"
+      ]
+    },
+    "possibleForMan": {
+      "statement": "- A woman is possible for a man if some stable outcome matches them.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "possibleForMan"
+      ]
+    },
+    "stableMatchingProcedure": {
+      "statement": "- Stable matching procedure on strict reported preference profiles.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "stableMatchingProcedure"
+      ]
+    },
+    "truthfulForAllAgents": {
+      "statement": "- Truthful revelation is dominant for both sides on strict true and reported profiles.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "truthfulForAllAgents"
+      ]
+    },
+    "menDeferredAcceptance": {
+      "statement": "- Men-proposing deferred acceptance, Roth's procedure/outcome `G(P)`/`g(P)`.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "menDeferredAcceptance"
+      ]
+    },
+    "womenDeferredAcceptance": {
+      "statement": "-\nWomen-proposing deferred acceptance, represented on the original `(M, W)`\nsides by reversing roles and swapping the resulting assignment back.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "womenDeferredAcceptance"
+      ]
+    },
+    "paretoOptimal": {
+      "statement": "- Pareto-optimal complete matching among complete matchings.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "paretoOptimal"
+      ]
+    },
+    "efficientMatchingProcedure": {
+      "statement": "- Efficient procedure: every reported preference profile returns a Pareto-optimal matching.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "efficientMatchingProcedure"
+      ]
+    },
+    "serialDictatorshipMechanism_matches": {
+      "statement": "-\nThe serial-dictatorship mechanism chooses its permutation from the men's\nreported preferences and matches each man to `p m` and each woman to `p.symm w`.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "serialDictatorshipMechanism_matches"
+      ]
+    },
+    "manReportStrictlyRanksPartnerFirst": {
+      "statement": "- A report strictly ranks the optional partner first.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "manReportStrictlyRanksPartnerFirst"
+      ]
+    },
+    "reportMisrepresentsKthChoice": {
+      "statement": "-\nA report changes the identity of some alternative that was truly ranked `k`.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "direct paper definition",
+      "aliases": [
+        "reportMisrepresentsKthChoice"
+      ]
+    },
+    "theorem1_stable_complete_outcome_exists_on_strict_marriage_domain": {
+      "statement": "-\nTheorem 1: on an equal-size strict marriage domain, a stable complete outcome\nexists.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem1_stable_complete_outcome_exists_on_strict_marriage_domain"
+      ]
+    },
+    "theorem2_optimal_stable_outcomes_on_strict_marriage_domain": {
+      "statement": "- Theorem 2: men-optimal and women-optimal stable outcomes exist on the strict marriage domain.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem2_optimal_stable_outcomes_on_strict_marriage_domain"
+      ]
+    },
+    "theorem3_no_stable_truthful_procedure_on_strict_profiles": {
+      "statement": "-\nTheorem 3: on Roth's strict 3-by-3 counterexample domain, no procedure stable\non strict profiles is truthful for both sides.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem3_no_stable_truthful_procedure_on_strict_profiles"
+      ]
+    },
+    "theorem4_serial_dictatorship_constructed": {
+      "statement": "-\nTheorem 4: Roth's constructed serial-dictatorship procedure is efficient on\nstrict men-side profiles, truthful for men on that strict men-side domain, and\ntruthful for women.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem4_serial_dictatorship_constructed"
+      ]
+    },
+    "theorem5_optimal_side_truthful_on_strict_domain_of_card_eq": {
+      "statement": "-\nTheorem 5: side-optimal deferred-acceptance procedures are strategyproof on\nequal-size strict marriage domains.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "direct paper statement",
+      "aliases": [
+        "theorem5_optimal_side_truthful_on_strict_domain_of_card_eq"
+      ]
+    },
+    "corollary5_1_no_need_to_misrepresent_first_choice": {
+      "statement": "-\nCorollary 5.1: under each side-optimal DA procedure, the non-proposing side can\nmatch any report's outcome with a report preserving its true first choice.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "corollary5_1_no_need_to_misrepresent_first_choice"
+      ]
+    },
+    "lemma1_strict_simple_misrepresentation_same_partner": {
+      "statement": "- Lemma 1: Roth's strict simple-misrepresentation same-partner route.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "lemma1_strict_simple_misrepresentation_same_partner"
+      ]
+    },
+    "lemma2_strict_simple_misrepresentation_no_men_harmed_on_strict_domain": {
+      "statement": "- Lemma 2: a strict simple misrepresentation cannot harm any other man on the strict marriage domain.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "lemma2_strict_simple_misrepresentation_no_men_harmed_on_strict_domain"
+      ]
+    },
+    "theorem6_weak_pareto_for_men_on_strict_marriage_domain": {
+      "statement": "- Theorem 6: the men-optimal stable outcome is weakly Pareto optimal on the strict marriage domain.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "theorem6_weak_pareto_for_men_on_strict_marriage_domain"
+      ]
+    },
+    "theorem7_arbitrary_k_on_strict_profiles": {
+      "statement": "-\nTheorem 7: for any `k > 1`, some finite balanced strict-profile market admits a\nprofitable stable-procedure `k`th-choice manipulation.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "direct paper statement",
+      "aliases": [
+        "theorem7_arbitrary_k_on_strict_profiles"
+      ]
+    },
+    "assumption_equal_cardinality": {
+      "statement": "-\nThe source marriage-problem representation uses balanced one-to-one markets.\nThis is the equal-size condition needed for complete strict-marriage endpoints.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_equal_cardinality"
+      ]
+    },
+    "assumption_simple_report_ranks_partner_first": {
+      "statement": "-\nRoth's Lemma 1 simple-misrepresentation route assumes the simplified report\nstrictly ranks the obtained partner first.",
+      "source_url": "https://doi.org/10.1287/moor.7.4.617",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_simple_report_ranks_partner_first"
+      ]
+    }
+  },
+  "source_inventory_kind": "source_curated",
+  "source_curated": true
+}

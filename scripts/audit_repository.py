@@ -1849,6 +1849,7 @@ def paper_statement_sidecar_findings(
     severity = completed_status_finding_severity(status)
     try:
         from review_dashboard import (
+            paper_coverage_audit_summary,
             review_items_for_paper,
             review_surface_audit_summary,
             statement_translation_audit_summary,
@@ -1857,6 +1858,7 @@ def paper_statement_sidecar_findings(
         items = review_items_for_paper(folder, use_cache=False)
         surface = review_surface_audit_summary(folder, items)
         statements = statement_translation_audit_summary(folder, items)
+        paper_coverage = paper_coverage_audit_summary(folder, items)
     except Exception as exc:  # noqa: BLE001 - audit should report parser failures.
         return [
             Finding(
@@ -1881,6 +1883,40 @@ def paper_statement_sidecar_findings(
                 folder / "review_surface_llm.json",
                 f"`{paper_id}` review-surface audit needs attention: "
                 + (", ".join(reasons) if reasons else "unknown issue"),
+            )
+        )
+
+    if paper_coverage.get("needs_attention"):
+        parts: list[str] = []
+        for key, label in (
+            ("missing_inventory", "missing required source-statement inventory"),
+            ("unresolved_statement_map", "unresolved paper_statement_map.json"),
+            ("missing_required", "missing paper-level coverage audit"),
+            ("missing_coverage_count", "source statement without coverage judgment"),
+            ("partial_count", "partially covered source statement"),
+            ("missing_count", "missing source statement"),
+            ("uncertain_count", "uncertain source-coverage judgment"),
+            ("unknown_count", "unknown source-coverage judgment"),
+            ("stale_statement_count", "stale source-statement digest"),
+            ("invalid_row_link_count", "invalid linked dashboard row"),
+            ("covered_without_rows_count", "covered source statement without linked row"),
+        ):
+            value = paper_coverage.get(key)
+            if isinstance(value, bool):
+                if value:
+                    parts.append(label)
+            elif isinstance(value, int) and value:
+                parts.append(f"{value} {label}(s)")
+        if paper_coverage.get("stale_inventory"):
+            parts.append("stale source-inventory digest")
+        if paper_coverage.get("stale_surface"):
+            parts.append("stale review-surface digest")
+        findings.append(
+            Finding(
+                severity,
+                folder / "paper_coverage_llm.json",
+                f"`{paper_id}` paper-coverage audit needs attention: "
+                + (", ".join(parts) if parts else "unknown issue"),
             )
         )
 

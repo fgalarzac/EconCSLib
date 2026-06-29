@@ -1,0 +1,228 @@
+{
+  "schema": 1,
+  "paper": "MBJG25ProducerFairness",
+  "title": "Balancing Producer Fairness and Efficiency via Prior-Weighted Rating System Design",
+  "generated_at": "2026-06-29T00:41:43Z",
+  "source_inventory_policy": "Source basis: /tmp/econcs_source_text/MBJG25ProducerFairness.txt, PDF cache, validation report, and human dashboard notes. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
+  "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+  "items": {
+    "paper_posterior_mean": {
+      "statement": "- The posterior mean estimated quality in the fixed binary rating model.\nPaper Definition:\n$\\frac{\\eta \\widetilde{\\alpha} + t q_v}\n{\\eta(\\widetilde{\\alpha}+\\widetilde{\\beta}) + t}$",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "direct paper formula",
+      "aliases": [
+        "paper_posterior_mean"
+      ]
+    },
+    "paper_bias": {
+      "statement": "- The bias of the estimated quality.\nPaper Definition: $E[\\hat{q}_v] - q_v$",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "direct paper formula",
+      "aliases": [
+        "paper_bias"
+      ]
+    },
+    "paper_variance": {
+      "statement": "- The variance of the estimated quality.\nPaper Definition:\n$\\frac{t q_v (1 - q_v)}\n{(\\eta(\\widetilde{\\alpha}+\\widetilde{\\beta}) + t)^2}$",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "direct paper formula",
+      "aliases": [
+        "paper_variance"
+      ]
+    },
+    "paper_squared_bias": {
+      "statement": "- The squared bias of the estimated quality.\nPaper Definition: $(E[\\hat{q}_v] - q_v)^2$",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "direct paper formula",
+      "aliases": [
+        "paper_squared_bias"
+      ]
+    },
+    "paper_facing_theorem3_1_variance_weak_decrease": {
+      "statement": "-\nTheorem 3.1, variance weakly decreases in prior strength:\nfor full quality interval `0 \u2264 q_v \u2264 1`, if prior strength increases the\nposterior-mean variance is nonincreasing.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "corrected source statement",
+      "aliases": [
+        "paper_facing_theorem3_1_variance_weak_decrease"
+      ]
+    },
+    "paper_facing_theorem3_1_variance_strict_decrease_interior": {
+      "statement": "-\nTheorem 3.1, strict decrease on interior quality values.\nFor `0 < q_v < 1`, positive prior-shape mass, positive number of prior samples,\nand stronger prior strength `\u03b7_high > \u03b7_low`, variance is strictly decreasing.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "corrected source statement",
+      "aliases": [
+        "paper_facing_theorem3_1_variance_strict_decrease_interior"
+      ]
+    },
+    "paper_facing_theorem3_1_squared_bias_nondecreasing": {
+      "statement": "-\nTheorem 3.1, squared posterior-mean bias is nondecreasing in prior strength.\nWith stronger prior (`\u03b7_high \u2265 \u03b7_low`) and basic nonnegativity assumptions,\nthe squared bias term does not decrease.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "direct paper statement",
+      "aliases": [
+        "paper_facing_theorem3_1_squared_bias_nondecreasing"
+      ]
+    },
+    "paper_facing_theorem3_2_squared_bias_convex_in_quality": {
+      "statement": "-\nTheorem 3.2, squared-bias Jensen convexity in true quality.\nThe squared bias is Jensen-convex as a function of quality.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "direct paper statement",
+      "aliases": [
+        "paper_facing_theorem3_2_squared_bias_convex_in_quality"
+      ]
+    },
+    "paper_facing_theorem3_2_squared_bias_global_min_at_prior_mean": {
+      "statement": "-\nTheorem 3.2, squared-bias global minimizer.\nOn the full quality interval, squared bias is minimized at the prior mean\n`alpha / (alpha + beta)` under positive shape mass and positive sample weight.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "direct paper statement",
+      "aliases": [
+        "paper_facing_theorem3_2_squared_bias_global_min_at_prior_mean"
+      ]
+    },
+    "paper_facing_theorem3_2_variance_concave_in_quality": {
+      "statement": "-\nTheorem 3.2, posterior-mean variance Jensen concavity in true quality.\nThis holds when the prior-weighted sample mass is nonnegative (`t \u2265 0`).",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "direct paper statement",
+      "aliases": [
+        "paper_facing_theorem3_2_variance_concave_in_quality"
+      ]
+    },
+    "paper_facing_theorem3_2_variance_global_max_at_half": {
+      "statement": "-\nTheorem 3.2, posterior-mean variance global maximum at `q = 1/2`.\nFor nonnegative prior-weighted sample mass, variance is globally maximized at\n`q_v = 1/2`.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "direct paper statement",
+      "aliases": [
+        "paper_facing_theorem3_2_variance_global_max_at_half"
+      ]
+    },
+    "paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_zero": {
+      "statement": "-\nBoundary caution for Theorem 3.1 strict decrease:\nat `q_v = 0`, posterior-mean variance is identically zero for any prior strength,\nso strict decrease cannot hold unconditionally.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "added audit row",
+      "aliases": [
+        "paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_zero"
+      ]
+    },
+    "paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_one": {
+      "statement": "-\nBoundary caution for Theorem 3.1 strict decrease:\nat `q_v = 1`, posterior-mean variance is identically zero for any prior strength,\nso strict decrease cannot hold unconditionally.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "added audit row",
+      "aliases": [
+        "paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_one"
+      ]
+    },
+    "paper_facing_individual_producer_unfairness": {
+      "statement": "- Section 4: Individual Producer Unfairness.\nDefined as the standard deviation in Selection Rate (SR) among producers with\nthe same true quality `q`.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "direct paper definition",
+      "aliases": [
+        "paper_facing_individual_producer_unfairness"
+      ]
+    },
+    "paper_facing_thompson_sampling_mechanism": {
+      "statement": "- Section 4: Thompson Sampling.\nA dynamic policy that selects an arm by drawing from a belief distribution\nand picking the argmax.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "direct paper definition",
+      "aliases": [
+        "paper_facing_thompson_sampling_mechanism"
+      ]
+    },
+    "paper_facing_expected_regret": {
+      "statement": "- Section 4: Expected Regret (Efficiency).\nThe total expected regret across a finite time horizon.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "direct paper definition",
+      "aliases": [
+        "paper_facing_expected_regret"
+      ]
+    },
+    "paper_facing_responsive_mse_decomposition": {
+      "statement": "- Appendix C: MSE Decomposition in the responsive setting.\nWhen the number of reviews $N$ is a random variable, the expected mean squared error\nconditional on true quality decomposes into the expected squared bias and the expected variance.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "direct paper statement",
+      "aliases": [
+        "paper_facing_responsive_mse_decomposition"
+      ]
+    },
+    "assumption_positive_prior_shape": {
+      "statement": "- The prior shape has positive total mass.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_positive_prior_shape"
+      ]
+    },
+    "assumption_positive_time": {
+      "statement": "- The fixed-setting theorem is evaluated after a positive number of timesteps.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_positive_time"
+      ]
+    },
+    "assumption_nonnegative_time": {
+      "statement": "- Nonnegative time/sample mass for Jensen concavity and global maximum statements.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_nonnegative_time"
+      ]
+    },
+    "assumption_quality_nonnegative": {
+      "statement": "- True quality lies in the closed Bernoulli quality interval.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_quality_nonnegative"
+      ]
+    },
+    "assumption_quality_at_most_one": {
+      "statement": "- True quality lies in the closed Bernoulli quality interval.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_quality_at_most_one"
+      ]
+    },
+    "assumption_quality_positive": {
+      "statement": "- Interior true quality for the corrected strict variance statement.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_quality_positive"
+      ]
+    },
+    "assumption_quality_lt_one": {
+      "statement": "- Interior true quality for the corrected strict variance statement.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_quality_lt_one"
+      ]
+    },
+    "assumption_prior_strength_nonnegative": {
+      "statement": "- Prior strength is nonnegative.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_prior_strength_nonnegative"
+      ]
+    },
+    "assumption_prior_strength_weak_order": {
+      "statement": "- Prior strength weakly increases.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_prior_strength_weak_order"
+      ]
+    },
+    "assumption_prior_strength_strict_order": {
+      "statement": "- Prior strength strictly increases.",
+      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "assumption_prior_strength_strict_order"
+      ]
+    }
+  },
+  "source_inventory_kind": "source_curated",
+  "source_curated": true
+}

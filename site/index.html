@@ -151,8 +151,9 @@
             The public repository currently contains formalized papers and
             selected public partial formalizations whose remaining assumptions
             are explicit. Human review and LLM-as-judge statement translation
-            refer to validation that the Lean statement corresponds to the
-            corresponding mathematical statement in the paper.
+            validate individual Lean statements against corresponding
+            mathematical statements in the paper; LLM-as-judge paper coverage
+            validates the paper-level source inventory against the review rows.
           </p>
         </div>
 
@@ -165,6 +166,7 @@
               <col class="note-col">
               <col class="human-col">
               <col class="judge-col">
+              <col class="judge-col">
             </colgroup>
             <thead>
               <tr>
@@ -174,6 +176,7 @@
                 <th>Note</th>
                 <th>Human review</th>
                 <th>LLM-as-judge statement translation</th>
+                <th>LLM-as-judge paper coverage</th>
               </tr>
             </thead>
             <tbody>
@@ -188,6 +191,7 @@
                 <td>This only uses a few lines of code as its infrastructure has largely been elevated to the shared matching library.</td>
                 <td>0/7 reviewed</td>
                 <td>7/7 match</td>
+                <td>7/7 covered</td>
               </tr>
               <tr>
                 <td>
@@ -199,6 +203,7 @@
                 <td></td>
                 <td>0/27 reviewed</td>
                 <td>27/27 match</td>
+                <td>29/29 covered</td>
               </tr>
               <tr>
                 <td>
@@ -210,6 +215,7 @@
                 <td>Formalizes the SODA paper; Theorem 8.2 uses the refined monotone-auction wording from the journal version <a href="https://www.sciencedirect.com/science/article/pii/S0899825606000303">Goldberg-Hartline-Karlin-Saks-Wright 2006</a>.</td>
                 <td>0/18 reviewed</td>
                 <td>18/18 match</td>
+                <td>30/30 covered</td>
               </tr>
               <tr>
                 <td>
@@ -221,6 +227,7 @@
                 <td></td>
                 <td>0/26 reviewed</td>
                 <td>26/26 match</td>
+                <td>36/36 covered</td>
               </tr>
               <tr>
                 <td>
@@ -232,6 +239,7 @@
                 <td></td>
                 <td>0/10 reviewed</td>
                 <td>10/10 match</td>
+                <td>15/17 covered; 2 out of scope</td>
               </tr>
               <tr>
                 <td>
@@ -243,6 +251,7 @@
                 <td></td>
                 <td>0/7 reviewed</td>
                 <td>7/7 match</td>
+                <td>15/15 covered</td>
               </tr>
               <tr>
                 <td>
@@ -254,6 +263,7 @@
                 <td></td>
                 <td>0/16 reviewed</td>
                 <td>16/16 match</td>
+                <td>23/23 covered</td>
               </tr>
               <tr>
                 <td>
@@ -265,6 +275,7 @@
                 <td></td>
                 <td>0/34 reviewed</td>
                 <td>24/24 match</td>
+                <td>34/35 covered; 1 out of scope</td>
               </tr>
               <tr>
                 <td>
@@ -276,6 +287,7 @@
                 <td>Proposition 2&#x27;s printed finite bound appears to miss a factor of 2; Lean proves the corrected finite bound, which is sufficient for the asymptotic 1/2-homogeneity result.</td>
                 <td>0/42 reviewed</td>
                 <td>27/27 match</td>
+                <td>42/42 covered</td>
               </tr>
               <tr>
                 <td>
@@ -287,6 +299,7 @@
                 <td></td>
                 <td>0/18 reviewed</td>
                 <td>18/18 match</td>
+                <td>28/30 covered; 2 out of scope</td>
               </tr>
               <tr>
                 <td>
@@ -298,6 +311,7 @@
                 <td></td>
                 <td>0/6 reviewed</td>
                 <td>6/6 match</td>
+                <td>6/12 covered; 6 out of scope</td>
               </tr>
               <tr>
                 <td>
@@ -309,6 +323,7 @@
                 <td></td>
                 <td>0/32 reviewed</td>
                 <td>32/32 match</td>
+                <td>41/41 covered</td>
               </tr>
               <tr>
                 <td>
@@ -320,6 +335,7 @@
                 <td>Formalization required an interior-quality assumption (0 &lt; q_v &lt; 1) for the strict variance-decrease statement.</td>
                 <td>10/27 reviewed; 2 uncertain</td>
                 <td>17/17 match</td>
+                <td>27/27 covered</td>
               </tr>
               <tr>
                 <td>
@@ -331,6 +347,7 @@
                 <td>Greedy approximation, truthfulness, and Theorem 6.1 reductions are formalized. Full formalization requires computational complexity results that are out of scope.</td>
                 <td>0/30 reviewed</td>
                 <td>30/30 match</td>
+                <td>39/39 covered</td>
               </tr>
               <tr>
                 <td>
@@ -342,6 +359,7 @@
                 <td>Sections 2 and 4 are fully formalized. Section 3 has query/descent/rounded-search support. The PTAS/FPTAS runtime layer needs reusable fixed-dimension IP complexity infrastructure.</td>
                 <td>0/35 reviewed</td>
                 <td>31/35 match; 4 additional assumptions</td>
+                <td>48/48 covered</td>
               </tr>
               <tr>
                 <td>
@@ -353,6 +371,7 @@
                 <td>Full formalization requires proving stochastic subgradient descent convergence. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition.</td>
                 <td>0/42 reviewed</td>
                 <td>35/40 match; 5 additional assumptions</td>
+                <td>43/47 covered; 4 out of scope</td>
               </tr>
               <tr>
                 <td>
@@ -362,8 +381,9 @@
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/LBG24SpatialUnderreporting/FINAL_VALIDATION_REPORT.md">Partially formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/LBG24SpatialUnderreporting/DependencyDAG.pdf">DAG</a></div></td>
                 <td>18,540</td>
                 <td>Full formalization requires a homogeneous Poisson process and stopping time derivation</td>
-                <td>0/87 reviewed</td>
-                <td>28/84 match; 56 additional assumptions</td>
+                <td>0/27 reviewed</td>
+                <td>16/24 match; 8 additional assumptions</td>
+                <td>24/24 covered</td>
               </tr>
               <!-- END GENERATED PAPER STATUS ROWS -->
             </tbody>

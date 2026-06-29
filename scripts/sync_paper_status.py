@@ -301,6 +301,16 @@ def load_llm_statement_judgments(folder: Path) -> dict[str, dict[str, Any]]:
     return out
 
 
+def load_json_object(path: Path) -> dict[str, Any]:
+    if not path.exists() or not path.is_file():
+        return {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return payload if isinstance(payload, dict) else {}
+
+
 def llm_translation_label_from_counts(
     *,
     total: int,
@@ -328,6 +338,37 @@ def llm_translation_label_from_counts(
         parts.append(f"{unknown} unknown")
     if missing:
         parts.append(f"{missing} missing")
+    if stale:
+        parts.append(f"{stale} stale")
+    return "; ".join(parts)
+
+
+def paper_coverage_label_from_counts(
+    *,
+    total: int,
+    covered: int,
+    out_of_scope: int = 0,
+    partial: int = 0,
+    missing: int = 0,
+    uncertain: int = 0,
+    unknown: int = 0,
+    stale: int = 0,
+) -> str:
+    if total <= 0:
+        return "not run"
+    if not any([covered, out_of_scope, partial, uncertain, unknown, stale]) and missing >= total:
+        return "not run"
+    parts = [f"{covered}/{total} covered"]
+    if out_of_scope:
+        parts.append(f"{out_of_scope} out of scope")
+    if partial:
+        parts.append(f"{partial} partial")
+    if missing:
+        parts.append(f"{missing} missing")
+    if uncertain:
+        parts.append(f"{uncertain} uncertain")
+    if unknown:
+        parts.append(f"{unknown} unknown")
     if stale:
         parts.append(f"{stale} stale")
     return "; ".join(parts)
@@ -405,6 +446,108 @@ def llm_translation_label(
     )
 
 
+def llm_paper_coverage_label(
+    folder: Path,
+    payload: dict[str, Any],
+    *,
+    use_dashboard_audit: bool = False,
+) -> str:
+    if use_dashboard_audit:
+        try:
+            import review_dashboard
+
+            items = review_dashboard.review_items_for_paper(folder, use_cache=True)
+            summary = review_dashboard.paper_coverage_audit_summary(folder, items)
+            total = int(summary.get("inventory_count", 0))
+            covered = int(summary.get("covered_count", 0))
+            if (
+                summary.get("inventory_is_scaffold")
+                or summary.get("missing_source_grounded_audit")
+                or int(summary.get("covered_with_seed_reason_count", 0))
+                or int(summary.get("covered_without_source_evidence_count", 0))
+            ):
+                if total > 0:
+                    return f"{covered}/{total} scaffold; needs source-grounded audit"
+                return "needs source-grounded audit"
+            return paper_coverage_label_from_counts(
+                total=total,
+                covered=covered,
+                out_of_scope=int(summary.get("out_of_scope_count", 0)),
+                partial=int(summary.get("partial_count", 0))
+                + int(summary.get("missing_coverage_count", 0)),
+                missing=int(summary.get("missing_count", 0)),
+                uncertain=int(summary.get("uncertain_count", 0)),
+                unknown=int(summary.get("unknown_count", 0)),
+                stale=int(summary.get("stale_statement_count", 0))
+                + (1 if summary.get("stale_inventory") else 0)
+                + (1 if summary.get("stale_surface") else 0),
+            )
+        except Exception:
+            pass
+
+    statement_map = load_json_object(folder / "paper_statement_map.json")
+    inventory_kind = str(statement_map.get("source_inventory_kind") or "")
+    inventory_scaffold = (
+        statement_map.get("source_curated") is False
+        or "dashboard_seeded" in inventory_kind
+        or inventory_kind in {"exact_key_scaffold", "seeded_exact_key"}
+    )
+    map_items = statement_map.get("items")
+    total = len(map_items) if isinstance(map_items, dict) else 0
+    coverage = load_json_object(folder / "paper_coverage_llm.json")
+    audit_kind = str(coverage.get("audit_kind") or coverage.get("coverage_audit_kind") or "")
+    coverage_scaffold = (
+        coverage.get("source_grounded") is not True
+        or coverage.get("seed_scaffold") is True
+        or audit_kind in {"", "exact_key_scaffold", "dashboard_seeded_preliminary", "seeded_exact_key"}
+    )
+    coverage_items = coverage.get("items")
+    if not isinstance(coverage_items, dict):
+        return paper_coverage_label_from_counts(total=total, covered=0, missing=total)
+
+    covered = out_of_scope = partial = missing = uncertain = unknown = 0
+    seed_reason = missing_source_evidence = 0
+    names = list(map_items) if isinstance(map_items, dict) else list(coverage_items)
+    for name in names:
+        item = coverage_items.get(name)
+        if not isinstance(item, dict):
+            missing += 1
+            continue
+        value = str(
+            item.get("coverage") or item.get("judgment") or item.get("status") or ""
+        ).strip().lower()
+        if value in {"covered", "covered_by_rows"}:
+            covered += 1
+            reason = str(item.get("reason") or "").lower()
+            if "exactly matches current dashboard row name" in reason or "exact source-key" in reason:
+                seed_reason += 1
+            if not str(item.get("source_evidence") or "").strip():
+                missing_source_evidence += 1
+        elif value in {"out_of_scope", "not_a_paper_target", "not_a_theorem_statement"}:
+            out_of_scope += 1
+        elif value == "partially_covered":
+            partial += 1
+        elif value == "missing":
+            missing += 1
+        elif value in {"uncertain", "unknown", "needs_review", ""}:
+            uncertain += 1
+        else:
+            unknown += 1
+    if inventory_scaffold or coverage_scaffold or seed_reason or missing_source_evidence:
+        if total > 0:
+            return f"{covered}/{total} scaffold; needs source-grounded audit"
+        return "needs source-grounded audit"
+    return paper_coverage_label_from_counts(
+        total=total,
+        covered=covered,
+        out_of_scope=out_of_scope,
+        partial=partial,
+        missing=missing,
+        uncertain=uncertain,
+        unknown=unknown,
+    )
+
+
 def lean_loc(folder: Path) -> int:
     """Count all Lean lines in one paper folder, including proof modules."""
 
@@ -477,6 +620,11 @@ def human_status_rows(
                 payload,
                 use_dashboard_audit=use_dashboard_audit,
             ),
+            "llm_as_judge_paper_coverage": llm_paper_coverage_label(
+                folder,
+                payload,
+                use_dashboard_audit=use_dashboard_audit,
+            ),
             "lean_loc": lean_loc(folder),
             "main_note": human_note(payload),
             "main_note_citation": note_citation(payload),
@@ -525,7 +673,8 @@ def human_payload(
             "human_translation reports saved human dashboard judgments. "
             "llm_as_judge_translation reports context-free Lean-to-TeX plus "
             "paper-vs-translation LLM-judge counts, including stale/missing/uncertain "
-            "flags when available."
+            "flags when available. llm_as_judge_paper_coverage reports the "
+            "paper-level source-inventory-to-dashboard-row coverage audit."
         ),
         "lean_loc_policy": (
             "lean_loc sums all .lean files under each paper folder, including proof "
@@ -659,8 +808,8 @@ def render_paper_status_md(payload: dict[str, Any]) -> str:
         "an arXiv, conference, or original working-paper year. The table below uses",
         "the published citation title and year.",
         "",
-        "| Paper, authors, publication | Status | Human review | Full proof LOC | Public note |",
-        "|---|---|---:|---:|---|",
+        "| Paper, authors, publication | Status | Human review | Paper coverage | Full proof LOC | Public note |",
+        "|---|---|---:|---:|---:|---|",
     ]
     for row in payload["papers"]:
         paper_href = row["source_url"] or repo_relative_link(row["paper_folder"])
@@ -677,6 +826,7 @@ def render_paper_status_md(payload: dict[str, Any]) -> str:
                     paper_info,
                     status_link,
                     md_escape(row["human_review"]),
+                    md_escape(row["llm_as_judge_paper_coverage"]),
                     f"{int(row['lean_loc']):,}",
                     md_note_with_citation(row["main_note"], row.get("main_note_citation")),
                 ]
@@ -772,6 +922,7 @@ def render_site_status_block(payload: dict[str, Any]) -> str:
                 f"{indent}  <td>{note}</td>",
                 f"{indent}  <td>{html_escape(row['human_translation'])}</td>",
                 f"{indent}  <td>{html_escape(row['llm_as_judge_translation'])}</td>",
+                f"{indent}  <td>{html_escape(row['llm_as_judge_paper_coverage'])}</td>",
                 f"{indent}</tr>",
             ]
         )

@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "paper": "GS62CollegeAdmissions",
+  "title": "College Admissions and the Stability of Marriage",
+  "generated_at": "2026-06-29T00:41:10Z",
+  "source_inventory_policy": "Source basis: documented source inventory for Gale-Shapley 1962 from prior source audit; no redistributable local source text tracked in this repo. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
+  "source_url": "https://doi.org/10.1080/00029890.1962.11989827; https://www.jstor.org/stable/2312726",
+  "items": {
+    "strictMarriageDomain": {
+      "statement": "-\nStrict marriage domain: both sides have strict preferences and every possible\nman-woman pair is acceptable.",
+      "source_url": "https://doi.org/10.1080/00029890.1962.11989827",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "strictMarriageDomain"
+      ]
+    },
+    "stableMarriage": {
+      "statement": "- Stable marriage: individual rationality for both sides and no blocking pair.",
+      "source_url": "https://doi.org/10.1080/00029890.1962.11989827",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "stableMarriage"
+      ]
+    },
+    "completeMarriage": {
+      "statement": "- Complete marriage: every participant is matched.",
+      "source_url": "https://doi.org/10.1080/00029890.1962.11989827",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "completeMarriage"
+      ]
+    },
+    "applicantOptimalStableMarriage": {
+      "statement": "-\nApplicant/proposer optimal stable marriage: every proposer weakly prefers this\nstable marriage to any other stable marriage.",
+      "source_url": "https://doi.org/10.1080/00029890.1962.11989827",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "applicantOptimalStableMarriage"
+      ]
+    },
+    "theorem1_stable_marriage_exists": {
+      "statement": "-\nTheorem 1: on the strict equal-cardinality marriage domain, a stable complete\nmarriage exists.",
+      "source_url": "https://doi.org/10.1080/00029890.1962.11989827",
+      "source_location": "direct paper statement",
+      "aliases": [
+        "theorem1_stable_marriage_exists"
+      ]
+    },
+    "college_admissions_stable_assignment_exists": {
+      "statement": "-\nCollege-admissions theorem: finite applicants and colleges with arbitrary\nquotas and applicant/college utilities admit a stable many-to-one assignment.",
+      "source_url": "https://doi.org/10.1080/00029890.1962.11989827",
+      "source_location": "paper-facing review target; exact source location to be refined",
+      "aliases": [
+        "college_admissions_stable_assignment_exists"
+      ]
+    },
+    "theorem2_applicant_optimality": {
+      "statement": "-\nTheorem 2: on the finite equal-cardinality strict marriage domain, the\napplicant-proposing deferred-acceptance assignment is complete and\napplicant-optimal among stable assignments.",
+      "source_url": "https://doi.org/10.1080/00029890.1962.11989827",
+      "source_location": "direct paper statement",
+      "aliases": [
+        "theorem2_applicant_optimality"
+      ]
+    }
+  },
+  "source_inventory_kind": "source_curated",
+  "source_curated": true
+}

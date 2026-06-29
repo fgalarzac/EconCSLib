@@ -40,6 +40,7 @@ DEFAULT_PAPER_STATUS_FILE = "status.json"
 DEFAULT_LLM_LEAN_TO_TEX_FILE = "lean_to_tex_llm.json"
 DEFAULT_LLM_STATEMENT_JUDGE_FILE = "statement_match_llm.json"
 DEFAULT_LLM_REVIEW_SURFACE_FILE = "review_surface_llm.json"
+DEFAULT_LLM_PAPER_COVERAGE_FILE = "paper_coverage_llm.json"
 DEFAULT_LLM_ASSUMPTION_JUDGE_FILE = "assumption_match_llm.json"
 DEFAULT_ASSUMPTION_SOURCE_FILE = "Assumptions.lean"
 PAPER_STATEMENT_MAP_FILE = "paper_statement_map.json"
@@ -86,6 +87,24 @@ APPROVED_ASSUMPTION_PREMISE_JUDGMENTS = {
     "documented_caveat",
     "partial_boundary",
     "human_verified_source_implicit",
+}
+APPROVED_PAPER_COVERAGE_JUDGMENTS = {
+    "covered",
+    "covered_by_rows",
+    "out_of_scope",
+    "not_a_paper_target",
+    "not_a_theorem_statement",
+}
+APPROVED_PAPER_COVERAGE_AUDIT_KINDS = {
+    "source_to_dashboard_llm",
+    "source_to_dashboard_agent",
+    "source_to_review_surface_llm",
+    "source_to_review_surface_agent",
+}
+PAPER_COVERAGE_SCAFFOLD_KINDS = {
+    "exact_key_scaffold",
+    "dashboard_seeded_preliminary",
+    "seeded_exact_key",
 }
 SOURCE_TEXT_ASSUMPTION_PREMISE_JUDGMENTS = {
     "paper_assumption",
@@ -408,7 +427,10 @@ def assumption_source_file(folder: Path) -> Path:
     if isinstance(raw_path, str) and raw_path.strip():
         path = Path(raw_path.strip())
         if not path.is_absolute():
-            path = ROOT / path
+            if len(path.parts) == 1:
+                path = folder / path
+            else:
+                path = ROOT / path
         return path
     return folder / DEFAULT_ASSUMPTION_SOURCE_FILE
 
@@ -988,6 +1010,128 @@ def parse_paper_statement_map(folder: Path) -> dict[str, str]:
     return statements
 
 
+def paper_statement_inventory(folder: Path) -> dict[str, dict[str, Any]]:
+    """Return canonical source-paper statements for paper-level coverage audit.
+
+    `paper_statement_map.json` is preferred because it separates canonical source
+    items from aliases.  Fallback extraction is intentionally lightweight and is
+    best treated as a prompt scaffold, not a closeout-quality source inventory.
+    """
+
+    map_path = folder / PAPER_STATEMENT_MAP_FILE
+    if map_path.exists() and map_path.is_file():
+        try:
+            payload = json.loads(map_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            payload = {}
+        raw_items = payload.get("items", payload) if isinstance(payload, dict) else {}
+        if isinstance(raw_items, dict):
+            inventory: dict[str, dict[str, Any]] = {}
+            text_cache: dict[str, list[str]] = {}
+            for raw_key, raw_item in raw_items.items():
+                key = str(raw_key or "").strip()
+                if not key or not isinstance(raw_item, dict):
+                    continue
+                direct_statement = str(raw_item.get("statement") or "").strip()
+                source_text_file = str(raw_item.get("source_text_file") or "source.txt").strip()
+                source_location = str(raw_item.get("source_location") or "").strip()
+                text = ""
+                if direct_statement:
+                    text = normalize_statement(direct_statement)
+                else:
+                    if not source_text_file or "/" in source_text_file or "\\" in source_text_file:
+                        continue
+                    try:
+                        start_line = int(raw_item.get("start_line"))
+                        end_line = int(raw_item.get("end_line"))
+                    except (TypeError, ValueError):
+                        continue
+                    if start_line <= 0 or end_line < start_line:
+                        continue
+                    source_path = folder / source_text_file
+                    try:
+                        lines = text_cache[source_text_file]
+                    except KeyError:
+                        try:
+                            lines = source_path.read_text(encoding="utf-8").splitlines()
+                        except OSError:
+                            continue
+                        text_cache[source_text_file] = lines
+                    if start_line > len(lines):
+                        continue
+                    selected = lines[start_line - 1 : min(end_line, len(lines))]
+                    text = _clean_paper_text_statement(selected)
+                    if not source_location:
+                        source_location = f"{source_text_file}:{start_line}-{end_line}"
+                if not text:
+                    continue
+                aliases = [
+                    str(alias).strip()
+                    for alias in raw_item.get("aliases", []) or []
+                    if isinstance(alias, str) and alias.strip()
+                ]
+                inventory[key] = {
+                    "statement": text,
+                    "aliases": aliases,
+                    "source": PAPER_STATEMENT_MAP_FILE,
+                    "source_location": source_location,
+                    "statement_sha256": statement_digest(text),
+                }
+            if inventory:
+                return inventory
+
+    tex_statements = parse_paper_tex_statements(folder)
+    if tex_statements:
+        return {
+            key: {
+                "statement": value,
+                "aliases": [],
+                "source": find_paper_tex_source(folder).name if find_paper_tex_source(folder) else "",
+                "source_location": key,
+                "statement_sha256": statement_digest(value),
+            }
+            for key, value in sorted(tex_statements.items())
+            if key and value
+        }
+
+    text_statements = parse_paper_text_statements(folder)
+    locations = parse_paper_text_statement_locations(folder)
+    if locations:
+        inventory = {}
+        for location in locations:
+            key = str(location.get("key") or "").strip()
+            value = text_statements.get(key)
+            if key and value:
+                inventory[key] = {
+                    "statement": value,
+                    "aliases": [],
+                    "source": find_paper_text(folder).name if find_paper_text(folder) else "",
+                    "source_location": f"page {location.get('page')}, line {location.get('line_number')}",
+                    "statement_sha256": statement_digest(value),
+                }
+        return inventory
+    return {}
+
+
+def paper_statement_inventory_digest(inventory: dict[str, dict[str, Any]]) -> str:
+    """Return a stable digest of canonical source-paper statement inventory."""
+
+    payload = [
+        {
+            "key": key,
+            "statement": normalize_statement(str(item.get("statement") or "")),
+            "aliases": sorted(str(alias) for alias in item.get("aliases", []) or []),
+            "source_location": str(item.get("source_location") or ""),
+        }
+        for key, item in sorted(inventory.items())
+    ]
+    return hashlib.sha256(
+        json.dumps(payload, ensure_ascii=True, sort_keys=True, separators=(",", ":")).encode(
+            "utf-8"
+        )
+    ).hexdigest()
+
+
 def parse_paper_text_statement_locations(folder: Path) -> list[dict[str, Any]]:
     """Extract first source-text locations for numbered paper statements."""
 
@@ -1091,6 +1235,15 @@ def llm_statement_judgments_file(folder: Path) -> Path:
     return folder / ".review_traces" / DEFAULT_LLM_STATEMENT_JUDGE_FILE
 
 
+def llm_paper_coverage_file(folder: Path) -> Path:
+    """Return the preferred LLM source-paper coverage sidecar for a paper."""
+
+    tracked_path = folder / DEFAULT_LLM_PAPER_COVERAGE_FILE
+    if tracked_path.exists() and tracked_path.is_file():
+        return tracked_path
+    return folder / ".review_traces" / DEFAULT_LLM_PAPER_COVERAGE_FILE
+
+
 def _normalize_llm_match_judgment(raw: Any) -> str:
     """Normalize LLM match verdicts for dashboard display."""
 
@@ -1114,6 +1267,24 @@ def _normalize_llm_match_resolution(raw: Any) -> str:
         return ""
     if value in CONDITIONAL_BOUNDARY_RESOLUTION_ALIASES:
         return CONDITIONAL_BOUNDARY_RESOLUTION
+    return value
+
+
+def _normalize_paper_coverage_judgment(raw: Any) -> str:
+    """Normalize paper-level source-coverage verdicts."""
+
+    if isinstance(raw, bool):
+        return "covered" if raw else "missing"
+    value = str(raw or "").strip().lower().replace("-", "_")
+    value = re.sub(r"\s+", "_", value)
+    if value in {"match", "matches", "yes", "true", "represented", "present"}:
+        return "covered"
+    if value in {"partial", "partially_represented", "partial_coverage"}:
+        return "partially_covered"
+    if value in {"not_covered", "absent", "no", "false"}:
+        return "missing"
+    if value in {"irrelevant", "background", "not_target", "not_review_target"}:
+        return "not_a_paper_target"
     return value
 
 
@@ -1293,6 +1464,149 @@ def load_llm_statement_judgments(folder: Path) -> dict[str, dict[str, Any]]:
                     "resolution_reason": "",
                 }
     return out
+
+
+def load_llm_paper_coverage_audit(folder: Path) -> dict[str, Any]:
+    """Load optional LLM audit of source-paper statement coverage by review rows."""
+
+    path = llm_paper_coverage_file(folder)
+    if not path.exists() or not path.is_file():
+        return {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    if payload.get("schema") != 1:
+        return {}
+    if payload.get("paper") not in {None, folder.name}:
+        return {}
+    raw_items = payload.get("items")
+    if not isinstance(raw_items, dict):
+        raw_items = {}
+    items: dict[str, dict[str, Any]] = {}
+    payload_validator = str(
+        payload.get("validator")
+        or payload.get("model")
+        or payload.get("judge")
+        or payload.get("agent")
+        or path.name
+    ).strip()
+    payload_validator_type = str(
+        payload.get("validator_type")
+        or ("model" if payload.get("model") else "agent" if payload.get("judge") else "")
+    ).strip()
+    payload_validated_at = str(
+        payload.get("validated_at")
+        or payload.get("timestamp")
+        or payload.get("generated_at")
+        or ""
+    ).strip()
+    payload_audit_kind = str(
+        payload.get("audit_kind")
+        or payload.get("coverage_audit_kind")
+        or payload.get("kind")
+        or ""
+    ).strip()
+    payload_source_grounded = bool(payload.get("source_grounded") is True)
+    payload_seed_scaffold = bool(payload.get("seed_scaffold") is True) or (
+        payload_audit_kind in PAPER_COVERAGE_SCAFFOLD_KINDS
+    )
+    for raw_key, raw_value in raw_items.items():
+        key = str(raw_key or "").strip()
+        if not key:
+            continue
+        if isinstance(raw_value, dict):
+            raw_judgment = (
+                raw_value.get("coverage")
+                or raw_value.get("judgment")
+                or raw_value.get("verdict")
+                or raw_value.get("status")
+                or raw_value.get("covered")
+            )
+            items[key] = {
+                "coverage": _normalize_paper_coverage_judgment(raw_judgment),
+                "review_rows": _normalize_string_list(
+                    raw_value.get("review_rows")
+                    or raw_value.get("rows")
+                    or raw_value.get("lean_rows")
+                    or raw_value.get("declarations")
+                ),
+                "reason": str(
+                    raw_value.get("reason")
+                    or raw_value.get("notes")
+                    or raw_value.get("explanation")
+                    or ""
+                ).strip(),
+                "source_evidence": str(raw_value.get("source_evidence") or "").strip(),
+                "dashboard_evidence": str(
+                    raw_value.get("dashboard_evidence")
+                    or raw_value.get("lean_evidence")
+                    or ""
+                ).strip(),
+                "statement_sha256": str(raw_value.get("statement_sha256") or "").strip(),
+                "validator": str(
+                    raw_value.get("validator")
+                    or raw_value.get("model")
+                    or raw_value.get("judge")
+                    or raw_value.get("agent")
+                    or payload_validator
+                ).strip(),
+                "validator_type": str(
+                    raw_value.get("validator_type")
+                    or (
+                        "model"
+                        if raw_value.get("model")
+                        else "agent"
+                        if raw_value.get("judge")
+                        else ""
+                    )
+                    or payload_validator_type
+                ).strip(),
+                "validated_at": str(
+                    raw_value.get("validated_at")
+                    or raw_value.get("timestamp")
+                    or raw_value.get("generated_at")
+                    or payload_validated_at
+                ).strip(),
+                "audit_kind": str(raw_value.get("audit_kind") or payload_audit_kind).strip(),
+                "source_grounded": bool(
+                    raw_value.get("source_grounded") is True or payload_source_grounded
+                ),
+                "seed_scaffold": bool(raw_value.get("seed_scaffold") is True or payload_seed_scaffold),
+            }
+        else:
+            items[key] = {
+                "coverage": _normalize_paper_coverage_judgment(raw_value),
+                "review_rows": [],
+                "reason": "",
+                "source_evidence": "",
+                "dashboard_evidence": "",
+                "statement_sha256": "",
+                "validator": payload_validator,
+                "validator_type": payload_validator_type,
+                "validated_at": payload_validated_at,
+                "audit_kind": payload_audit_kind,
+                "source_grounded": payload_source_grounded,
+                "seed_scaffold": payload_seed_scaffold,
+            }
+    return {
+        "source": path.name,
+        "validator": payload_validator,
+        "validator_type": payload_validator_type,
+        "validated_at": payload_validated_at,
+        "audit_kind": payload_audit_kind,
+        "source_grounded": payload_source_grounded,
+        "seed_scaffold": payload_seed_scaffold,
+        "comment": str(payload.get("comment") or payload.get("notes") or "").strip(),
+        "paper_statement_inventory_sha256": str(
+            payload.get("paper_statement_inventory_sha256")
+            or payload.get("statement_inventory_sha256")
+            or payload.get("inventory_sha256")
+            or ""
+        ).strip(),
+        "review_surface_sha256": str(payload.get("review_surface_sha256") or "").strip(),
+        "items": items,
+    }
 
 
 def llm_review_surface_file(folder: Path) -> Path:
@@ -1987,6 +2301,7 @@ def load_review_slice_payload(folder: Path) -> dict[str, Any]:
                 auxiliary_names = review_surface.get("auxiliary_names")
                 assumption_source_file = review_surface.get("assumption_source_file")
                 assumption_policy = review_surface.get("assumption_policy")
+                paper_coverage_required = review_surface.get("paper_coverage_required")
                 if isinstance(include_names, list):
                     payload["include_names"] = include_names
                 if isinstance(slices, list):
@@ -1999,6 +2314,8 @@ def load_review_slice_payload(folder: Path) -> dict[str, Any]:
                     payload["assumption_source_file"] = assumption_source_file
                 if isinstance(assumption_policy, str):
                     payload["assumption_policy"] = assumption_policy
+                if isinstance(paper_coverage_required, (bool, str)):
+                    payload["paper_coverage_required"] = paper_coverage_required
                 if (
                     "include_names" in payload
                     or "slices" in payload
@@ -2006,6 +2323,7 @@ def load_review_slice_payload(folder: Path) -> dict[str, Any]:
                     or "auxiliary_names" in payload
                     or "assumption_source_file" in payload
                     or "assumption_policy" in payload
+                    or "paper_coverage_required" in payload
                 ):
                     return payload
 
@@ -2898,6 +3216,221 @@ def statement_translation_audit_summary(folder: Path, items: list[ReviewItem]) -
     }
 
 
+def paper_coverage_audit_required(folder: Path, inventory: dict[str, dict[str, Any]]) -> bool:
+    """Return whether the paper-level source coverage audit should be enforced."""
+
+    payload = load_review_slice_payload(folder)
+    explicit = payload.get("paper_coverage_required")
+    if isinstance(explicit, str):
+        explicit_enabled = explicit.strip().lower() in {"1", "true", "yes", "required", "on"}
+    elif isinstance(explicit, bool):
+        explicit_enabled = explicit
+    else:
+        explicit_enabled = False
+
+    status_path = folder / DEFAULT_PAPER_STATUS_FILE
+    status_value = ""
+    if status_path.exists() and status_path.is_file():
+        try:
+            status_payload = json.loads(status_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            status_payload = {}
+        if isinstance(status_payload, dict):
+            status_value = str(status_payload.get("status") or "").strip().lower()
+    public_facing_status = status_value.startswith("formalized") or status_value.startswith(
+        "partially formalized"
+    )
+    if public_facing_status:
+        return True
+    if explicit_enabled:
+        return True
+    return bool(inventory and (folder / PAPER_STATEMENT_MAP_FILE).exists())
+
+
+def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[str, Any]:
+    """Summarize source-paper statement coverage by the review dashboard surface."""
+
+    inventory = paper_statement_inventory(folder)
+    statement_map_path = folder / PAPER_STATEMENT_MAP_FILE
+    statement_map_payload: dict[str, Any] = {}
+    if statement_map_path.exists() and statement_map_path.is_file():
+        try:
+            loaded_map = json.loads(statement_map_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            loaded_map = {}
+        if isinstance(loaded_map, dict):
+            statement_map_payload = loaded_map
+    inventory_kind = str(statement_map_payload.get("source_inventory_kind") or "").strip()
+    inventory_source_curated = statement_map_payload.get("source_curated") is True
+    inventory_is_scaffold = (
+        inventory_kind in PAPER_COVERAGE_SCAFFOLD_KINDS
+        or "dashboard_seeded" in inventory_kind
+        or statement_map_payload.get("source_curated") is False
+    )
+    has_explicit_inventory = bool(inventory) and any(
+        str(item.get("source") or "") == PAPER_STATEMENT_MAP_FILE
+        for item in inventory.values()
+    )
+    inventory_hash = paper_statement_inventory_digest(inventory)
+    surface_hash = review_surface_digest(items)
+    audit = load_llm_paper_coverage_audit(folder)
+    audit_items = audit.get("items") if isinstance(audit.get("items"), dict) else {}
+    audit_required = paper_coverage_audit_required(folder, inventory)
+    unresolved_statement_map = (
+        audit_required and statement_map_path.exists() and not has_explicit_inventory
+    )
+    row_names = {item.name for item in items}
+
+    missing_inventory = audit_required and not has_explicit_inventory
+    missing_required = audit_required and not audit_items
+    missing_coverage = sorted(key for key in inventory if key not in audit_items)
+    extra_coverage = sorted(key for key in audit_items if key not in inventory)
+    stale_statement = sorted(
+        key
+        for key, item in audit_items.items()
+        if key in inventory
+        and str(item.get("statement_sha256") or "").strip()
+        and str(item.get("statement_sha256") or "").strip()
+        != str(inventory[key].get("statement_sha256") or "").strip()
+    )
+    invalid_row_links = sorted(
+        {
+            row
+            for item in audit_items.values()
+            for row in _normalize_string_list(item.get("review_rows"))
+            if row not in row_names
+        }
+    )
+    recorded_inventory_hash = str(audit.get("paper_statement_inventory_sha256") or "").strip()
+    recorded_surface_hash = str(audit.get("review_surface_sha256") or "").strip()
+    stale_inventory = bool(
+        audit_items and recorded_inventory_hash and recorded_inventory_hash != inventory_hash
+    )
+    stale_surface = bool(audit_items and recorded_surface_hash and recorded_surface_hash != surface_hash)
+    audit_kind = str(audit.get("audit_kind") or "").strip()
+    audit_source_grounded = bool(audit.get("source_grounded") is True)
+    audit_is_scaffold = bool(audit.get("seed_scaffold") is True) or audit_kind in PAPER_COVERAGE_SCAFFOLD_KINDS
+    missing_source_grounded_audit = bool(
+        audit_required
+        and audit_items
+        and (
+            audit_is_scaffold
+            or audit_kind not in APPROVED_PAPER_COVERAGE_AUDIT_KINDS
+            or not audit_source_grounded
+        )
+    )
+
+    covered: list[str] = []
+    out_of_scope: list[str] = []
+    partial: list[str] = []
+    missing: list[str] = []
+    uncertain: list[str] = []
+    unknown: list[str] = []
+    covered_without_rows: list[str] = []
+    covered_without_reason: list[str] = []
+    covered_with_seed_reason: list[str] = []
+    covered_without_source_evidence: list[str] = []
+    for key, item in audit_items.items():
+        if key not in inventory:
+            continue
+        coverage = str(item.get("coverage") or "").strip()
+        rows = _normalize_string_list(item.get("review_rows"))
+        if coverage in {"covered", "covered_by_rows"}:
+            covered.append(key)
+            if not rows:
+                covered_without_rows.append(key)
+            reason = str(item.get("reason") or "").strip()
+            source_evidence = str(item.get("source_evidence") or "").strip()
+            if not reason:
+                covered_without_reason.append(key)
+            if "exactly matches current dashboard row name" in reason.lower() or "exact source-key" in reason.lower():
+                covered_with_seed_reason.append(key)
+            if not source_evidence:
+                covered_without_source_evidence.append(key)
+        elif coverage in {"out_of_scope", "not_a_paper_target", "not_a_theorem_statement"}:
+            out_of_scope.append(key)
+        elif coverage == "partially_covered":
+            partial.append(key)
+        elif coverage == "missing":
+            missing.append(key)
+        elif coverage in {"uncertain", "unknown", "needs_review", ""}:
+            uncertain.append(key)
+        else:
+            unknown.append(key)
+
+    needs_attention = bool(
+        missing_inventory
+        or unresolved_statement_map
+        or (audit_required and inventory_is_scaffold)
+        or missing_required
+        or missing_source_grounded_audit
+        or missing_coverage
+        or stale_statement
+        or stale_inventory
+        or stale_surface
+        or invalid_row_links
+        or partial
+        or missing
+        or uncertain
+        or unknown
+        or covered_without_rows
+        or covered_without_reason
+        or covered_with_seed_reason
+        or covered_without_source_evidence
+    )
+    return {
+        "inventory_count": len(inventory),
+        "has_statement_map_file": statement_map_path.exists(),
+        "has_explicit_inventory": has_explicit_inventory,
+        "inventory_kind": inventory_kind,
+        "inventory_source_curated": inventory_source_curated,
+        "inventory_is_scaffold": inventory_is_scaffold,
+        "unresolved_statement_map": unresolved_statement_map,
+        "covered_count": len(covered),
+        "out_of_scope_count": len(out_of_scope),
+        "partial_count": len(partial),
+        "missing_count": len(missing),
+        "uncertain_count": len(uncertain),
+        "unknown_count": len(unknown),
+        "audit_required": audit_required,
+        "missing_inventory": missing_inventory,
+        "missing_required": missing_required,
+        "missing_coverage_count": len(missing_coverage),
+        "extra_coverage_count": len(extra_coverage),
+        "stale_statement_count": len(stale_statement),
+        "invalid_row_link_count": len(invalid_row_links),
+        "covered_without_rows_count": len(covered_without_rows),
+        "covered_without_reason_count": len(covered_without_reason),
+        "covered_with_seed_reason_count": len(covered_with_seed_reason),
+        "covered_without_source_evidence_count": len(covered_without_source_evidence),
+        "stale_inventory": stale_inventory,
+        "stale_surface": stale_surface,
+        "audit_kind": audit_kind,
+        "audit_source_grounded": audit_source_grounded,
+        "audit_is_scaffold": audit_is_scaffold,
+        "missing_source_grounded_audit": missing_source_grounded_audit,
+        "missing_coverage": missing_coverage,
+        "extra_coverage": extra_coverage,
+        "stale_statement": stale_statement,
+        "invalid_row_links": invalid_row_links,
+        "partial": partial,
+        "missing": missing,
+        "uncertain": uncertain,
+        "unknown": unknown,
+        "covered_without_rows": covered_without_rows,
+        "covered_without_reason": covered_without_reason,
+        "covered_with_seed_reason": covered_with_seed_reason,
+        "covered_without_source_evidence": covered_without_source_evidence,
+        "source": str(audit.get("source") or "") if audit_items else "",
+        "paper_statement_inventory_sha256": inventory_hash,
+        "recorded_paper_statement_inventory_sha256": recorded_inventory_hash,
+        "review_surface_sha256": surface_hash,
+        "recorded_review_surface_sha256": recorded_surface_hash,
+        "has_completed_audit": bool(audit_items),
+        "needs_attention": needs_attention,
+    }
+
+
 def assumption_surface_digest(items: list[ReviewItem]) -> str:
     """Return a stable digest of the paper-assumption review surface."""
 
@@ -3104,6 +3637,7 @@ def gather_paper_data(
                 "assets": assets,
                 "surface_audit": review_surface_audit_summary(folder, all_items),
                 "statement_audit": statement_translation_audit_summary(folder, all_items),
+                "paper_coverage_audit": paper_coverage_audit_summary(folder, all_items),
                 "assumption_audit": assumption_provenance_audit_summary(folder, all_items),
             }
         )
@@ -3619,6 +4153,16 @@ def statement_audit_rows(papers: list[dict[str, Any]]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for paper in papers:
         audit = paper.get("statement_audit") or {}
+        rows.append({"paper": paper.get("name", ""), **audit})
+    return rows
+
+
+def paper_coverage_audit_rows(papers: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Return paper-level source-statement coverage audit rows."""
+
+    rows: list[dict[str, Any]] = []
+    for paper in papers:
+        audit = paper.get("paper_coverage_audit") or {}
         rows.append({"paper": paper.get("name", ""), **audit})
     return rows
 
@@ -5947,6 +6491,7 @@ def stale_review_summary(
         "totals": status_totals(rows),
         "surface_audits": surface_audit_rows(papers),
         "statement_audits": statement_audit_rows(papers),
+        "paper_coverage_audits": paper_coverage_audit_rows(papers),
         "assumption_audits": merge_hidden_premise_audit_rows(assumption_audit_rows(papers), paper),
         "stale": buckets["stale"],
         "unreviewed": buckets["unreviewed"],
@@ -6112,6 +6657,124 @@ def print_statement_audit_status(paper: str | None, slice_filter: str | None = N
     return False
 
 
+def print_paper_coverage_audit_warnings(rows: list[dict[str, Any]], label: str) -> bool:
+    """Print paper-level source-statement coverage audit warnings."""
+
+    warnings = [row for row in rows if row.get("needs_attention")]
+    if not warnings:
+        return False
+    print(f"\nPaper-coverage audit warnings for {label}:")
+    for row in warnings:
+        paper = row.get("paper") or "unknown paper"
+        reasons: list[str] = []
+        if row.get("missing_inventory"):
+            reasons.append("source-statement inventory is required but empty")
+        if row.get("unresolved_statement_map"):
+            reasons.append(
+                "paper_statement_map.json exists but has no resolvable tracked source statements"
+            )
+        if row.get("inventory_is_scaffold"):
+            reasons.append(
+                "paper_statement_map.json is still dashboard-seeded or not marked source-curated"
+            )
+        if row.get("missing_required"):
+            reasons.append("missing paper_coverage_llm.json coverage audit")
+        if row.get("missing_source_grounded_audit"):
+            reasons.append(
+                "paper_coverage_llm.json is not a source-grounded source-to-dashboard LLM audit"
+            )
+        if row.get("missing_coverage_count"):
+            reasons.append(f"{row['missing_coverage_count']} source statement(s) missing coverage row")
+        if row.get("partial_count"):
+            reasons.append(f"{row['partial_count']} partially covered source statement(s)")
+        if row.get("missing_count"):
+            reasons.append(f"{row['missing_count']} source statement(s) judged missing")
+        if row.get("uncertain_count"):
+            reasons.append(f"{row['uncertain_count']} uncertain source-coverage judgment(s)")
+        if row.get("unknown_count"):
+            reasons.append(f"{row['unknown_count']} unknown coverage judgment value(s)")
+        if row.get("stale_inventory"):
+            reasons.append("the saved paper_coverage_llm.json source-inventory digest is stale")
+        if row.get("stale_surface"):
+            reasons.append("the saved paper_coverage_llm.json review-surface digest is stale")
+        if row.get("stale_statement_count"):
+            reasons.append(f"{row['stale_statement_count']} stale source-statement digest(s)")
+        if row.get("invalid_row_link_count"):
+            reasons.append(f"{row['invalid_row_link_count']} linked dashboard row(s) no longer exist")
+        if row.get("covered_without_rows_count"):
+            reasons.append(f"{row['covered_without_rows_count']} covered source statement(s) lack linked dashboard rows")
+        if row.get("covered_without_reason_count"):
+            reasons.append(f"{row['covered_without_reason_count']} covered source statement(s) lack match reasons")
+        if row.get("covered_with_seed_reason_count"):
+            reasons.append(f"{row['covered_with_seed_reason_count']} covered source statement(s) only have exact-key scaffold reasons")
+        if row.get("covered_without_source_evidence_count"):
+            reasons.append(f"{row['covered_without_source_evidence_count']} covered source statement(s) lack source evidence")
+        if row.get("extra_coverage_count"):
+            reasons.append(f"{row['extra_coverage_count']} stale extra coverage item(s)")
+        if not reasons:
+            reasons.append("paper-coverage audit needs attention")
+        print(f" - {paper}: {'; '.join(str(reason) for reason in reasons)}.")
+        samples: list[str] = []
+        for key, label_text in [
+            ("missing_coverage", "missing coverage"),
+            ("missing", "judged missing"),
+            ("partial", "partial"),
+            ("uncertain", "uncertain"),
+            ("stale_statement", "stale statement"),
+            ("invalid_row_links", "invalid row link"),
+            ("covered_without_rows", "covered without row"),
+            ("covered_without_reason", "covered without reason"),
+            ("covered_with_seed_reason", "exact-key scaffold reason"),
+            ("covered_without_source_evidence", "missing source evidence"),
+            ("extra_coverage", "extra stale item"),
+            ("unknown", "unknown"),
+        ]:
+            sample = _format_name_sample(list(row.get(key) or []))
+            if sample:
+                samples.append(f"{label_text}: {sample}")
+        for sample in samples[:4]:
+            print(f"   {sample}")
+    print(
+        "This is the paper-level coverage lane: build a source-statement inventory "
+        "from the source PDF/TeX/text, not from Lean row names, then have an "
+        "independent LLM judge whether each paper statement is covered by one or "
+        "more dashboard rows. Save that semantic source-to-dashboard judgment in "
+        "paper_coverage_llm.json with audit_kind=source_to_dashboard_llm, "
+        "source_grounded=true, source evidence, linked dashboard rows, and a "
+        "nontrivial match reason. Exact-key seeding is only a scaffold. This is "
+        "separate from statement_match_llm.json, which only checks rows that "
+        "already exist."
+    )
+    return True
+
+
+def print_paper_coverage_audit_status(
+    paper: str | None,
+    slice_filter: str | None = None,
+) -> bool:
+    """Print only paper-level source-coverage diagnostics."""
+
+    papers = gather_paper_data(paper, slice_filter)
+    rows = paper_coverage_audit_rows(papers)
+    label = paper or "all papers"
+    if slice_filter:
+        label = f"{label} slice {slice_filter}"
+    has_attention = print_paper_coverage_audit_warnings(rows, label)
+    if has_attention:
+        return True
+    total_inventory = sum(int(row.get("inventory_count") or 0) for row in rows)
+    total_covered = sum(int(row.get("covered_count") or 0) for row in rows)
+    total_out_of_scope = sum(int(row.get("out_of_scope_count") or 0) for row in rows)
+    required = sum(1 for row in rows if row.get("audit_required"))
+    print(
+        f"Paper-coverage audits for {label} are current: "
+        f"{total_covered}/{total_inventory} source statement(s) covered, "
+        f"{total_out_of_scope} marked out of scope/not paper targets, "
+        f"{required} required paper audit(s), no missing/stale/flagged items."
+    )
+    return False
+
+
 def print_assumption_audit_warnings(rows: list[dict[str, Any]], label: str) -> bool:
     """Print paper-level assumption-provenance warnings."""
 
@@ -6229,6 +6892,7 @@ def print_stale_review_warning(
     mismatch_rows = summary["mismatch"]
     surface_audits = summary["surface_audits"]
     statement_audits = summary["statement_audits"]
+    paper_coverage_audits = summary["paper_coverage_audits"]
     assumption_audits = summary["assumption_audits"]
     totals = summary["totals"]
     label = paper or "all papers"
@@ -6244,12 +6908,21 @@ def print_stale_review_warning(
     )
     surface_needs_attention = print_surface_audit_warnings(surface_audits, label)
     statement_needs_attention = print_statement_audit_warnings(statement_audits, label)
+    paper_coverage_needs_attention = print_paper_coverage_audit_warnings(
+        paper_coverage_audits,
+        label,
+    )
     assumption_needs_attention = print_assumption_audit_warnings(assumption_audits, label)
 
     if not stale_rows:
         if not unreviewed_rows and not mismatch_rows:
             print(f"Review checks for {label} are currently up to date.")
-            return surface_needs_attention or statement_needs_attention or assumption_needs_attention
+            return (
+                surface_needs_attention
+                or statement_needs_attention
+                or paper_coverage_needs_attention
+                or assumption_needs_attention
+            )
         else:
             print(
                 f"Review checks for {label}: no stale checks, but "
@@ -6448,6 +7121,7 @@ class ReviewHTTPHandler(BaseHTTPRequestHandler):
                     "totals": status_totals(rows),
                     "surface_audits": surface_audit_rows(papers),
                     "statement_audits": statement_audit_rows(papers),
+                    "paper_coverage_audits": paper_coverage_audit_rows(papers),
                     "assumption_audits": merge_hidden_premise_audit_rows(
                         assumption_audit_rows(papers),
                         requested_paper or self.paper_filter,
@@ -6540,6 +7214,16 @@ def main() -> None:
         help="Like --statement-precheck, but return non-zero for missing/stale/flagged statement-audit rows.",
     )
     parser.add_argument(
+        "--paper-coverage-precheck",
+        action="store_true",
+        help="Print only source-paper statement coverage diagnostics, then exit.",
+    )
+    parser.add_argument(
+        "--paper-coverage-check",
+        action="store_true",
+        help="Like --paper-coverage-precheck, but return non-zero for missing/stale/flagged coverage rows.",
+    )
+    parser.add_argument(
         "--assumption-precheck",
         action="store_true",
         help="Print only paper-assumption provenance audit diagnostics, then exit.",
@@ -6574,6 +7258,12 @@ def main() -> None:
     if args.statement_precheck or args.statement_check:
         has_attention = print_statement_audit_status(args.paper, args.slice_filter)
         if args.statement_check and has_attention:
+            sys.exit(1)
+        return
+
+    if args.paper_coverage_precheck or args.paper_coverage_check:
+        has_attention = print_paper_coverage_audit_status(args.paper, args.slice_filter)
+        if args.paper_coverage_check and has_attention:
             sys.exit(1)
         return
 
@@ -6646,6 +7336,7 @@ def main() -> None:
                     "totals": status_totals(rows),
                     "surface_audits": surface_audit_rows(papers),
                     "statement_audits": statement_audit_rows(papers),
+                    "paper_coverage_audits": paper_coverage_audit_rows(papers),
                     "assumption_audits": merge_hidden_premise_audit_rows(
                         assumption_audit_rows(papers),
                         args.paper,

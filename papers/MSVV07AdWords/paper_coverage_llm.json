@@ -1,0 +1,484 @@
+{
+  "schema": 1,
+  "paper": "MSVV07AdWords",
+  "prompt_version": "paper-coverage-v2-source-grounded-source-to-dashboard",
+  "audit_kind": "source_to_dashboard_agent",
+  "source_grounded": true,
+  "seed_scaffold": false,
+  "validator": "codex source-grounded audit pass",
+  "validator_type": "agent",
+  "validated_at": "2026-06-29T00:41:56Z",
+  "comment": "Source-grounded pass using source PDF/text where locally available or prior source-inventory reports otherwise. Exact-key scaffold coverage was replaced with semantic source-to-dashboard judgments.",
+  "paper_statement_inventory_sha256": "e6cd4eca8876c600fe39f8b52c9ca360a42dc001d5d41541c0a5eac5179f5154",
+  "review_surface_sha256": "e356b530336975919b2f2a2eff04a0a0dd07a3842d2873d5d09c43d43fc8f28d",
+  "items": {
+    "assumption_alive_bidder_predicate": {
+      "coverage": "covered",
+      "review_rows": [
+        "assumption_alive_bidder_predicate"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Section 6 alive-bidder next-price rule is parameterized by an alive predicate. The dashboard row `assumption_alive_bidder_predicate` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: Section 6 alive-bidder next-price rule is parameterized by an alive predicate.",
+      "dashboard_evidence": "Current human-dashboard row(s): `assumption_alive_bidder_predicate`.",
+      "statement_sha256": "3b0a1826c4539f2f9f941dceb20bbc206bccbf95100a21f56c71dafef08d6016",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "assumption_availability_predicate": {
+      "coverage": "covered",
+      "review_rows": [
+        "assumption_availability_predicate"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Section 6 delayed-entry extension is parameterized by an availability predicate. The dashboard row `assumption_availability_predicate` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: Section 6 delayed-entry extension is parameterized by an availability predicate.",
+      "dashboard_evidence": "Current human-dashboard row(s): `assumption_availability_predicate`.",
+      "statement_sha256": "bfb815a62b980fecd8d9ac3a45ec8e6d21a2b5542f37d60af4d292d97dbea45d",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "assumption_click_through_rates_probability_bounds": {
+      "coverage": "covered",
+      "review_rows": [
+        "assumption_click_through_rates_probability_bounds"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Section 6 click-through rates are probabilities. The dashboard row `assumption_click_through_rates_probability_bounds` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: Section 6 click-through rates are probabilities.",
+      "dashboard_evidence": "Current human-dashboard row(s): `assumption_click_through_rates_probability_bounds`.",
+      "statement_sha256": "7a0fb02cc79cc22c687d7e7e46897c1063236b89ab75fd783aefac8676787c05",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "assumption_epsilon_range": {
+      "coverage": "covered",
+      "review_rows": [
+        "assumption_epsilon_range"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: The explicit finite-error theorem uses an epsilon in `[0,1]`. The dashboard row `assumption_epsilon_range` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: The explicit finite-error theorem uses an epsilon in `[0,1]`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `assumption_epsilon_range`.",
+      "statement_sha256": "360154d67328df44ba93cad3001809016db0fdc0f7fddc68c1b8678092eebd1a",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "assumption_full_distinct_query_history": {
+      "coverage": "covered",
+      "review_rows": [
+        "assumption_full_distinct_query_history"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: The finite query history enumerates the finite query set exactly once. The dashboard row `assumption_full_distinct_query_history` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: The finite query history enumerates the finite query set exactly once.",
+      "dashboard_evidence": "Current human-dashboard row(s): `assumption_full_distinct_query_history`.",
+      "statement_sha256": "a9427c9c88776554dc04eff73b60e316c6c1eaaf0914548c550dc331626fb186",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "assumption_next_highest_alive_small_bids": {
+      "coverage": "covered",
+      "review_rows": [
+        "assumption_next_highest_alive_small_bids"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Section 6 alive-bidders next-price charges satisfy the effective small-bids condition. The dashboard row `assumption_next_highest_alive_small_bids` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: Section 6 alive-bidders next-price charges satisfy the effective small-bids condition.",
+      "dashboard_evidence": "Current human-dashboard row(s): `assumption_next_highest_alive_small_bids`.",
+      "statement_sha256": "b2fba3c7c00b6fdb40b8943cc7011e93c39b05b92116f473a8ea983b19265fe4",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "assumption_next_highest_all_small_bids": {
+      "coverage": "covered",
+      "review_rows": [
+        "assumption_next_highest_all_small_bids"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Section 6 all-bidders next-price charges satisfy the effective small-bids condition. The dashboard row `assumption_next_highest_all_small_bids` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: Section 6 all-bidders next-price charges satisfy the effective small-bids condition.",
+      "dashboard_evidence": "Current human-dashboard row(s): `assumption_next_highest_all_small_bids`.",
+      "statement_sha256": "05752b5434ad13a3c9b194a115d6e6299ed25d12296dde169511ba4a8809e3de",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "assumption_nonnegative_bids": {
+      "coverage": "covered",
+      "review_rows": [
+        "assumption_nonnegative_bids"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: The AdWords model has nonnegative bids. The dashboard row `assumption_nonnegative_bids` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: The AdWords model has nonnegative bids.",
+      "dashboard_evidence": "Current human-dashboard row(s): `assumption_nonnegative_bids`.",
+      "statement_sha256": "a9f975a1a8857dfaa905fa26de2cee2e4b1eb046a037e5523b33e1d988c1a913",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "assumption_weighted_bids_nonnegative_weights": {
+      "coverage": "covered",
+      "review_rows": [
+        "assumption_weighted_bids_nonnegative_weights"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Section 8 advertiser weights are nonnegative. The dashboard row `assumption_weighted_bids_nonnegative_weights` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: Section 8 advertiser weights are nonnegative.",
+      "dashboard_evidence": "Current human-dashboard row(s): `assumption_weighted_bids_nonnegative_weights`.",
+      "statement_sha256": "645a7c482ead29387e90a584e6a97c8b240c31776ee750e05c5cce359d3d6d69",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "assumption_weighted_effective_small_bids": {
+      "coverage": "covered",
+      "review_rows": [
+        "assumption_weighted_effective_small_bids"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Section 8 weighted effective bids satisfy the small-bids condition. The dashboard row `assumption_weighted_effective_small_bids` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: Section 8 weighted effective bids satisfy the small-bids condition.",
+      "dashboard_evidence": "Current human-dashboard row(s): `assumption_weighted_effective_small_bids`.",
+      "statement_sha256": "584cfacc3de4c457741d2afced347f3858ae8c9c72f7992099667980116f86d7",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "paperBalanceScore_formula": {
+      "coverage": "covered",
+      "review_rows": [
+        "paperBalanceScore_formula"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Paper Balance/MSVV scaled bid. The dashboard row `paperBalanceScore_formula` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper formula. Source inventory item: Paper Balance/MSVV scaled bid.",
+      "dashboard_evidence": "Current human-dashboard row(s): `paperBalanceScore_formula`.",
+      "statement_sha256": "395e6b48a20abb93d38cce0930c49a9cc2f510ce2105fb863becfe2c5a96b283",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "paperCanAssign_iff": {
+      "coverage": "covered",
+      "review_rows": [
+        "paperCanAssign_iff"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Paper feasibility for assigning query `q` next to advertiser `a`. The dashboard row `paperCanAssign_iff` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper budget constraint. Source inventory item: Paper feasibility for assigning query `q` next to advertiser `a`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `paperCanAssign_iff`.",
+      "statement_sha256": "98cffece1bde6f6efd2b1153e551f6e614333c7db1c12d9c4b56ec68f4657fb9",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "paperFeasible_iff": {
+      "coverage": "covered",
+      "review_rows": [
+        "paperFeasible_iff"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Paper budget feasibility: no advertiser spends more than her budget. The dashboard row `paperFeasible_iff` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper constraint. Source inventory item: Paper budget feasibility: no advertiser spends more than her budget.",
+      "dashboard_evidence": "Current human-dashboard row(s): `paperFeasible_iff`.",
+      "statement_sha256": "84a5fe99aababc80ecd00e2c252421d680e319f952f0adf037bbd223ee3cb074",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "paperFractionalFeasible_iff": {
+      "coverage": "covered",
+      "review_rows": [
+        "paperFractionalFeasible_iff"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Paper fractional LP feasibility constraints. The dashboard row `paperFractionalFeasible_iff` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper constraints. Source inventory item: Paper fractional LP feasibility constraints.",
+      "dashboard_evidence": "Current human-dashboard row(s): `paperFractionalFeasible_iff`.",
+      "statement_sha256": "30b1d8c5b0b7272347145d8c625b169cdd1bf815f3b8612c5aafc0f991e77757",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "paperFractionalRevenue_formula": {
+      "coverage": "covered",
+      "review_rows": [
+        "paperFractionalRevenue_formula"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Paper fractional LP value. The dashboard row `paperFractionalRevenue_formula` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper formula. Source inventory item: Paper fractional LP value.",
+      "dashboard_evidence": "Current human-dashboard row(s): `paperFractionalRevenue_formula`.",
+      "statement_sha256": "bdf1fec1c513c39f77df8cbd8fca620740f722133c854462f56f05d93a6e9edc",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "paperIsBalanceChoice_iff": {
+      "coverage": "covered",
+      "review_rows": [
+        "paperIsBalanceChoice_iff"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Paper Balance/MSVV choice rule: advertiser `a` is feasible for query `q` and maximizes the scaled bid among feasible advertisers. The dashboard row `paperIsBalanceChoice_iff` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper algorithm rule. Source inventory item: Paper Balance/MSVV choice rule: advertiser `a` is feasible for query `q` and maximizes the scaled bid among feasible advertisers.",
+      "dashboard_evidence": "Current human-dashboard row(s): `paperIsBalanceChoice_iff`.",
+      "statement_sha256": "ab3798bd7530de0f5f6c6aceeb5eeec0966583f716e0c2bd3ce841b989ff5466",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "paperMsvvRatio_formula": {
+      "coverage": "covered",
+      "review_rows": [
+        "paperMsvvRatio_formula"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: The paper's competitive ratio `1 - 1/e`. The dashboard row `paperMsvvRatio_formula` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper formula. Source inventory item: The paper's competitive ratio `1 - 1/e`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `paperMsvvRatio_formula`.",
+      "statement_sha256": "bae4213b720d54fee7ec2f69ed3345a0673d8475b229def8645e72d2a34ce2be",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "paperRevenue_formula": {
+      "coverage": "covered",
+      "review_rows": [
+        "paperRevenue_formula"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Paper revenue formula for an assignment. The dashboard row `paperRevenue_formula` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper formula. Source inventory item: Paper revenue formula for an assignment.",
+      "dashboard_evidence": "Current human-dashboard row(s): `paperRevenue_formula`.",
+      "statement_sha256": "e1136bfc18a7f30dbc3c28bc27f06aa3432175aaaabd43d93e7342ebca0dd44d",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "paperSlotsPerPageDistinct_iff": {
+      "coverage": "covered",
+      "review_rows": [
+        "paperSlotsPerPageDistinct_iff"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Paper multiple-slot distinctness spelled out by original query and slot. The dashboard row `paperSlotsPerPageDistinct_iff` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper model extension. Source inventory item: Paper multiple-slot distinctness spelled out by original query and slot.",
+      "dashboard_evidence": "Current human-dashboard row(s): `paperSlotsPerPageDistinct_iff`.",
+      "statement_sha256": "0e08a36ecf5d6e882288355dbced62d86e8a097df24ff8475c6c18fb1bdc89f2",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "paperSmallBidsLimitFamily_fields": {
+      "coverage": "covered",
+      "review_rows": [
+        "paperSmallBidsLimitFamily_fields"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Paper-facing small-bids limiting family: bids become small relative to budgets, offline optimum converges to `optLimit`, and Balance/MSVV revenue converges to `revenueLimit`. The dashboard row `paperSmallBidsLimitFamily_fields` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. formalization bridge for Theorem 8 limiting statement. Source inventory item: Paper-facing small-bids limiting family: bids become small relative to budgets, offline optimum converges to `optLimit`, and Balance/MSVV revenue converges to `revenueLimit`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `paperSmallBidsLimitFamily_fields`.",
+      "statement_sha256": "a61e6108077101f066d3ef40fc50ed5e4310e41bdd5022434569e66913e4f572",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "paperSmallBids_iff": {
+      "coverage": "covered",
+      "review_rows": [
+        "paperSmallBids_iff"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Paper small-bids condition: every bid is at most an `epsilon` budget fraction. The dashboard row `paperSmallBids_iff` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper assumption. Source inventory item: Paper small-bids condition: every bid is at most an `epsilon` budget fraction.",
+      "dashboard_evidence": "Current human-dashboard row(s): `paperSmallBids_iff`.",
+      "statement_sha256": "be4f216a813324ae2e1b48bc861859dfe40be6c346fd10f63c33e806aff49666",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "paperSpend_formula": {
+      "coverage": "covered",
+      "review_rows": [
+        "paperSpend_formula"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Paper spend formula for advertiser `a` under assignment `A`. The dashboard row `paperSpend_formula` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper formula. Source inventory item: Paper spend formula for advertiser `a` under assignment `A`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `paperSpend_formula`.",
+      "statement_sha256": "b248d226d731f63ea15fa2a5aef4ec1b2c19e5300c61cc9e62568980c983ba6f",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "paperTradeoff_formula": {
+      "coverage": "covered",
+      "review_rows": [
+        "paperTradeoff_formula"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: The paper's MSVV/Balance tradeoff function at spent fraction `s`. The dashboard row `paperTradeoff_formula` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper formula. Source inventory item: The paper's MSVV/Balance tradeoff function at spent fraction `s`.",
+      "dashboard_evidence": "Current human-dashboard row(s): `paperTradeoff_formula`.",
+      "statement_sha256": "5c4792e13a51e446b4ee1337b88bd8da79c53e5297cd6244d37c5ffc2adfe0d7",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "section6_availability_theorem8_finite_explicit_error": {
+      "coverage": "covered",
+      "review_rows": [
+        "section6_availability_theorem8_finite_explicit_error"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Section 6 delayed-entry availability: finite explicit Theorem 8 guarantee. The dashboard row `section6_availability_theorem8_finite_explicit_error` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: Section 6 delayed-entry availability: finite explicit Theorem 8 guarantee.",
+      "dashboard_evidence": "Current human-dashboard row(s): `section6_availability_theorem8_finite_explicit_error`.",
+      "statement_sha256": "88b8baa33c95123b42403f2316fc2603669de65deedacd69e9e17011f674eee5",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "section6_click_through_rates_theorem8_finite_explicit_error": {
+      "coverage": "covered",
+      "review_rows": [
+        "section6_click_through_rates_theorem8_finite_explicit_error"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Section 6 click-through rates: finite explicit Theorem 8 guarantee. The dashboard row `section6_click_through_rates_theorem8_finite_explicit_error` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: Section 6 click-through rates: finite explicit Theorem 8 guarantee.",
+      "dashboard_evidence": "Current human-dashboard row(s): `section6_click_through_rates_theorem8_finite_explicit_error`.",
+      "statement_sha256": "3242b4c2b841018f4caa8b266783484d163c9979e21352a9a2631a86f3413055",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "section6_different_budgets_and_nonexhaustive_optimum_theorem8_finite_explicit_error": {
+      "coverage": "covered",
+      "review_rows": [
+        "section6_different_budgets_and_nonexhaustive_optimum_theorem8_finite_explicit_error"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Section 6 items 1--2. Different advertiser budgets and nonexhaustive optima are already part of the base AdWords model, so the finite explicit Theorem 8 guarantee applies without changing the instance. The dashboard row `section6_different_budgets_and_nonexhaustive_optimum_theorem8_finite_explicit_error` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: Section 6 items 1--2. Different advertiser budgets and nonexhaustive optima are already part of the base AdWords model, so the finite explicit Theorem 8 guarantee applies without changing the instance.",
+      "dashboard_evidence": "Current human-dashboard row(s): `section6_different_budgets_and_nonexhaustive_optimum_theorem8_finite_explicit_error`.",
+      "statement_sha256": "320d032d558c848ce0c2b01e27cd6456b2c677481c31ba37f171d13462bdc88b",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "section6_next_highest_bid_alive_formula": {
+      "coverage": "covered",
+      "review_rows": [
+        "section6_next_highest_bid_alive_formula"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: The alive-bidders Section 6 next-price charge is the maximum of zero and the largest bid from an alive advertiser other than `a`, or zero when no such advertiser exists. The dashboard row `section6_next_highest_bid_alive_formula` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper model extension. Source inventory item: The alive-bidders Section 6 next-price charge is the maximum of zero and the largest bid from an alive advertiser other than `a`, or zero when no such advertiser exists.",
+      "dashboard_evidence": "Current human-dashboard row(s): `section6_next_highest_bid_alive_formula`.",
+      "statement_sha256": "14664b15d69f57fde448d0b1f1d670f90b5444130b7ccc65cb39c72fff66d9de",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "section6_next_highest_bid_alive_theorem8_finite_explicit_error": {
+      "coverage": "covered",
+      "review_rows": [
+        "section6_next_highest_bid_alive_theorem8_finite_explicit_error"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Section 6 next-highest-bid charges, alive-bidders variant. The dashboard row `section6_next_highest_bid_alive_theorem8_finite_explicit_error` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: Section 6 next-highest-bid charges, alive-bidders variant.",
+      "dashboard_evidence": "Current human-dashboard row(s): `section6_next_highest_bid_alive_theorem8_finite_explicit_error`.",
+      "statement_sha256": "55ca76afa4e54230f54a60e91983500c520433d1aea8a7e83924350672f83860",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "section6_next_highest_bid_all_formula": {
+      "coverage": "covered",
+      "review_rows": [
+        "section6_next_highest_bid_all_formula"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: The all-bidders Section 6 next-price charge is the maximum of zero and the largest bid from an advertiser other than `a`, or zero when there is no other advertiser. The dashboard row `section6_next_highest_bid_all_formula` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper model extension. Source inventory item: The all-bidders Section 6 next-price charge is the maximum of zero and the largest bid from an advertiser other than `a`, or zero when there is no other advertiser.",
+      "dashboard_evidence": "Current human-dashboard row(s): `section6_next_highest_bid_all_formula`.",
+      "statement_sha256": "a330f887a9b31810e6b6787523a24c5bd65f1fad6369fe494b4d97fdad73f6b6",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "section6_next_highest_bid_all_theorem8_finite_explicit_error": {
+      "coverage": "covered",
+      "review_rows": [
+        "section6_next_highest_bid_all_theorem8_finite_explicit_error"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Section 6 next-highest-bid charges, all-bidders variant. The dashboard row `section6_next_highest_bid_all_theorem8_finite_explicit_error` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: Section 6 next-highest-bid charges, all-bidders variant.",
+      "dashboard_evidence": "Current human-dashboard row(s): `section6_next_highest_bid_all_theorem8_finite_explicit_error`.",
+      "statement_sha256": "25f32ef9eb013b7a135229db4b374ce8b7e53e1e5fd5194275b5bc71ed0f7529",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "section6_page_top_balance_theorem8_finite_explicit_error": {
+      "coverage": "covered",
+      "review_rows": [
+        "section6_page_top_balance_theorem8_finite_explicit_error"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Section 6 multiple slots: source-shaped page-level finite explicit Theorem 8 guarantee. On each page `q`, Balance chooses the top `slots q` distinct feasible advertisers by current scaled bid, and competes with the page-level offline opt... The dashboard row `section6_page_top_balance_theorem8_finite_explicit_error` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: Section 6 multiple slots: source-shaped page-level finite explicit Theorem 8 guarantee. On each page `q`, Balance chooses the top `slots q` distinct feasible advertisers by current scaled bid, and competes with the page-level offline optimum subject to the...",
+      "dashboard_evidence": "Current human-dashboard row(s): `section6_page_top_balance_theorem8_finite_explicit_error`.",
+      "statement_sha256": "816ba031fca719556c9fdfee8cdb93ef747d2f1b35704d20db90a87a5f4e2b62",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "section8_weighted_bids_theorem8_finite_explicit_error_of_weighted_small_bids": {
+      "coverage": "covered",
+      "review_rows": [
+        "section8_weighted_bids_theorem8_finite_explicit_error_of_weighted_small_bids"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Section 8 advertiser weights, stated directly for the weighted effective-bid small-bids regime. The dashboard row `section8_weighted_bids_theorem8_finite_explicit_error_of_weighted_small_bids` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: Section 8 advertiser weights, stated directly for the weighted effective-bid small-bids regime.",
+      "dashboard_evidence": "Current human-dashboard row(s): `section8_weighted_bids_theorem8_finite_explicit_error_of_weighted_small_bids`.",
+      "statement_sha256": "3b3261240cd78c6ddc8fd3e0bfcf9ff3aa0bf6a72b402ff8373d8f2a4b7a2786",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "theorem8_balance_msvv_competitive_of_small_bids_limit_family": {
+      "coverage": "covered",
+      "review_rows": [
+        "theorem8_balance_msvv_competitive_of_small_bids_limit_family"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: paper-level limiting endpoint. The dashboard row `theorem8_balance_msvv_competitive_of_small_bids_limit_family` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper theorem. Source inventory item: paper-level limiting endpoint.",
+      "dashboard_evidence": "Current human-dashboard row(s): `theorem8_balance_msvv_competitive_of_small_bids_limit_family`.",
+      "statement_sha256": "c36a32652a591b11ed6ae6e2602f25af2be4842faed7114a07f06ed515e919e0",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "theorem9CappedNormalizedRevenue_formula": {
+      "coverage": "covered",
+      "review_rows": [
+        "theorem9CappedNormalizedRevenue_formula"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 9 capped normalized revenue is the average capped prefix spend across all bidders. The dashboard row `theorem9CappedNormalizedRevenue_formula` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper proof formula. Source inventory item: Theorem 9 capped normalized revenue is the average capped prefix spend across all bidders.",
+      "dashboard_evidence": "Current human-dashboard row(s): `theorem9CappedNormalizedRevenue_formula`.",
+      "statement_sha256": "de391faeaf871b6c249041a67762cc90ffcbe3a13fa53c04f01fd1aded20f3b6",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "theorem9HardDistribution_uniform": {
+      "coverage": "covered",
+      "review_rows": [
+        "theorem9HardDistribution_uniform"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: The hard distribution in Theorem 9 is uniform over bidder permutations. The dashboard row `theorem9HardDistribution_uniform` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Source inventory item: The hard distribution in Theorem 9 is uniform over bidder permutations.",
+      "dashboard_evidence": "Current human-dashboard row(s): `theorem9HardDistribution_uniform`.",
+      "statement_sha256": "2b3473368866d77a76e7e22749d15e2594fe9bca42d02a10670cb160c775473a",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    },
+    "theorem9_no_randomized_online_algorithm_beats_msvv_ratio": {
+      "coverage": "covered",
+      "review_rows": [
+        "theorem9_no_randomized_online_algorithm_beats_msvv_ratio"
+      ],
+      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 9, paper-facing randomized online algorithm endpoint in the finite prefix model. The dashboard row `theorem9_no_randomized_online_algorithm_beats_msvv_ratio` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "source_evidence": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. direct paper theorem. Source inventory item: Theorem 9, paper-facing randomized online algorithm endpoint in the finite prefix model.",
+      "dashboard_evidence": "Current human-dashboard row(s): `theorem9_no_randomized_online_algorithm_beats_msvv_ratio`.",
+      "statement_sha256": "6cd6d9e9638b593a3d6f4c1300a90ff539e79afb2455bcbf213d678b36b59a7d",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false
+    }
+  }
+}

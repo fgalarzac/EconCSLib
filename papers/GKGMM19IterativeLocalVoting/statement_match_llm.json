@@ -304,12 +304,13 @@
     "modelB_finite_response_formula": {
       "judgment": "matches",
       "lean_statement_sha256": "393e67d0aa0bb48d27af0b98ec4f70e3df32f5d8847d8f024a0328ab2d80db08",
-      "paper_statement_sha256": "1aad067337848a4bb414f82bad0075b6b9d784b8f9f1cbd3f1384065c32110f5",
+      "paper_statement_sha256": "27fe4b57de98b95b05ffa06f04cb9c38a12192f45ba4602f64e6d061049fa539",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
       "tex_statement_sha256": "9042087dfd6a034ffc2e3222d712e7e8a87deb0d4ff96a618982e513176c09cc",
-      "validated_at": "2026-06-18T15:50:19Z",
+      "validated_at": "2026-06-29T00:54:43Z",
       "validator": "gpt-5-codex",
-      "validator_type": "model"
+      "validator_type": "model",
+      "comment": "Digest snapshot refreshed after source-grounded coverage audit; substantive judgment unchanged."
     },
     "modelB_finite_response_neg_lp_cost_gradient_formula": {
       "judgment": "matches",
@@ -438,16 +439,17 @@
         "E.solutionSpace = Set.univ"
       ],
       "judgment": "mismatch",
-      "lean_statement_sha256": "4d277b95651acbfe45e75ab15120e6cb5d35f052056b5ee479913efe944a6950",
-      "paper_statement_sha256": "e564621821cb3e301bd35cd190574c5501937e2256e9eda41bfc107cbcfdd175",
+      "lean_statement_sha256": "9b5c230534ab6f603ae3787abd20ead7714741b6a919432d2096f18bf69a75b4",
+      "paper_statement_sha256": "1d7bd58eae948e146c01af596601120d498419d8ad069e0d5ed73fbe198e04b8",
       "reason": "The Lean row concludes the exact Theorem 3 statement, but only after adding two explicit conditions not present in the paper statement: a sampled projected finite-coordinate source-semantics package and the full-space condition E.solutionSpace = Set.univ. It intentionally does not claim the general constrained Theorem 3 endpoint. Refreshed against the current conditional-boundary source statement and Lean/TeX digest surface.",
       "resolution": "conditional_boundary",
       "resolution_reason": "Accepted as a conditional source-semantics/full-space boundary. The projected source package is recursively audited, and the full-space condition is the explicit hypothesis under which Lean proves the aggregate feasible-direction property rather than assuming it.",
       "source": "manual_llm_as_judge_refresh",
       "tex_statement_sha256": "b209f5582c37cc1451a3c0ac81ecad9bf2b2f32f46808b62b10eac18868ca486",
-      "validated_at": "2026-06-28T01:49:47Z",
+      "validated_at": "2026-06-29T00:54:43Z",
       "validator": "gpt-5-codex",
-      "validator_type": "model"
+      "validator_type": "model",
+      "comment": "Digest snapshot refreshed after source-grounded coverage audit; substantive judgment unchanged."
     }
   },
   "paper": "GKGMM19IterativeLocalVoting",
@@ -458,7 +460,7 @@
   ],
   "prompt_version": "statement-match-v2-strict-full-statement-recursive-definitions",
   "schema": 1,
-  "validated_at": "2026-06-28T01:49:47Z",
+  "validated_at": "2026-06-29T00:54:43Z",
   "validator": "gpt-5-codex",
   "validator_type": "model"
 }
