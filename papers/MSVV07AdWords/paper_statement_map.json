@@ -2,7 +2,7 @@
   "schema": 1,
   "paper": "MSVV07AdWords",
   "title": "AdWords and Generalized Online Matching",
-  "generated_at": "2026-06-29T00:41:48Z",
+  "generated_at": "2026-06-29T01:27:19Z",
   "source_inventory_policy": "Source basis: documented source inventory and prior source audit for Mehta-Saberi-Vazirani-Vazirani 2007. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
   "source_url": "https://people.eecs.berkeley.edu/~vazirani/pubs/adwords.pdf; https://doi.org/10.1145/1284320.1284321",
   "items": {
@@ -292,6 +292,62 @@
       "source_location": "paper-facing review target; exact source location to be refined",
       "aliases": [
         "assumption_weighted_effective_small_bids"
+      ]
+    },
+    "section4_lemma1_balance_pays_no_later_slab": {
+      "statement": "- Section 4 Lemma 1: in the equal-bids Balance case, if OPT's bidder is still active in a no-later slab, Balance pays no later than the OPT type.",
+      "source_url": "https://doi.org/10.1145/1143844.1143848",
+      "source_location": "Section 4 Lemma 1",
+      "aliases": [
+        "section4_lemma1_balance_pays_no_later_slab"
+      ]
+    },
+    "section4_lemma2_factor_revealing_lp_constraint": {
+      "statement": "- Section 4 Lemma 2: Lemma 1's prefix accounting yields the factor-revealing LP row constraint.",
+      "source_url": "https://doi.org/10.1145/1143844.1143848",
+      "source_location": "Section 4 Lemma 2",
+      "aliases": [
+        "section4_lemma2_factor_revealing_lp_constraint"
+      ]
+    },
+    "section4_lemma3_factor_revealing_lp_optimality": {
+      "statement": "- Section 4 Lemma 3: the displayed primal and dual factor-revealing LP witnesses give the limiting value N/e.",
+      "source_url": "https://doi.org/10.1145/1143844.1143848",
+      "source_location": "Section 4 Lemma 3",
+      "aliases": [
+        "section4_lemma3_factor_revealing_lp_optimality"
+      ]
+    },
+    "section5_lemma4_dual_optimal_from_primal_dual_match": {
+      "statement": "- Section 5 Lemma 4: matching feasible primal and dual objectives certify optimality for the tradeoff-revealing LP.",
+      "source_url": "https://doi.org/10.1145/1143844.1143848",
+      "source_location": "Section 5 Lemma 4",
+      "aliases": [
+        "section5_lemma4_dual_optimal_from_primal_dual_match"
+      ]
+    },
+    "section5_lemma5_tradeoff_rhs_eq_base_add_delta": {
+      "statement": "- Section 5 Lemma 5: the perturbed tradeoff-revealing LP right-hand side equals the base LP right-hand side plus the paper delta term.",
+      "source_url": "https://doi.org/10.1145/1143844.1143848",
+      "source_location": "Section 5 Lemma 5",
+      "aliases": [
+        "section5_lemma5_tradeoff_rhs_eq_base_add_delta"
+      ]
+    },
+    "section5_lemma6_per_query_tradeoff": {
+      "statement": "- Section 5 Lemma 6: each query satisfies the pointwise tradeoff inequality used in the perturbation argument.",
+      "source_url": "https://doi.org/10.1145/1143844.1143848",
+      "source_location": "Section 5 Lemma 6",
+      "aliases": [
+        "section5_lemma6_per_query_tradeoff"
+      ]
+    },
+    "section5_lemma7_weighted_perturbation_bound": {
+      "statement": "- Section 5 Lemma 7: summing the pointwise tradeoff inequalities yields the weighted perturbation bound, including the paper-shaped N/k form.",
+      "source_url": "https://doi.org/10.1145/1143844.1143848",
+      "source_location": "Section 5 Lemma 7",
+      "aliases": [
+        "section5_lemma7_weighted_perturbation_bound"
       ]
     }
   },

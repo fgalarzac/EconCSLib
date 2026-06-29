@@ -1543,7 +1543,10 @@ the Lean statements against the paper.
   blocks, named subclaims, and appendix results that are intended formalization
   targets. Then populate `paper_coverage_llm.json` with an independent
   source-to-row judgment: each inventory item should be `covered` by one or more
-  dashboard row names, `partially_covered`, `missing`, or explicitly
+  dashboard row names, `conditional_boundary` when the row-level statement judge
+  records an explicit boundary assumption, `covered_by_support` when a named
+  source proof-route lemma is formalized in support declarations but omitted
+  from the compact dashboard, `partially_covered`, `missing`, or explicitly
   `out_of_scope`/`not_a_paper_target` with a reason. Run
   `python3 scripts/review_dashboard.py --paper <paper-folder> --paper-coverage-precheck`.
   For public-facing statuses (`formalized` or `partially formalized`), the
@@ -1586,12 +1589,14 @@ the Lean statements against the paper.
   2. **Source-to-dashboard lane.** A separate judge reads each source inventory
      item and the candidate human-dashboard rows, then records in
      `paper_coverage_llm.json` whether the source item is `covered`,
-     `partially_covered`, `missing`, or `out_of_scope`. The sidecar must use
-     `audit_kind: "source_to_dashboard_llm"` (or
-     `"source_to_dashboard_agent"`), `source_grounded: true`, linked
-     `review_rows`, `source_evidence`, and a nontrivial match reason. Exact
-     name/alias matches from `scripts/seed_paper_coverage.py` are only
-     `audit_kind: "exact_key_scaffold"` and must not pass a closeout audit.
+     `conditional_boundary`, `covered_by_support`, `partially_covered`,
+     `missing`, or `out_of_scope`. The sidecar must use `audit_kind:
+     "source_to_dashboard_llm"` (or `"source_to_dashboard_agent"`),
+     `source_grounded: true`, linked `review_rows` for dashboard coverage,
+     `support_declarations` for support-only coverage, `source_evidence`, and a
+     nontrivial match reason. Exact name/alias matches from
+     `scripts/seed_paper_coverage.py` are only `audit_kind:
+     "exact_key_scaffold"` and must not pass a closeout audit.
   3. **Row-local statement lane.** Generate `lean_to_tex_llm.json` from Lean
      statements alone, then have another judge compare that translation against
      the source statement text in `statement_match_llm.json`. This answers
@@ -1856,8 +1861,10 @@ the Lean statements against the paper.
      the row-local statement judge below cannot answer that question.
      A dashboard-seeded map is only a temporary scaffold; before citing it as
      paper coverage, compare it against the source PDF/TeX and either add
-     missing named statements or mark non-target source material as
-     `out_of_scope` with reasons.
+     missing named statements, mark support-only proof-route lemmas as
+     `covered_by_support` with explicit `support_declarations`, mark rows that
+     match only under a declared proof boundary as `conditional_boundary`, or
+     mark non-target source material as `out_of_scope` with reasons.
   4. Generate `lean_to_tex_llm.json` from the Lean statements alone, with no
      paper text and no proof context. Use one item per current dashboard row.
      The translator prompt must be literal rather than explanatory: preserve

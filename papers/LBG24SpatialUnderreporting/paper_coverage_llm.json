@@ -7,8 +7,8 @@
   "seed_scaffold": false,
   "validator": "codex source-grounded audit pass",
   "validator_type": "agent",
-  "validated_at": "2026-06-29T00:41:22Z",
-  "comment": "Source-grounded pass using source PDF/text where locally available or prior source-inventory reports otherwise. Exact-key scaffold coverage was replaced with semantic source-to-dashboard judgments.",
+  "validated_at": "2026-06-29T01:27:19Z",
+  "comment": "Source-grounded pass using source PDF/text where locally available or prior source-inventory reports otherwise. Exact-key scaffold coverage was replaced with semantic source-to-dashboard judgments. Coverage metadata refreshed after source-provenance and conditional-boundary audit update.",
   "paper_statement_inventory_sha256": "e9e4dfb249a8a04d39428db66d55c38f74fb8868e71114ca1957d03f5af0471d",
   "review_surface_sha256": "03d49972c95b19ffa2883856a50d4a694fb730a2bbb9f3b9901caf87de92cc5e",
   "items": {
@@ -26,30 +26,40 @@
       "seed_scaffold": false
     },
     "equation33_nyc_preprocessing_stopping_observation_window": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "equation33_nyc_preprocessing_stopping_observation_window"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Eq. (33), NYC preprocessing stopping-time form: if the first-report time, inspection time, and work-order time are stopping times, then the paper's min-censored preprocessing rule defines a stopping observation window. The dashboard row `equation33_nyc_preprocessing_stopping_observation_window` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Eq. (33), NYC preprocessing stopping-time form: if the first-report time, inspection time, and work-order time are stopping times, then the paper's min-censored preprocessing rule defines a stopping observation window. The dashboard row `equation33_nyc_preprocessing_stopping_observation_window` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/LBG24SpatialUnderreporting.txt and validation report. Supplement Eq. (33), NYC preprocessing window. Source inventory item: Eq. (33), NYC preprocessing stopping-time form: if the first-report time, inspection time, and work-order time are stopping times, then the paper's min-censored preprocessing rule defines a stopping observation window.",
       "dashboard_evidence": "Current human-dashboard row(s): `equation33_nyc_preprocessing_stopping_observation_window`.",
       "statement_sha256": "c8934ee0a0924cb8d70def56acb0a2962a4b107d74ca5651c390390085727c17",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "homogeneous Poisson counting-process law",
+        "duration-censored stopping certificate",
+        "fixed Condition 1/2 kernels"
+      ]
     },
     "equation34_chicago_preprocessing_stopping_observation_window": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "equation34_chicago_preprocessing_stopping_observation_window"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Eq. (34), Chicago preprocessing stopping-time form: if the first-report time, closed time, and dataset retrieval/update time are stopping times, then the paper's min-censored preprocessing rule defines a stopping observation window. The dashboard row `equation34_chicago_preprocessing_stopping_observation_window` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Eq. (34), Chicago preprocessing stopping-time form: if the first-report time, closed time, and dataset retrieval/update time are stopping times, then the paper's min-censored preprocessing rule defines a stopping observation window. The dashboard row `equation34_chicago_preprocessing_stopping_observation_window` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/LBG24SpatialUnderreporting.txt and validation report. Supplement Eq. (34), Chicago preprocessing window. Source inventory item: Eq. (34), Chicago preprocessing stopping-time form: if the first-report time, closed time, and dataset retrieval/update time are stopping times, then the paper's min-censored preprocessing rule defines a stopping observation window.",
       "dashboard_evidence": "Current human-dashboard row(s): `equation34_chicago_preprocessing_stopping_observation_window`.",
       "statement_sha256": "b323ee7544cd39dd84014819bc0ce06626180a31d5c328c795bd66d4548469b7",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "homogeneous Poisson counting-process law",
+        "duration-censored stopping certificate",
+        "fixed Condition 1/2 kernels"
+      ]
     },
     "equation3_mle_global_logLikelihood_max": {
       "coverage": "covered",
@@ -247,82 +257,112 @@
       "seed_scaffold": false
     },
     "theorem1_likelihood_decomposition_from_poisson_increment_laws": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "theorem1_likelihood_decomposition_from_poisson_increment_laws"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 1 / Appendix Theorem 2, preferred source-assumption factorization form: given a homogeneous Poisson process via mathlib Poisson increment laws plus Condition 1/2 source assumptions, any observed zero/one/multi-report window case... The dashboard row `theorem1_likelihood_decomposition_from_poisson_increment_laws` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 1 / Appendix Theorem 2, preferred source-assumption factorization form: given a homogeneous Poisson process via mathlib Poisson increment laws plus Condition 1/2 source assumptions, any observed zero/one/multi-report window case... The dashboard row `theorem1_likelihood_decomposition_from_poisson_increment_laws` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/LBG24SpatialUnderreporting.txt and validation report. Main text Theorem 1 likelihood decomposition. Source inventory item: Theorem 1 / Appendix Theorem 2, preferred source-assumption factorization form: given a homogeneous Poisson process via mathlib Poisson increment laws plus Condition 1/2 source assumptions, any observed zero/one/multi-report window case has likelihood equal...",
       "dashboard_evidence": "Current human-dashboard row(s): `theorem1_likelihood_decomposition_from_poisson_increment_laws`.",
       "statement_sha256": "71251518da4f8b7e8e10ae8d16955377c7b771198bb5faf0204f04e9828c4331",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "homogeneous Poisson counting-process law",
+        "duration-censored stopping certificate",
+        "fixed Condition 1/2 kernels"
+      ]
     },
     "theorem1_likelihood_product_decomposition_from_poisson_increment_laws": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "theorem1_likelihood_product_decomposition_from_poisson_increment_laws"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 1 finite-product form from mathlib Poisson increment laws: under the paper's homogeneous Poisson process plus Condition 1/2 source assumptions, a finite product of observed zero/one/multi-report window cases collapses to one tota... The dashboard row `theorem1_likelihood_product_decomposition_from_poisson_increment_laws` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 1 finite-product form from mathlib Poisson increment laws: under the paper's homogeneous Poisson process plus Condition 1/2 source assumptions, a finite product of observed zero/one/multi-report window cases collapses to one tota... The dashboard row `theorem1_likelihood_product_decomposition_from_poisson_increment_laws` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/LBG24SpatialUnderreporting.txt and validation report. Main text Theorem 1 finite-product likelihood decomposition. Source inventory item: Theorem 1 finite-product form from mathlib Poisson increment laws: under the paper's homogeneous Poisson process plus Condition 1/2 source assumptions, a finite product of observed zero/one/multi-report window cases collapses to one total-count Poisson PMF,...",
       "dashboard_evidence": "Current human-dashboard row(s): `theorem1_likelihood_product_decomposition_from_poisson_increment_laws`.",
       "statement_sha256": "9fc352e6727577e50dc5a279044a6b437c8d2c792f22bede2a78842f96eed5be",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "homogeneous Poisson counting-process law",
+        "duration-censored stopping certificate",
+        "fixed Condition 1/2 kernels"
+      ]
     },
     "theorem2_corrected_case_factorization": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "theorem2_corrected_case_factorization"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Appendix Theorem 2 proof algebra: a case likelihood whose rate dependence has the raw density shape `rate^M * exp(-rate * exposure)` factors into the Poisson count PMF after absorbing `M! / exposure^M` into the residual. The dashboard row `theorem2_corrected_case_factorization` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Appendix Theorem 2 proof algebra: a case likelihood whose rate dependence has the raw density shape `rate^M * exp(-rate * exposure)` factors into the Poisson count PMF after absorbing `M! / exposure^M` into the residual. The dashboard row `theorem2_corrected_case_factorization` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/LBG24SpatialUnderreporting.txt and validation report. Appendix Theorem 2 proof algebra; corrected multi-report residual noted in validation report. Source inventory item: Appendix Theorem 2 proof algebra: a case likelihood whose rate dependence has the raw density shape `rate^M * exp(-rate * exposure)` factors into the Poisson count PMF after absorbing `M! / exposure^M` into the residual.",
       "dashboard_evidence": "Current human-dashboard row(s): `theorem2_corrected_case_factorization`.",
       "statement_sha256": "34bb853e747cbe931db3924f0f9342fab4999ba2d96c24989a4ab34f369b1e52",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "homogeneous Poisson counting-process law",
+        "duration-censored stopping certificate",
+        "fixed Condition 1/2 kernels"
+      ]
     },
     "theorem2_multi_report_source_case": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "theorem2_multi_report_source_case"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Appendix B.2 Eq. (32), two or more reports in `(s,e]`. The dashboard row `theorem2_multi_report_source_case` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Appendix B.2 Eq. (32), two or more reports in `(s,e]`. The dashboard row `theorem2_multi_report_source_case` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/LBG24SpatialUnderreporting.txt and validation report. Appendix Theorem 2 / Eq. (32), multi-report case. Source inventory item: Appendix B.2 Eq. (32), two or more reports in `(s,e]`.",
       "dashboard_evidence": "Current human-dashboard row(s): `theorem2_multi_report_source_case`.",
       "statement_sha256": "07432e4a1f0171d63ced7d991ff66040386ca2098388232ddb4b26642739e918",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "homogeneous Poisson counting-process law",
+        "duration-censored stopping certificate",
+        "fixed Condition 1/2 kernels"
+      ]
     },
     "theorem2_one_report_source_case": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "theorem2_one_report_source_case"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Appendix B.2 Eq. (26), one report in `(s,e]`. The dashboard row `theorem2_one_report_source_case` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Appendix B.2 Eq. (26), one report in `(s,e]`. The dashboard row `theorem2_one_report_source_case` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/LBG24SpatialUnderreporting.txt and validation report. Appendix Theorem 2 / Eq. (26), one-report case. Source inventory item: Appendix B.2 Eq. (26), one report in `(s,e]`.",
       "dashboard_evidence": "Current human-dashboard row(s): `theorem2_one_report_source_case`.",
       "statement_sha256": "093e855aee294a6bb919a94f0c24dd0bc7e731912999b985df3079155e2373e3",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "homogeneous Poisson counting-process law",
+        "duration-censored stopping certificate",
+        "fixed Condition 1/2 kernels"
+      ]
     },
     "theorem2_zero_report_source_case": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "theorem2_zero_report_source_case"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Appendix B.2 Eq. (20), zero reports in `(s,e]`. The dashboard row `theorem2_zero_report_source_case` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Appendix B.2 Eq. (20), zero reports in `(s,e]`. The dashboard row `theorem2_zero_report_source_case` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/LBG24SpatialUnderreporting.txt and validation report. Appendix Theorem 2 / Eq. (20), zero-report case. Source inventory item: Appendix B.2 Eq. (20), zero reports in `(s,e]`.",
       "dashboard_evidence": "Current human-dashboard row(s): `theorem2_zero_report_source_case`.",
       "statement_sha256": "470318756adbd960cf37e82f645cf09a697fb3c22f857a5eee9cb712a8d4e7bc",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "homogeneous Poisson counting-process law",
+        "duration-censored stopping certificate",
+        "fixed Condition 1/2 kernels"
+      ]
     }
   }
 }

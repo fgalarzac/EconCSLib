@@ -7,9 +7,9 @@
   "seed_scaffold": false,
   "validator": "codex source-grounded audit pass",
   "validator_type": "agent",
-  "validated_at": "2026-06-29T00:41:01Z",
-  "comment": "Source-grounded pass using source PDF/text where locally available or prior source-inventory reports otherwise. Exact-key scaffold coverage was replaced with semantic source-to-dashboard judgments.",
-  "paper_statement_inventory_sha256": "76c0141d6563f5dd11402190c7cf6465b5049e19d3d1c6f132cae25c84839dba",
+  "validated_at": "2026-06-29T01:27:19Z",
+  "comment": "Source-grounded pass using source PDF/text where locally available or prior source-inventory reports otherwise. Exact-key scaffold coverage was replaced with semantic source-to-dashboard judgments. Coverage metadata refreshed after source-provenance and conditional-boundary audit update.",
+  "paper_statement_inventory_sha256": "fcb59b6cee044f2734529e776b39d9cddbc49d4e2b2d4465a43a4f9b39a18f2e",
   "review_surface_sha256": "4c7a5df1683ccff5dd1aee5579753f24848d06adbaf3d3f0672ce5bad7cffcff",
   "items": {
     "algorithm1_local_neighborhood_formula": {
@@ -468,30 +468,38 @@
       "seed_scaffold": false
     },
     "proposition1_weighted_euclidean_l2": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "proposition1_weighted_euclidean_l2"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Proposition 1 source statement: under C1-C3, weighted-Euclidean utilities, and correct Model A or Model B responses, ILV with L2 neighborhoods converges almost surely to the societal optimal point. The dashboard row `proposition1_weighted_euclidean_l2` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Proposition 1 source statement: under C1-C3, weighted-Euclidean utilities, and correct Model A or Model B responses, ILV with L2 neighborhoods converges almost surely to the societal optimal point. The dashboard row `proposition1_weighted_euclidean_l2` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Proposition 1 source statement: under C1-C3, weighted-Euclidean utilities, and correct Model A or Model B responses, ILV with L2 neighborhoods converges almost surely to the societal optimal point.",
       "dashboard_evidence": "Current human-dashboard row(s): `proposition1_weighted_euclidean_l2`.",
       "statement_sha256": "3c5d1bc1bd237fa539b4ebce72bb1d38f473a7dd60cbeeadd6ac7b5fb9947103",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "assumption_ssgm_convergence_theorem",
+        "full-space condition for the Theorem 3 original statement"
+      ]
     },
     "proposition2_decomposable_linf_medians": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "proposition2_decomposable_linf_medians"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Proposition 2 source statement: under C1-C3, decomposable utilities, and Model A or Model B responses, ILV with L_infinity neighborhoods converges almost surely to a point in the set of medians. The dashboard row `proposition2_decomposable_linf_medians` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Proposition 2 source statement: under C1-C3, decomposable utilities, and Model A or Model B responses, ILV with L_infinity neighborhoods converges almost surely to a point in the set of medians. The dashboard row `proposition2_decomposable_linf_medians` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Proposition 2 source statement: under C1-C3, decomposable utilities, and Model A or Model B responses, ILV with L_infinity neighborhoods converges almost surely to a point in the set of medians.",
       "dashboard_evidence": "Current human-dashboard row(s): `proposition2_decomposable_linf_medians`.",
       "statement_sha256": "4a4ae7154c9a35f6e87318ccd5a21275198d08608acf4eaea354b54347cf5a88",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "assumption_ssgm_convergence_theorem",
+        "full-space condition for the Theorem 3 original statement"
+      ]
     },
     "source_appendix_lemmas_1_2_4_out_of_scope": {
       "coverage": "out_of_scope",
@@ -538,17 +546,21 @@
       "seed_scaffold": false
     },
     "theorem1_lp_normed_dual_cases": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "theorem1_lp_normed_dual_cases"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 1 source statement: under C1-C3, Lp-normed utilities, Model A or Model B responses, and norm pairs (p,q) = (2,2), (1,infinity), or (infinity,1), ILV with Lq neighborhoods converges almost surely to the societal optimal point. The dashboard row `theorem1_lp_normed_dual_cases` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 1 source statement: under C1-C3, Lp-normed utilities, Model A or Model B responses, and norm pairs (p,q) = (2,2), (1,infinity), or (infinity,1), ILV with Lq neighborhoods converges almost surely to the societal optimal point. The dashboard row `theorem1_lp_normed_dual_cases` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Theorem 1 source statement: under C1-C3, Lp-normed utilities, Model A or Model B responses, and norm pairs (p,q) = (2,2), (1,infinity), or (infinity,1), ILV with Lq neighborhoods converges almost surely to the societal optimal point.",
       "dashboard_evidence": "Current human-dashboard row(s): `theorem1_lp_normed_dual_cases`.",
       "statement_sha256": "6b000a0406053a6d95ec7f85195da802fea8385342190428fda1724202bdfd52",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "assumption_ssgm_convergence_theorem",
+        "full-space condition for the Theorem 3 original statement"
+      ]
     },
     "theorem1_norm_pair_l1_linf": {
       "coverage": "covered",
@@ -590,30 +602,38 @@
       "seed_scaffold": false
     },
     "theorem2_modelB_holder_dual_norms": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "theorem2_modelB_holder_dual_norms"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 2 source statement: under C1-C3, Lp-normed utilities, Model B responses, and p > 0, q > 0 with 1/p + 1/q = 1, ILV with Lq neighborhoods converges almost surely to the societal optimal point. The dashboard row `theorem2_modelB_holder_dual_norms` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 2 source statement: under C1-C3, Lp-normed utilities, Model B responses, and p > 0, q > 0 with 1/p + 1/q = 1, ILV with Lq neighborhoods converges almost surely to the societal optimal point. The dashboard row `theorem2_modelB_holder_dual_norms` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Theorem 2 source statement: under C1-C3, Lp-normed utilities, Model B responses, and p > 0, q > 0 with 1/p + 1/q = 1, ILV with Lq neighborhoods converges almost surely to the societal optimal point.",
       "dashboard_evidence": "Current human-dashboard row(s): `theorem2_modelB_holder_dual_norms`.",
       "statement_sha256": "129b0a8e6f8fd148068d3725c424768bbc79a461e24a68e6e1cf373eefafd470",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "assumption_ssgm_convergence_theorem",
+        "full-space condition for the Theorem 3 original statement"
+      ]
     },
     "theorem3_convergent_l2_modelB_is_directional_equilibrium": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "theorem3_statement_of_full_sampled_projected_source_semantics_univ"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 3 source statement: under C1-C3, G(x) = E_v[grad f_v(x)/||grad f_v(x)||_2] uniformly continuous, L2 movement norm constraints, and Model B responses, with probability 1 any convergent infinite ILV trajectory has a directional-equ... The dashboard row `theorem3_statement_of_full_sampled_projected_source_semantics_univ` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 3 source statement: under C1-C3, G(x) = E_v[grad f_v(x)/||grad f_v(x)||_2] uniformly continuous, L2 movement norm constraints, and Model B responses, with probability 1 any convergent infinite ILV trajectory has a directional-equ... The dashboard row `theorem3_statement_of_full_sampled_projected_source_semantics_univ` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/GKGMM19IterativeLocalVoting.txt, PAPER_NOTES.md, and validation report. Source inventory item: Theorem 3 source statement: under C1-C3, G(x) = E_v[grad f_v(x)/||grad f_v(x)||_2] uniformly continuous, L2 movement norm constraints, and Model B responses, with probability 1 any convergent infinite ILV trajectory has a directional-equilibrium limit, i.e....",
       "dashboard_evidence": "Current human-dashboard row(s): `theorem3_statement_of_full_sampled_projected_source_semantics_univ`.",
       "statement_sha256": "1d7bd58eae948e146c01af596601120d498419d8ad069e0d5ed73fbe198e04b8",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "assumption_ssgm_convergence_theorem",
+        "full-space condition for the Theorem 3 original statement"
+      ]
     }
   }
 }

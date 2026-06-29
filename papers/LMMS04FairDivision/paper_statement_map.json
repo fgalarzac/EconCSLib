@@ -2,7 +2,7 @@
   "schema": 1,
   "paper": "LMMS04FairDivision",
   "title": "On Approximately Fair Allocations of Indivisible Goods",
-  "generated_at": "2026-06-29T00:41:31Z",
+  "generated_at": "2026-06-29T01:27:19Z",
   "source_inventory_policy": "Source basis: /tmp/econcs_source_text/LMMS04FairDivision.txt, local PDF cache, and validation report. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
   "source_url": "https://www.stat.berkeley.edu/~mossel/publications/happy.pdf; https://doi.org/10.1145/988772.988792",
   "items": {
@@ -388,6 +388,14 @@
       "source_location": "paper-facing review target; exact source location to be refined",
       "aliases": [
         "assumption_uniform_random_weight_normalization"
+      ]
+    },
+    "lemma2_4_real_interval_low_value_partition": {
+      "statement": "- Lemma 2.4: partition the real interval support into finitely many low-value pieces under the paper atom-bound hypothesis.",
+      "source_url": "https://doi.org/10.1145/988772.988792",
+      "source_location": "Lemma 2.4; formalized through Lemma24MeasurePartition.lean and the Theorem 2.3 real-interval bridge",
+      "aliases": [
+        "lemma2_4_real_interval_low_value_partition"
       ]
     }
   },

@@ -21,9 +21,18 @@ having an incomplete or poorly matched human review surface.
 
    - `audit_kind: "source_to_dashboard_llm"` or `"source_to_dashboard_agent"`
    - `source_grounded: true`
-   - `review_rows` naming the Lean dashboard rows
+   - `review_rows` naming the Lean dashboard rows for direct or conditional
+     dashboard coverage
    - `source_evidence` from the paper
    - a nontrivial reason explaining why the row covers the source item
+
+   Use `conditional_boundary` when the paper statement is represented by a
+   dashboard row but the row-local statement judge records an explicit boundary
+   assumption. Use `covered_by_support` for named source proof-route lemmas that
+   are formalized in support declarations but intentionally not exposed as
+   compact dashboard rows; these entries must include `support_declarations`.
+   Use `out_of_scope` or `not_a_paper_target` only when the item is intentionally
+   not a formalization target.
 
    Exact key matching from `scripts/seed_paper_coverage.py` is only a scaffold
    and must not be treated as a completed audit.

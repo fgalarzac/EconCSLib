@@ -7,10 +7,10 @@
   "seed_scaffold": false,
   "validator": "codex source-grounded audit pass",
   "validator_type": "agent",
-  "validated_at": "2026-06-29T00:58:32Z",
-  "comment": "Source-grounded pass using source PDF/text where locally available or prior source-inventory reports otherwise. Exact-key scaffold coverage was replaced with semantic source-to-dashboard judgments. Review-surface digest refreshed after public status regeneration; source-to-dashboard coverage judgments unchanged.",
-  "paper_statement_inventory_sha256": "ba942de4feac63917eb70bbc81db4f0de5499363a495265da367c2e6dd77da20",
-  "review_surface_sha256": "a52094c16fb1e2742b2793faefe976ff24c19d5bfe543e3aee75e81e497e69ab",
+  "validated_at": "2026-06-29T01:27:19Z",
+  "comment": "Source-grounded pass using source PDF/text where locally available or prior source-inventory reports otherwise. Exact-key scaffold coverage was replaced with semantic source-to-dashboard judgments. Review-surface digest refreshed after public status regeneration; source-to-dashboard coverage judgments unchanged. Coverage metadata refreshed after source-provenance and conditional-boundary audit update.",
+  "paper_statement_inventory_sha256": "e31bcdff8a2676a9d5ec65140f858851f451e2299d230385de303ebf5318f8ba",
+  "review_surface_sha256": "a37b3f90462e9d7409e8111a02a5ea4730dd685b7b4fb11a428860ec84bcf4a4",
   "items": {
     "assumption_bounded_upper_endpoint_density_domain": {
       "coverage": "covered",

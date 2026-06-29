@@ -7,9 +7,9 @@
   "seed_scaffold": false,
   "validator": "codex source-grounded audit pass",
   "validator_type": "agent",
-  "validated_at": "2026-06-29T00:41:56Z",
-  "comment": "Source-grounded pass using source PDF/text where locally available or prior source-inventory reports otherwise. Exact-key scaffold coverage was replaced with semantic source-to-dashboard judgments.",
-  "paper_statement_inventory_sha256": "e6cd4eca8876c600fe39f8b52c9ca360a42dc001d5d41541c0a5eac5179f5154",
+  "validated_at": "2026-06-29T01:27:19Z",
+  "comment": "Source-grounded pass using source PDF/text where locally available or prior source-inventory reports otherwise. Exact-key scaffold coverage was replaced with semantic source-to-dashboard judgments. Coverage metadata refreshed after source-provenance and conditional-boundary audit update.",
+  "paper_statement_inventory_sha256": "f400a8b1f79d83cd0a803242ae9c7d17fe6d4f2eacc9a36255b5d2c2d5a21766",
   "review_surface_sha256": "e356b530336975919b2f2a2eff04a0a0dd07a3842d2873d5d09c43d43fc8f28d",
   "items": {
     "assumption_alive_bidder_predicate": {
@@ -479,6 +479,134 @@
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
       "seed_scaffold": false
+    },
+    "section4_lemma1_balance_pays_no_later_slab": {
+      "coverage": "covered_by_support",
+      "review_rows": [],
+      "support_declarations": [
+        "audit_section4_lemma1_balance_pays_no_later_slab",
+        "audit_section4_lemma1_balance_pays_no_later_spent_fraction_of_balance_choice"
+      ],
+      "reason": "Section 4 Lemma 1 is a named source proof-route lemma formalized by support declarations in SourceLemmas.lean/PostPaperAudit.lean. It is intentionally not a compact public dashboard row because the dashboard foregrounds the main theorem endpoints.",
+      "source_evidence": "Source basis: MSVV source text and validation report. Section 4 Lemma 1 is identified in the source-route audit and README.",
+      "dashboard_evidence": "Not a compact dashboard row; covered by the listed support declarations.",
+      "validator": "codex-source-coverage-audit",
+      "validator_type": "agent",
+      "validated_at": "2026-06-29T01:27:19Z",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "statement_sha256": "909bd627c8774c6bfbe6a0f0e63a3832794a6a751ebac7a7b7b4a000959ac721"
+    },
+    "section4_lemma2_factor_revealing_lp_constraint": {
+      "coverage": "covered_by_support",
+      "review_rows": [],
+      "support_declarations": [
+        "audit_section4_lemma2_factor_revealing_lp_constraint"
+      ],
+      "reason": "Section 4 Lemma 2 is a named source proof-route lemma formalized by support declarations in SourceLemmas.lean/PostPaperAudit.lean. It is intentionally not a compact public dashboard row because the dashboard foregrounds the main theorem endpoints.",
+      "source_evidence": "Source basis: MSVV source text and validation report. Section 4 Lemma 2 is identified in the source-route audit and README.",
+      "dashboard_evidence": "Not a compact dashboard row; covered by the listed support declarations.",
+      "validator": "codex-source-coverage-audit",
+      "validator_type": "agent",
+      "validated_at": "2026-06-29T01:27:19Z",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "statement_sha256": "788b72ecec6ce40da610e465caf35d12f7c2cba797e3066afded89062cfebb9b"
+    },
+    "section4_lemma3_factor_revealing_lp_optimality": {
+      "coverage": "covered_by_support",
+      "review_rows": [],
+      "support_declarations": [
+        "audit_section4_lemma3_factor_revealing_lp_value_tends",
+        "audit_section4_lemma3_factor_revealing_lp_optimal",
+        "audit_section4_lemma3_factor_revealing_lp_primal_candidate_is_maximizer",
+        "audit_section4_lemma3_factor_revealing_lp_upper_bound"
+      ],
+      "reason": "Section 4 Lemma 3 is a named source proof-route lemma formalized by support declarations in SourceLemmas.lean/PostPaperAudit.lean. It is intentionally not a compact public dashboard row because the dashboard foregrounds the main theorem endpoints.",
+      "source_evidence": "Source basis: MSVV source text and validation report. Section 4 Lemma 3 is identified in the source-route audit and README.",
+      "dashboard_evidence": "Not a compact dashboard row; covered by the listed support declarations.",
+      "validator": "codex-source-coverage-audit",
+      "validator_type": "agent",
+      "validated_at": "2026-06-29T01:27:19Z",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "statement_sha256": "7d486d7d0c615d7e31dc9f9e0eb81a019460a6d9f43ec0252c65892e95040efc"
+    },
+    "section5_lemma4_dual_optimal_from_primal_dual_match": {
+      "coverage": "covered_by_support",
+      "review_rows": [],
+      "support_declarations": [
+        "audit_section5_lemma4_dual_optimal_from_primal_dual_match",
+        "audit_section5_lemma4_standardMaxLP_dual_yStar_optimal"
+      ],
+      "reason": "Section 5 Lemma 4 is a named source proof-route lemma formalized by support declarations in SourceLemmas.lean/PostPaperAudit.lean. It is intentionally not a compact public dashboard row because the dashboard foregrounds the main theorem endpoints.",
+      "source_evidence": "Source basis: MSVV source text and validation report. Section 5 Lemma 4 is identified in the source-route audit and README.",
+      "dashboard_evidence": "Not a compact dashboard row; covered by the listed support declarations.",
+      "validator": "codex-source-coverage-audit",
+      "validator_type": "agent",
+      "validated_at": "2026-06-29T01:27:19Z",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "statement_sha256": "d7d2c14d5fbef965a34d70a8a47920e94c7aab0e2368350f3edcbcb2ecef9669"
+    },
+    "section5_lemma5_tradeoff_rhs_eq_base_add_delta": {
+      "coverage": "covered_by_support",
+      "review_rows": [],
+      "support_declarations": [
+        "audit_section5_lemma5_tradeoff_rhs_eq_base_add_delta"
+      ],
+      "reason": "Section 5 Lemma 5 is a named source proof-route lemma formalized by support declarations in SourceLemmas.lean/PostPaperAudit.lean. It is intentionally not a compact public dashboard row because the dashboard foregrounds the main theorem endpoints.",
+      "source_evidence": "Source basis: MSVV source text and validation report. Section 5 Lemma 5 is identified in the source-route audit and README.",
+      "dashboard_evidence": "Not a compact dashboard row; covered by the listed support declarations.",
+      "validator": "codex-source-coverage-audit",
+      "validator_type": "agent",
+      "validated_at": "2026-06-29T01:27:19Z",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "statement_sha256": "ff263ba223f65c991be147d75e916ec7bf90e761f1e9d9ec6fac36bd1f2a478f"
+    },
+    "section5_lemma6_per_query_tradeoff": {
+      "coverage": "covered_by_support",
+      "review_rows": [],
+      "support_declarations": [
+        "audit_section5_lemma6_per_query_tradeoff",
+        "audit_section5_lemma6_per_query_tradeoff_of_balance_choice",
+        "audit_section5_lemma6_per_query_tradeoff_of_balance_choice_spent_fraction"
+      ],
+      "reason": "Section 5 Lemma 6 is a named source proof-route lemma formalized by support declarations in SourceLemmas.lean/PostPaperAudit.lean. It is intentionally not a compact public dashboard row because the dashboard foregrounds the main theorem endpoints.",
+      "source_evidence": "Source basis: MSVV source text and validation report. Section 5 Lemma 6 is identified in the source-route audit and README.",
+      "dashboard_evidence": "Not a compact dashboard row; covered by the listed support declarations.",
+      "validator": "codex-source-coverage-audit",
+      "validator_type": "agent",
+      "validated_at": "2026-06-29T01:27:19Z",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "statement_sha256": "1e5f088950c3957beac34a1a554b4c56a02bfff88262b7e08290c4f1ec379406"
+    },
+    "section5_lemma7_weighted_perturbation_bound": {
+      "coverage": "covered_by_support",
+      "review_rows": [],
+      "support_declarations": [
+        "audit_section5_lemma7_weighted_perturbation_bound",
+        "audit_section5_lemma7_weighted_perturbation_bound_by_N_div_k",
+        "audit_section5_lemma7_weighted_perturbation_bound_exact_N_div_k"
+      ],
+      "reason": "Section 5 Lemma 7 is a named source proof-route lemma formalized by support declarations in SourceLemmas.lean/PostPaperAudit.lean. It is intentionally not a compact public dashboard row because the dashboard foregrounds the main theorem endpoints.",
+      "source_evidence": "Source basis: MSVV source text and validation report. Section 5 Lemma 7 is identified in the source-route audit and README.",
+      "dashboard_evidence": "Not a compact dashboard row; covered by the listed support declarations.",
+      "validator": "codex-source-coverage-audit",
+      "validator_type": "agent",
+      "validated_at": "2026-06-29T01:27:19Z",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "statement_sha256": "e02c3115579ac09943483b94fe3e9fdc1a36fbac17248c35fd790354dd61f0fa"
     }
   }
 }

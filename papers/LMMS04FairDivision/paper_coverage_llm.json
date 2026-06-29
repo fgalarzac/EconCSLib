@@ -7,9 +7,9 @@
   "seed_scaffold": false,
   "validator": "codex source-grounded audit pass",
   "validator_type": "agent",
-  "validated_at": "2026-06-29T00:41:38Z",
-  "comment": "Source-grounded pass using source PDF/text where locally available or prior source-inventory reports otherwise. Exact-key scaffold coverage was replaced with semantic source-to-dashboard judgments.",
-  "paper_statement_inventory_sha256": "3480fe1b4e122e2ce5a714b90c34080be343efb08cf8e2d1d17f12e050a17403",
+  "validated_at": "2026-06-29T01:27:19Z",
+  "comment": "Source-grounded pass using source PDF/text where locally available or prior source-inventory reports otherwise. Exact-key scaffold coverage was replaced with semantic source-to-dashboard judgments. Coverage metadata refreshed after source-provenance and conditional-boundary audit update.",
+  "paper_statement_inventory_sha256": "a8f54a176b556ac56a85e4df54b1036e04307cb31b480a287634b6bde8f50640",
   "review_surface_sha256": "dc452b681e6c262a6ff0acab9f766e14e29ed453c07119d4fa289815e975b695",
   "items": {
     "assumption_additive_transfer_load_window_conditions": {
@@ -468,56 +468,72 @@
       "seed_scaffold": false
     },
     "theorem3_3_external_solver_consequence_and_selected_pair_full_summary_source_output_of_claim_3_4_source_average_forward_additive_no_top_of_margin": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "theorem3_3_external_solver_consequence_and_selected_pair_full_summary_source_output_of_claim_3_4_source_average_forward_additive_no_top_of_margin"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 3.3 strongest Claim-3.4 additive external-solver endpoint. selected-pair estimates, this returns the compact external-solver package. The dashboard row `theorem3_3_external_solver_consequence_and_selected_pair_full_summary_source_output_of_claim_3_4_source_average_forward_additive_no_top_of_margin` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 3.3 strongest Claim-3.4 additive external-solver endpoint. selected-pair estimates, this returns the compact external-solver package. The dashboard row `theorem3_3_external_solver_consequence_and_selected_pair_full_summary_source_output_of_claim_3_4_source_average_forward_additive_no_top_of_margin` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/LMMS04FairDivision.txt, local PDF cache, and validation report. partial boundary. Source inventory item: Theorem 3.3 strongest Claim-3.4 additive external-solver endpoint. selected-pair estimates, this returns the compact external-solver package.",
       "dashboard_evidence": "Current human-dashboard row(s): `theorem3_3_external_solver_consequence_and_selected_pair_full_summary_source_output_of_claim_3_4_source_average_forward_additive_no_top_of_margin`.",
       "statement_sha256": "a63a500afd79eb8bd0df4451f3ce2227bf6b3ceace9720217381ab52372bd381",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "fixed-dimension IP runtime theorem",
+        "selected-pair external-solver package"
+      ]
     },
     "theorem3_3_external_solver_selected_pair_full_summary_source_output_consequence": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "theorem3_3_external_solver_selected_pair_full_summary_source_output_consequence"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 3.3 compact external-solver consequence projection. the external solver consequence, pending the reusable fixed-dimension IP theorem. The dashboard row `theorem3_3_external_solver_selected_pair_full_summary_source_output_consequence` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 3.3 compact external-solver consequence projection. the external solver consequence, pending the reusable fixed-dimension IP theorem. The dashboard row `theorem3_3_external_solver_selected_pair_full_summary_source_output_consequence` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/LMMS04FairDivision.txt, local PDF cache, and validation report. partial boundary. Source inventory item: Theorem 3.3 compact external-solver consequence projection. the external solver consequence, pending the reusable fixed-dimension IP theorem.",
       "dashboard_evidence": "Current human-dashboard row(s): `theorem3_3_external_solver_selected_pair_full_summary_source_output_consequence`.",
       "statement_sha256": "23e09f60c3462d22db35aacfa2c8a7ff3af094e8d70ebe5fb37669d860cb1292",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "fixed-dimension IP runtime theorem",
+        "selected-pair external-solver package"
+      ]
     },
     "theorem3_3_external_solver_selected_pair_full_summary_source_output_package": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "theorem3_3_external_solver_selected_pair_full_summary_source_output_package"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 3.3 compact external-solver package. runtime/FPTAS conclusion is exactly the supplied external solver consequence. The dashboard row `theorem3_3_external_solver_selected_pair_full_summary_source_output_package` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 3.3 compact external-solver package. runtime/FPTAS conclusion is exactly the supplied external solver consequence. The dashboard row `theorem3_3_external_solver_selected_pair_full_summary_source_output_package` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/LMMS04FairDivision.txt, local PDF cache, and validation report. partial boundary. Source inventory item: Theorem 3.3 compact external-solver package. runtime/FPTAS conclusion is exactly the supplied external solver consequence.",
       "dashboard_evidence": "Current human-dashboard row(s): `theorem3_3_external_solver_selected_pair_full_summary_source_output_package`.",
       "statement_sha256": "80da952c3e3fa3b53e32d1e93fc4aa24c1e5ebab3ae1b02bee5029673c9853e7",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "fixed-dimension IP runtime theorem",
+        "selected-pair external-solver package"
+      ]
     },
     "theorem3_3_external_solver_selected_pair_full_summary_source_output_payload": {
-      "coverage": "covered",
+      "coverage": "conditional_boundary",
       "review_rows": [
         "theorem3_3_external_solver_selected_pair_full_summary_source_output_payload"
       ],
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 3.3 compact external-solver payload projection. payload from the conditional external-solver package. The dashboard row `theorem3_3_external_solver_selected_pair_full_summary_source_output_payload` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 3.3 compact external-solver payload projection. payload from the conditional external-solver package. The dashboard row `theorem3_3_external_solver_selected_pair_full_summary_source_output_payload` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match. The row-level statement judge records this as covered with an explicit conditional boundary rather than as unconditional direct coverage.",
       "source_evidence": "Source basis: /tmp/econcs_source_text/LMMS04FairDivision.txt, local PDF cache, and validation report. partial boundary. Source inventory item: Theorem 3.3 compact external-solver payload projection. payload from the conditional external-solver package.",
       "dashboard_evidence": "Current human-dashboard row(s): `theorem3_3_external_solver_selected_pair_full_summary_source_output_payload`.",
       "statement_sha256": "c6c3f9276a3b0951c8264a2252408069c950854075a894d1fe95ccbb81a134e9",
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
-      "seed_scaffold": false
+      "seed_scaffold": false,
+      "boundary_names": [
+        "fixed-dimension IP runtime theorem",
+        "selected-pair external-solver package"
+      ]
     },
     "theorem3_3_ratio_transfer_certificate_epsilon_of_agentwise_additive_loads": {
       "coverage": "covered",
@@ -635,6 +651,22 @@
       "audit_kind": "source_to_dashboard_agent",
       "source_grounded": true,
       "seed_scaffold": false
+    },
+    "lemma2_4_real_interval_low_value_partition": {
+      "coverage": "covered_by_rows",
+      "review_rows": [
+        "theorem2_3_real_interval_supported_atom_bound"
+      ],
+      "reason": "Lemma 2.4 is a named source proof step for the Theorem 2.3 real-interval atom-bound route. The compact dashboard exposes it through the Theorem 2.3 row, while the Lean proof route is implemented in Lemma24MeasurePartition.lean.",
+      "source_evidence": "Source basis: LMMS source text/PDF and validation report. Lemma 2.4 partitions the interval into finitely many low-value pieces under the atom-bound hypothesis.",
+      "dashboard_evidence": "Current human-dashboard row `theorem2_3_real_interval_supported_atom_bound` consumes the Lemma 2.4 partition route.",
+      "validator": "codex-source-coverage-audit",
+      "validator_type": "agent",
+      "validated_at": "2026-06-29T01:27:19Z",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "statement_sha256": "7bbdcc9305b81a4cb8c07f6a3353654408d3e55bc4648e156a0ec34fc7694f42"
     }
   }
 }

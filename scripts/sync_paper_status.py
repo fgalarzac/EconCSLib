@@ -347,6 +347,8 @@ def paper_coverage_label_from_counts(
     *,
     total: int,
     covered: int,
+    conditional_boundary: int = 0,
+    support_only: int = 0,
     out_of_scope: int = 0,
     partial: int = 0,
     missing: int = 0,
@@ -356,9 +358,15 @@ def paper_coverage_label_from_counts(
 ) -> str:
     if total <= 0:
         return "not run"
-    if not any([covered, out_of_scope, partial, uncertain, unknown, stale]) and missing >= total:
+    if not any(
+        [covered, conditional_boundary, support_only, out_of_scope, partial, uncertain, unknown, stale]
+    ) and missing >= total:
         return "not run"
     parts = [f"{covered}/{total} covered"]
+    if conditional_boundary:
+        parts.append(f"{conditional_boundary} conditional boundaries")
+    if support_only:
+        parts.append(f"{support_only} support-only")
     if out_of_scope:
         parts.append(f"{out_of_scope} out of scope")
     if partial:
@@ -472,6 +480,8 @@ def llm_paper_coverage_label(
             return paper_coverage_label_from_counts(
                 total=total,
                 covered=covered,
+                conditional_boundary=int(summary.get("conditional_boundary_count", 0)),
+                support_only=int(summary.get("support_only_count", 0)),
                 out_of_scope=int(summary.get("out_of_scope_count", 0)),
                 partial=int(summary.get("partial_count", 0))
                 + int(summary.get("missing_coverage_count", 0)),
@@ -505,7 +515,7 @@ def llm_paper_coverage_label(
     if not isinstance(coverage_items, dict):
         return paper_coverage_label_from_counts(total=total, covered=0, missing=total)
 
-    covered = out_of_scope = partial = missing = uncertain = unknown = 0
+    covered = conditional_boundary = support_only = out_of_scope = partial = missing = uncertain = unknown = 0
     seed_reason = missing_source_evidence = 0
     names = list(map_items) if isinstance(map_items, dict) else list(coverage_items)
     for name in names:
@@ -518,6 +528,20 @@ def llm_paper_coverage_label(
         ).strip().lower()
         if value in {"covered", "covered_by_rows"}:
             covered += 1
+            reason = str(item.get("reason") or "").lower()
+            if "exactly matches current dashboard row name" in reason or "exact source-key" in reason:
+                seed_reason += 1
+            if not str(item.get("source_evidence") or "").strip():
+                missing_source_evidence += 1
+        elif value in {"conditional_boundary", "covered_with_boundary"}:
+            conditional_boundary += 1
+            reason = str(item.get("reason") or "").lower()
+            if "exactly matches current dashboard row name" in reason or "exact source-key" in reason:
+                seed_reason += 1
+            if not str(item.get("source_evidence") or "").strip():
+                missing_source_evidence += 1
+        elif value in {"covered_by_support", "support_only"}:
+            support_only += 1
             reason = str(item.get("reason") or "").lower()
             if "exactly matches current dashboard row name" in reason or "exact source-key" in reason:
                 seed_reason += 1
@@ -540,6 +564,8 @@ def llm_paper_coverage_label(
     return paper_coverage_label_from_counts(
         total=total,
         covered=covered,
+        conditional_boundary=conditional_boundary,
+        support_only=support_only,
         out_of_scope=out_of_scope,
         partial=partial,
         missing=missing,

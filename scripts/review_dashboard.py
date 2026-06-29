@@ -91,6 +91,10 @@ APPROVED_ASSUMPTION_PREMISE_JUDGMENTS = {
 APPROVED_PAPER_COVERAGE_JUDGMENTS = {
     "covered",
     "covered_by_rows",
+    "covered_by_support",
+    "support_only",
+    "covered_with_boundary",
+    "conditional_boundary",
     "out_of_scope",
     "not_a_paper_target",
     "not_a_theorem_statement",
@@ -1035,6 +1039,9 @@ def paper_statement_inventory(folder: Path) -> dict[str, dict[str, Any]]:
                 direct_statement = str(raw_item.get("statement") or "").strip()
                 source_text_file = str(raw_item.get("source_text_file") or "source.txt").strip()
                 source_location = str(raw_item.get("source_location") or "").strip()
+                source_url = str(raw_item.get("source_url") or payload.get("source_url") or "").strip()
+                source_note = str(raw_item.get("source_note") or "").strip()
+                source_status = str(raw_item.get("source_status") or "").strip()
                 text = ""
                 if direct_statement:
                     text = normalize_statement(direct_statement)
@@ -1075,6 +1082,9 @@ def paper_statement_inventory(folder: Path) -> dict[str, dict[str, Any]]:
                     "aliases": aliases,
                     "source": PAPER_STATEMENT_MAP_FILE,
                     "source_location": source_location,
+                    "source_url": source_url,
+                    "source_note": source_note,
+                    "source_status": source_status,
                     "statement_sha256": statement_digest(text),
                 }
             if inventory:
@@ -1279,6 +1289,23 @@ def _normalize_paper_coverage_judgment(raw: Any) -> str:
     value = re.sub(r"\s+", "_", value)
     if value in {"match", "matches", "yes", "true", "represented", "present"}:
         return "covered"
+    if value in {
+        "conditional",
+        "conditional_boundary",
+        "covered_with_boundary",
+        "covered_conditionally",
+        "additional_assumption",
+        "covered_with_additional_assumption",
+    }:
+        return "conditional_boundary"
+    if value in {
+        "support",
+        "support_only",
+        "covered_by_support",
+        "covered_in_support",
+        "covered_by_support_declarations",
+    }:
+        return "covered_by_support"
     if value in {"partial", "partially_represented", "partial_coverage"}:
         return "partially_covered"
     if value in {"not_covered", "absent", "no", "false"}:
@@ -1531,6 +1558,12 @@ def load_llm_paper_coverage_audit(folder: Path) -> dict[str, Any]:
                     or raw_value.get("lean_rows")
                     or raw_value.get("declarations")
                 ),
+                "support_declarations": _normalize_string_list(
+                    raw_value.get("support_declarations")
+                    or raw_value.get("support_rows")
+                    or raw_value.get("support_lean_declarations")
+                    or raw_value.get("support_lean")
+                ),
                 "reason": str(
                     raw_value.get("reason")
                     or raw_value.get("notes")
@@ -1578,6 +1611,7 @@ def load_llm_paper_coverage_audit(folder: Path) -> dict[str, Any]:
             items[key] = {
                 "coverage": _normalize_paper_coverage_judgment(raw_value),
                 "review_rows": [],
+                "support_declarations": [],
                 "reason": "",
                 "source_evidence": "",
                 "dashboard_evidence": "",
@@ -3283,8 +3317,29 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
 
     missing_inventory = audit_required and not has_explicit_inventory
     missing_required = audit_required and not audit_items
+    inventory_missing_source_url = sorted(
+        key
+        for key, item in inventory.items()
+        if str(item.get("source") or "") == PAPER_STATEMENT_MAP_FILE
+        and not str(item.get("source_url") or "").strip()
+    )
+    inventory_missing_source_provenance = sorted(
+        key
+        for key, item in inventory.items()
+        if str(item.get("source") or "") == PAPER_STATEMENT_MAP_FILE
+        and not (
+            str(item.get("source_location") or "").strip()
+            or str(item.get("source_note") or "").strip()
+            or str(item.get("source_status") or "").strip()
+        )
+    )
     missing_coverage = sorted(key for key in inventory if key not in audit_items)
     extra_coverage = sorted(key for key in audit_items if key not in inventory)
+    missing_statement_digest = sorted(
+        key
+        for key, item in audit_items.items()
+        if key in inventory and not str(item.get("statement_sha256") or "").strip()
+    )
     stale_statement = sorted(
         key
         for key, item in audit_items.items()
@@ -3321,6 +3376,8 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
     )
 
     covered: list[str] = []
+    conditional_boundary: list[str] = []
+    support_only: list[str] = []
     out_of_scope: list[str] = []
     partial: list[str] = []
     missing: list[str] = []
@@ -3330,13 +3387,21 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
     covered_without_reason: list[str] = []
     covered_with_seed_reason: list[str] = []
     covered_without_source_evidence: list[str] = []
+    support_without_declarations: list[str] = []
+    support_without_reason: list[str] = []
+    support_without_source_evidence: list[str] = []
+    out_of_scope_without_reason: list[str] = []
+    out_of_scope_without_source_evidence: list[str] = []
     for key, item in audit_items.items():
         if key not in inventory:
             continue
         coverage = str(item.get("coverage") or "").strip()
         rows = _normalize_string_list(item.get("review_rows"))
-        if coverage in {"covered", "covered_by_rows"}:
-            covered.append(key)
+        if coverage in {"covered", "covered_by_rows", "conditional_boundary", "covered_with_boundary"}:
+            if coverage in {"conditional_boundary", "covered_with_boundary"}:
+                conditional_boundary.append(key)
+            else:
+                covered.append(key)
             if not rows:
                 covered_without_rows.append(key)
             reason = str(item.get("reason") or "").strip()
@@ -3349,6 +3414,23 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
                 covered_without_source_evidence.append(key)
         elif coverage in {"out_of_scope", "not_a_paper_target", "not_a_theorem_statement"}:
             out_of_scope.append(key)
+            reason = str(item.get("reason") or "").strip()
+            source_evidence = str(item.get("source_evidence") or "").strip()
+            if not reason:
+                out_of_scope_without_reason.append(key)
+            if not source_evidence:
+                out_of_scope_without_source_evidence.append(key)
+        elif coverage in {"covered_by_support", "support_only"}:
+            support_only.append(key)
+            support_declarations = _normalize_string_list(item.get("support_declarations"))
+            reason = str(item.get("reason") or "").strip()
+            source_evidence = str(item.get("source_evidence") or "").strip()
+            if not support_declarations:
+                support_without_declarations.append(key)
+            if not reason:
+                support_without_reason.append(key)
+            if not source_evidence:
+                support_without_source_evidence.append(key)
         elif coverage == "partially_covered":
             partial.append(key)
         elif coverage == "missing":
@@ -3364,7 +3446,10 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
         or (audit_required and inventory_is_scaffold)
         or missing_required
         or missing_source_grounded_audit
+        or inventory_missing_source_url
+        or inventory_missing_source_provenance
         or missing_coverage
+        or missing_statement_digest
         or stale_statement
         or stale_inventory
         or stale_surface
@@ -3377,6 +3462,11 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
         or covered_without_reason
         or covered_with_seed_reason
         or covered_without_source_evidence
+        or support_without_declarations
+        or support_without_reason
+        or support_without_source_evidence
+        or out_of_scope_without_reason
+        or out_of_scope_without_source_evidence
     )
     return {
         "inventory_count": len(inventory),
@@ -3387,6 +3477,8 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
         "inventory_is_scaffold": inventory_is_scaffold,
         "unresolved_statement_map": unresolved_statement_map,
         "covered_count": len(covered),
+        "conditional_boundary_count": len(conditional_boundary),
+        "support_only_count": len(support_only),
         "out_of_scope_count": len(out_of_scope),
         "partial_count": len(partial),
         "missing_count": len(missing),
@@ -3395,14 +3487,22 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
         "audit_required": audit_required,
         "missing_inventory": missing_inventory,
         "missing_required": missing_required,
+        "inventory_missing_source_url_count": len(inventory_missing_source_url),
+        "inventory_missing_source_provenance_count": len(inventory_missing_source_provenance),
         "missing_coverage_count": len(missing_coverage),
         "extra_coverage_count": len(extra_coverage),
+        "missing_statement_digest_count": len(missing_statement_digest),
         "stale_statement_count": len(stale_statement),
         "invalid_row_link_count": len(invalid_row_links),
         "covered_without_rows_count": len(covered_without_rows),
         "covered_without_reason_count": len(covered_without_reason),
         "covered_with_seed_reason_count": len(covered_with_seed_reason),
         "covered_without_source_evidence_count": len(covered_without_source_evidence),
+        "support_without_declarations_count": len(support_without_declarations),
+        "support_without_reason_count": len(support_without_reason),
+        "support_without_source_evidence_count": len(support_without_source_evidence),
+        "out_of_scope_without_reason_count": len(out_of_scope_without_reason),
+        "out_of_scope_without_source_evidence_count": len(out_of_scope_without_source_evidence),
         "stale_inventory": stale_inventory,
         "stale_surface": stale_surface,
         "audit_kind": audit_kind,
@@ -3411,6 +3511,11 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
         "missing_source_grounded_audit": missing_source_grounded_audit,
         "missing_coverage": missing_coverage,
         "extra_coverage": extra_coverage,
+        "conditional_boundary": conditional_boundary,
+        "support_only": support_only,
+        "inventory_missing_source_url": inventory_missing_source_url,
+        "inventory_missing_source_provenance": inventory_missing_source_provenance,
+        "missing_statement_digest": missing_statement_digest,
         "stale_statement": stale_statement,
         "invalid_row_links": invalid_row_links,
         "partial": partial,
@@ -3421,6 +3526,11 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
         "covered_without_reason": covered_without_reason,
         "covered_with_seed_reason": covered_with_seed_reason,
         "covered_without_source_evidence": covered_without_source_evidence,
+        "support_without_declarations": support_without_declarations,
+        "support_without_reason": support_without_reason,
+        "support_without_source_evidence": support_without_source_evidence,
+        "out_of_scope_without_reason": out_of_scope_without_reason,
+        "out_of_scope_without_source_evidence": out_of_scope_without_source_evidence,
         "source": str(audit.get("source") or "") if audit_items else "",
         "paper_statement_inventory_sha256": inventory_hash,
         "recorded_paper_statement_inventory_sha256": recorded_inventory_hash,
@@ -6683,8 +6793,20 @@ def print_paper_coverage_audit_warnings(rows: list[dict[str, Any]], label: str) 
             reasons.append(
                 "paper_coverage_llm.json is not a source-grounded source-to-dashboard LLM audit"
             )
+        if row.get("inventory_missing_source_url_count"):
+            reasons.append(
+                f"{row['inventory_missing_source_url_count']} source-inventory statement(s) lack source URL"
+            )
+        if row.get("inventory_missing_source_provenance_count"):
+            reasons.append(
+                f"{row['inventory_missing_source_provenance_count']} source-inventory statement(s) lack source location/status"
+            )
         if row.get("missing_coverage_count"):
             reasons.append(f"{row['missing_coverage_count']} source statement(s) missing coverage row")
+        if row.get("missing_statement_digest_count"):
+            reasons.append(
+                f"{row['missing_statement_digest_count']} coverage item(s) lack source-statement digest"
+            )
         if row.get("partial_count"):
             reasons.append(f"{row['partial_count']} partially covered source statement(s)")
         if row.get("missing_count"):
@@ -6709,6 +6831,26 @@ def print_paper_coverage_audit_warnings(rows: list[dict[str, Any]], label: str) 
             reasons.append(f"{row['covered_with_seed_reason_count']} covered source statement(s) only have exact-key scaffold reasons")
         if row.get("covered_without_source_evidence_count"):
             reasons.append(f"{row['covered_without_source_evidence_count']} covered source statement(s) lack source evidence")
+        if row.get("support_without_declarations_count"):
+            reasons.append(
+                f"{row['support_without_declarations_count']} support-covered source statement(s) lack support declarations"
+            )
+        if row.get("support_without_reason_count"):
+            reasons.append(
+                f"{row['support_without_reason_count']} support-covered source statement(s) lack reasons"
+            )
+        if row.get("support_without_source_evidence_count"):
+            reasons.append(
+                f"{row['support_without_source_evidence_count']} support-covered source statement(s) lack source evidence"
+            )
+        if row.get("out_of_scope_without_reason_count"):
+            reasons.append(
+                f"{row['out_of_scope_without_reason_count']} out-of-scope source statement(s) lack reasons"
+            )
+        if row.get("out_of_scope_without_source_evidence_count"):
+            reasons.append(
+                f"{row['out_of_scope_without_source_evidence_count']} out-of-scope source statement(s) lack source evidence"
+            )
         if row.get("extra_coverage_count"):
             reasons.append(f"{row['extra_coverage_count']} stale extra coverage item(s)")
         if not reasons:
@@ -6717,6 +6859,9 @@ def print_paper_coverage_audit_warnings(rows: list[dict[str, Any]], label: str) 
         samples: list[str] = []
         for key, label_text in [
             ("missing_coverage", "missing coverage"),
+            ("inventory_missing_source_url", "missing source URL"),
+            ("inventory_missing_source_provenance", "missing source provenance"),
+            ("missing_statement_digest", "missing digest"),
             ("missing", "judged missing"),
             ("partial", "partial"),
             ("uncertain", "uncertain"),
@@ -6726,6 +6871,11 @@ def print_paper_coverage_audit_warnings(rows: list[dict[str, Any]], label: str) 
             ("covered_without_reason", "covered without reason"),
             ("covered_with_seed_reason", "exact-key scaffold reason"),
             ("covered_without_source_evidence", "missing source evidence"),
+            ("support_without_declarations", "support missing declarations"),
+            ("support_without_reason", "support without reason"),
+            ("support_without_source_evidence", "support missing source evidence"),
+            ("out_of_scope_without_reason", "out-of-scope without reason"),
+            ("out_of_scope_without_source_evidence", "out-of-scope missing source evidence"),
             ("extra_coverage", "extra stale item"),
             ("unknown", "unknown"),
         ]:
@@ -6764,11 +6914,15 @@ def print_paper_coverage_audit_status(
         return True
     total_inventory = sum(int(row.get("inventory_count") or 0) for row in rows)
     total_covered = sum(int(row.get("covered_count") or 0) for row in rows)
+    total_conditional = sum(int(row.get("conditional_boundary_count") or 0) for row in rows)
+    total_support = sum(int(row.get("support_only_count") or 0) for row in rows)
     total_out_of_scope = sum(int(row.get("out_of_scope_count") or 0) for row in rows)
     required = sum(1 for row in rows if row.get("audit_required"))
     print(
         f"Paper-coverage audits for {label} are current: "
-        f"{total_covered}/{total_inventory} source statement(s) covered, "
+        f"{total_covered}/{total_inventory} source statement(s) covered directly, "
+        f"{total_conditional} covered with conditional boundaries, "
+        f"{total_support} covered by support declarations, "
         f"{total_out_of_scope} marked out of scope/not paper targets, "
         f"{required} required paper audit(s), no missing/stale/flagged items."
     )
