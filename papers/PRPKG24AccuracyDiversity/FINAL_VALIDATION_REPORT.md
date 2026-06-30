@@ -7,8 +7,7 @@ Source-quality notes remain for Proposition 2's printed finite constant and
 Lemma D.1(i)'s sign convention; Proposition 4 is treated as validated for the
 concrete sphere endpoint rather than as a caveat. No human dashboard sign-off
 has been recorded. The automated statement judge marks Proposition 2 as a
-mismatch because Lean uses the corrected finite constant; human review treats
-that as a source-quality note that does not rise to a paper-level caveat.
+mismatch because Lean uses the corrected finite constant.
 
 ## 2. Closeout Status
 - Completion status: formalized.
@@ -44,7 +43,7 @@ None for the checked theorem conclusions; source-quality notes are recorded belo
 - None
 
 ## 9. Mathematical Typos or Other Fixes Suggested in the Source Paper
-- Proposition 2: the printed finite constant appears to miss a factor of 2. Lean proves the corrected finite `(2m+1)/N` bound, which is sufficient for the paper's asymptotic conclusion. The automated statement judge records this as a mismatch; human review treats it as a source-quality note rather than a paper-level caveat.
+- Proposition 2: the printed finite constant appears to miss a factor of 2. Lean proves the corrected finite `(2m+1)/N` bound, which is sufficient for the paper's asymptotic conclusion. The automated statement judge records this as a mismatch.
 - Lemma D.1(i): the literal printed sign convention combines `B > 0` with `sigma < 0`, while the proof route and downstream exponential-decay application use the source-consistent positive-rate/decay convention. Lean closes the optimizer-limit content and downstream routes under that convention.
 
 ## 10. Paper Issues or Caveats

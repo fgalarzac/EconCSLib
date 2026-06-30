@@ -60,6 +60,15 @@ Lean verification is the mechanism, not a separate paper status. Do not answer
 status questions with "verified in Lean" when the intended claim is
 `formalized`; reserve "reviewed" for saved human dashboard review entries and
 "validation" for the audit/checking workflow.
+Treat `status.json` human-facing notes as human-authored copy, even when a
+field is marked `draft`. Do not add, elaborate, summarize, or reframe
+`human_summary`, public notes, website notes, or paper-table comments unless
+the user explicitly asks for that exact prose change. If the user asks to
+remove a phrase, remove only that phrase and preserve the remaining text. If
+the user says a note should be empty, set the source field to the empty string
+and regenerate script-owned surfaces from that source. Put technical audit
+details in validation reports, handoffs, or machine-readable audit sidecars,
+not in sparse public/paper notes.
 Treat `formalized` as a strong provenance claim: every exposed paper result is
 proved by Lean from imported Lean/mathlib/library declarations plus explicit
 theorem parameters that are either discharged by the proof or recorded as

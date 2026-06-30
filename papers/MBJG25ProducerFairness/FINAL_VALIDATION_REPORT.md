@@ -48,10 +48,10 @@ None separately recorded in the existing report.
 - Theorem 3.1 strict variance decrease: the unconditional strict wording should be read with the interior-quality condition `0 < q_v < 1`. At the boundary qualities `q_v = 0` and `q_v = 1`, the variance term is identically zero, so strict decrease cannot hold unconditionally.
 
 ## 10. Paper Issues or Caveats
-None for paper-level status. The automated statement judge records the interior-quality condition for strict variance decrease as a mismatch against the unconditional strict wording; human review treats that as an additional-assumption note and keeps the paper status formalized.
+None for paper-level status. The automated statement judge records the interior-quality condition for strict variance decrease as a mismatch against the unconditional strict wording.
 
 ## 11. Detailed Formalization Evidence
-The paper-facing definitions and named results compile in Lean; detailed definition, theorem, and validator ledgers are collected at the end of the report. The current LLM statement-translation audit validates the ordinary matching rows and records conditional-boundary mismatches for the two interior-quality assumption rows and the strict variance row. Those mismatches have a human override that treats the added interior-quality condition as an additional assumption rather than a caveat. The saved human dashboard review is partial: 10 rows have human entries, two of those entries are intentionally marked uncertain because they require deciding how much trust to place in shared-library predicates, and 7 rows still need initial human review.
+The paper-facing definitions and named results compile in Lean; detailed definition, theorem, and validator ledgers are collected at the end of the report. The current LLM statement-translation audit validates the ordinary matching rows and records conditional-boundary mismatches for the two interior-quality assumption rows and the strict variance row. The saved human dashboard review is partial: 10 rows have human entries, two of those entries are intentionally marked uncertain because they require deciding how much trust to place in shared-library predicates, and 7 rows still need initial human review.
 
 ## 12. Paper Assumption Provenance And Modeling Notes
 Every paper-facing theorem premise that is not derived in Lean is routed through
@@ -65,8 +65,8 @@ paper-facing theorem condition.
 | Nonnegative time | `assumption_nonnegative_time` | Theorem 3.2 variance-as-quality-function rows | gpt-5-codex (model; paper_condition; 2026-06-12T00:00:00Z) | Used by concavity and maximum-at-half rows. |
 | Closed quality interval, lower bound | `assumption_quality_nonnegative` | Section 2.1 true quality `0 <= q_v <= 1` | gpt-5-codex (model; paper_condition; 2026-06-12T00:00:00Z) | Source Bernoulli quality domain. |
 | Closed quality interval, upper bound | `assumption_quality_at_most_one` | Section 2.1 true quality `0 <= q_v <= 1` | gpt-5-codex (model; paper_condition; 2026-06-12T00:00:00Z) | Source Bernoulli quality domain. |
-| Interior quality for strict variance decrease, lower bound | `assumption_quality_positive` | Additional assumption for Theorem 3.1 strict variance decrease | gpt-5-codex (model; documented additional assumption; human override; 2026-06-29T18:08:26Z) | The strict-decrease endpoint is stated for the interior-quality case because strict decrease fails at `q_v = 0`; human review treats this as formalized rather than as a caveat. |
-| Interior quality for strict variance decrease, upper bound | `assumption_quality_lt_one` | Additional assumption for Theorem 3.1 strict variance decrease | gpt-5-codex (model; documented additional assumption; human override; 2026-06-29T18:08:26Z) | The strict-decrease endpoint is stated for the interior-quality case because strict decrease fails at `q_v = 1`; human review treats this as formalized rather than as a caveat. |
+| Interior quality for strict variance decrease, lower bound | `assumption_quality_positive` | Additional assumption for Theorem 3.1 strict variance decrease | gpt-5-codex (model; documented additional assumption; human override; 2026-06-29T18:08:26Z) | The strict-decrease endpoint is stated for the interior-quality case because strict decrease fails at `q_v = 0`. |
+| Interior quality for strict variance decrease, upper bound | `assumption_quality_lt_one` | Additional assumption for Theorem 3.1 strict variance decrease | gpt-5-codex (model; documented additional assumption; human override; 2026-06-29T18:08:26Z) | The strict-decrease endpoint is stated for the interior-quality case because strict decrease fails at `q_v = 1`. |
 | Nonnegative prior strength | `assumption_prior_strength_nonnegative` | Section 2.1 prior strength `eta >= 0` | gpt-5-codex (model; paper_condition; 2026-06-12T00:00:00Z) | Source prior-strength domain. |
 | Ordered prior strengths, weak order | `assumption_prior_strength_weak_order` | Theorem 3.1 monotonicity in `eta` | gpt-5-codex (model; paper_condition; 2026-06-12T00:00:00Z) | Weak comparison form. |
 | Ordered prior strengths, strict order | `assumption_prior_strength_strict_order` | Theorem 3.1 monotonicity in `eta` | gpt-5-codex (model; paper_condition; 2026-06-12T00:00:00Z) | Strict comparison form. |
@@ -148,7 +148,7 @@ and `statement_match_llm.json`.
 | Variance | match | match | Matches the paper variance formula. |
 | Squared bias | match | match | Square of the bias definition. |
 | Theorem 3.1 variance, weak | match | match | Corrected full-interval weak monotonicity statement. |
-| Theorem 3.1 variance, strict | match | conditional-boundary mismatch; human override | Adds the interior-quality condition `0 < q_v < 1`; human review treats this as an additional assumption rather than a caveat. |
+| Theorem 3.1 variance, strict | match | conditional-boundary mismatch; human override | Adds the interior-quality condition `0 < q_v < 1`. |
 | Theorem 3.1 squared bias | match | match | Same monotonic direction as the paper. |
 | Theorem 3.2 squared-bias convexity | uncertain | match | Human review asks how to audit or trust shared predicate `JensenConvex`. |
 | Theorem 3.2 squared-bias minimizer | uncertain | match | Human review asks how to audit or trust shared predicate `GlobalMinAt`. |

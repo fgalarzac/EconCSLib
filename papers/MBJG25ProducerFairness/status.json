@@ -7,7 +7,7 @@
   "build_target": "lake build MBJG25ProducerFairness",
   "status": "formalized",
   "main_caveat": "",
-  "human_summary": "Additional assumption recorded in the validation report: strict variance decrease is stated with 0 < q_v < 1; human review treats this as formalized rather than a caveat.",
+  "human_summary": "Additional assumption recorded in the validation report: strict variance decrease is stated with 0 < q_v < 1.",
   "review_entrypoint": "papers/MBJG25ProducerFairness/FINAL_VALIDATION_REPORT.md",
   "human_review": {
     "reviewed_rows": 10,

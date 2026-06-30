@@ -292,7 +292,7 @@
       "llm_as_judge_translation": "25/27 statement rows match; 2 formalization-boundary statement rows; 15 source-condition rows",
       "llm_as_judge_paper_coverage": "40/42 covered; 2 conditional boundaries",
       "lean_loc": 52018,
-      "main_note": "Proposition 2's printed finite bound appears to miss a factor of 2; Lean proves the corrected finite bound, which is sufficient for the asymptotic 1/2-homogeneity result. Human review treats this as a source-quality note rather than a caveat.",
+      "main_note": "Proposition 2's printed finite bound appears to miss a factor of 2; Lean proves the corrected finite bound, which is sufficient for the asymptotic 1/2-homogeneity result.",
       "main_note_citation": null,
       "main_note_review": {
         "status": "human_approved",
@@ -413,7 +413,7 @@
       "llm_as_judge_translation": "16/17 statement rows match; 1 formalization-boundary statement row; 10 source-condition rows",
       "llm_as_judge_paper_coverage": "24/27 covered; 3 conditional boundaries",
       "lean_loc": 680,
-      "main_note": "Additional assumption recorded in the validation report: strict variance decrease is stated with 0 < q_v < 1; human review treats this as formalized rather than a caveat.",
+      "main_note": "Additional assumption recorded in the validation report: strict variance decrease is stated with 0 < q_v < 1.",
       "main_note_citation": null,
       "main_note_review": {
         "status": "human_approved",
@@ -446,7 +446,7 @@
       "llm_as_judge_translation": "19/19 match",
       "llm_as_judge_paper_coverage": "19/19 covered",
       "lean_loc": 9398,
-      "main_note": "The in-scope theorem ledger is formalized: Lemma C.1, the PAV rounding path, solid-coalition STV isolation, Droop-quota arithmetic, and Proposition 1 are closed in Lean. The Proposition 1 endpoint uses a total, quota-respecting fractional STV choice rule and derives final seat accounting from the generated filled-seat source semantics via partyFilledSeatCount; redistricting optimization and simulations remain data/code scope rather than theorem-ledger targets.",
+      "main_note": "",
       "main_note_citation": null,
       "main_note_review": {
         "status": "draft",

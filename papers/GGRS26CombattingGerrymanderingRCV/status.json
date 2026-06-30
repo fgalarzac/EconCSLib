@@ -7,7 +7,7 @@
   "build_target": "lake build GGRS26CombattingGerrymanderingRCV",
   "status": "formalized",
   "main_caveat": "",
-  "human_summary": "The in-scope theorem ledger is formalized: Lemma C.1, the PAV rounding path, solid-coalition STV isolation, Droop-quota arithmetic, and Proposition 1 are closed in Lean. The Proposition 1 endpoint uses a total, quota-respecting fractional STV choice rule and derives final seat accounting from the generated filled-seat source semantics via partyFilledSeatCount; redistricting optimization and simulations remain data/code scope rather than theorem-ledger targets.",
+  "human_summary": "",
   "human_summary_review": {
     "status": "draft",
     "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction."
