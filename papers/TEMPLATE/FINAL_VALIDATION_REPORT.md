@@ -129,3 +129,26 @@ validator ledger rather than from memory.
 Human dashboard reviews and model/agent statement checks may both appear here.
 This table is provenance for the statement targets; it does not change the
 human-only `human_review.reviewed_rows` counter.
+
+## 20. Source-Coverage Audit Ledger
+This section is the human-facing home for the paper-level coverage audit. Do
+not surface this as a public website status-table column. Summarize the current
+source inventory, `paper_coverage_llm.json` result, and the linked
+`PaperInterface.lean` rows here.
+
+Required summary:
+- Source inventory: <number of source statements inventoried, source file/pdf>
+- Coverage result: <direct covered / conditional boundary / support-only /
+  out-of-scope / missing counts>
+- LLM-as-judge coverage audit: <validator, prompt version, date, stale flags>
+- Row-local statement checks: every linked dashboard row should have a current
+  `statement_match_llm.json` judgment for the same current paper statement.
+
+| Source statement | Linked Lean review rows | Coverage judgment | Row-local statement checks | Comments |
+| --- | --- | --- | --- | --- |
+| <source theorem/definition/formula> | `<PaperInterface.declaration>` | <covered / conditional boundary / support-only / out-of-scope / missing> | <current statement-match judgment(s)> | <boundary or source note> |
+
+Any missing source item, stale coverage judgment, stale row-local statement
+judgment, or conditional row-local mismatch without a corresponding conditional
+coverage boundary should block a full-formalization claim until resolved or
+explicitly moved to the remaining-boundaries section.
