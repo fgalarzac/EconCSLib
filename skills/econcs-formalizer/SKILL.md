@@ -30,6 +30,12 @@ loops, also consult `skills/ai-formalization-workflows/SKILL.md`. That skill is
 a source-credited ledger of external AI-formalization workflow patterns; this
 formalizer skill remains the operational rulebook for EconCSLib.
 
+When syncing `EconCSLib-private` and `EconCSLib-public`, preparing public PRs
+from private work, copying generated DAG/report PDFs, or reconciling audit
+sidecars across sibling checkouts, read
+`skills/econcs-formalizer/references/public-private-sync.md` first. Use that
+semantic sync workflow instead of raw repository merges or broad folder copies.
+
 ## Component 1: Workflow and Organization
 
 ### 1.1 Core Rule
@@ -1259,6 +1265,16 @@ Think of the repository as having two distinct roles: **`EconCSLib` is the textb
   path2`, so the unrelated staged entries remain untouched. Normal first-time
   `git add path...` of files you just edited is fine; index surgery to repair
   mistakes is not.
+- For private checkpoint commits on an unfinished paper, do not refresh
+  aggregate paper status, global site tables, or unrelated paper audit sidecars
+  merely because one paper changed. Run
+  `python3 scripts/private_paper_checkpoint.py <paper-folder> --include-path <shared-path>`
+  with every shared library/script/skill file that belongs in the commit; the
+  helper includes the paper folder and root paper module automatically. Then
+  stage only the command's printed path list. Commit paper-local
+  `status.json`, source-record sidecars, dashboard sidecars, and final-report
+  notes only for the selected paper unless the user explicitly asks for a broad
+  status/audit refresh or a public-release handoff.
 - Before editing a paper lane, identify which repository you are in and which
   paper set it exposes. Typical local sibling names are `EconCSLib-private`
   for the public-based private incubator and `EconCSLib-public` or
