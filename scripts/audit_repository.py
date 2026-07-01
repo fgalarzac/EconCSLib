@@ -1401,6 +1401,7 @@ def check_dag_and_validation_report_closeout(
             )
         else:
             agent_audit_text = agent_source_audit.read_text(encoding="utf-8")
+            normalized_agent_audit_text = re.sub(r"\s+", " ", agent_audit_text)
             if not re.search(r"^##\s+Overall status:\s+PASS\s*$", agent_audit_text, re.M):
                 findings.append(
                     Finding(
@@ -1409,6 +1410,33 @@ def check_dag_and_validation_report_closeout(
                         "`AGENT_SOURCE_AUDIT.md` should record `## Overall status: PASS`",
                     )
                 )
+            if re.search(r"NEEDS AGENT REVIEW|scaffold has not performed", agent_audit_text, re.I):
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        agent_source_audit,
+                        "`AGENT_SOURCE_AUDIT.md` is still a scaffold, not a completed holistic audit",
+                    )
+                )
+            for required_phrase in (
+                "independent source-first",
+                "not merely summarize existing sidecars",
+                "source inventory from the source itself",
+                "omissions, hidden strengthening/weakening, and semantic mismatches",
+            ):
+                if required_phrase not in normalized_agent_audit_text:
+                    findings.append(
+                        Finding(
+                            "ERROR",
+                            agent_source_audit,
+                            "`AGENT_SOURCE_AUDIT.md` must document an independent "
+                            "source-paper/source-text read, source-inventory construction "
+                            "from the source itself, and Lean-interface comparison for "
+                            "omissions, hidden strengthening/weakening, and semantic "
+                            "mismatches; it must not merely summarize existing sidecars",
+                        )
+                    )
+                    break
             for heading in (
                 "Source Inventory",
                 "Lean Interface Comparison",

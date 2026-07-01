@@ -7,6 +7,13 @@
       "paper_statement_sha256": "6f103c5a103d554a242628a1456def065016c537f209f62325827695bfea9fbc",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
       "reason": "The continuous formalization makes the standard measurability side condition explicit for the argmax rule used in Theorem 1.",
+      "premise_judgments": {
+        "hrule : Measurable argmaxRule": {
+          "judgment": "paper_condition",
+          "reason": "The paper states the continuous argmax rule under a data distribution; Lean exposes the standard measurability condition needed for the integrals in the continuous theorem.",
+          "source_location": "DSWG24DiscretizationBias.txt lines 759-763; formalization side condition for the continuous argmax rule"
+        }
+      },
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
       "validator_type": "model"
@@ -17,6 +24,13 @@
       "paper_statement_sha256": "657a08d76ad161589c01a23481d620ee4ad3a62f296c116d76ac6004fd6b288d",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
       "reason": "Theorem 1 is explicitly stated for calibrated classifiers.",
+      "premise_judgments": {
+        "hcal : calibrated \u03bc q": {
+          "judgment": "source_text",
+          "reason": "The paper defines calibration as Pr(Y=y | q(y,x)=c)=c and states Theorem 1 for calibrated classifiers.",
+          "source_location": "DSWG24DiscretizationBias.txt lines 759-763 and 1451-1455"
+        }
+      },
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
       "validator_type": "model"
@@ -27,6 +41,13 @@
       "paper_statement_sha256": "3d8a0ad7e1a29efde0ff7aa4872f1c0475340bee3d73a8dbb865d981b00266f7",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
       "reason": "Theorem 1(i) explicitly supposes that features provide no information, q(y,x)=Pr(y) for all x,y.",
+      "premise_judgments": {
+        "hnoInformation : \u2200 x a, q x a = prior \u03bc a": {
+          "judgment": "source_text",
+          "reason": "The paper's Theorem 1(i) states that x provides no information and q(y,x)=Pr(y) for all x,y.",
+          "source_location": "DSWG24DiscretizationBias.txt lines 761-768 and 1454-1461"
+        }
+      },
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
       "validator_type": "model"
@@ -37,6 +58,13 @@
       "paper_statement_sha256": "b8298e5d8e1254958028cbe0e785ccc7c3f78e96e21c6ff438a964f2be5421ae",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
       "reason": "Theorem 1(ii) explicitly supposes that the classifier is perfect and identifies the true class.",
+      "premise_judgments": {
+        "htruth : \u2200 xy : X \u00d7 Y, rule xy.1 = xy.2": {
+          "judgment": "source_text",
+          "reason": "The source states the perfect-classifier case as q(z,x)=1 for the true label and 0 otherwise; the Lean premise is the induced decision-rule equality with the true label.",
+          "source_location": "DSWG24DiscretizationBias.txt lines 786-788 and 1466-1468"
+        }
+      },
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
       "validator_type": "model"
@@ -47,6 +75,13 @@
       "paper_statement_sha256": "9961d98c45f5acc14f6e9150ea408114079f8c1b8ba77e1439f0289c3b92b098",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
       "reason": "In the no-information regime the argmax rule assigns every point to a plurality/tie-broken argmax class.",
+      "premise_judgments": {
+        "hplurality : \u2200 a, prior \u03bc a \u2264 prior \u03bc z": {
+          "judgment": "source_text",
+          "reason": "The source says all data points are classified as a plurality class in the no-information case and fixes a consistent tie-breaking convention for argmax.",
+          "source_location": "DSWG24DiscretizationBias.txt lines 229-230, 764-768, and 1544-1545"
+        }
+      },
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
       "validator_type": "model"
@@ -57,6 +92,13 @@
       "paper_statement_sha256": "8983e7e970c31ccc96974e5dbd673bf6a557256027ebbbc2a2fa657ca9b71228",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
       "reason": "Theorem 2 is in the paper's multiclass demographic prediction setting; nikhgarg confirmed on 2026-06-12 that K >= 2 is a human-verified implicit source condition.",
+      "premise_judgments": {
+        "hK : 2 \u2264 K": {
+          "judgment": "paper_condition",
+          "reason": "The paper states Theorem 2 for the multiclass setting. The human validator confirmed K >= 2 as an implicit source condition, not a proof-route certificate.",
+          "source_location": "DSWG24DiscretizationBias.txt lines 952-956 and 1908-1912; human validator nikhgarg, 2026-06-12"
+        }
+      },
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
       "validator_type": "model"
@@ -67,6 +109,13 @@
       "paper_statement_sha256": "5a9f9e91322d79450c50211f335e5320c939b731f96c6030bbc80a99176413a5",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
       "reason": "Theorem 2 explicitly assumes N > K.",
+      "premise_judgments": {
+        "hNK : K < N": {
+          "judgment": "source_text",
+          "reason": "Theorem 2 states N > K, represented in Lean as K < N.",
+          "source_location": "DSWG24DiscretizationBias.txt lines 952-956 and 1908-1912"
+        }
+      },
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
       "validator_type": "model"
@@ -77,6 +126,13 @@
       "paper_statement_sha256": "758fbda4f2a5c5b8fcc9065b53b92ef5f02707033ca2ff2b82055811493d1b89",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
       "reason": "Positive sample size is a direct consequence of the source theorem's N > K condition and the implicit nontrivial class count.",
+      "premise_judgments": {
+        "hNpos : 0 < N": {
+          "judgment": "derived_from_source_primitives",
+          "reason": "The exposed positivity condition follows from the paper's N > K theorem condition together with the multiclass K >= 2 setting.",
+          "source_location": "Derived from source condition N > K and implicit K >= 2; DSWG24DiscretizationBias.txt lines 952-956 and 1908-1912"
+        }
+      },
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
       "validator_type": "model"
@@ -87,6 +143,13 @@
       "paper_statement_sha256": "95779010a9eb3d437d6a92d711ce0df3b3230b9fc35eb79992b3e7d3a1d297ec",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
       "reason": "Theorem 2(iii) is stated for non-trivial reference distributions, which are probability distributions and therefore nonnegative.",
+      "premise_judgments": {
+        "hpref_nonneg : \u2200 y, 0 \u2264 pref y": {
+          "judgment": "source_text_model_primitive",
+          "reason": "The source defines the non-trivial reference object as a reference distribution; nonnegativity is the probability-distribution component of that source primitive.",
+          "source_location": "DSWG24DiscretizationBias.txt lines 926-927, 952-956, and 2058-2085"
+        }
+      },
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
       "validator_type": "model"

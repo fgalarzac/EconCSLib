@@ -2272,6 +2272,20 @@ the Lean statements against the paper.
   - update `DependencyDAG.tex`, render and visually inspect
     `DependencyDAG.pdf`, and record that DAG audit evidence in both
     `FINAL_VALIDATION_REPORT.md` and `POST_FORMALIZATION_AUDIT.md`;
+  - write `AGENT_SOURCE_AUDIT.md` as an independent source-first holistic
+    audit, not as a generated summary of existing sidecars. Read the source
+    paper/PDF/text first, build or verify the source inventory from the source
+    itself, then inspect `PaperInterface.lean` and the Lean statements for
+    omissions, hidden strengthening/weakening, and semantic mismatches. This is
+    a deep agentic paper-to-Lean audit: do not start from the rows already in
+    the dashboard, and do not treat the row-local LLM sidecars as the audit.
+    Use `paper_coverage_llm.json`, `statement_match_llm.json`,
+    `assumption_match_llm.json`, and `source_record_match_llm.json` only as
+    supporting evidence after the independent pass. The note must say
+    `## Overall status: PASS` only if the agent's own holistic analysis agrees
+    that the source claims are covered and the Lean statements match; it must
+    explicitly state that it is an "independent source-first" audit and does
+    "not merely summarize existing sidecars";
   - run `python3 scripts/audit_repository.py --paper <paper-folder> --paper-closeout --include-active --info-limit 0`
     after the DAG/report updates. This targeted repository audit includes the
     DAG/final-report closeout gate; do not claim post-formalization completion

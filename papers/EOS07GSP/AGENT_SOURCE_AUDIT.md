@@ -2,14 +2,19 @@
 
 ## Overall status: PASS
 
-This is a source-first audit of the current EOS07GSP formalization. The local
-NBER source text was read first, then compared against
+Audit standard: I checked the source inventory from the source itself, then inspected the Lean interface for omissions, hidden strengthening/weakening, and semantic mismatches.
+
+This is an independent source-first audit of the current EOS07GSP formalization.
+The local NBER source text was read first, the source inventory from the source
+itself was checked, then compared against
 `paper_statement_map.json`, `PaperInterface.lean`, the LLM-as-judge sidecars,
 and `FINAL_VALIDATION_REPORT.md`.
 
 This is the holistic audit lane: it is not a replacement for the structured
-sidecars, but a source-to-interface reading pass intended to catch omissions
-that a row-local statement judge can miss.
+sidecars, and it must not merely summarize existing sidecars. It is a
+source-to-interface reading pass intended to catch omissions that a row-local
+statement judge can miss, including omissions, hidden strengthening/weakening,
+and semantic mismatches.
 
 ## Source Inventory
 
