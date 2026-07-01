@@ -10,6 +10,17 @@ private EconCSLib workspace, begin with
 describes the private-workspace-then-pull-request workflow, how to start a new
 paper, and when to publish a clean public review branch.
 
+For the current paper-formalization workflow, also read:
+
+- [`docs/paper-formalization-quickstart/README.md`](docs/paper-formalization-quickstart/README.md)
+  for the short contributor-oriented start path;
+- [`docs/AGENT_FORMALIZATION_WORKFLOW.md`](docs/AGENT_FORMALIZATION_WORKFLOW.md)
+  for the source-inventory, proof, audit, and closeout workflow;
+- [`docs/PAPER_COVERAGE_AUDIT.md`](docs/PAPER_COVERAGE_AUDIT.md) for the
+  source-paper-to-Lean coverage audit lanes; and
+- [`docs/REVIEW_DASHBOARD.md`](docs/REVIEW_DASHBOARD.md) for human and
+  LLM-as-judge statement-review expectations.
+
 EconCSLib has two connected goals:
 
 - maintain a reusable Lean library for economics and computation; and
@@ -57,13 +68,22 @@ A completed paper contribution should include:
 
 - `README.md`
 - `FORMALIZATION_PLAN.md`
-- `DependencyDAG.tex`
-- `DependencyDAG.pdf`
+- `review-dashboard.sh`
 - `MainTheorems.lean`
 - `PaperInterface.lean`
+- `Assumptions.lean` when source assumptions or source conditions are exposed
 - `status.json`
+- `docs/DependencyDAG.tex`
+- `docs/DependencyDAG.pdf`
+- `docs/FINAL_VALIDATION_REPORT.md`
+- `AGENT_SOURCE_AUDIT.md`
+- `audit/paper_statement_map.json`
+- `audit/paper_coverage_llm.json`
+- `audit/lean_to_tex_llm.json`
+- `audit/statement_match_llm.json`
+- `audit/assumption_match_llm.json` when assumptions or source conditions are
+  exposed
 - any needed implementation modules
-- a validation summary or `FINAL_VALIDATION_REPORT.md`
 - a passing Lean build target for the paper
 
 `PaperInterface.lean` should be the compact human-facing surface: source
@@ -96,8 +116,9 @@ Before opening a pull request:
 - keep imports as narrow as practical;
 - avoid `sorry`, `admit`, new top-level `axiom`s, or `unsafe` declarations;
 - run the relevant targeted `lake build` command;
-- update the paper README, dependency DAG, and validation notes when changing a
-  paper-facing theorem status;
+- update the paper README, dependency DAG, validation report, paper-local
+  `status.json`, and audit sidecars when changing a paper-facing theorem
+  status;
 - keep source-paper caveats and additional assumptions explicit in theorem
   statements and ledgers; and
 - avoid mixing unrelated paper work into a library PR.
@@ -121,6 +142,21 @@ For paper changes, build the paper target, for example:
 lake build Roth82StableMatching
 ```
 
+For a paper PR that claims a public status such as `formalized` or
+`partially formalized`, also run the current review and coverage gates:
+
+```bash
+python3 scripts/review_dashboard.py --paper <PaperName> --statement-check
+python3 scripts/review_dashboard.py --paper <PaperName> --source-to-lean-check
+python3 scripts/review_dashboard.py --paper <PaperName> --assumption-check
+python3 scripts/audit_repository.py --paper <PaperName> --paper-closeout --include-active --info-limit 0
+python3 scripts/sync_paper_status.py --check
+```
+
+If a gate fails because an audit sidecar is missing, stale, or uncertain, treat
+that as a failed audit until the source-grounded judgment is rerun and recorded
+or the paper status is downgraded to describe the missing boundary.
+
 The full target is desirable before release-oriented merges:
 
 ```bash
@@ -134,8 +170,21 @@ lake build EconCSLib
 - [ ] `lake build <target>` passes for the changed library or paper.
 - [ ] Paper theorem-status rows use the vocabulary in `docs/STATUS.md`.
 - [ ] `PaperInterface.lean` exposes the human-facing theorem statements.
+- [ ] `audit/paper_statement_map.json` was built or checked from the source
+      paper itself, not from Lean declaration names.
+- [ ] `audit/paper_coverage_llm.json` confirms every in-scope source item is
+      covered by current dashboard rows or is explicitly marked conditional,
+      support-only, or out of scope.
+- [ ] `audit/statement_match_llm.json` and, when applicable,
+      `audit/assumption_match_llm.json` are current for the paper-facing rows
+      and source assumptions.
+- [ ] `AGENT_SOURCE_AUDIT.md` records an independent source-first holistic
+      audit that does not merely summarize existing sidecars and checks for
+      omissions, hidden strengthening/weakening, and semantic mismatches.
 - [ ] Caveats and source-proof deviations are documented in the paper README or
-      `FINAL_VALIDATION_REPORT.md`.
+      `docs/FINAL_VALIDATION_REPORT.md`.
+- [ ] `python3 scripts/sync_paper_status.py --check` passes after generated
+      status files, docs tables, README rows, and site rows are refreshed.
 - [ ] Source PDFs, extracted source-paper text caches, rendered local PDFs,
       dashboard caches, and other ignored local artifacts are not added to Git.
 
@@ -147,10 +196,20 @@ faithfully represent the source paper.
 
 For paper formalizations, reviewers should be able to start from:
 
-1. `FINAL_VALIDATION_REPORT.md` or the validation summary;
+1. `docs/FINAL_VALIDATION_REPORT.md` or the validation summary;
 2. `PaperInterface.lean`;
-3. `DependencyDAG.tex`; and
+3. `docs/DependencyDAG.tex`; and
 4. `README.md`.
 
 If those files do not clearly state what was proved and what assumptions
 remain, the paper contribution is not ready to merge.
+
+The current audit standard checks both directions. First, a source inventory
+from the paper must map each in-scope source definition, example, remark,
+proposition, theorem, corollary, and theorem-like displayed claim to one or
+more Lean review rows. Second, each Lean review row and each exposed source
+assumption must be judged against the source statement or source primitive it
+claims to represent. The holistic `AGENT_SOURCE_AUDIT.md` is a separate
+source-first review pass over the paper and Lean interface; it is not a
+substitute for the machine-readable sidecars, and the sidecars are not a
+substitute for that holistic pass.
