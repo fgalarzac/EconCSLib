@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "paper": "EOS07GSP",
+  "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
+  "validated_at": "2026-07-01T09:10:39Z",
+  "validator": "codex-gpt-5.5-semantic-rejudge",
+  "validator_type": "model",
+  "comment": "Semantic premise provenance pass after the paper-facing Remark 2 endpoint was moved to the concrete finite position-VCG mechanism. The only compact assumption row is the strict ordered value model used by the finite Theorem 8 source-event endpoints; it is source-backed by the paper's CTR and value-distribution assumptions.",
+  "items": {
+    "assumption_theorem8_strict_ordered_value_certificate": {
+      "judgment": "paper_assumption",
+      "lean_statement_sha256": "b9a707b79804996046d2d947b478691d19f604160c9b54b9a6a9749013d8727f",
+      "paper_statement_sha256": "e2151ce794f73ad87509f71025fb90f775f59f44a6b075fa5ec7b8538e955336",
+      "source_location": "EOS07GSP.txt:344-349 and EOS07GSP.txt:528-531",
+      "reason": "The strict ordered value model records the source model's descending click-through-rate order, nonnegative valuations, and the no-ties/order-statistic instantiation from the continuous value distribution.",
+      "premise_judgments": {
+        "model : theorem8StrictOrderedValueCertificate": {
+          "judgment": "source_text_model_primitive",
+          "source_location": "EOS07GSP.txt:344-349 and EOS07GSP.txt:528-531",
+          "reason": "The model fields are the deterministic ranked source primitives used by the finite source-event Theorem 8 endpoints."
+        }
+      }
+    }
+  }
+}

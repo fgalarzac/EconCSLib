@@ -8,7 +8,10 @@ import EconCSLib.MechanismDesign.Auctions.Combinatorial
 import GHW01DigitalGoods.AuctionMainTheorems
 import Mathlib.Analysis.SpecialFunctions.Log.Base
 import Mathlib.Data.Fintype.Sets
+import Mathlib.Data.Finset.Lattice.Fold
+import Mathlib.Data.Finset.Sort
 import Mathlib.MeasureTheory.Integral.Layercake
+import Mathlib.Order.Interval.Finset.Fin
 import Mathlib.Probability.ProbabilityMassFunction.Integrals
 
 open MeasureTheory
@@ -53,6 +56,24 @@ theorem paper_sorted_gsp_three_bidder_two_slot_not_truthful :
     ¬ PositionMechanism.TruthfulDominantStrategy
       gspCounterexampleEnvironment gsp3TwoSlotMechanism := by
   exact gsp3TwoSlot_not_truthful
+
+/--
+Section 2.2 first-price running example: in the concrete two-slot,
+three-bidder values `(10, 4, 2)` with click rates `(200, 100)`, the source's
+successive bid revisions are strictly profitable.  The first inequality says
+bidder 1 prefers the minimal top bid `2.02` to paying `2.03` for the same top
+slot; the second says bidder 2 profits by raising from second place at `2.01`
+to first place at `2.03`; the third says bidder 1 then profits by raising from
+second place at `2.02` to first place at `2.04`.
+-/
+theorem paper_first_price_running_example_profitable_revision_chain :
+    (200 * (10 - (203 / 100 : ℝ)) <
+      200 * (10 - (202 / 100 : ℝ))) ∧
+    (100 * (4 - (201 / 100 : ℝ)) <
+      200 * (4 - (203 / 100 : ℝ))) ∧
+    (100 * (10 - (202 / 100 : ℝ)) <
+      200 * (10 - (204 / 100 : ℝ))) := by
+  norm_num
 
 /--
 Local-envy-free position outcomes have no profitable assigned-slot deviation:
@@ -112,6 +133,265 @@ theorem paper_position_stable_assignment_slot_envy_free
     (h : O.StableAssignment E values) :
     O.SlotEnvyFree E values := by
   exact PositionOutcome.slotEnvyFree_of_stableAssignment E O values h
+
+/--
+EOS Lemma 6 source-construction bridge. Once the stable assignment has been
+realized by a concrete bid profile that is a Nash equilibrium of the induced
+position mechanism, stability supplies the locally-envy-free outcome condition,
+so the bid profile is a locally envy-free equilibrium.
+
+The remaining paper-specific work for Lemma 6 is the construction of those
+bids for GSP from a stable assignment.
+-/
+theorem paper_position_stable_assignment_locally_envy_free_equilibrium_of_realized_nash
+    {Bidder Slot : Type*} [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (M : PositionMechanism Bidder Slot)
+    (O : PositionOutcome Bidder Slot) (values bids : Bidder → ℝ)
+    (hout : M bids = O)
+    (hnash : M.IsNashEquilibrium E values bids)
+    (hstable : O.StableAssignment E values) :
+    M.LocallyEnvyFreeEquilibrium E values bids := by
+  refine ⟨hnash, ?_⟩
+  rw [hout]
+  exact paper_position_stable_assignment_slot_envy_free E O values hstable
+
+/--
+EOS Lemma 6 deviation bridge. If every unilateral deviation from the paper's
+constructed bid profile is bounded either by leaving the bidder unassigned or
+by the payoff from rematching to an assigned slot in the stable assignment,
+then stability proves the bid profile is a Nash equilibrium.
+
+This is the formal version of the source sentence that moving to a different
+position in the constructed GSP bid profile is at most as profitable as the
+corresponding rematch in the assignment game.
+-/
+theorem paper_position_stable_assignment_nash_of_deviation_rematch_bound
+    {Bidder Slot : Type*} [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (M : PositionMechanism Bidder Slot)
+    (O : PositionOutcome Bidder Slot) (values bids : Bidder → ℝ)
+    (hout : M bids = O)
+    (hstable : O.StableAssignment E values)
+    (hdeviation_bound :
+      ∀ i report,
+        PositionMechanism.utility E M values
+            (Function.update bids i report) i ≤ 0 ∨
+          ∃ j s,
+            O.slotOf j = some s ∧
+              PositionMechanism.utility E M values
+                  (Function.update bids i report) i ≤
+                E.clickThroughRate s * (values i - O.paymentPerClick j)) :
+    M.IsNashEquilibrium E values bids := by
+  intro i report
+  have hcurrent :
+      PositionMechanism.utility E M values bids i =
+        O.utility E values i := by
+    simp [PositionMechanism.utility, hout]
+  rcases hdeviation_bound i report with hzero | hrematch
+  · exact le_trans hzero (by simpa [← hcurrent] using hstable.2.1 i)
+  · rcases hrematch with ⟨j, s, hslot, hle⟩
+    exact le_trans hle (by
+      simpa [← hcurrent] using hstable.2.2 i j s hslot)
+
+/--
+EOS Lemma 6 deviation-shape bridge. A unilateral deviation is bounded by an
+assignment-game rematch whenever the deviating bidder either receives no slot,
+or receives some winner's slot while paying at least that winner's per-click
+price in the stable assignment.
+
+This isolates the remaining sorted-GSP mechanism work: prove that the concrete
+sorted GSP outcome under the paper's constructed decreasing bids has this
+slot/payment shape for every unilateral report.
+-/
+theorem paper_position_deviation_rematch_bound_of_slot_payment_shape
+    {Bidder Slot : Type*} [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (M : PositionMechanism Bidder Slot)
+    (O : PositionOutcome Bidder Slot) (values bids : Bidder → ℝ)
+    (hclick_nonneg : ∀ s, 0 ≤ E.clickThroughRate s)
+    (hshape :
+      ∀ i report,
+        (M (Function.update bids i report)).slotOf i = none ∨
+          ∃ j s,
+            O.slotOf j = some s ∧
+              (M (Function.update bids i report)).slotOf i = some s ∧
+                O.paymentPerClick j ≤
+                  (M (Function.update bids i report)).paymentPerClick i) :
+      ∀ i report,
+        PositionMechanism.utility E M values
+            (Function.update bids i report) i ≤ 0 ∨
+          ∃ j s,
+            O.slotOf j = some s ∧
+              PositionMechanism.utility E M values
+                  (Function.update bids i report) i ≤
+                E.clickThroughRate s * (values i - O.paymentPerClick j) := by
+  intro i report
+  rcases hshape i report with hnone | hrematch
+  · left
+    simp [PositionMechanism.utility, PositionOutcome.utility, hnone]
+  · right
+    rcases hrematch with ⟨j, s, hslot, hdevslot, hpay_le⟩
+    refine ⟨j, s, hslot, ?_⟩
+    have hpay_sub :
+        values i - (M (Function.update bids i report)).paymentPerClick i ≤
+          values i - O.paymentPerClick j := by
+      exact sub_le_sub_left hpay_le (values i)
+    have hmul :=
+      mul_le_mul_of_nonneg_left hpay_sub (hclick_nonneg s)
+    simpa [PositionMechanism.utility, PositionOutcome.utility, hdevslot] using hmul
+
+/--
+EOS Lemma 6 Nash bridge with a GSP-shaped deviation premise: if every
+unilateral deviation has the slot/payment shape of a rematch, then stability
+proves the constructed bid profile is Nash.
+-/
+theorem paper_position_stable_assignment_nash_of_deviation_slot_payment_shape
+    {Bidder Slot : Type*} [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (M : PositionMechanism Bidder Slot)
+    (O : PositionOutcome Bidder Slot) (values bids : Bidder → ℝ)
+    (hout : M bids = O)
+    (hclick_nonneg : ∀ s, 0 ≤ E.clickThroughRate s)
+    (hstable : O.StableAssignment E values)
+    (hshape :
+      ∀ i report,
+        (M (Function.update bids i report)).slotOf i = none ∨
+          ∃ j s,
+            O.slotOf j = some s ∧
+              (M (Function.update bids i report)).slotOf i = some s ∧
+                O.paymentPerClick j ≤
+                  (M (Function.update bids i report)).paymentPerClick i) :
+    M.IsNashEquilibrium E values bids := by
+  exact
+    paper_position_stable_assignment_nash_of_deviation_rematch_bound
+      E M O values bids hout hstable
+      (paper_position_deviation_rematch_bound_of_slot_payment_shape
+        E M O values bids hclick_nonneg hshape)
+
+/--
+EOS Lemma 6 source-construction bridge with a paper-shaped deviation premise:
+if the constructed bids realize the stable assignment, and every deviation is
+bounded by an assignment-game rematch payoff, then the constructed bids form a
+locally envy-free equilibrium.
+-/
+theorem paper_position_stable_assignment_locally_envy_free_equilibrium_of_deviation_rematch_bound
+    {Bidder Slot : Type*} [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (M : PositionMechanism Bidder Slot)
+    (O : PositionOutcome Bidder Slot) (values bids : Bidder → ℝ)
+    (hout : M bids = O)
+    (hstable : O.StableAssignment E values)
+    (hdeviation_bound :
+      ∀ i report,
+        PositionMechanism.utility E M values
+            (Function.update bids i report) i ≤ 0 ∨
+          ∃ j s,
+            O.slotOf j = some s ∧
+              PositionMechanism.utility E M values
+                  (Function.update bids i report) i ≤
+                E.clickThroughRate s * (values i - O.paymentPerClick j)) :
+    M.LocallyEnvyFreeEquilibrium E values bids := by
+  exact
+    paper_position_stable_assignment_locally_envy_free_equilibrium_of_realized_nash
+      E M O values bids hout
+      (paper_position_stable_assignment_nash_of_deviation_rematch_bound
+        E M O values bids hout hstable hdeviation_bound)
+      hstable
+
+/--
+EOS Lemma 6 locally-envy-free bridge with a GSP-shaped deviation premise:
+realization of the stable assignment plus the sorted-GSP slot/payment deviation
+shape gives the locally envy-free equilibrium conclusion.
+-/
+theorem paper_position_stable_assignment_locally_envy_free_equilibrium_of_deviation_slot_payment_shape
+    {Bidder Slot : Type*} [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (M : PositionMechanism Bidder Slot)
+    (O : PositionOutcome Bidder Slot) (values bids : Bidder → ℝ)
+    (hout : M bids = O)
+    (hclick_nonneg : ∀ s, 0 ≤ E.clickThroughRate s)
+    (hstable : O.StableAssignment E values)
+    (hshape :
+      ∀ i report,
+        (M (Function.update bids i report)).slotOf i = none ∨
+          ∃ j s,
+            O.slotOf j = some s ∧
+              (M (Function.update bids i report)).slotOf i = some s ∧
+                O.paymentPerClick j ≤
+                  (M (Function.update bids i report)).paymentPerClick i) :
+    M.LocallyEnvyFreeEquilibrium E values bids := by
+  exact
+    paper_position_stable_assignment_locally_envy_free_equilibrium_of_realized_nash
+      E M O values bids hout
+      (paper_position_stable_assignment_nash_of_deviation_slot_payment_shape
+        E M O values bids hout hclick_nonneg hstable hshape)
+      hstable
+
+/--
+EOS Lemma 6 bid-order algebra, top rank. If the top bidder has strictly
+positive net utility at the stable-assignment price, then the paper's
+constructed top bid `s₁` is strictly above the next constructed bid
+`p₁ / α₁`.
+-/
+theorem paper_lemma6_top_constructed_bid_gt_next_of_positive_net_utility
+    {value payment clickThroughRate : ℕ → ℝ}
+    (hpositive :
+      0 < value 0 - payment 0 / clickThroughRate 0) :
+    payment 0 / clickThroughRate 0 < value 0 := by
+  linarith
+
+/--
+EOS Lemma 6 bid-order algebra, adjacent lower ranks. In the paper's constructed
+bid profile, if the bid for rank `k + 1` were weakly below the bid for rank
+`k + 2`, bidder `k + 1` would strictly prefer rematching upward, contradicting
+the stable-assignment no-rematch inequality. Thus adjacent constructed bids are
+strictly decreasing whenever the current rank has positive net utility.
+-/
+theorem paper_lemma6_adjacent_constructed_bid_gt_next_of_no_profitable_rematch
+    {value payment clickThroughRate : ℕ → ℝ} (k : ℕ)
+    (hclick_next_pos : 0 < clickThroughRate (k + 1))
+    (hclick_strict : clickThroughRate (k + 1) < clickThroughRate k)
+    (hcurrent_positive :
+      0 < value (k + 1) -
+        payment (k + 1) / clickThroughRate (k + 1))
+    (hno_rematch :
+      clickThroughRate k *
+          (value (k + 1) - payment k / clickThroughRate k) ≤
+        clickThroughRate (k + 1) *
+          (value (k + 1) -
+            payment (k + 1) / clickThroughRate (k + 1))) :
+    payment (k + 1) / clickThroughRate (k + 1) <
+      payment k / clickThroughRate k := by
+  by_contra hnot
+  have hbid_le :
+      payment k / clickThroughRate k ≤
+        payment (k + 1) / clickThroughRate (k + 1) :=
+    le_of_not_gt hnot
+  have hnet_ge :
+      value (k + 1) -
+          payment (k + 1) / clickThroughRate (k + 1) ≤
+        value (k + 1) - payment k / clickThroughRate k := by
+    linarith
+  have hclick_k_pos : 0 < clickThroughRate k :=
+    lt_trans hclick_next_pos hclick_strict
+  have hstrict_same_net :
+      clickThroughRate (k + 1) *
+          (value (k + 1) -
+            payment (k + 1) / clickThroughRate (k + 1)) <
+        clickThroughRate k *
+          (value (k + 1) -
+            payment (k + 1) / clickThroughRate (k + 1)) := by
+    exact mul_lt_mul_of_pos_right hclick_strict hcurrent_positive
+  have hle_lift :
+      clickThroughRate k *
+          (value (k + 1) -
+            payment (k + 1) / clickThroughRate (k + 1)) ≤
+        clickThroughRate k *
+          (value (k + 1) - payment k / clickThroughRate k) := by
+    exact mul_le_mul_of_nonneg_left hnet_ge (le_of_lt hclick_k_pos)
+  have hstrict :
+      clickThroughRate (k + 1) *
+          (value (k + 1) -
+            payment (k + 1) / clickThroughRate (k + 1)) <
+        clickThroughRate k *
+          (value (k + 1) - payment k / clickThroughRate k) :=
+    lt_of_lt_of_le hstrict_same_net hle_lift
+  exact (not_lt_of_ge hno_rematch) hstrict
 
 /--
 Position-auction utility is extensional in the assigned slot and per-click
@@ -345,6 +625,1895 @@ rank, and slot `i` has click-through rate `clickThroughRate i`.
 def paper_theorem7_ranked_environment
     {n : ℕ} (clickThroughRate : ℕ → ℝ) : PositionEnvironment (Fin n) where
   clickThroughRate i := clickThroughRate i.val
+
+/--
+Rank of a bidder in a finite GSP bid profile: the number of bidders with
+strictly higher bids. This is the no-tie rank convention used by the paper's
+sorted-GSP arguments.
+-/
+noncomputable def paper_ranked_gsp_rank
+    {m : ℕ} (bids : Fin m → ℝ) (i : Fin m) : ℕ :=
+  ((Finset.univ : Finset (Fin m)).filter fun j => bids i < bids j).card
+
+/--
+In the rank-counting convention, a strictly higher bid has a strictly smaller
+rank number.
+-/
+theorem paper_ranked_gsp_rank_lt_of_bid_lt
+    {m : ℕ} {bids : Fin m → ℝ} {i j : Fin m}
+    (hij : bids i < bids j) :
+    paper_ranked_gsp_rank bids j < paper_ranked_gsp_rank bids i := by
+  classical
+  unfold paper_ranked_gsp_rank
+  apply Finset.card_lt_card
+  rw [Finset.ssubset_def]
+  constructor
+  · intro x hx
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hx ⊢
+    exact lt_trans hij hx
+  · intro hsubset
+    have hj_mem_upper :
+        j ∈ (Finset.univ : Finset (Fin m)).filter (fun x => bids i < bids x) := by
+      simp [hij]
+    have hj_not_mem_lower :
+        j ∉ (Finset.univ : Finset (Fin m)).filter (fun x => bids j < bids x) := by
+      simp
+    exact hj_not_mem_lower (hsubset hj_mem_upper)
+
+/--
+With no tied bids, the rank-counting convention assigns a unique rank to each
+bidder.
+-/
+theorem paper_ranked_gsp_rank_injective_of_no_ties
+    {m : ℕ} {bids : Fin m → ℝ}
+    (hnotie : ∀ {i j : Fin m}, i ≠ j → bids i ≠ bids j) :
+    Function.Injective (paper_ranked_gsp_rank bids) := by
+  intro i j hrank
+  by_contra hij_ne
+  have hbid_ne : bids i ≠ bids j := hnotie hij_ne
+  rcases lt_or_gt_of_ne hbid_ne with hlt | hgt
+  · have hrank_lt := paper_ranked_gsp_rank_lt_of_bid_lt (bids := bids) hlt
+    rw [hrank] at hrank_lt
+    exact (lt_irrefl (paper_ranked_gsp_rank bids j)) hrank_lt
+  · have hrank_lt := paper_ranked_gsp_rank_lt_of_bid_lt (bids := bids) hgt
+    rw [hrank] at hrank_lt
+    exact (lt_irrefl (paper_ranked_gsp_rank bids j)) hrank_lt
+
+/--
+With no tied bids, smaller rank is equivalent to strictly larger bid in the
+direction needed for sorted-GSP deviation arguments.
+-/
+theorem paper_ranked_gsp_bid_lt_of_rank_lt_of_no_ties
+    {m : ℕ} {bids : Fin m → ℝ}
+    (hnotie : ∀ {i j : Fin m}, i ≠ j → bids i ≠ bids j)
+    {i j : Fin m}
+    (hrank : paper_ranked_gsp_rank bids i < paper_ranked_gsp_rank bids j) :
+    bids j < bids i := by
+  by_contra hnot
+  have hle : bids i ≤ bids j := le_of_not_gt hnot
+  rcases lt_or_eq_of_le hle with hlt | heq
+  · have hrank_rev := paper_ranked_gsp_rank_lt_of_bid_lt (bids := bids) hlt
+    exact (not_lt_of_ge (le_of_lt hrank)) hrank_rev
+  · by_cases hij : i = j
+    · subst j
+      exact (lt_irrefl (paper_ranked_gsp_rank bids i)) hrank
+    · exact (hnotie hij) heq
+
+/-- Every finite GSP rank-count value is below the number of bidders. -/
+theorem paper_ranked_gsp_rank_lt_card
+    {m : ℕ} {bids : Fin m → ℝ} (i : Fin m) :
+    paper_ranked_gsp_rank bids i < m := by
+  classical
+  unfold paper_ranked_gsp_rank
+  have hproper :
+      ((Finset.univ : Finset (Fin m)).filter fun j => bids i < bids j) ⊂
+        (Finset.univ : Finset (Fin m)) := by
+    rw [Finset.ssubset_def]
+    constructor
+    · intro j hj
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hj
+      simp
+    · intro hsubset
+      have hi_mem :
+          i ∈ ((Finset.univ : Finset (Fin m)).filter fun j => bids i < bids j) :=
+        hsubset (by simp)
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hi_mem
+      exact (lt_irrefl (bids i)) hi_mem
+  have hcard :=
+    Finset.card_lt_card hproper
+  simpa using hcard
+
+/--
+With no tied bids, every rank `0, ..., m - 1` is occupied by exactly one
+bidder.
+-/
+theorem paper_ranked_gsp_rank_surjective_of_no_ties
+    {m : ℕ} {bids : Fin m → ℝ}
+    (hnotie : ∀ {i j : Fin m}, i ≠ j → bids i ≠ bids j) :
+    ∀ rank : Fin m, ∃ i : Fin m, paper_ranked_gsp_rank bids i = rank.val := by
+  classical
+  let rankFin : Fin m → Fin m := fun i =>
+    ⟨paper_ranked_gsp_rank bids i, paper_ranked_gsp_rank_lt_card (bids := bids) i⟩
+  have hinj : Function.Injective rankFin := by
+    intro i j hij
+    apply paper_ranked_gsp_rank_injective_of_no_ties hnotie
+    exact congrArg Fin.val hij
+  have hsurj : Function.Surjective rankFin :=
+    Finite.surjective_of_injective hinj
+  intro rank
+  rcases hsurj rank with ⟨i, hi⟩
+  exact ⟨i, congrArg Fin.val hi⟩
+
+/--
+Bid attached to a finite GSP rank. Under the no-tie hypotheses used below,
+there is a unique bidder at each realized rank, so this noncomputable selector
+returns the usual next bid.
+-/
+noncomputable def paper_ranked_gsp_bid_at_rank
+    {m : ℕ} (bids : Fin m → ℝ) (rank : ℕ) : ℝ :=
+  if h : ∃ i : Fin m, paper_ranked_gsp_rank bids i = rank then
+    bids (Classical.choose h)
+  else 0
+
+/--
+Finite ranked GSP mechanism: bidders are sorted by the number of strictly
+higher bids, the first `n` ranks receive slots, and each winner pays the next
+rank's bid per click.
+-/
+noncomputable def paper_ranked_gsp_mechanism
+    (m n : ℕ) : PositionMechanism (Fin m) (Fin n) :=
+  fun bids =>
+    { slotOf := fun i =>
+        if h : paper_ranked_gsp_rank bids i < n then
+          some ⟨paper_ranked_gsp_rank bids i, h⟩
+        else none
+      paymentPerClick := fun i =>
+        paper_ranked_gsp_bid_at_rank bids
+          (paper_ranked_gsp_rank bids i + 1) }
+
+theorem paper_ranked_gsp_bid_at_rank_nonneg
+    {m : ℕ} {bids : Fin m → ℝ}
+    (hbids : ∀ i, 0 ≤ bids i) (rank : ℕ) :
+    0 ≤ paper_ranked_gsp_bid_at_rank bids rank := by
+  classical
+  unfold paper_ranked_gsp_bid_at_rank
+  split_ifs with h
+  · exact hbids (Classical.choose h)
+  · exact le_rfl
+
+theorem paper_ranked_gsp_mechanism_no_positive_transfers
+    (m n : ℕ) {bids : Fin m → ℝ}
+    (hbids : ∀ i, 0 ≤ bids i) :
+    paper_position_no_positive_transfers
+      (paper_ranked_gsp_mechanism m n bids) := by
+  intro i
+  exact paper_ranked_gsp_bid_at_rank_nonneg hbids _
+
+/--
+Lexicographic tie-breaking key for ranked GSP. Smaller keys are better ranks:
+higher bids have smaller `-bid`, and equal bids are broken by bidder index.
+-/
+noncomputable def paper_ranked_gsp_tiebreak_key
+    {m : ℕ} (bids : Fin m → ℝ) (i : Fin m) : ℝ ×ₗ Fin m :=
+  toLex (-bids i, i)
+
+/--
+Tie-broken ranked-GSP rank. This agrees with `paper_ranked_gsp_rank` on
+profiles with no tied bids, but it remains a permutation rank for tied
+off-equilibrium reports.
+-/
+noncomputable def paper_ranked_gsp_tiebreak_rank
+    {m : ℕ} (bids : Fin m → ℝ) (i : Fin m) : ℕ :=
+  ((Finset.univ : Finset (Fin m)).filter fun j =>
+    paper_ranked_gsp_tiebreak_key bids j <
+      paper_ranked_gsp_tiebreak_key bids i).card
+
+/-- Every tie-broken finite GSP rank is below the number of bidders. -/
+theorem paper_ranked_gsp_tiebreak_rank_lt_card
+    {m : ℕ} {bids : Fin m → ℝ} (i : Fin m) :
+    paper_ranked_gsp_tiebreak_rank bids i < m := by
+  classical
+  unfold paper_ranked_gsp_tiebreak_rank
+  have hproper :
+      ((Finset.univ : Finset (Fin m)).filter fun j =>
+          paper_ranked_gsp_tiebreak_key bids j <
+            paper_ranked_gsp_tiebreak_key bids i) ⊂
+        (Finset.univ : Finset (Fin m)) := by
+    rw [Finset.ssubset_def]
+    constructor
+    · intro j hj
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hj
+      simp
+    · intro hsubset
+      have hi_mem :
+          i ∈ ((Finset.univ : Finset (Fin m)).filter fun j =>
+              paper_ranked_gsp_tiebreak_key bids j <
+                paper_ranked_gsp_tiebreak_key bids i) :=
+        hsubset (by simp)
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hi_mem
+      exact (lt_irrefl (paper_ranked_gsp_tiebreak_key bids i)) hi_mem
+  have hcard := Finset.card_lt_card hproper
+  simpa using hcard
+
+/--
+If bidder `j` has a better tie-broken key than bidder `i`, then `j` has a
+strictly smaller tie-broken rank.
+-/
+theorem paper_ranked_gsp_tiebreak_rank_lt_of_key_lt
+    {m : ℕ} {bids : Fin m → ℝ} {i j : Fin m}
+    (hji :
+      paper_ranked_gsp_tiebreak_key bids j <
+        paper_ranked_gsp_tiebreak_key bids i) :
+    paper_ranked_gsp_tiebreak_rank bids j <
+      paper_ranked_gsp_tiebreak_rank bids i := by
+  classical
+  unfold paper_ranked_gsp_tiebreak_rank
+  apply Finset.card_lt_card
+  rw [Finset.ssubset_def]
+  constructor
+  · intro x hx
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hx ⊢
+    exact lt_trans hx hji
+  · intro hsubset
+    have hj_mem :
+        j ∈ (Finset.univ : Finset (Fin m)).filter (fun x =>
+          paper_ranked_gsp_tiebreak_key bids x <
+            paper_ranked_gsp_tiebreak_key bids i) := by
+      simp [hji]
+    have hj_not_mem :
+        j ∉ (Finset.univ : Finset (Fin m)).filter (fun x =>
+          paper_ranked_gsp_tiebreak_key bids x <
+            paper_ranked_gsp_tiebreak_key bids j) := by
+      simp
+    exact hj_not_mem (hsubset hj_mem)
+
+/-- Tie-broken ranks are injective for every bid profile. -/
+theorem paper_ranked_gsp_tiebreak_rank_injective
+    {m : ℕ} {bids : Fin m → ℝ} :
+    Function.Injective (paper_ranked_gsp_tiebreak_rank bids) := by
+  intro i j hrank
+  by_contra hij_ne
+  have hkey_ne :
+      paper_ranked_gsp_tiebreak_key bids i ≠
+        paper_ranked_gsp_tiebreak_key bids j := by
+    intro hkey
+    have hpair := congrArg ofLex hkey
+    have hij : i = j := by
+      exact congrArg Prod.snd hpair
+    exact hij_ne hij
+  rcases lt_or_gt_of_ne hkey_ne with hlt | hgt
+  · have hrank_lt :=
+      paper_ranked_gsp_tiebreak_rank_lt_of_key_lt (bids := bids) hlt
+    rw [hrank] at hrank_lt
+    exact (lt_irrefl (paper_ranked_gsp_tiebreak_rank bids j)) hrank_lt
+  · have hrank_lt :=
+      paper_ranked_gsp_tiebreak_rank_lt_of_key_lt (bids := bids) hgt
+    rw [hrank] at hrank_lt
+    exact (lt_irrefl (paper_ranked_gsp_tiebreak_rank bids j)) hrank_lt
+
+/-- Smaller tie-broken rank means strictly better tie-breaking key. -/
+theorem paper_ranked_gsp_tiebreak_key_lt_of_rank_lt
+    {m : ℕ} {bids : Fin m → ℝ} {i j : Fin m}
+    (hrank :
+      paper_ranked_gsp_tiebreak_rank bids i <
+        paper_ranked_gsp_tiebreak_rank bids j) :
+    paper_ranked_gsp_tiebreak_key bids i <
+      paper_ranked_gsp_tiebreak_key bids j := by
+  by_contra hnot
+  have hle :
+      paper_ranked_gsp_tiebreak_key bids j ≤
+        paper_ranked_gsp_tiebreak_key bids i :=
+    le_of_not_gt hnot
+  rcases lt_or_eq_of_le hle with hlt | heq
+  · have hrank_rev :=
+      paper_ranked_gsp_tiebreak_rank_lt_of_key_lt (bids := bids) hlt
+    exact (not_lt_of_ge (le_of_lt hrank)) hrank_rev
+  · have hpair := congrArg ofLex heq
+    have hji : j = i := congrArg Prod.snd hpair
+    subst j
+    exact (lt_irrefl (paper_ranked_gsp_tiebreak_rank bids i)) hrank
+
+/-- Every tie-broken rank `0, ..., m - 1` is occupied. -/
+theorem paper_ranked_gsp_tiebreak_rank_surjective
+    {m : ℕ} {bids : Fin m → ℝ} :
+    ∀ rank : Fin m, ∃ i : Fin m,
+      paper_ranked_gsp_tiebreak_rank bids i = rank.val := by
+  classical
+  let rankFin : Fin m → Fin m := fun i =>
+    ⟨paper_ranked_gsp_tiebreak_rank bids i,
+      paper_ranked_gsp_tiebreak_rank_lt_card (bids := bids) i⟩
+  have hinj : Function.Injective rankFin := by
+    intro i j hij
+    apply paper_ranked_gsp_tiebreak_rank_injective
+    exact congrArg Fin.val hij
+  have hsurj : Function.Surjective rankFin :=
+    Finite.surjective_of_injective hinj
+  intro rank
+  rcases hsurj rank with ⟨i, hi⟩
+  exact ⟨i, congrArg Fin.val hi⟩
+
+/--
+Under strictly decreasing ranked bids, lexicographic tie-breaking assigns each
+bidder its index as rank.
+-/
+theorem paper_ranked_gsp_tiebreak_rank_eq_index_of_strict_decreasing
+    {m : ℕ} {bids : Fin m → ℝ}
+    (hstrict :
+      ∀ {i j : Fin m}, i.val < j.val → bids j < bids i)
+    (i : Fin m) :
+    paper_ranked_gsp_tiebreak_rank bids i = i.val := by
+  classical
+  unfold paper_ranked_gsp_tiebreak_rank
+  have hfilter :
+      ((Finset.univ : Finset (Fin m)).filter fun j =>
+          paper_ranked_gsp_tiebreak_key bids j <
+            paper_ranked_gsp_tiebreak_key bids i) =
+        Finset.Iio i := by
+    ext j
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_Iio]
+    constructor
+    · intro hkey
+      rw [paper_ranked_gsp_tiebreak_key, paper_ranked_gsp_tiebreak_key,
+        Prod.Lex.toLex_lt_toLex] at hkey
+      rcases hkey with hbid | heq
+      · have hbid_pos : bids i < bids j := by linarith
+        by_contra hnot
+        have hi_le_j : i.val ≤ j.val := le_of_not_gt hnot
+        rcases Nat.eq_or_lt_of_le hi_le_j with hij_eq | hij_lt
+        · have hij : i = j := Fin.ext hij_eq
+          subst j
+          exact (lt_irrefl (bids i)) hbid_pos
+        · have hji : bids j < bids i := hstrict hij_lt
+          exact (not_lt_of_ge (le_of_lt hji)) hbid_pos
+      · exact heq.2
+    · intro hji
+      rw [paper_ranked_gsp_tiebreak_key, paper_ranked_gsp_tiebreak_key,
+        Prod.Lex.toLex_lt_toLex]
+      exact Or.inl (by
+        have hbid : bids i < bids j := hstrict hji
+        linarith)
+  simpa [hfilter] using (Finset.card_Iio i)
+
+/-- Bid attached to a tie-broken finite GSP rank. -/
+noncomputable def paper_ranked_gsp_tiebreak_bid_at_rank
+    {m : ℕ} (bids : Fin m → ℝ) (rank : ℕ) : ℝ :=
+  if h : ∃ i : Fin m, paper_ranked_gsp_tiebreak_rank bids i = rank then
+    bids (Classical.choose h)
+  else 0
+
+/-- Finite ranked GSP mechanism with deterministic lexicographic tie-breaking. -/
+noncomputable def paper_ranked_gsp_tiebreak_mechanism
+    (m n : ℕ) : PositionMechanism (Fin m) (Fin n) :=
+  fun bids =>
+    { slotOf := fun i =>
+        if h : paper_ranked_gsp_tiebreak_rank bids i < n then
+          some ⟨paper_ranked_gsp_tiebreak_rank bids i, h⟩
+        else none
+      paymentPerClick := fun i =>
+        paper_ranked_gsp_tiebreak_bid_at_rank bids
+          (paper_ranked_gsp_tiebreak_rank bids i + 1) }
+
+theorem paper_ranked_gsp_tiebreak_bid_at_rank_nonneg
+    {m : ℕ} {bids : Fin m → ℝ}
+    (hbids : ∀ i, 0 ≤ bids i) (rank : ℕ) :
+    0 ≤ paper_ranked_gsp_tiebreak_bid_at_rank bids rank := by
+  classical
+  unfold paper_ranked_gsp_tiebreak_bid_at_rank
+  split_ifs with h
+  · exact hbids (Classical.choose h)
+  · exact le_rfl
+
+theorem paper_ranked_gsp_tiebreak_mechanism_no_positive_transfers
+    (m n : ℕ) {bids : Fin m → ℝ}
+    (hbids : ∀ i, 0 ≤ bids i) :
+    paper_position_no_positive_transfers
+      (paper_ranked_gsp_tiebreak_mechanism m n bids) := by
+  intro i
+  exact paper_ranked_gsp_tiebreak_bid_at_rank_nonneg hbids _
+
+theorem paper_ranked_gsp_tiebreak_mechanism_feasible
+    (m n : ℕ) (bids : Fin m → ℝ) :
+    (paper_ranked_gsp_tiebreak_mechanism m n bids).FeasibleAssignment := by
+  intro i j s hslot_i hslot_j
+  have hrank_i : paper_ranked_gsp_tiebreak_rank bids i = s.val := by
+    by_cases hi : paper_ranked_gsp_tiebreak_rank bids i < n
+    · have hsome :
+          some ⟨paper_ranked_gsp_tiebreak_rank bids i, hi⟩ = some s := by
+        simpa [paper_ranked_gsp_tiebreak_mechanism, hi] using hslot_i
+      exact congrArg Fin.val (Option.some.inj hsome)
+    · simp [paper_ranked_gsp_tiebreak_mechanism, hi] at hslot_i
+  have hrank_j : paper_ranked_gsp_tiebreak_rank bids j = s.val := by
+    by_cases hj : paper_ranked_gsp_tiebreak_rank bids j < n
+    · have hsome :
+          some ⟨paper_ranked_gsp_tiebreak_rank bids j, hj⟩ = some s := by
+        simpa [paper_ranked_gsp_tiebreak_mechanism, hj] using hslot_j
+      exact congrArg Fin.val (Option.some.inj hsome)
+    · simp [paper_ranked_gsp_tiebreak_mechanism, hj] at hslot_j
+  apply paper_ranked_gsp_tiebreak_rank_injective
+  exact hrank_i.trans hrank_j.symm
+
+theorem paper_ranked_gsp_tiebreak_exists_strictly_low_report
+    {n : ℕ} (bids : Fin n → ℝ) (i : Fin n) :
+    ∃ report : ℝ, ∀ j : Fin n, report < bids j := by
+  classical
+  let report : ℝ :=
+    (Finset.univ : Finset (Fin n)).inf' ⟨i, by simp⟩ bids - 1
+  refine ⟨report, ?_⟩
+  intro j
+  have hmin_le :
+      (Finset.univ : Finset (Fin n)).inf' ⟨i, by simp⟩ bids ≤ bids j := by
+    exact Finset.inf'_le bids (by simp)
+  dsimp [report]
+  linarith
+
+theorem paper_ranked_gsp_tiebreak_key_lt_of_strictly_low_updated_report
+    {n : ℕ} {bids : Fin n → ℝ} {i j : Fin n} {report : ℝ}
+    (hji : j ≠ i) (hbelow : report < bids j) :
+    paper_ranked_gsp_tiebreak_key (Function.update bids i report) j <
+      paper_ranked_gsp_tiebreak_key (Function.update bids i report) i := by
+  rw [paper_ranked_gsp_tiebreak_key, paper_ranked_gsp_tiebreak_key,
+    Prod.Lex.toLex_lt_toLex]
+  exact Or.inl (by
+    simp [Function.update, hji]
+    linarith)
+
+theorem paper_ranked_gsp_tiebreak_rank_eq_last_of_strictly_low_report
+    {n : ℕ} {bids : Fin n → ℝ} {i : Fin n} {report : ℝ}
+    (hbelow : ∀ j : Fin n, j ≠ i → report < bids j) :
+    paper_ranked_gsp_tiebreak_rank (Function.update bids i report) i =
+      n - 1 := by
+  classical
+  let updated : Fin n → ℝ := Function.update bids i report
+  have hrank_lt :
+      paper_ranked_gsp_tiebreak_rank updated i < n :=
+    paper_ranked_gsp_tiebreak_rank_lt_card (m := n) (bids := updated) i
+  have hn_pos : 0 < n := Nat.lt_of_le_of_lt (Nat.zero_le i.val) i.isLt
+  by_contra hne
+  have hrank_le_last :
+      paper_ranked_gsp_tiebreak_rank updated i ≤ n - 1 := by
+    omega
+  have hrank_lt_last :
+      paper_ranked_gsp_tiebreak_rank updated i < n - 1 := by
+    exact lt_of_le_of_ne hrank_le_last hne
+  have hsucc_lt :
+      paper_ranked_gsp_tiebreak_rank updated i + 1 < n := by
+    omega
+  let nextRank : Fin n :=
+    ⟨paper_ranked_gsp_tiebreak_rank updated i + 1, hsucc_lt⟩
+  rcases
+      paper_ranked_gsp_tiebreak_rank_surjective
+        (m := n) (bids := updated) nextRank with
+    ⟨j, hj⟩
+  have hj_ne : j ≠ i := by
+    intro hji
+    subst j
+    simp [nextRank] at hj
+  have hrank_i_lt_j :
+      paper_ranked_gsp_tiebreak_rank updated i <
+        paper_ranked_gsp_tiebreak_rank updated j := by
+    have hj_nat :
+        paper_ranked_gsp_tiebreak_rank updated j =
+          paper_ranked_gsp_tiebreak_rank updated i + 1 := by
+      simpa [nextRank] using hj
+    omega
+  have hkey_i_lt_j :
+      paper_ranked_gsp_tiebreak_key updated i <
+        paper_ranked_gsp_tiebreak_key updated j :=
+    paper_ranked_gsp_tiebreak_key_lt_of_rank_lt
+      (bids := updated) hrank_i_lt_j
+  have hkey_j_lt_i :
+      paper_ranked_gsp_tiebreak_key updated j <
+        paper_ranked_gsp_tiebreak_key updated i := by
+    simpa [updated] using
+      paper_ranked_gsp_tiebreak_key_lt_of_strictly_low_updated_report
+        (bids := bids) (i := i) (j := j) (report := report)
+        hj_ne (hbelow j hj_ne)
+  exact (not_lt_of_ge (le_of_lt hkey_j_lt_i)) hkey_i_lt_j
+
+theorem paper_ranked_gsp_tiebreak_bid_at_rank_eq_zero_of_rank_ge_card
+    {m : ℕ} (bids : Fin m → ℝ) {rank : ℕ} (hrank : m ≤ rank) :
+    paper_ranked_gsp_tiebreak_bid_at_rank bids rank = 0 := by
+  classical
+  unfold paper_ranked_gsp_tiebreak_bid_at_rank
+  by_cases h : ∃ i : Fin m, paper_ranked_gsp_tiebreak_rank bids i = rank
+  · rcases h with ⟨i, hi⟩
+    have hlt :
+        paper_ranked_gsp_tiebreak_rank bids i < m :=
+      paper_ranked_gsp_tiebreak_rank_lt_card (m := m) (bids := bids) i
+    omega
+  · simp [h]
+
+theorem paper_ranked_gsp_tiebreak_low_report_payment_eq_zero
+    {n : ℕ} {bids : Fin n → ℝ} {i : Fin n} {report : ℝ}
+    (hbelow : ∀ j : Fin n, j ≠ i → report < bids j) :
+    (paper_ranked_gsp_tiebreak_mechanism n n
+        (Function.update bids i report)).paymentPerClick i = 0 := by
+  let updated : Fin n → ℝ := Function.update bids i report
+  have hrank_last :
+      paper_ranked_gsp_tiebreak_rank updated i = n - 1 := by
+    simpa [updated] using
+      paper_ranked_gsp_tiebreak_rank_eq_last_of_strictly_low_report
+        (bids := bids) (i := i) (report := report) hbelow
+  have hnext :
+      paper_ranked_gsp_tiebreak_rank updated i + 1 = n := by
+    have hrank_lt :
+        paper_ranked_gsp_tiebreak_rank updated i < n :=
+      paper_ranked_gsp_tiebreak_rank_lt_card (m := n) (bids := updated) i
+    omega
+  simp [paper_ranked_gsp_tiebreak_mechanism, updated, hnext,
+    paper_ranked_gsp_tiebreak_bid_at_rank_eq_zero_of_rank_ge_card]
+
+theorem paper_ranked_gsp_tiebreak_low_report_utility_nonneg
+    {n : ℕ} {value clickThroughRate : ℕ → ℝ} {bids : Fin n → ℝ}
+    {i : Fin n} {report : ℝ}
+    (hclick_nonneg : ∀ s : Fin n, 0 ≤ clickThroughRate s.val)
+    (hvalue_nonneg : ∀ i : Fin n, 0 ≤ value i.val)
+    (hbelow : ∀ j : Fin n, j ≠ i → report < bids j) :
+    0 ≤
+      PositionMechanism.utility
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (paper_ranked_gsp_tiebreak_mechanism n n)
+        (fun i : Fin n => value i.val)
+        (Function.update bids i report) i := by
+  let updated : Fin n → ℝ := Function.update bids i report
+  have hrank_lt :
+      paper_ranked_gsp_tiebreak_rank updated i < n :=
+    paper_ranked_gsp_tiebreak_rank_lt_card (m := n) (bids := updated) i
+  have hslot :
+      (paper_ranked_gsp_tiebreak_mechanism n n updated).slotOf i =
+        some ⟨paper_ranked_gsp_tiebreak_rank updated i, hrank_lt⟩ := by
+    simp [paper_ranked_gsp_tiebreak_mechanism, hrank_lt]
+  have hpay :
+      (paper_ranked_gsp_tiebreak_mechanism n n updated).paymentPerClick i = 0 := by
+    simpa [updated] using
+      paper_ranked_gsp_tiebreak_low_report_payment_eq_zero
+        (bids := bids) (i := i) (report := report) hbelow
+  rw [PositionMechanism.utility, PositionOutcome.utility, hslot, hpay]
+  simp [paper_theorem7_ranked_environment]
+  exact mul_nonneg
+    (hclick_nonneg ⟨paper_ranked_gsp_tiebreak_rank updated i, hrank_lt⟩)
+    (hvalue_nonneg i)
+
+theorem paper_ranked_gsp_tiebreak_individually_rational_of_nash_nonneg
+    {n : ℕ} {value clickThroughRate : ℕ → ℝ} {bids : Fin n → ℝ}
+    (hclick_nonneg : ∀ s : Fin n, 0 ≤ clickThroughRate s.val)
+    (hvalue_nonneg : ∀ i : Fin n, 0 ≤ value i.val)
+    (hnash :
+      (paper_ranked_gsp_tiebreak_mechanism n n).IsNashEquilibrium
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val) bids) :
+    (paper_ranked_gsp_tiebreak_mechanism n n bids).IndividuallyRational
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin n => value i.val) := by
+  intro i
+  rcases paper_ranked_gsp_tiebreak_exists_strictly_low_report bids i with
+    ⟨report, hreport_low⟩
+  have hdev_nonneg :
+      0 ≤
+        PositionMechanism.utility
+          (paper_theorem7_ranked_environment clickThroughRate)
+          (paper_ranked_gsp_tiebreak_mechanism n n)
+          (fun i : Fin n => value i.val)
+          (Function.update bids i report) i :=
+    paper_ranked_gsp_tiebreak_low_report_utility_nonneg
+      hclick_nonneg hvalue_nonneg
+      (by
+        intro j _hji
+        exact hreport_low j)
+  exact le_trans hdev_nonneg (hnash i report)
+
+/-- The tie-broken bid selector returns the bid of the unique bidder at a rank. -/
+theorem paper_ranked_gsp_tiebreak_bid_at_rank_eq_of_unique
+    {m : ℕ} {bids : Fin m → ℝ} {rank : ℕ} {i : Fin m}
+    (hrank : paper_ranked_gsp_tiebreak_rank bids i = rank)
+    (huniq :
+      ∀ j : Fin m, paper_ranked_gsp_tiebreak_rank bids j = rank → j = i) :
+    paper_ranked_gsp_tiebreak_bid_at_rank bids rank = bids i := by
+  classical
+  unfold paper_ranked_gsp_tiebreak_bid_at_rank
+  let hex : ∃ j : Fin m, paper_ranked_gsp_tiebreak_rank bids j = rank := ⟨i, hrank⟩
+  have hchosen :
+      Classical.choose hex = i :=
+    huniq (Classical.choose hex) (Classical.choose_spec hex)
+  rw [dif_pos hex]
+  simp [hchosen]
+
+/-- The tie-broken bid selector at any finite rank returns that rank's bid. -/
+theorem paper_ranked_gsp_tiebreak_bid_at_rank_eq
+    {m : ℕ} {bids : Fin m → ℝ} (rank : Fin m) :
+    ∃ i : Fin m,
+      paper_ranked_gsp_tiebreak_rank bids i = rank.val ∧
+        paper_ranked_gsp_tiebreak_bid_at_rank bids rank.val = bids i := by
+  classical
+  rcases paper_ranked_gsp_tiebreak_rank_surjective
+      (bids := bids) rank with
+    ⟨i, hrank⟩
+  refine ⟨i, hrank, ?_⟩
+  exact
+    paper_ranked_gsp_tiebreak_bid_at_rank_eq_of_unique
+      (bids := bids) (i := i) hrank
+      (by
+        intro j hj
+        apply paper_ranked_gsp_tiebreak_rank_injective
+        rw [hj, hrank])
+
+/--
+Under strictly decreasing ranked bids, the tie-broken next-rank bid selected
+for slot `i` is exactly bidder `i+1`'s bid.
+-/
+theorem paper_ranked_gsp_tiebreak_bid_at_succ_rank_eq_of_strict_decreasing
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    (i : Fin n) :
+    paper_ranked_gsp_tiebreak_bid_at_rank bids (i.val + 1) = bids i.succ := by
+  classical
+  have hrank_succ :
+      paper_ranked_gsp_tiebreak_rank bids i.succ = i.val + 1 := by
+    simpa using
+      paper_ranked_gsp_tiebreak_rank_eq_index_of_strict_decreasing hstrict i.succ
+  exact
+    paper_ranked_gsp_tiebreak_bid_at_rank_eq_of_unique
+      hrank_succ
+      (by
+        intro j hj
+        have hj_index :=
+          paper_ranked_gsp_tiebreak_rank_eq_index_of_strict_decreasing hstrict j
+        have hval : j.val = i.val + 1 := by
+          simpa [hj_index] using hj
+        apply Fin.ext
+        simpa using hval)
+
+/--
+Under strictly decreasing ranked bids, the tie-broken bid selector at any
+realized rank returns the bidder whose index is that rank. This is the general
+`K > N` version used by the source-shaped Lemma 6 bridge.
+-/
+theorem paper_ranked_gsp_tiebreak_bid_at_rank_eq_index_of_strict_decreasing
+    {m : ℕ} {bids : Fin m → ℝ}
+    (hstrict :
+      ∀ {i j : Fin m}, i.val < j.val → bids j < bids i)
+    {rank : ℕ} (hrank : rank < m) :
+    paper_ranked_gsp_tiebreak_bid_at_rank bids rank =
+      bids ⟨rank, hrank⟩ := by
+  classical
+  have hrank_index :
+      paper_ranked_gsp_tiebreak_rank bids ⟨rank, hrank⟩ = rank := by
+    simpa using
+      paper_ranked_gsp_tiebreak_rank_eq_index_of_strict_decreasing
+        hstrict ⟨rank, hrank⟩
+  exact
+    paper_ranked_gsp_tiebreak_bid_at_rank_eq_of_unique
+      (bids := bids) (i := ⟨rank, hrank⟩) hrank_index
+      (by
+        intro j hj
+        have hj_index :=
+          paper_ranked_gsp_tiebreak_rank_eq_index_of_strict_decreasing hstrict j
+        apply Fin.ext
+        simpa [hj_index] using hj)
+
+/--
+Strictly decreasing ranked bids make the tie-broken finite ranked GSP mechanism
+realize the rank-order next-price outcome.
+-/
+theorem paper_ranked_gsp_tiebreak_mechanism_realizes_next_price_of_strict_decreasing
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i) :
+    (∀ i : Fin n,
+        (paper_ranked_gsp_tiebreak_mechanism (n + 1) n bids).slotOf i.castSucc =
+          some i) ∧
+      (paper_ranked_gsp_tiebreak_mechanism (n + 1) n bids).slotOf (Fin.last n) =
+        none ∧
+      ∀ i : Fin n,
+        (paper_ranked_gsp_tiebreak_mechanism (n + 1) n bids).paymentPerClick
+            i.castSucc =
+          bids i.succ := by
+  constructor
+  · intro i
+    have hrank :
+        paper_ranked_gsp_tiebreak_rank bids i.castSucc = i.val := by
+      simpa using
+        paper_ranked_gsp_tiebreak_rank_eq_index_of_strict_decreasing
+          hstrict i.castSucc
+    simp [paper_ranked_gsp_tiebreak_mechanism, hrank]
+  constructor
+  · have hrank :
+        paper_ranked_gsp_tiebreak_rank bids (Fin.last n) = n := by
+      simpa using
+        paper_ranked_gsp_tiebreak_rank_eq_index_of_strict_decreasing
+          hstrict (Fin.last n)
+    simp [paper_ranked_gsp_tiebreak_mechanism, hrank]
+  · intro i
+    have hrank :
+        paper_ranked_gsp_tiebreak_rank bids i.castSucc = i.val := by
+      simpa using
+        paper_ranked_gsp_tiebreak_rank_eq_index_of_strict_decreasing
+          hstrict i.castSucc
+    simp [paper_ranked_gsp_tiebreak_mechanism, hrank,
+      paper_ranked_gsp_tiebreak_bid_at_succ_rank_eq_of_strict_decreasing
+        hstrict i]
+
+/--
+Order-statistic lower bound for arbitrary unilateral deviations under
+tie-breaking. If bidder `i`'s updated tie-broken rank is `r < n`, the
+tie-broken next-price selector at rank `r+1` is at least the original
+rank-`r+1` bid.
+-/
+theorem paper_ranked_gsp_tiebreak_next_bid_ge_original_next_of_update
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    {i : Fin (n + 1)} {report : ℝ} {r : ℕ}
+    (hr : r < n)
+    (hrank_i :
+      paper_ranked_gsp_tiebreak_rank (Function.update bids i report) i = r) :
+    bids ⟨r + 1, Nat.succ_lt_succ hr⟩ ≤
+      paper_ranked_gsp_tiebreak_bid_at_rank
+        (Function.update bids i report) (r + 1) := by
+  classical
+  let updated : Fin (n + 1) → ℝ := Function.update bids i report
+  let lower : Fin (n + 1) := ⟨r + 1, Nat.succ_lt_succ hr⟩
+  rcases paper_ranked_gsp_tiebreak_bid_at_rank_eq
+      (bids := updated) lower with
+    ⟨next, hrank_next, hnext_bid⟩
+  rw [hnext_bid]
+  by_contra hnot
+  have hbad : updated next < bids lower := lt_of_not_ge hnot
+  have hkey_i_next :
+      paper_ranked_gsp_tiebreak_key updated i <
+        paper_ranked_gsp_tiebreak_key updated next := by
+    apply paper_ranked_gsp_tiebreak_key_lt_of_rank_lt (bids := updated)
+    rw [hrank_i, hrank_next]
+    exact Nat.lt_succ_self r
+  have hsubset :
+      (Finset.Iic lower) ⊆
+        ((Finset.univ : Finset (Fin (n + 1))).filter fun j =>
+          paper_ranked_gsp_tiebreak_key updated j <
+            paper_ranked_gsp_tiebreak_key updated next) := by
+    intro j hj
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+    by_cases hji : j = i
+    · subst j
+      exact hkey_i_next
+    · have hj_le_lower : j.val ≤ lower.val := by
+        simpa [Finset.mem_Iic] using hj
+      have hlower_le_j_bid : bids lower ≤ bids j := by
+        rcases Nat.eq_or_lt_of_le hj_le_lower with hj_eq_lower | hj_lt_lower
+        · have hfin : j = lower := by
+            apply Fin.ext
+            exact hj_eq_lower
+          subst j
+          exact le_rfl
+        · exact le_of_lt (hstrict hj_lt_lower)
+      have hupdated_j : updated j = bids j := by
+        simp [updated, hji]
+      have hj_bid : updated next < updated j := by
+        rw [hupdated_j]
+        exact lt_of_lt_of_le hbad hlower_le_j_bid
+      rw [paper_ranked_gsp_tiebreak_key, paper_ranked_gsp_tiebreak_key,
+        Prod.Lex.toLex_lt_toLex]
+      exact Or.inl (by linarith)
+  have hcard_le :
+      (Finset.Iic lower).card ≤
+        (((Finset.univ : Finset (Fin (n + 1))).filter fun j =>
+          paper_ranked_gsp_tiebreak_key updated j <
+            paper_ranked_gsp_tiebreak_key updated next).card) :=
+    Finset.card_le_card hsubset
+  have hcard_iic : (Finset.Iic lower).card = r + 2 := by
+    simpa [lower, Nat.add_assoc] using (Fin.card_Iic lower)
+  have hcard_rank :
+      (((Finset.univ : Finset (Fin (n + 1))).filter fun j =>
+          paper_ranked_gsp_tiebreak_key updated j <
+            paper_ranked_gsp_tiebreak_key updated next).card) = r + 1 := by
+    simpa [paper_ranked_gsp_tiebreak_rank, updated] using hrank_next
+  have hle_bad : r + 2 ≤ r + 1 := by
+    simpa [hcard_iic, hcard_rank] using hcard_le
+  omega
+
+/--
+General `K > N` version of the order-statistic lower bound for arbitrary
+unilateral deviations under tie-breaking. If bidder `i`'s updated tie-broken
+rank is `r < n`, the tie-broken next-price selector at rank `r+1` is at least
+the original rank-`r+1` bid.
+-/
+theorem paper_ranked_gsp_tiebreak_next_bid_ge_original_next_of_update_more_bidders
+    {m n : ℕ} (hnm : n < m) {bids : Fin m → ℝ}
+    (hstrict :
+      ∀ {i j : Fin m}, i.val < j.val → bids j < bids i)
+    {i : Fin m} {report : ℝ} {r : ℕ}
+    (hr : r < n)
+    (hrank_i :
+      paper_ranked_gsp_tiebreak_rank (Function.update bids i report) i = r) :
+    bids ⟨r + 1, by omega⟩ ≤
+      paper_ranked_gsp_tiebreak_bid_at_rank
+        (Function.update bids i report) (r + 1) := by
+  classical
+  let updated : Fin m → ℝ := Function.update bids i report
+  let lower : Fin m := ⟨r + 1, by omega⟩
+  rcases paper_ranked_gsp_tiebreak_bid_at_rank_eq
+      (bids := updated) lower with
+    ⟨next, hrank_next, hnext_bid⟩
+  rw [hnext_bid]
+  by_contra hnot
+  have hbad : updated next < bids lower := lt_of_not_ge hnot
+  have hkey_i_next :
+      paper_ranked_gsp_tiebreak_key updated i <
+        paper_ranked_gsp_tiebreak_key updated next := by
+    apply paper_ranked_gsp_tiebreak_key_lt_of_rank_lt (bids := updated)
+    rw [hrank_i, hrank_next]
+    exact Nat.lt_succ_self r
+  have hsubset :
+      (Finset.Iic lower) ⊆
+        ((Finset.univ : Finset (Fin m)).filter fun j =>
+          paper_ranked_gsp_tiebreak_key updated j <
+            paper_ranked_gsp_tiebreak_key updated next) := by
+    intro j hj
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+    by_cases hji : j = i
+    · subst j
+      exact hkey_i_next
+    · have hj_le_lower : j.val ≤ lower.val := by
+        simpa [Finset.mem_Iic] using hj
+      have hlower_le_j_bid : bids lower ≤ bids j := by
+        rcases Nat.eq_or_lt_of_le hj_le_lower with hj_eq_lower | hj_lt_lower
+        · have hfin : j = lower := by
+            apply Fin.ext
+            exact hj_eq_lower
+          subst j
+          exact le_rfl
+        · exact le_of_lt (hstrict hj_lt_lower)
+      have hupdated_j : updated j = bids j := by
+        simp [updated, hji]
+      have hj_bid : updated next < updated j := by
+        rw [hupdated_j]
+        exact lt_of_lt_of_le hbad hlower_le_j_bid
+      rw [paper_ranked_gsp_tiebreak_key, paper_ranked_gsp_tiebreak_key,
+        Prod.Lex.toLex_lt_toLex]
+      exact Or.inl (by linarith)
+  have hcard_le :
+      (Finset.Iic lower).card ≤
+        (((Finset.univ : Finset (Fin m)).filter fun j =>
+          paper_ranked_gsp_tiebreak_key updated j <
+            paper_ranked_gsp_tiebreak_key updated next).card) :=
+    Finset.card_le_card hsubset
+  have hcard_iic : (Finset.Iic lower).card = r + 2 := by
+    simpa [lower, Nat.add_assoc] using (Fin.card_Iic lower)
+  have hcard_rank :
+      (((Finset.univ : Finset (Fin m)).filter fun j =>
+          paper_ranked_gsp_tiebreak_key updated j <
+            paper_ranked_gsp_tiebreak_key updated next).card) = r + 1 := by
+    simpa [paper_ranked_gsp_tiebreak_rank, updated] using hrank_next
+  have hle_bad : r + 2 ≤ r + 1 := by
+    simpa [hcard_iic, hcard_rank] using hcard_le
+  omega
+
+/--
+Concrete sorted-GSP deviation shape for the tie-broken finite mechanism. Every
+unilateral report either receives no slot or receives some original winner's
+slot while paying weakly more than that winner's original next price.
+-/
+theorem paper_ranked_gsp_tiebreak_deviation_slot_payment_shape
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    (i : Fin (n + 1)) (report : ℝ) :
+    let M := paper_ranked_gsp_tiebreak_mechanism (n + 1) n
+    (M (Function.update bids i report)).slotOf i = none ∨
+      ∃ j s,
+        (M bids).slotOf j = some s ∧
+          (M (Function.update bids i report)).slotOf i = some s ∧
+            (M bids).paymentPerClick j ≤
+              (M (Function.update bids i report)).paymentPerClick i := by
+  classical
+  intro M
+  let updated : Fin (n + 1) → ℝ := Function.update bids i report
+  by_cases hr : paper_ranked_gsp_tiebreak_rank updated i < n
+  · right
+    let r : ℕ := paper_ranked_gsp_tiebreak_rank updated i
+    let s : Fin n := ⟨r, hr⟩
+    let j : Fin (n + 1) := s.castSucc
+    refine ⟨j, s, ?_, ?_, ?_⟩
+    · have hrank_j : paper_ranked_gsp_tiebreak_rank bids j = r := by
+        simpa [j, s, r] using
+          paper_ranked_gsp_tiebreak_rank_eq_index_of_strict_decreasing
+            hstrict j
+      have hrank_j_lt : paper_ranked_gsp_tiebreak_rank bids j < n := by
+        simpa [hrank_j, r] using hr
+      change
+        (if h : paper_ranked_gsp_tiebreak_rank bids j < n then
+            some ⟨paper_ranked_gsp_tiebreak_rank bids j, h⟩
+          else none) = some s
+      rw [dif_pos hrank_j_lt]
+      congr
+    · change
+        (if h : paper_ranked_gsp_tiebreak_rank updated i < n then
+            some ⟨paper_ranked_gsp_tiebreak_rank updated i, h⟩
+          else none) = some s
+      rw [dif_pos hr]
+    · have hrank_j : paper_ranked_gsp_tiebreak_rank bids j = r := by
+        simpa [j, s, r] using
+          paper_ranked_gsp_tiebreak_rank_eq_index_of_strict_decreasing
+            hstrict j
+      have horig_pay :
+          (M bids).paymentPerClick j = bids s.succ := by
+        have hnext :=
+          paper_ranked_gsp_tiebreak_bid_at_succ_rank_eq_of_strict_decreasing
+            (bids := bids) hstrict s
+        change
+          paper_ranked_gsp_tiebreak_bid_at_rank bids
+              (paper_ranked_gsp_tiebreak_rank bids j + 1) =
+            bids s.succ
+        rw [hrank_j]
+        simpa [s, r] using hnext
+      have hdev_pay :
+          (M updated).paymentPerClick i =
+            paper_ranked_gsp_tiebreak_bid_at_rank updated (r + 1) := by
+        change
+          paper_ranked_gsp_tiebreak_bid_at_rank updated
+              (paper_ranked_gsp_tiebreak_rank updated i + 1) =
+            paper_ranked_gsp_tiebreak_bid_at_rank updated (r + 1)
+        rfl
+      have hge :
+          bids s.succ ≤
+            paper_ranked_gsp_tiebreak_bid_at_rank updated (r + 1) := by
+        simpa [updated, s, r] using
+          paper_ranked_gsp_tiebreak_next_bid_ge_original_next_of_update
+            (bids := bids) hstrict (i := i) (report := report)
+            (r := r) hr (by rfl)
+      simpa [horig_pay, hdev_pay] using hge
+  · left
+    simp [M, paper_ranked_gsp_tiebreak_mechanism, updated, hr]
+
+/--
+General `K > N` deviation shape for the tie-broken finite mechanism. Every
+unilateral report either receives no slot or receives some original winner's
+slot while paying weakly more than that winner's original next price.
+-/
+theorem paper_ranked_gsp_tiebreak_deviation_slot_payment_shape_more_bidders
+    {m n : ℕ} (hnm : n < m) {bids : Fin m → ℝ}
+    (hstrict :
+      ∀ {i j : Fin m}, i.val < j.val → bids j < bids i)
+    (i : Fin m) (report : ℝ) :
+    let M := paper_ranked_gsp_tiebreak_mechanism m n
+    (M (Function.update bids i report)).slotOf i = none ∨
+      ∃ j s,
+        (M bids).slotOf j = some s ∧
+          (M (Function.update bids i report)).slotOf i = some s ∧
+            (M bids).paymentPerClick j ≤
+              (M (Function.update bids i report)).paymentPerClick i := by
+  classical
+  intro M
+  let updated : Fin m → ℝ := Function.update bids i report
+  by_cases hr : paper_ranked_gsp_tiebreak_rank updated i < n
+  · right
+    let r : ℕ := paper_ranked_gsp_tiebreak_rank updated i
+    let s : Fin n := ⟨r, hr⟩
+    let j : Fin m := ⟨r, by omega⟩
+    refine ⟨j, s, ?_, ?_, ?_⟩
+    · have hrank_j : paper_ranked_gsp_tiebreak_rank bids j = r := by
+        simpa [j, r] using
+          paper_ranked_gsp_tiebreak_rank_eq_index_of_strict_decreasing
+            hstrict j
+      have hrank_j_lt : paper_ranked_gsp_tiebreak_rank bids j < n := by
+        simpa [hrank_j, r] using hr
+      change
+        (if h : paper_ranked_gsp_tiebreak_rank bids j < n then
+            some ⟨paper_ranked_gsp_tiebreak_rank bids j, h⟩
+          else none) = some s
+      rw [dif_pos hrank_j_lt]
+      congr
+    · change
+        (if h : paper_ranked_gsp_tiebreak_rank updated i < n then
+            some ⟨paper_ranked_gsp_tiebreak_rank updated i, h⟩
+          else none) = some s
+      rw [dif_pos hr]
+    · have hrank_j : paper_ranked_gsp_tiebreak_rank bids j = r := by
+        simpa [j, r] using
+          paper_ranked_gsp_tiebreak_rank_eq_index_of_strict_decreasing
+            hstrict j
+      have horig_pay :
+          (M bids).paymentPerClick j = bids ⟨r + 1, by omega⟩ := by
+        change
+          paper_ranked_gsp_tiebreak_bid_at_rank bids
+              (paper_ranked_gsp_tiebreak_rank bids j + 1) =
+            bids ⟨r + 1, by omega⟩
+        rw [hrank_j]
+        exact
+          paper_ranked_gsp_tiebreak_bid_at_rank_eq_index_of_strict_decreasing
+            hstrict (by omega)
+      have hdev_pay :
+          (M updated).paymentPerClick i =
+            paper_ranked_gsp_tiebreak_bid_at_rank updated (r + 1) := by
+        change
+          paper_ranked_gsp_tiebreak_bid_at_rank updated
+              (paper_ranked_gsp_tiebreak_rank updated i + 1) =
+            paper_ranked_gsp_tiebreak_bid_at_rank updated (r + 1)
+        rfl
+      have hge :
+          bids ⟨r + 1, by omega⟩ ≤
+            paper_ranked_gsp_tiebreak_bid_at_rank updated (r + 1) := by
+        simpa [updated, r] using
+          paper_ranked_gsp_tiebreak_next_bid_ge_original_next_of_update_more_bidders
+            (hnm := hnm) (bids := bids) hstrict (i := i) (report := report)
+            (r := r) hr (by rfl)
+      simpa [horig_pay, hdev_pay] using hge
+  · left
+    simp [M, paper_ranked_gsp_tiebreak_mechanism, updated, hr]
+
+/--
+EOS Lemma 6 concrete ranked-GSP bridge for the deterministic tie-broken
+implementation. If the constructed strict bid profile realizes a stable
+assignment, then the constructed bid profile is a locally envy-free equilibrium.
+-/
+theorem paper_ranked_gsp_tiebreak_stable_assignment_locally_envy_free_equilibrium
+    {n : ℕ} {value clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin (n + 1)) (Fin n)) (bids : Fin (n + 1) → ℝ)
+    (hout : paper_ranked_gsp_tiebreak_mechanism (n + 1) n bids = O)
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    (hclick_nonneg : ∀ s : Fin n, 0 ≤ clickThroughRate s.val)
+    (hstable :
+      O.StableAssignment
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin (n + 1) => value i.val)) :
+    (paper_ranked_gsp_tiebreak_mechanism (n + 1) n).LocallyEnvyFreeEquilibrium
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin (n + 1) => value i.val) bids := by
+  let M := paper_ranked_gsp_tiebreak_mechanism (n + 1) n
+  let E : PositionEnvironment (Fin n) :=
+    paper_theorem7_ranked_environment (n := n) clickThroughRate
+  let values : Fin (n + 1) → ℝ := fun i => value i.val
+  have hshape :
+      ∀ i report,
+        (M (Function.update bids i report)).slotOf i = none ∨
+          ∃ j s,
+            O.slotOf j = some s ∧
+              (M (Function.update bids i report)).slotOf i = some s ∧
+                O.paymentPerClick j ≤
+                  (M (Function.update bids i report)).paymentPerClick i := by
+    intro i report
+    have raw :
+        (M (Function.update bids i report)).slotOf i = none ∨
+          ∃ j s,
+            (M bids).slotOf j = some s ∧
+              (M (Function.update bids i report)).slotOf i = some s ∧
+                (M bids).paymentPerClick j ≤
+                  (M (Function.update bids i report)).paymentPerClick i := by
+      simpa [M] using
+        paper_ranked_gsp_tiebreak_deviation_slot_payment_shape
+          (bids := bids) hstrict i report
+    rcases raw with hnone | hrematch
+    · exact Or.inl hnone
+    · rcases hrematch with ⟨j, s, hslot, hdevslot, hpay⟩
+      exact Or.inr
+        ⟨j, s, by simpa [M, hout] using hslot, hdevslot,
+          by simpa [M, hout] using hpay⟩
+  exact
+    paper_position_stable_assignment_locally_envy_free_equilibrium_of_deviation_slot_payment_shape
+      E M O values bids (by simpa [M, E, values] using hout)
+      (by intro s; exact hclick_nonneg s)
+      (by simpa [E, values] using hstable)
+      hshape
+
+/--
+EOS Lemma 6 general `K > N` ranked-GSP bridge for the deterministic
+tie-broken implementation. If the constructed strict bid profile realizes a
+stable assignment and there are more bidders than slots, then the constructed
+bid profile is a locally envy-free equilibrium.
+-/
+theorem paper_ranked_gsp_tiebreak_stable_assignment_locally_envy_free_equilibrium_more_bidders
+    {m n : ℕ} (hnm : n < m) {value clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin m) (Fin n)) (bids : Fin m → ℝ)
+    (hout : paper_ranked_gsp_tiebreak_mechanism m n bids = O)
+    (hstrict :
+      ∀ {i j : Fin m}, i.val < j.val → bids j < bids i)
+    (hclick_nonneg : ∀ s : Fin n, 0 ≤ clickThroughRate s.val)
+    (hstable :
+      O.StableAssignment
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin m => value i.val)) :
+    (paper_ranked_gsp_tiebreak_mechanism m n).LocallyEnvyFreeEquilibrium
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin m => value i.val) bids := by
+  let M := paper_ranked_gsp_tiebreak_mechanism m n
+  let E : PositionEnvironment (Fin n) :=
+    paper_theorem7_ranked_environment (n := n) clickThroughRate
+  let values : Fin m → ℝ := fun i => value i.val
+  have hshape :
+      ∀ i report,
+        (M (Function.update bids i report)).slotOf i = none ∨
+          ∃ j s,
+            O.slotOf j = some s ∧
+              (M (Function.update bids i report)).slotOf i = some s ∧
+                O.paymentPerClick j ≤
+                  (M (Function.update bids i report)).paymentPerClick i := by
+    intro i report
+    have raw :
+        (M (Function.update bids i report)).slotOf i = none ∨
+          ∃ j s,
+            (M bids).slotOf j = some s ∧
+              (M (Function.update bids i report)).slotOf i = some s ∧
+                (M bids).paymentPerClick j ≤
+                  (M (Function.update bids i report)).paymentPerClick i := by
+      simpa [M] using
+        paper_ranked_gsp_tiebreak_deviation_slot_payment_shape_more_bidders
+          (hnm := hnm) (bids := bids) hstrict i report
+    rcases raw with hnone | hrematch
+    · exact Or.inl hnone
+    · rcases hrematch with ⟨j, s, hslot, hdevslot, hpay⟩
+      exact Or.inr
+        ⟨j, s, by simpa [M, hout] using hslot, hdevslot,
+          by simpa [M, hout] using hpay⟩
+  exact
+    paper_position_stable_assignment_locally_envy_free_equilibrium_of_deviation_slot_payment_shape
+      E M O values bids (by simpa [M, E, values] using hout)
+      (by intro s; exact hclick_nonneg s)
+      (by simpa [E, values] using hstable)
+      hshape
+
+/--
+If finite bids are strictly decreasing in the rank index, the generic
+rank-counting definition assigns each bidder its index as rank.
+-/
+theorem paper_ranked_gsp_rank_eq_index_of_strict_decreasing
+    {m : ℕ} {bids : Fin m → ℝ}
+    (hstrict :
+      ∀ {i j : Fin m}, i.val < j.val → bids j < bids i)
+    (i : Fin m) :
+    paper_ranked_gsp_rank bids i = i.val := by
+  classical
+  unfold paper_ranked_gsp_rank
+  have hfilter :
+      ((Finset.univ : Finset (Fin m)).filter fun j => bids i < bids j) =
+        Finset.Iio i := by
+    ext j
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_Iio]
+    constructor
+    · intro hb
+      by_contra hnot
+      have hnot_nat : ¬ j.val < i.val := by
+        intro hlt
+        exact hnot hlt
+      have hij_nat : i.val ≤ j.val := le_of_not_gt hnot_nat
+      rcases Nat.eq_or_lt_of_le hij_nat with heq | hlt
+      · have hij : i = j := Fin.ext heq
+        subst j
+        exact (lt_irrefl (bids i)) hb
+      · have hji : bids j < bids i := hstrict hlt
+        exact (not_lt_of_ge (le_of_lt hji)) hb
+    · intro hji
+      exact hstrict (show j.val < i.val from hji)
+  simpa [hfilter] using (Finset.card_Iio i)
+
+/--
+The selected bid at a rank is the bid of the unique bidder occupying that
+rank.
+-/
+theorem paper_ranked_gsp_bid_at_rank_eq_of_unique
+    {m : ℕ} {bids : Fin m → ℝ} {rank : ℕ} {i : Fin m}
+    (hrank : paper_ranked_gsp_rank bids i = rank)
+    (huniq :
+      ∀ j : Fin m, paper_ranked_gsp_rank bids j = rank → j = i) :
+    paper_ranked_gsp_bid_at_rank bids rank = bids i := by
+  classical
+  unfold paper_ranked_gsp_bid_at_rank
+  let hex : ∃ j : Fin m, paper_ranked_gsp_rank bids j = rank := ⟨i, hrank⟩
+  have hchosen :
+      Classical.choose hex = i :=
+    huniq (Classical.choose hex) (Classical.choose_spec hex)
+  rw [dif_pos hex]
+  simp [hchosen]
+
+/--
+Under no ties, the bid selector at any finite rank is the bid of the unique
+bidder occupying that rank.
+-/
+theorem paper_ranked_gsp_bid_at_rank_eq_of_no_ties
+    {m : ℕ} {bids : Fin m → ℝ}
+    (hnotie : ∀ {i j : Fin m}, i ≠ j → bids i ≠ bids j)
+    (rank : Fin m) :
+    ∃ i : Fin m,
+      paper_ranked_gsp_rank bids i = rank.val ∧
+        paper_ranked_gsp_bid_at_rank bids rank.val = bids i := by
+  classical
+  rcases paper_ranked_gsp_rank_surjective_of_no_ties
+      (bids := bids) hnotie rank with
+    ⟨i, hrank⟩
+  refine ⟨i, hrank, ?_⟩
+  exact
+    paper_ranked_gsp_bid_at_rank_eq_of_unique
+      (bids := bids) (i := i) hrank
+      (by
+        intro j hj
+        apply paper_ranked_gsp_rank_injective_of_no_ties hnotie
+        rw [hj, hrank])
+
+/--
+One-step order-statistic lower bound for unilateral deviations. In an original
+strictly decreasing bid profile, if bidder `i` changes one report and the
+updated no-tie profile puts `i` at rank `r < n`, then the updated next-price
+selector at rank `r+1` is at least the original rank-`r+1` bid.
+-/
+theorem paper_ranked_gsp_next_bid_ge_original_next_of_no_ties_update
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    {i : Fin (n + 1)} {report : ℝ} {r : ℕ}
+    (hr : r < n)
+    (hrank_i :
+      paper_ranked_gsp_rank (Function.update bids i report) i = r)
+    (hnotie :
+      ∀ {a b : Fin (n + 1)},
+        a ≠ b → Function.update bids i report a ≠ Function.update bids i report b) :
+    bids ⟨r + 1, Nat.succ_lt_succ hr⟩ ≤
+      paper_ranked_gsp_bid_at_rank (Function.update bids i report) (r + 1) := by
+  classical
+  let updated : Fin (n + 1) → ℝ := Function.update bids i report
+  let lower : Fin (n + 1) := ⟨r + 1, Nat.succ_lt_succ hr⟩
+  rcases paper_ranked_gsp_bid_at_rank_eq_of_no_ties
+      (bids := updated) hnotie lower with
+    ⟨next, hrank_next, hnext_bid⟩
+  rw [hnext_bid]
+  by_contra hnot
+  have hbad : updated next < bids lower := lt_of_not_ge hnot
+  have hnext_lt_i : updated next < updated i := by
+    apply paper_ranked_gsp_bid_lt_of_rank_lt_of_no_ties (bids := updated) hnotie
+    rw [hrank_i, hrank_next]
+    exact Nat.lt_succ_self r
+  have hsubset :
+      (Finset.Iic lower) ⊆
+        ((Finset.univ : Finset (Fin (n + 1))).filter fun j =>
+          updated next < updated j) := by
+    intro j hj
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+    by_cases hji : j = i
+    · subst j
+      exact hnext_lt_i
+    · have hj_le_lower : j.val ≤ lower.val := by
+        simpa [Finset.mem_Iic] using hj
+      have hlower_le_j_bid : bids lower ≤ bids j := by
+        rcases Nat.eq_or_lt_of_le hj_le_lower with hj_eq_lower | hj_lt_lower
+        · have hfin : j = lower := by
+            apply Fin.ext
+            exact hj_eq_lower
+          subst j
+          exact le_rfl
+        · exact le_of_lt (hstrict hj_lt_lower)
+      have hj_higher : updated next < bids j :=
+        lt_of_lt_of_le hbad hlower_le_j_bid
+      simpa [updated, hji] using hj_higher
+  have hcard_le :
+      (Finset.Iic lower).card ≤
+        (((Finset.univ : Finset (Fin (n + 1))).filter fun j =>
+          updated next < updated j).card) :=
+    Finset.card_le_card hsubset
+  have hcard_iic : (Finset.Iic lower).card = r + 2 := by
+    simpa [lower, Nat.add_assoc] using (Fin.card_Iic lower)
+  have hcard_rank :
+      (((Finset.univ : Finset (Fin (n + 1))).filter fun j =>
+          updated next < updated j).card) = r + 1 := by
+    simpa [paper_ranked_gsp_rank, updated] using hrank_next
+  have hle_bad : r + 2 ≤ r + 1 := by
+    simpa [hcard_iic, hcard_rank] using hcard_le
+  omega
+
+/--
+Under strictly decreasing ranked bids, the next-rank bid selected for slot
+`i` is exactly bidder `i+1`'s bid.
+-/
+theorem paper_ranked_gsp_bid_at_succ_rank_eq_of_strict_decreasing
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    (i : Fin n) :
+    paper_ranked_gsp_bid_at_rank bids (i.val + 1) = bids i.succ := by
+  classical
+  have hrank_succ :
+      paper_ranked_gsp_rank bids i.succ = i.val + 1 := by
+    simpa using
+      paper_ranked_gsp_rank_eq_index_of_strict_decreasing hstrict i.succ
+  exact
+    paper_ranked_gsp_bid_at_rank_eq_of_unique
+      hrank_succ
+      (by
+        intro j hj
+        have hj_index :=
+          paper_ranked_gsp_rank_eq_index_of_strict_decreasing hstrict j
+        have hval : j.val = i.val + 1 := by
+          simpa [hj_index] using hj
+        apply Fin.ext
+        simpa using hval)
+
+/--
+Strictly decreasing ranked bids make the finite ranked GSP mechanism realize
+the rank-order next-price outcome: rank `i` receives slot `i`, the extra bidder
+is unassigned, and rank `i` pays rank `i+1`'s bid.
+-/
+theorem paper_ranked_gsp_mechanism_realizes_next_price_of_strict_decreasing
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i) :
+    (∀ i : Fin n,
+        (paper_ranked_gsp_mechanism (n + 1) n bids).slotOf i.castSucc =
+          some i) ∧
+      (paper_ranked_gsp_mechanism (n + 1) n bids).slotOf (Fin.last n) =
+        none ∧
+      ∀ i : Fin n,
+        (paper_ranked_gsp_mechanism (n + 1) n bids).paymentPerClick
+            i.castSucc =
+          bids i.succ := by
+  constructor
+  · intro i
+    have hrank :
+        paper_ranked_gsp_rank bids i.castSucc = i.val := by
+      simpa using
+        paper_ranked_gsp_rank_eq_index_of_strict_decreasing hstrict i.castSucc
+    simp [paper_ranked_gsp_mechanism, hrank]
+  constructor
+  · have hrank :
+        paper_ranked_gsp_rank bids (Fin.last n) = n := by
+      simpa using
+        paper_ranked_gsp_rank_eq_index_of_strict_decreasing hstrict (Fin.last n)
+    simp [paper_ranked_gsp_mechanism, hrank]
+  · intro i
+    have hrank :
+        paper_ranked_gsp_rank bids i.castSucc = i.val := by
+      simpa using
+        paper_ranked_gsp_rank_eq_index_of_strict_decreasing hstrict i.castSucc
+    simp [paper_ranked_gsp_mechanism, hrank,
+      paper_ranked_gsp_bid_at_succ_rank_eq_of_strict_decreasing hstrict i]
+
+/--
+Concrete sorted-GSP deviation shape under a tie-free unilateral report. The
+deviating bidder either receives no slot, or receives original rank `r`'s slot
+while paying at least the original rank-`r` next price. This is the mechanism
+side of EOS Lemma 6, with the off-equilibrium no-tie condition explicit.
+-/
+theorem paper_ranked_gsp_deviation_slot_payment_shape_of_no_ties_update
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    (i : Fin (n + 1)) (report : ℝ)
+    (hnotie :
+      ∀ {a b : Fin (n + 1)},
+        a ≠ b → Function.update bids i report a ≠ Function.update bids i report b) :
+    let M := paper_ranked_gsp_mechanism (n + 1) n
+    (M (Function.update bids i report)).slotOf i = none ∨
+      ∃ j s,
+        (M bids).slotOf j = some s ∧
+          (M (Function.update bids i report)).slotOf i = some s ∧
+            (M bids).paymentPerClick j ≤
+              (M (Function.update bids i report)).paymentPerClick i := by
+  classical
+  intro M
+  let updated : Fin (n + 1) → ℝ := Function.update bids i report
+  by_cases hr : paper_ranked_gsp_rank updated i < n
+  · right
+    let r : ℕ := paper_ranked_gsp_rank updated i
+    let s : Fin n := ⟨r, hr⟩
+    let j : Fin (n + 1) := s.castSucc
+    refine ⟨j, s, ?_, ?_, ?_⟩
+    · have hrank_j : paper_ranked_gsp_rank bids j = r := by
+        simpa [j, s, r] using
+          paper_ranked_gsp_rank_eq_index_of_strict_decreasing hstrict j
+      have hrank_j_lt : paper_ranked_gsp_rank bids j < n := by
+        simpa [hrank_j, r] using hr
+      change
+        (if h : paper_ranked_gsp_rank bids j < n then
+            some ⟨paper_ranked_gsp_rank bids j, h⟩
+          else none) = some s
+      rw [dif_pos hrank_j_lt]
+      congr
+    · change
+        (if h : paper_ranked_gsp_rank updated i < n then
+            some ⟨paper_ranked_gsp_rank updated i, h⟩
+          else none) = some s
+      rw [dif_pos hr]
+    · have hrank_j : paper_ranked_gsp_rank bids j = r := by
+        simpa [j, s, r] using
+          paper_ranked_gsp_rank_eq_index_of_strict_decreasing hstrict j
+      have horig_pay :
+          (M bids).paymentPerClick j = bids s.succ := by
+        have hnext :=
+          paper_ranked_gsp_bid_at_succ_rank_eq_of_strict_decreasing
+            (bids := bids) hstrict s
+        change
+          paper_ranked_gsp_bid_at_rank bids
+              (paper_ranked_gsp_rank bids j + 1) =
+            bids s.succ
+        rw [hrank_j]
+        simpa [s, r] using hnext
+      have hdev_pay :
+          (M updated).paymentPerClick i =
+            paper_ranked_gsp_bid_at_rank updated (r + 1) := by
+        change
+          paper_ranked_gsp_bid_at_rank updated
+              (paper_ranked_gsp_rank updated i + 1) =
+            paper_ranked_gsp_bid_at_rank updated (r + 1)
+        rfl
+      have hge :
+          bids s.succ ≤ paper_ranked_gsp_bid_at_rank updated (r + 1) := by
+        simpa [updated, s, r] using
+          paper_ranked_gsp_next_bid_ge_original_next_of_no_ties_update
+            (bids := bids) hstrict (i := i) (report := report)
+            (r := r) hr (by rfl) hnotie
+      simpa [horig_pay, hdev_pay] using hge
+  · left
+    simp [M, paper_ranked_gsp_mechanism, updated, hr]
+
+/--
+If rank `k` reports between the original bids at ranks `k+1` and `k+2`,
+then exactly the original ranks `0, ..., k-1` together with rank `k+1` have
+higher bids than the deviator. Hence the deviator's new rank is `k+1`.
+-/
+theorem paper_ranked_gsp_rank_after_adjacent_down_update
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    (k : ℕ) (hk : k + 1 < n) (report : ℝ)
+    (hnext_lt_report :
+      bids ⟨k + 2, Nat.succ_lt_succ hk⟩ < report)
+    (hreport_lt_lower :
+      report <
+        bids ⟨k + 1, Nat.lt_trans hk (Nat.lt_succ_self n)⟩) :
+    paper_ranked_gsp_rank
+        (Function.update bids
+          ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+          report)
+        ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ =
+      k + 1 := by
+  classical
+  let upper : Fin (n + 1) :=
+    ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+  let lower : Fin (n + 1) :=
+    ⟨k + 1, Nat.lt_trans hk (Nat.lt_succ_self n)⟩
+  let next : Fin (n + 1) :=
+    ⟨k + 2, Nat.succ_lt_succ hk⟩
+  let updated : Fin (n + 1) → ℝ := Function.update bids upper report
+  have hfilter :
+      ((Finset.univ : Finset (Fin (n + 1))).filter fun j =>
+          updated upper < updated j) =
+        insert lower (Finset.Iio upper) := by
+    ext j
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and,
+      Finset.mem_insert, Finset.mem_Iio]
+    constructor
+    · intro hj
+      by_cases hju : j = upper
+      · subst j
+        simpa [updated] using hj
+      · have hupdated_upper : updated upper = report := by
+          simp [updated]
+        have hupdated_j : updated j = bids j := by
+          simp [updated, hju]
+        have hj_bid : report < bids j := by
+          simpa [hupdated_upper, hupdated_j] using hj
+        by_cases hj_lt_upper : j.val < k
+        · exact Or.inr (by simpa [upper] using hj_lt_upper)
+        · have hk_le_j : k ≤ j.val := le_of_not_gt hj_lt_upper
+          rcases Nat.eq_or_lt_of_le hk_le_j with hj_eq_k | hk_lt_j
+          · have hj_eq_upper : j = upper := by
+              apply Fin.ext
+              simpa [upper] using hj_eq_k.symm
+            exact False.elim (hju hj_eq_upper)
+          · have hk1_le_j : k + 1 ≤ j.val := Nat.succ_le_of_lt hk_lt_j
+            rcases Nat.eq_or_lt_of_le hk1_le_j with hj_eq_lower | hk1_lt_j
+            · exact Or.inl (by
+                apply Fin.ext
+                simpa [lower] using hj_eq_lower.symm)
+            · have hnext_le_j : next.val ≤ j.val := by
+                simpa [next] using Nat.succ_le_of_lt hk1_lt_j
+              have hj_le_next_bid : bids j ≤ bids next := by
+                rcases Nat.eq_or_lt_of_le hnext_le_j with hj_eq_next | hnext_lt_j
+                · have hj_eq_next_fin : j = next := by
+                    apply Fin.ext
+                    exact hj_eq_next.symm
+                  subst j
+                  exact le_rfl
+                · exact le_of_lt (hstrict hnext_lt_j)
+              have hj_lt_report : bids j < report :=
+                lt_of_le_of_lt hj_le_next_bid (by simpa [next] using hnext_lt_report)
+              exact False.elim ((not_lt_of_ge (le_of_lt hj_lt_report)) hj_bid)
+    · intro hmem
+      rcases hmem with h_lower | h_before
+      · subst j
+        have hupper_ne_lower : lower ≠ upper := by
+          intro h
+          have hval := congrArg Fin.val h
+          simp [upper, lower] at hval
+        simpa [updated, hupper_ne_lower, upper, lower]
+          using hreport_lt_lower
+      · have hju : j ≠ upper := by
+          intro h
+          have hval := congrArg Fin.val h
+          have hjlt : j.val < upper.val := h_before
+          rw [hval] at hjlt
+          exact (lt_irrefl upper.val) hjlt
+        have hupdated_upper : updated upper = report := by
+          simp [updated]
+        have hupdated_j : updated j = bids j := by
+          simp [updated, hju]
+        have hj_lower : j.val < lower.val := by
+          have hj_upper : j.val < upper.val := h_before
+          simpa [upper, lower] using
+            Nat.lt_trans hj_upper (Nat.lt_succ_self k)
+        have hlower_lt_j_bid : bids lower < bids j := hstrict hj_lower
+        have hreport_lt_j : report < bids j :=
+          lt_trans (by simpa [lower] using hreport_lt_lower) hlower_lt_j_bid
+        simpa [hupdated_upper, hupdated_j] using hreport_lt_j
+  unfold paper_ranked_gsp_rank
+  rw [hfilter]
+  have hlower_not_mem : lower ∉ Finset.Iio upper := by
+    simp [upper, lower]
+  rw [Finset.card_insert_of_notMem hlower_not_mem, Fin.card_Iio]
+
+/--
+Under the same adjacent-undercut hypotheses, the bidder originally at rank
+`k+2` remains at rank `k+2`; the deviator's lowered report is still above this
+bid, and all lower original ranks remain below it.
+-/
+theorem paper_ranked_gsp_next_rank_after_adjacent_down_update
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    (k : ℕ) (hk : k + 1 < n) (report : ℝ)
+    (hnext_lt_report :
+      bids ⟨k + 2, Nat.succ_lt_succ hk⟩ < report) :
+    paper_ranked_gsp_rank
+        (Function.update bids
+          ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+          report)
+        ⟨k + 2, Nat.succ_lt_succ hk⟩ =
+      k + 2 := by
+  classical
+  let upper : Fin (n + 1) :=
+    ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+  let next : Fin (n + 1) :=
+    ⟨k + 2, Nat.succ_lt_succ hk⟩
+  let updated : Fin (n + 1) → ℝ := Function.update bids upper report
+  have hnext_ne_upper : next ≠ upper := by
+    intro h
+    have hval := congrArg Fin.val h
+    simp [next, upper] at hval
+  have hfilter :
+      ((Finset.univ : Finset (Fin (n + 1))).filter fun j =>
+          updated next < updated j) =
+        Finset.Iio next := by
+    ext j
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_Iio]
+    constructor
+    · intro hj
+      by_cases hju : j = upper
+      · subst j
+        simp [upper, next]
+      · have hupdated_next : updated next = bids next := by
+          simp [updated, hnext_ne_upper]
+        have hupdated_j : updated j = bids j := by
+          simp [updated, hju]
+        have hj_bid : bids next < bids j := by
+          simpa [hupdated_next, hupdated_j] using hj
+        by_contra hnot
+        have hnext_le_j : next.val ≤ j.val := le_of_not_gt hnot
+        rcases Nat.eq_or_lt_of_le hnext_le_j with hnext_eq_j | hnext_lt_j
+        · have hj_eq_next : j = next := by
+            apply Fin.ext
+            exact hnext_eq_j.symm
+          subst j
+          exact (lt_irrefl (bids next)) hj_bid
+        · have hj_lt_next_bid : bids j < bids next := hstrict hnext_lt_j
+          exact (not_lt_of_ge (le_of_lt hj_lt_next_bid)) hj_bid
+    · intro hj_before
+      by_cases hju : j = upper
+      · subst j
+        simpa [updated, hnext_ne_upper, upper, next] using hnext_lt_report
+      · have hupdated_next : updated next = bids next := by
+          simp [updated, hnext_ne_upper]
+        have hupdated_j : updated j = bids j := by
+          simp [updated, hju]
+        have hbid : bids next < bids j := hstrict hj_before
+        simpa [hupdated_next, hupdated_j] using hbid
+  unfold paper_ranked_gsp_rank
+  rw [hfilter, Fin.card_Iio]
+
+/--
+The adjacent-undercut updated profile remains no-tie: all original non-deviator
+bids were strictly ordered, and the deviator's report lies strictly between
+the lower neighbor and the next lower bid.
+-/
+theorem paper_ranked_gsp_no_ties_after_adjacent_down_update
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    (k : ℕ) (hk : k + 1 < n) (report : ℝ)
+    (hnext_lt_report :
+      bids ⟨k + 2, Nat.succ_lt_succ hk⟩ < report)
+    (hreport_lt_lower :
+      report <
+        bids ⟨k + 1, Nat.lt_trans hk (Nat.lt_succ_self n)⟩) :
+    ∀ {i j : Fin (n + 1)},
+      i ≠ j →
+        Function.update bids
+            ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+            report i ≠
+          Function.update bids
+            ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+            report j := by
+  classical
+  let upper : Fin (n + 1) :=
+    ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+  let lower : Fin (n + 1) :=
+    ⟨k + 1, Nat.lt_trans hk (Nat.lt_succ_self n)⟩
+  let next : Fin (n + 1) :=
+    ⟨k + 2, Nat.succ_lt_succ hk⟩
+  have hreport_ne_bid :
+      ∀ j : Fin (n + 1), j ≠ upper → report ≠ bids j := by
+    intro j hju
+    by_cases hj_before_next : j.val < next.val
+    · have hj_le_lower : j.val ≤ lower.val := by
+        have hraw : j.val ≤ k + 1 := by
+          exact Nat.lt_add_one_iff.mp (by simpa [next, Nat.add_assoc] using hj_before_next)
+        simpa [lower] using hraw
+      rcases Nat.eq_or_lt_of_le hj_le_lower with hj_eq_lower | hj_lt_lower
+      · have hj_lower : j = lower := by
+          apply Fin.ext
+          exact hj_eq_lower
+        subst j
+        exact ne_of_lt (by simpa [lower] using hreport_lt_lower)
+      · by_cases hj_eq_upper_val : j.val = upper.val
+        · have hj_upper : j = upper := by
+            apply Fin.ext
+            exact hj_eq_upper_val
+          exact False.elim (hju hj_upper)
+        · have hlower_lt_j_bid : bids lower < bids j := by
+            exact hstrict hj_lt_lower
+          exact ne_of_lt
+            (lt_trans (by simpa [lower] using hreport_lt_lower) hlower_lt_j_bid)
+    · have hnext_le_j : next.val ≤ j.val := le_of_not_gt hj_before_next
+      have hj_le_next_bid : bids j ≤ bids next := by
+        rcases Nat.eq_or_lt_of_le hnext_le_j with hnext_eq_j | hnext_lt_j
+        · have hj_next : j = next := by
+            apply Fin.ext
+            exact hnext_eq_j.symm
+          subst j
+          exact le_rfl
+        · exact le_of_lt (hstrict hnext_lt_j)
+      exact ne_of_gt
+        (lt_of_le_of_lt hj_le_next_bid (by simpa [next] using hnext_lt_report))
+  change ∀ {i j : Fin (n + 1)},
+    i ≠ j → Function.update bids upper report i ≠ Function.update bids upper report j
+  intro i j hij
+  by_cases hiu : i = upper
+  · subst i
+    by_cases hju : j = upper
+    · exact False.elim (hij hju.symm)
+    · simpa [Function.update, hju] using hreport_ne_bid j hju
+  · by_cases hju : j = upper
+    · subst j
+      exact fun heq =>
+        (hreport_ne_bid i hiu) (by simpa [Function.update, hiu] using heq.symm)
+    · have horig_ne : bids i ≠ bids j := by
+        intro hbid
+        have hval_ne : i.val ≠ j.val := by
+          intro hval
+          exact hij (Fin.ext hval)
+        rcases lt_or_gt_of_ne hval_ne with hij_val | hji_val
+        · have hlt : bids j < bids i := hstrict hij_val
+          exact (ne_of_gt hlt) hbid
+        · have hlt : bids i < bids j := hstrict hji_val
+          exact (ne_of_lt hlt) hbid
+      exact fun heq =>
+        horig_ne (by simpa [Function.update, hiu, hju] using heq)
+
+/--
+For the adjacent undercut profile, the next-rank bid selected by finite ranked
+GSP is exactly the original bid at rank `k+2`.
+-/
+theorem paper_ranked_gsp_next_bid_after_adjacent_down_update
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    (k : ℕ) (hk : k + 1 < n) (report : ℝ)
+    (hnext_lt_report :
+      bids ⟨k + 2, Nat.succ_lt_succ hk⟩ < report)
+    (hreport_lt_lower :
+      report <
+        bids ⟨k + 1, Nat.lt_trans hk (Nat.lt_succ_self n)⟩) :
+    paper_ranked_gsp_bid_at_rank
+        (Function.update bids
+          ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+          report)
+        (k + 2) =
+      bids ⟨k + 2, Nat.succ_lt_succ hk⟩ := by
+  classical
+  let upper : Fin (n + 1) :=
+    ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+  let next : Fin (n + 1) :=
+    ⟨k + 2, Nat.succ_lt_succ hk⟩
+  have hnext_ne_upper : next ≠ upper := by
+    intro h
+    have hval := congrArg Fin.val h
+    simp [next, upper] at hval
+  change
+    paper_ranked_gsp_bid_at_rank (Function.update bids upper report) (k + 2) =
+      bids next
+  have hrank_next :
+      paper_ranked_gsp_rank (Function.update bids upper report) next = k + 2 := by
+    simpa [upper, next] using
+      paper_ranked_gsp_next_rank_after_adjacent_down_update
+        (bids := bids) hstrict k hk report hnext_lt_report
+  have hnotie :
+      ∀ {i j : Fin (n + 1)},
+        i ≠ j →
+          Function.update bids upper report i ≠
+            Function.update bids upper report j := by
+    intro i j hij
+    simpa [upper] using
+      (paper_ranked_gsp_no_ties_after_adjacent_down_update
+        (bids := bids) hstrict k hk report hnext_lt_report hreport_lt_lower
+        (i := i) (j := j) hij)
+  have hselected :
+      paper_ranked_gsp_bid_at_rank (Function.update bids upper report) (k + 2) =
+        Function.update bids upper report next := by
+    exact
+      paper_ranked_gsp_bid_at_rank_eq_of_unique
+        (bids := Function.update bids upper report)
+        (i := next) hrank_next
+        (by
+          intro j hj
+          apply paper_ranked_gsp_rank_injective_of_no_ties hnotie
+          rw [hj, hrank_next])
+  simpa [Function.update, hnext_ne_upper] using hselected
+
+/--
+Concrete adjacent-undercut shape for finite ranked GSP. If rank `k` reports
+between the original bids at ranks `k+1` and `k+2`, then the deviator receives
+slot `k+1` and pays the original rank-`k+2` bid.
+-/
+theorem paper_ranked_gsp_adjacent_down_slot_payment_shape_of_report_between
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    (k : ℕ) (hk : k + 1 < n) (report : ℝ)
+    (hnext_lt_report :
+      bids ⟨k + 2, Nat.succ_lt_succ hk⟩ < report)
+    (hreport_lt_lower :
+      report <
+        bids ⟨k + 1, Nat.lt_trans hk (Nat.lt_succ_self n)⟩) :
+    (paper_ranked_gsp_mechanism (n + 1) n
+        (Function.update bids
+          ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+          report)).slotOf
+        ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ =
+      some ⟨k + 1, hk⟩ ∧
+    (paper_ranked_gsp_mechanism (n + 1) n
+        (Function.update bids
+          ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+          report)).paymentPerClick
+        ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ =
+      bids ⟨k + 2, Nat.succ_lt_succ hk⟩ := by
+  have hrank :=
+    paper_ranked_gsp_rank_after_adjacent_down_update
+      (bids := bids) hstrict k hk report hnext_lt_report hreport_lt_lower
+  have hnext_bid :=
+    paper_ranked_gsp_next_bid_after_adjacent_down_update
+      (bids := bids) hstrict k hk report hnext_lt_report hreport_lt_lower
+  constructor
+  · simp [paper_ranked_gsp_mechanism, hrank, hk]
+  · simp [paper_ranked_gsp_mechanism, hrank, hnext_bid, Nat.add_assoc]
+
+/--
+Existential adjacent-undercut shape for finite ranked GSP. Under strict
+decreasing bids, a report between neighboring lower bids exists and has the
+source GSP slot/payment behavior.
+-/
+theorem paper_ranked_gsp_adjacent_down_slot_payment_shape_exists
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i) :
+    ∀ (k : ℕ) (hk : k + 1 < n),
+      ∃ report : ℝ,
+        (paper_ranked_gsp_mechanism (n + 1) n
+            (Function.update bids
+              ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+              report)).slotOf
+            ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ =
+          some ⟨k + 1, hk⟩ ∧
+        (paper_ranked_gsp_mechanism (n + 1) n
+            (Function.update bids
+              ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+              report)).paymentPerClick
+            ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ =
+          bids ⟨k + 2, Nat.succ_lt_succ hk⟩ := by
+  intro k hk
+  have hnext_lower :
+      bids ⟨k + 2, Nat.succ_lt_succ hk⟩ <
+        bids ⟨k + 1, Nat.lt_trans hk (Nat.lt_succ_self n)⟩ := by
+    exact hstrict (by simp)
+  rcases exists_between hnext_lower with ⟨report, hnext_lt_report, hreport_lt_lower⟩
+  exact
+    ⟨report,
+      paper_ranked_gsp_adjacent_down_slot_payment_shape_of_report_between
+        (bids := bids) hstrict k hk report hnext_lt_report hreport_lt_lower⟩
+
+/--
+EOS Lemma 5/6 mechanism bridge for one adjacent undercut. Once the rank count
+and next-rank bid selector have been proved for the updated profile, the finite
+ranked GSP mechanism has exactly the source slot/payment shape: rank `k`
+drops to slot `k+1` and pays the next-rank bid.
+-/
+theorem paper_ranked_gsp_adjacent_down_slot_payment_shape_of_rank_next_bid
+    {n : ℕ} {bids : Fin (n + 1) → ℝ} {payment : ℕ → ℝ}
+    (k : ℕ) (hk : k + 1 < n) (report : ℝ)
+    (hrank :
+      paper_ranked_gsp_rank
+          (Function.update bids
+            ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+            report)
+          ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ =
+        k + 1)
+    (hnext_bid :
+      paper_ranked_gsp_bid_at_rank
+          (Function.update bids
+            ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+            report)
+          (k + 2) =
+        payment (k + 1)) :
+    (paper_ranked_gsp_mechanism (n + 1) n
+        (Function.update bids
+          ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+          report)).slotOf
+        ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ =
+      some ⟨k + 1, hk⟩ ∧
+    (paper_ranked_gsp_mechanism (n + 1) n
+        (Function.update bids
+          ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+          report)).paymentPerClick
+        ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ =
+      payment (k + 1) := by
+  constructor
+  · simp [paper_ranked_gsp_mechanism, hrank, hk]
+  · simp [paper_ranked_gsp_mechanism, hrank, hnext_bid, Nat.add_assoc]
+
+/--
+EOS Lemma 6 adjacent bid-order bridge from the formal stable-assignment
+predicate. For a ranked stable assignment, the no-rematch inequality for rank
+`k + 1` against rank `k`, together with strict positive utility at rank `k + 1`,
+implies the adjacent constructed bids are strictly decreasing.
+-/
+theorem paper_lemma6_adjacent_constructed_bid_gt_next_of_stable_assignment
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin n) (Fin n)) (k : ℕ)
+    (hk_next : k + 1 < n)
+    (hstable :
+      O.StableAssignment
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val))
+    (hslots : ∀ i : Fin n, O.slotOf i = some i)
+    (hpayment :
+      ∀ i : Fin n,
+        O.paymentPerClick i = payment i.val / clickThroughRate i.val)
+    (hclick_next_pos : 0 < clickThroughRate (k + 1))
+    (hclick_strict : clickThroughRate (k + 1) < clickThroughRate k)
+    (hcurrent_positive :
+      0 < value (k + 1) -
+        payment (k + 1) / clickThroughRate (k + 1)) :
+    payment (k + 1) / clickThroughRate (k + 1) <
+      payment k / clickThroughRate k := by
+  let lower : Fin n := ⟨k + 1, hk_next⟩
+  let upper : Fin n := ⟨k, Nat.lt_trans (Nat.lt_succ_self k) hk_next⟩
+  have hno_rematch :
+      clickThroughRate k *
+          (value (k + 1) - payment k / clickThroughRate k) ≤
+        clickThroughRate (k + 1) *
+          (value (k + 1) -
+            payment (k + 1) / clickThroughRate (k + 1)) := by
+    have hraw := hstable.2.2 lower upper upper (hslots upper)
+    simpa [PositionOutcome.utility, paper_theorem7_ranked_environment,
+      lower, upper, hslots lower, hpayment lower, hpayment upper] using hraw
+  exact
+    paper_lemma6_adjacent_constructed_bid_gt_next_of_no_profitable_rematch
+      k hclick_next_pos hclick_strict hcurrent_positive hno_rematch
 
 /--
 EOS Theorem 7 finite ranked `B*` GSP outcome. Bidder/rank `i` receives slot
@@ -952,6 +3121,299 @@ theorem paper_theorem7_ranked_chain_ge_of_adjacent
         Nat.add_left_comm] using le_trans hrest hfirst
 
 /--
+Strict finite chain helper. If a ranked quantity strictly decreases at every
+adjacent in-range step, then it strictly decreases between any two in-range
+ranks.
+-/
+theorem paper_theorem7_ranked_strict_chain_desc
+    {n : ℕ} {quantity : ℕ → ℝ}
+    (hadj :
+      ∀ k : ℕ, k + 1 < n → quantity (k + 1) < quantity k)
+    {a b : ℕ} (hab : a < b) (hb : b < n) :
+    quantity b < quantity a := by
+  have hasucc_le : a + 1 ≤ b := Nat.succ_le_of_lt hab
+  have ha_succ_lt : a + 1 < n := Nat.lt_of_le_of_lt hasucc_le hb
+  have hfirst : quantity (a + 1) < quantity a := hadj a ha_succ_lt
+  have hrest : quantity b ≤ quantity (a + 1) := by
+    have hchain :=
+      paper_theorem7_ranked_chain_ge_of_adjacent
+        quantity (a + 1) (b - (a + 1))
+        (by
+          intro k _hkge hklt
+          have hk_lt_b : k < b := by
+            simpa [Nat.add_sub_of_le hasucc_le] using hklt
+          exact le_of_lt
+            (hadj k
+              (Nat.lt_of_le_of_lt (Nat.succ_le_of_lt hk_lt_b) hb)))
+    simpa [Nat.add_sub_of_le hasucc_le] using hchain
+  exact lt_of_le_of_lt hrest hfirst
+
+/--
+Assortativity/no-inversion algebra. In a slot-envy-free outcome, a higher-value
+bidder cannot be assigned a strictly lower-click slot while a lower-value
+bidder is assigned a strictly higher-click slot.
+-/
+theorem paper_position_slot_envy_free_no_strict_rank_inversion
+    {n : ℕ} {value clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin n) (Fin n))
+    (hlef :
+      O.SlotEnvyFree
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val))
+    {i j si sj : Fin n}
+    (hslot_i : O.slotOf i = some si)
+    (hslot_j : O.slotOf j = some sj)
+    (hvalue : value j.val < value i.val)
+    (hclick : clickThroughRate si.val < clickThroughRate sj.val) :
+    False := by
+  have hi_no_envy := hlef i j sj hslot_j
+  have hj_no_envy := hlef j i si hslot_i
+  have hi_util :
+      O.utility (paper_theorem7_ranked_environment clickThroughRate)
+          (fun r : Fin n => value r.val) i =
+        clickThroughRate si.val * (value i.val - O.paymentPerClick i) := by
+    simp [PositionOutcome.utility, paper_theorem7_ranked_environment,
+      hslot_i]
+  have hj_util :
+      O.utility (paper_theorem7_ranked_environment clickThroughRate)
+          (fun r : Fin n => value r.val) j =
+        clickThroughRate sj.val * (value j.val - O.paymentPerClick j) := by
+    simp [PositionOutcome.utility, paper_theorem7_ranked_environment,
+      hslot_j]
+  rw [hi_util] at hi_no_envy
+  rw [hj_util] at hj_no_envy
+  have hi_no_envy' :
+      clickThroughRate sj.val * (value i.val - O.paymentPerClick j) ≤
+        clickThroughRate si.val * (value i.val - O.paymentPerClick i) := by
+    simpa [paper_theorem7_ranked_environment] using hi_no_envy
+  have hj_no_envy' :
+      clickThroughRate si.val * (value j.val - O.paymentPerClick i) ≤
+        clickThroughRate sj.val * (value j.val - O.paymentPerClick j) := by
+    simpa [paper_theorem7_ranked_environment] using hj_no_envy
+  nlinarith [hi_no_envy', hj_no_envy', hvalue, hclick]
+
+/--
+Strictly ordered values/click-through rates force the tie-broken GSP rank map
+to coincide with the source value ranking in any locally envy-free profile.
+This is the formal assortative-match step used in the paper's Lemma 5 and
+Theorem 7 reasoning.
+-/
+theorem paper_ranked_gsp_tiebreak_rank_eq_index_of_locally_envy_free_strict_ordered
+    {n : ℕ} {value clickThroughRate : ℕ → ℝ} {bids : Fin n → ℝ}
+    (hvalue_strict :
+      ∀ k : ℕ, k + 1 < n → value (k + 1) < value k)
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n →
+        clickThroughRate (k + 1) < clickThroughRate k)
+    (hlef :
+      (paper_ranked_gsp_tiebreak_mechanism n n).LocallyEnvyFreeEquilibrium
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val) bids) :
+    ∀ i : Fin n, paper_ranked_gsp_tiebreak_rank bids i = i.val := by
+  classical
+  let rankMap : Fin n →o Fin n :=
+    { toFun := fun i =>
+        ⟨paper_ranked_gsp_tiebreak_rank bids i,
+          paper_ranked_gsp_tiebreak_rank_lt_card (m := n) (bids := bids) i⟩
+      monotone' := by
+        intro i j hij
+        by_cases hij_eq : i = j
+        · simp [hij_eq]
+        have hij_val_lt : i.val < j.val := by
+          exact lt_of_le_of_ne hij (by
+            intro hval
+            exact hij_eq (Fin.ext hval))
+        by_contra hnot
+        have hrank_j_lt_i :
+            paper_ranked_gsp_tiebreak_rank bids j <
+              paper_ranked_gsp_tiebreak_rank bids i := by
+          exact lt_of_not_ge hnot
+        let si : Fin n :=
+          ⟨paper_ranked_gsp_tiebreak_rank bids i,
+            paper_ranked_gsp_tiebreak_rank_lt_card (m := n) (bids := bids) i⟩
+        let sj : Fin n :=
+          ⟨paper_ranked_gsp_tiebreak_rank bids j,
+            paper_ranked_gsp_tiebreak_rank_lt_card (m := n) (bids := bids) j⟩
+        have hrank_i_lt :
+            paper_ranked_gsp_tiebreak_rank bids i < n :=
+          paper_ranked_gsp_tiebreak_rank_lt_card (m := n) (bids := bids) i
+        have hrank_j_lt :
+            paper_ranked_gsp_tiebreak_rank bids j < n :=
+          paper_ranked_gsp_tiebreak_rank_lt_card (m := n) (bids := bids) j
+        have hslot_i :
+            (paper_ranked_gsp_tiebreak_mechanism n n bids).slotOf i =
+              some si := by
+          simp [paper_ranked_gsp_tiebreak_mechanism, si, hrank_i_lt]
+        have hslot_j :
+            (paper_ranked_gsp_tiebreak_mechanism n n bids).slotOf j =
+              some sj := by
+          simp [paper_ranked_gsp_tiebreak_mechanism, sj, hrank_j_lt]
+        have hvalue_lt : value j.val < value i.val :=
+          paper_theorem7_ranked_strict_chain_desc
+            hvalue_strict hij_val_lt j.isLt
+        have hclick_lt : clickThroughRate si.val < clickThroughRate sj.val := by
+          exact
+            paper_theorem7_ranked_strict_chain_desc
+              hclick_strict hrank_j_lt_i si.isLt
+        exact
+          paper_position_slot_envy_free_no_strict_rank_inversion
+            (paper_ranked_gsp_tiebreak_mechanism n n bids)
+            hlef.2 hslot_i hslot_j hvalue_lt hclick_lt }
+  have hrankMap_injective : Function.Injective rankMap := by
+    intro i j hmap
+    apply paper_ranked_gsp_tiebreak_rank_injective
+    exact congrArg Fin.val hmap
+  have hmap_id : rankMap = OrderHom.id :=
+    OrderHom.eq_id_of_injective rankMap hrankMap_injective
+  intro i
+  have hi := congrArg (fun f : Fin n →o Fin n => f i) hmap_id
+  exact congrArg Fin.val hi
+
+/--
+Slot form of the strict-order assortative-match theorem: in a locally
+envy-free tie-broken ranked-GSP profile with source-strict values and
+click-through rates, bidder rank `i` receives slot `i`.
+-/
+theorem paper_ranked_gsp_tiebreak_mechanism_slots_eq_index_of_locally_envy_free_strict_ordered
+    {n : ℕ} {value clickThroughRate : ℕ → ℝ} {bids : Fin n → ℝ}
+    (hvalue_strict :
+      ∀ k : ℕ, k + 1 < n → value (k + 1) < value k)
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n →
+        clickThroughRate (k + 1) < clickThroughRate k)
+    (hlef :
+      (paper_ranked_gsp_tiebreak_mechanism n n).LocallyEnvyFreeEquilibrium
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val) bids) :
+    ∀ i : Fin n,
+      (paper_ranked_gsp_tiebreak_mechanism n n bids).slotOf i = some i := by
+  intro i
+  have hrank :=
+    paper_ranked_gsp_tiebreak_rank_eq_index_of_locally_envy_free_strict_ordered
+      hvalue_strict hclick_strict hlef i
+  simp [paper_ranked_gsp_tiebreak_mechanism, hrank]
+
+/--
+Adjacent strict bid decreases imply global strict bid decreases over a finite
+ranked profile.
+-/
+theorem paper_ranked_gsp_strict_decreasing_of_adjacent
+    {m : ℕ} {bids : Fin m → ℝ}
+    (hadj :
+      ∀ (k : ℕ) (hk : k + 1 < m),
+        bids ⟨k + 1, hk⟩ <
+          bids ⟨k, Nat.lt_of_succ_lt hk⟩)
+    {i j : Fin m} (hij : i.val < j.val) :
+    bids j < bids i := by
+  let utility : ℕ → ℝ := fun k =>
+    if h : k < m then bids ⟨k, h⟩ else 0
+  have hstart_le : i.val + 1 ≤ j.val := Nat.succ_le_of_lt hij
+  have hi_succ_lt_m : i.val + 1 < m :=
+    Nat.lt_of_le_of_lt hstart_le j.isLt
+  have hfirst :
+      utility (i.val + 1) < utility i.val := by
+    have h := hadj i.val hi_succ_lt_m
+    simpa [utility, hi_succ_lt_m, i.isLt] using h
+  have hsum : (i.val + 1) + (j.val - (i.val + 1)) = j.val :=
+    Nat.add_sub_of_le hstart_le
+  have hrest_raw :
+      utility ((i.val + 1) + (j.val - (i.val + 1))) ≤
+        utility (i.val + 1) :=
+    paper_theorem7_ranked_chain_ge_of_adjacent
+      utility (i.val + 1) (j.val - (i.val + 1))
+      (by
+        intro k _hkge hklt
+        have hklt_j : k < j.val := by
+          simpa [hsum] using hklt
+        have hk_succ_lt_m : k + 1 < m :=
+          Nat.lt_of_le_of_lt (Nat.succ_le_of_lt hklt_j) j.isLt
+        have hk_lt_m : k < m :=
+          Nat.lt_trans (Nat.lt_succ_self k) hk_succ_lt_m
+        have h := hadj k hk_succ_lt_m
+        simpa [utility, hk_succ_lt_m, hk_lt_m] using le_of_lt h)
+  have hrest : bids j ≤ utility (i.val + 1) := by
+    simpa [hsum, utility, j.isLt] using hrest_raw
+  have hfirst_bid : utility (i.val + 1) < bids i := by
+    simpa [utility, i.isLt] using hfirst
+  exact lt_of_le_of_lt hrest hfirst_bid
+
+/--
+Adjacent strict bid decreases are enough for the finite ranked GSP mechanism
+to realize the next-price ranked outcome.
+-/
+theorem paper_ranked_gsp_mechanism_realizes_next_price_of_adjacent_decreasing
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hadj :
+      ∀ (k : ℕ) (hk : k + 1 < n + 1),
+        bids ⟨k + 1, hk⟩ <
+          bids ⟨k, Nat.lt_of_succ_lt hk⟩) :
+    (∀ i : Fin n,
+        (paper_ranked_gsp_mechanism (n + 1) n bids).slotOf i.castSucc =
+          some i) ∧
+      (paper_ranked_gsp_mechanism (n + 1) n bids).slotOf (Fin.last n) =
+        none ∧
+      ∀ i : Fin n,
+        (paper_ranked_gsp_mechanism (n + 1) n bids).paymentPerClick
+            i.castSucc =
+          bids i.succ := by
+  exact
+    paper_ranked_gsp_mechanism_realizes_next_price_of_strict_decreasing
+      (fun {i j} hij =>
+        paper_ranked_gsp_strict_decreasing_of_adjacent hadj hij)
+
+/--
+EOS Theorem 7 mechanism-realization bridge. Under the paper's strict ranked
+`B*` bid-order conditions, the finite ranked GSP mechanism realizes the
+constructed `B*` next-price outcome on the displayed slots, with the extra
+bidder unassigned.
+-/
+theorem paper_theorem7_ranked_gsp_bstar_mechanism_realizes_bstar_outcome
+    {n : ℕ} {value vcgTotalPayment clickThroughRate : ℕ → ℝ}
+    (hclick_pos : ∀ i, 0 < clickThroughRate i)
+    (hclick_strict_mono : ∀ i, clickThroughRate (i + 1) < clickThroughRate i)
+    (hrec :
+      ∀ i : ℕ,
+        vcgTotalPayment i =
+          (clickThroughRate i - clickThroughRate (i + 1)) * value (i + 1) +
+            vcgTotalPayment (i + 1))
+    (hpayment_lt_value :
+      ∀ i : ℕ, vcgTotalPayment i < clickThroughRate i * value i) :
+    (∀ i : Fin n,
+        (paper_ranked_gsp_mechanism (n + 1) n
+            (fun bidder : Fin (n + 1) =>
+              paper_theorem7_bstar_bid
+                value vcgTotalPayment clickThroughRate bidder.val)).slotOf
+            i.castSucc =
+          some i) ∧
+      (paper_ranked_gsp_mechanism (n + 1) n
+          (fun bidder : Fin (n + 1) =>
+            paper_theorem7_bstar_bid
+              value vcgTotalPayment clickThroughRate bidder.val)).slotOf
+          (Fin.last n) =
+        none ∧
+      ∀ i : Fin n,
+        (paper_ranked_gsp_mechanism (n + 1) n
+            (fun bidder : Fin (n + 1) =>
+              paper_theorem7_bstar_bid
+                value vcgTotalPayment clickThroughRate bidder.val)).paymentPerClick
+            i.castSucc =
+          (paper_theorem7_ranked_bstar_outcome (n := n)
+            value vcgTotalPayment clickThroughRate).paymentPerClick i := by
+  let bids : Fin (n + 1) → ℝ := fun bidder =>
+    paper_theorem7_bstar_bid value vcgTotalPayment clickThroughRate bidder.val
+  have hrealize :=
+    paper_ranked_gsp_mechanism_realizes_next_price_of_adjacent_decreasing
+      (bids := bids)
+      (by
+        intro k _hk
+        simpa [bids] using
+          paper_theorem7_bstar_bid_gt_next_of_rank_conditions
+            hclick_pos hclick_strict_mono hrec hpayment_lt_value k)
+  refine ⟨hrealize.1, hrealize.2.1, ?_⟩
+  intro i
+  simpa [bids, paper_theorem7_ranked_bstar_outcome] using hrealize.2.2 i
+
+/--
 EOS Theorem 7 telescoped no-envy algebra for lower-valued bidders. Combining
 the adjacent VCG no-envy steps shows that a bidder whose value is weakly below
 each intervening next-rank value weakly prefers the lower endpoint to the
@@ -1305,6 +3767,1233 @@ theorem paper_theorem7_ranked_bstar_outcome_higher_fin_no_envy_lower
           (paper_theorem7_ranked_bstar_outcome
             value vcgTotalPayment clickThroughRate).paymentPerClick i) := by
         ring
+
+/--
+EOS Lemma 5 ranked adjacent-to-global bridge. If, for each ranked bidder,
+adjacent comparisons rule out profitable moves upward before that bidder's own
+rank and downward after that bidder's own rank, then the bidder weakly prefers
+its own ranked slot/payment to every ranked slot/payment.
+
+This is the algebraic telescoping core of the appendix proof of Lemma 5,
+separated from the source-specific facts that derive the adjacent inequalities
+from GSP equilibrium behavior and local envy-freeness.
+-/
+theorem paper_ranked_pairwise_no_envy_of_oriented_adjacent_no_envy
+    (value payment clickThroughRate : ℕ → ℝ)
+    (hup :
+      ∀ bidder k : ℕ,
+        k < bidder →
+          clickThroughRate k * (value bidder - payment k) ≤
+            clickThroughRate (k + 1) * (value bidder - payment (k + 1)))
+    (hdown :
+      ∀ bidder k : ℕ,
+        bidder ≤ k →
+          clickThroughRate (k + 1) * (value bidder - payment (k + 1)) ≤
+            clickThroughRate k * (value bidder - payment k)) :
+    ∀ bidder target : ℕ,
+      clickThroughRate target * (value bidder - payment target) ≤
+        clickThroughRate bidder * (value bidder - payment bidder) := by
+  intro bidder target
+  by_cases htarget_le : target ≤ bidder
+  · have hraw :=
+      paper_theorem7_ranked_chain_le_of_adjacent
+        (fun rank => clickThroughRate rank * (value bidder - payment rank))
+        target (bidder - target)
+        (by
+          intro k _hkge hklt
+          exact hup bidder k (by
+            simpa [Nat.add_sub_of_le htarget_le] using hklt))
+    simpa [Nat.add_sub_of_le htarget_le] using hraw
+  · have hbidder_le : bidder ≤ target := le_of_lt (lt_of_not_ge htarget_le)
+    have hraw :=
+      paper_theorem7_ranked_chain_ge_of_adjacent
+        (fun rank => clickThroughRate rank * (value bidder - payment rank))
+        bidder (target - bidder)
+        (by
+          intro k hkge _hklt
+          exact hdown bidder k hkge)
+    simpa [Nat.add_sub_of_le hbidder_le] using hraw
+
+/--
+EOS Lemma 5 ranked outcome bridge. The oriented adjacent no-envy inequalities
+for a ranked outcome imply the full formal `SlotEnvyFree` predicate used by the
+assignment-game layer.
+-/
+theorem paper_ranked_outcome_slot_envy_free_of_oriented_adjacent_no_envy
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin n) (Fin n))
+    (hslots : ∀ i : Fin n, O.slotOf i = some i)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i = payment i.val)
+    (hup :
+      ∀ bidder k : ℕ,
+        k < bidder →
+          clickThroughRate k * (value bidder - payment k) ≤
+            clickThroughRate (k + 1) * (value bidder - payment (k + 1)))
+    (hdown :
+      ∀ bidder k : ℕ,
+        bidder ≤ k →
+          clickThroughRate (k + 1) * (value bidder - payment (k + 1)) ≤
+            clickThroughRate k * (value bidder - payment k)) :
+    O.SlotEnvyFree
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin n => value i.val) := by
+  intro i j s hslot_j
+  have hs : s = j := by
+    have hjs : j = s := by
+      simpa [hslots j] using hslot_j
+    exact hjs.symm
+  subst s
+  have hpair :=
+    paper_ranked_pairwise_no_envy_of_oriented_adjacent_no_envy
+      value payment clickThroughRate hup hdown i.val j.val
+  have hown :
+      O.utility (paper_theorem7_ranked_environment clickThroughRate)
+          (fun i : Fin n => value i.val) i =
+        clickThroughRate i.val * (value i.val - payment i.val) := by
+    simp [PositionOutcome.utility, paper_theorem7_ranked_environment,
+      hslots i, hpayment i]
+  calc
+    (paper_theorem7_ranked_environment clickThroughRate).clickThroughRate j *
+        (value i.val - O.paymentPerClick j)
+        = clickThroughRate j.val * (value i.val - payment j.val) := by
+          simp [paper_theorem7_ranked_environment, hpayment j]
+    _ ≤ clickThroughRate i.val * (value i.val - payment i.val) := hpair
+    _ =
+        O.utility (paper_theorem7_ranked_environment clickThroughRate)
+          (fun i : Fin n => value i.val) i := hown.symm
+
+/--
+EOS Lemma 5 adjacent-rank value-order bridge. The two adjacent no-envy
+inequalities used in the paper's proof force the ranked values to be weakly
+decreasing when click-through rates strictly decrease.
+-/
+theorem paper_ranked_value_mono_of_adjacent_rank_no_envy
+    {value payment clickThroughRate : ℕ → ℝ}
+    (hclick_strict : ∀ k : ℕ, clickThroughRate (k + 1) < clickThroughRate k)
+    (hup_adj :
+      ∀ k : ℕ,
+        clickThroughRate k * (value (k + 1) - payment k) ≤
+          clickThroughRate (k + 1) *
+            (value (k + 1) - payment (k + 1)))
+    (hdown_adj :
+      ∀ k : ℕ,
+        clickThroughRate (k + 1) *
+            (value k - payment (k + 1)) ≤
+          clickThroughRate k * (value k - payment k)) :
+    ∀ k : ℕ, value (k + 1) ≤ value k := by
+  intro k
+  have hbase_up := hup_adj k
+  have hbase_down := hdown_adj k
+  have hgap_pos :
+      0 < clickThroughRate k - clickThroughRate (k + 1) := by
+    linarith [hclick_strict k]
+  have hmul :
+      (clickThroughRate k - clickThroughRate (k + 1)) * value (k + 1) ≤
+        (clickThroughRate k - clickThroughRate (k + 1)) * value k := by
+    nlinarith
+  exact le_of_mul_le_mul_left hmul hgap_pos
+
+/--
+EOS Lemma 5 adjacent-rank-to-oriented bridge. The source proof first obtains
+adjacent no-envy comparisons at neighboring ranks; value monotonicity then
+extends those comparisons to every bidder on the appropriate side of the
+neighboring pair.
+-/
+theorem paper_ranked_oriented_adjacent_no_envy_of_adjacent_rank_no_envy
+    {value payment clickThroughRate : ℕ → ℝ}
+    (hclick_strict : ∀ k : ℕ, clickThroughRate (k + 1) < clickThroughRate k)
+    (hup_adj :
+      ∀ k : ℕ,
+        clickThroughRate k * (value (k + 1) - payment k) ≤
+          clickThroughRate (k + 1) *
+            (value (k + 1) - payment (k + 1)))
+    (hdown_adj :
+      ∀ k : ℕ,
+        clickThroughRate (k + 1) *
+            (value k - payment (k + 1)) ≤
+          clickThroughRate k * (value k - payment k)) :
+    (∀ bidder k : ℕ,
+        k < bidder →
+          clickThroughRate k * (value bidder - payment k) ≤
+            clickThroughRate (k + 1) *
+              (value bidder - payment (k + 1))) ∧
+      ∀ bidder k : ℕ,
+        bidder ≤ k →
+          clickThroughRate (k + 1) *
+              (value bidder - payment (k + 1)) ≤
+            clickThroughRate k * (value bidder - payment k) := by
+  have hvalue_adj :
+      ∀ k : ℕ, value (k + 1) ≤ value k :=
+    paper_ranked_value_mono_of_adjacent_rank_no_envy
+      hclick_strict hup_adj hdown_adj
+  constructor
+  · intro bidder k hkb
+    have hsucc_le : k + 1 ≤ bidder := Nat.succ_le_of_lt hkb
+    have hvalue_le :
+        value bidder ≤ value (k + 1) := by
+      have hchain :=
+        paper_theorem7_ranked_chain_ge_of_adjacent
+          value (k + 1) (bidder - (k + 1))
+          (by
+            intro r _hrge _hrlt
+            exact hvalue_adj r)
+      simpa [Nat.add_sub_of_le hsucc_le] using hchain
+    have hbase := hup_adj k
+    nlinarith [hbase, hvalue_le, hclick_strict k]
+  · intro bidder k hbk
+    have hvalue_ge :
+        value k ≤ value bidder := by
+      have hchain :=
+        paper_theorem7_ranked_chain_ge_of_adjacent
+          value bidder (k - bidder)
+          (by
+            intro r _hrge _hrlt
+            exact hvalue_adj r)
+      simpa [Nat.add_sub_of_le hbk] using hchain
+    have hbase := hdown_adj k
+    nlinarith [hbase, hvalue_ge, hclick_strict k]
+
+/--
+EOS Lemma 5 ranked stable-assignment bridge from source-adjacent rank
+comparisons. Strictly decreasing click-through rates and the two neighboring
+rank no-envy inequalities imply the oriented adjacent inequalities, which then
+telescope to the formal stable-assignment predicate.
+-/
+theorem paper_ranked_outcome_stable_assignment_of_adjacent_rank_no_envy
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin n) (Fin n))
+    (hfeasible : O.FeasibleAssignment)
+    (hIR :
+      O.IndividuallyRational
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val))
+    (hslots : ∀ i : Fin n, O.slotOf i = some i)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i = payment i.val)
+    (hclick_strict : ∀ k : ℕ, clickThroughRate (k + 1) < clickThroughRate k)
+    (hup_adj :
+      ∀ k : ℕ,
+        clickThroughRate k * (value (k + 1) - payment k) ≤
+          clickThroughRate (k + 1) *
+            (value (k + 1) - payment (k + 1)))
+    (hdown_adj :
+      ∀ k : ℕ,
+        clickThroughRate (k + 1) *
+            (value k - payment (k + 1)) ≤
+          clickThroughRate k * (value k - payment k)) :
+    O.StableAssignment
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin n => value i.val) := by
+  have horiented :=
+    paper_ranked_oriented_adjacent_no_envy_of_adjacent_rank_no_envy
+      hclick_strict hup_adj hdown_adj
+  exact
+    paper_position_slot_envy_free_stable_assignment
+      (paper_theorem7_ranked_environment clickThroughRate)
+      O (fun i : Fin n => value i.val) hfeasible hIR
+      (paper_ranked_outcome_slot_envy_free_of_oriented_adjacent_no_envy
+        O hslots hpayment horiented.1 horiented.2)
+
+/--
+EOS Lemma 5 finite adjacent-rank value-order bridge. The paper only needs
+adjacent comparisons for ranks that exist in the finite position set; this
+bounded version avoids imposing non-source conditions on out-of-range ranks.
+-/
+theorem paper_ranked_value_mono_of_bounded_adjacent_rank_no_envy
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k)
+    (hup_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate k * (value (k + 1) - payment k) ≤
+            clickThroughRate (k + 1) *
+              (value (k + 1) - payment (k + 1)))
+    (hdown_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate (k + 1) *
+              (value k - payment (k + 1)) ≤
+            clickThroughRate k * (value k - payment k))
+    (k : ℕ) (hk : k + 1 < n) :
+    value (k + 1) ≤ value k := by
+  have hbase_up := hup_adj k hk
+  have hbase_down := hdown_adj k hk
+  have hgap_pos :
+      0 < clickThroughRate k - clickThroughRate (k + 1) := by
+    linarith [hclick_strict k hk]
+  have hmul :
+      (clickThroughRate k - clickThroughRate (k + 1)) * value (k + 1) ≤
+        (clickThroughRate k - clickThroughRate (k + 1)) * value k := by
+    nlinarith
+  exact le_of_mul_le_mul_left hmul hgap_pos
+
+/--
+EOS Lemma 5 finite value monotonicity along an interval. Bounded adjacent
+source inequalities imply the usual ranked value order between any two
+in-range ranks.
+-/
+theorem paper_ranked_value_chain_of_bounded_adjacent_rank_no_envy
+    {n : ℕ} {value : ℕ → ℝ}
+    (hvalue_adj : ∀ k : ℕ, k + 1 < n → value (k + 1) ≤ value k)
+    {a b : ℕ} (hab : a ≤ b) (hb : b < n) :
+    value b ≤ value a := by
+  have hraw :=
+    paper_theorem7_ranked_chain_ge_of_adjacent
+      value a (b - a)
+      (by
+        intro k _hkge hklt
+        have hk_lt_b : k < b := by
+          simpa [Nat.add_sub_of_le hab] using hklt
+        have hk_succ_lt_n : k + 1 < n :=
+          Nat.lt_of_le_of_lt (Nat.succ_le_of_lt hk_lt_b) hb
+        exact hvalue_adj k hk_succ_lt_n)
+  simpa [Nat.add_sub_of_le hab] using hraw
+
+/--
+EOS Lemma 5 finite adjacent-rank-to-oriented bridge. In-range neighboring
+comparisons imply the oriented adjacent no-envy comparisons for every
+in-range bidder and neighboring pair.
+-/
+theorem paper_ranked_bounded_oriented_adjacent_no_envy_of_adjacent_rank_no_envy
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k)
+    (hup_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate k * (value (k + 1) - payment k) ≤
+            clickThroughRate (k + 1) *
+              (value (k + 1) - payment (k + 1)))
+    (hdown_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate (k + 1) *
+              (value k - payment (k + 1)) ≤
+            clickThroughRate k * (value k - payment k)) :
+    (∀ bidder k : ℕ,
+        bidder < n →
+          k + 1 < n →
+            k < bidder →
+              clickThroughRate k * (value bidder - payment k) ≤
+                clickThroughRate (k + 1) *
+                  (value bidder - payment (k + 1))) ∧
+      ∀ bidder k : ℕ,
+        bidder < n →
+          k + 1 < n →
+            bidder ≤ k →
+              clickThroughRate (k + 1) *
+                  (value bidder - payment (k + 1)) ≤
+                clickThroughRate k * (value bidder - payment k) := by
+  have hvalue_adj :
+      ∀ k : ℕ, k + 1 < n → value (k + 1) ≤ value k :=
+    paper_ranked_value_mono_of_bounded_adjacent_rank_no_envy
+      hclick_strict hup_adj hdown_adj
+  constructor
+  · intro bidder k hbidder hk_next hkb
+    have hsucc_le : k + 1 ≤ bidder := Nat.succ_le_of_lt hkb
+    have hvalue_le :
+        value bidder ≤ value (k + 1) :=
+      paper_ranked_value_chain_of_bounded_adjacent_rank_no_envy
+        hvalue_adj hsucc_le hbidder
+    have hbase := hup_adj k hk_next
+    nlinarith [hbase, hvalue_le, hclick_strict k hk_next]
+  · intro bidder k hbidder hk_next hbk
+    have hk_lt_n : k < n :=
+      Nat.lt_trans (Nat.lt_succ_self k) hk_next
+    have hvalue_ge :
+        value k ≤ value bidder :=
+      paper_ranked_value_chain_of_bounded_adjacent_rank_no_envy
+        hvalue_adj hbk hk_lt_n
+    have hbase := hdown_adj k hk_next
+    nlinarith [hbase, hvalue_ge, hclick_strict k hk_next]
+
+/--
+EOS Lemma 5 finite ranked adjacent-to-global bridge. The bounded oriented
+adjacent no-envy comparisons telescope to full pairwise no-envy over the
+finite ranked position set.
+-/
+theorem paper_ranked_pairwise_no_envy_of_bounded_oriented_adjacent_no_envy
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (hup :
+      ∀ bidder k : ℕ,
+        bidder < n →
+          k + 1 < n →
+            k < bidder →
+              clickThroughRate k * (value bidder - payment k) ≤
+                clickThroughRate (k + 1) *
+                  (value bidder - payment (k + 1)))
+    (hdown :
+      ∀ bidder k : ℕ,
+        bidder < n →
+          k + 1 < n →
+            bidder ≤ k →
+              clickThroughRate (k + 1) *
+                  (value bidder - payment (k + 1)) ≤
+                clickThroughRate k * (value bidder - payment k)) :
+    ∀ bidder target : Fin n,
+      clickThroughRate target.val * (value bidder.val - payment target.val) ≤
+        clickThroughRate bidder.val * (value bidder.val - payment bidder.val) := by
+  intro bidder target
+  by_cases htarget_le : target.val ≤ bidder.val
+  · have hraw :=
+      paper_theorem7_ranked_chain_le_of_adjacent
+        (fun rank => clickThroughRate rank * (value bidder.val - payment rank))
+        target.val (bidder.val - target.val)
+        (by
+          intro k _hkge hklt
+          have hk_lt_bidder : k < bidder.val := by
+            simpa [Nat.add_sub_of_le htarget_le] using hklt
+          have hk_succ_lt_n : k + 1 < n :=
+            Nat.lt_of_le_of_lt (Nat.succ_le_of_lt hk_lt_bidder) bidder.isLt
+          exact hup bidder.val k bidder.isLt hk_succ_lt_n hk_lt_bidder)
+    simpa [Nat.add_sub_of_le htarget_le] using hraw
+  · have hbidder_le : bidder.val ≤ target.val :=
+      le_of_lt (lt_of_not_ge htarget_le)
+    have hraw :=
+      paper_theorem7_ranked_chain_ge_of_adjacent
+        (fun rank => clickThroughRate rank * (value bidder.val - payment rank))
+        bidder.val (target.val - bidder.val)
+        (by
+          intro k hkge hklt
+          have hk_lt_target : k < target.val := by
+            simpa [Nat.add_sub_of_le hbidder_le] using hklt
+          have hk_succ_lt_n : k + 1 < n :=
+            Nat.lt_of_le_of_lt (Nat.succ_le_of_lt hk_lt_target) target.isLt
+          exact hdown bidder.val k bidder.isLt hk_succ_lt_n hkge)
+    simpa [Nat.add_sub_of_le hbidder_le] using hraw
+
+/--
+EOS Lemma 5 finite ranked outcome bridge. Finite adjacent source-rank
+comparisons imply the formal `SlotEnvyFree` predicate for the ranked outcome.
+-/
+theorem paper_ranked_outcome_slot_envy_free_of_bounded_adjacent_rank_no_envy
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin n) (Fin n))
+    (hslots : ∀ i : Fin n, O.slotOf i = some i)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i = payment i.val)
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k)
+    (hup_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate k * (value (k + 1) - payment k) ≤
+            clickThroughRate (k + 1) *
+              (value (k + 1) - payment (k + 1)))
+    (hdown_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate (k + 1) *
+              (value k - payment (k + 1)) ≤
+            clickThroughRate k * (value k - payment k)) :
+    O.SlotEnvyFree
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin n => value i.val) := by
+  intro i j s hslot_j
+  have hs : s = j := by
+    have hjs : j = s := by
+      simpa [hslots j] using hslot_j
+    exact hjs.symm
+  subst s
+  have horiented :=
+    paper_ranked_bounded_oriented_adjacent_no_envy_of_adjacent_rank_no_envy
+      hclick_strict hup_adj hdown_adj
+  have hpair :=
+    paper_ranked_pairwise_no_envy_of_bounded_oriented_adjacent_no_envy
+      horiented.1 horiented.2 i j
+  have hown :
+      O.utility (paper_theorem7_ranked_environment clickThroughRate)
+          (fun i : Fin n => value i.val) i =
+        clickThroughRate i.val * (value i.val - payment i.val) := by
+    simp [PositionOutcome.utility, paper_theorem7_ranked_environment,
+      hslots i, hpayment i]
+  calc
+    (paper_theorem7_ranked_environment clickThroughRate).clickThroughRate j *
+        (value i.val - O.paymentPerClick j)
+        = clickThroughRate j.val * (value i.val - payment j.val) := by
+          simp [paper_theorem7_ranked_environment, hpayment j]
+    _ ≤ clickThroughRate i.val * (value i.val - payment i.val) := hpair
+    _ =
+        O.utility (paper_theorem7_ranked_environment clickThroughRate)
+          (fun i : Fin n => value i.val) i := hown.symm
+
+/--
+EOS Lemma 5 finite stable-assignment bridge from source-adjacent rank
+comparisons. This is the source-shaped finite version: no adjacent condition is
+asked outside the actual ranked position set.
+-/
+theorem paper_ranked_outcome_stable_assignment_of_bounded_adjacent_rank_no_envy
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin n) (Fin n))
+    (hfeasible : O.FeasibleAssignment)
+    (hIR :
+      O.IndividuallyRational
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val))
+    (hslots : ∀ i : Fin n, O.slotOf i = some i)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i = payment i.val)
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k)
+    (hup_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate k * (value (k + 1) - payment k) ≤
+            clickThroughRate (k + 1) *
+              (value (k + 1) - payment (k + 1)))
+    (hdown_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate (k + 1) *
+              (value k - payment (k + 1)) ≤
+            clickThroughRate k * (value k - payment k)) :
+    O.StableAssignment
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin n => value i.val) := by
+  exact
+    paper_position_slot_envy_free_stable_assignment
+      (paper_theorem7_ranked_environment clickThroughRate)
+      O (fun i : Fin n => value i.val) hfeasible hIR
+      (paper_ranked_outcome_slot_envy_free_of_bounded_adjacent_rank_no_envy
+        O hslots hpayment hclick_strict hup_adj hdown_adj)
+
+/--
+EOS Lemma 5 `N > K` boundary, value order for the first unassigned bidder. In
+a ranked `K + 1` bidder / `K` slot instance, if assigned adjacent no-envy gives
+the usual value monotonicity among winners, the bottom winner is individually
+rational, and the first unassigned bidder does not envy the bottom slot, then
+the first unassigned bidder's value is weakly below every assigned winner's
+value.
+-/
+theorem paper_ranked_unassigned_value_le_of_bottom_ir_no_envy
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k)
+    (hup_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate k * (value (k + 1) - payment k) ≤
+            clickThroughRate (k + 1) *
+              (value (k + 1) - payment (k + 1)))
+    (hdown_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate (k + 1) *
+              (value k - payment (k + 1)) ≤
+            clickThroughRate k * (value k - payment k))
+    (hbottom_click_pos :
+      ∀ k : ℕ, k + 1 = n → 0 < clickThroughRate k)
+    (hbottom_ir :
+      ∀ k : ℕ,
+        k + 1 = n →
+          0 ≤ clickThroughRate k * (value k - payment k))
+    (hbottom_no_envy :
+      ∀ k : ℕ,
+        k + 1 = n →
+          clickThroughRate k * (value n - payment k) ≤ 0)
+    (k : ℕ) (hk : k < n) :
+    value n ≤ value k := by
+  have hnpos : 0 < n := Nat.lt_of_le_of_lt (Nat.zero_le k) hk
+  let last : ℕ := n - 1
+  have hlast_succ : last + 1 = n := by
+    simpa [last] using Nat.succ_pred_eq_of_pos hnpos
+  have hlast_lt : last < n := by
+    simpa [last] using Nat.pred_lt (Nat.ne_of_gt hnpos)
+  have hk_le_last : k ≤ last := by
+    simpa [last] using Nat.le_pred_of_lt hk
+  have hvalue_adj :
+      ∀ r : ℕ, r + 1 < n → value (r + 1) ≤ value r :=
+    paper_ranked_value_mono_of_bounded_adjacent_rank_no_envy
+      hclick_strict hup_adj hdown_adj
+  have hlast_le_k : value last ≤ value k :=
+    paper_ranked_value_chain_of_bounded_adjacent_rank_no_envy
+      hvalue_adj hk_le_last hlast_lt
+  have hbottom_ir' := hbottom_ir last hlast_succ
+  have hbottom_no_envy' := hbottom_no_envy last hlast_succ
+  have hclick_pos' := hbottom_click_pos last hlast_succ
+  have hmul : clickThroughRate last * value n ≤
+      clickThroughRate last * value last := by
+    nlinarith
+  have hunassigned_le_last : value n ≤ value last := by
+    by_contra hnot
+    have hlt : value last < value n := lt_of_not_ge hnot
+    have hmul_lt :
+        clickThroughRate last * value last <
+          clickThroughRate last * value n :=
+      mul_lt_mul_of_pos_left hlt hclick_pos'
+    exact (not_lt_of_ge hmul) hmul_lt
+  exact le_trans hunassigned_le_last hlast_le_k
+
+/--
+EOS Lemma 5 `N > K` boundary, unassigned-bidder rematch inequalities. In a
+ranked `K + 1` bidder / `K` slot instance, the first unassigned bidder's
+bottom no-envy inequality telescopes upward through the same adjacent no-envy
+algebra, so the unassigned bidder cannot profitably rematch to any assigned
+slot.
+-/
+theorem paper_ranked_unassigned_no_envy_of_bounded_adjacent_rank_no_envy
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k)
+    (hup_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate k * (value (k + 1) - payment k) ≤
+            clickThroughRate (k + 1) *
+              (value (k + 1) - payment (k + 1)))
+    (hdown_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate (k + 1) *
+              (value k - payment (k + 1)) ≤
+            clickThroughRate k * (value k - payment k))
+    (hbottom_click_pos :
+      ∀ k : ℕ, k + 1 = n → 0 < clickThroughRate k)
+    (hbottom_ir :
+      ∀ k : ℕ,
+        k + 1 = n →
+          0 ≤ clickThroughRate k * (value k - payment k))
+    (hbottom_no_envy :
+      ∀ k : ℕ,
+        k + 1 = n →
+          clickThroughRate k * (value n - payment k) ≤ 0)
+    (target : Fin n) :
+    clickThroughRate target.val * (value n - payment target.val) ≤ 0 := by
+  have hnpos : 0 < n := Nat.lt_of_le_of_lt (Nat.zero_le target.val) target.isLt
+  let last : ℕ := n - 1
+  have hlast_succ : last + 1 = n := by
+    simpa [last] using Nat.succ_pred_eq_of_pos hnpos
+  have hlast_lt : last < n := by
+    simpa [last] using Nat.pred_lt (Nat.ne_of_gt hnpos)
+  have htarget_le_last : target.val ≤ last := by
+    simpa [last] using Nat.le_pred_of_lt target.isLt
+  have hvalue_unassigned_le :
+      ∀ k : ℕ, k < n → value n ≤ value k :=
+    paper_ranked_unassigned_value_le_of_bottom_ir_no_envy
+      hclick_strict hup_adj hdown_adj hbottom_click_pos hbottom_ir
+      hbottom_no_envy
+  have hchain :=
+    paper_theorem7_ranked_chain_le_of_adjacent
+      (fun rank => clickThroughRate rank * (value n - payment rank))
+      target.val (last - target.val)
+      (by
+        intro k _hkge hklt
+        have hk_lt_last : k < last := by
+          simpa [Nat.add_sub_of_le htarget_le_last] using hklt
+        have hk_succ_lt_n : k + 1 < n :=
+          Nat.lt_of_le_of_lt (Nat.succ_le_of_lt hk_lt_last) hlast_lt
+        have hbase := hup_adj k hk_succ_lt_n
+        have hvalue_le : value n ≤ value (k + 1) :=
+          hvalue_unassigned_le (k + 1) hk_succ_lt_n
+        have hclick := hclick_strict k hk_succ_lt_n
+        nlinarith)
+  have hto_last :
+      clickThroughRate target.val * (value n - payment target.val) ≤
+        clickThroughRate last * (value n - payment last) := by
+    simpa [Nat.add_sub_of_le htarget_le_last] using hchain
+  exact le_trans hto_last (hbottom_no_envy last hlast_succ)
+
+/--
+EOS Lemma 5 `N > K` stable-assignment bridge for one extra bidder. For
+`K + 1` ranked bidders and `K` ranked slots, assigned adjacent no-envy plus
+bottom-slot individual rationality and no-envy for the first unassigned bidder
+imply the formal stable-assignment predicate.
+-/
+theorem paper_ranked_one_extra_bidder_stable_assignment_of_bounded_adjacent_rank_no_envy
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin (n + 1)) (Fin n))
+    (hfeasible : O.FeasibleAssignment)
+    (hIR :
+      O.IndividuallyRational
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin (n + 1) => value i.val))
+    (hslots : ∀ i : Fin n, O.slotOf i.castSucc = some i)
+    (hunassigned : O.slotOf (Fin.last n) = none)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i.castSucc = payment i.val)
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k)
+    (hup_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate k * (value (k + 1) - payment k) ≤
+            clickThroughRate (k + 1) *
+              (value (k + 1) - payment (k + 1)))
+    (hdown_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate (k + 1) *
+              (value k - payment (k + 1)) ≤
+            clickThroughRate k * (value k - payment k))
+    (hbottom_click_pos :
+      ∀ k : ℕ, k + 1 = n → 0 < clickThroughRate k)
+    (hbottom_ir :
+      ∀ k : ℕ,
+        k + 1 = n →
+          0 ≤ clickThroughRate k * (value k - payment k))
+    (hbottom_no_envy :
+      ∀ k : ℕ,
+        k + 1 = n →
+          clickThroughRate k * (value n - payment k) ≤ 0) :
+    O.StableAssignment
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin (n + 1) => value i.val) := by
+  refine ⟨hfeasible, hIR, ?_⟩
+  intro i j s hslot_j
+  rcases Fin.eq_castSucc_or_eq_last j with ⟨target, hj⟩ | hj
+  · subst j
+    have hs : s = target := by
+      have htarget : target = s := by
+        simpa [hslots target] using hslot_j
+      exact htarget.symm
+    subst s
+    rcases Fin.eq_castSucc_or_eq_last i with ⟨bidder, hi⟩ | hi
+    · subst i
+      have horiented :=
+        paper_ranked_bounded_oriented_adjacent_no_envy_of_adjacent_rank_no_envy
+          hclick_strict hup_adj hdown_adj
+      have hpair :=
+        paper_ranked_pairwise_no_envy_of_bounded_oriented_adjacent_no_envy
+          horiented.1 horiented.2 bidder target
+      have hown :
+          O.utility (paper_theorem7_ranked_environment clickThroughRate)
+              (fun i : Fin (n + 1) => value i.val) bidder.castSucc =
+            clickThroughRate bidder.val *
+              (value bidder.val - payment bidder.val) := by
+        simp [PositionOutcome.utility, paper_theorem7_ranked_environment,
+          hslots bidder, hpayment bidder]
+      calc
+        (paper_theorem7_ranked_environment clickThroughRate).clickThroughRate
+              target *
+            ((fun i : Fin (n + 1) => value i.val) bidder.castSucc -
+              O.paymentPerClick target.castSucc)
+            = clickThroughRate target.val *
+                (value bidder.val - payment target.val) := by
+              simp [paper_theorem7_ranked_environment, hpayment target]
+        _ ≤ clickThroughRate bidder.val *
+              (value bidder.val - payment bidder.val) := hpair
+        _ =
+            O.utility (paper_theorem7_ranked_environment clickThroughRate)
+              (fun i : Fin (n + 1) => value i.val) bidder.castSucc := hown.symm
+    · subst i
+      have hunassigned_no_envy :=
+        paper_ranked_unassigned_no_envy_of_bounded_adjacent_rank_no_envy
+          hclick_strict hup_adj hdown_adj hbottom_click_pos hbottom_ir
+          hbottom_no_envy target
+      calc
+        (paper_theorem7_ranked_environment clickThroughRate).clickThroughRate
+              target *
+            ((fun i : Fin (n + 1) => value i.val) (Fin.last n) -
+              O.paymentPerClick target.castSucc)
+            = clickThroughRate target.val * (value n - payment target.val) := by
+              simp [paper_theorem7_ranked_environment, hpayment target]
+        _ ≤ 0 := hunassigned_no_envy
+        _ =
+            O.utility (paper_theorem7_ranked_environment clickThroughRate)
+              (fun i : Fin (n + 1) => value i.val) (Fin.last n) := by
+              simp [PositionOutcome.utility, hunassigned]
+  · subst j
+    rw [hunassigned] at hslot_j
+    cases hslot_j
+
+/--
+EOS Lemma 5 source bridge, upward adjacent comparisons. In a ranked outcome,
+the formal local-envy-free condition gives the source's neighboring upward
+no-envy inequality for the lower-ranked bidder.
+-/
+theorem paper_ranked_adjacent_up_no_envy_of_slot_envy_free
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin n) (Fin n))
+    (hslots : ∀ i : Fin n, O.slotOf i = some i)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i = payment i.val)
+    (hslot_envy :
+      O.SlotEnvyFree
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val))
+    (k : ℕ) (hk : k + 1 < n) :
+    clickThroughRate k * (value (k + 1) - payment k) ≤
+      clickThroughRate (k + 1) * (value (k + 1) - payment (k + 1)) := by
+  let upper : Fin n := ⟨k, Nat.lt_of_succ_lt hk⟩
+  let lower : Fin n := ⟨k + 1, hk⟩
+  have henvy := hslot_envy lower upper upper (hslots upper)
+  have hutil :
+      O.utility (paper_theorem7_ranked_environment clickThroughRate)
+          (fun i : Fin n => value i.val) lower =
+        clickThroughRate (k + 1) *
+          (value (k + 1) - payment (k + 1)) := by
+    simp [PositionOutcome.utility, paper_theorem7_ranked_environment,
+      hslots lower, hpayment lower, lower]
+  rw [hutil] at henvy
+  simpa [paper_theorem7_ranked_environment, hpayment upper, upper, lower]
+    using henvy
+
+/--
+EOS Lemma 5 source bridge, upward adjacent comparisons, with one extra bidder.
+For the assigned ranks in a `K+1` bidder / `K` slot ranked outcome, formal
+local envy-freeness gives the source neighboring upward no-envy inequality.
+-/
+theorem paper_ranked_adjacent_up_no_envy_of_slot_envy_free_one_extra
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin (n + 1)) (Fin n))
+    (hslots : ∀ i : Fin n, O.slotOf i.castSucc = some i)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i.castSucc = payment i.val)
+    (hslot_envy :
+      O.SlotEnvyFree
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin (n + 1) => value i.val))
+    (k : ℕ) (hk : k + 1 < n) :
+    clickThroughRate k * (value (k + 1) - payment k) ≤
+      clickThroughRate (k + 1) * (value (k + 1) - payment (k + 1)) := by
+  let upperSlot : Fin n := ⟨k, Nat.lt_of_succ_lt hk⟩
+  let lowerSlot : Fin n := ⟨k + 1, hk⟩
+  have henvy :=
+    hslot_envy lowerSlot.castSucc upperSlot.castSucc upperSlot
+      (hslots upperSlot)
+  have hslot_lower : O.slotOf lowerSlot.castSucc = some lowerSlot :=
+    hslots lowerSlot
+  have hpay_lower :
+      O.paymentPerClick lowerSlot.castSucc = payment (k + 1) := by
+    simpa [lowerSlot] using hpayment lowerSlot
+  have hutil :
+      O.utility (paper_theorem7_ranked_environment clickThroughRate)
+          (fun i : Fin (n + 1) => value i.val) lowerSlot.castSucc =
+        clickThroughRate (k + 1) *
+          (value (k + 1) - payment (k + 1)) := by
+    rw [PositionOutcome.utility, hslot_lower, hpay_lower]
+    simp [paper_theorem7_ranked_environment, lowerSlot]
+  rw [hutil] at henvy
+  have hpay_upper :
+      O.paymentPerClick upperSlot.castSucc = payment k := by
+    simpa [upperSlot] using hpayment upperSlot
+  rw [hpay_upper] at henvy
+  simpa [paper_theorem7_ranked_environment, upperSlot, lowerSlot] using henvy
+
+/--
+EOS Lemma 5 source bridge, downward adjacent comparisons. If Nash deviations
+include the paper's neighboring downward undercut move, then the upper-ranked
+bidder weakly prefers its current slot/payment to the lower neighboring
+slot/payment. The remaining sorted-GSP mechanism task is exactly to prove the
+existence/equality of these adjacent undercut reports from the concrete GSP
+allocation rule and no-tie hypothesis.
+-/
+theorem paper_ranked_adjacent_down_no_envy_of_nash_deviation_reports
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (M : PositionMechanism (Fin n) (Fin n))
+    (O : PositionOutcome (Fin n) (Fin n)) (bids : Fin n → ℝ)
+    (hout : M bids = O)
+    (hslots : ∀ i : Fin n, O.slotOf i = some i)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i = payment i.val)
+    (hnash :
+      M.IsNashEquilibrium
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val) bids)
+    (hdown_report :
+      ∀ (k : ℕ) (hk : k + 1 < n),
+          ∃ report : ℝ,
+            PositionMechanism.utility
+                (paper_theorem7_ranked_environment clickThroughRate)
+                M (fun i : Fin n => value i.val)
+                (Function.update bids ⟨k, Nat.lt_of_succ_lt hk⟩ report)
+                ⟨k, Nat.lt_of_succ_lt hk⟩ =
+              clickThroughRate (k + 1) * (value k - payment (k + 1))) :
+    ∀ k : ℕ,
+      k + 1 < n →
+        clickThroughRate (k + 1) * (value k - payment (k + 1)) ≤
+          clickThroughRate k * (value k - payment k) := by
+  intro k hk
+  let upper : Fin n := ⟨k, Nat.lt_of_succ_lt hk⟩
+  rcases hdown_report k hk with ⟨report, hreport⟩
+  have hnash_report := hnash upper report
+  have hcurrent :
+      PositionMechanism.utility
+          (paper_theorem7_ranked_environment clickThroughRate)
+          M (fun i : Fin n => value i.val) bids upper =
+        clickThroughRate k * (value k - payment k) := by
+    simp [PositionMechanism.utility, PositionOutcome.utility,
+      paper_theorem7_ranked_environment, hout, hslots upper, hpayment upper,
+      upper]
+  calc
+    clickThroughRate (k + 1) * (value k - payment (k + 1))
+        =
+          PositionMechanism.utility
+            (paper_theorem7_ranked_environment clickThroughRate)
+            M (fun i : Fin n => value i.val)
+            (Function.update bids upper report) upper := by
+          simpa [upper] using hreport.symm
+    _ ≤
+        PositionMechanism.utility
+          (paper_theorem7_ranked_environment clickThroughRate)
+          M (fun i : Fin n => value i.val) bids upper := hnash_report
+    _ = clickThroughRate k * (value k - payment k) := hcurrent
+
+/--
+EOS Lemma 5 sorted-GSP deviation bridge. If the paper's adjacent undercut
+report puts rank `k` in the neighboring lower slot and charges that lower
+rank's per-click payment, then the resulting utility is exactly the neighboring
+downward-rematch payoff used in the appendix proof.
+-/
+theorem paper_ranked_adjacent_down_report_of_slot_payment_shape
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (M : PositionMechanism (Fin n) (Fin n)) (bids : Fin n → ℝ)
+    (hshape :
+      ∀ (k : ℕ) (hk : k + 1 < n),
+          ∃ report : ℝ,
+            (M (Function.update bids ⟨k, Nat.lt_of_succ_lt hk⟩ report)).slotOf
+                ⟨k, Nat.lt_of_succ_lt hk⟩ =
+              some ⟨k + 1, hk⟩ ∧
+            (M (Function.update bids ⟨k, Nat.lt_of_succ_lt hk⟩ report)).paymentPerClick
+                ⟨k, Nat.lt_of_succ_lt hk⟩ =
+              payment (k + 1)) :
+    ∀ (k : ℕ) (hk : k + 1 < n),
+      ∃ report : ℝ,
+        PositionMechanism.utility
+            (paper_theorem7_ranked_environment clickThroughRate)
+            M (fun i : Fin n => value i.val)
+            (Function.update bids ⟨k, Nat.lt_of_succ_lt hk⟩ report)
+            ⟨k, Nat.lt_of_succ_lt hk⟩ =
+          clickThroughRate (k + 1) * (value k - payment (k + 1)) := by
+  intro k hk
+  let upper : Fin n := ⟨k, Nat.lt_of_succ_lt hk⟩
+  let lower : Fin n := ⟨k + 1, hk⟩
+  rcases hshape k hk with ⟨report, hslot, hpay⟩
+  refine ⟨report, ?_⟩
+  simp [PositionMechanism.utility, PositionOutcome.utility,
+    paper_theorem7_ranked_environment, hslot, hpay]
+
+/--
+EOS Lemma 5 source bridge with a concrete GSP-shaped adjacent undercut
+premise. Nash plus the slot/payment behavior of the neighboring undercut report
+gives the paper's downward adjacent inequality.
+-/
+theorem paper_ranked_adjacent_down_no_envy_of_nash_slot_payment_shape
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (M : PositionMechanism (Fin n) (Fin n))
+    (O : PositionOutcome (Fin n) (Fin n)) (bids : Fin n → ℝ)
+    (hout : M bids = O)
+    (hslots : ∀ i : Fin n, O.slotOf i = some i)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i = payment i.val)
+    (hnash :
+      M.IsNashEquilibrium
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val) bids)
+    (hshape :
+      ∀ (k : ℕ) (hk : k + 1 < n),
+          ∃ report : ℝ,
+            (M (Function.update bids ⟨k, Nat.lt_of_succ_lt hk⟩ report)).slotOf
+                ⟨k, Nat.lt_of_succ_lt hk⟩ =
+              some ⟨k + 1, hk⟩ ∧
+            (M (Function.update bids ⟨k, Nat.lt_of_succ_lt hk⟩ report)).paymentPerClick
+                ⟨k, Nat.lt_of_succ_lt hk⟩ =
+              payment (k + 1)) :
+    ∀ k : ℕ,
+      k + 1 < n →
+        clickThroughRate (k + 1) * (value k - payment (k + 1)) ≤
+          clickThroughRate k * (value k - payment k) := by
+  exact
+    paper_ranked_adjacent_down_no_envy_of_nash_deviation_reports
+      M O bids hout hslots hpayment hnash
+      (paper_ranked_adjacent_down_report_of_slot_payment_shape
+        M bids hshape)
+
+/--
+EOS Lemma 5 source bridge, downward adjacent comparisons, with one extra
+bidder. Nash plus the adjacent undercut slot/payment behavior gives the
+paper's downward neighboring no-envy inequality for assigned ranks.
+-/
+theorem paper_ranked_adjacent_down_no_envy_of_nash_slot_payment_shape_one_extra
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (M : PositionMechanism (Fin (n + 1)) (Fin n))
+    (O : PositionOutcome (Fin (n + 1)) (Fin n)) (bids : Fin (n + 1) → ℝ)
+    (hout : M bids = O)
+    (hslots : ∀ i : Fin n, O.slotOf i.castSucc = some i)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i.castSucc = payment i.val)
+    (hnash :
+      M.IsNashEquilibrium
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin (n + 1) => value i.val) bids)
+    (hshape :
+      ∀ (k : ℕ) (hk : k + 1 < n),
+          ∃ report : ℝ,
+            (M (Function.update bids
+                ⟨k, Nat.lt_trans (Nat.lt_succ_self k)
+                  (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ report)).slotOf
+                ⟨k, Nat.lt_trans (Nat.lt_succ_self k)
+                  (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ =
+              some ⟨k + 1, hk⟩ ∧
+            (M (Function.update bids
+                ⟨k, Nat.lt_trans (Nat.lt_succ_self k)
+                  (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ report)).paymentPerClick
+                ⟨k, Nat.lt_trans (Nat.lt_succ_self k)
+                  (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ =
+              payment (k + 1)) :
+    ∀ k : ℕ,
+      k + 1 < n →
+        clickThroughRate (k + 1) * (value k - payment (k + 1)) ≤
+          clickThroughRate k * (value k - payment k) := by
+  intro k hk
+  let upperSlot : Fin n := ⟨k, Nat.lt_of_succ_lt hk⟩
+  let upperBidder : Fin (n + 1) :=
+    ⟨k, Nat.lt_trans (Nat.lt_succ_self k)
+      (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+  rcases hshape k hk with ⟨report, hslot, hpay⟩
+  have hnash_report := hnash upperBidder report
+  have hslot_upper : O.slotOf upperBidder = some upperSlot := by
+    simpa [upperSlot, upperBidder] using hslots upperSlot
+  have hpay_upper :
+      O.paymentPerClick upperBidder = payment k := by
+    simpa [upperSlot, upperBidder] using hpayment upperSlot
+  have hcurrent :
+      PositionMechanism.utility
+          (paper_theorem7_ranked_environment clickThroughRate)
+          M (fun i : Fin (n + 1) => value i.val) bids upperBidder =
+        clickThroughRate k * (value k - payment k) := by
+    rw [PositionMechanism.utility, hout, PositionOutcome.utility, hslot_upper]
+    simp [paper_theorem7_ranked_environment, hpay_upper, upperSlot, upperBidder]
+  calc
+    clickThroughRate (k + 1) * (value k - payment (k + 1))
+        =
+          PositionMechanism.utility
+            (paper_theorem7_ranked_environment clickThroughRate)
+            M (fun i : Fin (n + 1) => value i.val)
+            (Function.update bids upperBidder report) upperBidder := by
+          rw [PositionMechanism.utility, PositionOutcome.utility, hslot]
+          simp [paper_theorem7_ranked_environment, hpay, upperBidder]
+    _ ≤
+        PositionMechanism.utility
+          (paper_theorem7_ranked_environment clickThroughRate)
+          M (fun i : Fin (n + 1) => value i.val) bids upperBidder :=
+          hnash_report
+    _ = clickThroughRate k * (value k - payment k) := hcurrent
+
+/--
+EOS Lemma 5 one-extra ranked-GSP closure. For the concrete finite ranked GSP
+mechanism with strictly decreasing bids, local envy-freeness supplies the
+upward adjacent inequalities and Nash plus the verified undercut report
+supplies the downward adjacent inequalities. The existing finite Lemma 5
+algebra then gives the formal stable-assignment predicate.
+-/
+theorem paper_ranked_one_extra_gsp_outcome_stable_assignment_of_locally_envy_free_strict_decreasing
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin (n + 1)) (Fin n)) (bids : Fin (n + 1) → ℝ)
+    (hout : paper_ranked_gsp_mechanism (n + 1) n bids = O)
+    (hfeasible : O.FeasibleAssignment)
+    (hIR :
+      O.IndividuallyRational
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin (n + 1) => value i.val))
+    (hslots : ∀ i : Fin n, O.slotOf i.castSucc = some i)
+    (hunassigned : O.slotOf (Fin.last n) = none)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i.castSucc = payment i.val)
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k)
+    (hbottom_click_pos :
+      ∀ k : ℕ, k + 1 = n → 0 < clickThroughRate k)
+    (hbottom_ir :
+      ∀ k : ℕ,
+        k + 1 = n →
+          0 ≤ clickThroughRate k * (value k - payment k))
+    (hbottom_no_envy :
+      ∀ k : ℕ,
+        k + 1 = n →
+          clickThroughRate k * (value n - payment k) ≤ 0)
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    (hlef :
+      (paper_ranked_gsp_mechanism (n + 1) n).LocallyEnvyFreeEquilibrium
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin (n + 1) => value i.val) bids) :
+    O.StableAssignment
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin (n + 1) => value i.val) := by
+  have hrealize :=
+    paper_ranked_gsp_mechanism_realizes_next_price_of_strict_decreasing
+      (bids := bids) hstrict
+  have hnext_payment :
+      ∀ (k : ℕ) (hk : k + 1 < n),
+        bids ⟨k + 2, Nat.succ_lt_succ hk⟩ = payment (k + 1) := by
+    intro k hk
+    let lowerSlot : Fin n := ⟨k + 1, hk⟩
+    have hpay_mech :
+        (paper_ranked_gsp_mechanism (n + 1) n bids).paymentPerClick
+            lowerSlot.castSucc =
+          bids lowerSlot.succ :=
+      hrealize.2.2 lowerSlot
+    have hpay_O :
+        O.paymentPerClick lowerSlot.castSucc = bids lowerSlot.succ := by
+      simpa [hout] using hpay_mech
+    have hpay_src :
+        O.paymentPerClick lowerSlot.castSucc = payment (k + 1) := by
+      simpa [lowerSlot] using hpayment lowerSlot
+    rw [hpay_src] at hpay_O
+    simpa [lowerSlot] using hpay_O.symm
+  have hup_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate k * (value (k + 1) - payment k) ≤
+            clickThroughRate (k + 1) *
+              (value (k + 1) - payment (k + 1)) := by
+    intro k hk
+    exact
+      paper_ranked_adjacent_up_no_envy_of_slot_envy_free_one_extra
+        O hslots hpayment (by simpa [hout] using hlef.2) k hk
+  have hshape :
+      ∀ (k : ℕ) (hk : k + 1 < n),
+          ∃ report : ℝ,
+            ((paper_ranked_gsp_mechanism (n + 1) n)
+              (Function.update bids
+                ⟨k, Nat.lt_trans (Nat.lt_succ_self k)
+                  (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ report)).slotOf
+                ⟨k, Nat.lt_trans (Nat.lt_succ_self k)
+                  (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ =
+              some ⟨k + 1, hk⟩ ∧
+            ((paper_ranked_gsp_mechanism (n + 1) n)
+              (Function.update bids
+                ⟨k, Nat.lt_trans (Nat.lt_succ_self k)
+                  (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ report)).paymentPerClick
+                ⟨k, Nat.lt_trans (Nat.lt_succ_self k)
+                  (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ =
+              payment (k + 1) := by
+    intro k hk
+    rcases paper_ranked_gsp_adjacent_down_slot_payment_shape_exists
+        (bids := bids) hstrict k hk with
+      ⟨report, hslot, hpay_bid⟩
+    refine ⟨report, hslot, ?_⟩
+    rw [hpay_bid, hnext_payment k hk]
+  have hdown_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate (k + 1) *
+              (value k - payment (k + 1)) ≤
+            clickThroughRate k * (value k - payment k) :=
+    paper_ranked_adjacent_down_no_envy_of_nash_slot_payment_shape_one_extra
+      (paper_ranked_gsp_mechanism (n + 1) n) O bids hout hslots hpayment
+      hlef.1 hshape
+  exact
+    paper_ranked_one_extra_bidder_stable_assignment_of_bounded_adjacent_rank_no_envy
+      O hfeasible hIR hslots hunassigned hpayment hclick_strict
+      hup_adj hdown_adj hbottom_click_pos hbottom_ir hbottom_no_envy
+
+/--
+EOS Lemma 5 source-shaped finite equilibrium bridge. A ranked locally
+envy-free Nash outcome is stable once the concrete GSP mechanism supplies the
+paper's adjacent downward undercut reports. This isolates the remaining
+mechanism-specific no-tie/source-GSP obligation and discharges the algebraic
+appendix telescoping in Lean.
+-/
+theorem paper_ranked_outcome_stable_assignment_of_locally_envy_free_and_adjacent_down_reports
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (M : PositionMechanism (Fin n) (Fin n))
+    (O : PositionOutcome (Fin n) (Fin n)) (bids : Fin n → ℝ)
+    (hout : M bids = O)
+    (hfeasible : O.FeasibleAssignment)
+    (hIR :
+      O.IndividuallyRational
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val))
+    (hslots : ∀ i : Fin n, O.slotOf i = some i)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i = payment i.val)
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k)
+    (hlef :
+      M.LocallyEnvyFreeEquilibrium
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val) bids)
+    (hdown_report :
+      ∀ (k : ℕ) (hk : k + 1 < n),
+          ∃ report : ℝ,
+            PositionMechanism.utility
+                (paper_theorem7_ranked_environment clickThroughRate)
+                M (fun i : Fin n => value i.val)
+                (Function.update bids ⟨k, Nat.lt_of_succ_lt hk⟩ report)
+                ⟨k, Nat.lt_of_succ_lt hk⟩ =
+              clickThroughRate (k + 1) * (value k - payment (k + 1))) :
+    O.StableAssignment
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin n => value i.val) := by
+  refine
+    paper_ranked_outcome_stable_assignment_of_bounded_adjacent_rank_no_envy
+      O hfeasible hIR hslots hpayment hclick_strict ?_ ?_
+  · exact
+      paper_ranked_adjacent_up_no_envy_of_slot_envy_free
+        O hslots hpayment (by simpa [hout] using hlef.2)
+  · exact
+      paper_ranked_adjacent_down_no_envy_of_nash_deviation_reports
+        M O bids hout hslots hpayment hlef.1 hdown_report
+
+/--
+EOS Lemma 5 source-shaped finite equilibrium bridge with a concrete adjacent
+undercut slot/payment premise. This is the same appendix proof route as
+`paper_ranked_outcome_stable_assignment_of_locally_envy_free_and_adjacent_down_reports`,
+but the remaining GSP obligation is stated as the actual slot/payment behavior
+of the undercut report rather than as an already-simplified utility equality.
+-/
+theorem paper_ranked_outcome_stable_assignment_of_locally_envy_free_and_adjacent_down_slot_payment_shape
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (M : PositionMechanism (Fin n) (Fin n))
+    (O : PositionOutcome (Fin n) (Fin n)) (bids : Fin n → ℝ)
+    (hout : M bids = O)
+    (hfeasible : O.FeasibleAssignment)
+    (hIR :
+      O.IndividuallyRational
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val))
+    (hslots : ∀ i : Fin n, O.slotOf i = some i)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i = payment i.val)
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k)
+    (hlef :
+      M.LocallyEnvyFreeEquilibrium
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val) bids)
+    (hshape :
+      ∀ (k : ℕ) (hk : k + 1 < n),
+          ∃ report : ℝ,
+            (M (Function.update bids ⟨k, Nat.lt_of_succ_lt hk⟩ report)).slotOf
+                ⟨k, Nat.lt_of_succ_lt hk⟩ =
+              some ⟨k + 1, hk⟩ ∧
+            (M (Function.update bids ⟨k, Nat.lt_of_succ_lt hk⟩ report)).paymentPerClick
+                ⟨k, Nat.lt_of_succ_lt hk⟩ =
+              payment (k + 1)) :
+    O.StableAssignment
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin n => value i.val) := by
+  exact
+    paper_ranked_outcome_stable_assignment_of_locally_envy_free_and_adjacent_down_reports
+      M O bids hout hfeasible hIR hslots hpayment hclick_strict hlef
+      (paper_ranked_adjacent_down_report_of_slot_payment_shape
+        M bids hshape)
+
+/--
+EOS Lemma 5 ranked stable-assignment bridge. Feasibility, individual
+rationality, and the appendix-style oriented adjacent no-envy inequalities
+imply the formal stable-assignment predicate.
+-/
+theorem paper_ranked_outcome_stable_assignment_of_oriented_adjacent_no_envy
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin n) (Fin n))
+    (hfeasible : O.FeasibleAssignment)
+    (hIR :
+      O.IndividuallyRational
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val))
+    (hslots : ∀ i : Fin n, O.slotOf i = some i)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i = payment i.val)
+    (hup :
+      ∀ bidder k : ℕ,
+        k < bidder →
+          clickThroughRate k * (value bidder - payment k) ≤
+            clickThroughRate (k + 1) * (value bidder - payment (k + 1)))
+    (hdown :
+      ∀ bidder k : ℕ,
+        bidder ≤ k →
+          clickThroughRate (k + 1) * (value bidder - payment (k + 1)) ≤
+            clickThroughRate k * (value bidder - payment k)) :
+    O.StableAssignment
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin n => value i.val) := by
+  exact
+    paper_position_slot_envy_free_stable_assignment
+      (paper_theorem7_ranked_environment clickThroughRate)
+      O (fun i : Fin n => value i.val) hfeasible hIR
+      (paper_ranked_outcome_slot_envy_free_of_oriented_adjacent_no_envy
+        O hslots hpayment hup hdown)
 
 /--
 EOS Theorem 7 full finite ranked pairwise envy algebra. Under globally
@@ -1669,16 +5358,116 @@ theorem paper_theorem7_ranked_vcg_tail_payment_le_click_value
           (mul_le_mul_of_nonneg_left (hvalue_mono i) (hclick_nonneg i))
 
 /--
+EOS Theorem 7 strict finite VCG-tail payment upper bound. Under strictly
+decreasing ranked values and positive click-through rates, the finite VCG tail
+payment at rank `i` is strictly below the rank's click-weighted value. This is
+the strict version of the paper's individual-rationality payment bound used to
+make Theorem 8 threshold intervals nondegenerate.
+-/
+theorem paper_theorem7_ranked_vcg_tail_payment_lt_click_value
+    {value clickThroughRate : ℕ → ℝ}
+    (hvalue_nonneg : ∀ i, 0 ≤ value i)
+    (hvalue_strict : ∀ i, value (i + 1) < value i)
+    (hclick_pos : ∀ i, 0 < clickThroughRate i)
+    (i remaining : ℕ) :
+    paper_theorem7_ranked_vcg_tail_payment
+        value clickThroughRate i remaining <
+      clickThroughRate i * value i := by
+  induction remaining generalizing i with
+  | zero =>
+      have hvalue_pos : 0 < value i :=
+        lt_of_le_of_lt (hvalue_nonneg (i + 1)) (hvalue_strict i)
+      simpa [paper_theorem7_ranked_vcg_tail_payment] using
+        mul_pos (hclick_pos i) hvalue_pos
+  | succ remaining ih =>
+      rw [paper_theorem7_ranked_vcg_tail_payment_rec]
+      have htail :
+          paper_theorem7_ranked_vcg_tail_payment
+              value clickThroughRate (i + 1) remaining <
+            clickThroughRate (i + 1) * value (i + 1) :=
+        ih (i + 1)
+      have htail_add :
+          (clickThroughRate i - clickThroughRate (i + 1)) *
+              value (i + 1) +
+            paper_theorem7_ranked_vcg_tail_payment
+              value clickThroughRate (i + 1) remaining <
+          (clickThroughRate i - clickThroughRate (i + 1)) *
+              value (i + 1) +
+            clickThroughRate (i + 1) * value (i + 1) :=
+        by
+          simpa [add_comm, add_left_comm, add_assoc] using
+            add_lt_add_left htail
+              ((clickThroughRate i - clickThroughRate (i + 1)) *
+                value (i + 1))
+      have hsum :
+          (clickThroughRate i - clickThroughRate (i + 1)) *
+              value (i + 1) +
+            clickThroughRate (i + 1) * value (i + 1) =
+          clickThroughRate i * value (i + 1) := by
+        ring
+      rw [hsum] at htail_add
+      exact
+        lt_trans htail_add
+          (mul_lt_mul_of_pos_left (hvalue_strict i) (hclick_pos i))
+
+/--
 EOS Remark 2 reusable VCG truthfulness theorem. A position mechanism whose
-outcome maximizes reported welfare and whose payments satisfy the standard
-VCG externality-tax utility identity is truthful in dominant strategies.
+outcome feasibly maximizes reported welfare and whose payments satisfy the
+standard VCG externality-tax utility identity is truthful in dominant
+strategies.
 -/
 theorem paper_remark2_vcg_position_mechanism_truthful
     {Bidder Slot : Type*} [Fintype Bidder] [DecidableEq Bidder]
     {E : PositionEnvironment Slot} {M : PositionMechanism Bidder Slot}
-    (C : PositionMechanism.VCGDominantStrategyCertificate E M) :
+    (C : PositionMechanism.FeasibleVCGDominantStrategyCertificate E M) :
     PositionMechanism.TruthfulDominantStrategy E M := by
-  exact PositionMechanism.truthfulDominantStrategy_of_vcgDominantStrategyCertificate C
+  exact
+    PositionMechanism.truthfulDominantStrategy_of_feasibleVCGDominantStrategyCertificate
+      C
+
+/--
+EOS Remark 2 constructive VCG truthfulness theorem. A feasible slot rule that
+maximizes reported position-auction welfare, equipped with the standard
+Clarke-pivot per-click payments, is truthful in dominant strategies.
+-/
+theorem paper_remark2_vcg_position_slot_rule_truthful
+    {Bidder Slot : Type*} [Fintype Bidder] [DecidableEq Bidder]
+    {E : PositionEnvironment Slot}
+    {slotRule : (Bidder → ℝ) → Bidder → Option Slot}
+    (hclick_pos : ∀ s, 0 < E.clickThroughRate s)
+    (hfeasible :
+      ∀ reports,
+        (PositionOutcome.zeroPaymentOutcome
+          (slotRule reports)).FeasibleAssignment)
+    (hmax :
+      ∀ reports (outcome : PositionOutcome Bidder Slot),
+        outcome.FeasibleAssignment →
+          outcome.welfare E reports ≤
+            (PositionOutcome.zeroPaymentOutcome
+              (slotRule reports)).welfare E reports) :
+    PositionMechanism.TruthfulDominantStrategy E
+      (PositionMechanism.positionVCGMechanismOfSlotRule E slotRule) := by
+  exact
+    PositionMechanism.truthfulDominantStrategy_positionVCGMechanismOfSlotRule
+      hclick_pos hfeasible hmax
+
+/--
+EOS Remark 2 finite VCG truthfulness theorem. For finite bidders and slots,
+Lean chooses a feasible welfare-maximizing assignment and equips it with
+Clarke-pivot per-click payments; the resulting position VCG mechanism is
+truthful in dominant strategies.
+-/
+theorem paper_remark2_finite_position_vcg_truthful
+    {Bidder Slot : Type*} [Fintype Bidder] [DecidableEq Bidder]
+    [Fintype Slot] [DecidableEq Slot]
+    {E : PositionEnvironment Slot}
+    (hclick_pos : ∀ s, 0 < E.clickThroughRate s) :
+    PositionMechanism.TruthfulDominantStrategy E
+      (PositionMechanism.positionVCGMechanism
+        (Bidder := Bidder) (Slot := Slot) E) := by
+  exact
+    PositionMechanism.truthfulDominantStrategy_positionVCGMechanism
+      (Bidder := Bidder) (Slot := Slot) hclick_pos
 
 /--
 EOS Remark 1 generic same-bid comparison, total-payment form. If bidders are
@@ -3392,6 +7181,161 @@ theorem paper_theorem7_ordered_ranked_canonical_tail_no_positive_transfer_paper_
         (model.vcg_tail_eq i) (model.click_pos i)
         (paper_theorem7_ranked_canonical_tail_remaining_bound i)
         hstable_other hslots
+        (paper_theorem7_ranked_canonical_terminal_total_payment_nonneg_of_payments_nonneg
+          model.clickThroughRate other model.click_nonneg hnpt_other i)
+  exact
+    paper_position_revenue_le_of_same_slots_payment_le
+      (paper_theorem7_ranked_environment model.clickThroughRate)
+      O other model.click_nonneg hsame hpay_le
+
+/--
+EOS Theorem 7 GSP-comparison endpoint. When the comparison locally envy-free
+outcome is known to be a tie-broken ranked-GSP outcome from nonnegative bids,
+the paper's no-positive-transfers requirement follows from the mechanism
+instead of appearing as a separate comparison certificate.
+-/
+theorem paper_theorem7_ordered_ranked_canonical_tail_tiebreak_gsp_comparison_paper_conclusion
+    {n : ℕ}
+    (model :
+      PaperTheorem7OrderedRankedCanonicalTailComparisonPaymentCertificate n)
+    (hvalue_nonneg : ∀ i, 0 ≤ model.value i) :
+    ∃ O : PositionOutcome (Fin n) (Fin n),
+      paper_position_no_positive_transfers O ∧
+        O.SlotEnvyFree
+          (paper_theorem7_ranked_environment model.clickThroughRate)
+          (fun i : Fin n => model.value i.val) ∧
+        O.StableAssignment
+          (paper_theorem7_ranked_environment model.clickThroughRate)
+          (fun i : Fin n => model.value i.val) ∧
+        (∀ i, O.slotOf i = model.vcgOutcome.slotOf i) ∧
+        (∀ i, O.paymentPerClick i = model.vcgOutcome.paymentPerClick i) ∧
+        ∀ (other : PositionOutcome (Fin n) (Fin n)) (bids : Fin n → ℝ),
+          other.FeasibleAssignment →
+          other.IndividuallyRational
+            (paper_theorem7_ranked_environment model.clickThroughRate)
+            (fun i : Fin n => model.value i.val) →
+          other.SlotEnvyFree
+            (paper_theorem7_ranked_environment model.clickThroughRate)
+            (fun i : Fin n => model.value i.val) →
+            (∀ i, O.slotOf i = other.slotOf i) →
+              other = paper_ranked_gsp_tiebreak_mechanism n n bids →
+                (∀ i, 0 ≤ bids i) →
+                  O.revenue
+                      (paper_theorem7_ranked_environment model.clickThroughRate) ≤
+                    other.revenue
+                      (paper_theorem7_ranked_environment model.clickThroughRate) := by
+  rcases
+    paper_theorem7_ordered_ranked_canonical_tail_no_positive_transfer_paper_conclusion
+      model hvalue_nonneg with
+    ⟨O, hnpt, hlef, hstable, hslots, hpayments, hmin⟩
+  refine ⟨O, hnpt, hlef, hstable, hslots, hpayments, ?_⟩
+  intro other bids hfeasible hIR hother hsame hother_eq hbids
+  have hnpt_other : paper_position_no_positive_transfers other := by
+    rw [hother_eq]
+    exact paper_ranked_gsp_tiebreak_mechanism_no_positive_transfers n n hbids
+  exact hmin other hfeasible hIR hother hsame hnpt_other
+
+/--
+EOS Theorem 7 strict source-ordered GSP-comparison endpoint. Under the
+source's strict value and click-through ordering, every locally envy-free
+tie-broken ranked-GSP comparison profile receives the sorted slots, so the
+same-assignment premise in the revenue-minimality theorem is derived rather
+than assumed.
+-/
+theorem paper_theorem7_ordered_ranked_canonical_tail_strict_tiebreak_gsp_comparison_paper_conclusion
+    {n : ℕ}
+    (model :
+      PaperTheorem7OrderedRankedCanonicalTailComparisonPaymentCertificate n)
+    (hvalue_nonneg : ∀ i, 0 ≤ model.value i)
+    (hvalue_strict :
+      ∀ k : ℕ, k + 1 < n → model.value (k + 1) < model.value k)
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n →
+        model.clickThroughRate (k + 1) < model.clickThroughRate k) :
+    ∃ O : PositionOutcome (Fin n) (Fin n),
+      paper_position_no_positive_transfers O ∧
+        O.SlotEnvyFree
+          (paper_theorem7_ranked_environment model.clickThroughRate)
+          (fun i : Fin n => model.value i.val) ∧
+        O.StableAssignment
+          (paper_theorem7_ranked_environment model.clickThroughRate)
+          (fun i : Fin n => model.value i.val) ∧
+        (∀ i, O.slotOf i = model.vcgOutcome.slotOf i) ∧
+        (∀ i, O.paymentPerClick i = model.vcgOutcome.paymentPerClick i) ∧
+        ∀ bids : Fin n → ℝ,
+          (paper_ranked_gsp_tiebreak_mechanism n n).LocallyEnvyFreeEquilibrium
+            (paper_theorem7_ranked_environment model.clickThroughRate)
+            (fun i : Fin n => model.value i.val) bids →
+          (∀ i, 0 ≤ bids i) →
+            O.revenue
+                (paper_theorem7_ranked_environment model.clickThroughRate) ≤
+              (paper_ranked_gsp_tiebreak_mechanism n n bids).revenue
+                (paper_theorem7_ranked_environment model.clickThroughRate) := by
+  let O : PositionOutcome (Fin n) (Fin n) :=
+    paper_theorem7_ranked_bstar_outcome (n := n)
+      model.value model.vcgTotalPayment model.clickThroughRate
+  have hclick_ne : ∀ i : Fin n, model.clickThroughRate i.val ≠ 0 :=
+    fun i => ne_of_gt (model.click_pos i)
+  have hnpt : paper_position_no_positive_transfers O := by
+    simpa [O] using
+      paper_theorem7_ranked_bstar_outcome_no_positive_transfers_of_canonical_vcg_tail
+        hvalue_nonneg model.click_pos model.click_mono model.vcg_tail_eq
+  have hlef :
+      O.SlotEnvyFree
+        (paper_theorem7_ranked_environment model.clickThroughRate)
+        (fun i : Fin n => model.value i.val) :=
+    paper_theorem7_ranked_bstar_outcome_slot_envy_free_of_ordered_values
+      hclick_ne model.click_mono model.value_mono model.vcg_rec
+  have hstable :
+      O.StableAssignment
+        (paper_theorem7_ranked_environment model.clickThroughRate)
+        (fun i : Fin n => model.value i.val) :=
+    paper_theorem7_ranked_bstar_outcome_stable_assignment_of_ordered_values
+      hclick_ne model.click_mono model.value_mono model.vcg_rec
+      model.payment_le_value
+  refine ⟨O, hnpt, hlef, hstable, model.same_slots_as_vcg,
+    model.same_payments_as_vcg, ?_⟩
+  intro bids hlef_other hbids
+  let other : PositionOutcome (Fin n) (Fin n) :=
+    paper_ranked_gsp_tiebreak_mechanism n n bids
+  have hfeasible : other.FeasibleAssignment := by
+    simpa [other] using
+      paper_ranked_gsp_tiebreak_mechanism_feasible n n bids
+  have hIR :
+      other.IndividuallyRational
+        (paper_theorem7_ranked_environment model.clickThroughRate)
+        (fun i : Fin n => model.value i.val) := by
+    simpa [other] using
+      paper_ranked_gsp_tiebreak_individually_rational_of_nash_nonneg
+        model.click_nonneg (fun i : Fin n => hvalue_nonneg i.val)
+        hlef_other.1
+  have hstable_other :
+      other.StableAssignment
+        (paper_theorem7_ranked_environment model.clickThroughRate)
+        (fun i : Fin n => model.value i.val) :=
+    paper_position_slot_envy_free_stable_assignment
+      (paper_theorem7_ranked_environment model.clickThroughRate)
+      other (fun i : Fin n => model.value i.val)
+      hfeasible hIR hlef_other.2
+  have hslots_other : ∀ i : Fin n, other.slotOf i = some i := by
+    intro i
+    simpa [other] using
+      paper_ranked_gsp_tiebreak_mechanism_slots_eq_index_of_locally_envy_free_strict_ordered
+        hvalue_strict hclick_strict hlef_other i
+  have hsame : ∀ i : Fin n, O.slotOf i = other.slotOf i := by
+    intro i
+    rw [paper_theorem7_ranked_bstar_outcome_slotOf, hslots_other i]
+  have hnpt_other : paper_position_no_positive_transfers other := by
+    simpa [other] using
+      paper_ranked_gsp_tiebreak_mechanism_no_positive_transfers n n hbids
+  have hpay_le : ∀ i : Fin n, O.paymentPerClick i ≤ other.paymentPerClick i := by
+    intro i
+    exact
+      paper_theorem7_ranked_bstar_payment_le_of_stable_assignment_tail
+        other i (paper_theorem7_ranked_canonical_tail_remaining i)
+        (model.vcg_tail_eq i) (model.click_pos i)
+        (paper_theorem7_ranked_canonical_tail_remaining_bound i)
+        hstable_other hslots_other
         (paper_theorem7_ranked_canonical_terminal_total_payment_nonneg_of_payments_nonneg
           model.clickThroughRate other model.click_nonneg hnpt_other i)
   exact
@@ -5864,6 +9808,43 @@ structure PaperTheorem8BStarRankedThresholdStrictOrderedLocalOptimalityCertifica
     paper_theorem7_ranked_vcg_tail_payment
         value clickThroughRate (rank + 1) remaining <
       clickThroughRate (rank + 1) * value (rank + 1)
+
+/--
+Source-facing strict ordered assumptions for EOS Theorem 8. This version uses
+the paper's distinct ranked values rather than taking the strict VCG-tail slack
+as a primitive field; Lean derives the slack from the strict VCG-tail payment
+bound above.
+-/
+structure PaperTheorem8BStarRankedThresholdStrictOrderedValueCertificate where
+  clickThroughRate : ℕ → ℝ
+  value : ℕ → ℝ
+  remaining : ℕ
+  click_pos : ∀ rank, 0 < clickThroughRate rank
+  current_lt : ∀ rank, clickThroughRate (rank + 1) < clickThroughRate rank
+  value_nonneg : ∀ rank, 0 ≤ value rank
+  value_strict : ∀ rank, value (rank + 1) < value rank
+
+/--
+Strict ordered value assumptions imply the existing strict ordered local
+optimality certificate. The previously explicit strict tail-payment field is
+derived from the paper's strict ranked-value ordering.
+-/
+def paper_theorem8_bstar_ranked_threshold_strict_ordered_local_optimality_certificate_of_strict_values
+    (model : PaperTheorem8BStarRankedThresholdStrictOrderedValueCertificate) :
+    PaperTheorem8BStarRankedThresholdStrictOrderedLocalOptimalityCertificate :=
+  { clickThroughRate := model.clickThroughRate
+    value := model.value
+    remaining := model.remaining
+    click_pos := model.click_pos
+    current_lt := model.current_lt
+    value_nonneg := model.value_nonneg
+    value_mono := fun rank => le_of_lt (model.value_strict rank)
+    continuation_tail_payment_lt := by
+      intro rank
+      exact
+        paper_theorem7_ranked_vcg_tail_payment_lt_click_value
+          model.value_nonneg model.value_strict model.click_pos
+          (rank + 1) model.remaining }
 
 /--
 Strict ordered Theorem 8 assumptions forget to the strict local-optimality

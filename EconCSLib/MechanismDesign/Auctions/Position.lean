@@ -1,7 +1,12 @@
 import Mathlib.Data.Real.Basic
 import Mathlib.Algebra.Order.BigOperators.Group.Finset
+import Mathlib.Data.Fintype.Option
+import Mathlib.Data.Fintype.Pi
 import Mathlib.Tactic.FinCases
+import Mathlib.Tactic.FieldSimp
 import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Ring
+import EconCSLib.Foundations.Optimization.FiniteSearch
 
 open scoped BigOperators
 
@@ -73,6 +78,35 @@ noncomputable def welfare [Fintype Bidder]
     | none => 0
     | some s => E.clickThroughRate s * values i
 
+/-- One bidder's contribution to allocative welfare. -/
+def welfareContribution
+    (E : PositionEnvironment Slot)
+    (O : PositionOutcome Bidder Slot) (values : Bidder → ℝ)
+    (i : Bidder) : ℝ :=
+  match O.slotOf i with
+  | none => 0
+  | some s => E.clickThroughRate s * values i
+
+/-- Allocative welfare excluding one bidder. -/
+noncomputable def welfareExcept [Fintype Bidder] [DecidableEq Bidder]
+    (E : PositionEnvironment Slot)
+    (O : PositionOutcome Bidder Slot) (values : Bidder → ℝ)
+    (i : Bidder) : ℝ :=
+  (Finset.univ.erase i).sum fun j => O.welfareContribution E values j
+
+/-- Outcome with the supplied slot assignment and zero per-click payments. -/
+def zeroPaymentOutcome (slotOf : Bidder → Option Slot) :
+    PositionOutcome Bidder Slot where
+  slotOf := slotOf
+  paymentPerClick := fun _ => 0
+
+/-- Remove one bidder's slot assignment, leaving all other assignment and payment data fixed. -/
+def removeBidderSlot [DecidableEq Bidder]
+    (O : PositionOutcome Bidder Slot) (i : Bidder) :
+    PositionOutcome Bidder Slot where
+  slotOf := Function.update O.slotOf i none
+  paymentPerClick := O.paymentPerClick
+
 /-- No slot is assigned to two different bidders. -/
 def FeasibleAssignment (O : PositionOutcome Bidder Slot) : Prop :=
   ∀ ⦃i j : Bidder⦄ ⦃s : Slot⦄,
@@ -124,6 +158,111 @@ theorem revenue_le_of_same_slots_payment_le [Fintype Bidder]
           simpa [hslot] using (hsame_slot i).symm
         simpa [revenueContribution, hslot, hPslot] using
           mul_le_mul_of_nonneg_left (hpay_le i) (hctr s)
+
+theorem welfare_eq_contribution_add_except
+    [Fintype Bidder] [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (O : PositionOutcome Bidder Slot)
+    (values : Bidder → ℝ) (i : Bidder) :
+    O.welfare E values =
+      O.welfareContribution E values i + O.welfareExcept E values i := by
+  classical
+  unfold welfare welfareExcept welfareContribution
+  simpa [add_comm] using
+    (Finset.sum_erase_add (s := Finset.univ)
+      (f := fun j : Bidder =>
+        match O.slotOf j with
+        | none => 0
+        | some s => E.clickThroughRate s * values j)
+      (Finset.mem_univ i)).symm
+
+theorem welfareExcept_update_self
+    [Fintype Bidder] [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (O : PositionOutcome Bidder Slot)
+    (values : Bidder → ℝ) (i : Bidder) (value : ℝ) :
+    O.welfareExcept E (Function.update values i value) i =
+      O.welfareExcept E values i := by
+  classical
+  unfold welfareExcept welfareContribution
+  refine Finset.sum_congr rfl ?_
+  intro j hj
+  have hji : j ≠ i := (Finset.mem_erase.mp hj).1
+  simp [Function.update, hji]
+
+theorem welfare_eq_except_of_unassigned
+    [Fintype Bidder] [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (O : PositionOutcome Bidder Slot)
+    (values : Bidder → ℝ) {i : Bidder}
+    (hslot : O.slotOf i = none) :
+    O.welfare E values = O.welfareExcept E values i := by
+  rw [welfare_eq_contribution_add_except E O values i]
+  simp [welfareContribution, hslot]
+
+theorem welfare_eq_except_of_value_zero
+    [Fintype Bidder] [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (O : PositionOutcome Bidder Slot)
+    (values : Bidder → ℝ) {i : Bidder}
+    (hvalue : values i = 0) :
+    O.welfare E values = O.welfareExcept E values i := by
+  rw [welfare_eq_contribution_add_except E O values i]
+  cases hslot : O.slotOf i with
+  | none =>
+      simp [welfareContribution, hslot]
+  | some s =>
+      simp [welfareContribution, hslot, hvalue]
+
+theorem welfare_of_update_self_assigned
+    [Fintype Bidder] [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (O : PositionOutcome Bidder Slot)
+    (values : Bidder → ℝ) {i : Bidder} {s : Slot}
+    (hslot : O.slotOf i = some s) (value : ℝ) :
+    O.welfare E (Function.update values i value) =
+      E.clickThroughRate s * value + O.welfareExcept E values i := by
+  rw [welfare_eq_contribution_add_except E O
+    (Function.update values i value) i]
+  rw [welfareExcept_update_self E O values i value]
+  simp [welfareContribution, hslot]
+
+theorem removeBidderSlot_feasible [DecidableEq Bidder]
+    (O : PositionOutcome Bidder Slot) (i : Bidder)
+    (hfeasible : O.FeasibleAssignment) :
+    (O.removeBidderSlot i).FeasibleAssignment := by
+  intro a b s ha hb
+  by_cases hai : a = i
+  · subst a
+    simp [removeBidderSlot] at ha
+  · by_cases hbi : b = i
+    · subst b
+      simp [removeBidderSlot] at hb
+    · have ha' : O.slotOf a = some s := by
+        simpa [removeBidderSlot, Function.update, hai] using ha
+      have hb' : O.slotOf b = some s := by
+        simpa [removeBidderSlot, Function.update, hbi] using hb
+      exact hfeasible ha' hb'
+
+theorem removeBidderSlot_welfareExcept
+    [Fintype Bidder] [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (O : PositionOutcome Bidder Slot)
+    (values : Bidder → ℝ) (i : Bidder) :
+    (O.removeBidderSlot i).welfareExcept E values i =
+      O.welfareExcept E values i := by
+  classical
+  unfold welfareExcept welfareContribution
+  refine Finset.sum_congr rfl ?_
+  intro j hj
+  have hji : j ≠ i := (Finset.mem_erase.mp hj).1
+  simp [removeBidderSlot, Function.update, hji]
+
+theorem removeBidderSlot_welfare_eq_welfareExcept
+    [Fintype Bidder] [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (O : PositionOutcome Bidder Slot)
+    (values : Bidder → ℝ) (i : Bidder) :
+    (O.removeBidderSlot i).welfare E values =
+      O.welfareExcept E values i := by
+  have hunassigned : (O.removeBidderSlot i).slotOf i = none := by
+    simp [removeBidderSlot]
+  rw [welfare_eq_except_of_unassigned E (O.removeBidderSlot i) values
+    hunassigned]
+  exact removeBidderSlot_welfareExcept E O values i
 
 theorem individuallyRational_of_payment_le_value
     (E : PositionEnvironment Slot) (O : PositionOutcome Bidder Slot)
@@ -197,6 +336,34 @@ structure VCGDominantStrategyCertificate [Fintype Bidder] [DecidableEq Bidder]
     ∀ reports i report, tax (Function.update reports i report) i = tax reports i
 
 /--
+Feasibility-aware VCG-style dominant-strategy certificate for position
+mechanisms.
+
+The older `VCGDominantStrategyCertificate` maximizes over all formal
+`PositionOutcome`s, including infeasible outcomes that assign one slot to
+multiple bidders. This corrected certificate is the source-faithful position
+auction version: the mechanism must return feasible outcomes, and welfare
+maximization is required only among feasible outcomes.
+-/
+structure FeasibleVCGDominantStrategyCertificate
+    [Fintype Bidder] [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (M : PositionMechanism Bidder Slot) where
+  tax : (Bidder → ℝ) → Bidder → ℝ
+  feasible :
+    ∀ reports, (M reports).FeasibleAssignment
+  welfare_maximizing :
+    ∀ reports (outcome : PositionOutcome Bidder Slot),
+      outcome.FeasibleAssignment →
+        outcome.welfare E reports ≤ (M reports).welfare E reports
+  utility_eq_welfare_minus_tax :
+    ∀ values reports i,
+      utility E M values reports i =
+        (M reports).welfare E (Function.update reports i (values i)) -
+          tax reports i
+  tax_independent :
+    ∀ reports i report, tax (Function.update reports i report) i = tax reports i
+
+/--
 Any position mechanism with the VCG welfare-maximization and externality-tax
 identity is truthful in dominant strategies.
 -/
@@ -227,6 +394,372 @@ theorem truthfulDominantStrategy_of_vcgDominantStrategyCertificate
   rw [C.utility_eq_welfare_minus_tax values deviatingReports i,
     C.utility_eq_welfare_minus_tax values values i, hrestore, htruth_restore, htax]
   exact sub_le_sub_right hwelfare (C.tax values i)
+
+/--
+Any feasible position mechanism with feasible VCG welfare-maximization and an
+externality-tax identity is truthful in dominant strategies.
+-/
+theorem truthfulDominantStrategy_of_feasibleVCGDominantStrategyCertificate
+    [Fintype Bidder] [DecidableEq Bidder]
+    {E : PositionEnvironment Slot} {M : PositionMechanism Bidder Slot}
+    (C : FeasibleVCGDominantStrategyCertificate E M) :
+    TruthfulDominantStrategy E M := by
+  intro values i report
+  let deviatingReports := Function.update values i report
+  have hrestore : Function.update deviatingReports i (values i) = values := by
+    funext j
+    by_cases hji : j = i
+    · subst hji
+      simp [deviatingReports]
+    · simp [deviatingReports, Function.update, hji]
+  have htruth_restore : Function.update values i (values i) = values := by
+    funext j
+    by_cases hji : j = i
+    · subst hji
+      simp
+    · simp [Function.update, hji]
+  have htax : C.tax deviatingReports i = C.tax values i := by
+    simpa [deviatingReports] using C.tax_independent values i report
+  have hwelfare :
+      (M deviatingReports).welfare E values ≤ (M values).welfare E values :=
+    C.welfare_maximizing values (M deviatingReports) (C.feasible deviatingReports)
+  rw [C.utility_eq_welfare_minus_tax values deviatingReports i,
+    C.utility_eq_welfare_minus_tax values values i, hrestore, htruth_restore, htax]
+  exact sub_le_sub_right hwelfare (C.tax values i)
+
+/-- Reports with bidder `i` replaced by zero. -/
+def reportsWithoutBidder [DecidableEq Bidder]
+    (reports : Bidder → ℝ) (i : Bidder) : Bidder → ℝ :=
+  Function.update reports i 0
+
+theorem reportsWithoutBidder_update_self [DecidableEq Bidder]
+    (reports : Bidder → ℝ) (i : Bidder) (report : ℝ) :
+    reportsWithoutBidder (Function.update reports i report) i =
+      reportsWithoutBidder reports i := by
+  funext j
+  by_cases hji : j = i
+  · subst j
+    simp [reportsWithoutBidder]
+  · simp [reportsWithoutBidder, Function.update, hji]
+
+/--
+VCG benchmark term for a position-auction slot rule: the maximum welfare that
+the other bidders obtain when bidder `i`'s report is erased.
+-/
+noncomputable def positionVCGBenchmark
+    [Fintype Bidder] [DecidableEq Bidder]
+    (E : PositionEnvironment Slot)
+    (slotRule : (Bidder → ℝ) → Bidder → Option Slot)
+    (reports : Bidder → ℝ) (i : Bidder) : ℝ :=
+  (PositionOutcome.zeroPaymentOutcome
+      (slotRule (reportsWithoutBidder reports i))).welfareExcept E reports i
+
+/--
+The position-auction VCG mechanism generated by a feasible welfare-maximizing
+slot rule. Payments are stored per click, so the total Clarke-pivot payment is
+divided by the click-through rate of the assigned slot.
+-/
+noncomputable def positionVCGMechanismOfSlotRule
+    [Fintype Bidder] [DecidableEq Bidder]
+    (E : PositionEnvironment Slot)
+    (slotRule : (Bidder → ℝ) → Bidder → Option Slot) :
+    PositionMechanism Bidder Slot :=
+  fun reports =>
+    let chosen :=
+      PositionOutcome.zeroPaymentOutcome (slotRule reports)
+    { slotOf := slotRule reports
+      paymentPerClick := fun i =>
+        match slotRule reports i with
+        | none => 0
+        | some s =>
+            (positionVCGBenchmark E slotRule reports i -
+              chosen.welfareExcept E reports i) / E.clickThroughRate s }
+
+theorem exists_welfareMaximizingSlotAssignment
+    [Fintype Bidder] [DecidableEq Bidder]
+    [Fintype Slot] [DecidableEq Slot]
+    (E : PositionEnvironment Slot) (reports : Bidder → ℝ) :
+    ∃ slotOf : Bidder → Option Slot,
+      (PositionOutcome.zeroPaymentOutcome slotOf).FeasibleAssignment ∧
+        ∀ otherSlotOf : Bidder → Option Slot,
+          (PositionOutcome.zeroPaymentOutcome otherSlotOf).FeasibleAssignment →
+            (PositionOutcome.zeroPaymentOutcome otherSlotOf).welfare E reports ≤
+              (PositionOutcome.zeroPaymentOutcome slotOf).welfare E reports := by
+  classical
+  let feasible : (Bidder → Option Slot) → Prop :=
+    fun slotOf => (PositionOutcome.zeroPaymentOutcome slotOf).FeasibleAssignment
+  let objective : (Bidder → Option Slot) → ℝ :=
+    fun slotOf => (PositionOutcome.zeroPaymentOutcome slotOf).welfare E reports
+  have hnonempty : ∃ slotOf : Bidder → Option Slot, feasible slotOf := by
+    refine ⟨fun _ => none, ?_⟩
+    intro i j s hi _hj
+    simp [PositionOutcome.zeroPaymentOutcome] at hi
+  obtain ⟨slotOf, hslotOf⟩ :=
+    EconCSLib.Optimization.exists_isMaximizerOn_of_finite
+      (α := Bidder → Option Slot)
+      feasible objective hnonempty
+  exact ⟨slotOf, hslotOf⟩
+
+/--
+Finite welfare-maximizing feasible slot assignment for a report profile. This
+is noncomputable only because it chooses a maximizer from a finite feasible set.
+-/
+noncomputable def welfareMaximizingSlotAssignment
+    [Fintype Bidder] [DecidableEq Bidder]
+    [Fintype Slot] [DecidableEq Slot]
+    (E : PositionEnvironment Slot) (reports : Bidder → ℝ) :
+    Bidder → Option Slot :=
+  Classical.choose (exists_welfareMaximizingSlotAssignment E reports)
+
+theorem welfareMaximizingSlotAssignment_feasible
+    [Fintype Bidder] [DecidableEq Bidder]
+    [Fintype Slot] [DecidableEq Slot]
+    (E : PositionEnvironment Slot) (reports : Bidder → ℝ) :
+    (PositionOutcome.zeroPaymentOutcome
+      (welfareMaximizingSlotAssignment E reports)).FeasibleAssignment :=
+  (Classical.choose_spec
+    (exists_welfareMaximizingSlotAssignment E reports)).1
+
+theorem welfareMaximizingSlotAssignment_welfare_maximizing
+    [Fintype Bidder] [DecidableEq Bidder]
+    [Fintype Slot] [DecidableEq Slot]
+    (E : PositionEnvironment Slot) (reports : Bidder → ℝ)
+    (outcome : PositionOutcome Bidder Slot)
+    (hout : outcome.FeasibleAssignment) :
+    outcome.welfare E reports ≤
+      (PositionOutcome.zeroPaymentOutcome
+        (welfareMaximizingSlotAssignment E reports)).welfare E reports := by
+  classical
+  have hfeasible :
+      (PositionOutcome.zeroPaymentOutcome outcome.slotOf).FeasibleAssignment := by
+    simpa [PositionOutcome.zeroPaymentOutcome] using hout
+  have hmax :=
+    (Classical.choose_spec
+      (exists_welfareMaximizingSlotAssignment E reports)).2
+      outcome.slotOf hfeasible
+  simpa [PositionOutcome.welfare, PositionOutcome.zeroPaymentOutcome] using hmax
+
+/--
+Canonical finite position-auction VCG mechanism: choose a feasible
+welfare-maximizing slot assignment and charge Clarke-pivot per-click payments.
+-/
+noncomputable def positionVCGMechanism
+    [Fintype Bidder] [DecidableEq Bidder]
+    [Fintype Slot] [DecidableEq Slot]
+    (E : PositionEnvironment Slot) :
+    PositionMechanism Bidder Slot :=
+  positionVCGMechanismOfSlotRule E (welfareMaximizingSlotAssignment E)
+
+noncomputable def feasibleVCGDominantStrategyCertificate_of_welfareMaximizingSlotRule
+    [Fintype Bidder] [DecidableEq Bidder]
+    {E : PositionEnvironment Slot}
+    {slotRule : (Bidder → ℝ) → Bidder → Option Slot}
+    (hclick_pos : ∀ s, 0 < E.clickThroughRate s)
+    (hfeasible :
+      ∀ reports,
+        (PositionOutcome.zeroPaymentOutcome
+          (slotRule reports)).FeasibleAssignment)
+    (hmax :
+      ∀ reports (outcome : PositionOutcome Bidder Slot),
+        outcome.FeasibleAssignment →
+          outcome.welfare E reports ≤
+            (PositionOutcome.zeroPaymentOutcome
+              (slotRule reports)).welfare E reports) :
+    FeasibleVCGDominantStrategyCertificate E
+      (positionVCGMechanismOfSlotRule E slotRule) := by
+  classical
+  refine
+    { tax := positionVCGBenchmark E slotRule
+      feasible := ?_
+      welfare_maximizing := ?_
+      utility_eq_welfare_minus_tax := ?_
+      tax_independent := ?_ }
+  · intro reports
+    simpa [positionVCGMechanismOfSlotRule,
+      PositionOutcome.zeroPaymentOutcome] using hfeasible reports
+  · intro reports outcome hout
+    simpa [positionVCGMechanismOfSlotRule,
+      PositionOutcome.zeroPaymentOutcome] using hmax reports outcome hout
+  · intro values reports i
+    let chosen : PositionOutcome Bidder Slot :=
+      PositionOutcome.zeroPaymentOutcome (slotRule reports)
+    let without : PositionOutcome Bidder Slot :=
+      PositionOutcome.zeroPaymentOutcome
+        (slotRule (reportsWithoutBidder reports i))
+    have hwithout_welfare_tax :
+        without.welfare E (reportsWithoutBidder reports i) =
+          positionVCGBenchmark E slotRule reports i := by
+      have hzero : reportsWithoutBidder reports i i = 0 := by
+        simp [reportsWithoutBidder]
+      rw [PositionOutcome.welfare_eq_except_of_value_zero E without
+        (reportsWithoutBidder reports i) hzero]
+      change
+        without.welfareExcept E (Function.update reports i 0) i =
+          positionVCGBenchmark E slotRule reports i
+      rw [PositionOutcome.welfareExcept_update_self E without reports i 0]
+      rfl
+    cases hslot : slotRule reports i with
+    | none =>
+        have hchosen_unassigned : chosen.slotOf i = none := by
+          simpa [chosen, PositionOutcome.zeroPaymentOutcome] using hslot
+        have hchosen_welfare_reports :
+            chosen.welfare E reports =
+              chosen.welfareExcept E reports i :=
+          PositionOutcome.welfare_eq_except_of_unassigned
+            E chosen reports hchosen_unassigned
+        have hchosen_welfare_erased :
+            chosen.welfare E (reportsWithoutBidder reports i) =
+              chosen.welfareExcept E reports i := by
+          rw [PositionOutcome.welfare_eq_except_of_unassigned
+            E chosen (reportsWithoutBidder reports i) hchosen_unassigned]
+          change
+            chosen.welfareExcept E (Function.update reports i 0) i =
+              chosen.welfareExcept E reports i
+          rw [PositionOutcome.welfareExcept_update_self E chosen reports i 0]
+        have hle_chosen_tax :
+            chosen.welfareExcept E reports i ≤
+              positionVCGBenchmark E slotRule reports i := by
+          have hle :=
+            hmax (reportsWithoutBidder reports i) chosen (hfeasible reports)
+          rwa [hchosen_welfare_erased, hwithout_welfare_tax] at hle
+        have hremove_feasible :
+            (without.removeBidderSlot i).FeasibleAssignment :=
+          PositionOutcome.removeBidderSlot_feasible without i
+            (hfeasible (reportsWithoutBidder reports i))
+        have htax_le_chosen :
+            positionVCGBenchmark E slotRule reports i ≤
+              chosen.welfareExcept E reports i := by
+          have hle :=
+            hmax reports (without.removeBidderSlot i) hremove_feasible
+          rw [PositionOutcome.removeBidderSlot_welfare_eq_welfareExcept
+            E without reports i] at hle
+          simpa [chosen, hchosen_welfare_reports] using hle
+        have htax_eq :
+            positionVCGBenchmark E slotRule reports i =
+              chosen.welfareExcept E reports i :=
+          le_antisymm htax_le_chosen hle_chosen_tax
+        have hwelfare_update :
+            ((positionVCGMechanismOfSlotRule E slotRule) reports).welfare E
+                (Function.update reports i (values i)) =
+              chosen.welfareExcept E reports i := by
+          have hmech_unassigned :
+              ((positionVCGMechanismOfSlotRule E slotRule) reports).slotOf i =
+                none := by
+            simpa [positionVCGMechanismOfSlotRule] using hslot
+          rw [PositionOutcome.welfare_eq_except_of_unassigned
+            E ((positionVCGMechanismOfSlotRule E slotRule) reports)
+            (Function.update reports i (values i)) hmech_unassigned]
+          rw [PositionOutcome.welfareExcept_update_self
+            E ((positionVCGMechanismOfSlotRule E slotRule) reports)
+            reports i (values i)]
+          simp [positionVCGMechanismOfSlotRule, chosen,
+            PositionOutcome.welfareExcept,
+            PositionOutcome.welfareContribution,
+            PositionOutcome.zeroPaymentOutcome]
+        rw [utility, PositionOutcome.utility]
+        simp [positionVCGMechanismOfSlotRule, hslot]
+        change
+          0 =
+            ((positionVCGMechanismOfSlotRule E slotRule) reports).welfare E
+                (Function.update reports i (values i)) -
+              positionVCGBenchmark E slotRule reports i
+        rw [hwelfare_update, htax_eq]
+        ring
+    | some s =>
+        have hchosen_assigned : chosen.slotOf i = some s := by
+          simpa [chosen, PositionOutcome.zeroPaymentOutcome] using hslot
+        have hmech_assigned :
+            ((positionVCGMechanismOfSlotRule E slotRule) reports).slotOf i =
+              some s := by
+          simpa [positionVCGMechanismOfSlotRule] using hslot
+        have hwelfare_update :
+            ((positionVCGMechanismOfSlotRule E slotRule) reports).welfare E
+                (Function.update reports i (values i)) =
+              E.clickThroughRate s * values i +
+                chosen.welfareExcept E reports i := by
+          rw [PositionOutcome.welfare_of_update_self_assigned
+            E ((positionVCGMechanismOfSlotRule E slotRule) reports)
+            reports hmech_assigned (values i)]
+          simp [positionVCGMechanismOfSlotRule, chosen,
+            PositionOutcome.welfareExcept,
+            PositionOutcome.welfareContribution,
+            PositionOutcome.zeroPaymentOutcome]
+        have hclick_ne : E.clickThroughRate s ≠ 0 :=
+          ne_of_gt (hclick_pos s)
+        have hcalc :
+            E.clickThroughRate s *
+                (values i -
+                  (positionVCGBenchmark E slotRule reports i -
+                    chosen.welfareExcept E reports i) /
+                    E.clickThroughRate s) =
+              E.clickThroughRate s * values i +
+                  chosen.welfareExcept E reports i -
+                positionVCGBenchmark E slotRule reports i := by
+          field_simp [hclick_ne]
+          ring
+        rw [utility, PositionOutcome.utility, hmech_assigned,
+          hwelfare_update]
+        simp [positionVCGMechanismOfSlotRule, hslot, chosen,
+          PositionOutcome.zeroPaymentOutcome]
+        change
+          E.clickThroughRate s *
+              (values i -
+                (positionVCGBenchmark E slotRule reports i -
+                  chosen.welfareExcept E reports i) /
+                  E.clickThroughRate s) =
+            E.clickThroughRate s * values i +
+                chosen.welfareExcept E reports i -
+              positionVCGBenchmark E slotRule reports i
+        exact hcalc
+  · intro reports i report
+    unfold positionVCGBenchmark
+    rw [reportsWithoutBidder_update_self]
+    exact
+      PositionOutcome.welfareExcept_update_self E
+        (PositionOutcome.zeroPaymentOutcome
+          (slotRule (reportsWithoutBidder reports i)))
+        reports i report
+
+theorem truthfulDominantStrategy_positionVCGMechanismOfSlotRule
+    [Fintype Bidder] [DecidableEq Bidder]
+    {E : PositionEnvironment Slot}
+    {slotRule : (Bidder → ℝ) → Bidder → Option Slot}
+    (hclick_pos : ∀ s, 0 < E.clickThroughRate s)
+    (hfeasible :
+      ∀ reports,
+        (PositionOutcome.zeroPaymentOutcome
+          (slotRule reports)).FeasibleAssignment)
+    (hmax :
+      ∀ reports (outcome : PositionOutcome Bidder Slot),
+        outcome.FeasibleAssignment →
+          outcome.welfare E reports ≤
+            (PositionOutcome.zeroPaymentOutcome
+              (slotRule reports)).welfare E reports) :
+    TruthfulDominantStrategy E (positionVCGMechanismOfSlotRule E slotRule) := by
+  exact
+    truthfulDominantStrategy_of_feasibleVCGDominantStrategyCertificate
+      (feasibleVCGDominantStrategyCertificate_of_welfareMaximizingSlotRule
+        hclick_pos hfeasible hmax)
+
+theorem truthfulDominantStrategy_positionVCGMechanism
+    [Fintype Bidder] [DecidableEq Bidder]
+    [Fintype Slot] [DecidableEq Slot]
+    {E : PositionEnvironment Slot}
+    (hclick_pos : ∀ s, 0 < E.clickThroughRate s) :
+    TruthfulDominantStrategy E
+      (positionVCGMechanism (Bidder := Bidder) (Slot := Slot) E) := by
+  simpa [positionVCGMechanism] using
+    truthfulDominantStrategy_positionVCGMechanismOfSlotRule
+      (Bidder := Bidder) (Slot := Slot)
+      (E := E)
+      (slotRule := welfareMaximizingSlotAssignment E)
+      hclick_pos
+      (fun reports =>
+        welfareMaximizingSlotAssignment_feasible
+          (Bidder := Bidder) (Slot := Slot) E reports)
+      (fun reports outcome hout =>
+        welfareMaximizingSlotAssignment_welfare_maximizing
+          (Bidder := Bidder) (Slot := Slot) E reports outcome hout)
 
 end PositionMechanism
 

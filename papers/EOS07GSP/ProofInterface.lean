@@ -49,6 +49,44 @@ abbrev theorem8BStarThresholdBid
     (value clickThroughRate : ℕ → ℝ) (remaining rank : ℕ) : ℝ :=
   paper_theorem8_bstar_threshold_bid value clickThroughRate remaining rank
 
+/-- The paper's generalized-English dropout price formula. -/
+abbrev theorem8GeneralizedEnglishDropoutPrice
+    (alphaAbove alphaCurrent lastDropout value : ℝ) : ℝ :=
+  paper_theorem8_generalized_english_indifference_price
+    alphaAbove alphaCurrent lastDropout value
+
+/-- Rank-indexed version of the paper's generalized-English dropout formula. -/
+abbrev theorem8RankedGeneralizedEnglishDropoutPrice
+    (clickThroughRate lastDropout value : ℕ → ℝ) (rank : ℕ) : ℝ :=
+  paper_theorem8_generalized_english_ranked_dropout_price
+    clickThroughRate lastDropout value rank
+
+/--
+Theorem 8 formula bridge: when the previous dropout prices are the one-rank
+lower finite `B*` bids, the paper's generalized-English dropout-price formula
+is exactly the finite `B*` threshold used by the source-event endpoint.
+-/
+theorem theorem8_ranked_dropout_formula_eq_bstar_threshold
+    (value clickThroughRate : ℕ → ℝ) (remaining rank : ℕ)
+    (hclick_pos : ∀ i, 0 < clickThroughRate i) :
+    theorem8RankedGeneralizedEnglishDropoutPrice
+        clickThroughRate
+        (fun k =>
+          theorem7BStarBid value
+            (fun j =>
+              paper_theorem7_ranked_vcg_tail_payment
+                value clickThroughRate j remaining)
+            clickThroughRate (k + 2))
+        value rank =
+      theorem8BStarThresholdBid value clickThroughRate (remaining + 1)
+        (rank + 1) := by
+  simpa [theorem7BStarBid, theorem8BStarThresholdBid,
+    theorem8RankedGeneralizedEnglishDropoutPrice] using
+    paper_theorem8_generalized_english_ranked_dropout_price_eq_bstar_bid_of_vcg_tail
+      value clickThroughRate rank remaining
+      (ne_of_gt (hclick_pos rank))
+      (ne_of_gt (hclick_pos (rank + 1)))
+
 /--
 The source-timing premise needed by the remaining Theorem 8 generalized-English
 source proof: every realized new dropout under the named finite `B*` strategy
@@ -76,6 +114,281 @@ theorem theorem8BStarContinuationThresholdLeCurrent_of_ordered_tail
   simpa [theorem8BStarThresholdBid] using
     paper_theorem8_bstar_continuation_threshold_le_current_threshold_of_ordered_tail
       hvalue_nonneg hvalue_mono hclick_pos hclick_mono remaining rank
+
+/--
+Theorem 8 source-facing strict-value model. This replaces the derived strict
+VCG-tail slack field with the paper's ranked distinct-values assumption; Lean
+derives the slack before applying the existing source-event endpoint.
+-/
+abbrev theorem8StrictOrderedValueCertificate :=
+  PaperTheorem8BStarRankedThresholdStrictOrderedValueCertificate
+
+/-- Strict ranked values build the older strict ordered local-optimality model. -/
+def theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues
+    (model : theorem8StrictOrderedValueCertificate) :
+    PaperTheorem8BStarRankedThresholdStrictOrderedLocalOptimalityCertificate :=
+  paper_theorem8_bstar_ranked_threshold_strict_ordered_local_optimality_certificate_of_strict_values
+    model
+
+/--
+Theorem 8 ex-post/local-deviation component from source-facing strict ranked
+values. In the formal model this is the belief-independent local one-step
+best-response plus threshold tie-breaking predicate for the named finite `B*`
+strategy.
+-/
+theorem theorem8_strict_values_named_strategy_ex_post_local_deviation
+    (model : theorem8StrictOrderedValueCertificate) :
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    paper_theorem8_bstar_ranked_threshold_local_deviation_sequential_rationality_statement
+      localModel.clickThroughRate localModel.value localModel.remaining
+      (paper_theorem8_bstar_ranked_threshold_strategy
+        localModel.value localModel.clickThroughRate localModel.remaining) := by
+  dsimp
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+  have hsource :
+      paper_theorem8_bstar_ranked_threshold_source_sequential_rationality_statement
+        localModel.clickThroughRate localModel.value localModel.remaining
+        paper_theorem8_bstar_ranked_threshold_cold_start_state
+        (paper_theorem8_bstar_ranked_threshold_strategy
+          localModel.value localModel.clickThroughRate localModel.remaining) :=
+    paper_theorem8_bstar_ranked_threshold_named_strategy_source_sequential_rationality
+      localModel paper_theorem8_bstar_ranked_threshold_cold_start_state
+  exact
+    (paper_theorem8_bstar_ranked_threshold_source_sequential_rationality_iff_local_deviation
+      localModel.clickThroughRate localModel.value localModel.remaining
+      paper_theorem8_bstar_ranked_threshold_cold_start_state
+      (paper_theorem8_bstar_ranked_threshold_strategy
+        localModel.value localModel.clickThroughRate localModel.remaining)).mp
+      hsource
+
+/--
+Theorem 8, source-event finite displayed form from source-facing strict-value
+assumptions. The price-sorted finite schedule, source-event trace,
+threshold-event timing evidence, exact finite `B*` records, unique source-game
+PBE, displayed slot/payment formulas, and ordered payoff package are all
+constructed internally.
+-/
+theorem theorem8_price_sorted_finite_schedule_source_event_strict_values_boundary_threshold_event_ordered_displayed_conclusion
+    (model : theorem8StrictOrderedValueCertificate) (n : ℕ) :
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_price_sorted_fin_schedule_source_event_boundary_threshold_event_ordered_displayed_paper_conclusion_statement
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model) n := by
+  exact
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_price_sorted_fin_schedule_source_event_boundary_threshold_event_ordered_displayed_paper_conclusion
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model) n
+
+/--
+Theorem 8, source-event finite trace and full VCG state-game conclusion from
+source-facing strict-value assumptions. This keeps the local-optimality
+certificate derived internally from the paper's ranked strict-value model.
+-/
+theorem theorem8_price_sorted_finite_schedule_source_event_strict_values_threshold_event_trace_full_vcg_conclusion
+    (model : theorem8StrictOrderedValueCertificate) (n : ℕ) :
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_price_sorted_fin_schedule_source_event_threshold_event_trace_full_vcg_conclusion_statement
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model) n := by
+  exact
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_price_sorted_fin_schedule_source_event_threshold_event_trace_full_vcg_conclusion
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model) n
+
+/--
+Theorem 8, source-event finite displayed formula form. In the internally
+constructed price-sorted source-event game, there is a PBE strategy whose
+per-click payments agree rankwise with the paper's generalized-English dropout
+price formula, using the one-rank lower finite `B*` bids as the previous
+dropout prices.
+-/
+theorem theorem8_price_sorted_finite_schedule_source_event_strict_values_payment_formula
+    (model : theorem8StrictOrderedValueCertificate) (n : ℕ) :
+    let scheduledRanks :=
+      paper_theorem8_bstar_ranked_threshold_price_sorted_fin_schedule
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model) n
+    let rankSchedule :=
+      paper_theorem8_bstar_ranked_threshold_fin_schedule_ranks scheduledRanks
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    let activeRanks := rankSchedule.toFinset
+    let initialState :=
+      paper_theorem8_bstar_ranked_threshold_finite_active_exact_record_cold_start_state
+        localModel activeRanks
+    let finalState :=
+      paper_theorem8_bstar_ranked_threshold_exact_drop_schedule_final_state
+        localModel initialState rankSchedule
+    let G :=
+      paper_theorem8_bstar_ranked_threshold_terminal_record_source_extensive_dynamic_game_of_states
+        localModel initialState finalState
+    let namedStrategy :=
+      paper_theorem8_bstar_ranked_threshold_strategy
+        localModel.value localModel.clickThroughRate localModel.remaining
+    ∃ strategy : PaperTheorem8GeneralizedEnglishStrategy ℕ,
+      G.PerfectBayesianEquilibrium strategy ∧
+        strategy = namedStrategy ∧
+          ∀ rank : Fin n,
+            (G.outcomeOf strategy).paymentPerClick rank.val =
+              theorem8RankedGeneralizedEnglishDropoutPrice
+                localModel.clickThroughRate
+                (fun k =>
+                  theorem7BStarBid localModel.value
+                    (fun j =>
+                      paper_theorem7_ranked_vcg_tail_payment
+                        localModel.value localModel.clickThroughRate j
+                        localModel.remaining)
+                    localModel.clickThroughRate (k + 2))
+                localModel.value rank.val := by
+  dsimp
+  let strictModel :=
+    theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model
+  let scheduledRanks :=
+    paper_theorem8_bstar_ranked_threshold_price_sorted_fin_schedule
+      strictModel n
+  let rankSchedule :=
+    paper_theorem8_bstar_ranked_threshold_fin_schedule_ranks scheduledRanks
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      strictModel
+  let activeRanks := rankSchedule.toFinset
+  let initialState :=
+    paper_theorem8_bstar_ranked_threshold_finite_active_exact_record_cold_start_state
+      localModel activeRanks
+  let finalState :=
+    paper_theorem8_bstar_ranked_threshold_exact_drop_schedule_final_state
+      localModel initialState rankSchedule
+  let G :=
+    paper_theorem8_bstar_ranked_threshold_terminal_record_source_extensive_dynamic_game_of_states
+      localModel initialState finalState
+  let namedStrategy :=
+    paper_theorem8_bstar_ranked_threshold_strategy
+      localModel.value localModel.clickThroughRate localModel.remaining
+  have hfull :=
+    theorem8_price_sorted_finite_schedule_source_event_strict_values_boundary_threshold_event_ordered_displayed_conclusion
+      model n
+  dsimp [
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_price_sorted_fin_schedule_source_event_boundary_threshold_event_ordered_displayed_paper_conclusion_statement,
+    strictModel, scheduledRanks, rankSchedule, localModel, activeRanks,
+    initialState, finalState, G, namedStrategy] at hfull
+  rcases hfull with
+    ⟨_htrace, _hsource_extensive, _hevent_safe, _hexact, hunique⟩
+  rcases hunique with ⟨strategy, hstrategy, _hunique⟩
+  rcases hstrategy with
+    ⟨hpbe, hstrategy_eq, _hhistory, _hterminal, _hexact_history, _houtcome,
+      hrank, _hordered⟩
+  refine ⟨strategy, hpbe, hstrategy_eq, ?_⟩
+  intro rank
+  rcases hrank rank with
+    ⟨_hinitial_active, _hfinal_inactive, _hslot, hpayment⟩
+  have hformula :=
+    theorem8_ranked_dropout_formula_eq_bstar_threshold
+      localModel.value localModel.clickThroughRate localModel.remaining
+      rank.val localModel.click_pos
+  exact hpayment.trans hformula.symm
+
+/--
+Theorem 8, source-event finite full displayed formula form. In the internally
+constructed price-sorted source-event game, the named strategy is the unique
+PBE, the PBE outcome is the VCG target, each displayed rank has the paper's
+generalized-English dropout-price payment formula, and the ordered payoff
+package holds.
+-/
+theorem theorem8_price_sorted_finite_schedule_source_event_strict_values_unique_pbe_formula_conclusion
+    (model : theorem8StrictOrderedValueCertificate) (n : ℕ) :
+    let scheduledRanks :=
+      paper_theorem8_bstar_ranked_threshold_price_sorted_fin_schedule
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model) n
+    let rankSchedule :=
+      paper_theorem8_bstar_ranked_threshold_fin_schedule_ranks scheduledRanks
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    let activeRanks := rankSchedule.toFinset
+    let initialState :=
+      paper_theorem8_bstar_ranked_threshold_finite_active_exact_record_cold_start_state
+        localModel activeRanks
+    let finalState :=
+      paper_theorem8_bstar_ranked_threshold_exact_drop_schedule_final_state
+        localModel initialState rankSchedule
+    let G :=
+      paper_theorem8_bstar_ranked_threshold_terminal_record_source_extensive_dynamic_game_of_states
+        localModel initialState finalState
+    let namedStrategy :=
+      paper_theorem8_bstar_ranked_threshold_strategy
+        localModel.value localModel.clickThroughRate localModel.remaining
+    ∃! strategy : PaperTheorem8GeneralizedEnglishStrategy ℕ,
+      G.PerfectBayesianEquilibrium strategy ∧
+        strategy = namedStrategy ∧
+          G.outcomeOf strategy = G.vcgOutcome ∧
+            (∀ rank : Fin n,
+              initialState.IsActive rank.val ∧
+                ¬ finalState.IsActive rank.val ∧
+                  (G.outcomeOf strategy).slotOf rank.val = some rank.val ∧
+                    (G.outcomeOf strategy).paymentPerClick rank.val =
+                      theorem8RankedGeneralizedEnglishDropoutPrice
+                        localModel.clickThroughRate
+                        (fun k =>
+                          theorem7BStarBid localModel.value
+                            (fun j =>
+                              paper_theorem7_ranked_vcg_tail_payment
+                                localModel.value localModel.clickThroughRate j
+                                localModel.remaining)
+                            localModel.clickThroughRate (k + 2))
+                        localModel.value rank.val) ∧
+              PaperTheorem8BStarRankedThresholdOrderedStateGamePayoffConclusion
+                localModel G strategy := by
+  dsimp
+  let strictModel :=
+    theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model
+  let scheduledRanks :=
+    paper_theorem8_bstar_ranked_threshold_price_sorted_fin_schedule
+      strictModel n
+  let rankSchedule :=
+    paper_theorem8_bstar_ranked_threshold_fin_schedule_ranks scheduledRanks
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      strictModel
+  let activeRanks := rankSchedule.toFinset
+  let initialState :=
+    paper_theorem8_bstar_ranked_threshold_finite_active_exact_record_cold_start_state
+      localModel activeRanks
+  let finalState :=
+    paper_theorem8_bstar_ranked_threshold_exact_drop_schedule_final_state
+      localModel initialState rankSchedule
+  let G :=
+    paper_theorem8_bstar_ranked_threshold_terminal_record_source_extensive_dynamic_game_of_states
+      localModel initialState finalState
+  let namedStrategy :=
+    paper_theorem8_bstar_ranked_threshold_strategy
+      localModel.value localModel.clickThroughRate localModel.remaining
+  have hfull :=
+    theorem8_price_sorted_finite_schedule_source_event_strict_values_boundary_threshold_event_ordered_displayed_conclusion
+      model n
+  dsimp [
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_price_sorted_fin_schedule_source_event_boundary_threshold_event_ordered_displayed_paper_conclusion_statement,
+    strictModel, scheduledRanks, rankSchedule, localModel, activeRanks,
+    initialState, finalState, G, namedStrategy] at hfull
+  rcases hfull with
+    ⟨_htrace, _hsource_extensive, _hevent_safe, _hexact, hunique⟩
+  rcases hunique with ⟨strategy, hstrategy, _hunique⟩
+  rcases hstrategy with
+    ⟨hpbe, hstrategy_eq, _hhistory, _hterminal, _hexact_history, houtcome,
+      hrank, hordered⟩
+  refine
+    ⟨strategy,
+      ⟨hpbe, hstrategy_eq, houtcome, ?_, hordered⟩,
+      ?_⟩
+  · intro rank
+    rcases hrank rank with
+      ⟨hinitial_active, hfinal_inactive, hslot, hpayment⟩
+    have hformula :=
+      theorem8_ranked_dropout_formula_eq_bstar_threshold
+        localModel.value localModel.clickThroughRate localModel.remaining
+        rank.val localModel.click_pos
+    exact
+      ⟨hinitial_active, hfinal_inactive, hslot,
+        hpayment.trans hformula.symm⟩
+  · intro other hother
+    exact hother.2.1.trans hstrategy_eq.symm
 
 /--
 For any two displayed ranks, the cold-start exact-drop pair can be checked in
@@ -379,6 +692,21 @@ theorem theorem8_source_q_strict_mono_value
     paper_theorem8_source_q_strict_mono_value
       hclick_pos hcurrent_lt hvalue_lt
 
+/-- Under strict adjacent click-through rates, `q` can be made arbitrarily
+large by increasing the lower bidder's value. -/
+theorem theorem8_source_q_unbounded_value
+    {clickThroughRate lastDropout : ℕ → ℝ} {rank : ℕ}
+    (hclick_pos : 0 < clickThroughRate rank)
+    (hcurrent_lt : clickThroughRate (rank + 1) < clickThroughRate rank)
+    (target : ℝ) :
+    ∃ value : ℕ → ℝ,
+      target <
+        paper_theorem8_generalized_english_ranked_dropout_price
+          clickThroughRate lastDropout value rank := by
+  exact
+    paper_theorem8_generalized_english_ranked_dropout_price_unbounded_value_of_strict_click
+      hclick_pos hcurrent_lt target
+
 /-- The indifference price `q` is continuous in the lower bidder's value when
 the history and other values are fixed. -/
 theorem theorem8_source_q_continuous_value
@@ -462,6 +790,1428 @@ theorem theorem8_source_q_strict_mono_lastDropout
     paper_theorem8_source_q_strict_mono_lastDropout
       hclick_pos hcurrent_pos hlastDropout_lt
 
+/-- Source-level scalar dropout rule used by the continuous generalized-English
+Theorem 8 boundary. -/
+def theorem8ContinuousSourceDropoutPrice
+    (clickThroughRate : ℕ → ℝ) (rank : ℕ)
+    (lastDropout bidderValue : ℝ) : ℝ :=
+  theorem8GeneralizedEnglishDropoutPrice
+    (clickThroughRate rank) (clickThroughRate (rank + 1))
+    lastDropout bidderValue
+
+/-- The source-level scalar dropout rule is continuous in the bidder value. -/
+theorem theorem8_continuous_source_dropout_price_continuous_in_value
+    (clickThroughRate : ℕ → ℝ) (rank : ℕ) (lastDropout : ℝ) :
+    Continuous
+      (fun bidderValue : ℝ =>
+        theorem8ContinuousSourceDropoutPrice
+          clickThroughRate rank lastDropout bidderValue) := by
+  exact
+    paper_theorem8_generalized_english_indifference_price_continuous_value
+      (clickThroughRate rank) (clickThroughRate (rank + 1)) lastDropout
+
+/-- Concrete continuous source strategy shape for Theorem 8: at each rank and
+last dropout price, the strategy names a dropout price as a function of the
+bidder's valuation. -/
+structure Theorem8ContinuousSourceStrategy where
+  dropoutPrice : ℕ → ℝ → ℝ → ℝ
+
+namespace Theorem8ContinuousSourceStrategy
+
+/-- Source continuity restriction: dropout prices are continuous in the
+bidder's valuation, holding the rank and previous dropout price fixed. -/
+def ContinuousInValuation
+    (strategy : Theorem8ContinuousSourceStrategy) : Prop :=
+  ∀ rank lastDropout,
+    Continuous
+      (fun bidderValue : ℝ =>
+        strategy.dropoutPrice rank lastDropout bidderValue)
+
+end Theorem8ContinuousSourceStrategy
+
+/-- The named continuous source strategy from EOS Theorem 8. -/
+def theorem8ContinuousSourceStrategy
+    (clickThroughRate : ℕ → ℝ) : Theorem8ContinuousSourceStrategy where
+  dropoutPrice :=
+    fun rank lastDropout bidderValue =>
+      theorem8ContinuousSourceDropoutPrice
+        clickThroughRate rank lastDropout bidderValue
+
+namespace Theorem8ContinuousSourceStrategy
+
+/-- The finite action rule induced by an arbitrary continuous-source dropout
+price strategy after fixing the current continuation dropout records and
+ranked bidder values. -/
+def inducedActionStrategy
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (lastDropout value : ℕ → ℝ) :
+    PaperTheorem8GeneralizedEnglishStrategy ℕ :=
+  fun state rank =>
+    strategy.dropoutPrice rank (lastDropout rank) (value (rank + 1)) ≤
+      state.clockPrice
+
+/-- Two continuous-source dropout-price strategies agree on the finite source
+profile determined by the current continuation records and ranked bidder
+values. -/
+def ProfileEq
+    (strategy other : Theorem8ContinuousSourceStrategy)
+    (lastDropout value : ℕ → ℝ) : Prop :=
+  ∀ rank,
+    strategy.dropoutPrice rank (lastDropout rank) (value (rank + 1)) =
+      other.dropoutPrice rank (lastDropout rank) (value (rank + 1))
+
+/-- Two continuous-source dropout-price strategies agree on every value in the
+source support above the lower endpoint for the current rank/history. -/
+def SupportEq
+    (strategy other : Theorem8ContinuousSourceStrategy)
+    (boundary : ℕ → ℝ → ℝ) : Prop :=
+  ∀ rank lastDropout bidderValue,
+    boundary rank lastDropout ≤ bidderValue →
+      strategy.dropoutPrice rank lastDropout bidderValue =
+        other.dropoutPrice rank lastDropout bidderValue
+
+end Theorem8ContinuousSourceStrategy
+
+/-- The named continuous source strategy is definitionally the paper's
+dropout-price formula. -/
+theorem theorem8_continuous_source_strategy_dropout_eq_formula
+    (clickThroughRate : ℕ → ℝ) (rank : ℕ)
+    (lastDropout bidderValue : ℝ) :
+    (theorem8ContinuousSourceStrategy clickThroughRate).dropoutPrice
+        rank lastDropout bidderValue =
+      theorem8ContinuousSourceDropoutPrice
+        clickThroughRate rank lastDropout bidderValue := by
+  rfl
+
+/-- The scalar source strategy specializes to the rank-indexed formula used by
+the finite source-event endpoints. -/
+theorem theorem8_continuous_source_strategy_ranked_dropout_eq
+    (clickThroughRate lastDropout value : ℕ → ℝ) (rank : ℕ) :
+    (theorem8ContinuousSourceStrategy clickThroughRate).dropoutPrice
+        rank (lastDropout rank) (value (rank + 1)) =
+      theorem8RankedGeneralizedEnglishDropoutPrice
+        clickThroughRate lastDropout value rank := by
+  rfl
+
+/-- The action strategy induced by the continuous dropout-price formula: a
+rank drops once the clock reaches the formula price for the current rank,
+previous dropout record, and valuation. -/
+def theorem8ContinuousSourceActionStrategy
+    (clickThroughRate lastDropout value : ℕ → ℝ) :
+    PaperTheorem8GeneralizedEnglishStrategy ℕ :=
+  (theorem8ContinuousSourceStrategy
+    clickThroughRate).inducedActionStrategy lastDropout value
+
+/--
+Cutoff-action extensionality for the continuous-source Theorem 8 strategy:
+for fixed continuation records and ranked values, equality of the induced
+dropout actions at every clock price is equivalent to equality of the
+underlying dropout price at every rank.
+-/
+theorem theorem8_continuous_source_induced_action_eq_formula_iff
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (clickThroughRate lastDropout value : ℕ → ℝ) :
+    strategy.inducedActionStrategy lastDropout value =
+        theorem8ContinuousSourceActionStrategy
+          clickThroughRate lastDropout value ↔
+      ∀ rank,
+        strategy.dropoutPrice rank (lastDropout rank) (value (rank + 1)) =
+          theorem8RankedGeneralizedEnglishDropoutPrice
+            clickThroughRate lastDropout value rank := by
+  constructor
+  · intro hstrategy rank
+    let leftPrice :=
+      strategy.dropoutPrice rank (lastDropout rank) (value (rank + 1))
+    let rightPrice :=
+      theorem8RankedGeneralizedEnglishDropoutPrice
+        clickThroughRate lastDropout value rank
+    let stateLeft : PaperTheorem8GeneralizedEnglishAuctionState ℕ :=
+      { clockPrice := leftPrice, lastDropout := fun _ => none }
+    let stateRight : PaperTheorem8GeneralizedEnglishAuctionState ℕ :=
+      { clockPrice := rightPrice, lastDropout := fun _ => none }
+    have hleft_drop :
+        strategy.inducedActionStrategy lastDropout value stateLeft rank := by
+      simp [Theorem8ContinuousSourceStrategy.inducedActionStrategy, stateLeft,
+        leftPrice]
+    have hright_le_left : rightPrice ≤ leftPrice := by
+      rw [hstrategy] at hleft_drop
+      simpa [theorem8ContinuousSourceActionStrategy,
+        Theorem8ContinuousSourceStrategy.inducedActionStrategy,
+        theorem8ContinuousSourceStrategy,
+        theorem8ContinuousSourceDropoutPrice,
+        theorem8GeneralizedEnglishDropoutPrice,
+        paper_theorem8_generalized_english_ranked_dropout_price,
+        theorem8RankedGeneralizedEnglishDropoutPrice, stateLeft, rightPrice] using
+        hleft_drop
+    have hright_drop :
+        theorem8ContinuousSourceActionStrategy
+          clickThroughRate lastDropout value stateRight rank := by
+      simp [theorem8ContinuousSourceActionStrategy,
+        Theorem8ContinuousSourceStrategy.inducedActionStrategy,
+        theorem8ContinuousSourceStrategy,
+        theorem8ContinuousSourceDropoutPrice,
+        theorem8GeneralizedEnglishDropoutPrice,
+        paper_theorem8_generalized_english_ranked_dropout_price,
+        stateRight, rightPrice]
+    have hleft_le_right : leftPrice ≤ rightPrice := by
+      rw [← hstrategy] at hright_drop
+      simpa [Theorem8ContinuousSourceStrategy.inducedActionStrategy, stateRight,
+        leftPrice] using hright_drop
+    exact le_antisymm hleft_le_right hright_le_left
+  · intro hprice
+    funext state rank
+    apply propext
+    simp [theorem8ContinuousSourceActionStrategy,
+      Theorem8ContinuousSourceStrategy.inducedActionStrategy,
+      theorem8ContinuousSourceStrategy,
+      theorem8ContinuousSourceDropoutPrice,
+      theorem8GeneralizedEnglishDropoutPrice,
+      paper_theorem8_generalized_english_ranked_dropout_price,
+      theorem8RankedGeneralizedEnglishDropoutPrice, hprice rank]
+
+/--
+If an arbitrary continuous-source strategy induces the same finite cutoff
+actions as the EOS formula for every continuation record and ranked value
+profile, then the dropout-price function itself is the EOS formula. This is the
+price-function uniqueness bridge from finite action uniqueness back to the
+paper's continuous strategy notation.
+-/
+theorem theorem8_continuous_source_strategy_eq_formula_of_induced_actions
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (clickThroughRate : ℕ → ℝ)
+    (hstrategy :
+      ∀ lastDropout value : ℕ → ℝ,
+        strategy.inducedActionStrategy lastDropout value =
+          theorem8ContinuousSourceActionStrategy
+            clickThroughRate lastDropout value) :
+    strategy = theorem8ContinuousSourceStrategy clickThroughRate := by
+  cases strategy with
+  | mk dropoutPrice =>
+    simp [theorem8ContinuousSourceStrategy]
+    funext rank lastDropout bidderValue
+    let lastDropoutProfile : ℕ → ℝ :=
+      fun k => if k = rank then lastDropout else 0
+    let valueProfile : ℕ → ℝ :=
+      fun k => if k = rank + 1 then bidderValue else 0
+    have hprice :=
+      (theorem8_continuous_source_induced_action_eq_formula_iff
+        { dropoutPrice := dropoutPrice } clickThroughRate
+          lastDropoutProfile valueProfile).mp
+        (hstrategy lastDropoutProfile valueProfile) rank
+    simpa [theorem8ContinuousSourceStrategy,
+      theorem8ContinuousSourceDropoutPrice,
+      theorem8GeneralizedEnglishDropoutPrice,
+      paper_theorem8_generalized_english_ranked_dropout_price,
+      theorem8RankedGeneralizedEnglishDropoutPrice, lastDropoutProfile,
+      valueProfile] using hprice
+
+/-- The continuous formula's induced action strategy is exactly the existing
+ranked threshold action strategy. -/
+theorem theorem8_continuous_source_action_strategy_eq_ranked_threshold
+    (clickThroughRate lastDropout value : ℕ → ℝ) :
+    theorem8ContinuousSourceActionStrategy clickThroughRate lastDropout value =
+      paper_theorem8_ranked_threshold_dropout_strategy
+        clickThroughRate lastDropout value := by
+  funext state rank
+  apply propext
+  rw [paper_theorem8_ranked_threshold_dropout_strategy_drops_iff]
+  exact Iff.rfl
+
+/-- Pointwise action form of the continuous-formula/ranked-threshold bridge. -/
+theorem theorem8_continuous_source_action_iff_ranked_threshold
+    (clickThroughRate lastDropout value : ℕ → ℝ)
+    (state : PaperTheorem8GeneralizedEnglishAuctionState ℕ) (rank : ℕ) :
+    theorem8ContinuousSourceActionStrategy
+        clickThroughRate lastDropout value state rank ↔
+      theorem8RankedGeneralizedEnglishDropoutPrice
+        clickThroughRate lastDropout value rank ≤ state.clockPrice := by
+  rw [theorem8_continuous_source_action_strategy_eq_ranked_threshold,
+    paper_theorem8_ranked_threshold_dropout_strategy_drops_iff]
+
+/-- The named continuous source strategy specializes to the finite `B*`
+threshold used by the source-event proof when the previous dropout prices are
+the one-rank-lower VCG-tail `B*` bids. -/
+theorem theorem8_continuous_source_strategy_dropout_eq_bstar_threshold
+    (value clickThroughRate : ℕ → ℝ) (remaining rank : ℕ)
+    (hclick_pos : ∀ i, 0 < clickThroughRate i) :
+    (theorem8ContinuousSourceStrategy clickThroughRate).dropoutPrice
+        rank
+        (theorem7BStarBid value
+          (fun j =>
+            paper_theorem7_ranked_vcg_tail_payment
+              value clickThroughRate j remaining)
+          clickThroughRate (rank + 2))
+        (value (rank + 1)) =
+      theorem8BStarThresholdBid
+        value clickThroughRate (remaining + 1) (rank + 1) := by
+  calc
+    (theorem8ContinuousSourceStrategy clickThroughRate).dropoutPrice
+        rank
+        (theorem7BStarBid value
+          (fun j =>
+            paper_theorem7_ranked_vcg_tail_payment
+              value clickThroughRate j remaining)
+          clickThroughRate (rank + 2))
+        (value (rank + 1)) =
+        theorem8RankedGeneralizedEnglishDropoutPrice
+          clickThroughRate
+          (fun k =>
+            theorem7BStarBid value
+              (fun j =>
+                paper_theorem7_ranked_vcg_tail_payment
+                  value clickThroughRate j remaining)
+              clickThroughRate (k + 2))
+          value rank := by
+      exact
+        theorem8_continuous_source_strategy_ranked_dropout_eq
+          clickThroughRate
+          (fun k =>
+            theorem7BStarBid value
+              (fun j =>
+                paper_theorem7_ranked_vcg_tail_payment
+                  value clickThroughRate j remaining)
+              clickThroughRate (k + 2))
+          value rank
+    _ = theorem8BStarThresholdBid
+          value clickThroughRate (remaining + 1) (rank + 1) := by
+      exact
+        theorem8_ranked_dropout_formula_eq_bstar_threshold
+          value clickThroughRate remaining rank hclick_pos
+
+/-- With continuation prices equal to the lower-rank VCG-tail `B*` bids, the
+continuous source action strategy is exactly the finite `B*` ranked-threshold
+strategy used by the source-event PBE endpoint. -/
+theorem theorem8_continuous_source_action_strategy_eq_bstar_threshold
+    (value clickThroughRate : ℕ → ℝ) (remaining : ℕ)
+    (hclick_pos : ∀ i, 0 < clickThroughRate i) :
+    theorem8ContinuousSourceActionStrategy
+        clickThroughRate
+        (fun k =>
+          theorem7BStarBid value
+            (fun j =>
+              paper_theorem7_ranked_vcg_tail_payment
+                value clickThroughRate j remaining)
+            clickThroughRate (k + 2))
+        value =
+      paper_theorem8_bstar_ranked_threshold_strategy
+        value clickThroughRate remaining := by
+  funext state rank
+  apply propext
+  rw [paper_theorem8_bstar_ranked_threshold_strategy_drops_iff_threshold_bid
+    value clickThroughRate state rank remaining
+    (ne_of_gt (hclick_pos rank)) (ne_of_gt (hclick_pos (rank + 1)))]
+  have hprice :=
+    theorem8_continuous_source_strategy_dropout_eq_bstar_threshold
+      value clickThroughRate remaining rank hclick_pos
+  simpa [theorem8ContinuousSourceActionStrategy,
+    Theorem8ContinuousSourceStrategy.inducedActionStrategy, hprice]
+
+/-- The named continuous source strategy satisfies the source continuity
+restriction from the formula itself. -/
+theorem theorem8_continuous_source_strategy_continuous_in_value
+    (clickThroughRate : ℕ → ℝ) :
+    (theorem8ContinuousSourceStrategy
+      clickThroughRate).ContinuousInValuation := by
+  intro rank lastDropout
+  exact
+    theorem8_continuous_source_dropout_price_continuous_in_value
+      clickThroughRate rank lastDropout
+
+/--
+Right-continuity endpoint step for the continuous generalized-English source
+formula. If a continuous source strategy agrees with the EOS dropout formula
+for every bidder value strictly above the source lower endpoint, then the
+agreement also holds at that endpoint. This formalizes the final continuity
+move used in the paper's Theorem 8 proof.
+-/
+theorem theorem8_continuous_source_dropout_eq_formula_at_endpoint_of_right_eq
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (clickThroughRate : ℕ → ℝ) (rank : ℕ) (lastDropout boundary : ℝ)
+    (hcont : strategy.ContinuousInValuation)
+    (hright :
+      ∀ bidderValue, boundary < bidderValue →
+        strategy.dropoutPrice rank lastDropout bidderValue =
+          theorem8ContinuousSourceDropoutPrice
+            clickThroughRate rank lastDropout bidderValue) :
+    strategy.dropoutPrice rank lastDropout boundary =
+      theorem8ContinuousSourceDropoutPrice
+        clickThroughRate rank lastDropout boundary := by
+  let actual : ℝ → ℝ :=
+    fun bidderValue => strategy.dropoutPrice rank lastDropout bidderValue
+  let formula : ℝ → ℝ :=
+    fun bidderValue =>
+      theorem8ContinuousSourceDropoutPrice
+        clickThroughRate rank lastDropout bidderValue
+  have hactual :
+      Filter.Tendsto actual (nhdsWithin boundary (Set.Ioi boundary))
+        (nhds (actual boundary)) := by
+    exact (hcont rank lastDropout).continuousAt.continuousWithinAt
+  have hformula :
+      Filter.Tendsto formula (nhdsWithin boundary (Set.Ioi boundary))
+        (nhds (formula boundary)) := by
+    exact
+      (theorem8_continuous_source_dropout_price_continuous_in_value
+        clickThroughRate rank lastDropout).continuousAt.continuousWithinAt
+  have hsame : actual =ᶠ[nhdsWithin boundary (Set.Ioi boundary)] formula := by
+    filter_upwards [self_mem_nhdsWithin] with bidderValue hbidder
+    exact hright bidderValue hbidder
+  have heq : actual boundary = formula boundary :=
+    tendsto_nhds_unique_of_eventuallyEq hactual hformula hsame
+  simpa [actual, formula] using heq
+
+/--
+Source Step 1 shape in the continuous generalized-English proof: above the
+source lower endpoint, equilibrium dropout prices cannot be strictly above the
+indifference price `q`.
+-/
+def Theorem8ContinuousSourceStep1NoLate
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (clickThroughRate : ℕ → ℝ) (boundary : ℕ → ℝ → ℝ) : Prop :=
+  ∀ rank lastDropout bidderValue,
+    boundary rank lastDropout < bidderValue →
+      strategy.dropoutPrice rank lastDropout bidderValue ≤
+        theorem8ContinuousSourceDropoutPrice
+          clickThroughRate rank lastDropout bidderValue
+
+/--
+Source Step 2 shape in the continuous generalized-English proof: above the
+source lower endpoint, equilibrium dropout prices cannot be strictly below the
+indifference price `q`.
+-/
+def Theorem8ContinuousSourceStep2NoEarly
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (clickThroughRate : ℕ → ℝ) (boundary : ℕ → ℝ → ℝ) : Prop :=
+  ∀ rank lastDropout bidderValue,
+    boundary rank lastDropout < bidderValue →
+      theorem8ContinuousSourceDropoutPrice
+          clickThroughRate rank lastDropout bidderValue ≤
+        strategy.dropoutPrice rank lastDropout bidderValue
+
+/--
+One-step best-response condition used in the source proof of Theorem 8. At
+each rank/history/value/clock, dropping implies the lower-slot payoff is at
+least as good as continuing, and not dropping implies continuing is at least
+as good as taking the lower slot at the previous dropout price.
+-/
+def Theorem8ContinuousSourceOneStepBestResponse
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (clickThroughRate : ℕ → ℝ) : Prop :=
+  ∀ rank lastDropout bidderValue clockPrice,
+    (strategy.dropoutPrice rank lastDropout bidderValue ≤ clockPrice →
+      clickThroughRate rank * (bidderValue - clockPrice) ≤
+        clickThroughRate (rank + 1) * (bidderValue - lastDropout)) ∧
+      (¬ strategy.dropoutPrice rank lastDropout bidderValue ≤ clockPrice →
+        clickThroughRate (rank + 1) * (bidderValue - lastDropout) ≤
+          clickThroughRate rank * (bidderValue - clockPrice))
+
+/--
+Reduced local continuous-source PBE predicate used by the closed part of EOS
+Theorem 8. It packages exactly the continuous-strategy restriction from the
+source theorem and the ex-post one-step payoff condition proved below. The
+remaining source-modeling bridge is the theorem that the full continuous
+generalized-English PBE semantics imply this local predicate.
+-/
+def Theorem8ContinuousSourceLocalPBE
+    (clickThroughRate : ℕ → ℝ)
+    (strategy : Theorem8ContinuousSourceStrategy) : Prop :=
+  strategy.ContinuousInValuation ∧
+    Theorem8ContinuousSourceOneStepBestResponse strategy clickThroughRate
+
+/--
+Source payoff semantics for the continuous generalized-English proof of EOS
+Theorem 8. The paper's Step 1/Step 2 argument compares the payoff from
+continuing to the next higher position at the current clock price with the
+payoff from dropping and taking the lower position at the previous dropout
+price. This structure makes those payoff formulas explicit instead of treating
+PBE as an arbitrary predicate.
+-/
+structure Theorem8ContinuousSourcePayoffSemantics where
+  clickThroughRate : ℕ → ℝ
+  continuePayoff : ℕ → ℝ → ℝ → ℝ
+  dropPayoff : ℕ → ℝ → ℝ → ℝ
+  continuePayoff_eq :
+    ∀ rank clockPrice bidderValue,
+      continuePayoff rank clockPrice bidderValue =
+        clickThroughRate rank * (bidderValue - clockPrice)
+  dropPayoff_eq :
+    ∀ rank lastDropout bidderValue,
+      dropPayoff rank lastDropout bidderValue =
+        clickThroughRate (rank + 1) * (bidderValue - lastDropout)
+
+/--
+The continuous source PBE predicate induced by the paper's one-step
+drop/continue payoff comparison. A strategy is continuous in value and, at
+each source history, chooses a weakly payoff-maximizing side of the dropout
+cutoff.
+-/
+def Theorem8ContinuousSourcePayoffPBE
+    (semantics : Theorem8ContinuousSourcePayoffSemantics)
+    (strategy : Theorem8ContinuousSourceStrategy) : Prop :=
+  strategy.ContinuousInValuation ∧
+    ∀ rank lastDropout bidderValue clockPrice,
+      (strategy.dropoutPrice rank lastDropout bidderValue ≤ clockPrice →
+        semantics.continuePayoff rank clockPrice bidderValue ≤
+          semantics.dropPayoff rank lastDropout bidderValue) ∧
+        (¬ strategy.dropoutPrice rank lastDropout bidderValue ≤ clockPrice →
+          semantics.dropPayoff rank lastDropout bidderValue ≤
+            semantics.continuePayoff rank clockPrice bidderValue)
+
+/-- The concrete source payoff semantics obtained from the displayed EOS
+click-through-rate payoff formulas. -/
+def theorem8ContinuousSourcePayoffSemantics
+    (clickThroughRate : ℕ → ℝ) :
+    Theorem8ContinuousSourcePayoffSemantics where
+  clickThroughRate := clickThroughRate
+  continuePayoff := fun rank clockPrice bidderValue =>
+    clickThroughRate rank * (bidderValue - clockPrice)
+  dropPayoff := fun rank lastDropout bidderValue =>
+    clickThroughRate (rank + 1) * (bidderValue - lastDropout)
+  continuePayoff_eq := by
+    intro rank clockPrice bidderValue
+    rfl
+  dropPayoff_eq := by
+    intro rank lastDropout bidderValue
+    rfl
+
+/--
+Ex-post payoff-level source game for the continuous generalized-English
+auction. The source theorem's conclusion is ex post, so the distribution and
+posterior objects are not used in the payoff comparison once the history and
+realized values are fixed. The PBE predicate below therefore unfolds to the
+paper's drop/continue payoff optimality condition plus continuity.
+-/
+structure Theorem8ContinuousGeneralizedEnglishPayoffGame where
+  clickThroughRate : ℕ → ℝ
+  click_pos : ∀ rank, 0 < clickThroughRate rank
+
+namespace Theorem8ContinuousGeneralizedEnglishPayoffGame
+
+/-- Nonnegative value support used by the source model. -/
+def nonnegativeSupport : ℕ → ℝ → ℝ :=
+  fun _rank _lastDropout => 0
+
+/-- The payoff-level PBE predicate for the ex-post generalized-English game. -/
+def PerfectBayesianEquilibrium
+    (game : Theorem8ContinuousGeneralizedEnglishPayoffGame)
+    (strategy : Theorem8ContinuousSourceStrategy) : Prop :=
+  Theorem8ContinuousSourcePayoffPBE
+    (theorem8ContinuousSourcePayoffSemantics game.clickThroughRate)
+    strategy
+
+/-- The game induced by a strict ranked source-value model. -/
+def ofStrictValues
+    (model : theorem8StrictOrderedValueCertificate) :
+    Theorem8ContinuousGeneralizedEnglishPayoffGame :=
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+  { clickThroughRate := localModel.clickThroughRate
+    click_pos := localModel.click_pos }
+
+end Theorem8ContinuousGeneralizedEnglishPayoffGame
+
+/--
+The payoff-semantics PBE predicate is exactly the reduced local PBE predicate
+used by the closed Step 1/Step 2 algebra. This is the top-down bridge from the
+paper's source payoff comparisons to the already-formalized local theorem.
+-/
+theorem theorem8_continuous_source_payoff_pbe_iff_local_pbe
+    (semantics : Theorem8ContinuousSourcePayoffSemantics)
+    (strategy : Theorem8ContinuousSourceStrategy) :
+    Theorem8ContinuousSourcePayoffPBE semantics strategy ↔
+      Theorem8ContinuousSourceLocalPBE
+        semantics.clickThroughRate strategy := by
+  constructor
+  · intro hpbe
+    refine ⟨hpbe.1, ?_⟩
+    intro rank lastDropout bidderValue clockPrice
+    constructor
+    · intro hdrop
+      have hpay :=
+        (hpbe.2 rank lastDropout bidderValue clockPrice).1 hdrop
+      rw [semantics.continuePayoff_eq,
+        semantics.dropPayoff_eq] at hpay
+      exact hpay
+    · intro hnot_drop
+      have hpay :=
+        (hpbe.2 rank lastDropout bidderValue clockPrice).2 hnot_drop
+      rw [semantics.continuePayoff_eq,
+        semantics.dropPayoff_eq] at hpay
+      exact hpay
+  · intro hlocal
+    refine ⟨hlocal.1, ?_⟩
+    intro rank lastDropout bidderValue clockPrice
+    constructor
+    · intro hdrop
+      have hbest :=
+        (hlocal.2 rank lastDropout bidderValue clockPrice).1 hdrop
+      rw [semantics.continuePayoff_eq,
+        semantics.dropPayoff_eq]
+      exact hbest
+    · intro hnot_drop
+      have hbest :=
+        (hlocal.2 rank lastDropout bidderValue clockPrice).2 hnot_drop
+      rw [semantics.continuePayoff_eq,
+        semantics.dropPayoff_eq]
+      exact hbest
+
+/--
+The source proof's Step 1 follows from one-step best response. If a strategy
+planned to drop strictly after `q`, then at a midpoint clock between `q` and
+that planned dropout price it would be waiting even though taking the lower
+slot is strictly better.
+-/
+theorem theorem8_continuous_source_step1_no_late_of_one_step_best_response
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (clickThroughRate : ℕ → ℝ) (boundary : ℕ → ℝ → ℝ)
+    (hclick_pos : ∀ rank, 0 < clickThroughRate rank)
+    (hbest :
+      Theorem8ContinuousSourceOneStepBestResponse
+        strategy clickThroughRate) :
+    Theorem8ContinuousSourceStep1NoLate
+      strategy clickThroughRate boundary := by
+  intro rank lastDropout bidderValue _hsupport
+  by_contra hnot
+  let q :=
+    theorem8ContinuousSourceDropoutPrice
+      clickThroughRate rank lastDropout bidderValue
+  let p := strategy.dropoutPrice rank lastDropout bidderValue
+  have hq_lt_p : q < p := lt_of_not_ge hnot
+  let clockPrice : ℝ := (q + p) / 2
+  have hq_lt_clock : q < clockPrice := by
+    dsimp [clockPrice]
+    linarith
+  have hclock_lt_p : clockPrice < p := by
+    dsimp [clockPrice]
+    linarith
+  have hnot_drop : ¬ p ≤ clockPrice := by
+    linarith
+  have hbest_wait :
+      clickThroughRate (rank + 1) * (bidderValue - lastDropout) ≤
+        clickThroughRate rank * (bidderValue - clockPrice) := by
+    exact
+      (hbest rank lastDropout bidderValue clockPrice).2
+        (by simpa [p] using hnot_drop)
+  let lastDropoutProfile : ℕ → ℝ :=
+    fun k => if k = rank then lastDropout else 0
+  let valueProfile : ℕ → ℝ :=
+    fun k => if k = rank + 1 then bidderValue else 0
+  let state : PaperTheorem8GeneralizedEnglishAuctionState ℕ :=
+    { clockPrice := clockPrice, lastDropout := fun _ => none }
+  have hthreshold_lt_state :
+      paper_theorem8_generalized_english_ranked_dropout_price
+          clickThroughRate lastDropoutProfile valueProfile rank <
+        state.clockPrice := by
+    simpa [state, q, theorem8ContinuousSourceDropoutPrice,
+      theorem8GeneralizedEnglishDropoutPrice,
+      paper_theorem8_generalized_english_ranked_dropout_price,
+      lastDropoutProfile, valueProfile] using hq_lt_clock
+  have hstrict :
+      clickThroughRate rank * (bidderValue - clockPrice) <
+        clickThroughRate (rank + 1) * (bidderValue - lastDropout) := by
+    have hranked :=
+      paper_theorem8_ranked_threshold_prefers_drop_after_threshold
+        (clickThroughRate := clickThroughRate)
+        (lastDropout := lastDropoutProfile)
+        (value := valueProfile)
+        (state := state) (rank := rank)
+        (hclick_pos rank) hthreshold_lt_state
+    simpa [state, lastDropoutProfile, valueProfile] using hranked
+  exact not_le_of_gt hstrict hbest_wait
+
+/--
+The source proof's Step 2 follows from one-step best response. If a strategy
+planned to drop strictly before `q`, then at a midpoint clock between that
+planned dropout price and `q` it would drop even though continuing is strictly
+better.
+-/
+theorem theorem8_continuous_source_step2_no_early_of_one_step_best_response
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (clickThroughRate : ℕ → ℝ) (boundary : ℕ → ℝ → ℝ)
+    (hclick_pos : ∀ rank, 0 < clickThroughRate rank)
+    (hbest :
+      Theorem8ContinuousSourceOneStepBestResponse
+        strategy clickThroughRate) :
+    Theorem8ContinuousSourceStep2NoEarly
+      strategy clickThroughRate boundary := by
+  intro rank lastDropout bidderValue _hsupport
+  by_contra hnot
+  let q :=
+    theorem8ContinuousSourceDropoutPrice
+      clickThroughRate rank lastDropout bidderValue
+  let p := strategy.dropoutPrice rank lastDropout bidderValue
+  have hp_lt_q : p < q := lt_of_not_ge hnot
+  let clockPrice : ℝ := (p + q) / 2
+  have hp_lt_clock : p < clockPrice := by
+    dsimp [clockPrice]
+    linarith
+  have hclock_lt_q : clockPrice < q := by
+    dsimp [clockPrice]
+    linarith
+  have hdrop : p ≤ clockPrice := le_of_lt hp_lt_clock
+  have hbest_drop :
+      clickThroughRate rank * (bidderValue - clockPrice) ≤
+        clickThroughRate (rank + 1) * (bidderValue - lastDropout) := by
+    exact
+      (hbest rank lastDropout bidderValue clockPrice).1
+        (by simpa [p] using hdrop)
+  let lastDropoutProfile : ℕ → ℝ :=
+    fun k => if k = rank then lastDropout else 0
+  let valueProfile : ℕ → ℝ :=
+    fun k => if k = rank + 1 then bidderValue else 0
+  let state : PaperTheorem8GeneralizedEnglishAuctionState ℕ :=
+    { clockPrice := clockPrice, lastDropout := fun _ => none }
+  have hstate_lt_threshold :
+      state.clockPrice <
+        paper_theorem8_generalized_english_ranked_dropout_price
+          clickThroughRate lastDropoutProfile valueProfile rank := by
+    simpa [state, q, theorem8ContinuousSourceDropoutPrice,
+      theorem8GeneralizedEnglishDropoutPrice,
+      paper_theorem8_generalized_english_ranked_dropout_price,
+      lastDropoutProfile, valueProfile] using hclock_lt_q
+  have hstrict :
+      clickThroughRate (rank + 1) * (bidderValue - lastDropout) <
+        clickThroughRate rank * (bidderValue - clockPrice) := by
+    have hranked :=
+      paper_theorem8_ranked_threshold_prefers_active_before_threshold
+        (clickThroughRate := clickThroughRate)
+        (lastDropout := lastDropoutProfile)
+        (value := valueProfile)
+        (state := state) (rank := rank)
+        (hclick_pos rank) hstate_lt_threshold
+    simpa [state, lastDropoutProfile, valueProfile] using hranked
+  exact not_le_of_gt hstrict hbest_drop
+
+/-- One-step best response gives both Step 1 and Step 2 source inequalities. -/
+theorem theorem8_continuous_source_step_bounds_of_one_step_best_response
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (clickThroughRate : ℕ → ℝ) (boundary : ℕ → ℝ → ℝ)
+    (hclick_pos : ∀ rank, 0 < clickThroughRate rank)
+    (hbest :
+      Theorem8ContinuousSourceOneStepBestResponse
+        strategy clickThroughRate) :
+    Theorem8ContinuousSourceStep1NoLate strategy clickThroughRate boundary ∧
+      Theorem8ContinuousSourceStep2NoEarly strategy clickThroughRate boundary := by
+  exact
+    ⟨theorem8_continuous_source_step1_no_late_of_one_step_best_response
+        strategy clickThroughRate boundary hclick_pos hbest,
+      theorem8_continuous_source_step2_no_early_of_one_step_best_response
+        strategy clickThroughRate boundary hclick_pos hbest⟩
+
+/--
+The named continuous source formula is a one-step best response in the source
+payoff comparison: after the formula price, dropping is weakly better; before
+the formula price, waiting is weakly better.
+-/
+theorem theorem8_continuous_source_named_strategy_one_step_best_response
+    (clickThroughRate : ℕ → ℝ)
+    (hclick_pos : ∀ rank, 0 < clickThroughRate rank) :
+    Theorem8ContinuousSourceOneStepBestResponse
+      (theorem8ContinuousSourceStrategy clickThroughRate) clickThroughRate := by
+  intro rank lastDropout bidderValue clockPrice
+  let q :=
+    theorem8ContinuousSourceDropoutPrice
+      clickThroughRate rank lastDropout bidderValue
+  let lastDropoutProfile : ℕ → ℝ :=
+    fun k => if k = rank then lastDropout else 0
+  let valueProfile : ℕ → ℝ :=
+    fun k => if k = rank + 1 then bidderValue else 0
+  let state : PaperTheorem8GeneralizedEnglishAuctionState ℕ :=
+    { clockPrice := clockPrice, lastDropout := fun _ => none }
+  have hq_eq_ranked :
+      q =
+        paper_theorem8_generalized_english_ranked_dropout_price
+          clickThroughRate lastDropoutProfile valueProfile rank := by
+    simp [q, theorem8ContinuousSourceDropoutPrice,
+      theorem8GeneralizedEnglishDropoutPrice,
+      paper_theorem8_generalized_english_ranked_dropout_price,
+      lastDropoutProfile, valueProfile]
+  constructor
+  · intro hdrop
+    have hq_le_clock : q ≤ clockPrice := by
+      simpa [q, theorem8ContinuousSourceStrategy,
+        theorem8ContinuousSourceDropoutPrice] using hdrop
+    rcases eq_or_lt_of_le hq_le_clock with hq_eq_clock | hq_lt_clock
+    · have hclock_eq_ranked :
+          state.clockPrice =
+            paper_theorem8_generalized_english_ranked_dropout_price
+              clickThroughRate lastDropoutProfile valueProfile rank := by
+        simpa [state, hq_eq_ranked] using hq_eq_clock.symm
+      have hindiff :=
+        paper_theorem8_ranked_threshold_indifferent_at_clock
+          (clickThroughRate := clickThroughRate)
+          (lastDropout := lastDropoutProfile)
+          (value := valueProfile)
+          (state := state) (rank := rank)
+          (ne_of_gt (hclick_pos rank)) hclock_eq_ranked
+      exact
+        le_of_eq
+          (by
+            simpa [state, lastDropoutProfile, valueProfile] using hindiff)
+    · have hthreshold_lt_state :
+          paper_theorem8_generalized_english_ranked_dropout_price
+              clickThroughRate lastDropoutProfile valueProfile rank <
+            state.clockPrice := by
+        simpa [state, hq_eq_ranked] using hq_lt_clock
+      have hstrict :=
+        paper_theorem8_ranked_threshold_prefers_drop_after_threshold
+          (clickThroughRate := clickThroughRate)
+          (lastDropout := lastDropoutProfile)
+          (value := valueProfile)
+          (state := state) (rank := rank)
+          (hclick_pos rank) hthreshold_lt_state
+      exact
+        le_of_lt
+          (by
+            simpa [state, lastDropoutProfile, valueProfile] using hstrict)
+  · intro hnot_drop
+    have hnot_q_le_clock : ¬ q ≤ clockPrice := by
+      intro hq_le_clock
+      exact hnot_drop (by
+        simpa [q, theorem8ContinuousSourceStrategy,
+          theorem8ContinuousSourceDropoutPrice] using hq_le_clock)
+    have hclock_lt_q : clockPrice < q := not_le.mp hnot_q_le_clock
+    have hstate_lt_threshold :
+        state.clockPrice <
+          paper_theorem8_generalized_english_ranked_dropout_price
+            clickThroughRate lastDropoutProfile valueProfile rank := by
+      simpa [state, hq_eq_ranked] using hclock_lt_q
+    have hstrict :=
+      paper_theorem8_ranked_threshold_prefers_active_before_threshold
+        (clickThroughRate := clickThroughRate)
+        (lastDropout := lastDropoutProfile)
+        (value := valueProfile)
+        (state := state) (rank := rank)
+        (hclick_pos rank) hstate_lt_threshold
+    exact
+      le_of_lt
+        (by
+          simpa [state, lastDropoutProfile, valueProfile] using hstrict)
+
+/--
+Continuous-source proof skeleton for the final step of EOS Theorem 8. If the
+paper's Step 1 and Step 2 deviations rule out dropping respectively above and
+below the indifference price `q` for all surviving values, then a continuous
+source strategy agrees with the EOS dropout-price formula on the finite source
+profile. Values strictly above the lower endpoint use Step 1 and Step 2
+directly; values at the endpoint use right-continuity.
+-/
+theorem theorem8_continuous_source_profile_eq_formula_of_source_step_bounds
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (clickThroughRate lastDropout value : ℕ → ℝ)
+    (boundary : ℕ → ℝ → ℝ)
+    (hcont : strategy.ContinuousInValuation)
+    (hvalue_ge_boundary :
+      ∀ rank, boundary rank (lastDropout rank) ≤ value (rank + 1))
+    (hno_late :
+      Theorem8ContinuousSourceStep1NoLate
+        strategy clickThroughRate boundary)
+    (hno_early :
+      Theorem8ContinuousSourceStep2NoEarly
+        strategy clickThroughRate boundary) :
+    strategy.ProfileEq
+      (theorem8ContinuousSourceStrategy clickThroughRate) lastDropout value := by
+  intro rank
+  let boundaryValue := boundary rank (lastDropout rank)
+  let bidderValue := value (rank + 1)
+  by_cases hsurvives_strict : boundaryValue < bidderValue
+  · have hle :
+        strategy.dropoutPrice rank (lastDropout rank) bidderValue ≤
+          theorem8ContinuousSourceDropoutPrice
+            clickThroughRate rank (lastDropout rank) bidderValue :=
+        hno_late rank (lastDropout rank) bidderValue hsurvives_strict
+    have hge :
+        theorem8ContinuousSourceDropoutPrice
+            clickThroughRate rank (lastDropout rank) bidderValue ≤
+          strategy.dropoutPrice rank (lastDropout rank) bidderValue :=
+        hno_early rank (lastDropout rank) bidderValue hsurvives_strict
+    have heq :
+        strategy.dropoutPrice rank (lastDropout rank) bidderValue =
+          theorem8ContinuousSourceDropoutPrice
+            clickThroughRate rank (lastDropout rank) bidderValue :=
+      le_antisymm hle hge
+    simpa [Theorem8ContinuousSourceStrategy.ProfileEq,
+      theorem8ContinuousSourceStrategy, bidderValue] using heq
+  · have hbidder_eq_boundary : bidderValue = boundaryValue := by
+      exact le_antisymm (le_of_not_gt hsurvives_strict)
+        (hvalue_ge_boundary rank)
+    have hendpoint :
+        strategy.dropoutPrice rank (lastDropout rank) boundaryValue =
+          theorem8ContinuousSourceDropoutPrice
+            clickThroughRate rank (lastDropout rank) boundaryValue := by
+      exact
+        theorem8_continuous_source_dropout_eq_formula_at_endpoint_of_right_eq
+          strategy clickThroughRate rank (lastDropout rank) boundaryValue hcont
+          (by
+            intro bidderValue hgt
+            exact
+              le_antisymm
+                (hno_late rank (lastDropout rank) bidderValue hgt)
+                (hno_early rank (lastDropout rank) bidderValue hgt))
+    simpa [Theorem8ContinuousSourceStrategy.ProfileEq,
+      theorem8ContinuousSourceStrategy, bidderValue, hbidder_eq_boundary]
+      using hendpoint
+
+/--
+Support-level continuous-source proof skeleton for EOS Theorem 8. If the
+paper's Step 1 and Step 2 deviations rule out dropping respectively above and
+below `q`, then every continuous strategy agrees with the EOS formula on the
+source support. This is the source-domain version of the theorem above: it
+does not assert anything about valuations outside the paper's support.
+-/
+theorem theorem8_continuous_source_support_eq_formula_of_source_step_bounds
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (clickThroughRate : ℕ → ℝ)
+    (boundary : ℕ → ℝ → ℝ)
+    (hcont : strategy.ContinuousInValuation)
+    (hno_late :
+      Theorem8ContinuousSourceStep1NoLate
+        strategy clickThroughRate boundary)
+    (hno_early :
+      Theorem8ContinuousSourceStep2NoEarly
+        strategy clickThroughRate boundary) :
+    strategy.SupportEq
+      (theorem8ContinuousSourceStrategy clickThroughRate) boundary := by
+  intro rank lastDropout bidderValue hvalue_ge_boundary
+  let boundaryValue := boundary rank lastDropout
+  by_cases hsurvives_strict : boundaryValue < bidderValue
+  · have hle :
+        strategy.dropoutPrice rank lastDropout bidderValue ≤
+          theorem8ContinuousSourceDropoutPrice
+            clickThroughRate rank lastDropout bidderValue :=
+        hno_late rank lastDropout bidderValue hsurvives_strict
+    have hge :
+        theorem8ContinuousSourceDropoutPrice
+            clickThroughRate rank lastDropout bidderValue ≤
+          strategy.dropoutPrice rank lastDropout bidderValue :=
+        hno_early rank lastDropout bidderValue hsurvives_strict
+    have heq :
+        strategy.dropoutPrice rank lastDropout bidderValue =
+          theorem8ContinuousSourceDropoutPrice
+            clickThroughRate rank lastDropout bidderValue :=
+      le_antisymm hle hge
+    simpa [Theorem8ContinuousSourceStrategy.SupportEq,
+      theorem8ContinuousSourceStrategy] using heq
+  · have hbidder_eq_boundary : bidderValue = boundaryValue := by
+      exact le_antisymm (le_of_not_gt hsurvives_strict)
+        hvalue_ge_boundary
+    have hendpoint :
+        strategy.dropoutPrice rank lastDropout boundaryValue =
+          theorem8ContinuousSourceDropoutPrice
+            clickThroughRate rank lastDropout boundaryValue := by
+      exact
+        theorem8_continuous_source_dropout_eq_formula_at_endpoint_of_right_eq
+          strategy clickThroughRate rank lastDropout boundaryValue hcont
+          (by
+            intro bidderValue hgt
+            exact
+              le_antisymm
+                (hno_late rank lastDropout bidderValue hgt)
+                (hno_early rank lastDropout bidderValue hgt))
+    simpa [Theorem8ContinuousSourceStrategy.SupportEq,
+      theorem8ContinuousSourceStrategy, hbidder_eq_boundary] using hendpoint
+
+/--
+One-step best response plus continuity identifies the EOS formula on the
+source support. This is the source-proof route after replacing the paper's
+informal Step 1/Step 2 deviation arguments by a local payoff predicate.
+-/
+theorem theorem8_continuous_source_support_eq_formula_of_one_step_best_response
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (clickThroughRate : ℕ → ℝ) (boundary : ℕ → ℝ → ℝ)
+    (hclick_pos : ∀ rank, 0 < clickThroughRate rank)
+    (hcont : strategy.ContinuousInValuation)
+    (hbest :
+      Theorem8ContinuousSourceOneStepBestResponse
+        strategy clickThroughRate) :
+    strategy.SupportEq
+      (theorem8ContinuousSourceStrategy clickThroughRate) boundary := by
+  have hbounds :=
+    theorem8_continuous_source_step_bounds_of_one_step_best_response
+      strategy clickThroughRate boundary hclick_pos hbest
+  exact
+    theorem8_continuous_source_support_eq_formula_of_source_step_bounds
+      strategy clickThroughRate boundary hcont hbounds.1 hbounds.2
+
+/--
+Continuous-source local-best-response conclusion for EOS Theorem 8. The named
+formula is continuous and source one-step optimal, and every continuous
+one-step-best-response strategy agrees with it on the source support.
+-/
+theorem theorem8_continuous_source_local_best_response_support_unique
+    (clickThroughRate : ℕ → ℝ) (boundary : ℕ → ℝ → ℝ)
+    (hclick_pos : ∀ rank, 0 < clickThroughRate rank) :
+    let namedStrategy := theorem8ContinuousSourceStrategy clickThroughRate
+    namedStrategy.ContinuousInValuation ∧
+      Theorem8ContinuousSourceOneStepBestResponse namedStrategy clickThroughRate ∧
+        ∀ strategy : Theorem8ContinuousSourceStrategy,
+          strategy.ContinuousInValuation →
+            Theorem8ContinuousSourceOneStepBestResponse
+              strategy clickThroughRate →
+              strategy.SupportEq namedStrategy boundary := by
+  dsimp
+  refine ⟨?_, ?_, ?_⟩
+  · exact theorem8_continuous_source_strategy_continuous_in_value clickThroughRate
+  · exact
+      theorem8_continuous_source_named_strategy_one_step_best_response
+        clickThroughRate hclick_pos
+  · intro strategy hcont hbest
+    exact
+      theorem8_continuous_source_support_eq_formula_of_one_step_best_response
+        strategy clickThroughRate boundary hclick_pos hcont hbest
+
+/--
+Closed local-PBE form of the continuous part of EOS Theorem 8. In the reduced
+continuous source checker, the named dropout formula is a local PBE and every
+continuous local PBE agrees with it on the source support. This is stronger
+than a raw one-step-best-response lemma but still does not assert the full
+type-distribution PBE semantics from the paper.
+-/
+theorem theorem8_continuous_source_local_pbe_support_unique
+    (clickThroughRate : ℕ → ℝ) (boundary : ℕ → ℝ → ℝ)
+    (hclick_pos : ∀ rank, 0 < clickThroughRate rank) :
+    let namedStrategy := theorem8ContinuousSourceStrategy clickThroughRate
+    Theorem8ContinuousSourceLocalPBE clickThroughRate namedStrategy ∧
+      ∀ strategy : Theorem8ContinuousSourceStrategy,
+        Theorem8ContinuousSourceLocalPBE clickThroughRate strategy →
+          strategy.SupportEq namedStrategy boundary := by
+  dsimp [Theorem8ContinuousSourceLocalPBE]
+  have h :=
+    theorem8_continuous_source_local_best_response_support_unique
+      clickThroughRate boundary hclick_pos
+  dsimp at h
+  exact
+    ⟨⟨h.1, h.2.1⟩,
+      fun strategy hlocal =>
+        h.2.2 strategy hlocal.1 hlocal.2⟩
+
+/--
+Continuous-source payoff-PBE version of EOS Theorem 8's uniqueness step. With
+PBE interpreted through the paper's explicit drop/continue payoff comparison,
+the named dropout formula is a PBE, and every continuous payoff-PBE agrees
+with it on the source support.
+-/
+theorem theorem8_continuous_source_payoff_pbe_support_unique
+    (semantics : Theorem8ContinuousSourcePayoffSemantics)
+    (boundary : ℕ → ℝ → ℝ)
+    (hclick_pos : ∀ rank, 0 < semantics.clickThroughRate rank) :
+    let namedStrategy :=
+      theorem8ContinuousSourceStrategy semantics.clickThroughRate
+    Theorem8ContinuousSourcePayoffPBE semantics namedStrategy ∧
+      ∀ strategy : Theorem8ContinuousSourceStrategy,
+        Theorem8ContinuousSourcePayoffPBE semantics strategy →
+          strategy.SupportEq namedStrategy boundary := by
+  dsimp
+  have hlocal :=
+    theorem8_continuous_source_local_pbe_support_unique
+      semantics.clickThroughRate boundary hclick_pos
+  dsimp at hlocal
+  constructor
+  · exact
+      (theorem8_continuous_source_payoff_pbe_iff_local_pbe
+        semantics
+        (theorem8ContinuousSourceStrategy
+          semantics.clickThroughRate)).mpr hlocal.1
+  · intro strategy hpbe
+    exact
+      hlocal.2 strategy
+        ((theorem8_continuous_source_payoff_pbe_iff_local_pbe
+          semantics strategy).mp hpbe)
+
+/--
+Continuous generalized-English payoff game version of EOS Theorem 8's unique
+PBE formula. In the ex-post payoff semantics, the named continuous dropout
+formula is a PBE, and every continuous payoff-PBE agrees with it on the
+nonnegative source support.
+-/
+theorem theorem8_continuous_generalized_english_payoff_game_support_unique
+    (game : Theorem8ContinuousGeneralizedEnglishPayoffGame) :
+    let namedStrategy :=
+      theorem8ContinuousSourceStrategy game.clickThroughRate
+    game.PerfectBayesianEquilibrium namedStrategy ∧
+      ∀ strategy : Theorem8ContinuousSourceStrategy,
+        game.PerfectBayesianEquilibrium strategy →
+          strategy.SupportEq namedStrategy
+            Theorem8ContinuousGeneralizedEnglishPayoffGame.nonnegativeSupport := by
+  dsimp [Theorem8ContinuousGeneralizedEnglishPayoffGame.PerfectBayesianEquilibrium]
+  simpa [Theorem8ContinuousGeneralizedEnglishPayoffGame.nonnegativeSupport] using
+    theorem8_continuous_source_payoff_pbe_support_unique
+      (theorem8ContinuousSourcePayoffSemantics game.clickThroughRate)
+      Theorem8ContinuousGeneralizedEnglishPayoffGame.nonnegativeSupport
+      game.click_pos
+
+/--
+Outcome form of the continuous-source payoff-PBE theorem. Once the source
+outcome map is known to depend only on the support-level dropout formula, the
+payoff-semantics theorem returns the named PBE, VCG outcome for the named
+strategy, and VCG outcome for every continuous payoff-PBE strategy.
+-/
+theorem theorem8_continuous_source_payoff_pbe_outcome_unique
+    {Outcome : Type*}
+    (semantics : Theorem8ContinuousSourcePayoffSemantics)
+    (boundary : ℕ → ℝ → ℝ)
+    (outcomeOf : Theorem8ContinuousSourceStrategy → Outcome)
+    (vcgOutcome : Outcome)
+    (hclick_pos : ∀ rank, 0 < semantics.clickThroughRate rank)
+    (hnamed_outcome :
+      outcomeOf
+          (theorem8ContinuousSourceStrategy semantics.clickThroughRate) =
+        vcgOutcome)
+    (houtcome_support :
+      ∀ strategy : Theorem8ContinuousSourceStrategy,
+        strategy.SupportEq
+            (theorem8ContinuousSourceStrategy semantics.clickThroughRate)
+            boundary →
+          outcomeOf strategy = vcgOutcome) :
+    let namedStrategy :=
+      theorem8ContinuousSourceStrategy semantics.clickThroughRate
+    Theorem8ContinuousSourcePayoffPBE semantics namedStrategy ∧
+      outcomeOf namedStrategy = vcgOutcome ∧
+        ∀ strategy : Theorem8ContinuousSourceStrategy,
+          Theorem8ContinuousSourcePayoffPBE semantics strategy →
+            strategy.SupportEq namedStrategy boundary ∧
+              outcomeOf strategy = vcgOutcome := by
+  dsimp
+  have hsupport :=
+    theorem8_continuous_source_payoff_pbe_support_unique
+      semantics boundary hclick_pos
+  dsimp at hsupport
+  refine ⟨hsupport.1, hnamed_outcome, ?_⟩
+  intro strategy hpbe
+  have hstrategy_support := hsupport.2 strategy hpbe
+  exact ⟨hstrategy_support, houtcome_support strategy hstrategy_support⟩
+
+/--
+Bridge form of the remaining continuous-source PBE obligation in EOS Theorem 8.
+If a full continuous generalized-English game semantics proves that the named
+formula is a PBE and that every full PBE implies the reduced local PBE predicate
+above, then the already-closed local proof gives support-level uniqueness.
+
+This theorem is intentionally theorem-shaped rather than a bundled certificate:
+it isolates the exact missing source-model bridge without hiding the Lean-proved
+continuity, one-step, and Step 1/Step 2 algebra.
+-/
+theorem theorem8_continuous_source_pbe_support_unique_of_local_pbe_bridge
+    (clickThroughRate : ℕ → ℝ) (boundary : ℕ → ℝ → ℝ)
+    (isPerfectBayesianEquilibrium : Theorem8ContinuousSourceStrategy → Prop)
+    (hclick_pos : ∀ rank, 0 < clickThroughRate rank)
+    (hnamed_pbe :
+      isPerfectBayesianEquilibrium
+        (theorem8ContinuousSourceStrategy clickThroughRate))
+    (hpbe_implies_local :
+      ∀ strategy : Theorem8ContinuousSourceStrategy,
+        isPerfectBayesianEquilibrium strategy →
+          Theorem8ContinuousSourceLocalPBE clickThroughRate strategy) :
+    let namedStrategy := theorem8ContinuousSourceStrategy clickThroughRate
+    isPerfectBayesianEquilibrium namedStrategy ∧
+      ∀ strategy : Theorem8ContinuousSourceStrategy,
+        isPerfectBayesianEquilibrium strategy →
+          strategy.SupportEq namedStrategy boundary := by
+  dsimp
+  have hlocal :=
+    theorem8_continuous_source_local_pbe_support_unique
+      clickThroughRate boundary hclick_pos
+  dsimp at hlocal
+  exact
+    ⟨hnamed_pbe,
+      fun strategy hpbe =>
+        hlocal.2 strategy (hpbe_implies_local strategy hpbe)⟩
+
+/--
+Outcome form of the same continuous-source bridge. Once the source semantics
+proves that the named continuous strategy is a PBE, that every PBE implies the
+local one-step predicate, and that the named strategy has the VCG outcome, Lean
+returns the displayed dropout formula, continuity, support-level PBE uniqueness,
+and the VCG outcome conclusion.
+-/
+theorem theorem8_continuous_source_supported_pbe_outcome_of_local_pbe_bridge
+    {Outcome : Type*}
+    (clickThroughRate : ℕ → ℝ) (boundary : ℕ → ℝ → ℝ)
+    (isPerfectBayesianEquilibrium : Theorem8ContinuousSourceStrategy → Prop)
+    (outcomeOf : Theorem8ContinuousSourceStrategy → Outcome)
+    (vcgOutcome : Outcome)
+    (hclick_pos : ∀ rank, 0 < clickThroughRate rank)
+    (hnamed_pbe :
+      isPerfectBayesianEquilibrium
+        (theorem8ContinuousSourceStrategy clickThroughRate))
+    (hpbe_implies_local :
+      ∀ strategy : Theorem8ContinuousSourceStrategy,
+        isPerfectBayesianEquilibrium strategy →
+          Theorem8ContinuousSourceLocalPBE clickThroughRate strategy)
+    (hnamed_outcome_eq_vcg :
+      outcomeOf (theorem8ContinuousSourceStrategy clickThroughRate) =
+        vcgOutcome) :
+    (∀ rank lastDropout bidderValue,
+      (theorem8ContinuousSourceStrategy clickThroughRate).dropoutPrice
+          rank lastDropout bidderValue =
+        theorem8ContinuousSourceDropoutPrice
+          clickThroughRate rank lastDropout bidderValue) ∧
+      (theorem8ContinuousSourceStrategy
+        clickThroughRate).ContinuousInValuation ∧
+        ∃ equilibrium : Theorem8ContinuousSourceStrategy,
+          isPerfectBayesianEquilibrium equilibrium ∧
+            outcomeOf equilibrium = vcgOutcome ∧
+              ∀ strategy : Theorem8ContinuousSourceStrategy,
+                isPerfectBayesianEquilibrium strategy →
+                  strategy.SupportEq equilibrium boundary := by
+  refine ⟨?_, ?_, ?_⟩
+  · intro rank lastDropout bidderValue
+    exact
+      theorem8_continuous_source_strategy_dropout_eq_formula
+        clickThroughRate rank lastDropout bidderValue
+  · exact
+      theorem8_continuous_source_strategy_continuous_in_value
+        clickThroughRate
+  · let namedStrategy := theorem8ContinuousSourceStrategy clickThroughRate
+    have hbridge :=
+      theorem8_continuous_source_pbe_support_unique_of_local_pbe_bridge
+        clickThroughRate boundary isPerfectBayesianEquilibrium hclick_pos
+        hnamed_pbe hpbe_implies_local
+    dsimp [namedStrategy] at hbridge
+    refine
+      ⟨namedStrategy, hbridge.1,
+        by simpa [namedStrategy] using hnamed_outcome_eq_vcg, ?_⟩
+    intro strategy hpbe
+    exact hbridge.2 strategy hpbe
+
+/--
+Source-boundary certificate for the continuous generalized-English-auction
+version of EOS Theorem 8. The finite source-event endpoints above prove the
+strict-value/ex-post ranked-threshold route for constructed finite source
+games, and the declarations above define the continuous dropout-price strategy
+and its induced finite action strategy. The remaining source theorem still
+needs PBE semantics over type distributions, ex-post optimality, uniqueness,
+and VCG outcome identification. This certificate names exactly those
+continuous-game obligations without making them implicit assumptions in the
+finite proof.
+-/
+structure Theorem8ContinuousSourcePBECertificate
+    (Outcome : Type*) where
+  clickThroughRate : ℕ → ℝ
+  isPerfectBayesianEquilibrium : Theorem8ContinuousSourceStrategy → Prop
+  exPostBestResponse : Theorem8ContinuousSourceStrategy → Prop
+  outcomeOf : Theorem8ContinuousSourceStrategy → Outcome
+  vcgOutcome : Outcome
+  named_strategy_is_pbe :
+    isPerfectBayesianEquilibrium
+      (theorem8ContinuousSourceStrategy clickThroughRate)
+  named_strategy_ex_post :
+    exPostBestResponse
+      (theorem8ContinuousSourceStrategy clickThroughRate)
+  named_strategy_outcome_eq_vcg :
+    outcomeOf (theorem8ContinuousSourceStrategy clickThroughRate) =
+      vcgOutcome
+  unique_continuous_pbe :
+    ∀ strategy : Theorem8ContinuousSourceStrategy,
+      isPerfectBayesianEquilibrium strategy →
+        strategy.ContinuousInValuation →
+          strategy = theorem8ContinuousSourceStrategy clickThroughRate
+
+/--
+Source-boundary certificate for the support-level continuous generalized
+English-auction proof. Compared with `Theorem8ContinuousSourcePBECertificate`,
+this certificate replaces raw uniqueness of the continuous strategy function
+with the two source Step 1/Step 2 implications and proves uniqueness on the
+source support.
+-/
+structure Theorem8ContinuousSourceStepBoundPBECertificate
+    (Outcome : Type*) where
+  clickThroughRate : ℕ → ℝ
+  boundary : ℕ → ℝ → ℝ
+  click_pos : ∀ rank, 0 < clickThroughRate rank
+  isPerfectBayesianEquilibrium : Theorem8ContinuousSourceStrategy → Prop
+  exPostBestResponse : Theorem8ContinuousSourceStrategy → Prop
+  outcomeOf : Theorem8ContinuousSourceStrategy → Outcome
+  vcgOutcome : Outcome
+  named_strategy_is_pbe :
+    isPerfectBayesianEquilibrium
+      (theorem8ContinuousSourceStrategy clickThroughRate)
+  named_strategy_ex_post :
+    exPostBestResponse
+      (theorem8ContinuousSourceStrategy clickThroughRate)
+  named_strategy_outcome_eq_vcg :
+    outcomeOf (theorem8ContinuousSourceStrategy clickThroughRate) =
+      vcgOutcome
+  pbe_implies_one_step_best_response :
+    ∀ strategy : Theorem8ContinuousSourceStrategy,
+      isPerfectBayesianEquilibrium strategy →
+        strategy.ContinuousInValuation →
+          Theorem8ContinuousSourceOneStepBestResponse
+            strategy clickThroughRate
+
+/--
+Local source-game certificate for the continuous generalized-English proof.
+This is the tightest source-facing boundary currently exposed: a continuous
+source PBE is characterized by the one-step best-response condition formalized
+above, and the VCG outcome conclusion is supplied for the named source
+strategy. Lean then derives named PBE and support uniqueness.
+-/
+structure Theorem8ContinuousSourceLocalPBECertificate
+    (Outcome : Type*) where
+  clickThroughRate : ℕ → ℝ
+  boundary : ℕ → ℝ → ℝ
+  click_pos : ∀ rank, 0 < clickThroughRate rank
+  isPerfectBayesianEquilibrium : Theorem8ContinuousSourceStrategy → Prop
+  outcomeOf : Theorem8ContinuousSourceStrategy → Outcome
+  vcgOutcome : Outcome
+  pbe_iff_one_step_best_response :
+    ∀ strategy : Theorem8ContinuousSourceStrategy,
+      strategy.ContinuousInValuation →
+        (isPerfectBayesianEquilibrium strategy ↔
+          Theorem8ContinuousSourceOneStepBestResponse
+            strategy clickThroughRate)
+  named_strategy_outcome_eq_vcg :
+    outcomeOf (theorem8ContinuousSourceStrategy clickThroughRate) =
+      vcgOutcome
+
+/--
+Certificate form of the continuous-source Theorem 8 statement. Lean proves the
+named source strategy, its dropout formula, its rank-indexed specialization,
+and the formula's value-continuity internally; the full continuous-game PBE
+existence/uniqueness, ex-post best-response condition, and VCG outcome
+identification are explicit fields of the source-boundary certificate.
+-/
+theorem theorem8_continuous_source_pbe_of_certificate
+    {Outcome : Type*}
+    (model : Theorem8ContinuousSourcePBECertificate Outcome) :
+    (∀ rank lastDropout bidderValue,
+      (theorem8ContinuousSourceStrategy model.clickThroughRate).dropoutPrice
+          rank lastDropout bidderValue =
+        theorem8ContinuousSourceDropoutPrice
+          model.clickThroughRate rank lastDropout bidderValue) ∧
+      (theorem8ContinuousSourceStrategy
+        model.clickThroughRate).ContinuousInValuation ∧
+        ∃! equilibrium : Theorem8ContinuousSourceStrategy,
+          model.isPerfectBayesianEquilibrium equilibrium ∧
+            equilibrium.ContinuousInValuation ∧
+              model.exPostBestResponse equilibrium ∧
+                model.outcomeOf equilibrium = model.vcgOutcome := by
+  refine ⟨?_, ?_, ?_⟩
+  · intro rank lastDropout bidderValue
+    exact
+      theorem8_continuous_source_strategy_dropout_eq_formula
+        model.clickThroughRate rank lastDropout bidderValue
+  · exact
+      theorem8_continuous_source_strategy_continuous_in_value
+        model.clickThroughRate
+  · refine
+      ⟨theorem8ContinuousSourceStrategy model.clickThroughRate,
+        ⟨model.named_strategy_is_pbe,
+          theorem8_continuous_source_strategy_continuous_in_value
+            model.clickThroughRate,
+          model.named_strategy_ex_post,
+          model.named_strategy_outcome_eq_vcg⟩,
+        ?_⟩
+    intro strategy hstrategy
+    exact
+      model.unique_continuous_pbe strategy hstrategy.1 hstrategy.2.1
+
+/--
+Certificate form of the support-level continuous-source Theorem 8 statement.
+Lean proves the displayed formula and value-continuity internally, while the
+source-specific PBE work is localized to Step 1/Step 2 implications. The
+conclusion gives uniqueness on the source support rather than unsupported
+equality outside the type domain.
+-/
+theorem theorem8_continuous_source_supported_pbe_of_step_bound_certificate
+    {Outcome : Type*}
+    (model : Theorem8ContinuousSourceStepBoundPBECertificate Outcome) :
+    (∀ rank lastDropout bidderValue,
+      (theorem8ContinuousSourceStrategy model.clickThroughRate).dropoutPrice
+          rank lastDropout bidderValue =
+        theorem8ContinuousSourceDropoutPrice
+          model.clickThroughRate rank lastDropout bidderValue) ∧
+      (theorem8ContinuousSourceStrategy
+        model.clickThroughRate).ContinuousInValuation ∧
+        ∃ equilibrium : Theorem8ContinuousSourceStrategy,
+          model.isPerfectBayesianEquilibrium equilibrium ∧
+            equilibrium.ContinuousInValuation ∧
+              model.exPostBestResponse equilibrium ∧
+                model.outcomeOf equilibrium = model.vcgOutcome ∧
+                  ∀ strategy : Theorem8ContinuousSourceStrategy,
+                    model.isPerfectBayesianEquilibrium strategy →
+                      strategy.ContinuousInValuation →
+                        strategy.SupportEq equilibrium model.boundary := by
+  refine ⟨?_, ?_, ?_⟩
+  · intro rank lastDropout bidderValue
+    exact
+      theorem8_continuous_source_strategy_dropout_eq_formula
+        model.clickThroughRate rank lastDropout bidderValue
+  · exact
+      theorem8_continuous_source_strategy_continuous_in_value
+        model.clickThroughRate
+  · refine
+      ⟨theorem8ContinuousSourceStrategy model.clickThroughRate,
+        model.named_strategy_is_pbe,
+        theorem8_continuous_source_strategy_continuous_in_value
+          model.clickThroughRate,
+        model.named_strategy_ex_post,
+        model.named_strategy_outcome_eq_vcg,
+        ?_⟩
+    intro strategy hpbe hcont
+    exact
+      theorem8_continuous_source_support_eq_formula_of_one_step_best_response
+        strategy model.clickThroughRate model.boundary model.click_pos hcont
+        (model.pbe_implies_one_step_best_response strategy hpbe hcont)
+
+/--
+Continuous-source local-PBE certificate form for EOS Theorem 8. If the chosen
+continuous source-game semantics makes PBE equivalent to the one-step payoff
+condition, then the named formula is a PBE and every continuous PBE agrees with
+it on the source support. This leaves only the source-modeling bridge from the
+paper's full continuous PBE definition to the formal local condition.
+-/
+theorem theorem8_continuous_source_supported_pbe_of_local_pbe_certificate
+    {Outcome : Type*}
+    (model : Theorem8ContinuousSourceLocalPBECertificate Outcome) :
+    (∀ rank lastDropout bidderValue,
+      (theorem8ContinuousSourceStrategy model.clickThroughRate).dropoutPrice
+          rank lastDropout bidderValue =
+        theorem8ContinuousSourceDropoutPrice
+          model.clickThroughRate rank lastDropout bidderValue) ∧
+      (theorem8ContinuousSourceStrategy
+        model.clickThroughRate).ContinuousInValuation ∧
+        ∃ equilibrium : Theorem8ContinuousSourceStrategy,
+          model.isPerfectBayesianEquilibrium equilibrium ∧
+            equilibrium.ContinuousInValuation ∧
+              model.outcomeOf equilibrium = model.vcgOutcome ∧
+                ∀ strategy : Theorem8ContinuousSourceStrategy,
+                  model.isPerfectBayesianEquilibrium strategy →
+                    strategy.ContinuousInValuation →
+                      strategy.SupportEq equilibrium model.boundary := by
+  refine ⟨?_, ?_, ?_⟩
+  · intro rank lastDropout bidderValue
+    exact
+      theorem8_continuous_source_strategy_dropout_eq_formula
+        model.clickThroughRate rank lastDropout bidderValue
+  · exact
+      theorem8_continuous_source_strategy_continuous_in_value
+        model.clickThroughRate
+  · let namedStrategy := theorem8ContinuousSourceStrategy model.clickThroughRate
+    have hnamed_cont : namedStrategy.ContinuousInValuation :=
+      theorem8_continuous_source_strategy_continuous_in_value
+        model.clickThroughRate
+    have hnamed_best :
+        Theorem8ContinuousSourceOneStepBestResponse
+          namedStrategy model.clickThroughRate :=
+      theorem8_continuous_source_named_strategy_one_step_best_response
+        model.clickThroughRate model.click_pos
+    have hnamed_pbe : model.isPerfectBayesianEquilibrium namedStrategy :=
+      (model.pbe_iff_one_step_best_response namedStrategy hnamed_cont).mpr
+        hnamed_best
+    refine
+      ⟨namedStrategy, hnamed_pbe, hnamed_cont,
+        by simpa [namedStrategy] using model.named_strategy_outcome_eq_vcg,
+        ?_⟩
+    intro strategy hpbe hcont
+    have hbest :
+        Theorem8ContinuousSourceOneStepBestResponse
+          strategy model.clickThroughRate :=
+      (model.pbe_iff_one_step_best_response strategy hcont).mp hpbe
+    exact
+      theorem8_continuous_source_support_eq_formula_of_one_step_best_response
+        strategy model.clickThroughRate model.boundary model.click_pos hcont hbest
+
 /-! ## Source Theorems -/
 
 /-- GSP is not dominant-strategy truthful, witnessed by the paper's small example. -/
@@ -506,15 +2256,60 @@ theorem remark1_truthful_gsp_payment_weakly_dominates_vcg_per_click
 
 /--
 Remark 2: VCG-style position mechanisms are dominant-strategy truthful. The
-certificate records welfare maximization plus the standard externality-tax
-utility identity, with the tax independent of the bidder's own report.
+certificate records feasible welfare maximization plus the standard
+externality-tax utility identity, with the tax independent of the bidder's own
+report.
 -/
 theorem remark2_vcg_position_mechanism_truthful
     {Bidder Slot : Type*} [Fintype Bidder] [DecidableEq Bidder]
     {E : PositionEnvironment Slot} {M : PositionMechanism Bidder Slot}
-    (C : PositionMechanism.VCGDominantStrategyCertificate E M) :
+    (C : PositionMechanism.FeasibleVCGDominantStrategyCertificate E M) :
     PositionMechanism.TruthfulDominantStrategy E M := by
   exact paper_remark2_vcg_position_mechanism_truthful C
+
+/--
+Remark 2: VCG-style position mechanisms are dominant-strategy truthful. This
+source-facing form uses the constructive Clarke-pivot position mechanism
+generated from a feasible welfare-maximizing slot rule, rather than assuming a
+bundled VCG certificate.
+-/
+theorem remark2_vcg_position_slot_rule_truthful
+    {Bidder Slot : Type*} [Fintype Bidder] [DecidableEq Bidder]
+    {E : PositionEnvironment Slot}
+    {slotRule : (Bidder → ℝ) → Bidder → Option Slot}
+    (hclick_pos : ∀ s, 0 < E.clickThroughRate s)
+    (hfeasible :
+      ∀ reports,
+        (PositionOutcome.zeroPaymentOutcome
+          (slotRule reports)).FeasibleAssignment)
+    (hmax :
+      ∀ reports (outcome : PositionOutcome Bidder Slot),
+        outcome.FeasibleAssignment →
+          outcome.welfare E reports ≤
+            (PositionOutcome.zeroPaymentOutcome
+              (slotRule reports)).welfare E reports) :
+    PositionMechanism.TruthfulDominantStrategy E
+      (PositionMechanism.positionVCGMechanismOfSlotRule E slotRule) := by
+  exact
+    paper_remark2_vcg_position_slot_rule_truthful
+      hclick_pos hfeasible hmax
+
+/--
+Remark 2: for finite position auctions, the internally constructed VCG
+mechanism with a welfare-maximizing feasible assignment rule and Clarke-pivot
+per-click payments is dominant-strategy truthful.
+-/
+theorem remark2_finite_position_vcg_truthful
+    {Bidder Slot : Type*} [Fintype Bidder] [DecidableEq Bidder]
+    [Fintype Slot] [DecidableEq Slot]
+    {E : PositionEnvironment Slot}
+    (hclick_pos : ∀ s, 0 < E.clickThroughRate s) :
+    PositionMechanism.TruthfulDominantStrategy E
+      (PositionMechanism.positionVCGMechanism
+        (Bidder := Bidder) (Slot := Slot) E) := by
+  exact
+    paper_remark2_finite_position_vcg_truthful
+      (Bidder := Bidder) (Slot := Slot) hclick_pos
 
 /-- Running example: truthful bidding is a Nash equilibrium of the GSP mechanism. -/
 theorem running_example_truthful_gsp_is_nash :
@@ -563,6 +2358,179 @@ theorem theorem7_ranked_bstar_vcg_equivalent_locally_envy_free
   exact
     paper_theorem7_ordered_ranked_canonical_tail_no_positive_transfer_paper_conclusion
       model hvalue_nonneg
+
+/--
+Theorem 7 paper-facing endpoint over the ranked source primitives, with the
+VCG-equivalent outcome instantiated as the constructed `B*` outcome. This
+avoids exposing the internal comparison-payment certificate in the review row.
+-/
+theorem theorem7_ranked_bstar_no_positive_transfer_conclusion_from_primitives
+    {n : ℕ}
+    (value vcgTotalPayment clickThroughRate : ℕ → ℝ)
+    (hclick_nonneg : ∀ s : Fin n, 0 ≤ clickThroughRate s.val)
+    (hclick_pos : ∀ s : Fin n, 0 < clickThroughRate s.val)
+    (hclick_mono : ∀ k : ℕ, clickThroughRate (k + 1) ≤ clickThroughRate k)
+    (hvalue_mono : ∀ a b : ℕ, a ≤ b → value b ≤ value a)
+    (hvcg_rec :
+      ∀ k : ℕ,
+        vcgTotalPayment k =
+          (clickThroughRate k - clickThroughRate (k + 1)) * value (k + 1) +
+            vcgTotalPayment (k + 1))
+    (hpayment_le_value :
+      ∀ i : Fin n, vcgTotalPayment i.val ≤ clickThroughRate i.val * value i.val)
+    (hvcg_tail_eq :
+      ∀ i : Fin n,
+        vcgTotalPayment i.val =
+          paper_theorem7_ranked_vcg_tail_payment value clickThroughRate i.val
+            (paper_theorem7_ranked_canonical_tail_remaining i))
+    (hvalue_nonneg : ∀ i, 0 ≤ value i) :
+    ∃ O : PositionOutcome (Fin n) (Fin n),
+      paper_position_no_positive_transfers O ∧
+        O.SlotEnvyFree
+          (paper_theorem7_ranked_environment clickThroughRate)
+          (fun i : Fin n => value i.val) ∧
+        O.StableAssignment
+          (paper_theorem7_ranked_environment clickThroughRate)
+          (fun i : Fin n => value i.val) ∧
+        (∀ i,
+          O.slotOf i =
+            (paper_theorem7_ranked_bstar_outcome (n := n)
+              value vcgTotalPayment clickThroughRate).slotOf i) ∧
+        (∀ i,
+          O.paymentPerClick i =
+            (paper_theorem7_ranked_bstar_outcome (n := n)
+              value vcgTotalPayment clickThroughRate).paymentPerClick i) ∧
+        ∀ other : PositionOutcome (Fin n) (Fin n),
+          other.FeasibleAssignment →
+          other.IndividuallyRational
+            (paper_theorem7_ranked_environment clickThroughRate)
+            (fun i : Fin n => value i.val) →
+          other.SlotEnvyFree
+            (paper_theorem7_ranked_environment clickThroughRate)
+            (fun i : Fin n => value i.val) →
+          (∀ i, O.slotOf i = other.slotOf i) →
+          paper_position_no_positive_transfers other →
+          O.revenue (paper_theorem7_ranked_environment clickThroughRate) ≤
+            other.revenue (paper_theorem7_ranked_environment clickThroughRate) := by
+  let bstarOutcome : PositionOutcome (Fin n) (Fin n) :=
+    paper_theorem7_ranked_bstar_outcome (n := n)
+      value vcgTotalPayment clickThroughRate
+  let model :
+      PaperTheorem7OrderedRankedCanonicalTailComparisonPaymentCertificate n :=
+    { value := value
+      vcgTotalPayment := vcgTotalPayment
+      clickThroughRate := clickThroughRate
+      vcgOutcome := bstarOutcome
+      click_nonneg := hclick_nonneg
+      click_pos := hclick_pos
+      click_mono := hclick_mono
+      value_mono := hvalue_mono
+      vcg_rec := hvcg_rec
+      payment_le_value := hpayment_le_value
+      vcg_tail_eq := hvcg_tail_eq
+      same_slots_as_vcg := by
+        intro i
+        rfl
+      same_payments_as_vcg := by
+        intro i
+        rfl }
+  rcases
+    paper_theorem7_ordered_ranked_canonical_tail_no_positive_transfer_paper_conclusion
+      model hvalue_nonneg with
+    ⟨O, hnpt, hlef, hstable, hslots, hpayments, hmin⟩
+  refine ⟨O, hnpt, hlef, hstable, ?_, ?_, ?_⟩
+  · intro i
+    simpa [model, bstarOutcome] using hslots i
+  · intro i
+    simpa [model, bstarOutcome] using hpayments i
+  · intro other hfeasible hIR hother hsame hnpt_other
+    exact hmin other hfeasible hIR hother hsame hnpt_other
+
+/--
+Theorem 7 strict tie-broken GSP comparison endpoint over the ranked source
+primitives, again instantiating the VCG-equivalent outcome as `B*` internally
+instead of exposing a separate comparison certificate.
+-/
+theorem theorem7_ranked_bstar_strict_tiebreak_gsp_comparison_from_primitives
+    {n : ℕ}
+    (value vcgTotalPayment clickThroughRate : ℕ → ℝ)
+    (hclick_nonneg : ∀ s : Fin n, 0 ≤ clickThroughRate s.val)
+    (hclick_pos : ∀ s : Fin n, 0 < clickThroughRate s.val)
+    (hclick_mono : ∀ k : ℕ, clickThroughRate (k + 1) ≤ clickThroughRate k)
+    (hvalue_mono : ∀ a b : ℕ, a ≤ b → value b ≤ value a)
+    (hvcg_rec :
+      ∀ k : ℕ,
+        vcgTotalPayment k =
+          (clickThroughRate k - clickThroughRate (k + 1)) * value (k + 1) +
+            vcgTotalPayment (k + 1))
+    (hpayment_le_value :
+      ∀ i : Fin n, vcgTotalPayment i.val ≤ clickThroughRate i.val * value i.val)
+    (hvcg_tail_eq :
+      ∀ i : Fin n,
+        vcgTotalPayment i.val =
+          paper_theorem7_ranked_vcg_tail_payment value clickThroughRate i.val
+            (paper_theorem7_ranked_canonical_tail_remaining i))
+    (hvalue_nonneg : ∀ i, 0 ≤ value i)
+    (hvalue_strict : ∀ k : ℕ, k + 1 < n → value (k + 1) < value k)
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k) :
+    ∃ O : PositionOutcome (Fin n) (Fin n),
+      paper_position_no_positive_transfers O ∧
+        O.SlotEnvyFree
+          (paper_theorem7_ranked_environment clickThroughRate)
+          (fun i : Fin n => value i.val) ∧
+        O.StableAssignment
+          (paper_theorem7_ranked_environment clickThroughRate)
+          (fun i : Fin n => value i.val) ∧
+        (∀ i,
+          O.slotOf i =
+            (paper_theorem7_ranked_bstar_outcome (n := n)
+              value vcgTotalPayment clickThroughRate).slotOf i) ∧
+        (∀ i,
+          O.paymentPerClick i =
+            (paper_theorem7_ranked_bstar_outcome (n := n)
+              value vcgTotalPayment clickThroughRate).paymentPerClick i) ∧
+        ∀ bids : Fin n → ℝ,
+          (paper_ranked_gsp_tiebreak_mechanism n n).LocallyEnvyFreeEquilibrium
+            (paper_theorem7_ranked_environment clickThroughRate)
+            (fun i : Fin n => value i.val) bids →
+          (∀ i, 0 ≤ bids i) →
+            O.revenue (paper_theorem7_ranked_environment clickThroughRate) ≤
+              (paper_ranked_gsp_tiebreak_mechanism n n bids).revenue
+                (paper_theorem7_ranked_environment clickThroughRate) := by
+  let bstarOutcome : PositionOutcome (Fin n) (Fin n) :=
+    paper_theorem7_ranked_bstar_outcome (n := n)
+      value vcgTotalPayment clickThroughRate
+  let model :
+      PaperTheorem7OrderedRankedCanonicalTailComparisonPaymentCertificate n :=
+    { value := value
+      vcgTotalPayment := vcgTotalPayment
+      clickThroughRate := clickThroughRate
+      vcgOutcome := bstarOutcome
+      click_nonneg := hclick_nonneg
+      click_pos := hclick_pos
+      click_mono := hclick_mono
+      value_mono := hvalue_mono
+      vcg_rec := hvcg_rec
+      payment_le_value := hpayment_le_value
+      vcg_tail_eq := hvcg_tail_eq
+      same_slots_as_vcg := by
+        intro i
+        rfl
+      same_payments_as_vcg := by
+        intro i
+        rfl }
+  rcases
+    paper_theorem7_ordered_ranked_canonical_tail_strict_tiebreak_gsp_comparison_paper_conclusion
+      model hvalue_nonneg hvalue_strict hclick_strict with
+    ⟨O, hnpt, hlef, hstable, hslots, hpayments, hmin⟩
+  refine ⟨O, hnpt, hlef, hstable, ?_, ?_, ?_⟩
+  · intro i
+    simpa [model, bstarOutcome] using hslots i
+  · intro i
+    simpa [model, bstarOutcome] using hpayments i
+  · intro bids hlef_other hbids
+    exact hmin bids hlef_other hbids
 
 /--
 The source-shaped checker's PBE predicate is exactly the reachable/off-path
@@ -640,6 +2608,1204 @@ theorem theorem8_source_sequential_sequential_rationality_iff_local_deviation
         ((paper_theorem8_bstar_ranked_threshold_source_sequential_rationality_iff_local_deviation
           model.clickThroughRate model.value model.remaining initialState
           strategy).mpr hlocal)
+
+/--
+When the continuous source dropout-price formula is specialized to the finite
+strict-value `B*` source model, its induced action strategy satisfies the same
+local-deviation sequential-rationality target as the named finite threshold
+strategy.
+-/
+theorem theorem8_continuous_source_action_strategy_local_deviation_of_strict_values
+    (model : theorem8StrictOrderedValueCertificate) :
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    paper_theorem8_bstar_ranked_threshold_local_deviation_sequential_rationality_statement
+      localModel.clickThroughRate localModel.value localModel.remaining
+      (theorem8ContinuousSourceActionStrategy
+        localModel.clickThroughRate
+        (fun k =>
+          theorem7BStarBid localModel.value
+            (fun j =>
+              paper_theorem7_ranked_vcg_tail_payment
+                localModel.value localModel.clickThroughRate j
+                localModel.remaining)
+            localModel.clickThroughRate (k + 2))
+        localModel.value) := by
+  dsimp
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+  have hstrategy :
+      theorem8ContinuousSourceActionStrategy
+          localModel.clickThroughRate
+          (fun k =>
+            theorem7BStarBid localModel.value
+              (fun j =>
+                paper_theorem7_ranked_vcg_tail_payment
+                  localModel.value localModel.clickThroughRate j
+                  localModel.remaining)
+              localModel.clickThroughRate (k + 2))
+          localModel.value =
+        paper_theorem8_bstar_ranked_threshold_strategy
+          localModel.value localModel.clickThroughRate localModel.remaining :=
+    theorem8_continuous_source_action_strategy_eq_bstar_threshold
+      localModel.value localModel.clickThroughRate localModel.remaining
+      localModel.click_pos
+  rw [hstrategy]
+  simpa [localModel] using
+    theorem8_strict_values_named_strategy_ex_post_local_deviation model
+
+/--
+The same specialization satisfies the source-shaped reachable/off-path
+sequential-rationality predicate from any initial state. This is still a
+finite source-model specialization, not the full continuous PBE theorem.
+-/
+theorem theorem8_continuous_source_action_strategy_source_sequential_rationality_of_strict_values
+    (model : theorem8StrictOrderedValueCertificate)
+    (initialState : PaperTheorem8GeneralizedEnglishAuctionState ℕ) :
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    paper_theorem8_bstar_ranked_threshold_source_sequential_rationality_statement
+      localModel.clickThroughRate localModel.value localModel.remaining
+      initialState
+      (theorem8ContinuousSourceActionStrategy
+        localModel.clickThroughRate
+        (fun k =>
+          theorem7BStarBid localModel.value
+            (fun j =>
+              paper_theorem7_ranked_vcg_tail_payment
+                localModel.value localModel.clickThroughRate j
+                localModel.remaining)
+            localModel.clickThroughRate (k + 2))
+        localModel.value) := by
+  dsimp
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+  exact
+    (paper_theorem8_bstar_ranked_threshold_source_sequential_rationality_iff_local_deviation
+      localModel.clickThroughRate localModel.value localModel.remaining
+      initialState
+      (theorem8ContinuousSourceActionStrategy
+        localModel.clickThroughRate
+        (fun k =>
+          theorem7BStarBid localModel.value
+            (fun j =>
+              paper_theorem7_ranked_vcg_tail_payment
+                localModel.value localModel.clickThroughRate j
+                localModel.remaining)
+            localModel.clickThroughRate (k + 2))
+        localModel.value)).mpr
+      (by
+        simpa [localModel] using
+          theorem8_continuous_source_action_strategy_local_deviation_of_strict_values
+            model)
+
+/--
+The compact source-shaped checker therefore recognizes the continuous formula's
+finite `B*` action specialization as a PBE in the existing source-sequential
+game interface.
+-/
+theorem theorem8_continuous_source_action_strategy_source_sequential_pbe_of_strict_values
+    (model : theorem8StrictOrderedValueCertificate)
+    (initialState : PaperTheorem8GeneralizedEnglishAuctionState ℕ) :
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    (sourceSequentialGame localModel initialState).PerfectBayesianEquilibrium
+      (theorem8ContinuousSourceActionStrategy
+        localModel.clickThroughRate
+        (fun k =>
+          theorem7BStarBid localModel.value
+            (fun j =>
+              paper_theorem7_ranked_vcg_tail_payment
+                localModel.value localModel.clickThroughRate j
+                localModel.remaining)
+            localModel.clickThroughRate (k + 2))
+        localModel.value) := by
+  dsimp
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+  exact
+    (theorem8_source_sequential_pbe_iff_source_target
+      localModel initialState
+      (theorem8ContinuousSourceActionStrategy
+        localModel.clickThroughRate
+        (fun k =>
+          theorem7BStarBid localModel.value
+            (fun j =>
+              paper_theorem7_ranked_vcg_tail_payment
+                localModel.value localModel.clickThroughRate j
+                localModel.remaining)
+            localModel.clickThroughRate (k + 2))
+        localModel.value)).mpr
+      (by
+        simpa [localModel] using
+          theorem8_continuous_source_action_strategy_source_sequential_rationality_of_strict_values
+            model initialState)
+
+/--
+In the finite strict-values source-sequential checker, being a PBE is
+equivalent to being the action strategy induced by the continuous dropout-price
+formula specialized to the finite `B*` continuation prices.
+-/
+theorem theorem8_continuous_source_action_strategy_source_sequential_pbe_iff_of_strict_values
+    (model : theorem8StrictOrderedValueCertificate)
+    (initialState : PaperTheorem8GeneralizedEnglishAuctionState ℕ)
+    (strategy : PaperTheorem8GeneralizedEnglishStrategy ℕ) :
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    (sourceSequentialGame localModel initialState).PerfectBayesianEquilibrium
+        strategy ↔
+      strategy =
+        theorem8ContinuousSourceActionStrategy
+          localModel.clickThroughRate
+          (fun k =>
+            theorem7BStarBid localModel.value
+              (fun j =>
+                paper_theorem7_ranked_vcg_tail_payment
+                  localModel.value localModel.clickThroughRate j
+                  localModel.remaining)
+              localModel.clickThroughRate (k + 2))
+          localModel.value := by
+  dsimp
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+  have hcontinuous :
+      theorem8ContinuousSourceActionStrategy
+          localModel.clickThroughRate
+          (fun k =>
+            theorem7BStarBid localModel.value
+              (fun j =>
+                paper_theorem7_ranked_vcg_tail_payment
+                  localModel.value localModel.clickThroughRate j
+                  localModel.remaining)
+              localModel.clickThroughRate (k + 2))
+          localModel.value =
+        paper_theorem8_bstar_ranked_threshold_strategy
+          localModel.value localModel.clickThroughRate localModel.remaining := by
+    exact
+      theorem8_continuous_source_action_strategy_eq_bstar_threshold
+        localModel.value localModel.clickThroughRate localModel.remaining
+        localModel.click_pos
+  constructor
+  · intro hpbe
+    have hnamed :
+        strategy =
+          paper_theorem8_bstar_ranked_threshold_strategy
+            localModel.value localModel.clickThroughRate localModel.remaining := by
+      exact
+        (paper_theorem8_bstar_ranked_threshold_source_sequential_dynamic_game_pbe_iff_named_strategy
+          localModel initialState strategy).mp
+          (by simpa [sourceSequentialGame, localModel] using hpbe)
+    exact hnamed.trans hcontinuous.symm
+  · intro hstrategy
+    subst strategy
+    simpa [localModel] using
+      theorem8_continuous_source_action_strategy_source_sequential_pbe_of_strict_values
+        model initialState
+
+/--
+In the finite strict-values source-sequential checker, any continuous-source
+dropout-price strategy whose induced finite action rule is a PBE must agree
+with the EOS dropout-price formula on that source profile. This is the bridge
+from action-strategy uniqueness back to the paper's price-function notation.
+-/
+theorem theorem8_continuous_source_strategy_dropout_eq_formula_of_strict_values_source_sequential_pbe
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (model : theorem8StrictOrderedValueCertificate)
+    (initialState : PaperTheorem8GeneralizedEnglishAuctionState ℕ)
+    (hpbe :
+      let localModel :=
+        paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+          (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+      let continuation :=
+        fun k =>
+          theorem7BStarBid localModel.value
+            (fun j =>
+              paper_theorem7_ranked_vcg_tail_payment
+                localModel.value localModel.clickThroughRate j
+                localModel.remaining)
+            localModel.clickThroughRate (k + 2)
+      (sourceSequentialGame localModel initialState).PerfectBayesianEquilibrium
+        (strategy.inducedActionStrategy continuation localModel.value)) :
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    let continuation :=
+      fun k =>
+        theorem7BStarBid localModel.value
+          (fun j =>
+            paper_theorem7_ranked_vcg_tail_payment
+              localModel.value localModel.clickThroughRate j
+              localModel.remaining)
+          localModel.clickThroughRate (k + 2)
+    ∀ rank,
+      strategy.dropoutPrice rank (continuation rank)
+          (localModel.value (rank + 1)) =
+        theorem8RankedGeneralizedEnglishDropoutPrice
+          localModel.clickThroughRate continuation localModel.value rank := by
+  dsimp at hpbe ⊢
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+  let continuation :=
+    fun k =>
+      theorem7BStarBid localModel.value
+        (fun j =>
+          paper_theorem7_ranked_vcg_tail_payment
+            localModel.value localModel.clickThroughRate j
+            localModel.remaining)
+        localModel.clickThroughRate (k + 2)
+  have haction :
+      strategy.inducedActionStrategy continuation localModel.value =
+        theorem8ContinuousSourceActionStrategy
+          localModel.clickThroughRate continuation localModel.value := by
+    exact
+      (theorem8_continuous_source_action_strategy_source_sequential_pbe_iff_of_strict_values
+        model initialState
+        (strategy.inducedActionStrategy continuation localModel.value)).mp
+        (by simpa [localModel, continuation] using hpbe)
+  exact
+    (theorem8_continuous_source_induced_action_eq_formula_iff
+      strategy localModel.clickThroughRate continuation localModel.value).mp
+      haction
+
+/--
+Profile-level continuous-source Theorem 8 uniqueness in the compact
+source-sequential checker. For each strict source profile, the EOS continuous
+dropout-price formula is continuous in value, its induced finite action rule is
+a PBE, and any continuous-source strategy whose induced finite action rule is a
+PBE agrees with the EOS dropout-price formula on that source profile.
+-/
+theorem theorem8_continuous_source_strategy_profile_unique_source_sequential_pbe_of_strict_values
+    (model : theorem8StrictOrderedValueCertificate)
+    (initialState : PaperTheorem8GeneralizedEnglishAuctionState ℕ) :
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    let continuation :=
+      fun k =>
+        theorem7BStarBid localModel.value
+          (fun j =>
+            paper_theorem7_ranked_vcg_tail_payment
+              localModel.value localModel.clickThroughRate j
+              localModel.remaining)
+          localModel.clickThroughRate (k + 2)
+    let namedStrategy :=
+      theorem8ContinuousSourceStrategy localModel.clickThroughRate
+    namedStrategy.ContinuousInValuation ∧
+      (sourceSequentialGame localModel initialState).PerfectBayesianEquilibrium
+        (namedStrategy.inducedActionStrategy continuation localModel.value) ∧
+      ∀ otherStrategy : Theorem8ContinuousSourceStrategy,
+        (sourceSequentialGame localModel initialState).PerfectBayesianEquilibrium
+          (otherStrategy.inducedActionStrategy continuation localModel.value) →
+        otherStrategy.ProfileEq namedStrategy continuation localModel.value := by
+  dsimp
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+  let continuation :=
+    fun k =>
+      theorem7BStarBid localModel.value
+        (fun j =>
+          paper_theorem7_ranked_vcg_tail_payment
+            localModel.value localModel.clickThroughRate j
+            localModel.remaining)
+        localModel.clickThroughRate (k + 2)
+  refine ⟨?_, ?_, ?_⟩
+  · exact
+      theorem8_continuous_source_strategy_continuous_in_value
+        localModel.clickThroughRate
+  · simpa [theorem8ContinuousSourceActionStrategy, localModel, continuation] using
+      theorem8_continuous_source_action_strategy_source_sequential_pbe_of_strict_values
+        model initialState
+  · intro otherStrategy hpbe rank
+    have hother :=
+      theorem8_continuous_source_strategy_dropout_eq_formula_of_strict_values_source_sequential_pbe
+        otherStrategy model initialState
+        (by simpa [localModel, continuation] using hpbe)
+        rank
+    have hnamed :
+        (theorem8ContinuousSourceStrategy localModel.clickThroughRate).dropoutPrice
+            rank (continuation rank) (localModel.value (rank + 1)) =
+          theorem8RankedGeneralizedEnglishDropoutPrice
+            localModel.clickThroughRate continuation localModel.value rank := by
+      exact
+        theorem8_continuous_source_strategy_ranked_dropout_eq
+          localModel.clickThroughRate continuation localModel.value rank
+    exact hother.trans hnamed.symm
+
+/--
+Continuous payoff-PBE strategies induce the same finite source-sequential PBE
+action rule on every strict source profile whose realized values lie in the
+source support. This connects the payoff-semantics continuous layer to the
+existing strict-values finite source-game endpoint.
+-/
+theorem theorem8_continuous_source_payoff_pbe_induced_source_sequential_pbe_of_strict_values
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (model : theorem8StrictOrderedValueCertificate)
+    (initialState : PaperTheorem8GeneralizedEnglishAuctionState ℕ)
+    (boundary : ℕ → ℝ → ℝ)
+    (hboundary :
+      let localModel :=
+        paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+          (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+      let continuation :=
+        fun k =>
+          theorem7BStarBid localModel.value
+            (fun j =>
+              paper_theorem7_ranked_vcg_tail_payment
+                localModel.value localModel.clickThroughRate j
+                localModel.remaining)
+            localModel.clickThroughRate (k + 2)
+      ∀ rank, boundary rank (continuation rank) ≤ localModel.value (rank + 1))
+    (hpbe :
+      let localModel :=
+        paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+          (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+      Theorem8ContinuousSourcePayoffPBE
+        (theorem8ContinuousSourcePayoffSemantics localModel.clickThroughRate)
+        strategy) :
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    let continuation :=
+      fun k =>
+        theorem7BStarBid localModel.value
+          (fun j =>
+            paper_theorem7_ranked_vcg_tail_payment
+              localModel.value localModel.clickThroughRate j
+              localModel.remaining)
+          localModel.clickThroughRate (k + 2)
+    (sourceSequentialGame localModel initialState).PerfectBayesianEquilibrium
+      (strategy.inducedActionStrategy continuation localModel.value) := by
+  dsimp at hboundary hpbe ⊢
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+  let continuation :=
+    fun k =>
+      theorem7BStarBid localModel.value
+        (fun j =>
+          paper_theorem7_ranked_vcg_tail_payment
+            localModel.value localModel.clickThroughRate j
+            localModel.remaining)
+        localModel.clickThroughRate (k + 2)
+  let semantics :=
+    theorem8ContinuousSourcePayoffSemantics localModel.clickThroughRate
+  have hsupport :
+      strategy.SupportEq
+        (theorem8ContinuousSourceStrategy localModel.clickThroughRate)
+        boundary := by
+    have hunique :=
+      theorem8_continuous_source_payoff_pbe_support_unique
+        semantics boundary localModel.click_pos
+    dsimp [semantics] at hunique
+    exact hunique.2 strategy (by simpa [localModel, semantics] using hpbe)
+  have hprice :
+      ∀ rank,
+        strategy.dropoutPrice rank (continuation rank)
+            (localModel.value (rank + 1)) =
+          theorem8RankedGeneralizedEnglishDropoutPrice
+            localModel.clickThroughRate continuation localModel.value rank := by
+    intro rank
+    calc
+      strategy.dropoutPrice rank (continuation rank)
+          (localModel.value (rank + 1)) =
+          (theorem8ContinuousSourceStrategy localModel.clickThroughRate).dropoutPrice
+            rank (continuation rank) (localModel.value (rank + 1)) := by
+        exact hsupport rank (continuation rank)
+          (localModel.value (rank + 1)) (hboundary rank)
+      _ = theorem8RankedGeneralizedEnglishDropoutPrice
+            localModel.clickThroughRate continuation localModel.value rank := by
+        exact
+          theorem8_continuous_source_strategy_ranked_dropout_eq
+            localModel.clickThroughRate continuation localModel.value rank
+  have haction :
+      strategy.inducedActionStrategy continuation localModel.value =
+        theorem8ContinuousSourceActionStrategy
+          localModel.clickThroughRate continuation localModel.value :=
+    (theorem8_continuous_source_induced_action_eq_formula_iff
+      strategy localModel.clickThroughRate continuation localModel.value).mpr
+      hprice
+  rw [haction]
+  exact
+    theorem8_continuous_source_action_strategy_source_sequential_pbe_of_strict_values
+      model initialState
+
+/--
+Profile equality version of the payoff-PBE bridge above: every continuous
+payoff-PBE strategy agrees with the EOS formula on the realized strict source
+profile, provided that profile lies in the source support.
+-/
+theorem theorem8_continuous_source_payoff_pbe_profile_eq_of_strict_values
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (model : theorem8StrictOrderedValueCertificate)
+    (boundary : ℕ → ℝ → ℝ)
+    (hboundary :
+      let localModel :=
+        paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+          (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+      let continuation :=
+        fun k =>
+          theorem7BStarBid localModel.value
+            (fun j =>
+              paper_theorem7_ranked_vcg_tail_payment
+                localModel.value localModel.clickThroughRate j
+                localModel.remaining)
+            localModel.clickThroughRate (k + 2)
+      ∀ rank, boundary rank (continuation rank) ≤ localModel.value (rank + 1))
+    (hpbe :
+      let localModel :=
+        paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+          (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+      Theorem8ContinuousSourcePayoffPBE
+        (theorem8ContinuousSourcePayoffSemantics localModel.clickThroughRate)
+        strategy) :
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    let continuation :=
+      fun k =>
+        theorem7BStarBid localModel.value
+          (fun j =>
+            paper_theorem7_ranked_vcg_tail_payment
+              localModel.value localModel.clickThroughRate j
+              localModel.remaining)
+          localModel.clickThroughRate (k + 2)
+    strategy.ProfileEq
+      (theorem8ContinuousSourceStrategy localModel.clickThroughRate)
+      continuation localModel.value := by
+  dsimp at hboundary hpbe ⊢
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+  let continuation :=
+    fun k =>
+      theorem7BStarBid localModel.value
+        (fun j =>
+          paper_theorem7_ranked_vcg_tail_payment
+            localModel.value localModel.clickThroughRate j
+            localModel.remaining)
+        localModel.clickThroughRate (k + 2)
+  let semantics :=
+    theorem8ContinuousSourcePayoffSemantics localModel.clickThroughRate
+  have hsupport :
+      strategy.SupportEq
+        (theorem8ContinuousSourceStrategy localModel.clickThroughRate)
+        boundary := by
+    have hunique :=
+      theorem8_continuous_source_payoff_pbe_support_unique
+        semantics boundary localModel.click_pos
+    dsimp [semantics] at hunique
+    exact hunique.2 strategy (by simpa [localModel, semantics] using hpbe)
+  intro rank
+  exact hsupport rank (continuation rank)
+    (localModel.value (rank + 1)) (hboundary rank)
+
+/--
+In the finite strict-values source-sequential checker, the continuous formula's
+induced action specialization is the unique PBE strategy and the checker outcome
+is the constructed VCG/`B*` outcome. This is a finite source-game theorem in
+the paper's dropout-price formula language; the full continuous type-space PBE
+existence theorem remains separate.
+-/
+theorem theorem8_continuous_source_action_strategy_unique_source_sequential_pbe_outcome_eq_vcg_of_strict_values
+    (model : theorem8StrictOrderedValueCertificate)
+    (initialState : PaperTheorem8GeneralizedEnglishAuctionState ℕ) :
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    let strategy :=
+      theorem8ContinuousSourceActionStrategy
+        localModel.clickThroughRate
+        (fun k =>
+          theorem7BStarBid localModel.value
+            (fun j =>
+              paper_theorem7_ranked_vcg_tail_payment
+                localModel.value localModel.clickThroughRate j
+                localModel.remaining)
+            localModel.clickThroughRate (k + 2))
+        localModel.value
+    let G := sourceSequentialGame localModel initialState
+    ∃! equilibrium : PaperTheorem8GeneralizedEnglishStrategy ℕ,
+      G.PerfectBayesianEquilibrium equilibrium ∧
+        equilibrium = strategy ∧
+          G.outcomeOf equilibrium = G.vcgOutcome := by
+  dsimp
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+  let strategy :=
+    theorem8ContinuousSourceActionStrategy
+      localModel.clickThroughRate
+      (fun k =>
+        theorem7BStarBid localModel.value
+          (fun j =>
+            paper_theorem7_ranked_vcg_tail_payment
+              localModel.value localModel.clickThroughRate j
+              localModel.remaining)
+          localModel.clickThroughRate (k + 2))
+      localModel.value
+  let G := sourceSequentialGame localModel initialState
+  have hstrategy :
+      strategy =
+        paper_theorem8_bstar_ranked_threshold_strategy
+          localModel.value localModel.clickThroughRate localModel.remaining := by
+    simpa [strategy] using
+      theorem8_continuous_source_action_strategy_eq_bstar_threshold
+        localModel.value localModel.clickThroughRate localModel.remaining
+        localModel.click_pos
+  refine ⟨strategy, ?_, ?_⟩
+  · refine ⟨?_, rfl, ?_⟩
+    · simpa [localModel, strategy] using
+        theorem8_continuous_source_action_strategy_source_sequential_pbe_of_strict_values
+          model initialState
+    · rfl
+  · intro other hother
+    have hother_strategy :
+        other =
+          paper_theorem8_bstar_ranked_threshold_strategy
+            localModel.value localModel.clickThroughRate localModel.remaining := by
+      simpa [G, sourceSequentialGame, localModel] using
+        (paper_theorem8_bstar_ranked_threshold_source_sequential_dynamic_game_pbe_iff_named_strategy
+          localModel initialState other).mp hother.1
+    exact hother_strategy.trans hstrategy.symm
+
+/--
+Theorem 8, source-event finite full displayed formula form, with the PBE
+strategy identified directly as the action strategy induced by the continuous
+dropout-price formula. This is still the finite strict-values/source-event
+theorem, not the full continuous type-space PBE theorem.
+-/
+theorem theorem8_price_sorted_finite_schedule_source_event_strict_values_unique_pbe_continuous_action_formula_conclusion
+    (model : theorem8StrictOrderedValueCertificate) (n : ℕ) :
+    let scheduledRanks :=
+      paper_theorem8_bstar_ranked_threshold_price_sorted_fin_schedule
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model) n
+    let rankSchedule :=
+      paper_theorem8_bstar_ranked_threshold_fin_schedule_ranks scheduledRanks
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    let activeRanks := rankSchedule.toFinset
+    let initialState :=
+      paper_theorem8_bstar_ranked_threshold_finite_active_exact_record_cold_start_state
+        localModel activeRanks
+    let finalState :=
+      paper_theorem8_bstar_ranked_threshold_exact_drop_schedule_final_state
+        localModel initialState rankSchedule
+    let G :=
+      paper_theorem8_bstar_ranked_threshold_terminal_record_source_extensive_dynamic_game_of_states
+        localModel initialState finalState
+    let continuousAction :=
+      theorem8ContinuousSourceActionStrategy
+        localModel.clickThroughRate
+        (fun k =>
+          theorem7BStarBid localModel.value
+            (fun j =>
+              paper_theorem7_ranked_vcg_tail_payment
+                localModel.value localModel.clickThroughRate j
+                localModel.remaining)
+            localModel.clickThroughRate (k + 2))
+        localModel.value
+    ∃! strategy : PaperTheorem8GeneralizedEnglishStrategy ℕ,
+      G.PerfectBayesianEquilibrium strategy ∧
+        strategy = continuousAction ∧
+          G.outcomeOf strategy = G.vcgOutcome ∧
+            (∀ rank : Fin n,
+              initialState.IsActive rank.val ∧
+                ¬ finalState.IsActive rank.val ∧
+                  (G.outcomeOf strategy).slotOf rank.val = some rank.val ∧
+                    (G.outcomeOf strategy).paymentPerClick rank.val =
+                      theorem8RankedGeneralizedEnglishDropoutPrice
+                        localModel.clickThroughRate
+                        (fun k =>
+                          theorem7BStarBid localModel.value
+                            (fun j =>
+                              paper_theorem7_ranked_vcg_tail_payment
+                                localModel.value localModel.clickThroughRate j
+                                localModel.remaining)
+                            localModel.clickThroughRate (k + 2))
+                        localModel.value rank.val) ∧
+              PaperTheorem8BStarRankedThresholdOrderedStateGamePayoffConclusion
+                localModel G strategy := by
+  dsimp
+  let strictModel :=
+    theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model
+  let scheduledRanks :=
+    paper_theorem8_bstar_ranked_threshold_price_sorted_fin_schedule
+      strictModel n
+  let rankSchedule :=
+    paper_theorem8_bstar_ranked_threshold_fin_schedule_ranks scheduledRanks
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      strictModel
+  let activeRanks := rankSchedule.toFinset
+  let initialState :=
+    paper_theorem8_bstar_ranked_threshold_finite_active_exact_record_cold_start_state
+      localModel activeRanks
+  let finalState :=
+    paper_theorem8_bstar_ranked_threshold_exact_drop_schedule_final_state
+      localModel initialState rankSchedule
+  let G :=
+    paper_theorem8_bstar_ranked_threshold_terminal_record_source_extensive_dynamic_game_of_states
+      localModel initialState finalState
+  let continuousAction :=
+    theorem8ContinuousSourceActionStrategy
+      localModel.clickThroughRate
+      (fun k =>
+        theorem7BStarBid localModel.value
+          (fun j =>
+            paper_theorem7_ranked_vcg_tail_payment
+              localModel.value localModel.clickThroughRate j
+              localModel.remaining)
+          localModel.clickThroughRate (k + 2))
+      localModel.value
+  let namedStrategy :=
+    paper_theorem8_bstar_ranked_threshold_strategy
+      localModel.value localModel.clickThroughRate localModel.remaining
+  have hcontinuous :
+      continuousAction = namedStrategy := by
+    simpa [continuousAction, namedStrategy] using
+      theorem8_continuous_source_action_strategy_eq_bstar_threshold
+        localModel.value localModel.clickThroughRate localModel.remaining
+        localModel.click_pos
+  have hbase :=
+    theorem8_price_sorted_finite_schedule_source_event_strict_values_unique_pbe_formula_conclusion
+      model n
+  dsimp [strictModel, scheduledRanks, rankSchedule, localModel, activeRanks,
+    initialState, finalState, G, namedStrategy] at hbase
+  rcases hbase with ⟨strategy, hstrategy, hunique⟩
+  refine ⟨strategy, ?_, ?_⟩
+  · exact
+      ⟨hstrategy.1, hstrategy.2.1.trans hcontinuous.symm,
+        hstrategy.2.2⟩
+  · intro other hother
+    exact
+      hunique other
+        ⟨hother.1, hother.2.1.trans hcontinuous, hother.2.2⟩
+
+/--
+Finite source-event continuous-profile version of EOS Theorem 8. For the
+price-sorted finite source event generated from strict source values, the
+named continuous dropout-price formula induces a source-extensive PBE with VCG
+outcome; moreover any continuous dropout-price strategy whose induced finite
+action rule is a PBE agrees with the named continuous formula on this finite
+source profile.
+-/
+theorem theorem8_price_sorted_finite_schedule_source_event_strict_values_continuous_profile_unique_source_extensive_pbe_conclusion
+    (model : theorem8StrictOrderedValueCertificate) (n : ℕ) :
+    let scheduledRanks :=
+      paper_theorem8_bstar_ranked_threshold_price_sorted_fin_schedule
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model) n
+    let rankSchedule :=
+      paper_theorem8_bstar_ranked_threshold_fin_schedule_ranks scheduledRanks
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    let activeRanks := rankSchedule.toFinset
+    let initialState :=
+      paper_theorem8_bstar_ranked_threshold_finite_active_exact_record_cold_start_state
+        localModel activeRanks
+    let finalState :=
+      paper_theorem8_bstar_ranked_threshold_exact_drop_schedule_final_state
+        localModel initialState rankSchedule
+    let G :=
+      paper_theorem8_bstar_ranked_threshold_terminal_record_source_extensive_dynamic_game_of_states
+        localModel initialState finalState
+    let continuation :=
+      fun k =>
+        theorem7BStarBid localModel.value
+          (fun j =>
+            paper_theorem7_ranked_vcg_tail_payment
+              localModel.value localModel.clickThroughRate j
+              localModel.remaining)
+          localModel.clickThroughRate (k + 2)
+    let namedContinuousStrategy :=
+      theorem8ContinuousSourceStrategy localModel.clickThroughRate
+    namedContinuousStrategy.ContinuousInValuation ∧
+      G.PerfectBayesianEquilibrium
+        (namedContinuousStrategy.inducedActionStrategy
+          continuation localModel.value) ∧
+        G.outcomeOf
+            (namedContinuousStrategy.inducedActionStrategy
+              continuation localModel.value) =
+          G.vcgOutcome ∧
+          ∀ otherStrategy : Theorem8ContinuousSourceStrategy,
+            G.PerfectBayesianEquilibrium
+              (otherStrategy.inducedActionStrategy
+                continuation localModel.value) →
+            otherStrategy.ProfileEq
+              namedContinuousStrategy continuation localModel.value := by
+  dsimp
+  let strictModel :=
+    theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model
+  let scheduledRanks :=
+    paper_theorem8_bstar_ranked_threshold_price_sorted_fin_schedule
+      strictModel n
+  let rankSchedule :=
+    paper_theorem8_bstar_ranked_threshold_fin_schedule_ranks scheduledRanks
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      strictModel
+  let activeRanks := rankSchedule.toFinset
+  let initialState :=
+    paper_theorem8_bstar_ranked_threshold_finite_active_exact_record_cold_start_state
+      localModel activeRanks
+  let finalState :=
+    paper_theorem8_bstar_ranked_threshold_exact_drop_schedule_final_state
+      localModel initialState rankSchedule
+  let G :=
+    paper_theorem8_bstar_ranked_threshold_terminal_record_source_extensive_dynamic_game_of_states
+      localModel initialState finalState
+  let continuation :=
+    fun k =>
+      theorem7BStarBid localModel.value
+        (fun j =>
+          paper_theorem7_ranked_vcg_tail_payment
+            localModel.value localModel.clickThroughRate j
+            localModel.remaining)
+        localModel.clickThroughRate (k + 2)
+  let namedContinuousStrategy :=
+    theorem8ContinuousSourceStrategy localModel.clickThroughRate
+  let continuousAction :=
+    theorem8ContinuousSourceActionStrategy
+      localModel.clickThroughRate continuation localModel.value
+  have hcontinuous_action :
+      namedContinuousStrategy.inducedActionStrategy
+          continuation localModel.value =
+        continuousAction := by
+    rfl
+  have hcontinuous_named :
+      continuousAction =
+        paper_theorem8_bstar_ranked_threshold_strategy
+          localModel.value localModel.clickThroughRate localModel.remaining := by
+    simpa [continuousAction] using
+      theorem8_continuous_source_action_strategy_eq_bstar_threshold
+        localModel.value localModel.clickThroughRate localModel.remaining
+        localModel.click_pos
+  have hbase :=
+    theorem8_price_sorted_finite_schedule_source_event_strict_values_unique_pbe_continuous_action_formula_conclusion
+      model n
+  dsimp [strictModel, scheduledRanks, rankSchedule, localModel, activeRanks,
+    initialState, finalState, G, continuation, continuousAction] at hbase
+  rcases hbase with ⟨strategy, hstrategy, _hunique⟩
+  have hstrategy_eq_continuous : strategy = continuousAction := by
+    simpa [continuousAction] using hstrategy.2.1
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · exact
+      theorem8_continuous_source_strategy_continuous_in_value
+        localModel.clickThroughRate
+  · have hpbe_continuousAction : G.PerfectBayesianEquilibrium continuousAction := by
+      simpa [G, hstrategy_eq_continuous] using hstrategy.1
+    simpa [hcontinuous_action] using hpbe_continuousAction
+  · have hout_continuousAction :
+        G.outcomeOf continuousAction = G.vcgOutcome := by
+      simpa [G, hstrategy_eq_continuous] using hstrategy.2.2.1
+    simpa [hcontinuous_action] using hout_continuousAction
+  · intro otherStrategy hpbe rank
+    have hother_named :
+        otherStrategy.inducedActionStrategy continuation localModel.value =
+          paper_theorem8_bstar_ranked_threshold_strategy
+            localModel.value localModel.clickThroughRate localModel.remaining := by
+      exact
+        paper_theorem8_bstar_ranked_threshold_terminal_record_source_extensive_dynamic_game_of_states_pbe_strategy_eq_named
+          localModel initialState finalState hpbe
+    have hother_continuous :
+        otherStrategy.inducedActionStrategy continuation localModel.value =
+          continuousAction :=
+      hother_named.trans hcontinuous_named.symm
+    have hother_price :=
+      (theorem8_continuous_source_induced_action_eq_formula_iff
+        otherStrategy localModel.clickThroughRate
+        continuation localModel.value).mp hother_continuous rank
+    have hnamed_price :
+        (theorem8ContinuousSourceStrategy localModel.clickThroughRate).dropoutPrice
+            rank (continuation rank) (localModel.value (rank + 1)) =
+          theorem8RankedGeneralizedEnglishDropoutPrice
+            localModel.clickThroughRate continuation localModel.value rank := by
+      exact
+        theorem8_continuous_source_strategy_ranked_dropout_eq
+          localModel.clickThroughRate continuation localModel.value rank
+    exact hother_price.trans hnamed_price.symm
+
+/--
+Payoff-PBE source-event specialization of EOS Theorem 8. On a strict finite
+source event whose realized values lie in the support boundary, any continuous
+strategy satisfying the source drop/continue payoff-PBE predicate induces the
+same source-extensive PBE action rule as the EOS formula and therefore has the
+finite VCG outcome.
+-/
+theorem theorem8_price_sorted_finite_schedule_source_event_strict_values_payoff_pbe_conclusion
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (model : theorem8StrictOrderedValueCertificate) (n : ℕ)
+    (boundary : ℕ → ℝ → ℝ)
+    (hboundary :
+      let localModel :=
+        paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+          (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+      let continuation :=
+        fun k =>
+          theorem7BStarBid localModel.value
+            (fun j =>
+              paper_theorem7_ranked_vcg_tail_payment
+                localModel.value localModel.clickThroughRate j
+                localModel.remaining)
+            localModel.clickThroughRate (k + 2)
+      ∀ rank, boundary rank (continuation rank) ≤ localModel.value (rank + 1))
+    (hpbe :
+      let localModel :=
+        paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+          (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+      Theorem8ContinuousSourcePayoffPBE
+        (theorem8ContinuousSourcePayoffSemantics localModel.clickThroughRate)
+        strategy) :
+    let scheduledRanks :=
+      paper_theorem8_bstar_ranked_threshold_price_sorted_fin_schedule
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model) n
+    let rankSchedule :=
+      paper_theorem8_bstar_ranked_threshold_fin_schedule_ranks scheduledRanks
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    let activeRanks := rankSchedule.toFinset
+    let initialState :=
+      paper_theorem8_bstar_ranked_threshold_finite_active_exact_record_cold_start_state
+        localModel activeRanks
+    let finalState :=
+      paper_theorem8_bstar_ranked_threshold_exact_drop_schedule_final_state
+        localModel initialState rankSchedule
+    let G :=
+      paper_theorem8_bstar_ranked_threshold_terminal_record_source_extensive_dynamic_game_of_states
+        localModel initialState finalState
+    let continuation :=
+      fun k =>
+        theorem7BStarBid localModel.value
+          (fun j =>
+            paper_theorem7_ranked_vcg_tail_payment
+              localModel.value localModel.clickThroughRate j
+              localModel.remaining)
+          localModel.clickThroughRate (k + 2)
+    let namedContinuousStrategy :=
+      theorem8ContinuousSourceStrategy localModel.clickThroughRate
+    G.PerfectBayesianEquilibrium
+        (strategy.inducedActionStrategy continuation localModel.value) ∧
+      G.outcomeOf
+          (strategy.inducedActionStrategy continuation localModel.value) =
+        G.vcgOutcome ∧
+        strategy.ProfileEq
+          namedContinuousStrategy continuation localModel.value := by
+  dsimp at hboundary hpbe ⊢
+  let strictModel :=
+    theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model
+  let scheduledRanks :=
+    paper_theorem8_bstar_ranked_threshold_price_sorted_fin_schedule
+      strictModel n
+  let rankSchedule :=
+    paper_theorem8_bstar_ranked_threshold_fin_schedule_ranks scheduledRanks
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      strictModel
+  let activeRanks := rankSchedule.toFinset
+  let initialState :=
+    paper_theorem8_bstar_ranked_threshold_finite_active_exact_record_cold_start_state
+      localModel activeRanks
+  let finalState :=
+    paper_theorem8_bstar_ranked_threshold_exact_drop_schedule_final_state
+      localModel initialState rankSchedule
+  let G :=
+    paper_theorem8_bstar_ranked_threshold_terminal_record_source_extensive_dynamic_game_of_states
+      localModel initialState finalState
+  let continuation :=
+    fun k =>
+      theorem7BStarBid localModel.value
+        (fun j =>
+          paper_theorem7_ranked_vcg_tail_payment
+            localModel.value localModel.clickThroughRate j
+            localModel.remaining)
+        localModel.clickThroughRate (k + 2)
+  let namedContinuousStrategy :=
+    theorem8ContinuousSourceStrategy localModel.clickThroughRate
+  have hprofile :
+      strategy.ProfileEq namedContinuousStrategy continuation
+        localModel.value := by
+    simpa [localModel, continuation, namedContinuousStrategy] using
+      theorem8_continuous_source_payoff_pbe_profile_eq_of_strict_values
+        strategy model boundary
+        (by simpa [localModel, continuation] using hboundary)
+        (by simpa [localModel] using hpbe)
+  have hprice :
+      ∀ rank,
+        strategy.dropoutPrice rank (continuation rank)
+            (localModel.value (rank + 1)) =
+          theorem8RankedGeneralizedEnglishDropoutPrice
+            localModel.clickThroughRate continuation localModel.value rank := by
+    intro rank
+    calc
+      strategy.dropoutPrice rank (continuation rank)
+          (localModel.value (rank + 1)) =
+          namedContinuousStrategy.dropoutPrice
+            rank (continuation rank) (localModel.value (rank + 1)) := by
+        exact hprofile rank
+      _ = theorem8RankedGeneralizedEnglishDropoutPrice
+            localModel.clickThroughRate continuation localModel.value rank := by
+        exact
+          theorem8_continuous_source_strategy_ranked_dropout_eq
+            localModel.clickThroughRate continuation localModel.value rank
+  have haction :
+      strategy.inducedActionStrategy continuation localModel.value =
+        namedContinuousStrategy.inducedActionStrategy
+          continuation localModel.value := by
+    simpa [namedContinuousStrategy, theorem8ContinuousSourceActionStrategy] using
+      (theorem8_continuous_source_induced_action_eq_formula_iff
+        strategy localModel.clickThroughRate continuation localModel.value).mpr
+        hprice
+  have hbase :=
+    theorem8_price_sorted_finite_schedule_source_event_strict_values_continuous_profile_unique_source_extensive_pbe_conclusion
+      model n
+  dsimp [strictModel, scheduledRanks, rankSchedule, localModel, activeRanks,
+    initialState, finalState, G, continuation, namedContinuousStrategy] at hbase
+  refine ⟨?_, ?_, hprofile⟩
+  · rw [haction]
+    exact hbase.2.1
+  · rw [haction]
+    exact hbase.2.2.1
+
+/--
+Nonnegative-support payoff-PBE source-event specialization of EOS Theorem 8.
+This is the paper-facing continuous-to-finite bridge: values are drawn from the
+usual nonnegative support, so the realized strict finite profile is inside the
+support boundary without requiring an extra boundary certificate.
+-/
+theorem theorem8_price_sorted_finite_schedule_source_event_strict_values_payoff_pbe_nonnegative_support_conclusion
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (model : theorem8StrictOrderedValueCertificate) (n : ℕ)
+    (hpbe :
+      let localModel :=
+        paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+          (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+      Theorem8ContinuousSourcePayoffPBE
+        (theorem8ContinuousSourcePayoffSemantics localModel.clickThroughRate)
+        strategy) :
+    let scheduledRanks :=
+      paper_theorem8_bstar_ranked_threshold_price_sorted_fin_schedule
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model) n
+    let rankSchedule :=
+      paper_theorem8_bstar_ranked_threshold_fin_schedule_ranks scheduledRanks
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    let activeRanks := rankSchedule.toFinset
+    let initialState :=
+      paper_theorem8_bstar_ranked_threshold_finite_active_exact_record_cold_start_state
+        localModel activeRanks
+    let finalState :=
+      paper_theorem8_bstar_ranked_threshold_exact_drop_schedule_final_state
+        localModel initialState rankSchedule
+    let G :=
+      paper_theorem8_bstar_ranked_threshold_terminal_record_source_extensive_dynamic_game_of_states
+        localModel initialState finalState
+    let continuation :=
+      fun k =>
+        theorem7BStarBid localModel.value
+          (fun j =>
+            paper_theorem7_ranked_vcg_tail_payment
+              localModel.value localModel.clickThroughRate j
+              localModel.remaining)
+          localModel.clickThroughRate (k + 2)
+    let namedContinuousStrategy :=
+      theorem8ContinuousSourceStrategy localModel.clickThroughRate
+    G.PerfectBayesianEquilibrium
+        (strategy.inducedActionStrategy continuation localModel.value) ∧
+      G.outcomeOf
+          (strategy.inducedActionStrategy continuation localModel.value) =
+        G.vcgOutcome ∧
+        strategy.ProfileEq
+          namedContinuousStrategy continuation localModel.value := by
+  dsimp at hpbe ⊢
+  let strictModel :=
+    theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      strictModel
+  have hboundary :
+      ∀ rank,
+        (fun _rank _lastDropout => (0 : ℝ)) rank
+            ((fun k =>
+              theorem7BStarBid localModel.value
+                (fun j =>
+                  paper_theorem7_ranked_vcg_tail_payment
+                    localModel.value localModel.clickThroughRate j
+                    localModel.remaining)
+                localModel.clickThroughRate (k + 2)) rank) ≤
+          localModel.value (rank + 1) := by
+    intro rank
+    exact strictModel.value_nonneg (rank + 1)
+  simpa [strictModel, localModel] using
+    theorem8_price_sorted_finite_schedule_source_event_strict_values_payoff_pbe_conclusion
+      strategy model n (fun _rank _lastDropout => (0 : ℝ))
+      (by
+        dsimp
+        simpa [strictModel, localModel] using hboundary)
+      (by simpa [strictModel, localModel] using hpbe)
+
+/--
+Continuous generalized-English payoff-game source-event version of EOS
+Theorem 8. For any payoff-level PBE of the source game induced by a strict
+ranked source-value model, the finite price-sorted source event has the same
+PBE action rule as the EOS dropout formula and the VCG outcome.
+-/
+theorem theorem8_continuous_generalized_english_payoff_game_strict_values_source_event_conclusion
+    (strategy : Theorem8ContinuousSourceStrategy)
+    (model : theorem8StrictOrderedValueCertificate) (n : ℕ)
+    (hpbe :
+      (Theorem8ContinuousGeneralizedEnglishPayoffGame.ofStrictValues model).PerfectBayesianEquilibrium
+        strategy) :
+    let scheduledRanks :=
+      paper_theorem8_bstar_ranked_threshold_price_sorted_fin_schedule
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model) n
+    let rankSchedule :=
+      paper_theorem8_bstar_ranked_threshold_fin_schedule_ranks scheduledRanks
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    let activeRanks := rankSchedule.toFinset
+    let initialState :=
+      paper_theorem8_bstar_ranked_threshold_finite_active_exact_record_cold_start_state
+        localModel activeRanks
+    let finalState :=
+      paper_theorem8_bstar_ranked_threshold_exact_drop_schedule_final_state
+        localModel initialState rankSchedule
+    let G :=
+      paper_theorem8_bstar_ranked_threshold_terminal_record_source_extensive_dynamic_game_of_states
+        localModel initialState finalState
+    let continuation :=
+      fun k =>
+        theorem7BStarBid localModel.value
+          (fun j =>
+            paper_theorem7_ranked_vcg_tail_payment
+              localModel.value localModel.clickThroughRate j
+              localModel.remaining)
+          localModel.clickThroughRate (k + 2)
+    let namedContinuousStrategy :=
+      theorem8ContinuousSourceStrategy localModel.clickThroughRate
+    G.PerfectBayesianEquilibrium
+        (strategy.inducedActionStrategy continuation localModel.value) ∧
+      G.outcomeOf
+          (strategy.inducedActionStrategy continuation localModel.value) =
+        G.vcgOutcome ∧
+        strategy.ProfileEq
+          namedContinuousStrategy continuation localModel.value := by
+  dsimp [Theorem8ContinuousGeneralizedEnglishPayoffGame.PerfectBayesianEquilibrium,
+    Theorem8ContinuousGeneralizedEnglishPayoffGame.ofStrictValues] at hpbe
+  exact
+    theorem8_price_sorted_finite_schedule_source_event_strict_values_payoff_pbe_nonnegative_support_conclusion
+      strategy model n hpbe
+
+/--
+Bundled payoff-game form of EOS Theorem 8 for strict ranked source values. The
+named continuous dropout formula is a payoff-level PBE, every payoff-level PBE
+agrees with it on the nonnegative source support, and every payoff-level PBE
+induces the finite source-event PBE with VCG outcome.
+-/
+theorem theorem8_continuous_generalized_english_payoff_game_strict_values_main_conclusion
+    (model : theorem8StrictOrderedValueCertificate) (n : ℕ) :
+    let game :=
+      Theorem8ContinuousGeneralizedEnglishPayoffGame.ofStrictValues model
+    let scheduledRanks :=
+      paper_theorem8_bstar_ranked_threshold_price_sorted_fin_schedule
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model) n
+    let rankSchedule :=
+      paper_theorem8_bstar_ranked_threshold_fin_schedule_ranks scheduledRanks
+    let localModel :=
+      paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+        (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model)
+    let activeRanks := rankSchedule.toFinset
+    let initialState :=
+      paper_theorem8_bstar_ranked_threshold_finite_active_exact_record_cold_start_state
+        localModel activeRanks
+    let finalState :=
+      paper_theorem8_bstar_ranked_threshold_exact_drop_schedule_final_state
+        localModel initialState rankSchedule
+    let G :=
+      paper_theorem8_bstar_ranked_threshold_terminal_record_source_extensive_dynamic_game_of_states
+        localModel initialState finalState
+    let continuation :=
+      fun k =>
+        theorem7BStarBid localModel.value
+          (fun j =>
+            paper_theorem7_ranked_vcg_tail_payment
+              localModel.value localModel.clickThroughRate j
+              localModel.remaining)
+          localModel.clickThroughRate (k + 2)
+    let namedContinuousStrategy :=
+      theorem8ContinuousSourceStrategy localModel.clickThroughRate
+    game.PerfectBayesianEquilibrium namedContinuousStrategy ∧
+      (∀ strategy : Theorem8ContinuousSourceStrategy,
+        game.PerfectBayesianEquilibrium strategy →
+          strategy.SupportEq namedContinuousStrategy
+            Theorem8ContinuousGeneralizedEnglishPayoffGame.nonnegativeSupport) ∧
+        ∀ strategy : Theorem8ContinuousSourceStrategy,
+          game.PerfectBayesianEquilibrium strategy →
+            G.PerfectBayesianEquilibrium
+                (strategy.inducedActionStrategy continuation localModel.value) ∧
+              G.outcomeOf
+                  (strategy.inducedActionStrategy continuation localModel.value) =
+                G.vcgOutcome ∧
+                strategy.ProfileEq
+                  namedContinuousStrategy continuation localModel.value := by
+  dsimp
+  let game :=
+    Theorem8ContinuousGeneralizedEnglishPayoffGame.ofStrictValues model
+  let strictModel :=
+    theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model
+  let scheduledRanks :=
+    paper_theorem8_bstar_ranked_threshold_price_sorted_fin_schedule
+      strictModel n
+  let rankSchedule :=
+    paper_theorem8_bstar_ranked_threshold_fin_schedule_ranks scheduledRanks
+  let localModel :=
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_local_deviation_exact_schedule_model
+      strictModel
+  let activeRanks := rankSchedule.toFinset
+  let initialState :=
+    paper_theorem8_bstar_ranked_threshold_finite_active_exact_record_cold_start_state
+      localModel activeRanks
+  let finalState :=
+    paper_theorem8_bstar_ranked_threshold_exact_drop_schedule_final_state
+      localModel initialState rankSchedule
+  let G :=
+    paper_theorem8_bstar_ranked_threshold_terminal_record_source_extensive_dynamic_game_of_states
+      localModel initialState finalState
+  let continuation :=
+    fun k =>
+      theorem7BStarBid localModel.value
+        (fun j =>
+          paper_theorem7_ranked_vcg_tail_payment
+            localModel.value localModel.clickThroughRate j
+            localModel.remaining)
+        localModel.clickThroughRate (k + 2)
+  let namedContinuousStrategy :=
+    theorem8ContinuousSourceStrategy localModel.clickThroughRate
+  have hsupport :=
+    theorem8_continuous_generalized_english_payoff_game_support_unique game
+  dsimp [game, Theorem8ContinuousGeneralizedEnglishPayoffGame.ofStrictValues,
+    strictModel, localModel, namedContinuousStrategy] at hsupport
+  refine ⟨hsupport.1, hsupport.2, ?_⟩
+  intro strategy hpbe
+  exact
+    theorem8_continuous_generalized_english_payoff_game_strict_values_source_event_conclusion
+      strategy model n
+      (by
+        simpa [game, Theorem8ContinuousGeneralizedEnglishPayoffGame.ofStrictValues,
+          strictModel, localModel] using hpbe)
 
 /--
 The source-shaped checker recognizes exactly the named finite `B*`
@@ -13937,6 +17103,20 @@ theorem theorem8_strict_ordered_price_sorted_fin_schedule_belief_source_event_bo
   exact
     paper_theorem8_bstar_ranked_threshold_strict_ordered_price_sorted_fin_schedule_belief_source_event_boundary_threshold_event_ordered_displayed_paper_conclusion
       model n
+
+/--
+Theorem 8, belief-explicit source-event finite displayed form from
+source-facing strict-value assumptions. This is a proof-support wrapper for the
+compact paper interface: the local-optimality certificate is derived internally
+from the paper's ranked strict-value model.
+-/
+theorem theorem8_strict_values_price_sorted_belief_source_event_boundary_threshold_event_ordered_displayed_paper_conclusion
+    (model : theorem8StrictOrderedValueCertificate) (n : ℕ) :
+    paper_theorem8_bstar_ranked_threshold_strict_ordered_price_sorted_fin_schedule_belief_source_event_boundary_threshold_event_ordered_displayed_paper_conclusion_statement
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model) n := by
+  exact
+    theorem8_strict_ordered_price_sorted_fin_schedule_belief_source_event_boundary_threshold_event_ordered_displayed_paper_conclusion
+      (theorem8StrictOrderedLocalOptimalityCertificateOfStrictValues model) n
 
 /--
 Finite-index schedule wrapper for the source-extensive finite exact-record

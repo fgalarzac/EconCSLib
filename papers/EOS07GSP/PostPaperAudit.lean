@@ -17,6 +17,18 @@ namespace EOS07GSP
 
 open EconCSLib.Auction
 
+/-- Audit for the Section 2.2 first-price running example: the displayed
+successive bid revisions in the two-slot, three-bidder first-price example are
+strictly profitable. -/
+theorem audit_first_price_running_example_profitable_revision_chain :
+    (200 * (10 - (203 / 100 : ℝ)) <
+      200 * (10 - (202 / 100 : ℝ))) ∧
+    (100 * (4 - (201 / 100 : ℝ)) <
+      200 * (4 - (203 / 100 : ℝ))) ∧
+    (100 * (10 - (202 / 100 : ℝ)) <
+      200 * (10 - (204 / 100 : ℝ))) := by
+  exact paper_first_price_running_example_profitable_revision_chain
+
 /-- Audit for Sections 2--3 and the GSP witness: truthful bidding is not a
 dominant strategy in the concrete three-bidder/two-slot sorted-GSP model. -/
 theorem audit_gsp_not_dominant_strategy_truthful :
@@ -159,6 +171,273 @@ theorem audit_lemma5_locally_envy_free_equilibrium_stable_assignment
     paper_position_locally_envy_free_equilibrium_stable_assignment
       E M values bids hfeasible hIR h
 
+/-- Audit for Lemma 5 appendix algebra: the in-range neighboring-rank no-envy
+inequalities, together with strictly decreasing click-through rates, imply
+finite value monotonicity, oriented adjacent no-envy, and then the formal
+stable-assignment predicate. No adjacent condition is imposed outside the
+finite ranked position set. -/
+theorem audit_lemma5_ranked_adjacent_no_envy_stable_assignment
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin n) (Fin n))
+    (hfeasible : O.FeasibleAssignment)
+    (hIR :
+      O.IndividuallyRational
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val))
+    (hslots : ∀ i : Fin n, O.slotOf i = some i)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i = payment i.val)
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k)
+    (hup_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate k * (value (k + 1) - payment k) ≤
+            clickThroughRate (k + 1) *
+              (value (k + 1) - payment (k + 1)))
+    (hdown_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate (k + 1) *
+              (value k - payment (k + 1)) ≤
+            clickThroughRate k * (value k - payment k)) :
+    O.StableAssignment
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin n => value i.val) := by
+  exact
+    paper_ranked_outcome_stable_assignment_of_bounded_adjacent_rank_no_envy
+      O hfeasible hIR hslots hpayment hclick_strict hup_adj hdown_adj
+
+/-- Audit for Lemma 5 when there is one additional unassigned bidder: adjacent
+no-envy among assigned ranked slots plus bottom individual rationality and
+bottom no-envy for the first unassigned bidder imply that the unassigned
+bidder cannot profitably rematch to any assigned slot. -/
+theorem audit_lemma5_ranked_unassigned_bidder_no_envy
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k)
+    (hup_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate k * (value (k + 1) - payment k) ≤
+            clickThroughRate (k + 1) *
+              (value (k + 1) - payment (k + 1)))
+    (hdown_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate (k + 1) *
+              (value k - payment (k + 1)) ≤
+            clickThroughRate k * (value k - payment k))
+    (hbottom_click_pos :
+      ∀ k : ℕ, k + 1 = n → 0 < clickThroughRate k)
+    (hbottom_ir :
+      ∀ k : ℕ,
+        k + 1 = n →
+          0 ≤ clickThroughRate k * (value k - payment k))
+    (hbottom_no_envy :
+      ∀ k : ℕ,
+        k + 1 = n →
+          clickThroughRate k * (value n - payment k) ≤ 0)
+    (target : Fin n) :
+    clickThroughRate target.val * (value n - payment target.val) ≤ 0 := by
+  exact
+    paper_ranked_unassigned_no_envy_of_bounded_adjacent_rank_no_envy
+      hclick_strict hup_adj hdown_adj hbottom_click_pos hbottom_ir
+      hbottom_no_envy target
+
+/-- Audit for Lemma 5 with one additional unassigned bidder: assigned
+adjacent no-envy, bottom-slot individual rationality, and bottom no-envy for
+the first unassigned bidder imply the full formal stable-assignment predicate
+for the `K + 1` bidder / `K` slot ranked outcome. -/
+theorem audit_lemma5_ranked_one_extra_bidder_stable_assignment
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin (n + 1)) (Fin n))
+    (hfeasible : O.FeasibleAssignment)
+    (hIR :
+      O.IndividuallyRational
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin (n + 1) => value i.val))
+    (hslots : ∀ i : Fin n, O.slotOf i.castSucc = some i)
+    (hunassigned : O.slotOf (Fin.last n) = none)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i.castSucc = payment i.val)
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k)
+    (hup_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate k * (value (k + 1) - payment k) ≤
+            clickThroughRate (k + 1) *
+              (value (k + 1) - payment (k + 1)))
+    (hdown_adj :
+      ∀ k : ℕ,
+        k + 1 < n →
+          clickThroughRate (k + 1) *
+              (value k - payment (k + 1)) ≤
+            clickThroughRate k * (value k - payment k))
+    (hbottom_click_pos :
+      ∀ k : ℕ, k + 1 = n → 0 < clickThroughRate k)
+    (hbottom_ir :
+      ∀ k : ℕ,
+        k + 1 = n →
+          0 ≤ clickThroughRate k * (value k - payment k))
+    (hbottom_no_envy :
+      ∀ k : ℕ,
+        k + 1 = n →
+          clickThroughRate k * (value n - payment k) ≤ 0) :
+    O.StableAssignment
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin (n + 1) => value i.val) := by
+  exact
+    paper_ranked_one_extra_bidder_stable_assignment_of_bounded_adjacent_rank_no_envy
+      O hfeasible hIR hslots hunassigned hpayment hclick_strict hup_adj
+      hdown_adj hbottom_click_pos hbottom_ir hbottom_no_envy
+
+/-- Audit for the concrete adjacent undercut used in Lemma 5: in finite ranked
+GSP, a rank-`k` report strictly between the original rank `k+1` and `k+2` bids
+places the bidder in slot `k+1` and charges the rank-`k+2` bid. -/
+theorem audit_lemma5_ranked_gsp_adjacent_down_undercut_shape
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    (k : ℕ) (hk : k + 1 < n) (report : ℝ)
+    (hnext_lt_report :
+      bids ⟨k + 2, Nat.succ_lt_succ hk⟩ < report)
+    (hreport_lt_lower :
+      report <
+        bids ⟨k + 1, Nat.lt_trans hk (Nat.lt_succ_self n)⟩) :
+    (paper_ranked_gsp_mechanism (n + 1) n
+        (Function.update bids
+          ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+          report)).slotOf
+        ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ =
+      some ⟨k + 1, hk⟩ ∧
+    (paper_ranked_gsp_mechanism (n + 1) n
+        (Function.update bids
+          ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩
+          report)).paymentPerClick
+        ⟨k, Nat.lt_trans (Nat.lt_succ_self k) (Nat.lt_trans hk (Nat.lt_succ_self n))⟩ =
+      bids ⟨k + 2, Nat.succ_lt_succ hk⟩ := by
+  exact
+    paper_ranked_gsp_adjacent_down_slot_payment_shape_of_report_between
+      (bids := bids) hstrict k hk report hnext_lt_report hreport_lt_lower
+
+/-- Audit for Lemma 5 in the concrete one-extra ranked-GSP mechanism: strict
+bids supply the neighboring undercut reports, so a locally-envy-free Nash
+outcome satisfies the formal stable-assignment predicate once the bottom
+unassigned boundary conditions are supplied. -/
+theorem audit_lemma5_one_extra_ranked_gsp_locally_envy_free_stable_assignment
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin (n + 1)) (Fin n)) (bids : Fin (n + 1) → ℝ)
+    (hout : paper_ranked_gsp_mechanism (n + 1) n bids = O)
+    (hfeasible : O.FeasibleAssignment)
+    (hIR :
+      O.IndividuallyRational
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin (n + 1) => value i.val))
+    (hslots : ∀ i : Fin n, O.slotOf i.castSucc = some i)
+    (hunassigned : O.slotOf (Fin.last n) = none)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i.castSucc = payment i.val)
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k)
+    (hbottom_click_pos :
+      ∀ k : ℕ, k + 1 = n → 0 < clickThroughRate k)
+    (hbottom_ir :
+      ∀ k : ℕ,
+        k + 1 = n →
+          0 ≤ clickThroughRate k * (value k - payment k))
+    (hbottom_no_envy :
+      ∀ k : ℕ,
+        k + 1 = n →
+          clickThroughRate k * (value n - payment k) ≤ 0)
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    (hlef :
+      (paper_ranked_gsp_mechanism (n + 1) n).LocallyEnvyFreeEquilibrium
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin (n + 1) => value i.val) bids) :
+    O.StableAssignment
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin (n + 1) => value i.val) := by
+  exact
+    paper_ranked_one_extra_gsp_outcome_stable_assignment_of_locally_envy_free_strict_decreasing
+      O bids hout hfeasible hIR hslots hunassigned hpayment hclick_strict
+      hbottom_click_pos hbottom_ir hbottom_no_envy hstrict hlef
+
+/-- Audit for Lemma 5 source-shaped route: a ranked locally-envy-free Nash
+outcome is stable once the concrete sorted-GSP rule supplies the neighboring
+downward undercut reports used in the paper proof. -/
+theorem audit_lemma5_locally_envy_free_adjacent_down_report_stable_assignment
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (M : PositionMechanism (Fin n) (Fin n))
+    (O : PositionOutcome (Fin n) (Fin n)) (bids : Fin n → ℝ)
+    (hout : M bids = O)
+    (hfeasible : O.FeasibleAssignment)
+    (hIR :
+      O.IndividuallyRational
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val))
+    (hslots : ∀ i : Fin n, O.slotOf i = some i)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i = payment i.val)
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k)
+    (hlef :
+      M.LocallyEnvyFreeEquilibrium
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val) bids)
+    (hdown_report :
+      ∀ (k : ℕ) (hk : k + 1 < n),
+          ∃ report : ℝ,
+            PositionMechanism.utility
+                (paper_theorem7_ranked_environment clickThroughRate)
+                M (fun i : Fin n => value i.val)
+                (Function.update bids ⟨k, Nat.lt_of_succ_lt hk⟩ report)
+                ⟨k, Nat.lt_of_succ_lt hk⟩ =
+              clickThroughRate (k + 1) * (value k - payment (k + 1))) :
+    O.StableAssignment
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin n => value i.val) := by
+  exact
+    paper_ranked_outcome_stable_assignment_of_locally_envy_free_and_adjacent_down_reports
+      M O bids hout hfeasible hIR hslots hpayment hclick_strict hlef
+      hdown_report
+
+/-- Audit for Lemma 5 source-shaped route with the concrete neighboring
+undercut slot/payment premise: the report places rank `k` into slot `k+1` and
+charges the lower rank's per-click payment, so Nash gives the downward adjacent
+inequality used by the source proof. -/
+theorem audit_lemma5_locally_envy_free_adjacent_down_shape_stable_assignment
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (M : PositionMechanism (Fin n) (Fin n))
+    (O : PositionOutcome (Fin n) (Fin n)) (bids : Fin n → ℝ)
+    (hout : M bids = O)
+    (hfeasible : O.FeasibleAssignment)
+    (hIR :
+      O.IndividuallyRational
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val))
+    (hslots : ∀ i : Fin n, O.slotOf i = some i)
+    (hpayment : ∀ i : Fin n, O.paymentPerClick i = payment i.val)
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n → clickThroughRate (k + 1) < clickThroughRate k)
+    (hlef :
+      M.LocallyEnvyFreeEquilibrium
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val) bids)
+    (hshape :
+      ∀ (k : ℕ) (hk : k + 1 < n),
+          ∃ report : ℝ,
+            (M (Function.update bids ⟨k, Nat.lt_of_succ_lt hk⟩ report)).slotOf
+                ⟨k, Nat.lt_of_succ_lt hk⟩ =
+              some ⟨k + 1, hk⟩ ∧
+            (M (Function.update bids ⟨k, Nat.lt_of_succ_lt hk⟩ report)).paymentPerClick
+                ⟨k, Nat.lt_of_succ_lt hk⟩ =
+              payment (k + 1)) :
+    O.StableAssignment
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin n => value i.val) := by
+  exact
+    paper_ranked_outcome_stable_assignment_of_locally_envy_free_and_adjacent_down_slot_payment_shape
+      M O bids hout hfeasible hIR hslots hpayment hclick_strict hlef hshape
+
 /-- Audit for Lemma 6 conditional bridge: the formal stable-assignment
 predicate contains the no-profitable-rematch inequalities needed for slot
 envy-freeness. The paper's Shapley-Shubik and bid-construction converse is
@@ -170,6 +449,311 @@ theorem audit_lemma6_stable_assignment_slot_envy_free
     (h : O.StableAssignment E values) :
     O.SlotEnvyFree E values := by
   exact paper_position_stable_assignment_slot_envy_free E O values h
+
+/-- Audit for Lemma 6 source-construction boundary: if the paper's constructed
+GSP bids realize the stable assignment and are a Nash equilibrium, then the
+stable assignment is the outcome of a locally envy-free equilibrium. -/
+theorem audit_lemma6_realized_nash_stable_assignment_locally_envy_free
+    {Bidder Slot : Type*} [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (M : PositionMechanism Bidder Slot)
+    (O : PositionOutcome Bidder Slot) (values bids : Bidder → ℝ)
+    (hout : M bids = O)
+    (hnash : M.IsNashEquilibrium E values bids)
+    (hstable : O.StableAssignment E values) :
+    M.LocallyEnvyFreeEquilibrium E values bids := by
+  exact
+    paper_position_stable_assignment_locally_envy_free_equilibrium_of_realized_nash
+      E M O values bids hout hnash hstable
+
+/-- Audit for Lemma 6 source-construction deviation bound: if every
+unilateral bid deviation is bounded by either being unassigned or by an
+assignment-game rematch payoff, then stability proves the constructed bids are
+a Nash equilibrium. -/
+theorem audit_lemma6_stable_assignment_nash_of_deviation_rematch_bound
+    {Bidder Slot : Type*} [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (M : PositionMechanism Bidder Slot)
+    (O : PositionOutcome Bidder Slot) (values bids : Bidder → ℝ)
+    (hout : M bids = O)
+    (hstable : O.StableAssignment E values)
+    (hdeviation_bound :
+      ∀ i report,
+        PositionMechanism.utility E M values
+            (Function.update bids i report) i ≤ 0 ∨
+          ∃ j s,
+            O.slotOf j = some s ∧
+              PositionMechanism.utility E M values
+                  (Function.update bids i report) i ≤
+                E.clickThroughRate s * (values i - O.paymentPerClick j)) :
+    M.IsNashEquilibrium E values bids := by
+  exact
+    paper_position_stable_assignment_nash_of_deviation_rematch_bound
+      E M O values bids hout hstable hdeviation_bound
+
+/-- Audit for Lemma 6 source construction in paper prose form: realization of
+the stable assignment plus the rematch-bounded deviation fact gives a locally
+envy-free equilibrium. -/
+theorem audit_lemma6_deviation_rematch_bound_stable_assignment_locally_envy_free
+    {Bidder Slot : Type*} [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (M : PositionMechanism Bidder Slot)
+    (O : PositionOutcome Bidder Slot) (values bids : Bidder → ℝ)
+    (hout : M bids = O)
+    (hstable : O.StableAssignment E values)
+    (hdeviation_bound :
+      ∀ i report,
+        PositionMechanism.utility E M values
+            (Function.update bids i report) i ≤ 0 ∨
+          ∃ j s,
+            O.slotOf j = some s ∧
+              PositionMechanism.utility E M values
+                  (Function.update bids i report) i ≤
+                E.clickThroughRate s * (values i - O.paymentPerClick j)) :
+    M.LocallyEnvyFreeEquilibrium E values bids := by
+  exact
+    paper_position_stable_assignment_locally_envy_free_equilibrium_of_deviation_rematch_bound
+      E M O values bids hout hstable hdeviation_bound
+
+/-- Audit for Lemma 6 concrete sorted-GSP mechanism shape: under a strict
+constructed bid profile, any tie-free unilateral report either leaves the
+deviator unassigned or assigns a slot at a per-click price weakly above the
+corresponding stable-assignment next price. -/
+theorem audit_lemma6_ranked_gsp_deviation_slot_payment_shape_of_no_tie_update
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    (i : Fin (n + 1)) (report : ℝ)
+    (hnotie :
+      ∀ {a b : Fin (n + 1)},
+        a ≠ b → Function.update bids i report a ≠ Function.update bids i report b) :
+    let M := paper_ranked_gsp_mechanism (n + 1) n
+    (M (Function.update bids i report)).slotOf i = none ∨
+      ∃ j s,
+        (M bids).slotOf j = some s ∧
+          (M (Function.update bids i report)).slotOf i = some s ∧
+            (M bids).paymentPerClick j ≤
+              (M (Function.update bids i report)).paymentPerClick i := by
+  exact
+    paper_ranked_gsp_deviation_slot_payment_shape_of_no_ties_update
+      hstrict i report hnotie
+
+/-- Audit for Lemma 6 concrete tie-broken ranked-GSP realization: on strict
+constructed bids, deterministic tie-breaking realizes the same next-price
+outcome as the paper's sorted GSP profile. -/
+theorem audit_lemma6_tiebreak_ranked_gsp_next_price_realization
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i) :
+    (∀ i : Fin n,
+        (paper_ranked_gsp_tiebreak_mechanism (n + 1) n bids).slotOf i.castSucc =
+          some i) ∧
+      (paper_ranked_gsp_tiebreak_mechanism (n + 1) n bids).slotOf
+          (Fin.last n) =
+        none ∧
+      ∀ i : Fin n,
+        (paper_ranked_gsp_tiebreak_mechanism (n + 1) n bids).paymentPerClick
+            i.castSucc =
+          bids i.succ := by
+  exact
+    paper_ranked_gsp_tiebreak_mechanism_realizes_next_price_of_strict_decreasing
+      hstrict
+
+/-- Audit for Lemma 6 concrete tie-broken sorted-GSP mechanism shape: every
+unilateral report either leaves the deviator unassigned or assigns a slot at a
+per-click price weakly above the corresponding stable-assignment next price. -/
+theorem audit_lemma6_tiebreak_ranked_gsp_deviation_slot_payment_shape
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    (i : Fin (n + 1)) (report : ℝ) :
+    let M := paper_ranked_gsp_tiebreak_mechanism (n + 1) n
+    (M (Function.update bids i report)).slotOf i = none ∨
+      ∃ j s,
+        (M bids).slotOf j = some s ∧
+          (M (Function.update bids i report)).slotOf i = some s ∧
+            (M bids).paymentPerClick j ≤
+              (M (Function.update bids i report)).paymentPerClick i := by
+  exact paper_ranked_gsp_tiebreak_deviation_slot_payment_shape hstrict i report
+
+/-- Audit for Lemma 6 concrete tie-broken sorted-GSP converse: a strict
+constructed ranked-GSP profile realizing a stable assignment is locally
+envy-free. -/
+theorem audit_lemma6_tiebreak_ranked_gsp_stable_assignment_locally_envy_free
+    {n : ℕ} {value clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin (n + 1)) (Fin n)) (bids : Fin (n + 1) → ℝ)
+    (hout : paper_ranked_gsp_tiebreak_mechanism (n + 1) n bids = O)
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i)
+    (hclick_nonneg : ∀ s : Fin n, 0 ≤ clickThroughRate s.val)
+    (hstable :
+      O.StableAssignment
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin (n + 1) => value i.val)) :
+    (paper_ranked_gsp_tiebreak_mechanism (n + 1) n).LocallyEnvyFreeEquilibrium
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin (n + 1) => value i.val) bids := by
+  exact
+    paper_ranked_gsp_tiebreak_stable_assignment_locally_envy_free_equilibrium
+      O bids hout hstrict hclick_nonneg hstable
+
+/-- Audit for Lemma 6 source-shaped `K > N` route: any stable assignment
+realized by the paper's strictly ordered constructed bids is a locally
+envy-free equilibrium of the tie-broken ranked GSP mechanism. -/
+theorem audit_lemma6_more_bidders_tiebreak_ranked_gsp_stable_assignment_locally_envy_free
+    {m n : ℕ} (hnm : n < m) {value clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin m) (Fin n)) (bids : Fin m → ℝ)
+    (hout : paper_ranked_gsp_tiebreak_mechanism m n bids = O)
+    (hstrict :
+      ∀ {i j : Fin m}, i.val < j.val → bids j < bids i)
+    (hclick_nonneg : ∀ s : Fin n, 0 ≤ clickThroughRate s.val)
+    (hstable :
+      O.StableAssignment
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin m => value i.val)) :
+    (paper_ranked_gsp_tiebreak_mechanism m n).LocallyEnvyFreeEquilibrium
+      (paper_theorem7_ranked_environment clickThroughRate)
+      (fun i : Fin m => value i.val) bids := by
+  exact
+    paper_ranked_gsp_tiebreak_stable_assignment_locally_envy_free_equilibrium_more_bidders
+      hnm O bids hout hstrict hclick_nonneg hstable
+
+/-- Audit for Lemma 6 bid-order algebra: positive top-rank net utility makes
+the source's constructed top bid strictly larger than the next constructed bid. -/
+theorem audit_lemma6_top_constructed_bid_gt_next_of_positive_net_utility
+    {value payment clickThroughRate : ℕ → ℝ}
+    (hpositive :
+      0 < value 0 - payment 0 / clickThroughRate 0) :
+    payment 0 / clickThroughRate 0 < value 0 := by
+  exact
+    paper_lemma6_top_constructed_bid_gt_next_of_positive_net_utility
+      hpositive
+
+/-- Audit for Lemma 6 bid-order algebra: stability rules out weakly increasing
+adjacent constructed bids because that would create a profitable upward rematch. -/
+theorem audit_lemma6_adjacent_constructed_bid_gt_next_of_no_profitable_rematch
+    {value payment clickThroughRate : ℕ → ℝ} (k : ℕ)
+    (hclick_next_pos : 0 < clickThroughRate (k + 1))
+    (hclick_strict : clickThroughRate (k + 1) < clickThroughRate k)
+    (hcurrent_positive :
+      0 < value (k + 1) -
+        payment (k + 1) / clickThroughRate (k + 1))
+    (hno_rematch :
+      clickThroughRate k *
+          (value (k + 1) - payment k / clickThroughRate k) ≤
+        clickThroughRate (k + 1) *
+          (value (k + 1) -
+            payment (k + 1) / clickThroughRate (k + 1))) :
+    payment (k + 1) / clickThroughRate (k + 1) <
+      payment k / clickThroughRate k := by
+  exact
+    paper_lemma6_adjacent_constructed_bid_gt_next_of_no_profitable_rematch
+      k hclick_next_pos hclick_strict hcurrent_positive hno_rematch
+
+/-- Audit for Lemma 6 bid-order algebra from the stable assignment itself:
+rank `k + 1` not rematching upward to rank `k` rules out weakly increasing
+adjacent constructed bids, under the paper's strict positive-utility condition. -/
+theorem audit_lemma6_adjacent_constructed_bid_gt_next_of_stable_assignment
+    {n : ℕ} {value payment clickThroughRate : ℕ → ℝ}
+    (O : PositionOutcome (Fin n) (Fin n)) (k : ℕ)
+    (hk_next : k + 1 < n)
+    (hstable :
+      O.StableAssignment
+        (paper_theorem7_ranked_environment clickThroughRate)
+        (fun i : Fin n => value i.val))
+    (hslots : ∀ i : Fin n, O.slotOf i = some i)
+    (hpayment :
+      ∀ i : Fin n,
+        O.paymentPerClick i = payment i.val / clickThroughRate i.val)
+    (hclick_next_pos : 0 < clickThroughRate (k + 1))
+    (hclick_strict : clickThroughRate (k + 1) < clickThroughRate k)
+    (hcurrent_positive :
+      0 < value (k + 1) -
+        payment (k + 1) / clickThroughRate (k + 1)) :
+    payment (k + 1) / clickThroughRate (k + 1) <
+      payment k / clickThroughRate k := by
+  exact
+    paper_lemma6_adjacent_constructed_bid_gt_next_of_stable_assignment
+      O k hk_next hstable hslots hpayment hclick_next_pos hclick_strict
+      hcurrent_positive
+
+/-- Audit for Lemma 6 sorted-GSP realization: strictly decreasing ranked bids
+make the finite ranked GSP mechanism assign rank `i` to slot `i`, leave the
+extra bidder unassigned, and charge the next rank's bid. -/
+theorem audit_lemma6_ranked_gsp_next_price_realization
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hstrict :
+      ∀ {i j : Fin (n + 1)}, i.val < j.val → bids j < bids i) :
+    (∀ i : Fin n,
+        (paper_ranked_gsp_mechanism (n + 1) n bids).slotOf i.castSucc =
+          some i) ∧
+      (paper_ranked_gsp_mechanism (n + 1) n bids).slotOf (Fin.last n) =
+        none ∧
+      ∀ i : Fin n,
+        (paper_ranked_gsp_mechanism (n + 1) n bids).paymentPerClick
+            i.castSucc =
+          bids i.succ := by
+  exact
+    paper_ranked_gsp_mechanism_realizes_next_price_of_strict_decreasing
+      hstrict
+
+/-- Audit for Lemma 6 sorted-GSP realization from adjacent bid order: the
+source's adjacent constructed-bid inequalities are enough to realize the
+ranked next-price GSP outcome. -/
+theorem audit_lemma6_ranked_gsp_next_price_realization_of_adjacent_decreasing
+    {n : ℕ} {bids : Fin (n + 1) → ℝ}
+    (hadj :
+      ∀ (k : ℕ) (hk : k + 1 < n + 1),
+        bids ⟨k + 1, hk⟩ <
+          bids ⟨k, Nat.lt_of_succ_lt hk⟩) :
+    (∀ i : Fin n,
+        (paper_ranked_gsp_mechanism (n + 1) n bids).slotOf i.castSucc =
+          some i) ∧
+      (paper_ranked_gsp_mechanism (n + 1) n bids).slotOf (Fin.last n) =
+        none ∧
+      ∀ i : Fin n,
+        (paper_ranked_gsp_mechanism (n + 1) n bids).paymentPerClick
+            i.castSucc =
+          bids i.succ := by
+  exact
+    paper_ranked_gsp_mechanism_realizes_next_price_of_adjacent_decreasing
+      hadj
+
+/-- Audit for Theorem 7 mechanism realization: under the paper's strict `B*`
+bid-order hypotheses, ranked GSP realizes the constructed `B*` next-price
+outcome on the displayed positions. -/
+theorem audit_theorem7_ranked_gsp_bstar_mechanism_realizes_bstar_outcome
+    {n : ℕ} {value vcgTotalPayment clickThroughRate : ℕ → ℝ}
+    (hclick_pos : ∀ i, 0 < clickThroughRate i)
+    (hclick_strict_mono : ∀ i, clickThroughRate (i + 1) < clickThroughRate i)
+    (hrec :
+      ∀ i : ℕ,
+        vcgTotalPayment i =
+          (clickThroughRate i - clickThroughRate (i + 1)) * value (i + 1) +
+            vcgTotalPayment (i + 1))
+    (hpayment_lt_value :
+      ∀ i : ℕ, vcgTotalPayment i < clickThroughRate i * value i) :
+    (∀ i : Fin n,
+        (paper_ranked_gsp_mechanism (n + 1) n
+            (fun bidder : Fin (n + 1) =>
+              paper_theorem7_bstar_bid
+                value vcgTotalPayment clickThroughRate bidder.val)).slotOf
+            i.castSucc =
+          some i) ∧
+      (paper_ranked_gsp_mechanism (n + 1) n
+          (fun bidder : Fin (n + 1) =>
+            paper_theorem7_bstar_bid
+              value vcgTotalPayment clickThroughRate bidder.val)).slotOf
+          (Fin.last n) =
+        none ∧
+      ∀ i : Fin n,
+        (paper_ranked_gsp_mechanism (n + 1) n
+            (fun bidder : Fin (n + 1) =>
+              paper_theorem7_bstar_bid
+                value vcgTotalPayment clickThroughRate bidder.val)).paymentPerClick
+            i.castSucc =
+          (paper_theorem7_ranked_bstar_outcome (n := n)
+            value vcgTotalPayment clickThroughRate).paymentPerClick i := by
+  exact
+    paper_theorem7_ranked_gsp_bstar_mechanism_realizes_bstar_outcome
+      hclick_pos hclick_strict_mono hrec hpayment_lt_value
 
 /-- Audit for Theorem 7 `B*` payment identity: the next `B*` bid reproduces
 the VCG total payment for the current rank. -/
@@ -775,6 +1359,97 @@ theorem audit_theorem7_ordered_ranked_canonical_tail_no_positive_transfer_paper_
     paper_theorem7_ordered_ranked_canonical_tail_no_positive_transfer_paper_conclusion
       model hvalue_nonneg
 
+/-- Audit for ranked GSP payments: nonnegative bids give no positive transfers
+in the paper's GSP outcome. -/
+theorem audit_ranked_gsp_mechanism_no_positive_transfers
+    (m n : ℕ) {bids : Fin m → ℝ}
+    (hbids : ∀ i, 0 ≤ bids i) :
+    paper_position_no_positive_transfers
+      (paper_ranked_gsp_mechanism m n bids) := by
+  exact paper_ranked_gsp_mechanism_no_positive_transfers m n hbids
+
+/-- Audit for tie-broken ranked GSP payments: nonnegative bids give no positive
+transfers in the deterministic off-equilibrium implementation. -/
+theorem audit_ranked_gsp_tiebreak_mechanism_no_positive_transfers
+    (m n : ℕ) {bids : Fin m → ℝ}
+    (hbids : ∀ i, 0 ≤ bids i) :
+    paper_position_no_positive_transfers
+      (paper_ranked_gsp_tiebreak_mechanism m n bids) := by
+  exact paper_ranked_gsp_tiebreak_mechanism_no_positive_transfers m n hbids
+
+/-- Audit for Theorem 7 GSP-comparison conclusion: when the comparison outcome
+is produced by tie-broken ranked GSP from nonnegative bids, the
+no-positive-transfers condition is discharged by the mechanism. -/
+theorem audit_theorem7_ordered_ranked_canonical_tail_tiebreak_gsp_comparison_paper_conclusion
+    {n : ℕ}
+    (model :
+      PaperTheorem7OrderedRankedCanonicalTailComparisonPaymentCertificate n)
+    (hvalue_nonneg : ∀ i, 0 ≤ model.value i) :
+    ∃ O : PositionOutcome (Fin n) (Fin n),
+      paper_position_no_positive_transfers O ∧
+        O.SlotEnvyFree
+          (paper_theorem7_ranked_environment model.clickThroughRate)
+          (fun i : Fin n => model.value i.val) ∧
+        O.StableAssignment
+          (paper_theorem7_ranked_environment model.clickThroughRate)
+          (fun i : Fin n => model.value i.val) ∧
+        (∀ i, O.slotOf i = model.vcgOutcome.slotOf i) ∧
+        (∀ i, O.paymentPerClick i = model.vcgOutcome.paymentPerClick i) ∧
+        ∀ (other : PositionOutcome (Fin n) (Fin n)) (bids : Fin n → ℝ),
+          other.FeasibleAssignment →
+          other.IndividuallyRational
+            (paper_theorem7_ranked_environment model.clickThroughRate)
+            (fun i : Fin n => model.value i.val) →
+          other.SlotEnvyFree
+            (paper_theorem7_ranked_environment model.clickThroughRate)
+            (fun i : Fin n => model.value i.val) →
+            (∀ i, O.slotOf i = other.slotOf i) →
+              other = paper_ranked_gsp_tiebreak_mechanism n n bids →
+                (∀ i, 0 ≤ bids i) →
+                  O.revenue
+                      (paper_theorem7_ranked_environment model.clickThroughRate) ≤
+                    other.revenue
+                      (paper_theorem7_ranked_environment model.clickThroughRate) := by
+  exact
+    paper_theorem7_ordered_ranked_canonical_tail_tiebreak_gsp_comparison_paper_conclusion
+      model hvalue_nonneg
+
+/-- Audit for Theorem 7 strict GSP comparison: strict source ordering derives
+the sorted assignment for every locally envy-free tie-broken ranked-GSP
+comparison profile, so same-assignment is no longer an explicit premise. -/
+theorem audit_theorem7_ordered_ranked_canonical_tail_strict_tiebreak_gsp_comparison_paper_conclusion
+    {n : ℕ}
+    (model :
+      PaperTheorem7OrderedRankedCanonicalTailComparisonPaymentCertificate n)
+    (hvalue_nonneg : ∀ i, 0 ≤ model.value i)
+    (hvalue_strict :
+      ∀ k : ℕ, k + 1 < n → model.value (k + 1) < model.value k)
+    (hclick_strict :
+      ∀ k : ℕ, k + 1 < n →
+        model.clickThroughRate (k + 1) < model.clickThroughRate k) :
+    ∃ O : PositionOutcome (Fin n) (Fin n),
+      paper_position_no_positive_transfers O ∧
+        O.SlotEnvyFree
+          (paper_theorem7_ranked_environment model.clickThroughRate)
+          (fun i : Fin n => model.value i.val) ∧
+        O.StableAssignment
+          (paper_theorem7_ranked_environment model.clickThroughRate)
+          (fun i : Fin n => model.value i.val) ∧
+        (∀ i, O.slotOf i = model.vcgOutcome.slotOf i) ∧
+        (∀ i, O.paymentPerClick i = model.vcgOutcome.paymentPerClick i) ∧
+        ∀ bids : Fin n → ℝ,
+          (paper_ranked_gsp_tiebreak_mechanism n n).LocallyEnvyFreeEquilibrium
+            (paper_theorem7_ranked_environment model.clickThroughRate)
+            (fun i : Fin n => model.value i.val) bids →
+          (∀ i, 0 ≤ bids i) →
+            O.revenue
+                (paper_theorem7_ranked_environment model.clickThroughRate) ≤
+              (paper_ranked_gsp_tiebreak_mechanism n n bids).revenue
+                (paper_theorem7_ranked_environment model.clickThroughRate) := by
+  exact
+    paper_theorem7_ordered_ranked_canonical_tail_strict_tiebreak_gsp_comparison_paper_conclusion
+      model hvalue_nonneg hvalue_strict hclick_strict
+
 /-- Audit for Theorem 7 finite VCG-tail payments: under monotone click-through
 rates and nonnegative values, every finite tail-payment prefix is nonnegative. -/
 theorem audit_theorem7_vcg_tail_payment_nonnegative
@@ -823,14 +1498,52 @@ theorem audit_remark1_truthful_gsp_payment_weakly_dominates_vcg_per_click
       hvalue_nonneg hvalue_mono hclick_nonneg hclick_pos
 
 /-- Audit for Remark 2: VCG-style position mechanisms are truthful in
-dominant strategies when equipped with the welfare-maximization and
+dominant strategies when equipped with the feasible welfare-maximization and
 externality-tax certificate. -/
 theorem audit_remark2_vcg_position_mechanism_truthful
     {Bidder Slot : Type*} [Fintype Bidder] [DecidableEq Bidder]
     {E : PositionEnvironment Slot} {M : PositionMechanism Bidder Slot}
-    (C : PositionMechanism.VCGDominantStrategyCertificate E M) :
+    (C : PositionMechanism.FeasibleVCGDominantStrategyCertificate E M) :
     PositionMechanism.TruthfulDominantStrategy E M := by
   exact paper_remark2_vcg_position_mechanism_truthful C
+
+/-- Audit for Remark 2: the concrete Clarke-pivot position VCG mechanism
+generated by any feasible welfare-maximizing slot rule is truthful. -/
+theorem audit_remark2_vcg_position_slot_rule_truthful
+    {Bidder Slot : Type*} [Fintype Bidder] [DecidableEq Bidder]
+    {E : PositionEnvironment Slot}
+    {slotRule : (Bidder → ℝ) → Bidder → Option Slot}
+    (hclick_pos : ∀ s, 0 < E.clickThroughRate s)
+    (hfeasible :
+      ∀ reports,
+        (PositionOutcome.zeroPaymentOutcome
+          (slotRule reports)).FeasibleAssignment)
+    (hmax :
+      ∀ reports (outcome : PositionOutcome Bidder Slot),
+        outcome.FeasibleAssignment →
+          outcome.welfare E reports ≤
+            (PositionOutcome.zeroPaymentOutcome
+              (slotRule reports)).welfare E reports) :
+    PositionMechanism.TruthfulDominantStrategy E
+      (PositionMechanism.positionVCGMechanismOfSlotRule E slotRule) := by
+  exact
+    paper_remark2_vcg_position_slot_rule_truthful
+      hclick_pos hfeasible hmax
+
+/-- Audit for Remark 2: the concrete finite position VCG mechanism, with
+internally chosen feasible welfare-maximizing assignment and Clarke-pivot
+per-click payments, is truthful. -/
+theorem audit_remark2_finite_position_vcg_truthful
+    {Bidder Slot : Type*} [Fintype Bidder] [DecidableEq Bidder]
+    [Fintype Slot] [DecidableEq Slot]
+    {E : PositionEnvironment Slot}
+    (hclick_pos : ∀ s, 0 < E.clickThroughRate s) :
+    PositionMechanism.TruthfulDominantStrategy E
+      (PositionMechanism.positionVCGMechanism
+        (Bidder := Bidder) (Slot := Slot) E) := by
+  exact
+    paper_remark2_finite_position_vcg_truthful
+      (Bidder := Bidder) (Slot := Slot) hclick_pos
 
 /-- Audit for Theorem 7 canonical finite VCG payments: ordered nonnegative
 values and nonnegative click-through rates imply each canonical finite payment
@@ -9039,6 +9752,65 @@ def audit_theorem8_source_sequential_named_strategy_sequentially_rational :=
 
 def audit_theorem8_source_sequential_named_strategy_pbe_from_unit_belief :=
   PaperInterface.theorem8_source_sequential_named_strategy_pbe_from_unit_belief
+
+def audit_theorem8_continuous_source_induced_action_eq_formula_iff :=
+  PaperInterface.theorem8_continuous_source_induced_action_eq_formula_iff
+
+def audit_theorem8_continuous_source_strategy_eq_formula_of_induced_actions :=
+  PaperInterface.theorem8_continuous_source_strategy_eq_formula_of_induced_actions
+
+def audit_theorem8_continuous_source_dropout_eq_formula_at_endpoint_of_right_eq :=
+  PaperInterface.theorem8_continuous_source_dropout_eq_formula_at_endpoint_of_right_eq
+
+def audit_theorem8_continuous_source_profile_eq_formula_of_source_step_bounds :=
+  PaperInterface.theorem8_continuous_source_profile_eq_formula_of_source_step_bounds
+
+def audit_theorem8_continuous_source_support_eq_formula_of_source_step_bounds :=
+  PaperInterface.theorem8_continuous_source_support_eq_formula_of_source_step_bounds
+
+def audit_theorem8_continuous_source_step_bounds_of_one_step_best_response :=
+  PaperInterface.theorem8_continuous_source_step_bounds_of_one_step_best_response
+
+def audit_theorem8_continuous_source_local_best_response_support_unique :=
+  PaperInterface.theorem8_continuous_source_local_best_response_support_unique
+
+def audit_theorem8_continuous_source_local_pbe_support_unique :=
+  PaperInterface.theorem8_continuous_source_local_pbe_support_unique
+
+def audit_theorem8_continuous_source_pbe_support_unique_of_local_pbe_bridge :=
+  PaperInterface.theorem8_continuous_source_pbe_support_unique_of_local_pbe_bridge
+
+def audit_theorem8_continuous_source_supported_pbe_outcome_of_local_pbe_bridge
+    {Outcome : Type*} :=
+  @PaperInterface.theorem8_continuous_source_supported_pbe_outcome_of_local_pbe_bridge
+    Outcome
+
+def audit_theorem8_continuous_source_action_strategy_local_deviation_of_strict_values :=
+  PaperInterface.theorem8_continuous_source_action_strategy_local_deviation_of_strict_values
+
+def audit_theorem8_continuous_source_action_strategy_source_sequential_rationality_of_strict_values :=
+  PaperInterface.theorem8_continuous_source_action_strategy_source_sequential_rationality_of_strict_values
+
+def audit_theorem8_continuous_source_action_strategy_source_sequential_pbe_of_strict_values :=
+  PaperInterface.theorem8_continuous_source_action_strategy_source_sequential_pbe_of_strict_values
+
+def audit_theorem8_continuous_source_action_strategy_source_sequential_pbe_iff_of_strict_values :=
+  PaperInterface.theorem8_continuous_source_action_strategy_source_sequential_pbe_iff_of_strict_values
+
+def audit_theorem8_continuous_source_strategy_dropout_eq_formula_of_strict_values_source_sequential_pbe :=
+  PaperInterface.theorem8_continuous_source_strategy_dropout_eq_formula_of_strict_values_source_sequential_pbe
+
+def audit_theorem8_continuous_source_strategy_profile_unique_source_sequential_pbe_of_strict_values :=
+  PaperInterface.theorem8_continuous_source_strategy_profile_unique_source_sequential_pbe_of_strict_values
+
+def audit_theorem8_continuous_source_action_strategy_unique_source_sequential_pbe_outcome_eq_vcg_of_strict_values :=
+  PaperInterface.theorem8_continuous_source_action_strategy_unique_source_sequential_pbe_outcome_eq_vcg_of_strict_values
+
+def audit_theorem8_price_sorted_finite_schedule_source_event_strict_values_unique_pbe_continuous_action_formula_conclusion :=
+  PaperInterface.theorem8_price_sorted_finite_schedule_source_event_strict_values_unique_pbe_continuous_action_formula_conclusion
+
+def audit_theorem8_price_sorted_finite_schedule_source_event_strict_values_continuous_profile_unique_source_extensive_pbe_conclusion :=
+  PaperInterface.theorem8_price_sorted_finite_schedule_source_event_strict_values_continuous_profile_unique_source_extensive_pbe_conclusion
 
 /-- Audit for Theorem 8 source-shaped dynamic source seam: local optimality
 supplies the local-deviation dynamic certificate through the source-shaped
