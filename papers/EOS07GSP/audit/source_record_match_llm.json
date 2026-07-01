@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "paper": "EOS07GSP",
+  "prompt_version": "source-record-v2-semantic-boundary-inputs",
+  "source_record_audit_sha256": "ed1ecb9b758577bdfd31eac4e6d99dc6d123b4ead376fb5dd420bb5df0800616",
+  "validator": "codex-gpt-5.5-semantic-rejudge",
+  "validator_type": "model",
+  "validated_at": "2026-07-01T12:44:10Z",
+  "comment": "Semantic source-record provenance pass for the current EOS07GSP paper-facing audit surface. The visible support-boundary input is not a source certificate: the theorem is Lean-proved for every boundary function. The strict ordered value model is the explicit source-condition row for the Theorem 8 strict source-event endpoints.",
+  "items": {
+    "theorem8_continuous_source_local_best_response_support_unique_review.boundary : \u2115 \u2192 \u211d \u2192 \u211d": {
+      "classification": "proved_from_primitives",
+      "source_record_audit_sha256": "ed1ecb9b758577bdfd31eac4e6d99dc6d123b4ead376fb5dd420bb5df0800616",
+      "lean_derivation": "The theorem universally quantifies over boundary : \u2115 \u2192 \u211d \u2192 \u211d and proves SupportEq on the region bidderValue >= boundary rank lastDropout from continuity, the one-step best-response predicate, and positive click-through rates. No boundary-specific source certificate is assumed.",
+      "reason": "This input is arbitrary support-endpoint data, not an extra mathematical hypothesis. Because the conclusion is proved for every boundary function, the row does not rely on an unstated paper assumption about a particular boundary.",
+      "validator": "codex-gpt-5.5-semantic-rejudge",
+      "validator_type": "model",
+      "validated_at": "2026-07-01T12:44:10Z"
+    },
+    "assumption_theorem8_strict_ordered_value_certificate._model : PaperInterface.theorem8StrictOrderedValueCertificate": {
+      "classification": "validated_source_assumption",
+      "source_record_audit_sha256": "ed1ecb9b758577bdfd31eac4e6d99dc6d123b4ead376fb5dd420bb5df0800616",
+      "source_location": "EOS07GSP source text around the ranked click-through-rate ordering and value distribution assumptions",
+      "reason": "This visible model packages the source Theorem 8 ranked CTR/value primitives: descending click-through rates, positive click-through rates for displayed positions, nonnegative values, and strict realized ordering from the continuous value distribution.",
+      "validator": "codex-gpt-5.5-semantic-rejudge",
+      "validator_type": "model",
+      "validated_at": "2026-07-01T12:44:10Z"
+    }
+  }
+}

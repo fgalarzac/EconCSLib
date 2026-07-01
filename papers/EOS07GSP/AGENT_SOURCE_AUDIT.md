@@ -7,6 +7,10 @@ NBER source text was read first, then compared against
 `paper_statement_map.json`, `PaperInterface.lean`, the LLM-as-judge sidecars,
 and `FINAL_VALIDATION_REPORT.md`.
 
+This is the holistic audit lane: it is not a replacement for the structured
+sidecars, but a source-to-interface reading pass intended to catch omissions
+that a row-local statement judge can miss.
+
 ## Source Inventory
 
 The local NBER source text contains the following main source-facing targets:
@@ -56,8 +60,10 @@ particular:
 - Source-to-dashboard coverage: 24/24 source statements covered directly.
 - Row-local statement matching: 25/25 row-local statement judgments match.
 - Assumption/source-condition provenance: 1 source-condition row, source-backed.
-- Source-record audit: the only Theorem 8 boundary inputs are the
-  source-facing strict ranked-value model and its audited fields.
+- Source-record audit: the support-boundary input in the continuous support
+  uniqueness row is universally quantified and Lean-proved for every boundary
+  function; the strict ranked-value model is source-backed by the paper's
+  click-through-rate and value-distribution primitives.
 - Lean build: `lake build EOS07GSP` succeeds.
 
 ## Findings

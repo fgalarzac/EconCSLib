@@ -335,7 +335,9 @@
       "review_surface": {
         "source_file": "papers/EOS07GSP/PaperInterface.lean",
         "assumption_source_file": "papers/EOS07GSP/Assumptions.lean",
-        "llm_assumption_review": "papers/EOS07GSP/assumption_match_llm.json",
+        "llm_assumption_review": {
+          "assumption_judgment_file": "papers/EOS07GSP/audit/assumption_match_llm.json"
+        },
         "assumption_names": [
           "assumption_theorem8_strict_ordered_value_certificate"
         ],
