@@ -148,6 +148,13 @@ h1 {
   color: var(--muted);
 }
 
+.project-stats {
+  max-width: 860px;
+  margin-top: -2px;
+  color: var(--ink);
+  font-weight: 700;
+}
+
 .button {
   display: inline-flex;
   align-items: center;
