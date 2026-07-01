@@ -493,6 +493,33 @@
       }
     },
     {
+      "id": "EOS07GSP",
+      "title": "Internet Advertising and the Generalized Second-Price Auction",
+      "authors": "Benjamin Edelman, Michael Ostrovsky, and Michael Schwarz",
+      "publication": "NBER Working Paper 11765 / AER 2007 publication citation",
+      "publication_year": 9999,
+      "source_url": "https://www.nber.org/papers/w11765",
+      "paper_info": "Internet Advertising and the Generalized Second-Price Auction by Benjamin Edelman, Michael Ostrovsky, and Michael Schwarz; NBER Working Paper 11765 / AER 2007 publication citation.",
+      "status": "Formalized",
+      "human_review": "0/26",
+      "human_translation": "0/26 reviewed",
+      "llm_as_judge_translation": "25/25 statement rows match; 1 source-condition row",
+      "llm_as_judge_paper_coverage": "24/24 covered",
+      "lean_loc": 133338,
+      "main_note": "",
+      "main_note_citation": null,
+      "main_note_review": null,
+      "paper_folder": "papers/EOS07GSP",
+      "review_entrypoint": "papers/EOS07GSP/FINAL_VALIDATION_REPORT.md",
+      "artifacts": {
+        "readme": "papers/EOS07GSP/README.md",
+        "paper_interface": "papers/EOS07GSP/PaperInterface.lean",
+        "final_validation_report": "papers/EOS07GSP/FINAL_VALIDATION_REPORT.md",
+        "dependency_dag_tex": "papers/EOS07GSP/DependencyDAG.tex",
+        "dependency_dag_pdf": "papers/EOS07GSP/DependencyDAG.pdf"
+      }
+    },
+    {
       "id": "LOS02CombinatorialAuctions",
       "title": "Truth Revelation in Approximately Efficient Combinatorial Auctions",
       "authors": "Daniel Lehmann, Liadan Ita O'Callaghan, and Yoav Shoham",
