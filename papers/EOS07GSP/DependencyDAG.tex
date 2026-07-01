@@ -43,22 +43,6 @@
 \node[dag_result, text width=4.8cm] (Thm8) at (28.8,-5.5)
   {\textbf{Theorem 8}\\the generalized-English auction has the unique continuous ex-post payoff-game equilibrium with the paper's dropout formula and VCG-equivalent outcome};
 
-\node[dag_template_note, text width=19.0cm] (AuditNote) at (18.5,-17.4) {
-  \textbf{Source inventory.} The NBER Working Paper 11765 source-facing
-  inventory is the first-price and GSP/VCG examples, Remarks 1--3,
-  Definition 4, Lemmas 5--6, and Theorems 7--8. The compact review surface
-  covers 24 source items through 25 statement rows plus one source-condition
-  row for the strict ranked-value model used in the Theorem 8 source-event
-  specialization.
-};
-\node[dag_template_note, text width=19.0cm, below=0.65cm of AuditNote] (Thm8Note) {
-  \textbf{Theorem 8 convention.} The source theorem is ex post: after history
-  and realized values are fixed, the payoff comparison does not depend on
-  posterior beliefs. The Lean endpoint states the continuous dropout-price
-  strategy, support uniqueness for payoff-PBE strategies on the nonnegative
-  source support, and the induced finite source-event VCG outcome.
-};
-
 \draw[dag_arrow] (Position.west) -- ++(-1.1,0) |- (Remark1.north);
 \draw[dag_arrow] (Position) -- (Remark2);
 \draw[dag_arrow] (Position.south) |- (Remark3.north);

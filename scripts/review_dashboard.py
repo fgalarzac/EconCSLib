@@ -34,6 +34,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 PAPERS_DIR = ROOT / "papers"
+AUDIT_CONFIG = PAPERS_DIR / "audit_config.json"
 DEFAULT_PAPER_LOG_FILE = "paper_theorem_validations.jsonl"
 DEFAULT_PAPER_INTERFACE_CACHE_FILE = "paper_interface_cache.json"
 DEFAULT_PAPER_STATUS_FILE = "status.json"
@@ -67,6 +68,21 @@ REVIEW_DECL_KINDS = {
     "class",
     "inductive",
 }
+
+
+def active_paper_names() -> set[str]:
+    """Return paper folders skipped by whole-repository dashboard checks."""
+
+    if not AUDIT_CONFIG.exists():
+        return set()
+    try:
+        payload = json.loads(AUDIT_CONFIG.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return set()
+    raw = payload.get("active_papers", []) if isinstance(payload, dict) else []
+    if not isinstance(raw, list):
+        return set()
+    return {str(item).strip() for item in raw if str(item).strip()}
 
 
 def paper_relative_file(folder: Path, preferred: str, legacy: str | None = None) -> Path:
@@ -3041,12 +3057,15 @@ def iter_paper_folders(paper_filter: str | None = None) -> list[Path]:
     """Return paper directories that have a human-review Lean surface."""
 
     folders: list[Path] = []
+    active = active_paper_names() if paper_filter is None else set()
     for folder in sorted(PAPERS_DIR.iterdir()):
         if not folder.is_dir():
             continue
         if folder.name == "TEMPLATE":
             continue
         if paper_filter and folder.name != paper_filter:
+            continue
+        if folder.name in active:
             continue
         if find_review_source_file(folder) is None:
             continue

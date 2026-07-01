@@ -1928,7 +1928,11 @@ def library_lean_declaration_index() -> dict[str, list[LeanDeclaration]]:
 def alias_target_name(source: str) -> str | None:
     """Return the first declaration name targeted by a thin `:= @foo` alias."""
 
-    match = ALIAS_TARGET_RE.search(source)
+    body = lean_code_text(declaration_body(source)).strip()
+    match = re.fullmatch(
+        r"@?\s*((?:[A-Za-z_][A-Za-z0-9_']*\.)*[A-Za-z_][A-Za-z0-9_']*)",
+        body,
+    )
     if not match:
         return None
     return match.group(1)
@@ -5098,9 +5102,19 @@ def check_machine_paper_status(
                 )
         total_rows = review.get("total_rows") if isinstance(review, dict) else None
         review_rows = interface.get("review_rows")
-        if isinstance(total_rows, int) and review_rows != total_rows:
+        source_condition_rows = len(assumption_names)
+        if (
+            isinstance(total_rows, int)
+            and isinstance(review_rows, int)
+            and review_rows != total_rows
+            and review_rows + source_condition_rows != total_rows
+        ):
             findings.append(
-                Finding("ERROR", PAPER_STATUS_FILE, f"`{paper_id}` review_rows should match human_review.total_rows")
+                Finding(
+                    "ERROR",
+                    PAPER_STATUS_FILE,
+                    f"`{paper_id}` review_rows plus source-condition rows should match human_review.total_rows",
+                )
             )
         configured_review_surface_names = set(include_names).union(assumption_names)
         if isinstance(total_rows, int) and include_names and len(configured_review_surface_names) != total_rows:
@@ -5353,13 +5367,18 @@ def check_generated_human_status_labels() -> list[Finding]:
     return findings
 
 
-def check_readme_status_tables(include_active: bool) -> list[Finding]:
+def check_readme_status_tables(
+    include_active: bool,
+    paper_filter: str | None = None,
+) -> list[Finding]:
     findings: list[Finding] = []
     suspicious_caveat = re.compile(
         r"\b(open|conditional|caveat|mismatch|bug|not formalized|not covered)\b",
         re.I,
     )
     for folder in paper_dirs():
+        if paper_filter and folder.name != paper_filter:
+            continue
         if folder.name in ACTIVE_PAPERS and not include_active:
             continue
         readme = folder / "README.md"
@@ -5422,7 +5441,8 @@ def check_readme_status_tables(include_active: bool) -> list[Finding]:
                     )
         if not found_status_table:
             findings.append(Finding("ERROR", readme, "no theorem/status markdown table found"))
-    findings.extend(check_root_status_table())
+    if not paper_filter:
+        findings.extend(check_root_status_table())
     return findings
 
 
@@ -5813,7 +5833,7 @@ def run(
     )
     findings.extend(check_status_label_vocabulary())
     findings.extend(check_generated_human_status_labels())
-    findings.extend(check_readme_status_tables(include_active))
+    findings.extend(check_readme_status_tables(include_active, paper_filter=paper_filter))
     findings.extend(check_tracked_artifacts(include_active))
     findings.extend(check_stale_architecture_terms())
     findings.extend(check_human_facing_readme())

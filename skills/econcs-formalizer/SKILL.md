@@ -1016,6 +1016,16 @@ reference routing table at the end: CTMC/reward-rate details live in
 `references/proof-foundations-probability.md`; dynamic-game/PBE certificate
 details live in `references/proof-mechanism-design.md`; market and social
 choice details live in `references/proof-markets-social-choice.md`.
+Do not present a finite source-event, finite schedule, trace/replay, or
+strict-realized-profile equilibrium endpoint as a full continuous
+type-distribution PBE theorem. Such endpoints can be useful source-facing
+partial progress, especially when they expose the named strategy, exact trace,
+and outcome/payoff equality, but the full source theorem remains partial until
+the continuous type law, belief consistency, global PBE semantics, and
+PBE-to-local-best-response bridge are formalized or explicitly approved as a
+boundary. If a continuous theorem is reduced to a local best-response
+certificate, keep that certificate out of the fully formalized status unless a
+Lean constructor derives it from the continuous source game.
 When updating the skill, treat this as an invariant, not a preference: if the
 new lesson names a specific paper, theorem number, counterexample, proof
 recipe, or declaration family, it belongs in a reference file unless it is only
@@ -1235,6 +1245,12 @@ Think of the repository as having two distinct roles: **`EconCSLib` is the textb
   use generic definitions and explicit certificate parameters; avoid
   paper-specific formula constants, implicit certificate parameters, implicit
   instances, or names that make a source formula look like a generic theorem.
+  For standard mechanism-design facts such as VCG truthfulness, an explicit
+  certificate predicate may be the reusable definition of a VCG-style
+  mechanism. Do not remove that binder unless the library already provides a
+  concrete mechanism plus a Lean-checked constructor for the certificate; if no
+  constructor exists, keep the binder visible and classify it as a source/library
+  abstraction or partial boundary according to the paper's status.
 - Reusable `Assumption`/`Hypothesis` declarations are not allowed in
   `EconCSLib/`; true paper assumptions live in paper-local `Assumptions.lean`.
   Shared modules should describe generic mathematical APIs, not paper/source
