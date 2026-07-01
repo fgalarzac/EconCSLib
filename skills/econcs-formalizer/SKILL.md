@@ -762,7 +762,10 @@ because Lean LOC changed or a small proof seam was added; defer
 generated table/doc refreshes until a named paper result closes, a status note
 changes, a final report/handoff is prepared, or the user explicitly asks. If
 README/docs/site/table text is wrong, fix the paper-local `status.json` and
-rerun the sync script at that milestone.
+rerun the sync script at that milestone. If a generated table needs
+display-only publication wording that differs from local provenance, use
+`papers/catalog.json` `publication_overrides` and leave paper-local
+`source_version` fields as the source/provenance record.
 Keep `sync_paper_status.py` metadata-only and fast by default. It should not
 import dashboard code, run Lean previews, refresh LLM sidecars, or perform
 closeout checks unless an explicit opt-in flag such as `--dashboard-audit` is
@@ -773,9 +776,12 @@ failure.
 Use `human_summary` for the short public-facing note in generated tables.
 Formalized papers should usually have an empty summary; add text only for a
 reader-relevant source-version, proof-route, or caveat note. Human-review counts
-mean saved dashboard rows by a human reviewer: `reviewed_rows / total_rows`.
-Agent source audits, validation reports, and compile checks do not increment
-human review.
+mean saved dashboard rows by a human reviewer over the curated source-facing
+review surface: `reviewed_rows / total_rows`. Do not use raw
+`PaperInterface.lean` declaration counts as human-facing dashboard totals when
+proof-support endpoints can be excluded with `review_surface.include_names`,
+`assumption_names`, or `auxiliary_names`. Agent source audits, validation
+reports, and compile checks do not increment human review.
 Website status tables should expose human review and row-local
 LLM-as-judge statement translation, not paper-level source coverage. Keep
 paper-level source-inventory coverage in validation reports, audit JSON, and

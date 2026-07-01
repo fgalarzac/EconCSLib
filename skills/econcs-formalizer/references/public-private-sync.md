@@ -89,6 +89,16 @@ For public-safe paths, prefer the latest semantically valid artifact:
 - Source records (`audit/source_record_audit.json`,
   `audit/paper_statement_map.json`): use the version generated from the current
   Lean/source inventory. Regenerate when in doubt.
+- Paper-local status metadata: human-review totals should count the curated
+  source-facing review rows, not every proof helper or API declaration exposed
+  during implementation. Prefer explicit `review_surface.include_names`,
+  `assumption_names`, and `auxiliary_names` to make the dashboard surface
+  auditable before regenerating aggregate files.
+- Publication display metadata: if public/private generated tables need clean
+  publication wording that differs from local source provenance, add or update
+  `papers/catalog.json` `publication_overrides`. Do not erase paper-local
+  `source_version` provenance such as source archives, TeX/formula sources, or
+  internal source-version notes just to clean a rendered table.
 - Aggregate files (`papers/status.json`, `papers/human_status.json`,
   `docs/PAPER_STATUS.md`, `README.md`, `site/index.html`): never copy across
   the public/private boundary. Regenerate them in the destination checkout.
