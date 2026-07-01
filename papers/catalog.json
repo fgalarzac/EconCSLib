@@ -50,6 +50,10 @@
       "publication": "American Mathematical Monthly, 1962",
       "year": 1962
     },
+    "KR21Monoculture": {
+      "publication": "PNAS, 2021",
+      "year": 2021
+    },
     "LG21TestOptionalPolicies": {
       "publication": "EAAMO, 2021",
       "year": 2021
@@ -99,6 +103,7 @@
     "GKGMM19IterativeLocalVoting": "https://www.jair.org/index.php/jair/article/view/11358",
     "GN21DriverSurgePricing": "https://arxiv.org/pdf/1905.07544",
     "GS62CollegeAdmissions": "http://www.jstor.org/stable/2312726",
+    "KR21Monoculture": "https://www.pnas.org/doi/10.1073/pnas.2018340118",
     "LG21TestOptionalPolicies": "https://arxiv.org/pdf/2107.08922",
     "LBG24SpatialUnderreporting": "https://www.nature.com/articles/s43588-023-00572-6",
     "LMMS04FairDivision": "https://www.cs.cmu.edu/~arielpro/15896s15/docs/paper12a.pdf",

@@ -69,6 +69,7 @@ published citation title and year.
 | [GJ19 Optimal Binary Rating Systems](papers/GJ19OptimalBinaryRatingSystems) | Formalized | 0/56 | Debt: 12481 lines |  |
 | [GGSG19 Top Three](papers/GGSG19TopThree) | Formalized | 0/17 | OK: 340 lines |  |
 | [GJ18 Informative Rating Systems](papers/GJ18InformativeRatingSystems) | Formalized | 0/15 | OK: 2940 lines |  |
+| [KR21 Monoculture](papers/KR21Monoculture) | Formalized | 0/49 | OK: 1816 lines |  |
 | [LG21 Test Optional Policies](papers/LG21TestOptionalPolicies) | Formalized | 0/23 | OK: 77 lines |  |
 | [GN21 Driver Surge Pricing](papers/GN21DriverSurgePricing) | Formalized | 0/36 | OK: 400 lines |  |
 | [PRPKG24 Accuracy Diversity](papers/PRPKG24AccuracyDiversity) | Formalized | 0/42 | OK: 287 lines | Proposition 2's printed finite bound appears to miss a factor of 2; Lean proves the corrected finite bound, which is sufficient for the asymptotic 1/2-homogeneity result. |
@@ -78,7 +79,6 @@ published citation title and year.
 | [MBJG25 Producer Fairness](papers/MBJG25ProducerFairness) | Formalized | 10/27 | OK: 332 lines | Additional assumption recorded in the validation report: strict variance decrease is stated with 0 < q_v < 1. |
 | [DGD26 Admissions Predictability](papers/DGD26AdmissionsPredictability) | Formalized | 0/66 | OK: 1388 lines |  |
 | [GGRS26 Combatting Gerrymandering RCV](papers/GGRS26CombattingGerrymanderingRCV) | Formalized | 0/19 | OK: 403 lines |  |
-| [KR21 Monoculture](papers/KR21Monoculture) | Formalized | 0/49 | OK: 1816 lines |  |
 | [LOS02 Combinatorial Auctions](papers/LOS02CombinatorialAuctions) | Partially formalized | 0/39 | OK: 371 lines | Greedy approximation, truthfulness, and Theorem 6.1 reductions are formalized. Full formalization requires computational complexity results that are out of scope. |
 | [LMMS04 Fair Division](papers/LMMS04FairDivision) | Partially formalized | 0/48 | OK: 303 lines | Sections 2 and 4 are fully formalized. Section 3 has query/descent/rounded-search support. The PTAS/FPTAS runtime layer needs reusable fixed-dimension IP complexity infrastructure. |
 | [GKGMM19 Iterative Local Voting](papers/GKGMM19IterativeLocalVoting) | Partially formalized | 0/47 | OK: 2772 lines | Full formalization requires proving stochastic subgradient descent convergence. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition. |
