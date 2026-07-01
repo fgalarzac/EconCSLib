@@ -11,6 +11,7 @@ defaultTargets = [
   "Roth82StableMatching",
   "GS62CollegeAdmissions",
   "GHW01DigitalGoods",
+  "EOS07GSP",
   "MSVV07AdWords",
   "GJ18InformativeRatingSystems",
   "GGSG19TopThree",
@@ -79,6 +80,10 @@ srcDir = "papers"
 
 [[lean_lib]]
 name = "GHW01DigitalGoods"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "EOS07GSP"
 srcDir = "papers"
 
 [[lean_lib]]

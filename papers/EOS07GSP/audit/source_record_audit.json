@@ -1,0 +1,234 @@
+{
+  "boundary_input_count": 2,
+  "boundary_input_items": [
+    {
+      "input": {
+        "names": "boundary",
+        "type": "\u2115 \u2192 \u211d \u2192 \u211d"
+      },
+      "judgment_key": "theorem8_continuous_source_local_best_response_support_unique_review.boundary : \u2115 \u2192 \u211d \u2192 \u211d",
+      "kind": "boundary_premise",
+      "lean_source_declaration": "theorem theorem8_continuous_source_local_best_response_support_unique_review\n    (clickThroughRate : \u2115 \u2192 \u211d) (boundary : \u2115 \u2192 \u211d \u2192 \u211d)\n    (hclick_pos : \u2200 rank, 0 < clickThroughRate rank) :\n    let namedStrategy := theorem8ContinuousSourceStrategy clickThroughRate\n    namedStrategy.ContinuousInValuation \u2227\n      Theorem8ContinuousSourceOneStepBestResponse namedStrategy clickThroughRate \u2227\n        \u2200 strategy : Theorem8ContinuousSourceStrategy,\n          strategy.ContinuousInValuation \u2192\n            Theorem8ContinuousSourceOneStepBestResponse\n              strategy clickThroughRate \u2192\n              strategy.SupportEq namedStrategy boundary := by\n  exact\n    EOS07GSP.audit_theorem8_continuous_source_local_best_response_support_unique\n      clickThroughRate boundary hclick_pos",
+      "required_check": "This visible theorem input is boundary-shaped. It needs a specific source statement/primitive or a Lean-checked constructor from paper primitives; the source-looking predicate name is not evidence.",
+      "row": "theorem8_continuous_source_local_best_response_support_unique_review"
+    },
+    {
+      "input": {
+        "names": "_model",
+        "type": "PaperInterface.theorem8StrictOrderedValueCertificate"
+      },
+      "judgment_key": "assumption_theorem8_strict_ordered_value_certificate._model : PaperInterface.theorem8StrictOrderedValueCertificate",
+      "kind": "boundary_premise",
+      "lean_source_declaration": "abbrev assumption_theorem8_strict_ordered_value_certificate\n    (_model : PaperInterface.theorem8StrictOrderedValueCertificate) : Prop :=\n  True",
+      "required_check": "This visible theorem input is boundary-shaped. It needs a specific source statement/primitive or a Lean-checked constructor from paper primitives; the source-looking predicate name is not evidence.",
+      "row": "assumption_theorem8_strict_ordered_value_certificate"
+    }
+  ],
+  "configured_review_row_count": 26,
+  "expected_field_judgment_keys": [],
+  "expected_input_judgment_keys": [
+    "assumption_theorem8_strict_ordered_value_certificate._model : PaperInterface.theorem8StrictOrderedValueCertificate",
+    "theorem8_continuous_source_local_best_response_support_unique_review.boundary : \u2115 \u2192 \u211d \u2192 \u211d"
+  ],
+  "import_module": "EOS07GSP.PaperInterface",
+  "lean_check": {
+    "command": "lake build EOS07GSP.PaperInterface && lake env lean <generated-source-record-audit-script>",
+    "output": "EOS07GSP.PaperInterface.theorem7_no_positive_transfer_conclusion {n : \u2115}\n  (value vcgTotalPayment clickThroughRate : \u2115 \u2192 \u211d) (hclick_nonneg : \u2200 (s : Fin n), 0 \u2264 clickThroughRate \u2191s)\n  (hclick_pos : \u2200 (s : Fin n), 0 < clickThroughRate \u2191s)\n  (hclick_mono : \u2200 (k : \u2115), clickThroughRate (k + 1) \u2264 clickThroughRate k)\n  (hvalue_mono : \u2200 (a b : \u2115), a \u2264 b \u2192 value b \u2264 value a)\n  (hvcg_rec :\n    \u2200 (k : \u2115),\n      vcgTotalPayment k = (clickThroughRate k - clickThroughRate (k + 1)) * value (k + 1) + vcgTotalPayment (k + 1))\n  (hpayment_le_value : \u2200 (i : Fin n), vcgTotalPayment \u2191i \u2264 clickThroughRate \u2191i * value \u2191i)\n  (hvcg_tail_eq :\n    \u2200 (i : Fin n),\n      vcgTotalPayment \u2191i =\n        paper_theorem7_ranked_vcg_tail_payment value clickThroughRate (\u2191i)\n          (paper_theorem7_ranked_canonical_tail_remaining i))\n  (hvalue_nonneg : \u2200 (i : \u2115), 0 \u2264 value i) :\n  \u2203 O,\n    paper_position_no_positive_transfers O \u2227\n      (EconCSLib.Auction.PositionOutcome.SlotEnvyFree (paper_theorem7_ranked_environment clickThroughRate) O fun i =>\n          value \u2191i) \u2227\n        (EconCSLib.Auction.PositionOutcome.StableAssignment (paper_theorem7_ranked_environment clickThroughRate) O\n            fun i => value \u2191i) \u2227\n          (\u2200 (i : Fin n),\n              O.slotOf i = (paper_theorem7_ranked_bstar_outcome value vcgTotalPayment clickThroughRate).slotOf i) \u2227\n            (\u2200 (i : Fin n),\n                O.paymentPerClick i =\n                  (paper_theorem7_ranked_bstar_outcome value vcgTotalPayment clickThroughRate).paymentPerClick i) \u2227\n              \u2200 (other : EconCSLib.Auction.PositionOutcome (Fin n) (Fin n)),\n                other.FeasibleAssignment \u2192\n                  (EconCSLib.Auction.PositionOutcome.IndividuallyRational\n                      (paper_theorem7_ranked_environment clickThroughRate) other fun i => value \u2191i) \u2192\n                    (EconCSLib.Auction.PositionOutcome.SlotEnvyFree (paper_theorem7_ranked_environment clickThroughRate)\n                        other fun i => value \u2191i) \u2192\n                      (\u2200 (i : Fin n), O.slotOf i = other.slotOf i) \u2192\n                        paper_position_no_positive_transfers other \u2192\n                          EconCSLib.Auction.PositionOutcome.revenue (paper_theorem7_ranked_environment clickThroughRate)\n                              O \u2264\n                            EconCSLib.Auction.PositionOutcome.revenue\n                              (paper_theorem7_ranked_environment clickThroughRate) other\n'EOS07GSP.PaperInterface.theorem7_no_positive_transfer_conclusion' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nEOS07GSP.PaperInterface.theorem8_continuous_source_local_best_response_support_unique_review (clickThroughRate : \u2115 \u2192 \u211d)\n  (boundary : \u2115 \u2192 \u211d \u2192 \u211d) (hclick_pos : \u2200 (rank : \u2115), 0 < clickThroughRate rank) :\n  have namedStrategy := PaperInterface.theorem8ContinuousSourceStrategy clickThroughRate;\n  namedStrategy.ContinuousInValuation \u2227\n    PaperInterface.Theorem8ContinuousSourceOneStepBestResponse namedStrategy clickThroughRate \u2227\n      \u2200 (strategy : PaperInterface.Theorem8ContinuousSourceStrategy),\n        strategy.ContinuousInValuation \u2192\n          PaperInterface.Theorem8ContinuousSourceOneStepBestResponse strategy clickThroughRate \u2192\n            strategy.SupportEq namedStrategy boundary\n'EOS07GSP.PaperInterface.theorem8_continuous_source_local_best_response_support_unique_review' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nEOS07GSP.assumption_theorem8_strict_ordered_value_certificate\n  (_model : PaperInterface.theorem8StrictOrderedValueCertificate) : Prop\n'EOS07GSP.assumption_theorem8_strict_ordered_value_certificate' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\n",
+    "returncode": 0,
+    "truncated": false
+  },
+  "llm_judge_prompt": "You are auditing Lean formalization provenance, not just theorem text.\nPaper: EOS07GSP\n\nFor each item below, compare the original paper source statement/proof text with the Lean-checked statement and the dependency path. Scrutinize every visible theorem input semantically: names and source-looking type suffixes are only routing hints, not evidence. Do not approve by theorem label, phrase overlap, or source-looking Lean name. Each input must correspond to a specific paper primitive/source assumption, be derived by a Lean-checked constructor from paper primitives, be an approved external boundary, or remain an unresolved conditional/partial boundary. In particular, any Certificate, Replay, Process, or Bridge input needs a specific source statement or an instantiation path from the paper's primitive model; do not accept it merely because the final theorem name resembles the paper claim.\n\nClassify the item as one of: proved_from_primitives, validated_source_assumption, approved_external_boundary, container_recursively_audited, derived_consequence_record, nonpropositional_witness_data, or unresolved_assumed_math. Use container_recursively_audited only for a field whose type is another audited record/source/certificate and whose nested fields are separately judged; do not use it for a field whose type is a mathematical proposition or formula. Use derived_consequence_record only for fields of a theorem-output/consequence record whose constructor proof is separately checked and whose premise records are separately audited. Use nonpropositional_witness_data only for bare data witnesses (for example a chosen stream, cost function, gradient/noise/bias function, or projection function) whose type is not proposition-valued and does not itself state an equality, recurrence, optimality, measurability, convergence, continuity, or response/trajectory semantics. The proposition-valued fields that constrain that witness must still be classified separately. Mark unresolved_assumed_math if the Lean row merely takes a record/certificate/replay/process/bridge/source-model field that states convexity, response semantics, trace/replay validity, transfer preservation, trajectory generation, continuity, convergence, equilibrium, or a displayed formula that should be derived. Do not mark a field as proved just because Lean typechecks a projection from a structure premise.\n\n[\n  {\n    \"input\": {\n      \"names\": \"boundary\",\n      \"type\": \"\\u2115 \\u2192 \\u211d \\u2192 \\u211d\"\n    },\n    \"judgment_key\": \"theorem8_continuous_source_local_best_response_support_unique_review.boundary : \\u2115 \\u2192 \\u211d \\u2192 \\u211d\",\n    \"kind\": \"boundary_premise\",\n    \"lean_source_declaration\": \"theorem theorem8_continuous_source_local_best_response_support_unique_review\\n    (clickThroughRate : \\u2115 \\u2192 \\u211d) (boundary : \\u2115 \\u2192 \\u211d \\u2192 \\u211d)\\n    (hclick_pos : \\u2200 rank, 0 < clickThroughRate rank) :\\n    let namedStrategy := theorem8ContinuousSourceStrategy clickThroughRate\\n    namedStrategy.ContinuousInValuation \\u2227\\n      Theorem8ContinuousSourceOneStepBestResponse namedStrategy clickThroughRate \\u2227\\n        \\u2200 strategy : Theorem8ContinuousSourceStrategy,\\n          strategy.ContinuousInValuation \\u2192\\n            Theorem8ContinuousSourceOneStepBestResponse\\n              strategy clickThroughRate \\u2192\\n              strategy.SupportEq namedStrategy boundary := by\\n  exact\\n    EOS07GSP.audit_theorem8_continuous_source_local_best_response_support_unique\\n      clickThroughRate boundary hclick_pos\",\n    \"required_check\": \"This visible theorem input is boundary-shaped. It needs a specific source statement/primitive or a Lean-checked constructor from paper primitives; the source-looking predicate name is not evidence.\",\n    \"row\": \"theorem8_continuous_source_local_best_response_support_unique_review\"\n  },\n  {\n    \"input\": {\n      \"names\": \"_model\",\n      \"type\": \"PaperInterface.theorem8StrictOrderedValueCertificate\"\n    },\n    \"judgment_key\": \"assumption_theorem8_strict_ordered_value_certificate._model : PaperInterface.theorem8StrictOrderedValueCertificate\",\n    \"kind\": \"boundary_premise\",\n    \"lean_source_declaration\": \"abbrev assumption_theorem8_strict_ordered_value_certificate\\n    (_model : PaperInterface.theorem8StrictOrderedValueCertificate) : Prop :=\\n  True\",\n    \"required_check\": \"This visible theorem input is boundary-shaped. It needs a specific source statement/primitive or a Lean-checked constructor from paper primitives; the source-looking predicate name is not evidence.\",\n    \"row\": \"assumption_theorem8_strict_ordered_value_certificate\"\n  },\n  {\n    \"lean_source_declaration\": \"theorem theorem7_no_positive_transfer_conclusion\\n    {n : \\u2115}\\n    (value vcgTotalPayment clickThroughRate : \\u2115 \\u2192 \\u211d)\\n    (hclick_nonneg : \\u2200 s : Fin n, 0 \\u2264 clickThroughRate s.val)\\n    (hclick_pos : \\u2200 s : Fin n, 0 < clickThroughRate s.val)\\n    (hclick_mono : \\u2200 k : \\u2115, clickThroughRate (k + 1) \\u2264 clickThroughRate k)\\n    (hvalue_mono : \\u2200 a b : \\u2115, a \\u2264 b \\u2192 value b \\u2264 value a)\\n    (hvcg_rec :\\n      \\u2200 k : \\u2115,\\n        vcgTotalPayment k =\\n          (clickThroughRate k - clickThroughRate (k + 1)) * value (k + 1) +\\n            vcgTotalPayment (k + 1))\\n    (hpayment_le_value :\\n      \\u2200 i : Fin n, vcgTotalPayment i.val \\u2264 clickThroughRate i.val * value i.val)\\n    (hvcg_tail_eq :\\n      \\u2200 i : Fin n,\\n        vcgTotalPayment i.val =\\n          paper_theorem7_ranked_vcg_tail_payment value clickThroughRate i.val\\n            (paper_theorem7_ranked_canonical_tail_remaining i))\\n    (hvalue_nonneg : \\u2200 i, 0 \\u2264 value i) :\\n    \\u2203 O : PositionOutcome (Fin n) (Fin n),\\n      paper_position_no_positive_transfers O \\u2227\\n        O.SlotEnvyFree\\n          (paper_theorem7_ranked_environment clickThroughRate)\\n          (fun i : Fin n => value i.val) \\u2227\\n        O.StableAssignment\\n          (paper_theorem7_ranked_environment clickThroughRate)\\n          (fun i : Fin n => value i.val) \\u2227\\n        (\\u2200 i,\\n          O.slotOf i =\\n            (paper_theorem7_ranked_bstar_outcome (n := n)\\n              value vcgTotalPayment clickThroughRate).slotOf i) \\u2227\\n        (\\u2200 i,\\n          O.paymentPerClick i =\\n            (paper_theorem7_ranked_bstar_outcome (n := n)\\n              value vcgTotalPayment clickThroughRate).paymentPerClick i) \\u2227\\n        \\u2200 other : PositionOutcome (Fin n) (Fin n),\\n          other.FeasibleAssignment \\u2192\\n          other.IndividuallyRational\\n            (paper_theorem7_ranked_environment clickThroughRate)\\n            (fun i : Fin n => value i.val) \\u2192\\n          other.SlotEnvyFree\\n            (paper_theorem7_ranked_environment clickThroughRate)\\n            (fun i : Fin n => value i.val) \\u2192\\n          (\\u2200 i, O.slotOf i = other.slotOf i) \\u2192\\n          paper_position_no_positive_transfers other \\u2192\\n          O.revenue (paper_theorem7_ranked_environment clickThroughRate) \\u2264\\n            other.revenue (paper_theorem7_ranked_environment clickThroughRate) := by\\n  exact\\n    theorem7_ranked_bstar_no_positive_transfer_conclusion_from_primitives\\n      value vcgTotalPayment clickThroughRate hclick_nonneg hclick_pos\\n      hclick_mono hvalue_mono hvcg_rec hpayment_le_value hvcg_tail_eq\\n      hvalue_nonneg\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"theorem7_no_positive_transfer_conclusion\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"n\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"value vcgTotalPayment clickThroughRate\",\n        \"type\": \"\\u2115 \\u2192 \\u211d\"\n      },\n      {\n        \"names\": \"hclick_nonneg\",\n        \"type\": \"\\u2200 s : Fin n, 0 \\u2264 clickThroughRate s.val\"\n      },\n      {\n        \"names\": \"hclick_pos\",\n        \"type\": \"\\u2200 s : Fin n, 0 < clickThroughRate s.val\"\n      },\n      {\n        \"names\": \"hclick_mono\",\n        \"type\": \"\\u2200 k : \\u2115, clickThroughRate (k + 1) \\u2264 clickThroughRate k\"\n      },\n      {\n        \"names\": \"hvalue_mono\",\n        \"type\": \"\\u2200 a b : \\u2115, a \\u2264 b \\u2192 value b \\u2264 value a\"\n      },\n      {\n        \"names\": \"hvcg_rec\",\n        \"type\": \"\\u2200 k : \\u2115, vcgTotalPayment k = (clickThroughRate k - clickThroughRate (k + 1)) * value (k + 1) + vcgTotalPayment (k + 1)\"\n      },\n      {\n        \"names\": \"hpayment_le_value\",\n        \"type\": \"\\u2200 i : Fin n, vcgTotalPayment i.val \\u2264 clickThroughRate i.val * value i.val\"\n      },\n      {\n        \"names\": \"hvcg_tail_eq\",\n        \"type\": \"\\u2200 i : Fin n, vcgTotalPayment i.val = paper_theorem7_ranked_vcg_tail_payment value clickThroughRate i.val (paper_theorem7_ranked_canonical_tail_remaining i)\"\n      },\n      {\n        \"names\": \"hvalue_nonneg\",\n        \"type\": \"\\u2200 i, 0 \\u2264 value i\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem theorem8_continuous_source_local_best_response_support_unique_review\\n    (clickThroughRate : \\u2115 \\u2192 \\u211d) (boundary : \\u2115 \\u2192 \\u211d \\u2192 \\u211d)\\n    (hclick_pos : \\u2200 rank, 0 < clickThroughRate rank) :\\n    let namedStrategy := theorem8ContinuousSourceStrategy clickThroughRate\\n    namedStrategy.ContinuousInValuation \\u2227\\n      Theorem8ContinuousSourceOneStepBestResponse namedStrategy clickThroughRate \\u2227\\n        \\u2200 strategy : Theorem8ContinuousSourceStrategy,\\n          strategy.ContinuousInValuation \\u2192\\n            Theorem8ContinuousSourceOneStepBestResponse\\n              strategy clickThroughRate \\u2192\\n              strategy.SupportEq namedStrategy boundary := by\\n  exact\\n    EOS07GSP.audit_theorem8_continuous_source_local_best_response_support_unique\\n      clickThroughRate boundary hclick_pos\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"theorem8_continuous_source_local_best_response_support_unique_review\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"clickThroughRate\",\n        \"type\": \"\\u2115 \\u2192 \\u211d\"\n      },\n      {\n        \"names\": \"boundary\",\n        \"type\": \"\\u2115 \\u2192 \\u211d \\u2192 \\u211d\"\n      },\n      {\n        \"names\": \"hclick_pos\",\n        \"type\": \"\\u2200 rank, 0 < clickThroughRate rank\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"abbrev assumption_theorem8_strict_ordered_value_certificate\\n    (_model : PaperInterface.theorem8StrictOrderedValueCertificate) : Prop :=\\n  True\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"assumption_theorem8_strict_ordered_value_certificate\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"_model\",\n        \"type\": \"PaperInterface.theorem8StrictOrderedValueCertificate\"\n      }\n    ]\n  }\n]",
+  "paper": "EOS07GSP",
+  "paper_dir": "/home/nkgarg/src_wsl/EconCSLib-meta/EconCSLib-public/papers/EOS07GSP",
+  "prompt_version": "source-record-v2-semantic-boundary-inputs",
+  "recursion_failure_count": 0,
+  "recursion_failures": [],
+  "recursive_field_count": 0,
+  "recursive_field_items": [],
+  "review_row_count": 26,
+  "row_visible_inputs": {
+    "assumption_theorem8_strict_ordered_value_certificate": [
+      {
+        "names": "_model",
+        "type": "PaperInterface.theorem8StrictOrderedValueCertificate"
+      }
+    ],
+    "definition4_locally_envy_free": [],
+    "first_price_running_example_profitable_revision_chain": [],
+    "lemma5_locally_envy_free_stable": [],
+    "lemma6_tiebreak_ranked_gsp_stable_assignment_locally_envy_free": [],
+    "remark1_gsp_payments_weakly_dominate_vcg": [],
+    "remark2_vcg_truthful": [],
+    "remark3_gsp_not_truthful": [],
+    "running_example_truthful_gsp_nash": [],
+    "running_example_truthful_gsp_revenue_comparison": [],
+    "stable_assignment": [],
+    "theorem7_bstar_locally_envy_free": [],
+    "theorem7_bstar_payment_identity": [],
+    "theorem7_no_positive_transfer_conclusion": [
+      {
+        "names": "n",
+        "type": "\u2115"
+      },
+      {
+        "names": "value vcgTotalPayment clickThroughRate",
+        "type": "\u2115 \u2192 \u211d"
+      },
+      {
+        "names": "hclick_nonneg",
+        "type": "\u2200 s : Fin n, 0 \u2264 clickThroughRate s.val"
+      },
+      {
+        "names": "hclick_pos",
+        "type": "\u2200 s : Fin n, 0 < clickThroughRate s.val"
+      },
+      {
+        "names": "hclick_mono",
+        "type": "\u2200 k : \u2115, clickThroughRate (k + 1) \u2264 clickThroughRate k"
+      },
+      {
+        "names": "hvalue_mono",
+        "type": "\u2200 a b : \u2115, a \u2264 b \u2192 value b \u2264 value a"
+      },
+      {
+        "names": "hvcg_rec",
+        "type": "\u2200 k : \u2115, vcgTotalPayment k = (clickThroughRate k - clickThroughRate (k + 1)) * value (k + 1) + vcgTotalPayment (k + 1)"
+      },
+      {
+        "names": "hpayment_le_value",
+        "type": "\u2200 i : Fin n, vcgTotalPayment i.val \u2264 clickThroughRate i.val * value i.val"
+      },
+      {
+        "names": "hvcg_tail_eq",
+        "type": "\u2200 i : Fin n, vcgTotalPayment i.val = paper_theorem7_ranked_vcg_tail_payment value clickThroughRate i.val (paper_theorem7_ranked_canonical_tail_remaining i)"
+      },
+      {
+        "names": "hvalue_nonneg",
+        "type": "\u2200 i, 0 \u2264 value i"
+      }
+    ],
+    "theorem7_ranked_gsp_bstar_mechanism_realizes_bstar_outcome": [],
+    "theorem7_strict_tiebreak_gsp_comparison_conclusion": [],
+    "theorem8_belief_source_extensive_unique_pbe_vcg_conclusion": [],
+    "theorem8_continuous_generalized_english_payoff_game_strict_values_main_conclusion_review": [],
+    "theorem8_continuous_source_local_best_response_support_unique_review": [
+      {
+        "names": "clickThroughRate",
+        "type": "\u2115 \u2192 \u211d"
+      },
+      {
+        "names": "boundary",
+        "type": "\u2115 \u2192 \u211d \u2192 \u211d"
+      },
+      {
+        "names": "hclick_pos",
+        "type": "\u2200 rank, 0 < clickThroughRate rank"
+      }
+    ],
+    "theorem8_dropout_formula_eq_bstar_threshold": [],
+    "theorem8_q_continuous_value_review": [],
+    "theorem8_q_mem_interval_review": [],
+    "theorem8_q_step1_dropping_after_q_review": [],
+    "theorem8_q_step2_waiting_before_q_review": [],
+    "theorem8_q_strict_mem_interval_review": [],
+    "theorem8_strict_values_ex_post_local_deviation": []
+  },
+  "rows_with_record_premises": [],
+  "rows_with_semantic_inputs": [
+    {
+      "lean_source_declaration": "theorem theorem7_no_positive_transfer_conclusion\n    {n : \u2115}\n    (value vcgTotalPayment clickThroughRate : \u2115 \u2192 \u211d)\n    (hclick_nonneg : \u2200 s : Fin n, 0 \u2264 clickThroughRate s.val)\n    (hclick_pos : \u2200 s : Fin n, 0 < clickThroughRate s.val)\n    (hclick_mono : \u2200 k : \u2115, clickThroughRate (k + 1) \u2264 clickThroughRate k)\n    (hvalue_mono : \u2200 a b : \u2115, a \u2264 b \u2192 value b \u2264 value a)\n    (hvcg_rec :\n      \u2200 k : \u2115,\n        vcgTotalPayment k =\n          (clickThroughRate k - clickThroughRate (k + 1)) * value (k + 1) +\n            vcgTotalPayment (k + 1))\n    (hpayment_le_value :\n      \u2200 i : Fin n, vcgTotalPayment i.val \u2264 clickThroughRate i.val * value i.val)\n    (hvcg_tail_eq :\n      \u2200 i : Fin n,\n        vcgTotalPayment i.val =\n          paper_theorem7_ranked_vcg_tail_payment value clickThroughRate i.val\n            (paper_theorem7_ranked_canonical_tail_remaining i))\n    (hvalue_nonneg : \u2200 i, 0 \u2264 value i) :\n    \u2203 O : PositionOutcome (Fin n) (Fin n),\n      paper_position_no_positive_transfers O \u2227\n        O.SlotEnvyFree\n          (paper_theorem7_ranked_environment clickThroughRate)\n          (fun i : Fin n => value i.val) \u2227\n        O.StableAssignment\n          (paper_theorem7_ranked_environment clickThroughRate)\n          (fun i : Fin n => value i.val) \u2227\n        (\u2200 i,\n          O.slotOf i =\n            (paper_theorem7_ranked_bstar_outcome (n := n)\n              value vcgTotalPayment clickThroughRate).slotOf i) \u2227\n        (\u2200 i,\n          O.paymentPerClick i =\n            (paper_theorem7_ranked_bstar_outcome (n := n)\n              value vcgTotalPayment clickThroughRate).paymentPerClick i) \u2227\n        \u2200 other : PositionOutcome (Fin n) (Fin n),\n          other.FeasibleAssignment \u2192\n          other.IndividuallyRational\n            (paper_theorem7_ranked_environment clickThroughRate)\n            (fun i : Fin n => value i.val) \u2192\n          other.SlotEnvyFree\n            (paper_theorem7_ranked_environment clickThroughRate)\n            (fun i : Fin n => value i.val) \u2192\n          (\u2200 i, O.slotOf i = other.slotOf i) \u2192\n          paper_position_no_positive_transfers other \u2192\n          O.revenue (paper_theorem7_ranked_environment clickThroughRate) \u2264\n            other.revenue (paper_theorem7_ranked_environment clickThroughRate) := by\n  exact\n    theorem7_ranked_bstar_no_positive_transfer_conclusion_from_primitives\n      value vcgTotalPayment clickThroughRate hclick_nonneg hclick_pos\n      hclick_mono hvalue_mono hvcg_rec hpayment_le_value hvcg_tail_eq\n      hvalue_nonneg",
+      "record_premises": [],
+      "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
+      "row": "theorem7_no_positive_transfer_conclusion",
+      "visible_inputs": [
+        {
+          "names": "n",
+          "type": "\u2115"
+        },
+        {
+          "names": "value vcgTotalPayment clickThroughRate",
+          "type": "\u2115 \u2192 \u211d"
+        },
+        {
+          "names": "hclick_nonneg",
+          "type": "\u2200 s : Fin n, 0 \u2264 clickThroughRate s.val"
+        },
+        {
+          "names": "hclick_pos",
+          "type": "\u2200 s : Fin n, 0 < clickThroughRate s.val"
+        },
+        {
+          "names": "hclick_mono",
+          "type": "\u2200 k : \u2115, clickThroughRate (k + 1) \u2264 clickThroughRate k"
+        },
+        {
+          "names": "hvalue_mono",
+          "type": "\u2200 a b : \u2115, a \u2264 b \u2192 value b \u2264 value a"
+        },
+        {
+          "names": "hvcg_rec",
+          "type": "\u2200 k : \u2115, vcgTotalPayment k = (clickThroughRate k - clickThroughRate (k + 1)) * value (k + 1) + vcgTotalPayment (k + 1)"
+        },
+        {
+          "names": "hpayment_le_value",
+          "type": "\u2200 i : Fin n, vcgTotalPayment i.val \u2264 clickThroughRate i.val * value i.val"
+        },
+        {
+          "names": "hvcg_tail_eq",
+          "type": "\u2200 i : Fin n, vcgTotalPayment i.val = paper_theorem7_ranked_vcg_tail_payment value clickThroughRate i.val (paper_theorem7_ranked_canonical_tail_remaining i)"
+        },
+        {
+          "names": "hvalue_nonneg",
+          "type": "\u2200 i, 0 \u2264 value i"
+        }
+      ]
+    },
+    {
+      "lean_source_declaration": "theorem theorem8_continuous_source_local_best_response_support_unique_review\n    (clickThroughRate : \u2115 \u2192 \u211d) (boundary : \u2115 \u2192 \u211d \u2192 \u211d)\n    (hclick_pos : \u2200 rank, 0 < clickThroughRate rank) :\n    let namedStrategy := theorem8ContinuousSourceStrategy clickThroughRate\n    namedStrategy.ContinuousInValuation \u2227\n      Theorem8ContinuousSourceOneStepBestResponse namedStrategy clickThroughRate \u2227\n        \u2200 strategy : Theorem8ContinuousSourceStrategy,\n          strategy.ContinuousInValuation \u2192\n            Theorem8ContinuousSourceOneStepBestResponse\n              strategy clickThroughRate \u2192\n              strategy.SupportEq namedStrategy boundary := by\n  exact\n    EOS07GSP.audit_theorem8_continuous_source_local_best_response_support_unique\n      clickThroughRate boundary hclick_pos",
+      "record_premises": [],
+      "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
+      "row": "theorem8_continuous_source_local_best_response_support_unique_review",
+      "visible_inputs": [
+        {
+          "names": "clickThroughRate",
+          "type": "\u2115 \u2192 \u211d"
+        },
+        {
+          "names": "boundary",
+          "type": "\u2115 \u2192 \u211d \u2192 \u211d"
+        },
+        {
+          "names": "hclick_pos",
+          "type": "\u2200 rank, 0 < clickThroughRate rank"
+        }
+      ]
+    },
+    {
+      "lean_source_declaration": "abbrev assumption_theorem8_strict_ordered_value_certificate\n    (_model : PaperInterface.theorem8StrictOrderedValueCertificate) : Prop :=\n  True",
+      "record_premises": [],
+      "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
+      "row": "assumption_theorem8_strict_ordered_value_certificate",
+      "visible_inputs": [
+        {
+          "names": "_model",
+          "type": "PaperInterface.theorem8StrictOrderedValueCertificate"
+        }
+      ]
+    }
+  ],
+  "source_record_audit_sha256": "ed1ecb9b758577bdfd31eac4e6d99dc6d123b4ead376fb5dd420bb5df0800616",
+  "source_record_judgment_file": "audit/source_record_match_llm.json",
+  "unconfigured_paper_interface_rows": [
+    "theorem8_continuous_generalized_english_payoff_game_strict_values_source_event_conclusion_review",
+    "theorem8_continuous_generalized_english_payoff_game_support_unique_review",
+    "theorem8_continuous_source_local_pbe_support_unique_review",
+    "theorem8_continuous_source_profile_unique_source_sequential_pbe",
+    "theorem8_price_sorted_finite_schedule_source_event_strict_values_conclusion",
+    "theorem8_source_event_strict_values_continuous_profile_unique_source_extensive_pbe",
+    "theorem8_source_event_strict_values_payment_formula",
+    "theorem8_source_event_strict_values_payoff_pbe_nonnegative_support_conclusion",
+    "theorem8_source_event_strict_values_trace_full_vcg_conclusion",
+    "theorem8_source_event_strict_values_unique_pbe_continuous_action_formula",
+    "theorem8_source_event_strict_values_unique_pbe_formula_conclusion"
+  ]
+}

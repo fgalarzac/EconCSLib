@@ -1,0 +1,13 @@
+*.pdf
+!DependencyDAG.pdf
+!docs/DependencyDAG.pdf
+/source/
+/source_tex/
+/EOS07GSP.txt
+/EOS07GSP.pdf
+*-supplement.txt
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.synctex.gz

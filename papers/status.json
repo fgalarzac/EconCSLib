@@ -298,6 +298,131 @@
       }
     },
     {
+      "schema": 1,
+      "id": "EOS07GSP",
+      "title": "Internet Advertising and the Generalized Second-Price Auction",
+      "authors": "Benjamin Edelman, Michael Ostrovsky, and Michael Schwarz",
+      "source_version": "NBER Working Paper 11765 / AER 2007 publication citation",
+      "publication_year": 2007,
+      "source_url": "https://www.nber.org/papers/w11765",
+      "build_target": "lake build EOS07GSP",
+      "status": "formalized",
+      "main_caveat": "",
+      "human_summary": "",
+      "review_entrypoint": "papers/EOS07GSP/FINAL_VALIDATION_REPORT.md",
+      "human_review": {
+        "reviewed_rows": 0,
+        "total_rows": 26,
+        "stale_rows": 0,
+        "mismatch_rows": 0,
+        "source": "paper-local status.json review_surface; human entries come from dashboard logs"
+      },
+      "paper_interface": {
+        "path": "papers/EOS07GSP/PaperInterface.lean",
+        "line_count": 294,
+        "declaration_rows": 36,
+        "review_rows": 25,
+        "oversized": false,
+        "maintainability_issue": null
+      },
+      "artifacts": {
+        "readme": "papers/EOS07GSP/README.md",
+        "paper_interface": "papers/EOS07GSP/PaperInterface.lean",
+        "final_validation_report": "papers/EOS07GSP/FINAL_VALIDATION_REPORT.md",
+        "dependency_dag_tex": "papers/EOS07GSP/DependencyDAG.tex",
+        "dependency_dag_pdf": "papers/EOS07GSP/DependencyDAG.pdf"
+      },
+      "review_surface": {
+        "source_file": "papers/EOS07GSP/PaperInterface.lean",
+        "assumption_source_file": "papers/EOS07GSP/Assumptions.lean",
+        "llm_assumption_review": {
+          "assumption_judgment_file": "papers/EOS07GSP/audit/assumption_match_llm.json"
+        },
+        "assumption_names": [
+          "assumption_theorem8_strict_ordered_value_certificate"
+        ],
+        "include_names": [
+          "definition4_locally_envy_free",
+          "stable_assignment",
+          "first_price_running_example_profitable_revision_chain",
+          "remark1_gsp_payments_weakly_dominate_vcg",
+          "remark2_vcg_truthful",
+          "remark3_gsp_not_truthful",
+          "running_example_truthful_gsp_nash",
+          "running_example_truthful_gsp_revenue_comparison",
+          "lemma5_locally_envy_free_stable",
+          "lemma6_tiebreak_ranked_gsp_stable_assignment_locally_envy_free",
+          "theorem7_ranked_gsp_bstar_mechanism_realizes_bstar_outcome",
+          "theorem7_bstar_payment_identity",
+          "theorem7_bstar_locally_envy_free",
+          "theorem7_no_positive_transfer_conclusion",
+          "theorem7_strict_tiebreak_gsp_comparison_conclusion",
+          "theorem8_dropout_formula_eq_bstar_threshold",
+          "theorem8_q_step2_waiting_before_q_review",
+          "theorem8_q_step1_dropping_after_q_review",
+          "theorem8_q_mem_interval_review",
+          "theorem8_q_strict_mem_interval_review",
+          "theorem8_q_continuous_value_review",
+          "theorem8_continuous_source_local_best_response_support_unique_review",
+          "theorem8_strict_values_ex_post_local_deviation",
+          "theorem8_belief_source_extensive_unique_pbe_vcg_conclusion",
+          "theorem8_continuous_generalized_english_payoff_game_strict_values_main_conclusion_review"
+        ],
+        "slices": [
+          {
+            "id": "core_path",
+            "title": "Core definitions, examples, Lemmas 5--6, and Theorem 7",
+            "names": [
+              "definition4_locally_envy_free",
+              "stable_assignment",
+              "first_price_running_example_profitable_revision_chain",
+              "remark1_gsp_payments_weakly_dominate_vcg",
+              "remark2_vcg_truthful",
+              "remark3_gsp_not_truthful",
+              "running_example_truthful_gsp_nash",
+              "running_example_truthful_gsp_revenue_comparison",
+              "lemma5_locally_envy_free_stable",
+              "lemma6_tiebreak_ranked_gsp_stable_assignment_locally_envy_free",
+              "theorem7_ranked_gsp_bstar_mechanism_realizes_bstar_outcome",
+              "theorem7_bstar_payment_identity",
+              "theorem7_bstar_locally_envy_free",
+              "theorem7_no_positive_transfer_conclusion",
+              "theorem7_strict_tiebreak_gsp_comparison_conclusion"
+            ]
+          },
+          {
+            "id": "theorem8_path",
+            "title": "Theorem 8 source-event and continuous bridges",
+            "names": [
+              "theorem8_dropout_formula_eq_bstar_threshold",
+              "theorem8_q_step2_waiting_before_q_review",
+              "theorem8_q_step1_dropping_after_q_review",
+              "theorem8_q_mem_interval_review",
+              "theorem8_q_strict_mem_interval_review",
+              "theorem8_q_continuous_value_review",
+              "theorem8_continuous_source_local_best_response_support_unique_review",
+              "theorem8_strict_values_ex_post_local_deviation",
+              "theorem8_belief_source_extensive_unique_pbe_vcg_conclusion",
+              "theorem8_continuous_generalized_english_payoff_game_strict_values_main_conclusion_review"
+            ]
+          }
+        ],
+        "auxiliary_names": [
+          "theorem8_continuous_generalized_english_payoff_game_support_unique_review",
+          "theorem8_source_event_strict_values_payoff_pbe_nonnegative_support_conclusion",
+          "theorem8_continuous_generalized_english_payoff_game_strict_values_source_event_conclusion_review",
+          "theorem8_continuous_source_local_pbe_support_unique_review",
+          "theorem8_source_event_strict_values_trace_full_vcg_conclusion",
+          "theorem8_continuous_source_profile_unique_source_sequential_pbe",
+          "theorem8_price_sorted_finite_schedule_source_event_strict_values_conclusion",
+          "theorem8_source_event_strict_values_continuous_profile_unique_source_extensive_pbe",
+          "theorem8_source_event_strict_values_payment_formula",
+          "theorem8_source_event_strict_values_unique_pbe_continuous_action_formula",
+          "theorem8_source_event_strict_values_unique_pbe_formula_conclusion"
+        ]
+      }
+    },
+    {
       "artifacts": {
         "assumptions": "papers/GCG24UserItemFairness/Assumptions.lean",
         "dependency_dag_pdf": "papers/GCG24UserItemFairness/docs/DependencyDAG.pdf",

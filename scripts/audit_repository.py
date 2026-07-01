@@ -70,6 +70,7 @@ FINAL_VALIDATION_REPORT_FILE = f"{PAPER_DOCS_DIR}/FINAL_VALIDATION_REPORT.md"
 POST_FORMALIZATION_AUDIT_FILE = f"{PAPER_DOCS_DIR}/POST_FORMALIZATION_AUDIT.md"
 DEPENDENCY_DAG_TEX_FILE = f"{PAPER_DOCS_DIR}/DependencyDAG.tex"
 DEPENDENCY_DAG_PDF_FILE = f"{PAPER_DOCS_DIR}/DependencyDAG.pdf"
+AGENT_SOURCE_AUDIT_FILE = "AGENT_SOURCE_AUDIT.md"
 REQUIRED_PAPER_FILES = {
     ".gitignore",
     "MainTheorems.lean",
@@ -1328,6 +1329,7 @@ def check_dag_and_validation_report_closeout(
         )
         dag_tex = paper_relative_file(folder, DEPENDENCY_DAG_TEX_FILE, "DependencyDAG.tex")
         dag_pdf = paper_relative_file(folder, DEPENDENCY_DAG_PDF_FILE, "DependencyDAG.pdf")
+        agent_source_audit = folder / AGENT_SOURCE_AUDIT_FILE
 
         if not report.exists():
             findings.append(
@@ -1388,6 +1390,67 @@ def check_dag_and_validation_report_closeout(
                         "completed-paper final validation report still contains stale placeholder audit language",
                     )
                 )
+
+        if not agent_source_audit.exists():
+            findings.append(
+                Finding(
+                    "ERROR",
+                    agent_source_audit,
+                    "completed paper is missing `AGENT_SOURCE_AUDIT.md` source-first holistic audit",
+                )
+            )
+        else:
+            agent_audit_text = agent_source_audit.read_text(encoding="utf-8")
+            normalized_agent_audit_text = re.sub(r"\s+", " ", agent_audit_text)
+            if not re.search(r"^##\s+Overall status:\s+PASS\s*$", agent_audit_text, re.M):
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        agent_source_audit,
+                        "`AGENT_SOURCE_AUDIT.md` should record `## Overall status: PASS`",
+                    )
+                )
+            if re.search(r"NEEDS AGENT REVIEW|scaffold has not performed", agent_audit_text, re.I):
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        agent_source_audit,
+                        "`AGENT_SOURCE_AUDIT.md` is still a scaffold, not a completed holistic audit",
+                    )
+                )
+            for required_phrase in (
+                "independent source-first",
+                "not merely summarize existing sidecars",
+                "source inventory from the source itself",
+                "omissions, hidden strengthening/weakening, and semantic mismatches",
+            ):
+                if required_phrase not in normalized_agent_audit_text:
+                    findings.append(
+                        Finding(
+                            "ERROR",
+                            agent_source_audit,
+                            "`AGENT_SOURCE_AUDIT.md` must document an independent "
+                            "source-paper/source-text read, source-inventory construction "
+                            "from the source itself, and Lean-interface comparison for "
+                            "omissions, hidden strengthening/weakening, and semantic "
+                            "mismatches; it must not merely summarize existing sidecars",
+                        )
+                    )
+                    break
+            for heading in (
+                "Source Inventory",
+                "Lean Interface Comparison",
+                "Machine Audit Results",
+                "Findings",
+            ):
+                if not re.search(rf"^##\s+{re.escape(heading)}\s*$", agent_audit_text, re.M):
+                    findings.append(
+                        Finding(
+                            "WARN",
+                            agent_source_audit,
+                            f"`AGENT_SOURCE_AUDIT.md` should include a `{heading}` section",
+                        )
+                    )
 
         if not post_audit.exists():
             findings.append(

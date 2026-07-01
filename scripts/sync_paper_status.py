@@ -23,6 +23,8 @@ README_STATUS_BEGIN = "<!-- BEGIN GENERATED PAPER STATUS TABLE -->"
 README_STATUS_END = "<!-- END GENERATED PAPER STATUS TABLE -->"
 SITE_LIBRARY_BEGIN = "<!-- BEGIN GENERATED LIBRARY COMPONENT ROWS -->"
 SITE_LIBRARY_END = "<!-- END GENERATED LIBRARY COMPONENT ROWS -->"
+SITE_STATS_BEGIN = "<!-- BEGIN GENERATED PROJECT STATS -->"
+SITE_STATS_END = "<!-- END GENERATED PROJECT STATS -->"
 SITE_STATUS_BEGIN = "<!-- BEGIN GENERATED PAPER STATUS ROWS -->"
 SITE_STATUS_END = "<!-- END GENERATED PAPER STATUS ROWS -->"
 GITHUB_MAIN = "https://github.com/nikhgarg/EconCSLib/blob/main/"
@@ -976,6 +978,26 @@ def render_site_library_block(human: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def render_site_stats_block(payload: dict[str, Any]) -> str:
+    indent = " " * 8
+    papers = payload["papers"]
+    formalized = sum(1 for row in papers if str(row["status"]).startswith("Formalized"))
+    partial = sum(1 for row in papers if row["status"] == "Partially formalized")
+    lean_loc = sum(int(row["lean_loc"]) for row in papers)
+    lines = [
+        f"{indent}{SITE_STATS_BEGIN}",
+        f'{indent}<p class="project-stats">',
+        (
+            f"{indent}  Currently, the project contains {formalized} formalized papers "
+            f"and {partial} partially formalized papers, totalling {lean_loc:,} lines "
+            "of Lean code."
+        ),
+        f"{indent}</p>",
+        f"{indent}{SITE_STATS_END}",
+    ]
+    return "\n".join(lines)
+
+
 def render_site_status_block(payload: dict[str, Any]) -> str:
     indent = " " * 14
     lines = [f"{indent}{SITE_STATUS_BEGIN}"]
@@ -1020,6 +1042,18 @@ def render_site_index(payload: dict[str, Any]) -> str:
             current = current[:line_start] + library_block
         else:
             current = current[:line_start] + library_block + current[line_end:]
+
+    stats_block = render_site_stats_block(payload)
+    stats_start = current.find(SITE_STATS_BEGIN)
+    stats_end = current.find(SITE_STATS_END)
+    if stats_start >= 0 and stats_end >= stats_start:
+        stats_end += len(SITE_STATS_END)
+        line_start = current.rfind("\n", 0, stats_start) + 1
+        line_end = current.find("\n", stats_end)
+        if line_end < 0:
+            current = current[:line_start] + stats_block
+        else:
+            current = current[:line_start] + stats_block + current[line_end:]
 
     block = render_site_status_block(payload)
     start = current.find(SITE_STATUS_BEGIN)

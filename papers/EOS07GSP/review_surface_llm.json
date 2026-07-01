@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "paper": "EOS07GSP",
+  "prompt_version": "review-surface-v2-semantic-paper-facing",
+  "judgment": "passes",
+  "reason": "Semantic review-surface pass: the dashboard includes source coverage rows plus finite source-event proof-support rows. The Theorem 8 belief row now uses an internally constructed price-sorted source-event endpoint rather than a replay-certificate input.",
+  "review_rows": 26,
+  "review_surface_sha256": "17875397c705d16c0aa4f2503065e8fbf32d596c0023cdce7c71487d15a9e4ff",
+  "validated_at": "2026-07-01T11:57:01Z",
+  "validator": "codex-gpt-5.5-semantic-rejudge",
+  "validator_type": "model"
+}

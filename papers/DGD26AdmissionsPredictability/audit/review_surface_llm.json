@@ -4,10 +4,10 @@
   "prompt_version": "review-surface-v2-semantic-paper-facing",
   "validator": "codex-gpt-5.5-review-surface-pass",
   "validator_type": "agent",
-  "validated_at": "2026-06-30T00:00:00Z",
+  "validated_at": "2026-07-01T13:30:00Z",
   "judgment": "passes",
-  "reason": "The current 101-row dashboard surface consists of paper-facing source definitions, displayed-formula wrappers, named appendix/main-text statements, explicit source nondegeneracy conditions, the now-exposed even-instability inconsistency converse, and LAP source statements. Old conditional LAP exchange/certificate bridge rows are classified as auxiliary proof-support declarations and excluded from the review surface. The row-local Source status notes are intentionally uniform pending the broader statement-match validation lane.",
-  "review_rows": 101,
-  "review_surface_sha256": "e39d75b913d8d831d3a075a82ebb61e329865fd31e2becb8bcebcb756bb9a66f",
+  "reason": "The current 66-row dashboard surface consists of paper-facing definitions, core instability and tight-example statements, q-representative and sequential-composition results, and linear-assignment/capacity results. Auxiliary LAP exchange and same-order-kernel bridge rows are excluded from the human surface. The included rows are source-facing enough for human review while still covering the curated source inventory through the separate paper-coverage audit.",
+  "review_rows": 66,
+  "review_surface_sha256": "34e9d8f3469ec0b9549a01137896a926d8927b14fff55211e279166203287a0e",
   "items": {}
 }
