@@ -149,16 +149,18 @@
       ]
     },
     {
-      "title": "Rating-system applications",
+      "title": "Ratings and recommender systems",
       "paths": [
         "EconCSLib/Foundations/Econometrics/RatingModels",
-        "EconCSLib/Learning/Bandits"
+        "EconCSLib/Learning/Bandits",
+        "EconCSLib/Applications/RecommenderSystems"
       ],
-      "examples": "Binary and ordinal signal models, posterior-mean ratings, bias/variance decompositions, prior-weighted updates, monotonicity/correction lemmas, and minimal bandit-regret interfaces.",
+      "examples": "Binary and ordinal signal models, posterior-mean ratings, bias/variance decompositions, prior-weighted updates, monotonicity/correction lemmas, exposure and allocation policies, classwise fairness constraints, top-k recommendation surfaces, policy averaging, and accuracy/diversity trade-off statements.",
       "papers": [
         "MBJG25ProducerFairness",
         "GJ18InformativeRatingSystems",
-        "GJ19OptimalBinaryRatingSystems"
+        "GJ19OptimalBinaryRatingSystems",
+        "GCG24UserItemFairness"
       ]
     },
     {
@@ -204,16 +206,6 @@
         "LOS02CombinatorialAuctions",
         "MSVV07AdWords",
         "LMMS04FairDivision"
-      ]
-    },
-    {
-      "title": "Applications: recommender systems",
-      "paths": [
-        "EconCSLib/Applications/RecommenderSystems"
-      ],
-      "examples": "Exposure and allocation policies, classwise fairness constraints, top-k recommendation surfaces, policy averaging, and accuracy/diversity trade-off statements.",
-      "papers": [
-        "GCG24UserItemFairness"
       ]
     },
     {

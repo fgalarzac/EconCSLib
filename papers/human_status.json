@@ -446,12 +446,9 @@
       "llm_as_judge_translation": "101/101 match",
       "llm_as_judge_paper_coverage": "39/39 covered",
       "lean_loc": 11536,
-      "main_note": "Finite choice-function instability, q-representative and sequential variability, tight-instability constructions, append/remove variability, and linear-assignment variability results are formalized; empirical NYC performance plots are out of theorem scope.",
+      "main_note": "",
       "main_note_citation": null,
-      "main_note_review": {
-        "status": "draft",
-        "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction."
-      },
+      "main_note_review": null,
       "paper_folder": "papers/DGD26AdmissionsPredictability",
       "review_entrypoint": "papers/DGD26AdmissionsPredictability/docs/FINAL_VALIDATION_REPORT.md",
       "artifacts": {

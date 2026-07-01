@@ -13,11 +13,7 @@
       "build_target": "lake build DGD26AdmissionsPredictability",
       "status": "formalized",
       "main_caveat": "",
-      "human_summary": "Finite choice-function instability, q-representative and sequential variability, tight-instability constructions, append/remove variability, and linear-assignment variability results are formalized; empirical NYC performance plots are out of theorem scope.",
-      "human_summary_review": {
-        "status": "draft",
-        "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction."
-      },
+      "human_summary": "",
       "review_entrypoint": "papers/DGD26AdmissionsPredictability/docs/FINAL_VALIDATION_REPORT.md",
       "human_review": {
         "reviewed_rows": 0,

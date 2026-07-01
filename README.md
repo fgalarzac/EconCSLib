@@ -75,7 +75,7 @@ published citation title and year.
 | [PKG25 No Free Lunch](papers/PKG25NoFreeLunch) | Formalized | 0/15 | OK: 163 lines |  |
 | [DSWG24 Discretization Bias](papers/DSWG24DiscretizationBias) | Formalized | 0/41 | OK: 456 lines |  |
 | [MBJG25 Producer Fairness](papers/MBJG25ProducerFairness) | Formalized | 10/27 | OK: 332 lines | Additional assumption recorded in the validation report: strict variance decrease is stated with 0 < q_v < 1. |
-| [DGD26 Admissions Predictability](papers/DGD26AdmissionsPredictability) | Formalized | 0/101 | OK: 1388 lines | Finite choice-function instability, q-representative and sequential variability, tight-instability constructions, append/remove variability, and linear-assignment variability results are formalized; empirical NYC performance plots are out of theorem scope. |
+| [DGD26 Admissions Predictability](papers/DGD26AdmissionsPredictability) | Formalized | 0/101 | OK: 1388 lines |  |
 | [GGRS26 Combatting Gerrymandering RCV](papers/GGRS26CombattingGerrymanderingRCV) | Formalized | 0/19 | OK: 403 lines |  |
 | [LOS02 Combinatorial Auctions](papers/LOS02CombinatorialAuctions) | Partially formalized | 0/39 | OK: 371 lines | Greedy approximation, truthfulness, and Theorem 6.1 reductions are formalized. Full formalization requires computational complexity results that are out of scope. |
 | [LMMS04 Fair Division](papers/LMMS04FairDivision) | Partially formalized | 0/48 | OK: 303 lines | Sections 2 and 4 are fully formalized. Section 3 has query/descent/rounded-search support. The PTAS/FPTAS runtime layer needs reusable fixed-dimension IP complexity infrastructure. |
