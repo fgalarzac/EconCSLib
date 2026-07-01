@@ -2510,6 +2510,16 @@ the Lean statements against the paper.
     without opening the Lean file. For example, a closed Gaussian lemma node
     should say that the posterior estimate has the displayed weighted-mean
     formula and normal law, not merely that "Gaussian algebra was proved."
+  - **Source notes are not DAG caveats:** Do not put source-inventory,
+    source-version, or source-convention explanations into the DAG as large
+    note boxes when the paper result is otherwise closed. The visual DAG should
+    show source-facing theorem nodes, reusable/library dependencies, and genuine
+    unresolved boundaries. Put source-version crosswalks, convention notes,
+    proof-route commentary, and source-inventory details in
+    `FINAL_VALIDATION_REPORT.md`, `POST_FORMALIZATION_AUDIT.md`, status files,
+    or short captions instead. A DAG note box can make a closed result look
+    caveated, so use one only when it identifies an actual remaining assumption,
+    source gap, or unresolved proof boundary.
   - **Keep theorem families together:** Parts of the same source theorem
     (`Theorem 2(i)`, `Theorem 2(ii)`, `Theorem 2(iii)`) should be visually
     grouped in the same column, row, or labeled cluster. Do not scatter theorem
