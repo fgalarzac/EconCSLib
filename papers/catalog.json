@@ -10,9 +10,17 @@
       "publication": "AAAI-26 published version, DOI 10.1609/aaai.v40i45.41179",
       "year": 2026
     },
+    "EOS07GSP": {
+      "publication": "American Economic Review, 2007",
+      "year": 2007
+    },
     "GCG24UserItemFairness": {
       "publication": "NeurIPS, 2024",
       "year": 2024
+    },
+    "GGRS26CombattingGerrymanderingRCV": {
+      "publication": "Operations Research, 2026, DOI 10.1287/opre.2024.1167",
+      "year": 2026
     },
     "GGSG19TopThree": {
       "publication": "HCOMP, 2019",
@@ -81,7 +89,9 @@
   },
   "source_url_overrides": {
     "DSWG24DiscretizationBias": "https://arxiv.org/pdf/2405.16762",
+    "EOS07GSP": "https://www.nber.org/papers/w11765",
     "GCG24UserItemFairness": "https://openreview.net/pdf?id=ZOZjMs3JTs",
+    "GGRS26CombattingGerrymanderingRCV": "https://doi.org/10.1287/opre.2024.1167",
     "GGSG19TopThree": "https://arxiv.org/pdf/1906.08160",
     "GHW01DigitalGoods": "https://www.cs.miami.edu/home/burt/learning/Csc597.052/docs/goldberg.pdf",
     "GJ18InformativeRatingSystems": "https://doi.org/10.1287/msom.2020.0921",

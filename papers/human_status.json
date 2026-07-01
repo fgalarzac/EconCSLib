@@ -127,6 +127,33 @@
       }
     },
     {
+      "id": "EOS07GSP",
+      "title": "Internet Advertising and the Generalized Second-Price Auction",
+      "authors": "Benjamin Edelman, Michael Ostrovsky, and Michael Schwarz",
+      "publication": "American Economic Review, 2007",
+      "publication_year": 2007,
+      "source_url": "https://www.nber.org/papers/w11765",
+      "paper_info": "Internet Advertising and the Generalized Second-Price Auction by Benjamin Edelman, Michael Ostrovsky, and Michael Schwarz; American Economic Review, 2007.",
+      "status": "Formalized",
+      "human_review": "0/26",
+      "human_translation": "0/26 reviewed",
+      "llm_as_judge_translation": "25/25 statement rows match; 1 source-condition row",
+      "llm_as_judge_paper_coverage": "24/24 covered",
+      "lean_loc": 133338,
+      "main_note": "",
+      "main_note_citation": null,
+      "main_note_review": null,
+      "paper_folder": "papers/EOS07GSP",
+      "review_entrypoint": "papers/EOS07GSP/FINAL_VALIDATION_REPORT.md",
+      "artifacts": {
+        "readme": "papers/EOS07GSP/README.md",
+        "paper_interface": "papers/EOS07GSP/PaperInterface.lean",
+        "final_validation_report": "papers/EOS07GSP/FINAL_VALIDATION_REPORT.md",
+        "dependency_dag_tex": "papers/EOS07GSP/DependencyDAG.tex",
+        "dependency_dag_pdf": "papers/EOS07GSP/DependencyDAG.pdf"
+      }
+    },
+    {
       "id": "GJ19OptimalBinaryRatingSystems",
       "title": "Designing Optimal Binary Rating Systems",
       "authors": "Nikhil Garg, Ramesh Johari",
@@ -465,10 +492,10 @@
       "id": "GGRS26CombattingGerrymanderingRCV",
       "title": "Combatting Gerrymandering with Ranked Choice Voting: an Experimental Analysis of Multi-member Districts in the United States",
       "authors": "Nikhil Garg; Wes Gurnee; David Rothschild; David Shmoys",
-      "publication": "arXiv:2107.07083; Operations Research 2026, DOI 10.1287/opre.2024.1167",
-      "publication_year": 9999,
-      "source_url": "",
-      "paper_info": "Combatting Gerrymandering with Ranked Choice Voting: an Experimental Analysis of Multi-member Districts in the United States by Nikhil Garg; Wes Gurnee; David Rothschild; David Shmoys; arXiv:2107.07083; Operations Research 2026, DOI 10.1287/opre.2024.1167.",
+      "publication": "Operations Research, 2026, DOI 10.1287/opre.2024.1167",
+      "publication_year": 2026,
+      "source_url": "https://doi.org/10.1287/opre.2024.1167",
+      "paper_info": "Combatting Gerrymandering with Ranked Choice Voting: an Experimental Analysis of Multi-member Districts in the United States by Nikhil Garg; Wes Gurnee; David Rothschild; David Shmoys; Operations Research, 2026, DOI 10.1287/opre.2024.1167.",
       "status": "Formalized",
       "human_review": "0/19",
       "human_translation": "0/19 reviewed",
@@ -490,33 +517,6 @@
         "final_validation_report": "papers/GGRS26CombattingGerrymanderingRCV/docs/FINAL_VALIDATION_REPORT.md",
         "dependency_dag_tex": "papers/GGRS26CombattingGerrymanderingRCV/docs/DependencyDAG.tex",
         "dependency_dag_pdf": "papers/GGRS26CombattingGerrymanderingRCV/docs/DependencyDAG.pdf"
-      }
-    },
-    {
-      "id": "EOS07GSP",
-      "title": "Internet Advertising and the Generalized Second-Price Auction",
-      "authors": "Benjamin Edelman, Michael Ostrovsky, and Michael Schwarz",
-      "publication": "NBER Working Paper 11765 / AER 2007 publication citation",
-      "publication_year": 9999,
-      "source_url": "https://www.nber.org/papers/w11765",
-      "paper_info": "Internet Advertising and the Generalized Second-Price Auction by Benjamin Edelman, Michael Ostrovsky, and Michael Schwarz; NBER Working Paper 11765 / AER 2007 publication citation.",
-      "status": "Formalized",
-      "human_review": "0/26",
-      "human_translation": "0/26 reviewed",
-      "llm_as_judge_translation": "25/25 statement rows match; 1 source-condition row",
-      "llm_as_judge_paper_coverage": "24/24 covered",
-      "lean_loc": 133338,
-      "main_note": "",
-      "main_note_citation": null,
-      "main_note_review": null,
-      "paper_folder": "papers/EOS07GSP",
-      "review_entrypoint": "papers/EOS07GSP/FINAL_VALIDATION_REPORT.md",
-      "artifacts": {
-        "readme": "papers/EOS07GSP/README.md",
-        "paper_interface": "papers/EOS07GSP/PaperInterface.lean",
-        "final_validation_report": "papers/EOS07GSP/FINAL_VALIDATION_REPORT.md",
-        "dependency_dag_tex": "papers/EOS07GSP/DependencyDAG.tex",
-        "dependency_dag_pdf": "papers/EOS07GSP/DependencyDAG.pdf"
       }
     },
     {

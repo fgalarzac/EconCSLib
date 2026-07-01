@@ -65,6 +65,7 @@ published citation title and year.
 | [Roth82 Stable Matching](papers/Roth82StableMatching) | Formalized | 0/29 | OK: 490 lines |  |
 | [GHW01 Digital Goods](papers/GHW01DigitalGoods) | Formalized | 0/30 | OK: 326 lines | Formalizes the SODA paper; Theorem 8.2 uses the refined monotone-auction wording from the journal version [Goldberg-Hartline-Karlin-Saks-Wright 2006](https://www.sciencedirect.com/science/article/pii/S0899825606000303). |
 | [MSVV07 AdWords](papers/MSVV07AdWords) | Formalized | 0/43 | OK: 1015 lines |  |
+| [EOS07 GSP](papers/EOS07GSP) | Formalized | 0/26 | OK: 294 lines |  |
 | [GJ19 Optimal Binary Rating Systems](papers/GJ19OptimalBinaryRatingSystems) | Formalized | 0/56 | Debt: 12481 lines |  |
 | [GGSG19 Top Three](papers/GGSG19TopThree) | Formalized | 0/17 | OK: 340 lines |  |
 | [GJ18 Informative Rating Systems](papers/GJ18InformativeRatingSystems) | Formalized | 0/15 | OK: 2940 lines |  |
@@ -77,7 +78,6 @@ published citation title and year.
 | [MBJG25 Producer Fairness](papers/MBJG25ProducerFairness) | Formalized | 10/27 | OK: 332 lines | Additional assumption recorded in the validation report: strict variance decrease is stated with 0 < q_v < 1. |
 | [DGD26 Admissions Predictability](papers/DGD26AdmissionsPredictability) | Formalized | 0/66 | OK: 1388 lines |  |
 | [GGRS26 Combatting Gerrymandering RCV](papers/GGRS26CombattingGerrymanderingRCV) | Formalized | 0/19 | OK: 403 lines |  |
-| [EOS07 GSP](papers/EOS07GSP) | Formalized | 0/26 | OK: 294 lines |  |
 | [LOS02 Combinatorial Auctions](papers/LOS02CombinatorialAuctions) | Partially formalized | 0/39 | OK: 371 lines | Greedy approximation, truthfulness, and Theorem 6.1 reductions are formalized. Full formalization requires computational complexity results that are out of scope. |
 | [LMMS04 Fair Division](papers/LMMS04FairDivision) | Partially formalized | 0/48 | OK: 303 lines | Sections 2 and 4 are fully formalized. Section 3 has query/descent/rounded-search support. The PTAS/FPTAS runtime layer needs reusable fixed-dimension IP complexity infrastructure. |
 | [GKGMM19 Iterative Local Voting](papers/GKGMM19IterativeLocalVoting) | Partially formalized | 0/47 | OK: 2772 lines | Full formalization requires proving stochastic subgradient descent convergence. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition. |
