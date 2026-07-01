@@ -6,12 +6,13 @@ review surface covers the first-price and GSP/VCG examples, Remarks 1--3,
 Definition 4, Lemmas 5--6, Theorem 7, the source proof-step claims for
 Theorem 8, and the bundled Theorem 8 ex-post payoff-game endpoint.
 
-Theorem 8 is formalized using the source theorem's ex-post interpretation: the
-named continuous dropout-price strategy is the unique payoff-PBE on the
-nonnegative source support, and every payoff-PBE induces the finite
-source-event/belief-source-extensive PBE with VCG-equivalent outcome. The
-finite source-event and belief witnesses are generated internally from the
-source-facing strict ranked-value model.
+Theorem 8 is formalized using the source theorem's ex-post payoff-game
+interpretation rather than as a reusable general theory of continuous
+belief-system PBE. In that source-facing game, the named continuous
+dropout-price strategy is the unique payoff-PBE on the nonnegative source
+support, and the induced finite source-event/belief-source-extensive witness
+has the VCG-equivalent outcome. The finite source-event and belief witnesses
+are generated internally from the source-facing strict ranked-value model.
 
 ## 2. Closeout Status
 - Completion status: formalized
@@ -53,10 +54,12 @@ results, so this report uses the NBER numbering consistently.
 - Theorem 7 is formalized, including the constructed `B*` outcome, payment
   identity, direct locally-envy-free equilibrium row, no-positive-transfer
   conclusion, and the strict tie-broken GSP comparison conclusion.
-- Theorem 8 is formalized in the ex-post payoff-game/source-event form: the
-  continuous dropout-price strategy satisfies the payoff-PBE predicate, every
-  payoff-PBE agrees with it on the nonnegative source support, and the induced
-  finite source-event and belief-source-extensive outcomes are VCG-equivalent.
+- Theorem 8 is formalized in the ex-post payoff-game/source-event form used by
+  the source proof: the continuous dropout-price strategy satisfies the
+  source-facing payoff-PBE predicate, every payoff-PBE in that modeled
+  source-facing game agrees with it on the nonnegative source support, and the
+  induced finite source-event and belief-source-extensive outcomes are
+  VCG-equivalent.
 
 ## 5. Remaining Boundaries and Gaps
 No paper-facing proof gaps are currently recorded for the curated NBER source
@@ -71,7 +74,8 @@ paper.
 
 ## 7. Proof-Strategy Deviations
 - Theorem 8 is presented through the source theorem's ex-post payoff-game
-  endpoint. This keeps the belief-independent payoff comparison explicit while
+  endpoint, not through a standalone reusable continuous belief-system PBE
+  framework. This keeps the belief-independent payoff comparison explicit while
   separately generating the finite source-event and belief-source-extensive
   witnesses used for the VCG conclusion.
 - Deterministic tie-breaking is used for finite ranked GSP implementation
@@ -79,8 +83,9 @@ paper.
   convention does not alter the paper-facing equilibrium claims.
 
 ## 8. Proof Tricks Worth Reusing
-- Keep the human review surface close to the paper inventory. EOS uses 22
-  statement rows for the source claims and keeps long proof-route variants in
+- Keep the human review surface close to the paper inventory. EOS uses 25
+  statement rows for the source claims and proof-support rows, and keeps long
+  proof-route variants in
   `PostPaperAudit.lean`.
 - Separate source conditions from proof gaps. The strict ranked-value model is
   audited as a source primitive rather than left as an opaque theorem
