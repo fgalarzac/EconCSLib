@@ -17,7 +17,7 @@
     "Include source_evidence from the paper and dashboard_evidence from the row; exact-key or theorem-name matching is only a scaffold."
   ],
   "paper_statement_inventory_sha256": "0266fc7a580b159c6a23ee913544b8dfc80c08f03a9f6f9f29b0ed0405395794",
-  "review_surface_sha256": "e39d75b913d8d831d3a075a82ebb61e329865fd31e2becb8bcebcb756bb9a66f",
+  "review_surface_sha256": "34e9d8f3469ec0b9549a01137896a926d8927b14fff55211e279166203287a0e",
   "items": {
     "definition_q_acceptance": {
       "coverage": "covered",
