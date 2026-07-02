@@ -1,6 +1,6 @@
 # Paper Formalization Quickstart guide for humans
 
-Give the agent an arXiv link or paper pdf/source, and also mention where the published version is for its records.
+Give the agent (I use Codex with GPT 5.5 in xhigh thinking mode) an arXiv link or paper pdf/source, and also mention where the published version is for its records.
 
 ```text
 Get context on this repo and skills and formalize
