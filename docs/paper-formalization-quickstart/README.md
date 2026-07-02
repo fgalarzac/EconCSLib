@@ -1,4 +1,4 @@
-# Paper Formalization Quickstart
+# Paper Formalization Quickstart guide for humans
 
 Give the agent an arXiv link or paper pdf/source, and also mention where the published version is for its records.
 
