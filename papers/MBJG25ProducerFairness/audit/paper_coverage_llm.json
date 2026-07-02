@@ -278,7 +278,7 @@
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "conditional_boundary",
       "dashboard_evidence": "paper_facing_theorem3_1_variance_strict_decrease_interior",
-      "reason": "Strict variance decrease is formalized on the documented interior-quality condition 0 < q < 1.",
+      "reason": "Strict variance decrease is formalized under the additional interior-quality assumption 0 < q < 1.",
       "review_rows": [
         "paper_facing_theorem3_1_variance_strict_decrease_interior"
       ],

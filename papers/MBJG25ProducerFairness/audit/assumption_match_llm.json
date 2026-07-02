@@ -82,7 +82,7 @@
       "validator_type": "model",
       "human_override": "formalized_non_caveat",
       "human_override_by": "ngarg",
-      "human_override_note": "Automated semantic mismatch: the Lean row adds the interior-quality condition 0 < q_v < 1 to the strict variance-decrease statement. Human override: record this as an additional assumption in the validation report; it does not change the paper-level status from formalized and does not rise to a caveat.",
+      "human_override_note": "Automated semantic mismatch: the Lean row adds the interior-quality condition 0 < q_v < 1 to the strict variance-decrease statement. Human override: record this as an additional assumption in the validation report; it does not change the paper-level status from formalized.",
       "paper_status_effect": "keep_status_formalized_without_caveat"
     },
     "assumption_quality_nonnegative": {
@@ -106,7 +106,7 @@
       "validator_type": "model",
       "human_override": "formalized_non_caveat",
       "human_override_by": "ngarg",
-      "human_override_note": "Automated semantic mismatch: the Lean row adds the interior-quality condition 0 < q_v < 1 to the strict variance-decrease statement. Human override: record this as an additional assumption in the validation report; it does not change the paper-level status from formalized and does not rise to a caveat.",
+      "human_override_note": "Automated semantic mismatch: the Lean row adds the interior-quality condition 0 < q_v < 1 to the strict variance-decrease statement. Human override: record this as an additional assumption in the validation report; it does not change the paper-level status from formalized.",
       "paper_status_effect": "keep_status_formalized_without_caveat"
     }
   },

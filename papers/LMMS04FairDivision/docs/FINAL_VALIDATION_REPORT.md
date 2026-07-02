@@ -5,8 +5,11 @@ Partially formalized. Sections 2 and 4 are checked, and Section 3 has the
 query, descent, and rounded-search support needed for the approximation route.
 Full formalization still requires reusable fixed-dimension integer-programming
 runtime infrastructure for the PTAS/FPTAS layer. No fatal paper error is
-reported; one Lemma 2.4 prose typo and several implicit modeling choices are
-documented below. No human dashboard sign-off has been recorded.
+reported. The Lemma 2.4 proof prose appears to say to choose a
+minimum endpoint where the finite-partition construction needs a maximal or
+supremal endpoint; this is recorded as a typo, not a caveat. Several
+implicit modeling choices are documented below. No human dashboard sign-off
+has been recorded.
 
 ## 2. Closeout Status
 - Completion status: partially formalized.
@@ -46,7 +49,7 @@ Full formalization requires reusable fixed-dimension integer-programming runtime
 None separately recorded in the existing report.
 
 ## 9. Paper Issues or Caveats
-One Lemma 2.4 prose typo and several implicit modeling choices are documented in the detailed evidence below; no fatal paper error is reported.
+Typo note, not a caveat: in the Lemma 2.4 partition construction, the prose appears to say to choose the minimum endpoint whose prefix interval has value at most `alpha` for every player. To obtain progress and the stated finite partition, this should be read as a maximal/supremal endpoint choice. The Lean formalization proves the real-interval atom-bound route with that constructive reading. Several implicit real-support and atom-bound modeling choices are documented in the evidence below; no fatal paper error is reported.
 
 ## 10. Detailed Formalization Evidence
 The formalization closes the Section 2 finite-allocation envy interface, the envy-cycle reduction, the bounded-envy allocation theorem, and the real-interval/atom-bound route used for the measure-valued allocation theorem. It also closes the Section 4 finite truthfulness results: the no-truthful-envy-free/minimum-envy counterexample route and the uniform randomized mechanism with its explicit probability bound.
