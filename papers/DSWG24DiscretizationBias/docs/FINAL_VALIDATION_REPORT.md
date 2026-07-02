@@ -1,5 +1,7 @@
 # Final Validation Report: DSWG24 Discretization Bias
 
+Updated: 2026-07-02
+
 ## 1. Human Verdict
 Formalized. The named discretization-bias results are checked on the recorded
 multiclass domain, including the implicit condition that there are at least two
@@ -9,8 +11,9 @@ dashboard sign-off has been recorded.
 
 ## 2. Closeout Status
 - Completion status: formalized.
-- One-sentence recap: The paper-facing definitions and Theorems 1-2 are checked
-  on the recorded multiclass domain.
+- One-sentence recap: The classifier, calibration, bias, MAE, and discretization-bias bounds are formalized on the recorded multiclass domain.
+- Lean footprint: 26,133 paper-local Lean LOC; `PaperInterface.lean` is 456 lines; 41 human-review declarations are exposed.
+- Audit summary: paper coverage has 41 covered; statement LLM-as-judge has 41 matches; assumption provenance has 9 paper_condition; source-record audit reports 0 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Addressing Discretization-Induced Bias in Demographic Prediction*
@@ -46,36 +49,77 @@ No unresolved formalization boundary is recorded. The former dashboard mismatche
 - None
 
 ## 7. Proof-Strategy Deviations
-### Proof Deviations and Assumptions
-
-- **Theorem 1 proof deviation.** The paper's continuous source-transformation
-  proof sketch is underspecified at the measurable transformation step and in
-  the multiclass `S_b/S_d` mass accounting. Lean proves the same paper-facing
-  bound directly from calibration, and formalizes the source-transformation
-  route using an explicit real-coordinate sweep with coordinate pushforward and
-  pullback. This is a proof-strategy deviation, not a theorem-statement change.
-- **Theorem 2 Bayes assumption.** The paper phrase "Bayes optimal `q`" is
-  represented by row-wise Bayes identities. A finite Bayes dataset model is
-  provided as a reusable discharger for those identities.
-- **Standard formal assumptions.** Lean exposes finite type, decidable equality,
-  posterior-simplex, measurability, integrability, finite-measure, and
-  non-trivial-reference assumptions where the paper leaves them implicit.
-- **Optional future strengthening.** The accepted Theorem 1 source route uses a
-  concrete coordinate sweep. A fully abstract arbitrary nonatomic transport
-  theorem could later replace this proof seam. More automatic arbitrary-measure
-  conditional-expectation dischargers and randomized-rule measurability wrappers
-  would be reusable conveniences, not missing theorem endpoints.
+Theorem 1 has one proof-route deviation. The source's continuous source-transformation proof sketch is underspecified at the measurable-transformation step and in the multiclass `S_b`/`S_d` mass accounting, so Lean proves the same paper-facing bound directly from calibration and separately records a concrete real-coordinate sweep route. The theorem statement is unchanged.
 
 ## 8. Proof Tricks Worth Reusing
-None separately recorded in the existing report.
+- Use a concrete coordinate sweep when an arbitrary nonatomic transport proof would be more general than the paper needs.
+- Provide finite model constructors for implicit Bayes-optimality identities, so source-level statistical assumptions can be discharged without broad certificates.
 
-## 9. Paper Issues or Caveats
+## 9. Mathematical Typos or Other Fixes Suggested in the Source Paper
+None found.
+
+## 10. Paper Issues or Caveats
 No paper-correctness issue is claimed. Theorem 2(iii) is intentionally stated as the source-facing necessary condition rather than a stronger proof-internal iff route.
 
-## 10. Detailed Formalization Evidence
-See the verdict and named-statement sections in this report.
+## 11. Detailed Formalization Evidence
+- Theorem 1 is checked both by a direct calibration proof and by a source-transformation route made explicit with real-coordinate pushforward and pullback.
+- Theorem 2's phrase "Bayes optimal `q`" is represented by row-wise Bayes identities, with a finite Bayes dataset model available as a reusable discharger.
+- Standard formal hypotheses such as finite type, decidable equality, posterior-simplex, measurability, integrability, finite-measure, and nontrivial-reference conditions are exposed as source/domain side conditions rather than hidden proof assumptions.
+- Theorem 2(iii) is the source-facing necessary condition for weighted-objective maximizers, not a stronger proof-internal iff route.
 
-## 11. Paper Definitions Checked
+## 12. Paper Assumption Provenance
+Every paper-facing premise is routed through
+`DSWG24DiscretizationBias/Assumptions.lean` and checked by
+`assumption_match_llm.json`. These are source theorem conditions or standard
+formal side conditions for the continuous measure-theoretic wrapper; none are
+extra proof certificates.
+
+| Lean assumption/condition | Judgment | Source role |
+| --- | --- | --- |
+| `assumption_theorem1_no_information_case` | paper condition | Theorem 1(i) no-information regime, `q(y,x)=Pr(y)`. |
+| `assumption_theorem1_plurality_argmax_class` | paper condition | Theorem 1(i) plurality/tie-broken argmax class. |
+| `assumption_theorem1_perfect_classifier` | paper condition | Theorem 1(ii) perfect-classifier regime. |
+| `assumption_theorem1_argmax_rule_measurable` | paper condition | Standard formal measurability condition for the continuous argmax rule. |
+| `assumption_theorem1_calibrated_classifier` | paper condition | Theorem 1 calibrated-classifier hypothesis. |
+| `assumption_theorem2_at_least_two_classes` | paper condition | Nontrivial finite multiclass setting; human-verified by `nikhgarg` on 2026-06-12 as an implicit source condition. |
+| `assumption_theorem2_more_rows_than_classes` | paper condition | Theorem 2 sample-size condition `N > K`. |
+| `assumption_theorem2_positive_sample_count` | paper condition | Formal consequence of `N > K`. |
+| `assumption_theorem2_reference_nonnegative` | paper condition | Non-trivial reference distributions are probability distributions. |
+
+Additional assumptions beyond the paper: none.
+
+## 13. Displayed Formula Provenance
+Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
+
+## 14. Library Lift Pass
+The proof uses reusable finite-choice, finite-distribution, and measure-theoretic support already available in the library. No additional extraction was needed for this report pass; the main reusable candidate for the future is a more abstract nonatomic transport theorem that could replace the current concrete coordinate-sweep route.
+
+## 15. DAG Audit
+`DependencyDAG.tex` and `DependencyDAG.pdf` are present. The public holistic DAG audit reports PASS for the DSWG24 DAG/source/source-json comparison: the DAG covers the theorem-level source inventory at the result-cluster level and does not add, omit, strengthen, or weaken a source-facing theorem claim.
+
+## 16. Validation Checks
+### Verification Checks
+
+- The paper target `DSWG24DiscretizationBias` builds successfully.
+- The human-facing Lean interface `DSWG24DiscretizationBias.PaperInterface`
+  builds successfully.
+- The post-paper audit ledger builds successfully.
+- The DSWG Lean files contain no `sorry`, `admit`, or `axiom` placeholders.
+- The dependency DAG renders successfully and was visually inspected after the
+  final layout update.
+- The final report and repository status files no longer contain obsolete
+  Theorem 2(i)--(ii) restriction caveats or raw command logs.
+
+### Statement Translation Audit
+
+Audit date: 2026-06-12.
+Scope: current dashboard rows from `PaperInterface.lean`; `lean_to_tex_llm.json` records context-free Lean-to-TeX drafts and `statement_match_llm.json` records the context-free paper-vs-translation judgment.
+
+Summary: 32 rows; 32 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar rows: none.
+
+Flagged rows: none.
+
+## 17. Paper Definitions Checked
 These are the mathematical objects from the paper interface. All are exposed in
 `PaperInterface.lean`.
 
@@ -141,7 +185,7 @@ These are the mathematical objects from the paper interface. All are exposed in
 | def sourceSe | `sourceSe` | - Source proof region `S_e`: focal posterior is `0`. |
 <!-- lean-derived-definitions:end -->
 
-## 12. Named Theorem Statements Checked
+## 18. Named Theorem Statements Checked
 ### Theorem 1
 
 **Paper statement.** For a calibrated classifier `q`, the argmax decision rule,
@@ -224,7 +268,7 @@ interfaces for independent deterministic and randomized rules.
 | theorem theorem2iii_strict_disagreement_not_weighted_objective_maximizer | `theorem2iii_strict_disagreement_not_weighted_objective_maximizer` | states the accuracy-boundary strict-disagreement non-maximality claim. |
 <!-- lean-derived-statements:end -->
 
-## 13. Paper-Facing Statement Validator Ledger
+## 19. Paper-Facing Statement Validator Ledger
 Generated from dashboard status export:
 
 `python3 scripts/review_dashboard.py --paper DSWG24DiscretizationBias --export-format validators-md`
@@ -265,52 +309,3 @@ Generated from dashboard status export:
 | theorem theorem2iii_weighted_objective_maximizer_agrees_argmax | `theorem2iii_weighted_objective_maximizer_agrees_argmax` | gpt-5-codex (model; matches; 2026-06-12T21:30:00Z) | gpt-5-codex (model; matches; 2026-06-12T21:30:00Z): Translation states the source-facing necessary condition that a `gamma < 1` weighted-objective maximizing independent rule agrees with argmax almost surely. |
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
-
-## 14. Paper Assumption Provenance
-Every paper-facing premise is routed through
-`DSWG24DiscretizationBias/Assumptions.lean` and checked by
-`assumption_match_llm.json`. These are source theorem conditions or standard
-formal side conditions for the continuous measure-theoretic wrapper; none are
-extra proof certificates.
-
-| Lean assumption/condition | Judgment | Source role |
-| --- | --- | --- |
-| `assumption_theorem1_no_information_case` | paper condition | Theorem 1(i) no-information regime, `q(y,x)=Pr(y)`. |
-| `assumption_theorem1_plurality_argmax_class` | paper condition | Theorem 1(i) plurality/tie-broken argmax class. |
-| `assumption_theorem1_perfect_classifier` | paper condition | Theorem 1(ii) perfect-classifier regime. |
-| `assumption_theorem1_argmax_rule_measurable` | paper condition | Standard formal measurability condition for the continuous argmax rule. |
-| `assumption_theorem1_calibrated_classifier` | paper condition | Theorem 1 calibrated-classifier hypothesis. |
-| `assumption_theorem2_at_least_two_classes` | paper condition | Nontrivial finite multiclass setting; human-verified by `nikhgarg` on 2026-06-12 as an implicit source condition. |
-| `assumption_theorem2_more_rows_than_classes` | paper condition | Theorem 2 sample-size condition `N > K`. |
-| `assumption_theorem2_positive_sample_count` | paper condition | Formal consequence of `N > K`. |
-| `assumption_theorem2_reference_nonnegative` | paper condition | Non-trivial reference distributions are probability distributions. |
-
-Additional assumptions beyond the paper: none.
-
-## 15. Library Lift Pass
-None separately recorded in the existing report.
-
-## 16. DAG Audit
-No separate DAG audit note is recorded in the existing report.
-
-## 17. Validation Checks
-### Verification Checks
-
-- The paper target `DSWG24DiscretizationBias` builds successfully.
-- The human-facing Lean interface `DSWG24DiscretizationBias.PaperInterface`
-  builds successfully.
-- The post-paper audit ledger builds successfully.
-- The DSWG Lean files contain no `sorry`, `admit`, or `axiom` placeholders.
-- The dependency DAG renders successfully and was visually inspected after the
-  final layout update.
-- The final report and repository status files no longer contain obsolete
-  Theorem 2(i)--(ii) restriction caveats or raw command logs.
-
-### Statement Translation Audit
-
-Audit date: 2026-06-12.
-Scope: current dashboard rows from `PaperInterface.lean`; `lean_to_tex_llm.json` records context-free Lean-to-TeX drafts and `statement_match_llm.json` records the context-free paper-vs-translation judgment.
-
-Summary: 32 rows; 32 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar rows: none.
-
-Flagged rows: none.

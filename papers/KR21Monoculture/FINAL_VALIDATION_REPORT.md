@@ -1,12 +1,15 @@
 # Final Validation Report: KR21 Monoculture
 
+Updated: 2026-07-02
+
 ## 1. Human Verdict
 Formalized. The main Mallows and three-candidate Gaussian/Laplace RUM routes are formalized. No named theorem or main-text result is affected by the Appendix C Lemma 1 source note recorded below.
 
 ## 2. Closeout Status
 - Completion status: formalized.
-- Human summary: Theorem 1, Theorem 2, Theorem 3, Theorem 4, Appendix A scaled-noise consequences, Appendix C Gaussian/Laplace routes, and the concrete Mallows family route are covered by paper-facing Lean endpoints.
-- Remaining work: human dashboard review is not recorded yet. No external theorem boundary or additional non-source assumption remains in the paper-facing status.
+- One-sentence recap: The algorithmic-monoculture welfare results are formalized with finite and continuous score-space conditions made explicit.
+- Lean footprint: 65,646 paper-local Lean LOC; `PaperInterface.lean` is 1816 lines; 49 human-review declarations are exposed.
+- Audit summary: paper coverage sidecar is not separately recorded; statement LLM-as-judge sidecar is not separately recorded; assumption provenance sidecar has no rows; source-record audit has no separate row summary; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Algorithmic Monoculture and Social Welfare*.
@@ -45,14 +48,17 @@ Visible hypotheses such as positive accuracy, strict value ordering, nonempty re
 - For Mallows comparisons, derive first-choice and prefix inequalities from rank-factorization lemmas and route the sequential theorem through remaining-utility dominance.
 - For RUM contraction arguments, separate deterministic contraction monotonicity, no-tie measurability, full-support strict regions, and atomwise concentration into reusable endpoints before assembling Theorem 2.
 
-## 9. Paper Issues or Caveats
+## 9. Mathematical Typos or Other Fixes Suggested in the Source Paper
+None found.
+
+## 10. Paper Issues or Caveats
 No paper-level caveat is recorded.
 
 Audit note for Appendix C Lemma 1: the paper states a global strict Laplacian well-ordering claim. Lean proves the globally valid weak Laplacian inequality and strict overlap/local forms. The downstream Laplace theorem is proved from that weak comparison plus the separate strict support/monotonicity ingredients used later in the paper. The short note `LAPLACIAN_LEMMA1_SOURCE_NOTE.md` records the paper statement, the Lean-proved statement, and a concrete counterexample to the global strict Laplacian statement.
 
 No named theorem or main-text result is affected by this source-note correction. It is not an added assumption and not an external proof boundary.
 
-## 10. Detailed Formalization Evidence
+## 11. Detailed Formalization Evidence
 `PaperInterface.lean` exposes 49 reviewed paper-facing rows and 16 auxiliary helper rows. The reviewed surface includes:
 
 - paper definitions and source predicates: Mallows specification, well-ordered noise, Definition 1 continuity/asymptotic behavior;
@@ -65,30 +71,21 @@ No named theorem or main-text result is affected by this source-note correction.
 
 The auxiliary rows are proof-route artifacts such as explicit concentration/limit boundary helpers, negative-correlation certificates, and Laplacian lambda-certificate variants. They are not used as hidden paper-status boundaries.
 
-## 11. Paper Assumption Provenance
+## 12. Paper Assumption Provenance
 No KR21-specific `Assumptions.lean` ledger is used for the final status. The paper-facing reviewed rows have no additional non-source assumptions recorded in `status.json`.
 
 The conditional Theorem 1 row takes the paper's Definitions 1--3 package as its visible theorem condition. Concrete Mallows and concrete RUM source routes construct the relevant packages rather than treating them as external proof debt.
 
-## 12. Statement Validator Ledger
-The current dashboard sidecars are regenerated as part of closeout:
+## 13. Displayed Formula Provenance
+Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
 
-- `lean_to_tex_llm.json`
-- `statement_match_llm.json`
-- `paper_statement_map.json`
-- `paper_coverage_llm.json`
-- `source_record_audit.json`
-- `source_record_match_llm.json`
-
-Human dashboard reviews have not been saved yet, so `human_review.reviewed_rows` remains zero. The model/agent statement checks are audit evidence for source alignment; the Lean builds and axiom audit are the proof evidence.
-
-## 13. Library Lift Pass
+## 14. Library Lift Pass
 Reusable ranking-payoff, Mallows, finite-expectation, conditional-probability, no-tie, and RUM contraction infrastructure now lives in shared `EconCSLib` modules where it is useful beyond KR21. KR21 paper-local files keep paper-shaped wrappers where theorem numbering and source-note clarity matter.
 
-## 14. DAG Audit
+## 15. DAG Audit
 `DependencyDAG.tex` uses the shared TikZ preamble and is paper-facing: node labels state paper definitions, lemmas, and theorems rather than Lean declaration names. `DependencyDAG.pdf` was rendered from the paper folder with `latexmk -pdf -interaction=nonstopmode -halt-on-error DependencyDAG.tex`, converted to a PNG for visual inspection, and checked for node/text overlap and stale open-boundary labels. The DAG shows the paper-facing result flow as formalized; the Laplacian Lemma 1 strict-vs-weak distinction is documented as an audit note rather than a theorem-status caveat.
 
-## 15. Validation Checks
+## 16. Validation Checks
 Passed during this closeout pass:
 
 ```bash
@@ -104,3 +101,21 @@ python3 scripts/audit_repository.py --paper KR21Monoculture --paper-closeout --i
 ```
 
 The final closeout audit is rerun after every KR21 report, status, sidecar, or DAG edit until it reports no KR21-specific errors or warnings.
+
+## 17. Paper Definitions Checked
+No separate generated definitions table was recorded in this report refresh. The paper-facing definition rows are tracked in `PaperInterface.lean` and the statement validator sidecars.
+
+## 18. Named Theorem Statements Checked
+No separate generated theorem table was recorded in this report refresh. Named theorem endpoints are tracked in `PaperInterface.lean`, `status.json`, and the statement validator sidecars.
+
+## 19. Paper-Facing Statement Validator Ledger
+The current dashboard sidecars are regenerated as part of closeout:
+
+- `lean_to_tex_llm.json`
+- `statement_match_llm.json`
+- `paper_statement_map.json`
+- `paper_coverage_llm.json`
+- `source_record_audit.json`
+- `source_record_match_llm.json`
+
+Human dashboard reviews have not been saved yet, so `human_review.reviewed_rows` remains zero. The model/agent statement checks are audit evidence for source alignment; the Lean builds and axiom audit are the proof evidence.

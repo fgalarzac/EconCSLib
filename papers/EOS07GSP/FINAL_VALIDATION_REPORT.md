@@ -1,5 +1,7 @@
 # Final Validation Report: EOS07GSP
 
+Updated: 2026-07-02
+
 ## 1. Human Verdict
 The paper is formalized against the curated NBER source inventory. The compact
 review surface covers the first-price and GSP/VCG examples, Remarks 1--3,
@@ -15,10 +17,10 @@ has the VCG-equivalent outcome. The finite source-event and belief witnesses
 are generated internally from the source-facing strict ranked-value model.
 
 ## 2. Closeout Status
-- Completion status: formalized
-- One-sentence recap: the source-facing examples, Remarks 1--3, Definition 4,
-  Lemmas 5--6, Theorem 7, and Theorem 8 are covered by compiling Lean rows
-  with current statement, source-coverage, and source-assumption audits.
+- Completion status: formalized.
+- One-sentence recap: The curated NBER source inventory through Theorem 8 is covered by the compact paper-facing review surface.
+- Lean footprint: 133,338 paper-local Lean LOC; `PaperInterface.lean` is 294 lines; 25 human-review declarations are exposed.
+- Audit summary: paper coverage sidecar is not separately recorded; statement LLM-as-judge sidecar is not separately recorded; assumption provenance has 1 paper_assumption; source-record audit reports 2 boundary inputs and 0 recursion failures; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Internet Advertising and the Generalized Second-Price Auction:
@@ -73,14 +75,7 @@ source-backed model primitive, not as an additional assumption beyond the
 paper.
 
 ## 7. Proof-Strategy Deviations
-- Theorem 8 is presented through the source theorem's ex-post payoff-game
-  endpoint, not through a standalone reusable continuous belief-system PBE
-  framework. This keeps the belief-independent payoff comparison explicit while
-  separately generating the finite source-event and belief-source-extensive
-  witnesses used for the VCG conclusion.
-- Deterministic tie-breaking is used for finite ranked GSP implementation
-  statements. The source equilibrium profiles are strict, so the tie-breaking
-  convention does not alter the paper-facing equilibrium claims.
+None. Theorem 8 is formalized through the source theorem's ex-post payoff-game endpoint, and deterministic tie-breaking is used only to totalize finite ranked-GSP implementation statements whose source equilibrium profiles are strict.
 
 ## 8. Proof Tricks Worth Reusing
 - Keep the human review surface close to the paper inventory. EOS uses 25

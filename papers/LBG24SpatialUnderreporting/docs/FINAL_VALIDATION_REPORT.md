@@ -1,5 +1,7 @@
 # Final Validation Report: Quantifying Spatial Under-reporting Disparities
 
+Updated: 2026-07-02
+
 ## 1. Human Verdict
 Partially formalized. The checked results cover the source-facing likelihood,
 interarrival-kernel, preprocessing-window, MLE, regression, and zero-inflation
@@ -11,8 +13,9 @@ recorded.
 
 ## 2. Closeout Status
 - Completion status: partially formalized.
-- One-sentence recap: The algebraic factorization core is checked; full closure
-  needs the homogeneous Poisson process and stopping-time certificate.
+- One-sentence recap: Full formalization requires a homogeneous Poisson process and stopping time derivation.
+- Lean footprint: 18,540 paper-local Lean LOC; `PaperInterface.lean` is 8658 lines; 27 human-review declarations are exposed.
+- Audit summary: paper coverage has 16 covered, 8 conditional_boundary; statement LLM-as-judge has 19 matches, 8 mismatch; resolutions: 8 conditional_boundary; assumption provenance has 2 paper_condition, 1 partial_boundary; source-record audit reports 2 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Quantifying Spatial Under-reporting Disparities in Resident Crowdsourcing*
@@ -43,16 +46,7 @@ Full formalization requires deriving the homogeneous Poisson counting-process la
   conditions, not hidden paper assumptions.
 
 ## 7. Proof-Strategy Deviations
-- Continuous source expressions such as `P(S=t | ...)`, `P(E=t | ...)`, and
-  `P(T_j=t_j | ...)` are treated as density/likelihood-kernel factors rather
-  than literal point probabilities.
-- Appendix B.2's printed `M > 1` residual appears inverted relative to the
-  displayed Poisson PMF. The Lean theorem proves the corrected factor
-  `M! / exposure^M` in the residual.
-- Proposition 1 now has homogeneous and finite-duration collision theorems,
-  positive-premise variants, and an IID unit-interval LLN route. The remaining
-  stochastic work is deriving the IID/integrability and one-period-mean
-  premises from a thinning/steady-state Poisson model.
+None beyond the formalization boundaries already recorded above. Continuous source expressions such as `P(S=t | ...)`, `P(E=t | ...)`, and `P(T_j=t_j | ...)` are interpreted as density or likelihood-kernel factors, which is the source-faithful reading for continuous variables rather than a proof-strategy deviation.
 
 ## 8. Proof Tricks Worth Reusing
 - `EconCSLib.Foundations.Probability.PoissonProcess` now provides reusable
@@ -88,10 +82,13 @@ Full formalization requires deriving the homogeneous Poisson counting-process la
 - `poissonRateLogLikelihoodKernel_le_at_mle` proves the reusable global
   positive-rate Poisson log-likelihood kernel maximizer.
 
-## 9. Paper Issues or Caveats
-Appendix B.2 appears to invert the residual factor in the multi-report case: the source text prints `(e-s)^M / M!`, while the algebra needs `M! / (e-s)^M`. The main theorem remains correct because it only needs the lambda-independent kernel form, so this is not treated as an economic-model caveat.
+## 9. Mathematical Typos or Other Fixes Suggested in the Source Paper
+- Appendix B.2 multi-report residual: the source appears to invert the residual factor, printing `(e-s)^M / M!` where the algebra needs `M! / (e-s)^M`. The main theorem uses only the lambda-independent kernel form, so the theorem conclusion is unaffected.
 
-## 10. Detailed Formalization Evidence
+## 10. Paper Issues or Caveats
+No broader economic-model caveat is claimed. The residual-factor issue above is treated as an appendix proof-formula typo, while the remaining Poisson-process and stopping-time work is recorded as a formalization boundary in Section 5.
+
+## 11. Detailed Formalization Evidence
 - Eq. (2): source Poisson count PMF formula, grounded in mathlib's Poisson
   measure through `EconCSLib.Foundations.Probability.PoissonProcess`.
 - Homogeneous at-least-one-report probability:
@@ -220,7 +217,7 @@ Appendix B.2 appears to invert the residual factor in the multi-report case: the
 - Eq. (7): generic and regression-rate-substituted zero-inflated likelihood
   case splits, plus nonnegativity under `0 <= gamma <= 1` and nonnegative mean.
 
-## 11. Paper Assumption Provenance
+## 12. Paper Assumption Provenance
 Paper-local source assumptions currently exported from `Assumptions.lean` and
 listed in `status.json` `review_surface.assumption_names` include
 `theorem2_poisson_process_and_condition_semantics`,
@@ -254,7 +251,10 @@ current for the public partial checkpoint. It classifies audited containers,
 source-model data, and approved external-boundary leaves; it does not turn the
 remaining stopping-certificate boundary into a completed theorem.
 
-## 12. Library Lift Pass
+## 13. Displayed Formula Provenance
+Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
+
+## 14. Library Lift Pass
 Completed:
 
 - Added `EconCSLib/Foundations/Probability/PoissonProcess.lean`.
@@ -332,7 +332,18 @@ Deferred reusable candidates:
   premises from a primitive incident model. The Poisson-binomial thinning
   algebra itself is now checked.
 
-## 13. Validation Checks
+## 15. DAG Audit
+`DependencyDAG.tex` and `DependencyDAG.pdf` are present as a human-facing
+roadmap with paper-facing node text rather than Lean declaration names. The
+rendered `DependencyDAG.pdf` was visually inspected for node/label overlap and
+arrow-through-text issues. The DAG covers the declared partial source-result
+clusters recorded in the source inventory: Eq. (2), Lemmas 1 and 2, Eq. (3),
+Eqs. (5)--(7), Proposition 1, Theorems 1 and 2, the corrected case
+factorization, and the preprocessing stopping-window equations. The known
+conditional boundaries remain visible in the review surface and status rows
+rather than being hidden behind green DAG endpoints.
+
+## 16. Validation Checks
 Run so far:
 
 ```bash
@@ -366,19 +377,10 @@ Closeout results:
   aggregate generated status files have been refreshed from the paper-local
   `status.json`.
 
-## 14. DAG Audit
+## 17. Paper Definitions Checked
+No separate generated definitions table was recorded in this report refresh. The paper-facing definition rows are tracked in `PaperInterface.lean` and the statement validator sidecars.
 
-`DependencyDAG.tex` and `DependencyDAG.pdf` are present as a human-facing
-roadmap with paper-facing node text rather than Lean declaration names. The
-rendered `DependencyDAG.pdf` was visually inspected for node/label overlap and
-arrow-through-text issues. The DAG covers the declared partial source-result
-clusters recorded in the source inventory: Eq. (2), Lemmas 1 and 2, Eq. (3),
-Eqs. (5)--(7), Proposition 1, Theorems 1 and 2, the corrected case
-factorization, and the preprocessing stopping-window equations. The known
-conditional boundaries remain visible in the review surface and status rows
-rather than being hidden behind green DAG endpoints.
-
-## 15. Named Theorem Statements Checked
+## 18. Named Theorem Statements Checked
 - `equation2_poisson_count_pmf_formula`
 - `first_report_probability_formula`
 - `lemma1_continuous_duration_first_report_probability_integral`
@@ -435,7 +437,7 @@ rather than being hidden behind green DAG endpoints.
 - `theorem2_corrected_case_factorization`
 - `equation7_zero_inflated_likelihood_nonnegative`
 
-## 15. Paper-Facing Statement Validator Ledger
+## 19. Paper-Facing Statement Validator Ledger
 Statement validator sidecars are populated for this checkpoint. Recheck them
 with:
 

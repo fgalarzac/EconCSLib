@@ -1,5 +1,7 @@
 # Final Validation Report: GJ18 Informative Rating Systems
 
+Updated: 2026-07-02
+
 ## 1. Human Verdict
 Formalized. Theorem 1 is checked for the finite ordinal rating support used by
 the paper, with the bottom/top atom conditions derived from that support. No
@@ -7,8 +9,9 @@ source-paper error is reported. No human dashboard sign-off has been recorded.
 
 ## 2. Closeout Status
 - Completion status: formalized.
-- One-sentence recap: The finite rating model and Theorem 1 are checked through
-  the support-safe threshold-rate minimum.
+- One-sentence recap: The informative-rating definitions, appendix large-deviation support, and Theorem 1 informative-system result are formalized.
+- Lean footprint: 7,027 paper-local Lean LOC; `PaperInterface.lean` is 2940 lines; 15 human-review declarations are exposed.
+- Audit summary: paper coverage has 15 covered; statement LLM-as-judge has 15 matches; assumption provenance has 7 paper_condition, 1 paper_assumption; source-record audit reports 0 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Designing Informative Rating Systems: Evidence from an Online Labor Market*.
@@ -57,10 +60,13 @@ None.
 - Represent source floor counts directly, then use normalization/equality
   lemmas only where the proof route needs them.
 
-## 9. Paper Issues or Caveats
+## 9. Mathematical Typos or Other Fixes Suggested in the Source Paper
 None found.
 
-## 10. Detailed Formalization Evidence
+## 10. Paper Issues or Caveats
+None found.
+
+## 11. Detailed Formalization Evidence
 Lean exposes the paper's finite ordered seller-type model, finite rating levels,
 single-rating log-MGF, Legendre rate function, pairwise threshold-rate formula,
 finite MGF factorizations, integer-rate and floor-count objective bridges, the
@@ -82,7 +88,84 @@ supply stronger real-valued boundedness or domain hypotheses.
 Empirical, simulation, and data-analysis sections are source scope notes, not
 Lean theorem targets.
 
-## 11. Paper Definitions Checked
+## 12. Paper Assumption Provenance
+Every paper-facing premise is routed through
+`GJ18InformativeRatingSystems/Assumptions.lean` and checked by
+`assumption_match_llm.json`. The canonical Theorem 1 endpoint uses source
+model assumptions: positive match rates, monotone scores, and full finite
+ordinal rating support. A few auxiliary Appendix C and real-rate compatibility
+rows expose common-dual/minimizer regularity conditions; those are documented
+as proof-route conditions and are not the canonical theorem endpoint.
+
+| Lean assumption/condition | Judgment | Source role |
+| --- | --- | --- |
+| `assumption_positive_match_rates` | paper condition | Positive asymptotic sample rates in the paper's `floor(k g(theta))` sample-count model. |
+| `assumption_positive_integer_sample_rates` | derived from source primitives | Integer-rate helper rows instantiate positive sample rates. |
+| `assumption_nonpositive_common_dual_parameters` | derived from source primitives | Auxiliary common-dual lower-tail witnesses; derived/packaged on the canonical support-safe route. |
+| `assumption_pairwise_threshold_minimizer` | derived from source primitives | Helper-level witness that the displayed threshold realizes the source `inf_a` pairwise objective. |
+| `assumption_two_sided_score_witnesses` | derived from source primitives | Finite-support lower-bound witnesses derived from full finite ordinal support and score span. |
+| `assumption_monotone_rating_scores` | source text model primitive | Source scores are monotone in ordinal rating level. |
+| `assumption_full_finite_ordinal_rating_support` | derived from source primitives | The source finite ordered rating scale and strictly decreasing cumulative rating law provide the finite support used by the endpoint. |
+| `assumption_score_range_and_strict_span` | derived from source primitives | Source score function lies in `[0,1]` and the increasing score design supplies a nontrivial span. |
+
+Additional assumptions beyond the paper: none for the canonical support-safe
+Theorem 1 endpoint. Finite seller types, finite rating levels, and floor-count
+sample sizes are part of the source model.
+
+## 13. Displayed Formula Provenance
+Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
+
+## 14. Library Lift Pass
+- `EconCSLib.Foundations.Probability.FiniteRatingComparison`: extracted the
+  generic finite-rating comparison spine from this paper's implementation file:
+  source-facing log-MGF/rate wrappers, support-safe pairwise threshold rates,
+  finite tilted score means, two-sample and floor-count comparison
+  probabilities, `P_k`/`1 - P_k` algebra, integer-rate block comparisons, and
+  pairwise LDP certificate constructors. `MainTheorems.lean` now keeps the
+  paper-specific finite-chain aggregation and theorem endpoints.
+- `EconCSLib.Foundations.Probability.FiniteSupportMGF`: finite-support MGFs,
+  log-MGFs, Legendre/rate-function wrappers, and shifted score algebra.
+- `EconCSLib.Foundations.Probability.LargeDeviations`: exact-rate,
+  upper/lower-bound, finite weighted-sum, and aggregation certificates.
+- `EconCSLib.Foundations.Probability.IndependentProduct`: finite product PMF
+  and marginal infrastructure.
+- `EconCSLib.Foundations.Probability.FiniteRankingEvents`: adjacent-inversion
+  deterministic and PMF union-bound kernels.
+- `EconCSLib.Foundations.Probability.IIDLargeDeviations` and
+  `FiniteTypeLogMass`: reusable finite iid Cramer/method-of-types support.
+- `EconCSLib.Foundations.Probability.FiniteExpectation`:
+  `pmfExp_le_pmfExp_of_fin_tail_prob_le`, a reusable finite ordinal
+  first-order stochastic dominance theorem.
+
+The old real-valued threshold-minimum equality can remain as an optional
+compatibility theorem for users who choose a stronger all-real domain
+convention.
+
+## 15. DAG Audit
+- Rendered artifact: `DependencyDAG.pdf`.
+- Topology: source-facing model, finite FOSD/tail-dominance bridge, Appendix
+  Lemma C support, `P_k` transfer, and one formalized Theorem 1 endpoint.
+- Layout: rendered and visually inspected after the formalized-status change.
+- Status: no partial/caveat node remains on the main Theorem 1 path.
+
+## 16. Validation Checks
+The GJ18 paper build passes. The DAG was regenerated from the paper folder,
+converted to PNG, and visually inspected. Generated status artifacts were
+refreshed with `scripts/sync_paper_status.py`, and the sync check passed.
+
+### Statement Translation Audit
+
+Audit date: 2026-06-06.
+Scope: current dashboard rows from `PaperInterface.lean`; `lean_to_tex_llm.json` records context-free Lean-to-TeX drafts and `statement_match_llm.json` records the context-free paper-vs-translation judgment.
+
+Summary: 7 rows; 7 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar rows: none. Surface audit: not required (30 or fewer rows).
+
+Flagged rows: none. The auxiliary proof-route lemma
+`lemmaC_floor_score_gap_rate_from_logMGF_derivative_threshold_minimizer_of_straddling_support`
+remains available internally but is no longer part of the paper-facing dashboard
+surface.
+
+## 17. Paper Definitions Checked
 - Log-MGF `Lambda(z | theta) = log sum_y rho(theta,y|Y) exp(z phi(y))`.
   Lean: `definition_log_mgf_formula`.
 - Rate function `I(a | theta) = sup_z {za - Lambda(z | theta)}`.
@@ -97,7 +180,7 @@ Lean theorem targets.
 - Kendall-style objective `W_k` through finite weighted pair aggregation.
   Lean: `theorem1_floor_pk_complement_error_eq_one_sub_weighted_objective`.
 
-## 12. Named Theorem Statements Checked
+## 18. Named Theorem Statements Checked
 ### Appendix Lemma `problessthan`
 
 **Paper statement.** The pairwise score-comparison error has exponential rate
@@ -160,7 +243,7 @@ real-rate compatibility wrapper for stronger all-real domain conventions.
 | theorem theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_threshold_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds_of_extended_min_eq | `theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_threshold_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds_of_extended_min_eq` | optional real-rate compatibility statement for stronger all-real domain conventions. |
 <!-- lean-derived-statements:end -->
 
-## 13. Paper-Facing Statement Validator Ledger
+## 19. Paper-Facing Statement Validator Ledger
 Generated from dashboard status export:
 
 `python3 scripts/review_dashboard.py --paper GJ18InformativeRatingSystems --export-format validators-md`
@@ -177,77 +260,3 @@ Generated from dashboard status export:
 | theorem theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_rating_tail_dominance_and_full_support | `theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_rating_tail_dominance_and_full_support` | gpt-5-codex (model; matches; 2026-06-06T20:39:31Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:31Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
 
 Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
-
-## 14. Paper Assumption Provenance
-Every paper-facing premise is routed through
-`GJ18InformativeRatingSystems/Assumptions.lean` and checked by
-`assumption_match_llm.json`. The canonical Theorem 1 endpoint uses source
-model assumptions: positive match rates, monotone scores, and full finite
-ordinal rating support. A few auxiliary Appendix C and real-rate compatibility
-rows expose common-dual/minimizer regularity conditions; those are documented
-as proof-route conditions and are not the canonical theorem endpoint.
-
-| Lean assumption/condition | Judgment | Source role |
-| --- | --- | --- |
-| `assumption_positive_match_rates` | paper condition | Positive asymptotic sample rates in the paper's `floor(k g(theta))` sample-count model. |
-| `assumption_positive_integer_sample_rates` | derived from source primitives | Integer-rate helper rows instantiate positive sample rates. |
-| `assumption_nonpositive_common_dual_parameters` | derived from source primitives | Auxiliary common-dual lower-tail witnesses; derived/packaged on the canonical support-safe route. |
-| `assumption_pairwise_threshold_minimizer` | derived from source primitives | Helper-level witness that the displayed threshold realizes the source `inf_a` pairwise objective. |
-| `assumption_two_sided_score_witnesses` | derived from source primitives | Finite-support lower-bound witnesses derived from full finite ordinal support and score span. |
-| `assumption_monotone_rating_scores` | source text model primitive | Source scores are monotone in ordinal rating level. |
-| `assumption_full_finite_ordinal_rating_support` | derived from source primitives | The source finite ordered rating scale and strictly decreasing cumulative rating law provide the finite support used by the endpoint. |
-| `assumption_score_range_and_strict_span` | derived from source primitives | Source score function lies in `[0,1]` and the increasing score design supplies a nontrivial span. |
-
-Additional assumptions beyond the paper: none for the canonical support-safe
-Theorem 1 endpoint. Finite seller types, finite rating levels, and floor-count
-sample sizes are part of the source model.
-
-## 15. Library Lift Pass
-- `EconCSLib.Foundations.Probability.FiniteRatingComparison`: extracted the
-  generic finite-rating comparison spine from this paper's implementation file:
-  source-facing log-MGF/rate wrappers, support-safe pairwise threshold rates,
-  finite tilted score means, two-sample and floor-count comparison
-  probabilities, `P_k`/`1 - P_k` algebra, integer-rate block comparisons, and
-  pairwise LDP certificate constructors. `MainTheorems.lean` now keeps the
-  paper-specific finite-chain aggregation and theorem endpoints.
-- `EconCSLib.Foundations.Probability.FiniteSupportMGF`: finite-support MGFs,
-  log-MGFs, Legendre/rate-function wrappers, and shifted score algebra.
-- `EconCSLib.Foundations.Probability.LargeDeviations`: exact-rate,
-  upper/lower-bound, finite weighted-sum, and aggregation certificates.
-- `EconCSLib.Foundations.Probability.IndependentProduct`: finite product PMF
-  and marginal infrastructure.
-- `EconCSLib.Foundations.Probability.FiniteRankingEvents`: adjacent-inversion
-  deterministic and PMF union-bound kernels.
-- `EconCSLib.Foundations.Probability.IIDLargeDeviations` and
-  `FiniteTypeLogMass`: reusable finite iid Cramer/method-of-types support.
-- `EconCSLib.Foundations.Probability.FiniteExpectation`:
-  `pmfExp_le_pmfExp_of_fin_tail_prob_le`, a reusable finite ordinal
-  first-order stochastic dominance theorem.
-
-The old real-valued threshold-minimum equality can remain as an optional
-compatibility theorem for users who choose a stronger all-real domain
-convention.
-
-## 16. DAG Audit
-- Rendered artifact: `DependencyDAG.pdf`.
-- Topology: source-facing model, finite FOSD/tail-dominance bridge, Appendix
-  Lemma C support, `P_k` transfer, and one formalized Theorem 1 endpoint.
-- Layout: rendered and visually inspected after the formalized-status change.
-- Status: no partial/caveat node remains on the main Theorem 1 path.
-
-## 17. Validation Checks
-The GJ18 paper build passes. The DAG was regenerated from the paper folder,
-converted to PNG, and visually inspected. Generated status artifacts were
-refreshed with `scripts/sync_paper_status.py`, and the sync check passed.
-
-### Statement Translation Audit
-
-Audit date: 2026-06-06.
-Scope: current dashboard rows from `PaperInterface.lean`; `lean_to_tex_llm.json` records context-free Lean-to-TeX drafts and `statement_match_llm.json` records the context-free paper-vs-translation judgment.
-
-Summary: 7 rows; 7 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar rows: none. Surface audit: not required (30 or fewer rows).
-
-Flagged rows: none. The auxiliary proof-route lemma
-`lemmaC_floor_score_gap_rate_from_logMGF_derivative_threshold_minimizer_of_straddling_support`
-remains available internally but is no longer part of the paper-facing dashboard
-surface.

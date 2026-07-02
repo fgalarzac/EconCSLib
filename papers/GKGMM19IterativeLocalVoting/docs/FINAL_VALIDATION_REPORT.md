@@ -1,5 +1,7 @@
 # Final Validation Report: Iterative Local Voting for Collective Decision-making in Continuous Spaces
 
+Updated: 2026-07-02
+
 ## 1. Human Verdict
 Partially formalized. Theorems 1-2 and Propositions 1-2 are formalized except
 for a single reusable-library theorem proving stochastic subgradient descent
@@ -10,8 +12,9 @@ below.
 
 ## 2. Closeout Status
 - Completion status: partially formalized.
-- One-sentence recap: Only SSGM convergence remains as a reusable-library
-  boundary; Theorem 3 is handled by the constrained/full-space split above.
+- One-sentence recap: Full formalization requires proving stochastic subgradient descent convergence. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition.
+- Lean footprint: 23,466 paper-local Lean LOC; `PaperInterface.lean` is 2772 lines; 47 human-review declarations are exposed.
+- Audit summary: paper coverage has 39 covered, 8 conditional_boundary, 1 not_a_paper_target; statement LLM-as-judge has 41 matches, 5 mismatch; resolutions: 5 conditional_boundary; assumption provenance has 1 paper_condition, 2 partial_boundary; source-record audit reports 3 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: Garg, Kamble, Goel, Marn, and Munagala, "Iterative Local Voting for
@@ -59,10 +62,13 @@ single reusable-library stochastic subgradient convergence theorem, and Theorem
 ## 8. Proof Tricks Worth Reusing
 - None
 
-## 9. Paper Issues or Caveats
+## 9. Mathematical Typos or Other Fixes Suggested in the Source Paper
+None found.
+
+## 10. Paper Issues or Caveats
 Theorem 3 appears to need an explicit feasibility condition for the aggregate direction at a constrained limit point. In full space this condition is automatic, and the formalization recovers the paper's stated conclusion; for general constrained spaces, the formalized result is the weaker alternative that either the aggregate directional field vanishes or the aggregate direction is not feasible. This is recorded as a statement-level caveat, not as a broader objection to the economic model.
 
-## 10. Detailed Formalization Evidence
+## 11. Detailed Formalization Evidence
 - The source-facing definition and formula rows compile for C1-C3, the
   Algorithm 1 radius schedule, radius limit-to-zero, squared-radius
   summability, divergent positive-radius partial sums, positive-radius
@@ -150,46 +156,16 @@ Theorem 3 appears to need an explicit feasibility condition for the aggregate di
   which recovers the original directional-equilibrium endpoint when
   `E.solutionSpace = Set.univ`.
 
-## 11. Paper Assumption Provenance
+## 12. Paper Assumption Provenance
 | Assumption declaration | Validator judgment | Source / boundary | Premise judgments | Comments |
 | --- | --- | --- | --- | --- |
 | `assumption_conditions_c123` | source condition | JAIR 2019 Section 3, conditions C1-C3 | `hC : assumption_conditions_c123 E` is source text | Bundles the stated model conditions: nonempty bounded closed convex solution space, unique ideal points, and bounded measurable density for independently drawn ideal points. |
 | `assumption_ssgm_convergence_theorem` | formalization boundary | Future SSGM convergence theorem, not a source assumption | `hSSGM : assumption_ssgm_convergence_theorem E` is a formalization boundary | Single approved theorem-shaped library boundary returning `FiniteCoordinateILVSSGMConvergenceTheorems E`; endpoint consequences are derived separately. |
 
-## 12. Statement Validator Findings
-The declaration-keyed source/subclaim map and all LLM sidecars are current.
-`python3 scripts/review_dashboard.py --paper GKGMM19IterativeLocalVoting --statement-precheck`
-reports no missing or stale sidecars.
+## 13. Displayed Formula Provenance
+Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
 
-Rows marked strict `mismatch` with `resolution: "conditional_boundary"`:
-- `theorem1_lp_normed_dual_cases`
-- `theorem2_modelB_holder_dual_norms`
-- `proposition1_weighted_euclidean_l2`
-- `proposition2_decomposable_linf_medians`
-- `theorem3_statement_of_full_sampled_projected_source_semantics_univ`
-
-Reason: the Lean rows prove finite-coordinate conditional versions with visible
-theorem-specific deterministic source-semantics premises. Theorem 2 takes
-`Theorem2PrimitiveSourceSemantics E`; Proposition 1 takes
-`Proposition1SourceSemantics E`; Proposition 2 takes
-`Proposition2FiniteCoordinateSourceSemantics E`; Theorem 3 takes
-`FiniteCoordinateILVFullSampledProjectedSourceSemantics E` and the explicit
-full-space premise `E.solutionSpace = Set.univ`. The source theorem statements
-do not state those extra finite-coordinate data packages or the full-space
-restriction. This is the intended current conditional boundary, not a hidden
-claim of full theorem equivalence.
-Theorem 1-2 and Propositions 1-2 also name
-`assumption_ssgm_convergence_theorem` as the external-library SSGM theorem
-boundary.
-
-No statement rows are currently marked `uncertain`. Theorem 3 remains a strict
-`mismatch` with `resolution: "conditional_boundary"` because the exact adapter
-is conditional on granular full finite-coordinate source semantics.  The
-concrete `FiniteTheorem3DirectionalFieldModel` supplies the displayed field
-formula, so the remaining mismatch is source-semantics/trace alignment with the
-abstract paper theorem statement, not an abstract-field representation gap.
-
-## 13. Library Lift Pass
+## 14. Library Lift Pass
 - Reusable modules already introduced or used include:
   `EconCSLib.Foundations.Math.FiniteDimensionalNorms`,
   `EconCSLib.Foundations.Math.FiniteDimensionalNormsDerivative`,
@@ -202,24 +178,16 @@ abstract paper theorem statement, not an abstract-field representation gap.
   assumption-source files so proof-boundary axioms appear in the assumption
   provenance surface and cannot be hidden from the closeout metadata.
 
-## 14. DAG Audit
+## 15. DAG Audit
 - DAG source: `papers/GKGMM19IterativeLocalVoting/DependencyDAG.tex`.
 - Rendered DAG PDF: `papers/GKGMM19IterativeLocalVoting/DependencyDAG.pdf`.
-- Visual layout inspection: completed after regenerating the DAG PDF from the
-  updated TeX source; the rendered graph has readable paper-result, model,
-  partial-boundary, and reusable-library nodes without overlapping labels,
-  boxes, or arrows.
-- The DAG records the single SSGM theorem-shaped boundary, the Lean-proved
-  Theorem 3 constrained alternative, and the exact Theorem 3 full-space
-  recovery rather than presenting those as hidden paper assumptions.
+- Visual layout inspection: completed after regenerating the DAG PDF from the updated TeX source; the rendered graph has readable paper-result, model, partial-boundary, and reusable-library nodes without overlapping labels, boxes, or arrows.
+- The DAG records the single SSGM theorem-shaped boundary, the Lean-proved Theorem 3 constrained alternative, and the exact Theorem 3 full-space recovery rather than presenting those as hidden paper assumptions.
 
-## 15. Validation Checks
+## 16. Validation Checks
 - `lake build GKGMM19IterativeLocalVoting`: passed.
 - `python3 -m py_compile scripts/review_dashboard.py`: passed after the axiom
   parser update.
-- Lean footprint: 23,379 lines across paper-local Lean files, including 2,723
-  lines in `PaperInterface.lean`; the human review surface exposes 42 dashboard
-  rows from 107 paper-interface declarations.
 - JSON sidecar validation with `python3 -m json.tool`: passed for
   `lean_to_tex_llm.json`, `statement_match_llm.json`, and
   `assumption_match_llm.json`.
@@ -252,7 +220,53 @@ abstract paper theorem statement, not an abstract-field representation gap.
   The approved `partial_boundary` premise remains intentional; there is
   no hidden-premise/source-record warning.
 
-## 16. Paper-Facing Statement Validator Ledger
+### Validation Commands
+- `lake build GKGMM19IterativeLocalVoting`: passed.
+- `python3 scripts/review_dashboard.py --paper GKGMM19IterativeLocalVoting --refresh-cache`: passed.
+- `python3 scripts/review_dashboard.py --paper GKGMM19IterativeLocalVoting --precheck`: passed with only documented conditional-boundary status.
+- `python3 scripts/audit_repository.py --paper GKGMM19IterativeLocalVoting --paper-closeout --include-active --info-limit 0`: targeted repository audit command for the final closeout.
+- `python3 scripts/audit_repository.py --library-only --library-premise-audit --info-limit 0`: reusable-library premise audit passed.
+
+## 17. Paper Definitions Checked
+No separate generated definitions table was recorded in this report refresh. The paper-facing definition rows are tracked in `PaperInterface.lean` and the statement validator sidecars.
+
+## 18. Named Theorem Statements Checked
+No separate generated theorem table was recorded in this report refresh. Named theorem endpoints are tracked in `PaperInterface.lean`, `status.json`, and the statement validator sidecars.
+
+## 19. Paper-Facing Statement Validator Ledger
+The declaration-keyed source/subclaim map and all LLM sidecars are current.
+`python3 scripts/review_dashboard.py --paper GKGMM19IterativeLocalVoting --statement-precheck`
+reports no missing or stale sidecars.
+
+Rows marked strict `mismatch` with `resolution: "conditional_boundary"`:
+- `theorem1_lp_normed_dual_cases`
+- `theorem2_modelB_holder_dual_norms`
+- `proposition1_weighted_euclidean_l2`
+- `proposition2_decomposable_linf_medians`
+- `theorem3_statement_of_full_sampled_projected_source_semantics_univ`
+
+Reason: the Lean rows prove finite-coordinate conditional versions with visible
+theorem-specific deterministic source-semantics premises. Theorem 2 takes
+`Theorem2PrimitiveSourceSemantics E`; Proposition 1 takes
+`Proposition1SourceSemantics E`; Proposition 2 takes
+`Proposition2FiniteCoordinateSourceSemantics E`; Theorem 3 takes
+`FiniteCoordinateILVFullSampledProjectedSourceSemantics E` and the explicit
+full-space premise `E.solutionSpace = Set.univ`. The source theorem statements
+do not state those extra finite-coordinate data packages or the full-space
+restriction. This is the intended current conditional boundary, not a hidden
+claim of full theorem equivalence.
+Theorem 1-2 and Propositions 1-2 also name
+`assumption_ssgm_convergence_theorem` as the external-library SSGM theorem
+boundary.
+
+No statement rows are currently marked `uncertain`. Theorem 3 remains a strict
+`mismatch` with `resolution: "conditional_boundary"` because the exact adapter
+is conditional on granular full finite-coordinate source semantics.  The
+concrete `FiniteTheorem3DirectionalFieldModel` supplies the displayed field
+formula, so the remaining mismatch is source-semantics/trace alignment with the
+abstract paper theorem statement, not an abstract-field representation gap.
+
+### Paper-Facing Statement Validator Ledger
 The full generated validator ledger is stored at
 `papers/GKGMM19IterativeLocalVoting/VALIDATOR_LEDGER.md`.
 
@@ -268,21 +282,3 @@ Summary:
 
 This ledger is provenance for statement-target metadata. It does not change the
 human-only `human_review.reviewed_rows` counter.
-
-## 17. DAG Audit
-- DAG source artifact: `DependencyDAG.tex`.
-- Rendered DAG artifact: `DependencyDAG.pdf`.
-- Rendered/visual inspection evidence: the `DependencyDAG.pdf` layout was
-  regenerated from `DependencyDAG.tex` and visually inspected for readable
-  paper-result, model, partial-boundary, and reusable-library nodes without
-  overlapping labels, boxes, or arrows.
-- The DAG records the single SSGM theorem-shaped boundary, the Lean-proved
-  Theorem 3 constrained alternative, and the exact Theorem 3 full-space
-  recovery rather than presenting those as hidden paper assumptions.
-
-## 18. Validation Commands
-- `lake build GKGMM19IterativeLocalVoting`: passed.
-- `python3 scripts/review_dashboard.py --paper GKGMM19IterativeLocalVoting --refresh-cache`: passed.
-- `python3 scripts/review_dashboard.py --paper GKGMM19IterativeLocalVoting --precheck`: passed with only documented conditional-boundary status.
-- `python3 scripts/audit_repository.py --paper GKGMM19IterativeLocalVoting --paper-closeout --include-active --info-limit 0`: targeted repository audit command for the final closeout.
-- `python3 scripts/audit_repository.py --library-only --library-premise-audit --info-limit 0`: reusable-library premise audit passed.

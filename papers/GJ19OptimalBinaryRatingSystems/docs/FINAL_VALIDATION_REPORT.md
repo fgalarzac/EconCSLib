@@ -1,5 +1,7 @@
 # Final Validation Report: GJ19 Optimal Binary Rating Systems
 
+Updated: 2026-07-02
+
 ## 1. Human Verdict
 The binary-rating theory from the AISTATS/PMLR paper and supplement is
 formalized in Lean. The checked surface covers the finite large-deviation
@@ -8,12 +10,10 @@ and learning lemmas, and the Kendall/Spearman example branches. No source
 discrepancy is identified for this theorem surface.
 
 ## 2. Closeout Status
-Status: formalized.
-
-The curated dashboard surface contains 25 source-level rows. Those rows are
-intended for human translation review of the main definitions, theorem blocks,
-algorithm certificate, examples, and Appendix B convergence/learning results.
-The much larger helper surface remains proof-facing infrastructure.
+- Completion status: formalized.
+- One-sentence recap: The report records the current formalization status and validation evidence for the declared paper surface.
+- Lean footprint: 85,780 paper-local Lean LOC; `PaperInterface.lean` is 12481 lines; 56 human-review declarations are exposed.
+- Audit summary: paper coverage has 27 covered, 1 covered_by_support; statement LLM-as-judge has 56 matches; assumption provenance sidecar has no rows; source-record audit reports 2 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Designing Optimal Binary Rating Systems*.
@@ -49,10 +49,7 @@ measurability, boundedness, positivity, and convergence hypotheses explicitly
 where the source proof uses them in prose.
 
 ## 7. Proof-Strategy Deviations
-None requiring a public qualification. The Lean proof factors several source
-arguments through reusable large-deviation, finite-optimization, and
-convergence interfaces, but the paper-facing conclusions are the source
-results.
+None. The Lean proof factors several source arguments through reusable large-deviation, finite-optimization, and convergence interfaces, but the paper-facing conclusions are the source results.
 
 ## 8. Proof Tricks Worth Reusing
 - Keep displayed formulas as small review rows before exposing broad theorem
@@ -62,10 +59,13 @@ results.
 - Package reusable regularity reductions in a paper-local assumptions/proof
   interface rather than turning them into public caveats.
 
-## 9. Paper Issues or Caveats
+## 9. Mathematical Typos or Other Fixes Suggested in the Source Paper
+None found.
+
+## 10. Paper Issues or Caveats
 None recorded for the formalized theorem surface.
 
-## 10. Detailed Formalization Evidence
+## 11. Detailed Formalization Evidence
 The formalized surface includes:
 
 - Bernoulli KL and support-safe Bernoulli KL formulas.
@@ -81,13 +81,22 @@ The formalized surface includes:
 - Lemmas C.10-C.12, the Kendall/Spearman examples, Theorem B.1, Corollary C.4,
   and Appendix B.2/B.3 learning wrappers.
 
-## 11. DAG Audit
+## 12. Paper Assumption Provenance
+Assumption provenance is tracked in `papers/GJ19OptimalBinaryRatingSystems/Assumptions.lean` and `papers/GJ19OptimalBinaryRatingSystems/audit/assumption_match_llm.json` when assumption rows exist. No additional assumption-provenance table was separately recorded in this report refresh.
+
+## 13. Displayed Formula Provenance
+Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
+
+## 14. Library Lift Pass
+No additional reusable library extraction was needed in this report pass.
+
+## 15. DAG Audit
 The dependency DAG was rerendered as `DependencyDAG.pdf` on 2026-06-28.
 Visual inspection after rerendering checked for stale open-box notation,
 overlap, and missing theorem labels. The DAG shows the GJ19 theorem surface as
 formalized and distinguishes theorem nodes from reusable proof-interface nodes.
 
-## 12. Validation Checks
+## 16. Validation Checks
 Validation commands run on 2026-06-28:
 
 ```bash
@@ -99,3 +108,12 @@ python3 scripts/audit_repository.py --paper GJ19OptimalBinaryRatingSystems --pap
 
 The build, status sync, and dashboard precheck passed. The closeout audit is
 used as the repository-level style/provenance check.
+
+## 17. Paper Definitions Checked
+No separate generated definitions table was recorded in this report refresh. The paper-facing definition rows are tracked in `PaperInterface.lean` and the statement validator sidecars.
+
+## 18. Named Theorem Statements Checked
+No separate generated theorem table was recorded in this report refresh. Named theorem endpoints are tracked in `PaperInterface.lean`, `status.json`, and the statement validator sidecars.
+
+## 19. Paper-Facing Statement Validator Ledger
+Current model-validator sidecars are the source of truth for timestamped rows. Model review has 56 matches across 56 rows. Human dashboard review has 0/56 saved entries, with 0 stale rows and 0 human mismatches.

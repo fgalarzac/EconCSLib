@@ -1,5 +1,7 @@
 # Final Validation Report: PRPKG24 Accuracy-Diversity
 
+Updated: 2026-07-02
+
 ## 1. Human Verdict
 Formalized. The paper-facing surface covers the main examples, definitions,
 theorems, corollaries, propositions, and appendix lemmas listed below.
@@ -11,8 +13,9 @@ mismatch because Lean uses the corrected finite constant.
 
 ## 2. Closeout Status
 - Completion status: formalized.
-- One-sentence recap: The accuracy-diversity paper surface is checked, with
-  source-quality notes recorded separately from proof boundaries.
+- One-sentence recap: Proposition 2's printed finite bound appears to miss a factor of 2; Lean proves the corrected finite bound, which is sufficient for the asymptotic 1/2-homogeneity result.
+- Lean footprint: 52,018 paper-local Lean LOC; `PaperInterface.lean` is 287 lines; 42 human-review declarations are exposed.
+- Audit summary: paper coverage has 40 covered, 2 conditional_boundary; statement LLM-as-judge has 40 matches, 2 mismatch; resolutions: 2 conditional_boundary; assumption provenance has 15 paper_condition; source-record audit reports 0 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Reconciling the Accuracy-Diversity Trade-off in Recommendations*.
@@ -37,7 +40,7 @@ None for the checked theorem conclusions; source-quality notes are recorded belo
   an added model assumption.
 
 ## 7. Proof-Strategy Deviations
-- None
+None.
 
 ## 8. Proof Tricks Worth Reusing
 - None
@@ -60,7 +63,7 @@ The current paper interface exposes source-shaped statements rather than proof-i
 - Proposition 4 proves the concrete continuous-sphere endpoint using the unit sphere, normalized Haar-sphere uniform measure, linear-isometry transitivity, radial log-kernel symmetry, Fubini/integrability facts, compact maximizer, and positive-Laplace-defined objective route.
 - Proposition 5, Lemma 1, and Lemmas D.1-D.5 are exposed through source-shaped paper rows.
 
-## 12. Assumption And Validation Notes
+## 12. Paper Assumption Provenance
 All visible paper assumptions are routed through `Assumptions.lean` and the current `assumption_match_llm.json` sidecar. There are 15 assumption/provenance rows; all are judged current, with 56 premise-level judgments and no unresolved or partial-boundary premises.
 
 The Proposition 4 row `assumption_proposition4_continuous_sphere_laplace_boundary` is a validation-note row, not an external proof boundary. It records:
@@ -69,31 +72,10 @@ The Proposition 4 row `assumption_proposition4_continuous_sphere_laplace_boundar
 - positivity of the radial function on `[0,2]`, aligned with the paper's `(0,1]` codomain;
 - the reading of the paper's displayed `Gamma` limit as the Laplace-defined compact-supremum objective used by the Lean endpoint.
 
-## 13. Statement Validator Ledger
-The current validator sidecars are:
+## 13. Displayed Formula Provenance
+Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
 
-- `lean_to_tex_llm.json`
-- `statement_match_llm.json`
-- `assumption_match_llm.json`
-- `review_surface_llm.json`
-
-Current dashboard checks:
-
-- Statement lane: 27 paper-result rows, 41 Lean-to-TeX drafts, 41 statement-judge rows, no missing or stale items. Proposition 2 is recorded as a conditional-boundary mismatch with human override because the corrected finite constant differs from the printed finite bound while preserving the asymptotic conclusion.
-- Assumption lane: 15 assumption declarations, no missing/stale/flagged items.
-- Review surface lane: 42 rows, current `review_surface_llm.json`, no stale surface audit.
-- Combined dashboard precheck: no stale checks; the only remaining attention items are the 42 absent manual dashboard review entries.
-
-The current full validator table can be regenerated with:
-
-```bash
-python3 scripts/review_dashboard.py --paper PRPKG24AccuracyDiversity --export-format validators-md
-```
-
-## 14. DAG Audit
-`DependencyDAG.tex` was audited against the workflow. Definition 1 is green and now covers both equation (5) for finite real `gamma` and the `gamma = infinity` likelihood-argmax profile, Proposition 4 appears once as a formalized result node, the header records the ACM Web Conference 2024 venue while pointing to the arXiv source cache, and the rendered layout has no node/text overlap. `pdflatex` wrote `DependencyDAG.pdf`, but the local MiKTeX wrapper still exits with code 134 after trying to write user config/log files under read-only `~/.miktex`; `mutool draw` was used for PNG rendering and visual inspection.
-
-## 15. Library Lift Pass
+## 14. Library Lift Pass
 Reusable infrastructure used by this proof already lives in shared recommender, finite-rounding, asymptotics, order-statistics, exponential, Pareto, real-distribution, large-deviation, and symmetry modules. No additional library extraction was made in this closeout pass.
 
 The library-only premise audit was clean:
@@ -104,7 +86,10 @@ python3 scripts/audit_repository.py --library-only --library-premise-audit --inf
 
 Result: 0 errors, 0 warnings.
 
-## 16. Validation Commands
+## 15. DAG Audit
+`DependencyDAG.tex` was audited against the workflow. Definition 1 is green and now covers both equation (5) for finite real `gamma` and the `gamma = infinity` likelihood-argmax profile, Proposition 4 appears once as a formalized result node, the header records the ACM Web Conference 2024 venue while pointing to the arXiv source cache, and the rendered layout has no node/text overlap. `pdflatex` wrote `DependencyDAG.pdf`, but the local MiKTeX wrapper still exits with code 134 after trying to write user config/log files under read-only `~/.miktex`; `mutool draw` was used for PNG rendering and visual inspection.
+
+## 16. Validation Checks
 Passed:
 
 ```bash
@@ -130,3 +115,30 @@ pre-existing tracked source-PDF artifact in
 `papers/GLM20DroppingStandardizedTesting`.
 
 The proof-hole scan found no Lean proof holes in PRPKG files; matches were historical documentation lines mentioning `sorry`/`admit` commands or notes.
+
+## 17. Paper Definitions Checked
+No separate generated definitions table was recorded in this report refresh. The paper-facing definition rows are tracked in `PaperInterface.lean` and the statement validator sidecars.
+
+## 18. Named Theorem Statements Checked
+No separate generated theorem table was recorded in this report refresh. Named theorem endpoints are tracked in `PaperInterface.lean`, `status.json`, and the statement validator sidecars.
+
+## 19. Paper-Facing Statement Validator Ledger
+The current validator sidecars are:
+
+- `lean_to_tex_llm.json`
+- `statement_match_llm.json`
+- `assumption_match_llm.json`
+- `review_surface_llm.json`
+
+Current dashboard checks:
+
+- Statement lane: 27 paper-result rows, 41 Lean-to-TeX drafts, 41 statement-judge rows, no missing or stale items. Proposition 2 is recorded as a conditional-boundary mismatch with human override because the corrected finite constant differs from the printed finite bound while preserving the asymptotic conclusion.
+- Assumption lane: 15 assumption declarations, no missing/stale/flagged items.
+- Review surface lane: 42 rows, current `review_surface_llm.json`, no stale surface audit.
+- Combined dashboard precheck: no stale checks; the only remaining attention items are the 42 absent manual dashboard review entries.
+
+The current full validator table can be regenerated with:
+
+```bash
+python3 scripts/review_dashboard.py --paper PRPKG24AccuracyDiversity --export-format validators-md
+```

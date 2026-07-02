@@ -1,5 +1,7 @@
 # Final Validation Report: Competitive Auctions and Digital Goods
 
+Updated: 2026-07-02
+
 ## 1. Human Verdict
 Formalized. The report covers the SODA paper's competitive-auction results,
 with Theorem 8.2 stated using the later journal version's monotone-auction
@@ -9,8 +11,9 @@ recorded.
 
 ## 2. Closeout Status
 - Completion status: formalized.
-- One-sentence recap: The SODA digital-goods results are checked, with Theorem
-  8.2 using the later journal monotone-auction refinement.
+- One-sentence recap: Formalizes the SODA paper; Theorem 8.2 uses the refined monotone-auction wording from the journal version.
+- Lean footprint: 14,624 paper-local Lean LOC; `PaperInterface.lean` is 326 lines; 30 human-review declarations are exposed.
+- Audit summary: paper coverage has 30 covered; statement LLM-as-judge has 30 matches; assumption provenance has 12 paper_condition; source-record audit reports 7 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Primary formalization target: *Competitive Auctions and Digital Goods* by
@@ -39,20 +42,20 @@ None for the SODA target formalized here. Journal-only results outside that targ
 - None
 
 ## 7. Proof-Strategy Deviations
-- Section 8.2 is checked against the later journal monotone-auction statement.
-  Lean proves a finite raw-CDF/PMF version of the journal argument.
-- Section 9.3 derives the erased-list/list-price bridge internally from the
-  paper's set-of-bids convention and Lemma 9.2.
+None. Section 8.2 is checked against the later journal monotone-auction wording, and the erased-list/list-price bridge is derived internally from the paper's set-of-bids convention and Lemma 9.2; these are source-version and proof-organization notes rather than theorem deviations.
 
 ## 8. Proof Tricks Worth Reusing
 - For finite randomized digital-goods auctions, raw CDF monotonicity can often
   be pushed directly to acceptance probabilities and surplus recursions using
   finite PMF layer-cake sums.
 
-## 9. Paper Issues or Caveats
+## 9. Mathematical Typos or Other Fixes Suggested in the Source Paper
+None found.
+
+## 10. Paper Issues or Caveats
 Theorem 8.2 is formalized using the later journal version's monotone-auction refinement. This is a source-version choice, not a reported inconsistency in the SODA target.
 
-## 10. Detailed Formalization Evidence
+## 11. Detailed Formalization Evidence
 The paper's digital-goods mechanism definitions, truthful threshold mechanisms,
 fixed-price benchmarks, random-sampling bounds, weighted-pairing bounds,
 Section 8.2 monotone randomized-auction revenue upper bound, deterministic
@@ -68,54 +71,14 @@ representation as a public assumption; the deterministic set-of-bids source
 model is explicit in `Assumptions.lean`, validated against the source text, and
 the erased-list/list-price bridge is discharged internally.
 
-## 11. Paper Definitions Checked
-- Digital-goods revenue: total payments collected from all bidders. Lean:
-  `PaperInterface.revenue`.
-- Dominant-strategy truthfulness: truthful reporting weakly dominates any
-  single-agent report deviation. Lean: `PaperInterface.truthful`.
-- Single-price revenue and fixed-price benchmark. Lean:
-  `PaperInterface.singlePriceRevenue`, `PaperInterface.fixedPriceBenchmark`.
-- Two-winner fixed-price benchmark `F^(2)`. Lean:
-  `PaperInterface.twoWinnerBenchmark`.
-- Total bid value `T`. Lean: `PaperInterface.totalValue`.
-- Weighted-pairing expected revenue. Lean:
-  `PaperInterface.weightedPairingRevenue`.
+### Source-Version Notes
+Section 8.2 is a source-version distinction: the SODA paper's wording is
+broader than the later journal theorem, while the journal version states and
+proves the revenue upper bound for monotone truthful randomized auctions. This
+folder therefore uses the journal statement for the Section 8.2 endpoint and
+retains the preliminary wording only as provenance/audit material.
 
-## 12. Named Theorem Statements Checked
-- Theorem 4.1: high-value profiles satisfy the logarithmic fixed-price lower
-  bound. Lean: `theorem4_1_high_value`. Status: formalized.
-- Corollary 4.2: cutoff truncation gives the factor-four fixed-price lower
-  bound. Lean: `corollary4_2_fixed_price_lower_bound`. Status: formalized.
-- Lemma 6.1: fair-coin lower-tail estimate. Lean: `lemma6_1_fair_coin`.
-  Status: formalized.
-- Theorem 6.2: random sampling auction revenue guarantee. Lean:
-  `theorem6_2_random_sampling`. Status: formalized.
-- Theorem 7.1: weighted pairing gets the logarithmic guarantee under
-  `4h <= T`. Lean: `theorem7_1_weighted_pairing`. Status: formalized.
-- Theorem 7.2: weighted pairing competes with `F^(2)` under `F^(2) >= 2h`.
-  Lean: `theorem7_2_weighted_pairing_benchmark`. Status: formalized.
-- Lemma 8.1: truthfulness implies monotone win probabilities. Lean:
-  `lemma8_1_truthful_monotone`. Status: formalized.
-- Theorem 8.2, Section 8 source-version endpoint: monotone truthful randomized
-  auctions have expected revenue at most `F`. Lean:
-  `theorem8_2_truthful_revenue_upper_bound`. Status: formalized for the later
-  journal statement used as the Section 8.2 endpoint.
-- Theorem 9.1: bid-independent auctions have a lower-bound witness. Lean:
-  `theorem9_1_bid_independent_lower_bound`. Status: formalized.
-- Lemma 9.2: truthful deterministic binary auctions admit threshold offers.
-  Lean: `lemma9_2_threshold_domination`. Status: formalized.
-- Theorem 9.3: deterministic truthful auctions have the lower-bound witness.
-  Lean: `theorem9_3_deterministic_truthful_lower_bound`. Status: formalized.
-
-## 13. Paper-Facing Statement Validator Ledger
-The paper-facing review surface contains 18 rows: 7 definitions and 11 theorem,
-lemma, or corollary endpoints. The Section 8.2 source-version audit endpoint is
-kept in `PostPaperAudit.lean` and is not part of this paper-facing inventory.
-
-Summary: 18 rows; 18 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar
-rows: none after removing the non-paper-facing audit row from the sidecars.
-
-## 14. Paper Assumption Provenance
+## 12. Paper Assumption Provenance
 Every paper-facing premise is routed through
 `GHW01DigitalGoods/Assumptions.lean` and checked by
 `assumption_match_llm.json`. These rows are theorem-domain conditions from the
@@ -148,7 +111,10 @@ values/prices where the auction model requires them, journal raw-CDF
 monotonicity for Section 8.2, and anonymous set-of-bids/masked-vector behavior
 for Section 9.3.
 
-## 15. Library Lift Pass
+## 13. Displayed Formula Provenance
+Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
+
+## 14. Library Lift Pass
 Reusable digital-goods auction material now lives in
 `EconCSLib/MechanismDesign/Auctions/DigitalGoods.lean`, alongside the
 `Position.lean` and `Combinatorial.lean` auction modules. The GHW
@@ -157,7 +123,7 @@ endpoints. A future second-paper use case could factor the finite PMF
 layer-cake surplus lemmas behind Theorem 8.2 into a smaller stochastic-ordering
 API; no risky extraction is needed for this closeout.
 
-## 16. DAG Audit
+## 15. DAG Audit
 `DependencyDAG.tex` identifies the SODA paper as the target and notes that
 Section 8.2 uses the journal refinement. The DAG uses closed dependency arrows
 only; there are no open or conditional DAG nodes.
@@ -167,14 +133,7 @@ DAG covers the source-result clusters recorded in the public source inventory:
 the digital-goods model, random-sampling auction route, profit-extraction
 route, Bayesian-offer lemma family, and the Section 8.2 revenue theorem.
 
-## 17. Source-Version Notes
-Section 8.2 is a source-version distinction: the SODA paper's wording is
-broader than the later journal theorem, while the journal version states and
-proves the revenue upper bound for monotone truthful randomized auctions. This
-folder therefore uses the journal statement for the Section 8.2 endpoint and
-retains the preliminary wording only as provenance/audit material.
-
-## 18. Validation Checks
+## 16. Validation Checks
 - `lake build GHW01DigitalGoods`: passed in the private and public checkouts.
 - `python3 scripts/sync_paper_status.py`: passed in the private and public
   checkouts.
@@ -188,3 +147,50 @@ retains the preliminary wording only as provenance/audit material.
   paper folder.
 - `latexmk -pdf -interaction=nonstopmode -halt-on-error
   garg_econcslib_2026.tex`: passed in the workshop paper folder.
+
+## 17. Paper Definitions Checked
+- Digital-goods revenue: total payments collected from all bidders. Lean:
+  `PaperInterface.revenue`.
+- Dominant-strategy truthfulness: truthful reporting weakly dominates any
+  single-agent report deviation. Lean: `PaperInterface.truthful`.
+- Single-price revenue and fixed-price benchmark. Lean:
+  `PaperInterface.singlePriceRevenue`, `PaperInterface.fixedPriceBenchmark`.
+- Two-winner fixed-price benchmark `F^(2)`. Lean:
+  `PaperInterface.twoWinnerBenchmark`.
+- Total bid value `T`. Lean: `PaperInterface.totalValue`.
+- Weighted-pairing expected revenue. Lean:
+  `PaperInterface.weightedPairingRevenue`.
+
+## 18. Named Theorem Statements Checked
+- Theorem 4.1: high-value profiles satisfy the logarithmic fixed-price lower
+  bound. Lean: `theorem4_1_high_value`. Status: formalized.
+- Corollary 4.2: cutoff truncation gives the factor-four fixed-price lower
+  bound. Lean: `corollary4_2_fixed_price_lower_bound`. Status: formalized.
+- Lemma 6.1: fair-coin lower-tail estimate. Lean: `lemma6_1_fair_coin`.
+  Status: formalized.
+- Theorem 6.2: random sampling auction revenue guarantee. Lean:
+  `theorem6_2_random_sampling`. Status: formalized.
+- Theorem 7.1: weighted pairing gets the logarithmic guarantee under
+  `4h <= T`. Lean: `theorem7_1_weighted_pairing`. Status: formalized.
+- Theorem 7.2: weighted pairing competes with `F^(2)` under `F^(2) >= 2h`.
+  Lean: `theorem7_2_weighted_pairing_benchmark`. Status: formalized.
+- Lemma 8.1: truthfulness implies monotone win probabilities. Lean:
+  `lemma8_1_truthful_monotone`. Status: formalized.
+- Theorem 8.2, Section 8 source-version endpoint: monotone truthful randomized
+  auctions have expected revenue at most `F`. Lean:
+  `theorem8_2_truthful_revenue_upper_bound`. Status: formalized for the later
+  journal statement used as the Section 8.2 endpoint.
+- Theorem 9.1: bid-independent auctions have a lower-bound witness. Lean:
+  `theorem9_1_bid_independent_lower_bound`. Status: formalized.
+- Lemma 9.2: truthful deterministic binary auctions admit threshold offers.
+  Lean: `lemma9_2_threshold_domination`. Status: formalized.
+- Theorem 9.3: deterministic truthful auctions have the lower-bound witness.
+  Lean: `theorem9_3_deterministic_truthful_lower_bound`. Status: formalized.
+
+## 19. Paper-Facing Statement Validator Ledger
+The paper-facing review surface contains 18 rows: 7 definitions and 11 theorem,
+lemma, or corollary endpoints. The Section 8.2 source-version audit endpoint is
+kept in `PostPaperAudit.lean` and is not part of this paper-facing inventory.
+
+Summary: 18 rows; 18 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar
+rows: none after removing the non-paper-facing audit row from the sidecars.

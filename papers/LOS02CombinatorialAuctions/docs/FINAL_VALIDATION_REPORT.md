@@ -1,16 +1,20 @@
 # Final Validation Report: LOS02 Combinatorial Auctions
 
+Updated: 2026-07-02
+
 ## 1. Human Verdict
-Partially formalized. The auction model, greedy approximation, critical-price
-arguments, single-minded truthfulness, and Theorem 6.1 reductions are checked.
-Full formalization still requires reusable computational-complexity
-infrastructure for the final native complexity claims. No auction-theoretic
-paper error is reported. No human dashboard sign-off has been recorded.
+Partially formalized. The finite auction model, generalized Vickrey auction,
+single-minded welfare/set-packing reductions, greedy approximation, critical-value
+lemmas, and average-greedy truthfulness theorem are checked. Full formalization
+still requires reusable computational-complexity infrastructure for the native
+Theorem 6.1 hardness and `NP = ZPP` consequences. No auction-theoretic paper
+error is reported, and no human dashboard sign-off has been recorded.
 
 ## 2. Closeout Status
 - Completion status: partially formalized.
-- One-sentence recap: Greedy approximation, truthfulness, and Theorem 6.1
-  reductions are checked; full closure needs reusable complexity infrastructure.
+- One-sentence recap: Greedy approximation, truthfulness, and Theorem 6.1 reductions are formalized. Full formalization requires computational complexity results that are out of scope.
+- Lean footprint: 7,582 paper-local Lean LOC; `PaperInterface.lean` is 371 lines; 39 human-review declarations are exposed.
+- Audit summary: paper coverage has 31 covered, 8 conditional_boundary; statement LLM-as-judge has 31 matches, 8 mismatch; resolutions: 8 conditional_boundary; assumption provenance has 7 paper_condition, 2 partial_boundary; source-record audit reports 1 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Truth Revelation in Approximately Efficient Combinatorial Auctions*
@@ -18,43 +22,82 @@ paper error is reported. No human dashboard sign-off has been recorded.
 - Source version: Journal of the ACM 49(5), 2002
 - Lean folder: `LOS02CombinatorialAuctions/`
 - Human-facing theorem file: `LOS02CombinatorialAuctions/PaperInterface.lean`
+- Paper assumption file: `LOS02CombinatorialAuctions/Assumptions.lean`
 - DAG artifacts: `LOS02CombinatorialAuctions/DependencyDAG.tex`, `LOS02CombinatorialAuctions/DependencyDAG.pdf`
-- Supporting audit ledger: `LOS02CombinatorialAuctions/POST_FORMALIZATION_AUDIT.md`
+- Supporting audit ledgers: `LOS02CombinatorialAuctions/POST_FORMALIZATION_AUDIT.md`, `LOS02CombinatorialAuctions/AGENT_SOURCE_AUDIT.md`, and `LOS02CombinatorialAuctions/audit/*.json`
+
+Scope: this audit covers the paper's mathematical definitions and theorem-level
+auction results. The paper's native computational-complexity consequences are
+represented only as partial external-boundary interfaces until the shared
+library has a machine-level theory of polynomial-time reductions, hardness,
+inapproximability, randomized complexity, and the cited set-packing/clique
+facts.
 
 ## 4. Researcher Summary of Checked Results
-- The finite combinatorial-auction core is checked: utility/truthfulness predicates, generalized Vickrey truthfulness, single-minded welfare encoding, greedy approximation, critical values, and average-greedy truthfulness.
-- Theorem 6.1 reductions are formalized.
-- The remaining gap is the reusable computational-complexity infrastructure needed for the native complexity claims.
+- The finite combinatorial-auction definitions are checked with source-facing formula rows for utility, truthfulness, generalized Vickrey payments, single-minded profiles, set-packing value, greedy order, accepted set, and payments.
+- The generalized Vickrey auction truthfulness theorem and nonnegative truthful-utility proposition are checked for the finite combinatorial-auction model.
+- The Theorem 6.1 finite reduction layer is checked: set-packing feasibility and value encodings, weighted set-packing reduction, and the clique-to-single-minded-welfare route.
+- The Theorem 7.2 greedy `sqrt(m)` approximation proof is checked for the explicit average-descending order and optimal-allocation comparison conditions.
+- Lemmas 9.1--9.5, Theorem 9.6, Definition 10.1, and Theorem 10.2 are checked for the documented single-minded domain and critical-value conditions.
+- The remaining theorem-level boundary is the native complexity layer for Theorem 6.1 and the related `NP = ZPP` complexity-class note.
 
 ## 5. Remaining Boundaries and Gaps
-Full formalization requires reusable computational-complexity infrastructure for the final native complexity claims.
+Full formalization requires reusable computational-complexity infrastructure for
+the final native Theorem 6.1 hardness and `NP = ZPP` consequences. The current
+Lean code proves the finite auction/reduction statements and records the
+complexity consequences as conditional external-boundary interfaces.
 
 ## 6. Additional Assumptions Beyond Paper
-- None
+None. The nonnegative/nonempty single-minded domain, optimal-allocation
+comparison conditions, denied-bidder case, nonnegative-value deviation domain,
+critical-value conditions, and finite-threshold condition are source theorem
+conditions. The two complexity rows are partial boundaries, not additional
+assumptions accepted as completed theorem hypotheses.
 
 ## 7. Proof-Strategy Deviations
-- The source complexity claims are represented by abstract consequence
-  interfaces rather than a native computational model.
-- The auction-mechanism portions otherwise follow the paper's finite
-  combinatorial-auction and single-minded-bidder proof structure.
+None beyond the formalization boundaries already recorded above. The finite
+auction, greedy, and critical-value arguments follow the paper's proof routes;
+the native complexity consequences are not claimed as fully formalized.
 
 ## 8. Proof Tricks Worth Reusing
-None separately recorded in the existing report.
+- For source definitions that otherwise appear as opaque function abbreviations, expose exact formula or iff rows in `PaperInterface.lean` before running LLM-as-judge translation. This keeps the judged review surface at the paper-formula level rather than at opaque Lean function signatures.
+- For partial complexity results, separate the finite reduction theorem from the native machine-level complexity consequence. The finite theorem can be checked while the external complexity infrastructure remains a visible partial boundary.
 
-## 9. Paper Issues or Caveats
-No auction-theoretic paper error is reported.
+## 9. Mathematical Typos or Other Fixes Suggested in the Source Paper
+None found.
 
-## 10. Detailed Formalization Evidence
-The formalization closes the finite combinatorial-auction core used by the paper: utility and truthfulness predicates, generalized Vickrey auction truthfulness and nonnegative truthful utility, the single-minded welfare/set-packing encodings, the greedy square-root approximation, the critical-value lemmas, and the average-greedy mechanism truthfulness theorem.
+## 10. Paper Issues or Caveats
+No auction-theoretic paper error is reported. The paper status is partial only
+because the reusable computational-complexity infrastructure for the final
+native complexity claims is not yet present in the library.
 
-The theorem endpoints involving native computational complexity are intentionally partial. Lean exposes exact and approximation-preserving solver consequences through abstract class and external-consequence interfaces, but it does not yet contain a reusable machine-level theory of polynomial-time reductions, NP-hardness/inapproximability, ZPP, or the cited clique/set-packing hardness facts.
+## 11. Detailed Formalization Evidence
+The formalization closes the finite combinatorial-auction core used by the
+paper: utility and truthfulness predicates, generalized Vickrey auction
+truthfulness and nonnegative truthful utility, the single-minded
+welfare/set-packing encodings, the greedy square-root approximation, the
+critical-value lemmas, and the average-greedy mechanism truthfulness theorem.
 
-## 11. Paper Assumption Provenance And Boundary Ledger
-Every paper-facing premise is now routed through
+The reviewed definition rows now use source-facing formula components such as
+`utility_formula`, `truthfulOn_iff`, `generalizedVickreyAuction_allocation_payment`,
+`weightedSetPackingValue_formula`, `averageOrderOf_rule`, and
+`averageGreedyPayment_formula`. The current statement LLM-as-judge sidecar has
+no `uncertain` rows because the judged surface uses formula-level paper
+statements rather than opaque function signatures.
+
+The theorem endpoints involving native computational complexity remain partial.
+Lean exposes exact and approximation-preserving solver consequences through
+abstract external-consequence interfaces, but it does not yet contain a
+reusable machine-level theory of polynomial-time reductions,
+NP-hardness/inapproximability, ZPP, or the cited clique/set-packing hardness
+facts.
+
+## 12. Paper Assumption Provenance
+Every paper-facing premise is routed through
 `LOS02CombinatorialAuctions/Assumptions.lean` and checked by
-`assumption_match_llm.json`. The auction-theoretic premises below are source
-conditions; the Theorem 6.1 complexity rows are documented partial-formalization
-boundaries.
+`audit/assumption_match_llm.json`. The auction-theoretic premises below are
+source conditions; the Theorem 6.1 complexity rows are documented
+partial-formalization boundaries.
 
 | Lean assumption/condition | Judgment | Source role |
 | --- | --- | --- |
@@ -63,146 +106,149 @@ boundaries.
 | `assumption_theorem7_optimal_bidders_in_order` | source condition | Theorem 7.2 processes the sorted bid list containing the optimal bids under comparison. |
 | `assumption_lemma9_denied_bidder_case` | source condition | Lemma 9.2 is exactly the denied-bidder case. |
 | `assumption_lemma9_nonnegative_value_deviation` | source condition | Single-minded value deviations stay in the nonnegative source declaration domain. |
+| `assumption_lemma9_nonnegative_critical_value_axioms` | source condition | Lemmas 9.3--9.6 use the paper's critical-value and infinity-case conditions. |
 | `assumption_lemma9_finite_large_threshold` | source condition | Lemma 9.5 handles the finite critical-price comparison for the larger desired set. |
-| `assumption_external_exact_set_packing_complexity_boundary` | formalization boundary | External Karp/Hastad-style hardness and polynomial-time transfer facts. |
-| `assumption_external_approximation_set_packing_complexity_boundary` | formalization boundary | External inapproximability and randomized-complexity consequence facts. |
+| `assumption_external_exact_set_packing_complexity_boundary` | partial boundary | External Karp/Hastad-style hardness and polynomial-time transfer facts. |
+| `assumption_external_approximation_set_packing_complexity_boundary` | partial boundary | External inapproximability and randomized-complexity consequence facts. |
 
-Additional assumptions beyond the paper: none for the auction, greedy,
-critical-price, or single-minded-truthfulness portions. The final Theorem 6.1
-machine-level NP-hardness and `NP = ZPP` consequences remain partial because
-the repository does not yet contain reusable machine-level complexity-class and
-hardness infrastructure.
+## 13. Displayed Formula Provenance
+The source-facing formula and condition rows below are exposed directly in
+`PaperInterface.lean`; these are the current LLM-as-judge review rows for the corresponding source
+definitions.
 
-## 12. Library Lift Pass
-None separately recorded in the existing report.
+| Paper formula or condition | Lean declaration | Provenance status |
+| --- | --- | --- |
+| Utility is value for the allocated bundle minus payment. | `utility_formula` | exact formula row |
+| Truthfulness is no profitable unilateral report deviation on the admissible domain. | `truthfulOn_iff` | exact iff row |
+| Generalized Vickrey allocation and Clarke-pivot payment rule. | `generalizedVickreyAuction_allocation_payment` | exact formula row |
+| Single-minded accepted-set mechanism fields. | `singleMindedAcceptedMechanism_fields` | exact structure row |
+| Single-minded truthfulness is no profitable admissible single-bidder deviation. | `singleMindedTruthfulOn_iff` | exact iff row |
+| Nonempty desired bundle and nonnegative value for each single-minded bid. | `nonnegativeNonemptySingleMindedProfile_iff` | exact condition row |
+| Weighted set-packing objective sums selected weights. | `weightedSetPackingValue_formula` | exact formula row |
+| Set-packing bids encode each bidder's desired set and value. | `setPackingSingleMindedBids_formula` | exact formula row |
+| Average amount per good is value divided by desired-bundle size. | `averageAmountPerGood_formula` | exact formula row |
+| Average order lists all bidders once and descends by average amount per good. | `averageOrderOf_rule` | exact rule row |
+| Greedy acceptance folds through the order and accepts non-conflicting bids. | `greedyAcceptedFromOrder_formula` | exact formula row |
+| Average-greedy accepted set applies greedy acceptance to the average order. | `averageGreedyAcceptedSet_formula` | exact formula row |
+| Definition 10.1 payment rule for denied/no-next/next-blocker cases. | `averageGreedyPayment_formula` | exact formula row |
 
-## 13. DAG Audit
+## 14. Library Lift Pass
+No additional reusable library extraction was performed in this report refresh.
+The main future library lift is computational-complexity infrastructure for
+native polynomial-time reductions, NP-hardness/inapproximability, randomized
+complexity classes, and cited clique/set-packing hardness facts.
+
+## 15. DAG Audit
 `DependencyDAG.tex` and `DependencyDAG.pdf` are present as the paper-facing
 dependency artifacts. The rendered `DependencyDAG.pdf` was visually inspected
-for node/label overlap and arrow-through-text issues. The DAG covers the
-declared partial source-result clusters: utility/truthfulness definitions,
+for node/label overlap and arrow-through-text issues. The DAG covers the source
+inventory at the result-cluster level: utility/truthfulness definitions,
 generalized Vickrey truthfulness, Theorem 6.1 set-packing reductions, Theorem
-7.2 greedy approximation, Lemmas 9.1--9.5, Theorem 9.6, and Theorem 10.2. The
-native machine-level NP-hardness and `NP = ZPP` consequences remain visible as
-partial complexity-infrastructure boundaries rather than green DAG endpoints.
+7.2 greedy approximation, Lemmas 9.1--9.5, Theorem 9.6, Definition 10.1, and
+Theorem 10.2. The native machine-level NP-hardness and `NP = ZPP` consequences
+remain visible as partial complexity-infrastructure boundaries rather than green
+DAG endpoints.
 
-## 14. Validation Checks
-Recent checks built the LOS02 paper target, the reusable complexity-class
-module, the full `EconCSLib` target, and the dependency DAG. The repository
-audit records the LOS02 dashboard surface as informational; unrelated warnings
-remain elsewhere in the private repository.
+## 16. Validation Checks
+The current tracked sidecars report no uncertain LLM-as-judge validations.
+Statement translation has 39 rows: 31 `matches`, 8 `mismatch` rows resolved as
+`conditional_boundary`, and 0 `uncertain` rows. Paper coverage has 31 `covered`
+items and 8 `conditional_boundary` items. Assumption provenance has 7
+`paper_condition` rows and 2 `partial_boundary` rows. The review-surface audit
+passes for 39 rows. Source-record provenance has one approved external boundary
+for the critical-value certificate input, with no unresolved recursion failure
+reported.
 
-### Statement Translation Audit
+The 8 conditional-boundary rows are the two external Theorem 6.1 complexity
+assumptions, the two Theorem 6.1 external solver consequences, the
+complexity-class note after Theorem 6.1, Lemma 9.4, Lemma 9.5, and Theorem 9.6.
+These are recorded as conditional or partial because they depend on documented
+critical-value or complexity-boundary conditions, not because of statement-translation uncertainty.
 
-Audit date: 2026-06-06.
-Scope: current dashboard rows from `PaperInterface.lean`; `lean_to_tex_llm.json` records context-free Lean-to-TeX drafts and `statement_match_llm.json` records the context-free paper-vs-translation judgment.
-
-Summary: 30 rows; 17 match, 13 uncertain, 0 mismatch, 0 missing. Stale sidecar rows: none. Surface audit: not required (30 or fewer rows).
-
-Flagged rows:
-- `utility`: uncertain. The draft is mostly a Lean function signature and does not state the utility formula in paper language.
-- `truthfulOn`: uncertain. The draft is mostly a Lean predicate signature and does not state the truthfulness condition in paper language.
-- `generalizedVickreyAuction`: uncertain. The draft is mostly a Lean function signature and does not state the generalized Vickrey allocation/payment rule in paper language.
-- `singleMindedAcceptedMechanism`: uncertain. The draft is mostly a Lean function signature and does not state the accepted-bid mechanism in paper language.
-- `singleMindedTruthfulOn`: uncertain. The draft is mostly a Lean predicate signature and does not state the single-minded truthfulness condition in paper language.
-- `nonnegativeNonemptySingleMindedProfile`: uncertain. The draft is mostly a Lean predicate signature and does not spell out the nonnegative/nonempty profile condition.
-- `weightedSetPackingValue`: uncertain. The draft is mostly a Lean function signature and does not state the weighted set-packing objective formula.
-- `setPackingSingleMindedBids`: uncertain. The draft is mostly a Lean function signature and does not state the set-packing construction from bids.
-- `averageAmountPerGood`: uncertain. The draft is mostly a Lean function signature and does not state the average-demand quantity in paper language.
-- `averageOrderOf`: uncertain. The draft is mostly a Lean function signature and does not state the average ordering rule in paper language.
-- `greedyAcceptedFromOrder`: uncertain. The draft is mostly a Lean function signature and does not state the greedy acceptance rule in paper language.
-- `averageGreedyAcceptedSet`: uncertain. The draft is mostly a Lean function signature and does not state the average-greedy accepted set in paper language.
-- `averageGreedyPayment`: uncertain. The draft is mostly a Lean function signature and does not state the payment formula in paper language.
-
-## 15. Paper Definitions Checked
+## 17. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
 ### Lean-Derived Dashboard Definitions
 
 | Paper-facing item | Lean declaration | Source-facing statement |
 | --- | --- | --- |
-| abbrev utility | `utility` | uncertain. The draft is mostly a Lean function signature and does not state the utility formula in paper language. |
-| abbrev truthfulOn | `truthfulOn` | uncertain. The draft is mostly a Lean predicate signature and does not state the truthfulness condition in paper language. |
-| abbrev generalizedVickreyAuction | `generalizedVickreyAuction` | uncertain. The draft is mostly a Lean function signature and does not state the generalized Vickrey allocation/payment rule in paper language. |
-| abbrev singleMindedAcceptedMechanism | `singleMindedAcceptedMechanism` | uncertain. The draft is mostly a Lean function signature and does not state the accepted-bid mechanism in paper language. |
-| abbrev singleMindedTruthfulOn | `singleMindedTruthfulOn` | uncertain. The draft is mostly a Lean predicate signature and does not state the single-minded truthfulness condition in paper language. |
-| abbrev nonnegativeNonemptySingleMindedProfile | `nonnegativeNonemptySingleMindedProfile` | uncertain. The draft is mostly a Lean predicate signature and does not spell out the nonnegative/nonempty profile condition. |
-| abbrev weightedSetPackingValue | `weightedSetPackingValue` | uncertain. The draft is mostly a Lean function signature and does not state the weighted set-packing objective formula. |
-| abbrev setPackingSingleMindedBids | `setPackingSingleMindedBids` | uncertain. The draft is mostly a Lean function signature and does not state the set-packing construction from bids. |
-| abbrev averageAmountPerGood | `averageAmountPerGood` | uncertain. The draft is mostly a Lean function signature and does not state the average-demand quantity in paper language. |
-| abbrev averageOrderOf | `averageOrderOf` | uncertain. The draft is mostly a Lean function signature and does not state the average ordering rule in paper language. |
-| abbrev greedyAcceptedFromOrder | `greedyAcceptedFromOrder` | uncertain. The draft is mostly a Lean function signature and does not state the greedy acceptance rule in paper language. |
-| abbrev averageGreedyAcceptedSet | `averageGreedyAcceptedSet` | uncertain. The draft is mostly a Lean function signature and does not state the average-greedy accepted set in paper language. |
-| abbrev averageGreedyPayment | `averageGreedyPayment` | uncertain. The draft is mostly a Lean function signature and does not state the payment formula in paper language. |
-| abbrev theorem4_1_generalized_vickrey_truthful | `theorem4_1_generalized_vickrey_truthful` | - Theorem 4.1: generalized Vickrey auctions are truthful. |
-| abbrev proposition4_2_generalized_vickrey_truthful_utility_nonneg | `proposition4_2_generalized_vickrey_truthful_utility_nonneg` | - Proposition 4.2: truthful GVA bidder utility is nonnegative. |
-| abbrev theorem6_1_set_packing_feasibility_encoding_correct | `theorem6_1_set_packing_feasibility_encoding_correct` | - Theorem 6.1 set-packing feasibility encoding. |
-| abbrev theorem6_1_set_packing_value_encoding_correct | `theorem6_1_set_packing_value_encoding_correct` | - Theorem 6.1 set-packing value encoding. |
-| abbrev theorem6_1_weighted_set_packing_reduction | `theorem6_1_weighted_set_packing_reduction` | - Theorem 6.1 weighted set-packing reduction. |
-| abbrev theorem6_1_clique_decision_single_minded_welfare_reduction | `theorem6_1_clique_decision_single_minded_welfare_reduction` | - Theorem 6.1 clique-to-single-minded welfare reduction. |
-| abbrev theorem6_1_external_optimal_solver_np_eq_zpp | `theorem6_1_external_optimal_solver_np_eq_zpp` | - Theorem 6.1 external exact-solver complexity consequence. |
-| abbrev theorem6_1_external_approximation_solver_np_eq_zpp | `theorem6_1_external_approximation_solver_np_eq_zpp` | - Theorem 6.1 external approximation-solver complexity consequence. |
-| abbrev complexity_note_np_eq_zpp_implies_randomized_collapse | `complexity_note_np_eq_zpp_implies_randomized_collapse` | - Complexity-class note: `NP = ZPP` implies the randomized collapse. |
-| abbrev theorem7_2_sqrt_norm_approx_of_sorted_order | `theorem7_2_sqrt_norm_approx_of_sorted_order` | - Theorem 7.2 greedy allocation square-root approximation. |
-| abbrev lemma9_1_exists_nonnegative_critical_value_of_monotonicity | `lemma9_1_exists_nonnegative_critical_value_of_monotonicity` | - Lemma 9.1 critical-value existence from monotonicity. |
-| abbrev lemma9_2_denied_bidder_utility_eq_zero | `lemma9_2_denied_bidder_utility_eq_zero` | - Lemma 9.2 denied-bidder utility is zero. |
-| abbrev lemma9_3_truthful_utility_nonnegative_of_nonnegative_infinity_certificate | `lemma9_3_truthful_utility_nonnegative_of_nonnegative_infinity_certificate` | - Lemma 9.3 truth-telling utility is nonnegative under critical-value certificates. |
-| abbrev lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms | `lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms` | - Lemma 9.4 no profitable value-only lie under nonnegative infinity axioms. |
-| abbrev lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate | `lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate` | - Lemma 9.5 finite threshold monotonicity. |
-| abbrev theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms | `theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms` | - Theorem 9.6 critical axioms imply truthfulness for single-minded bidders. |
-| abbrev theorem10_2_averageGreedy_truthful | `theorem10_2_averageGreedy_truthful` | - Theorem 10.2 average-order greedy mechanism truthfulness. |
+| Utility formula | `utility_formula` | Utility equals the bidder's value for the allocated bundle minus the bidder's payment. |
+| Truthfulness predicate | `truthfulOn_iff` | Truthfulness means no admissible bidder can improve utility by replacing only that bidder's report. |
+| Generalized Vickrey auction rule | `generalizedVickreyAuction_allocation_payment` | The auction uses the supplied allocation rule and Clarke-pivot payments. |
+| Single-minded accepted mechanism | `singleMindedAcceptedMechanism_fields` | A single-minded mechanism consists of an accepted-bidder rule and a payment rule. |
+| Single-minded truthfulness | `singleMindedTruthfulOn_iff` | No admissible single-bidder deviation raises true single-minded utility. |
+| Nonnegative nonempty profiles | `nonnegativeNonemptySingleMindedProfile_iff` | Every desired bundle is nonempty and every single-minded value is nonnegative. |
+| Weighted set-packing value | `weightedSetPackingValue_formula` | The objective is the sum of selected bidders' weights. |
+| Set-packing bid encoding | `setPackingSingleMindedBids_formula` | Bidder `i` receives desired set `sets i` and value `weights i`. |
+| Average amount per good | `averageAmountPerGood_formula` | Average amount per good is bid value divided by desired-bundle size. |
+| Average order | `averageOrderOf_rule` | The order lists every bidder exactly once and is weakly descending by average amount per good. |
+| Greedy accepted set from order | `greedyAcceptedFromOrder_formula` | Greedy folds through the order, accepting a bid exactly when it conflicts with no already accepted bid. |
+| Average-greedy accepted set | `averageGreedyAcceptedSet_formula` | Average-greedy applies greedy acceptance to the average order. |
+| Average-greedy payment | `averageGreedyPayment_formula` | Denied bidders pay zero; accepted bidders pay zero if there is no later denied blocker, otherwise bundle size times the next blocker average bid. |
 <!-- lean-derived-definitions:end -->
 
-## 16. Named Theorem Statements Checked
+## 18. Named Theorem Statements Checked
 ### Theorem-by-Theorem Validation
 
 | Paper item | Status | Statement match | Notes |
 |---|---|---|---|
-| Definitions 3.1--3.2, direct combinatorial-auction mechanism and truthfulness | formalized | exact finite model | Uses finite bidder/item combinatorial auctions. |
+| Definitions 3.1--3.2, direct combinatorial-auction mechanism and truthfulness | formalized | exact finite model | Formula/iff rows expose utility and truthfulness directly. |
 | Theorem 4.1, generalized Vickrey auction is truthful | formalized | exact | Represented by a welfare-maximizing allocation certificate and Clarke-pivot payments. |
 | Proposition 4.2, truthful GVA utility nonnegative | formalized | exact | Uses the paper's nonnegative bundle-value domain. |
-| Definition 5.1, single-minded bidders | formalized | exact finite model | Nonempty single-minded profiles are explicit. |
-| Theorem 6.1, set-packing and single-minded welfare reductions | formalized | exact for finite reductions | Includes feasibility/value encodings, clique/complement/independent-set/set-packing routes, and exact/approximation-preserving solver transfers. |
-| Theorem 6.1, native NP-hardness and `NP = ZPP` consequences | partially formalized | conditional | Exposed through abstract external-consequence and class-model wrappers because the library does not yet formalize native machine-level complexity classes. |
-| Complexity-class note after Theorem 6.1 | partially formalized | abstract class model | Lean proves the collapse implications from supplied class-relationship fields, not from a machine model. |
+| Definition 5.1, single-minded bidders | formalized | exact finite model | Nonempty and nonnegative single-minded profiles are explicit. |
+| Theorem 6.1, set-packing and single-minded welfare reductions | formalized | exact for finite reductions | Includes feasibility/value encodings, clique/complement/independent-set/set-packing routes, and exact/approximation-preserving finite solver transfers. |
+| Theorem 6.1, native NP-hardness and `NP = ZPP` consequences | partially formalized | conditional boundary | Exposed through abstract external-consequence and class-model wrappers because the library does not yet formalize native machine-level complexity classes. |
+| Complexity-class note after Theorem 6.1 | partially formalized | conditional boundary | Lean proves the collapse implications from supplied class-relationship fields, not from a machine model. |
 | Definition 7.1, average amount per good and greedy order | formalized | exact finite model | Includes the deterministic average-descending order used by the greedy mechanism. |
 | Theorem 7.2, greedy allocation approximation | formalized | exact finite model | Includes blocker extraction, blocking-certificate counting, common-bid removal, and reduced-disjoint reasoning. |
-| Lemmas 9.1--9.5, critical values and utility/payment facts | formalized | exact source domain | Covers nonempty nonnegative single-minded bid profiles and finite-or-infinite critical-value certificates. |
-| Theorem 9.6, critical axioms imply truthfulness | formalized | exact source domain | Exactness, monotonicity, participation, and critical-value certificates imply truthfulness. |
+| Lemmas 9.1--9.5, critical values and utility/payment facts | formalized with visible conditions | exact or conditional boundary as recorded | Covers nonempty nonnegative single-minded bid profiles, nonnegative/infinite critical-value certificates, and the finite-threshold case. |
+| Theorem 9.6, critical axioms imply truthfulness | formalized with visible conditions | conditional boundary | Exactness, monotonicity, participation, and critical-value certificates imply truthfulness. |
 | Definition 10.1, greedy payment scheme | formalized | exact finite model | Represents denied/no-next/next payment cases and accepted-bid criticality. |
 | Theorem 10.2, average-order greedy mechanism truthfulness | formalized | exact source domain | Concrete allocation and payment rule are truthful on nonempty nonnegative single-minded profiles. |
 
-## 17. Paper-Facing Statement Validator Ledger
-| Paper-facing statement | Lean declaration | Validators | Validator comments |
-| --- | --- | --- | --- |
-| abbrev averageAmountPerGood | `averageAmountPerGood` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z): The draft is mostly a Lean function signature and does not state the average-demand quantity in paper language. |
-| abbrev averageGreedyAcceptedSet | `averageGreedyAcceptedSet` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z): The draft is mostly a Lean function signature and does not state the average-greedy accepted set in paper language. |
-| abbrev averageGreedyPayment | `averageGreedyPayment` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z): The draft is mostly a Lean function signature and does not state the payment formula in paper language. |
-| abbrev averageOrderOf | `averageOrderOf` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z): The draft is mostly a Lean function signature and does not state the average ordering rule in paper language. |
-| abbrev complexity_note_np_eq_zpp_implies_randomized_collapse | `complexity_note_np_eq_zpp_implies_randomized_collapse` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev generalizedVickreyAuction | `generalizedVickreyAuction` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z): The draft is mostly a Lean function signature and does not state the generalized Vickrey allocation/payment rule in paper language. |
-| abbrev greedyAcceptedFromOrder | `greedyAcceptedFromOrder` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z): The draft is mostly a Lean function signature and does not state the greedy acceptance rule in paper language. |
-| abbrev lemma9_1_exists_nonnegative_critical_value_of_monotonicity | `lemma9_1_exists_nonnegative_critical_value_of_monotonicity` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev lemma9_2_denied_bidder_utility_eq_zero | `lemma9_2_denied_bidder_utility_eq_zero` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev lemma9_3_truthful_utility_nonnegative_of_nonnegative_infinity_certificate | `lemma9_3_truthful_utility_nonnegative_of_nonnegative_infinity_certificate` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms | `lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate | `lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev nonnegativeNonemptySingleMindedProfile | `nonnegativeNonemptySingleMindedProfile` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z): The draft is mostly a Lean predicate signature and does not spell out the nonnegative/nonempty profile condition. |
-| abbrev proposition4_2_generalized_vickrey_truthful_utility_nonneg | `proposition4_2_generalized_vickrey_truthful_utility_nonneg` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev setPackingSingleMindedBids | `setPackingSingleMindedBids` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z): The draft is mostly a Lean function signature and does not state the set-packing construction from bids. |
-| abbrev singleMindedAcceptedMechanism | `singleMindedAcceptedMechanism` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z): The draft is mostly a Lean function signature and does not state the accepted-bid mechanism in paper language. |
-| abbrev singleMindedTruthfulOn | `singleMindedTruthfulOn` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z): The draft is mostly a Lean predicate signature and does not state the single-minded truthfulness condition in paper language. |
-| abbrev theorem10_2_averageGreedy_truthful | `theorem10_2_averageGreedy_truthful` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev theorem4_1_generalized_vickrey_truthful | `theorem4_1_generalized_vickrey_truthful` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev theorem6_1_clique_decision_single_minded_welfare_reduction | `theorem6_1_clique_decision_single_minded_welfare_reduction` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev theorem6_1_external_approximation_solver_np_eq_zpp | `theorem6_1_external_approximation_solver_np_eq_zpp` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev theorem6_1_external_optimal_solver_np_eq_zpp | `theorem6_1_external_optimal_solver_np_eq_zpp` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev theorem6_1_set_packing_feasibility_encoding_correct | `theorem6_1_set_packing_feasibility_encoding_correct` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev theorem6_1_set_packing_value_encoding_correct | `theorem6_1_set_packing_value_encoding_correct` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev theorem6_1_weighted_set_packing_reduction | `theorem6_1_weighted_set_packing_reduction` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev theorem7_2_sqrt_norm_approx_of_sorted_order | `theorem7_2_sqrt_norm_approx_of_sorted_order` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms | `theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms` | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:45Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| abbrev truthfulOn | `truthfulOn` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z): The draft is mostly a Lean predicate signature and does not state the truthfulness condition in paper language. |
-| abbrev utility | `utility` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z): The draft is mostly a Lean function signature and does not state the utility formula in paper language. |
-| abbrev weightedSetPackingValue | `weightedSetPackingValue` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:45Z): The draft is mostly a Lean function signature and does not state the weighted set-packing objective formula. |
+## 19. Paper-Facing Statement Validator Ledger
+Current model-validator sidecars are the source of truth for the rows below.
+Human dashboard review has 0/39 saved entries. Model review has 31 matches and
+8 conditional-boundary mismatches; there are no uncertain rows and no stale
+sidecar rows.
 
-Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
+| Review row | Model review | Comment |
+| --- | --- | --- |
+| `utility_formula` | match | Direct utility formula. |
+| `truthfulOn_iff` | match | Direct truthfulness condition. |
+| `generalizedVickreyAuction_allocation_payment` | match | Allocation and Clarke-pivot payment rule. |
+| `singleMindedAcceptedMechanism_fields` | match | Accepted-set mechanism fields. |
+| `singleMindedTruthfulOn_iff` | match | Single-minded truthfulness condition. |
+| `nonnegativeNonemptySingleMindedProfile_iff` | match | Nonnegative/nonempty source domain. |
+| `weightedSetPackingValue_formula` | match | Weighted set-packing objective formula. |
+| `setPackingSingleMindedBids_formula` | match | Set-packing bid encoding. |
+| `averageAmountPerGood_formula` | match | Definition 7.1 average bid formula. |
+| `averageOrderOf_rule` | match | Average-descending order rule. |
+| `greedyAcceptedFromOrder_formula` | match | Greedy acceptance fold. |
+| `averageGreedyAcceptedSet_formula` | match | Average-greedy accepted set. |
+| `averageGreedyPayment_formula` | match | Definition 10.1 payment formula. |
+| `theorem4_1_generalized_vickrey_truthful` | match | Generalized Vickrey truthfulness. |
+| `proposition4_2_generalized_vickrey_truthful_utility_nonneg` | match | Nonnegative truthful utility. |
+| `theorem6_1_set_packing_feasibility_encoding_correct` | match | Set-packing feasibility encoding. |
+| `theorem6_1_set_packing_value_encoding_correct` | match | Set-packing value encoding. |
+| `theorem6_1_weighted_set_packing_reduction` | match | Weighted set-packing reduction. |
+| `theorem6_1_clique_decision_single_minded_welfare_reduction` | match | Clique-to-single-minded welfare reduction. |
+| `theorem6_1_external_optimal_solver_np_eq_zpp` | conditional-boundary mismatch | Depends on external exact set-packing complexity infrastructure. |
+| `theorem6_1_external_approximation_solver_np_eq_zpp` | conditional-boundary mismatch | Depends on external approximation set-packing complexity infrastructure. |
+| `complexity_note_np_eq_zpp_implies_randomized_collapse` | conditional-boundary mismatch | Conditional on external complexity-theory infrastructure. |
+| `theorem7_2_sqrt_norm_approx_of_sorted_order` | match | Greedy square-root approximation. |
+| `lemma9_1_exists_nonnegative_critical_value_of_monotonicity` | match | Critical-value existence from monotonicity. |
+| `lemma9_2_denied_bidder_utility_eq_zero` | match | Denied-bidder utility is zero. |
+| `lemma9_3_truthful_utility_nonnegative_condition` | match | Truthful utility is nonnegative under critical-value conditions. |
+| `lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms` | conditional-boundary mismatch | Uses documented nonnegative/infinite critical-value axiom package. |
+| `lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate` | conditional-boundary mismatch | Uses documented finite-threshold critical-value certificate boundary. |
+| `theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms` | conditional-boundary mismatch | Conditional on documented critical-value axiom package. |
+| `theorem10_2_averageGreedy_truthful` | match | Average-greedy truthfulness. |
+| `assumption_admissible_combinatorial_report_domain` | match | Source domain condition. |
+| `assumption_theorem7_optimal_allocation_feasible` | match | Source optimal-allocation comparison condition. |
+| `assumption_theorem7_optimal_bidders_in_order` | match | Source sorted-order comparison condition. |
+| `assumption_lemma9_denied_bidder_case` | match | Source denied-bidder case. |
+| `assumption_lemma9_nonnegative_value_deviation` | match | Source nonnegative-value deviation domain. |
+| `assumption_lemma9_nonnegative_critical_value_axioms` | match | Source critical-value axiom package. |
+| `assumption_lemma9_finite_large_threshold` | match | Source finite-threshold case. |
+| `assumption_external_exact_set_packing_complexity_boundary` | conditional-boundary mismatch | External exact complexity boundary. |
+| `assumption_external_approximation_set_packing_complexity_boundary` | conditional-boundary mismatch | External approximation complexity boundary. |

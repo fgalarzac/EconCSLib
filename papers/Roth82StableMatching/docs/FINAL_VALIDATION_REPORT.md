@@ -1,4 +1,6 @@
-# Validation Report: Roth 1982 Matching
+# Final Validation Report: Roth 1982 Matching
+
+Updated: 2026-07-02
 
 ## 1. Human Verdict
 Formalized. Roth's named Theorems 1--7, Lemmas 1--2, and Corollary 5.1 are
@@ -8,8 +10,9 @@ dashboard entries should be re-saved if human review is needed.
 
 ## 2. Closeout Status
 - Completion status: formalized.
-- One-sentence recap: Roth's named Theorems 1-7, Lemmas 1-2, and Corollary 5.1
-  are checked on the stated strict marriage domain.
+- One-sentence recap: Roth's stable-matching, incentive, and reduction results are formalized through the shared deferred-acceptance library.
+- Lean footprint: 8,931 paper-local Lean LOC; `PaperInterface.lean` is 490 lines; 29 human-review declarations are exposed.
+- Audit summary: paper coverage has 29 covered; statement LLM-as-judge has 29 matches; assumption provenance has 2 paper_condition; source-record audit reports 0 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *The Economics of Matching: Stability and Incentives* (Roth 1982)
@@ -105,10 +108,13 @@ None.
   a family certificate, and a direct source-facing arbitrary-`k` theorem rather
   than asking reviewers to inspect the padding construction.
 
-## 9. Paper Issues or Caveats
+## 9. Mathematical Typos or Other Fixes Suggested in the Source Paper
 None found.
 
-## 10. Detailed Formalization Evidence
+## 10. Paper Issues or Caveats
+None found.
+
+## 11. Detailed Formalization Evidence
 ### 1 Post-Paper Audit Checklist
 
 - Local cached-text named-result inventory:
@@ -159,102 +165,7 @@ None found.
   names and statements are still paper-facing wrappers; moving them cleanly
   should be a separate API-design pass.
 
-## 11. Paper Definitions Checked
-<!-- lean-derived-definitions:start -->
-### Lean-Derived Dashboard Definitions
-
-| Paper-facing item | Lean declaration | Source-facing statement |
-| --- | --- | --- |
-| def preferenceProfile | `preferenceProfile` | - Roth preference profile `P`: one score table for each side. |
-| def completeMarriageOutcome | `completeMarriageOutcome` | - Marriage-problem outcome: a complete one-to-one matching. |
-| def stable | `stable` | - Stable matching: every assigned partner is acceptable and no man-woman pair strictly blocks the matching. |
-| def strictMarriageDomain | `strictMarriageDomain` | - Strict marriage domain: each side has strict rankings over the opposite side, and every potential pair is strictly preferred to being unmatched. |
-| def stableOutcomes | `stableOutcomes` | - The stable-outcome set `C(P)` for a reported preference profile. |
-| def menOptimal | `menOptimal` | - A stable matching is men-optimal if every man weakly prefers it to any stable matching. |
-| def womenOptimal | `womenOptimal` | - Women-optimal stable matching, with the symmetric weak-preference condition. |
-| def possibleForMan | `possibleForMan` | - A woman is possible for a man if some stable outcome matches them. |
-| def stableMatchingProcedure | `stableMatchingProcedure` | - Stable matching procedure on strict reported preference profiles. |
-| def truthfulForAllAgents | `truthfulForAllAgents` | - Truthful revelation is dominant for both sides on strict true and reported profiles. |
-| def menDeferredAcceptance | `menDeferredAcceptance` | - Men-proposing deferred acceptance, Roth's procedure/outcome `G(P)`/`g(P)`. |
-| def womenDeferredAcceptance | `womenDeferredAcceptance` | - Women-proposing deferred acceptance, represented on the original `(M, W)` sides by reversing roles and swapping the resulting assignment back. |
-| def paretoOptimal | `paretoOptimal` | - Pareto-optimal complete matching among complete matchings. |
-| def efficientMatchingProcedure | `efficientMatchingProcedure` | - Efficient procedure: every reported preference profile returns a Pareto-optimal matching. |
-| def serialDictatorshipMechanism | `serialDictatorshipMechanism` | uncertain. The draft leaves the mechanism as an opaque named expression and does not spell out the serial dictatorship rule in paper language. |
-| def manReportStrictlyRanksPartnerFirst | `manReportStrictlyRanksPartnerFirst` | - A report strictly ranks the optional partner first. |
-| def reportMisrepresentsKthChoice | `reportMisrepresentsKthChoice` | - A report changes the identity of some alternative that was truly ranked `k`. |
-<!-- lean-derived-definitions:end -->
-
-## 12. Named Theorem Statements Checked
-### Theorem-by-Theorem Validation
-
-| Paper item | Lean declaration | Status | Statement match | Notes |
-|---|---|---|---|---|
-| Theorem 1 (stable outcomes are nonempty) | `PaperInterface.theorem1_stable_complete_outcome_exists_on_strict_marriage_domain` | formalized | exact wrapper plus source-domain complete-outcome endpoint | DA step-invariant preservation, finite-fold termination, and the terminated-invariant stability proof are closed in `EconCSLib`. On Roth's equal-size strict marriage domain, Lean also proves the DA output is complete. |
-| Theorem 2 (men- and women-optimal stable outcomes exist) | `PaperInterface.theorem2_optimal_stable_outcomes_on_strict_marriage_domain` | formalized | source strict marriage domain | The theorem is proved from a reusable DA rejected-pair invariant and role reversal. Roth explicitly assumes complete/transitive strict preferences and excludes indifference; the strict-utility/all-pairs-acceptable encoding represents the no-unmatched complete marriage model. Arbitrary-utility wrappers remain compatibility APIs. |
-| Theorem 3 (no stable procedure is strategyproof for all agents) | `PaperInterface.theorem3_no_stable_truthful_procedure_on_strict_profiles` | formalized | source strict-profile counterexample route | The 3-by-3 strict profiles, stable-set enumerations `C(P) = {x,y}`, `C(P') = {y}`, `C(P'') = {x}`, stable-procedure behavior on strict reports, and manipulation contradiction are formalized. |
-| Theorem 4 (efficient strategyproof procedures exist) | `PaperInterface.theorem4_serial_dictatorship_constructed` | formalized | constructed serial dictatorship on the indexed strict finite marriage domain | Lean constructs the serial-dictatorship mechanism and proves efficiency, men-truthfulness, and women-truthfulness on Roth's canonical indexed finite marriage domain `Fin n`. The older fully generic existence wrapper remains a certificate API. |
-| Theorem 5 (one-sided truthfulness of optimal stable procedure) | `PaperInterface.theorem5_optimal_side_truthful_on_strict_domain_of_card_eq` | formalized | source equal-size strict marriage domain | Lean formalizes Roth's reduction from arbitrary reports to strict simple reports, uses the closed Lemma 2 no-harm theorem, proves the no-new-low-proposal and unique-truthful-proposer base bridges, discharges the top-rejected-proposer later-match-time induction, and obtains the women-proposing side by role reversal. The older generic/certificate wrappers remain compatibility APIs outside the source-domain endpoint. |
-| Corollary 5.1 | `PaperInterface.corollary5_1_no_need_to_misrepresent_first_choice` | formalized | source-faithful strict-domain endpoint in both side-optimal orientations | Closed for nonempty finite strict marriage markets. Lean exposes the source-faithful reading as "every report is weakly matched by some report preserving the true first choice", proves first-choice existence, raises that partner above an arbitrary report, proves the bad and raised DA traces are equal until the raised trace holds the true first choice, and then uses top-choice persistence to prove weak dominance. The men-under-women-proposing side is exposed by role reversal; the older no-profitable-false-top certificate wrapper is stronger than the source reading and is retained only as a compatibility API. |
-| Lemma 1 | `PaperInterface.lemma1_strict_simple_misrepresentation_same_partner` | formalized | strict simple-report route from Theorem 2 | Closed for Roth's source strict marriage domain, where the outcome gives the manipulator a concrete partner and the replacement report strictly ranks that partner first. The older fully generic wrapper remains a certificate API. |
-| Lemma 2 | `PaperInterface.lemma2_strict_simple_misrepresentation_no_men_harmed_on_strict_domain` | formalized | source strict simple-report route on equal-size strict marriage domains | Lean now proves Roth's minimal first-rejection induction. A worse non-manipulator gives a first crossing at his truthful DA partner; the crossing proposer is not the manipulator under the simple-report top-partner condition; the proposer has already proposed to his own truthful partner at an earlier step; and DA rejection invariants produce an even earlier crossing, contradicting minimality. The older generic certificate wrapper remains for compatibility outside the source-domain statement. |
-| Theorem 6 | `PaperInterface.theorem6_weak_pareto_for_men_on_strict_marriage_domain` | formalized | source strict equal-size marriage domain | Closed for Roth's nonempty equal-size strict marriage domain. Lean proves DA completeness from equal cardinality and all-pairs acceptability, derives the last active proposal step, proves Roth's final unique-proposal observation, and derives weak Pareto. |
-| Theorem 7 | `PaperInterface.theorem7_arbitrary_k_on_strict_profiles` | formalized | arbitrary `k > 1` strict-profile padded Theorem 3 family | Lean defines the general rank-based `k`th-choice misreport predicate and proves the source-facing "no stable procedure on strict profiles avoids strict-profile `k`th-choice manipulation" property for every `k > 1`. The proof pads Roth's Theorem 3 profile with strictly ranked forced dummy pairs, proves the padded manipulated reports alter rank `r + 2`, restricts padded stable outcomes back to the Theorem 3 core, and derives a profitable woman-side or man-side strict-profile manipulation for any procedure stable on strict reports. |
-
-<!-- lean-derived-statements:start -->
-### Lean-Derived Dashboard Named Statements
-
-| Paper-facing item | Lean declaration | Source-facing statement |
-| --- | --- | --- |
-| theorem theorem1_stable_complete_outcome_exists_on_strict_marriage_domain | `theorem1_stable_complete_outcome_exists_on_strict_marriage_domain` | - Theorem 1: on an equal-size strict marriage domain, a stable complete outcome exists. |
-| theorem theorem2_optimal_stable_outcomes_on_strict_marriage_domain | `theorem2_optimal_stable_outcomes_on_strict_marriage_domain` | - Theorem 2: men-optimal and women-optimal stable outcomes exist on the strict marriage domain. |
-| theorem theorem3_no_stable_truthful_procedure_on_strict_profiles | `theorem3_no_stable_truthful_procedure_on_strict_profiles` | - Theorem 3: on Roth's strict 3-by-3 counterexample domain, no procedure stable on strict profiles is truthful for both sides. |
-| theorem theorem4_serial_dictatorship_constructed | `theorem4_serial_dictatorship_constructed` | - Theorem 4: Roth's constructed serial-dictatorship procedure is efficient on strict men-side profiles, truthful for men on that strict men-side domain, and truthful for women. |
-| theorem theorem5_optimal_side_truthful_on_strict_domain_of_card_eq | `theorem5_optimal_side_truthful_on_strict_domain_of_card_eq` | - Theorem 5: side-optimal deferred-acceptance procedures are strategyproof on equal-size strict marriage domains. |
-| theorem corollary5_1_no_need_to_misrepresent_first_choice | `corollary5_1_no_need_to_misrepresent_first_choice` | - Corollary 5.1: under each side-optimal DA procedure, the non-proposing side can match any report's outcome with a report preserving its true first choice. |
-| theorem lemma1_strict_simple_misrepresentation_same_partner | `lemma1_strict_simple_misrepresentation_same_partner` | - Lemma 1: Roth's strict simple-misrepresentation same-partner route. |
-| theorem lemma2_strict_simple_misrepresentation_no_men_harmed_on_strict_domain | `lemma2_strict_simple_misrepresentation_no_men_harmed_on_strict_domain` | - Lemma 2: a strict simple misrepresentation cannot harm any other man on the strict marriage domain. |
-| theorem theorem6_weak_pareto_for_men_on_strict_marriage_domain | `theorem6_weak_pareto_for_men_on_strict_marriage_domain` | - Theorem 6: the men-optimal stable outcome is weakly Pareto optimal on the strict marriage domain. |
-| theorem theorem7_arbitrary_k_on_strict_profiles | `theorem7_arbitrary_k_on_strict_profiles` | - Theorem 7: for any `k > 1`, some finite balanced strict-profile market admits a profitable stable-procedure `k`th-choice manipulation. |
-<!-- lean-derived-statements:end -->
-
-## 13. Paper-Facing Statement Validator Ledger
-Generated from dashboard status export:
-
-`python3 scripts/review_dashboard.py --paper Roth82StableMatching --export-format validators-md`
-
-| Paper-facing statement | Lean declaration | Validators | Validator comments |
-| --- | --- | --- | --- |
-| def completeMarriageOutcome | `completeMarriageOutcome` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem corollary5_1_no_need_to_misrepresent_first_choice | `corollary5_1_no_need_to_misrepresent_first_choice` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def efficientMatchingProcedure | `efficientMatchingProcedure` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem lemma1_strict_simple_misrepresentation_same_partner | `lemma1_strict_simple_misrepresentation_same_partner` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem lemma2_strict_simple_misrepresentation_no_men_harmed_on_strict_domain | `lemma2_strict_simple_misrepresentation_no_men_harmed_on_strict_domain` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def manReportStrictlyRanksPartnerFirst | `manReportStrictlyRanksPartnerFirst` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def menDeferredAcceptance | `menDeferredAcceptance` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def menOptimal | `menOptimal` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def paretoOptimal | `paretoOptimal` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def possibleForMan | `possibleForMan` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def preferenceProfile | `preferenceProfile` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def reportMisrepresentsKthChoice | `reportMisrepresentsKthChoice` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def serialDictatorshipMechanism | `serialDictatorshipMechanism` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:56Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:56Z): The draft leaves the mechanism as an opaque named expression and does not spell out the serial dictatorship rule in paper language. |
-| def stable | `stable` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def stableMatchingProcedure | `stableMatchingProcedure` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def stableOutcomes | `stableOutcomes` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def strictMarriageDomain | `strictMarriageDomain` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem theorem1_stable_complete_outcome_exists_on_strict_marriage_domain | `theorem1_stable_complete_outcome_exists_on_strict_marriage_domain` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem theorem2_optimal_stable_outcomes_on_strict_marriage_domain | `theorem2_optimal_stable_outcomes_on_strict_marriage_domain` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem theorem3_no_stable_truthful_procedure_on_strict_profiles | `theorem3_no_stable_truthful_procedure_on_strict_profiles` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem theorem4_serial_dictatorship_constructed | `theorem4_serial_dictatorship_constructed` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem theorem5_optimal_side_truthful_on_strict_domain_of_card_eq | `theorem5_optimal_side_truthful_on_strict_domain_of_card_eq` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem theorem6_weak_pareto_for_men_on_strict_marriage_domain | `theorem6_weak_pareto_for_men_on_strict_marriage_domain` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem theorem7_arbitrary_k_on_strict_profiles | `theorem7_arbitrary_k_on_strict_profiles` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def truthfulForAllAgents | `truthfulForAllAgents` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def womenDeferredAcceptance | `womenDeferredAcceptance` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def womenOptimal | `womenOptimal` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-
-Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
-
-## 14. Paper Assumption Provenance And Modeling Notes
+## 12. Paper Assumption Provenance
 Every paper-facing theorem premise that is not derived in Lean is routed through
 `Assumptions.lean` and checked separately as a paper/source model assumption.
 
@@ -290,13 +201,16 @@ Every paper-facing theorem premise that is not derived in Lean is routed through
   no-profitable-false-top wrapper retained as a compatibility API; it is
   stronger than Roth's proof-language reading.
 
-## 15. Library Lift Pass
-None separately recorded in the existing report.
+## 13. Displayed Formula Provenance
+Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
 
-## 16. DAG Audit
-No separate DAG audit note is recorded in the existing report.
+## 14. Library Lift Pass
+Reusable matching-market material from this formalization lives in `EconCSLib.Markets.Matching`, including deferred-acceptance invariants, stability theorems, proposer-optimality, side-swapping, and strict-marriage support. No additional extraction was needed in this report pass.
 
-## 17. Validation Checks
+## 15. DAG Audit
+`DependencyDAG.tex` and `DependencyDAG.pdf` are present. The public holistic DAG audit reports PASS for the Roth82 DAG/source/source-json comparison: the DAG exposes the stable-matching, DA, strategy, and reduction result clusters without adding or hiding theorem-level source claims.
+
+## 16. Validation Checks
 ### Statement Translation Audit
 
 Audit date: 2026-06-06.
@@ -306,3 +220,98 @@ Summary: 27 rows; 26 match, 1 uncertain, 0 mismatch, 0 missing. Stale sidecar ro
 
 Flagged rows:
 - `serialDictatorshipMechanism`: uncertain. The draft leaves the mechanism as an opaque named expression and does not spell out the serial dictatorship rule in paper language.
+
+## 17. Paper Definitions Checked
+<!-- lean-derived-definitions:start -->
+### Lean-Derived Dashboard Definitions
+
+| Paper-facing item | Lean declaration | Source-facing statement |
+| --- | --- | --- |
+| def preferenceProfile | `preferenceProfile` | - Roth preference profile `P`: one score table for each side. |
+| def completeMarriageOutcome | `completeMarriageOutcome` | - Marriage-problem outcome: a complete one-to-one matching. |
+| def stable | `stable` | - Stable matching: every assigned partner is acceptable and no man-woman pair strictly blocks the matching. |
+| def strictMarriageDomain | `strictMarriageDomain` | - Strict marriage domain: each side has strict rankings over the opposite side, and every potential pair is strictly preferred to being unmatched. |
+| def stableOutcomes | `stableOutcomes` | - The stable-outcome set `C(P)` for a reported preference profile. |
+| def menOptimal | `menOptimal` | - A stable matching is men-optimal if every man weakly prefers it to any stable matching. |
+| def womenOptimal | `womenOptimal` | - Women-optimal stable matching, with the symmetric weak-preference condition. |
+| def possibleForMan | `possibleForMan` | - A woman is possible for a man if some stable outcome matches them. |
+| def stableMatchingProcedure | `stableMatchingProcedure` | - Stable matching procedure on strict reported preference profiles. |
+| def truthfulForAllAgents | `truthfulForAllAgents` | - Truthful revelation is dominant for both sides on strict true and reported profiles. |
+| def menDeferredAcceptance | `menDeferredAcceptance` | - Men-proposing deferred acceptance, Roth's procedure/outcome `G(P)`/`g(P)`. |
+| def womenDeferredAcceptance | `womenDeferredAcceptance` | - Women-proposing deferred acceptance, represented on the original `(M, W)` sides by reversing roles and swapping the resulting assignment back. |
+| def paretoOptimal | `paretoOptimal` | - Pareto-optimal complete matching among complete matchings. |
+| def efficientMatchingProcedure | `efficientMatchingProcedure` | - Efficient procedure: every reported preference profile returns a Pareto-optimal matching. |
+| def serialDictatorshipMechanism | `serialDictatorshipMechanism` | uncertain. The draft leaves the mechanism as an opaque named expression and does not spell out the serial dictatorship rule in paper language. |
+| def manReportStrictlyRanksPartnerFirst | `manReportStrictlyRanksPartnerFirst` | - A report strictly ranks the optional partner first. |
+| def reportMisrepresentsKthChoice | `reportMisrepresentsKthChoice` | - A report changes the identity of some alternative that was truly ranked `k`. |
+<!-- lean-derived-definitions:end -->
+
+## 18. Named Theorem Statements Checked
+### Theorem-by-Theorem Validation
+
+| Paper item | Lean declaration | Status | Statement match | Notes |
+|---|---|---|---|---|
+| Theorem 1 (stable outcomes are nonempty) | `PaperInterface.theorem1_stable_complete_outcome_exists_on_strict_marriage_domain` | formalized | exact wrapper plus source-domain complete-outcome endpoint | DA step-invariant preservation, finite-fold termination, and the terminated-invariant stability proof are closed in `EconCSLib`. On Roth's equal-size strict marriage domain, Lean also proves the DA output is complete. |
+| Theorem 2 (men- and women-optimal stable outcomes exist) | `PaperInterface.theorem2_optimal_stable_outcomes_on_strict_marriage_domain` | formalized | source strict marriage domain | The theorem is proved from a reusable DA rejected-pair invariant and role reversal. Roth explicitly assumes complete/transitive strict preferences and excludes indifference; the strict-utility/all-pairs-acceptable encoding represents the no-unmatched complete marriage model. Arbitrary-utility wrappers remain compatibility APIs. |
+| Theorem 3 (no stable procedure is strategyproof for all agents) | `PaperInterface.theorem3_no_stable_truthful_procedure_on_strict_profiles` | formalized | source strict-profile counterexample route | The 3-by-3 strict profiles, stable-set enumerations `C(P) = {x,y}`, `C(P') = {y}`, `C(P'') = {x}`, stable-procedure behavior on strict reports, and manipulation contradiction are formalized. |
+| Theorem 4 (efficient strategyproof procedures exist) | `PaperInterface.theorem4_serial_dictatorship_constructed` | formalized | constructed serial dictatorship on the indexed strict finite marriage domain | Lean constructs the serial-dictatorship mechanism and proves efficiency, men-truthfulness, and women-truthfulness on Roth's canonical indexed finite marriage domain `Fin n`. The older fully generic existence wrapper remains a certificate API. |
+| Theorem 5 (one-sided truthfulness of optimal stable procedure) | `PaperInterface.theorem5_optimal_side_truthful_on_strict_domain_of_card_eq` | formalized | source equal-size strict marriage domain | Lean formalizes Roth's reduction from arbitrary reports to strict simple reports, uses the closed Lemma 2 no-harm theorem, proves the no-new-low-proposal and unique-truthful-proposer base bridges, discharges the top-rejected-proposer later-match-time induction, and obtains the women-proposing side by role reversal. The older generic/certificate wrappers remain compatibility APIs outside the source-domain endpoint. |
+| Corollary 5.1 | `PaperInterface.corollary5_1_no_need_to_misrepresent_first_choice` | formalized | source-faithful strict-domain endpoint in both side-optimal orientations | Closed for nonempty finite strict marriage markets. Lean exposes the source-faithful reading as "every report is weakly matched by some report preserving the true first choice", proves first-choice existence, raises that partner above an arbitrary report, proves the bad and raised DA traces are equal until the raised trace holds the true first choice, and then uses top-choice persistence to prove weak dominance. The men-under-women-proposing side is exposed by role reversal; the older no-profitable-false-top certificate wrapper is stronger than the source reading and is retained only as a compatibility API. |
+| Lemma 1 | `PaperInterface.lemma1_strict_simple_misrepresentation_same_partner` | formalized | strict simple-report route from Theorem 2 | Closed for Roth's source strict marriage domain, where the outcome gives the manipulator a concrete partner and the replacement report strictly ranks that partner first. The older fully generic wrapper remains a certificate API. |
+| Lemma 2 | `PaperInterface.lemma2_strict_simple_misrepresentation_no_men_harmed_on_strict_domain` | formalized | source strict simple-report route on equal-size strict marriage domains | Lean now proves Roth's minimal first-rejection induction. A worse non-manipulator gives a first crossing at his truthful DA partner; the crossing proposer is not the manipulator under the simple-report top-partner condition; the proposer has already proposed to his own truthful partner at an earlier step; and DA rejection invariants produce an even earlier crossing, contradicting minimality. The older generic certificate wrapper remains for compatibility outside the source-domain statement. |
+| Theorem 6 | `PaperInterface.theorem6_weak_pareto_for_men_on_strict_marriage_domain` | formalized | source strict equal-size marriage domain | Closed for Roth's nonempty equal-size strict marriage domain. Lean proves DA completeness from equal cardinality and all-pairs acceptability, derives the last active proposal step, proves Roth's final unique-proposal observation, and derives weak Pareto. |
+| Theorem 7 | `PaperInterface.theorem7_arbitrary_k_on_strict_profiles` | formalized | arbitrary `k > 1` strict-profile padded Theorem 3 family | Lean defines the general rank-based `k`th-choice misreport predicate and proves the source-facing "no stable procedure on strict profiles avoids strict-profile `k`th-choice manipulation" property for every `k > 1`. The proof pads Roth's Theorem 3 profile with strictly ranked forced dummy pairs, proves the padded manipulated reports alter rank `r + 2`, restricts padded stable outcomes back to the Theorem 3 core, and derives a profitable woman-side or man-side strict-profile manipulation for any procedure stable on strict reports. |
+
+<!-- lean-derived-statements:start -->
+### Lean-Derived Dashboard Named Statements
+
+| Paper-facing item | Lean declaration | Source-facing statement |
+| --- | --- | --- |
+| theorem theorem1_stable_complete_outcome_exists_on_strict_marriage_domain | `theorem1_stable_complete_outcome_exists_on_strict_marriage_domain` | - Theorem 1: on an equal-size strict marriage domain, a stable complete outcome exists. |
+| theorem theorem2_optimal_stable_outcomes_on_strict_marriage_domain | `theorem2_optimal_stable_outcomes_on_strict_marriage_domain` | - Theorem 2: men-optimal and women-optimal stable outcomes exist on the strict marriage domain. |
+| theorem theorem3_no_stable_truthful_procedure_on_strict_profiles | `theorem3_no_stable_truthful_procedure_on_strict_profiles` | - Theorem 3: on Roth's strict 3-by-3 counterexample domain, no procedure stable on strict profiles is truthful for both sides. |
+| theorem theorem4_serial_dictatorship_constructed | `theorem4_serial_dictatorship_constructed` | - Theorem 4: Roth's constructed serial-dictatorship procedure is efficient on strict men-side profiles, truthful for men on that strict men-side domain, and truthful for women. |
+| theorem theorem5_optimal_side_truthful_on_strict_domain_of_card_eq | `theorem5_optimal_side_truthful_on_strict_domain_of_card_eq` | - Theorem 5: side-optimal deferred-acceptance procedures are strategyproof on equal-size strict marriage domains. |
+| theorem corollary5_1_no_need_to_misrepresent_first_choice | `corollary5_1_no_need_to_misrepresent_first_choice` | - Corollary 5.1: under each side-optimal DA procedure, the non-proposing side can match any report's outcome with a report preserving its true first choice. |
+| theorem lemma1_strict_simple_misrepresentation_same_partner | `lemma1_strict_simple_misrepresentation_same_partner` | - Lemma 1: Roth's strict simple-misrepresentation same-partner route. |
+| theorem lemma2_strict_simple_misrepresentation_no_men_harmed_on_strict_domain | `lemma2_strict_simple_misrepresentation_no_men_harmed_on_strict_domain` | - Lemma 2: a strict simple misrepresentation cannot harm any other man on the strict marriage domain. |
+| theorem theorem6_weak_pareto_for_men_on_strict_marriage_domain | `theorem6_weak_pareto_for_men_on_strict_marriage_domain` | - Theorem 6: the men-optimal stable outcome is weakly Pareto optimal on the strict marriage domain. |
+| theorem theorem7_arbitrary_k_on_strict_profiles | `theorem7_arbitrary_k_on_strict_profiles` | - Theorem 7: for any `k > 1`, some finite balanced strict-profile market admits a profitable stable-procedure `k`th-choice manipulation. |
+<!-- lean-derived-statements:end -->
+
+## 19. Paper-Facing Statement Validator Ledger
+Generated from dashboard status export:
+
+`python3 scripts/review_dashboard.py --paper Roth82StableMatching --export-format validators-md`
+
+| Paper-facing statement | Lean declaration | Validators | Validator comments |
+| --- | --- | --- | --- |
+| def completeMarriageOutcome | `completeMarriageOutcome` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| theorem corollary5_1_no_need_to_misrepresent_first_choice | `corollary5_1_no_need_to_misrepresent_first_choice` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| def efficientMatchingProcedure | `efficientMatchingProcedure` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| theorem lemma1_strict_simple_misrepresentation_same_partner | `lemma1_strict_simple_misrepresentation_same_partner` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| theorem lemma2_strict_simple_misrepresentation_no_men_harmed_on_strict_domain | `lemma2_strict_simple_misrepresentation_no_men_harmed_on_strict_domain` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| def manReportStrictlyRanksPartnerFirst | `manReportStrictlyRanksPartnerFirst` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| def menDeferredAcceptance | `menDeferredAcceptance` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| def menOptimal | `menOptimal` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| def paretoOptimal | `paretoOptimal` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| def possibleForMan | `possibleForMan` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| def preferenceProfile | `preferenceProfile` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| def reportMisrepresentsKthChoice | `reportMisrepresentsKthChoice` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| def serialDictatorshipMechanism | `serialDictatorshipMechanism` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:56Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:56Z): The draft leaves the mechanism as an opaque named expression and does not spell out the serial dictatorship rule in paper language. |
+| def stable | `stable` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| def stableMatchingProcedure | `stableMatchingProcedure` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| def stableOutcomes | `stableOutcomes` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| def strictMarriageDomain | `strictMarriageDomain` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| theorem theorem1_stable_complete_outcome_exists_on_strict_marriage_domain | `theorem1_stable_complete_outcome_exists_on_strict_marriage_domain` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| theorem theorem2_optimal_stable_outcomes_on_strict_marriage_domain | `theorem2_optimal_stable_outcomes_on_strict_marriage_domain` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| theorem theorem3_no_stable_truthful_procedure_on_strict_profiles | `theorem3_no_stable_truthful_procedure_on_strict_profiles` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| theorem theorem4_serial_dictatorship_constructed | `theorem4_serial_dictatorship_constructed` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| theorem theorem5_optimal_side_truthful_on_strict_domain_of_card_eq | `theorem5_optimal_side_truthful_on_strict_domain_of_card_eq` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| theorem theorem6_weak_pareto_for_men_on_strict_marriage_domain | `theorem6_weak_pareto_for_men_on_strict_marriage_domain` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| theorem theorem7_arbitrary_k_on_strict_profiles | `theorem7_arbitrary_k_on_strict_profiles` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| def truthfulForAllAgents | `truthfulForAllAgents` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| def womenDeferredAcceptance | `womenDeferredAcceptance` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+| def womenOptimal | `womenOptimal` | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:56Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
+
+Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.

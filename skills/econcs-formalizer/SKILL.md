@@ -3583,6 +3583,8 @@ Never enter a cycle of modifying a single line in a shell command just to test s
   heading invites long implementation ledgers. Use `Researcher Summary of
   Checked Results` for the short paper-facing summary and
   `Detailed Formalization Evidence` later for Lean/provenance detail.
+- Put `Updated: YYYY-MM-DD` directly below the report title, using the date of
+  the report's latest substantive refresh.
 - Avoid repetition. Do not include both a long top verdict and a long final
   verdict saying the same thing. Put a short `Completion status: ...` line in
   `Closeout Status` immediately after `Human Verdict`, and keep the explanation

@@ -997,6 +997,8 @@ def final_validation_report_text(title: str, folder: str) -> str:
     title_text = title or "[Paper Short Name]"
     return f"""# Final Validation Report: {title_text}
 
+Updated: YYYY-MM-DD
+
 ## 1. Human Verdict
 Not started. No formalization or paper-correctness assessment has been
 completed yet, and no human dashboard sign-off has been recorded.

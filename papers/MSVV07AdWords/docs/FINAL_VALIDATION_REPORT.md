@@ -1,5 +1,7 @@
 # Final Validation Report: MSVV07 AdWords
 
+Updated: 2026-07-02
+
 ## 1. Human Verdict
 Formalized. The Balance/MSVV structure, Section 6 and 8 extensions, and
 Theorem 9 lower-bound endpoint are checked. No suspected paper error is
@@ -8,8 +10,9 @@ paper-facing assumptions. No human dashboard sign-off has been recorded.
 
 ## 2. Closeout Status
 - Completion status: formalized.
-- One-sentence recap: The Balance/MSVV, Section 6/8 extension, and Theorem 9
-  lower-bound endpoints are checked.
+- One-sentence recap: The AdWords Balance analysis, finite-history accounting, and limiting theorem wrappers are formalized.
+- Lean footprint: 13,711 paper-local Lean LOC; `PaperInterface.lean` is 1015 lines; 43 human-review declarations are exposed.
+- Audit summary: paper coverage has 43 covered; statement LLM-as-judge has 43 matches; assumption provenance has 6 paper_condition, 4 paper_assumption; source-record audit reports 0 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *AdWords and Generalized Online Matching*.
@@ -51,10 +54,13 @@ None.
 - For lower bounds, separate the hard distribution, payoff definition,
   harmonic cap, and randomized/Yao wrapper.
 
-## 9. Paper Issues or Caveats
+## 9. Mathematical Typos or Other Fixes Suggested in the Source Paper
 None found.
 
-## 10. Detailed Formalization Evidence
+## 10. Paper Issues or Caveats
+None found.
+
+## 11. Detailed Formalization Evidence
 The paper's finite AdWords model, budget feasibility, small-bids condition,
 fractional LP benchmark, Balance/MSVV score and choice rule, Theorem 8
 competitive-ratio guarantee, Section 6 extensions, Section 8 weighted-bid
@@ -65,7 +71,7 @@ Theorem 8 route. They are not part of the compact dashboard surface because the
 review surface is reserved for paper-facing formulas and final section/theorem
 endpoints.
 
-## 11. Paper Assumption Provenance
+## 12. Paper Assumption Provenance
 Every paper-facing premise is routed through `MSVV07AdWords/Assumptions.lean`
 and checked by `assumption_match_llm.json`. These are source model conditions
 or finite-run conditions for Theorem 8 and the Section 6/8 extensions; none are
@@ -88,20 +94,23 @@ Additional assumptions beyond the paper: none. Relevant finite-history,
 nonnegative-bid, positive-budget, distinctness, and small-bids side conditions
 appear explicitly in the Lean statements and in the provenance ledger above.
 
-## 12. Library Lift Pass
+## 13. Displayed Formula Provenance
+Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
+
+## 14. Library Lift Pass
 Reusable finite AdWords infrastructure already lives in
 `EconCSLib/Algorithms/Online/AdWords.lean`. The paper folder retains
 source-route lemmas, Section 6/8 wrappers, and Theorem 9 lower-bound endpoints.
 No additional lift is needed for this closeout.
 
-## 13. DAG Audit
+## 15. DAG Audit
 - Rendered artifact: `DependencyDAG.pdf` exists.
 - Topology: the DAG covers the finite model, Balance rule, source-route
   Lemmas 1--7, Theorem 8, Section 6/8 extensions, and Theorem 9.
 - Layout: the rendered artifact was previously checked for legible metadata,
   labels, and routing; this curation pass did not change the DAG source.
 
-## 14. Validation Checks
+## 16. Validation Checks
 - Dashboard review surface curated from 39 rows to 26 rows. Removed rows were
   broad proof-adapter variants, duplicate payoff aliases, or support endpoints
   already represented by final source-section statements.
@@ -111,7 +120,7 @@ No additional lift is needed for this closeout.
 - `python3 scripts/review_dashboard.py --paper MSVV07AdWords --assumption-precheck`:
   10 assumption declarations; no missing, stale, or flagged provenance rows.
 
-## 15. Paper Definitions Checked
+## 17. Paper Definitions Checked
 These mathematical objects are exposed in `PaperInterface.lean` through
 source-equation or source-condition wrapper rows.
 
@@ -136,7 +145,7 @@ source-equation or source-condition wrapper rows.
   `theorem9HardDistribution_uniform`,
   `theorem9CappedNormalizedRevenue_formula`.
 
-## 16. Named Theorem Statements Checked
+## 18. Named Theorem Statements Checked
 ### Theorem 8
 
 **Paper statement.** Balance/MSVV is `1 - 1/e` competitive in the small-bids
@@ -196,7 +205,7 @@ lemmas support the proof of Theorem 8.
 **Status.** formalized as audit endpoints; intentionally kept out of the
 compact dashboard surface.
 
-## 17. Paper-Facing Statement Validator Ledger
+## 19. Paper-Facing Statement Validator Ledger
 Generated from the curated dashboard surface. Human dashboard reviews and
 model/agent statement checks may both appear here; this table records statement
 target provenance and does not change the human-only review counter.

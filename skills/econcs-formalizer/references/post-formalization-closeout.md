@@ -87,8 +87,9 @@ changed rows.
 ## Final Validation Report
 
 `FINAL_VALIDATION_REPORT.md` is a concise human assessment, not a handoff note,
-implementation ledger, or shell transcript. It must answer four questions near
-the top:
+implementation ledger, or shell transcript. It must put an `Updated: YYYY-MM-DD`
+line directly below the H1 title, using the date of the report's latest
+substantive refresh. It must answer four questions near the top:
 
 - What was proved?
 - Did formalization find anything wrong or ambiguous in the paper?
