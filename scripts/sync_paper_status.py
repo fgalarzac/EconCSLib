@@ -30,6 +30,11 @@ SITE_STATS_BEGIN = "<!-- BEGIN GENERATED PROJECT STATS -->"
 SITE_STATS_END = "<!-- END GENERATED PROJECT STATS -->"
 SITE_STATUS_BEGIN = "<!-- BEGIN GENERATED PAPER STATUS ROWS -->"
 SITE_STATUS_END = "<!-- END GENERATED PAPER STATUS ROWS -->"
+SITE_REQUIRED_STATIC_COPY = {
+    "maintainer footer": "EconCSLib is maintained by",
+    "companion paper link": "https://arxiv.org/abs/2606.16144",
+    "companion Lean project link": "https://github.com/gametheoryinlean/EconCSLib",
+}
 PAPER_README_BEGIN = "<!-- BEGIN GENERATED PAPER FOLDER README -->"
 PAPER_README_END = "<!-- END GENERATED PAPER FOLDER README -->"
 LEGACY_README_NOTES = "docs/FORMALIZATION_NOTES.md"
@@ -1168,6 +1173,19 @@ def render_site_index(payload: dict[str, Any]) -> str:
     return current[: tbody_open_end + 1] + "\n" + block + "\n            " + current[tbody_end:]
 
 
+def assert_required_static_site_copy(rendered: str) -> None:
+    missing = [
+        label
+        for label, required in SITE_REQUIRED_STATIC_COPY.items()
+        if required not in rendered
+    ]
+    if missing:
+        joined = ", ".join(missing)
+        raise ValueError(
+            f"{SITE_INDEX.relative_to(ROOT)} is missing required static site copy: {joined}"
+        )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="fail if generated status files are out of sync")
@@ -1204,6 +1222,7 @@ def main() -> int:
     try:
         assert_no_root_readme_outputs(outputs)
         assert_root_readme_locked()
+        assert_required_static_site_copy(outputs[SITE_INDEX])
     except ValueError as exc:
         print(exc)
         return 1
