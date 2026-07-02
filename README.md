@@ -14,6 +14,8 @@ The project is meant to support both formalization work and human review. A
 human reader should be able to open a completed paper folder and understand
 what was proved without reading the full Lean implementation.
 
+Human quick start guide: https://github.com/nikhgarg/EconCSLib/blob/main/docs/paper-formalization-quickstart/README.md
+
 ## How The Repository Is Organized
 
 - `EconCSLib/` is the reusable library. Code here should be paper-independent
