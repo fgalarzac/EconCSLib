@@ -11,6 +11,11 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+try:
+    from root_readme_policy import assert_no_root_readme_outputs, assert_root_readme_locked
+except ModuleNotFoundError:  # pragma: no cover - supports module-style imports
+    from scripts.root_readme_policy import assert_no_root_readme_outputs, assert_root_readme_locked
+
 
 ROOT = Path(__file__).resolve().parents[1]
 PAPERS = ROOT / "papers"
@@ -944,7 +949,7 @@ def render_legacy_readme_notes(folder: Path) -> tuple[Path, str] | None:
             "# Formalization Notes",
             "",
             "This file preserves the previous hand-written paper-folder README content.",
-            "The GitHub-facing `README.md` is now a generated status overview.",
+            "The paper-folder `README.md` is now a generated status overview.",
             "",
             body,
             "",
@@ -1198,6 +1203,12 @@ def main() -> int:
             path, rendered = legacy_notes
             outputs[path] = rendered
         outputs[folder / "README.md"] = render_paper_readme(folder, payload)
+    try:
+        assert_no_root_readme_outputs(outputs)
+        assert_root_readme_locked()
+    except ValueError as exc:
+        print(exc)
+        return 1
     if args.check:
         stale = []
         for path, rendered in outputs.items():

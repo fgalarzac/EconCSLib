@@ -783,15 +783,19 @@ at a status milestone. That command regenerates the detailed
 `papers/status.json`, the compact human-facing `papers/human_status.json`,
 `docs/PAPER_STATUS.md`, per-paper generated `README.md` entrypoints, and the
 status table in `site/index.html`. Do not hand-edit those generated status
-outputs. The sync script defaults to tracked paper status
+outputs. The root `README.md` is protected hand-written prose, not a generated
+status surface; do not edit it unless the user gives specific root-README
+instructions, and then refresh `docs/root_readme_lock.json` with
+`python3 scripts/root_readme_policy.py --write-lock`. The sync script defaults
+to tracked paper status
 files so untracked draft scaffolds do not pollute generated CI-facing tables;
 use `--include-untracked` only when intentionally syncing a new untracked
 paper scaffold. During routine proof iteration, do not run the status sync just
 because Lean LOC changed or a small proof seam was added; defer
 generated table/doc refreshes until a named paper result closes, a status note
 changes, a final report/handoff is prepared, or the user explicitly asks. If
-README/docs/site/table text is wrong, fix the paper-local `status.json` and
-rerun the sync script at that milestone. If a generated table needs
+paper README/docs/site/table text is wrong, fix the paper-local `status.json`
+and rerun the sync script at that milestone. If a generated table needs
 display-only publication wording that differs from local provenance, use
 `papers/catalog.json` `publication_overrides` and leave paper-local
 `source_version` fields as the source/provenance record.
@@ -799,7 +803,7 @@ If stale paper-local documentation or status is distorting the proof plan,
 causing closed work to be rediscovered, or could lead a human to stop the right
 proof campaign from an obsolete status belief, update the smallest paper-local
 README/handoff/status fields immediately. Still defer repository-wide generated
-README/docs/site/table refreshes until the next real milestone unless those
+paper README/docs/site/table refreshes until the next real milestone unless those
 generated files are the misleading decision source.
 Keep `sync_paper_status.py` metadata-only and fast by default. It should not
 import dashboard code, run Lean previews, refresh LLM sidecars, or perform

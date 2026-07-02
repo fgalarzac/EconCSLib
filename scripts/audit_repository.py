@@ -18,6 +18,11 @@ from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 
+try:
+    from root_readme_policy import validate_root_readme
+except ModuleNotFoundError:  # pragma: no cover - supports module-style imports
+    from scripts.root_readme_policy import validate_root_readme
+
 
 ROOT = Path(__file__).resolve().parents[1]
 PAPERS = ROOT / "papers"
@@ -5365,7 +5370,6 @@ def check_human_facing_readme() -> list[Finding]:
     findings: list[Finding] = []
     readme = ROOT / "README.md"
     docs_index = ROOT / "docs" / "README.md"
-    workflow = ROOT / "docs" / "AGENT_FORMALIZATION_WORKFLOW.md"
 
     if not readme.exists():
         findings.append(Finding("ERROR", readme, "top-level human-facing README is missing"))
@@ -5391,33 +5395,6 @@ def check_human_facing_readme() -> list[Finding]:
                 "top-level README should link to the project website and docs status pages instead of embedding a paper-status table",
             )
         )
-    for match in README_AGENT_DETAIL_RE.finditer(text):
-        line_no = text.count("\n", 0, match.start()) + 1
-        findings.append(
-            Finding(
-                "ERROR",
-                readme,
-                f"agent-facing detail `{match.group(0)}` at line {line_no}; move it to docs/AGENT_FORMALIZATION_WORKFLOW.md",
-            )
-        )
-
-    if "docs/AGENT_FORMALIZATION_WORKFLOW.md" not in text:
-        findings.append(
-            Finding(
-                "ERROR",
-                readme,
-                "top-level README should link to docs/AGENT_FORMALIZATION_WORKFLOW.md for agent instructions",
-            )
-        )
-
-    if "docs/README.md" not in text:
-        findings.append(
-            Finding(
-                "WARN",
-                readme,
-                "top-level README should link to docs/README.md for the documentation audience split",
-            )
-        )
 
     if not docs_index.exists():
         findings.append(Finding("ERROR", docs_index, "docs index is missing"))
@@ -5431,9 +5408,6 @@ def check_human_facing_readme() -> list[Finding]:
                     "docs index should split human-facing docs from agent/maintainer-facing docs",
                 )
             )
-
-    if not workflow.exists():
-        findings.append(Finding("ERROR", workflow, "agent formalization workflow doc is missing"))
 
     return findings
 
@@ -5657,6 +5631,13 @@ def run_library(
     return findings
 
 
+def check_root_readme_policy() -> list[Finding]:
+    return [
+        Finding("ERROR", ROOT / "README.md", message)
+        for message in validate_root_readme()
+    ]
+
+
 def run(
     include_active: bool,
     strict_style: bool,
@@ -5702,6 +5683,7 @@ def run(
     findings.extend(check_readme_status_tables(include_active, paper_filter=paper_filter))
     findings.extend(check_tracked_artifacts(include_active))
     findings.extend(check_stale_architecture_terms())
+    findings.extend(check_root_readme_policy())
     findings.extend(check_human_facing_readme())
     if strict_style:
         findings.extend(check_strict_lean_style())

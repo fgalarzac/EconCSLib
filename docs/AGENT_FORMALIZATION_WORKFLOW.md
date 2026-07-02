@@ -1,7 +1,8 @@
 # Agent Formalization Workflow
 
-This file is for agents and maintainers. The top-level `README.md` is the
-human-facing project overview.
+This file is for agents and maintainers. The top-level `README.md` is protected
+hand-written human-facing project prose. Do not edit it unless the user gives
+specific root-README instructions.
 
 ## Documentation Split
 
@@ -15,7 +16,10 @@ human-facing project overview.
   conventions, and reusable proof guidance.
 
 Do not put long theorem ledgers, raw command transcripts, or proof-internal
-details in the top-level README.
+details in the top-level README. Do not add generated blocks or generator
+outputs there. If the user explicitly asks for a root README edit, make only
+that edit and refresh `docs/root_readme_lock.json` with
+`python3 scripts/root_readme_policy.py --write-lock`.
 
 ## Starting A Paper
 
@@ -109,7 +113,8 @@ Completed papers should also have:
   `papers/status.json`, the compact human-facing `papers/human_status.json`,
   `docs/PAPER_STATUS.md`, paper-local `README.md` entrypoints, and the
   `site/index.html` status table. Do not hand-edit those generated status files
-  or rows.
+  or rows. The root `README.md` is not a generated status surface; the sync
+  script enforces its protected lock.
   The sync script defaults to tracked paper status files so local draft
   scaffolds do not pollute CI-facing generated tables; pass
   `--include-untracked` only when intentionally syncing a new untracked paper

@@ -77,6 +77,8 @@ Required target-paper checks:
 16. Update paper-local `status.json` at the same time as the DAG and final
     report, then run `python3 scripts/sync_paper_status.py` so generated
     status tables move with the paper-local source of truth.
+    The root `README.md` is protected hand-written prose and must not be edited
+    during closeout unless the user gives specific root-README instructions.
 
 The full closeout gate is for completed papers, intentionally approved
 conditional closeouts, public PR preparation, or explicit user-requested
