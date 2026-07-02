@@ -1,18 +1,7 @@
 # EconCSLib
 
 EconCSLib is a Lean 4 project for checking results in Economics and
-Computation. The repository has two roles:
-
-- Build a reusable library of mathematical tools for EC: probability,
-  optimization, matching, auctions, online algorithms, fair division, learning,
-  and related foundations.
-- Keep a paper-by-paper audit trail showing which source definitions and
-  theorems have been formalized, which assumptions remain, and where the proof
-  deviates from an informal paper argument.
-
-The project is meant to support both formalization work and human review. A
-human reader should be able to open a completed paper folder and understand
-what was proved without reading the full Lean implementation.
+Computation.  The goal of EconCSLib is to enable researchers to formalize their papers in Lean without knowing Lean themselves. The central design principle is a human-AI-Lean formalization workflow: an LLM writes Lean code, Lean checks formal statements and proofs, and both humans and LLM-as-judge processes can verify that the paper's statements were translated into Lean correctly. We develop agent skills, human-facing reporting, a review dashboard, and auditing procedures to support this workflow.
 
 Links:
 - [Project website](https://gargnikhil.com/EconCSLib/)
