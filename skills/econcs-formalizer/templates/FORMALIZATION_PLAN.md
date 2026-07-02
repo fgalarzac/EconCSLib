@@ -88,7 +88,9 @@ source risks, and reusable-library choices before opening Lean files.
 
 ## Deviations And Assumptions
 
-- Source imprecision or proof deviation to report later:
+- Source imprecision or substantive proof-route deviation to report later
+  (source route vs Lean route):
 - Genuine paper assumptions to declare in `Assumptions.lean`:
 - Temporary certificate fields to discharge:
 - Validation/audit checks that must inspect these assumptions:
+  coverage, LLM-as-judge, source-record, holistic source-first, DAG/source-json:

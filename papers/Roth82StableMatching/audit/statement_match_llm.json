@@ -36,7 +36,7 @@
     },
     "corollary5_1_no_need_to_misrepresent_first_choice": {
       "judgment": "matches",
-      "lean_statement_sha256": "83ab3a3d824ec89cbcef6cf5228029fbc880915b89550b8895792a693817fbb0",
+      "lean_statement_sha256": "a49dad3d1d01e5b388b39184f237283d88991a51ab3fa31483146961d641f380",
       "paper_statement_sha256": "b69c7a86d75c7d9d52761f186964a9755a4801ea057d428a4677470eeaa0a84a",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. Refreshed against the current dashboard source statement and Lean/TeX digest surface.",
@@ -212,7 +212,7 @@
     },
     "theorem1_stable_complete_outcome_exists_on_strict_marriage_domain": {
       "judgment": "matches",
-      "lean_statement_sha256": "5f1f623923456b8eba42857a5fae2456db1e2a73ee6031e46bf5c91c450fd65e",
+      "lean_statement_sha256": "b1f976bf4f8bf8b2b03723800faee6401c498550d63f29d224db60a24d55cba8",
       "paper_statement_sha256": "d1ce8e42274a41b2744ac01b7e6ac9c2c79bd1370ccbb1c26e6ffd843fe5dc4d",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. Refreshed against the current dashboard source statement and Lean/TeX digest surface.",
@@ -234,7 +234,7 @@
     },
     "theorem3_no_stable_truthful_procedure_on_strict_profiles": {
       "judgment": "matches",
-      "lean_statement_sha256": "288cc389ce08dba2fa75503e637dee27945edba77797c2176c41b9ec04d0d6b7",
+      "lean_statement_sha256": "49f56330db3825b414a45b9087fd7e301eac6b398d92a4b84163d346602c86e7",
       "paper_statement_sha256": "6e4e64d5413553e1762f71dd174f306e683cd18c791b2184206884d9683ce94a",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. Refreshed against the current dashboard source statement and Lean/TeX digest surface.",
@@ -245,7 +245,7 @@
     },
     "theorem4_serial_dictatorship_constructed": {
       "judgment": "matches",
-      "lean_statement_sha256": "151f841330f1ce1cdb53acdfbf84a0bd0ebe759106225aac8d4d2d753a988f2e",
+      "lean_statement_sha256": "572d18bc0f8b9325dcff779a992173e2be2b9c68a5c8ffbbe401ecee8edcf556",
       "paper_statement_sha256": "9a9a2f261c1239be98382bdbb26f10005ed33cc1ac9f7be6446eb7f0743def7a",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. Refreshed against the current dashboard source statement and Lean/TeX digest surface.",
@@ -267,7 +267,7 @@
     },
     "theorem6_weak_pareto_for_men_on_strict_marriage_domain": {
       "judgment": "matches",
-      "lean_statement_sha256": "5f2043f7796ca48ece29862be11ceb21055abfb2deec5fd1217619df83bf10dd",
+      "lean_statement_sha256": "c93eb81a09a86e6d6097836d713369ae565397782ddf72ab9301cfff7ebfcc14",
       "paper_statement_sha256": "ed308a01aa97b01bbf5f602af86edd362041ab84b06d83afb0458c76f17b0e14",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. Refreshed against the current dashboard source statement and Lean/TeX digest surface.",

@@ -3,7 +3,7 @@
   "items": {
     "algorithm1_local_neighborhood_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "703a5593d0800c7231d3f800fde143029bcc3c6c8947fb0d0c313025f3bf9e0f",
+      "lean_statement_sha256": "c8f1cde799aa5b32d223b1b310c542e487a4370de90714b5f40eb2e660dd354d",
       "paper_statement_sha256": "e45f9168b6d0fd364b0028b6a4a122d87d0dfb4204cba3903494ae7d897900fe",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -25,7 +25,7 @@
     },
     "algorithm1_projected_trajectory_feasible_of_normProjection": {
       "judgment": "matches",
-      "lean_statement_sha256": "6ad08e4b56272bcfca286bc5698f1ab7bf8b3adffe38d28c9b3bbbf1c539c3f7",
+      "lean_statement_sha256": "f66858532ac7d39d072119871c5c42dfa542ddef904b519b9200f523ef8dc1c9",
       "paper_statement_sha256": "1d536a19dcd2d0c8641112fa27994c7d2d1fd92702babf244c78d1769fbf9c81",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -36,7 +36,7 @@
     },
     "algorithm1_projected_update_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "35d3101d4f90c5d5f1e913e0244b79538c2d410d7ef11de3dfc84bdb7c4d8a81",
+      "lean_statement_sha256": "ad873b944c2e08cc529bd9e6010c2efa91b18d15065bced83923d6a57979c372",
       "paper_statement_sha256": "081f2fe5d0931475bd67f7ac3ba73e08ede69e066df9e074d06ebbd0a82eb0ee",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -47,7 +47,7 @@
     },
     "algorithm1_radius_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "d30ae981ef9fa95e20425fecaaedd8ef59e4fd2c158056e8e70f0cebef8b0600",
+      "lean_statement_sha256": "e0740b12bbbd7b885de47f1a914f9b51e870a4a8baa0ca24e1d0a7f957f24589",
       "paper_statement_sha256": "d3f71000f2cf72a1038f4764677d2d58217923a53c0b2e9c62f5dd3adec6d0ba",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -69,7 +69,7 @@
     },
     "algorithm1_radius_sq_summable": {
       "judgment": "matches",
-      "lean_statement_sha256": "3d50b97c62518d1f672eacf44d4932e533693a881ba4cc4307251d02b16b7d8e",
+      "lean_statement_sha256": "8b68f83774d578248c39fb5a81813858cbc853fe0f3fcf817d078a45eca416ca",
       "paper_statement_sha256": "d559d1fd7e49b7d39ba614b1c9c4143215d34351a3eff3002022b6a463a03242",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -80,7 +80,7 @@
     },
     "algorithm1_radius_ssgm_step_size_conditions": {
       "judgment": "matches",
-      "lean_statement_sha256": "85f1eee6cd758fba7958e634b59d33a46fa2c5af939ed0b1a8f39c7c17cf9c3a",
+      "lean_statement_sha256": "9498c24706b02883cc194a9dfe9956116136ac4833964bd2f4694363ffbdb8a1",
       "paper_statement_sha256": "eab5f63bbd9e07dbe64714297d7b393391f5419020d424957f69d57f441779ad",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -91,7 +91,7 @@
     },
     "algorithm1_radius_sum_tendsto_atTop": {
       "judgment": "matches",
-      "lean_statement_sha256": "20a1a7e498a18c5ce52b9bb7171265a2f84ac7ffab3e3757a2df65b8ddc2864d",
+      "lean_statement_sha256": "7ec3c5ad4cc456c756bbd369ba70a8785d60f0292a8e45ca5eaf79c65ffc2406",
       "paper_statement_sha256": "19199c8c5f2c38c7fabf9c2dc0881d57069980e6c97d2d46f50224d0c35cb380",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -113,7 +113,7 @@
     },
     "algorithm1_stop_condition_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "5f6fe3893120bbae02247cb74767d9d64e60e858b3504a288151a898ee3854af",
+      "lean_statement_sha256": "8d728578b3670925ba8119ef3fbe014eaafe7bc79c8b1735f8405de82ce4ad03",
       "paper_statement_sha256": "0a2fe08e3426f5605fee33e4fd4cd8877edb1fdc7fb80e51a7dfb78874aa26b8",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -212,7 +212,7 @@
     },
     "definition1_finite_coordinate_l2_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "36fa8d1a3fc3f6c1cbd1fd891ab20eccd12ae868b55a8d45a5260cd0eee1c9cc",
+      "lean_statement_sha256": "60c30061349bb8198e7b177f78ee1a135925ea2b4a3d305d3d9473348905611d",
       "paper_statement_sha256": "5e2e85051a077b2080792e87c853ee08c8143bd077a17089ca7e1037e73f6d84",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -223,7 +223,7 @@
     },
     "definition1_finite_coordinate_linf_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "135faf98ad66983ff04e39b7269256a4b4299b51ea11e1bc9508733c512e2b43",
+      "lean_statement_sha256": "f6d2223c5d032451c63e4f489f543a44c5b4bfceefe9c4e3f1fe789f103d169c",
       "paper_statement_sha256": "10aff5d324c51e6dcb8ce0cee8546aa8036336413e6f0172a4f02769fa6ffe6e",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -234,7 +234,7 @@
     },
     "definition1_finite_coordinate_lp_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "65be9192afb5b32428c88c16fd81625cba5b94ac1c666417d167d74f1bccf62f",
+      "lean_statement_sha256": "bffa3cd125da887b0fbb05204fc5ab030846579b80d1cfc28aaed423f3863d9f",
       "paper_statement_sha256": "51d163e154c51a3847c2859fe01ed0f420a54fd57847bd1ee2c58de4a38d5c15",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -245,7 +245,7 @@
     },
     "definition1_lp_normed_utilities_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "3d84003c60f610277b4dce42e38e3bcc9cba56b1223edf26a0c87eadace76ddd",
+      "lean_statement_sha256": "b07f57098d5476eb89a54ad4f46e18e3962d7c701452827825ecf041daa85f21",
       "paper_statement_sha256": "b933fbf21825a3a12d2fc4bd15818e158ab0a29c74006f96005f27b967dca77e",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -267,7 +267,7 @@
     },
     "definition3_decomposable_utilities_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "28a10e0bb5d231b1b53692cede76ad4d294a57c8ceef3cef292eb54792ec0e9f",
+      "lean_statement_sha256": "952becf93fe75cb502c3dc10299805681e1c0158da51a2e2f7eb72d517beb012",
       "paper_statement_sha256": "f83e291ea2e2928252fa42ee0621da3767c97d8e9e6b4fb212881b9c135f70a9",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -311,7 +311,7 @@
     },
     "lemma3_coordinate_noncollision_ae_from_productMeasure": {
       "judgment": "matches",
-      "lean_statement_sha256": "b8f416a17af1f07f732a0ca9d4269a7047c7fededfc9696bfe1ce5066302ad72",
+      "lean_statement_sha256": "db3d9c64b9427784ea4b061f4ddcf28b2e148aa3939e115a769c3fe59e2203fd",
       "paper_statement_sha256": "27322f1481dad832d8c63b4b0a30939abe8ee6897216f9980fceed7eafc29d62",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -322,7 +322,7 @@
     },
     "lemma3_finite_holder_dual_gradient_candidate_norm_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "345d381322c755c39ae378fc1615bbc82f7e17684ccce548f121cf9718f33e4e",
+      "lean_statement_sha256": "6404db0d4c4949d60acdf1115bd54f7524f81a096f71882aa7dc3c501d2cf1f4",
       "paper_statement_sha256": "d2f012ae8b3118daa2608128ae607bb6f9d2e13f41449a92c9d26161658e9639",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -333,7 +333,7 @@
     },
     "lemma3_gradient_candidate_hasFDerivAt_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "17ce879c1047d63ab1e3c68ccb179d4cfc3d45f8c400ba8b08011f27150d2311",
+      "lean_statement_sha256": "f6191fcede0dc01f562e4a28ca3cd2ce58310eb69d9ce368d26abba9007ca53d",
       "paper_statement_sha256": "a2b8dd993f50c120847bf0143069cd56e3fa0be0dd47424cc56aaee19c437b7e",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -388,7 +388,7 @@
     },
     "modelB_finite_response_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "8d2ab50f64e181a40d8c23a425be5e8800ef7466fa4a87fdd92268b14698ba36",
+      "lean_statement_sha256": "393e67d0aa0bb48d27af0b98ec4f70e3df32f5d8847d8f024a0328ab2d80db08",
       "paper_statement_sha256": "1aad067337848a4bb414f82bad0075b6b9d784b8f9f1cbd3f1384065c32110f5",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "Semantic rejudge: the Model B finite-coordinate response formula matches the current paper-facing source statement and Lean-to-TeX draft.",
@@ -428,7 +428,7 @@
         "The Lean row proves the paper proposition from an explicit theorem-specific Proposition1SourceSemantics premise plus the approved SSGM convergence theorem. The paper proposition does not state that source-semantics record; it remains a conditional source-model boundary."
       ],
       "judgment": "mismatch",
-      "lean_statement_sha256": "d8e009baa13324635b123f9aafc22837c4a85e0663a34037ee5df52d9be2b68f",
+      "lean_statement_sha256": "db5aada600423875812fc84da14650b9d2ee83fecfd67b12ec6a73b4213fa06a",
       "paper_statement_sha256": "3c5d1bc1bd237fa539b4ebce72bb1d38f473a7dd60cbeeadd6ac7b5fb9947103",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean row proves the paper proposition from an explicit theorem-specific Proposition1SourceSemantics premise plus the approved SSGM convergence theorem. The paper proposition does not state that source-semantics record; it remains a conditional source-model boundary.",
@@ -481,7 +481,7 @@
     },
     "theorem1_norm_pair_l1_linf": {
       "judgment": "matches",
-      "lean_statement_sha256": "02eca6af7e13af51e39b6df650692f1e51347402e67663e0aa500552cb2a5ec3",
+      "lean_statement_sha256": "57ad3160160e391d96e87eee12c2ec9d4048ac406ae3f5dc9129e87c1b453bae",
       "paper_statement_sha256": "cfc146acb6fae81fe65efbc19a7548073e55b93a1d1eb55349bd33dc73eadd85",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -492,7 +492,7 @@
     },
     "theorem1_norm_pair_l2_l2": {
       "judgment": "matches",
-      "lean_statement_sha256": "96f559080c396cc4cd857efabf03e25ac361d4dd61e9dd46b4d664a5b6551e73",
+      "lean_statement_sha256": "b7b878c7d5634c04175c7030b5d04fabd6968dbac70c03a146cd76e1632413ec",
       "paper_statement_sha256": "7ae1730f5d7a644b8cf153a3e576ad391d372dbe2c6cf3b386c7f093c0e69c04",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected source statement or explicitly named source subclaim, including visible hypotheses and formula direction.",
@@ -541,7 +541,7 @@
         "The Lean row concludes the exact Theorem 3 statement, but only after adding two explicit conditions not present in the paper statement: a sampled projected finite-coordinate source-semantics package and the full-space condition E.solutionSpace = Set.univ. It intentionally does not claim the general constrained Theorem 3 endpoint. Refreshed against the current conditional-boundary source statement and Lean/TeX digest surface."
       ],
       "judgment": "mismatch",
-      "lean_statement_sha256": "4d277b95651acbfe45e75ab15120e6cb5d35f052056b5ee479913efe944a6950",
+      "lean_statement_sha256": "9b5c230534ab6f603ae3787abd20ead7714741b6a919432d2096f18bf69a75b4",
       "paper_statement_sha256": "1d7bd58eae948e146c01af596601120d498419d8ad069e0d5ed73fbe198e04b8",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean row concludes the exact Theorem 3 statement, but only after adding two explicit conditions not present in the paper statement: a sampled projected finite-coordinate source-semantics package and the full-space condition E.solutionSpace = Set.univ. It intentionally does not claim the general constrained Theorem 3 endpoint. Refreshed against the current conditional-boundary source statement and Lean/TeX digest surface.",

@@ -292,7 +292,7 @@
     },
     "randomizedDirectMechanism_fields": {
       "judgment": "matches",
-      "lean_statement_sha256": "919c30471ee1937a41ef6894752fef74582de7c88e3a714462940e54120a04df",
+      "lean_statement_sha256": "c6762dedba04910973f762165b9f92c45b3382ab5faff715c94e3ae930c18a82",
       "paper_statement_sha256": "8b39ab327159fba9cabd85252d79a6fe8c8a62620ed54c11a708491937d4c563",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The revised Lean review row spells out the source equation or condition directly, rather than exposing only a function signature or opaque constructor, and the Lean-to-TeX draft matches that paper-facing statement.",

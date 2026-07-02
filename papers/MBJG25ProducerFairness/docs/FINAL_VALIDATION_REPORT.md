@@ -83,7 +83,12 @@ paper-facing theorem condition.
 None separately recorded in the existing report.
 
 ## 14. DAG Audit
-No separate DAG audit note is recorded in the existing report.
+`DependencyDAG.tex` and `DependencyDAG.pdf` are present as the paper-facing
+dependency artifacts. The rendered `DependencyDAG.pdf` was visually inspected
+for node/label overlap and arrow-through-text issues. The DAG covers the
+source-result clusters recorded in the source inventory: the producer-fairness
+model, Theorems 3.1 and 3.2, the interior-quality condition, and the
+finite-sample/generalization support used by the checked theorem endpoints.
 
 ## 15. Validation Checks
 ### Statement Translation Audit

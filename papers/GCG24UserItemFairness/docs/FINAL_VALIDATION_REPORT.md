@@ -181,7 +181,13 @@ as helper interfaces and are not the closed source theorem wrappers.
 None separately recorded in the existing report.
 
 ## 16. DAG Audit
-No separate DAG audit note is recorded in the existing report.
+`DependencyDAG.tex` and `DependencyDAG.pdf` are present as the paper-facing
+dependency artifacts. The rendered `DependencyDAG.pdf` was visually inspected
+for node/label overlap and arrow-through-text issues. The DAG covers the
+source-result clusters recorded in the source inventory: Problem 1, Example 1,
+Lemmas 1--17, Problems 6/11/12, Propositions 1/2, and Theorems 3/4. The
+selected-BFS and certificate variants are retained as helper interfaces rather
+than separate DAG paper-result nodes.
 
 ## 17. Validation Checks
 ### Statement Translation Audit

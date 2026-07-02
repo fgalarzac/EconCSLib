@@ -10,7 +10,7 @@
       "validator_type": "model"
     },
     "college_admissions_stable_assignment_exists": {
-      "lean_statement_sha256": "bf9b19433b76b27ac6082a611418f40a56809b1a7b157af555aab8410d8ef8eb",
+      "lean_statement_sha256": "c19cf30c007d6862fba9c3bd685f218f050e623466ba70bca09be18c6532efbc",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "For finite applicant and college sets with decidable equality, any college quotas and applicant/college utilities admit an assignment $\\mu$ that is stable for the many-to-one college-admissions problem.",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -42,7 +42,7 @@
       "validator_type": "model"
     },
     "theorem1_stable_marriage_exists": {
-      "lean_statement_sha256": "3b2712e9c3a03fd1c1bc20530f4388c8c51821601c7d700dcf974e63cffda311",
+      "lean_statement_sha256": "ce3d336470ae01f4b5a91bc296a35b9314215fa458fb3b10e42032f9b35a87df",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "For a finite indexed set $A$ with decidable equality, if utilities $v_m,v_w:A\\to A\\to\\mathbb{R}$ satisfy the strict marriage domain, then there exists an assignment $\\mu$ from $A$ to $A$ that is stable and complete; equal cardinality is represented by using the same finite index type for both sides.",
       "translated_at": "2026-06-29T18:08:26Z",

@@ -1,0 +1,802 @@
+{
+  "schema": 1,
+  "paper": "DGJ26PracticalDynamicsRCV",
+  "prompt_version": "paper-coverage-v2-source-grounded-source-to-dashboard",
+  "audit_kind": "source_to_dashboard_agent",
+  "source_grounded": true,
+  "seed_scaffold": false,
+  "validator": "Codex coverage refresh",
+  "validator_type": "agent",
+  "validated_at": "2026-07-02T12:00:00Z",
+  "comment": "Agent coverage refresh for the curated partial-formalization review surface. Coverage is exact-row based from the current dashboard-seeded inventory; rows marked conditional_boundary remain partial and are documented in statement/source-record sidecars.",
+  "paper_statement_inventory_sha256": "59b8e250ed3b1977b9d36436d614cde3c6921671517a5ba0b92f9d5c0f2cf40b",
+  "review_surface_sha256": "5bf328146a0583ecf6878b87f3f579ffa6081f647117b83709e660b0441c6f27",
+  "items": {
+    "paper_ballot_suffix_extension": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_ballot_suffix_extension",
+        "paper_ballot_suffix_extension"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_ballot_suffix_extension, paper_ballot_suffix_extension",
+      "statement_sha256": "26ad2d5479d277a084a05519fc2e114ed17766e5f43f42fde20ae9222938b753",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_ballot_prefix_extension": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_ballot_prefix_extension",
+        "paper_ballot_prefix_extension"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_ballot_prefix_extension, paper_ballot_prefix_extension",
+      "statement_sha256": "f8ed439cd70946dae32756d50d870c5b98a4efd7840875cb21949711f0a3ea15",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_ballot_respects_length": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_ballot_respects_length",
+        "paper_ballot_respects_length"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_ballot_respects_length, paper_ballot_respects_length",
+      "statement_sha256": "38e4de3afe2f48be880dae3d567fcea93de52c94b6af7d713ea558dac326544e",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_single_choice_ballot": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_single_choice_ballot",
+        "paper_single_choice_ballot"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_single_choice_ballot, paper_single_choice_ballot",
+      "statement_sha256": "5c9962e18cb504cee850a63e04fdc0804d8eaf23b8be3f3cdc2fda72df6ade70",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_single_choice_ballot_respects_length_one": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_single_choice_ballot_respects_length_one",
+        "paper_single_choice_ballot_respects_length_one"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_single_choice_ballot_respects_length_one, paper_single_choice_ballot_respects_length_one",
+      "statement_sha256": "6db80306777dd8d0053b3dba70ca1e42a26e2f5b7277cd80e35f0a2c69f3c187",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_exhausted_prefix_at_active_set": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_exhausted_prefix_at_active_set",
+        "paper_exhausted_prefix_at_active_set"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_exhausted_prefix_at_active_set, paper_exhausted_prefix_at_active_set",
+      "statement_sha256": "dd004beb41f615cbb20f86f224808fcd4c8ef4e5eb4e0c8aa5f8b35cb6b5a89d",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_exhausted_completion_viable": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_exhausted_completion_viable",
+        "paper_exhausted_completion_viable"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_exhausted_completion_viable, paper_exhausted_completion_viable",
+      "statement_sha256": "1bab966460d1259a131017d73dfa2c6fa1fc45c378897d01993fc9199c06bd7b",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_exhausted_completion_viable_candidates": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_exhausted_completion_viable_candidates",
+        "paper_exhausted_completion_viable_candidates"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_exhausted_completion_viable_candidates, paper_exhausted_completion_viable_candidates",
+      "statement_sha256": "42f66834d12899c7c1254c09adf1104ea0dcbd045e61597cdd613938f34daefe",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_exhausted_completion_available_voters": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_exhausted_completion_available_voters",
+        "paper_exhausted_completion_available_voters"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_exhausted_completion_available_voters, paper_exhausted_completion_available_voters",
+      "statement_sha256": "7cadc9cbc597e7d93f454798eb5fd51544e40250e17b3664c0dde32689d6543b",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_exhausted_completion_available_count": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_exhausted_completion_available_count",
+        "paper_exhausted_completion_available_count"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_exhausted_completion_available_count, paper_exhausted_completion_available_count",
+      "statement_sha256": "61dcfe8c311d7d257ae0d6389ad83ee1d196da4aa49c899ae1f508782551baeb",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_exhausted_completion_multi_round_viable_candidates": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_exhausted_completion_multi_round_viable_candidates",
+        "paper_exhausted_completion_multi_round_viable_candidates"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_exhausted_completion_multi_round_viable_candidates, paper_exhausted_completion_multi_round_viable_candidates",
+      "statement_sha256": "a4a5630c99b40901777027ce5fb19b8e46218d1610cd42356f0cc56917611277",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_exhausted_completion_available_count_by_round": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_exhausted_completion_available_count_by_round",
+        "paper_exhausted_completion_available_count_by_round"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_exhausted_completion_available_count_by_round, paper_exhausted_completion_available_count_by_round",
+      "statement_sha256": "d6442eaaf2aa447d95268507bbe5e7e289c882e09d58cebcddd19f3a80c00c1d",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_strict_support_count": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_strict_support_count",
+        "paper_strict_support_count"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_strict_support_count, paper_strict_support_count",
+      "statement_sha256": "de2ed9b5de66ab43d0bcc1e0dca05d5a8e39a217df00758ee98db5bb66082192",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_original_candidate_removal_condition": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_original_candidate_removal_condition",
+        "paper_original_candidate_removal_condition"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_original_candidate_removal_condition, paper_original_candidate_removal_condition",
+      "statement_sha256": "e85882ffebd91dc447c87736b6172df0e4b89b7e117968f769fd56da8f927f43",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_extended_candidate_removal_condition": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_extended_candidate_removal_condition",
+        "paper_extended_candidate_removal_condition"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_extended_candidate_removal_condition, paper_extended_candidate_removal_condition",
+      "statement_sha256": "4837f321aa3e87388a77e12035522259d8011fc1082b6622a5d10572946a84f5",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_extended_removal_original_failure": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_extended_removal_original_failure",
+        "paper_extended_removal_original_failure"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_extended_removal_original_failure, paper_extended_removal_original_failure",
+      "statement_sha256": "8cadd60d629c088512e9fe2e881b7fc8d5def4c7afa9329ebae9bf9c46a9a87f",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_one_survival_round_safety": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_one_survival_round_safety",
+        "paper_one_survival_round_safety"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_one_survival_round_safety, paper_one_survival_round_safety",
+      "statement_sha256": "9f469aa6c42ec1c8f9f5597f6c113f834cb15d9f437e87167fabbd0298de8c44",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_strengthened_removal_concrete_reduction_specification": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_strengthened_removal_concrete_reduction_specification",
+        "paper_strengthened_removal_concrete_reduction_specification"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_strengthened_removal_concrete_reduction_specification, paper_strengthened_removal_concrete_reduction_specification",
+      "statement_sha256": "1b80c955977b7528fae54cc4e22ac6ce72a7ee297da0959f8ae9d5a21f876dfc",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_strengthened_removal_operation_count": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_strengthened_removal_operation_count",
+        "paper_strengthened_removal_operation_count"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_strengthened_removal_operation_count, paper_strengthened_removal_operation_count",
+      "statement_sha256": "05284a6dbb9d26e410d36329e4079ceb243fdc110463c4902596b2896dc81a21",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_multiwinner_containment_output": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_multiwinner_containment_output",
+        "paper_multiwinner_containment_output"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_multiwinner_containment_output, paper_multiwinner_containment_output",
+      "statement_sha256": "b30e3044908474a44cf29305ea0f913394d9944b22ec7b950d3c67a24382b95b",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_multiwinner_concrete_containment_specification": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_theorem2_2_algorithm4_pairwise_condition_sound_and_profile_quadratic_verification"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by the current Theorem 2.2 Algorithm 4 source-condition endpoint, whose conclusion is the concrete retained/removed containment specification.",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_theorem2_2_algorithm4_pairwise_condition_sound_and_profile_quadratic_verification",
+      "statement_sha256": "c10633b9337a9e40c51e6b8076cb7db5b4695340e8c8eab2d6c5a2afdf21548c",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-07-02T12:00:00Z"
+    },
+    "paper_weighted_surplus_transfer_bound": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_weighted_surplus_transfer_bound",
+        "paper_weighted_surplus_transfer_bound"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_weighted_surplus_transfer_bound, paper_weighted_surplus_transfer_bound",
+      "statement_sha256": "b97e682f3b577b866bfc98482c0f51bc209c1f845b8509b7a6755ec541c75574",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_lower_candidate_transfer_bound": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_algorithm4_pairwise_condition"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by the named Algorithm 4 pairwise Eq. (2)/(3) condition row, which expands the lower-candidate transfer quantity computed from the ballot profile.",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_algorithm4_pairwise_condition",
+      "statement_sha256": "ad14dfdd6d092fc433365054d35b97ddb4ddaabb6c1d1d2dccd06b4191fe1420",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-07-02T12:00:00Z"
+    },
+    "paper_updated_upper_candidate_support_bound": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_updated_upper_candidate_support_bound"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by the direct Eq. (3) updated upper-candidate support formula row.",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_updated_upper_candidate_support_bound",
+      "statement_sha256": "1d6834e72f7eda5d8d1f0fefd7532c4644168f1c46d21eee5a6f6ee3fdda8711",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-07-02T12:00:00Z"
+    },
+    "paper_multiwinner_updated_strict_support_condition": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_algorithm4_pairwise_condition"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by the named Algorithm 4 pairwise Eq. (2)/(3) condition row, the source condition used to validate multi-winner containment.",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_algorithm4_pairwise_condition",
+      "statement_sha256": "583f7a63ad323f1b59f8c1e57ee9a5101b7fd9149228cc204bee098eb16bfa4b",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-07-02T12:00:00Z"
+    },
+    "paper_weighted_surplus_transfer_bound_le_next_choice_votes": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_weighted_surplus_transfer_bound_le_next_choice_votes",
+        "paper_weighted_surplus_transfer_bound_le_next_choice_votes"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_weighted_surplus_transfer_bound_le_next_choice_votes, paper_weighted_surplus_transfer_bound_le_next_choice_votes",
+      "statement_sha256": "8123896e000130fc848d0b423e686ac377265b48b5f97eaa0d43f4e4738aa72e",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_lower_candidate_transfer_bound_le_next_choice_plus_unweighted": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_algorithm4_pairwise_condition"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by the Algorithm 4 pairwise condition row, which uses the same Eq. (2) lower-transfer expression inside the source comparison.",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_algorithm4_pairwise_condition",
+      "statement_sha256": "60a918d53204f8ad278bbfc18a6b0b6046a164acd0509a89e59e558fb739995e",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-07-02T12:00:00Z"
+    },
+    "paper_base_support_le_updated_upper_candidate_support_bound": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_base_support_le_updated_upper_candidate_support_bound"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by the direct Eq. (3) arithmetic sanity-check row.",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_base_support_le_updated_upper_candidate_support_bound",
+      "statement_sha256": "c3f1109e62a0c982b50e6d7bd6bc7dc57b93cfe7c7ee2adb25c3965d189c823d",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-07-02T12:00:00Z"
+    },
+    "paper_proposition1_suffix_robust_first_active": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_proposition1_suffix_robust_first_active",
+        "paper_proposition1_suffix_robust_first_active"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_proposition1_suffix_robust_first_active, paper_proposition1_suffix_robust_first_active",
+      "statement_sha256": "8bf413c5b82bedf99aa12ce794171a0b7280a39fd152989d706d8ff23e9c0112",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_proposition1_prefix_robust_first_active": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_proposition1_prefix_robust_first_active",
+        "paper_proposition1_prefix_robust_first_active"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_proposition1_prefix_robust_first_active, paper_proposition1_prefix_robust_first_active",
+      "statement_sha256": "37288223c22a24c224292e0b1ef415741b68294080c63e010253f37246a22896",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_proposition1_suffix_robust_active_support_count": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_proposition1_suffix_robust_active_support_count",
+        "paper_proposition1_suffix_robust_active_support_count"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_proposition1_suffix_robust_active_support_count, paper_proposition1_suffix_robust_active_support_count",
+      "statement_sha256": "d3542667c2ce4918b3bd5a8abd1026a1c7174b588d6accd1308b494eaf6e421f",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_proposition1_prefix_robust_active_support_count": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_proposition1_prefix_robust_active_support_count",
+        "paper_proposition1_prefix_robust_active_support_count"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_proposition1_prefix_robust_active_support_count, paper_proposition1_prefix_robust_active_support_count",
+      "statement_sha256": "a4edddeaee816985c2879df3ea9f3e5f578bc62cd43e973c16812e8e4c16caf5",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_proposition1_from_concrete_smart_allocation_slack_reduction": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_proposition1_from_algorithmA_support_count_loop_invariants_linear_runtime"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by the current Proposition 1 Algorithm A support-count-loop endpoint, which consumes the DGJ24 SmartAllocation support-count data and proves optimality with inherited linear runtime.",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_proposition1_from_algorithmA_support_count_loop_invariants_linear_runtime",
+      "statement_sha256": "50d6f6d3a3e8d80d76abc523e24e99244474d532c9df3ef3889888255731f541",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-07-02T12:00:00Z"
+    },
+    "paper_proposition2_exhausted_completion_equivalent": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_proposition2_exhausted_completion_equivalent",
+        "paper_proposition2_exhausted_completion_equivalent"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_proposition2_exhausted_completion_equivalent, paper_proposition2_exhausted_completion_equivalent",
+      "statement_sha256": "8fa620c35d35a3040ff6e1c4150a0b725d55faa144fbfec5a7dd4350a223ecb0",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_proposition2_exhausted_completion_activates_candidate": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_proposition2_exhausted_completion_activates_candidate",
+        "paper_proposition2_exhausted_completion_activates_candidate"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_proposition2_exhausted_completion_activates_candidate, paper_proposition2_exhausted_completion_activates_candidate",
+      "statement_sha256": "e10b9abfbf1281f7512db262d11b34786e21f46e9f647796ae3e2f66b01e558d",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_proposition2_exhausted_completion_active_support_count": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_proposition2_exhausted_completion_active_support_count",
+        "paper_proposition2_exhausted_completion_active_support_count"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_proposition2_exhausted_completion_active_support_count, paper_proposition2_exhausted_completion_active_support_count",
+      "statement_sha256": "d5f66e0796ada89ef9a58a95da427a0f3d5b7d443082b061783b5184ada0f1a7",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_proposition2_profile_available_count_supports_required_votes": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_proposition2_profile_available_count_supports_required_votes",
+        "paper_proposition2_profile_available_count_supports_required_votes"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_proposition2_profile_available_count_supports_required_votes, paper_proposition2_profile_available_count_supports_required_votes",
+      "statement_sha256": "97e756eb39fadde5562e725dc1318e8665958e83c454e36206f8802c53146d4c",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_proposition2_profile_viable_candidate_set_member_supports_required_votes": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_proposition2_profile_viable_candidate_set_member_supports_required_votes",
+        "paper_proposition2_profile_viable_candidate_set_member_supports_required_votes"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_proposition2_profile_viable_candidate_set_member_supports_required_votes, paper_proposition2_profile_viable_candidate_set_member_supports_required_votes",
+      "statement_sha256": "8bc0a5eee49fa1946dc1bcab54dff8b151a87edad64775bdbaa565552b030a8c",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_proposition2_viable_candidates_characterization": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_proposition2_viable_candidates_characterization",
+        "paper_proposition2_viable_candidates_characterization"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_proposition2_viable_candidates_characterization, paper_proposition2_viable_candidates_characterization",
+      "statement_sha256": "7d67175f9201345b8917b1040115f70dd6f5fe51bab25274ab7b96a7c30c9217",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_proposition2_multi_round_viable_candidates_characterization": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_proposition2_multi_round_viable_candidates_characterization",
+        "paper_proposition2_multi_round_viable_candidates_characterization"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_proposition2_multi_round_viable_candidates_characterization, paper_proposition2_multi_round_viable_candidates_characterization",
+      "statement_sha256": "ab73c05a8f6cd7781ee66867ea8768d7a6c3c3a0a6f54fe4d1bd284569451a59",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_proposition2_multi_round_profile_viable_candidate_set_member_supports_required_votes": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_proposition2_multi_round_profile_viable_candidate_set_member_supports_required_votes",
+        "paper_proposition2_multi_round_profile_viable_candidate_set_member_supports_required_votes"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_proposition2_multi_round_profile_viable_candidate_set_member_supports_required_votes, paper_proposition2_multi_round_profile_viable_candidate_set_member_supports_required_votes",
+      "statement_sha256": "0a127500bd3c4fa3d4a8d970b47f8011e4e2cccf983a1dc95f67217e4e8e21cb",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_theorem2_1_concrete_original_or_one_survival_step_facts_implementation_sound_and_quartic_runtime": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_theorem2_1_concrete_full_election_run_implementation_sound_and_quartic_runtime",
+        "paper_theorem2_1_full_election_run_source_branch_of_original_or_failure_post_worst_tallies",
+        "paper_algorithm3_one_survival_step_removes_lower_from_step_facts"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current DGJ26 dashboard row(s) after replacing superseded concrete implementation row names with the current source-facing theorem/check endpoints.",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_theorem2_1_concrete_full_election_run_implementation_sound_and_quartic_runtime, paper_theorem2_1_full_election_run_source_branch_of_original_or_failure_post_worst_tallies, paper_algorithm3_one_survival_step_removes_lower_from_step_facts",
+      "statement_sha256": "7439a16ebde2ffe4a85cf24040805049b272952a7eb4e83beab433259acf2005",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-07-02T03:38:05Z"
+    },
+    "paper_algorithm3_one_survival_step_removes_lower_from_step_facts": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_algorithm3_one_survival_step_removes_lower_from_step_facts",
+        "paper_algorithm3_one_survival_step_removes_lower_from_step_facts"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by current dashboard row(s).",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_algorithm3_one_survival_step_removes_lower_from_step_facts, paper_algorithm3_one_survival_step_removes_lower_from_step_facts",
+      "statement_sha256": "ccdeb7973dcfa9b20609b53811e3dedc44bf93b025f618223d0eeb47db41b285",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-06-30T14:56:03Z"
+    },
+    "paper_theorem2_2_concrete_containment_implementation_sound_and_polynomial_runtime_from_component_bounds": {
+      "coverage": "covered",
+      "review_rows": [
+        "paper_algorithm4_pairwise_condition",
+        "paper_theorem2_2_algorithm4_pairwise_condition_sound_and_profile_quadratic_verification"
+      ],
+      "support_declarations": [],
+      "reason": "Covered by the current Algorithm 4 source-condition formula and theorem endpoint, replacing the superseded component-bound implementation row with the profile-derived Eq. (2)/(3) route.",
+      "source_evidence": "Source inventory item linked to https://link.springer.com/article/10.1007/s42001-026-00470-7; detailed statement text is stored in paper_statement_map.json.",
+      "dashboard_evidence": "paper_algorithm4_pairwise_condition, paper_theorem2_2_algorithm4_pairwise_condition_sound_and_profile_quadratic_verification",
+      "statement_sha256": "64f61d03501861ec6557d216ada516b505e0e64fd7c29b9d0321110d309a361d",
+      "audit_kind": "source_to_dashboard_agent",
+      "source_grounded": true,
+      "seed_scaffold": false,
+      "validator": "Codex coverage refresh",
+      "validator_type": "agent",
+      "validated_at": "2026-07-02T12:00:00Z"
+    }
+  }
+}

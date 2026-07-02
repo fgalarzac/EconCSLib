@@ -333,6 +333,37 @@
       }
     },
     {
+      "id": "DGJ24OptimalStrategiesRCV",
+      "title": "Optimal Strategies in Ranked-Choice Voting",
+      "authors": "Sanyukta Deshpande; Nikhil Garg; Sheldon H. Jacobson",
+      "publication": "arXiv:2407.13661; working paper",
+      "publication_year": 2024,
+      "source_url": "https://arxiv.org/abs/2407.13661",
+      "paper_info": "Optimal Strategies in Ranked-Choice Voting by Sanyukta Deshpande; Nikhil Garg; Sheldon H. Jacobson; arXiv:2407.13661; working paper.",
+      "status": "Formalized",
+      "human_review": "0/65",
+      "human_translation": "0/65 reviewed",
+      "llm_as_judge_translation": "65/65 match",
+      "llm_as_judge_paper_coverage": "67/69 covered; 2 conditional boundaries",
+      "lean_loc": 54410,
+      "main_note": "Fully formalized. Lean covers the paper's STV/RCV model, the Section 3 smart-allocation and sequence-reduction algorithms, and the Section 5 strategic-voting results. The only source-coverage notes are two Algorithm 7 parameter formulas, not theorem gaps; source-record, statement, coverage, and DAG/source audits are clean. Human dashboard sign-off remains pending.",
+      "main_note_citation": null,
+      "main_note_review": {
+        "status": "draft",
+        "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction."
+      },
+      "paper_folder": "papers/DGJ24OptimalStrategiesRCV",
+      "review_entrypoint": "papers/DGJ24OptimalStrategiesRCV/FINAL_VALIDATION_REPORT.md",
+      "artifacts": {
+        "readme": "papers/DGJ24OptimalStrategiesRCV/README.md",
+        "paper_interface": "papers/DGJ24OptimalStrategiesRCV/PaperInterface.lean",
+        "assumptions": "papers/DGJ24OptimalStrategiesRCV/Assumptions.lean",
+        "final_validation_report": "papers/DGJ24OptimalStrategiesRCV/FINAL_VALIDATION_REPORT.md",
+        "dependency_dag_tex": "papers/DGJ24OptimalStrategiesRCV/DependencyDAG.tex",
+        "dependency_dag_pdf": "papers/DGJ24OptimalStrategiesRCV/DependencyDAG.pdf"
+      }
+    },
+    {
       "id": "PRPKG24AccuracyDiversity",
       "title": "Reconciling the Accuracy-Diversity Trade-off in Recommendations",
       "authors": "Kenny Peng, Manish Raghavan, Emma Pierson, Jon Kleinberg, and Nikhil Garg",
@@ -544,6 +575,37 @@
         "final_validation_report": "papers/GGRS26CombattingGerrymanderingRCV/docs/FINAL_VALIDATION_REPORT.md",
         "dependency_dag_tex": "papers/GGRS26CombattingGerrymanderingRCV/docs/DependencyDAG.tex",
         "dependency_dag_pdf": "papers/GGRS26CombattingGerrymanderingRCV/docs/DependencyDAG.pdf"
+      }
+    },
+    {
+      "id": "DGJ26PracticalDynamicsRCV",
+      "title": "Simpler Than You Think: The Practical Dynamics of Ranked Choice Voting",
+      "authors": "Sanyukta Deshpande; Nikhil Garg; Sheldon H. Jacobson",
+      "publication": "Journal of Computational Social Science, 2026",
+      "publication_year": 2026,
+      "source_url": "https://arxiv.org/abs/2602.14329",
+      "paper_info": "Simpler Than You Think: The Practical Dynamics of Ranked Choice Voting by Sanyukta Deshpande; Nikhil Garg; Sheldon H. Jacobson; Journal of Computational Social Science, 2026.",
+      "status": "Formalized",
+      "human_review": "0/50",
+      "human_translation": "0/50 reviewed",
+      "llm_as_judge_translation": "50/50 match",
+      "llm_as_judge_paper_coverage": "44/44 covered",
+      "lean_loc": 20736,
+      "main_note": "Fully formalized. Lean covers the theoretical RCV results on ballot-extension robustness, exhausted-ballot completion, strengthened candidate removal, and multi-winner containment. The empirical election studies are outside the Lean theorem scope; source-record, statement, coverage, and DAG/source audits are clean. Human dashboard sign-off remains pending.",
+      "main_note_citation": null,
+      "main_note_review": {
+        "status": "draft",
+        "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction."
+      },
+      "paper_folder": "papers/DGJ26PracticalDynamicsRCV",
+      "review_entrypoint": "papers/DGJ26PracticalDynamicsRCV/FINAL_VALIDATION_REPORT.md",
+      "artifacts": {
+        "readme": "papers/DGJ26PracticalDynamicsRCV/README.md",
+        "paper_interface": "papers/DGJ26PracticalDynamicsRCV/PaperInterface.lean",
+        "assumptions": "papers/DGJ26PracticalDynamicsRCV/Assumptions.lean",
+        "final_validation_report": "papers/DGJ26PracticalDynamicsRCV/FINAL_VALIDATION_REPORT.md",
+        "dependency_dag_tex": "papers/DGJ26PracticalDynamicsRCV/DependencyDAG.tex",
+        "dependency_dag_pdf": "papers/DGJ26PracticalDynamicsRCV/DependencyDAG.pdf"
       }
     },
     {

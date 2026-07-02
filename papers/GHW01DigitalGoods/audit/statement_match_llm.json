@@ -135,7 +135,7 @@
     },
     "corollary4_2_fixed_price_lower_bound": {
       "judgment": "matches",
-      "lean_statement_sha256": "0a444e8865e19b24626b051d59863232cd9d07e62123776701fe73e04c9b8244",
+      "lean_statement_sha256": "5c3366b241a764583501108e57365185526a6007aa8e4160cf34d080e620086b",
       "paper_statement_sha256": "7e66d885f1c35b8cbe4873834808339c826cd56ddbb2afe36250ee15dfc4797f",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity.",
@@ -223,7 +223,7 @@
     },
     "theorem6_2_random_sampling": {
       "judgment": "matches",
-      "lean_statement_sha256": "5726748c4ba79b2fdb844ebc5e61d7b58d1a7fb3f55e1fa53eaed4bc7a18ab76",
+      "lean_statement_sha256": "88e450b50ea7a6077696f20e76cc379236800f0fee984a7dc024387af2003d15",
       "paper_statement_sha256": "59fce542da51d4b5c11eadb04200156b969242ea007fdb6b9792c2dae0d46d3e",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity.",
@@ -234,7 +234,7 @@
     },
     "theorem7_1_weighted_pairing": {
       "judgment": "matches",
-      "lean_statement_sha256": "7850ed5d41bd0aeeeb6eb939355a46a221186adebf66a053ccedb2ae54685e2e",
+      "lean_statement_sha256": "c33c9752263eccb141b850ca05e0df7081f66e3aaf6786d322e59ee5b5b8bfcb",
       "paper_statement_sha256": "601fbafea83ae8ff3498ee1620fcf8fcd9c95a51cb0ea85b24a78ede37bec2d6",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity.",
@@ -245,7 +245,7 @@
     },
     "theorem7_2_weighted_pairing_benchmark": {
       "judgment": "matches",
-      "lean_statement_sha256": "752d4062801fc0ddba50ea10424abbadde33f5747b5aeb44c5ffc5ccad65620c",
+      "lean_statement_sha256": "df8a2f60956f9227c90f61630cc9bc06907763c53ea3b74c7fb450b6df35be78",
       "paper_statement_sha256": "e989bcc5e7632506b77405d571d497e12137fd68530dcf778a1844acb95e7935",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity.",

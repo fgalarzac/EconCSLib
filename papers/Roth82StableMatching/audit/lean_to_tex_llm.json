@@ -10,7 +10,7 @@
       "validator_type": "model"
     },
     "corollary5_1_no_need_to_misrepresent_first_choice": {
-      "lean_statement_sha256": "83ab3a3d824ec89cbcef6cf5228029fbc880915b89550b8895792a693817fbb0",
+      "lean_statement_sha256": "a49dad3d1d01e5b388b39184f237283d88991a51ab3fa31483146961d641f380",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {M : Type u_1} {W : Type u_2} [inst : Fintype M] [inst_1 : Fintype W] [inst_2 : DecidableEq M] [inst_3 : DecidableEq W] [Nonempty M] [Nonempty W], (\\forall (val_m : M \\to W \\to \u211d) (val_w : W \\to M \\to \u211d), strictMarriageDomain val_m val_w \\to \\forall (w : W) (report_w : M \\to \u211d), \\exists report_w', (\\forall (mstar : M), (\\forall (m : M), m \\ne mstar \\to val_w w m < val_w w mstar) \\to \\forall (m : M), m \\ne mstar \\to report_w' m < report_w' mstar) \\land (match (menDeferredAcceptance val_m (update val_w w report_w)).w_match w with | none  =>  0 | some m  =>  val_w w m) \\le match (menDeferredAcceptance val_m (update val_w w report_w')).w_match w with | none  =>  0 | some m  =>  val_w w m) \\land \\forall (val_m : M \\to W \\to \u211d) (val_w : W \\to M \\to \u211d), strictMarriageDomain val_m val_w \\to \\forall (m : M) (report_m : W \\to \u211d), \\exists report_m', (\\forall (wstar : W), (\\forall (w : W), w \\ne wstar \\to val_m m w < val_m m wstar) \\to \\forall (w : W), w \\ne wstar \\to report_m' w < report_m' wstar) \\land (match (womenDeferredAcceptance (update val_m m report_m) val_w).m_match m with | none  =>  0 | some w  =>  val_m m w) \\le match (womenDeferredAcceptance (update val_m m report_m') val_w).m_match m with | none  =>  0 | some w  =>  val_m m w",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -138,7 +138,7 @@
       "validator_type": "model"
     },
     "theorem1_stable_complete_outcome_exists_on_strict_marriage_domain": {
-      "lean_statement_sha256": "5f1f623923456b8eba42857a5fae2456db1e2a73ee6031e46bf5c91c450fd65e",
+      "lean_statement_sha256": "b1f976bf4f8bf8b2b03723800faee6401c498550d63f29d224db60a24d55cba8",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {M : Type u_1} {W : Type u_2} [inst : Fintype M] [inst_1 : Fintype W] [DecidableEq M] [DecidableEq W] (val_m : M \\to W \\to \u211d) (val_w : W \\to M \\to \u211d), card M = card W \\to strictMarriageDomain val_m val_w \\to \\exists mu, stable val_m val_w mu \\land completeMarriageOutcome mu",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -154,7 +154,7 @@
       "validator_type": "model"
     },
     "theorem3_no_stable_truthful_procedure_on_strict_profiles": {
-      "lean_statement_sha256": "288cc389ce08dba2fa75503e637dee27945edba77797c2176c41b9ec04d0d6b7",
+      "lean_statement_sha256": "49f56330db3825b414a45b9087fd7e301eac6b398d92a4b84163d346602c86e7",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\lnot\\exists mechanism, stableMatchingProcedure mechanism \\land truthfulForAllAgents mechanism",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -162,7 +162,7 @@
       "validator_type": "model"
     },
     "theorem4_serial_dictatorship_constructed": {
-      "lean_statement_sha256": "151f841330f1ce1cdb53acdfbf84a0bd0ebe759106225aac8d4d2d753a988f2e",
+      "lean_statement_sha256": "572d18bc0f8b9325dcff779a992173e2be2b9c68a5c8ffbbe401ecee8edcf556",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {n : \u2115}, (\\forall (val_m val_w : Fin n \\to Fin n \\to \u211d), (\\forall (m w w' : Fin n), val_m m w = val_m m w' \\to w = w') \\to paretoOptimal val_m val_w (serialDictatorshipMechanism val_m val_w)) \\land (\\forall (val_m val_w : Fin n \\to Fin n \\to \u211d), (\\forall (m w w' : Fin n), val_m m w = val_m m w' \\to w = w') \\to \\forall (m : Fin n) (report_m : Fin n \\to \u211d), (match (serialDictatorshipMechanism (update val_m m report_m) val_w).m_match m with | none  =>  0 | some w  =>  val_m m w) \\le match (serialDictatorshipMechanism val_m val_w).m_match m with | none  =>  0 | some w  =>  val_m m w) \\land \\forall (val_m val_w : Fin n \\to Fin n \\to \u211d) (w : Fin n) (report_w : Fin n \\to \u211d), (match (serialDictatorshipMechanism val_m (update val_w w report_w)).w_match w with | none  =>  0 | some m  =>  val_w w m) \\le match (serialDictatorshipMechanism val_m val_w).w_match w with | none  =>  0 | some m  =>  val_w w m",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -178,7 +178,7 @@
       "validator_type": "model"
     },
     "theorem6_weak_pareto_for_men_on_strict_marriage_domain": {
-      "lean_statement_sha256": "5f2043f7796ca48ece29862be11ceb21055abfb2deec5fd1217619df83bf10dd",
+      "lean_statement_sha256": "c93eb81a09a86e6d6097836d713369ae565397782ddf72ab9301cfff7ebfcc14",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {M : Type u_1} {W : Type u_2} [inst : Fintype M] [inst_1 : Fintype W] [inst_2 : DecidableEq M] [inst_3 : DecidableEq W] [Nonempty M] (val_m : M \\to W \\to \u211d) (val_w : W \\to M \\to \u211d), card M = card W \\to strictMarriageDomain val_m val_w \\to \\lnot\\exists nu, completeMarriageOutcome nu \\land \\forall (m : M), (match (menDeferredAcceptance val_m val_w).m_match m with | none  =>  0 | some w  =>  val_m m w) < match m_match m with | none  =>  0 | some w  =>  val_m m w",
       "translated_at": "2026-06-29T18:08:26Z",

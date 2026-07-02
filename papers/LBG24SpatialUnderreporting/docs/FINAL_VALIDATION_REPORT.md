@@ -362,13 +362,23 @@ Closeout results:
   rows outside the reviewed public surface, and the remaining stopping
   certificate premise shapes are visible formalization boundaries rather than
   hidden assumptions.
-- `DependencyDAG.tex` and `DependencyDAG.pdf` are present as a human-facing
-  roadmap with paper-facing node text rather than Lean declaration names.
 - `python3 scripts/sync_paper_status.py` completes without the earlier timeout;
   aggregate generated status files have been refreshed from the paper-local
   `status.json`.
 
-## 14. Named Theorem Statements Checked
+## 14. DAG Audit
+
+`DependencyDAG.tex` and `DependencyDAG.pdf` are present as a human-facing
+roadmap with paper-facing node text rather than Lean declaration names. The
+rendered `DependencyDAG.pdf` was visually inspected for node/label overlap and
+arrow-through-text issues. The DAG covers the declared partial source-result
+clusters recorded in the source inventory: Eq. (2), Lemmas 1 and 2, Eq. (3),
+Eqs. (5)--(7), Proposition 1, Theorems 1 and 2, the corrected case
+factorization, and the preprocessing stopping-window equations. The known
+conditional boundaries remain visible in the review surface and status rows
+rather than being hidden behind green DAG endpoints.
+
+## 15. Named Theorem Statements Checked
 - `equation2_poisson_count_pmf_formula`
 - `first_report_probability_formula`
 - `lemma1_continuous_duration_first_report_probability_integral`

@@ -36,6 +36,15 @@ sidecars across sibling checkouts, read
 `skills/econcs-formalizer/references/public-private-sync.md` first. Use that
 semantic sync workflow instead of raw repository merges or broad folder copies.
 
+Before declaring a paper done, running post-validation/post-formalization
+audits, updating a final validation report, or preparing a public PR closeout,
+read `skills/econcs-formalizer/references/post-formalization-closeout.md`.
+Keep final validation report structure, post-formalization audits,
+DAG/source/source-json comparison, LOC sourcing, and note/gap/deviation rules
+in that one closeout reference for now. Do not split the closeout workflow into
+more files yet; if it later gets too large, move only DAG-specific visual/layout
+rules to a future `references/dependency-dags.md`.
+
 ## Component 1: Workflow and Organization
 
 ### 1.1 Core Rule
@@ -2487,7 +2496,11 @@ the Lean statements against the paper.
     skeptical reviewer would. Every source-named proposition, theorem,
     corollary, and major definition from the paper inventory must appear; do
     not replace a missing named result with a broad topical or implementation
-    bucket. A green node that is fed by a caveat, partial result, or
+    bucket. Source-inventory helper formula rows, source parameters, and
+    algorithm-condition rows may be grouped under the relevant definition,
+    algorithm, theorem, or proposition node when they are not standalone paper
+    theorems; the final report or audit note should say so when the grouping is
+    not obvious. A green node that is fed by a caveat, partial result, or
     conditional bridge must either state a theorem whose Lean assumptions
     visibly include that limitation, or the incoming edge must be dashed and
     clearly non-required. If the downstream source theorem is still only proved
@@ -3166,9 +3179,7 @@ Instead:
 
 Never enter a cycle of modifying a single line in a shell command just to test slightly different lemma names. Stop, use `exact?`, and proceed efficiently.
 
-Before declaring a paper "done," or when the user explicitly asks for
-post-validation of a completed proof phase, run a final human-facing validation
-pass:
+### 1.11 Post-Formalization Closeout
 
 - Re-read `PaperInterface.lean` and check each named
   definition/theorem/corollary against the paper statement.
@@ -3606,173 +3617,10 @@ pass:
   declaration names are long. Use a concise bullet checklist instead, with the
   paper notation first and the Lean interface declaration second.
 
-Use this report template (create in the paper folder, for example
-`FINAL_VALIDATION_REPORT.md`):
-
-```markdown
-# Final Validation Report: <Paper Short Name>
-
-## 1. Human Verdict
-<Two-to-four plain-language sentences. State the current formalization status,
-the main remaining mathematical/library boundary if any, whether a
-paper-correctness issue is being claimed, and whether human dashboard sign-off
-exists. Do not include Lean declaration names, validator counts, audit digests,
-source-record inventories, command outputs, or Lean footprint numbers here.>
-
-## 2. Closeout Status
-- Completion status: <formalized / formalized with caveat / partially formalized / not formalized>
-- One-sentence recap: <do not repeat the whole human verdict>
-
-## 3. Source and Scope
-- Paper: <title>
-- Source version: <arXiv/publisher URL + version/date>
-- Lean folder: <folder path>
-- Human-facing theorem file: <file path>
-- DAG artifacts: <tikz file>, <rendered image>
-- Lean footprint: <total paper-local Lean LOC>, <PaperInterface LOC>, <review rows>
-
-## 4. Researcher Summary of Checked Results
-Summarize the checked paper definitions and named results in 3-6 concise
-paper-language bullets. This is for a researcher skimming the report; do not
-list Lean helper lemmas, declaration inventories, validator row counts, or
-source-record packages here.
-
-## 5. Remaining Boundaries and Gaps
-- `<paper item>`: <exact remaining mathematical/library boundary in paper
-  language, with the formal assumption name only if needed>
-- If none: `None`
-
-## 6. Additional Assumptions Beyond Paper
-- `<assumption declaration>`: <why needed, where used>
-- If none: `None`
-
-## 7. Proof-Strategy Deviations
-- `<paper result>`: <human-facing mathematical departure from the paper proof
-  route or theorem statement, and why>
-- Do not list Lean architecture, source-record packages, certificate plumbing,
-  parser/audit changes, or declaration names here.
-- If only explicit assumptions or remaining proof boundaries differ from full
-  formalization, write `None beyond the formalization boundaries already
-  recorded above` and refer to the assumptions/gaps sections.
-- If none: `None`
-
-## 8. Proof Tricks Worth Reusing
-- <modeling/proof/library-seam lesson that should inform future papers>
-- If none: `None`
-
-## 9. Mathematical Typos or Other Fixes Suggested in the Source Paper
-- `<location in paper>`: <likely typo, missing constant, sign issue,
-  source-version correction, or theorem-statement repair suggested by the
-  formalization>
-- If none: `None found.`
-
-## 10. Paper Issues or Caveats
-- `<location in paper>`: <issue description + formalization evidence in
-  paper language>
-- If none: `None found.`
-
-## 11. Detailed Formalization Evidence
-Record the detailed proof inventory here after the researcher-facing summary,
-gaps, and caveats. Lean declaration names are allowed here when they are useful
-evidence, but keep the paper result or formula first.
-
-## 12. Paper Assumption Provenance
-Every paper-facing theorem premise that is not derived in Lean should appear as
-a named assumption declaration in `Assumptions.lean`, be listed in `status.json`
-`review_surface.assumption_names`, and be checked in `assumption_match_llm.json`
-as a true paper/source model assumption.
-
-The source-assumption judge must work at premise granularity. A grouped
-assumption declaration may summarize a family of conditions, but it does not
-validate the individual `-- audit-premise:` comments under that declaration.
-Every exact premise must have a `premise_judgments` entry in
-`assumption_match_llm.json` with a source location and one of these meanings:
-`source_text_model_primitive` / `source_text` / `paper_condition` for textually
-stated model or theorem conditions, `derived_from_source_primitives` only when a
-Lean derivation from source primitives already exists,
-`documented_additional_assumption` for a human-approved non-caveat added
-condition, `documented_caveat` for an acknowledged source mismatch, or
-`partial_boundary` for a visible premise that is not yet source-matched or
-derived. A paper with any `partial_boundary` premise is not fully formalized;
-update `status.json`, the final validation report, and the generated status
-tables accordingly. A grouped assumption declaration may also have top-level
-`judgment: "partial_boundary"` when the whole declaration is a known
-external/library/analytic boundary. Do not use `documented_caveat` for that
-case unless the paper statement itself needs a repair.
-When a theorem closes only after assuming a rich source-model record, selector
-convention, argmax witness, or local-support witness, treat that record as a
-boundary unless there is a separate reviewed Lean theorem deriving the record
-fields from the paper's primitive assumptions. This matters for continuum
-formalizations: a C.4-style positive-support witness model, an `S*`
-compact/continuous optimizer package, or an Appendix-B common-floor selector
-package can be scientifically useful, but the full paper remains partial until
-those packages are derived or explicitly accepted as source assumptions.
-For continuum selector and positive-support work, source-facing premise
-reductions are useful but not closure. A finite-vector `S*` objective wrapper
-reduces an opaque range-dependence premise, a global floor-tracking wrapper
-reduces a dyadic selector-envelope premise, and a positive-support `_fields`
-wrapper reduces a record-construction premise; none of these derives the
-paper's arbitrary optimal selector, concrete weighted objective continuity,
-finite-level source realization equality, or non-finite-range witness from
-primitive global paper assumptions by itself.
-
-| Assumption declaration | Lean declaration | Source location / statement | Assumption validators | Comments |
-| --- | --- | --- | --- | --- |
-| None | `none` | None | None | No paper assumptions recorded. |
-
-## 12. Displayed Formula Provenance
-Every displayed or source-defining formula used by a named result should have
-an exact paper-facing row or exact subclaim row. Broad aggregate rows are not
-enough for full validation. Formula rows are closed only when the formula is
-derived in Lean from source primitives or from separately validated paper
-assumptions.
-
-| Paper formula / subclaim | Lean declaration | Provenance | Validators | Comments |
-| --- | --- | --- | --- | --- |
-| None | `none` | None | None | No displayed formulas checked. |
-
-## 13. Library Lift Pass
-- <paper-local component>: <target EconCSLib module and extraction status>
-- If none: `None`
-
-## 14. DAG Audit
-- Rendered artifact: <yes/no, visual inspection method>
-- Topology: <missing/extra boxes fixed or none>
-- Layout: <overlap/routing status>
-
-## 15. Validation Checks
-- <build/audit/DAG/no-placeholder outcomes in prose>
-- Machine-required closeout evidence may include the exact targeted repository
-  audit command here, but keep commands out of the executive verdict and proof
-  narrative.
-
-## 16. Paper Definitions Checked
-These are the mathematical objects from the paper interface. All should be
-exposed in `PaperInterface.lean`.
-
-- <Paper object>: <paper notation and one-line statement>.
-  Lean: `<PaperInterface.definitionName>`.
-- <Next paper object>: <paper notation and one-line statement>.
-  Lean: `<PaperInterface.definitionName>`.
-
-## 17. Named Theorem Statements Checked
-### Theorem <n>
-**Paper statement.** <one theorem-box-level statement matching the source>
-
-**Lean interface statement.**
-- `<PaperInterface.theoremN_part>`: <which paper clause it states>
-
-**Status.** <formalized / conditional / not formalized>. <1-4 lines of caveats only if needed.>
-
-## 18. Paper-Facing Statement Validator Ledger
-This table is one row per dashboard/PaperInterface row. Generate it from the
-validator ledger rather than from memory.
-
-| Paper-facing statement | Lean declaration | Validators | Validator comments |
-| --- | --- | --- | --- |
-| <paper item label> | `<PaperInterface.declaration>` | <human/model/agent validators, judgments, dates, stale flags> | <validator comments or `None`> |
-
-```
+Keep this closeout workflow in that single reference file for now rather than
+splitting it across multiple files. If the closeout reference later becomes too
+large, split only DAG-specific visual/layout rules into a future
+`references/dependency-dags.md`.
 
 ## Component 2: Proof Reference Routing
 

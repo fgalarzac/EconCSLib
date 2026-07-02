@@ -10,7 +10,7 @@
       "validator_type": "model"
     },
     "definition_rate_function_formula": {
-      "lean_statement_sha256": "1f08b72454237b170ea07e9445c59f80d97c009f282839335763b5726f370453",
+      "lean_statement_sha256": "83ba156947247538275b2add688e5a24a99fa5c59a570346b2dfe52765b1be13",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Seller : Type u_1} {Rating : Type u_2} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] (M : FiniteRatingLDPModel Seller Rating) (\u03b8 : Seller) (a : \u211d), paperRateFunction M \u03b8 a = sSup (range fun z  =>  z * a - paperLogMGF M \u03b8 z)",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -18,7 +18,7 @@
       "validator_type": "model"
     },
     "lemmaC_pk_complement_source_threshold_rate_from_logMGF_derivatives": {
-      "lean_statement_sha256": "6dc9053995b09616663b7cc8bfe03ee7ff7d0ad3da6b8f5627cd031bca1737c3",
+      "lean_statement_sha256": "f560ce3648d5af6b62d3dc15839b3914ce38709b4126216617cd584943e26155",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Seller : Type u_1} {Rating : Type u_2} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller \\to \u211d) (hi lo : Seller) (gHi gLo : \u2115), 0 < gHi \\to 0 < gLo \\to sampleRate hi = \u2191gHi \\to sampleRate lo = \u2191gLo \\to (\\forall (a : \u211d), BddAbove (range fun z  =>  finiteLegendreValue (typeLaw hi) score a z)) \\to (\\forall (a : \u211d), BddAbove (range fun z  =>  finiteLegendreValue (typeLaw lo) score a z)) \\to \\forall (a z : \u211d), HasDerivAt (fun t  =>  logMGF hi t) a (z * (\u2191gHi)\u207b\u00b9) \\to HasDerivAt (fun t  =>  logMGF lo t) a (-(z * (\u2191gLo)\u207b\u00b9)) \\to 0 \\le pmfExp (twoSampleRateBlockLaw M hi lo gHi gLo) (twoSampleRateBlockScore M gHi gLo) \\to \\forall {samplePos sampleNeg : (Fin gHi \\to Rating) \u00d7 (Fin gLo \\to Rating)}, 0 < ((twoSampleRateBlockLaw M hi lo gHi gLo) samplePos).toReal \\to 0 < twoSampleRateBlockScore M gHi gLo samplePos \\to 0 < ((twoSampleRateBlockLaw M hi lo gHi gLo) sampleNeg).toReal \\to twoSampleRateBlockScore M gHi gLo sampleNeg < 0 \\to ExponentialRateCertificate (fun n  =>  twoSamplePkComplementErrorProb M hi lo (n * gHi) (n * gLo) (\u2191gHi)\u207b\u00b9 (\u2191gLo)\u207b\u00b9) (pairwiseSellerThresholdRate M sampleRate hi lo)",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -26,7 +26,7 @@
       "validator_type": "model"
     },
     "theorem1_finite_chain_adjacent_threshold_rate_top_min_eq_displayed_objective_min_of_logMGF_derivatives": {
-      "lean_statement_sha256": "b5492a20024271ea7f0617cb37b4f2ab21ab9fae9265747d699196b8c1fe88c2",
+      "lean_statement_sha256": "c56bcdc9f59be99394e7a1de5ca43ec39c373a9a79fc1dc72bfe0abe50f339ef",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {n : \u2115} {Rating : Type u_1} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] [inst_2 : Nonempty (finiteChainAdjacentIndex n)] (M : FiniteRatingLDPModel (Fin n) Rating) (sampleRate : Fin n \\to \u211d), (\\forall (\u03b8 : Fin n), 0 < sampleRate \u03b8) \\to \\forall (a z : finiteChainOrderedPair n \\to \u211d), (\\forall (p : finiteChainOrderedPair n), HasDerivAt (fun t  =>  logMGF (finiteChainOrderedPairHi p) t) (a p) (z p * (sampleRate (finiteChainOrderedPairHi p))\u207b\u00b9)) \\to (\\forall (p : finiteChainOrderedPair n), HasDerivAt (fun t  =>  logMGF (finiteChainOrderedPairLo p) t) (a p) (-(z p * (sampleRate (finiteChainOrderedPairLo p))\u207b\u00b9))) \\to minFiniteChainAdjacentThresholdRateTop M sampleRate = \u2191(minFiniteChainAdjacentObjectiveRate M sampleRate a)",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -34,7 +34,7 @@
       "validator_type": "model"
     },
     "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_joint_floor_rating_law": {
-      "lean_statement_sha256": "74f4a46256088906c307990789573b4ef47a69989eb7e5b2bc24358a7c77b47e",
+      "lean_statement_sha256": "bdda8b9915d349beec22f841cc51e8eae5a7bc6a028e66e653dca060aa1008a5",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {n : \u2115} {Rating : Type u_1} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] [DecidableEq (finiteChainOrderedPair n)] [inst_3 : Nonempty (finiteChainAdjacentIndex n)] (M : FiniteRatingLDPModel (Fin n) Rating) (sampleRate : Fin n \\to \u211d), (\\forall (\u03b8 : Fin n), 0 < sampleRate \u03b8) \\to \\forall (a z : finiteChainOrderedPair n \\to \u211d), (\\forall (p : finiteChainOrderedPair n), z p \\le 0) \\to (\\forall (p : finiteChainOrderedPair n), HasDerivAt (fun t  =>  logMGF (finiteChainOrderedPairHi p) t) (a p) (z p * (sampleRate (finiteChainOrderedPairHi p))\u207b\u00b9)) \\to (\\forall (p : finiteChainOrderedPair n), HasDerivAt (fun t  =>  logMGF (finiteChainOrderedPairLo p) t) (a p) (-(z p * (sampleRate (finiteChainOrderedPairLo p))\u207b\u00b9))) \\to (\\forall (p : finiteChainOrderedPair n) (b : \u211d), pairwiseRateObjective sampleRate (finiteChainOrderedPairHi p) (finiteChainOrderedPairLo p) (a p) \\le pairwiseRateObjective sampleRate (finiteChainOrderedPairHi p) (finiteChainOrderedPairLo p) b) \\to (\\forall (p : finiteChainOrderedPair n), ratingLawStraddlesThreshold M (finiteChainOrderedPairHi p) (a p)) \\to (\\forall (p : finiteChainOrderedPair n), ratingLawStraddlesThreshold M (finiteChainOrderedPairLo p) (a p)) \\to HasExponentialRate (fun k  =>  1 - finiteUniformFloorPkObjective M sampleRate finiteChainOrderedPairHi finiteChainOrderedPairLo k) (minFiniteChainAdjacentThresholdRate M sampleRate)",
       "translated_at": "2026-06-29T18:08:26Z",

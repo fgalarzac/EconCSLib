@@ -300,8 +300,10 @@ now because their current shape is tuned to LG21's source-law bookkeeping.
 
 The final spacing pass widened the lanes, increased vertical separation, and
 routed the model-to-fairness dependency vertically so arrows do not cross node
-labels. `latexmk -pdf DependencyDAG.tex` rebuilt the PDF, and PNG inspection
-found no node-label or arrow-through-text overlap.
+labels. `latexmk -pdf DependencyDAG.tex` rebuilt `DependencyDAG.pdf`, and PNG
+inspection found no node-label or arrow-through-text overlap. The DAG covers
+the source-result clusters recorded in the source inventory: Definitions 1/6,
+Lemma 4.1, Propositions 4.2/4.3, and Theorems 3.1/3.2/4.4.
 
 ## 17. Validation Checks
 ### Verification Checks

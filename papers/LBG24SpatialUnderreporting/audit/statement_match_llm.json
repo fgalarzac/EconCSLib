@@ -43,7 +43,7 @@
         "Strict source comparison is conditional rather than unconditional because the concrete continuous-time Poisson/stopping construction is not yet derived in Lean."
       ],
       "judgment": "mismatch",
-      "lean_statement_sha256": "38d5e7a1953c482ba5a52eff1346bd7268703e02c6325c6abb9c520dba18822b",
+      "lean_statement_sha256": "48b803784112fa1332d3dea4d10210f1e585b6d5c3c8426cc408bd6d2af3251e",
       "paper_statement_sha256": "c8934ee0a0924cb8d70def56acb0a2962a4b107d74ca5651c390390085727c17",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "Strict source comparison is conditional rather than unconditional because the concrete continuous-time Poisson/stopping construction is not yet derived in Lean.",
@@ -120,7 +120,7 @@
     },
     "equation7_zero_inflated_likelihood_positive_count": {
       "judgment": "matches",
-      "lean_statement_sha256": "3bfb9af8483430ebbc1b8020847867b4e69c57d52109d1b503a74b47ffe20556",
+      "lean_statement_sha256": "ad4379fdad759a08bc01cb4df90f5557a9afe5e3b1364ebdbafa46e10c83964c",
       "paper_statement_sha256": "2bea74ab9bc74737136e2d109297ecba843c48b505e9df413843de00ea0c8462",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected paper formula, lemma subclaim, or displayed equation with its visible hypotheses and conclusion.",
@@ -142,7 +142,7 @@
     },
     "first_report_probability_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "1daee10801f86b477794b654482d2644bc452772adedcbe4e72fda3f3500c850",
+      "lean_statement_sha256": "f065d372e34d4f10c7e35404ae046f89a9d7b87312b5bd6fe5e58b3e362141c0",
       "paper_statement_sha256": "b58836b375fd271e77a397dc0b4eaef67076a7939eca6e8a610d3d762f99e364",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected paper formula, lemma subclaim, or displayed equation with its visible hypotheses and conclusion.",
@@ -153,7 +153,7 @@
     },
     "lemma1_continuous_duration_first_report_probability_integral": {
       "judgment": "matches",
-      "lean_statement_sha256": "7b4d07da52e892134579bba6bb3e096c5218d1cc64b68fb4750cda80c02c9965",
+      "lean_statement_sha256": "f1d79b4f2463311252a53391f01251cd3b3dedba3135fae821989774587e862d",
       "paper_statement_sha256": "983bcdcbf4ac1c60a8395c1d402ec3330e22d7bc6635ccc7d3c892211ebbc6e4",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected paper formula, lemma subclaim, or displayed equation with its visible hypotheses and conclusion.",
@@ -186,7 +186,7 @@
     },
     "lemma1_finite_duration_first_report_weighted_average": {
       "judgment": "matches",
-      "lean_statement_sha256": "228e647b96ccaabb82cd66301382c5b3dae481b9e64584377977765b701cf0ab",
+      "lean_statement_sha256": "2fe2ff50534aacf7d009a6f3c866aaa8cdde06940f792c98fca27a0d4a398a4f",
       "paper_statement_sha256": "3e34b6acace0c0a1c60bad52902ec871f6ba516ecf32faaf2782e33bd4940054",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected paper formula, lemma subclaim, or displayed equation with its visible hypotheses and conclusion.",
@@ -219,7 +219,7 @@
     },
     "proposition1_continuous_duration_nonidentifiability": {
       "judgment": "matches",
-      "lean_statement_sha256": "6464c7280bf3bf832bdd1a9d6cf2847621bfa2d214ab501ec77d6f334959ed6f",
+      "lean_statement_sha256": "bf1500c6ca8c1dfbb18450294a2b7c5c0eee60a570c28f3552b61da8d3994548",
       "paper_statement_sha256": "0ff39e3d99fc55e7de668e490f0ee025c561089ffa0b9129a99dde0ce7f4262c",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected paper formula, lemma subclaim, or displayed equation with its visible hypotheses and conclusion.",
@@ -230,7 +230,7 @@
     },
     "proposition1_homogeneous_nonidentifiability": {
       "judgment": "matches",
-      "lean_statement_sha256": "5f1959eb0afe92b32a41a872e0d09978b87c78f36acfc08cefc2323c61b5fda4",
+      "lean_statement_sha256": "a8ba125407b3588a0638f5de23d35e24f0c7063cdeb1e08051f35ce0d27f3ea6",
       "paper_statement_sha256": "1a5cb86a6a90dc4e3bff074428a0958873cb55ec03692f2e3d1eabcf9307a0fa",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The Lean-to-TeX draft preserves the selected paper formula, lemma subclaim, or displayed equation with its visible hypotheses and conclusion.",
@@ -248,7 +248,7 @@
         "Strict source comparison is conditional because the visible Lean statement contains an explicit source-model/certificate/process-law/window premise."
       ],
       "judgment": "mismatch",
-      "lean_statement_sha256": "b61451411540b7f88770d5548ce4216bf5af3efc2da40855a2b7efbd2bdf34be",
+      "lean_statement_sha256": "bdaedc20009f63233d74f29d35c3396d878f75b58b284792e8fb3786b85f7025",
       "paper_statement_sha256": "71251518da4f8b7e8e10ae8d16955377c7b771198bb5faf0204f04e9828c4331",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "Strict source comparison is conditional because the visible Lean statement contains an explicit source-model/certificate/process-law/window premise.",
@@ -268,7 +268,7 @@
         "Strict source comparison is conditional because the visible Lean statement contains an explicit source-model/certificate/process-law/window premise."
       ],
       "judgment": "mismatch",
-      "lean_statement_sha256": "0232a9cd83e84a10e8b01bb42ed2341c5926bf27dcb1d7431bbece440fb7d735",
+      "lean_statement_sha256": "9c364ad8c0ee38dcb64787d925d513f8cd97d624b70c5d37b56eb8c4eb27acbc",
       "paper_statement_sha256": "9fc352e6727577e50dc5a279044a6b437c8d2c792f22bede2a78842f96eed5be",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "Strict source comparison is conditional because the visible Lean statement contains an explicit source-model/certificate/process-law/window premise.",
@@ -288,7 +288,7 @@
         "Strict source comparison is conditional rather than unconditional because the concrete continuous-time Poisson/stopping construction is not yet derived in Lean."
       ],
       "judgment": "mismatch",
-      "lean_statement_sha256": "750bc47ccddd47e58adcf079402d4b018ad0ee9474fc5b5cb300a738b5da2701",
+      "lean_statement_sha256": "a26a42fbdbdde3c1ee5c34c79b40edaa5429cd949b3c7e993df6717114540480",
       "paper_statement_sha256": "34bb853e747cbe931db3924f0f9342fab4999ba2d96c24989a4ab34f369b1e52",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "Strict source comparison is conditional rather than unconditional because the concrete continuous-time Poisson/stopping construction is not yet derived in Lean.",
@@ -359,7 +359,7 @@
         "Strict source comparison is conditional rather than unconditional because the concrete continuous-time Poisson/stopping construction is not yet derived in Lean."
       ],
       "judgment": "mismatch",
-      "lean_statement_sha256": "c4329e6bfe4531ae3b6115ef8124a7b306cc0755ce5f89a2598be6240bb5a282",
+      "lean_statement_sha256": "ded8d60f17141746be8cddce246acda7e64639fa017e734e3ece8965348cc6e7",
       "paper_statement_sha256": "470318756adbd960cf37e82f645cf09a697fb3c22f857a5eee9cb712a8d4e7bc",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "Strict source comparison is conditional rather than unconditional because the concrete continuous-time Poisson/stopping construction is not yet derived in Lean.",

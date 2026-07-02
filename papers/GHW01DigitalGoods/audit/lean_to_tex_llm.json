@@ -2,7 +2,7 @@
   "comment": "Regenerated context-free Lean-to-TeX drafts for semantic statement rejudge; every visible binder/hypothesis remains part of the translated surface.",
   "items": {
     "corollary4_2_fixed_price_lower_bound": {
-      "lean_statement_sha256": "0a444e8865e19b24626b051d59863232cd9d07e62123776701fe73e04c9b8244",
+      "lean_statement_sha256": "5c3366b241a764583501108e57365185526a6007aa8e4160cf34d080e620086b",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Agent : Type u_1} [inst : Fintype Agent] [inst_1 : Nonempty Agent] [DecidableEq Agent] (values : Agent \\to \u211d) {h binCount : \u211d}, (\\forall (i : Agent), 0 \\le values i) \\to 0 < h \\to (\\exists i, values i = h) \\to (\\forall (i : Agent), values i \\le h) \\to logb 2 \u2191(card Agent) + 2 \\le binCount \\to totalValue values \\le 4 * binCount * fixedPriceBenchmark values 1",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -66,7 +66,7 @@
       "validator_type": "model"
     },
     "theorem6_2_random_sampling": {
-      "lean_statement_sha256": "5726748c4ba79b2fdb844ebc5e61d7b58d1a7fb3f55e1fa53eaed4bc7a18ab76",
+      "lean_statement_sha256": "88e450b50ea7a6077696f20e76cc379236800f0fee984a7dc024387af2003d15",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {n : \u2115} [inst : NeZero n] (values : Fin n \\to \u211d) (keep : Bool) {alpha : \u2115} {highValue : \u211d}, 0 < highValue \\to (\\forall (i : Fin n), values i \\le highValue) \\to \u2191alpha * highValue \\le fixedPriceBenchmark values 1 \\to 1 - exp (-\u2191alpha / 36) - 40 * exp (-\u2191alpha / 72) \\le (productMeasure (Fin n)).real {side | fixedPriceBenchmark values 1 \\le 6 * (thresholdPriceAuction (crossSampleCandidateOfferThreshold side 1)).revenue values}",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -74,7 +74,7 @@
       "validator_type": "model"
     },
     "theorem7_1_weighted_pairing": {
-      "lean_statement_sha256": "7850ed5d41bd0aeeeb6eb939355a46a221186adebf66a053ccedb2ae54685e2e",
+      "lean_statement_sha256": "c33c9752263eccb141b850ca05e0df7081f66e3aaf6786d322e59ee5b5b8bfcb",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Agent : Type u_1} [inst : Fintype Agent] [inst_1 : DecidableEq Agent] [inst_2 : LinearOrder Agent] (values : Agent \\to \u211d) {h total : \u211d}, total = totalValue values \\to 1 \\le h \\to (\\forall (i : Agent), 1 \\le values i) \\to (\\forall (i : Agent), values i \\le h) \\to 4 * h \\le total \\to total \\le 192 * (logb 2 h + 2) * weightedPairingRevenue values",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -82,7 +82,7 @@
       "validator_type": "model"
     },
     "theorem7_2_weighted_pairing_benchmark": {
-      "lean_statement_sha256": "752d4062801fc0ddba50ea10424abbadde33f5747b5aeb44c5ffc5ccad65620c",
+      "lean_statement_sha256": "df8a2f60956f9227c90f61630cc9bc06907763c53ea3b74c7fb450b6df35be78",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Agent : Type u_1} [inst : Fintype Agent] [inst_1 : Nonempty Agent] [inst_2 : DecidableEq Agent] [inst_3 : LinearOrder Agent] (values : Agent \\to \u211d) {h total s : \u211d}, total = totalValue values \\to 1 \\le h \\to (\\forall (i : Agent), 1 \\le values i) \\to (\\forall (i : Agent), values i \\le h) \\to 2 * h \\le twoWinnerBenchmark values \\to 2 \\le s \\to logb 2 h + 2 \\le s ^ 2 \\to twoWinnerBenchmark values \\le 576 * s * weightedPairingRevenue values",
       "translated_at": "2026-06-29T18:08:26Z",

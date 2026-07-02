@@ -97,7 +97,15 @@ than paper assumptions:
 None separately recorded in the existing report.
 
 ## 13. DAG Audit
-No separate DAG audit note is recorded in the existing report.
+`DependencyDAG.tex` and `DependencyDAG.pdf` are present as the paper-facing
+dependency artifacts. The rendered `DependencyDAG.pdf` was visually inspected
+for node/label overlap and arrow-through-text issues. The DAG covers the
+declared partial source-result clusters: Section 2 envy and allocation
+definitions, Lemmas 2.2/2.4, Theorems 2.1/2.3, Section 3 query/descent and
+rounded-search support, Lemma 3.5, Theorems 3.1--3.3, and Section 4
+truthfulness results. The PTAS/FPTAS runtime layer remains visible as a
+fixed-dimension integer-programming infrastructure boundary rather than a
+green DAG endpoint.
 
 ## 14. Validation Checks
 Recent checks built the LMMS paper module, `PaperInterface.lean`, the Section 3

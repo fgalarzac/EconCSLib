@@ -2,7 +2,7 @@
   "comment": "Regenerated context-free Lean-to-TeX drafts for semantic statement rejudge; every visible binder/hypothesis remains part of the translated surface.",
   "items": {
     "algorithm1_local_neighborhood_formula": {
-      "lean_statement_sha256": "703a5593d0800c7231d3f800fde143029bcc3c6c8947fb0d0c313025f3bf9e0f",
+      "lean_statement_sha256": "c8f1cde799aa5b32d223b1b310c542e487a4370de90714b5f40eb2e660dd354d",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Voter : Type u_1} {Point : Type u_2} (E : ILVEnvironment Voter Point) (q : SourceNorm) (center candidate : Point) (r : \\mathbb{R}), candidate \\in LocalNeighborhood E q center r \\iff candidate \\in solutionSpace \\land normDistance q candidate center \\le r",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -18,7 +18,7 @@
       "validator_type": "model"
     },
     "algorithm1_projected_trajectory_feasible_of_normProjection": {
-      "lean_statement_sha256": "6ad08e4b56272bcfca286bc5698f1ab7bf8b3adffe38d28c9b3bbbf1c539c3f7",
+      "lean_statement_sha256": "f66858532ac7d39d072119871c5c42dfa542ddef904b519b9200f523ef8dc1c9",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Voter : Type u_1} {Point : Type u_2} {E : ILVEnvironment Voter Point} {q : SourceNorm} {project : Point \\to Point} {raw trajectory : \\mathbb{N} \\to Point}, IsNormProjectionOnto E q project \\to trajectory 0 \\in solutionSpace \\to (\\forall (t : \\mathbb{N}), Algorithm1ProjectedUpdate project (raw t) (trajectory (t + 1))) \\to \\forall (t : \\mathbb{N}), trajectory t \\in solutionSpace",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -26,7 +26,7 @@
       "validator_type": "model"
     },
     "algorithm1_projected_update_formula": {
-      "lean_statement_sha256": "35d3101d4f90c5d5f1e913e0244b79538c2d410d7ef11de3dfc84bdb7c4d8a81",
+      "lean_statement_sha256": "ad873b944c2e08cc529bd9e6010c2efa91b18d15065bced83923d6a57979c372",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Point : Type u_1} (project : Point \\to Point) (raw next : Point), Algorithm1ProjectedUpdate project raw next \\iff next = project raw",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -34,7 +34,7 @@
       "validator_type": "model"
     },
     "algorithm1_radius_formula": {
-      "lean_statement_sha256": "d30ae981ef9fa95e20425fecaaedd8ef59e4fd2c158056e8e70f0cebef8b0600",
+      "lean_statement_sha256": "e0740b12bbbd7b885de47f1a914f9b51e870a4a8baa0ca24e1d0a7f957f24589",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall (r0 : \\mathbb{R}) (t : \\mathbb{N}), ilvRadius r0 t = r0 / \\uparrow t",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -50,7 +50,7 @@
       "validator_type": "model"
     },
     "algorithm1_radius_sq_summable": {
-      "lean_statement_sha256": "3d50b97c62518d1f672eacf44d4932e533693a881ba4cc4307251d02b16b7d8e",
+      "lean_statement_sha256": "8b68f83774d578248c39fb5a81813858cbc853fe0f3fcf817d078a45eca416ca",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall (r0 : \\mathbb{R}), Summable fun t  =>  ilvRadius r0 (t + 1) ^ 2",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -58,7 +58,7 @@
       "validator_type": "model"
     },
     "algorithm1_radius_ssgm_step_size_conditions": {
-      "lean_statement_sha256": "85f1eee6cd758fba7958e634b59d33a46fa2c5af939ed0b1a8f39c7c17cf9c3a",
+      "lean_statement_sha256": "9498c24706b02883cc194a9dfe9956116136ac4833964bd2f4694363ffbdb8a1",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {r0 : \\mathbb{R}}, 0 < r0 \\to SSGMStepSizeConditions (ilvRadius r0)",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -66,7 +66,7 @@
       "validator_type": "model"
     },
     "algorithm1_radius_sum_tendsto_atTop": {
-      "lean_statement_sha256": "20a1a7e498a18c5ce52b9bb7171265a2f84ac7ffab3e3757a2df65b8ddc2864d",
+      "lean_statement_sha256": "7ec3c5ad4cc456c756bbd369ba70a8785d60f0292a8e45ca5eaf79c65ffc2406",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {r0 : \\mathbb{R}}, 0 < r0 \\to Tendsto (fun n  =>  \\sum t \\in range n, ilvRadius r0 (t + 1)) atTop atTop",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -82,7 +82,7 @@
       "validator_type": "model"
     },
     "algorithm1_stop_condition_formula": {
-      "lean_statement_sha256": "5f6fe3893120bbae02247cb74767d9d64e60e858b3504a288151a898ee3854af",
+      "lean_statement_sha256": "8d728578b3670925ba8119ef3fbe014eaafe7bc79c8b1735f8405de82ce4ad03",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Voter : Type u_1} {Point : Type u_2} (E : ILVEnvironment Voter Point) (q : SourceNorm) (trajectory : \\mathbb{N} \\to Point) (T N t : \\mathbb{N}) (epsilon : \\mathbb{R}), Algorithm1StopCondition E q trajectory T N t epsilon \\iff t = T \\lor Algorithm1WindowStable E q trajectory t N epsilon",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -138,7 +138,7 @@
       "validator_type": "model"
     },
     "definition1_finite_coordinate_l2_formula": {
-      "lean_statement_sha256": "36fa8d1a3fc3f6c1cbd1fd891ab20eccd12ae868b55a8d45a5260cd0eee1c9cc",
+      "lean_statement_sha256": "60c30061349bb8198e7b177f78ee1a135925ea2b4a3d305d3d9473348905611d",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Voter : Type u_1} {Coord : Type u_2} [inst : Fintype Coord] [inst_1 : Nonempty Coord] (E : ILVEnvironment Voter (Coord \\to \\mathbb{R})), UsesFiniteCoordinateNormDistance E \\to (IsLpNormedUtilities E l2 \\iff \\forall (v : Voter) (x : Coord \\to \\mathbb{R}), utility v x = -l2 fun m  =>  x m - ideal v m)",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -146,7 +146,7 @@
       "validator_type": "model"
     },
     "definition1_finite_coordinate_linf_formula": {
-      "lean_statement_sha256": "135faf98ad66983ff04e39b7269256a4b4299b51ea11e1bc9508733c512e2b43",
+      "lean_statement_sha256": "f6d2223c5d032451c63e4f489f543a44c5b4bfceefe9c4e3f1fe789f103d169c",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Voter : Type u_1} {Coord : Type u_2} [inst : Fintype Coord] [inst_1 : Nonempty Coord] (E : ILVEnvironment Voter (Coord \\to \\mathbb{R})), UsesFiniteCoordinateNormDistance E \\to (IsLpNormedUtilities E linfty \\iff \\forall (v : Voter) (x : Coord \\to \\mathbb{R}), utility v x = -linf fun m  =>  x m - ideal v m)",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -154,7 +154,7 @@
       "validator_type": "model"
     },
     "definition1_finite_coordinate_lp_formula": {
-      "lean_statement_sha256": "65be9192afb5b32428c88c16fd81625cba5b94ac1c666417d167d74f1bccf62f",
+      "lean_statement_sha256": "bffa3cd125da887b0fbb05204fc5ab030846579b80d1cfc28aaed423f3863d9f",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Voter : Type u_1} {Coord : Type u_2} [inst : Fintype Coord] [inst_1 : Nonempty Coord] (E : ILVEnvironment Voter (Coord \\to \\mathbb{R})), UsesFiniteCoordinateNormDistance E \\to \\forall (p : \\mathbb{R}), IsLpNormedUtilities E (lp p) \\iff \\forall (v : Voter) (x : Coord \\to \\mathbb{R}), utility v x = -lp p fun m  =>  x m - ideal v m",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -162,7 +162,7 @@
       "validator_type": "model"
     },
     "definition1_lp_normed_utilities_formula": {
-      "lean_statement_sha256": "3d84003c60f610277b4dce42e38e3bcc9cba56b1223edf26a0c87eadace76ddd",
+      "lean_statement_sha256": "b07f57098d5476eb89a54ad4f46e18e3962d7c701452827825ecf041daa85f21",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Voter : Type u_1} {Point : Type u_2} (E : ILVEnvironment Voter Point) (p : SourceNorm), IsLpNormedUtilities E p \\iff \\forall (v : Voter) (x : Point), utility v x = -normDistance p x (ideal v)",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -178,7 +178,7 @@
       "validator_type": "model"
     },
     "definition3_decomposable_utilities_formula": {
-      "lean_statement_sha256": "28a10e0bb5d231b1b53692cede76ad4d294a57c8ceef3cef292eb54792ec0e9f",
+      "lean_statement_sha256": "952becf93fe75cb502c3dc10299805681e1c0158da51a2e2f7eb72d517beb012",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Voter : Type u_1} {Point : Type u_2} {Coord : Type u_3} (E : ILVEnvironment Voter Point) (D : DecomposableStructure Voter Point Coord), IsDecomposableUtilitiesWith E D \\iff coordinateUtilitiesConcave \\land \\forall (v : Voter) (x : Point), utility v x = \\sum m \\in coords, coordinateUtility m v (coordinate m x)",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -210,7 +210,7 @@
       "validator_type": "model"
     },
     "lemma3_coordinate_noncollision_ae_from_productMeasure": {
-      "lean_statement_sha256": "b8f416a17af1f07f732a0ca9d4269a7047c7fededfc9696bfe1ce5066302ad72",
+      "lean_statement_sha256": "db3d9c64b9427784ea4b061f4ddcf28b2e148aa3939e115a769c3fe59e2203fd",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Coord : Type u_1} [inst : Fintype Coord] (\\rho : Measure \\mathbb{R}) [SigmaFinite \\rho] [NoAtoms \\rho] {\\mu : Measure (Coord \\to \\mathbb{R})} {C : ENNReal}, HasBoundedDensity (pi fun x  =>  \\rho) \\mu C \\to \\forall (x : Coord \\to \\mathbb{R}), \\forall\u1d50 (ideal : Coord \\to \\mathbb{R}) \\,\\partial \\mu, \\forall (i : Coord), x i \\ne ideal i",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -218,7 +218,7 @@
       "validator_type": "model"
     },
     "lemma3_finite_holder_dual_gradient_candidate_norm_formula": {
-      "lean_statement_sha256": "345d381322c755c39ae378fc1615bbc82f7e17684ccce548f121cf9718f33e4e",
+      "lean_statement_sha256": "6404db0d4c4949d60acdf1115bd54f7524f81a096f71882aa7dc3c501d2cf1f4",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Coord : Type u_1} [inst : Fintype Coord] [inst_1 : Nonempty Coord] {p q : \\mathbb{R}}, HolderDualFinite p q \\to \\forall {x ideal : Coord \\to \\mathbb{R}}, (\\forall (i : Coord), x i \\ne ideal i) \\to finiteCoordinateNorm (lp q) (lpCostGradientCandidate p fun i  =>  x i - ideal i) = 1",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -226,7 +226,7 @@
       "validator_type": "model"
     },
     "lemma3_gradient_candidate_hasFDerivAt_formula": {
-      "lean_statement_sha256": "17ce879c1047d63ab1e3c68ccb179d4cfc3d45f8c400ba8b08011f27150d2311",
+      "lean_statement_sha256": "f6191fcede0dc01f562e4a28ca3cd2ce58310eb69d9ce368d26abba9007ca53d",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Coord : Type u_1} [inst : Fintype Coord] [Nonempty Coord] {p : \\mathbb{R}}, 1 < p \\to \\forall {x ideal : Coord \\to \\mathbb{R}}, (\\forall (i : Coord), x i \\ne ideal i) \\to HasFDerivAt (fun y  =>  lp p fun i  =>  y i - ideal i) (coordinateLinearFunctional (lpCostGradientCandidate p fun i  =>  x i - ideal i)) x",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -266,7 +266,7 @@
       "validator_type": "model"
     },
     "modelB_finite_response_formula": {
-      "lean_statement_sha256": "8d2ab50f64e181a40d8c23a425be5e8800ef7466fa4a87fdd92268b14698ba36",
+      "lean_statement_sha256": "393e67d0aa0bb48d27af0b98ec4f70e3df32f5d8847d8f024a0328ab2d80db08",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Coord : Type u_1} [inst : Fintype Coord] [inst_1 : Nonempty Coord] (q : SourceNorm) (center : Coord \\to \\mathbb{R}) (r : \\mathbb{R}) (gradient response : Coord \\to \\mathbb{R}), ModelBFiniteResponseAt q center r gradient response \\iff response = fun i  =>  center i + r * (gradient i / finiteCoordinateNorm q gradient)",
       "translated_at": "2026-06-29T20:41:49Z",
@@ -290,7 +290,7 @@
       "validator_type": "model"
     },
     "proposition1_weighted_euclidean_l2": {
-      "lean_statement_sha256": "d8e009baa13324635b123f9aafc22837c4a85e0663a34037ee5df52d9be2b68f",
+      "lean_statement_sha256": "db5aada600423875812fc84da14650b9d2ee83fecfd67b12ec6a73b4213fa06a",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {Voter Coord} [Fintype Coord] [Nonempty Coord] (E : ILVEnvironment Voter (Coord \\to \\mathbb{R})),\nProposition1SourceSemantics E \\to proposition1Statement E.\nExpanded proposition1Statement E: for every component type, if ConditionsC123 E and there exists a WeightedEuclideanStructure W with IsWeightedEuclideanUtilitiesWith E W, then for every Model A or Model B response model obeyed by E, ILVConvergesToSocietalOptimal E L2 model.",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -314,7 +314,7 @@
       "validator_type": "model"
     },
     "theorem1_norm_pair_l1_linf": {
-      "lean_statement_sha256": "02eca6af7e13af51e39b6df650692f1e51347402e67663e0aa500552cb2a5ec3",
+      "lean_statement_sha256": "57ad3160160e391d96e87eee12c2ec9d4048ac406ae3f5dc9129e87c1b453bae",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "Theorem1NormPair l1 linfty",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -322,7 +322,7 @@
       "validator_type": "model"
     },
     "theorem1_norm_pair_l2_l2": {
-      "lean_statement_sha256": "96f559080c396cc4cd857efabf03e25ac361d4dd61e9dd46b4d664a5b6551e73",
+      "lean_statement_sha256": "b7b878c7d5634c04175c7030b5d04fabd6968dbac70c03a146cd76e1632413ec",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "Theorem1NormPair l2 l2",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -346,7 +346,7 @@
       "validator_type": "model"
     },
     "theorem3_statement_of_full_sampled_projected_source_semantics_univ": {
-      "lean_statement_sha256": "4d277b95651acbfe45e75ab15120e6cb5d35f052056b5ee479913efe944a6950",
+      "lean_statement_sha256": "9b5c230534ab6f603ae3787abd20ead7714741b6a919432d2096f18bf69a75b4",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "For every finite voter type, finite nonempty coordinate type, measurable singleton voter space, ILV environment E over finite-coordinate real vectors, and sampled projected source-semantics record M, if E.solutionSpace = Set.univ, then the exact paper Theorem 3 statement theorem3Statement E holds.",
       "translated_at": "2026-06-29T18:08:26Z",

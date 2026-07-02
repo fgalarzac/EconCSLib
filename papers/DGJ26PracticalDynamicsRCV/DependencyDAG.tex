@@ -1,0 +1,81 @@
+\documentclass[tikz,border=10pt]{standalone}
+\input{../../docs/tikz/dag_preamble.tex}
+
+\begin{document}
+
+% Agent visual validation loop:
+% 1. Compile this file to PDF after every substantive DAG edit.
+% 2. Inspect the PDF or a rendered PNG, not just the TeX source.
+% 3. Increase spacing or reroute arrows until no box, legend, note, edge, or label overlaps.
+%
+% Intended lifecycle:
+% - During paper intake, replace the scaffold below with every named result in the
+%   paper and the dependency arrows between them.
+% - After intake, treat this as a stable topology: update node styles/status/text
+%   as proofs close, but avoid adding boxes or arrows unless the original named
+%   result inventory or dependency map was actually incomplete.
+%
+% Arrow direction rule:
+% Draw edges from prerequisite/source node to dependent/target node.  The
+% `dag_arrow` and `dag_dashed_arrow` styles use an explicit end-arrow (`->`),
+% so the arrowhead should always land on the node that consumes the dependency.
+% Do not reverse the coordinate order just to make routing easier; use anchors
+% or an orthogonal route through empty space instead.
+
+\begin{tikzpicture}[
+  x=1cm,
+  y=1cm,
+  every node/.append style={outer sep=4pt}
+]
+
+\dagPaperMetadata{Simpler Than You Think: The Practical Dynamics of Ranked Choice Voting}{Sanyukta Deshpande; Nikhil Garg; Sheldon H. Jacobson}{Journal of Computational Social Science; arXiv:2602.14329}{2026}{https://link.springer.com/article/10.1007/s42001-026-00470-7}
+
+% --- Legend: README status vocabulary plus formalized node-type styles. ---
+\dagPaperLegendRightOfMetadata{
+\node[dag_result, dag_template_legend] (legRes) at (0,0) {formalized\\result};
+\node[dag_lemma, dag_template_legend] (legLem) at (4.2,0) {formalized\\lemma};
+\node[dag_model, dag_template_legend] (legDef) at (8.4,0) {formalized\\definition};
+\node[dag_caveat_legend] (legCav) at (12.6,0) {formalized\\with caveat};
+\node[dag_partial, dag_template_legend] (legPart) at (0,-2.6) {partially\\formalized};
+\node[dag_conditional, dag_template_legend] (legCond) at (4.2,-2.6) {conditional};
+\node[dag_scaffold, dag_template_legend] (legScaf) at (8.4,-2.6) {scaffold};
+\node[dag_unformalized, dag_template_legend] (legNot) at (12.6,-2.6) {not started /\\not formalized};
+}
+\daglegend{(legRes)(legLem)(legDef)(legCav)(legPart)(legCond)(legScaf)(legNot)}{Legend}
+
+\begin{dagPaperBody}
+
+\node[dag_model] (BallotLayer) at (0,-3.8) {
+  \textbf{Ballot and support layer} \\
+  Prefix/suffix robustness, exhausted prefixes, and active-support counts
+};
+\node[dag_result] (Prop1) at (6.4,-3.8) {
+  \textbf{Proposition 1} \\
+  Robust strategy transforms over DGJ24 support-count Algorithm A outputs
+};
+\node[dag_result] (Prop2) at (12.8,-3.8) {
+  \textbf{Proposition 2} \\
+  Exhausted-ballot viable-set formulas and count-test closeout
+};
+
+\node[dag_model] (RemovalLayer) at (0,-8.4) {
+  \textbf{Candidate-removal layer} \\
+  Strict support, Algorithm 2 condition, and Algorithm 3 extensions
+};
+\node[dag_result] (Thm21) at (6.4,-8.4) {
+  \textbf{Theorem 2.1} \\
+  Full Algorithm 3 source branch and one-survival step-facts route
+};
+
+\node[dag_result] (Thm22) at (12.8,-11.0) {
+  \textbf{Theorem 2.2} \\
+  Algorithm 4 pairwise condition and containment output theorem
+};
+
+\draw[dag_arrow] (BallotLayer.east) -- (Prop1.west);
+\draw[dag_arrow] (BallotLayer.east) -- (Prop2.west);
+\draw[dag_arrow] (RemovalLayer.east) -- (Thm21.west);
+\draw[dag_arrow] (RemovalLayer.south east) |- ($(Thm22.west)+(-0.5,0)$) -- (Thm22.west);
+\end{dagPaperBody}
+\end{tikzpicture}
+\end{document}

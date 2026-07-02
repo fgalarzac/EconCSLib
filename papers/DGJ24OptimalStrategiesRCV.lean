@@ -1,0 +1,1 @@
+import DGJ24OptimalStrategiesRCV.PaperInterface

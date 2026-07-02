@@ -476,7 +476,7 @@
     },
     "theorem3_price_decreases_first_half": {
       "judgment": "matches",
-      "lean_statement_sha256": "4481bef68c0a34fc5b0b9f20930b8b13823b2b8fe8edb33264b7613f8cd2a4f4",
+      "lean_statement_sha256": "5c6057743c4f8f1fe6bfb9b8ae53412ff065f409c7e60cf854ca6c6abf74be39",
       "paper_statement_sha256": "8f42d65db078f052e79250071be74a87bc66092f3f4a988e5f8d9c73794bfa72",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The new paper-facing row states the closed first-half Theorem 3 source claim: as alpha moves toward 1/2 in the opposing two-type model, the price of fairness weakly decreases. Refreshed Lean digest only; paper statement and Lean-to-TeX text are unchanged from the previous judgment.",
@@ -498,7 +498,7 @@
     },
     "theorem4_misestimation_tradeoff_typeOne": {
       "judgment": "matches",
-      "lean_statement_sha256": "662789309dda0e575324170506ad66fa7420d44ab2a2169bb907eac54bb0b91d",
+      "lean_statement_sha256": "e4adc1b79647f74c25dee4b6c4c79a3282b8a98b1284a7dafa89019b9e1f1ca1",
       "paper_statement_sha256": "80d4dac3c02df153f69a64c4f29e96666b66649bd20a32c9e448b91985a84a37",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. Refreshed Lean digest only; paper statement and Lean-to-TeX text are unchanged from the previous judgment.",
