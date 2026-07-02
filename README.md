@@ -18,6 +18,17 @@ Links:
 - [Project website](https://gargnikhil.com/EconCSLib/)
 - [Paper describing project](https://arxiv.org/abs/2606.13306)
 
+If you use this project, please cite the following paper
+
+```
+@article{garg2026econcslib,
+  title={EconCSLib: AI-Assisted Lean Formalization for Economics \& Computation research},
+  author={Garg, Nikhil},
+  journal={arXiv preprint arXiv:2606.13306},
+  year={2026}
+}
+```
+
 # Paper Formalization Quickstart guide for humans
 
 To get started in formalizing your own paper, clone the repository. Give the agent (I use Codex with GPT 5.5 in xhigh thinking mode) an arXiv link or paper pdf/source, and also mention where the published version is for its records.
