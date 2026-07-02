@@ -17,7 +17,31 @@ what was proved without reading the full Lean implementation.
 Links:
 - [Project website](https://gargnikhil.com/EconCSLib/)
 - [Paper describing project](https://arxiv.org/abs/2606.13306)
-- [Human quick start guide](docs/paper-formalization-quickstart/README.md)
+
+# Paper Formalization Quickstart guide for humans
+
+To get started in formalizing your own paper, clone the repository. Give the agent (I use Codex with GPT 5.5 in xhigh thinking mode) an arXiv link or paper pdf/source, and also mention where the published version is for its records.
+
+```text
+Get context on this repo and skills and formalize
+<paper link>.
+```
+Set a durable goal:
+```text
+/goal fully formalize <PaperFolder> until full done, and then run the post formalization audit.
+```
+
+I often queue up a bunch of
+```text
+keep going until closeout
+```
+commands in Codex, but this is increasingly not needed given a goal.
+
+Useful steering advice:
+- I often ask it for the status and steer it into proving one thing or another first.
+- Often it will state something is a caveat/error in the paper, but I ask it to look for the source assumptions carefully and usually it'll find it.
+
+(And please let me know what your experience is like!).
 
 ## How The Repository Is Organized
 
@@ -32,7 +56,7 @@ Links:
 - `skills/econcs-formalizer/` contains the agent workflow instructions used to
   formalize papers consistently.
 
-## Reviewing A Formalized Paper
+## Human understanding of a Formalized Paper
 
 Start in the paper folder under `papers/<PaperName>/`.
 
@@ -50,49 +74,6 @@ For a completed or nearly completed paper, read these files in this order:
 Implementation-level proof files are for maintainers and agents. They should
 not be necessary for a first human audit of what the paper claims and what Lean
 proves.
-
-## Current Status
-
-See the [project website](https://gargnikhil.com/EconCSLib/) for the current
-public paper table. Each paper folder also has a paper-local `status.json`.
-
-Paper IDs and folder names are stable artifact identifiers and may track an
-arXiv, conference, or original working-paper year. Public status tables use the
-published citation title and year.
-
-For more detail, use:
-
-- `papers/<PaperName>/status.json` for the paper-local source of truth.
-- [`papers/human_status.json`](papers/human_status.json) for the compact
-  public-facing status summary.
-- [`papers/status.json`](papers/status.json) for the generated aggregate
-  status, review counts, and interface metadata.
-- [docs/PAPER_STATUS.md](docs/PAPER_STATUS.md) for the generated public paper
-  status table.
-- [`site/index.html`](site/index.html) for the generated public website status
-  table.
-- Individual `papers/<PaperName>/README.md` files for paper-specific caveats.
-
-Partial public formalizations are included when the remaining assumption seam is
-explicit and useful to expose. LMMS04 and LOS02 are the current examples:
-LMMS04's final complexity claim is held behind an explicit fixed-dimension IP
-runtime boundary, and LOS02's final NP-hardness/`NP = ZPP` consequences are
-held behind external machine-level complexity facts.
-
-## Starting A New Paper With An Agent
-
-To get started in formalizing your own paper, clone the repository and open an
-LLM agent tool (I use Codex with GPT 5.5 in xhigh thinking mode). Give the
-agent the paper link, and ask it to formalize the paper using the skill and
-workflow in the repository. (And please let me know what your experience is
-like!).
-
-Use [docs/AGENT_FORMALIZATION_WORKFLOW.md](docs/AGENT_FORMALIZATION_WORKFLOW.md).
-That file is intentionally agent-facing and includes the expected prompts,
-artifact checklist, validation commands, and workflow rules.
-
-For a concise prompt template, see
-[`docs/paper-formalization-quickstart/README.md`](docs/paper-formalization-quickstart/README.md).
 
 ## Development
 
@@ -128,7 +109,7 @@ formalization of research papers (with human-in-the-loop translation
 validation), while their project focuses on human curation (with LLM support)
 of a library of concepts for Economics and Computation.
 
-## More Documentation
+## More Documentation for agents
 
 - [docs/README.md](docs/README.md): documentation index.
 - [docs/PAPER_STATUS.md](docs/PAPER_STATUS.md): public paper status.
@@ -136,4 +117,3 @@ of a library of concepts for Economics and Computation.
 - [docs/ECONCSLIB_DOMAIN_INDEX.md](docs/ECONCSLIB_DOMAIN_INDEX.md): library modules by domain.
 - [docs/PRIVATE_DEVELOPMENT_WORKFLOW.md](docs/PRIVATE_DEVELOPMENT_WORKFLOW.md): private development and public PR workflow.
 - [docs/LEAN_STYLE.md](docs/LEAN_STYLE.md) and [docs/STATUS.md](docs/STATUS.md): contribution conventions.
-- [ROADMAP.md](ROADMAP.md): high-level project roadmap.
