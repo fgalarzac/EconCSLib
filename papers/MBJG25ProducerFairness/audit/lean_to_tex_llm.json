@@ -26,7 +26,7 @@
       "validator_type": "model"
     },
     "paper_facing_responsive_mse_decomposition": {
-      "lean_statement_sha256": "002a2f8e3c296ad211cb96ecfef17d08dbbccaf916015a0bd03a9f022729ce02",
+      "lean_statement_sha256": "fbb62f8bd7ad2910f08afbeb9dd9c196206487202b2115ab2e6dae34c7b6c719",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "For states \\(s\\sim\\mu\\), review counts \\(N(s)\\), and posterior ratings \\(R(s)\\), assume each state satisfies\n\\[R(s)-q_v=\\operatorname{Bias}(\\alpha,\\beta,\\eta,N(s),q_v)\\]\nand\n\\[(R(s)-q_v)^2-\\operatorname{Bias}(\\alpha,\\beta,\\eta,N(s),q_v)^2\n  =\\operatorname{Var}(\\alpha,\\beta,\\eta,N(s),q_v).\\]\nThen the responsive expected MSE decomposes as\n\\[\\mathbb E_\\mu[(R-q_v)^2]\n =\\mathbb E_\\mu[\\operatorname{Bias}(\\alpha,\\beta,\\eta,N,q_v)^2]\n +\\mathbb E_\\mu[\\operatorname{Var}(\\alpha,\\beta,\\eta,N,q_v)].\\]",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -34,7 +34,7 @@
       "validator_type": "model"
     },
     "paper_facing_theorem3_1_squared_bias_nondecreasing": {
-      "lean_statement_sha256": "0da355ffe41b3b6dcc6a406849cad4298f1ce551621bd133842368310a6ed03a",
+      "lean_statement_sha256": "7f6c05a98e3129444cb48dddb2e1ecdc7e981047ea5679601b839c01866ecf9e",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "If \\(\\alpha+\\beta>0\\), \\(t>0\\), \\(0\\le \\eta_{\\mathrm{low}}\\), and \\(\\eta_{\\mathrm{low}}\\le \\eta_{\\mathrm{high}}\\), then squared bias is nondecreasing in prior strength:\n\\[\\operatorname{Bias}(\\alpha,\\beta,\\eta_{\\mathrm{low}},t,q)^2\\le\n  \\operatorname{Bias}(\\alpha,\\beta,\\eta_{\\mathrm{high}},t,q)^2.\\]",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -50,7 +50,7 @@
       "validator_type": "model"
     },
     "paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_zero": {
-      "lean_statement_sha256": "86f07e5853f213e8c8d533b6d18b4f0438dca3518c385f20a8c982eccd71c6ee",
+      "lean_statement_sha256": "af6b204c18e7f88f7868e95ee3599b20860c9b8717a19b53232efb536653752b",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "For all parameters, strict variance decrease fails at \\(q_v=0\\):\n\\[\\neg\\bigl(\\operatorname{Var}(\\alpha,\\beta,\\eta_{\\mathrm{high}},t,0)<\n  \\operatorname{Var}(\\alpha,\\beta,\\eta_{\\mathrm{low}},t,0)\\bigr).\\]\nAt this boundary quality the variance term is identically zero.",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -58,7 +58,7 @@
       "validator_type": "model"
     },
     "paper_facing_theorem3_1_variance_strict_decrease_interior": {
-      "lean_statement_sha256": "734a5cdae72b190fcfe79116b1a587b42c28d0d6d06cd0ad302a79465bfa880f",
+      "lean_statement_sha256": "d069a4fe26c0f345ea7477a60cb97b6f5bb91ad02b9e782a738e1049a8ff6b8a",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "If \\(\\alpha+\\beta>0\\), \\(t>0\\), \\(0<q<1\\), \\(0\\le \\eta_{\\mathrm{low}}\\), and \\(\\eta_{\\mathrm{low}}<\\eta_{\\mathrm{high}}\\), then variance is strictly decreasing in prior strength:\n\\[\\operatorname{Var}(\\alpha,\\beta,\\eta_{\\mathrm{high}},t,q)<\n  \\operatorname{Var}(\\alpha,\\beta,\\eta_{\\mathrm{low}},t,q).\\]\nThe Lean statement makes the interior-quality condition explicit.",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -74,7 +74,7 @@
       "validator_type": "model"
     },
     "paper_facing_theorem3_2_squared_bias_convex_in_quality": {
-      "lean_statement_sha256": "7883731cd2d1f8a216f684b73bc3663ca10559083c1a0fb89fcd8b1b7ba49437",
+      "lean_statement_sha256": "e0507bcf874de4add68f29f844b518878555d66f545e45094a66378ce2d24daf",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "If \\(\\alpha+\\beta>0\\), \\(\\eta\\ge 0\\), and \\(t>0\\), then the function\n\\[q\\mapsto \\left(\\frac{\\eta\\alpha+tq}{\\eta\\alpha+\\eta\\beta+t}-q\\right)^2\\]\nis Jensen-convex. The nonzero denominator follows from these source-domain conditions.",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -98,7 +98,7 @@
       "validator_type": "model"
     },
     "paper_facing_theorem3_2_variance_global_max_at_half": {
-      "lean_statement_sha256": "82f51a4a34e4787e8d90f609de8655016a2303eb66d2c0e17b688f46c0786ac0",
+      "lean_statement_sha256": "ce787f2e30aedd5c30b978faaedeb1f5352b4c7422b5d488928394a99c5bc228",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "If \\(t\\ge 0\\), then the variance function\n\\[q\\mapsto \\frac{tq(1-q)}{(\\eta\\alpha+\\eta\\beta+t)^2}\\]\nhas a global maximum at \\(q=1/2\\).",
       "translated_at": "2026-06-29T18:08:26Z",

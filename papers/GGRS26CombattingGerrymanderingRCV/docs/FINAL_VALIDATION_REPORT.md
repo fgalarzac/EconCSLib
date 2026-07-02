@@ -94,4 +94,7 @@ flagged items.
 
 `DependencyDAG.tex` uses the shared DAG preamble and records the PAV Lemma C.1
 path, filled-seat STV source semantics, STV rounding, and Proposition 1 as
-formalized. `DependencyDAG.pdf` was regenerated after the closeout DAG update.
+formalized. `DependencyDAG.pdf` was regenerated from `DependencyDAG.tex` after
+the closeout DAG update and visually inspected for node/label overlap and
+arrow-through-text issues. The DAG covers the source-result clusters recorded
+in the source inventory: Proposition 1 and Lemma C.1.

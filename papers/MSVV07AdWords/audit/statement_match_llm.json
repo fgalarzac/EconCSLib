@@ -124,7 +124,7 @@
     },
     "paperCanAssign_iff": {
       "judgment": "matches",
-      "lean_statement_sha256": "7579e406b05cb53dd152eab225a7507aa1f66b86e5e104df586018111b19650b",
+      "lean_statement_sha256": "b62735ef732ac02b840647b1f77ffbdda2c8c2545975ce16f0d8572cc28c8bbd",
       "paper_statement_sha256": "98cffece1bde6f6efd2b1153e551f6e614333c7db1c12d9c4b56ec68f4657fb9",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The revised Lean review row spells out the source equation or condition directly, rather than exposing only a function signature or opaque constructor, and the Lean-to-TeX draft matches that paper-facing statement.",
@@ -135,7 +135,7 @@
     },
     "paperFeasible_iff": {
       "judgment": "matches",
-      "lean_statement_sha256": "60335f0b8d975fa0fd6ce5ec6021ac2d0a7b5fe616880e83f60f0556e9ecf51f",
+      "lean_statement_sha256": "c297aae2cffdfd7832360db3b612bfb1f001a3d67519b6b0183aabbcc37b8877",
       "paper_statement_sha256": "84a5fe99aababc80ecd00e2c252421d680e319f952f0adf037bbd223ee3cb074",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The revised Lean review row spells out the source equation or condition directly, rather than exposing only a function signature or opaque constructor, and the Lean-to-TeX draft matches that paper-facing statement.",
@@ -157,7 +157,7 @@
     },
     "paperFractionalRevenue_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "34350affe920424bcbf8f1fe915f1019abf6df5e0779b7fd8e537cf9ebd673d5",
+      "lean_statement_sha256": "67e7748b313ca961acb123d4deeda4b59f73d8ae760064a7da2fb4dae680ddd4",
       "paper_statement_sha256": "bdf1fec1c513c39f77df8cbd8fca620740f722133c854462f56f05d93a6e9edc",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The revised Lean review row spells out the source equation or condition directly, rather than exposing only a function signature or opaque constructor, and the Lean-to-TeX draft matches that paper-facing statement.",
@@ -168,7 +168,7 @@
     },
     "paperIsBalanceChoice_iff": {
       "judgment": "matches",
-      "lean_statement_sha256": "350d66678cff4cf8ada7a28bb93ff83f4099102746e08f789556bd18bd0a5825",
+      "lean_statement_sha256": "4519bfd238746e99b56a2b7d12267f21228eda340270e25902a31814854863a5",
       "paper_statement_sha256": "ab3798bd7530de0f5f6c6aceeb5eeec0966583f716e0c2bd3ce841b989ff5466",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The revised Lean review row spells out the source equation or condition directly, rather than exposing only a function signature or opaque constructor, and the Lean-to-TeX draft matches that paper-facing statement.",
@@ -179,7 +179,7 @@
     },
     "paperMsvvRatio_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "0dad2735b53871db0fac0c2da3198e1043e3734d1ab5a852163c6cb407a134e1",
+      "lean_statement_sha256": "db7f070c9d174ec417e98b1658f5c6388a2ed6091d405c751526f3432ba88c9a",
       "paper_statement_sha256": "bae4213b720d54fee7ec2f69ed3345a0673d8475b229def8645e72d2a34ce2be",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The revised Lean review row spells out the source equation or condition directly, rather than exposing only a function signature or opaque constructor, and the Lean-to-TeX draft matches that paper-facing statement.",
@@ -212,7 +212,7 @@
     },
     "paperSmallBidsLimitFamily_fields": {
       "judgment": "matches",
-      "lean_statement_sha256": "672fb596eb77c9f9beebad6ca6c80aceff4603bc63a2ce93c96935c1da2079c8",
+      "lean_statement_sha256": "9808943f59d0bbc823a7478f8f60b41353e651e0d847067808ea05da3cbdebcd",
       "paper_statement_sha256": "a61e6108077101f066d3ef40fc50ed5e4310e41bdd5022434569e66913e4f572",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "Matches the paper-facing small-bids limiting-family formulation of Theorem 8.",
@@ -223,7 +223,7 @@
     },
     "paperSmallBids_iff": {
       "judgment": "matches",
-      "lean_statement_sha256": "c3f543828b4962a85c559e78dc2431231d9daf4d8555c636aaa4c90293225fb2",
+      "lean_statement_sha256": "e03a9cebd719cfb96d10291a6ce1458fcda851fff0c7cff4b2e78bd4a78e1d82",
       "paper_statement_sha256": "be4f216a813324ae2e1b48bc861859dfe40be6c346fd10f63c33e806aff49666",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The revised Lean review row spells out the source equation or condition directly, rather than exposing only a function signature or opaque constructor, and the Lean-to-TeX draft matches that paper-facing statement.",
@@ -245,7 +245,7 @@
     },
     "paperTradeoff_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "37c6ed0998fa6953d269672c9844e72938966a99d37e0c6ddf469559097f7dd1",
+      "lean_statement_sha256": "7942dc0bcf2f23f87418d9c03aa85463da15408b47ccfccae366e43bdbbf748f",
       "paper_statement_sha256": "5c4792e13a51e446b4ee1337b88bd8da79c53e5297cd6244d37c5ffc2adfe0d7",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The revised Lean review row spells out the source equation or condition directly, rather than exposing only a function signature or opaque constructor, and the Lean-to-TeX draft matches that paper-facing statement.",
@@ -256,7 +256,7 @@
     },
     "section4_lemma1_balance_pays_no_later_slab": {
       "judgment": "matches",
-      "lean_statement_sha256": "0da0f9d610a5728a90271f27ac2f18217667b0ccb8dbb3edd608e14b7ab1a07f",
+      "lean_statement_sha256": "eed685822db7b21b57e42289182732013588e1b430a591475ed5e161a8b525ee",
       "paper_statement_sha256": "909bd627c8774c6bfbe6a0f0e63a3832794a6a751ebac7a7b7b4a000959ac721",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The row directly states the Section 4 Lemma 1 no-later-slab implication with the same equal-bids and strict-antitone tradeoff hypotheses. The judgment is semantic: extra certificates or source-unsupported premises would make this fail rather than pass by name similarity.",
@@ -267,7 +267,7 @@
     },
     "section4_lemma2_factor_revealing_lp_constraint": {
       "judgment": "matches",
-      "lean_statement_sha256": "0be05e69401c96ea964ea0ef565085633f688860fc10f662c7cb0326787150fd",
+      "lean_statement_sha256": "4b799db50542645f3a9e7dd9039c9b6864627d617cc45d7ee8aa6f5f2da91908",
       "paper_statement_sha256": "788b72ecec6ce40da610e465caf35d12f7c2cba797e3066afded89062cfebb9b",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The row directly states the Section 4 Lemma 2 LP-row consequence from prefix cover and beta-prefix accounting. The judgment is semantic: extra certificates or source-unsupported premises would make this fail rather than pass by name similarity.",
@@ -278,7 +278,7 @@
     },
     "section4_lemma3_factor_revealing_lp_optimality": {
       "judgment": "matches",
-      "lean_statement_sha256": "435960d9b7f88619c2b38aaf828697d91180b332244fe11b514543466ef697c3",
+      "lean_statement_sha256": "a3d485c2422f5373b72c1e9cb03823a77940e7a63acfde30b52000b5fc706fad",
       "paper_statement_sha256": "7d486d7d0c615d7e31dc9f9e0eb81a019460a6d9f43ec0252c65892e95040efc",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The row exposes the source-facing limiting value conclusion for Section 4 Lemma 3 as a dashboard row; finite witness optimality remains checked in the proof ledger. The judgment is semantic: extra certificates or source-unsupported premises would make this fail rather than pass by name similarity.",
@@ -289,7 +289,7 @@
     },
     "section5_lemma4_dual_optimal_from_primal_dual_match": {
       "judgment": "matches",
-      "lean_statement_sha256": "e675d997674618c1c776b0f22f4504786bd1560f7ee4f8cdec831c808825f0ba",
+      "lean_statement_sha256": "d110685e121e333a9a4d27f72cbe45108ed5cdb1d896124c88d07cd6532ff3e6",
       "paper_statement_sha256": "d7d2c14d5fbef965a34d70a8a47920e94c7aab0e2368350f3edcbcb2ecef9669",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The row directly states the Section 5 Lemma 4 primal-dual matching optimality certificate. The judgment is semantic: extra certificates or source-unsupported premises would make this fail rather than pass by name similarity.",
@@ -300,7 +300,7 @@
     },
     "section5_lemma5_tradeoff_rhs_eq_base_add_delta": {
       "judgment": "matches",
-      "lean_statement_sha256": "982e884452526c70f981d0060111bef3ff5110468aa8065ea2118e465e00b0c9",
+      "lean_statement_sha256": "f69cc5998e6538c1f42764bd4d4b61fc9ed76b201309a62c4a32085f8260e5b8",
       "paper_statement_sha256": "ff263ba223f65c991be147d75e916ec7bf90e761f1e9d9ec6fac36bd1f2a478f",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The row directly states the Section 5 Lemma 5 right-hand-side perturbation identity. The judgment is semantic: extra certificates or source-unsupported premises would make this fail rather than pass by name similarity.",
@@ -311,7 +311,7 @@
     },
     "section5_lemma6_per_query_tradeoff": {
       "judgment": "matches",
-      "lean_statement_sha256": "c2762381677b696fbdf7f5e0d10cd0d0b7f83638e92b20a55a1c47b1fb3164cc",
+      "lean_statement_sha256": "95811b3fbc01472659ee40afee82551710f6468b5cc1b3310884e7e33211bb8d",
       "paper_statement_sha256": "1e5f088950c3957beac34a1a554b4c56a02bfff88262b7e08290c4f1ec379406",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The row directly states the Section 5 Lemma 6 pointwise tradeoff inequality. The judgment is semantic: extra certificates or source-unsupported premises would make this fail rather than pass by name similarity.",
@@ -322,7 +322,7 @@
     },
     "section5_lemma7_weighted_perturbation_bound": {
       "judgment": "matches",
-      "lean_statement_sha256": "40dc8222d07d1de07add77ab899a6378c9b1a6ab9ea48df0a8dfbff232e824f3",
+      "lean_statement_sha256": "8b8f68df97ced457ac0f946ba93dfceaa06893142b8e58f1aa9ca815b90e3f86",
       "paper_statement_sha256": "e02c3115579ac09943483b94fe3e9fdc1a36fbac17248c35fd790354dd61f0fa",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The row directly states the Section 5 Lemma 7 summed weighted perturbation bound. The judgment is semantic: extra certificates or source-unsupported premises would make this fail rather than pass by name similarity.",
@@ -333,7 +333,7 @@
     },
     "section6_availability_theorem8_finite_explicit_error": {
       "judgment": "matches",
-      "lean_statement_sha256": "5eb3668a8c66bcdd155735ecd87608bdacf31c13b27c8c69f6a26b601293c22c",
+      "lean_statement_sha256": "f788eb8f27f8061902cf5c5a1b455efa821c4984df327f18c5a6aaa959453d8c",
       "paper_statement_sha256": "88b8baa33c95123b42403f2316fc2603669de65deedacd69e9e17011f674eee5",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity.",
@@ -377,7 +377,7 @@
     },
     "section6_next_highest_bid_alive_theorem8_finite_explicit_error": {
       "judgment": "matches",
-      "lean_statement_sha256": "22f20b3a8953cf646bd5c222d11e1b1ee07c3fb77cf7b52d0ea4390737618e57",
+      "lean_statement_sha256": "cdb07b57afa5e453b72108d8ff3d005896a77eed003b58429421c7588e20fbb4",
       "paper_statement_sha256": "55ca76afa4e54230f54a60e91983500c520433d1aea8a7e83924350672f83860",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity.",
@@ -399,7 +399,7 @@
     },
     "section6_next_highest_bid_all_theorem8_finite_explicit_error": {
       "judgment": "matches",
-      "lean_statement_sha256": "2fdbbee4b32828961eef3abb585780cdac78695a2d39daaf772334cacb86720d",
+      "lean_statement_sha256": "463d007c596d083b101774ec9ad805b1baa52d78474190bc1ce07d983dd55ce0",
       "paper_statement_sha256": "25f32ef9eb013b7a135229db4b374ce8b7e53e1e5fd5194275b5bc71ed0f7529",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity.",
@@ -432,7 +432,7 @@
     },
     "theorem8_balance_msvv_competitive_of_small_bids_limit_family": {
       "judgment": "matches",
-      "lean_statement_sha256": "13f9676b65d7c8c90edb4653345429e9af8f1c35e483934a79e2ac1aae3077fe",
+      "lean_statement_sha256": "95a72f34c9dc6c29a1df0b42d84c394487c38f6103ffa71095a65231d3028e4c",
       "paper_statement_sha256": "c36a32652a591b11ed6ae6e2602f25af2be4842faed7114a07f06ed515e919e0",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "Matches the paper-level limiting endpoint after finite explicit-error accounting and the small-bids family wrapper.",
@@ -443,7 +443,7 @@
     },
     "theorem9CappedNormalizedRevenue_formula": {
       "judgment": "matches",
-      "lean_statement_sha256": "096f80d9a7054decb3a819ae9217a7285016ecfa66f73b1c73e5ac2b04a8765a",
+      "lean_statement_sha256": "678ffe679e6e92959efdc698df435c88565396438d9c66e792fd72dbc6e4f47e",
       "paper_statement_sha256": "de391faeaf871b6c249041a67762cc90ffcbe3a13fa53c04f01fd1aded20f3b6",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The revised Lean review row spells out the source equation or condition directly, rather than exposing only a function signature or opaque constructor, and the Lean-to-TeX draft matches that paper-facing statement.",
@@ -454,7 +454,7 @@
     },
     "theorem9HardDistribution_uniform": {
       "judgment": "matches",
-      "lean_statement_sha256": "33efe7295a20b956bbb0b84549e27d5edae84a80891d3eac758d9cd971734dc4",
+      "lean_statement_sha256": "caf95346946ff591e04b886fc32f300a3d1f36034b791fdd1121a0410d5dcd2c",
       "paper_statement_sha256": "2b3473368866d77a76e7e22749d15e2594fe9bca42d02a10670cb160c775473a",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The revised Lean review row spells out the source equation or condition directly, rather than exposing only a function signature or opaque constructor, and the Lean-to-TeX draft matches that paper-facing statement.",

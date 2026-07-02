@@ -102,7 +102,7 @@
     },
     "source_proposition1_thm_consistency_tiered": {
       "judgment": "matches",
-      "lean_statement_sha256": "04d4ba26d13b6f8cddcfe237a27a6afd80728d00db3d25accd64169f414248d2",
+      "lean_statement_sha256": "8fb204d38c2c54d33ad13b7d4bb646c2923ae6592dc7cdc77f5e829982249395",
       "paper_statement_sha256": "e67fafd5c22525c5f7265196a7ae82be80067fbf8ad0aa2af6c817d1bb3ca7cf",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The context-free Lean-to-TeX/prose draft and the paper-facing statement state the same paper result at comparable granularity.",
@@ -113,7 +113,7 @@
     },
     "source_proposition2_thm_pairwiselearning_finite_support": {
       "judgment": "matches",
-      "lean_statement_sha256": "e58a76877b7a0603df219c054fb1e3c3c7fe12231798f0277d9a5baa09e43a4e",
+      "lean_statement_sha256": "f0cac9695820eaec11495277f3fb6dfccd32aa7bec923910d9e23b180fea7dad",
       "paper_statement_sha256": "6b8c2a16a415fbadd8518dbbc79f9208c1740f57664108d67c6b2aae6adb09d2",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The context-free Lean-to-TeX/prose draft and the paper-facing statement state the same paper result at comparable granularity.",
@@ -135,7 +135,7 @@
     },
     "source_proposition4_thm_goal_learning_finite_support": {
       "judgment": "matches",
-      "lean_statement_sha256": "8be37fc2863db1df27fd1f3d0e35df81235e297515b3f4370014957e3f43d611",
+      "lean_statement_sha256": "cd715d2c783931485885cc58d063977268a84426e9f6eef56320c0b79ca96e16",
       "paper_statement_sha256": "1a17ea4a9bdab1e2b50f6f551bb91151cdf997bfea1375b3c461ca055b5243b2",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The updated Lean surface now states the source-shaped unweighted finite relevant-pair aggregate, matching the paper's expected-error sum Q^N.",
@@ -157,7 +157,7 @@
     },
     "source_theorem2_lem_randomizenotbetterapproval_pairwise": {
       "judgment": "matches",
-      "lean_statement_sha256": "ae1e663667cbd89c3f294c7720b0c75e7f388c9e9a122207b32d70671976242e",
+      "lean_statement_sha256": "bb66a30cb22cfb7b0441ffdfd384899ddd717edb2356478d65fb3ee5fbbaeea9",
       "paper_statement_sha256": "67eea6b1e1e77f54c462c6978f1c24cab48fc679ae482b073268dec63f6e1d7e",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The context-free Lean-to-TeX/prose draft and the paper-facing statement state the same paper result at comparable granularity.",
@@ -179,7 +179,7 @@
     },
     "source_theorem_lem_randomizebetterapproval_w_selection_constructed": {
       "judgment": "matches",
-      "lean_statement_sha256": "399f67c45ab466b70117575e5883a8dbfa39feec417e76ef23451ce6ebe62999",
+      "lean_statement_sha256": "f24b64f4a853770dba3f52e01f68fcf4080edd4cca995ed490f6ede663d64fea",
       "paper_statement_sha256": "e2c398d7405e9da007c11b62a9ef18771737fbb0bb2ce4307f86955ea5c224e3",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "The context-free Lean-to-TeX/prose draft and the paper-facing statement state the same paper result at comparable granularity.",

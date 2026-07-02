@@ -1,0 +1,636 @@
+{
+  "schema": 1,
+  "paper": "DGJ26PracticalDynamicsRCV",
+  "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+  "translator": "Codex dashboard statement refresh",
+  "translator_type": "agent",
+  "translated_at": "2026-07-02T03:38:05Z",
+  "prompt_summary": [
+    "Translate each Lean declaration from the Lean statement alone, with no paper context.",
+    "Preserve visible variables, binders, hypotheses, domain conditions, equivalence/implication direction, conclusions, and named predicate/wrapper inputs.",
+    "Do not replace formulas with theorem labels or proof-route summaries."
+  ],
+  "items": {
+    "paper_ballot_suffix_extension": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "069c8a212478991aad84fb61595f2a1b396fc4e62e73436c78f261b8de6cb9df",
+      "paper_statement_sha256": "26ad2d5479d277a084a05519fc2e114ed17766e5f43f42fde20ae9222938b753",
+      "tex_statement": "For ballots base and extended, extended is a suffix extension of base: it is obtained by appending later preferences to base."
+    },
+    "paper_ballot_prefix_extension": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "daafb8abd3bc5b80ddfd6cd66cbec0eb7ca1368ca6decfbaad10e55d0d5046ad",
+      "paper_statement_sha256": "f8ed439cd70946dae32756d50d870c5b98a4efd7840875cb21949711f0a3ea15",
+      "tex_statement": "For ballots pref, base, and extended, extended is a prefix extension of base by pref: extended equals pref followed by base."
+    },
+    "paper_ballot_respects_length": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "e542864fcae48a4419893d8f0d0e325f641f173b8e9efaa4db5301e4aaa19e11",
+      "paper_statement_sha256": "38e4de3afe2f48be880dae3d567fcea93de52c94b6af7d713ea558dac326544e",
+      "tex_statement": "A ballot respects maxLength when its number of ranked candidates is at most maxLength."
+    },
+    "paper_single_choice_ballot": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "a247e5c3d9b071a12cc954bf4c10ffa1dc5e46868dc72b356cc01d4fed3e7cff",
+      "paper_statement_sha256": "5c9962e18cb504cee850a63e04fdc0804d8eaf23b8be3f3cdc2fda72df6ade70",
+      "tex_statement": "A ballot is single-choice when it ranks at most one candidate."
+    },
+    "paper_single_choice_ballot_respects_length_one": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "bb4e116e96742cdccad08fd74efe02770709aa4e4f74977fd5930b60c63d4f6e",
+      "paper_statement_sha256": "6db80306777dd8d0053b3dba70ca1e42a26e2f5b7277cd80e35f0a2c69f3c187",
+      "tex_statement": "\\forall {Candidate : Type u_1} {ballot : RCVBallot Candidate}, paper_single_choice_ballot ballot \\to paper_ballot_respects_length 1 ballot"
+    },
+    "paper_exhausted_prefix_at_active_set": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "a485dc50f34c06c627e1beb3be83ffd0c5063e8acdab234cf4df28a4590657fc",
+      "paper_statement_sha256": "dd004beb41f615cbb20f86f224808fcd4c8ef4e5eb4e0c8aa5f8b35cb6b5a89d",
+      "tex_statement": "A prefix is exhausted at an active candidate set when every candidate listed in the prefix is not active."
+    },
+    "paper_exhausted_completion_viable": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "7f43dab324119ee8094dd2058fc1dbc016128fd5eb422d270883488feffbac53",
+      "paper_statement_sha256": "1bab966460d1259a131017d73dfa2c6fa1fc45c378897d01993fc9199c06bd7b",
+      "tex_statement": "{Candidate : Type*} (requiredVotes exhaustedBeforeActivation : Candidate \\to \u2115) (candidate : Candidate) = exhaustedCompletionViable requiredVotes exhaustedBeforeActivation candidate"
+    },
+    "paper_exhausted_completion_viable_candidates": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "b9e04a3e08ab2b40c18a949527b3ce4304d62292e044afaf67eb501de9370a2b",
+      "paper_statement_sha256": "42f66834d12899c7c1254c09adf1104ea0dcbd045e61597cdd613938f34daefe",
+      "tex_statement": "{Candidate : Type*} [DecidableEq Candidate] (candidates : Finset Candidate) (requiredVotes exhaustedBeforeActivation : Candidate \\to \u2115) = exhaustedCompletionViableCandidates candidates requiredVotes exhaustedBeforeActivation"
+    },
+    "paper_exhausted_completion_available_voters": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "99c8ca348e4dede169b19581d7cd7029ee0407a9de7578b3a3032202fa6a1148",
+      "paper_statement_sha256": "7cadc9cbc597e7d93f454798eb5fd51544e40250e17b3664c0dde32689d6543b",
+      "tex_statement": "{Voter Candidate : Type*} [DecidableEq Candidate] (voters : Finset Voter) (exhausted strategy : Voter \\to RCVBallot Candidate) (active : Finset Candidate) (candidate : Candidate) = exhaustedCompletionAvailableVoters voters exhausted strategy active candidate"
+    },
+    "paper_exhausted_completion_available_count": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "508b708cfc9f88eacf3b82860fe04bc5c8c79ea57c4f26ca4b96b21e86c488e8",
+      "paper_statement_sha256": "61dcfe8c311d7d257ae0d6389ad83ee1d196da4aa49c899ae1f508782551baeb",
+      "tex_statement": "{Voter Candidate : Type*} [DecidableEq Candidate] (voters : Finset Voter) (exhausted strategy : Voter \\to RCVBallot Candidate) (active : Finset Candidate) = exhaustedCompletionAvailableCount voters exhausted strategy active"
+    },
+    "paper_exhausted_completion_multi_round_viable_candidates": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "6c054e9bf65cd9522cf07b1b9e8a7ef762ca366d95f7b6d3c7d377ba18f86f60",
+      "paper_statement_sha256": "a4a5630c99b40901777027ce5fb19b8e46218d1610cd42356f0cc56917611277",
+      "tex_statement": "{Candidate Round : Type*} [DecidableEq Candidate] [DecidableEq Round] (candidates : Finset Candidate) (activationRounds : Candidate \\to Finset Round) (requiredVotes exhaustedBeforeActivation : Candidate \\to Round \\to \u2115) = exhaustedCompletionMultiRoundViableCandidates candidates activationRounds requiredVotes exhaustedBeforeActivation"
+    },
+    "paper_exhausted_completion_available_count_by_round": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "f8810a349138991448778c50b45b7fef919f4ab2b3bde8a647b7f11599596da1",
+      "paper_statement_sha256": "d6442eaaf2aa447d95268507bbe5e7e289c882e09d58cebcddd19f3a80c00c1d",
+      "tex_statement": "{Voter Candidate Round : Type*} [DecidableEq Candidate] (voters : Finset Voter) (exhausted strategy : Voter \\to RCVBallot Candidate) (active : Round \\to Finset Candidate) = exhaustedCompletionAvailableCountByRound voters exhausted strategy active"
+    },
+    "paper_strict_support_count": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "2faa2f3e661758bce8aa1e19c2911f93e17679e6786262dc11af1714a1108e61",
+      "paper_statement_sha256": "de2ed9b5de66ab43d0bcc1e0dca05d5a8e39a217df00758ee98db5bb66082192",
+      "tex_statement": "{Voter Candidate : Type*} [DecidableEq Candidate] (voters : Finset Voter) (ballots : Voter \\to RCVBallot Candidate) (sources blockers : Finset Candidate) (candidate : Candidate) = strictSupportCount voters ballots sources blockers candidate"
+    },
+    "paper_original_candidate_removal_condition": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "56fda8b39d9ad921f1dea2f9ec794995dca72bb7b605a0d55a46c1cf58eb431e",
+      "paper_statement_sha256": "e85882ffebd91dc447c87736b6172df0e4b89b7e117968f769fd56da8f927f43",
+      "tex_statement": "{Voter Candidate : Type*} [DecidableEq Candidate] (voters : Finset Voter) (ballots : Voter \\to RCVBallot Candidate) (candidates lower : Finset Candidate) (budget quota : \u2115) = originalCandidateRemovalCondition voters ballots candidates lower budget quota"
+    },
+    "paper_extended_candidate_removal_condition": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "d133c45e387c577ef7ef252f9f745d1c299b9809e0c92160915499eaebc1544f",
+      "paper_statement_sha256": "4837f321aa3e87388a77e12035522259d8011fc1082b6622a5d10572946a84f5",
+      "tex_statement": "{Voter Candidate : Type*} [DecidableEq Candidate] (voters : Finset Voter) (ballots : Voter \\to RCVBallot Candidate) (candidates lower : Finset Candidate) (budget quota : \u2115) (oneSurvivalSafe : Candidate \\to Prop) = extendedCandidateRemovalCondition voters ballots candidates lower budget quota oneSurvivalSafe"
+    },
+    "paper_extended_removal_original_failure": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "4c3f8a1208a1d8b332f263e8c14ab702c187cb4df459fdfc9a3de0d41195fe32",
+      "paper_statement_sha256": "8cadd60d629c088512e9fe2e881b7fc8d5def4c7afa9329ebae9bf9c46a9a87f",
+      "tex_statement": "{Voter Candidate : Type*} [DecidableEq Candidate] (voters : Finset Voter) (ballots : Voter \\to RCVBallot Candidate) (candidates lower : Finset Candidate) (budget : \u2115) (inside : Candidate) = extendedRemovalOriginalFailure voters ballots candidates lower budget inside"
+    },
+    "paper_one_survival_round_safety": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "ab8533bc5ab31ba8ea37957c1ed0c36e1c55c2ffc2c8e63b1ad9220cb8406997",
+      "paper_statement_sha256": "9f469aa6c42ec1c8f9f5597f6c113f834cb15d9f437e87167fabbd0298de8c44",
+      "tex_statement": "{Candidate : Type*} (budget : \u2115) (upperSupport afterWorstUpperSupport : Candidate \\to \u2115) (afterWorstInsideSupport : \u2115) (worst second third : Candidate) (remainingUpper : Finset Candidate) = oneSurvivalRoundSafety budget upperSupport afterWorstUpperSupport afterWorstInsideSupport worst second third remainingUpper"
+    },
+    "paper_strengthened_removal_concrete_reduction_specification": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "f2369ac9e3b8f5541134d7d7c024ad3ddfe925e195af2f836b3c4f11a9416e20",
+      "paper_statement_sha256": "1b80c955977b7528fae54cc4e22ac6ce72a7ee297da0959f8ae9d5a21f876dfc",
+      "tex_statement": "{Voter Candidate : Type*} [DecidableEq Candidate] (voters : Finset Voter) (ballots : Voter \\to RCVBallot Candidate) (candidates lower terminalActive : Finset Candidate) (reduced : paper_strengthened_removal_reduced_election_instance Voter Candidate) = strengthenedRemovalConcreteReductionSpecification voters ballots candidates lower terminalActive reduced"
+    },
+    "paper_strengthened_removal_operation_count": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "2f6c1d90557ddc71a3e064cabda5dee98071fc5368a03244d2c2bc8bc5382f8f",
+      "paper_statement_sha256": "05284a6dbb9d26e410d36329e4079ceb243fdc110463c4902596b2896dc81a21",
+      "tex_statement": "(uniqueBallotCount candidateCount : \u2115) = strengthenedRemovalOperationCount uniqueBallotCount candidateCount"
+    },
+    "paper_multiwinner_containment_output": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "b391682b0416887b1286a0705210ff5b535cee3785399167b9a645216305d979",
+      "paper_statement_sha256": "b30e3044908474a44cf29305ea0f913394d9944b22ec7b950d3c67a24382b95b",
+      "tex_statement": "{Candidate : Type*} (lower upper : Finset Candidate) = multiWinnerContainmentOutcome lower upper"
+    },
+    "paper_multiwinner_concrete_containment_specification": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "75e4cc54cf7f641eef451f4083ad1c5e7cd0644b68adeabf88bc8ebd3058961d",
+      "paper_statement_sha256": "c10633b9337a9e40c51e6b8076cb7db5b4695340e8c8eab2d6c5a2afdf21548c",
+      "tex_statement": "{Candidate : Type*} [DecidableEq Candidate] (lower upper : Finset Candidate) (winnerFirstChoiceVotes quota : \u2115) (surplusVotes nextChoiceVotes unweightedTransferBound : Candidate \\to \u2115) (baseUpperSupport transferUpperSupport : Candidate \\to Candidate \\to \u2115) (budget : \u2115) (outcome : paper_multiwinner_containment_outcome Candidate) = multiWinnerContainmentConcreteSpecification lower upper winnerFirstChoiceVotes quota surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport transferUpperSupport budget outcome"
+    },
+    "paper_weighted_surplus_transfer_bound": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "9345447999f72c5ee231f4168499a415cb1b428cf09ae3a8103202925e8e40cc",
+      "paper_statement_sha256": "b97e682f3b577b866bfc98482c0f51bc209c1f845b8509b7a6755ec541c75574",
+      "tex_statement": "(surplusVotes nextChoiceVotes winnerFirstChoiceVotes : \u2115) = weightedSurplusTransferBound surplusVotes nextChoiceVotes winnerFirstChoiceVotes"
+    },
+    "paper_lower_candidate_transfer_bound": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "0923d53acfa5a9fbd3636ceb2f2121fbc091b76d4c4ecd9e83fe8090c465a442",
+      "paper_statement_sha256": "ad14dfdd6d092fc433365054d35b97ddb4ddaabb6c1d1d2dccd06b4191fe1420",
+      "tex_statement": "(surplusVotes nextChoiceVotes winnerFirstChoiceVotes unweightedTransferBound : \u2115) = lowerCandidateTransferBound surplusVotes nextChoiceVotes winnerFirstChoiceVotes unweightedTransferBound"
+    },
+    "paper_updated_upper_candidate_support_bound": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "7ad9dc8237f4a2478ea2bab365b84a128b1b967ecadf02f7c41a28867062ca7a",
+      "paper_statement_sha256": "1d6834e72f7eda5d8d1f0fefd7532c4644168f1c46d21eee5a6f6ee3fdda8711",
+      "tex_statement": "(baseSupport transferSupport winnerFirstChoiceVotes quota : \u2115) = updatedUpperCandidateSupportBound baseSupport transferSupport winnerFirstChoiceVotes quota"
+    },
+    "paper_multiwinner_updated_strict_support_condition": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "175dafc521181bbb8113708664f5a1d8958319cc5ec25255fc7c523d4523ef57",
+      "paper_statement_sha256": "583f7a63ad323f1b59f8c1e57ee9a5101b7fd9149228cc204bee098eb16bfa4b",
+      "tex_statement": "{Candidate : Type*} [DecidableEq Candidate] (lower upper : Finset Candidate) (lowerTransferBound : Candidate \\to Candidate \\to \u2115) (upperSupportBound : Candidate \\to Candidate \\to \u2115) (budget : \u2115) = multiWinnerUpdatedStrictSupportCondition lower upper lowerTransferBound upperSupportBound budget"
+    },
+    "paper_weighted_surplus_transfer_bound_le_next_choice_votes": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "5453a03261ea573e29f9970d6c12353f88b0faa3a0b3aa08ae8a308eb51a0510",
+      "paper_statement_sha256": "8123896e000130fc848d0b423e686ac377265b48b5f97eaa0d43f4e4738aa72e",
+      "tex_statement": "\\forall (surplusVotes nextChoiceVotes winnerFirstChoiceVotes : \u2115), paper_weighted_surplus_transfer_bound surplusVotes nextChoiceVotes winnerFirstChoiceVotes \\le nextChoiceVotes"
+    },
+    "paper_lower_candidate_transfer_bound_le_next_choice_plus_unweighted": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "394c1199716608103cbac0a5a1597326355b809ba592385e0a63b76465466aae",
+      "paper_statement_sha256": "60a918d53204f8ad278bbfc18a6b0b6046a164acd0509a89e59e558fb739995e",
+      "tex_statement": "\\forall (surplusVotes nextChoiceVotes winnerFirstChoiceVotes unweightedTransferBound : \u2115), paper_lower_candidate_transfer_bound surplusVotes nextChoiceVotes winnerFirstChoiceVotes unweightedTransferBound \\le nextChoiceVotes + unweightedTransferBound"
+    },
+    "paper_base_support_le_updated_upper_candidate_support_bound": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "72a843fef378f3dca8d1dd3766c5c4b60c35e83f257ce5245995ccd2c5ae8ba2",
+      "paper_statement_sha256": "c3f1109e62a0c982b50e6d7bd6bc7dc57b93cfe7c7ee2adb25c3965d189c823d",
+      "tex_statement": "\\forall (baseSupport transferSupport winnerFirstChoiceVotes quota : \u2115), baseSupport \\le paper_updated_upper_candidate_support_bound baseSupport transferSupport winnerFirstChoiceVotes quota"
+    },
+    "paper_proposition1_suffix_robust_first_active": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "b4baa1af79fe0b1b9fb6d5db3e7310250f21995ee465b9a05e3e0ed699ffb561",
+      "paper_statement_sha256": "8bf413c5b82bedf99aa12ce794171a0b7280a39fd152989d706d8ff23e9c0112",
+      "tex_statement": "For any active set and candidate, if extended is obtained from base by suffixing later preferences and base first activates that candidate, then extended first activates the same candidate."
+    },
+    "paper_proposition1_prefix_robust_first_active": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "ce8f45e213df6cc3e5a1dbc25e28cf8aed3f7773eb0402f8d5fc86437e027193",
+      "paper_statement_sha256": "37288223c22a24c224292e0b1ef415741b68294080c63e010253f37246a22896",
+      "tex_statement": "For any active set, if extended is obtained by prefixing pref before base and every candidate in pref is inactive, then extended and base have the same first active candidate."
+    },
+    "paper_proposition1_suffix_robust_active_support_count": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "cff0b0308088863c49bae1d901649e6021c04ecf96bbd0bae0b28d5005990c4a",
+      "paper_statement_sha256": "d3542667c2ce4918b3bd5a8abd1026a1c7174b588d6accd1308b494eaf6e421f",
+      "tex_statement": "\\forall {Voter : Type u_1} {Candidate : Type u_2} [inst : DecidableEq Candidate] {voters : Finset Voter} {base extended : Voter \\to RCVBallot Candidate} {active : Finset Candidate} {candidate : Candidate}, (\\forall voter \\in voters, paper_ballot_suffix_extension (base voter) (extended voter)) \\to (\\forall voter \\in voters, \\exists first, nextActive (base voter) active = some first) \\to (activeSupport voters extended active candidate).card = (activeSupport voters base active candidate).card"
+    },
+    "paper_proposition1_prefix_robust_active_support_count": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "bdcd9bc764fcd7c051d265ece4433551843ed9d7d6ed55873e1b238f1ca312f1",
+      "paper_statement_sha256": "a4edddeaee816985c2879df3ea9f3e5f578bc62cd43e973c16812e8e4c16caf5",
+      "tex_statement": "\\forall {Voter : Type u_1} {Candidate : Type u_2} [inst : DecidableEq Candidate] {voters : Finset Voter} {pref base extended : Voter \\to RCVBallot Candidate} {active : Finset Candidate} {candidate : Candidate}, (\\forall voter \\in voters, paper_ballot_prefix_extension (pref voter) (base voter) (extended voter)) \\to (\\forall voter \\in voters, paper_exhausted_prefix_at_active_set (pref voter) active) \\to (activeSupport voters extended active candidate).card = (activeSupport voters base active candidate).card"
+    },
+    "paper_proposition1_from_concrete_smart_allocation_slack_reduction": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "f4e9e31e0d3b0eaaf552bbccf80eef7ff562c306515ed56765ea4cdbac6eed3d",
+      "paper_statement_sha256": "50d6f6d3a3e8d80d76abc523e24e99244474d532c9df3ef3889888255731f541",
+      "tex_statement": "\\forall {Addition : Type u_1} {Slack : Type u_2} [inst : Fintype Slack] (robustAlgorithm : SmartAllocationProblem Addition \\to Addition) (robustOperationCount : SmartAllocationProblem Addition \\to \u2115) (slackProblem : SmartAllocationProblem Addition \\to SmartAllocationSlackFillingProblem Slack) (slackOf : SmartAllocationProblem Addition \\to Addition \\to Slack \\to \u2115) (additionOf : SmartAllocationProblem Addition \\to (Slack \\to \u2115) \\to Addition), (\\forall (problem : SmartAllocationProblem Addition) (allocation : Slack \\to \u2115), (slackProblem problem).feasible allocation \\to feasible (additionOf problem allocation)) \\to (\\forall (problem : SmartAllocationProblem Addition) (addition : Addition), feasible addition \\to (slackProblem problem).feasible (slackOf problem addition)) \\to (\\forall (problem : SmartAllocationProblem Addition), cost (smartAllocationSlackReductionAlgorithm slackProblem additionOf problem) = (slackProblem problem).cost (slackProblem problem).algorithm) \\to (\\forall (problem : SmartAllocationProblem Addition) (addition : Addition), feasible addition \\to cost addition = (slackProblem problem).cost (slackOf problem addition)) \\to (\\forall (problem : SmartAllocationProblem Addition), feasible (robustAlgorithm problem)) \\to (\\forall (problem : SmartAllocationProblem Addition), cost (robustAlgorithm problem) = cost (smartAllocationSlackReductionAlgorithm slackProblem additionOf problem)) \\to (\\forall (problem : SmartAllocationProblem Addition), robustOperationCount problem \\le linearRuntimeBound) \\to \\forall (problem : SmartAllocationProblem Addition), IsMinimizerOn feasible cost (robustAlgorithm problem) \\land robustOperationCount problem \\le linearRuntimeBound"
+    },
+    "paper_proposition2_exhausted_completion_equivalent": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "b0e698bff547485d81b04cd0cb8554fed00827fa4b2fbd8ad3b4e1a63f623b80",
+      "paper_statement_sha256": "8fa620c35d35a3040ff6e1c4150a0b725d55faa144fbfec5a7dd4350a223ecb0",
+      "tex_statement": "For any active set, if an exhausted ballot has no first active candidate, then appending a strategy ballot has the same first active candidate as the strategy ballot alone."
+    },
+    "paper_proposition2_exhausted_completion_activates_candidate": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "e412881f2b3141857b8313bb3354d78722fffbc9df6bfae70660e20ee085ed92",
+      "paper_statement_sha256": "e10b9abfbf1281f7512db262d11b34786e21f46e9f647796ae3e2f66b01e558d",
+      "tex_statement": "For any active set and candidate, if an exhausted ballot has no first active candidate and the strategy ballot first activates the candidate, then appending the strategy ballot to the exhausted ballot first activates the same candidate."
+    },
+    "paper_proposition2_exhausted_completion_active_support_count": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "4a46d1d0398f55cb49be224f884f11f03e0ad489f6cbfa3894cad46efd489319",
+      "paper_statement_sha256": "d5f66e0796ada89ef9a58a95da427a0f3d5b7d443082b061783b5184ada0f1a7",
+      "tex_statement": "\\forall {Voter : Type u_1} {Candidate : Type u_2} [inst : DecidableEq Candidate] {voters : Finset Voter} {exhausted strategy completed : Voter \\to RCVBallot Candidate} {active : Finset Candidate} {candidate : Candidate}, (\\forall voter \\in voters, completed voter = exhausted voter ++ strategy voter) \\to (\\forall voter \\in voters, nextActive (exhausted voter) active = none) \\to (activeSupport voters completed active candidate).card = (activeSupport voters strategy active candidate).card"
+    },
+    "paper_proposition2_profile_available_count_supports_required_votes": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "67458ac8d1d73774911f3439c42ef9f55a442d7653f8c829b6c123d541142aa6",
+      "paper_statement_sha256": "97e756eb39fadde5562e725dc1318e8665958e83c454e36206f8802c53146d4c",
+      "tex_statement": "\\forall {Voter : Type u_1} {Candidate : Type u_2} [inst : DecidableEq Candidate] {voters : Finset Voter} {exhausted strategy : Voter \\to RCVBallot Candidate} {active : Finset Candidate} {candidate : Candidate} {requiredVotes : \u2115}, requiredVotes \\le paper_exhausted_completion_available_count voters exhausted strategy active candidate \\to requiredVotes \\le (activeSupport voters (fun voter  =>  exhausted voter ++ strategy voter) active candidate).card"
+    },
+    "paper_proposition2_profile_viable_candidate_set_member_supports_required_votes": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "00ecd6db14a0452f5b781bfd36012e7e505bdbf134b141d8a6f137d9b712df8e",
+      "paper_statement_sha256": "8bc0a5eee49fa1946dc1bcab54dff8b151a87edad64775bdbaa565552b030a8c",
+      "tex_statement": "\\forall {Voter : Type u_1} {Candidate : Type u_2} [inst : DecidableEq Candidate] {voters : Finset Voter} {exhausted strategy : Voter \\to RCVBallot Candidate} {active : Finset Candidate} {candidate : Candidate} {candidates : Finset Candidate} {requiredVotes : Candidate \\to \u2115}, candidate \\in paper_exhausted_completion_viable_candidates candidates requiredVotes (paper_exhausted_completion_available_count voters exhausted strategy active) \\to requiredVotes candidate \\le (activeSupport voters (fun voter  =>  exhausted voter ++ strategy voter) active candidate).card"
+    },
+    "paper_proposition2_viable_candidates_characterization": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "9ab9c60e34b8516c6c14d225f245d3c113d0122324ecb206e0f64ca23df559e0",
+      "paper_statement_sha256": "7d67175f9201345b8917b1040115f70dd6f5fe51bab25274ab7b96a7c30c9217",
+      "tex_statement": "\\forall {Candidate : Type u_1} [inst : DecidableEq Candidate] {candidates : Finset Candidate} {requiredVotes exhaustedBeforeActivation : Candidate \\to \u2115} {candidate : Candidate}, candidate \\in paper_exhausted_completion_viable_candidates candidates requiredVotes exhaustedBeforeActivation \\iff candidate \\in candidates \\land paper_exhausted_completion_viable requiredVotes exhaustedBeforeActivation candidate"
+    },
+    "paper_proposition2_multi_round_viable_candidates_characterization": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "867161ded58101b87d037585677ddd7c7d08fb193e37763b84a9e82d1aa73ecb",
+      "paper_statement_sha256": "ab73c05a8f6cd7781ee66867ea8768d7a6c3c3a0a6f54fe4d1bd284569451a59",
+      "tex_statement": "\\forall {Candidate : Type u_1} {Round : Type u_2} [inst : DecidableEq Candidate] [inst_1 : DecidableEq Round] {candidates : Finset Candidate} {activationRounds : Candidate \\to Finset Round} {requiredVotes exhaustedBeforeActivation : Candidate \\to Round \\to \u2115} {candidate : Candidate}, candidate \\in paper_exhausted_completion_multi_round_viable_candidates candidates activationRounds requiredVotes exhaustedBeforeActivation \\iff candidate \\in candidates \\land \\forall round \\in activationRounds candidate, requiredVotes candidate round \\le exhaustedBeforeActivation candidate round"
+    },
+    "paper_proposition2_multi_round_profile_viable_candidate_set_member_supports_required_votes": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "67dd8ac6aca1aa824f1f866e5abff641fba65e7e4597acb8a1e9f55c0981daeb",
+      "paper_statement_sha256": "0a127500bd3c4fa3d4a8d970b47f8011e4e2cccf983a1dc95f67217e4e8e21cb",
+      "tex_statement": "\\forall {Voter : Type u_1} {Candidate : Type u_2} {Round : Type u_3} [inst : DecidableEq Candidate] [inst_1 : DecidableEq Round] {voters : Finset Voter} {exhausted strategy : Voter \\to RCVBallot Candidate} {active : Round \\to Finset Candidate} {candidate : Candidate} {round : Round} {candidates : Finset Candidate} {activationRounds : Candidate \\to Finset Round} {requiredVotes : Candidate \\to Round \\to \u2115}, candidate \\in paper_exhausted_completion_multi_round_viable_candidates candidates activationRounds requiredVotes (paper_exhausted_completion_available_count_by_round voters exhausted strategy active) \\to round \\in activationRounds candidate \\to requiredVotes candidate round \\le (activeSupport voters (fun voter  =>  exhausted voter ++ strategy voter) (active round) candidate).card"
+    },
+    "paper_theorem2_1_concrete_original_or_one_survival_step_facts_implementation_sound_and_quartic_runtime": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "3e3f5d4860af3f83772f2df2cbbf1a103ae305f2cfbc2b8ccb27d2c68d663914",
+      "paper_statement_sha256": "7439a16ebde2ffe4a85cf24040805049b272952a7eb4e83beab433259acf2005",
+      "tex_statement": "\\forall {Voter : Type u_1} {Candidate : Type u_2} [inst : DecidableEq Candidate] {voters : Finset Voter} {ballots : Voter \\to RCVBallot Candidate} {candidates lower startActive terminalActive : Finset Candidate} {budget quota uniqueBallotCount candidateCount : \u2115} {trace : RCVTrace Candidate}, (paper_original_candidate_removal_condition voters ballots candidates lower budget quota \\lor \\forall inside \\in lower, \\exists upperSupport afterWorstUpperSupport afterWorstInsideSupport worst second third remainingUpper step, paper_one_survival_round_safety budget upperSupport afterWorstUpperSupport afterWorstInsideSupport worst second third remainingUpper \\land eliminatesMinimalTally \\land removesFocusedCandidate \\land inside \\in beforeActive \\land beforeActive \\subseteq insert inside remainingUpper \\land tally inside = budget + afterWorstInsideSupport \\land (\\forall outside \\in remainingUpper, tally outside = afterWorstUpperSupport outside) \\land terminalActive \\subseteq afterActive) \\to (\\forall step \\in steps, kind = eliminate \\to eliminatesMinimalTally) \\to (\\forall step \\in steps, kind = eliminate \\to removesFocusedCandidate) \\to (\\forall step \\in steps, kind = eliminate \\to \\exists inside \\in lower, inside \\in beforeActive) \\to (\\forall step \\in steps, kind = eliminate \\to beforeActive \\subseteq candidates) \\to (\\forall step \\in steps, kind = eliminate \\to \\forall inside \\in lower, inside \\in beforeActive \\to tally inside = budget + paper_strict_support_count voters ballots lower (candidates \\ lower) inside) \\to (\\forall step \\in steps, kind = eliminate \\to \\forall inside \\in lower, inside \\in beforeActive \\to \\forall outside \\in candidates \\ lower, tally outside = paper_strict_support_count voters ballots (insert outside (erase inside)) \\varnothing outside) \\to replaysFro"
+    },
+    "paper_algorithm3_one_survival_step_removes_lower_from_step_facts": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "2130938ccceb85bbcf109cd74dd4c2d5b8b680ad7a8f2e254291244c2abe5317",
+      "paper_statement_sha256": "ccdeb7973dcfa9b20609b53811e3dedc44bf93b025f618223d0eeb47db41b285",
+      "tex_statement": "\\forall {Candidate : Type u_1} [inst : DecidableEq Candidate] {budget : \u2115} {inside worst second third : Candidate} {upperSupport afterWorstUpperSupport : Candidate \\to \u2115} {afterWorstInsideSupport : \u2115} {remainingUpper : Finset Candidate} {step : STVStep Candidate}, paper_one_survival_round_safety budget upperSupport afterWorstUpperSupport afterWorstInsideSupport worst second third remainingUpper \\to eliminatesMinimalTally \\to removesFocusedCandidate \\to inside \\in beforeActive \\to beforeActive \\subseteq insert inside remainingUpper \\to tally inside = budget + afterWorstInsideSupport \\to (\\forall outside \\in remainingUpper, tally outside = afterWorstUpperSupport outside) \\to afterActive = erase inside"
+    },
+    "paper_theorem2_2_concrete_containment_implementation_sound_and_polynomial_runtime_from_component_bounds": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only.",
+      "generated_at": "2026-06-30T14:55:25Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "b0040513bb3559661063c243670ed4df4119195248a830d93bcd853a29231d99",
+      "paper_statement_sha256": "64f61d03501861ec6557d216ada516b505e0e64fd7c29b9d0321110d309a361d",
+      "tex_statement": "\\forall {Candidate : Type u_1} [inst : DecidableEq Candidate] {lower upper : Finset Candidate} {winnerFirstChoiceVotes quota budget uniqueBallotCount candidateCount verificationBound : \u2115} {surplusVotes nextChoiceVotes unweightedTransferBound : Candidate \\to \u2115} {baseUpperSupport transferUpperSupport : Candidate \\to Candidate \\to \u2115} (conservativeLower conservativeUpper : Candidate \\to Candidate \\to \u2115), (\\forall inside \\in lower, \\forall outside \\in upper, budget + conservativeLower inside outside < conservativeUpper inside outside) \\to (\\forall inside \\in lower, \\forall outside \\in upper, paper_lower_candidate_transfer_bound (surplusVotes inside) (nextChoiceVotes inside) winnerFirstChoiceVotes (unweightedTransferBound inside) \\le conservativeLower inside outside) \\to (\\forall inside \\in lower, \\forall outside \\in upper, conservativeUpper inside outside \\le paper_updated_upper_candidate_support_bound (baseUpperSupport inside outside) (transferUpperSupport inside outside) winnerFirstChoiceVotes quota) \\to (paper_multiwinner_concrete_containment_problem lower upper winnerFirstChoiceVotes quota surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport transferUpperSupport budget uniqueBallotCount candidateCount verificationBound).specification (paper_multiwinner_concrete_containment_algorithm lower upper (paper_multiwinner_concrete_containment_problem lower upper winnerFirstChoiceVotes quota surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport transferUpperSupport budget uniqueBallotCount candidateCount verificationBound)) \\land paper_multiwinner_concrete_containment_operation_count (paper_multiwinner_concrete_containment_problem lower upper winnerFirstChoiceVotes quota surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport transfer"
+    },
+    "paper_algorithm3_full_election_run": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "095670f9a646a8693fe9f8d11cedca9b360e338288e3e01c99e89e230d12e741",
+      "paper_statement_sha256": "7650735ff98d73149b4d033a0dd128cd03debffedc84185f78747d2c0db314b6",
+      "tex_statement": "abbrev paper_algorithm3_full_election_run\n    {Voter Candidate : Type*} [DecidableEq Candidate]\n    (voters : Finset Voter) (ballots : Voter \u2192 RCVBallot Candidate)\n    (candidates lower : Finset Candidate) (budget quota : \u2115) :=\n  Algorithm3FullElectionRun voters ballots candidates lower budget quota"
+    },
+    "paper_algorithm3_original_full_election_run_initial_loss_prefix": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "0204dcabd9b677ee6eb67efd6ae0cbe4067cef0a67bed61d5175a9b942cef904",
+      "paper_statement_sha256": "11ccefc5086b1e6dddeabe6c45d8d40d0a0c482f41289ad0ad96186d553811da",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_algorithm3_original_full_election_run_initial_loss_prefix :\n\u2200 {Voter : Type u_1} {Candidate : Type u_2} [inst : DecidableEq Candidate] {voters : Finset Voter} {ballots : Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate} {candidates lower : Finset Candidate} {budget : \u2115} (run : DGJ26PracticalDynamicsRCV.paper_algorithm3_original_full_election_run voters ballots candidates lower budget), DGJ24OptimalStrategiesRCV.rcvSequenceHasInitialLossPrefix (DGJ24OptimalStrategiesRCV.rcvSequenceFromTrace run.trace) (run.startActive \u2229 lower).card"
+    },
+    "paper_algorithm3_post_worst_tally_branch_check": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "8de7e6c42c0e608c2a913978c9c5faaebb488918dc43cb05744118ff96c2b7e1",
+      "paper_statement_sha256": "d898e99f6675989381a05f2ef8e992fc49be8b295d5285f3f99cac80ab537c53",
+      "tex_statement": "noncomputable def paper_algorithm3_post_worst_tally_branch_check\n    {Voter Candidate : Type*} [DecidableEq Candidate]\n    (voters : Finset Voter) (ballots : Voter \u2192 RCVBallot Candidate)\n    (candidates lower terminalActive : Finset Candidate)\n    (budget quota : \u2115)\n    (upperSupport afterWorstUpperSupport : Candidate \u2192 Candidate \u2192 \u2115)\n    (afterWorstInsideSupport : Candidate \u2192 \u2115)\n    (worst second third : Candidate \u2192 Candidate)\n    (remainingUpper : Candidate \u2192 Finset Candidate) : Bool :=\n  algorithm3PostWorstTallyBranchCheck voters ballots candidates lower\n    terminalActive budget quota upperSupport afterWorstUpperSupport\n    afterWorstInsideSupport worst second third remainingUpper"
+    },
+    "paper_algorithm4_containment_run": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "48a9eea2ee683a82b7bd608230254977976f5d7f310194746668855f3b7676b9",
+      "paper_statement_sha256": "1764d46add975d74e92b65d434a5eb81adaecd1e3ce58301b3f84c359ea05495",
+      "tex_statement": "abbrev paper_algorithm4_containment_run {Candidate : Type*}\n    [DecidableEq Candidate]\n    (lower upper : Finset Candidate)\n    (winnerFirstChoiceVotes quota budget : \u2115)\n    (surplusVotes nextChoiceVotes unweightedTransferBound : Candidate \u2192 \u2115)\n    (baseUpperSupport transferUpperSupport : Candidate \u2192 Candidate \u2192 \u2115) :=\n  Algorithm4ContainmentRun lower upper winnerFirstChoiceVotes quota budget\n    surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport\n    transferUpperSupport"
+    },
+    "paper_algorithm4_containment_run_of_no_failed_pair_check": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "8e6167ea7392da49c854d09c409a4634b186d01aaa5e7a6d47ddceaf81932e66",
+      "paper_statement_sha256": "051b0f3533b635caf20b5b14a40b94d2d0848a37f958357f7938d5abc5786407",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_algorithm4_containment_run_of_no_failed_pair_check :\n\u2200 {Candidate : Type u_1} [inst : DecidableEq Candidate] {lower upper : Finset Candidate} {winnerFirstChoiceVotes quota budget : \u2115} {surplusVotes nextChoiceVotes unweightedTransferBound : Candidate \u2192 \u2115} {baseUpperSupport transferUpperSupport : Candidate \u2192 Candidate \u2192 \u2115}, DGJ26PracticalDynamicsRCV.paper_algorithm4_no_failed_pair_check lower upper winnerFirstChoiceVotes quota budget surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport transferUpperSupport = true \u2192 DGJ26PracticalDynamicsRCV.paper_algorithm4_containment_run lower upper winnerFirstChoiceVotes quota budget surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport transferUpperSupport"
+    },
+    "paper_algorithm4_containment_run_of_source_no_failed_pair_check": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "cf1b00373a64ef7b3e68bc12e0f7da64097061d4b7053ff311afba5430812a00",
+      "paper_statement_sha256": "b68f93922be5aea4720ef83ec25004d7181c3d4e91681eec65771893ad97b0c6",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_algorithm4_containment_run_of_source_no_failed_pair_check :\n\u2200 {Voter : Type u_1} {Candidate : Type u_2} [inst : DecidableEq Candidate] {voters : Finset Voter} {ballots : Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate} {lower upper : Finset Candidate} {winner : Candidate} {quota budget : \u2115}, DGJ26PracticalDynamicsRCV.paper_algorithm4_source_no_failed_pair_check voters ballots lower upper winner quota budget = true \u2192 DGJ26PracticalDynamicsRCV.paper_algorithm4_containment_run lower upper (DGJ26PracticalDynamicsRCV.algorithm4WinnerFirstChoiceVotes voters ballots winner) quota budget (DGJ26PracticalDynamicsRCV.algorithm4SourceSurplusVotes voters ballots winner lower quota) (DGJ26PracticalDynamicsRCV.algorithm4SourceNextChoiceVotes voters ballots winner lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceUnweightedTransferBound voters ballots winner lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceBaseUpperSupport voters ballots lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceTransferUpperSupport voters ballots winner lower)"
+    },
+    "paper_algorithm4_no_failed_pair_check": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "78532b11fcf938fede4f96c365740b8a62f2d783c567c7a70c8767c1bc92c481",
+      "paper_statement_sha256": "79099c7adf3344cab58e802362166726a4de1619f217ef7eb5c81f582a90e136",
+      "tex_statement": "def paper_algorithm4_no_failed_pair_check {Candidate : Type*}\n    [DecidableEq Candidate]\n    (lower upper : Finset Candidate)\n    (winnerFirstChoiceVotes quota budget : \u2115)\n    (surplusVotes nextChoiceVotes unweightedTransferBound : Candidate \u2192 \u2115)\n    (baseUpperSupport transferUpperSupport : Candidate \u2192 Candidate \u2192 \u2115) :\n    Bool :=\n  algorithm4NoFailedPairCheck lower upper winnerFirstChoiceVotes quota budget\n    surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport\n    transferUpperSupport"
+    },
+    "paper_algorithm4_source_no_failed_pair_check": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "ff657407fa2b38f9a12c4048f0d9726655de26221e4455771cfcdaa6f749b57b",
+      "paper_statement_sha256": "cff698166643f05583111bafa62d5df12d317f338878dab79cccbcc844ddbcb5",
+      "tex_statement": "def paper_algorithm4_source_no_failed_pair_check {Voter Candidate : Type*}\n    [DecidableEq Candidate]\n    (voters : Finset Voter) (ballots : Voter \u2192 RCVBallot Candidate)\n    (lower upper : Finset Candidate) (winner : Candidate)\n    (quota budget : \u2115) : Bool :=\n  algorithm4SourceNoFailedPairCheck voters ballots lower upper winner quota budget"
+    },
+    "paper_proposition1_from_algorithmA_append_suffix_then_prefix": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "6f8d4d43ec5c26b970a8002d32cb6ab135f004b3380812073459e7ee27d4bb9d",
+      "paper_statement_sha256": "203586dd338ae1f5f94c59efa9d4453d81c5d4852e138315fe5a41c4f0f748d6",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_proposition1_from_algorithmA_append_suffix_then_prefix :\n\u2200 {Voter : Type u_1} {Candidate : Type u_2} {Slack : Type u_3} [inst : DecidableEq Candidate] [inst_1 : Fintype Slack] (sourceCert : DGJ24OptimalStrategiesRCV.Algorithm3FirstUseSlackCertificate (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate) Slack) (voters : DGJ24OptimalStrategiesRCV.SmartAllocationProblem (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate) \u2192 Finset Voter) (relevantActiveSets : DGJ24OptimalStrategiesRCV.SmartAllocationProblem (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate) \u2192 Finset (Finset Candidate)) (supportModel : (problem : DGJ24OptimalStrategiesRCV.SmartAllocationProblem (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate)) \u2192 DGJ24OptimalStrategiesRCV.SmartAllocationSupportCountModel problem (voters problem) (relevantActiveSets problem)) (pref suffix : DGJ24OptimalStrategiesRCV.SmartAllocationProblem (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate) \u2192 Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate), (\u2200 (problem : DGJ24OptimalStrategiesRCV.SmartAllocationProblem (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate)), \u2200 active \u2208 relevantActiveSets problem, \u2200 voter \u2208 voters problem, \u2203 first, EconCSLib.SocialChoice.Voting.Ballot.nextActive (DGJ24OptimalStrategiesRCV.smartAllocationSlackReductionAlgorithm sourceCert.toFirstUseSlackModel.slackProblem sourceCert.toFirstUseSlackModel.additionOf problem voter) active = some first) \u2192 (\u2200 (problem : DGJ24OptimalStrategiesRCV.SmartAllocationProblem (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate)), \u2200 active \u2208 relevantActiveSets problem, \u2200 voter \u2208 voters problem, DGJ26PracticalDynamicsRCV.paper_exhausted_prefix_at_active_set (pref problem voter) active) \u2192 \u2200 (robustOperationCount : DGJ24OptimalStrategiesRCV.SmartAllocationProblem (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate) \u2192 \u2115), (\u2200 (problem : DGJ24OptimalStrategiesRCV.SmartAllocationProblem (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate)), robustOperationCount problem \u2264 problem.linearRuntimeBound) \u2192 \u2200 (problem : DGJ24OptimalStrategiesRCV.SmartAllocationProblem (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate)), EconCSLib.Optimization.IsMinimizerOn problem.feasible problem.cost (DGJ26PracticalDynamicsRCV.paper_algorithmA_suffix_then_prefix_output sourceCert pref suffix problem) \u2227 robustOperationCount problem \u2264 problem.linearRuntimeBound"
+    },
+    "paper_proposition1_from_algorithmA_append_suffix_then_prefix_linear_runtime": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "6144d20e9af8213cac684cd0085724eb80445c3a8e23fd9f536486c5d34d31ce",
+      "paper_statement_sha256": "203586dd338ae1f5f94c59efa9d4453d81c5d4852e138315fe5a41c4f0f748d6",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_proposition1_from_algorithmA_append_suffix_then_prefix_linear_runtime :\n\u2200 {Voter : Type u_1} {Candidate : Type u_2} {Slack : Type u_3} [inst : DecidableEq Candidate] [inst_1 : Fintype Slack] (sourceCert : DGJ24OptimalStrategiesRCV.Algorithm3FirstUseSlackCertificate (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate) Slack) (voters : DGJ24OptimalStrategiesRCV.SmartAllocationProblem (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate) \u2192 Finset Voter) (relevantActiveSets : DGJ24OptimalStrategiesRCV.SmartAllocationProblem (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate) \u2192 Finset (Finset Candidate)) (supportModel : (problem : DGJ24OptimalStrategiesRCV.SmartAllocationProblem (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate)) \u2192 DGJ24OptimalStrategiesRCV.SmartAllocationSupportCountModel problem (voters problem) (relevantActiveSets problem)) (pref suffix : DGJ24OptimalStrategiesRCV.SmartAllocationProblem (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate) \u2192 Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate), (\u2200 (problem : DGJ24OptimalStrategiesRCV.SmartAllocationProblem (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate)), \u2200 active \u2208 relevantActiveSets problem, \u2200 voter \u2208 voters problem, \u2203 first, EconCSLib.SocialChoice.Voting.Ballot.nextActive (DGJ24OptimalStrategiesRCV.smartAllocationSlackReductionAlgorithm sourceCert.toFirstUseSlackModel.slackProblem sourceCert.toFirstUseSlackModel.additionOf problem voter) active = some first) \u2192 (\u2200 (problem : DGJ24OptimalStrategiesRCV.SmartAllocationProblem (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate)), \u2200 active \u2208 relevantActiveSets problem, \u2200 voter \u2208 voters problem, DGJ26PracticalDynamicsRCV.paper_exhausted_prefix_at_active_set (pref problem voter) active) \u2192 \u2200 (problem : DGJ24OptimalStrategiesRCV.SmartAllocationProblem (Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate)), EconCSLib.Optimization.IsMinimizerOn problem.feasible problem.cost (DGJ26PracticalDynamicsRCV.paper_algorithmA_suffix_then_prefix_output sourceCert pref suffix problem) \u2227 DGJ26PracticalDynamicsRCV.paper_algorithmA_suffix_then_prefix_operation_count problem \u2264 problem.linearRuntimeBound"
+    },
+    "paper_proposition1_from_algorithmA_support_count_loop_invariants_linear_runtime": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "ae9d14c624c68c7c3f71dba3eaf60465c1c1048d805a16d7f12a05894ea4359f",
+      "paper_statement_sha256": "da3f1008d6454bfc3d3ed485c15d136787b959664c2eb0fe3585de944374d9d2",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_proposition1_from_algorithmA_support_count_loop_invariants_linear_runtime :\n\u2200 {Voter : Type u_1} {Candidate : Type u_2} {Slack : Type u_3} [inst : DecidableEq Candidate] [inst_1 : Fintype Slack] (base : DGJ26PracticalDynamicsRCV.paper_algorithm3_support_count_loop_data Voter Candidate Slack) (pref suffix : Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate), (\u2200 active \u2208 base.relevantActiveSets, \u2200 voter \u2208 base.voters, \u2203 first, EconCSLib.SocialChoice.Voting.Ballot.nextActive (DGJ24OptimalStrategiesRCV.Algorithm3SupportCountLoopData.exactFill base voter) active = some first) \u2192 (\u2200 active \u2208 base.relevantActiveSets, \u2200 voter \u2208 base.voters, DGJ26PracticalDynamicsRCV.paper_exhausted_prefix_at_active_set (pref voter) active) \u2192 (EconCSLib.Optimization.IsMinimizerOn (DGJ24OptimalStrategiesRCV.Algorithm3SupportCountLoopData.problem base).feasible (DGJ24OptimalStrategiesRCV.Algorithm3SupportCountLoopData.problem base).cost fun voter => pref voter ++ (DGJ24OptimalStrategiesRCV.Algorithm3SupportCountLoopData.exactFill base voter ++ suffix voter)) \u2227 DGJ26PracticalDynamicsRCV.paper_algorithmA_suffix_then_prefix_operation_count (DGJ24OptimalStrategiesRCV.Algorithm3SupportCountLoopData.problem base) \u2264 (DGJ24OptimalStrategiesRCV.Algorithm3SupportCountLoopData.problem base).linearRuntimeBound"
+    },
+    "paper_proposition2_multi_round_closeout_from_algorithmA_count_test": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "f74d33d46758bd1e13aa4d898bd03b57052ed958ecb6400ae3c2f4b8a348d340",
+      "paper_statement_sha256": "b5ba59ff2930b72b9b5855805af367a9bf64acdb1426f2fab6235ca7ac19f49a",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_proposition2_multi_round_closeout_from_algorithmA_count_test :\n\u2200 {Voter : Type u_1} {Candidate : Type u_2} {Round : Type u_3} [inst : DecidableEq Candidate] [inst_1 : DecidableEq Round] {voters : Finset Voter} {exhausted strategy : Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate} {active : Round \u2192 Finset Candidate} {candidates : Finset Candidate} {activationRounds : Candidate \u2192 Finset Round} {requiredVotes : Candidate \u2192 Round \u2192 \u2115}, (\u2200 candidate \u2208 candidates, \u2200 round \u2208 activationRounds candidate, requiredVotes candidate round \u2264 DGJ26PracticalDynamicsRCV.paper_exhausted_completion_available_count_by_round voters exhausted strategy active candidate round) \u2192 \u2200 {candidate : Candidate}, candidate \u2208 candidates \u2192 candidate \u2208 DGJ26PracticalDynamicsRCV.paper_exhausted_completion_multi_round_viable_candidates candidates activationRounds requiredVotes (DGJ26PracticalDynamicsRCV.paper_exhausted_completion_available_count_by_round voters exhausted strategy active) \u2227 (\u2200 round \u2208 activationRounds candidate, requiredVotes candidate round \u2264 (EconCSLib.SocialChoice.Voting.Ballot.activeSupport voters (fun voter => exhausted voter ++ strategy voter) (active round) candidate).card) \u2227 \u2200 round \u2208 activationRounds candidate, \u2203 required \u2286 voters, required.card = requiredVotes candidate round \u2227 \u2200 voter \u2208 required, EconCSLib.SocialChoice.Voting.Ballot.nextActive (exhausted voter) (active round) = none \u2227 EconCSLib.SocialChoice.Voting.Ballot.nextActive (strategy voter) (active round) = some candidate"
+    },
+    "paper_theorem2_1_canonical_generated_source_branch_check": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "9a94d6c9d0103b8c9d12fca6e22d8f85d3f7062af41036fb3192fe67b966f150",
+      "paper_statement_sha256": "17b61f6b54ef1c6a7f4bb31549a707fbea3879f696d528d7106876afa35fd5de",
+      "tex_statement": "noncomputable def paper_theorem2_1_canonical_generated_source_branch_check\n    {Voter Candidate : Type*} [DecidableEq Candidate]\n    (voters : Finset Voter) (ballots : Voter \u2192 RCVBallot Candidate)\n    (candidates lower : Finset Candidate) (budget quota : \u2115)\n    (upperSupport afterWorstUpperSupport : Candidate \u2192 Candidate \u2192 \u2115)\n    (afterWorstInsideSupport : Candidate \u2192 \u2115)\n    (worst second third : Candidate \u2192 Candidate) : Bool :=\n  by\n    classical\n    let terminalActive :=\n      paper_theorem2_1_canonical_generated_terminal_active\n        voters ballots candidates lower budget\n    exact decide\n      (paper_original_candidate_removal_condition\n          voters ballots candidates lower budget quota \u2228\n        \u2200 inside, inside \u2208 lower \u2192\n          inside \u2209 terminalActive \u2227\n            paper_one_survival_round_safety budget (upperSupport inside)\n              (afterWorstUpperSupport inside) (afterWorstInsideSupport inside)\n              (worst inside) (second inside) (third inside)\n              terminalActive)"
+    },
+    "paper_theorem2_1_concrete_canonical_generated_source_branch_check_implementation_sound_and_quartic_runtime": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "f528b347b63fc59c591f2ba45b1a0f1fd59e3e7f5018a2bcb7b80b62442f93d6",
+      "paper_statement_sha256": "c6f53432879e7c263a1f2035ab51499a33fd6943b9098dbe0353626ec496fae9",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_theorem2_1_concrete_canonical_generated_source_branch_check_implementation_sound_and_quartic_runtime :\n\u2200 {Voter : Type u_1} {Candidate : Type u_2} [inst : DecidableEq Candidate] {voters : Finset Voter} {ballots : Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate} {candidates lower : Finset Candidate} {budget quota uniqueBallotCount candidateCount : \u2115} {upperSupport afterWorstUpperSupport : Candidate \u2192 Candidate \u2192 \u2115} {afterWorstInsideSupport : Candidate \u2192 \u2115} {worst second third : Candidate \u2192 Candidate}, DGJ26PracticalDynamicsRCV.paper_theorem2_1_canonical_generated_source_branch_check voters ballots candidates lower budget quota upperSupport afterWorstUpperSupport afterWorstInsideSupport worst second third = true \u2192 have terminalActive := DGJ26PracticalDynamicsRCV.paper_theorem2_1_canonical_generated_terminal_active voters ballots candidates lower budget; (DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_problem voters ballots candidates lower terminalActive budget uniqueBallotCount candidateCount).specification (DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_algorithm ballots candidates lower (DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_problem voters ballots candidates lower terminalActive budget uniqueBallotCount candidateCount)) \u2227 DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_operation_count (DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_problem voters ballots candidates lower terminalActive budget uniqueBallotCount candidateCount) \u2264 uniqueBallotCount * candidateCount ^ 4"
+    },
+    "paper_theorem2_1_concrete_canonical_generated_source_branch_implementation_sound_and_quartic_runtime": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "adccca98b111792665a0682fe608a523d313e4f4e39256cfd04456065584767d",
+      "paper_statement_sha256": "60688537d18b1033ff815d90acb0221338c68228cee16980c397b6f8a090e5c7",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_theorem2_1_concrete_canonical_generated_source_branch_implementation_sound_and_quartic_runtime :\n\u2200 {Voter : Type u_1} {Candidate : Type u_2} [inst : DecidableEq Candidate] {voters : Finset Voter} {ballots : Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate} {candidates lower : Finset Candidate} {budget quota uniqueBallotCount candidateCount : \u2115}, DGJ26PracticalDynamicsRCV.paper_theorem2_1_canonical_generated_source_branch voters ballots candidates lower budget quota \u2192 have terminalActive := DGJ26PracticalDynamicsRCV.paper_theorem2_1_canonical_generated_terminal_active voters ballots candidates lower budget; (DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_problem voters ballots candidates lower terminalActive budget uniqueBallotCount candidateCount).specification (DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_algorithm ballots candidates lower (DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_problem voters ballots candidates lower terminalActive budget uniqueBallotCount candidateCount)) \u2227 DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_operation_count (DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_problem voters ballots candidates lower terminalActive budget uniqueBallotCount candidateCount) \u2264 uniqueBallotCount * candidateCount ^ 4"
+    },
+    "paper_theorem2_1_concrete_full_election_run_implementation_sound_and_quartic_runtime": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "1f3663b0858ff5f60ce9f2491b140b71831b5814d2aeeafcbf2cb8c994a3437b",
+      "paper_statement_sha256": "ee05751b547222c6ed827a6bae430b1f722c7a5504c2c632219ca9af5e8660ce",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_theorem2_1_concrete_full_election_run_implementation_sound_and_quartic_runtime :\n\u2200 {Voter : Type u_1} {Candidate : Type u_2} [inst : DecidableEq Candidate] {voters : Finset Voter} {ballots : Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate} {candidates lower : Finset Candidate} {budget quota uniqueBallotCount candidateCount : \u2115} (run : DGJ26PracticalDynamicsRCV.paper_algorithm3_full_election_run voters ballots candidates lower budget quota), (DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_problem voters ballots candidates lower run.originalRun.terminalActive budget uniqueBallotCount candidateCount).specification (DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_algorithm ballots candidates lower (DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_problem voters ballots candidates lower run.originalRun.terminalActive budget uniqueBallotCount candidateCount)) \u2227 DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_operation_count (DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_problem voters ballots candidates lower run.originalRun.terminalActive budget uniqueBallotCount candidateCount) \u2264 uniqueBallotCount * candidateCount ^ 4"
+    },
+    "paper_theorem2_1_concrete_full_election_run_post_worst_tally_branch_check_implementation_sound_and_quartic_runtime": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "92f1b38a42a3b5599de7de4a81334636882d2351dfb71ea5900b98e529ddd169",
+      "paper_statement_sha256": "c6f53432879e7c263a1f2035ab51499a33fd6943b9098dbe0353626ec496fae9",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_theorem2_1_concrete_full_election_run_post_worst_tally_branch_check_implementation_sound_and_quartic_runtime :\n\u2200 {Voter : Type u_1} {Candidate : Type u_2} [inst : DecidableEq Candidate] {voters : Finset Voter} {ballots : Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate} {candidates lower : Finset Candidate} {budget quota uniqueBallotCount candidateCount : \u2115} {upperSupport afterWorstUpperSupport : Candidate \u2192 Candidate \u2192 \u2115} {afterWorstInsideSupport : Candidate \u2192 \u2115} {worst second third : Candidate \u2192 Candidate} {remainingUpper : Candidate \u2192 Finset Candidate} (run : DGJ26PracticalDynamicsRCV.paper_algorithm3_original_full_election_run voters ballots candidates lower budget), DGJ26PracticalDynamicsRCV.paper_algorithm3_post_worst_tally_branch_check voters ballots candidates lower run.terminalActive budget quota upperSupport afterWorstUpperSupport afterWorstInsideSupport worst second third remainingUpper = true \u2192 (DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_problem voters ballots candidates lower run.terminalActive budget uniqueBallotCount candidateCount).specification (DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_algorithm ballots candidates lower (DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_problem voters ballots candidates lower run.terminalActive budget uniqueBallotCount candidateCount)) \u2227 DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_operation_count (DGJ26PracticalDynamicsRCV.paper_strengthened_removal_concrete_reduction_problem voters ballots candidates lower run.terminalActive budget uniqueBallotCount candidateCount) \u2264 uniqueBallotCount * candidateCount ^ 4"
+    },
+    "paper_theorem2_1_full_election_run_source_branch": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "8b8d13554b8726fa5e4dcd4c0f2285426481370926944832b398fa21aa6fb3e4",
+      "paper_statement_sha256": "3bcc566d985c857e875b9277c0557b7175d43d9c4cd195d82cf4bad249c5a627",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_theorem2_1_full_election_run_source_branch :\n{Voter : Type u_1} \u2192 {Candidate : Type u_2} \u2192 [inst : DecidableEq Candidate] \u2192 {voters : Finset Voter} \u2192 {ballots : Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate} \u2192 {candidates lower : Finset Candidate} \u2192 {budget : \u2115} \u2192 {quota : \u2115} \u2192 DGJ26PracticalDynamicsRCV.paper_algorithm3_original_full_election_run voters ballots candidates lower budget \u2192 Prop"
+    },
+    "paper_theorem2_1_full_election_run_source_branch_of_original_or_failure_post_worst_tallies": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "d24d5aa2e5398c4d208eb180bd47da4617c58558aa093974d286c61d9e4e0e48",
+      "paper_statement_sha256": "22712799e0c830b4f3aceb71b545a4948c28b4971f032dbab38550a7956c3b5c",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_theorem2_1_full_election_run_source_branch_of_original_or_failure_post_worst_tallies :\n\u2200 {Voter : Type u_1} {Candidate : Type u_2} [inst : DecidableEq Candidate] {voters : Finset Voter} {ballots : Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate} {candidates lower : Finset Candidate} {budget quota : \u2115} (run : DGJ26PracticalDynamicsRCV.paper_algorithm3_original_full_election_run voters ballots candidates lower budget), (DGJ26PracticalDynamicsRCV.paper_original_candidate_removal_condition voters ballots candidates lower budget quota \u2228 \u2200 inside \u2208 lower, DGJ26PracticalDynamicsRCV.paper_extended_removal_original_failure voters ballots candidates lower budget inside \u2192 \u2203 upperSupport afterWorstUpperSupport afterWorstInsideSupport worst second third remainingUpper, inside \u2209 remainingUpper \u2227 DGJ26PracticalDynamicsRCV.paper_one_survival_round_safety budget upperSupport afterWorstUpperSupport afterWorstInsideSupport worst second third remainingUpper \u2227 run.terminalActive \u2286 remainingUpper) \u2192 DGJ26PracticalDynamicsRCV.paper_theorem2_1_full_election_run_source_branch run"
+    },
+    "paper_theorem2_2_algorithm4_check_sound_and_quadratic_verification": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "3377a8f79bdca7777afcc494d3250cd405392d0599c889d8c81a1786f63b24ba",
+      "paper_statement_sha256": "a625e6ae0d225e678a0be543c3bfe823efdaf56a96677069528dabff372e36f8",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_theorem2_2_algorithm4_check_sound_and_quadratic_verification :\n\u2200 {Candidate : Type u_1} [inst : DecidableEq Candidate] {lower upper : Finset Candidate} {winnerFirstChoiceVotes quota budget uniqueBallotCount candidateCount : \u2115} {surplusVotes nextChoiceVotes unweightedTransferBound : Candidate \u2192 \u2115} {baseUpperSupport transferUpperSupport : Candidate \u2192 Candidate \u2192 \u2115}, DGJ26PracticalDynamicsRCV.paper_algorithm4_no_failed_pair_check lower upper winnerFirstChoiceVotes quota budget surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport transferUpperSupport = true \u2192 (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_problem lower upper winnerFirstChoiceVotes quota surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport transferUpperSupport budget uniqueBallotCount candidateCount (uniqueBallotCount * candidateCount ^ 2)).specification (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_algorithm lower upper (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_problem lower upper winnerFirstChoiceVotes quota surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport transferUpperSupport budget uniqueBallotCount candidateCount (uniqueBallotCount * candidateCount ^ 2))) \u2227 DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_operation_count (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_problem lower upper winnerFirstChoiceVotes quota surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport transferUpperSupport budget uniqueBallotCount candidateCount (uniqueBallotCount * candidateCount ^ 2)) \u2264 uniqueBallotCount * candidateCount ^ 2"
+    },
+    "paper_theorem2_2_algorithm4_exact_bounds_sound_and_quadratic_verification": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "a8e346bf5333d56cc0fc83d9279b904a218118649776a8f01c2372b6d5290016",
+      "paper_statement_sha256": "a625e6ae0d225e678a0be543c3bfe823efdaf56a96677069528dabff372e36f8",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_theorem2_2_algorithm4_exact_bounds_sound_and_quadratic_verification :\n\u2200 {Candidate : Type u_1} [inst : DecidableEq Candidate] {lower upper : Finset Candidate} {winnerFirstChoiceVotes quota budget uniqueBallotCount candidateCount : \u2115} {surplusVotes nextChoiceVotes unweightedTransferBound : Candidate \u2192 \u2115} {baseUpperSupport transferUpperSupport : Candidate \u2192 Candidate \u2192 \u2115}, (\u2200 inside \u2208 lower, \u2200 outside \u2208 upper, budget + DGJ26PracticalDynamicsRCV.paper_lower_candidate_transfer_bound (surplusVotes inside) (nextChoiceVotes inside) winnerFirstChoiceVotes (unweightedTransferBound inside) < DGJ26PracticalDynamicsRCV.paper_updated_upper_candidate_support_bound (baseUpperSupport inside outside) (transferUpperSupport inside outside) winnerFirstChoiceVotes quota) \u2192 (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_problem lower upper winnerFirstChoiceVotes quota surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport transferUpperSupport budget uniqueBallotCount candidateCount (uniqueBallotCount * candidateCount ^ 2)).specification (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_algorithm lower upper (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_problem lower upper winnerFirstChoiceVotes quota surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport transferUpperSupport budget uniqueBallotCount candidateCount (uniqueBallotCount * candidateCount ^ 2))) \u2227 DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_operation_count (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_problem lower upper winnerFirstChoiceVotes quota surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport transferUpperSupport budget uniqueBallotCount candidateCount (uniqueBallotCount * candidateCount ^ 2)) \u2264 uniqueBallotCount * candidateCount ^ 2"
+    },
+    "paper_theorem2_2_algorithm4_source_check_sound_and_quadratic_verification": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "7fc7cda52a735c5f5aaed0587226020d91444c433aac2635ca6be225f3117a05",
+      "paper_statement_sha256": "a625e6ae0d225e678a0be543c3bfe823efdaf56a96677069528dabff372e36f8",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_theorem2_2_algorithm4_source_check_sound_and_quadratic_verification :\n\u2200 {Voter : Type u_1} {Candidate : Type u_2} [inst : DecidableEq Candidate] {voters : Finset Voter} {ballots : Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate} {lower upper : Finset Candidate} {winner : Candidate} {quota budget uniqueBallotCount candidateCount : \u2115}, DGJ26PracticalDynamicsRCV.paper_algorithm4_source_no_failed_pair_check voters ballots lower upper winner quota budget = true \u2192 (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_problem lower upper (DGJ26PracticalDynamicsRCV.algorithm4WinnerFirstChoiceVotes voters ballots winner) quota (DGJ26PracticalDynamicsRCV.algorithm4SourceSurplusVotes voters ballots winner lower quota) (DGJ26PracticalDynamicsRCV.algorithm4SourceNextChoiceVotes voters ballots winner lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceUnweightedTransferBound voters ballots winner lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceBaseUpperSupport voters ballots lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceTransferUpperSupport voters ballots winner lower) budget uniqueBallotCount candidateCount (uniqueBallotCount * candidateCount ^ 2)).specification (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_algorithm lower upper (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_problem lower upper (DGJ26PracticalDynamicsRCV.algorithm4WinnerFirstChoiceVotes voters ballots winner) quota (DGJ26PracticalDynamicsRCV.algorithm4SourceSurplusVotes voters ballots winner lower quota) (DGJ26PracticalDynamicsRCV.algorithm4SourceNextChoiceVotes voters ballots winner lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceUnweightedTransferBound voters ballots winner lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceBaseUpperSupport voters ballots lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceTransferUpperSupport voters ballots winner lower) budget uniqueBallotCount candidateCount (uniqueBallotCount * candidateCount ^ 2))) \u2227 DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_operation_count (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_problem lower upper (DGJ26PracticalDynamicsRCV.algorithm4WinnerFirstChoiceVotes voters ballots winner) quota (DGJ26PracticalDynamicsRCV.algorithm4SourceSurplusVotes voters ballots winner lower quota) (DGJ26PracticalDynamicsRCV.algorithm4SourceNextChoiceVotes voters ballots winner lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceUnweightedTransferBound voters ballots winner lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceBaseUpperSupport voters ballots lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceTransferUpperSupport voters ballots winner lower) budget uniqueBallotCount candidateCount (uniqueBallotCount * candidateCount ^ 2)) \u2264 uniqueBallotCount * candidateCount ^ 2"
+    },
+    "paper_theorem2_2_concrete_containment_implementation_sound_and_quadratic_verification_from_component_bounds": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T03:38:05Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "309276727ab8ffcfa3a5ccb97357ffd2dec1e747540f9c3be515394016781d93",
+      "paper_statement_sha256": "a625e6ae0d225e678a0be543c3bfe823efdaf56a96677069528dabff372e36f8",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_theorem2_2_concrete_containment_implementation_sound_and_quadratic_verification_from_component_bounds :\n\u2200 {Candidate : Type u_1} [inst : DecidableEq Candidate] {lower upper : Finset Candidate} {winnerFirstChoiceVotes quota budget uniqueBallotCount candidateCount : \u2115} {surplusVotes nextChoiceVotes unweightedTransferBound : Candidate \u2192 \u2115} {baseUpperSupport transferUpperSupport : Candidate \u2192 Candidate \u2192 \u2115} (conservativeLower conservativeUpper : Candidate \u2192 Candidate \u2192 \u2115), (\u2200 inside \u2208 lower, \u2200 outside \u2208 upper, budget + conservativeLower inside outside < conservativeUpper inside outside) \u2192 (\u2200 inside \u2208 lower, \u2200 outside \u2208 upper, DGJ26PracticalDynamicsRCV.paper_lower_candidate_transfer_bound (surplusVotes inside) (nextChoiceVotes inside) winnerFirstChoiceVotes (unweightedTransferBound inside) \u2264 conservativeLower inside outside) \u2192 (\u2200 inside \u2208 lower, \u2200 outside \u2208 upper, conservativeUpper inside outside \u2264 DGJ26PracticalDynamicsRCV.paper_updated_upper_candidate_support_bound (baseUpperSupport inside outside) (transferUpperSupport inside outside) winnerFirstChoiceVotes quota) \u2192 (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_problem lower upper winnerFirstChoiceVotes quota surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport transferUpperSupport budget uniqueBallotCount candidateCount (uniqueBallotCount * candidateCount ^ 2)).specification (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_algorithm lower upper (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_problem lower upper winnerFirstChoiceVotes quota surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport transferUpperSupport budget uniqueBallotCount candidateCount (uniqueBallotCount * candidateCount ^ 2))) \u2227 DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_operation_count (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_problem lower upper winnerFirstChoiceVotes quota surplusVotes nextChoiceVotes unweightedTransferBound baseUpperSupport transferUpperSupport budget uniqueBallotCount candidateCount (uniqueBallotCount * candidateCount ^ 2)) \u2264 uniqueBallotCount * candidateCount ^ 2"
+    },
+    "paper_algorithm4_pairwise_condition": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T12:15:00Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "97c464733dd5ec8454fe78f23048d4098fa943eccc6b8a97268ddafa1a2aa386",
+      "paper_statement_sha256": "529aabd35b542cbc86aac3f9a474953b2e3a9aecd293b351f37ae9cc0dae0894",
+      "tex_statement": "def paper_algorithm4_pairwise_condition {Voter Candidate : Type*}\n    [DecidableEq Candidate]\n    (voters : Finset Voter) (ballots : Voter \u2192 RCVBallot Candidate)\n    (lower upper : Finset Candidate) (winner : Candidate)\n    (quota budget : \u2115) : Prop :=\n  \u2200 inside, inside \u2208 lower \u2192 \u2200 outside, outside \u2208 upper \u2192\n    budget +\n        lowerCandidateTransferBound\n          (algorithm4SourceSurplusVotes voters ballots winner lower quota\n            inside)\n          (algorithm4SourceNextChoiceVotes voters ballots winner lower\n            inside)\n          (algorithm4WinnerFirstChoiceVotes voters ballots winner)\n          (algorithm4SourceUnweightedTransferBound voters ballots winner\n            lower inside) <\n      updatedUpperCandidateSupportBound\n        (algorithm4SourceBaseUpperSupport voters ballots lower inside outside)\n        (algorithm4SourceTransferUpperSupport voters ballots winner lower\n          inside outside)\n        (algorithm4WinnerFirstChoiceVotes voters ballots winner) quota"
+    },
+    "paper_theorem2_2_algorithm4_pairwise_condition_sound_and_profile_quadratic_verification": {
+      "comment": "Context-free Lean-to-TeX/prose translation for the current PaperInterface row, generated from the Lean statement only. This row uses the Lean-rendered statement verbatim to preserve every visible binder and hypothesis.",
+      "generated_at": "2026-07-02T12:15:00Z",
+      "generator": "Codex dashboard statement refresh",
+      "generator_type": "agent",
+      "lean_statement_sha256": "fdea8f3b59a6ff6bd5da3a6efda003e55904a328f41d8c6148fb576bea8fe860",
+      "paper_statement_sha256": "c2b4427c437937041ea66e2aab571e7c5687075a68b7e9e9461e8bf6f3191bd1",
+      "tex_statement": "@DGJ26PracticalDynamicsRCV.paper_theorem2_2_algorithm4_pairwise_condition_sound_and_profile_quadratic_verification :\n\u2200 {Voter : Type u_1} {Candidate : Type u_2} [inst : DecidableEq Candidate] {voters : Finset Voter} {ballots : Voter \u2192 DGJ26PracticalDynamicsRCV.RCVBallot Candidate} {lower upper : Finset Candidate} {winner : Candidate} {quota budget : \u2115}, DGJ26PracticalDynamicsRCV.paper_algorithm4_pairwise_condition voters ballots lower upper winner quota budget \u2192 (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_problem lower upper (DGJ26PracticalDynamicsRCV.algorithm4WinnerFirstChoiceVotes voters ballots winner) quota (DGJ26PracticalDynamicsRCV.algorithm4SourceSurplusVotes voters ballots winner lower quota) (DGJ26PracticalDynamicsRCV.algorithm4SourceNextChoiceVotes voters ballots winner lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceUnweightedTransferBound voters ballots winner lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceBaseUpperSupport voters ballots lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceTransferUpperSupport voters ballots winner lower) budget voters.card (lower \u222a upper).card (voters.card * (lower \u222a upper).card ^ 2)).specification (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_algorithm lower upper (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_problem lower upper (DGJ26PracticalDynamicsRCV.algorithm4WinnerFirstChoiceVotes voters ballots winner) quota (DGJ26PracticalDynamicsRCV.algorithm4SourceSurplusVotes voters ballots winner lower quota) (DGJ26PracticalDynamicsRCV.algorithm4SourceNextChoiceVotes voters ballots winner lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceUnweightedTransferBound voters ballots winner lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceBaseUpperSupport voters ballots lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceTransferUpperSupport voters ballots winner lower) budget voters.card (lower \u222a upper).card (voters.card * (lower \u222a upper).card ^ 2))) \u2227 DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_operation_count (DGJ26PracticalDynamicsRCV.paper_multiwinner_concrete_containment_problem lower upper (DGJ26PracticalDynamicsRCV.algorithm4WinnerFirstChoiceVotes voters ballots winner) quota (DGJ26PracticalDynamicsRCV.algorithm4SourceSurplusVotes voters ballots winner lower quota) (DGJ26PracticalDynamicsRCV.algorithm4SourceNextChoiceVotes voters ballots winner lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceUnweightedTransferBound voters ballots winner lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceBaseUpperSupport voters ballots lower) (DGJ26PracticalDynamicsRCV.algorithm4SourceTransferUpperSupport voters ballots winner lower) budget voters.card (lower \u222a upper).card (voters.card * (lower \u222a upper).card ^ 2)) \u2264 voters.card * (lower \u222a upper).card ^ 2"
+    }
+  }
+}

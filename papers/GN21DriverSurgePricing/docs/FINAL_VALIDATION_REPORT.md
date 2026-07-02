@@ -263,9 +263,10 @@ library lemmas with `simpa` compatibility bridges.  This preserves the human
 review surface and avoids destabilizing the long compiled proof.
 
 ## 16. DAG Audit
-I rerendered and visually inspected `DependencyDAG.pdf` after this pass.  The
-current DAG uses the shared preamble, has visible spacing between nodes, and no
-arrow or label crosses through a node body.
+I rerendered `DependencyDAG.pdf` from `DependencyDAG.tex` after this pass and
+visually inspected the PDF.  The current DAG uses the shared preamble, has
+visible spacing between nodes, and no arrow or label crosses through a node
+body.
 
 The DAG was made more paper-facing: the disconnected finite-MDP implementation
 support box was removed, the appendix Remarks 1, 3, and 4 are now explicit, and
@@ -274,6 +275,10 @@ shape and counterexample boxes.  Optional zero-mass totalization is documented
 in this report rather than shown as a named paper result in the DAG.  The
 remaining boxes correspond to the paper-facing model, Section 2.2 renewal-reward bridge, named
 lemmas/proposition/theorems, and the paper proof flow.
+The DAG covers the source-result clusters recorded in the source inventory:
+single-state and dynamic incentive-compatibility definitions, the renewal and
+CTMC lemmas, Proposition 3.1, Theorems 1--4, grouped Lemmas 7--8 and 9--10,
+and grouped Remarks 1, 3, and 4.
 
 ## 17. Validation Checks
 ### Human Review Status

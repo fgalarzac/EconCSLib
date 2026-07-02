@@ -77,7 +77,14 @@ hardness infrastructure.
 None separately recorded in the existing report.
 
 ## 13. DAG Audit
-No separate DAG audit note is recorded in the existing report.
+`DependencyDAG.tex` and `DependencyDAG.pdf` are present as the paper-facing
+dependency artifacts. The rendered `DependencyDAG.pdf` was visually inspected
+for node/label overlap and arrow-through-text issues. The DAG covers the
+declared partial source-result clusters: utility/truthfulness definitions,
+generalized Vickrey truthfulness, Theorem 6.1 set-packing reductions, Theorem
+7.2 greedy approximation, Lemmas 9.1--9.5, Theorem 9.6, and Theorem 10.2. The
+native machine-level NP-hardness and `NP = ZPP` consequences remain visible as
+partial complexity-infrastructure boundaries rather than green DAG endpoints.
 
 ## 14. Validation Checks
 Recent checks built the LOS02 paper target, the reusable complexity-class

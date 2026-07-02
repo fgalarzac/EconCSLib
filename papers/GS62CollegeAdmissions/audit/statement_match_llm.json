@@ -14,7 +14,7 @@
     },
     "college_admissions_stable_assignment_exists": {
       "judgment": "matches",
-      "lean_statement_sha256": "bf9b19433b76b27ac6082a611418f40a56809b1a7b157af555aab8410d8ef8eb",
+      "lean_statement_sha256": "c19cf30c007d6862fba9c3bd685f218f050e623466ba70bca09be18c6532efbc",
       "paper_statement_sha256": "c5b6b154030e8b9835926d0f73662296c20c7fa2ee27ad5eff826522ab731c7e",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "Translation preserves finite applicants and colleges, arbitrary quotas and utilities, and existence of a stable many-to-one assignment.",
@@ -58,7 +58,7 @@
     },
     "theorem1_stable_marriage_exists": {
       "judgment": "matches",
-      "lean_statement_sha256": "3b2712e9c3a03fd1c1bc20530f4388c8c51821601c7d700dcf974e63cffda311",
+      "lean_statement_sha256": "ce3d336470ae01f4b5a91bc296a35b9314215fa458fb3b10e42032f9b35a87df",
       "paper_statement_sha256": "e36348b35e1cf1b6ed110dca15eea4979fd3bd8c30106288fb07dec27dca185c",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "Translation preserves the finite equal-cardinality strict marriage-domain theorem while making the Lean representation explicit: both sides use the same finite index type, so equal cardinality is derived rather than an extra premise. Refreshed against the current dashboard source statement and Lean/TeX digest surface.",

@@ -266,7 +266,7 @@
       "validator_type": "model"
     },
     "theorem3_price_decreases_first_half": {
-      "lean_statement_sha256": "4481bef68c0a34fc5b0b9f20930b8b13823b2b8fe8edb33264b7613f8cd2a4f4",
+      "lean_statement_sha256": "5c6057743c4f8f1fe6bfb9b8ae53412ff065f409c7e60cf854ca6c6abf74be39",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "For the opposing two-type source model with positive strictly decreasing item values and 0 < alpha <= alpha' <= 1/2, increasing alpha toward the balanced population weakly decreases the price of fairness.",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -282,7 +282,7 @@
       "validator_type": "model"
     },
     "theorem4_misestimation_tradeoff_typeOne": {
-      "lean_statement_sha256": "662789309dda0e575324170506ad66fa7420d44ab2a2169bb907eac54bb0b91d",
+      "lean_statement_sha256": "e4adc1b79647f74c25dee4b6c4c79a3282b8a98b1284a7dafa89019b9e1f1ca1",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {m n : \u2115} [inst : NeZero m] [inst_1 : NeZero n] (E : EstimatedRecommendationModel m n) (Rtrue : ReductionWitness m n 2) (Rest : ReductionWitness m n 3) (repsTrue : TypeRepresentatives types) (repsEst : TypeRepresentatives types) {beta eps : \u211d} (u : User m), 2 < n \\to trueModel = model \\to estimatedModel = model \\to reduced = twoTypeReducedModel (1 / 2) (theorem4SmallValueVector eps) \\to reduced = theorem4EstimatedReducedModel beta (theorem4SmallValueVector eps) \\to (\\forall (u : User m), toType u = 0 \\to toType u = 0) \\to (\\forall (u : User m), toType u = 1 \\to toType u = 1) \\to toType u = 1 \\to toType u = 2 \\to 0 < eps \\to (\u2191n)\u207b\u00b9 < beta \\to beta < 1 / 2 \\to (have \u03c10 := theorem4NoFairnessPolicyCollapsed (theorem4SmallValueVector eps); SolvesEstimatedProblem 0 (liftedPolicy \u03c10) \\land priceOfMisestimation 0 (liftedPolicy \u03c10) \\le 1 / 2) \\land \\exists \u03c11, SolvesEstimatedProblem 1 (liftedPolicy \u03c11) \\land 1 - eps < priceOfMisestimation 1 (liftedPolicy \u03c11)",
       "translated_at": "2026-06-29T18:08:26Z",

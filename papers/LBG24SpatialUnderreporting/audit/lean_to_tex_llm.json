@@ -10,7 +10,7 @@
       "validator_type": "model"
     },
     "equation33_nyc_preprocessing_stopping_observation_window": {
-      "lean_statement_sha256": "38d5e7a1953c482ba5a52eff1346bd7268703e02c6325c6abb9c520dba18822b",
+      "lean_statement_sha256": "48b803784112fa1332d3dea4d10210f1e585b6d5c3c8426cc408bd6d2af3251e",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {\\Omega : Type u_1} {m\\Omega : MeasurableSpace \\Omega} (\ud835\udcd5 : Filtration \u211d m\\Omega) (startTime inspectionTime workOrderTime : \\Omega \\to \u211d), IsStoppingTime \ud835\udcd5 startTime \\to IsStoppingTime \ud835\udcd5 inspectionTime \\to IsStoppingTime \ud835\udcd5 workOrderTime \\to (\\forall (\\omega : \\Omega), startTime \\omega \\le inspectionTime \\omega) \\to (\\forall (\\omega : \\Omega), startTime \\omega \\le workOrderTime \\omega) \\to \\exists W, startTime = startTime \\land (endTime = fun \\omega  =>  min (min (startTime \\omega + 100) (inspectionTime \\omega)) (workOrderTime \\omega)) \\land \\forall (\\omega : \\Omega), 0 \\le exposure \\omega",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -58,7 +58,7 @@
       "validator_type": "model"
     },
     "equation7_zero_inflated_likelihood_positive_count": {
-      "lean_statement_sha256": "3bfb9af8483430ebbc1b8020847867b4e69c57d52109d1b503a74b47ffe20556",
+      "lean_statement_sha256": "ad4379fdad759a08bc01cb4df90f5557a9afe5e3b1364ebdbafa46e10c83964c",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {gamma rate exposure : \u211d} {count : \u2115}, count \\ne 0 \\to zeroInflatedIncidentLikelihood gamma rate exposure count = (1 - gamma) * sourcePoissonPMF rate exposure count",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -74,7 +74,7 @@
       "validator_type": "model"
     },
     "first_report_probability_formula": {
-      "lean_statement_sha256": "1daee10801f86b477794b654482d2644bc452772adedcbe4e72fda3f3500c850",
+      "lean_statement_sha256": "f065d372e34d4f10c7e35404ae046f89a9d7b87312b5bd6fe5e58b3e362141c0",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall (reportingRate duration : \u211d), firstReportProbability reportingRate duration = 1 - exp (-(reportingRate * duration))",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -82,7 +82,7 @@
       "validator_type": "model"
     },
     "lemma1_continuous_duration_first_report_probability_integral": {
-      "lean_statement_sha256": "7b4d07da52e892134579bba6bb3e096c5218d1cc64b68fb4750cda80c02c9965",
+      "lean_statement_sha256": "f1d79b4f2463311252a53391f01251cd3b3dedba3135fae821989774587e862d",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall (reportingRate : \u211d) (durationDensity : \u211d \\to \u211d), \\int (t : \u211d) in Ici 0, durationDensity t = 1 \\to Integrable durationDensity (restrict (Ici 0)) \\to Integrable (fun t  =>  durationDensity t * noArrivalProb reportingRate t) (restrict (Ici 0)) \\to continuousDurationFirstReportProbability reportingRate durationDensity = \\int (t : \u211d) in Ici 0, durationDensity t * firstReportProbability reportingRate t",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -106,7 +106,7 @@
       "validator_type": "model"
     },
     "lemma1_finite_duration_first_report_weighted_average": {
-      "lean_statement_sha256": "228e647b96ccaabb82cd66301382c5b3dae481b9e64584377977765b701cf0ab",
+      "lean_statement_sha256": "2fe2ff50534aacf7d009a6f3c866aaa8cdde06940f792c98fca27a0d4a398a4f",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {DurationType : Type u_1} [inst : Fintype DurationType] (reportingRate : \u211d) (weight duration : DurationType \\to \u211d), \\sum d, weight d = 1 \\to finiteDurationFirstReportProbability reportingRate weight duration = \\sum d, weight d * firstReportProbability reportingRate (duration d)",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -130,7 +130,7 @@
       "validator_type": "model"
     },
     "proposition1_continuous_duration_nonidentifiability": {
-      "lean_statement_sha256": "6464c7280bf3bf832bdd1a9d6cf2847621bfa2d214ab501ec77d6f334959ed6f",
+      "lean_statement_sha256": "bf1500c6ca8c1dfbb18450294a2b7c5c0eee60a570c28f3552b61da8d3994548",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall (durationDensity : \u211d \\to \u211d) {observedRate rate\u2081 rate\u2082 : \u211d}, rate\u2081 \\ne rate\u2082 \\to continuousDurationFirstReportProbability rate\u2081 durationDensity \\ne 0 \\to continuousDurationFirstReportProbability rate\u2082 durationDensity \\ne 0 \\to rate\u2081 \\ne rate\u2082 \\land continuousDurationObservedIncidentRate (observedRate / continuousDurationFirstReportProbability rate\u2081 durationDensity) rate\u2081 durationDensity = continuousDurationObservedIncidentRate (observedRate / continuousDurationFirstReportProbability rate\u2082 durationDensity) rate\u2082 durationDensity",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -138,7 +138,7 @@
       "validator_type": "model"
     },
     "proposition1_homogeneous_nonidentifiability": {
-      "lean_statement_sha256": "5f1959eb0afe92b32a41a872e0d09978b87c78f36acfc08cefc2323c61b5fda4",
+      "lean_statement_sha256": "a8ba125407b3588a0638f5de23d35e24f0c7063cdeb1e08051f35ce0d27f3ea6",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {observedRate rate\u2081 rate\u2082 duration : \u211d}, rate\u2081 \\ne rate\u2082 \\to firstReportProbability rate\u2081 duration \\ne 0 \\to firstReportProbability rate\u2082 duration \\ne 0 \\to rate\u2081 \\ne rate\u2082 \\land homogeneousObservedIncidentRate (observedRate / firstReportProbability rate\u2081 duration) rate\u2081 duration = homogeneousObservedIncidentRate (observedRate / firstReportProbability rate\u2082 duration) rate\u2082 duration",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -146,7 +146,7 @@
       "validator_type": "model"
     },
     "theorem1_likelihood_decomposition_from_poisson_increment_laws": {
-      "lean_statement_sha256": "b61451411540b7f88770d5548ce4216bf5af3efc2da40855a2b7efbd2bdf34be",
+      "lean_statement_sha256": "bdaedc20009f63233d74f29d35c3396d878f75b58b284792e8fb3786b85f7025",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {\\Omega : Type u_1} [inst : MeasurableSpace \\Omega] {P : Measure \\Omega} (H : HomogeneousPoissonCountingProcessByLaw \\Omega P) (K : Theorem2ConditionFunctions) (C : Theorem2ObservedWindowCase), likelihoodFromPoissonIncrementLaws K H C = residualWith K C * sourcePoissonPMF rate (exposureWith K C) (countWith K C)",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -154,7 +154,7 @@
       "validator_type": "model"
     },
     "theorem1_likelihood_product_decomposition_from_poisson_increment_laws": {
-      "lean_statement_sha256": "0232a9cd83e84a10e8b01bb42ed2341c5926bf27dcb1d7431bbece440fb7d735",
+      "lean_statement_sha256": "9c364ad8c0ee38dcb64787d925d513f8cd97d624b70c5d37b56eb8c4eb27acbc",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {\\Omega : Type u_1} {Incident : Type u_2} [inst : MeasurableSpace \\Omega] {P : Measure \\Omega} (H : HomogeneousPoissonCountingProcessByLaw \\Omega P) (K : Theorem2ConditionFunctions) (s : Finset Incident) (C : Incident \\to Theorem2ObservedWindowCase), (totalExposure s fun i  =>  exposureWith K (C i)) \\ne 0 \\to \\prod i \\in s, likelihoodFromPoissonIncrementLaws K H (C i) = productResidualWith K s C * sourcePoissonPMF rate (totalExposure s fun i  =>  exposureWith K (C i)) (totalCount s fun i  =>  countWith K (C i))",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -162,7 +162,7 @@
       "validator_type": "model"
     },
     "theorem2_corrected_case_factorization": {
-      "lean_statement_sha256": "750bc47ccddd47e58adcf079402d4b018ad0ee9474fc5b5cb300a738b5da2701",
+      "lean_statement_sha256": "a26a42fbdbdde3c1ee5c34c79b40edaa5429cd949b3c7e993df6717114540480",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall {kernelResidual rate exposure : \u211d} {count : \u2115}, exposure \\ne 0 \\to theorem2RawCaseLikelihood kernelResidual rate exposure count = theorem2CorrectedResidual kernelResidual exposure count * sourcePoissonPMF rate exposure count",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -186,7 +186,7 @@
       "validator_type": "model"
     },
     "theorem2_zero_report_source_case": {
-      "lean_statement_sha256": "c4329e6bfe4531ae3b6115ef8124a7b306cc0755ce5f89a2598be6240bb5a282",
+      "lean_statement_sha256": "ded8d60f17141746be8cddce246acda7e64639fa017e734e3ece8965348cc6e7",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall (startDensity endDensity rate exposure : \u211d), theorem2ZeroReportLikelihood startDensity endDensity rate exposure = theorem2ZeroReportResidual startDensity endDensity * sourcePoissonPMF rate exposure 0",
       "translated_at": "2026-06-29T18:08:26Z",

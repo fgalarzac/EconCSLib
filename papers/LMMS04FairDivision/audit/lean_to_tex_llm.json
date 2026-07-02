@@ -82,7 +82,7 @@
       "validator_type": "model"
     },
     "randomizedDirectMechanism_fields": {
-      "lean_statement_sha256": "919c30471ee1937a41ef6894752fef74582de7c88e3a714462940e54120a04df",
+      "lean_statement_sha256": "c6762dedba04910973f762165b9f92c45b3382ab5faff715c94e3ae930c18a82",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall (Agent : Type u_1) (Item : Type u_2) (M : randomizedDirectMechanism Agent Item), M = M",
       "translated_at": "2026-06-29T18:08:26Z",

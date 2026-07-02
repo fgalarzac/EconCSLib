@@ -161,6 +161,11 @@ API; no risky extraction is needed for this closeout.
 `DependencyDAG.tex` identifies the SODA paper as the target and notes that
 Section 8.2 uses the journal refinement. The DAG uses closed dependency arrows
 only; there are no open or conditional DAG nodes.
+`DependencyDAG.pdf` was rendered from `DependencyDAG.tex` and visually
+inspected for node/label overlap and arrow-through-text issues. The rendered
+DAG covers the source-result clusters recorded in the public source inventory:
+the digital-goods model, random-sampling auction route, profit-extraction
+route, Bayesian-offer lemma family, and the Section 8.2 revenue theorem.
 
 ## 17. Source-Version Notes
 Section 8.2 is a source-version distinction: the SODA paper's wording is

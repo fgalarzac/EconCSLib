@@ -34,7 +34,7 @@
       "validator_type": "model"
     },
     "source_proposition1_thm_consistency_tiered": {
-      "lean_statement_sha256": "04d4ba26d13b6f8cddcfe237a27a6afd80728d00db3d25accd64169f414248d2",
+      "lean_statement_sha256": "8fb204d38c2c54d33ad13b7d4bb646c2923ae6592dc7cdc77f5e829982249395",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "For a finite ranking law and staged target prefix sets, assuming every stage has a cross-tier pair and no cross-tier top-prefix probabilities tie, strict top-prefix dominance of every target member over every nonmember at every cut is equivalent to every reasonable prefix-score rule learning the staged target sets, meaning the selection error probability tends to 0.",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -42,7 +42,7 @@
       "validator_type": "model"
     },
     "source_proposition2_thm_pairwiselearning_finite_support": {
-      "lean_statement_sha256": "e58a76877b7a0603df219c054fb1e3c3c7fe12231798f0277d9a5baa09e43a4e",
+      "lean_statement_sha256": "f0cac9695820eaec11495277f3fb6dfccd32aa7bec923910d9e23b180fea7dad",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "For a finite signal law and two score functions with nonnegative expected score gap, the pairwise scoring error probability either has exponential rate pairwiseScoringRate, or has exponential rate -log pZero for a positive zero-gap probability pZero, or is eventually zero.",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -58,7 +58,7 @@
       "validator_type": "model"
     },
     "source_proposition4_thm_goal_learning_finite_support": {
-      "lean_statement_sha256": "8be37fc2863db1df27fd1f3d0e35df81235e297515b3f4370014957e3f43d611",
+      "lean_statement_sha256": "cd715d2c783931485885cc58d063977268a84426e9f6eef56320c0b79ca96e16",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "For finitely many relevant pairs under a finite signal law, if every pair has nonnegative expected score gap, then the unweighted sum of the pairwise finite-score-gap error probabilities has some extended exponential rate.",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -74,7 +74,7 @@
       "validator_type": "model"
     },
     "source_theorem2_lem_randomizenotbetterapproval_pairwise": {
-      "lean_statement_sha256": "ae1e663667cbd89c3f294c7720b0c75e7f388c9e9a122207b32d70671976242e",
+      "lean_statement_sha256": "bb66a30cb22cfb7b0441ffdfd384899ddd717edb2356478d65fb3ee5fbbaeea9",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "For any finite randomized K-approval rule with nonnegative weights summing to 1 and any candidate pair, there exists a static component rule whose extended approval pairwise rate weakly dominates the randomized rule pairwise rate.",
       "translated_at": "2026-06-29T18:08:26Z",
@@ -90,7 +90,7 @@
       "validator_type": "model"
     },
     "source_theorem_lem_randomizebetterapproval_w_selection_constructed": {
-      "lean_statement_sha256": "399f67c45ab466b70117575e5883a8dbfa39feec417e76ef23451ce6ebe62999",
+      "lean_statement_sha256": "f24b64f4a853770dba3f52e01f68fcf4080edd4cca995ed490f6ede663d64fea",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "In the constructed four-candidate W-selection ranking law, strict top-prefix dominance holds for the relevant cross-tier pairs, and the 50/50 randomized approval rule has finite outcome-learning rate strictly larger than the best static K-approval cutoff among the finite static family.",
       "translated_at": "2026-06-29T18:08:26Z",
