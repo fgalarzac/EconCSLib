@@ -888,7 +888,7 @@ def render_paper_status_md(payload: dict[str, Any]) -> str:
         "an arXiv, conference, or original working-paper year. The table below uses",
         "the published citation title and year.",
         "",
-        "| Paper, authors, publication | Status | Human review | Paper coverage | Full proof LOC | Public note |",
+        "| Paper, authors, publication | Status | Human review | Paper coverage | Lines of Code | Public note |",
         "|---|---|---:|---:|---:|---|",
     ]
     for row in payload["papers"]:
@@ -1019,7 +1019,6 @@ def render_site_status_block(payload: dict[str, Any]) -> str:
                 f"{indent}  </td>",
                 f"{indent}  <td>{site_status_artifacts_cell(row)}</td>",
                 f"{indent}  <td>{html_escape(row['human_translation'])}</td>",
-                f"{indent}  <td>{html_escape(row['llm_as_judge_translation'])}</td>",
                 f"{indent}  <td>{int(row['lean_loc']):,}</td>",
                 f"{indent}  <td>{note}</td>",
                 f"{indent}</tr>",

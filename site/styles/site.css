@@ -247,30 +247,27 @@ a:focus-visible {
 
 .paper-table {
   table-layout: fixed;
+  min-width: 920px;
 }
 
 .paper-table .paper-col {
-  width: 32%;
+  width: 34%;
 }
 
 .paper-table .status-col {
-  width: 12%;
+  width: 11%;
 }
 
 .paper-table .loc-col {
-  width: 9%;
-}
-
-.paper-table .note-col {
-  width: 28%;
-}
-
-.paper-table .human-col {
   width: 8%;
 }
 
-.paper-table .judge-col {
-  width: 11%;
+.paper-table .note-col {
+  width: 37%;
+}
+
+.paper-table .human-col {
+  width: 10%;
 }
 
 .status-table th,
@@ -279,7 +276,7 @@ a:focus-visible {
   border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: top;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   word-break: normal;
 }
 
@@ -323,15 +320,16 @@ a:focus-visible {
   white-space: normal;
 }
 
-.paper-table td:nth-child(3) {
-  white-space: nowrap;
+.paper-table td:nth-child(1),
+.paper-table td:nth-child(5) {
+  overflow-wrap: anywhere;
 }
 
+.paper-table th:nth-child(4),
 .paper-table th:nth-child(5),
-.paper-table th:nth-child(6),
+.paper-table td:nth-child(3),
 .paper-table td:nth-child(4),
-.paper-table td:nth-child(5),
-.paper-table td:nth-child(6) {
+.paper-table td:nth-child(5) {
   font-size: 0.84rem;
   overflow-wrap: anywhere;
 }

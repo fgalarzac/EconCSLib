@@ -99,6 +99,28 @@ For public-safe paths, prefer the latest semantically valid artifact:
   `papers/catalog.json` `publication_overrides`. Do not erase paper-local
   `source_version` provenance such as source archives, TeX/formula sources, or
   internal source-version notes just to clean a rendered table.
+- Public website/status notes should be sparse. For fully formalized papers,
+  leave `human_summary` / public-note fields empty by default unless there is a
+  real public-facing reason to explain a caveat, remaining boundary, unusual
+  source version, or important scope distinction. Put validation details,
+  source-record counts, proof-organization notes, dashboard status, and
+  implementation route explanations in final reports, audit notes, or sidecars,
+  not in the public table note column. When a note should disappear, set the
+  source field to the empty string and regenerate generated surfaces.
+- The public website status table should stay compact and source-driven. Do not
+  add a separate `LLM-as-judge statement translation` column; mention
+  LLM-as-judge coverage in the surrounding prose instead. Use `Lines of Code`
+  for proof LOC and `Note` for the website note header. Keep markdown docs free
+  to use fuller labels such as `Public note` when useful.
+- The website library-components table is generated from
+  `papers/catalog.json` `library_components`. Treat that table as a partition
+  of tracked `EconCSLib/**/*.lean` files: folded rows are fine, but the row LOC
+  totals should add up to the actual library LOC in that checkout with no
+  duplicate-counted or missing Lean files. Put Foundations rows first, then
+  application/domain rows in descending LOC order unless there is a stronger
+  reader-facing reason. Name the prose column `Content details`, and write
+  audience-relevant capability summaries rather than internal implementation
+  inventories.
 - Aggregate files (`papers/status.json`, `papers/human_status.json`,
   `docs/PAPER_STATUS.md`, `README.md`, `site/index.html`): never copy across
   the public/private boundary. Regenerate them in the destination checkout.

@@ -87,56 +87,51 @@
             <thead>
               <tr>
                 <th>Component</th>
-                <th>Examples</th>
+                <th>Content details</th>
                 <th>Lines of code</th>
               </tr>
             </thead>
             <tbody>
               <!-- BEGIN GENERATED LIBRARY COMPONENT ROWS -->
               <tr>
-                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Foundations/Math">Foundations: finite math and graph tools</a></td>
-                <td>Finite-sum rewrites, order/rank lemmas, threshold and interval characterizations, asymptotic/exponential estimates, and cycle extraction in finite directed graphs.</td>
-                <td>15,786</td>
+                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Foundations/Math.lean">Foundations: finite math and graph tools</a></td>
+                <td>Core finite mathematics used across the formalizations: finite-choice distances, ranking and order conversions, finite-sum algebra, threshold and interval certificates, asymptotic estimates, and graph-cycle extraction for local-improvement arguments.</td>
+                <td>15,941</td>
               </tr>
               <tr>
-                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Foundations/Probability">Foundations: probability and stochastic processes</a></td>
-                <td>Finite distributions, conditional expectations, kernels, atom and variance lemmas, Gaussian and exponential calculations, stochastic dominance, Markov chains, MDPs, CTMCs, and renewal-reward identities.</td>
-                <td>76,337</td>
+                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Foundations/Probability.lean">Foundations: probability and stochastic processes</a></td>
+                <td>Probability infrastructure for recommendation, ratings, pricing, and ranking papers: finite PMFs and expectations, conditional kernels, Gaussian and random-utility comparisons, large-deviation and method-of-types certificates, stochastic dominance, order statistics, Markov chains, MDPs, CTMCs, Poisson processes, and renewal-reward models.</td>
+                <td>76,470</td>
               </tr>
               <tr>
-                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Foundations/Optimization">Foundations: optimization and certificates</a></td>
-                <td>Argmax and endpoint principles, finite-search certificates, approximation guarantees, linear-program certificates, binary-choice optimality, move-graph descent, and choice-equilibrium existence.</td>
-                <td>4,849</td>
+                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Foundations/Optimization.lean">Foundations: optimization, certificates, and complexity</a></td>
+                <td>Certificate-oriented optimization and complexity for paper-level endpoints: argmax, endpoint, and bisection principles; finite-search and output-check certificates; approximation and LP witnesses; binary-policy games; move-graph descent; strategic and choice equilibria; NP/ZPP consequence interfaces; and Yao-style lower-bound certificates.</td>
+                <td>5,371</td>
               </tr>
               <tr>
-                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Foundations/Econometrics/RatingModels">Ratings and recommender systems</a></td>
-                <td>Binary and ordinal signal models, posterior-mean ratings, bias/variance decompositions, prior-weighted updates, monotonicity/correction lemmas, exposure and allocation policies, classwise fairness constraints, top-k recommendation surfaces, policy averaging, and accuracy/diversity trade-off statements.</td>
-                <td>3,141</td>
+                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/SocialChoice.lean">Social choice, rankings, voting, and fair division</a></td>
+                <td>Executable social-choice infrastructure: ranked ballots, next-active support counts, RCV/STV traces, quotas, coalition-safety lemmas, final-order structures, candidate-deletion reductions, Thiele-style proportionality, Mallows/Kendall ranking models, payoff interfaces, envy graphs, bounded-envy algorithms, and indivisible-goods fairness statements.</td>
+                <td>23,773</td>
               </tr>
               <tr>
-                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Markets/Matching">Matching markets</a></td>
-                <td>Preference profiles, blocking pairs and stable matchings, deferred-acceptance invariants, proposer incentives, and many-to-one admissions models.</td>
-                <td>3,418</td>
+                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/MechanismDesign/Auctions.lean">Auctions and mechanisms</a></td>
+                <td>Mechanism-design infrastructure for digital-goods, combinatorial, and position auctions: allocation and payment semantics, utility formulas, DSIC truthfulness, VCG-style welfare maximization, benchmark-competitive auctions, single-minded set packing, greedy mechanisms, and critical-value certificates.</td>
+                <td>12,881</td>
               </tr>
               <tr>
-                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/MechanismDesign/Auctions">Auctions and mechanisms</a></td>
-                <td>Allocation and payment rules, dominant-strategy truthfulness, benchmark-competitive digital-goods auctions, VCG-style welfare maximization, and single-minded set-packing mechanisms.</td>
-                <td>12,878</td>
+                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Algorithms/Online.lean">Online algorithms and regret</a></td>
+                <td>Online allocation infrastructure centered on AdWords and platform learning: matching/allocation state machines, primal-dual accounting, competitive-ratio certificates, regret interfaces, and hooks for randomized lower-bound arguments.</td>
+                <td>4,374</td>
               </tr>
               <tr>
-                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Algorithms/Online">Online algorithms and regret</a></td>
-                <td>Online matching/allocation state machines, primal-dual accounting, competitive-ratio certificates, regret interfaces, and platform-learning abstractions.</td>
-                <td>4,372</td>
+                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Markets/Matching.lean">Matching markets and admissions</a></td>
+                <td>Stable matching and admissions infrastructure: one-to-one and many-to-one assignments, blocking-pair stability, deferred-acceptance invariants, applicant/proposer optimality, quota admissions, strategic application cutoffs and payoffs, and two-group policy objective comparisons.</td>
+                <td>3,924</td>
               </tr>
               <tr>
-                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Algorithms/Complexity">Complexity abstractions</a></td>
-                <td>Decision/search problem interfaces, reductions, NP/ZPP-style class consequences, Yao-style minimax wrappers, and explicit external-solver assumptions.</td>
-                <td>463</td>
-              </tr>
-              <tr>
-                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/SocialChoice">Social choice, rankings, and fair division</a></td>
-                <td>Ranking profiles, Kendall distance and Mallows-style sequential ranking models, score/payoff interfaces, envy graphs, bounded-envy allocations, and indivisible-goods fairness statements.</td>
-                <td>23,756</td>
+                <td><a href="https://github.com/nikhgarg/EconCSLib/blob/main/EconCSLib/Foundations/Econometrics.lean">Ratings and recommender systems</a></td>
+                <td>Ratings and recommendation infrastructure: Bayesian binary and ordinal signal models, posterior-mean rating formulas, prior-weighted updates, monotonicity and correction lemmas, Thompson-sampling entrypoints, exposure/allocation policies, classwise fairness constraints, top-k recommendation surfaces, policy averaging, and accuracy/diversity trade-off statements.</td>
+                <td>3,186</td>
               </tr>
               <!-- END GENERATED LIBRARY COMPONENT ROWS -->
             </tbody>
@@ -150,10 +145,11 @@
           <p>
             The public repository currently contains formalized papers and
             selected public partial formalizations whose remaining assumptions
-            are explicit. Human review counts the full review surface. The
-            LLM-as-judge column reports statement translation rows
-            and explicit source-condition rows, so its components reconcile to
-            the same surface.
+            are explicit. Human review refers to a human certifying that a Lean
+            statement exactly corresponds to a paper statement. This is
+            augmented with substantial LLM-as-judge checks run for every public
+            paper, including for coverage of paper results, matches, and
+            holistic audits that statements match.
           </p>
         </div>
 
@@ -163,7 +159,6 @@
               <col class="paper-col">
               <col class="status-col">
               <col class="human-col">
-              <col class="judge-col">
               <col class="loc-col">
               <col class="note-col">
             </colgroup>
@@ -172,9 +167,8 @@
                 <th>Paper</th>
                 <th>Status</th>
                 <th>Human review</th>
-                <th>LLM-as-judge statement translation</th>
-                <th>Full proof LOC</th>
-                <th>Public note</th>
+                <th>Lines of Code</th>
+                <th>Note</th>
               </tr>
             </thead>
             <tbody>
@@ -186,7 +180,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GS62CollegeAdmissions/docs/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GS62CollegeAdmissions/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/7 reviewed</td>
-                <td>7/7 match</td>
                 <td>388</td>
                 <td>This only uses a few lines of code as its infrastructure has largely been elevated to the shared matching library.</td>
               </tr>
@@ -197,7 +190,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/Roth82StableMatching/docs/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/Roth82StableMatching/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/29 reviewed</td>
-                <td>27/27 statement rows match; 2 source-condition rows</td>
                 <td>8,931</td>
                 <td></td>
               </tr>
@@ -208,7 +200,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GHW01DigitalGoods/docs/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GHW01DigitalGoods/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/30 reviewed</td>
-                <td>18/18 statement rows match; 12 source-condition rows</td>
                 <td>14,624</td>
                 <td>Formalizes the SODA paper; Theorem 8.2 uses the refined monotone-auction wording from the journal version <a href="https://www.sciencedirect.com/science/article/pii/S0899825606000303">Goldberg-Hartline-Karlin-Saks-Wright 2006</a>.</td>
               </tr>
@@ -219,7 +210,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/MSVV07AdWords/docs/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/MSVV07AdWords/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/43 reviewed</td>
-                <td>33/33 statement rows match; 10 source-condition rows</td>
                 <td>13,711</td>
                 <td></td>
               </tr>
@@ -230,7 +220,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/EOS07GSP/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/EOS07GSP/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/26 reviewed</td>
-                <td>25/25 statement rows match; 1 source-condition row</td>
                 <td>133,338</td>
                 <td></td>
               </tr>
@@ -241,7 +230,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GJ19OptimalBinaryRatingSystems/docs/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/56 reviewed</td>
-                <td>56/56 match</td>
                 <td>85,780</td>
                 <td></td>
               </tr>
@@ -252,7 +240,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GGSG19TopThree/docs/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GGSG19TopThree/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/17 reviewed</td>
-                <td>12/12 statement rows match; 5 source-condition rows</td>
                 <td>35,055</td>
                 <td></td>
               </tr>
@@ -263,7 +250,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GJ18InformativeRatingSystems/docs/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GJ18InformativeRatingSystems/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/15 reviewed</td>
-                <td>7/7 statement rows match; 8 source-condition rows</td>
                 <td>7,027</td>
                 <td></td>
               </tr>
@@ -274,7 +260,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/KR21Monoculture/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/KR21Monoculture/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/49 reviewed</td>
-                <td>49/49 match</td>
                 <td>65,646</td>
                 <td></td>
               </tr>
@@ -285,7 +270,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/LG21TestOptionalPolicies/docs/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/LG21TestOptionalPolicies/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/23 reviewed</td>
-                <td>16/16 statement rows match; 7 source-condition rows</td>
                 <td>125,744</td>
                 <td></td>
               </tr>
@@ -296,20 +280,18 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GN21DriverSurgePricing/docs/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GN21DriverSurgePricing/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/36 reviewed</td>
-                <td>24/26 statement rows match; 2 formalization-boundary statement rows; 10 source-condition rows</td>
                 <td>142,948</td>
                 <td></td>
               </tr>
               <tr>
                 <td>
                   <a class="paper-source" href="https://arxiv.org/abs/2407.13661"><cite>Optimal Strategies in Ranked-Choice Voting</cite></a> by
-                  Sanyukta Deshpande; Nikhil Garg; Sheldon H. Jacobson; arXiv:2407.13661; working paper.
+                  Sanyukta Deshpande; Nikhil Garg; Sheldon H. Jacobson; arXiv:2407.13661, 2024; working paper.
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/DGJ24OptimalStrategiesRCV/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/DGJ24OptimalStrategiesRCV/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/65 reviewed</td>
-                <td>65/65 match</td>
                 <td>54,410</td>
-                <td>Fully formalized. Lean covers the paper&#x27;s STV/RCV model, the Section 3 smart-allocation and sequence-reduction algorithms, and the Section 5 strategic-voting results. The only source-coverage notes are two Algorithm 7 parameter formulas, not theorem gaps; source-record, statement, coverage, and DAG/source audits are clean. Human dashboard sign-off remains pending.</td>
+                <td></td>
               </tr>
               <tr>
                 <td>
@@ -318,7 +300,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/PRPKG24AccuracyDiversity/docs/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/PRPKG24AccuracyDiversity/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/42 reviewed</td>
-                <td>25/27 statement rows match; 2 formalization-boundary statement rows; 15 source-condition rows</td>
                 <td>52,018</td>
                 <td>Proposition 2&#x27;s printed finite bound appears to miss a factor of 2; Lean proves the corrected finite bound, which is sufficient for the asymptotic 1/2-homogeneity result.</td>
               </tr>
@@ -329,7 +310,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GCG24UserItemFairness/docs/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GCG24UserItemFairness/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/48 reviewed</td>
-                <td>38/38 statement rows match; 10 source-condition rows</td>
                 <td>46,174</td>
                 <td></td>
               </tr>
@@ -340,7 +320,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/PKG25NoFreeLunch/docs/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/PKG25NoFreeLunch/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/15 reviewed</td>
-                <td>15/15 match</td>
                 <td>2,030</td>
                 <td></td>
               </tr>
@@ -351,7 +330,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/DSWG24DiscretizationBias/docs/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/DSWG24DiscretizationBias/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/41 reviewed</td>
-                <td>32/32 statement rows match; 9 source-condition rows</td>
                 <td>26,133</td>
                 <td></td>
               </tr>
@@ -362,7 +340,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/MBJG25ProducerFairness/docs/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/MBJG25ProducerFairness/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>10/27 reviewed; 2 uncertain</td>
-                <td>16/17 statement rows match; 1 formalization-boundary statement row; 10 source-condition rows</td>
                 <td>680</td>
                 <td>Additional assumption recorded in the validation report: strict variance decrease is stated with 0 &lt; q_v &lt; 1.</td>
               </tr>
@@ -373,7 +350,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/DGD26AdmissionsPredictability/docs/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/DGD26AdmissionsPredictability/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/66 reviewed</td>
-                <td>66/66 match</td>
                 <td>11,536</td>
                 <td></td>
               </tr>
@@ -384,7 +360,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GGRS26CombattingGerrymanderingRCV/docs/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GGRS26CombattingGerrymanderingRCV/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/19 reviewed</td>
-                <td>19/19 match</td>
                 <td>9,398</td>
                 <td></td>
               </tr>
@@ -395,9 +370,8 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/DGJ26PracticalDynamicsRCV/FINAL_VALIDATION_REPORT.md">Formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/DGJ26PracticalDynamicsRCV/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/50 reviewed</td>
-                <td>50/50 match</td>
                 <td>20,736</td>
-                <td>Fully formalized. Lean covers the theoretical RCV results on ballot-extension robustness, exhausted-ballot completion, strengthened candidate removal, and multi-winner containment. The empirical election studies are outside the Lean theorem scope; source-record, statement, coverage, and DAG/source audits are clean. Human dashboard sign-off remains pending.</td>
+                <td></td>
               </tr>
               <tr>
                 <td>
@@ -406,7 +380,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/LOS02CombinatorialAuctions/docs/FINAL_VALIDATION_REPORT.md">Partially formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/LOS02CombinatorialAuctions/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/39 reviewed</td>
-                <td>24/30 statement rows match; 6 formalization-boundary statement rows; 9 source-condition rows</td>
                 <td>7,582</td>
                 <td>Greedy approximation, truthfulness, and Theorem 6.1 reductions are formalized. Full formalization requires computational complexity results that are out of scope.</td>
               </tr>
@@ -417,7 +390,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/LMMS04FairDivision/docs/FINAL_VALIDATION_REPORT.md">Partially formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/LMMS04FairDivision/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/48 reviewed</td>
-                <td>25/35 statement rows match; 10 formalization-boundary statement rows; 13 source-condition rows</td>
                 <td>80,496</td>
                 <td>Sections 2 and 4 are fully formalized. Section 3 has query/descent/rounded-search support. The PTAS/FPTAS runtime layer needs reusable fixed-dimension IP complexity infrastructure.</td>
               </tr>
@@ -428,7 +400,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GKGMM19IterativeLocalVoting/docs/FINAL_VALIDATION_REPORT.md">Partially formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/GKGMM19IterativeLocalVoting/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/47 reviewed</td>
-                <td>39/44 statement rows match; 5 formalization-boundary statement rows; 3 source-condition rows</td>
                 <td>23,466</td>
                 <td>Full formalization requires proving stochastic subgradient descent convergence. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition.</td>
               </tr>
@@ -439,7 +410,6 @@
                 </td>
                 <td><div class="artifact-links"><a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/LBG24SpatialUnderreporting/docs/FINAL_VALIDATION_REPORT.md">Partially formalized</a> <a href="https://github.com/nikhgarg/EconCSLib/blob/main/papers/LBG24SpatialUnderreporting/docs/DependencyDAG.pdf">DAG</a></div></td>
                 <td>0/27 reviewed</td>
-                <td>16/24 statement rows match; 8 formalization-boundary statement rows; 3 source-condition rows</td>
                 <td>18,540</td>
                 <td>Full formalization requires a homogeneous Poisson process and stopping time derivation</td>
               </tr>

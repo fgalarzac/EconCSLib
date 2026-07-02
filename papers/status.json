@@ -176,11 +176,11 @@
       "id": "DGJ24OptimalStrategiesRCV",
       "title": "Optimal Strategies in Ranked-Choice Voting",
       "authors": "Sanyukta Deshpande; Nikhil Garg; Sheldon H. Jacobson",
-      "source_version": "arXiv:2407.13661; working paper",
+      "source_version": "arXiv:2407.13661, 2024; working paper",
       "build_target": "lake build EconCSLib.SocialChoice.Voting.STV && lake env lean papers/DGJ24OptimalStrategiesRCV/PaperInterface.lean",
       "status": "formalized",
       "main_caveat": "",
-      "human_summary": "Fully formalized. Lean covers the paper's STV/RCV model, the Section 3 smart-allocation and sequence-reduction algorithms, and the Section 5 strategic-voting results. The only source-coverage notes are two Algorithm 7 parameter formulas, not theorem gaps; source-record, statement, coverage, and DAG/source audits are clean. Human dashboard sign-off remains pending.",
+      "human_summary": "",
       "human_summary_review": {
         "status": "draft",
         "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction."
@@ -878,7 +878,7 @@
       ],
       "status": "formalized",
       "main_caveat": "",
-      "human_summary": "Fully formalized. Lean covers the theoretical RCV results on ballot-extension robustness, exhausted-ballot completion, strengthened candidate removal, and multi-winner containment. The empirical election studies are outside the Lean theorem scope; source-record, statement, coverage, and DAG/source audits are clean. Human dashboard sign-off remains pending.",
+      "human_summary": "",
       "human_summary_review": {
         "status": "draft",
         "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction."

@@ -72,7 +72,7 @@ published citation title and year.
 | [KR21 Monoculture](papers/KR21Monoculture) | Formalized | 0/49 | OK: 1816 lines |  |
 | [LG21 Test Optional Policies](papers/LG21TestOptionalPolicies) | Formalized | 0/23 | OK: 77 lines |  |
 | [GN21 Driver Surge Pricing](papers/GN21DriverSurgePricing) | Formalized | 0/36 | OK: 400 lines |  |
-| [DGJ24 Optimal Strategies RCV](papers/DGJ24OptimalStrategiesRCV) | Formalized | 0/65 | OK: 32470 lines | Fully formalized. Lean covers the paper's STV/RCV model, the Section 3 smart-allocation and sequence-reduction algorithms, and the Section 5 strategic-voting results. The only source-coverage notes are two Algorithm 7 parameter formulas, not theorem gaps; source-record, statement, coverage, and DAG/source audits are clean. Human dashboard sign-off remains pending. |
+| [DGJ24 Optimal Strategies RCV](papers/DGJ24OptimalStrategiesRCV) | Formalized | 0/65 | OK: 32470 lines |  |
 | [PRPKG24 Accuracy Diversity](papers/PRPKG24AccuracyDiversity) | Formalized | 0/42 | OK: 287 lines | Proposition 2's printed finite bound appears to miss a factor of 2; Lean proves the corrected finite bound, which is sufficient for the asymptotic 1/2-homogeneity result. |
 | [GCG24 User Item Fairness](papers/GCG24UserItemFairness) | Formalized | 0/48 | OK: 387 lines |  |
 | [PKG25 No Free Lunch](papers/PKG25NoFreeLunch) | Formalized | 0/15 | OK: 163 lines |  |
@@ -80,7 +80,7 @@ published citation title and year.
 | [MBJG25 Producer Fairness](papers/MBJG25ProducerFairness) | Formalized | 10/27 | OK: 332 lines | Additional assumption recorded in the validation report: strict variance decrease is stated with 0 < q_v < 1. |
 | [DGD26 Admissions Predictability](papers/DGD26AdmissionsPredictability) | Formalized | 0/66 | OK: 1388 lines |  |
 | [GGRS26 Combatting Gerrymandering RCV](papers/GGRS26CombattingGerrymanderingRCV) | Formalized | 0/19 | OK: 403 lines |  |
-| [DGJ26 Practical Dynamics RCV](papers/DGJ26PracticalDynamicsRCV) | Formalized | 0/50 | Debt: 11027 lines | Fully formalized. Lean covers the theoretical RCV results on ballot-extension robustness, exhausted-ballot completion, strengthened candidate removal, and multi-winner containment. The empirical election studies are outside the Lean theorem scope; source-record, statement, coverage, and DAG/source audits are clean. Human dashboard sign-off remains pending. |
+| [DGJ26 Practical Dynamics RCV](papers/DGJ26PracticalDynamicsRCV) | Formalized | 0/50 | Debt: 11027 lines |  |
 | [LOS02 Combinatorial Auctions](papers/LOS02CombinatorialAuctions) | Partially formalized | 0/39 | OK: 371 lines | Greedy approximation, truthfulness, and Theorem 6.1 reductions are formalized. Full formalization requires computational complexity results that are out of scope. |
 | [LMMS04 Fair Division](papers/LMMS04FairDivision) | Partially formalized | 0/48 | OK: 303 lines | Sections 2 and 4 are fully formalized. Section 3 has query/descent/rounded-search support. The PTAS/FPTAS runtime layer needs reusable fixed-dimension IP complexity infrastructure. |
 | [GKGMM19 Iterative Local Voting](papers/GKGMM19IterativeLocalVoting) | Partially formalized | 0/47 | OK: 2772 lines | Full formalization requires proving stochastic subgradient descent convergence. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition. |

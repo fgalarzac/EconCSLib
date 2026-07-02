@@ -3,7 +3,7 @@
   "description": "Display metadata consumed by scripts/sync_paper_status.py. Paper-local status.json files remain the source of truth for proof status, review counts, and human summaries.",
   "publication_overrides": {
     "DGJ24OptimalStrategiesRCV": {
-      "publication": "arXiv:2407.13661; working paper",
+      "publication": "arXiv:2407.13661, 2024; working paper",
       "year": 2024
     },
     "DGJ26PracticalDynamicsRCV": {
@@ -131,10 +131,15 @@
     {
       "title": "Foundations: finite math and graph tools",
       "paths": [
+        "EconCSLib/Foundations/Math.lean",
         "EconCSLib/Foundations/Math",
-        "EconCSLib/Foundations/Graph"
+        "EconCSLib/Foundations/Graph.lean",
+        "EconCSLib/Foundations/Graph",
+        "EconCSLib/Foundations.lean",
+        "EconCSLib/Basic.lean",
+        "EconCSLib/LibraryDefinitionAudit.lean"
       ],
-      "examples": "Finite-sum rewrites, order/rank lemmas, threshold and interval characterizations, asymptotic/exponential estimates, and cycle extraction in finite directed graphs.",
+      "examples": "Core finite mathematics used across the formalizations: finite-choice distances, ranking and order conversions, finite-sum algebra, threshold and interval certificates, asymptotic estimates, and graph-cycle extraction for local-improvement arguments.",
       "papers": [
         "DSWG24DiscretizationBias",
         "LMMS04FairDivision",
@@ -148,9 +153,10 @@
     {
       "title": "Foundations: probability and stochastic processes",
       "paths": [
+        "EconCSLib/Foundations/Probability.lean",
         "EconCSLib/Foundations/Probability"
       ],
-      "examples": "Finite distributions, conditional expectations, kernels, atom and variance lemmas, Gaussian and exponential calculations, stochastic dominance, Markov chains, MDPs, CTMCs, and renewal-reward identities.",
+      "examples": "Probability infrastructure for recommendation, ratings, pricing, and ranking papers: finite PMFs and expectations, conditional kernels, Gaussian and random-utility comparisons, large-deviation and method-of-types certificates, stochastic dominance, order statistics, Markov chains, MDPs, CTMCs, Poisson processes, and renewal-reward models.",
       "papers": [
         "DSWG24DiscretizationBias",
         "MBJG25ProducerFairness",
@@ -166,11 +172,13 @@
       ]
     },
     {
-      "title": "Foundations: optimization and certificates",
+      "title": "Foundations: optimization, certificates, and complexity",
       "paths": [
-        "EconCSLib/Foundations/Optimization"
+        "EconCSLib/Foundations/Optimization.lean",
+        "EconCSLib/Foundations/Optimization",
+        "EconCSLib/Algorithms/Complexity"
       ],
-      "examples": "Argmax and endpoint principles, finite-search certificates, approximation guarantees, linear-program certificates, binary-choice optimality, move-graph descent, and choice-equilibrium existence.",
+      "examples": "Certificate-oriented optimization and complexity for paper-level endpoints: argmax, endpoint, and bisection principles; finite-search and output-check certificates; approximation and LP witnesses; binary-policy games; move-graph descent; strategic and choice equilibria; NP/ZPP consequence interfaces; and Yao-style lower-bound certificates.",
       "papers": [
         "DSWG24DiscretizationBias",
         "MSVV07AdWords",
@@ -179,42 +187,34 @@
         "LMMS04FairDivision",
         "GKGMM19IterativeLocalVoting",
         "KR21Monoculture",
+        "LOS02CombinatorialAuctions",
         "DGJ24OptimalStrategiesRCV",
         "DGJ26PracticalDynamicsRCV"
       ]
     },
     {
-      "title": "Ratings and recommender systems",
+      "title": "Social choice, rankings, voting, and fair division",
       "paths": [
-        "EconCSLib/Foundations/Econometrics/RatingModels",
-        "EconCSLib/Learning/Bandits",
-        "EconCSLib/Applications/RecommenderSystems"
+        "EconCSLib/SocialChoice.lean",
+        "EconCSLib/SocialChoice"
       ],
-      "examples": "Binary and ordinal signal models, posterior-mean ratings, bias/variance decompositions, prior-weighted updates, monotonicity/correction lemmas, exposure and allocation policies, classwise fairness constraints, top-k recommendation surfaces, policy averaging, and accuracy/diversity trade-off statements.",
+      "examples": "Executable social-choice infrastructure: ranked ballots, next-active support counts, RCV/STV traces, quotas, coalition-safety lemmas, final-order structures, candidate-deletion reductions, Thiele-style proportionality, Mallows/Kendall ranking models, payoff interfaces, envy graphs, bounded-envy algorithms, and indivisible-goods fairness statements.",
       "papers": [
-        "MBJG25ProducerFairness",
-        "GJ18InformativeRatingSystems",
-        "GJ19OptimalBinaryRatingSystems",
-        "GCG24UserItemFairness"
-      ]
-    },
-    {
-      "title": "Matching markets",
-      "paths": [
-        "EconCSLib/Markets/Matching"
-      ],
-      "examples": "Preference profiles, blocking pairs and stable matchings, deferred-acceptance invariants, proposer incentives, and many-to-one admissions models.",
-      "papers": [
-        "GS62CollegeAdmissions",
-        "Roth82StableMatching"
+        "LMMS04FairDivision",
+        "GGSG19TopThree",
+        "GKGMM19IterativeLocalVoting",
+        "KR21Monoculture",
+        "DGJ24OptimalStrategiesRCV",
+        "DGJ26PracticalDynamicsRCV"
       ]
     },
     {
       "title": "Auctions and mechanisms",
       "paths": [
+        "EconCSLib/MechanismDesign/Auctions.lean",
         "EconCSLib/MechanismDesign/Auctions"
       ],
-      "examples": "Allocation and payment rules, dominant-strategy truthfulness, benchmark-competitive digital-goods auctions, VCG-style welfare maximization, and single-minded set-packing mechanisms.",
+      "examples": "Mechanism-design infrastructure for digital-goods, combinatorial, and position auctions: allocation and payment semantics, utility formulas, DSIC truthfulness, VCG-style welfare maximization, benchmark-competitive auctions, single-minded set packing, greedy mechanisms, and critical-value certificates.",
       "papers": [
         "GHW01DigitalGoods",
         "LOS02CombinatorialAuctions"
@@ -223,39 +223,46 @@
     {
       "title": "Online algorithms and regret",
       "paths": [
+        "EconCSLib/Algorithms/Online.lean",
         "EconCSLib/Algorithms/Online"
       ],
-      "examples": "Online matching/allocation state machines, primal-dual accounting, competitive-ratio certificates, regret interfaces, and platform-learning abstractions.",
+      "examples": "Online allocation infrastructure centered on AdWords and platform learning: matching/allocation state machines, primal-dual accounting, competitive-ratio certificates, regret interfaces, and hooks for randomized lower-bound arguments.",
       "papers": [
         "MSVV07AdWords",
         "MBJG25ProducerFairness"
       ]
     },
     {
-      "title": "Complexity abstractions",
+      "title": "Matching markets and admissions",
       "paths": [
-        "EconCSLib/Algorithms/Complexity"
+        "EconCSLib/Markets/Matching.lean",
+        "EconCSLib/Markets/Matching",
+        "EconCSLib/Applications/Admissions.lean",
+        "EconCSLib/Applications/Admissions"
       ],
-      "examples": "Decision/search problem interfaces, reductions, NP/ZPP-style class consequences, Yao-style minimax wrappers, and explicit external-solver assumptions.",
+      "examples": "Stable matching and admissions infrastructure: one-to-one and many-to-one assignments, blocking-pair stability, deferred-acceptance invariants, applicant/proposer optimality, quota admissions, strategic application cutoffs and payoffs, and two-group policy objective comparisons.",
       "papers": [
-        "LOS02CombinatorialAuctions",
-        "MSVV07AdWords",
-        "LMMS04FairDivision"
+        "GS62CollegeAdmissions",
+        "Roth82StableMatching",
+        "DGD26AdmissionsPredictability",
+        "LG21TestOptionalPolicies"
       ]
     },
     {
-      "title": "Social choice, rankings, and fair division",
+      "title": "Ratings and recommender systems",
       "paths": [
-        "EconCSLib/SocialChoice"
+        "EconCSLib/Foundations/Econometrics.lean",
+        "EconCSLib/Foundations/Econometrics/RatingModels",
+        "EconCSLib/Learning/Bandits",
+        "EconCSLib/Applications/RecommenderSystems.lean",
+        "EconCSLib/Applications/RecommenderSystems"
       ],
-      "examples": "Ranking profiles, Kendall distance and Mallows-style sequential ranking models, score/payoff interfaces, envy graphs, bounded-envy allocations, and indivisible-goods fairness statements.",
+      "examples": "Ratings and recommendation infrastructure: Bayesian binary and ordinal signal models, posterior-mean rating formulas, prior-weighted updates, monotonicity and correction lemmas, Thompson-sampling entrypoints, exposure/allocation policies, classwise fairness constraints, top-k recommendation surfaces, policy averaging, and accuracy/diversity trade-off statements.",
       "papers": [
-        "LMMS04FairDivision",
-        "GGSG19TopThree",
-        "GKGMM19IterativeLocalVoting",
-        "KR21Monoculture",
-        "DGJ24OptimalStrategiesRCV",
-        "DGJ26PracticalDynamicsRCV"
+        "MBJG25ProducerFairness",
+        "GJ18InformativeRatingSystems",
+        "GJ19OptimalBinaryRatingSystems",
+        "GCG24UserItemFairness"
       ]
     }
   ]
