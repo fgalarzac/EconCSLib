@@ -5331,6 +5331,22 @@ def check_tracked_artifacts(include_active: bool) -> list[Finding]:
             continue
         if artifact_re.search(path.name):
             findings.append(Finding("ERROR", ROOT / path, "tracked LaTeX build artifact"))
+        if path.parts[2:] == ("docs", "FINAL_VALIDATION_REPORT.md"):
+            findings.append(
+                Finding(
+                    "ERROR",
+                    ROOT / path,
+                    "legacy validation-report alias; link to the paper-root `FINAL_VALIDATION_REPORT.md`",
+                )
+            )
+        if path.parts[2:] == ("DependencyDAG.pdf",):
+            findings.append(
+                Finding(
+                    "ERROR",
+                    ROOT / path,
+                    "legacy root-level DAG alias; link to `docs/DependencyDAG.pdf`",
+                )
+            )
         if (
             path.suffix == ".pdf"
             and path.name not in ALLOWED_TRACKED_PAPER_PDFS

@@ -30,7 +30,8 @@ audit aggregate.
 Paper status links should point to paper-root `FINAL_VALIDATION_REPORT.md`
 files and `docs/DependencyDAG.pdf` files. If a report moves, update
 paper-local `status.json`, rerun `python3 scripts/sync_paper_status.py`, and
-deploy the refreshed `site/index.html`.
+deploy the refreshed `site/index.html`. Do not add compatibility copies for
+stale website links.
 
 ## Publishing Later
 
