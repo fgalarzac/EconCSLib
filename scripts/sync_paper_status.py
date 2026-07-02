@@ -1084,8 +1084,8 @@ def render_site_stats_block(payload: dict[str, Any]) -> str:
         f'{indent}<p class="project-stats">',
         (
             f"{indent}  Currently, the project contains {formalized} formalized papers "
-            f"and {partial} partially formalized papers, totalling {lean_loc:,} lines "
-            "of Lean code."
+            f"and {partial} partially formalized papers, with {lean_loc:,} total "
+            "lines of Lean code."
         ),
         f"{indent}</p>",
         f"{indent}{SITE_STATS_END}",

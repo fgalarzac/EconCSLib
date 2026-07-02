@@ -226,6 +226,7 @@ a:focus-visible {
 
 .library-table {
   table-layout: fixed;
+  min-width: 760px;
 }
 
 .library-table th:nth-child(1),
