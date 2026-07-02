@@ -77,14 +77,14 @@ published citation title and year.
 | [GCG24 User Item Fairness](papers/GCG24UserItemFairness) | Formalized | 0/48 | OK: 387 lines |  |
 | [PKG25 No Free Lunch](papers/PKG25NoFreeLunch) | Formalized | 0/15 | OK: 163 lines |  |
 | [DSWG24 Discretization Bias](papers/DSWG24DiscretizationBias) | Formalized | 0/41 | OK: 456 lines |  |
-| [MBJG25 Producer Fairness](papers/MBJG25ProducerFairness) | Formalized | 10/27 | OK: 332 lines | Additional assumption recorded in the validation report: strict variance decrease is stated with 0 < q_v < 1. |
+| [MBJG25 Producer Fairness](papers/MBJG25ProducerFairness) | Formalized | 10/27 | OK: 332 lines | Strict variance decrease is formalized with the explicit interior-quality assumption 0 < q_v < 1. |
 | [DGD26 Admissions Predictability](papers/DGD26AdmissionsPredictability) | Formalized | 0/66 | OK: 1388 lines |  |
 | [GGRS26 Combatting Gerrymandering RCV](papers/GGRS26CombattingGerrymanderingRCV) | Formalized | 0/19 | OK: 403 lines |  |
 | [DGJ26 Practical Dynamics RCV](papers/DGJ26PracticalDynamicsRCV) | Formalized | 0/50 | Debt: 11027 lines |  |
 | [LOS02 Combinatorial Auctions](papers/LOS02CombinatorialAuctions) | Partially formalized | 0/39 | OK: 371 lines | Greedy approximation, truthfulness, and Theorem 6.1 reductions are formalized. Full formalization requires computational complexity results that are out of scope. |
 | [LMMS04 Fair Division](papers/LMMS04FairDivision) | Partially formalized | 0/48 | OK: 303 lines | Sections 2 and 4 are fully formalized. Section 3 has query/descent/rounded-search support. The PTAS/FPTAS runtime layer needs reusable fixed-dimension IP complexity infrastructure. |
 | [GKGMM19 Iterative Local Voting](papers/GKGMM19IterativeLocalVoting) | Partially formalized | 0/47 | OK: 2772 lines | Full formalization requires proving stochastic subgradient descent convergence. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition. |
-| [LBG24 Spatial Underreporting](papers/LBG24SpatialUnderreporting) | Partially formalized | 0/27 | OK: 8658 lines | Full formalization requires a homogeneous Poisson process and stopping time derivation |
+| [LBG24 Spatial Underreporting](papers/LBG24SpatialUnderreporting) | Partially formalized | 0/27 | OK: 8658 lines | Full formalization requires a homogeneous Poisson process and stopping-time derivation. |
 <!-- END GENERATED PAPER STATUS TABLE -->
 
 For more detail, use:

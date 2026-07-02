@@ -7,7 +7,7 @@
   "build_target": "lake build MBJG25ProducerFairness",
   "status": "formalized",
   "main_caveat": "",
-  "human_summary": "Additional assumption recorded in the validation report: strict variance decrease is stated with 0 < q_v < 1.",
+  "human_summary": "Strict variance decrease is formalized with the explicit interior-quality assumption 0 < q_v < 1.",
   "review_entrypoint": "papers/MBJG25ProducerFairness/docs/FINAL_VALIDATION_REPORT.md",
   "human_review": {
     "reviewed_rows": 10,

@@ -498,7 +498,7 @@
       "llm_as_judge_translation": "16/17 statement rows match; 1 formalization-boundary statement row; 10 source-condition rows",
       "llm_as_judge_paper_coverage": "24/27 covered; 3 conditional boundaries",
       "lean_loc": 680,
-      "main_note": "Additional assumption recorded in the validation report: strict variance decrease is stated with 0 < q_v < 1.",
+      "main_note": "Strict variance decrease is formalized with the explicit interior-quality assumption 0 < q_v < 1.",
       "main_note_citation": null,
       "main_note_review": {
         "status": "human_approved",
@@ -719,7 +719,7 @@
       "llm_as_judge_translation": "16/24 statement rows match; 8 formalization-boundary statement rows; 3 source-condition rows",
       "llm_as_judge_paper_coverage": "16/24 covered; 8 conditional boundaries",
       "lean_loc": 18540,
-      "main_note": "Full formalization requires a homogeneous Poisson process and stopping time derivation",
+      "main_note": "Full formalization requires a homogeneous Poisson process and stopping-time derivation.",
       "main_note_citation": null,
       "main_note_review": {
         "status": "human_written",
