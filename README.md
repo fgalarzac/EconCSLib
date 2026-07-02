@@ -1,7 +1,7 @@
 # EconCSLib
 
-EconCSLib is a Lean 4 project for checking results in Economics and
-Computation.  The goal of EconCSLib is to enable researchers to formalize their papers in Lean without knowing Lean themselves. The central design principle is a human-AI-Lean formalization workflow: an LLM writes Lean code, Lean checks formal statements and proofs, and both humans and LLM-as-judge processes can verify that the paper's statements were translated into Lean correctly. We develop agent skills, human-facing reporting, a review dashboard, and auditing procedures to support this workflow.
+EconCSLib is a Lean 4 project research in Economics and
+Computation and related applied math fields.  The goal of EconCSLib is to enable researchers to formalize their papers in Lean without knowing Lean themselves. The central design principle is a human-AI-Lean formalization workflow: an LLM writes Lean code, Lean checks formal statements and proofs, and both humans and LLM-as-judge processes can verify that the paper's statements were translated into Lean correctly. We develop agent skills, human-facing reporting, a review dashboard, and auditing procedures to support this workflow.
 
 Links:
 - [Project website](https://gargnikhil.com/EconCSLib/)
