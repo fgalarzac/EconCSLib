@@ -179,8 +179,8 @@ Displayed and source-defining formulas are tracked through the paper-facing rows
   provenance surface and cannot be hidden from the closeout metadata.
 
 ## 15. DAG Audit
-- DAG source: `papers/GKGMM19IterativeLocalVoting/DependencyDAG.tex`.
-- Rendered DAG PDF: `papers/GKGMM19IterativeLocalVoting/DependencyDAG.pdf`.
+- DAG source: `papers/GKGMM19IterativeLocalVoting/docs/DependencyDAG.tex`.
+- Rendered DAG PDF: `papers/GKGMM19IterativeLocalVoting/docs/DependencyDAG.pdf`.
 - Visual layout inspection: completed after regenerating the DAG PDF from the updated TeX source; the rendered graph has readable paper-result, model, partial-boundary, and reusable-library nodes without overlapping labels, boxes, or arrows.
 - The DAG records the single SSGM theorem-shaped boundary, the Lean-proved Theorem 3 constrained alternative, and the exact Theorem 3 full-space recovery rather than presenting those as hidden paper assumptions.
 

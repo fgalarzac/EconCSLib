@@ -22,7 +22,7 @@ sign-off has been recorded.
 - Lean folder: `papers/GN21DriverSurgePricing`.
 - Human-facing theorem file: `papers/GN21DriverSurgePricing/PaperInterface.lean`.
 - Paper assumption file: `papers/GN21DriverSurgePricing/Assumptions.lean`.
-- Holistic source audit: `papers/GN21DriverSurgePricing/AGENT_SOURCE_AUDIT.md`.
+- Holistic source audit: `papers/GN21DriverSurgePricing/docs/AGENT_SOURCE_AUDIT.md`.
 - DAG artifacts: `papers/GN21DriverSurgePricing/docs/DependencyDAG.tex` and `papers/GN21DriverSurgePricing/docs/DependencyDAG.pdf`.
 
 Scope: this report covers the paper's single-state and dynamic incentive-compatibility definitions, threshold-policy and renewal-reward material, Lemmas 1-10, Proposition 3.1, Theorems 1-4, and the denominator-valid Theorem 3 endpoint. Empirical or calibration material outside those theoretical claims is not part of the Lean theorem surface.

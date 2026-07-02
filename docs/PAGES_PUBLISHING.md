@@ -22,7 +22,7 @@ repository are ready.
 2. Review `site/index.html` for accurate contact text and non-generated prose.
 3. Run `python3 scripts/sync_paper_status.py --check` to confirm
    `papers/status.json`, `papers/human_status.json`, `docs/PAPER_STATUS.md`,
-   `README.md`, and the generated site status table are in sync. Use
+   per-paper `README.md` files, and the generated site status table are in sync. Use
    `papers/status.json` for detailed audit metadata.
 4. Run `python3 scripts/audit_repository.py` and confirm there are 0 errors.
 5. Preview the static site locally, for example:
@@ -45,11 +45,11 @@ Treat the site as a summary layer. The source of truth remains:
   metadata;
 - generated `papers/human_status.json` for compact public status;
 - generated `papers/status.json` for detailed aggregate status;
-- generated status tables in `README.md`, `docs/PAPER_STATUS.md`, and
-  `site/index.html` for human summaries;
+- generated status tables in `docs/PAPER_STATUS.md` and `site/index.html` for
+  human summaries;
 - paper-local `FINAL_VALIDATION_REPORT.md` files for detailed caveats; and
 - `CONTRIBUTING.md` for the contribution policy.
 
 When a paper status changes, update the paper-local `status.json`, run
-`python3 scripts/sync_paper_status.py`, then update site or README prose only
-if surrounding non-generated text needs to change.
+`python3 scripts/sync_paper_status.py`, then update site or root README prose
+only if surrounding non-generated text needs to change.

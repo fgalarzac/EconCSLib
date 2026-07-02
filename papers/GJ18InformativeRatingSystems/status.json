@@ -8,7 +8,7 @@
   "status": "formalized",
   "main_caveat": "",
   "human_summary": "",
-  "review_entrypoint": "papers/GJ18InformativeRatingSystems/docs/FINAL_VALIDATION_REPORT.md",
+  "review_entrypoint": "papers/GJ18InformativeRatingSystems/FINAL_VALIDATION_REPORT.md",
   "human_review": {
     "reviewed_rows": 0,
     "total_rows": 15,
@@ -27,7 +27,7 @@
   "artifacts": {
     "readme": "papers/GJ18InformativeRatingSystems/README.md",
     "paper_interface": "papers/GJ18InformativeRatingSystems/PaperInterface.lean",
-    "final_validation_report": "papers/GJ18InformativeRatingSystems/docs/FINAL_VALIDATION_REPORT.md",
+    "final_validation_report": "papers/GJ18InformativeRatingSystems/FINAL_VALIDATION_REPORT.md",
     "dependency_dag_tex": "papers/GJ18InformativeRatingSystems/docs/DependencyDAG.tex",
     "dependency_dag_pdf": "papers/GJ18InformativeRatingSystems/docs/DependencyDAG.pdf",
     "source_archive": "papers/GJ18InformativeRatingSystems/source.tar.gz",

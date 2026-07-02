@@ -23,8 +23,8 @@ error is reported, and no human dashboard sign-off has been recorded.
 - Lean folder: `LOS02CombinatorialAuctions/`
 - Human-facing theorem file: `LOS02CombinatorialAuctions/PaperInterface.lean`
 - Paper assumption file: `LOS02CombinatorialAuctions/Assumptions.lean`
-- DAG artifacts: `LOS02CombinatorialAuctions/DependencyDAG.tex`, `LOS02CombinatorialAuctions/DependencyDAG.pdf`
-- Supporting audit ledgers: `LOS02CombinatorialAuctions/POST_FORMALIZATION_AUDIT.md`, `LOS02CombinatorialAuctions/AGENT_SOURCE_AUDIT.md`, and `LOS02CombinatorialAuctions/audit/*.json`
+- DAG artifacts: `LOS02CombinatorialAuctions/docs/DependencyDAG.tex`, `LOS02CombinatorialAuctions/docs/DependencyDAG.pdf`
+- Supporting audit ledgers: `LOS02CombinatorialAuctions/docs/POST_FORMALIZATION_AUDIT.md`, `LOS02CombinatorialAuctions/docs/AGENT_SOURCE_AUDIT.md`, and `LOS02CombinatorialAuctions/audit/*.json`
 
 Scope: this audit covers the paper's mathematical definitions and theorem-level
 auction results. The paper's native computational-complexity consequences are

@@ -23,8 +23,8 @@ paper-facing assumptions. No human dashboard sign-off has been recorded.
 - Human-facing statement surface: `papers/MSVV07AdWords/PaperInterface.lean`.
 - Audit ledger: `papers/MSVV07AdWords/PostPaperAudit.lean`, imported by the
   paper root.
-- DAG artifacts: `papers/MSVV07AdWords/DependencyDAG.tex` and
-  `papers/MSVV07AdWords/DependencyDAG.pdf`.
+- DAG artifacts: `papers/MSVV07AdWords/docs/DependencyDAG.tex` and
+  `papers/MSVV07AdWords/docs/DependencyDAG.pdf`.
 
 ## 4. Researcher Summary of Checked Results
 - The formalization checks the Balance/MSVV online matching structure, the Section 6 and 8 extensions, and the Theorem 9 lower-bound endpoint.

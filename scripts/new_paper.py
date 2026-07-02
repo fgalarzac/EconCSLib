@@ -148,8 +148,8 @@ public workspaces unless redistribution rights have been checked separately.
 - Implementation theorem file: `{folder}/MainTheorems.lean`
 - Human-facing theorem file: `{folder}/PaperInterface.lean`
 - Machine-readable status source: `{folder}/status.json`
-- Private outside-Lean proof plan: `{folder}/FORMALIZATION_PLAN.md`
-- Final validation report: `{folder}/docs/FINAL_VALIDATION_REPORT.md`
+- Private outside-Lean proof plan: `{folder}/docs/FORMALIZATION_PLAN.md`
+- Final validation report: `{folder}/FINAL_VALIDATION_REPORT.md`
 - Dependency DAG: `{folder}/docs/DependencyDAG.tex`
 - Rendered DAG: `{folder}/docs/DependencyDAG.pdf`
 - LLM/source audit sidecars: `{folder}/audit/*.json`
@@ -176,7 +176,7 @@ Keep theorem/table content synchronized with `DependencyDAG.tex` node styles and
 `status.json` as the source of truth for review rows, artifact paths, and the
 paper's top-level public status.
 
-At the start of the paper, fill in the `FORMALIZATION_PLAN.md`
+At the start of the paper, fill in `docs/FORMALIZATION_PLAN.md`
 `Initial Outside-Lean Paper Audit` section before deep proof work. Read the
 source, sanity-check every named result and formula-bearing displayed claim for
 signs, constants, normalizations, quantifiers, domains, and dependencies, and
@@ -269,7 +269,7 @@ and resolve missing, stale, partial, or uncertain source coverage.
 
 - [ ] Confirm the official PDF URL, version, and bibliographic fields.
 - [ ] Extract/confirm all named definitions, lemmas, and theorems in source order.
-- [ ] Fill in `FORMALIZATION_PLAN.md` with the initial outside-Lean paper audit,
+- [ ] Fill in `docs/FORMALIZATION_PLAN.md` with the initial outside-Lean paper audit,
       formula/result sanity check, proof strategy, and likely hard seams before
       deep Lean work.
 - [ ] Record the shared-library reuse checkpoint: mathlib, cslib, optlib, and
@@ -287,7 +287,7 @@ and resolve missing, stale, partial, or uncertain source coverage.
 - [ ] Confirm `python3 scripts/audit_repository.py` reports no recursive
       paper-local hidden-premise dependency or axiom-like declaration for this
       paper.
-- [ ] Populate `DependencyDAG.tex` with the same named-result inventory.
+- [ ] Populate `docs/DependencyDAG.tex` with the same named-result inventory.
 - [ ] Replace placeholders in `MainTheorems.lean` and `PaperInterface.lean`
       before updating any status row.
 - [ ] Keep `PaperInterface.lean` and `status.json` `review_surface` limited to
@@ -299,15 +299,15 @@ and resolve missing, stale, partial, or uncertain source coverage.
 - [ ] Run the context-free Lean-to-TeX translation and independent semantic match judgment
       workflow before asking for human dashboard review.
 - [ ] Update `status.json`, then run `python3 scripts/sync_paper_status.py`.
-- [ ] Rebuild `DependencyDAG.pdf` and verify visually after each significant edit.
+- [ ] Rebuild `docs/DependencyDAG.pdf` and verify visually after each significant edit.
 
 ## Post-Formalization Checklist
 
 - [ ] Run a library elevation pass over paper-local proof modules and record
       reusable candidates or completed extractions in `FINAL_VALIDATION_REPORT.md`.
-- [ ] Update `DependencyDAG.tex`, rerender `DependencyDAG.pdf`, inspect the
+- [ ] Update `docs/DependencyDAG.tex`, rerender `docs/DependencyDAG.pdf`, inspect the
       rendered diagram, and record the DAG audit evidence in both
-      `FINAL_VALIDATION_REPORT.md` and `POST_FORMALIZATION_AUDIT.md`.
+      `FINAL_VALIDATION_REPORT.md` and `docs/POST_FORMALIZATION_AUDIT.md`.
 - [ ] Run the targeted repository audit after the report/DAG updates:
       `python3 scripts/audit_repository.py --paper {folder} --paper-closeout --include-active --info-limit 0`.
       This audit includes the DAG/final-report closeout gate; resolve all
@@ -317,7 +317,7 @@ and resolve missing, stale, partial, or uncertain source coverage.
       `python3 scripts/audit_repository.py --include-active --library-premise-audit --info-limit 0 --write-report docs/RECURSIVE_PROVENANCE_AUDIT_<date>.md`.
       Resolve all findings for this paper before claiming `formalized`; if a
       finding remains, mark the result partial/conditional in `status.json`,
-      `DependencyDAG.tex`, and `FINAL_VALIDATION_REPORT.md`.
+      `docs/DependencyDAG.tex`, and `FINAL_VALIDATION_REPORT.md`.
 """
 
 
@@ -343,7 +343,7 @@ def status_text(args: argparse.Namespace, folder: str) -> str:
                     "summary; do not rewrite a human_approved summary without explicit human instruction."
                 ),
             },
-            "review_entrypoint": f"papers/{folder}/docs/FINAL_VALIDATION_REPORT.md",
+            "review_entrypoint": f"papers/{folder}/FINAL_VALIDATION_REPORT.md",
             "human_review": {
                 "reviewed_rows": 0,
                 "total_rows": 0,
@@ -362,7 +362,7 @@ def status_text(args: argparse.Namespace, folder: str) -> str:
             "artifacts": {
                 "paper_interface": f"papers/{folder}/PaperInterface.lean",
                 "assumptions": f"papers/{folder}/Assumptions.lean",
-                "final_validation_report": f"papers/{folder}/docs/FINAL_VALIDATION_REPORT.md",
+                "final_validation_report": f"papers/{folder}/FINAL_VALIDATION_REPORT.md",
                 "dependency_dag_tex": f"papers/{folder}/docs/DependencyDAG.tex",
                 "dependency_dag_pdf": f"papers/{folder}/docs/DependencyDAG.pdf",
             },
@@ -1164,7 +1164,7 @@ def main() -> int:
     )
     launch_script.chmod(0o755)
     write_file(
-        docs_dir / "FINAL_VALIDATION_REPORT.md",
+        paper_dir / "FINAL_VALIDATION_REPORT.md",
         final_validation_report_text(args.title or "", folder),
         args.force,
     )

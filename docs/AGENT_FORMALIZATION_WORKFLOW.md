@@ -6,8 +6,8 @@ human-facing project overview.
 ## Documentation Split
 
 - Human-facing docs should be strategic, short, and readable without Lean
-  expertise. The top-level `README.md`, paper
-  `docs/FINAL_VALIDATION_REPORT.md` files, `PaperInterface.lean`, and
+  expertise. The top-level `README.md`, paper-root
+  `FINAL_VALIDATION_REPORT.md` files, `PaperInterface.lean`, and
   `docs/DependencyDAG.pdf` are the main human surfaces.
 - Agent-facing docs may be detailed and operational. This file,
   `docs/ARCHITECTURE.md`, `docs/ECONCSLIB_DOMAIN_INDEX.md`, and
@@ -73,9 +73,10 @@ and machine-readable status. It should contain:
 - `PaperInterface.lean`
 - `status.json`
 - `review-dashboard.sh`
+- `FINAL_VALIDATION_REPORT.md` when a paper has a final validation claim
 - `docs/DependencyDAG.tex`
 - `docs/DependencyDAG.pdf`
-- `docs/FINAL_VALIDATION_REPORT.md` when a paper has a final validation claim
+- `docs/AGENT_SOURCE_AUDIT.md` when a paper has a completed source-first audit
 - `audit/*.json` for tracked LLM/source-audit sidecars
 - locally cached source PDF, ignored by Git
 - locally cached `pdftotext` extraction, when licensing permits
@@ -90,7 +91,7 @@ Completed papers should also have:
   `PaperInterface.lean` too large to review directly.
 - `PostPaperAudit.lean` when an exhaustive source-numbered endpoint ledger is
   useful.
-- `docs/FINAL_VALIDATION_REPORT.md` with definitions, named theorem statements,
+- `FINAL_VALIDATION_REPORT.md` with definitions, named theorem statements,
   proof deviations, assumptions, gaps, and verification outcomes.
 - A concise caveat-repair memo when the final status is `formalized with
   caveat` because of real source discrepancies. Prefer a TeX source plus
@@ -106,7 +107,7 @@ Completed papers should also have:
   rows/slices, interface metadata, and artifact paths. After editing it, run
   `python3 scripts/sync_paper_status.py` to regenerate the detailed aggregate
   `papers/status.json`, the compact human-facing `papers/human_status.json`,
-  `docs/PAPER_STATUS.md`, the root `README.md` status table, and the
+  `docs/PAPER_STATUS.md`, paper-local `README.md` entrypoints, and the
   `site/index.html` status table. Do not hand-edit those generated status files
   or rows.
   The sync script defaults to tracked paper status files so local draft
@@ -128,7 +129,7 @@ Completed papers should also have:
 - `ProofInterface.lean`: optional implementation-facing theorem endpoint
   surface for broad wrapper families and proof-seam checks.
 - `PostPaperAudit.lean`: exhaustive endpoint ledger when useful.
-- `docs/FINAL_VALIDATION_REPORT.md`: final human report.
+- `FINAL_VALIDATION_REPORT.md`: final human report.
 - `audit/*.json`: LLM-as-judge, source-statement-map, source-record, and
   assumption-provenance sidecars.
 
@@ -147,7 +148,7 @@ should move into `EconCSLib` for other papers to reuse. Elevate local/low-risk
 items when the destination module is clear and the build can be checked. If the
 move needs broader API design, keep the paper-facing wrapper in place and record
 the candidate, destination module, and reusable proof idea in
-`docs/FINAL_VALIDATION_REPORT.md`.
+`FINAL_VALIDATION_REPORT.md`.
 
 Library certificate APIs are allowed and often preferable. A reusable theorem may
 require an explicit certificate, witness, external-boundary hypothesis, or
@@ -235,7 +236,7 @@ the statement/assumption judges for visible paper-facing text.
 
 When the agent says a paper is done, inspect:
 
-1. `docs/FINAL_VALIDATION_REPORT.md`
+1. `FINAL_VALIDATION_REPORT.md`
 2. `PaperInterface.lean`
 3. `docs/DependencyDAG.pdf`
 4. `status.json`
@@ -513,7 +514,7 @@ source-statement extraction failure first. Fix the source map/report sections,
 or record one paper-wide source-map issue, before accepting row-by-row
 uncertainty.
 
-When updating `docs/FINAL_VALIDATION_REPORT.md`, refresh its paper-facing validator
+When updating `FINAL_VALIDATION_REPORT.md`, refresh its paper-facing validator
 ledger with:
 
 ```bash

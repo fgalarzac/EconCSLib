@@ -17,7 +17,7 @@ dashboard sign-off has been recorded.
 ## 3. Source and Scope
 The validation source of truth is the paper folder, not older campaign-level notes:
 
-- `papers/GCG24UserItemFairness/DependencyDAG.tex`
+- `papers/GCG24UserItemFairness/docs/DependencyDAG.tex`
 - `papers/GCG24UserItemFairness/PaperInterface.lean`
 - `papers/GCG24UserItemFairness/MainTheorems.lean`
 - the successful targeted Lean build

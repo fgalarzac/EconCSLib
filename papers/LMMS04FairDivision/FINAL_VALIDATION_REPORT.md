@@ -26,7 +26,7 @@ human dashboard sign-off has been recorded.
 - Human-facing theorem file: `LMMS04FairDivision/PaperInterface.lean`
 - Paper assumption file: `LMMS04FairDivision/Assumptions.lean`
 - DAG artifacts: `LMMS04FairDivision/docs/DependencyDAG.tex`, `LMMS04FairDivision/docs/DependencyDAG.pdf`
-- Supporting audit ledgers: `LMMS04FairDivision/docs/POST_FORMALIZATION_AUDIT.md`, `LMMS04FairDivision/AGENT_SOURCE_AUDIT.md`, and `LMMS04FairDivision/audit/*.json`
+- Supporting audit ledgers: `LMMS04FairDivision/docs/POST_FORMALIZATION_AUDIT.md`, `LMMS04FairDivision/docs/AGENT_SOURCE_AUDIT.md`, and `LMMS04FairDivision/audit/*.json`
 
 Scope: this audit covers the declared partial public surface: Section 2 envy
 and allocation results, Section 3 query/descent/rounded-search support, and

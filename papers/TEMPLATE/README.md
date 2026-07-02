@@ -18,10 +18,10 @@ rights have been checked separately.
 - Human-facing theorem file: `TEMPLATE/PaperInterface.lean`
 - Paper assumption file: `TEMPLATE/Assumptions.lean`
 - Machine-readable status source: `TEMPLATE/status.json`
-- Outside-Lean proof plan: `TEMPLATE/FORMALIZATION_PLAN.md`
+- Outside-Lean proof plan: `TEMPLATE/docs/FORMALIZATION_PLAN.md`
 - Final validation report: `TEMPLATE/FINAL_VALIDATION_REPORT.md`
-- Dependency DAG: `TEMPLATE/DependencyDAG.tex`
-- Rendered DAG: `TEMPLATE/DependencyDAG.pdf`
+- Dependency DAG: `TEMPLATE/docs/DependencyDAG.tex`
+- Rendered DAG: `TEMPLATE/docs/DependencyDAG.pdf`
 - Optional: use `python3 scripts/new_paper.py --with-notes ...` to generate `PAPER_NOTES.md`.
 
 `PaperInterface.lean` should be readable on its own: expose the source formulas

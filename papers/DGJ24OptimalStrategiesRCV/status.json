@@ -33,8 +33,8 @@
     "paper_interface": "papers/DGJ24OptimalStrategiesRCV/PaperInterface.lean",
     "assumptions": "papers/DGJ24OptimalStrategiesRCV/Assumptions.lean",
     "final_validation_report": "papers/DGJ24OptimalStrategiesRCV/FINAL_VALIDATION_REPORT.md",
-    "dependency_dag_tex": "papers/DGJ24OptimalStrategiesRCV/DependencyDAG.tex",
-    "dependency_dag_pdf": "papers/DGJ24OptimalStrategiesRCV/DependencyDAG.pdf"
+    "dependency_dag_tex": "papers/DGJ24OptimalStrategiesRCV/docs/DependencyDAG.tex",
+    "dependency_dag_pdf": "papers/DGJ24OptimalStrategiesRCV/docs/DependencyDAG.pdf"
   },
   "review_surface": {
     "source_file": "papers/DGJ24OptimalStrategiesRCV/PaperInterface.lean",

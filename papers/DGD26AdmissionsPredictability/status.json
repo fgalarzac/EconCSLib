@@ -8,7 +8,7 @@
   "status": "formalized",
   "main_caveat": "",
   "human_summary": "",
-  "review_entrypoint": "papers/DGD26AdmissionsPredictability/docs/FINAL_VALIDATION_REPORT.md",
+  "review_entrypoint": "papers/DGD26AdmissionsPredictability/FINAL_VALIDATION_REPORT.md",
   "human_review": {
     "reviewed_rows": 0,
     "total_rows": 66,
@@ -27,7 +27,7 @@
   "artifacts": {
     "paper_interface": "papers/DGD26AdmissionsPredictability/PaperInterface.lean",
     "assumptions": "papers/DGD26AdmissionsPredictability/Assumptions.lean",
-    "final_validation_report": "papers/DGD26AdmissionsPredictability/docs/FINAL_VALIDATION_REPORT.md",
+    "final_validation_report": "papers/DGD26AdmissionsPredictability/FINAL_VALIDATION_REPORT.md",
     "dependency_dag_tex": "papers/DGD26AdmissionsPredictability/docs/DependencyDAG.tex",
     "dependency_dag_pdf": "papers/DGD26AdmissionsPredictability/docs/DependencyDAG.pdf",
     "lap_variability_clean_proof_tex": "papers/DGD26AdmissionsPredictability/docs/LAP_VARIABILITY_CLEAN_PROOF.tex",

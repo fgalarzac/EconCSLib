@@ -142,7 +142,7 @@ Use this workflow in two modes:
   Lean-to-TeX and statement-judge pass, plus the review-surface audit when row
   count requires it, the assumption-provenance pass when assumptions exist, the
   `Statement Translation Audit` section in
-  `docs/FINAL_VALIDATION_REPORT.md`, and the full `--precheck`.
+  `FINAL_VALIDATION_REPORT.md`, and the full `--precheck`.
 
 For both modes, every dashboard row needs one concrete source statement. If the
 automatic TeX/text extraction is missing, over-broad, or pulls in surrounding
@@ -541,7 +541,7 @@ python3 scripts/review_dashboard.py --paper ABC24ShortTitle --export-format json
 ```
 
 Use `validators-md` to refresh the paper-facing validator table in
-`docs/FINAL_VALIDATION_REPORT.md`. It lists every dashboard/PaperInterface row, the
+`FINAL_VALIDATION_REPORT.md`. It lists every dashboard/PaperInterface row, the
 validators recorded for that row, and validator comments.
 
 In server mode, machine-readable status is available at:

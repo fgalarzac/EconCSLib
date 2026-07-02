@@ -32,8 +32,8 @@ are generated internally from the source-facing strict ranked-value model.
 - Lean folder: `papers/EOS07GSP`
 - Human-facing theorem file: `papers/EOS07GSP/PaperInterface.lean`
 - Exhaustive audit ledger: `papers/EOS07GSP/PostPaperAudit.lean`
-- DAG artifacts: `papers/EOS07GSP/DependencyDAG.tex` and
-  `papers/EOS07GSP/DependencyDAG.pdf`
+- DAG artifacts: `papers/EOS07GSP/docs/DependencyDAG.tex` and
+  `papers/EOS07GSP/docs/DependencyDAG.pdf`
 - Lean footprint: tracked in `papers/EOS07GSP/status.json`; the compact review
   surface currently has 25 statement rows plus 1 source-condition row.
 

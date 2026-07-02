@@ -20,7 +20,7 @@ No human dashboard sign-off has been recorded.
 - Source version: Proceedings of the AAAI Conference on Artificial Intelligence, 39(13), 14369-14376 (AAAI 2025)
 - Lean folder: `papers/PKG25NoFreeLunch`
 - Human-facing theorem file: `papers/PKG25NoFreeLunch/PaperInterface.lean`
-- DAG artifacts: `papers/PKG25NoFreeLunch/DependencyDAG.tex`, `papers/PKG25NoFreeLunch/DependencyDAG.pdf`
+- DAG artifacts: `papers/PKG25NoFreeLunch/docs/DependencyDAG.tex`, `papers/PKG25NoFreeLunch/docs/DependencyDAG.pdf`
 
 ## 4. Researcher Summary of Checked Results
 - The finite collaboration setting, calibration condition, deterministic strategies, source reliability, and non-collaboration definitions are formalized.

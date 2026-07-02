@@ -17,8 +17,9 @@ external contributions. Last checked on 2026-06-03.
 - [x] Each public `papers/<PaperName>/status.json` is current, and
       `python3 scripts/sync_paper_status.py --check` confirms that the generated
       `papers/status.json`, `papers/human_status.json`, and
-      `docs/PAPER_STATUS.md`, `README.md`, and `site/index.html` are in sync.
-- [x] The generated `README.md`, `docs/PAPER_STATUS.md`, and site status tables
+      `docs/PAPER_STATUS.md`, per-paper `README.md` files, and
+      `site/index.html` are in sync.
+- [x] The generated `docs/PAPER_STATUS.md` and site status tables
       summarize the same public paper set, statuses, review counts, Lean LOC,
       and sparse notes as `papers/human_status.json`.
 - [x] Status labels use `Formalized`, `Formalized with caveat`, or
@@ -42,7 +43,7 @@ Each public paper folder should have:
 - [ ] `PaperInterface.lean` as the compact human-facing theorem surface;
 - [ ] `Assumptions.lean` if any paper-facing theorem premise remains as an
       explicit source/model assumption;
-- [ ] `docs/FINAL_VALIDATION_REPORT.md` or an equivalent validation summary;
+- [ ] `FINAL_VALIDATION_REPORT.md` or an equivalent validation summary;
 - [ ] `docs/DependencyDAG.tex` and a rendered `docs/DependencyDAG.pdf`;
 - [ ] a current `status.json`, including human-review row counts,
       `review_surface` rows/slices, `assumption_names` for any paper-model

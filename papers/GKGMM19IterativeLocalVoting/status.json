@@ -3,7 +3,7 @@
     "assumptions": "papers/GKGMM19IterativeLocalVoting/Assumptions.lean",
     "dependency_dag_pdf": "papers/GKGMM19IterativeLocalVoting/docs/DependencyDAG.pdf",
     "dependency_dag_tex": "papers/GKGMM19IterativeLocalVoting/docs/DependencyDAG.tex",
-    "final_validation_report": "papers/GKGMM19IterativeLocalVoting/docs/FINAL_VALIDATION_REPORT.md",
+    "final_validation_report": "papers/GKGMM19IterativeLocalVoting/FINAL_VALIDATION_REPORT.md",
     "paper_interface": "papers/GKGMM19IterativeLocalVoting/PaperInterface.lean",
     "paper_statement_map": "papers/GKGMM19IterativeLocalVoting/audit/paper_statement_map.json",
     "proof_interface": "papers/GKGMM19IterativeLocalVoting/ProofInterface.lean",
@@ -37,7 +37,7 @@
     "path": "papers/GKGMM19IterativeLocalVoting/PaperInterface.lean",
     "review_rows": 47
   },
-  "review_entrypoint": "papers/GKGMM19IterativeLocalVoting/docs/FINAL_VALIDATION_REPORT.md",
+  "review_entrypoint": "papers/GKGMM19IterativeLocalVoting/FINAL_VALIDATION_REPORT.md",
   "review_surface": {
     "assumption_names": [
       "assumption_conditions_c123",

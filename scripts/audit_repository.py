@@ -3,8 +3,8 @@
 
 The checks here are intentionally mechanical. They are meant to catch stale
 paper-folder structure, hidden Lean proof placeholders, noisy `#check` ledgers,
-and obvious README status-table overclaims. Semantic theorem fidelity still
-requires the paper-by-paper PDF/DAG audit.
+and status-surface overclaims. Semantic theorem fidelity still requires the
+paper-by-paper PDF/DAG audit.
 """
 
 from __future__ import annotations
@@ -66,11 +66,11 @@ def paper_relative_file(folder: Path, preferred: str, legacy: str | None = None)
 
 PAPER_DOCS_DIR = "docs"
 PAPER_AUDIT_DIR = "audit"
-FINAL_VALIDATION_REPORT_FILE = f"{PAPER_DOCS_DIR}/FINAL_VALIDATION_REPORT.md"
+FINAL_VALIDATION_REPORT_FILE = "FINAL_VALIDATION_REPORT.md"
 POST_FORMALIZATION_AUDIT_FILE = f"{PAPER_DOCS_DIR}/POST_FORMALIZATION_AUDIT.md"
 DEPENDENCY_DAG_TEX_FILE = f"{PAPER_DOCS_DIR}/DependencyDAG.tex"
 DEPENDENCY_DAG_PDF_FILE = f"{PAPER_DOCS_DIR}/DependencyDAG.pdf"
-AGENT_SOURCE_AUDIT_FILE = "AGENT_SOURCE_AUDIT.md"
+AGENT_SOURCE_AUDIT_FILE = f"{PAPER_DOCS_DIR}/AGENT_SOURCE_AUDIT.md"
 REQUIRED_PAPER_FILES = {
     ".gitignore",
     "MainTheorems.lean",
@@ -126,13 +126,6 @@ ROOT_STATUS_VALUES = {
     "Scaffold",
     "Not formalized",
     "Active validation",
-}
-ROOT_INTERFACE_REQUIRED_STATUSES = {
-    "Formalized",
-    "Formalized with caveat",
-    "Formalized with documented caveat",
-    "Main endpoints formalized",
-    "Main endpoints formalized with documented deviations",
 }
 FORBIDDEN_STATUS_LABEL_RE = re.compile(
     r"\bverified in Lean(?: with source OCR caveat)?\b|"
@@ -416,14 +409,6 @@ README_OLD_STATUS_TABLE_RE = re.compile(
     r"^\|\s*Paper folder\s*\|\s*Paper\s*\|\s*Overall status\s*\|",
     re.M,
 )
-README_STATUS_DETAIL_RE = re.compile(
-    r"Current Lean surface|Lean declaration|PostPaperAudit\.lean|"
-    r"DependencyDAG\.tex|MainTheorems\.lean",
-    re.I,
-)
-README_STATUS_HEADER = ["Paper", "Status", "Review", "Interface", "Human summary"]
-README_REVIEW_COUNT_RE = re.compile(r"^\d+/\d+$")
-README_MAX_STATUS_ROWS = 20
 MARKDOWN_LINK_RE = re.compile(r"\[([^\]]+)\]\([^)]+\)")
 README_MAX_LINES = 140
 REPORT_LEAN_LABEL_RE = re.compile(
@@ -1396,7 +1381,7 @@ def check_dag_and_validation_report_closeout(
                 Finding(
                     "ERROR",
                     agent_source_audit,
-                    "completed paper is missing `AGENT_SOURCE_AUDIT.md` source-first holistic audit",
+                    "completed paper is missing `docs/AGENT_SOURCE_AUDIT.md` source-first holistic audit",
                 )
             )
         else:
@@ -1407,7 +1392,7 @@ def check_dag_and_validation_report_closeout(
                     Finding(
                         "ERROR",
                         agent_source_audit,
-                        "`AGENT_SOURCE_AUDIT.md` should record `## Overall status: PASS`",
+                        "`docs/AGENT_SOURCE_AUDIT.md` should record `## Overall status: PASS`",
                     )
                 )
             if re.search(r"NEEDS AGENT REVIEW|scaffold has not performed", agent_audit_text, re.I):
@@ -1415,7 +1400,7 @@ def check_dag_and_validation_report_closeout(
                     Finding(
                         "ERROR",
                         agent_source_audit,
-                        "`AGENT_SOURCE_AUDIT.md` is still a scaffold, not a completed holistic audit",
+                        "`docs/AGENT_SOURCE_AUDIT.md` is still a scaffold, not a completed holistic audit",
                     )
                 )
             for required_phrase in (
@@ -1429,7 +1414,7 @@ def check_dag_and_validation_report_closeout(
                         Finding(
                             "ERROR",
                             agent_source_audit,
-                            "`AGENT_SOURCE_AUDIT.md` must document an independent "
+                            "`docs/AGENT_SOURCE_AUDIT.md` must document an independent "
                             "source-paper/source-text read, source-inventory construction "
                             "from the source itself, and Lean-interface comparison for "
                             "omissions, hidden strengthening/weakening, and semantic "
@@ -1448,19 +1433,11 @@ def check_dag_and_validation_report_closeout(
                         Finding(
                             "WARN",
                             agent_source_audit,
-                            f"`AGENT_SOURCE_AUDIT.md` should include a `{heading}` section",
+                            f"`docs/AGENT_SOURCE_AUDIT.md` should include a `{heading}` section",
                         )
                     )
 
-        if not post_audit.exists():
-            findings.append(
-                Finding(
-                    "WARN",
-                    folder,
-                    "completed paper should include `POST_FORMALIZATION_AUDIT.md` with DAG/report audit evidence",
-                )
-            )
-        else:
+        if post_audit.exists():
             audit_text = post_audit.read_text(encoding="utf-8")
             if not CLOSEOUT_AUDIT_DAG_HEADING_RE.search(audit_text):
                 findings.append(
@@ -4202,7 +4179,7 @@ def check_review_launcher_readiness(include_active: bool) -> list[Finding]:
 def check_dag_status_styles() -> list[Finding]:
     findings: list[Finding] = []
     preamble = ROOT / "docs" / "tikz" / "dag_preamble.tex"
-    template = PAPERS / "TEMPLATE" / "DependencyDAG.tex"
+    template = PAPERS / "TEMPLATE" / DEPENDENCY_DAG_TEX_FILE
     if preamble.exists():
         text = preamble.read_text(encoding="utf-8")
         for style in sorted(DAG_STATUS_STYLES):
@@ -4248,8 +4225,11 @@ def check_paper_facing_ledgers(include_active: bool) -> list[Finding]:
 
 def check_post_paper_audit_interfaces(include_active: bool) -> list[Finding]:
     findings: list[Finding] = []
-    readme = ROOT / "README.md"
-    interface_required = root_status_interface_required_papers(readme) if readme.exists() else set()
+    interface_required = {
+        folder.name
+        for folder in paper_dirs()
+        if is_closeout_status(paper_local_status(folder))
+    }
 
     for folder in paper_dirs():
         if folder.name in ACTIVE_PAPERS and not include_active:
@@ -4444,34 +4424,6 @@ def iter_markdown_tables(path: Path) -> list[tuple[list[str], list[list[str]]]]:
 
 def markdown_display_text(text: str) -> str:
     return MARKDOWN_LINK_RE.sub(r"\1", text)
-
-
-def paper_folder_from_link(cell: str) -> str | None:
-    markdown_link = re.search(r"\]\((papers/[^)#]+)", cell)
-    if markdown_link:
-        return Path(markdown_link.group(1)).name
-    backtick_path = re.fullmatch(r"`?papers/([^`]+)`?", cell.strip())
-    if backtick_path:
-        return Path(backtick_path.group(1)).name
-    return None
-
-
-def root_status_interface_required_papers(readme: Path) -> set[str]:
-    required: set[str] = set()
-    for header, rows in iter_markdown_tables(readme):
-        if header != README_STATUS_HEADER:
-            continue
-        paper_idx = header.index("Paper")
-        status_idx = header.index("Status")
-        for row in rows:
-            if len(row) <= max(paper_idx, status_idx):
-                continue
-            if row[status_idx].strip() not in ROOT_INTERFACE_REQUIRED_STATUSES:
-                continue
-            folder = paper_folder_from_link(row[paper_idx])
-            if folder is not None:
-                required.add(folder)
-    return required
 
 
 def check_machine_paper_status(
@@ -5187,90 +5139,6 @@ def check_machine_paper_status(
     return findings
 
 
-def check_root_human_status_table(readme: Path) -> list[Finding]:
-    findings: list[Finding] = []
-    matching_tables = [(header, rows) for header, rows in iter_markdown_tables(readme) if header == README_STATUS_HEADER]
-
-    if not matching_tables:
-        findings.append(
-            Finding(
-                "ERROR",
-                readme,
-                "top-level README should include a concise human status table: `Paper | Status | Review | Interface | Human summary`",
-            )
-        )
-        return findings
-
-    if len(matching_tables) > 1:
-        findings.append(Finding("WARN", readme, "top-level README has multiple human status tables"))
-
-    header, rows = matching_tables[0]
-    paper_idx = header.index("Paper")
-    status_idx = header.index("Status")
-    review_idx = header.index("Review")
-    interface_idx = header.index("Interface")
-    summary_idx = header.index("Human summary")
-    seen: set[str] = set()
-
-    if len(rows) > README_MAX_STATUS_ROWS:
-        findings.append(
-            Finding(
-                "WARN",
-                readme,
-                f"human status table has {len(rows)} rows; keep it concise",
-            )
-        )
-
-    for row_number, row in enumerate(rows, start=1):
-        if len(row) <= max(paper_idx, status_idx, review_idx, interface_idx, summary_idx):
-            findings.append(Finding("ERROR", readme, f"malformed human status row {row_number}"))
-            continue
-
-        paper = row[paper_idx].strip()
-        status = row[status_idx].strip()
-        review = row[review_idx].strip()
-        interface = row[interface_idx].strip()
-        summary = row[summary_idx].strip()
-
-        folder = paper_folder_from_link(paper)
-        if folder is None:
-            findings.append(
-                Finding("ERROR", readme, f"human status row {row_number} should link to `papers/<PaperName>`")
-            )
-        else:
-            seen.add(folder)
-
-        if status not in ROOT_STATUS_VALUES:
-            findings.append(Finding("ERROR", readme, f"unexpected human README status `{status}` for `{paper}`"))
-        if not README_REVIEW_COUNT_RE.fullmatch(review):
-            findings.append(Finding("ERROR", readme, f"human review cell should be `reviewed/total` for `{paper}`"))
-        if not interface:
-            findings.append(Finding("ERROR", readme, f"missing interface health for `{paper}`"))
-        if not summary and status != "Formalized":
-            findings.append(Finding("ERROR", readme, f"missing human summary for `{paper}`"))
-
-        for cell in row:
-            detail = README_STATUS_DETAIL_RE.search(cell)
-            if detail:
-                findings.append(
-                    Finding(
-                        "ERROR",
-                        readme,
-                        f"implementation-facing detail `{detail.group(0)}` in human status row `{paper}`",
-                    )
-                )
-
-    known = {folder.name for folder in paper_dirs()}
-    missing = known - seen
-    extra = seen - known
-    if missing:
-        findings.append(Finding("ERROR", readme, f"missing human status rows: {', '.join(sorted(missing))}"))
-    if extra:
-        findings.append(Finding("ERROR", readme, f"unknown human status rows: {', '.join(sorted(extra))}"))
-
-    return findings
-
-
 def check_root_status_table() -> list[Finding]:
     findings: list[Finding] = []
     readme = ROOT / "README.md"
@@ -5520,11 +5388,9 @@ def check_human_facing_readme() -> list[Finding]:
             Finding(
                 "ERROR",
                 readme,
-                "top-level README should use the concise `Paper | Status | Review | Interface | Human summary` table, not the full paper ledger",
+                "top-level README should link to the project website and docs status pages instead of embedding a paper-status table",
             )
         )
-    findings.extend(check_root_human_status_table(readme))
-
     for match in README_AGENT_DETAIL_RE.finditer(text):
         line_no = text.count("\n", 0, match.start()) + 1
         findings.append(

@@ -24,7 +24,7 @@ one concrete reusable pattern, failed approach, or exact build/search command
 over a broad reminder that duplicates existing guidance.
 
 For stronger-model pauses, update the public status surfaces as part of the
-same checkpoint: paper README/handoff, root README table, and
-`docs/ECONCSLEAN_CURRENT_STATUS.md`. The useful payload is a short list of
-current strongest wrappers/certificates and hard proof seams, not a long helper
-lemma changelog.
+same checkpoint: paper README/handoff, paper-local `status.json`,
+`docs/PAPER_STATUS.md`, and the website status table. The useful payload is a
+short list of current strongest wrappers/certificates and hard proof seams, not
+a long helper lemma changelog.

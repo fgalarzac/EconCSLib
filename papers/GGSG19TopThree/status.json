@@ -3,7 +3,7 @@
     "assumptions": "papers/GGSG19TopThree/Assumptions.lean",
     "dependency_dag_pdf": "papers/GGSG19TopThree/docs/DependencyDAG.pdf",
     "dependency_dag_tex": "papers/GGSG19TopThree/docs/DependencyDAG.tex",
-    "final_validation_report": "papers/GGSG19TopThree/docs/FINAL_VALIDATION_REPORT.md",
+    "final_validation_report": "papers/GGSG19TopThree/FINAL_VALIDATION_REPORT.md",
     "paper_interface": "papers/GGSG19TopThree/PaperInterface.lean",
     "post_formalization_audit": "papers/GGSG19TopThree/docs/POST_FORMALIZATION_AUDIT.md",
     "proof_interface": "papers/GGSG19TopThree/ProofInterface.lean",
@@ -35,7 +35,7 @@
     "review_rows": 17
   },
   "publication_venue": "HCOMP 2019",
-  "review_entrypoint": "papers/GGSG19TopThree/docs/FINAL_VALIDATION_REPORT.md",
+  "review_entrypoint": "papers/GGSG19TopThree/FINAL_VALIDATION_REPORT.md",
   "review_surface": {
     "assumption_names": [
       "assumption_strict_cross_tier_no_ties",

@@ -26,8 +26,8 @@ assumptions.
 - Lean folder: `papers/DGD26AdmissionsPredictability`
 - Human-facing theorem file: `papers/DGD26AdmissionsPredictability/PaperInterface.lean`
 - Paper assumption file: `papers/DGD26AdmissionsPredictability/Assumptions.lean`
-- DAG artifacts: `papers/DGD26AdmissionsPredictability/DependencyDAG.tex` and
-  `papers/DGD26AdmissionsPredictability/DependencyDAG.pdf`
+- DAG artifacts: `papers/DGD26AdmissionsPredictability/docs/DependencyDAG.tex` and
+  `papers/DGD26AdmissionsPredictability/docs/DependencyDAG.pdf`
 - Clean LAP variability proof note:
   `papers/DGD26AdmissionsPredictability/LAP_VARIABILITY_CLEAN_PROOF.tex` and
   `papers/DGD26AdmissionsPredictability/LAP_VARIABILITY_CLEAN_PROOF.pdf`

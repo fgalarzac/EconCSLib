@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import html
 import json
+import os
 import subprocess
 from pathlib import Path
 from typing import Any
@@ -16,17 +17,17 @@ PAPERS = ROOT / "papers"
 AGGREGATE_STATUS = PAPERS / "status.json"
 HUMAN_STATUS = PAPERS / "human_status.json"
 DOCS_PAPER_STATUS = ROOT / "docs" / "PAPER_STATUS.md"
-README = ROOT / "README.md"
 SITE_INDEX = ROOT / "site" / "index.html"
 TEMPLATE = PAPERS / "TEMPLATE"
-README_STATUS_BEGIN = "<!-- BEGIN GENERATED PAPER STATUS TABLE -->"
-README_STATUS_END = "<!-- END GENERATED PAPER STATUS TABLE -->"
 SITE_LIBRARY_BEGIN = "<!-- BEGIN GENERATED LIBRARY COMPONENT ROWS -->"
 SITE_LIBRARY_END = "<!-- END GENERATED LIBRARY COMPONENT ROWS -->"
 SITE_STATS_BEGIN = "<!-- BEGIN GENERATED PROJECT STATS -->"
 SITE_STATS_END = "<!-- END GENERATED PROJECT STATS -->"
 SITE_STATUS_BEGIN = "<!-- BEGIN GENERATED PAPER STATUS ROWS -->"
 SITE_STATUS_END = "<!-- END GENERATED PAPER STATUS ROWS -->"
+PAPER_README_BEGIN = "<!-- BEGIN GENERATED PAPER FOLDER README -->"
+PAPER_README_END = "<!-- END GENERATED PAPER FOLDER README -->"
+LEGACY_README_NOTES = "docs/FORMALIZATION_NOTES.md"
 GITHUB_MAIN = "https://github.com/nikhgarg/EconCSLib/blob/main/"
 CATALOG = PAPERS / "catalog.json"
 
@@ -789,82 +790,171 @@ def repo_relative_link(path: str) -> str:
     return f"../{path}"
 
 
-def readme_paper_label(paper_id: str) -> str:
-    override = README_TITLE_OVERRIDES.get(paper_id)
-    if override is not None:
-        return override
-    for index, char in enumerate(paper_id):
-        if char.isdigit():
-            prefix = paper_id[: index + 2]
-            descriptor = paper_id[index + 2 :]
-            if descriptor:
-                words = []
-                word = descriptor[0]
-                for current, following in zip(descriptor[1:], descriptor[2:] + " "):
-                    if current.isupper() and (not word[-1].isupper() or following.islower()):
-                        words.append(word)
-                        word = current
-                    else:
-                        word += current
-                words.append(word)
-                return f"{prefix} {' '.join(words)}"
-    return paper_id
-
-
 def readme_note(payload: dict[str, Any]) -> str:
     return md_note_with_citation(human_note(payload), note_citation(payload))
 
 
-def readme_interface_label(payload: dict[str, Any]) -> str:
-    interface = payload.get("paper_interface", {})
-    line_count = interface.get("line_count")
-    if not isinstance(line_count, int):
-        return "Unknown"
-    if interface.get("oversized"):
-        return f"Debt: {line_count} lines"
-    return f"OK: {line_count} lines"
+def relative_markdown_path(from_dir: Path, repo_relative_path: str) -> str:
+    target = (ROOT / repo_relative_path).resolve()
+    return os.path.relpath(target, start=from_dir.resolve()).replace(os.sep, "/")
 
 
-def render_readme_status_block(records: list[tuple[Path, dict[str, Any]]]) -> str:
-    by_id = {payload["id"]: payload for _folder, payload in records}
-    lines = [
-        README_STATUS_BEGIN,
-        "| Paper | Status | Review | Interface | Human summary |",
-        "|---|---:|---:|---:|---|",
+def markdown_file_link(from_dir: Path, repo_relative_path: str, label: str) -> str:
+    return f"[{md_escape(label)}]({relative_markdown_path(from_dir, repo_relative_path)})"
+
+
+def paper_file_if_present(folder: Path, repo_relative_path: str | None) -> str | None:
+    if not isinstance(repo_relative_path, str) or not repo_relative_path.strip():
+        return None
+    candidate = ROOT / repo_relative_path.strip()
+    if candidate.exists() and candidate.is_file():
+        return repo_relative_path.strip()
+    return None
+
+
+def first_present_artifact(folder: Path, payload: dict[str, Any], *keys: str) -> str | None:
+    artifacts = payload.get("artifacts", {})
+    if isinstance(artifacts, dict):
+        for key in keys:
+            path = paper_file_if_present(folder, artifacts.get(key))
+            if path:
+                return path
+    return None
+
+
+def review_entrypoint_path(folder: Path, payload: dict[str, Any]) -> str | None:
+    path = paper_file_if_present(folder, str(payload.get("review_entrypoint", "")))
+    if path:
+        return path
+    return first_present_artifact(folder, payload, "final_validation_report")
+
+
+def dependency_dag_path(folder: Path, payload: dict[str, Any]) -> str | None:
+    return first_present_artifact(folder, payload, "dependency_dag_pdf", "dependency_dag_tex")
+
+
+def json_surface_paths(folder: Path) -> list[tuple[str, str]]:
+    candidates = [
+        ("status.json", folder / "status.json"),
+        ("paper statement map", folder / "audit" / "paper_statement_map.json"),
+        ("paper statement map", folder / "paper_statement_map.json"),
+        ("paper coverage audit", folder / "audit" / "paper_coverage_llm.json"),
+        ("paper coverage audit", folder / "paper_coverage_llm.json"),
+        ("source-record audit", folder / "audit" / "source_record_audit.json"),
+        ("source-record audit", folder / "source_record_audit.json"),
+        ("statement match audit", folder / "audit" / "statement_match_llm.json"),
+        ("statement match audit", folder / "statement_match_llm.json"),
     ]
-    for row in human_status_rows(records):
-        payload = by_id[row["id"]]
-        paper_link = f"[{readme_paper_label(str(row['id']))}]({row['paper_folder']})"
-        lines.append(
-            "| "
-            + " | ".join(
-                [
-                    paper_link,
-                    md_escape(row["status"]),
-                    md_escape(row["human_review"]),
-                    readme_interface_label(payload),
-                    md_escape(readme_note(payload)),
-                ]
-            )
-            + " |"
+    seen_labels: set[str] = set()
+    out: list[tuple[str, str]] = []
+    for label, path in candidates:
+        if label in seen_labels:
+            continue
+        if path.exists() and path.is_file():
+            seen_labels.add(label)
+            out.append((label, str(path.relative_to(ROOT))))
+    return out
+
+
+def paper_reference_markdown(folder: Path, payload: dict[str, Any]) -> str:
+    publication, _year = publication_for(payload)
+    title = md_escape(str(payload.get("title", payload["id"])))
+    source_url = source_url_for(payload)
+    if source_url:
+        title = f"[{title}]({source_url})"
+    return f"{title} by {md_escape(str(payload.get('authors', '')))}; {md_escape(publication)}."
+
+
+def generated_paper_readme_block(folder: Path, payload: dict[str, Any]) -> str:
+    review_path = review_entrypoint_path(folder, payload)
+    dag_path = dependency_dag_path(folder, payload)
+    notes_path = str((folder / LEGACY_README_NOTES).relative_to(ROOT))
+    include_notes = (ROOT / notes_path).exists() or legacy_readme_body(folder) is not None
+    json_links = [
+        markdown_file_link(folder, path, label)
+        for label, path in json_surface_paths(folder)
+    ]
+
+    link_lines = []
+    if review_path:
+        link_lines.append(
+            f"- Final validation report: {markdown_file_link(folder, review_path, Path(review_path).name)}"
         )
-    lines.append(README_STATUS_END)
+    else:
+        link_lines.append("- Final validation report: not tracked in this folder.")
+    if dag_path:
+        link_lines.append(f"- Dependency DAG: {markdown_file_link(folder, dag_path, Path(dag_path).name)}")
+    else:
+        link_lines.append("- Dependency DAG: not tracked in this folder.")
+    link_lines.append("- Source/status JSON: " + "; ".join(json_links) + ".")
+    if include_notes:
+        link_lines.append(
+            f"- Additional documentation: {markdown_file_link(folder, notes_path, Path(notes_path).name)}"
+        )
+
+    lines = [
+        PAPER_README_BEGIN,
+        f"# {str(payload.get('title', payload['id'])).strip()}",
+        "",
+        "This public folder overview is generated by `python3 scripts/sync_paper_status.py`.",
+        "",
+        "| Field | Value |",
+        "|---|---|",
+        f"| Final status | {md_escape(status_label(str(payload['status'])))} |",
+        f"| Paper reference | {paper_reference_markdown(folder, payload)} |",
+        f"| Lines of Code | {lean_loc(folder):,} |",
+        "",
+        "## Key Links",
+        "",
+        *link_lines,
+        PAPER_README_END,
+        "",
+    ]
     return "\n".join(lines)
 
 
-def render_readme(records: list[tuple[Path, dict[str, Any]]]) -> str:
-    current = README.read_text(encoding="utf-8")
-    start = current.find(README_STATUS_BEGIN)
-    end = current.find(README_STATUS_END)
-    if start < 0 and end < 0:
-        return current
-    if start < 0 or end < 0 or end < start:
-        raise ValueError(
-            f"{README.relative_to(ROOT)} should contain generated status markers "
-            f"{README_STATUS_BEGIN!r} and {README_STATUS_END!r}"
-        )
-    end += len(README_STATUS_END)
-    return current[:start] + render_readme_status_block(records) + current[end:]
+def legacy_readme_body(folder: Path) -> str | None:
+    current_path = folder / "README.md"
+    if not current_path.exists():
+        return None
+    current = current_path.read_text(encoding="utf-8")
+    start = current.find(PAPER_README_BEGIN)
+    stop = current.find(PAPER_README_END)
+    if start >= 0 or stop >= 0:
+        if start < 0 or stop < 0 or stop < start:
+            raise ValueError(
+                f"{current_path.relative_to(ROOT)} has malformed generated README markers"
+            )
+        stop += len(PAPER_README_END)
+        body = current[stop:].strip()
+    else:
+        body = current.strip()
+    return body or None
+
+
+def render_legacy_readme_notes(folder: Path) -> tuple[Path, str] | None:
+    notes_path = folder / LEGACY_README_NOTES
+    if notes_path.exists():
+        return None
+    body = legacy_readme_body(folder)
+    if body is None:
+        return None
+    rendered = "\n".join(
+        [
+            "# Formalization Notes",
+            "",
+            "This file preserves the previous hand-written paper-folder README content.",
+            "The GitHub-facing `README.md` is now a generated status overview.",
+            "",
+            body,
+            "",
+        ]
+    )
+    return notes_path, rendered
+
+
+def render_paper_readme(folder: Path, payload: dict[str, Any]) -> str:
+    return generated_paper_readme_block(folder, payload)
 
 
 def render_paper_status_md(payload: dict[str, Any]) -> str:
@@ -1100,9 +1190,14 @@ def main() -> int:
         AGGREGATE_STATUS: json.dumps(aggregate, indent=2, ensure_ascii=False) + "\n",
         HUMAN_STATUS: json.dumps(human, indent=2, ensure_ascii=False) + "\n",
         DOCS_PAPER_STATUS: render_paper_status_md(human),
-        README: render_readme(records),
         SITE_INDEX: render_site_index(human),
     }
+    for folder, payload in records:
+        legacy_notes = render_legacy_readme_notes(folder)
+        if legacy_notes is not None:
+            path, rendered = legacy_notes
+            outputs[path] = rendered
+        outputs[folder / "README.md"] = render_paper_readme(folder, payload)
     if args.check:
         stale = []
         for path, rendered in outputs.items():
@@ -1116,6 +1211,7 @@ def main() -> int:
             return 1
         return 0
     for path, rendered in outputs.items():
+        path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(rendered, encoding="utf-8")
         print(f"wrote {path.relative_to(ROOT)} from paper-local status files")
     return 0

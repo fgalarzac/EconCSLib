@@ -14,7 +14,7 @@ completed yet, and no human dashboard sign-off has been recorded.
 - Lean folder: `papers/TEMPLATE`
 - Human-facing theorem file: `papers/TEMPLATE/PaperInterface.lean`
 - Paper assumption file: `papers/TEMPLATE/Assumptions.lean`
-- DAG artifacts: `papers/TEMPLATE/DependencyDAG.tex`, `papers/TEMPLATE/DependencyDAG.pdf`
+- DAG artifacts: `papers/TEMPLATE/docs/DependencyDAG.tex`, `papers/TEMPLATE/docs/DependencyDAG.pdf`
 - Lean footprint: not measured
 
 ## 4. Researcher Summary of Checked Results

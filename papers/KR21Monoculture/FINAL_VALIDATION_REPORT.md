@@ -19,7 +19,7 @@ Formalized. The main Mallows and three-candidate Gaussian/Laplace RUM routes are
 - Lean folder: `papers/KR21Monoculture`.
 - Human-facing theorem file: `papers/KR21Monoculture/PaperInterface.lean`.
 - Machine-readable status: `papers/KR21Monoculture/status.json`.
-- DAG artifacts: `papers/KR21Monoculture/DependencyDAG.tex`, `papers/KR21Monoculture/DependencyDAG.pdf`.
+- DAG artifacts: `papers/KR21Monoculture/docs/DependencyDAG.tex`, `papers/KR21Monoculture/docs/DependencyDAG.pdf`.
 
 ## 4. Researcher Summary of Checked Results
 - Theorem 1 is formalized in the paper's conditional family form and in the concrete Mallows family form.

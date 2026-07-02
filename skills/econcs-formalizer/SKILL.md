@@ -7,7 +7,8 @@ description: Formalize economics-and-computation papers in Lean. Use when asked 
 
 Use this skill to turn economics-and-computation papers into maintainable Lean
 code. Keep repository-specific status out of this file; in `EconCSLib`, that
-belongs in `docs/ECONCSLEAN_CURRENT_STATUS.md`.
+belongs in paper-local `status.json`, `docs/PAPER_STATUS.md`, and the website
+status table.
 
 For new Lean files, new shared-library APIs, new paper-facing declarations, and
 code already being substantially rewritten, follow
@@ -562,9 +563,9 @@ real source mismatch.
 If any named source endpoint still exposes an explicit certificate, witness,
 external theorem, or paper-model hypothesis that has not been derived from the
 paper's primitive assumptions, the whole paper is `partially formalized`, even
-if most theorem infrastructure compiles. It may still be public, but the README,
-DAG, root status table, and final report must all name the exact remaining
-certificate or external-library boundary.
+if most theorem infrastructure compiles. It may still be public, but the
+paper README, DAG, generated status surfaces, and final report must all name
+the exact remaining certificate or external-library boundary.
 If a paper-facing theorem genuinely needs a source assumption, expose that
 assumption as a first-class declaration in paper-local `Assumptions.lean`
 rather than as an arbitrary theorem hypothesis. Name it `assumption_*`,
@@ -780,9 +781,9 @@ truth for paper status, compact `human_summary` notes, human-review row counts,
 After changing any of that metadata, run `python3 scripts/sync_paper_status.py`
 at a status milestone. That command regenerates the detailed
 `papers/status.json`, the compact human-facing `papers/human_status.json`,
-`docs/PAPER_STATUS.md`, the generated paper-status block in the top-level
-`README.md`, and the status table in `site/index.html`. Do not hand-edit those
-generated status outputs. The sync script defaults to tracked paper status
+`docs/PAPER_STATUS.md`, per-paper generated `README.md` entrypoints, and the
+status table in `site/index.html`. Do not hand-edit those generated status
+outputs. The sync script defaults to tracked paper status
 files so untracked draft scaffolds do not pollute generated CI-facing tables;
 use `--include-untracked` only when intentionally syncing a new untracked
 paper scaffold. During routine proof iteration, do not run the status sync just
@@ -1144,7 +1145,7 @@ and remaining blockers.
 For a post-validation or post-formalization audit pass, keep
 `FORMALIZATION_PLAN.md` as the working scratchpad unless the user explicitly
 asks to retire it. Put the durable human-facing audit in a separate paper-local
-artifact such as `POST_FORMALIZATION_AUDIT.md`, `SOURCE_AUDIT.md`, or
+artifact such as `docs/POST_FORMALIZATION_AUDIT.md`, `SOURCE_AUDIT.md`, or
 `FINAL_VALIDATION_REPORT.md`. The audit artifact should distinguish publication
 venue from the exact formalized source version, list source-named results with
 statuses, summarize DAG and review-surface checks, and record library
@@ -1251,7 +1252,7 @@ Think of the repository as having two distinct roles: **`EconCSLib` is the textb
 - **`papers/` (The Audit Trail):** Each paper-specific folder is a formalization artifact proving that the specific claims in a specific PDF are true.
   - **Notation Fidelity:** Translate paper-specific notation (e.g., exactly matching the paper's index variables like `u`, `j`, `t`) into the shared primitives.
   - **Paper-Facing Wrappers:** Write theorems whose signatures match the paper *exactly*. These should be thin wrappers that call the generic library theorems. (e.g., `theorem roth82_theorem_1 : ... := EconCSLib.Markets.Matching.da_is_stable`).
-  - **Local Ledger:** Keep the paper's specific narrative flow in `MainTheorems.lean`, `README.md`, and `DependencyDAG.tex`.
+  - **Local Ledger:** Keep the paper's specific narrative flow in `MainTheorems.lean`, `README.md`, and `docs/DependencyDAG.tex`.
   - **Upstreaming Workflow:** It is normal to build everything inside a `papers/` folder initially. Once a proof is stable, **upstream** the generalized math into `EconCSLib`, leaving only the thin wrappers and paper-specific stepping stones behind.
 
 - **Standard for Upstreaming:** To prevent "upstream bloat," use the "Second Paper" test: **Move a result to `EconCSLib` if a second paper or another likely EC formalization would plausibly need it.** Foundationally reusable math (like Gale-Shapley, Nash equilibrium, LP duality, threshold mechanisms, monotone single-parameter allocation consequences, or finite-expectation/probability interfaces) passes this test; hyper-specific algebraic lemmas or messy intermediate steps used only for one paper's specific narrative should remain in that paper's folder.
@@ -1605,7 +1606,7 @@ the Lean statements against the paper.
   1. A `status.json` file holding the paper status and dashboard metadata.
   2. A `docs/DependencyDAG.tex` proof roadmap and rendered
      `docs/DependencyDAG.pdf`.
-  3. A `docs/FINAL_VALIDATION_REPORT.md` when the paper has a final validation
+  3. A `FINAL_VALIDATION_REPORT.md` when the paper has a final validation
      claim.
   4. `audit/*.json` for tracked LLM/source-audit sidecars.
   5. A `MainTheorems.lean` file holding the paper-facing wrappers.
@@ -1647,8 +1648,8 @@ the Lean statements against the paper.
   `FORMALIZATION_PLAN.md` exists, it must clearly identify the exact source
   version of the paper (for example arXiv version `vX` or conference year) and
   provide URLs. Public-facing source/version information belongs in
-  `status.json` and `docs/FINAL_VALIDATION_REPORT.md`.
-- **DAG Node Wording:** `DependencyDAG.tex` is a proof roadmap for humans, not
+  `status.json` and `FINAL_VALIDATION_REPORT.md`.
+- **DAG Node Wording:** `docs/DependencyDAG.tex` is a proof roadmap for humans, not
   a formalization changelog. Once a node is marked formalized, its text should
   state or briefly summarize the paper claim. Do not fill green nodes with
   implementation notes such as helper families, algebra rewrites, or "closed"
@@ -2334,10 +2335,10 @@ the Lean statements against the paper.
     non-completed statuses. A `formalized` paper must still discharge or
     source-record-validate every certificate/source-model/replay/process
     premise rather than relying on a conditional row mismatch;
-  - update `DependencyDAG.tex`, render and visually inspect
-    `DependencyDAG.pdf`, and record that DAG audit evidence in both
-    `FINAL_VALIDATION_REPORT.md` and `POST_FORMALIZATION_AUDIT.md`;
-  - write `AGENT_SOURCE_AUDIT.md` as an independent source-first holistic
+  - update `docs/DependencyDAG.tex`, render and visually inspect
+    `docs/DependencyDAG.pdf`, and record that DAG audit evidence in both
+    `FINAL_VALIDATION_REPORT.md` and `docs/POST_FORMALIZATION_AUDIT.md`;
+  - write `docs/AGENT_SOURCE_AUDIT.md` as an independent source-first holistic
     audit, not as a generated summary of existing sidecars. Read the source
     paper/PDF/text first, build or verify the source inventory from the source
     itself, then inspect `PaperInterface.lean` and the Lean statements for
@@ -2443,7 +2444,7 @@ the Lean statements against the paper.
   `not formalized`.
 - **Paper Directory and Namespace Convention:** All new paper folders, modules, and internal namespaces MUST be named using the format `[AuthorInitials][2DigitYear][Descriptor]` in PascalCase (for example, `ABC12RepresentativeTitle`). This guarantees collision-proof Lean namespaces while immediately communicating the citation. All paper implementations sit within the `papers/` directory.
 - **One citation per paper folder:** Do not use aggregate folders for award lists, reading lists, or multi-paper campaigns. Split them into one `[AuthorInitials][2DigitYear][Descriptor]` folder per source paper, each with its own source PDF/text cache, README, DAG, and `MainTheorems.lean`. If an aggregate module already exists, keep it only as a compatibility import or handoff note and move paper-facing status into the citation-specific folders.
-- **Initial Proof Roadmap (Dependency DAG):** At the *very beginning* of formalizing a new paper, before writing any deep proof code, you must create a comprehensive proof roadmap. Read through the paper carefully to identify *every* named result (Definitions, Lemmas, Propositions, Theorems, Corollaries) and map out exactly how they relate to each other. Encode this roadmap as `DependencyDAG.tex` and render `DependencyDAG.pdf` in the paper folder; both files are review artifacts and the rendered PDF should be committed. This ensures no named result is overlooked, helps you understand the overall proof architecture, and gives humans a clear audit of the theorem flow.
+- **Initial Proof Roadmap (Dependency DAG):** At the *very beginning* of formalizing a new paper, before writing any deep proof code, you must create a comprehensive proof roadmap. Read through the paper carefully to identify *every* named result (Definitions, Lemmas, Propositions, Theorems, Corollaries) and map out exactly how they relate to each other. Encode this roadmap as `docs/DependencyDAG.tex` and render `docs/DependencyDAG.pdf` in the paper folder; both files are review artifacts and the rendered PDF should be committed. This ensures no named result is overlooked, helps you understand the overall proof architecture, and gives humans a clear audit of the theorem flow.
   - All paper DAGs MUST `\input` the shared preamble located at `docs/tikz/dag_preamble.tex`.
   - Use the exact node styles defined in the preamble and status vocabulary:
     `formalized` uses `dag_result` (green theorem/result), `dag_lemma`
@@ -2468,10 +2469,11 @@ the Lean statements against the paper.
     `dag_conditional`, `dag_partial`, or `dag_caveat` as appropriate, and make
     the remaining assumption explicit in the node text and README row.
   - The whole-paper verdict must be visually consistent with the DAG. If the
-    README, root table, or final report says the paper is partially
-    formalized, at least the corresponding theorem endpoints must appear as
-    partial/conditional/caveated nodes. An all-green DAG is inconsistent with a
-    partial paper verdict unless the partial item is not represented by any
+    paper README, generated status tables, or final report says the paper is
+    partially formalized, at least the corresponding theorem endpoints must
+    appear as partial/conditional/caveated nodes. An all-green DAG is
+    inconsistent with a partial paper verdict unless the partial item is not
+    represented by any
     paper-facing node, in which case the DAG inventory is incomplete.
   - **Edge semantics:** Solid `dag_arrow` edges are Lean-checked dependencies in the
     formalized proof path. Dashed `dag_dashed_arrow` edges are for paper-roadmap
@@ -2569,7 +2571,7 @@ the Lean statements against the paper.
     show source-facing theorem nodes, reusable/library dependencies, and genuine
     unresolved boundaries. Put source-version crosswalks, convention notes,
     proof-route commentary, and source-inventory details in
-    `FINAL_VALIDATION_REPORT.md`, `POST_FORMALIZATION_AUDIT.md`, status files,
+    `FINAL_VALIDATION_REPORT.md`, `docs/POST_FORMALIZATION_AUDIT.md`, status files,
     or short captions instead. A DAG note box can make a closed result look
     caveated, so use one only when it identifies an actual remaining assumption,
     source gap, or unresolved proof boundary.
@@ -2699,7 +2701,7 @@ the Lean statements against the paper.
   `status.json` and the DAG.
 - The private paper `README.md` or `FORMALIZATION_PLAN.md` is the live status
   ledger and handoff document for partial progress. A
-  `docs/FINAL_VALIDATION_REPORT.md` is not a handoff note; it is
+  `FINAL_VALIDATION_REPORT.md` is not a handoff note; it is
   the concise human assessment created only when making a final claim
   about a paper, or when the user explicitly asks for post-validation of a
   completed proof phase. It must answer whether the paper is formalized, what
@@ -2709,10 +2711,9 @@ the Lean statements against the paper.
   transcripts, source-line inventories, and verbose boundary details to
   `docs/POST_FORMALIZATION_AUDIT.md`, private source-audit/handoff notes,
   `PostPaperAudit.lean`, or the private README/plan as appropriate. When
-  creating or updating a final validation report, also update the front
-  repository `README.md` paper-status table and
-  `docs/ECONCSLEAN_CURRENT_STATUS.md` so the public entry points match the
-  paper-local verdict.
+  creating or updating a final validation report, also update the paper README,
+  `docs/PAPER_STATUS.md`, and the website status table so the public entry
+  points match the paper-local verdict.
 - For paper-specific status questions, `status.json`,
   `docs/DependencyDAG.tex`, paper-facing theorem files, private status notes
   when present, and current targeted Lean build are the source of truth. Older
@@ -2769,7 +2770,7 @@ the Lean statements against the paper.
     conclusion obtained from those constructors. Keep assumptions/certificates
     in the signature only when they are genuine remaining paper obligations, and
     name them explicitly in `status.json` and the DAG.
-  - Report check: create or update `docs/FINAL_VALIDATION_REPORT.md` in the
+  - Report check: create or update `FINAL_VALIDATION_REPORT.md` in the
     paper folder. It must state whether the paper is formalized, the exact source
     version, the named-result inventory, any deliberate model conventions or
     proof-route deviations, the commands run, and links to status, DAG, and
@@ -3009,9 +3010,9 @@ search.
    status:
    name the reduced target, record failed/counterexample-search evidence, and
    mark it as a future stronger-model pickup instead of leaving an ambiguous
-   stale conditional theorem. Also update the root `README.md` and
-   `docs/ECONCSLEAN_CURRENT_STATUS.md` in the same pass so the public project
-   front door matches the paper-local pause verdict.
+   stale conditional theorem. Also update the paper README, `docs/PAPER_STATUS.md`,
+   and the website status table in the same pass so the public project front
+   door matches the paper-local pause verdict.
 
 8. Verify narrowly, then broadly.
    First build the touched module. Then build the parent paper root. Run full
@@ -3260,14 +3261,14 @@ Never enter a cycle of modifying a single line in a shell command just to test s
   post-validation is complete.
   Put source-convention details, source-record field inventories, and
   warnings meant mainly to prevent future agent confusion in
-  `POST_FORMALIZATION_AUDIT.md` or another agent-facing note. Include them in
+  `docs/POST_FORMALIZATION_AUDIT.md` or another agent-facing note. Include them in
   the human-facing final report only when they change the theorem statement,
   require an additional assumption, identify a source-paper issue, or explain a
   real remaining boundary.
   The report and DAG are also machine-audited closeout artifacts. A paper at a
   final closeout status, including an intentionally conditional/approved-boundary
   closeout, must have a current DAG audit/status section, validation checks
-  section, explicit `DependencyDAG.tex` and `DependencyDAG.pdf` evidence,
+  section, explicit `docs/DependencyDAG.tex` and `docs/DependencyDAG.pdf` evidence,
   rendered/visual inspection notes, and the targeted `audit_repository.py
   --paper <paper-folder> --paper-closeout --include-active --info-limit 0`
   command. Run that audit after editing the report or DAG at closeout; do not
@@ -3391,8 +3392,8 @@ Never enter a cycle of modifying a single line in a shell command just to test s
   `ProofInterface.lean` or implementation modules. Curate the review rows and
   optional slices in paper-local `status.json` under `review_surface`, then run
   `python3 scripts/sync_paper_status.py` to refresh `papers/status.json`,
-  `papers/human_status.json`, `docs/PAPER_STATUS.md`, the root README status
-  table, and the site status table; after that, refresh the ignored dashboard
+  `papers/human_status.json`, `docs/PAPER_STATUS.md`, per-paper README
+  entrypoints, and the site status table; after that, refresh the ignored dashboard
   cache. Do not confuse "0/N reviewed" with stale or failed Lean validation; it
   only means no human review entries have been saved.
   Final human review should normally expose a compact source-facing surface,
@@ -3411,7 +3412,7 @@ Never enter a cycle of modifying a single line in a shell command just to test s
   the same post-paper surface instead of leaving older
   validation artifacts in place: a readable `PaperInterface.lean`, an
   exhaustive `PostPaperAudit.lean` endpoint ledger when useful, a compact final
-  validation report, and synchronized README/status-table text.
+  validation report, and synchronized paper README/status-table text.
 - Confirm the paper root module imports the post-paper audit ledger and that the
   audit ledger has one source-numbered theorem alias or wrapper for each final
   named endpoint.
@@ -3503,8 +3504,8 @@ Never enter a cycle of modifying a single line in a shell command just to test s
   a separate repository-maintenance note instead.
 - Update the paper-local `status.json` at the same time as the DAG and final
   report, using the exact caveats from the final report. Then
-  run `python3 scripts/sync_paper_status.py` so the generated top-level
-  `README.md` status block, `docs/PAPER_STATUS.md`, `papers/status.json`,
+  run `python3 scripts/sync_paper_status.py` so `docs/PAPER_STATUS.md`,
+  per-paper README entrypoints, `papers/status.json`,
   `papers/human_status.json`, and `site/index.html` status table all move
   together. Do not manually edit generated table rows, and do not let any public
   status surface keep stale "partial" or "active" wording after a paper-local

@@ -19,7 +19,7 @@ source-paper error is reported. No human dashboard sign-off has been recorded.
 - Formalized source/PDF: arXiv 1810.13028 TeX/PDF cache.
 - Lean folder: `papers/GJ18InformativeRatingSystems`.
 - Human-facing theorem file: `papers/GJ18InformativeRatingSystems/PaperInterface.lean`.
-- DAG artifacts: `papers/GJ18InformativeRatingSystems/DependencyDAG.tex`, `papers/GJ18InformativeRatingSystems/DependencyDAG.pdf`.
+- DAG artifacts: `papers/GJ18InformativeRatingSystems/docs/DependencyDAG.tex`, `papers/GJ18InformativeRatingSystems/docs/DependencyDAG.pdf`.
 
 The official publisher article is the MSOM/INFORMS version. The arXiv
 1810.13028 TeX/PDF cache used for formalization intake, extracted text, and source archive

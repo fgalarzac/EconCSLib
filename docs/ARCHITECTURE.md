@@ -106,8 +106,9 @@ Every paper folder should contain:
 
 - `.gitignore`
 - `README.md`
-- `DependencyDAG.tex`
-- `FORMALIZATION_PLAN.md`
+- `FINAL_VALIDATION_REPORT.md`
+- `docs/DependencyDAG.tex`
+- `docs/FORMALIZATION_PLAN.md` when a public plan is intentionally retained
 - `MainTheorems.lean`
 - `PaperInterface.lean`
 - a locally cached source PDF, ignored by Git

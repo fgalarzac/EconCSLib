@@ -35,7 +35,7 @@ or what a completed formalization proves without reading proof internals.
 - [PAGES_PUBLISHING.md](PAGES_PUBLISHING.md): static-site publishing steps for
   GitHub Pages.
 - Paper-level `FINAL_VALIDATION_REPORT.md`, `PaperInterface.lean`, and
-  `DependencyDAG.pdf` files under `papers/<PaperName>/`.
+  `docs/DependencyDAG.pdf` files under `papers/<PaperName>/`.
 
 ## Agent And Maintainer-Facing
 

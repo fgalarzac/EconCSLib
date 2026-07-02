@@ -8,7 +8,7 @@
   "status": "formalized",
   "main_caveat": "",
   "human_summary": "Strict variance decrease is formalized with the explicit interior-quality assumption 0 < q_v < 1.",
-  "review_entrypoint": "papers/MBJG25ProducerFairness/docs/FINAL_VALIDATION_REPORT.md",
+  "review_entrypoint": "papers/MBJG25ProducerFairness/FINAL_VALIDATION_REPORT.md",
   "human_review": {
     "reviewed_rows": 10,
     "total_rows": 27,
@@ -32,7 +32,7 @@
     "source_text": "papers/MBJG25ProducerFairness/MBJG25ProducerFairness.txt",
     "paper_interface": "papers/MBJG25ProducerFairness/PaperInterface.lean",
     "assumptions": "papers/MBJG25ProducerFairness/Assumptions.lean",
-    "final_validation_report": "papers/MBJG25ProducerFairness/docs/FINAL_VALIDATION_REPORT.md",
+    "final_validation_report": "papers/MBJG25ProducerFairness/FINAL_VALIDATION_REPORT.md",
     "dependency_dag_tex": "papers/MBJG25ProducerFairness/docs/DependencyDAG.tex",
     "dependency_dag_pdf": "papers/MBJG25ProducerFairness/docs/DependencyDAG.pdf",
     "proof_interface": "papers/MBJG25ProducerFairness/ProofInterface.lean"

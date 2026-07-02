@@ -29,8 +29,8 @@
     "readme": "papers/KR21Monoculture/README.md",
     "paper_interface": "papers/KR21Monoculture/PaperInterface.lean",
     "final_validation_report": "papers/KR21Monoculture/FINAL_VALIDATION_REPORT.md",
-    "dependency_dag_tex": "papers/KR21Monoculture/DependencyDAG.tex",
-    "dependency_dag_pdf": "papers/KR21Monoculture/DependencyDAG.pdf"
+    "dependency_dag_tex": "papers/KR21Monoculture/docs/DependencyDAG.tex",
+    "dependency_dag_pdf": "papers/KR21Monoculture/docs/DependencyDAG.pdf"
   },
   "review_surface": {
     "source_file": "papers/KR21Monoculture/PaperInterface.lean",

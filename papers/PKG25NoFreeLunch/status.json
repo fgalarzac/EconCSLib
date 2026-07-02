@@ -2,7 +2,7 @@
   "artifacts": {
     "dependency_dag_pdf": "papers/PKG25NoFreeLunch/docs/DependencyDAG.pdf",
     "dependency_dag_tex": "papers/PKG25NoFreeLunch/docs/DependencyDAG.tex",
-    "final_validation_report": "papers/PKG25NoFreeLunch/docs/FINAL_VALIDATION_REPORT.md",
+    "final_validation_report": "papers/PKG25NoFreeLunch/FINAL_VALIDATION_REPORT.md",
     "paper_interface": "papers/PKG25NoFreeLunch/PaperInterface.lean",
     "readme": "papers/PKG25NoFreeLunch/README.md"
   },
@@ -30,7 +30,7 @@
     "path": "papers/PKG25NoFreeLunch/PaperInterface.lean",
     "review_rows": 15
   },
-  "review_entrypoint": "papers/PKG25NoFreeLunch/docs/FINAL_VALIDATION_REPORT.md",
+  "review_entrypoint": "papers/PKG25NoFreeLunch/FINAL_VALIDATION_REPORT.md",
   "review_surface": {
     "include_names": [
       "definition_rounding_convention",

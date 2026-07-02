@@ -24,8 +24,8 @@ recorded.
 - Lean folder: `papers/GS62CollegeAdmissions`
 - Human-facing theorem file: `papers/GS62CollegeAdmissions/PaperInterface.lean`
 - Audit ledger: `papers/GS62CollegeAdmissions/PostPaperAudit.lean`
-- DAG artifacts: `papers/GS62CollegeAdmissions/DependencyDAG.tex`,
-  `papers/GS62CollegeAdmissions/DependencyDAG.pdf`
+- DAG artifacts: `papers/GS62CollegeAdmissions/docs/DependencyDAG.tex`,
+  `papers/GS62CollegeAdmissions/docs/DependencyDAG.pdf`
 
 ## 4. Researcher Summary of Checked Results
 - The formalization checks the Gale-Shapley stable-marriage theorem, the college-admissions existence theorem, and applicant-optimality.

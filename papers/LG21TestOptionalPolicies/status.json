@@ -7,7 +7,7 @@
   "build_target": "lake build LG21TestOptionalPolicies",
   "status": "formalized",
   "main_caveat": "",
-  "review_entrypoint": "papers/LG21TestOptionalPolicies/docs/FINAL_VALIDATION_REPORT.md",
+  "review_entrypoint": "papers/LG21TestOptionalPolicies/FINAL_VALIDATION_REPORT.md",
   "human_review": {
     "reviewed_rows": 0,
     "total_rows": 23,
@@ -28,7 +28,7 @@
   "artifacts": {
     "readme": "papers/LG21TestOptionalPolicies/README.md",
     "paper_interface": "papers/LG21TestOptionalPolicies/PaperInterface.lean",
-    "final_validation_report": "papers/LG21TestOptionalPolicies/docs/FINAL_VALIDATION_REPORT.md",
+    "final_validation_report": "papers/LG21TestOptionalPolicies/FINAL_VALIDATION_REPORT.md",
     "dependency_dag_tex": "papers/LG21TestOptionalPolicies/docs/DependencyDAG.tex",
     "dependency_dag_pdf": "papers/LG21TestOptionalPolicies/docs/DependencyDAG.pdf",
     "proof_interface": "papers/LG21TestOptionalPolicies/ProofInterface.lean",

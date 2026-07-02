@@ -33,8 +33,8 @@
     "paper_interface": "papers/TEMPLATE/PaperInterface.lean",
     "assumptions": "papers/TEMPLATE/Assumptions.lean",
     "final_validation_report": "papers/TEMPLATE/FINAL_VALIDATION_REPORT.md",
-    "dependency_dag_tex": "papers/TEMPLATE/DependencyDAG.tex",
-    "dependency_dag_pdf": "papers/TEMPLATE/DependencyDAG.pdf"
+    "dependency_dag_tex": "papers/TEMPLATE/docs/DependencyDAG.tex",
+    "dependency_dag_pdf": "papers/TEMPLATE/docs/DependencyDAG.pdf"
   },
   "review_surface": {
     "source_file": "papers/TEMPLATE/PaperInterface.lean",

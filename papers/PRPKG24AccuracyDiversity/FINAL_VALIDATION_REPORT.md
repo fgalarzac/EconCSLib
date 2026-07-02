@@ -24,8 +24,8 @@ mismatch because Lean uses the corrected finite constant.
 - Local source text: `papers/PRPKG24AccuracyDiversity/PRPKG24AccuracyDiversity.txt`.
 - Lean folder: `papers/PRPKG24AccuracyDiversity`.
 - Human-facing theorem file: `papers/PRPKG24AccuracyDiversity/PaperInterface.lean`.
-- Detailed audit notes: `papers/PRPKG24AccuracyDiversity/POST_FORMALIZATION_AUDIT.md`.
-- DAG artifacts: `papers/PRPKG24AccuracyDiversity/DependencyDAG.tex` and `papers/PRPKG24AccuracyDiversity/DependencyDAG.pdf`.
+- Detailed audit notes: `papers/PRPKG24AccuracyDiversity/docs/POST_FORMALIZATION_AUDIT.md`.
+- DAG artifacts: `papers/PRPKG24AccuracyDiversity/docs/DependencyDAG.tex` and `papers/PRPKG24AccuracyDiversity/docs/DependencyDAG.pdf`.
 
 ## 4. Researcher Summary of Checked Results
 - The paper-facing surface covers the main examples, definitions, theorems, corollaries, propositions, and appendix lemmas.

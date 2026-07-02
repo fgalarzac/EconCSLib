@@ -21,7 +21,7 @@ dashboard entries should be re-saved if human review is needed.
 - Human-facing theorem file: `papers/Roth82StableMatching/PaperInterface.lean`
 - Post-paper audit ledger: `papers/Roth82StableMatching/PostPaperAudit.lean`,
   imported by `papers/Roth82StableMatching.lean`
-- DAG source: tracked `papers/Roth82StableMatching/DependencyDAG.tex`; local
+- DAG source: tracked `papers/Roth82StableMatching/docs/DependencyDAG.tex`; local
   rendered PDF output is ignored by the paper-folder `.gitignore`
 
 ## 4. Researcher Summary of Checked Results

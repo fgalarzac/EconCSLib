@@ -3,7 +3,7 @@
     "assumptions": "papers/GN21DriverSurgePricing/Assumptions.lean",
     "dependency_dag_pdf": "papers/GN21DriverSurgePricing/docs/DependencyDAG.pdf",
     "dependency_dag_tex": "papers/GN21DriverSurgePricing/docs/DependencyDAG.tex",
-    "final_validation_report": "papers/GN21DriverSurgePricing/docs/FINAL_VALIDATION_REPORT.md",
+    "final_validation_report": "papers/GN21DriverSurgePricing/FINAL_VALIDATION_REPORT.md",
     "paper_interface": "papers/GN21DriverSurgePricing/PaperInterface.lean",
     "proof_interface": "papers/GN21DriverSurgePricing/ProofInterface.lean",
     "readme": "papers/GN21DriverSurgePricing/README.md",
@@ -30,7 +30,7 @@
     "proof_interface_path": "papers/GN21DriverSurgePricing/ProofInterface.lean",
     "review_rows": 36
   },
-  "review_entrypoint": "papers/GN21DriverSurgePricing/docs/FINAL_VALIDATION_REPORT.md",
+  "review_entrypoint": "papers/GN21DriverSurgePricing/FINAL_VALIDATION_REPORT.md",
   "review_surface": {
     "assumption_names": [
       "assumption_affine_single_state_parameter_domain",

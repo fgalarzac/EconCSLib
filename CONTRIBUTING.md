@@ -67,7 +67,8 @@ uses the existing citation-style convention, for example
 A completed paper contribution should include:
 
 - `README.md`
-- `FORMALIZATION_PLAN.md`
+- `FINAL_VALIDATION_REPORT.md`
+- `docs/FORMALIZATION_PLAN.md`
 - `review-dashboard.sh`
 - `MainTheorems.lean`
 - `PaperInterface.lean`
@@ -75,8 +76,7 @@ A completed paper contribution should include:
 - `status.json`
 - `docs/DependencyDAG.tex`
 - `docs/DependencyDAG.pdf`
-- `docs/FINAL_VALIDATION_REPORT.md`
-- `AGENT_SOURCE_AUDIT.md`
+- `docs/AGENT_SOURCE_AUDIT.md`
 - `audit/paper_statement_map.json`
 - `audit/paper_coverage_llm.json`
 - `audit/lean_to_tex_llm.json`
@@ -178,13 +178,14 @@ lake build EconCSLib
 - [ ] `audit/statement_match_llm.json` and, when applicable,
       `audit/assumption_match_llm.json` are current for the paper-facing rows
       and source assumptions.
-- [ ] `AGENT_SOURCE_AUDIT.md` records an independent source-first holistic
+- [ ] `docs/AGENT_SOURCE_AUDIT.md` records an independent source-first holistic
       audit that does not merely summarize existing sidecars and checks for
       omissions, hidden strengthening/weakening, and semantic mismatches.
 - [ ] Caveats and source-proof deviations are documented in the paper README or
-      `docs/FINAL_VALIDATION_REPORT.md`.
+      `FINAL_VALIDATION_REPORT.md`.
 - [ ] `python3 scripts/sync_paper_status.py --check` passes after generated
-      status files, docs tables, README rows, and site rows are refreshed.
+      status files, docs tables, per-paper README entrypoints, and site rows
+      are refreshed.
 - [ ] Source PDFs, extracted source-paper text caches, rendered local PDFs,
       dashboard caches, and other ignored local artifacts are not added to Git.
 
@@ -196,7 +197,7 @@ faithfully represent the source paper.
 
 For paper formalizations, reviewers should be able to start from:
 
-1. `docs/FINAL_VALIDATION_REPORT.md` or the validation summary;
+1. `FINAL_VALIDATION_REPORT.md` or the validation summary;
 2. `PaperInterface.lean`;
 3. `docs/DependencyDAG.tex`; and
 4. `README.md`.
@@ -209,7 +210,7 @@ from the paper must map each in-scope source definition, example, remark,
 proposition, theorem, corollary, and theorem-like displayed claim to one or
 more Lean review rows. Second, each Lean review row and each exposed source
 assumption must be judged against the source statement or source primitive it
-claims to represent. The holistic `AGENT_SOURCE_AUDIT.md` is a separate
+claims to represent. The holistic `docs/AGENT_SOURCE_AUDIT.md` is a separate
 source-first review pass over the paper and Lean interface; it is not a
 substitute for the machine-readable sidecars, and the sidecars are not a
 substitute for that holistic pass.

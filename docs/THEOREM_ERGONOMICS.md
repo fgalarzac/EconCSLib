@@ -68,7 +68,7 @@ For each paper DAG:
 - Keep the metadata block at the top of the figure.
 - Keep paper nodes on grid points to make visual inspections fast.
 - If you change layout, re-render and inspect a rendered image before merging.
-- Do not encode proof debt only in node labels; use status text in README table too.
+- Do not encode proof debt only in node labels; use paper status text too.
 
 ## 5) Quick human verification loop
 
@@ -95,7 +95,7 @@ Before claiming progress:
    aggregates must be judged mismatch or uncertain. If it does not match,
    iterate on the Lean statement before treating the declaration as the target
    theorem.
-6. Update `README.md` theorem table with matching declaration names.
+6. Update paper status surfaces with matching declaration names.
 7. Compile the paper folder and the shared `smoke check` file.
 8. Run the repository audit with strict style when declarations are finalized.
    At closeout/public-promotion boundaries use

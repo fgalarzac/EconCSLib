@@ -22,8 +22,8 @@ discrepancy is identified for this theorem surface.
 - Source version: PMLR 89 paper PDF plus PMLR supplement PDF.
 - Lean folder: `papers/GJ19OptimalBinaryRatingSystems`.
 - Human-facing theorem file: `papers/GJ19OptimalBinaryRatingSystems/PaperInterface.lean`.
-- Detailed audit: `papers/GJ19OptimalBinaryRatingSystems/POST_FORMALIZATION_AUDIT.md`.
-- DAG artifacts: `papers/GJ19OptimalBinaryRatingSystems/DependencyDAG.tex`, `papers/GJ19OptimalBinaryRatingSystems/DependencyDAG.pdf`.
+- Detailed audit: `papers/GJ19OptimalBinaryRatingSystems/docs/POST_FORMALIZATION_AUDIT.md`.
+- DAG artifacts: `papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.tex`, `papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.pdf`.
 
 The source PDF, supplement, TeX, and extracted text caches are local
 source-audit artifacts. They are not part of the committed theorem surface.

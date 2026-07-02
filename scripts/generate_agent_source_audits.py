@@ -134,9 +134,10 @@ def assumption_summary(folder: Path, status: dict) -> str:
 
 
 def write_audit(folder: Path, *, overwrite: bool = False) -> bool:
-    out_path = folder / "AGENT_SOURCE_AUDIT.md"
+    out_path = folder / "docs" / "AGENT_SOURCE_AUDIT.md"
     if out_path.exists() and not overwrite:
         return False
+    out_path.parent.mkdir(parents=True, exist_ok=True)
 
     status_path = folder / "status.json"
     status = load_json(status_path)

@@ -13,7 +13,7 @@
     "status": "human_written",
     "note": "Human-written summary supplied on 2026-06-28; preserve verbatim unless a human explicitly asks for a change."
   },
-  "review_entrypoint": "papers/LBG24SpatialUnderreporting/docs/FINAL_VALIDATION_REPORT.md",
+  "review_entrypoint": "papers/LBG24SpatialUnderreporting/FINAL_VALIDATION_REPORT.md",
   "human_review": {
     "reviewed_rows": 0,
     "total_rows": 27,
@@ -33,7 +33,7 @@
     "readme": "papers/LBG24SpatialUnderreporting/README.md",
     "paper_interface": "papers/LBG24SpatialUnderreporting/PaperInterface.lean",
     "assumptions": "papers/LBG24SpatialUnderreporting/Assumptions.lean",
-    "final_validation_report": "papers/LBG24SpatialUnderreporting/docs/FINAL_VALIDATION_REPORT.md",
+    "final_validation_report": "papers/LBG24SpatialUnderreporting/FINAL_VALIDATION_REPORT.md",
     "dependency_dag_tex": "papers/LBG24SpatialUnderreporting/docs/DependencyDAG.tex",
     "dependency_dag_pdf": "papers/LBG24SpatialUnderreporting/docs/DependencyDAG.pdf",
     "source_record_audit": "papers/LBG24SpatialUnderreporting/audit/source_record_audit.json"

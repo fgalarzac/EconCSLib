@@ -4,8 +4,9 @@
 - Scope: all 24 papers listed in `papers/human_status.json`
 - Public statuses audited: 20 formalized, 4 partially formalized
 - Source artifacts checked: `paper_statement_map.json`, `paper_coverage_llm.json`,
-  paper-local `status.json`, `DependencyDAG.tex`, `DependencyDAG.pdf`,
-  `FINAL_VALIDATION_REPORT.md`, and `AGENT_SOURCE_AUDIT.md` when present.
+  paper-local `status.json`, `docs/DependencyDAG.tex`,
+  `docs/DependencyDAG.pdf`, `FINAL_VALIDATION_REPORT.md`, and
+  `docs/AGENT_SOURCE_AUDIT.md` when present.
 
 ## Method
 
@@ -18,8 +19,9 @@ source-condition rows, and helper rows do not need standalone DAG boxes when
 they are visibly grouped under the relevant paper definition, algorithm, lemma,
 proposition, or theorem node.
 
-All 24 public papers have both `DependencyDAG.tex` and `DependencyDAG.pdf`, and
-no rendered DAG PDF is stale relative to its TeX source.
+All 24 public papers have both `docs/DependencyDAG.tex` and
+`docs/DependencyDAG.pdf`, and no rendered DAG PDF is stale relative to its TeX
+source.
 
 ## Summary Findings
 
@@ -27,7 +29,7 @@ no rendered DAG PDF is stale relative to its TeX source.
 - The older report-evidence gaps found in the first pass are resolved as of the
   follow-up edit on 2026-07-02: the affected final validation reports now name
   the DAG artifacts and/or record rendered/visual inspection evidence.
-- `KR21Monoculture` now has an `AGENT_SOURCE_AUDIT.md` holistic source-first
+- `KR21Monoculture` now has a `docs/AGENT_SOURCE_AUDIT.md` holistic source-first
   PASS note.
 - The four partially formalized papers keep their partial status visible in the
   DAG/status surface. They now also have holistic source-audit notes for the
@@ -45,7 +47,7 @@ no rendered DAG PDF is stale relative to its TeX source.
 | `GJ19OptimalBinaryRatingSystems` | Formalized | PASS. Apparent missing appendix labels are grouped intentionally: C.1-C.2, B.2-B.3, C.6-C.8, and C.10-C.12 appear as combined DAG nodes. | None. |
 | `GGSG19TopThree` | Formalized | PASS. Definitions 1/3 are grouped under the model and K-approval model nodes; the proposition/theorem clusters are visible. | None. |
 | `GJ18InformativeRatingSystems` | Formalized | PASS. The DAG is source-consistent at the theorem-family level. | None. |
-| `KR21Monoculture` | Formalized | PASS for DAG/source-json coverage. The DAG covers Definitions 1-3, Lemma 1, and Theorems 1-9 at the paper-result level. | Resolved: `AGENT_SOURCE_AUDIT.md` added with a completed source-first holistic PASS note. |
+| `KR21Monoculture` | Formalized | PASS for DAG/source-json coverage. The DAG covers Definitions 1-3, Lemma 1, and Theorems 1-9 at the paper-result level. | Resolved: `docs/AGENT_SOURCE_AUDIT.md` added with a completed source-first holistic PASS note. |
 | `LG21TestOptionalPolicies` | Formalized | PASS. The DAG covers Definitions 1/6, Lemma 4.1, Propositions 4.2/4.3, and Theorems 3.1/3.2/4.4. | Resolved: final report explicitly names `DependencyDAG.tex` and `DependencyDAG.pdf`. |
 | `GN21DriverSurgePricing` | Formalized | PASS. Lemmas 7-8, Lemmas 9-10, and Remarks 1/3/4 are intentionally grouped; the main theorem and proposition nodes are visible. | Resolved: final report explicitly names `DependencyDAG.tex` and `DependencyDAG.pdf`. |
 | `DGJ24OptimalStrategiesRCV` | Formalized | PASS. The DAG covers the source result clusters for the RCV/STV model, Algorithms 1-7, Proposition 2.1, Theorems B.1/3.1/3.2/5.4, Lemmas B.2/C.1, and Propositions 3.3/3.4/5.3/5.5/5.6. Algorithm 6 and Definition C.2 are covered by the `Algorithms 4--6` candidate-reduction/strict-support cluster rather than separate boxes. | None. |
@@ -57,14 +59,14 @@ no rendered DAG PDF is stale relative to its TeX source.
 | `DGD26AdmissionsPredictability` | Formalized | PASS. The DAG is source-consistent at cluster level: the Appendix 0-instability definition is grouped under `Zero Instability Chain`, and the main instability/variability/queue result clusters are visible. | None. |
 | `GGRS26CombattingGerrymanderingRCV` | Formalized | PASS. The DAG covers Proposition 1 and Lemma C.1 source clusters. | Resolved: final report records rendered/visual DAG inspection evidence. |
 | `DGJ26PracticalDynamicsRCV` | Formalized | PASS. The DAG covers Proposition 1, Proposition 2, Theorem 2.1, Theorem 2.2, Algorithms 2-4, and the ballot/support/candidate-removal source layers. Definition B.1 strict support is grouped under the support/removal model layers rather than a separate box. | None. |
-| `LOS02CombinatorialAuctions` | Partially formalized | PASS for partial status. The DAG shows the formalized source clusters and does not overclaim full closeout. | Resolved for current partial status: final report records DAG evidence and `AGENT_SOURCE_AUDIT.md` added; full closeout still requires native complexity infrastructure. |
-| `LMMS04FairDivision` | Partially formalized | PASS for partial status. The DAG keeps the partial source boundaries visible and does not overclaim full closeout. | Resolved for current partial status: final report records DAG evidence and `AGENT_SOURCE_AUDIT.md` added; full closeout still requires fixed-dimension IP runtime infrastructure. |
-| `GKGMM19IterativeLocalVoting` | Partially formalized | PASS for partial status. The DAG correctly marks the SSGM convergence boundary and partial paper status; `AGENT_SOURCE_AUDIT.md` records that the broad source-semantics clusters are the intended partial-paper view. | Resolved for current partial status; before marking fully formalized, prove the SSGM convergence boundary and either expand DAG nodes or record explicit closeout coverage for every source-numbered cluster. |
-| `LBG24SpatialUnderreporting` | Partially formalized | PASS for partial status. The DAG covers Lemmas 1/2, Proposition 1, and Theorems 1/2 without overclaiming completion. | Resolved for current partial status: final report records DAG evidence and `AGENT_SOURCE_AUDIT.md` added; full closeout still requires discharging or explicitly accepting the remaining source-model/process boundaries. |
+| `LOS02CombinatorialAuctions` | Partially formalized | PASS for partial status. The DAG shows the formalized source clusters and does not overclaim full closeout. | Resolved for current partial status: final report records DAG evidence and `docs/AGENT_SOURCE_AUDIT.md` added; full closeout still requires native complexity infrastructure. |
+| `LMMS04FairDivision` | Partially formalized | PASS for partial status. The DAG keeps the partial source boundaries visible and does not overclaim full closeout. | Resolved for current partial status: final report records DAG evidence and `docs/AGENT_SOURCE_AUDIT.md` added; full closeout still requires fixed-dimension IP runtime infrastructure. |
+| `GKGMM19IterativeLocalVoting` | Partially formalized | PASS for partial status. The DAG correctly marks the SSGM convergence boundary and partial paper status; `docs/AGENT_SOURCE_AUDIT.md` records that the broad source-semantics clusters are the intended partial-paper view. | Resolved for current partial status; before marking fully formalized, prove the SSGM convergence boundary and either expand DAG nodes or record explicit closeout coverage for every source-numbered cluster. |
+| `LBG24SpatialUnderreporting` | Partially formalized | PASS for partial status. The DAG covers Lemmas 1/2, Proposition 1, and Theorems 1/2 without overclaiming completion. | Resolved for current partial status: final report records DAG evidence and `docs/AGENT_SOURCE_AUDIT.md` added; full closeout still requires discharging or explicitly accepting the remaining source-model/process boundaries. |
 
 ## Resolved Follow-Up List
 
-1. Added a completed `AGENT_SOURCE_AUDIT.md` for `KR21Monoculture`.
+1. Added a completed `docs/AGENT_SOURCE_AUDIT.md` for `KR21Monoculture`.
 2. Added or tightened final-report DAG evidence for:
    `GHW01DigitalGoods`, `LG21TestOptionalPolicies`,
    `GN21DriverSurgePricing`, `GCG24UserItemFairness`,

@@ -26,8 +26,8 @@ dashboard sign-off has been recorded.
   `papers/DSWG24DiscretizationBias/MainTheorems.lean`, and
   `papers/DSWG24DiscretizationBias/PostPaperAudit.lean`
 - DAG artifacts:
-  `papers/DSWG24DiscretizationBias/DependencyDAG.tex` and rendered
-  `papers/DSWG24DiscretizationBias/DependencyDAG.pdf`
+  `papers/DSWG24DiscretizationBias/docs/DependencyDAG.tex` and rendered
+  `papers/DSWG24DiscretizationBias/docs/DependencyDAG.pdf`
 
 Scope: this audit covers the paper's mathematical definitions and theoretical
 results. The empirical sections, figures, and simulation tables are not

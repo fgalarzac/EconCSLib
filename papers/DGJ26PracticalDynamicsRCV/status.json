@@ -37,8 +37,8 @@
     "paper_interface": "papers/DGJ26PracticalDynamicsRCV/PaperInterface.lean",
     "assumptions": "papers/DGJ26PracticalDynamicsRCV/Assumptions.lean",
     "final_validation_report": "papers/DGJ26PracticalDynamicsRCV/FINAL_VALIDATION_REPORT.md",
-    "dependency_dag_tex": "papers/DGJ26PracticalDynamicsRCV/DependencyDAG.tex",
-    "dependency_dag_pdf": "papers/DGJ26PracticalDynamicsRCV/DependencyDAG.pdf"
+    "dependency_dag_tex": "papers/DGJ26PracticalDynamicsRCV/docs/DependencyDAG.tex",
+    "dependency_dag_pdf": "papers/DGJ26PracticalDynamicsRCV/docs/DependencyDAG.pdf"
   },
   "review_surface": {
     "source_file": "papers/DGJ26PracticalDynamicsRCV/PaperInterface.lean",

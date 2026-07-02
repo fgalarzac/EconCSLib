@@ -7,7 +7,7 @@
   "build_target": "lake build Roth82StableMatching",
   "status": "formalized",
   "main_caveat": "",
-  "review_entrypoint": "papers/Roth82StableMatching/docs/FINAL_VALIDATION_REPORT.md",
+  "review_entrypoint": "papers/Roth82StableMatching/FINAL_VALIDATION_REPORT.md",
   "human_review": {
     "reviewed_rows": 0,
     "total_rows": 29,
@@ -27,7 +27,7 @@
     "readme": "papers/Roth82StableMatching/README.md",
     "paper_interface": "papers/Roth82StableMatching/PaperInterface.lean",
     "assumptions": "papers/Roth82StableMatching/Assumptions.lean",
-    "final_validation_report": "papers/Roth82StableMatching/docs/FINAL_VALIDATION_REPORT.md",
+    "final_validation_report": "papers/Roth82StableMatching/FINAL_VALIDATION_REPORT.md",
     "dependency_dag_tex": "papers/Roth82StableMatching/docs/DependencyDAG.tex",
     "dependency_dag_pdf": "papers/Roth82StableMatching/docs/DependencyDAG.pdf"
   },

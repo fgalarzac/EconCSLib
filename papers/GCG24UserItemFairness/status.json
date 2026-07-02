@@ -3,7 +3,7 @@
     "assumptions": "papers/GCG24UserItemFairness/Assumptions.lean",
     "dependency_dag_pdf": "papers/GCG24UserItemFairness/docs/DependencyDAG.pdf",
     "dependency_dag_tex": "papers/GCG24UserItemFairness/docs/DependencyDAG.tex",
-    "final_validation_report": "papers/GCG24UserItemFairness/docs/FINAL_VALIDATION_REPORT.md",
+    "final_validation_report": "papers/GCG24UserItemFairness/FINAL_VALIDATION_REPORT.md",
     "paper_interface": "papers/GCG24UserItemFairness/PaperInterface.lean",
     "readme": "papers/GCG24UserItemFairness/README.md",
     "source_text": "papers/GCG24UserItemFairness/GCG24UserItemFairness.txt"
@@ -27,7 +27,7 @@
     "path": "papers/GCG24UserItemFairness/PaperInterface.lean",
     "review_rows": 48
   },
-  "review_entrypoint": "papers/GCG24UserItemFairness/docs/FINAL_VALIDATION_REPORT.md",
+  "review_entrypoint": "papers/GCG24UserItemFairness/FINAL_VALIDATION_REPORT.md",
   "review_surface": {
     "assumption_names": [
       "assumption_positive_recommendation_utilities",

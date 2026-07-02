@@ -19,8 +19,8 @@ the formalized results. No human dashboard sign-off has been recorded.
 - Source version: arXiv 1906.08160 TeX/PDF, 2019.
 - Lean folder: `papers/GGSG19TopThree`.
 - Human-facing theorem file: `papers/GGSG19TopThree/PaperInterface.lean`.
-- Detailed post-formalization audit: `papers/GGSG19TopThree/POST_FORMALIZATION_AUDIT.md`.
-- DAG artifacts: `papers/GGSG19TopThree/DependencyDAG.tex`, `papers/GGSG19TopThree/DependencyDAG.pdf`.
+- Detailed post-formalization audit: `papers/GGSG19TopThree/docs/POST_FORMALIZATION_AUDIT.md`.
+- DAG artifacts: `papers/GGSG19TopThree/docs/DependencyDAG.tex`, `papers/GGSG19TopThree/docs/DependencyDAG.pdf`.
 
 ## 4. Researcher Summary of Checked Results
 - The formalization checks the finite-candidate Top Three theorem surface.

@@ -80,7 +80,7 @@ For an existing public paper, start by reading:
 - `papers/<PaperName>/README.md`
 - `papers/<PaperName>/FINAL_VALIDATION_REPORT.md`
 - `papers/<PaperName>/PaperInterface.lean`
-- `papers/<PaperName>/DependencyDAG.tex`
+- `papers/<PaperName>/docs/DependencyDAG.tex`
 
 Then build the paper target:
 
@@ -188,17 +188,18 @@ Before opening a pull request:
   review.
 - Keep source PDFs, dashboard caches, and local artifacts out of Git unless the
   repository already tracks that artifact type intentionally.
-- Update `README.md`, `DependencyDAG.tex`, `DependencyDAG.pdf`,
+- Update `README.md`, `docs/DependencyDAG.tex`, `docs/DependencyDAG.pdf`,
   `PaperInterface.lean`, `status.json`, and `FINAL_VALIDATION_REPORT.md` when
   changing paper-facing status.
 - Run `python3 scripts/sync_paper_status.py` after editing a paper-local
-  `status.json`; it refreshes the aggregate JSON, docs table, README table, and
-  site table. Include the generated status files in the pull request.
+  `status.json`; it refreshes the aggregate JSON, docs table, per-paper
+  README entrypoints, and site table. Include the generated status files in the
+  pull request.
 - Explain any caveat, source-model assumption, certificate, or proof-route
   deviation in human-facing files.
 - Include the exact commands you ran in the pull request description.
 
 For paper formalizations, reviewers should be able to evaluate the claim by
 starting from `FINAL_VALIDATION_REPORT.md`, `PaperInterface.lean`,
-`DependencyDAG.tex`, and `README.md` without reverse-engineering implementation
+`docs/DependencyDAG.tex`, and `README.md` without reverse-engineering implementation
 proof files.

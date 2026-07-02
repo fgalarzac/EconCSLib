@@ -49,7 +49,7 @@ python3 scripts/audit_repository.py --paper DGJ24OptimalStrategiesRCV --paper-cl
 
 ## Source-First Audit
 
-`AGENT_SOURCE_AUDIT.md` records the independent source-first comparison of the
+`docs/AGENT_SOURCE_AUDIT.md` records the independent source-first comparison of the
 cached arXiv source text, the curated Lean review surface, and the machine
 audit evidence.
 

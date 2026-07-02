@@ -12,7 +12,7 @@
     "status": "human_approved",
     "note": "Do not rewrite this summary without explicit human instruction."
   },
-  "review_entrypoint": "papers/PRPKG24AccuracyDiversity/docs/FINAL_VALIDATION_REPORT.md",
+  "review_entrypoint": "papers/PRPKG24AccuracyDiversity/FINAL_VALIDATION_REPORT.md",
   "human_review": {
     "reviewed_rows": 0,
     "total_rows": 42,
@@ -31,7 +31,7 @@
   "artifacts": {
     "readme": "papers/PRPKG24AccuracyDiversity/README.md",
     "paper_interface": "papers/PRPKG24AccuracyDiversity/PaperInterface.lean",
-    "final_validation_report": "papers/PRPKG24AccuracyDiversity/docs/FINAL_VALIDATION_REPORT.md",
+    "final_validation_report": "papers/PRPKG24AccuracyDiversity/FINAL_VALIDATION_REPORT.md",
     "post_formalization_audit": "papers/PRPKG24AccuracyDiversity/docs/POST_FORMALIZATION_AUDIT.md",
     "dependency_dag_tex": "papers/PRPKG24AccuracyDiversity/docs/DependencyDAG.tex",
     "dependency_dag_pdf": "papers/PRPKG24AccuracyDiversity/docs/DependencyDAG.pdf",

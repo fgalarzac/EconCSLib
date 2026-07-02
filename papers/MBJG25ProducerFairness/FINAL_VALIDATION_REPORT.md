@@ -26,7 +26,7 @@ rows.
 - Human-facing theorem file: `MBJG25ProducerFairness/PaperInterface.lean`
 - Paper assumption file: `MBJG25ProducerFairness/Assumptions.lean`
 - DAG artifacts: `MBJG25ProducerFairness/docs/DependencyDAG.tex`, `MBJG25ProducerFairness/docs/DependencyDAG.pdf`
-- Supporting audit ledgers: `MBJG25ProducerFairness/AGENT_SOURCE_AUDIT.md` and `MBJG25ProducerFairness/audit/*.json`
+- Supporting audit ledgers: `MBJG25ProducerFairness/docs/AGENT_SOURCE_AUDIT.md` and `MBJG25ProducerFairness/audit/*.json`
 
 Scope: this audit covers the paper's fixed binary-rating formulas, Theorems 3.1
 and 3.2, Section 4 responsive-market definitions, and Appendix C responsive MSE

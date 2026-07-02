@@ -55,10 +55,10 @@ Required target-paper checks:
 11. Run a skill-update pass. If the paper taught a reusable workflow lesson,
     update this skill or an appropriate reference before final handoff; if it
     did not, state that explicitly in the final report or handoff.
-12. Update `DependencyDAG.tex`, render `DependencyDAG.pdf`, visually inspect
+12. Update `docs/DependencyDAG.tex`, render `docs/DependencyDAG.pdf`, visually inspect
     it, and record the DAG evidence in the final report and post-formalization
     audit note.
-13. Write or refresh `AGENT_SOURCE_AUDIT.md` as an independent source-first
+13. Write or refresh `docs/AGENT_SOURCE_AUDIT.md` as an independent source-first
     holistic audit. It must read the source first, build or verify the source
     inventory from the source itself, then inspect `PaperInterface.lean` and
     Lean statements for omissions, hidden strengthening/weakening, and semantic
@@ -243,8 +243,8 @@ Lean implementation changelog. Before closeout, compare:
 - `paper_statement_map.json`,
 - `paper_coverage_llm.json`,
 - `PaperInterface.lean` / dashboard rows,
-- `DependencyDAG.tex`, and
-- the rendered `DependencyDAG.pdf`.
+- `docs/DependencyDAG.tex`, and
+- the rendered `docs/DependencyDAG.pdf`.
 
 Every source-named paper definition, lemma, proposition, theorem, corollary,
 and appendix result in the source inventory should be represented by a visible
@@ -295,7 +295,7 @@ Do not hand-maintain a separate manuscript LOC number.
 
 ## Post-Formalization Audit Note
 
-Use `POST_FORMALIZATION_AUDIT.md` or another agent-facing note for durable
+Use `docs/POST_FORMALIZATION_AUDIT.md` or another agent-facing note for durable
 audit details that would make the human final report too long:
 
 - source-convention details,

@@ -12,7 +12,7 @@
     "status": "draft",
     "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction."
   },
-  "review_entrypoint": "papers/GGRS26CombattingGerrymanderingRCV/docs/FINAL_VALIDATION_REPORT.md",
+  "review_entrypoint": "papers/GGRS26CombattingGerrymanderingRCV/FINAL_VALIDATION_REPORT.md",
   "human_review": {
     "reviewed_rows": 0,
     "total_rows": 19,
@@ -32,7 +32,7 @@
     "readme": "papers/GGRS26CombattingGerrymanderingRCV/README.md",
     "paper_interface": "papers/GGRS26CombattingGerrymanderingRCV/PaperInterface.lean",
     "assumptions": "papers/GGRS26CombattingGerrymanderingRCV/Assumptions.lean",
-    "final_validation_report": "papers/GGRS26CombattingGerrymanderingRCV/docs/FINAL_VALIDATION_REPORT.md",
+    "final_validation_report": "papers/GGRS26CombattingGerrymanderingRCV/FINAL_VALIDATION_REPORT.md",
     "dependency_dag_tex": "papers/GGRS26CombattingGerrymanderingRCV/docs/DependencyDAG.tex",
     "dependency_dag_pdf": "papers/GGRS26CombattingGerrymanderingRCV/docs/DependencyDAG.pdf"
   },

@@ -30,8 +30,8 @@
     "readme": "papers/EOS07GSP/README.md",
     "paper_interface": "papers/EOS07GSP/PaperInterface.lean",
     "final_validation_report": "papers/EOS07GSP/FINAL_VALIDATION_REPORT.md",
-    "dependency_dag_tex": "papers/EOS07GSP/DependencyDAG.tex",
-    "dependency_dag_pdf": "papers/EOS07GSP/DependencyDAG.pdf"
+    "dependency_dag_tex": "papers/EOS07GSP/docs/DependencyDAG.tex",
+    "dependency_dag_pdf": "papers/EOS07GSP/docs/DependencyDAG.pdf"
   },
   "review_surface": {
     "source_file": "papers/EOS07GSP/PaperInterface.lean",
