@@ -1,6 +1,6 @@
 {
   "schema": 1,
   "path": "README.md",
-  "sha256": "bd4a92d0c220c6570dfa440797c70d7673feff97444e8288964e580a1111aecd",
+  "sha256": "4c6dfcc656302d75581e5704d59ded62e5e2093d4b7971671ad42e4ceb753df0",
   "policy": "README.md is hand-written human-facing project prose. Do not edit it or generate it unless Nikhil gives specific root-README instructions."
 }

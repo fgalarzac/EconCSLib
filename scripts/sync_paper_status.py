@@ -34,6 +34,7 @@ SITE_REQUIRED_STATIC_COPY = {
     "maintainer footer": "EconCSLib is maintained by",
     "companion paper link": "https://arxiv.org/abs/2606.16144",
     "companion Lean project link": "https://github.com/gametheoryinlean/EconCSLib",
+    "Slack workspace link": "https://join.slack.com/t/appliedmodelinglib/shared_invite/zt-42slirzxx-rEO8eEns7~4~i3Lbu7N~lA",
 }
 PAPER_README_BEGIN = "<!-- BEGIN GENERATED PAPER FOLDER README -->"
 PAPER_README_END = "<!-- END GENERATED PAPER FOLDER README -->"

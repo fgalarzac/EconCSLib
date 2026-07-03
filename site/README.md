@@ -33,11 +33,11 @@ paper-local `status.json`, rerun `python3 scripts/sync_paper_status.py`, and
 deploy the refreshed `site/index.html`. Do not add compatibility copies for
 stale website links.
 
-The maintainer footer and the note about the separate
-`gametheoryinlean/EconCSLib` project are static site copy, not generated table
-content. Preserve them unless the public website wording is being intentionally
-changed; `scripts/sync_paper_status.py --check` guards that those links remain
-present.
+The maintainer footer, the Slack workspace callout, and the note about the
+separate `gametheoryinlean/EconCSLib` project are static site copy, not
+generated table content. Preserve them unless the public website wording is
+being intentionally changed; `scripts/sync_paper_status.py --check` guards that
+those links remain present.
 
 ## Publishing Later
 
