@@ -5257,6 +5257,7 @@ def check_readme_status_tables(
         readme = folder / "README.md"
         if not readme.exists():
             continue
+        readme_text = readme.read_text(encoding="utf-8")
         found_status_table = False
         for header, rows in iter_markdown_tables(readme):
             normalized = [h.lower() for h in header]
@@ -5313,6 +5314,46 @@ def check_readme_status_tables(
                         Finding("WARN", readme, f"`formalized` row has caveat-like text: `{row[0]}`")
                     )
         if not found_status_table:
+            if "<!-- BEGIN GENERATED PAPER FOLDER README -->" in readme_text:
+                fields: dict[str, str] = {}
+                for header, rows in iter_markdown_tables(readme):
+                    normalized = [h.strip().lower() for h in header]
+                    if normalized != ["field", "value"]:
+                        continue
+                    for row in rows:
+                        if len(row) >= 2:
+                            fields[row[0].strip()] = row[1].strip()
+                required = ["Final status", "Paper reference", "Lines of Code"]
+                for field in required:
+                    if not fields.get(field):
+                        findings.append(Finding("ERROR", readme, f"generated README missing `{field}` field"))
+                status = fields.get("Final status", "").lower()
+                if status and status not in PAPER_STATUS_VALUES:
+                    findings.append(
+                        Finding(
+                            "ERROR",
+                            readme,
+                            f"unexpected generated README final status `{fields.get('Final status')}`; see docs/STATUS.md",
+                        )
+                    )
+                loc = fields.get("Lines of Code", "")
+                if loc and not re.fullmatch(r"\d{1,3}(?:,\d{3})*|\d+", loc):
+                    findings.append(Finding("ERROR", readme, f"generated README has invalid Lines of Code `{loc}`"))
+                required_links = [
+                    (
+                        "Final validation report",
+                        r"Final validation report:\s+\[[^\]]+\]\(FINAL_VALIDATION_REPORT\.md\)",
+                    ),
+                    (
+                        "Dependency DAG",
+                        r"Dependency DAG:\s+\[[^\]]+\]\(docs/DependencyDAG\.pdf\)",
+                    ),
+                    ("status.json", r"\[status\.json\]\(status\.json\)"),
+                ]
+                for label, pattern in required_links:
+                    if not re.search(pattern, readme_text):
+                        findings.append(Finding("ERROR", readme, f"generated README missing `{label}` link"))
+                continue
             findings.append(Finding("ERROR", readme, "no theorem/status markdown table found"))
     if not paper_filter:
         findings.extend(check_root_status_table())
