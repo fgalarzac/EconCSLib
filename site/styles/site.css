@@ -134,6 +134,12 @@ h1 {
   font-size: 1.18rem;
 }
 
+.project-vision {
+  max-width: 760px;
+  color: var(--ink);
+  font-size: 1.04rem;
+}
+
 .actions,
 .paper-actions {
   display: flex;
