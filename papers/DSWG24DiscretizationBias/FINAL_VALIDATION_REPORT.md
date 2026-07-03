@@ -13,7 +13,7 @@ dashboard sign-off has been recorded.
 - Completion status: formalized.
 - One-sentence recap: The classifier, calibration, bias, MAE, and discretization-bias bounds are formalized on the recorded multiclass domain.
 - Lean footprint: 26,133 paper-local Lean LOC; `PaperInterface.lean` is 456 lines; 41 human-review declarations are exposed.
-- Audit summary: paper coverage has 41 covered; statement LLM-as-judge has 41 matches; assumption provenance has 9 paper_condition; source-record audit reports 0 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 41 covered; statement LLM-as-judge has 41 matches; Lean-to-TeX has 32 row translations; assumption provenance has 9 paper_condition; source-record classification sidecar is not tracked; source-record audit reports 41 review rows, 0 boundary inputs, 0 recursion failures; review-surface audit passes over 41 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Addressing Discretization-Induced Bias in Demographic Prediction*
@@ -98,6 +98,20 @@ The proof uses reusable finite-choice, finite-distribution, and measure-theoreti
 `DependencyDAG.tex` and `DependencyDAG.pdf` are present. The public holistic DAG audit reports PASS for the DSWG24 DAG/source/source-json comparison: the DAG covers the theorem-level source inventory at the result-cluster level and does not add, omit, strengthen, or weaken a source-facing theorem claim.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`audit/paper_coverage_llm.json`): 41 covered.
+- Statement match (`audit/statement_match_llm.json`): 41 matches.
+- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 32 row translations generated from Lean statements.
+- Assumption provenance (`audit/assumption_match_llm.json`): 9 paper_condition.
+- Source-record classification: no source-record classification sidecar tracked for this paper.
+- Source-record structural audit (`audit/source_record_audit.json`): 41 review rows, 0 boundary inputs, 0 recursion failures.
+- Review-surface audit (`audit/review_surface_llm.json`): passes over 41 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 ### Verification Checks
 
 - The paper target `DSWG24DiscretizationBias` builds successfully.

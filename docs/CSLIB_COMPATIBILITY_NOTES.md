@@ -7,6 +7,9 @@ upstream library rather than copying broad chunks into EconCSLib. The best
 near-term use is to import small foundational APIs where they remove current
 paper-level seams.
 
+For other non-imported Lean repositories that agents may scout before creating
+local APIs, see [`UPSTREAM_LEAN_SOURCES.md`](UPSTREAM_LEAN_SOURCES.md).
+
 ## Source
 
 - Website: https://www.cslib.io/

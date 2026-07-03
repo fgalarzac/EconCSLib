@@ -13,7 +13,7 @@ recorded.
 - Completion status: formalized.
 - One-sentence recap: Formalizes the SODA paper; Theorem 8.2 uses the refined monotone-auction wording from the journal version.
 - Lean footprint: 14,624 paper-local Lean LOC; `PaperInterface.lean` is 326 lines; 30 human-review declarations are exposed.
-- Audit summary: paper coverage has 30 covered; statement LLM-as-judge has 30 matches; assumption provenance has 12 paper_condition; source-record audit reports 7 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 30 covered; statement LLM-as-judge has 30 matches; Lean-to-TeX has 18 row translations; assumption provenance has 12 paper_condition; source-record classification has 20 validated_source_assumption; source-record audit reports 30 review rows, 7 boundary inputs, 0 recursion failures; review-surface audit passes over 30 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Primary formalization target: *Competitive Auctions and Digital Goods* by
@@ -134,6 +134,20 @@ the digital-goods model, random-sampling auction route, profit-extraction
 route, Bayesian-offer lemma family, and the Section 8.2 revenue theorem.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`audit/paper_coverage_llm.json`): 30 covered.
+- Statement match (`audit/statement_match_llm.json`): 30 matches.
+- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 18 row translations generated from Lean statements.
+- Assumption provenance (`audit/assumption_match_llm.json`): 12 paper_condition.
+- Source-record classification (`audit/source_record_match_llm.json`): 20 validated_source_assumption.
+- Source-record structural audit (`audit/source_record_audit.json`): 30 review rows, 7 boundary inputs, 0 recursion failures.
+- Review-surface audit (`audit/review_surface_llm.json`): passes over 30 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 - `lake build GHW01DigitalGoods`: passed in the private and public checkouts.
 - `python3 scripts/sync_paper_status.py`: passed in the private and public
   checkouts.

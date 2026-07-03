@@ -13,7 +13,7 @@ No human dashboard sign-off has been recorded.
 - Completion status: formalized.
 - One-sentence recap: The STV solid-coalition guarantee used by the gerrymandering analysis is formalized on the theoretical result surface.
 - Lean footprint: 9,398 paper-local Lean LOC; `PaperInterface.lean` is 403 lines; 19 human-review declarations are exposed.
-- Audit summary: paper coverage has 19 covered; statement LLM-as-judge has 19 matches; assumption provenance sidecar has no rows; source-record audit reports 4 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 19 covered; statement LLM-as-judge has 19 matches; Lean-to-TeX has 19 row translations; assumption provenance sidecar has no rows; source-record classification has 2 proved_from_primitives, 2 validated_source_assumption; source-record audit reports 19 review rows, 4 boundary inputs, 0 recursion failures; review-surface audit passes over 19 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 The formalized source version is the arXiv paper with Operations Research 2026
@@ -83,6 +83,20 @@ arrow-through-text issues. The DAG covers the source-result clusters recorded
 in the source inventory: Proposition 1 and Lemma C.1.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`audit/paper_coverage_llm.json`): 19 covered.
+- Statement match (`audit/statement_match_llm.json`): 19 matches.
+- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 19 row translations generated from Lean statements.
+- Assumption provenance (`audit/assumption_match_llm.json`): no rows.
+- Source-record classification (`audit/source_record_match_llm.json`): 2 proved_from_primitives, 2 validated_source_assumption.
+- Source-record structural audit (`audit/source_record_audit.json`): 19 review rows, 4 boundary inputs, 0 recursion failures.
+- Review-surface audit (`audit/review_surface_llm.json`): passes over 19 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 The review dashboard sidecars are current for the compact 19-row surface:
 statement translation, statement match, paper coverage, source-to-Lean, and
 assumption/source-record provenance prechecks all report no missing, stale, or

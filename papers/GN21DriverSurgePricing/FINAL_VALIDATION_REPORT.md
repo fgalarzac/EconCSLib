@@ -13,7 +13,7 @@ sign-off has been recorded.
 - Completion status: formalized.
 - One-sentence recap: The driver-surge IC definitions, renewal-reward route, and dynamic reward-rate theorem surface are formalized on the denominator-valid source domain.
 - Lean footprint: 142,948 paper-local Lean LOC; `PaperInterface.lean` is 400 lines; 36 human-review declarations are exposed.
-- Audit summary: paper coverage has 34 covered, 2 conditional_boundary; statement LLM-as-judge has 34 matches, 2 mismatch; resolutions: 2 conditional_boundary; assumption provenance has 10 paper_condition; source-record audit reports 0 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 34 covered, 2 conditional_boundary; statement LLM-as-judge has 34 matches, 2 mismatch; resolutions: 2 conditional_boundary; Lean-to-TeX has 26 row translations; assumption provenance has 10 paper_condition; source-record classification has 14 derived_consequence_record; source-record audit reports 34 review rows, 0 boundary inputs, 0 recursion failures; review-surface audit passes over 36 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Driver Surge Pricing*.
@@ -207,6 +207,20 @@ CTMC lemmas, Proposition 3.1, Theorems 1--4, grouped Lemmas 7--8 and 9--10,
 and grouped Remarks 1, 3, and 4.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`audit/paper_coverage_llm.json`): 34 covered, 2 conditional_boundary.
+- Statement match (`audit/statement_match_llm.json`): 34 matches, 2 mismatch; resolutions: 2 conditional_boundary.
+- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 26 row translations generated from Lean statements.
+- Assumption provenance (`audit/assumption_match_llm.json`): 10 paper_condition.
+- Source-record classification (`audit/source_record_match_llm.json`): 14 derived_consequence_record.
+- Source-record structural audit (`audit/source_record_audit.json`): 34 review rows, 0 boundary inputs, 0 recursion failures.
+- Review-surface audit (`audit/review_surface_llm.json`): passes over 36 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 ### Human Review Status
 
 `SOURCE_AUDIT.md` records an agent source audit for all 24 paper-interface rows.

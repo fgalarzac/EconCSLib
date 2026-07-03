@@ -12,7 +12,7 @@ dashboard sign-off has been recorded.
 - Completion status: formalized.
 - One-sentence recap: The user-item fairness tradeoff results are checked through the paper-facing LP, support, and duality ingredients.
 - Lean footprint: 46,174 paper-local Lean LOC; `PaperInterface.lean` is 387 lines; 48 human-review declarations are exposed.
-- Audit summary: paper coverage has 48 covered; statement LLM-as-judge has 48 matches; assumption provenance has 10 paper_condition; source-record audit reports 22 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 48 covered; statement LLM-as-judge has 48 matches; Lean-to-TeX has 38 row translations; assumption provenance has 10 paper_condition; source-record classification has 26 validated_source_assumption, 4 container_recursively_audited, 4 derived_consequence_record; source-record audit reports 48 review rows, 22 boundary inputs, 0 recursion failures; review-surface audit passes over 48 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 The validation source of truth is the paper folder, not older campaign-level notes:
@@ -120,6 +120,20 @@ selected-BFS and certificate variants are retained as helper interfaces rather
 than separate DAG paper-result nodes.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`audit/paper_coverage_llm.json`): 48 covered.
+- Statement match (`audit/statement_match_llm.json`): 48 matches.
+- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 38 row translations generated from Lean statements.
+- Assumption provenance (`audit/assumption_match_llm.json`): 10 paper_condition.
+- Source-record classification (`audit/source_record_match_llm.json`): 26 validated_source_assumption, 4 container_recursively_audited, 4 derived_consequence_record.
+- Source-record structural audit (`audit/source_record_audit.json`): 48 review rows, 22 boundary inputs, 0 recursion failures.
+- Review-surface audit (`audit/review_surface_llm.json`): passes over 48 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 ### Statement Translation Audit
 
 Audit date: 2026-06-06.

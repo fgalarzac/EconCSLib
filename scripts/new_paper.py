@@ -272,8 +272,11 @@ and resolve missing, stale, partial, or uncertain source coverage.
 - [ ] Fill in `docs/FORMALIZATION_PLAN.md` with the initial outside-Lean paper audit,
       formula/result sanity check, proof strategy, and likely hard seams before
       deep Lean work.
-- [ ] Record the shared-library reuse checkpoint: mathlib, cslib, optlib, and
-      `EconCSLib` modules/declarations inspected; API chosen; near-misses.
+- [ ] Record the shared-library reuse checkpoint: mathlib, cslib, optlib,
+      potential upstream Lean sources, and `EconCSLib` modules/declarations
+      inspected; API chosen; near-misses.
+- [ ] Cite upstream material used or ported: repository URL, file/module path,
+      commit or release when available, license status, and what was reused.
 - [ ] Record the formal target map: rows to prove, empirical/out-of-scope rows,
       and any explicit boundary that would remain if the paper cannot close now.
 - [ ] Run the lightweight statement target-setting pass and fix mismatched
@@ -933,6 +936,8 @@ useful; it is not the final validation report.
   - Mathlib declarations/modules inspected:
   - Cslib declarations/modules inspected:
   - Optlib declarations/modules inspected:
+  - Other potential upstream sources inspected:
+  - Upstream sources used or ported, with citation/provenance:
   - Existing `EconCSLib` declarations/modules inspected:
   - API chosen and near-misses:
 - Proof strategy consequences:

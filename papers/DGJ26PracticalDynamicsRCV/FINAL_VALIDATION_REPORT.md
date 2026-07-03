@@ -13,7 +13,7 @@ dashboard sign-off has not yet been recorded.
 - Completion status: formalized.
 - One-sentence recap: The ballot-extension, exhausted-ballot completion, candidate-removal, and multi-winner containment claims are formalized.
 - Lean footprint: 20,736 paper-local Lean LOC; `PaperInterface.lean` is 11027 lines; 50 human-review declarations are exposed.
-- Audit summary: paper coverage sidecar is not separately recorded; statement LLM-as-judge sidecar is not separately recorded; assumption provenance sidecar has no rows; source-record audit reports 0 boundary inputs and 0 recursion failures; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 44 covered; statement LLM-as-judge has 62 matches, 7 mismatch; resolutions: 7 conditional_boundary; Lean-to-TeX has 69 row translations; assumption provenance sidecar has no rows; source-record classification has 3 proved_from_primitives, 1 container_recursively_audited, 9 nonpropositional_witness_data; source-record audit reports 50 review rows, 0 boundary inputs, 0 recursion failures; review-surface audit passes over 50 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 The formalized source version is the Journal of Computational Social Science
@@ -99,6 +99,20 @@ rendering during the closeout pass; it is a nonblank one-page diagram with the
 DGJ26 source-result nodes visible and no obvious box, label, or edge overlap.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`paper_coverage_llm.json`): 44 covered.
+- Statement match (`statement_match_llm.json`): 62 matches, 7 mismatch; resolutions: 7 conditional_boundary.
+- Lean-to-TeX translations (`lean_to_tex_llm.json`): 69 row translations generated from Lean statements.
+- Assumption provenance (`assumption_match_llm.json`): no rows.
+- Source-record classification (`audit/source_record_match_llm.json`): 3 proved_from_primitives, 1 container_recursively_audited, 9 nonpropositional_witness_data.
+- Source-record structural audit (`audit/source_record_audit.json`): 50 review rows, 0 boundary inputs, 0 recursion failures.
+- Review-surface audit (`review_surface_llm.json`): passes over 50 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 The review dashboard is curated below the oversized-surface threshold. The
 paper-coverage audit reports all 44 source inventory items covered directly by
 reviewed rows, and the source-record audit reports no boundary inputs or

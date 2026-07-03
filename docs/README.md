@@ -51,6 +51,8 @@ They may assume Lean familiarity and may be more detailed.
 - [LEAN_STYLE.md](LEAN_STYLE.md): Lean style conventions.
 - [LIBRARY_PROVENANCE.md](LIBRARY_PROVENANCE.md): how to audit reusable
   certificate/source-boundary APIs and paper wrapper obligations.
+- [UPSTREAM_LEAN_SOURCES.md](UPSTREAM_LEAN_SOURCES.md): imported and potential
+  upstream Lean sources to scout before creating local APIs.
 - [STATUS.md](STATUS.md): controlled vocabulary for paper status rows.
 - [THEOREM_ERGONOMICS.md](THEOREM_ERGONOMICS.md): theorem statement and
   interface conventions.

@@ -12,7 +12,7 @@ surface. Human dashboard sign-off has not yet been recorded.
 - Completion status: formalized.
 - One-sentence recap: The STV/RCV model, SmartAllocation reductions, and Section 5 strategic-voting results are covered at the curated source-facing abstraction.
 - Lean footprint: 54,410 paper-local Lean LOC; `PaperInterface.lean` is 32470 lines; 65 human-review declarations are exposed.
-- Audit summary: paper coverage sidecar is not separately recorded; statement LLM-as-judge sidecar is not separately recorded; assumption provenance sidecar has no rows; source-record audit has no separate row summary; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 67 covered, 2 conditional_boundary; statement LLM-as-judge has 73 matches, 9 mismatch; resolutions: 9 conditional_boundary; Lean-to-TeX has 82 row translations; assumption provenance sidecar has no rows; source-record classification has 20 approved_external_boundary; source-record audit reports 65 review rows, 0 boundary inputs, 0 recursion failures; review-surface audit passes over 65 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 The formalized source version is arXiv:2407.13661, recorded in `README.md`.
@@ -107,6 +107,20 @@ one-page diagram with the DGJ24 source-result nodes visible and no obvious box,
 label, or edge overlap.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`paper_coverage_llm.json`): 67 covered, 2 conditional_boundary.
+- Statement match (`statement_match_llm.json`): 73 matches, 9 mismatch; resolutions: 9 conditional_boundary.
+- Lean-to-TeX translations (`lean_to_tex_llm.json`): 82 row translations generated from Lean statements.
+- Assumption provenance (`assumption_match_llm.json`): no rows.
+- Source-record classification (`source_record_match_llm.json`): 20 approved_external_boundary.
+- Source-record structural audit (`source_record_audit.json`): 65 review rows, 0 boundary inputs, 0 recursion failures.
+- Review-surface audit (`review_surface_llm.json`): passes over 65 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 The review dashboard is curated below the oversized-surface threshold. The
 statement, review-surface, paper-coverage, source-to-Lean, and source-record
 sidecars are current for the closeout surface.

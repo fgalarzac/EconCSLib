@@ -79,6 +79,14 @@ Required target-paper checks:
     status tables move with the paper-local source of truth.
     The root `README.md` is protected hand-written prose and must not be edited
     during closeout unless the user gives specific root-README instructions.
+17. Refresh the final-report LLM-as-judge summary block from the sidecars.
+    In the public repository, run
+    `python3 scripts/refresh_validation_report_audit_summaries.py` and then
+    `python3 scripts/refresh_validation_report_audit_summaries.py --check`.
+    Do not hand-write that source coverage, statement-match, Lean-to-TeX,
+    assumption-provenance, source-record, review-surface, holistic, or DAG
+    result text; if a sidecar exists, the report must not say it is "not
+    separately recorded".
 
 The full closeout gate is for completed papers, intentionally approved
 conditional closeouts, public PR preparation, or explicit user-requested
@@ -147,8 +155,10 @@ Include compact facts before detailed proof evidence:
 - Lean footprint: total paper-local Lean LOC, `PaperInterface.lean` LOC, and
   human-review row/declaration count.
 - Audit summary: source coverage/source-to-Lean counts; LLM-as-judge
-  statement/coverage status; source-record boundary/recursion counts;
-  holistic source-first audit result; and DAG/source-json audit result.
+  statement-match status, Lean-to-TeX row count, assumption-provenance status,
+  source-record classification counts, source-record boundary/recursion
+  counts, review-surface status, holistic source-first audit result, and
+  DAG/source-json audit result.
 
 The post-validation summary should include the Lean LOC line; do not bury it in
 a later evidence table only.
@@ -235,6 +245,15 @@ assumptions.
 Summarize build/audit/DAG/no-placeholder outcomes in prose. It is acceptable to
 include the exact targeted repository audit command here, but keep commands out
 of the executive verdict and proof narrative.
+
+For public reports, include the generated `### LLM-as-Judge Results` block
+under this section. It must summarize every tracked judge/support sidecar:
+`paper_coverage_llm.json`, `statement_match_llm.json`,
+`lean_to_tex_llm.json`, `assumption_match_llm.json` when present,
+`source_record_match_llm.json` when present, `source_record_audit.json`,
+`review_surface_llm.json`, `docs/AGENT_SOURCE_AUDIT.md`, and the public
+DAG/source/source-json audit. Use the refresh script rather than editing those
+counts by hand.
 
 ## DAG and Source-JSON Audit
 

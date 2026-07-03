@@ -15,7 +15,7 @@ recorded.
 - Completion status: partially formalized.
 - One-sentence recap: Full formalization requires a homogeneous Poisson process and stopping time derivation.
 - Lean footprint: 18,540 paper-local Lean LOC; `PaperInterface.lean` is 8658 lines; 27 human-review declarations are exposed.
-- Audit summary: paper coverage has 16 covered, 8 conditional_boundary; statement LLM-as-judge has 19 matches, 8 mismatch; resolutions: 8 conditional_boundary; assumption provenance has 2 paper_condition, 1 partial_boundary; source-record audit reports 2 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 16 covered, 8 conditional_boundary; statement LLM-as-judge has 19 matches, 8 mismatch; resolutions: 8 conditional_boundary; Lean-to-TeX has 24 row translations; assumption provenance has 2 paper_condition, 1 partial_boundary; source-record classification has 4 container_recursively_audited, 23 approved_external_boundary; source-record audit reports 27 review rows, 2 boundary inputs, 0 recursion failures; review-surface audit passes over 27 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Quantifying Spatial Under-reporting Disparities in Resident Crowdsourcing*
@@ -344,6 +344,20 @@ conditional boundaries remain visible in the review surface and status rows
 rather than being hidden behind green DAG endpoints.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`audit/paper_coverage_llm.json`): 16 covered, 8 conditional_boundary.
+- Statement match (`audit/statement_match_llm.json`): 19 matches, 8 mismatch; resolutions: 8 conditional_boundary.
+- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 24 row translations generated from Lean statements.
+- Assumption provenance (`audit/assumption_match_llm.json`): 2 paper_condition, 1 partial_boundary.
+- Source-record classification (`audit/source_record_match_llm.json`): 4 container_recursively_audited, 23 approved_external_boundary.
+- Source-record structural audit (`audit/source_record_audit.json`): 27 review rows, 2 boundary inputs, 0 recursion failures.
+- Review-surface audit (`audit/review_surface_llm.json`): passes over 27 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 Run so far:
 
 ```bash

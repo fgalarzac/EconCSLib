@@ -209,7 +209,18 @@ science and runtime notions, and `Optlib/` when it exists in the workspace or
 Lake manifest for optimization-specific APIs. Prefer those definitions and
 results over creating local replacements. If an upstream API almost fits, add a
 thin bridge lemma or source-facing notation around it; only introduce a new
-library primitive after recording why the upstream API is not adequate.
+library primitive after recording why the upstream API is not adequate. For
+overlapping EC, game-theory, social-choice, mechanism-design, optimization, or
+proof-pattern seams, also scout the potential upstream Lean sources listed in
+`docs/UPSTREAM_LEAN_SOURCES.md`, currently including
+`elazarg/GameTheory`, `alexfleetcommander/lean-proofs`, and
+`gametheoryinlean/EconCSLib`. Treat those as scouting sources unless
+toolchain, license, API stability, and dependency approval have been checked.
+If you use or port material from any upstream source, cite it with repository
+URL, file/module path, commit or release when available, license status, and a
+short description of what was reused; place that provenance near the resulting
+Lean code or in the paper/formalization plan, and cite it in human-facing paper
+text when the reuse affects the manuscript.
 Search `EconCSLib/` next for the domain noun and proof shape:
 equilibrium/best-response/a.e.
 exception, threshold/cutoff, CDF/quantile/PIT/tie-breaking, finite mixture,
@@ -243,9 +254,11 @@ function derivative rules. Search and reuse these before writing formula-level
 norm, derivative, convexity, projection, or argmax APIs in `EconCSLib/`.
 The outside-of-Lean plan must contain a short "shared-library reuse checkpoint"
 before any substantial proof campaign: list the shared declarations or modules
-inspected, including relevant mathlib/cslib/optlib candidates, the API chosen,
-and any near-miss that was intentionally not used. If that checkpoint is
-missing, add it before continuing. If a proof loop starts
+inspected, including relevant mathlib/cslib/optlib candidates, potential
+upstream Lean sources from `docs/UPSTREAM_LEAN_SOURCES.md`, the API chosen, and
+any near-miss that was intentionally not used. Include citation/provenance for
+any upstream material used or ported. If that checkpoint is missing, add it
+before continuing. If a proof loop starts
 creating several local wrappers around a standard notion, pause and update this
 checkpoint instead of continuing the wrapper stack. A reusable concept should
 enter the paper proof through the shared API unless the plan explains the
@@ -1127,9 +1140,10 @@ creating or refreshing a paper plan. The plan must explicitly contain:
 - formula/dependency sanity pass: signs, constants, denominators,
   normalizations, quantifiers, domains, density-vs-mass interpretation, and
   which earlier paper objects each result depends on;
-- shared-library reuse checkpoint: mathlib/cslib/optlib/EconCSLib modules or
-  declarations inspected, the API chosen, and near-misses that explain any new
-  reusable library definitions;
+- shared-library reuse checkpoint: mathlib/cslib/optlib, potential upstream
+  Lean sources, and EconCSLib modules or declarations inspected, the API chosen,
+  citation/provenance for any upstream material used or ported, and near-misses
+  that explain any new reusable library definitions;
 - formal target map: which source rows will be fully proved now, which rows are
   empirical or out of theorem scope, and which candidate boundaries would be
   explicit assumptions/certificates if the paper cannot be closed immediately;

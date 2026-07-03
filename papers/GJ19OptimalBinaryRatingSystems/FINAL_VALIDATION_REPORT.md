@@ -13,7 +13,7 @@ discrepancy is identified for this theorem surface.
 - Completion status: formalized.
 - One-sentence recap: The report records the current formalization status and validation evidence for the declared paper surface.
 - Lean footprint: 85,780 paper-local Lean LOC; `PaperInterface.lean` is 12481 lines; 56 human-review declarations are exposed.
-- Audit summary: paper coverage has 27 covered, 1 covered_by_support; statement LLM-as-judge has 56 matches; assumption provenance sidecar has no rows; source-record audit reports 2 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 27 covered, 1 covered_by_support; statement LLM-as-judge has 56 matches; Lean-to-TeX has 56 row translations; assumption provenance sidecar is not tracked; source-record classification has 2 validated_source_assumption; source-record audit reports 56 review rows, 2 boundary inputs, 0 recursion failures; review-surface audit passes over 56 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Designing Optimal Binary Rating Systems*.
@@ -97,6 +97,20 @@ overlap, and missing theorem labels. The DAG shows the GJ19 theorem surface as
 formalized and distinguishes theorem nodes from reusable proof-interface nodes.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`audit/paper_coverage_llm.json`): 27 covered, 1 covered_by_support.
+- Statement match (`audit/statement_match_llm.json`): 56 matches.
+- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 56 row translations generated from Lean statements.
+- Assumption provenance: no assumption-match sidecar tracked for this paper.
+- Source-record classification (`audit/source_record_match_llm.json`): 2 validated_source_assumption.
+- Source-record structural audit (`audit/source_record_audit.json`): 56 review rows, 2 boundary inputs, 0 recursion failures.
+- Review-surface audit (`audit/review_surface_llm.json`): passes over 56 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 Validation commands run on 2026-06-28:
 
 ```bash

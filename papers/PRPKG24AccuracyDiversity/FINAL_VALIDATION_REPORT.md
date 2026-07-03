@@ -15,7 +15,7 @@ mismatch because Lean uses the corrected finite constant.
 - Completion status: formalized.
 - One-sentence recap: Proposition 2's printed finite bound appears to miss a factor of 2; Lean proves the corrected finite bound, which is sufficient for the asymptotic 1/2-homogeneity result.
 - Lean footprint: 52,018 paper-local Lean LOC; `PaperInterface.lean` is 287 lines; 42 human-review declarations are exposed.
-- Audit summary: paper coverage has 40 covered, 2 conditional_boundary; statement LLM-as-judge has 40 matches, 2 mismatch; resolutions: 2 conditional_boundary; assumption provenance has 15 paper_condition; source-record audit reports 0 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 40 covered, 2 conditional_boundary; statement LLM-as-judge has 40 matches, 2 mismatch; resolutions: 2 conditional_boundary; Lean-to-TeX has 27 row translations; assumption provenance has 15 paper_condition; source-record classification has 2 validated_source_assumption; source-record audit reports 42 review rows, 0 boundary inputs, 0 recursion failures; review-surface audit passes over 42 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Reconciling the Accuracy-Diversity Trade-off in Recommendations*.
@@ -90,6 +90,20 @@ Result: 0 errors, 0 warnings.
 `DependencyDAG.tex` was audited against the workflow. Definition 1 is green and now covers both equation (5) for finite real `gamma` and the `gamma = infinity` likelihood-argmax profile, Proposition 4 appears once as a formalized result node, the header records the ACM Web Conference 2024 venue while pointing to the arXiv source cache, and the rendered layout has no node/text overlap. `pdflatex` wrote `DependencyDAG.pdf`, but the local MiKTeX wrapper still exits with code 134 after trying to write user config/log files under read-only `~/.miktex`; `mutool draw` was used for PNG rendering and visual inspection.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`audit/paper_coverage_llm.json`): 40 covered, 2 conditional_boundary.
+- Statement match (`audit/statement_match_llm.json`): 40 matches, 2 mismatch; resolutions: 2 conditional_boundary.
+- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 27 row translations generated from Lean statements.
+- Assumption provenance (`audit/assumption_match_llm.json`): 15 paper_condition.
+- Source-record classification (`audit/source_record_match_llm.json`): 2 validated_source_assumption.
+- Source-record structural audit (`audit/source_record_audit.json`): 42 review rows, 0 boundary inputs, 0 recursion failures.
+- Review-surface audit (`audit/review_surface_llm.json`): passes over 42 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 Passed:
 
 ```bash

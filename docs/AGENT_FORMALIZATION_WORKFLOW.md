@@ -58,8 +58,11 @@ must record the sections from
   lemma, theorem, corollary, algorithm, and theorem-like displayed formula;
 - the formula/dependency sanity pass, including density-vs-mass representation
   issues and which prior paper objects each result depends on;
-- the shared-library reuse checkpoint for mathlib, cslib, optlib, and existing
-  `EconCSLib` APIs;
+- the shared-library reuse checkpoint for mathlib, cslib, optlib, potential
+  upstream Lean sources from
+  [`UPSTREAM_LEAN_SOURCES.md`](UPSTREAM_LEAN_SOURCES.md), and existing
+  `EconCSLib` APIs, including citation/provenance for any upstream material
+  used or ported;
 - the formal target map, including rows to fully prove, empirical/out-of-scope
   rows, and any explicit boundary that would remain if the paper cannot be
   closed immediately;

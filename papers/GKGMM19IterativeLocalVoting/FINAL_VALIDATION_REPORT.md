@@ -14,7 +14,7 @@ below.
 - Completion status: partially formalized.
 - One-sentence recap: Full formalization requires proving stochastic subgradient descent convergence. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition.
 - Lean footprint: 23,466 paper-local Lean LOC; `PaperInterface.lean` is 2772 lines; 47 human-review declarations are exposed.
-- Audit summary: paper coverage has 39 covered, 8 conditional_boundary, 1 not_a_paper_target; statement LLM-as-judge has 41 matches, 5 mismatch; resolutions: 5 conditional_boundary; assumption provenance has 1 paper_condition, 2 partial_boundary; source-record audit reports 3 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 39 covered, 8 conditional_boundary, 1 not_a_paper_target; statement LLM-as-judge has 41 matches, 5 mismatch; resolutions: 5 conditional_boundary; Lean-to-TeX has 44 row translations; assumption provenance has 1 paper_condition, 2 partial_boundary; source-record classification has 2 proved_from_primitives, 68 validated_source_assumption, 22 container_recursively_audited, 19 nonpropositional_witness_data, 4 approved_external_boundary; source-record audit reports 47 review rows, 3 boundary inputs, 0 recursion failures; review-surface audit passes over 47 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: Garg, Kamble, Goel, Marn, and Munagala, "Iterative Local Voting for
@@ -185,6 +185,20 @@ Displayed and source-defining formulas are tracked through the paper-facing rows
 - The DAG records the single SSGM theorem-shaped boundary, the Lean-proved Theorem 3 constrained alternative, and the exact Theorem 3 full-space recovery rather than presenting those as hidden paper assumptions.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`audit/paper_coverage_llm.json`): 39 covered, 8 conditional_boundary, 1 not_a_paper_target.
+- Statement match (`audit/statement_match_llm.json`): 41 matches, 5 mismatch; resolutions: 5 conditional_boundary.
+- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 44 row translations generated from Lean statements.
+- Assumption provenance (`audit/assumption_match_llm.json`): 1 paper_condition, 2 partial_boundary.
+- Source-record classification (`audit/source_record_match_llm.json`): 2 proved_from_primitives, 68 validated_source_assumption, 22 container_recursively_audited, 19 nonpropositional_witness_data, 4 approved_external_boundary.
+- Source-record structural audit (`audit/source_record_audit.json`): 47 review rows, 3 boundary inputs, 0 recursion failures.
+- Review-surface audit (`audit/review_surface_llm.json`): passes over 47 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 - `lake build GKGMM19IterativeLocalVoting`: passed.
 - `python3 -m py_compile scripts/review_dashboard.py`: passed after the axiom
   parser update.

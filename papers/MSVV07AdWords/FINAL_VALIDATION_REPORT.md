@@ -12,7 +12,7 @@ paper-facing assumptions. No human dashboard sign-off has been recorded.
 - Completion status: formalized.
 - One-sentence recap: The AdWords Balance analysis, finite-history accounting, and limiting theorem wrappers are formalized.
 - Lean footprint: 13,711 paper-local Lean LOC; `PaperInterface.lean` is 1015 lines; 43 human-review declarations are exposed.
-- Audit summary: paper coverage has 43 covered; statement LLM-as-judge has 43 matches; assumption provenance has 6 paper_condition, 4 paper_assumption; source-record audit reports 0 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 43 covered; statement LLM-as-judge has 43 matches; Lean-to-TeX has 33 row translations; assumption provenance has 6 paper_condition, 4 paper_assumption; source-record classification sidecar is not tracked; source-record audit reports 36 review rows, 0 boundary inputs, 0 recursion failures; review-surface audit passes over 43 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *AdWords and Generalized Online Matching*.
@@ -111,6 +111,20 @@ No additional lift is needed for this closeout.
   labels, and routing; this curation pass did not change the DAG source.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`audit/paper_coverage_llm.json`): 43 covered.
+- Statement match (`audit/statement_match_llm.json`): 43 matches.
+- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 33 row translations generated from Lean statements.
+- Assumption provenance (`audit/assumption_match_llm.json`): 6 paper_condition, 4 paper_assumption.
+- Source-record classification: no source-record classification sidecar tracked for this paper.
+- Source-record structural audit (`audit/source_record_audit.json`): 36 review rows, 0 boundary inputs, 0 recursion failures.
+- Review-surface audit (`audit/review_surface_llm.json`): passes over 43 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 - Dashboard review surface curated from 39 rows to 26 rows. Removed rows were
   broad proof-adapter variants, duplicate payoff aliases, or support endpoints
   already represented by final source-section statements.

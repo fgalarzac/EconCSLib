@@ -14,7 +14,7 @@ error is reported, and no human dashboard sign-off has been recorded.
 - Completion status: partially formalized.
 - One-sentence recap: Greedy approximation, truthfulness, and Theorem 6.1 reductions are formalized. Full formalization requires computational complexity results that are out of scope.
 - Lean footprint: 7,582 paper-local Lean LOC; `PaperInterface.lean` is 371 lines; 39 human-review declarations are exposed.
-- Audit summary: paper coverage has 31 covered, 8 conditional_boundary; statement LLM-as-judge has 31 matches, 8 mismatch; resolutions: 8 conditional_boundary; assumption provenance has 7 paper_condition, 2 partial_boundary; source-record audit reports 1 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 31 covered, 8 conditional_boundary; statement LLM-as-judge has 31 matches, 8 mismatch; resolutions: 8 conditional_boundary; Lean-to-TeX has 30 row translations; assumption provenance has 7 paper_condition, 2 partial_boundary; source-record classification has 1 approved_external_boundary; source-record audit reports 39 review rows, 1 boundary input, 0 recursion failures; review-surface audit passes over 39 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Truth Revelation in Approximately Efficient Combinatorial Auctions*
@@ -150,6 +150,20 @@ remain visible as partial complexity-infrastructure boundaries rather than green
 DAG endpoints.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`audit/paper_coverage_llm.json`): 31 covered, 8 conditional_boundary.
+- Statement match (`audit/statement_match_llm.json`): 31 matches, 8 mismatch; resolutions: 8 conditional_boundary.
+- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 30 row translations generated from Lean statements.
+- Assumption provenance (`audit/assumption_match_llm.json`): 7 paper_condition, 2 partial_boundary.
+- Source-record classification (`audit/source_record_match_llm.json`): 1 approved_external_boundary.
+- Source-record structural audit (`audit/source_record_audit.json`): 39 review rows, 1 boundary input, 0 recursion failures.
+- Review-surface audit (`audit/review_surface_llm.json`): passes over 39 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 The current tracked sidecars report no uncertain LLM-as-judge validations.
 Statement translation has 39 rows: 31 `matches`, 8 `mismatch` rows resolved as
 `conditional_boundary`, and 0 `uncertain` rows. Paper coverage has 31 `covered`

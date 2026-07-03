@@ -12,7 +12,7 @@ dashboard entries should be re-saved if human review is needed.
 - Completion status: formalized.
 - One-sentence recap: Roth's stable-matching, incentive, and reduction results are formalized through the shared deferred-acceptance library.
 - Lean footprint: 8,931 paper-local Lean LOC; `PaperInterface.lean` is 490 lines; 29 human-review declarations are exposed.
-- Audit summary: paper coverage has 29 covered; statement LLM-as-judge has 29 matches; assumption provenance has 2 paper_condition; source-record audit reports 0 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 29 covered; statement LLM-as-judge has 29 matches; Lean-to-TeX has 27 row translations; assumption provenance has 2 paper_condition; source-record classification sidecar is not tracked; source-record audit reports 29 review rows, 0 boundary inputs, 0 recursion failures; review-surface audit passes over 29 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *The Economics of Matching: Stability and Incentives* (Roth 1982)
@@ -211,6 +211,20 @@ Reusable matching-market material from this formalization lives in `EconCSLib.Ma
 `DependencyDAG.tex` and `DependencyDAG.pdf` are present. The public holistic DAG audit reports PASS for the Roth82 DAG/source/source-json comparison: the DAG exposes the stable-matching, DA, strategy, and reduction result clusters without adding or hiding theorem-level source claims.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`audit/paper_coverage_llm.json`): 29 covered.
+- Statement match (`audit/statement_match_llm.json`): 29 matches.
+- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 27 row translations generated from Lean statements.
+- Assumption provenance (`audit/assumption_match_llm.json`): 2 paper_condition.
+- Source-record classification: no source-record classification sidecar tracked for this paper.
+- Source-record structural audit (`audit/source_record_audit.json`): 29 review rows, 0 boundary inputs, 0 recursion failures.
+- Review-surface audit (`audit/review_surface_llm.json`): passes over 29 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 ### Statement Translation Audit
 
 Audit date: 2026-06-06.

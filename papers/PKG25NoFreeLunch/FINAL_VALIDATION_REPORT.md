@@ -12,7 +12,7 @@ No human dashboard sign-off has been recorded.
 - Completion status: formalized.
 - One-sentence recap: The no-free-lunch theorem surface is formalized with explicit finite mixture and loss/accuracy conventions.
 - Lean footprint: 2,030 paper-local Lean LOC; `PaperInterface.lean` is 163 lines; 15 human-review declarations are exposed.
-- Audit summary: paper coverage has 15 covered; statement LLM-as-judge has 15 matches; assumption provenance sidecar has no rows; source-record audit reports 0 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 15 covered; statement LLM-as-judge has 15 matches; Lean-to-TeX has 15 row translations; assumption provenance sidecar is not tracked; source-record classification sidecar is not tracked; source-record audit reports 6 review rows, 0 boundary inputs, 0 recursion failures; review-surface audit passes over 15 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *A No Free Lunch Theorem for Human-AI Collaboration*
@@ -73,6 +73,20 @@ Displayed and source-defining formulas are tracked through the paper-facing rows
 - Layout: visually inspected after regeneration; nodes and labels are readable without text collisions
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`audit/paper_coverage_llm.json`): 15 covered.
+- Statement match (`audit/statement_match_llm.json`): 15 matches.
+- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 15 row translations generated from Lean statements.
+- Assumption provenance: no assumption-match sidecar tracked for this paper.
+- Source-record classification: no source-record classification sidecar tracked for this paper.
+- Source-record structural audit (`audit/source_record_audit.json`): 6 review rows, 0 boundary inputs, 0 recursion failures.
+- Review-surface audit (`audit/review_surface_llm.json`): passes over 15 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 - `lake build PKG25NoFreeLunch` passes.
 - `latexmk -pdf -interaction=nonstopmode -halt-on-error DependencyDAG.tex` passes.
 - Lean axiom checks for `reliableFinite_exists_defers_away`, `reliableFinite_constant_on_half`, `main_no_free_lunch_finite`, `reliableFinite_of_reliable`, `main_no_free_lunch`, and `theorem_main_no_free_lunch` report only the ordinary Lean/Classical base axioms `propext`, `Classical.choice`, and `Quot.sound`.

@@ -9,7 +9,7 @@ Formalized. The main Mallows and three-candidate Gaussian/Laplace RUM routes are
 - Completion status: formalized.
 - One-sentence recap: The algorithmic-monoculture welfare results are formalized with finite and continuous score-space conditions made explicit.
 - Lean footprint: 65,646 paper-local Lean LOC; `PaperInterface.lean` is 1816 lines; 49 human-review declarations are exposed.
-- Audit summary: paper coverage sidecar is not separately recorded; statement LLM-as-judge sidecar is not separately recorded; assumption provenance sidecar has no rows; source-record audit has no separate row summary; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 49 covered; statement LLM-as-judge has 49 matches; Lean-to-TeX has 49 row translations; assumption provenance sidecar is not tracked; source-record classification has 1 validated_source_assumption, 6 nonpropositional_witness_data; source-record audit reports 49 review rows, 1 boundary input, 0 recursion failures; review-surface audit passes over 49 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Algorithmic Monoculture and Social Welfare*.
@@ -86,6 +86,20 @@ Reusable ranking-payoff, Mallows, finite-expectation, conditional-probability, n
 `DependencyDAG.tex` uses the shared TikZ preamble and is paper-facing: node labels state paper definitions, lemmas, and theorems rather than Lean declaration names. `DependencyDAG.pdf` was rendered from the paper folder with `latexmk -pdf -interaction=nonstopmode -halt-on-error DependencyDAG.tex`, converted to a PNG for visual inspection, and checked for node/text overlap and stale open-boundary labels. The DAG shows the paper-facing result flow as formalized; the Laplacian Lemma 1 strict-vs-weak distinction is documented as an audit note rather than a theorem-status caveat.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`paper_coverage_llm.json`): 49 covered.
+- Statement match (`statement_match_llm.json`): 49 matches.
+- Lean-to-TeX translations (`lean_to_tex_llm.json`): 49 row translations generated from Lean statements.
+- Assumption provenance: no assumption-match sidecar tracked for this paper.
+- Source-record classification (`source_record_match_llm.json`): 1 validated_source_assumption, 6 nonpropositional_witness_data.
+- Source-record structural audit (`source_record_audit.json`): 49 review rows, 1 boundary input, 0 recursion failures.
+- Review-surface audit (`review_surface_llm.json`): passes over 49 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 Passed during this closeout pass:
 
 ```bash

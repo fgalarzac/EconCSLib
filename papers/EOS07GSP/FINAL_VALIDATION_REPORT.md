@@ -20,7 +20,7 @@ are generated internally from the source-facing strict ranked-value model.
 - Completion status: formalized.
 - One-sentence recap: The curated NBER source inventory through Theorem 8 is covered by the compact paper-facing review surface.
 - Lean footprint: 133,338 paper-local Lean LOC; `PaperInterface.lean` is 294 lines; 25 human-review declarations are exposed.
-- Audit summary: paper coverage sidecar is not separately recorded; statement LLM-as-judge sidecar is not separately recorded; assumption provenance has 1 paper_assumption; source-record audit reports 2 boundary inputs and 0 recursion failures; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 24 covered; statement LLM-as-judge has 25 matches; Lean-to-TeX has 25 row translations; assumption provenance has 1 paper_assumption; source-record classification has 1 proved_from_primitives, 1 validated_source_assumption; source-record audit reports 26 review rows, 2 boundary inputs, 0 recursion failures; review-surface audit passes over 26 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Internet Advertising and the Generalized Second-Price Auction:
@@ -144,6 +144,20 @@ aliases in `PostPaperAudit.lean`.
   box overlap, legend overlap, and arrow routing after closeout edits.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`paper_coverage_llm.json`): 24 covered.
+- Statement match (`statement_match_llm.json`): 25 matches.
+- Lean-to-TeX translations (`lean_to_tex_llm.json`): 25 row translations generated from Lean statements.
+- Assumption provenance (`audit/assumption_match_llm.json`): 1 paper_assumption.
+- Source-record classification (`audit/source_record_match_llm.json`): 1 proved_from_primitives, 1 validated_source_assumption.
+- Source-record structural audit (`audit/source_record_audit.json`): 26 review rows, 2 boundary inputs, 0 recursion failures.
+- Review-surface audit (`review_surface_llm.json`): passes over 26 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 The closeout validation path for this report is:
 
 - `lake build EOS07GSP`

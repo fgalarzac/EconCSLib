@@ -17,7 +17,7 @@ assumptions.
 - Completion status: formalized.
 - One-sentence recap: Finite choice-function, queue-variability, and finite assignment theorem targets are formalized.
 - Lean footprint: 11,536 paper-local Lean LOC; `PaperInterface.lean` is 1388 lines; 101 human-review declarations are exposed.
-- Audit summary: paper coverage has 39 covered; statement LLM-as-judge has 101 matches; assumption provenance sidecar has no rows; source-record audit reports 1 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 39 covered; statement LLM-as-judge has 101 matches; Lean-to-TeX has 101 row translations; assumption provenance sidecar has no rows; source-record classification has 1 validated_source_assumption; source-record audit reports 66 review rows, 1 boundary input, 0 recursion failures; review-surface audit passes over 66 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *Capacity Constraints Make Admissions Processes Less Predictable*
@@ -127,6 +127,20 @@ statement labels rather than Lean declaration names, and was visually inspected
 after PNG conversion.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`audit/paper_coverage_llm.json`): 39 covered.
+- Statement match (`audit/statement_match_llm.json`): 101 matches.
+- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 101 row translations generated from Lean statements.
+- Assumption provenance (`audit/assumption_match_llm.json`): no rows.
+- Source-record classification (`audit/source_record_match_llm.json`): 1 validated_source_assumption.
+- Source-record structural audit (`audit/source_record_audit.json`): 66 review rows, 1 boundary input, 0 recursion failures.
+- Review-surface audit (`audit/review_surface_llm.json`): passes over 66 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 - Passed: `lake build DGD26AdmissionsPredictability`
 - Passed: `python3 scripts/review_dashboard.py --paper DGD26AdmissionsPredictability --statement-precheck`
   with 101/101 row-local statement translations and semantic matches current.

@@ -45,8 +45,11 @@ report human-facing.
 
 ## During Proof Work
 
-- Search Mathlib, CSLib, Optlib, and existing `EconCSLib` APIs before creating
-  a local wrapper around a standard concept.
+- Search Mathlib, CSLib, Optlib, potential upstream Lean sources listed in
+  [`../UPSTREAM_LEAN_SOURCES.md`](../UPSTREAM_LEAN_SOURCES.md), and existing
+  `EconCSLib` APIs before creating a local wrapper around a standard concept.
+- If you use or port upstream material, cite the repository, file/module path,
+  commit or release when available, license status, and what was reused.
 - Keep `PaperInterface.lean` readable: definitions and named source results
   belong there; implementation helpers belong in `MainTheorems.lean`,
   `ProofInterface.lean`, or local proof files.

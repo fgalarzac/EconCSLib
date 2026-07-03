@@ -12,7 +12,7 @@ recorded.
 - Completion status: formalized.
 - One-sentence recap: This only uses a few lines of code as its infrastructure has largely been elevated to the shared matching library.
 - Lean footprint: 388 paper-local Lean LOC; `PaperInterface.lean` is 116 lines; 7 human-review declarations are exposed.
-- Audit summary: paper coverage has 7 covered; statement LLM-as-judge has 7 matches; assumption provenance sidecar has no rows; source-record audit reports 0 boundary inputs and 0 recursion failures; review-surface audit passes; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Audit summary: source coverage has 7 covered; statement LLM-as-judge has 7 matches; Lean-to-TeX has 7 row translations; assumption provenance sidecar is not tracked; source-record classification sidecar is not tracked; source-record audit reports 7 review rows, 0 boundary inputs, 0 recursion failures; review-surface audit passes over 7 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
 - Paper: *College Admissions and the Stability of Marriage*
@@ -85,6 +85,20 @@ The main reusable material already lives in the shared matching library: deferre
 `DependencyDAG.tex` and `DependencyDAG.pdf` are present. The public holistic DAG audit reports PASS for the GS62 DAG/source/source-json comparison: the formalized source-facing endpoints are represented, and the quota result is shown through the verified deferred-acceptance/cloned-seat reduction.
 
 ## 16. Validation Checks
+
+<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
+### LLM-as-Judge Results
+- Source coverage (`audit/paper_coverage_llm.json`): 7 covered.
+- Statement match (`audit/statement_match_llm.json`): 7 matches.
+- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 7 row translations generated from Lean statements.
+- Assumption provenance: no assumption-match sidecar tracked for this paper.
+- Source-record classification: no source-record classification sidecar tracked for this paper.
+- Source-record structural audit (`audit/source_record_audit.json`): 7 review rows, 0 boundary inputs, 0 recursion failures.
+- Review-surface audit (`audit/review_surface_llm.json`): passes over 7 review rows.
+- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
+- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
+<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
+
 ### Cross-Artifact Checks
 
 - Paper text/PDF: local PDF/text caches are ignored by the paper-folder

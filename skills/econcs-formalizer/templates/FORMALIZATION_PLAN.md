@@ -33,6 +33,8 @@ source risks, and reusable-library choices before opening Lean files.
   - Mathlib declarations/modules inspected:
   - Cslib declarations/modules inspected:
   - Optlib declarations/modules inspected:
+  - Other potential upstream sources inspected:
+  - Upstream sources used or ported, with citation/provenance:
   - Existing `EconCSLib` declarations/modules inspected:
   - API chosen and near-misses:
 - Proof strategy consequences:
