@@ -66,7 +66,7 @@ single reusable-library stochastic subgradient convergence theorem, and Theorem
 None found.
 
 ## 10. Paper Issues or Caveats
-Theorem 3 appears to need an explicit feasibility condition for the aggregate direction at a constrained limit point. In full space this condition is automatic, and the formalization recovers the paper's stated conclusion; for general constrained spaces, the formalized result is the weaker alternative that either the aggregate directional field vanishes or the aggregate direction is not feasible. This is recorded as a statement-level caveat, not as a broader objection to the economic model.
+Theorem 3 appears to need an explicit feasibility condition for the aggregate direction at a constrained limit point. In full space this condition is automatic, and the formalization recovers the paper's stated conclusion; for general constrained spaces, the formalized result is the weaker alternative that either the aggregate directional field vanishes or the aggregate direction is not feasible. This is recorded as a statement-level clarification, not as a broader objection to the economic model; see `THEOREM3_CONSTRAINED_SPACE_SOURCE_NOTE.md`.
 
 ## 11. Detailed Formalization Evidence
 - The source-facing definition and formula rows compile for C1-C3, the

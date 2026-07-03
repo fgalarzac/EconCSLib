@@ -11,6 +11,9 @@
 - The DAG explicitly keeps the SSGM convergence theorem as the sole
   theorem-shaped boundary and shows Theorem 3's exact paper statement only on
   the full-space/source-semantics route.
+- `THEOREM3_CONSTRAINED_SPACE_SOURCE_NOTE.md` records the paper statement, the
+  constrained-space formal statement, and why this is a statement clarification
+  rather than a source-correctness critique.
 
 ## Commands
 - `lake build GKGMM19IterativeLocalVoting`: passed.
