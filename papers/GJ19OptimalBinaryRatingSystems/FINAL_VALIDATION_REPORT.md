@@ -1,6 +1,6 @@
 # Final Validation Report: GJ19 Optimal Binary Rating Systems
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 The binary-rating theory from the AISTATS/PMLR paper and supplement is
@@ -44,9 +44,7 @@ surface. Empirical simulations, plots, and visualization material remain
 outside the Lean theorem scope.
 
 ## 6. Additional Assumptions Beyond Paper
-None identified. The Lean development exposes model-regularity,
-measurability, boundedness, positivity, and convergence hypotheses explicitly
-where the source proof uses them in prose.
+None.
 
 ## 7. Proof-Strategy Deviations
 None. The Lean proof factors several source arguments through reusable large-deviation, finite-optimization, and convergence interfaces, but the paper-facing conclusions are the source results.
@@ -81,8 +79,14 @@ The formalized surface includes:
 - Lemmas C.10-C.12, the Kendall/Spearman examples, Theorem B.1, Corollary C.4,
   and Appendix B.2/B.3 learning wrappers.
 
+Source-domain notes: the Lean development exposes model-regularity,
+measurability, boundedness, positivity, and convergence hypotheses explicitly
+where the source proof uses them in prose.
+
 ## 12. Paper Assumption Provenance
-Assumption provenance is tracked in `papers/GJ19OptimalBinaryRatingSystems/Assumptions.lean` and `papers/GJ19OptimalBinaryRatingSystems/audit/assumption_match_llm.json` when assumption rows exist. No additional assumption-provenance table was separately recorded in this report refresh.
+No paper-local assumption rows are tracked for this paper; the generated
+validator summary above is the current assumption-provenance status. Source
+conditions are exposed directly in theorem statements and detailed evidence.
 
 ## 13. Displayed Formula Provenance
 Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.

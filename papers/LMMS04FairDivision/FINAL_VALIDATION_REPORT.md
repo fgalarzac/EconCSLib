@@ -1,6 +1,6 @@
 # Final Validation Report: LMMS04 Fair Division
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 Partially formalized. Sections 2 and 4 are checked, and Section 3 has the
@@ -47,17 +47,19 @@ records that layer through explicit partial-boundary rows and proves the
 supporting finite algebraic, rounded-search, and transfer statements around it.
 
 ## 6. Additional Assumptions Beyond Paper
-None. Positive error parameters, finite duplicate-free goods enumerations,
-positive atom bounds, normalized random-allocation weights, and Section 3 load
-and rounding conditions are source theorem/model conditions. Graham scheduling
-and fixed-dimension IP runtime are partial or external theorem/library
-boundaries, not additional assumptions accepted as completed theorem
-hypotheses.
+None.
 
 ## 7. Proof-Strategy Deviations
-- Theorem 4.1 is proved with a smaller finite counterexample than the source exposition; this is sufficient for the impossibility theorem.
-- Claim 3.4 required a more explicit finite-descent proof than the prose presentation. The formal proof separates high-source moves from low-only tie-breaking moves.
-- Theorem 4.2 is recorded as the finite inequality used by the proof rather than a separate asymptotic Big-O wrapper.
+- Source route: Theorem 4.1 presents a finite counterexample exposition. Lean
+  route: the proof uses a smaller finite counterexample. This is sufficient for
+  the impossibility theorem and keeps the checked witness minimal.
+- Source route: Claim 3.4 gives a prose descent argument. Lean route: the proof
+  separates high-source moves from low-only tie-breaking moves in an explicit
+  finite-descent proof. This makes the progress measure checkable.
+- Source route: Theorem 4.2 states an asymptotic Big-O wrapper. Lean route: the
+  report records the finite inequality used by the proof. This preserves the
+  checked mathematical content while leaving asymptotic notation out of the
+  formal interface.
 
 ## 8. Proof Tricks Worth Reusing
 - For algorithmic PTAS/FPTAS claims, isolate the finite algebraic/search support from the machine-level runtime theorem so the partial boundary is precise.
@@ -88,6 +90,13 @@ search infrastructure, bounded-optimal allocation certificates, and
 ratio-transfer lemmas. The final PTAS/FPTAS theorem is not closed because the
 reusable fixed-dimension integer-program runtime theorem is not yet in the
 library.
+
+Source-domain notes: positive error parameters, finite duplicate-free goods
+enumerations, positive atom bounds, normalized random-allocation weights, and
+Section 3 load and rounding conditions are source theorem/model conditions.
+Graham scheduling and fixed-dimension IP runtime are partial or external
+theorem/library boundaries, not additional assumptions accepted as completed
+theorem hypotheses.
 
 ## 12. Paper Assumption Provenance
 Every non-derived paper-facing premise is routed through

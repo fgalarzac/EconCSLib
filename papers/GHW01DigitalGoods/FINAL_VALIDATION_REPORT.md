@@ -1,6 +1,6 @@
 # Final Validation Report: Competitive Auctions and Digital Goods
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 Formalized. The report covers the SODA paper's competitive-auction results,
@@ -39,7 +39,7 @@ recorded.
 None for the SODA target formalized here. Journal-only results outside that target are not claimed.
 
 ## 6. Additional Assumptions Beyond Paper
-- None
+None.
 
 ## 7. Proof-Strategy Deviations
 None. Section 8.2 is checked against the later journal monotone-auction wording, and the erased-list/list-price bridge is derived internally from the paper's set-of-bids convention and Lemma 9.2; these are source-version and proof-organization notes rather than theorem deviations.
@@ -202,9 +202,15 @@ route, Bayesian-offer lemma family, and the Section 8.2 revenue theorem.
   Lean: `theorem9_3_deterministic_truthful_lower_bound`. Status: formalized.
 
 ## 19. Paper-Facing Statement Validator Ledger
-The paper-facing review surface contains 18 rows: 7 definitions and 11 theorem,
-lemma, or corollary endpoints. The Section 8.2 source-version audit endpoint is
-kept in `PostPaperAudit.lean` and is not part of this paper-facing inventory.
+Current source: `audit/statement_match_llm.json`, refreshed 2026-06-29, plus assumption provenance in `audit/assumption_match_llm.json`.
 
-Summary: 18 rows; 18 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar
-rows: none after removing the non-paper-facing audit row from the sidecars.
+| Validator surface | Result |
+| --- | --- |
+| Statement match | 30 matches. |
+| Lean-to-TeX drafts | 18 row translations generated from Lean statements. |
+| Assumption provenance | 12 paper_condition. |
+| Source coverage | 30 covered. |
+
+The full row-level validator ledger is tracked in the JSON sidecars. Human
+dashboard reviews and model/agent statement checks are separate provenance lanes;
+this report does not change the human-only `human_review.reviewed_rows` counter.

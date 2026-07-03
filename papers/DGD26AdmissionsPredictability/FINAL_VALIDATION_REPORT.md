@@ -1,6 +1,6 @@
 # Final Validation Report: Capacity Constraints Make Admissions Processes Less Predictable
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 This paper's finite choice-function theory is formalized. The Lean development
@@ -68,16 +68,7 @@ Empirical NYC performance plots and private-data program instantiations are
 outside the Lean theorem scope.
 
 ## 6. Additional Assumptions Beyond Paper
-No additional assumptions beyond the paper are used, and no paper-local
-assumptions are declared in `Assumptions.lean`.
-
-The no-zero-instability result explicitly carries the standard nontrivial
-capacity domain from the source model: positive capacity and an applicant set
-larger than capacity. Exact variability and tight-instability refinements
-expose a concrete displacement witness to exclude degenerate no-change cases.
-The LAP distinct-order theorem is exposed with the finite assignment
-hypotheses used in the source proof: unique global chosen set, slotwise no ties,
-and a classifier that only groups slots with the same induced applicant order.
+None.
 
 ## 7. Proof-Strategy Deviations
 None. The formalization follows the finite choice-function and finite-assignment proof routes at a source-facing level. The removable-set equality described below is a source typo, not a proof-strategy deviation.
@@ -99,6 +90,14 @@ None. The formalization follows the finite choice-function and finite-assignment
 No substantive theorem counterexample or broader caveat is recorded. The removable-set equality above is treated as a typo.
 
 ## 11. Detailed Formalization Evidence
+- Source-domain notes: the no-zero-instability result explicitly carries the
+  standard nontrivial capacity domain from the source model: positive capacity
+  and an applicant set larger than capacity. Exact variability and
+  tight-instability refinements expose a concrete displacement witness to
+  exclude degenerate no-change cases. The LAP distinct-order theorem is exposed
+  with the finite assignment hypotheses used in the source proof: unique global
+  chosen set, slotwise no ties, and a classifier that only groups slots with
+  the same induced applicant order.
 - `papers/DGD26AdmissionsPredictability/LAP.lean`: finite assignment model,
   objective optimality, alternating-splice exchange, LAP 1-instability, and the
   distinct slot-order variability theorem.
@@ -113,7 +112,10 @@ No substantive theorem counterexample or broader caveat is recorded. The removab
   function lemmas, including the even-instability inconsistency converse.
 
 ## 12. Paper Assumption Provenance
-Assumption provenance is tracked in `papers/DGD26AdmissionsPredictability/Assumptions.lean` and `papers/DGD26AdmissionsPredictability/audit/assumption_match_llm.json` when assumption rows exist. No additional assumption-provenance table was separately recorded in this report refresh.
+No paper-local assumption rows are tracked for this paper; the generated
+validator summary above is the current assumption-provenance status. Source
+model conditions are exposed directly in theorem statements and detailed
+evidence.
 
 ## 13. Displayed Formula Provenance
 Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.

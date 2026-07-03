@@ -1,9 +1,10 @@
 # Final Validation Report: KR21 Monoculture
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 Formalized. The main Mallows and three-candidate Gaussian/Laplace RUM routes are formalized. No named theorem or main-text result is affected by the Appendix C Lemma 1 source note recorded below.
+No human dashboard sign-off has been recorded.
 
 ## 2. Closeout Status
 - Completion status: formalized.
@@ -31,17 +32,23 @@ Formalized. The main Mallows and three-candidate Gaussian/Laplace RUM routes are
 - Appendix E/D Mallows family results are formalized through the concrete Mallows family assumption package and Theorem 9 route.
 
 ## 5. Remaining Boundaries and Gaps
-No proof boundary remains for the paper-facing status. Human dashboard review has not yet been saved for the 49 reviewed rows.
+No proof boundary remains for the paper-facing status.
 
 ## 6. Additional Assumptions Beyond Paper
 None.
 
-Visible hypotheses such as positive accuracy, strict value ordering, nonempty remaining sets, density normalization, full-support/no-tie conditions, and Mallows parameter inequalities are source theorem conditions or model parameters. They are not counted as additional assumptions.
-
 ## 7. Proof-Strategy Deviations
-- Laplacian well-ordering is used in its mathematically valid weak form, with strict downstream conclusions obtained from the later support and monotonicity arguments rather than from the false global strict pointwise claim.
-- The Mallows sequential-optimality proof was closed by isolating a reduced same-size prefix-cut weighted-extremes cancellation theorem, proving the first-choice prefix-cut probability comparisons, deleting absent extremes and trivial cuts, and routing Theorem 4 through remaining-utility dominance rather than assuming a broad weak-Bruhat/Mallows monotonicity theorem.
-- Several source-facing endpoints expose finite and continuous score-space conditions explicitly instead of hiding them behind proof certificates. Certificate and boundary helper rows are classified as auxiliary in `status.json`.
+- Source route: Appendix C states a global strict Laplacian well-ordering
+  claim. Lean route: the formalization uses the mathematically valid weak form
+  and obtains strict downstream conclusions from the later support and
+  monotonicity arguments. This matters because the global strict pointwise claim
+  is false, while the named downstream theorems remain formalized.
+- Source route: the Mallows sequential-optimality proof relies on broad
+  monotonicity intuition. Lean route: the proof isolates a reduced same-size
+  prefix-cut weighted-extremes cancellation theorem, proves first-choice
+  prefix-cut probability comparisons, deletes absent extremes and trivial cuts,
+  and routes Theorem 4 through remaining-utility dominance. This avoids
+  assuming an unproved broad weak-Bruhat/Mallows monotonicity theorem.
 
 ## 8. Proof Tricks Worth Reusing
 - For source claims that contain a false strict lemma but a true downstream theorem, prove a corrected lemma and then prove the downstream theorem from exactly the weaker lemma plus the later strictness source.
@@ -70,6 +77,15 @@ No named theorem or main-text result is affected by this source-note correction.
 - Theorem 4 weak and strict sequential optimality routes.
 
 The auxiliary rows are proof-route artifacts such as explicit concentration/limit boundary helpers, negative-correlation certificates, and Laplacian lambda-certificate variants. They are not used as hidden paper-status boundaries.
+
+Several source-facing endpoints expose finite and continuous score-space
+conditions explicitly rather than hiding them behind proof certificates.
+Certificate and boundary helper rows are classified as auxiliary in
+`status.json`.
+Visible hypotheses such as positive accuracy, strict value ordering, nonempty
+remaining sets, density normalization, full-support/no-tie conditions, and
+Mallows parameter inequalities are source theorem conditions or model
+parameters.
 
 ## 12. Paper Assumption Provenance
 No KR21-specific `Assumptions.lean` ledger is used for the final status. The paper-facing reviewed rows have no additional non-source assumptions recorded in `status.json`.

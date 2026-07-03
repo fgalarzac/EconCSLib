@@ -1,6 +1,6 @@
 # Final Validation Report: Gale-Shapley 1962
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 Formalized. The Gale-Shapley existence, college-admissions existence, and
@@ -36,16 +36,12 @@ recorded.
 None.
 
 ## 6. Additional Assumptions Beyond Paper
-- None
+None.
 
 ## 7. Proof-Strategy Deviations
-- Theorem 1 is not re-proved from the printed prose. It is discharged through
-  the reusable deferred-acceptance stability theorem plus a finite
-  equal-cardinality completeness bridge.
-- The college-admissions quota theorem uses the cloned-seat reduction rather
-  than a separate many-to-one rejection-process proof.
-- Theorem 2 uses the reusable DA proposer-optimality theorem already developed
-  for Roth's matching paper.
+None. The deferred-acceptance reuse, cloned-seat quota construction, and
+proposer-optimality reuse are proof-organization choices recorded below, not
+substantive departures from the Gale-Shapley proof route.
 
 ## 8. Proof Tricks Worth Reusing
 - Reuse the shared deferred-acceptance stability and proposer-optimality theorems for older matching papers with terse source proofs.
@@ -59,7 +55,14 @@ None found.
 None found.
 
 ## 11. Detailed Formalization Evidence
-See the verdict and named-statement sections in this report.
+Proof-organization notes:
+
+- Theorem 1 is discharged through the reusable deferred-acceptance stability
+  theorem plus a finite equal-cardinality completeness bridge.
+- The college-admissions quota theorem uses the source-standard cloned-seat
+  reduction for college quotas.
+- Theorem 2 uses the reusable deferred-acceptance proposer-optimality theorem
+  already developed for the shared matching library.
 
 ## 12. Paper Assumption Provenance
 | Assumption declaration | Lean declaration | Source location / statement | Assumption validators | Comments |
@@ -122,13 +125,12 @@ The main reusable material already lives in the shared matching library: deferre
 
 ### Statement Translation Audit
 
-Audit date: 2026-06-06.
-Scope: current dashboard rows from `PaperInterface.lean`; `lean_to_tex_llm.json` records context-free Lean-to-TeX drafts and `statement_match_llm.json` records the context-free paper-vs-translation judgment.
+Audit date: 2026-06-29.
+Scope: current dashboard surface from `PaperInterface.lean`; the generated
+LLM-as-judge block above is sourced from the tracked sidecars.
 
-Summary: 7 rows; 7 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar rows: none. Surface audit: not required (30 or fewer rows).
-
-Flagged rows:
-- None.
+Summary: statement match has 7 matches; Lean-to-TeX has 7 row translations; assumption provenance has no assumption-match sidecar tracked.
+No separate stale manual validator table is maintained in this report.
 
 ## 17. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
@@ -166,18 +168,15 @@ Flagged rows:
 <!-- lean-derived-statements:end -->
 
 ## 19. Paper-Facing Statement Validator Ledger
-Generated from dashboard status export:
+Current source: `audit/statement_match_llm.json`, refreshed 2026-06-29.
 
-`python3 scripts/review_dashboard.py --paper GS62CollegeAdmissions --export-format validators-md`
+| Validator surface | Result |
+| --- | --- |
+| Statement match | 7 matches. |
+| Lean-to-TeX drafts | 7 row translations generated from Lean statements. |
+| Assumption provenance | no assumption-match sidecar tracked. |
+| Source coverage | 7 covered. |
 
-| Paper-facing statement | Lean declaration | Validators | Validator comments |
-| --- | --- | --- | --- |
-| def applicantOptimalStableMarriage | `applicantOptimalStableMarriage` | gpt-5-codex (model; matches; 2026-06-06T20:39:36Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:36Z): Translation preserves stability and the universal weak-preference comparison for every proposer against any stable marriage. |
-| theorem college_admissions_stable_assignment_exists | `college_admissions_stable_assignment_exists` | gpt-5-codex (model; matches; 2026-06-06T20:39:36Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:36Z): Translation preserves finite applicants and colleges, arbitrary quotas and utilities, and existence of a stable many-to-one assignment. |
-| def completeMarriage | `completeMarriage` | gpt-5-codex (model; matches; 2026-06-06T20:39:36Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:36Z): Translation preserves that every participant on both sides is matched. |
-| def stableMarriage | `stableMarriage` | gpt-5-codex (model; matches; 2026-06-06T20:39:36Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:36Z): Translation states individual rationality for both sides and excludes blocking pairs with strict mutual preference. |
-| def strictMarriageDomain | `strictMarriageDomain` | gpt-5-codex (model; matches; 2026-06-06T20:39:36Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:36Z): Translation preserves strict preferences on both sides and universal acceptability of all man-woman pairs. |
-| theorem theorem1_stable_marriage_exists | `theorem1_stable_marriage_exists` | gpt-5-codex (model; matches; 2026-06-12T16:19:01Z) | gpt-5-codex (model; matches; 2026-06-12T16:19:01Z): Translation preserves the finite equal-cardinality strict marriage-domain theorem while making the Lean representation explicit: both sides use the same finite index type, so equal cardinality is derived rather than an extra premise. |
-| theorem theorem2_applicant_optimality | `theorem2_applicant_optimality` | gpt-5-codex (model; matches; 2026-06-12T16:19:01Z) | gpt-5-codex (model; matches; 2026-06-12T16:19:01Z): Translation preserves the finite equal-cardinality strict-domain applicant-optimality theorem while making the Lean representation explicit: both sides use the same finite index type, so equal cardinality is derived rather than an extra premise. |
-
-Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
+The full row-level validator ledger is tracked in the JSON sidecars. Human
+dashboard reviews and model/agent statement checks are separate provenance lanes;
+this report does not change the human-only `human_review.reviewed_rows` counter.

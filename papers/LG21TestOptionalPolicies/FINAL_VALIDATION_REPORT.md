@@ -1,6 +1,6 @@
 # Final Validation Report: Test-optional Policies
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 Formalized. The report covers all named definitions and results in Sections
@@ -134,7 +134,7 @@ belong in `PostPaperAudit.lean`.
 None for the named Sections 2-4 theorem surface.
 
 ## 6. Additional Assumptions Beyond Paper
-- None
+None.
 
 ## 7. Proof-Strategy Deviations
 None. The compact paper-facing premise surface is a report/audit organization choice; it does not change the paper's proof route or theorem statements.
@@ -284,16 +284,12 @@ Expected human-review precheck warning:
 
 ### Statement Translation Audit
 
-Audit date: 2026-06-12 for the statement rows and assumption-provenance audit.
-Scope: current dashboard rows from `PaperInterface.lean`; `lean_to_tex_llm.json` records context-free Lean-to-TeX drafts and `statement_match_llm.json` records the context-free paper-vs-translation judgment.
+Audit date: 2026-06-29.
+Scope: current dashboard surface from `PaperInterface.lean`; the generated
+LLM-as-judge block above is sourced from the tracked sidecars.
 
-Previous statement summary: 16 rows; 16 match, 0 uncertain, 0 mismatch, 0
-missing. Current statement sidecars are refreshed against the compact
-`PaperInterface.lean` surface, and the assumption-provenance sidecar validates
-20/20 compact source-model/domain premises with no partial-boundary rows.
-
-Flagged rows:
-- None.
+Summary: statement match has 23 matches; Lean-to-TeX has 16 row translations; assumption provenance has 7 paper_condition.
+No separate stale manual validator table is maintained in this report.
 
 ## 17. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
@@ -327,27 +323,15 @@ None exposed in the current dashboard surface.
 <!-- lean-derived-statements:end -->
 
 ## 19. Paper-Facing Statement Validator Ledger
-Generated from dashboard status export:
+Current source: `audit/statement_match_llm.json`, refreshed 2026-06-29, plus assumption provenance in `audit/assumption_match_llm.json`.
 
-`python3 scripts/review_dashboard.py --paper LG21TestOptionalPolicies --export-format validators-md`
+| Validator surface | Result |
+| --- | --- |
+| Statement match | 23 matches. |
+| Lean-to-TeX drafts | 16 row translations generated from Lean statements. |
+| Assumption provenance | 7 paper_condition. |
+| Source coverage | 23 covered. |
 
-| Paper-facing statement | Lean declaration | Validators | Validator comments |
-| --- | --- | --- | --- |
-| abbrev definition1_source_equilibrium | `definition1_source_equilibrium` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The declaration-keyed source statement and context-free Lean-to-TeX draft state the same source-model definition or result. |
-| abbrev definition2_latent_skill_fair | `definition2_latent_skill_fair` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The declaration-keyed source statement and context-free Lean-to-TeX draft state the same source-model definition or result. |
-| abbrev definition3_observable_fair | `definition3_observable_fair` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The declaration-keyed source statement and context-free Lean-to-TeX draft state the same source-model definition or result. |
-| abbrev definition4_demographic_fair | `definition4_demographic_fair` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The declaration-keyed source statement and context-free Lean-to-TeX draft state the same source-model definition or result. |
-| abbrev definition5_test_blank | `definition5_test_blank` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The declaration-keyed source statement and context-free Lean-to-TeX draft state the same source-model definition or result. |
-| abbrev definition6_resampling_policy | `definition6_resampling_policy` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The declaration-keyed source statement and context-free Lean-to-TeX draft state the same source-model definition or result. |
-| abbrev lemma4_1_observed_access_strategy_proofness | `lemma4_1_observed_access_strategy_proofness` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The declaration-keyed source statement and context-free Lean-to-TeX draft state the same source-model definition or result. |
-| abbrev proposition4_2_bayesian_access_estimates_not_latent_skill_fair | `proposition4_2_bayesian_access_estimates_not_latent_skill_fair` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The declaration-keyed source statement and context-free Lean-to-TeX draft state the same source-model definition or result. |
-| abbrev proposition4_3_bayesian_optimal_not_observable_or_demographic_fair | `proposition4_3_bayesian_optimal_not_observable_or_demographic_fair` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The declaration-keyed source statement and context-free Lean-to-TeX draft state the same source-model definition or result. |
-| abbrev theorem3_1_optional_reporting | `theorem3_1_optional_reporting` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The declaration-keyed source statement and context-free Lean-to-TeX draft state the same source-model definition or result. |
-| abbrev theorem3_1_report_required | `theorem3_1_report_required` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The declaration-keyed source statement and context-free Lean-to-TeX draft state the same source-model definition or result. |
-| abbrev theorem3_2_optional_reporting_fairness_impossibility | `theorem3_2_optional_reporting_fairness_impossibility` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The declaration-keyed source statement and context-free Lean-to-TeX draft state the same source-model definition or result. |
-| abbrev theorem3_2_optional_reporting_no_test_relevance | `theorem3_2_optional_reporting_no_test_relevance` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The declaration-keyed source statement and context-free Lean-to-TeX draft state the same source-model definition or result. |
-| abbrev theorem3_2_report_required_fairness_impossibility | `theorem3_2_report_required_fairness_impossibility` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The declaration-keyed source statement and context-free Lean-to-TeX draft state the same source-model definition or result. |
-| abbrev theorem3_2_report_required_no_test_relevance | `theorem3_2_report_required_no_test_relevance` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The declaration-keyed source statement and context-free Lean-to-TeX draft state the same source-model definition or result. |
-| abbrev theorem4_4_resampling_policy | `theorem4_4_resampling_policy` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The declaration-keyed source statement and context-free Lean-to-TeX draft state the same source-model definition or result. |
-
-Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
+The full row-level validator ledger is tracked in the JSON sidecars. Human
+dashboard reviews and model/agent statement checks are separate provenance lanes;
+this report does not change the human-only `human_review.reviewed_rows` counter.

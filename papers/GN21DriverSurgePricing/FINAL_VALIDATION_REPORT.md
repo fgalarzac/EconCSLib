@@ -1,6 +1,6 @@
 # Final Validation Report: Driver Surge Pricing
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 Formalized. The named driver-surge results are checked, with Theorem 3 stated
@@ -36,15 +36,18 @@ Scope: this report covers the paper's single-state and dynamic incentive-compati
 None for the denominator-valid theorem surface formalized here.
 
 ## 6. Additional Assumptions Beyond Paper
-- None
+None.
 
 ## 7. Proof-Strategy Deviations
 The Lean proof follows the paper's qualitative route, but makes two proof-level routes explicit where the source uses standard shorthand:
 
-- The renewal-reward bridge is proved with IID cycles and strong-law wrappers rather than an informal limit argument.
-- Theorem 1 handles threshold-boundary atoms using one-sided dominated-convergence arguments rather than assuming boundary mass away.
-
-The other visible differences are source-domain choices or proof organization: continuous policies are treated as measurable sets, Theorem 3 is kept on the denominator-valid reward-rate domain used by the source formulas, and Theorem 2's non-IC clause is witnessed by a concrete measured atomic instance.
+- Source route: Section 2.2 uses an informal renewal-reward limit argument.
+  Lean route: the bridge is proved with IID cycles and strong-law wrappers.
+  This makes the stochastic limit step an explicit checked theorem input.
+- Source route: Theorem 1 treats threshold boundary behavior in prose. Lean
+  route: the proof handles threshold-boundary atoms using one-sided
+  dominated-convergence arguments. This avoids adding a hidden boundary-mass
+  assumption.
 
 ## 8. Proof Tricks Worth Reusing
 - Work directly in the continuous/measure-theoretic model when the source proof
@@ -120,6 +123,11 @@ No false main theorem is reported. The denominator-valid domain is made explicit
   `m_i tau + z_i q_{i->j}(tau)`, proves defined-reward dynamic incentive
   compatibility, and proves accept-all uniqueness up to null sets on the
   positive-denominator source domain used by the paper's reward-rate formulas.
+
+Other visible differences are source-domain choices or proof organization:
+continuous policies are treated as measurable sets, Theorem 3 is kept on the
+denominator-valid reward-rate domain used by the source formulas, and Theorem
+2's non-IC clause is witnessed by a concrete measured atomic instance.
 
 ## 12. Paper Assumption Provenance
 Every paper-facing premise is routed through
@@ -223,13 +231,13 @@ and grouped Remarks 1, 3, and 4.
 
 ### Human Review Status
 
-`SOURCE_AUDIT.md` records an agent source audit for all 24 paper-interface rows.
+`SOURCE_AUDIT.md` records an agent source audit for the paper-interface rows.
 That audit checks that the Lean-facing rows correspond to paper-facing source
 claims, but it is not human dashboard review.
 
-After clearing the agent-generated local trace, the dashboard precheck reports
-`0/24 reviewed`, `24 unreviewed`, `0 stale`, and `0 mismatch`.  This is the
-expected state until a human reviewer validates the rows through the dashboard.
+The current review surface has 36 human-review declarations. No human dashboard
+sign-off has been recorded; that is a review-process status, not a Lean proof
+gap.
 
 ### Verification Summary
 
@@ -245,14 +253,12 @@ human-review theorem surface lives in `PaperInterface.lean`.
 
 ### Statement Translation Audit
 
-Audit date: 2026-06-12.
-Scope: current dashboard rows from `PaperInterface.lean`; `lean_to_tex_llm.json` records context-free Lean-to-TeX drafts and `statement_match_llm.json` records the context-free paper-vs-translation judgment.
+Audit date: 2026-06-29.
+Scope: current dashboard surface from `PaperInterface.lean`; the generated
+LLM-as-judge block above is sourced from the tracked sidecars.
 
-Summary: 34 rows; 34 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar
-rows: none. The 34 rows consist of 24 paper-interface rows plus 10 typed
-assumption-provenance rows. The row-local statement match lane is clean, but it
-does not certify theorem-premise provenance; that is handled by the strict
-assumption audit above.
+Summary: statement match has 34 matches, 2 mismatch; resolutions: 2 conditional_boundary; Lean-to-TeX has 26 row translations; assumption provenance has 10 paper_condition.
+No separate stale manual validator table is maintained in this report.
 
 ## 17. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
@@ -260,10 +266,10 @@ assumption audit above.
 
 | Paper-facing item | Lean declaration | Source-facing statement |
 | --- | --- | --- |
-| def review_definition_single_state_ic | `review_definition_single_state_ic` | uncertain. Paper-facing statement only names the definition; the translation is tautological and too compressed to verify contents. |
-| def review_definition_dynamic_ic | `review_definition_dynamic_ic` | uncertain. Paper-facing statement only names the definition; the translation does not expose the dynamic IC condition. |
-| def review_definition_threshold_policy | `review_definition_threshold_policy` | uncertain. Paper-facing statement only names threshold policies; the translation references a predicate without enough content to judge. |
-| def review_definition_dynamic_defined_reward | `review_definition_dynamic_defined_reward` | uncertain. Paper-facing statement only names positive-mass denominators; the translation is a type-level description without details. |
+| def review_definition_single_state_ic | `review_definition_single_state_ic` | Single-state incentive compatibility: accept-all is weakly optimal among measurable feasible policies. |
+| def review_definition_dynamic_ic | `review_definition_dynamic_ic` | Dynamic incentive compatibility: accept-all is weakly optimal among feasible measurable two-state policies. |
+| def review_definition_threshold_policy | `review_definition_threshold_policy` | Weak threshold policy condition: positive trip lengths are accepted iff payment per time is at least the cutoff. |
+| def review_definition_dynamic_defined_reward | `review_definition_dynamic_defined_reward` | Denominator-valid domain for dynamic reward formulas: feasible measurable two-state policies with positive accepted-trip mass in each state. |
 | abbrev review_section2_single_state_renewal_reward_iid_bridge | `review_section2_single_state_renewal_reward_iid_bridge` | - Section 2.2: IID renewal-reward bridge for the single-state formula. |
 | abbrev review_proposition3_1_affine_single_state_ic | `review_proposition3_1_affine_single_state_ic` | - Proposition 3.1: affine single-state pricing is incentive compatible. |
 | abbrev review_theorem1_single_state_threshold_best_response | `review_theorem1_single_state_threshold_best_response` | - Theorem 1: optimal single-state policies are threshold policies. |
@@ -295,35 +301,15 @@ assumption audit above.
 <!-- lean-derived-statements:end -->
 
 ## 19. Paper-Facing Statement Validator Ledger
-Generated from dashboard status export:
+Current source: `audit/statement_match_llm.json`, refreshed 2026-06-29, plus assumption provenance in `audit/assumption_match_llm.json`.
 
-`python3 scripts/review_dashboard.py --paper GN21DriverSurgePricing --export-format validators-md`
+| Validator surface | Result |
+| --- | --- |
+| Statement match | 34 matches, 2 mismatch; resolutions: 2 conditional_boundary. |
+| Lean-to-TeX drafts | 26 row translations generated from Lean statements. |
+| Assumption provenance | 10 paper_condition. |
+| Source coverage | 34 covered, 2 conditional_boundary. |
 
-| Paper-facing statement | Lean declaration | Validators | Validator comments |
-| --- | --- | --- | --- |
-| def review_definition_dynamic_defined_reward | `review_definition_dynamic_defined_reward` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:34Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:34Z): Paper-facing statement only names positive-mass denominators; the translation is a type-level description without details. |
-| def review_definition_dynamic_ic | `review_definition_dynamic_ic` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:34Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:34Z): Paper-facing statement only names the definition; the translation does not expose the dynamic IC condition. |
-| def review_definition_single_state_ic | `review_definition_single_state_ic` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:34Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:34Z): Paper-facing statement only names the definition; the translation is tautological and too compressed to verify contents. |
-| def review_definition_threshold_policy | `review_definition_threshold_policy` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:34Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:34Z): Paper-facing statement only names threshold policies; the translation references a predicate without enough content to judge. |
-| abbrev review_lemma10_nonsurge_derivative_positive_of_acceptAll_bounds | `review_lemma10_nonsurge_derivative_positive_of_acceptAll_bounds` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation states derivative positivity under non-surge accept-all bounds and related assumptions. |
-| abbrev review_lemma1_measured_dynamic_reward_decomposition | `review_lemma1_measured_dynamic_reward_decomposition` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation states the dynamic reward as a time-fraction weighted sum of state reward rates. |
-| abbrev review_lemma2_switch_probability_formula | `review_lemma2_switch_probability_formula` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation gives the CTMC switch probability formula named in the paper statement. |
-| abbrev review_lemma3_measured_time_fraction_formula | `review_lemma3_measured_time_fraction_formula` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation states the time-fraction expression equals the measured time-fraction formula, with nonzero denominator caveats. |
-| abbrev review_lemma4_single_state_threshold_uniqueness | `review_lemma4_single_state_threshold_uniqueness` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation captures threshold optimizer existence and uniqueness up to null sets. |
-| abbrev review_lemma5_fixed_response_policy_form | `review_lemma5_fixed_response_policy_form` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation captures that an optimal fixed-response feasible policy has the specified form almost everywhere. |
-| abbrev review_lemma6_upper_endpoint_derivative_formula | `review_lemma6_upper_endpoint_derivative_formula` | gpt-5-codex (model; matches; 2026-06-12T18:05:00Z) | gpt-5-codex (model; matches; 2026-06-12T18:05:00Z): Translation captures the derivative formula and the conditional strict sign correspondence: the derivative identity itself does not assume positive endpoint density, while strict sign transfer is conditional on positive endpoint density. |
-| abbrev review_lemma7_affine_positive_additive_response_quasi_convex | `review_lemma7_affine_positive_additive_response_quasi_convex` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation states positive-additive affine response is strictly quasi-convex with explicit sign assumptions. |
-| abbrev review_lemma8_affine_negative_additive_response_quasi_concave | `review_lemma8_affine_negative_additive_response_quasi_concave` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation states negative-additive affine response is strictly quasi-concave with explicit sign assumptions. |
-| abbrev review_lemma9_surge_derivative_positive_of_acceptAll_bounds | `review_lemma9_surge_derivative_positive_of_acceptAll_bounds` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation states derivative positivity under surge accept-all bounds and related assumptions. |
-| abbrev review_proposition3_1_affine_single_state_ic | `review_proposition3_1_affine_single_state_ic` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation states affine single-state renewal reward is incentive compatible under parameter bounds and assumptions. |
-| abbrev review_remark1_switch_probability_per_time_strictAntiOn | `review_remark1_switch_probability_per_time_strictAntiOn` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation states strict decrease of switch probability per unit time on positive times. |
-| abbrev review_remark3_switch_probability_per_time_tendsto_at_zero | `review_remark3_switch_probability_per_time_tendsto_at_zero` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation states the small-time per-unit switch probability limit equals the switch rate. |
-| abbrev review_remark4_switch_time_minus_switch_probability_nonneg | `review_remark4_switch_time_minus_switch_probability_nonneg` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation states lambda*tau minus switch probability is nonnegative under nonnegative time/rate assumptions. |
-| abbrev review_section2_single_state_renewal_reward_iid_bridge | `review_section2_single_state_renewal_reward_iid_bridge` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation states the IID renewal-reward convergence bridge to the single-state formula. |
-| abbrev review_theorem1_single_state_threshold_best_response | `review_theorem1_single_state_threshold_best_response` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation captures existence of an optimal threshold policy, adding explicit measurability and positivity assumptions. |
-| theorem review_theorem2_multiplicative_policy_shape_ae | `review_theorem2_multiplicative_policy_shape_ae` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation matches the stated structural handoff: optimal policies have the described almost-everywhere rejection shapes. |
-| theorem review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_states | `review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_states` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation captures the explicit multiplicative instance with profitable finite cutoff deviations in both states and non-IC. |
-| theorem review_theorem3_defined_reward_source_statement | `review_theorem3_defined_reward_source_statement` | gpt-5-codex (model; matches; 2026-06-12T18:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T18:00:00Z): The Lean row matches the fully incentive-compatible accept-all clause of Theorem 3 on the source-domain where Appendix D reward-rate denominators are defined. Lean states this as defined-reward dynamic IC and a.e. uniqueness rather than as totalized real division at zero denominators. |
-| abbrev review_theorem4_structural_policy_representatives | `review_theorem4_structural_policy_representatives` | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:34Z): Translation states existence of structural representatives for optimal policies and that every optimum admits them. |
-
-Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
+The full row-level validator ledger is tracked in the JSON sidecars. Human
+dashboard reviews and model/agent statement checks are separate provenance lanes;
+this report does not change the human-only `human_review.reviewed_rows` counter.

@@ -1,6 +1,6 @@
 # Final Validation Report: Combatting Gerrymandering with Ranked Choice Voting
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 The in-scope theorem ledger is formalized. Lemma C.1, the PAV rounding path,
@@ -36,9 +36,7 @@ None for the theorem ledger. The remaining non-Lean scope is empirical/data/code
 work: district generation, simulations, and redistricting optimization.
 
 ## 6. Additional Assumptions Beyond Paper
-No paper-local assumptions are declared in `Assumptions.lean`. The final
-Proposition 1 theorem exposes source model hypotheses directly, including
-`choice.Total` and quota-respecting choice for the Droop quota.
+None.
 
 ## 7. Proof-Strategy Deviations
 None. The final STV statement reads the party result through `partyFilledSeatCount` on the generated filled-seat run; that is checked accounting for the source result, not a substantive departure from the paper proof.
@@ -64,9 +62,14 @@ ledger.
   Droop-quota bounds to Proposition 1.
 - `EconCSLib.SocialChoice.Voting.STV.SolidCoalition` now contains reusable
   filled-seat total-count and two-party decomposition lemmas.
+- The final Proposition 1 theorem exposes source model hypotheses directly,
+  including `choice.Total` and quota-respecting choice for the Droop quota.
 
 ## 12. Paper Assumption Provenance
-Assumption provenance is tracked in `papers/GGRS26CombattingGerrymanderingRCV/Assumptions.lean` and `papers/GGRS26CombattingGerrymanderingRCV/audit/assumption_match_llm.json` when assumption rows exist. No additional assumption-provenance table was separately recorded in this report refresh.
+No paper-local assumption rows are tracked for this paper; the generated
+validator summary above is the current assumption-provenance status. Source
+model hypotheses are visible in the theorem statements rather than treated as
+additional assumptions.
 
 ## 13. Displayed Formula Provenance
 Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.

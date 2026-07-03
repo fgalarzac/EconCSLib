@@ -1,6 +1,6 @@
 # Final Validation Report: LOS02 Combinatorial Auctions
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 Partially formalized. The finite auction model, generalized Vickrey auction,
@@ -48,11 +48,7 @@ Lean code proves the finite auction/reduction statements and records the
 complexity consequences as conditional external-boundary interfaces.
 
 ## 6. Additional Assumptions Beyond Paper
-None. The nonnegative/nonempty single-minded domain, optimal-allocation
-comparison conditions, denied-bidder case, nonnegative-value deviation domain,
-critical-value conditions, and finite-threshold condition are source theorem
-conditions. The two complexity rows are partial boundaries, not additional
-assumptions accepted as completed theorem hypotheses.
+None.
 
 ## 7. Proof-Strategy Deviations
 None beyond the formalization boundaries already recorded above. The finite
@@ -91,6 +87,12 @@ abstract external-consequence interfaces, but it does not yet contain a
 reusable machine-level theory of polynomial-time reductions,
 NP-hardness/inapproximability, ZPP, or the cited clique/set-packing hardness
 facts.
+
+Source-domain notes: the nonnegative/nonempty single-minded domain,
+optimal-allocation comparison conditions, denied-bidder case, nonnegative-value
+deviation domain, critical-value conditions, and finite-threshold condition are
+source theorem conditions. The two complexity rows are partial boundaries, not
+additional assumptions accepted as completed theorem hypotheses.
 
 ## 12. Paper Assumption Provenance
 Every paper-facing premise is routed through

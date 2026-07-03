@@ -1,6 +1,6 @@
 # Final Validation Report: DSWG24 Discretization Bias
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 Formalized. The named discretization-bias results are checked on the recorded
@@ -46,10 +46,15 @@ found.
 No unresolved formalization boundary is recorded. The former dashboard mismatches for the marginal label share and aggregate posterior rows are closed, and the Theorem 2(iii) endpoint is the source-facing necessary condition.
 
 ## 6. Additional Assumptions Beyond Paper
-- None
+None.
 
 ## 7. Proof-Strategy Deviations
-Theorem 1 has one proof-route deviation. The source's continuous source-transformation proof sketch is underspecified at the measurable-transformation step and in the multiclass `S_b`/`S_d` mass accounting, so Lean proves the same paper-facing bound directly from calibration and separately records a concrete real-coordinate sweep route. The theorem statement is unchanged.
+Theorem 1 has one proof-route deviation. Source route: the paper sketches a
+continuous source-transformation proof. Lean route: because the sketch is
+underspecified at the measurable-transformation step and in the multiclass
+`S_b`/`S_d` mass accounting, Lean proves the same paper-facing bound directly
+from calibration and separately records a concrete real-coordinate sweep route.
+The theorem statement is unchanged.
 
 ## 8. Proof Tricks Worth Reusing
 - Use a concrete coordinate sweep when an arbitrary nonatomic transport proof would be more general than the paper needs.
@@ -126,12 +131,12 @@ The proof uses reusable finite-choice, finite-distribution, and measure-theoreti
 
 ### Statement Translation Audit
 
-Audit date: 2026-06-12.
-Scope: current dashboard rows from `PaperInterface.lean`; `lean_to_tex_llm.json` records context-free Lean-to-TeX drafts and `statement_match_llm.json` records the context-free paper-vs-translation judgment.
+Audit date: 2026-06-29.
+Scope: current dashboard surface from `PaperInterface.lean`; the generated
+LLM-as-judge block above is sourced from the tracked sidecars.
 
-Summary: 32 rows; 32 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar rows: none.
-
-Flagged rows: none.
+Summary: statement match has 41 matches; Lean-to-TeX has 32 row translations; assumption provenance has 9 paper_condition.
+No separate stale manual validator table is maintained in this report.
 
 ## 17. Paper Definitions Checked
 These are the mathematical objects from the paper interface. All are exposed in
@@ -283,43 +288,15 @@ interfaces for independent deterministic and randomized rules.
 <!-- lean-derived-statements:end -->
 
 ## 19. Paper-Facing Statement Validator Ledger
-Generated from dashboard status export:
+Current source: `audit/statement_match_llm.json`, refreshed 2026-06-29, plus assumption provenance in `audit/assumption_match_llm.json`.
 
-`python3 scripts/review_dashboard.py --paper DSWG24DiscretizationBias --export-format validators-md`
+| Validator surface | Result |
+| --- | --- |
+| Statement match | 41 matches. |
+| Lean-to-TeX drafts | 32 row translations generated from Lean statements. |
+| Assumption provenance | 9 paper_condition. |
+| Source coverage | 41 covered. |
 
-| Paper-facing statement | Lean declaration | Validators | Validator comments |
-| --- | --- | --- | --- |
-| def aggregatePosterior | `aggregatePosterior` | gpt-5-codex (model; mismatch; 2026-06-06T20:39:21Z) | gpt-5-codex (model; mismatch; 2026-06-06T20:39:21Z): Paper defines an empirical average over observed x_i; translation gives an expectation over the marginal distribution. |
-| def bias | `bias` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Both define bias as marginal label share minus the reference probability at y. |
-| def calibrated | `calibrated` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Translation is the event-preimage integral form described by the paper statement. |
-| def classifierMAE | `classifierMAE` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Both give E_X sum_y q(y,x)(1-q(y,x)), modulo argument-order notation. |
-| def continuousAggregateBias | `continuousAggregateBias` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Translation defines bias against the continuous aggregate-posterior reference, matching the paper label. |
-| def continuousAggregatePosterior | `continuousAggregatePosterior` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Both define the continuous aggregate posterior reference as the integral of q(x,y). |
-| def continuousBias | `continuousBias` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Translation gives the expected continuous bias relative to a supplied reference distribution. |
-| def continuousClassifierMAE | `continuousClassifierMAE` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Translation supplies the continuous integral form of predictive MAE. |
-| def continuousJointClassifierMAE | `continuousJointClassifierMAE` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Translation gives the joint-measure integral of the predictive MAE integrand. |
-| def continuousJointPriorBias | `continuousJointPriorBias` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Translation states joint prior-reference bias as predicted label mass minus true label prior mass. |
-| def continuousMarginalLabelShare | `continuousMarginalLabelShare` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Both define the continuous label share as the integral of the indicator that the rule outputs y. |
-| def expectedObjective | `expectedObjective` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Translation states the gamma-weighted expected true-label accuracy plus expected fidelity objective. |
-| def fidelity | `fidelity` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Both define fidelity as the negative sum over labels of absolute bias. |
-| def isArgmaxRule | `isArgmaxRule` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Both require the selected label to have posterior score at least every label's score. |
-| def marginalLabelShare | `marginalLabelShare` | gpt-5-codex (model; mismatch; 2026-06-06T20:39:21Z) | gpt-5-codex (model; mismatch; 2026-06-06T20:39:21Z): Paper defines a finite-sample average over predictions; translation defines a population probability under mu_X. |
-| def objective | `objective` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Both define the objective as gamma times average posterior score plus one minus gamma times the fidelity term. |
-| def posteriorSimplex | `posteriorSimplex` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): The nonnegativity, upper bound, and unit-sum conditions exactly express that each q(x) is a probability vector. |
-| def prior | `prior` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Both state the prior/marginal class probability for label y. |
-| def sourceSa | `sourceSa` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Both define S_a as the set where the focal posterior equals 1. |
-| def sourceSb | `sourceSb` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Both define S_b by focal posterior strictly between 1/K and 1. |
-| def sourceSc | `sourceSc` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Both define S_c as the set where the focal posterior equals 1/K. |
-| def sourceSd | `sourceSd` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Both define S_d by focal posterior strictly between 0 and 1/K. |
-| def sourceSe | `sourceSe` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Both define S_e as the set where the focal posterior equals 0. |
-| theorem theorem1i_no_information_bias | `theorem1i_no_information_bias` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Translation gives the plurality-class and non-plurality-class bias formulas for both prior and aggregate-posterior references. |
-| theorem theorem1ii_perfect_classifier_zero_bias | `theorem1ii_perfect_classifier_zero_bias` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Translation states that perfect classification implies zero prior-reference bias for every label. |
-| theorem theorem1iii_argmax_bias_le_mae | `theorem1iii_argmax_bias_le_mae` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Translation states calibrated argmax prior-bias bounded above by predictive MAE, with explicit formal hypotheses. |
-| theorem theorem1iii_tight_binary_example | `theorem1iii_tight_binary_example` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Both state the tight binary example equality between argmax bias at label 0 and classifier MAE. |
-| theorem theorem2i_joint_rule_exists | `theorem2i_joint_rule_exists` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Translation states existence of an expected-objective maximizer, with formal side conditions. |
-| theorem theorem2ii_argmax_accuracy_maximizing | `theorem2ii_argmax_accuracy_maximizing` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Translation states that an argmax rule maximizes expected accuracy under Bayes-optimal score assumptions. |
-| theorem theorem2iii_non_argmax_not_pareto | `theorem2iii_non_argmax_not_pareto` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Translation states non-Pareto-optimality for a positively disagreeing rule under a nontrivial reference distribution. |
-| theorem theorem2iii_strict_disagreement_not_weighted_objective_maximizer | `theorem2iii_strict_disagreement_not_weighted_objective_maximizer` | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:21Z): Translation states strict-disagreement non-maximality for the weighted objective at the accuracy boundary. |
-| theorem theorem2iii_weighted_objective_maximizer_agrees_argmax | `theorem2iii_weighted_objective_maximizer_agrees_argmax` | gpt-5-codex (model; matches; 2026-06-12T21:30:00Z) | gpt-5-codex (model; matches; 2026-06-12T21:30:00Z): Translation states the source-facing necessary condition that a `gamma < 1` weighted-objective maximizing independent rule agrees with argmax almost surely. |
-
-Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
+The full row-level validator ledger is tracked in the JSON sidecars. Human
+dashboard reviews and model/agent statement checks are separate provenance lanes;
+this report does not change the human-only `human_review.reviewed_rows` counter.

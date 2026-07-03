@@ -1,6 +1,6 @@
 # Final Validation Report: GJ18 Informative Rating Systems
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 Formalized. Theorem 1 is checked for the finite ordinal rating support used by
@@ -35,17 +35,18 @@ unless redistribution rights are checked separately.
 None.
 
 ## 6. Additional Assumptions Beyond Paper
-- None
+None.
 
 ## 7. Proof-Strategy Deviations
-- Lean uses finite-support MGF/Cramer certificates and method-of-types support
-  machinery rather than treating the appendix's large-deviation and Laplace
-  principle steps as a single black-box calculation.
-- The adjacent-pair dominance step is proved through a concrete joint
-  floor-rating law, dependent product marginals, and finite adjacent-inversion
-  union bounds.
-- The support-safe finite-support rate convention is treated as the canonical
-  statement, not as a caveat in the finite model or adjacent aggregation.
+- Source route: the appendix treats the large-deviation and Laplace-principle
+  steps as a compact analytic calculation. Lean route: the proof uses
+  finite-support MGF/Cramer certificates and method-of-types support machinery.
+  This makes the rate inputs explicit enough for the finite ordinal model to
+  be checked.
+- Source route: adjacent-pair dominance is argued at the aggregate probability
+  level. Lean route: the proof uses a concrete joint floor-rating law,
+  dependent product marginals, and finite adjacent-inversion union bounds.
+  This keeps the finite-product event algebra auditable.
 
 ## 8. Proof Tricks Worth Reusing
 - Separate pairwise LDP certificates from finite aggregation and objective
@@ -169,15 +170,12 @@ refreshed with `scripts/sync_paper_status.py`, and the sync check passed.
 
 ### Statement Translation Audit
 
-Audit date: 2026-06-06.
-Scope: current dashboard rows from `PaperInterface.lean`; `lean_to_tex_llm.json` records context-free Lean-to-TeX drafts and `statement_match_llm.json` records the context-free paper-vs-translation judgment.
+Audit date: 2026-06-29.
+Scope: current dashboard surface from `PaperInterface.lean`; the generated
+LLM-as-judge block above is sourced from the tracked sidecars.
 
-Summary: 7 rows; 7 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar rows: none. Surface audit: not required (30 or fewer rows).
-
-Flagged rows: none. The auxiliary proof-route lemma
-`lemmaC_floor_score_gap_rate_from_logMGF_derivative_threshold_minimizer_of_straddling_support`
-remains available internally but is no longer part of the paper-facing dashboard
-surface.
+Summary: statement match has 15 matches; Lean-to-TeX has 7 row translations; assumption provenance has 7 paper_condition, 1 paper_assumption.
+No separate stale manual validator table is maintained in this report.
 
 ## 17. Paper Definitions Checked
 - Log-MGF `Lambda(z | theta) = log sum_y rho(theta,y|Y) exp(z phi(y))`.
@@ -250,7 +248,6 @@ real-rate compatibility wrapper for stronger all-real domain conventions.
 | theorem definition_log_mgf_formula | `definition_log_mgf_formula` | - The paper's log-MGF formula `Λ(z \| θ)`. |
 | theorem definition_rate_function_formula | `definition_rate_function_formula` | - The paper's Legendre-transform formula `I(a \| θ)`. |
 | theorem lemmaC_pk_complement_source_threshold_rate_from_logMGF_derivatives | `lemmaC_pk_complement_source_threshold_rate_from_logMGF_derivatives` | integer-rate source-threshold transfer for `1 - P_k`. |
-| theorem lemmaC_floor_score_gap_rate_from_logMGF_derivative_threshold_minimizer_of_straddling_support | `lemmaC_floor_score_gap_rate_from_logMGF_derivative_threshold_minimizer_of_straddling_support` | uncertain. The translation matches the auxiliary lemma, but the row is a reusable proof-route lemma rather than a named paper statement; it should remain flagged for surface review. |
 | theorem theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_joint_floor_rating_law | `theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_joint_floor_rating_law` | finite ordered floor-count endpoint using the concrete joint floor-rating law and adjacent reduction. |
 | theorem theorem1_finite_chain_adjacent_threshold_rate_top_min_eq_displayed_objective_min_of_logMGF_derivatives | `theorem1_finite_chain_adjacent_threshold_rate_top_min_eq_displayed_objective_min_of_logMGF_derivatives` | support-safe extended source-rate identification is closed. |
 | theorem theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_rating_tail_dominance_and_full_support | `theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_rating_tail_dominance_and_full_support` | main source-facing Theorem 1 endpoint. |
@@ -258,19 +255,15 @@ real-rate compatibility wrapper for stronger all-real domain conventions.
 <!-- lean-derived-statements:end -->
 
 ## 19. Paper-Facing Statement Validator Ledger
-Generated from dashboard status export:
+Current source: `audit/statement_match_llm.json`, refreshed 2026-06-29, plus assumption provenance in `audit/assumption_match_llm.json`.
 
-`python3 scripts/review_dashboard.py --paper GJ18InformativeRatingSystems --export-format validators-md`
+| Validator surface | Result |
+| --- | --- |
+| Statement match | 15 matches. |
+| Lean-to-TeX drafts | 7 row translations generated from Lean statements. |
+| Assumption provenance | 7 paper_condition, 1 paper_assumption. |
+| Source coverage | 15 covered. |
 
-| Paper-facing statement | Lean declaration | Validators | Validator comments |
-| --- | --- | --- | --- |
-| theorem definition_log_mgf_formula | `definition_log_mgf_formula` | gpt-5-codex (model; matches; 2026-06-06T20:39:31Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:31Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem definition_rate_function_formula | `definition_rate_function_formula` | gpt-5-codex (model; matches; 2026-06-06T20:39:31Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:31Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem lemmaC_floor_score_gap_rate_from_logMGF_derivative_threshold_minimizer_of_straddling_support | `lemmaC_floor_score_gap_rate_from_logMGF_derivative_threshold_minimizer_of_straddling_support` | gpt-5-codex (model; uncertain; 2026-06-06T20:39:31Z) | gpt-5-codex (model; uncertain; 2026-06-06T20:39:31Z): The translation matches the auxiliary lemma, but the row is a reusable proof-route lemma rather than a named paper statement; it should remain flagged for surface review. |
-| theorem lemmaC_pk_complement_source_threshold_rate_from_logMGF_derivatives | `lemmaC_pk_complement_source_threshold_rate_from_logMGF_derivatives` | gpt-5-codex (model; matches; 2026-06-06T20:39:31Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:31Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem theorem1_finite_chain_adjacent_threshold_rate_top_min_eq_displayed_objective_min_of_logMGF_derivatives | `theorem1_finite_chain_adjacent_threshold_rate_top_min_eq_displayed_objective_min_of_logMGF_derivatives` | gpt-5-codex (model; matches; 2026-06-06T20:39:31Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:31Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_joint_floor_rating_law | `theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_joint_floor_rating_law` | gpt-5-codex (model; matches; 2026-06-06T20:39:31Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:31Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_threshold_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds_of_extended_min_eq | `theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_threshold_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds_of_extended_min_eq` | gpt-5-codex (model; matches; 2026-06-06T20:39:31Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:31Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_rating_tail_dominance_and_full_support | `theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_rating_tail_dominance_and_full_support` | gpt-5-codex (model; matches; 2026-06-06T20:39:31Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:31Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-
-Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
+The full row-level validator ledger is tracked in the JSON sidecars. Human
+dashboard reviews and model/agent statement checks are separate provenance lanes;
+this report does not change the human-only `human_review.reviewed_rows` counter.

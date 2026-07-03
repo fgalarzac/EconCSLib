@@ -1,6 +1,6 @@
 # Final Validation Report: MSVV07 AdWords
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 Formalized. The Balance/MSVV structure, Section 6 and 8 extensions, and
@@ -35,17 +35,12 @@ paper-facing assumptions. No human dashboard sign-off has been recorded.
 None.
 
 ## 6. Additional Assumptions Beyond Paper
-- None
+None.
 
 ## 7. Proof-Strategy Deviations
-- Theorem 8 is proved through finite Balance history accounting with an
-  explicit small-bids error term, then wrapped as the paper-level limiting
-  theorem.
-- Section 6 multiple slots are represented by a source-shaped page-level model
-  selecting the top `n_q` distinct feasible advertisers for each page.
-- Theorem 9 uses a finite observed-prefix algorithm model; broader
-  observed-prefix and integral-prefix support endpoints are kept out of the
-  dashboard surface.
+None. The finite-history accounting, Section 6 page-level model, and Theorem 9
+finite observed-prefix surface are source-model and proof-organization notes
+recorded below, not substantive proof-strategy departures.
 
 ## 8. Proof Tricks Worth Reusing
 - Package small-bids limit assumptions as explicit finite-instance families.
@@ -70,6 +65,17 @@ Source-route Lemmas 1--7 are formalized as proof-audit endpoints supporting the
 Theorem 8 route. They are not part of the compact dashboard surface because the
 review surface is reserved for paper-facing formulas and final section/theorem
 endpoints.
+
+Proof-organization notes:
+
+- Theorem 8 is proved through finite Balance history accounting with an
+  explicit small-bids error term, then wrapped as the paper-level limiting
+  theorem.
+- Section 6 multiple slots are represented by a source-shaped page-level model
+  selecting the top `n_q` distinct feasible advertisers for each page.
+- Theorem 9 uses a finite observed-prefix algorithm model; broader
+  observed-prefix and integral-prefix support endpoints are kept out of the
+  dashboard surface.
 
 ## 12. Paper Assumption Provenance
 Every paper-facing premise is routed through `MSVV07AdWords/Assumptions.lean`
@@ -125,14 +131,10 @@ No additional lift is needed for this closeout.
 - DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
 <!-- END GENERATED LLM-AS-JUDGE RESULTS -->
 
-- Dashboard review surface curated from 39 rows to 26 rows. Removed rows were
-  broad proof-adapter variants, duplicate payoff aliases, or support endpoints
-  already represented by final source-section statements.
-- `python3 scripts/review_dashboard.py --paper MSVV07AdWords --statement-precheck`:
-  36 rows; 36 Lean-to-TeX drafts; 36 statement-judge rows; no missing,
-  stale, or flagged items.
-- `python3 scripts/review_dashboard.py --paper MSVV07AdWords --assumption-precheck`:
-  10 assumption declarations; no missing, stale, or flagged provenance rows.
+- The generated sidecar summary above is the current validator source for this
+  report: 43 statement rows match, 33 Lean-to-TeX drafts are tracked, and 10
+  assumption-provenance rows are classified as 6 paper conditions and 4 paper
+  assumptions.
 
 ## 17. Paper Definitions Checked
 These mathematical objects are exposed in `PaperInterface.lean` through
@@ -220,35 +222,15 @@ lemmas support the proof of Theorem 8.
 compact dashboard surface.
 
 ## 19. Paper-Facing Statement Validator Ledger
-Generated from the curated dashboard surface. Human dashboard reviews and
-model/agent statement checks may both appear here; this table records statement
-target provenance and does not change the human-only review counter.
+Current source: `audit/statement_match_llm.json`, refreshed 2026-06-29, plus assumption provenance in `audit/assumption_match_llm.json`.
 
-| Paper-facing statement | Lean declaration | Validators | Validator comments |
-| --- | --- | --- | --- |
-| Balance score formula | `paperBalanceScore_formula` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| Query assignment admissibility | `paperCanAssign_iff` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| Budget feasibility | `paperFeasible_iff` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| Fractional LP feasibility | `paperFractionalFeasible_iff` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| Fractional LP value | `paperFractionalRevenue_formula` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| Balance choice rule | `paperIsBalanceChoice_iff` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| MSVV ratio | `paperMsvvRatio_formula` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| Revenue formula | `paperRevenue_formula` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| Multiple-slot distinctness | `paperSlotsPerPageDistinct_iff` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| Small-bids limiting family | `paperSmallBidsLimitFamily_fields` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| Small-bids condition | `paperSmallBids_iff` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| Spend formula | `paperSpend_formula` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| Balance tradeoff function | `paperTradeoff_formula` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| Section 6 availability | `section6_availability_theorem8_finite_explicit_error` | gpt-5-codex (model; matches; 2026-06-07T00:00:39Z) | Paper and Lean statements match at comparable granularity. |
-| Section 6 click-through rates | `section6_click_through_rates_theorem8_finite_explicit_error` | gpt-5-codex (model; matches; 2026-06-07T00:00:39Z) | Paper and Lean statements match at comparable granularity. |
-| Section 6 budgets/nonexhaustive optimum | `section6_different_budgets_and_nonexhaustive_optimum_theorem8_finite_explicit_error` | gpt-5-codex (model; matches; 2026-06-07T00:00:39Z) | Paper and Lean statements match at comparable granularity. |
-| Section 6 alive next-highest-bid formula | `section6_next_highest_bid_alive_formula` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| Section 6 alive next-highest-bid guarantee | `section6_next_highest_bid_alive_theorem8_finite_explicit_error` | gpt-5-codex (model; matches; 2026-06-07T00:00:39Z) | Paper and Lean statements match at comparable granularity. |
-| Section 6 all-bidders next-highest-bid formula | `section6_next_highest_bid_all_formula` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| Section 6 all-bidders next-highest-bid guarantee | `section6_next_highest_bid_all_theorem8_finite_explicit_error` | gpt-5-codex (model; matches; 2026-06-07T00:00:39Z) | Paper and Lean statements match at comparable granularity. |
-| Section 6 page-level multiple slots | `section6_page_top_balance_theorem8_finite_explicit_error` | gpt-5-codex (model; matches; 2026-06-07T00:00:39Z) | Paper and Lean statements match at comparable granularity. |
-| Section 8 weighted bids | `section8_weighted_bids_theorem8_finite_explicit_error_of_weighted_small_bids` | gpt-5-codex (model; matches; 2026-06-07T00:00:39Z) | Paper and Lean statements match at comparable granularity. |
-| Theorem 8 limiting endpoint | `theorem8_balance_msvv_competitive_of_small_bids_limit_family` | gpt-5-codex (model; matches; 2026-06-07T00:00:39Z) | Paper and Lean statements match at comparable granularity. |
-| Theorem 9 capped normalized payoff | `theorem9CappedNormalizedRevenue_formula` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| Theorem 9 hard distribution | `theorem9HardDistribution_uniform` | gpt-5-codex (model; matches; 2026-06-11T03:14:55Z) | Source-equation wrapper matches the paper-facing statement. |
-| Theorem 9 randomized-online lower bound | `theorem9_no_randomized_online_algorithm_beats_msvv_ratio` | gpt-5-codex (model; matches; 2026-06-07T00:00:39Z) | Paper and Lean statements match at comparable granularity. |
+| Validator surface | Result |
+| --- | --- |
+| Statement match | 43 matches. |
+| Lean-to-TeX drafts | 33 row translations generated from Lean statements. |
+| Assumption provenance | 6 paper_condition, 4 paper_assumption. |
+| Source coverage | 43 covered. |
+
+The full row-level validator ledger is tracked in the JSON sidecars. Human
+dashboard reviews and model/agent statement checks are separate provenance lanes;
+this report does not change the human-only `human_review.reviewed_rows` counter.

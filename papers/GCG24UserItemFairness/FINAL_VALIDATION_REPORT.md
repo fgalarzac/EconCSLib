@@ -1,6 +1,6 @@
 # Final Validation Report: User-Item Fairness Tradeoffs in Recommendations
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 Formalized. The paper-facing results for user-item fairness tradeoffs are
@@ -33,7 +33,7 @@ The validation source of truth is the paper folder, not older campaign-level not
 None.
 
 ## 6. Additional Assumptions Beyond Paper
-- None
+None.
 
 ## 7. Proof-Strategy Deviations
 None. The Lean development follows the paper's named proof architecture: symmetry reduction, sparse support and opposing-types reductions, canonical pivot and closed-form constructions for Problem 6, mirror symmetry for the second half of Theorem 3, and the Appendix E Problem 11/cold-start construction for Theorem 4. The remaining differences are proof organization, mainly factoring LP arguments through auditable certificate structures and making parity, center, and mirror cases explicit before recombining them in the final source wrappers.
@@ -73,20 +73,20 @@ Every paper-facing theorem premise that is not derived in Lean is routed through
 `Assumptions.lean` and checked separately as either a paper/source model
 assumption or a paper-statement condition.
 
-| Assumption or condition | Lean declaration | Source location / statement | Validators | Comments |
+| Assumption or condition | Lean declaration | Source location / statement | Provenance judgment | Comments |
 |---|---|---|---|---|
-| Positive utilities | `assumption_positive_recommendation_utilities` | Source model / Theorem 3 setup / Appendix C Lemma 1 | gpt-5-codex (model; paper_condition; 2026-06-12T00:00:00Z) | Covers Proposition 2 and Theorem 3 positive-utility premises. |
-| Theorem 3 opposing-type model | `assumption_theorem3_opposing_type_model` | Theorem 3 setup, lines 367-397 and 2078-2086 | gpt-5-codex (model; paper_condition; 2026-06-12T00:00:00Z) | Records the two-type reduced model, positive value vector, and strict value ordering. |
-| Theorem 3 first-half alpha domain | `assumption_theorem3_first_half_alpha_domain` | Theorem 3 statement | gpt-5-codex (model; paper_condition; 2026-06-12T00:00:00Z) | `0 < alpha <= alpha' <= 1/2`. |
-| Theorem 3 second-half alpha domain | `assumption_theorem3_second_half_alpha_domain` | Theorem 3 statement | gpt-5-codex (model; paper_condition; 2026-06-12T00:00:00Z) | `1/2 <= alpha <= alpha' < 1`. |
-| Theorem 4 item domain | `assumption_theorem4_at_least_three_items` | Theorem 4 / Appendix E construction | gpt-5-codex (model; paper_condition; 2026-06-12T00:00:00Z) | Nontrivial item geometry for the construction. |
-| Theorem 4 true model | `assumption_theorem4_true_model_reduction` | Theorem 4 construction | gpt-5-codex (model; paper_condition; 2026-06-12T00:00:00Z) | Identifies the true model with the two-type source construction. |
-| Theorem 4 estimated model | `assumption_theorem4_estimated_model_reduction` | Theorem 4 construction | gpt-5-codex (model; paper_condition; 2026-06-12T00:00:00Z) | Identifies the estimated model with the three-type estimated construction. |
-| Theorem 4 displayed reductions | `assumption_theorem4_displayed_reduced_models` | Theorem 4 / Appendix E displayed model definitions | gpt-5-codex (model; paper_condition; 2026-06-12T00:00:00Z) | Pins Lean reductions to the displayed true and estimated matrices. |
-| Theorem 4 cold-start wiring | `assumption_theorem4_cold_start_type_wiring` | Appendix E three-type construction | gpt-5-codex (model; paper_condition; 2026-06-12T00:00:00Z) | The cold-start user is estimated as type 2 and has one of the two true opposing rows. |
-| Theorem 4 parameter domain | `assumption_theorem4_parameter_domain` | Theorem 4 statement and Appendix E proof | gpt-5-codex (model; paper_condition; 2026-06-12T00:00:00Z) | Positive epsilon and beta-domain premises. |
+| Positive utilities | `assumption_positive_recommendation_utilities` | Source model / Theorem 3 setup / Appendix C Lemma 1 | paper condition | Covers Proposition 2 and Theorem 3 positive-utility premises. |
+| Theorem 3 opposing-type model | `assumption_theorem3_opposing_type_model` | Theorem 3 setup, lines 367-397 and 2078-2086 | paper condition | Records the two-type reduced model, positive value vector, and strict value ordering. |
+| Theorem 3 first-half alpha domain | `assumption_theorem3_first_half_alpha_domain` | Theorem 3 statement | paper condition | `0 < alpha <= alpha' <= 1/2`. |
+| Theorem 3 second-half alpha domain | `assumption_theorem3_second_half_alpha_domain` | Theorem 3 statement | paper condition | `1/2 <= alpha <= alpha' < 1`. |
+| Theorem 4 item domain | `assumption_theorem4_at_least_three_items` | Theorem 4 / Appendix E construction | paper condition | Nontrivial item geometry for the construction. |
+| Theorem 4 true model | `assumption_theorem4_true_model_reduction` | Theorem 4 construction | paper condition | Identifies the true model with the two-type source construction. |
+| Theorem 4 estimated model | `assumption_theorem4_estimated_model_reduction` | Theorem 4 construction | paper condition | Identifies the estimated model with the three-type estimated construction. |
+| Theorem 4 displayed reductions | `assumption_theorem4_displayed_reduced_models` | Theorem 4 / Appendix E displayed model definitions | paper condition | Pins Lean reductions to the displayed true and estimated matrices. |
+| Theorem 4 cold-start wiring | `assumption_theorem4_cold_start_type_wiring` | Appendix E three-type construction | paper condition | The cold-start user is estimated as type 2 and has one of the two true opposing rows. |
+| Theorem 4 parameter domain | `assumption_theorem4_parameter_domain` | Theorem 4 statement and Appendix E proof | paper condition | Positive epsilon and beta-domain premises. |
 
-### Additional Assumptions Beyond Paper
+### Source-Condition Notes
 
 No additional unverified assumptions remain for the final source Theorem 3 and
 Theorem 4 wrappers tracked by the paper README/DAG.
@@ -136,13 +136,12 @@ than separate DAG paper-result nodes.
 
 ### Statement Translation Audit
 
-Audit date: 2026-06-06.
-Scope: current dashboard rows from `PaperInterface.lean`; `lean_to_tex_llm.json` records context-free Lean-to-TeX drafts and `statement_match_llm.json` records the context-free paper-vs-translation judgment.
+Audit date: 2026-06-29.
+Scope: current dashboard surface from `PaperInterface.lean`; the generated
+LLM-as-judge block above is sourced from the tracked sidecars.
 
-Summary: 28 rows; 28 match, 0 uncertain, 0 mismatch, 0 missing. Stale sidecar
-rows: none. Surface audit: not required (30 or fewer paper-facing rows).
-
-Flagged rows: none.
+Summary: statement match has 48 matches; Lean-to-TeX has 38 row translations; assumption provenance has 10 paper_condition.
+No separate stale manual validator table is maintained in this report.
 
 ## 17. Paper Definitions Checked
 <!-- lean-derived-definitions:start -->
@@ -179,29 +178,15 @@ Flagged rows: none.
 <!-- lean-derived-statements:end -->
 
 ## 19. Paper-Facing Statement Validator Ledger
-Generated from dashboard status export:
+Current source: `audit/statement_match_llm.json`, refreshed 2026-06-29, plus assumption provenance in `audit/assumption_match_llm.json`.
 
-`python3 scripts/review_dashboard.py --paper GCG24UserItemFairness --slice all --export-format validators-md`
+| Validator surface | Result |
+| --- | --- |
+| Statement match | 48 matches. |
+| Lean-to-TeX drafts | 38 row translations generated from Lean statements. |
+| Assumption provenance | 10 paper_condition. |
+| Source coverage | 48 covered. |
 
-| Paper-facing statement | Lean declaration | Validators | Validator comments |
-| --- | --- | --- | --- |
-| def itemFairness | `itemFairness` | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def itemNormalizer | `itemNormalizer` | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def normalizedItemUtility | `normalizedItemUtility` | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def normalizedUserUtility | `normalizedUserUtility` | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def priceOfFairness | `priceOfFairness` | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def priceOfFairnessAt | `priceOfFairnessAt` | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def priceOfMisestimation | `priceOfMisestimation` | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem proposition1_symmetric_lp_reduction | `proposition1_symmetric_lp_reduction` | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem proposition2_symmetric_optimum_exists | `proposition2_symmetric_optimum_exists` | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def rawItemUtility | `rawItemUtility` | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def rawUserUtility | `rawUserUtility` | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def recommendationUtility | `recommendationUtility` | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def solvesProblemOne | `solvesProblemOne` | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem theorem3_price_decreases_first_half | `theorem3_price_decreases_first_half` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The new paper-facing row states the closed first-half Theorem 3 source claim: as alpha moves toward 1/2 in the opposing two-type model, the price of fairness weakly decreases. |
-| theorem theorem3_price_increases_second_half | `theorem3_price_increases_second_half` | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z) | gpt-5-codex (model; matches; 2026-06-12T00:00:00Z): The new paper-facing row states the closed second-half Theorem 3 source claim: as alpha moves away from 1/2 in the opposing two-type model, the price of fairness weakly increases. |
-| theorem theorem4_misestimation_tradeoff_typeOne | `theorem4_misestimation_tradeoff_typeOne` | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| theorem theorem4_misestimation_tradeoff_typeZero | `theorem4_misestimation_tradeoff_typeZero` | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-| def userFairness | `userFairness` | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z) | gpt-5-codex (model; matches; 2026-06-06T20:39:24Z): The paper statement and Lean-to-TeX draft state the same paper-facing definition or result at comparable granularity. |
-
-Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
+The full row-level validator ledger is tracked in the JSON sidecars. Human
+dashboard reviews and model/agent statement checks are separate provenance lanes;
+this report does not change the human-only `human_review.reviewed_rows` counter.

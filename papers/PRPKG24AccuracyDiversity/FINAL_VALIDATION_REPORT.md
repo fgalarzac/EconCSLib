@@ -1,6 +1,6 @@
 # Final Validation Report: PRPKG24 Accuracy-Diversity
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 Formalized. The paper-facing surface covers the main examples, definitions,
@@ -36,8 +36,7 @@ mismatch because Lean uses the corrected finite constant.
 None for the checked theorem conclusions; source-quality notes are recorded below.
 
 ## 6. Additional Assumptions Beyond Paper
-- None. Proposition 2's corrected finite constant is a source-quality note, not
-  an added model assumption.
+None.
 
 ## 7. Proof-Strategy Deviations
 None.
@@ -137,22 +136,15 @@ No separate generated definitions table was recorded in this report refresh. The
 No separate generated theorem table was recorded in this report refresh. Named theorem endpoints are tracked in `PaperInterface.lean`, `status.json`, and the statement validator sidecars.
 
 ## 19. Paper-Facing Statement Validator Ledger
-The current validator sidecars are:
+Current source: `audit/statement_match_llm.json`, refreshed 2026-06-29, plus assumption provenance in `audit/assumption_match_llm.json`.
 
-- `lean_to_tex_llm.json`
-- `statement_match_llm.json`
-- `assumption_match_llm.json`
-- `review_surface_llm.json`
+| Validator surface | Result |
+| --- | --- |
+| Statement match | 40 matches, 2 mismatch; resolutions: 2 conditional_boundary. |
+| Lean-to-TeX drafts | 27 row translations generated from Lean statements. |
+| Assumption provenance | 15 paper_condition. |
+| Source coverage | 40 covered, 2 conditional_boundary. |
 
-Current dashboard checks:
-
-- Statement lane: 27 paper-result rows, 41 Lean-to-TeX drafts, 41 statement-judge rows, no missing or stale items. Proposition 2 is recorded as a conditional-boundary mismatch with human override because the corrected finite constant differs from the printed finite bound while preserving the asymptotic conclusion.
-- Assumption lane: 15 assumption declarations, no missing/stale/flagged items.
-- Review surface lane: 42 rows, current `review_surface_llm.json`, no stale surface audit.
-- Combined dashboard precheck: no stale checks; the only remaining attention items are the 42 absent manual dashboard review entries.
-
-The current full validator table can be regenerated with:
-
-```bash
-python3 scripts/review_dashboard.py --paper PRPKG24AccuracyDiversity --export-format validators-md
-```
+The full row-level validator ledger is tracked in the JSON sidecars. Human
+dashboard reviews and model/agent statement checks are separate provenance lanes;
+this report does not change the human-only `human_review.reviewed_rows` counter.

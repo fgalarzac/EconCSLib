@@ -1,6 +1,6 @@
 # Final Validation Report: EOS07GSP
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 The paper is formalized against the curated NBER source inventory. The compact
@@ -69,10 +69,7 @@ inventory. Saved human dashboard review remains pending and is separate from
 Lean proof status.
 
 ## 6. Additional Assumptions Beyond Paper
-None. The strict ranked-value model used by the Theorem 8 source-event
-specialization is recorded as a source-condition row and audited as a
-source-backed model primitive, not as an additional assumption beyond the
-paper.
+None.
 
 ## 7. Proof-Strategy Deviations
 None. Theorem 8 is formalized through the source theorem's ex-post payoff-game endpoint, and deterministic tie-breaking is used only to totalize finite ranked-GSP implementation statements whose source equilibrium profiles are strict.

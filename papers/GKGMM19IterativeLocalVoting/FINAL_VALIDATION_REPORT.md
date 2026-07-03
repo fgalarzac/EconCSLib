@@ -1,6 +1,6 @@
 # Final Validation Report: Iterative Local Voting for Collective Decision-making in Continuous Spaces
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 Partially formalized. Theorems 1-2 and Propositions 1-2 are formalized except
@@ -46,12 +46,7 @@ below.
 The only intended remaining mathematical boundary for Theorems 1-2 and Propositions 1-2 is the reusable stochastic subgradient descent convergence theorem. Theorem 3 has no SSGM boundary; in general constrained spaces Lean proves the constrained alternative, and the original statement is recovered under the explicit full-space condition.
 
 ## 6. Additional Assumptions Beyond Paper
-- None.
-
-The SSGM convergence theorem is not an additional paper assumption. It is the
-remaining reusable-library theorem recorded in Section 5, and the paper remains
-partially formalized until that theorem is proved and instantiated for the
-finite-coordinate ILV source model.
+None.
 
 ## 7. Proof-Strategy Deviations
 None. The human-facing differences are formalization boundaries, not separate

@@ -1,6 +1,6 @@
 # Final Validation Report: GGSG19 Top Three
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 Formalized. The finite-candidate Top Three theorem surface is checked with the
@@ -31,7 +31,7 @@ the formalized results. No human dashboard sign-off has been recorded.
 None.
 
 ## 6. Additional Assumptions Beyond Paper
-- None
+None.
 
 ## 7. Proof-Strategy Deviations
 None. Finite-support boundary branches are stated explicitly where the source leaves them in prose, and empirical/numerical sections are outside the Lean theorem surface.
@@ -190,21 +190,15 @@ claims.
 <!-- lean-derived-statements:end -->
 
 ## 19. Paper-Facing Statement Validator Ledger
-Generated from dashboard status export:
+Current source: `audit/statement_match_llm.json`, refreshed 2026-06-29, plus assumption provenance in `audit/assumption_match_llm.json`.
 
-`python3 scripts/review_dashboard.py --paper GGSG19TopThree --export-format validators-md`
+| Validator surface | Result |
+| --- | --- |
+| Statement match | 17 matches. |
+| Lean-to-TeX drafts | 12 row translations generated from Lean statements. |
+| Assumption provenance | 5 paper_condition. |
+| Source coverage | 17 covered. |
 
-| Paper-facing statement | Lean declaration | Validators | Validator comments |
-| --- | --- | --- | --- |
-| abbrev paper_definition_large_deviation_rate | `paper_definition_large_deviation_rate` | None recorded | None |
-| theorem source_corollary_lem_mallowsnorando | `source_corollary_lem_mallowsnorando` | None recorded | None |
-| theorem source_proposition1_thm_consistency_tiered | `source_proposition1_thm_consistency_tiered` | None recorded | None |
-| theorem source_proposition2_thm_pairwiselearning_finite_support | `source_proposition2_thm_pairwiselearning_finite_support` | None recorded | None |
-| theorem source_proposition3_lem_pairwiselearning_approval_finite_ternary | `source_proposition3_lem_pairwiselearning_approval_finite_ternary` | None recorded | None |
-| theorem source_proposition4_thm_goal_learning_finite_support | `source_proposition4_thm_goal_learning_finite_support` | None recorded | None |
-| theorem source_theorem1_lem_randomizebetterscoring | `source_theorem1_lem_randomizebetterscoring` | None recorded | None |
-| theorem source_theorem2_lem_randomizenotbetterapproval_pairwise | `source_theorem2_lem_randomizenotbetterapproval_pairwise` | None recorded | None |
-| theorem source_theorem_lem_mallowsnotWK_counterexample | `source_theorem_lem_mallowsnotWK_counterexample` | None recorded | None |
-| theorem source_theorem_lem_randomizebetterapproval_w_selection_constructed | `source_theorem_lem_randomizebetterapproval_w_selection_constructed` | None recorded | None |
-
-Human dashboard reviews and model/agent statement checks may both appear here. This table is provenance for the statement targets; it does not change the human-only `human_review.reviewed_rows` counter.
+The full row-level validator ledger is tracked in the JSON sidecars. Human
+dashboard reviews and model/agent statement checks are separate provenance lanes;
+this report does not change the human-only `human_review.reviewed_rows` counter.

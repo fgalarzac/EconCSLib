@@ -1,6 +1,6 @@
 # Final Validation Report: Quantifying Spatial Under-reporting Disparities
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 Partially formalized. The checked results cover the source-facing likelihood,
@@ -38,12 +38,7 @@ recorded.
 Full formalization requires deriving the homogeneous Poisson counting-process law and stopping-time certificate from primitive continuous-time process assumptions. A secondary library/modeling gap is deriving the Lemma 1 IID unit-interval count law and one-period mean from a primitive Poisson thinning or steady-state model.
 
 ## 6. Additional Assumptions Beyond Paper
-- None added as hidden assumptions.
-- Visible theorem side conditions include nonzero first-report probabilities,
-  nonzero exposure, positive reporting rate for exponential waiting-time
-  statements, positive total exposure/nonzero total count for global MLE, and
-  zero-inflation parameter bounds. These are ordinary mathematical domain
-  conditions, not hidden paper assumptions.
+None.
 
 ## 7. Proof-Strategy Deviations
 None beyond the formalization boundaries already recorded above. Continuous source expressions such as `P(S=t | ...)`, `P(E=t | ...)`, and `P(T_j=t_j | ...)` are interpreted as density or likelihood-kernel factors, which is the source-faithful reading for continuous variables rather than a proof-strategy deviation.
@@ -89,6 +84,11 @@ None beyond the formalization boundaries already recorded above. Continuous sour
 No broader economic-model caveat is claimed. The residual-factor issue above is treated as an appendix proof-formula typo, while the remaining Poisson-process and stopping-time work is recorded as a formalization boundary in Section 5.
 
 ## 11. Detailed Formalization Evidence
+- Source-domain notes: visible theorem side conditions include nonzero
+  first-report probabilities, nonzero exposure, positive reporting rate for
+  exponential waiting-time statements, positive total exposure/nonzero total
+  count for global MLE, and zero-inflation parameter bounds. These are ordinary
+  mathematical domain conditions, not hidden paper assumptions.
 - Eq. (2): source Poisson count PMF formula, grounded in mathlib's Poisson
   measure through `EconCSLib.Foundations.Probability.PoissonProcess`.
 - Homogeneous at-least-one-report probability:

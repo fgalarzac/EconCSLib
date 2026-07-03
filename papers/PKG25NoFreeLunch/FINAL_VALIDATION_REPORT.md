@@ -1,6 +1,6 @@
 # Final Validation Report: A No Free Lunch Theorem for Human-AI Collaboration
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 Formalized. The main theorem proof is checked for finite calibrated settings
@@ -31,12 +31,13 @@ No human dashboard sign-off has been recorded.
 None.
 
 ## 6. Additional Assumptions Beyond Paper
-- None beyond the source-implicit nonempty agent set and deterministic strategies.
-- The exposed theorem uses source reliability over all collaboration-setting accuracy surfaces. The proof restricts that premise to the finite calibrated witness settings constructed in the source proof.
+None.
 
 ## 7. Proof-Strategy Deviations
-- The source's "lambda sufficiently close to 1" phrase in Proposition 2 is replaced by an explicit `7/8` mixture weight. This is a proof-detail strengthening, not a caveat.
-- The early source display `E |Yhat(X) - Y|` is treated as loss notation; the formalization follows the surrounding text and proof, which use accuracy as expected correctness.
+- Proposition 2 source route: the paper says to choose `lambda`
+  sufficiently close to 1. Lean route: the proof uses the explicit `7/8` and
+  `1/8` mixture weights. This removes qualitative closeness wording while
+  proving the same finite counterexample endpoint.
 
 ## 8. Proof Tricks Worth Reusing
 - Use a finite setting structure with explicit masses, label probabilities, and calibrated predictions.
@@ -45,7 +46,9 @@ None.
 - For no-free-lunch counterexamples, prove pointwise dominance plus one strict positive-mass point, then lift with `Finset.sum_lt_sum`.
 
 ## 9. Mathematical Typos or Other Fixes Suggested in the Source Paper
-None found.
+The early display `E |Yhat(X) - Y|` is treated as loss notation. The
+formalization follows the surrounding text and proof, which use accuracy as
+expected correctness.
 
 ## 10. Paper Issues or Caveats
 One minor display uses loss notation where the surrounding text and proof use accuracy. No major paper-correctness issue is reported.
@@ -57,8 +60,17 @@ One minor display uses loss notation where the surrounding text and proof use ac
 - Proposition 2 is proved from the source's two auxiliary finite settings. The "lambda close to 1" step is replaced by an explicit `7/8` and `1/8` mixture.
 - The main theorem `theorem_main_no_free_lunch` proves that every reliable deterministic collaboration strategy is non-collaborative.
 
+The nonempty finite agent set and deterministic strategy class are source model
+conditions. The exposed theorem uses source reliability over all
+collaboration-setting accuracy surfaces, and the proof instantiates that
+reliability premise on the finite calibrated witness settings constructed in
+the source proof.
+
 ## 12. Paper Assumption Provenance
-Assumption provenance is tracked in `papers/PKG25NoFreeLunch/Assumptions.lean` and `papers/PKG25NoFreeLunch/audit/assumption_match_llm.json` when assumption rows exist. No additional assumption-provenance table was separately recorded in this report refresh.
+No paper-facing assumption rows are tracked for this paper; the generated
+validator summary above is the current assumption-provenance status. Source
+model conditions are exposed directly in the theorem statements and detailed
+evidence rather than as separate assumptions.
 
 ## 13. Displayed Formula Provenance
 Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
@@ -109,19 +121,15 @@ Displayed and source-defining formulas are tracked through the paper-facing rows
 **Status.** formalized.
 
 ## 19. Paper-Facing Statement Validator Ledger
-This table is one row per dashboard/PaperInterface row. Regenerate it with:
+Current source: `audit/statement_match_llm.json`, refreshed 2026-06-29.
 
-`python3 scripts/review_dashboard.py --paper PKG25NoFreeLunch --export-format validators-md`
+| Validator surface | Result |
+| --- | --- |
+| Statement match | 15 matches. |
+| Lean-to-TeX drafts | 15 row translations generated from Lean statements. |
+| Assumption provenance | no assumption-match sidecar tracked. |
+| Source coverage | 15 covered. |
 
-| Paper-facing statement | Lean declaration | Validators | Validator comments |
-| --- | --- | --- | --- |
-| Rounding convention | `definition_rounding_convention` | gpt-5-codex-subagent (model; matches; 2026-06-14T04:17:03Z) | Matches the paper's rounding convention `round(1/2)=1`. |
-| Collaboration strategy | `definition_collaboration_strategy` | gpt-5-codex-subagent (model; matches; 2026-06-14T04:17:03Z) | Matches the paper's deterministic map `C : [0,1]^n -> {0,1}`. |
-| Interior prediction profile | `definition_interior_prediction_profile` | gpt-5-codex-subagent (model; matches; 2026-06-14T04:17:03Z) | Matches the `(0,1)^n` source domain. |
-| Non-collaboration | `definition_non_collaborative` | gpt-5-codex-subagent (model; matches; 2026-06-14T04:17:03Z) | Matches the fixed-agent and fixed-tie-label source definition. |
-| Reliability | `definition_reliable` | gpt-5-codex-subagent (model; matches; 2026-06-14T04:17:03Z) | Matches source reliability over every collaboration setting. |
-| Main theorem | `theorem_main_no_free_lunch` | gpt-5-codex-subagent (model; matches; 2026-06-14T04:17:03Z) | Matches the direction from reliable to non-collaborative; the nonempty-agent condition is source-implicit. |
-
-Human dashboard reviews and model/agent statement checks may both appear here.
-This table is provenance for the statement targets; it does not change the
-human-only `human_review.reviewed_rows` counter.
+The full row-level validator ledger is tracked in the JSON sidecars. Human
+dashboard reviews and model/agent statement checks are separate provenance lanes;
+this report does not change the human-only `human_review.reviewed_rows` counter.

@@ -1,6 +1,6 @@
 # Final Validation Report: Simpler Than You Think: The Practical Dynamics of Ranked Choice Voting
 
-Updated: 2026-07-02
+Updated: 2026-07-03
 
 ## 1. Human Verdict
 This formalization covers the paper's theoretical ballot-extension,
@@ -43,7 +43,7 @@ ledger.
 None.
 
 ## 6. Additional Assumptions Beyond Paper
-No paper-local assumptions are declared in `Assumptions.lean`.
+None.
 
 ## 7. Proof-Strategy Deviations
 None.
@@ -80,7 +80,10 @@ outside the Lean theorem ledger.
   containment endpoint.
 
 ## 12. Paper Assumption Provenance
-Assumption provenance is tracked in `papers/DGJ26PracticalDynamicsRCV/Assumptions.lean` and `papers/DGJ26PracticalDynamicsRCV/audit/assumption_match_llm.json` when assumption rows exist. No additional assumption-provenance table was separately recorded in this report refresh.
+No paper-local assumption rows are tracked for this paper; the generated
+validator summary above is the current assumption-provenance status. Source
+parameters and conditional theorem hypotheses are exposed directly in the
+paper-facing statements and detailed evidence.
 
 ## 13. Displayed Formula Provenance
 Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
@@ -135,4 +138,15 @@ No separate generated definitions table was recorded in this report refresh. The
 No separate generated theorem table was recorded in this report refresh. Named theorem endpoints are tracked in `PaperInterface.lean`, `status.json`, and the statement validator sidecars.
 
 ## 19. Paper-Facing Statement Validator Ledger
-Current model-validator sidecars are the source of truth for timestamped rows. Model review has none recorded across 0 rows. Human dashboard review has 0/50 saved entries, with 0 stale rows and 0 human mismatches.
+Current source: `statement_match_llm.json`, refreshed 2026-07-02, plus assumption provenance in `assumption_match_llm.json`.
+
+| Validator surface | Result |
+| --- | --- |
+| Statement match | 62 matches, 7 mismatch; resolutions: 7 conditional_boundary. |
+| Lean-to-TeX drafts | 69 row translations generated from Lean statements. |
+| Assumption provenance | no rows. |
+| Source coverage | 44 covered. |
+
+The full row-level validator ledger is tracked in the JSON sidecars. Human
+dashboard reviews and model/agent statement checks are separate provenance lanes;
+this report does not change the human-only `human_review.reviewed_rows` counter.
