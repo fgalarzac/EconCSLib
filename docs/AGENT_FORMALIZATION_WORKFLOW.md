@@ -12,8 +12,9 @@ specific root-README instructions.
   `docs/DependencyDAG.pdf` are the main human surfaces.
 - Agent-facing docs may be detailed and operational. This file,
   `docs/ARCHITECTURE.md`, `docs/ECONCSLIB_DOMAIN_INDEX.md`, and
-  `skills/econcs-formalizer/` contain workflow rules, implementation
-  conventions, and reusable proof guidance.
+  `skills/econcs-formalizer/` contain workflow rules and implementation
+  conventions. Use `skills/econcs-prover/` for active Lean theorem proving and
+  proof repair.
 
 Do not put long theorem ledgers, raw command transcripts, or proof-internal
 details in the top-level README. Do not add generated blocks or generator
@@ -23,8 +24,9 @@ that edit and refresh `docs/root_readme_lock.json` with
 
 ## Starting A Paper
 
-Ask the agent to use the `econcs-formalizer` skill and give it the source PDF
-or paper URL. A good first prompt is:
+Ask the agent to use the `econcs-formalizer` skill for paper workflow and the
+`econcs-prover` skill once theorem proof work starts. Give it the source PDF or
+paper URL. A good first prompt is:
 
 ```text
 Get context on this repo using the skill file. Then start formalizing
@@ -41,12 +43,13 @@ public paper folder unless the user explicitly asks for that artifact.
 At the beginning of every paper audit or new formalization, the first plan
 section should be an extended outside-Lean paper sanity pass: read the source,
 check every named result and formula-bearing displayed claim for plausible
-signs, constants, normalizations, quantifiers, domains, and dependencies, and
-write the initial findings in `FORMALIZATION_PLAN.md`. Use those findings to
-choose the formalization strategy. If the pass finds a likely source bug,
-missing assumption, formula ambiguity, or issue that could change the theorem
-target, tell the user early before encoding the printed formula as a proof
-premise.
+signs, constants, normalizations, quantifiers, domains, and dependencies. Also
+ask which generalizations, conjectures, or extensions look trivial or
+near-trivial once the source theorem chain is formalized. Write the initial
+findings in `FORMALIZATION_PLAN.md`. Use those findings to choose the
+formalization strategy. If the pass finds a likely source bug, missing
+assumption, formula ambiguity, or issue that could change the theorem target,
+tell the user early before encoding the printed formula as a proof premise.
 
 That initial pass is a hard start gate. Before deep Lean proof work, the plan
 must record the sections from
@@ -58,6 +61,9 @@ must record the sections from
   lemma, theorem, corollary, algorithm, and theorem-like displayed formula;
 - the formula/dependency sanity pass, including density-vs-mass representation
   issues and which prior paper objects each result depends on;
+- the easy generalization/conjecture/extension scan, including assumptions that
+  seem trivially weakenable, immediate corollaries, and natural extensions to
+  revisit after source claims are closed;
 - the shared-library reuse checkpoint for mathlib, cslib, optlib, potential
   upstream Lean sources from
   [`UPSTREAM_LEAN_SOURCES.md`](UPSTREAM_LEAN_SOURCES.md), and existing

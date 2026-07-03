@@ -29,6 +29,12 @@ source risks, and reusable-library choices before opening Lean files.
 - Named result sanity check:
   - Results that look correct as stated:
   - Suspected bugs, missing assumptions, or ambiguous wording:
+- Initial generalization / conjecture / extension scan:
+  - Assumptions that seem trivially weakenable or removable:
+  - Stronger conclusions or corollaries that appear immediate from the source
+    proof route:
+  - Natural conjectures or extensions that look trivial, nontrivial, or false:
+  - Extension targets to try only after the paper's source claims are closed:
 - Shared-library reuse checkpoint:
   - Mathlib declarations/modules inspected:
   - Cslib declarations/modules inspected:
@@ -55,6 +61,8 @@ source risks, and reusable-library choices before opening Lean files.
 - Main theorem chain:
 - Likely reusable `EconCSLib` seams:
 - Paper steps that look underspecified or analytically hard:
+- Trivial generalization/conjecture/extension targets to revisit after the
+  source theorem chain is stable:
 - Formal target map:
   - Rows to fully prove now:
   - Empirical/descriptive rows out of formal theorem scope:
@@ -72,6 +80,7 @@ source risks, and reusable-library choices before opening Lean files.
 
 - [ ] Download/cache source PDFs and text extracts, with redistribution notes.
 - [ ] Complete named-result and formula-bearing displayed-claim inventory.
+- [ ] Complete the initial easy generalization/conjecture/extension scan.
 - [ ] Fill the formal target map and declare any intended boundary/certificate.
 - [ ] Build or select reusable library APIs before adding paper-local wrappers.
 - [ ] Replace paper scaffold with source-facing Lean definitions and rows.

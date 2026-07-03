@@ -1038,16 +1038,21 @@ All named results remain open.
 ## 8. Proof Tricks Worth Reusing
 - None
 
-## 9. Mathematical Typos or Other Fixes Suggested in the Source Paper
+## 9. Generalizations, Conjectures, and Extensions
+None yet. After the source theorem chain is stable, record trivial or
+near-trivial weakened assumptions, immediate corollaries, stronger conclusions,
+source conjectures that can now be proved cheaply, or extension ideas to defer.
+
+## 10. Mathematical Typos or Other Fixes Suggested in the Source Paper
 None found.
 
-## 10. Paper Issues or Caveats
+## 11. Paper Issues or Caveats
 None found.
 
-## 11. Detailed Formalization Evidence
+## 12. Detailed Formalization Evidence
 None yet.
 
-## 12. Paper Assumption Provenance
+## 13. Paper Assumption Provenance
 Every paper-facing theorem premise that is not derived in Lean should appear as
 a named assumption declaration in `Assumptions.lean`, be listed in `status.json`
 `review_surface.assumption_names`, and be checked in `audit/assumption_match_llm.json`
@@ -1057,7 +1062,12 @@ as a true paper/source model assumption.
 | --- | --- | --- | --- | --- |
 | None | `none` | None | None | No paper assumptions recorded yet. |
 
-## 13. Library Lift Pass
+## 14. Displayed Formula Provenance
+No displayed formula rows recorded yet. Before closeout, summarize whether
+formula-bearing source claims are derived in Lean, validated as source
+assumptions, or intentionally out of theorem scope.
+
+## 15. Library Lift Pass
 - Reusable library extraction candidates: None
 - Library certificate/source-boundary audit: not run. Before a completion
   claim, summarize whether certificate-taking library APIs used by paper
@@ -1072,12 +1082,12 @@ as a true paper/source model assumption.
   If a finding remains, record it here and mark the endpoint partially
   formalized.
 
-## 14. DAG Audit
+## 16. DAG Audit
 - Rendered artifact: not checked
 - Topology: not checked
 - Layout: not checked
 
-## 15. Validation Checks
+## 17. Validation Checks
 - Not run.
 - Required closeout checks include targeted Lean build, statement precheck,
   assumption/hidden-premise precheck, targeted repository audit, DAG/report
@@ -1089,10 +1099,10 @@ as a true paper/source model assumption.
   audit command here, but keep commands out of the executive verdict and proof
   narrative.
 
-## 16. Paper Definitions Checked
+## 18. Paper Definitions Checked
 - None yet.
 
-## 17. Named Theorem Statements Checked
+## 19. Named Theorem Statements Checked
 ### Theorem <n>
 **Paper statement.** <one theorem-box-level statement matching the source>
 
@@ -1101,7 +1111,7 @@ as a true paper/source model assumption.
 
 **Status.** not formalized.
 
-## 18. Paper-Facing Statement Validator Ledger
+## 20. Paper-Facing Statement Validator Ledger
 This table is one row per dashboard/PaperInterface row. Generate it from the
 validator ledger rather than from memory.
 

@@ -1,6 +1,6 @@
 ---
 name: econcs-formalizer
-description: Formalize economics-and-computation papers in Lean. Use when asked to add, continue, triage, or plan Lean formalizations of EC/ACM EC/SIGecom-style papers; formalize finite, continuous, probabilistic, or measure-theoretic theorem seams; extract reusable primitives; repair Lean/mathlib proof scripts; or prepare general handoff guidance for future formalization work.
+description: Formalize economics-and-computation papers in Lean. Use when asked to add, continue, triage, or plan Lean formalizations of EC/ACM EC/SIGecom-style papers; inventory sources, build paper DAGs, prepare paper interfaces, extract reusable primitives, coordinate formalization status, run audits, or prepare handoff and closeout guidance. For active theorem proving or proof repair, use econcs-prover as the proof-production companion.
 ---
 
 # EconCS Formalizer
@@ -30,6 +30,11 @@ campaigns, retrieval-grounded statement translation, or compiler-guided repair
 loops, also consult `skills/ai-formalization-workflows/SKILL.md`. That skill is
 a source-credited ledger of external AI-formalization workflow patterns; this
 formalizer skill remains the operational rulebook for EconCSLib.
+
+When actively proving a theorem, closing a `sorry`/`admit`, or repairing a
+broken Lean proof, use `skills/econcs-prover/SKILL.md` as the proof-production
+companion. This skill owns paper workflow, source provenance, audit surfaces,
+and closeout; the prover skill owns the local Lean error/search/repair loop.
 
 When syncing `EconCSLib-private` and `EconCSLib-public`, preparing public PRs
 from private work, copying generated DAG/report PDFs, or reconciling audit
@@ -1123,12 +1128,16 @@ When starting a paper or beginning a serious paper audit, do an extended
 outside-Lean paper sanity pass before deep Lean implementation. Read the local
 source cache, inspect every named result and formula-bearing displayed claim,
 and ask whether the signs, constants, normalizations, quantifiers, domains, and
-proof dependencies look mathematically correct. Separately think through the
-formal proof strategy: the main theorem chain, likely reusable library seams,
-underspecified paper steps, necessary assumptions or certificates, and fallback
-proof paths. Write these initial learnings in `FORMALIZATION_PLAN.md` under an
-`Initial Outside-Lean Paper Audit` section before proving. Treat this as a
-hard start gate, not an optional narrative note. Use
+proof dependencies look mathematically correct. Also ask which generalizations,
+conjectures, or extensions look trivial or near-trivial once the source theorem
+chain is formalized: weakened assumptions, immediate corollaries, stronger
+conclusions, or natural extensions that should be revisited after the source
+claims are closed. Separately think through the formal proof strategy: the main
+theorem chain, likely reusable library seams, underspecified paper steps,
+necessary assumptions or certificates, and fallback proof paths. Write these
+initial learnings in `FORMALIZATION_PLAN.md` under an `Initial Outside-Lean
+Paper Audit` section before proving. Treat this as a hard start gate, not an
+optional narrative note. Use
 `templates/FORMALIZATION_PLAN.md` as the section/checklist template when
 creating or refreshing a paper plan. The plan must explicitly contain:
 
@@ -1140,6 +1149,10 @@ creating or refreshing a paper plan. The plan must explicitly contain:
 - formula/dependency sanity pass: signs, constants, denominators,
   normalizations, quantifiers, domains, density-vs-mass interpretation, and
   which earlier paper objects each result depends on;
+- easy generalization/conjecture/extension scan: assumptions that may be
+  trivially weakened, immediate corollaries or stronger conclusions, natural
+  conjectures/extensions that look trivial, nontrivial, or false, and which
+  ones should wait until the source theorem chain is stable;
 - shared-library reuse checkpoint: mathlib/cslib/optlib, potential upstream
   Lean sources, and EconCSLib modules or declarations inspected, the API chosen,
   citation/provenance for any upstream material used or ported, and near-misses
@@ -3307,10 +3320,11 @@ Never enter a cycle of modifying a single line in a shell command just to test s
   template section should contain final human-facing content, even if that
   content is simply `None`.
 - Write the final validation report in paper language, not Lean-internal
-  implementation language. Near the top it must answer four questions directly:
+  implementation language. Near the top it must answer five questions directly:
   what has been proved, whether formalization found anything wrong or ambiguous
   in the paper, whether any qualitatively different proof/modeling route was
-  needed, and what remains for Lean versus human review.
+  needed, what remains for Lean versus human review, and which generalizations,
+  conjectures, or extensions look trivial or near-trivial after formalization.
   Keep the "what has been proved" answer outcome-focused. If every source
   definition and named result is closed, say concisely that the paper is fully
   formalized. Do not fill this section with process statements such as
@@ -3587,8 +3601,9 @@ Never enter a cycle of modifying a single line in a shell command just to test s
 - The report should read top-down for a researcher who cares about the paper,
   not Lean. Put the human verdict, closeout status, source/scope, a short
   researcher summary of checked results, remaining mathematical boundaries,
-  extra assumptions, proof-strategy deviations, reusable proof ideas, and paper
-  issues/caveats before any proof ledger. Put validation evidence, audit
+  extra assumptions, proof-strategy deviations, reusable proof ideas, easy
+  generalizations/conjectures/extensions, and paper issues/caveats before any
+  proof ledger. Put validation evidence, audit
   commands, row counts, generated ledgers, declaration inventories, and proof
   plumbing near the end. Do not place hidden-premise audit blocks, command
   transcripts, validator ledgers, or long Lean-centered proof inventories

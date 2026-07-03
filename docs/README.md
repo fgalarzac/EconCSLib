@@ -66,5 +66,8 @@ They may assume Lean familiarity and may be more detailed.
   shared LDP, Chernoff, Laplace-principle, and binary-rate extraction plan for
   the GGSG19, GJ18, and GJ19 paper scaffolds.
 
-Detailed proof-strategy rules for agents live in
-[`skills/econcs-formalizer/`](../skills/econcs-formalizer/).
+Agent skills live under [`skills/`](../skills/). Use
+[`skills/econcs-formalizer/`](../skills/econcs-formalizer/) for paper workflow,
+audit, and closeout rules, and
+[`skills/econcs-prover/`](../skills/econcs-prover/) for Lean theorem proving
+and proof repair.

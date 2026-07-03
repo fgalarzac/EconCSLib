@@ -999,6 +999,9 @@ FINAL_REPORT_PROOF_DEVIATIONS_RE = re.compile(
 FINAL_REPORT_PROOF_TRICKS_RE = re.compile(
     r"(?mi)^##+\s+(?:\d+\.\s*)?Proof\s+Tricks\s+Worth\s+Reusing\b"
 )
+FINAL_REPORT_GENERALIZATIONS_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?Generalizations,\s+Conjectures,\s+and\s+Extensions\b"
+)
 FINAL_REPORT_SOURCE_FIXES_RE = re.compile(
     r"(?mi)^##+\s+(?:\d+\.\s*)?Mathematical\s+Typos\s+or\s+Other\s+Fixes\s+"
     r"Suggested\s+(?:in|for)\s+the\s+Source\s+Paper\b"
@@ -1227,6 +1230,7 @@ def check_final_report_human_facing_front_matter(
         additional = FINAL_REPORT_ADDITIONAL_ASSUMPTIONS_RE.search(report_text)
         deviations = FINAL_REPORT_PROOF_DEVIATIONS_RE.search(report_text)
         tricks = FINAL_REPORT_PROOF_TRICKS_RE.search(report_text)
+        generalizations = FINAL_REPORT_GENERALIZATIONS_RE.search(report_text)
         source_fixes = FINAL_REPORT_SOURCE_FIXES_RE.search(report_text)
         issues = FINAL_REPORT_ISSUES_CAVEATS_RE.search(report_text)
         detailed = FINAL_REPORT_DETAILED_EVIDENCE_RE.search(report_text)
@@ -1238,6 +1242,7 @@ def check_final_report_human_facing_front_matter(
             ("Additional Assumptions Beyond Paper", additional),
             ("Proof-Strategy Deviations", deviations),
             ("Proof Tricks Worth Reusing", tricks),
+            ("Generalizations, Conjectures, and Extensions", generalizations),
             ("Paper Issues or Caveats", issues),
             ("Detailed Formalization Evidence", detailed),
         ]
@@ -1262,6 +1267,7 @@ def check_final_report_human_facing_front_matter(
                     additional,
                     deviations,
                     tricks,
+                    generalizations,
                     source_fixes,
                     issues,
                     detailed,
@@ -1277,8 +1283,9 @@ def check_final_report_human_facing_front_matter(
                     "final validation report should order front sections as Human Verdict, "
                     "Closeout Status, Source and Scope, Researcher Summary, "
                     "Remaining Boundaries, Additional Assumptions, Proof-Strategy "
-                    "Deviations, Proof Tricks, optional source-paper fixes, "
-                    "Paper Issues or Caveats, then Detailed Formalization Evidence",
+                    "Deviations, Proof Tricks, Generalizations/Conjectures/"
+                    "Extensions, optional source-paper fixes, Paper Issues or "
+                    "Caveats, then Detailed Formalization Evidence",
                 )
             )
         if detailed:

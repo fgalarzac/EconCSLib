@@ -52,34 +52,41 @@ Required target-paper checks:
     lemmas/results when the destination is clear and the relevant builds can be
     checked; otherwise record the candidate and destination module in the final
     report.
-11. Run a skill-update pass. If the paper taught a reusable workflow lesson,
+11. Run a final easy-extension pass after the Lean proof route is known.
+    Re-read the paper claims and final formal endpoints, then ask which
+    generalizations, conjectures, or extensions are trivial or near-trivial:
+    weakened assumptions, immediate corollaries, stronger conclusions, or
+    natural adjacent conjectures. Prove only cheap extensions that do not
+    distract from source closeout, and record both proved and deferred
+    candidates in the final report.
+12. Run a skill-update pass. If the paper taught a reusable workflow lesson,
     update this skill or an appropriate reference before final handoff; if it
     did not, state that explicitly in the final report or handoff.
-12. Update `docs/DependencyDAG.tex`, render `docs/DependencyDAG.pdf`, visually inspect
+13. Update `docs/DependencyDAG.tex`, render `docs/DependencyDAG.pdf`, visually inspect
     it, and record the DAG evidence in the final report and post-formalization
     audit note.
-13. Write or refresh `docs/AGENT_SOURCE_AUDIT.md` as an independent source-first
+14. Write or refresh `docs/AGENT_SOURCE_AUDIT.md` as an independent source-first
     holistic audit. It must read the source first, build or verify the source
     inventory from the source itself, then inspect `PaperInterface.lean` and
     Lean statements for omissions, hidden strengthening/weakening, and semantic
     mismatches. It must not merely summarize existing sidecars. Write
     `## Overall status: PASS` only when the independent source-first audit
     agrees that the claimed source surface is covered.
-14. Run the targeted repository closeout audit after report/DAG edits:
+15. Run the targeted repository closeout audit after report/DAG edits:
     `python3 scripts/audit_repository.py --paper <paper-folder> --paper-closeout --include-active --info-limit 0`.
     Do not claim post-formalization completion while it reports missing/stale
     DAG, validation-report, source-record, LLM-sidecar, or hidden-premise
     findings for that paper.
-15. Rerun `python3 scripts/review_dashboard.py --paper <paper-folder> --precheck`
+16. Rerun `python3 scripts/review_dashboard.py --paper <paper-folder> --precheck`
     and record all remaining unresolved `mismatch`, accepted
     `conditional_boundary`, `uncertain`, stale, missing, or broad-surface
     findings in the final report.
-16. Update paper-local `status.json` at the same time as the DAG and final
+17. Update paper-local `status.json` at the same time as the DAG and final
     report, then run `python3 scripts/sync_paper_status.py` so generated
     status tables move with the paper-local source of truth.
     The root `README.md` is protected hand-written prose and must not be edited
     during closeout unless the user gives specific root-README instructions.
-17. Refresh the final-report LLM-as-judge summary block from the sidecars.
+18. Refresh the final-report LLM-as-judge summary block from the sidecars.
     In the public repository, run
     `python3 scripts/refresh_validation_report_audit_summaries.py` and then
     `python3 scripts/refresh_validation_report_audit_summaries.py --check`.
@@ -99,12 +106,14 @@ changed rows.
 `FINAL_VALIDATION_REPORT.md` is a concise human assessment, not a handoff note,
 implementation ledger, or shell transcript. It must put an `Updated: YYYY-MM-DD`
 line directly below the H1 title, using the date of the report's latest
-substantive refresh. It must answer four questions near the top:
+substantive refresh. It must answer five questions near the top:
 
 - What was proved?
 - Did formalization find anything wrong or ambiguous in the paper?
 - Was any qualitatively different proof/modeling route needed?
 - What remains for Lean proof work versus human dashboard review?
+- What generalizations, conjectures, or extensions look trivial or
+  near-trivial after formalization?
 
 Write in paper language, not Lean-internal implementation language. Avoid
 history markers such as `previously`, `now`, `restored`, or `superseded`
@@ -121,17 +130,18 @@ Use this section order:
 6. Additional Assumptions Beyond Paper
 7. Proof-Strategy Deviations
 8. Proof Tricks Worth Reusing
-9. Mathematical Typos or Other Fixes Suggested in the Source Paper
-10. Paper Issues or Caveats
-11. Detailed Formalization Evidence
-12. Paper Assumption Provenance
-13. Displayed Formula Provenance
-14. Library Lift Pass
-15. DAG Audit
-16. Validation Checks
-17. Paper Definitions Checked
-18. Named Theorem Statements Checked
-19. Paper-Facing Statement Validator Ledger
+9. Generalizations, Conjectures, and Extensions
+10. Mathematical Typos or Other Fixes Suggested in the Source Paper
+11. Paper Issues or Caveats
+12. Detailed Formalization Evidence
+13. Paper Assumption Provenance
+14. Displayed Formula Provenance
+15. Library Lift Pass
+16. DAG Audit
+17. Validation Checks
+18. Paper Definitions Checked
+19. Named Theorem Statements Checked
+20. Paper-Facing Statement Validator Ledger
 
 Keep the paper-interface review sections at the end. Do not leave placeholders
 or pointer prose such as "where those sections belong"; fill every section
@@ -205,10 +215,30 @@ downstream reuse of another paper's checked theorem route, named exposure of a
 source condition, formula/theorem row splitting, explicit source-level theorem
 parameters, conditional theorem hypotheses copied from the paper, or other
 proof-organization notes here. Put those items in `Source and Scope`,
-`Detailed Formalization Evidence`, `Proof Tricks Worth Reusing`, or the
-relevant audit sidecar instead. If the only differences are explicit
-formalization boundaries, write `None beyond the formalization boundaries
-already recorded above` and point to the assumptions/gaps sections.
+`Detailed Formalization Evidence`, `Proof Tricks Worth Reusing`,
+`Generalizations, Conjectures, and Extensions`, or the relevant audit sidecar
+instead. If the only differences are explicit formalization boundaries, write
+`None beyond the formalization boundaries already recorded above` and point to
+the assumptions/gaps sections.
+
+### Generalizations, Conjectures, and Extensions
+
+After the main source claims are closed or clearly bounded, do one fresh
+outside-Lean thinking pass over the final proof route. Record what looks
+trivial or near-trivial to generalize, prove as a conjecture, or extend:
+
+- weakened assumptions or parameters that the proof no longer uses,
+- immediate corollaries or stronger conclusions already implicit in the Lean
+  proof,
+- source conjectures or natural adjacent conjectures that the current library
+  can now prove cheaply, and
+- extension ideas that are plausible but nontrivial and should stay future work.
+
+Write `None` if there are no such opportunities. Do not count an optional
+extension as paper coverage, a proof-strategy deviation, or a remaining gap
+unless the source paper itself claims it. If a cheap extension is proved, state
+that it is beyond the paper and name the paper-facing or library declaration
+where it lives.
 
 ### Detailed Formalization Evidence
 
