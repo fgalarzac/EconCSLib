@@ -6,6 +6,7 @@ Computation and related applied math fields.  The goal of EconCSLib is to enable
 Links:
 - [Project website](https://gargnikhil.com/EconCSLib/)
 - [Paper describing project](https://arxiv.org/abs/2606.13306)
+- [Slack workspace for applied math modeling in Lean](https://join.slack.com/t/appliedmodelinglib/shared_invite/zt-42slirzxx-rEO8eEns7~4~i3Lbu7N~lA)
 
 If you use this project, please cite the following paper
 
