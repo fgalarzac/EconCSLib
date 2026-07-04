@@ -189,20 +189,25 @@ full statement sidecar regeneration, DAG/final-report audit updates, and
 for that validation phase. The eventual closeout gate must report missing,
 stale, or unresolved `source_record_audit.json` /
 `source_record_match_llm.json` sidecars as assumption/provenance findings.
-Treat `PaperInterface.lean` as a closed review surface, not a scratch file.
-Every declaration exported there must be classified in `status.json`
-`review_surface.include_names`, `review_surface.assumption_names`, or
-`review_surface.auxiliary_names`. Use `auxiliary_names` only for proof-facing
-helpers intentionally excluded from statement review, and never to hide a named
-paper theorem or a non-source premise. If a helper theorem needs a
+Treat the configured review source as a closed review surface, not a scratch
+file. By default this is `PaperInterface.lean`, but large papers may set
+`status.json` `review_surface.source_file` to `AuditInterface.lean` so
+`PaperInterface.lean` remains a compact human-facing entrypoint while the full
+row-level dashboard and LLM-as-judge declarations live in the audit surface.
+Every declaration exported from the configured review source must be classified
+in `status.json` `review_surface.include_names`,
+`review_surface.assumption_names`, or `review_surface.auxiliary_names`. Use
+`auxiliary_names` only for proof-facing helpers intentionally excluded from
+statement review, and never to hide a named paper theorem or a non-source
+premise. If a helper theorem needs a
 `...Certificate`, `...Model`, `...Semantics`, `...Bridge`, `...Package`,
 `...Inputs`, `...Process`, or `...Consequences` premise that is not itself
 derived from prior Lean code, keep it in
 `ProofInterface.lean`/`MainTheorems.lean` unless it is a reviewed row or a
 validated assumption/proof boundary. During active proof work, after a
-`PaperInterface.lean` edit run targeted checks for the changed declarations and
-premises; do not enter the full dashboard/sidecar workflow solely because the
-review surface changed. At closeout or user-requested post-validation, run
+configured review-source edit run targeted checks for the changed declarations
+and premises; do not enter the full dashboard/sidecar workflow solely because
+the review surface changed. At closeout or user-requested post-validation, run
 `python3 scripts/review_dashboard.py --paper <paper-folder> --precheck` or the
 paper-specific machine-status audit; a clean statement-judge sidecar alone is
 not evidence that hidden premises or unreviewed helpers are absent.

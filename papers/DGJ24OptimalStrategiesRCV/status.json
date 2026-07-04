@@ -22,11 +22,12 @@
   },
   "paper_interface": {
     "path": "papers/DGJ24OptimalStrategiesRCV/PaperInterface.lean",
-    "line_count": 32470,
-    "declaration_rows": 509,
+    "line_count": 17,
+    "declaration_rows": 0,
     "review_rows": 65,
     "oversized": false,
-    "maintainability_issue": null
+    "maintainability_issue": null,
+    "audit_surface_path": "papers/DGJ24OptimalStrategiesRCV/AuditInterface.lean"
   },
   "artifacts": {
     "readme": "papers/DGJ24OptimalStrategiesRCV/README.md",
@@ -34,10 +35,11 @@
     "assumptions": "papers/DGJ24OptimalStrategiesRCV/Assumptions.lean",
     "final_validation_report": "papers/DGJ24OptimalStrategiesRCV/FINAL_VALIDATION_REPORT.md",
     "dependency_dag_tex": "papers/DGJ24OptimalStrategiesRCV/docs/DependencyDAG.tex",
-    "dependency_dag_pdf": "papers/DGJ24OptimalStrategiesRCV/docs/DependencyDAG.pdf"
+    "dependency_dag_pdf": "papers/DGJ24OptimalStrategiesRCV/docs/DependencyDAG.pdf",
+    "audit_interface": "papers/DGJ24OptimalStrategiesRCV/AuditInterface.lean"
   },
   "review_surface": {
-    "source_file": "papers/DGJ24OptimalStrategiesRCV/PaperInterface.lean",
+    "source_file": "papers/DGJ24OptimalStrategiesRCV/AuditInterface.lean",
     "assumption_source_file": "papers/DGJ24OptimalStrategiesRCV/Assumptions.lean",
     "llm_statement_review": {
       "lean_to_tex_file": "papers/DGJ24OptimalStrategiesRCV/lean_to_tex_llm.json",
@@ -47,7 +49,7 @@
       "assumption_judgment_file": "papers/DGJ24OptimalStrategiesRCV/assumption_match_llm.json",
       "surface_audit_threshold": 30,
       "surface_warning_threshold": 120,
-      "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, named predicate/wrapper application, equivalence direction, conclusion, and visible input. Have a third LLM compare that TeX/prose translation with the original full paper statement, not just the theorem label or phrase. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, conclusions, and the semantics of every Lean premise. If a Lean premise is a named predicate or wrapper, the judge must inspect what that predicate means in the paper model; source-looking names are not evidence. Extra replay, certificate, process, bridge, source-row, or broad package assumptions must be judged `mismatch` or `uncertain` unless explicitly source-backed or derived from source primitives. Record the model/agent validator metadata and iterate on PaperInterface.lean until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review."
+      "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, named predicate/wrapper application, equivalence direction, conclusion, and visible input. Have a third LLM compare that TeX/prose translation with the original full paper statement, not just the theorem label or phrase. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, conclusions, and the semantics of every Lean premise. If a Lean premise is a named predicate or wrapper, the judge must inspect what that predicate means in the paper model; source-looking names are not evidence. Extra replay, certificate, process, bridge, source-row, or broad package assumptions must be judged `mismatch` or `uncertain` unless explicitly source-backed or derived from source primitives. Record the model/agent validator metadata and iterate on the configured review surface until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review."
     },
     "llm_paper_coverage_review": {
       "paper_coverage_audit_file": "papers/DGJ24OptimalStrategiesRCV/paper_coverage_llm.json",
@@ -689,6 +691,7 @@
       "paper_theoremB1_trace_generated_result_realized_by_constraints",
       "paper_top_first_choice_count",
       "paper_trace_generated_structure_constraints"
-    ]
+    ],
+    "human_source_file": "papers/DGJ24OptimalStrategiesRCV/PaperInterface.lean"
   }
 }

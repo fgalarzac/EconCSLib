@@ -13,7 +13,7 @@ below.
 ## 2. Closeout Status
 - Completion status: partially formalized.
 - One-sentence recap: Full formalization requires proving stochastic subgradient descent convergence. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition.
-- Lean footprint: 23,466 paper-local Lean LOC; `PaperInterface.lean` is 2772 lines; 47 human-review declarations are exposed.
+- Lean footprint: 23,483 paper-local Lean LOC; `PaperInterface.lean` is a 17-line compact entrypoint; `AuditInterface.lean` is 2,772 lines and contains the 47 configured dashboard/LLM-as-judge declarations.
 - Audit summary: source coverage has 39 covered, 8 conditional_boundary, 1 not_a_paper_target; statement LLM-as-judge has 41 matches, 5 mismatch; resolutions: 5 conditional_boundary; Lean-to-TeX has 44 row translations; assumption provenance has 1 paper_condition, 2 partial_boundary; source-record classification has 2 proved_from_primitives, 68 validated_source_assumption, 22 container_recursively_audited, 19 nonpropositional_witness_data, 4 approved_external_boundary; source-record audit reports 47 review rows, 3 boundary inputs, 0 recursion failures; review-surface audit passes over 47 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
@@ -25,6 +25,7 @@ below.
 - Lean folder: `papers/GKGMM19IterativeLocalVoting`.
 - Human-facing theorem file:
   `papers/GKGMM19IterativeLocalVoting/PaperInterface.lean`.
+- Row-level audit surface: `papers/GKGMM19IterativeLocalVoting/AuditInterface.lean`.
 - Proof-facing bridge file:
   `papers/GKGMM19IterativeLocalVoting/ProofInterface.lean`.
 - Paper assumption file:
@@ -115,7 +116,7 @@ Theorem 3 appears to need an explicit feasibility condition for the aggregate di
   together with the single SSGM theorem, imply the median-set convergence
   conclusion for that decomposition.  The finite-coordinate product-box closure
   and `L∞` coordinate-replacement source records are now expanded in
-  `PaperInterface.lean`.
+  `AuditInterface.lean`.
 - The four convergence endpoints are not assumed directly. They are projected
   from `ILVSSGMConvergenceConsequences`, which is derived by
   `ilvSSGMConvergenceConsequences_of_concreteSourceModel_ssgmConvergence` from
@@ -158,7 +159,7 @@ Theorem 3 appears to need an explicit feasibility condition for the aggregate di
 | `assumption_ssgm_convergence_theorem` | formalization boundary | Future SSGM convergence theorem, not a source assumption | `hSSGM : assumption_ssgm_convergence_theorem E` is a formalization boundary | Single approved theorem-shaped library boundary returning `FiniteCoordinateILVSSGMConvergenceTheorems E`; endpoint consequences are derived separately. |
 
 ## 13. Displayed Formula Provenance
-Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
+Displayed and source-defining formulas are tracked through the paper-facing rows in `AuditInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
 
 ## 14. Library Lift Pass
 - Reusable modules already introduced or used include:
@@ -237,10 +238,10 @@ Displayed and source-defining formulas are tracked through the paper-facing rows
 - `python3 scripts/audit_repository.py --library-only --library-premise-audit --info-limit 0`: reusable-library premise audit passed.
 
 ## 17. Paper Definitions Checked
-No separate generated definitions table was recorded in this report refresh. The paper-facing definition rows are tracked in `PaperInterface.lean` and the statement validator sidecars.
+No separate generated definitions table was recorded in this report refresh. The paper-facing definition rows are tracked in `AuditInterface.lean` and the statement validator sidecars.
 
 ## 18. Named Theorem Statements Checked
-No separate generated theorem table was recorded in this report refresh. Named theorem endpoints are tracked in `PaperInterface.lean`, `status.json`, and the statement validator sidecars.
+No separate generated theorem table was recorded in this report refresh. Named theorem endpoints are tracked in `AuditInterface.lean`, `status.json`, and the statement validator sidecars.
 
 ## 19. Paper-Facing Statement Validator Ledger
 The declaration-keyed source/subclaim map and all LLM sidecars are current.

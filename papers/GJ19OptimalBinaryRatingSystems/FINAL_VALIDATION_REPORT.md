@@ -12,7 +12,7 @@ discrepancy is identified for this theorem surface.
 ## 2. Closeout Status
 - Completion status: formalized.
 - One-sentence recap: The report records the current formalization status and validation evidence for the declared paper surface.
-- Lean footprint: 85,780 paper-local Lean LOC; `PaperInterface.lean` is 12481 lines; 56 human-review declarations are exposed.
+- Lean footprint: 85,797 paper-local Lean LOC; `PaperInterface.lean` is a 17-line compact entrypoint; `AuditInterface.lean` is 12,481 lines and contains the 56 configured dashboard/LLM-as-judge declarations.
 - Audit summary: source coverage has 27 covered, 1 covered_by_support; statement LLM-as-judge has 56 matches; Lean-to-TeX has 56 row translations; assumption provenance sidecar is not tracked; source-record classification has 2 validated_source_assumption; source-record audit reports 56 review rows, 2 boundary inputs, 0 recursion failures; review-surface audit passes over 56 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
@@ -22,6 +22,7 @@ discrepancy is identified for this theorem surface.
 - Source version: PMLR 89 paper PDF plus PMLR supplement PDF.
 - Lean folder: `papers/GJ19OptimalBinaryRatingSystems`.
 - Human-facing theorem file: `papers/GJ19OptimalBinaryRatingSystems/PaperInterface.lean`.
+- Row-level audit surface: `papers/GJ19OptimalBinaryRatingSystems/AuditInterface.lean`.
 - Detailed audit: `papers/GJ19OptimalBinaryRatingSystems/docs/POST_FORMALIZATION_AUDIT.md`.
 - DAG artifacts: `papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.tex`, `papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.pdf`.
 
@@ -89,7 +90,7 @@ validator summary above is the current assumption-provenance status. Source
 conditions are exposed directly in theorem statements and detailed evidence.
 
 ## 13. Displayed Formula Provenance
-Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
+Displayed and source-defining formulas are tracked through the paper-facing rows in `AuditInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
 
 ## 14. Library Lift Pass
 No additional reusable library extraction was needed in this report pass.
@@ -128,10 +129,10 @@ The build, status sync, and dashboard precheck passed. The closeout audit is
 used as the repository-level style/provenance check.
 
 ## 17. Paper Definitions Checked
-No separate generated definitions table was recorded in this report refresh. The paper-facing definition rows are tracked in `PaperInterface.lean` and the statement validator sidecars.
+No separate generated definitions table was recorded in this report refresh. The paper-facing definition rows are tracked in `AuditInterface.lean` and the statement validator sidecars.
 
 ## 18. Named Theorem Statements Checked
-No separate generated theorem table was recorded in this report refresh. Named theorem endpoints are tracked in `PaperInterface.lean`, `status.json`, and the statement validator sidecars.
+No separate generated theorem table was recorded in this report refresh. Named theorem endpoints are tracked in `AuditInterface.lean`, `status.json`, and the statement validator sidecars.
 
 ## 19. Paper-Facing Statement Validator Ledger
 Current model-validator sidecars are the source of truth for timestamped rows. Model review has 56 matches across 56 rows. Human dashboard review has 0/56 saved entries, with 0 stale rows and 0 human mismatches.

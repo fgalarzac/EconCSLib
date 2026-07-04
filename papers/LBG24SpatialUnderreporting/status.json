@@ -23,11 +23,12 @@
   },
   "paper_interface": {
     "path": "papers/LBG24SpatialUnderreporting/PaperInterface.lean",
-    "line_count": 8658,
-    "declaration_rows": 27,
+    "line_count": 17,
+    "declaration_rows": 0,
     "review_rows": 27,
     "oversized": false,
-    "maintainability_issue": "Review surface curated to 24 source-facing paper-interface rows plus 3 explicit assumption rows. Alternative theorem routes, proof-support lemmas, sanity checks, and kernel-normalization rows remain Lean-checked but are excluded from the human dashboard."
+    "maintainability_issue": null,
+    "audit_surface_path": "papers/LBG24SpatialUnderreporting/AuditInterface.lean"
   },
   "artifacts": {
     "readme": "papers/LBG24SpatialUnderreporting/README.md",
@@ -36,10 +37,11 @@
     "final_validation_report": "papers/LBG24SpatialUnderreporting/FINAL_VALIDATION_REPORT.md",
     "dependency_dag_tex": "papers/LBG24SpatialUnderreporting/docs/DependencyDAG.tex",
     "dependency_dag_pdf": "papers/LBG24SpatialUnderreporting/docs/DependencyDAG.pdf",
-    "source_record_audit": "papers/LBG24SpatialUnderreporting/audit/source_record_audit.json"
+    "source_record_audit": "papers/LBG24SpatialUnderreporting/audit/source_record_audit.json",
+    "audit_interface": "papers/LBG24SpatialUnderreporting/AuditInterface.lean"
   },
   "review_surface": {
-    "source_file": "PaperInterface.lean",
+    "source_file": "papers/LBG24SpatialUnderreporting/AuditInterface.lean",
     "assumption_source_file": "Assumptions.lean",
     "llm_statement_review": {
       "lean_to_tex_file": "papers/LBG24SpatialUnderreporting/audit/lean_to_tex_llm.json",
@@ -48,7 +50,7 @@
       "assumption_judgment_file": "papers/LBG24SpatialUnderreporting/audit/assumption_match_llm.json",
       "surface_audit_threshold": 30,
       "surface_warning_threshold": 120,
-      "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, named predicate/wrapper application, equivalence direction, conclusion, and visible input. Have a third LLM compare that TeX/prose translation with the original full paper statement, not just the theorem label or phrase. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, conclusions, and the semantics of every Lean premise. If a Lean premise is a named predicate or wrapper, the judge must inspect what that predicate means in the paper model; source-looking names are not evidence. Extra replay, certificate, process, bridge, source-row, or broad package assumptions must be judged `mismatch` or `uncertain` unless explicitly source-backed or derived from source primitives. Record the model/agent validator metadata and iterate on PaperInterface.lean until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review."
+      "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, named predicate/wrapper application, equivalence direction, conclusion, and visible input. Have a third LLM compare that TeX/prose translation with the original full paper statement, not just the theorem label or phrase. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, conclusions, and the semantics of every Lean premise. If a Lean premise is a named predicate or wrapper, the judge must inspect what that predicate means in the paper model; source-looking names are not evidence. Extra replay, certificate, process, bridge, source-row, or broad package assumptions must be judged `mismatch` or `uncertain` unless explicitly source-backed or derived from source primitives. Record the model/agent validator metadata and iterate on the configured review surface until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review."
     },
     "llm_assumption_review": {
       "assumption_judgment_file": "papers/LBG24SpatialUnderreporting/audit/assumption_match_llm.json",
@@ -211,6 +213,7 @@
       "theorem2_multi_report_process_kernel_source_case",
       "equation7_zero_inflated_likelihood_nonnegative"
     ],
-    "paper_coverage_required": true
+    "paper_coverage_required": true,
+    "human_source_file": "papers/LBG24SpatialUnderreporting/PaperInterface.lean"
   }
 }

@@ -10,7 +10,7 @@ source-paper error is reported. No human dashboard sign-off has been recorded.
 ## 2. Closeout Status
 - Completion status: formalized.
 - One-sentence recap: The informative-rating definitions, appendix large-deviation support, and Theorem 1 informative-system result are formalized.
-- Lean footprint: 7,027 paper-local Lean LOC; `PaperInterface.lean` is 2940 lines; 15 human-review declarations are exposed.
+- Lean footprint: 7,044 paper-local Lean LOC; `PaperInterface.lean` is a 17-line compact entrypoint; `AuditInterface.lean` is 2,940 lines and contains the 15 configured dashboard/LLM-as-judge declarations.
 - Audit summary: source coverage has 15 covered; statement LLM-as-judge has 15 matches; Lean-to-TeX has 7 row translations; assumption provenance has 7 paper_condition, 1 paper_assumption; source-record classification sidecar is not tracked; source-record audit reports 15 review rows, 0 boundary inputs, 0 recursion failures; review-surface audit passes over 15 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
@@ -19,6 +19,7 @@ source-paper error is reported. No human dashboard sign-off has been recorded.
 - Formalized source/PDF: arXiv 1810.13028 TeX/PDF cache.
 - Lean folder: `papers/GJ18InformativeRatingSystems`.
 - Human-facing theorem file: `papers/GJ18InformativeRatingSystems/PaperInterface.lean`.
+- Row-level audit surface: `papers/GJ18InformativeRatingSystems/AuditInterface.lean`.
 - DAG artifacts: `papers/GJ18InformativeRatingSystems/docs/DependencyDAG.tex`, `papers/GJ18InformativeRatingSystems/docs/DependencyDAG.pdf`.
 
 The official publisher article is the MSOM/INFORMS version. The arXiv
@@ -114,7 +115,7 @@ Theorem 1 endpoint. Finite seller types, finite rating levels, and floor-count
 sample sizes are part of the source model.
 
 ## 13. Displayed Formula Provenance
-Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
+Displayed and source-defining formulas are tracked through the paper-facing rows in `AuditInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
 
 ## 14. Library Lift Pass
 - `EconCSLib.Foundations.Probability.FiniteRatingComparison`: extracted the
@@ -171,7 +172,7 @@ refreshed with `scripts/sync_paper_status.py`, and the sync check passed.
 ### Statement Translation Audit
 
 Audit date: 2026-06-29.
-Scope: current dashboard surface from `PaperInterface.lean`; the generated
+Scope: current dashboard surface from `AuditInterface.lean`; the generated
 LLM-as-judge block above is sourced from the tracked sidecars.
 
 Summary: statement match has 15 matches; Lean-to-TeX has 7 row translations; assumption provenance has 7 paper_condition, 1 paper_assumption.

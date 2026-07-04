@@ -19,21 +19,23 @@
   },
   "paper_interface": {
     "path": "papers/KR21Monoculture/PaperInterface.lean",
-    "line_count": 1816,
-    "declaration_rows": 65,
+    "line_count": 17,
+    "declaration_rows": 0,
     "review_rows": 49,
     "oversized": false,
-    "maintainability_issue": null
+    "maintainability_issue": null,
+    "audit_surface_path": "papers/KR21Monoculture/AuditInterface.lean"
   },
   "artifacts": {
     "readme": "papers/KR21Monoculture/README.md",
     "paper_interface": "papers/KR21Monoculture/PaperInterface.lean",
     "final_validation_report": "papers/KR21Monoculture/FINAL_VALIDATION_REPORT.md",
     "dependency_dag_tex": "papers/KR21Monoculture/docs/DependencyDAG.tex",
-    "dependency_dag_pdf": "papers/KR21Monoculture/docs/DependencyDAG.pdf"
+    "dependency_dag_pdf": "papers/KR21Monoculture/docs/DependencyDAG.pdf",
+    "audit_interface": "papers/KR21Monoculture/AuditInterface.lean"
   },
   "review_surface": {
-    "source_file": "papers/KR21Monoculture/PaperInterface.lean",
+    "source_file": "papers/KR21Monoculture/AuditInterface.lean",
     "assumption_policy": "strict",
     "include_names": [
       "mallowsSpec",
@@ -129,6 +131,7 @@
         "line_start": 1636,
         "line_end": 2000
       }
-    ]
+    ],
+    "human_source_file": "papers/KR21Monoculture/PaperInterface.lean"
   }
 }

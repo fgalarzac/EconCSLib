@@ -5,7 +5,7 @@
 |---|---|
 | Final status | Partially formalized |
 | Paper reference | [Iterative Local Voting for Collective Decision-making in Continuous Spaces](https://www.jair.org/index.php/jair/article/view/11358) by Nikhil Garg; Vijay Kamble; Ashish Goel; David Marn; Kamesh Munagala; JAIR 64, 2019. |
-| Lines of Code | 23,466 |
+| Lines of Code | 23,483 |
 
 ## Key Links
 

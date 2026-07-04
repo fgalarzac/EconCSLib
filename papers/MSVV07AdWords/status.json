@@ -17,13 +17,14 @@
   },
   "paper_interface": {
     "path": "papers/MSVV07AdWords/PaperInterface.lean",
-    "line_count": 1015,
-    "declaration_rows": 43,
+    "line_count": 17,
+    "declaration_rows": 0,
     "review_rows": 43,
     "oversized": false,
     "maintainability_issue": null,
     "proof_interface_path": "papers/MSVV07AdWords/ProofInterface.lean",
-    "proof_interface_line_count": 1887
+    "proof_interface_line_count": 1887,
+    "audit_surface_path": "papers/MSVV07AdWords/AuditInterface.lean"
   },
   "artifacts": {
     "readme": "papers/MSVV07AdWords/README.md",
@@ -33,10 +34,11 @@
     "dependency_dag_pdf": "papers/MSVV07AdWords/docs/DependencyDAG.pdf",
     "proof_interface": "papers/MSVV07AdWords/ProofInterface.lean",
     "source_text": "papers/MSVV07AdWords/MSVV07AdWords.txt",
-    "assumptions": "papers/MSVV07AdWords/Assumptions.lean"
+    "assumptions": "papers/MSVV07AdWords/Assumptions.lean",
+    "audit_interface": "papers/MSVV07AdWords/AuditInterface.lean"
   },
   "review_surface": {
-    "source_file": "papers/MSVV07AdWords/PaperInterface.lean",
+    "source_file": "papers/MSVV07AdWords/AuditInterface.lean",
     "assumption_source_file": "papers/MSVV07AdWords/Assumptions.lean",
     "llm_assumption_review": "papers/MSVV07AdWords/audit/assumption_match_llm.json",
     "assumption_policy": "strict",
@@ -93,6 +95,7 @@
         "title": "Paper-Facing Endpoints",
         "line_start": 1
       }
-    ]
+    ],
+    "human_source_file": "papers/MSVV07AdWords/PaperInterface.lean"
   }
 }

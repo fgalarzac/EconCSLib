@@ -2298,6 +2298,15 @@ def assumption_source_file_path(folder: Path, review_surface: dict[str, object])
     return folder / DEFAULT_ASSUMPTION_SOURCE_FILE
 
 
+def review_surface_source_file_path(folder: Path, review_surface: dict[str, object]) -> Path:
+    """Return the Lean file that contains the configured review-surface rows."""
+
+    raw_path = review_surface.get("source_file")
+    if isinstance(raw_path, str) and raw_path.strip():
+        return ROOT / raw_path.strip()
+    return folder / "PaperInterface.lean"
+
+
 def assumption_judgment_file_path(folder: Path, review_surface: dict[str, object]) -> Path:
     """Return the paper-root LLM assumption-provenance judgment file."""
 
@@ -4150,13 +4159,25 @@ def check_review_launcher_readiness(include_active: bool) -> list[Finding]:
                 )
             )
 
-        interface_text = interface.read_text(encoding="utf-8")
-        item_count = len(review_rows_from_interface_text(interface_text))
+        status_file = folder / "status.json"
+        review_surface: dict[str, object] = {}
+        if status_file.exists():
+            try:
+                payload = json.loads(status_file.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                payload = {}
+            if isinstance(payload, dict) and isinstance(payload.get("review_surface"), dict):
+                review_surface = payload["review_surface"]  # type: ignore[assignment]
+        review_source = review_surface_source_file_path(folder, review_surface)
+        if not review_source.exists():
+            findings.append(Finding("ERROR", review_source, "configured review surface does not exist"))
+            continue
+        review_source_text = review_source.read_text(encoding="utf-8")
+        item_count = len(review_rows_from_interface_text(review_source_text))
         if item_count == 0:
-            findings.append(Finding("ERROR", interface, "review dashboard finds no review rows"))
+            findings.append(Finding("ERROR", review_source, "review dashboard finds no review rows"))
         elif item_count > REVIEW_ROW_WARN_THRESHOLD:
-            status_file = folder / "status.json"
-            problems, counts = review_surface_slice_counts(interface_text, status_file)
+            problems, counts = review_surface_slice_counts(review_source_text, status_file)
             for problem in sorted(set(problems)):
                 findings.append(Finding("ERROR", status_file, problem))
             max_slice = max(counts.values()) if counts else item_count
@@ -4164,7 +4185,7 @@ def check_review_launcher_readiness(include_active: bool) -> list[Finding]:
                 findings.append(
                     Finding(
                         "WARN",
-                        interface,
+                        review_source,
                         f"review dashboard exposes {item_count} rows; add `status.json` "
                         f"`review_surface.slices` of at most {REVIEW_ROW_WARN_THRESHOLD} rows",
                     )
@@ -4632,6 +4653,18 @@ def check_machine_paper_status(
 
         actual_line_count = len(interface_path.read_text(encoding="utf-8").splitlines())
         interface_text = interface_path.read_text(encoding="utf-8")
+        review_source_path = review_surface_source_file_path(PAPERS / paper_id, review_surface)
+        if not review_source_path.exists():
+            findings.append(
+                Finding(
+                    "ERROR",
+                    PAPER_STATUS_FILE,
+                    f"`{paper_id}` review surface source file does not exist: "
+                    f"`{review_source_path.relative_to(ROOT)}`",
+                )
+            )
+            continue
+        review_source_text = review_source_path.read_text(encoding="utf-8")
         findings.extend(
             paper_statement_sidecar_findings(
                 paper_id,
@@ -4639,9 +4672,11 @@ def check_machine_paper_status(
                 status,
             )
         )
-        actual_review_names = [name for _line, name in review_rows_from_interface_text(interface_text)]
-        declaration_blocks = review_declaration_blocks(interface_text)
-        declaration_comments = review_declaration_comments(interface_text)
+        actual_review_names = [
+            name for _line, name in review_rows_from_interface_text(review_source_text)
+        ]
+        declaration_blocks = review_declaration_blocks(review_source_text)
+        declaration_comments = review_declaration_comments(review_source_text)
         declaration_index = paper_lean_declaration_index(PAPERS / paper_id)
         assumption_source_file = assumption_source_file_path(PAPERS / paper_id, review_surface)
         assumption_declarations = assumption_declarations_from_file(assumption_source_file)
@@ -4719,7 +4754,7 @@ def check_machine_paper_status(
                 Finding(
                     "ERROR",
                     PAPER_STATUS_FILE,
-                    f"`{paper_id}` assumption_names are not exported by PaperInterface.lean or "
+                    f"`{paper_id}` assumption_names are not exported by the review surface or "
                     f"{assumption_source_file.relative_to(ROOT)}: "
                     + ", ".join(sorted(missing_assumption_rows)),
                 )
@@ -4738,8 +4773,8 @@ def check_machine_paper_status(
         findings.extend(
             check_paper_interface_axiom_closure(
                 paper_id,
-                interface_path,
-                interface_text,
+                review_source_path,
+                review_source_text,
                 include_names,
                 declaration_blocks,
                 status,
@@ -4934,7 +4969,7 @@ def check_machine_paper_status(
                 source = expanded_statement
             add_hidden_premise_finding(
                 LeanDeclaration(
-                    path=interface_path,
+                    path=review_source_path,
                     line=line_no,
                     kind=kind,
                     name=name,
@@ -4966,7 +5001,7 @@ def check_machine_paper_status(
                 findings.append(
                     Finding(
                         completed_status_finding_severity(status),
-                        interface_path,
+                        review_source_path,
                         f"`{paper_id}` review row `{name}` at line {line_no} appears to summarize a "
                         "numbered source result with a broad aggregate name; split displayed formulas, "
                         "subclaims, and source-defining equations into exact paper-facing rows before "
@@ -4977,7 +5012,7 @@ def check_machine_paper_status(
                 findings.append(
                     Finding(
                         completed_status_finding_severity(status),
-                        interface_path,
+                        review_source_path,
                         f"`{paper_id}` formula-bearing review row `{name}` at line {line_no} "
                         "has no `Source status:` provenance line in its paper-facing comment",
                     )
@@ -4990,7 +5025,7 @@ def check_machine_paper_status(
                 findings.append(
                     Finding(
                         completed_status_finding_severity(status),
-                        interface_path,
+                        review_source_path,
                         f"`{paper_id}` formula-bearing review row `{name}` at line {line_no} is an "
                         "opaque alias/signature; expose the displayed formula or theorem subclaim "
                         "directly, or route any non-derived premise through Assumptions.lean",
@@ -5000,7 +5035,7 @@ def check_machine_paper_status(
                 findings.append(
                     Finding(
                         completed_status_finding_severity(status),
-                        interface_path,
+                        review_source_path,
                         f"`{paper_id}` review row `{name}` at line {line_no} mentions a source-row "
                         "formula boundary; source-row wrappers are partial endpoints unless derived "
                         "from primitives or validated as explicit paper assumptions",
@@ -5008,7 +5043,7 @@ def check_machine_paper_status(
             )
             if kind in {"theorem", "lemma", "def", "abbrev"} and name not in assumption_names and not is_assumption_decl_name(name):
                 row_declaration = LeanDeclaration(
-                    path=interface_path,
+                    path=review_source_path,
                     line=line_no,
                     kind=kind,
                     name=name,
@@ -5061,7 +5096,7 @@ def check_machine_paper_status(
                 findings.append(
                     Finding(
                         "ERROR",
-                        interface_path,
+                        review_source_path,
                         f"`{paper_id}` review row `{name}` at line {line_no} is an opaque signature/alias; "
                         f"use source-equation wrapper `{candidates[0]}` in `status.json` `review_surface.include_names`",
                     )
@@ -5098,7 +5133,7 @@ def check_machine_paper_status(
                 Finding(
                     "ERROR",
                     PAPER_STATUS_FILE,
-                    f"`{paper_id}` status names are not exported by PaperInterface.lean: "
+                    f"`{paper_id}` status names are not exported by the review surface: "
                     + ", ".join(sorted(missing_review_names)),
                 )
             )
@@ -5108,7 +5143,7 @@ def check_machine_paper_status(
                 Finding(
                     "ERROR",
                     PAPER_STATUS_FILE,
-                    f"`{paper_id}` auxiliary_names are not exported by PaperInterface.lean: "
+                    f"`{paper_id}` auxiliary_names are not exported by the review surface: "
                     + ", ".join(sorted(missing_auxiliary_names)),
                 )
             )
@@ -5120,7 +5155,7 @@ def check_machine_paper_status(
                 Finding(
                     "ERROR",
                     PAPER_STATUS_FILE,
-                    f"`{paper_id}` PaperInterface.lean declarations are neither reviewed, "
+                    f"`{paper_id}` review-surface declarations are neither reviewed, "
                     "assumptions, nor explicit auxiliary proof-facing rows: "
                     + ", ".join(sorted(unclassified_review_names)),
                 )

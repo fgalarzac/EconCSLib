@@ -86,10 +86,14 @@ A completed paper contribution should include:
 - any needed implementation modules
 - a passing Lean build target for the paper
 
-`PaperInterface.lean` should be the compact human-facing surface: source
-definitions and named theorem statements in paper order. Put broad proof
-plumbing, helper endpoints, and implementation detail in `MainTheorems.lean`,
-`ProofInterface.lean`, or lower paper-local modules.
+`PaperInterface.lean` should be the compact human-facing entrypoint: source
+definitions, named theorem statements, or a short guide to the paper's checked
+surface in paper order. Put broad proof plumbing, helper endpoints, and
+implementation detail in `MainTheorems.lean`, `ProofInterface.lean`, or lower
+paper-local modules. If the row-level dashboard/LLM-as-judge surface is too
+large to keep human-readable, move those reviewed declarations to
+`AuditInterface.lean` and set `status.json` `review_surface.source_file` to
+that path while keeping `paper_interface.path` pointed at `PaperInterface.lean`.
 Keep the paper-local `status.json` as the source of truth for review rows,
 artifact paths, and public status, then regenerate `papers/status.json`.
 

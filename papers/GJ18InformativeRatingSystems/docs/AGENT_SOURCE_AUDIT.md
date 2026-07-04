@@ -10,7 +10,7 @@ The Lean interface captures the paper's formal design framework for informative 
 
 Private source reviewed: `EconCSLib-private/papers/GJ18InformativeRatingSystems/source.txt`.
 
-Public source/audit artifacts reviewed: `audit/paper_statement_map.json`, `PaperInterface.lean`, `status.json`, `audit/statement_match_llm.json`, `audit/paper_coverage_llm.json`, `audit/review_surface_llm.json`, `audit/assumption_match_llm.json`, and `audit/source_record_audit.json`.
+Public source/audit artifacts reviewed: `audit/paper_statement_map.json`, `AuditInterface.lean`, `PaperInterface.lean`, `status.json`, `audit/statement_match_llm.json`, `audit/paper_coverage_llm.json`, `audit/review_surface_llm.json`, `audit/assumption_match_llm.json`, and `audit/source_record_audit.json`.
 
 Source-version caveat: the cached source is the arXiv 1810.13028 TeX/PDF extraction, while `status.json` records the publication citation for Manufacturing & Service Operations Management. I did not see evidence in the reviewed material that the public interface is claiming a different post-publication theorem version; the audit should therefore be read as applying to the cached arXiv formal source, with the publication citation as bibliographic context.
 
@@ -18,7 +18,7 @@ The source text contains a broad empirical paper plus a mathematical framework. 
 
 ## Lean Interface Comparison
 
-`PaperInterface.lean` is larger than the compact dashboard because it exposes both source-facing rows and supporting finite-rate bridges. The curated dashboard has 15 rows: two definition/formula rows, one Appendix C rate certificate row, four Theorem 1 endpoint rows, and eight explicit assumption rows. That split matches my source-first reading. The paper's central mathematical endpoint is not a single short Lean theorem; it depends on finite support, positive sample/match rates, monotone rating scores, full support or bottom/top score witnesses, and adjacent-pair threshold-rate identification.
+`AuditInterface.lean` contains the source-facing rows and supporting finite-rate bridges; `PaperInterface.lean` is now the compact human-facing entrypoint. The curated dashboard has 15 rows: two definition/formula rows, one Appendix C rate certificate row, four Theorem 1 endpoint rows, and eight explicit assumption rows. That split matches my source-first reading. The paper's central mathematical endpoint is not a single short Lean theorem; it depends on finite support, positive sample/match rates, monotone rating scores, full support or bottom/top score witnesses, and adjacent-pair threshold-rate identification.
 
 The public Lean surface is appropriately more conservative than the prose theorem. It uses support-safe extended-rate endpoints and then offers a real-rate compatibility wrapper under an explicit equality between the extended adjacent threshold minimum and the real adjacent threshold-rate minimum. This is a good formalization choice: it makes the finite-support side conditions visible instead of silently treating extended-rate and real-rate formulations as interchangeable.
 

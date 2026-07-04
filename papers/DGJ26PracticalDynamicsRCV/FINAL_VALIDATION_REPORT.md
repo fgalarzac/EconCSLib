@@ -12,7 +12,7 @@ dashboard sign-off has not yet been recorded.
 ## 2. Closeout Status
 - Completion status: formalized.
 - One-sentence recap: The ballot-extension, exhausted-ballot completion, candidate-removal, and multi-winner containment claims are formalized.
-- Lean footprint: 20,736 paper-local Lean LOC; `PaperInterface.lean` is 11027 lines; 50 human-review declarations are exposed.
+- Lean footprint: 20,753 paper-local Lean LOC; `PaperInterface.lean` is a 17-line compact entrypoint; `AuditInterface.lean` is 11,027 lines and contains the 50 configured dashboard/LLM-as-judge declarations.
 - Audit summary: source coverage has 44 covered; statement LLM-as-judge has 62 matches, 7 mismatch; resolutions: 7 conditional_boundary; Lean-to-TeX has 69 row translations; assumption provenance sidecar has no rows; source-record classification has 3 proved_from_primitives, 1 container_recursively_audited, 9 nonpropositional_witness_data; source-record audit reports 50 review rows, 0 boundary inputs, 0 recursion failures; review-surface audit passes over 50 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
@@ -64,7 +64,7 @@ sign-off remains pending, and empirical case-study findings are data/code scope
 outside the Lean theorem ledger.
 
 ## 11. Detailed Formalization Evidence
-- `PaperInterface.lean` exposes 50 curated paper-facing review rows and 248
+- `AuditInterface.lean` exposes 50 curated paper-facing review rows and 248
   auxiliary proof-facing rows.
 - A targeted source-record audit on the current review surface reports zero
   boundary inputs and zero recursion failures.
@@ -86,7 +86,7 @@ parameters and conditional theorem hypotheses are exposed directly in the
 paper-facing statements and detailed evidence.
 
 ## 13. Displayed Formula Provenance
-Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
+Displayed and source-defining formulas are tracked through the paper-facing rows in `AuditInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
 
 ## 14. Library Lift Pass
 No additional reusable library extraction was needed in this report pass.
@@ -132,10 +132,10 @@ recursion failures on the 50-row review surface.
 - `python3 scripts/audit_repository.py --paper DGJ26PracticalDynamicsRCV --paper-closeout --include-active --info-limit 0`
 
 ## 17. Paper Definitions Checked
-No separate generated definitions table was recorded in this report refresh. The paper-facing definition rows are tracked in `PaperInterface.lean` and the statement validator sidecars.
+No separate generated definitions table was recorded in this report refresh. The paper-facing definition rows are tracked in `AuditInterface.lean` and the statement validator sidecars.
 
 ## 18. Named Theorem Statements Checked
-No separate generated theorem table was recorded in this report refresh. Named theorem endpoints are tracked in `PaperInterface.lean`, `status.json`, and the statement validator sidecars.
+No separate generated theorem table was recorded in this report refresh. Named theorem endpoints are tracked in `AuditInterface.lean`, `status.json`, and the statement validator sidecars.
 
 ## 19. Paper-Facing Statement Validator Ledger
 Current source: `statement_match_llm.json`, refreshed 2026-07-02, plus assumption provenance in `assumption_match_llm.json`.

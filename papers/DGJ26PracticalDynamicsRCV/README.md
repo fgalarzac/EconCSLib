@@ -5,7 +5,7 @@
 |---|---|
 | Final status | Formalized |
 | Paper reference | [Simpler Than You Think: The Practical Dynamics of Ranked Choice Voting](https://arxiv.org/abs/2602.14329) by Sanyukta Deshpande; Nikhil Garg; Sheldon H. Jacobson; Journal of Computational Social Science, 2026. |
-| Lines of Code | 20,736 |
+| Lines of Code | 20,753 |
 
 ## Key Links
 

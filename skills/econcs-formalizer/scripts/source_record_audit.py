@@ -313,6 +313,34 @@ def parse_status_rows(status_path: Path) -> list[str]:
     return list(dict.fromkeys(names))
 
 
+def review_source_path(root: Path, paper_dir: Path, status_path: Path) -> Path:
+    """Return the Lean file that contains the configured review-surface rows."""
+
+    if status_path.exists():
+        payload = json.loads(read_text(status_path))
+        review_surface = payload.get("review_surface")
+        if isinstance(review_surface, dict):
+            raw = review_surface.get("source_file")
+            if isinstance(raw, str) and raw.strip():
+                path = Path(raw.strip())
+                if path.is_absolute():
+                    return path
+                if len(path.parts) == 1:
+                    return paper_dir / path
+                return root / path
+    return paper_dir / "PaperInterface.lean"
+
+
+def lean_module_name(root: Path, path: Path) -> str:
+    """Return the Lean module name for a repository Lean file."""
+
+    rel = path.resolve().relative_to(root).with_suffix("")
+    parts = list(rel.parts)
+    if parts and parts[0] == "papers":
+        parts = parts[1:]
+    return ".".join(parts)
+
+
 def parse_declarations(interface_path: Path) -> dict[str, str]:
     lines = mask_block_comments(read_text(interface_path)).splitlines()
     decls: dict[str, str] = {}
@@ -548,6 +576,7 @@ def recursively_collect_fields(
 def lean_check(
     root: Path,
     paper_id: str,
+    import_module: str,
     row_namespace: str,
     row_names: list[str],
     assumption_row_names: set[str],
@@ -563,7 +592,7 @@ def lean_check(
             "output": "",
         }
 
-    build_target = f"{paper_id}.PaperInterface"
+    build_target = import_module
     build_proc = subprocess.run(
         ["lake", "build", build_target],
         cwd=root,
@@ -584,7 +613,7 @@ def lean_check(
             "output": output,
         }
 
-    lines = [f"import {paper_id}.PaperInterface", ""]
+    lines = [f"import {import_module}", ""]
     if row_namespace:
         root_namespace = row_namespace.split(".")[0]
         lines.append(f"open {root_namespace}")
@@ -685,10 +714,11 @@ def main() -> int:
 
     root = Path(args.root).resolve()
     paper_dir = root / "papers" / args.paper
-    interface_path = paper_dir / "PaperInterface.lean"
     status_path = paper_dir / "status.json"
+    interface_path = review_source_path(root, paper_dir, status_path)
     if not interface_path.exists():
-        raise SystemExit(f"missing PaperInterface.lean at {interface_path}")
+        raise SystemExit(f"missing review surface Lean file at {interface_path}")
+    import_module = lean_module_name(root, interface_path)
 
     row_namespace = first_declaration_namespace(interface_path)
     configured_rows = parse_status_rows(status_path)
@@ -808,7 +838,7 @@ def main() -> int:
     payload: dict[str, Any] = {
         "paper": args.paper,
         "paper_dir": str(paper_dir),
-        "import_module": f"{args.paper}.PaperInterface",
+        "import_module": import_module,
         "prompt_version": SOURCE_RECORD_PROMPT_VERSION,
         "source_record_audit_sha256": stable_digest(audit_surface),
         "source_record_judgment_file": "audit/source_record_match_llm.json",
@@ -820,6 +850,7 @@ def main() -> int:
         ),
         "review_row_count": len(row_names),
         "configured_review_row_count": len(configured_present),
+        "unconfigured_review_surface_rows": unconfigured_rows,
         "unconfigured_paper_interface_rows": unconfigured_rows,
         "boundary_input_count": len(boundary_input_items),
         "boundary_input_items": boundary_input_items,
@@ -836,6 +867,7 @@ def main() -> int:
         payload["lean_check"] = lean_check(
             root=root,
             paper_id=args.paper,
+            import_module=import_module,
             row_namespace=row_namespace,
             row_names=[str(item["row"]) for item in semantic_row_items],
             assumption_row_names=assumption_row_names,

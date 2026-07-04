@@ -5,7 +5,7 @@
 |---|---|
 | Final status | Formalized |
 | Paper reference | [Designing Optimal Binary Rating Systems](https://proceedings.mlr.press/v89/garg19a/garg19a.pdf) by Nikhil Garg, Ramesh Johari; AISTATS / PMLR 89, 2019. |
-| Lines of Code | 85,780 |
+| Lines of Code | 85,797 |
 
 ## Key Links
 

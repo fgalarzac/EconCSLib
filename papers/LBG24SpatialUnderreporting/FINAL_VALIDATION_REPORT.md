@@ -14,7 +14,7 @@ recorded.
 ## 2. Closeout Status
 - Completion status: partially formalized.
 - One-sentence recap: Full formalization requires a homogeneous Poisson process and stopping time derivation.
-- Lean footprint: 18,540 paper-local Lean LOC; `PaperInterface.lean` is 8658 lines; 27 human-review declarations are exposed.
+- Lean footprint: 18,557 paper-local Lean LOC; `PaperInterface.lean` is a 17-line compact entrypoint; `AuditInterface.lean` is 8,658 lines and contains the 27 configured dashboard/LLM-as-judge declarations.
 - Audit summary: source coverage has 16 covered, 8 conditional_boundary; statement LLM-as-judge has 19 matches, 8 mismatch; resolutions: 8 conditional_boundary; Lean-to-TeX has 24 row translations; assumption provenance has 2 paper_condition, 1 partial_boundary; source-record classification has 4 container_recursively_audited, 23 approved_external_boundary; source-record audit reports 27 review rows, 2 boundary inputs, 0 recursion failures; review-surface audit passes over 27 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
@@ -26,6 +26,7 @@ recorded.
   `10.1038/s43588-023-00572-6`
 - Lean folder: `papers/LBG24SpatialUnderreporting`
 - Human-facing theorem file: `papers/LBG24SpatialUnderreporting/PaperInterface.lean`
+- Row-level audit surface: `papers/LBG24SpatialUnderreporting/AuditInterface.lean`
 - Paper assumption file: `papers/LBG24SpatialUnderreporting/Assumptions.lean`
 
 ## 4. Researcher Summary of Checked Results
@@ -252,7 +253,7 @@ source-model data, and approved external-boundary leaves; it does not turn the
 remaining stopping-certificate boundary into a completed theorem.
 
 ## 13. Displayed Formula Provenance
-Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
+Displayed and source-defining formulas are tracked through the paper-facing rows in `AuditInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
 
 ## 14. Library Lift Pass
 Completed:
@@ -392,7 +393,7 @@ Closeout results:
   `status.json`.
 
 ## 17. Paper Definitions Checked
-No separate generated definitions table was recorded in this report refresh. The paper-facing definition rows are tracked in `PaperInterface.lean` and the statement validator sidecars.
+No separate generated definitions table was recorded in this report refresh. The paper-facing definition rows are tracked in `AuditInterface.lean` and the statement validator sidecars.
 
 ## 18. Named Theorem Statements Checked
 - `equation2_poisson_count_pmf_formula`

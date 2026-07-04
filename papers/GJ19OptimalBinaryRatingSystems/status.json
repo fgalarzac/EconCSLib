@@ -19,11 +19,12 @@
   },
   "paper_interface": {
     "path": "papers/GJ19OptimalBinaryRatingSystems/PaperInterface.lean",
-    "line_count": 12481,
-    "declaration_rows": 56,
+    "line_count": 17,
+    "declaration_rows": 0,
     "review_rows": 56,
-    "oversized": true,
-    "maintainability_issue": "Large paper-facing interface retained for proof navigation; review_surface.include_names is intentionally limited to a compact source-level dashboard rather than every helper row."
+    "oversized": false,
+    "maintainability_issue": null,
+    "audit_surface_path": "papers/GJ19OptimalBinaryRatingSystems/AuditInterface.lean"
   },
   "artifacts": {
     "readme": "papers/GJ19OptimalBinaryRatingSystems/README.md",
@@ -32,10 +33,11 @@
     "final_validation_report": "papers/GJ19OptimalBinaryRatingSystems/FINAL_VALIDATION_REPORT.md",
     "post_formalization_audit": "papers/GJ19OptimalBinaryRatingSystems/docs/POST_FORMALIZATION_AUDIT.md",
     "dependency_dag_tex": "papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.tex",
-    "dependency_dag_pdf": "papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.pdf"
+    "dependency_dag_pdf": "papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.pdf",
+    "audit_interface": "papers/GJ19OptimalBinaryRatingSystems/AuditInterface.lean"
   },
   "review_surface": {
-    "source_file": "papers/GJ19OptimalBinaryRatingSystems/PaperInterface.lean",
+    "source_file": "papers/GJ19OptimalBinaryRatingSystems/AuditInterface.lean",
     "assumption_source_file": "papers/GJ19OptimalBinaryRatingSystems/Assumptions.lean",
     "assumption_policy": "source-condition reducers are documented in Assumptions.lean and audit notes, not counted as public dashboard assumptions",
     "assumption_names": [],
@@ -1700,6 +1702,7 @@
       "paper_corollaryC4_equispaced_optimal_subsequence_exists_of_uniform_optimal_levelIndex_bracket",
       "paper_corollaryC4_equispaced_optimal_subsequence_exists_of_uniform_optimal_eventually_levelIndex_bracket",
       "paper_corollaryC4_equispaced_optimal_subsequence_exists_canonical_uniform_equalized_clamped_floor"
-    ]
+    ],
+    "human_source_file": "papers/GJ19OptimalBinaryRatingSystems/PaperInterface.lean"
   }
 }

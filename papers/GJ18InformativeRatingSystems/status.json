@@ -18,11 +18,12 @@
   },
   "paper_interface": {
     "path": "papers/GJ18InformativeRatingSystems/PaperInterface.lean",
-    "line_count": 2940,
-    "declaration_rows": 15,
+    "line_count": 17,
+    "declaration_rows": 0,
     "review_rows": 15,
     "oversized": false,
-    "maintainability_issue": null
+    "maintainability_issue": null,
+    "audit_surface_path": "papers/GJ18InformativeRatingSystems/AuditInterface.lean"
   },
   "artifacts": {
     "readme": "papers/GJ18InformativeRatingSystems/README.md",
@@ -31,10 +32,11 @@
     "dependency_dag_tex": "papers/GJ18InformativeRatingSystems/docs/DependencyDAG.tex",
     "dependency_dag_pdf": "papers/GJ18InformativeRatingSystems/docs/DependencyDAG.pdf",
     "source_archive": "papers/GJ18InformativeRatingSystems/source.tar.gz",
-    "assumptions": "papers/GJ18InformativeRatingSystems/Assumptions.lean"
+    "assumptions": "papers/GJ18InformativeRatingSystems/Assumptions.lean",
+    "audit_interface": "papers/GJ18InformativeRatingSystems/AuditInterface.lean"
   },
   "review_surface": {
-    "source_file": "papers/GJ18InformativeRatingSystems/PaperInterface.lean",
+    "source_file": "papers/GJ18InformativeRatingSystems/AuditInterface.lean",
     "assumption_source_file": "papers/GJ18InformativeRatingSystems/Assumptions.lean",
     "llm_assumption_review": "papers/GJ18InformativeRatingSystems/audit/assumption_match_llm.json",
     "assumption_policy": "strict",
@@ -83,6 +85,7 @@
           "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_threshold_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds_of_extended_min_eq"
         ]
       }
-    ]
+    ],
+    "human_source_file": "papers/GJ18InformativeRatingSystems/PaperInterface.lean"
   }
 }

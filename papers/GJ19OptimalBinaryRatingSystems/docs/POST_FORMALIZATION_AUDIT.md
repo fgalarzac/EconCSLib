@@ -67,11 +67,11 @@ stale metadata, missing theorem numbers, and arrowhead direction.
 
 ## Human Review Surface
 
-`PaperInterface.lean` is large because it exposes the current finite and
-continuum theorem surface, but `status.json` filters the dashboard to
-paper-facing rows. Add a dashboard row only when it corresponds to a source
-definition, named result, or source-facing theorem component that a human
-should review.
+`AuditInterface.lean` contains the row-level finite and continuum theorem
+surface, while `PaperInterface.lean` is the compact human-facing entrypoint.
+`status.json` filters the dashboard to paper-facing rows. Add a dashboard row
+only when it corresponds to a source definition, named result, or source-facing
+theorem component that a human should review.
 
 Current curated review surface: 25 dashboard rows. The full proof surface is
 documented in `FINAL_VALIDATION_REPORT.md`, while source-condition reducers are

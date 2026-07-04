@@ -26,11 +26,12 @@
   },
   "paper_interface": {
     "path": "papers/DGJ26PracticalDynamicsRCV/PaperInterface.lean",
-    "line_count": 11027,
-    "declaration_rows": 298,
+    "line_count": 17,
+    "declaration_rows": 0,
     "review_rows": 50,
-    "oversized": true,
-    "maintainability_issue": "Large proof-facing interface; public review is constrained to the curated 50-row review_surface.include_names and all other declarations are explicit auxiliary proof-facing rows."
+    "oversized": false,
+    "maintainability_issue": null,
+    "audit_surface_path": "papers/DGJ26PracticalDynamicsRCV/AuditInterface.lean"
   },
   "artifacts": {
     "readme": "papers/DGJ26PracticalDynamicsRCV/README.md",
@@ -38,10 +39,11 @@
     "assumptions": "papers/DGJ26PracticalDynamicsRCV/Assumptions.lean",
     "final_validation_report": "papers/DGJ26PracticalDynamicsRCV/FINAL_VALIDATION_REPORT.md",
     "dependency_dag_tex": "papers/DGJ26PracticalDynamicsRCV/docs/DependencyDAG.tex",
-    "dependency_dag_pdf": "papers/DGJ26PracticalDynamicsRCV/docs/DependencyDAG.pdf"
+    "dependency_dag_pdf": "papers/DGJ26PracticalDynamicsRCV/docs/DependencyDAG.pdf",
+    "audit_interface": "papers/DGJ26PracticalDynamicsRCV/AuditInterface.lean"
   },
   "review_surface": {
-    "source_file": "papers/DGJ26PracticalDynamicsRCV/PaperInterface.lean",
+    "source_file": "papers/DGJ26PracticalDynamicsRCV/AuditInterface.lean",
     "assumption_source_file": "papers/DGJ26PracticalDynamicsRCV/Assumptions.lean",
     "llm_statement_review": {
       "lean_to_tex_file": "papers/DGJ26PracticalDynamicsRCV/lean_to_tex_llm.json",
@@ -51,7 +53,7 @@
       "assumption_judgment_file": "papers/DGJ26PracticalDynamicsRCV/assumption_match_llm.json",
       "surface_audit_threshold": 30,
       "surface_warning_threshold": 120,
-      "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, named predicate/wrapper application, equivalence direction, conclusion, and visible input. Have a third LLM compare that TeX/prose translation with the original full paper statement, not just the theorem label or phrase. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, conclusions, and the semantics of every Lean premise. If a Lean premise is a named predicate or wrapper, the judge must inspect what that predicate means in the paper model; source-looking names are not evidence. Extra replay, certificate, process, bridge, source-row, or broad package assumptions must be judged `mismatch` or `uncertain` unless explicitly source-backed or derived from source primitives. Record the model/agent validator metadata and iterate on PaperInterface.lean until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review."
+      "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, named predicate/wrapper application, equivalence direction, conclusion, and visible input. Have a third LLM compare that TeX/prose translation with the original full paper statement, not just the theorem label or phrase. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, conclusions, and the semantics of every Lean premise. If a Lean premise is a named predicate or wrapper, the judge must inspect what that predicate means in the paper model; source-looking names are not evidence. Extra replay, certificate, process, bridge, source-row, or broad package assumptions must be judged `mismatch` or `uncertain` unless explicitly source-backed or derived from source primitives. Record the model/agent validator metadata and iterate on the configured review surface until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review."
     },
     "llm_paper_coverage_review": {
       "paper_coverage_audit_file": "papers/DGJ26PracticalDynamicsRCV/paper_coverage_llm.json",
@@ -695,6 +697,7 @@
       "paper_theorem2_2_algorithm4_source_checker_inputs_pairwise_lt_sound_and_profile_quadratic_verification",
       "paper_theorem2_2_concrete_containment_implementation_sound_and_polynomial_runtime_from_component_bounds",
       "paper_theorem2_2_concrete_containment_implementation_sound_and_quadratic_verification_from_component_bounds"
-    ]
+    ],
+    "human_source_file": "papers/DGJ26PracticalDynamicsRCV/PaperInterface.lean"
   }
 }

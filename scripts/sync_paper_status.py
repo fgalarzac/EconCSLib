@@ -225,7 +225,9 @@ def aggregate_payload(records: list[tuple[Path, dict[str, Any]]]) -> dict[str, A
         ),
         "paper_interface_maintenance_policy": (
             "PaperInterface.lean should stay compact and source-facing. Broad proof aliases belong "
-            "in ProofInterface.lean or implementation modules."
+            "in ProofInterface.lean or implementation modules. If row-level dashboard or "
+            "LLM-as-judge coverage needs a larger surface, put it in AuditInterface.lean and "
+            "point review_surface.source_file there."
         ),
         "papers": papers,
     }

@@ -109,7 +109,7 @@
       "human_translation": "0/43 reviewed",
       "llm_as_judge_translation": "33/33 statement rows match; 10 source-condition rows",
       "llm_as_judge_paper_coverage": "43/43 covered",
-      "lean_loc": 13711,
+      "lean_loc": 13731,
       "main_note": "",
       "main_note_citation": null,
       "main_note_review": null,
@@ -123,7 +123,8 @@
         "dependency_dag_pdf": "papers/MSVV07AdWords/docs/DependencyDAG.pdf",
         "proof_interface": "papers/MSVV07AdWords/ProofInterface.lean",
         "source_text": "papers/MSVV07AdWords/MSVV07AdWords.txt",
-        "assumptions": "papers/MSVV07AdWords/Assumptions.lean"
+        "assumptions": "papers/MSVV07AdWords/Assumptions.lean",
+        "audit_interface": "papers/MSVV07AdWords/AuditInterface.lean"
       }
     },
     {
@@ -166,7 +167,7 @@
       "human_translation": "0/56 reviewed",
       "llm_as_judge_translation": "56/56 match",
       "llm_as_judge_paper_coverage": "27/28 covered; 1 support-only",
-      "lean_loc": 85780,
+      "lean_loc": 85797,
       "main_note": "",
       "main_note_citation": null,
       "main_note_review": null,
@@ -179,7 +180,8 @@
         "final_validation_report": "papers/GJ19OptimalBinaryRatingSystems/FINAL_VALIDATION_REPORT.md",
         "post_formalization_audit": "papers/GJ19OptimalBinaryRatingSystems/docs/POST_FORMALIZATION_AUDIT.md",
         "dependency_dag_tex": "papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.tex",
-        "dependency_dag_pdf": "papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.pdf"
+        "dependency_dag_pdf": "papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.pdf",
+        "audit_interface": "papers/GJ19OptimalBinaryRatingSystems/AuditInterface.lean"
       }
     },
     {
@@ -229,7 +231,7 @@
       "human_translation": "0/15 reviewed",
       "llm_as_judge_translation": "7/7 statement rows match; 8 source-condition rows",
       "llm_as_judge_paper_coverage": "15/15 covered",
-      "lean_loc": 7027,
+      "lean_loc": 7044,
       "main_note": "",
       "main_note_citation": null,
       "main_note_review": null,
@@ -242,7 +244,8 @@
         "dependency_dag_tex": "papers/GJ18InformativeRatingSystems/docs/DependencyDAG.tex",
         "dependency_dag_pdf": "papers/GJ18InformativeRatingSystems/docs/DependencyDAG.pdf",
         "source_archive": "papers/GJ18InformativeRatingSystems/source.tar.gz",
-        "assumptions": "papers/GJ18InformativeRatingSystems/Assumptions.lean"
+        "assumptions": "papers/GJ18InformativeRatingSystems/Assumptions.lean",
+        "audit_interface": "papers/GJ18InformativeRatingSystems/AuditInterface.lean"
       }
     },
     {
@@ -258,7 +261,7 @@
       "human_translation": "0/49 reviewed",
       "llm_as_judge_translation": "49/49 match",
       "llm_as_judge_paper_coverage": "49/49 covered",
-      "lean_loc": 65646,
+      "lean_loc": 65666,
       "main_note": "",
       "main_note_citation": null,
       "main_note_review": null,
@@ -269,7 +272,8 @@
         "paper_interface": "papers/KR21Monoculture/PaperInterface.lean",
         "final_validation_report": "papers/KR21Monoculture/FINAL_VALIDATION_REPORT.md",
         "dependency_dag_tex": "papers/KR21Monoculture/docs/DependencyDAG.tex",
-        "dependency_dag_pdf": "papers/KR21Monoculture/docs/DependencyDAG.pdf"
+        "dependency_dag_pdf": "papers/KR21Monoculture/docs/DependencyDAG.pdf",
+        "audit_interface": "papers/KR21Monoculture/AuditInterface.lean"
       }
     },
     {
@@ -345,7 +349,7 @@
       "human_translation": "0/65 reviewed",
       "llm_as_judge_translation": "65/65 match",
       "llm_as_judge_paper_coverage": "67/69 covered; 2 conditional boundaries",
-      "lean_loc": 54410,
+      "lean_loc": 54427,
       "main_note": "",
       "main_note_citation": null,
       "main_note_review": {
@@ -360,7 +364,8 @@
         "assumptions": "papers/DGJ24OptimalStrategiesRCV/Assumptions.lean",
         "final_validation_report": "papers/DGJ24OptimalStrategiesRCV/FINAL_VALIDATION_REPORT.md",
         "dependency_dag_tex": "papers/DGJ24OptimalStrategiesRCV/docs/DependencyDAG.tex",
-        "dependency_dag_pdf": "papers/DGJ24OptimalStrategiesRCV/docs/DependencyDAG.pdf"
+        "dependency_dag_pdf": "papers/DGJ24OptimalStrategiesRCV/docs/DependencyDAG.pdf",
+        "audit_interface": "papers/DGJ24OptimalStrategiesRCV/AuditInterface.lean"
       }
     },
     {
@@ -530,7 +535,7 @@
       "human_translation": "0/66 reviewed",
       "llm_as_judge_translation": "66/66 match",
       "llm_as_judge_paper_coverage": "39/39 covered",
-      "lean_loc": 11536,
+      "lean_loc": 11553,
       "main_note": "",
       "main_note_citation": null,
       "main_note_review": null,
@@ -543,7 +548,8 @@
         "dependency_dag_tex": "papers/DGD26AdmissionsPredictability/docs/DependencyDAG.tex",
         "dependency_dag_pdf": "papers/DGD26AdmissionsPredictability/docs/DependencyDAG.pdf",
         "lap_variability_clean_proof_tex": "papers/DGD26AdmissionsPredictability/docs/LAP_VARIABILITY_CLEAN_PROOF.tex",
-        "lap_variability_clean_proof_pdf": "papers/DGD26AdmissionsPredictability/docs/LAP_VARIABILITY_CLEAN_PROOF.pdf"
+        "lap_variability_clean_proof_pdf": "papers/DGD26AdmissionsPredictability/docs/LAP_VARIABILITY_CLEAN_PROOF.pdf",
+        "audit_interface": "papers/DGD26AdmissionsPredictability/AuditInterface.lean"
       }
     },
     {
@@ -590,7 +596,7 @@
       "human_translation": "0/50 reviewed",
       "llm_as_judge_translation": "50/50 match",
       "llm_as_judge_paper_coverage": "44/44 covered",
-      "lean_loc": 20736,
+      "lean_loc": 20753,
       "main_note": "",
       "main_note_citation": null,
       "main_note_review": {
@@ -605,7 +611,8 @@
         "assumptions": "papers/DGJ26PracticalDynamicsRCV/Assumptions.lean",
         "final_validation_report": "papers/DGJ26PracticalDynamicsRCV/FINAL_VALIDATION_REPORT.md",
         "dependency_dag_tex": "papers/DGJ26PracticalDynamicsRCV/docs/DependencyDAG.tex",
-        "dependency_dag_pdf": "papers/DGJ26PracticalDynamicsRCV/docs/DependencyDAG.pdf"
+        "dependency_dag_pdf": "papers/DGJ26PracticalDynamicsRCV/docs/DependencyDAG.pdf",
+        "audit_interface": "papers/DGJ26PracticalDynamicsRCV/AuditInterface.lean"
       }
     },
     {
@@ -681,7 +688,7 @@
       "human_translation": "0/47 reviewed",
       "llm_as_judge_translation": "39/44 statement rows match; 5 formalization-boundary statement rows; 3 source-condition rows",
       "llm_as_judge_paper_coverage": "39/48 covered; 8 conditional boundaries; 1 out of scope",
-      "lean_loc": 23466,
+      "lean_loc": 23483,
       "main_note": "Full formalization requires proving stochastic subgradient descent convergence. Theorem 3 is proved as a constrained alternative in general and as the original statement under the explicit full-space condition.",
       "main_note_citation": null,
       "main_note_review": {
@@ -702,7 +709,8 @@
         "review_status_export": "papers/GKGMM19IterativeLocalVoting/audit/review_status_export.json",
         "start_here_next_agent": "papers/GKGMM19IterativeLocalVoting/START_HERE_NEXT_AGENT.md",
         "validator_ledger": "papers/GKGMM19IterativeLocalVoting/VALIDATOR_LEDGER.md",
-        "week_pause_handoff": "papers/GKGMM19IterativeLocalVoting/HANDOFF_2026-06-19_WEEK_PAUSE.md"
+        "week_pause_handoff": "papers/GKGMM19IterativeLocalVoting/HANDOFF_2026-06-19_WEEK_PAUSE.md",
+        "audit_interface": "papers/GKGMM19IterativeLocalVoting/AuditInterface.lean"
       }
     },
     {
@@ -718,7 +726,7 @@
       "human_translation": "0/27 reviewed",
       "llm_as_judge_translation": "16/24 statement rows match; 8 formalization-boundary statement rows; 3 source-condition rows",
       "llm_as_judge_paper_coverage": "16/24 covered; 8 conditional boundaries",
-      "lean_loc": 18540,
+      "lean_loc": 18557,
       "main_note": "Full formalization requires a homogeneous Poisson process and stopping-time derivation.",
       "main_note_citation": null,
       "main_note_review": {
@@ -734,7 +742,8 @@
         "final_validation_report": "papers/LBG24SpatialUnderreporting/FINAL_VALIDATION_REPORT.md",
         "dependency_dag_tex": "papers/LBG24SpatialUnderreporting/docs/DependencyDAG.tex",
         "dependency_dag_pdf": "papers/LBG24SpatialUnderreporting/docs/DependencyDAG.pdf",
-        "source_record_audit": "papers/LBG24SpatialUnderreporting/audit/source_record_audit.json"
+        "source_record_audit": "papers/LBG24SpatialUnderreporting/audit/source_record_audit.json",
+        "audit_interface": "papers/LBG24SpatialUnderreporting/AuditInterface.lean"
       }
     }
   ]

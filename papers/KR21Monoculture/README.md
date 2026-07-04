@@ -5,7 +5,7 @@
 |---|---|
 | Final status | Formalized |
 | Paper reference | [Algorithmic Monoculture and Social Welfare](https://www.pnas.org/doi/10.1073/pnas.2018340118) by Jon Kleinberg and Manish Raghavan; PNAS, 2021. |
-| Lines of Code | 65,646 |
+| Lines of Code | 65,666 |
 
 ## Key Links
 

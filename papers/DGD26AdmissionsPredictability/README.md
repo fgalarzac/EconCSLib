@@ -5,7 +5,7 @@
 |---|---|
 | Final status | Formalized |
 | Paper reference | [Capacity Constraints Make Admissions Processes Less Predictable](https://arxiv.org/abs/2601.11513) by Evan Dong; Nikhil Garg; Sarah Dean; AAAI-26 published version, DOI 10.1609/aaai.v40i45.41179. |
-| Lines of Code | 11,536 |
+| Lines of Code | 11,553 |
 
 ## Key Links
 

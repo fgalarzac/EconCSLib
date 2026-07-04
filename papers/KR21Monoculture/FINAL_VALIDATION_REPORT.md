@@ -9,7 +9,7 @@ No human dashboard sign-off has been recorded.
 ## 2. Closeout Status
 - Completion status: formalized.
 - One-sentence recap: The algorithmic-monoculture welfare results are formalized with finite and continuous score-space conditions made explicit.
-- Lean footprint: 65,646 paper-local Lean LOC; `PaperInterface.lean` is 1816 lines; 49 human-review declarations are exposed.
+- Lean footprint: 65,666 paper-local Lean LOC; `PaperInterface.lean` is a 17-line compact entrypoint; `AuditInterface.lean` is 1,819 lines and contains the 49 configured dashboard/LLM-as-judge declarations.
 - Audit summary: source coverage has 49 covered; statement LLM-as-judge has 49 matches; Lean-to-TeX has 49 row translations; assumption provenance sidecar is not tracked; source-record classification has 1 validated_source_assumption, 6 nonpropositional_witness_data; source-record audit reports 49 review rows, 1 boundary input, 0 recursion failures; review-surface audit passes over 49 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
@@ -19,6 +19,7 @@ No human dashboard sign-off has been recorded.
 - Local source cache: `papers/KR21Monoculture/sources/`.
 - Lean folder: `papers/KR21Monoculture`.
 - Human-facing theorem file: `papers/KR21Monoculture/PaperInterface.lean`.
+- Row-level audit surface: `papers/KR21Monoculture/AuditInterface.lean`.
 - Machine-readable status: `papers/KR21Monoculture/status.json`.
 - DAG artifacts: `papers/KR21Monoculture/docs/DependencyDAG.tex`, `papers/KR21Monoculture/docs/DependencyDAG.pdf`.
 
@@ -66,7 +67,7 @@ Audit note for Appendix C Lemma 1: the paper states a global strict Laplacian we
 No named theorem or main-text result is affected by this source-note correction. It is not an added assumption and not an external proof boundary.
 
 ## 11. Detailed Formalization Evidence
-`PaperInterface.lean` exposes 49 reviewed paper-facing rows and 16 auxiliary helper rows. The reviewed surface includes:
+`AuditInterface.lean` exposes 49 reviewed paper-facing rows and 16 auxiliary helper rows. The reviewed surface includes:
 
 - paper definitions and source predicates: Mallows specification, well-ordered noise, Definition 1 continuity/asymptotic behavior;
 - Appendix A finite and measure contraction monotonicity, strict full-support consequences, no-tie/measurability, and atomwise concentration;
@@ -93,7 +94,7 @@ No KR21-specific `Assumptions.lean` ledger is used for the final status. The pap
 The conditional Theorem 1 row takes the paper's Definitions 1--3 package as its visible theorem condition. Concrete Mallows and concrete RUM source routes construct the relevant packages rather than treating them as external proof debt.
 
 ## 13. Displayed Formula Provenance
-Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
+Displayed and source-defining formulas are tracked through the paper-facing rows in `AuditInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
 
 ## 14. Library Lift Pass
 Reusable ranking-payoff, Mallows, finite-expectation, conditional-probability, no-tie, and RUM contraction infrastructure now lives in shared `EconCSLib` modules where it is useful beyond KR21. KR21 paper-local files keep paper-shaped wrappers where theorem numbering and source-note clarity matter.
@@ -133,10 +134,10 @@ python3 scripts/audit_repository.py --paper KR21Monoculture --paper-closeout --i
 The final closeout audit is rerun after every KR21 report, status, sidecar, or DAG edit until it reports no KR21-specific errors or warnings.
 
 ## 17. Paper Definitions Checked
-No separate generated definitions table was recorded in this report refresh. The paper-facing definition rows are tracked in `PaperInterface.lean` and the statement validator sidecars.
+No separate generated definitions table was recorded in this report refresh. The paper-facing definition rows are tracked in `AuditInterface.lean` and the statement validator sidecars.
 
 ## 18. Named Theorem Statements Checked
-No separate generated theorem table was recorded in this report refresh. Named theorem endpoints are tracked in `PaperInterface.lean`, `status.json`, and the statement validator sidecars.
+No separate generated theorem table was recorded in this report refresh. Named theorem endpoints are tracked in `AuditInterface.lean`, `status.json`, and the statement validator sidecars.
 
 ## 19. Paper-Facing Statement Validator Ledger
 The current dashboard sidecars are regenerated as part of closeout:

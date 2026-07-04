@@ -10,7 +10,7 @@ Current status: formalized. Human dashboard sign-off has not yet been
 recorded; that is a review-process item, not a theorem caveat.
 
 Lean footprint: 20,736 paper-local Lean lines across 3 files, including 11,027
-lines in `PaperInterface.lean`.
+row-surface lines in `AuditInterface.lean`.
 
 The researcher-facing closeout narrative is `FINAL_VALIDATION_REPORT.md`.
 

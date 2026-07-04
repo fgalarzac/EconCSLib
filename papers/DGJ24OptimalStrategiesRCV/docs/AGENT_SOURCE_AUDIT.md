@@ -32,9 +32,10 @@ existence/impossibility witnesses.
 
 ## Lean Interface Comparison
 
-`PaperInterface.lean` exposes 65 reviewed rows. The rows are source-facing
+`AuditInterface.lean` exposes 65 reviewed rows. The rows are source-facing
 definitions, formula interfaces, and named result endpoints rather than a raw
-dump of proof helpers.
+dump of proof helpers; `PaperInterface.lean` is the compact human-facing
+entrypoint.
 
 The current main theorem rows match the source inventory. Theorem 3.1 is
 represented by the Algorithm 3 final-order clipped candidate-allocation route.

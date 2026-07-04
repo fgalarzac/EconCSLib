@@ -41,13 +41,13 @@ publication metadata.
 
 ## Lean Interface Comparison
 
-`PaperInterface.lean` exposes the paper in the same conceptual order: source
+`AuditInterface.lean` exposes the paper in the same conceptual order: source
 definitions first, then ML representation and instability/variability
 statements, then appendix structural lemmas, sequential composition, and the
-LAP results. The main statements are not hidden behind a single broad theorem:
-the interface decomposes the paper into 66 reviewed source rows and related
-definition rows, with auxiliary proof-facing rows kept out of the human review
-surface.
+LAP results. `PaperInterface.lean` is the compact human-facing entrypoint. The
+main statements are not hidden behind a single broad theorem: the audit surface
+decomposes the paper into 66 reviewed source rows and related definition rows,
+with auxiliary proof-facing rows kept out of the human review surface.
 
 The source-to-interface comparison did not identify a missing main-text
 definition, proposition, theorem, or appendix theorem from the curated source

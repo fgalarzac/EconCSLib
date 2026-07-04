@@ -26,9 +26,9 @@ not theorem-ledger targets.
 
 ## Lean Interface Comparison
 
-`PaperInterface.lean` exposes 50 reviewed rows. The rows are source-facing
+`AuditInterface.lean` exposes 50 reviewed rows. The rows are source-facing
 definitions, formula interfaces, and theorem endpoints rather than a raw dump
-of proof helpers.
+of proof helpers; `PaperInterface.lean` is the compact human-facing entrypoint.
 
 The current main theorem rows match the source inventory. Proposition 1 is
 represented by ballot suffix/prefix robustness plus the DGJ24 support-count

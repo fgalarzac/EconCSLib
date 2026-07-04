@@ -5,7 +5,7 @@
 |---|---|
 | Final status | Formalized |
 | Paper reference | [Optimal Strategies in Ranked-Choice Voting](https://arxiv.org/abs/2407.13661) by Sanyukta Deshpande; Nikhil Garg; Sheldon H. Jacobson; arXiv:2407.13661, 2024; working paper. |
-| Lines of Code | 54,410 |
+| Lines of Code | 54,427 |
 
 ## Key Links
 

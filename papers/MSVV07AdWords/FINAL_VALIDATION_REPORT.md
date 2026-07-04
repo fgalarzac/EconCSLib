@@ -11,7 +11,7 @@ paper-facing assumptions. No human dashboard sign-off has been recorded.
 ## 2. Closeout Status
 - Completion status: formalized.
 - One-sentence recap: The AdWords Balance analysis, finite-history accounting, and limiting theorem wrappers are formalized.
-- Lean footprint: 13,711 paper-local Lean LOC; `PaperInterface.lean` is 1015 lines; 43 human-review declarations are exposed.
+- Lean footprint: 13,731 paper-local Lean LOC; `PaperInterface.lean` is a 17-line compact entrypoint; `AuditInterface.lean` is 1,018 lines and contains the 43 configured dashboard/LLM-as-judge declarations.
 - Audit summary: source coverage has 43 covered; statement LLM-as-judge has 43 matches; Lean-to-TeX has 33 row translations; assumption provenance has 6 paper_condition, 4 paper_assumption; source-record classification sidecar is not tracked; source-record audit reports 36 review rows, 0 boundary inputs, 0 recursion failures; review-surface audit passes over 43 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
 
 ## 3. Source and Scope
@@ -21,6 +21,7 @@ paper-facing assumptions. No human dashboard sign-off has been recorded.
   `https://people.eecs.berkeley.edu/~vazirani/pubs/adwords.pdf`.
 - Lean folder: `papers/MSVV07AdWords`.
 - Human-facing statement surface: `papers/MSVV07AdWords/PaperInterface.lean`.
+- Row-level audit surface: `papers/MSVV07AdWords/AuditInterface.lean`.
 - Audit ledger: `papers/MSVV07AdWords/PostPaperAudit.lean`, imported by the
   paper root.
 - DAG artifacts: `papers/MSVV07AdWords/docs/DependencyDAG.tex` and
@@ -101,7 +102,7 @@ nonnegative-bid, positive-budget, distinctness, and small-bids side conditions
 appear explicitly in the Lean statements and in the provenance ledger above.
 
 ## 13. Displayed Formula Provenance
-Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
+Displayed and source-defining formulas are tracked through the paper-facing rows in `AuditInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
 
 ## 14. Library Lift Pass
 Reusable finite AdWords infrastructure already lives in
@@ -137,7 +138,7 @@ No additional lift is needed for this closeout.
   assumptions.
 
 ## 17. Paper Definitions Checked
-These mathematical objects are exposed in `PaperInterface.lean` through
+These mathematical objects are exposed in `AuditInterface.lean` through
 source-equation or source-condition wrapper rows.
 
 - Multiple-slot distinctness: an advertiser appears at most once on one page.

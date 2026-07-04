@@ -2,7 +2,7 @@
   "schema": 1,
   "description": "Aggregate index generated from papers/<PaperName>/status.json. Paper-local status files are the source of truth for status, human summaries, review rows, and PaperInterface metadata.",
   "review_count_policy": "reviewed_rows counts saved human dashboard rows tracked in the public repository. total_rows counts the current dashboard review surface from each paper-local status.json. Agent source audits are not counted as human review.",
-  "paper_interface_maintenance_policy": "PaperInterface.lean should stay compact and source-facing. Broad proof aliases belong in ProofInterface.lean or implementation modules.",
+  "paper_interface_maintenance_policy": "PaperInterface.lean should stay compact and source-facing. Broad proof aliases belong in ProofInterface.lean or implementation modules. If row-level dashboard or LLM-as-judge coverage needs a larger surface, put it in AuditInterface.lean and point review_surface.source_file there.",
   "papers": [
     {
       "schema": 1,
@@ -24,11 +24,12 @@
       },
       "paper_interface": {
         "path": "papers/DGD26AdmissionsPredictability/PaperInterface.lean",
-        "line_count": 1388,
-        "declaration_rows": 101,
+        "line_count": 17,
+        "declaration_rows": 0,
         "review_rows": 101,
         "oversized": false,
-        "maintainability_issue": null
+        "maintainability_issue": null,
+        "audit_surface_path": "papers/DGD26AdmissionsPredictability/AuditInterface.lean"
       },
       "artifacts": {
         "paper_interface": "papers/DGD26AdmissionsPredictability/PaperInterface.lean",
@@ -37,10 +38,11 @@
         "dependency_dag_tex": "papers/DGD26AdmissionsPredictability/docs/DependencyDAG.tex",
         "dependency_dag_pdf": "papers/DGD26AdmissionsPredictability/docs/DependencyDAG.pdf",
         "lap_variability_clean_proof_tex": "papers/DGD26AdmissionsPredictability/docs/LAP_VARIABILITY_CLEAN_PROOF.tex",
-        "lap_variability_clean_proof_pdf": "papers/DGD26AdmissionsPredictability/docs/LAP_VARIABILITY_CLEAN_PROOF.pdf"
+        "lap_variability_clean_proof_pdf": "papers/DGD26AdmissionsPredictability/docs/LAP_VARIABILITY_CLEAN_PROOF.pdf",
+        "audit_interface": "papers/DGD26AdmissionsPredictability/AuditInterface.lean"
       },
       "review_surface": {
-        "source_file": "papers/DGD26AdmissionsPredictability/PaperInterface.lean",
+        "source_file": "papers/DGD26AdmissionsPredictability/AuditInterface.lean",
         "assumption_source_file": "papers/DGD26AdmissionsPredictability/Assumptions.lean",
         "llm_statement_review": {
           "lean_to_tex_file": "papers/DGD26AdmissionsPredictability/audit/lean_to_tex_llm.json",
@@ -50,7 +52,7 @@
           "assumption_judgment_file": "papers/DGD26AdmissionsPredictability/audit/assumption_match_llm.json",
           "surface_audit_threshold": 30,
           "surface_warning_threshold": 120,
-          "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, equivalence direction, conclusion, and named predicate application. Have an independent semantic LLM judge compare that TeX/prose translation with the original full paper statement, not just the theorem label or phrase. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, conclusions, and the semantics of every Lean premise. If a Lean premise is a named predicate or wrapper, the judge must inspect what that predicate means in the paper model; source-looking names are not evidence. Extra replay, certificate, process, bridge, source-row, or broad package assumptions must be judged `mismatch` or `uncertain`. Record the model/agent validator metadata and iterate on PaperInterface.lean until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review."
+          "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, equivalence direction, conclusion, and named predicate application. Have an independent semantic LLM judge compare that TeX/prose translation with the original full paper statement, not just the theorem label or phrase. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, conclusions, and the semantics of every Lean premise. If a Lean premise is a named predicate or wrapper, the judge must inspect what that predicate means in the paper model; source-looking names are not evidence. Extra replay, certificate, process, bridge, source-row, or broad package assumptions must be judged `mismatch` or `uncertain`. Record the model/agent validator metadata and iterate on the configured review surface until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review."
         },
         "llm_paper_coverage_review": {
           "paper_coverage_audit_file": "papers/DGD26AdmissionsPredictability/audit/paper_coverage_llm.json",
@@ -168,7 +170,8 @@
             "line_start": 1109,
             "line_end": 2000
           }
-        ]
+        ],
+        "human_source_file": "papers/DGD26AdmissionsPredictability/PaperInterface.lean"
       }
     },
     {
@@ -195,11 +198,12 @@
       },
       "paper_interface": {
         "path": "papers/DGJ24OptimalStrategiesRCV/PaperInterface.lean",
-        "line_count": 32470,
-        "declaration_rows": 509,
+        "line_count": 17,
+        "declaration_rows": 0,
         "review_rows": 65,
         "oversized": false,
-        "maintainability_issue": null
+        "maintainability_issue": null,
+        "audit_surface_path": "papers/DGJ24OptimalStrategiesRCV/AuditInterface.lean"
       },
       "artifacts": {
         "readme": "papers/DGJ24OptimalStrategiesRCV/README.md",
@@ -207,10 +211,11 @@
         "assumptions": "papers/DGJ24OptimalStrategiesRCV/Assumptions.lean",
         "final_validation_report": "papers/DGJ24OptimalStrategiesRCV/FINAL_VALIDATION_REPORT.md",
         "dependency_dag_tex": "papers/DGJ24OptimalStrategiesRCV/docs/DependencyDAG.tex",
-        "dependency_dag_pdf": "papers/DGJ24OptimalStrategiesRCV/docs/DependencyDAG.pdf"
+        "dependency_dag_pdf": "papers/DGJ24OptimalStrategiesRCV/docs/DependencyDAG.pdf",
+        "audit_interface": "papers/DGJ24OptimalStrategiesRCV/AuditInterface.lean"
       },
       "review_surface": {
-        "source_file": "papers/DGJ24OptimalStrategiesRCV/PaperInterface.lean",
+        "source_file": "papers/DGJ24OptimalStrategiesRCV/AuditInterface.lean",
         "assumption_source_file": "papers/DGJ24OptimalStrategiesRCV/Assumptions.lean",
         "llm_statement_review": {
           "lean_to_tex_file": "papers/DGJ24OptimalStrategiesRCV/lean_to_tex_llm.json",
@@ -220,7 +225,7 @@
           "assumption_judgment_file": "papers/DGJ24OptimalStrategiesRCV/assumption_match_llm.json",
           "surface_audit_threshold": 30,
           "surface_warning_threshold": 120,
-          "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, named predicate/wrapper application, equivalence direction, conclusion, and visible input. Have a third LLM compare that TeX/prose translation with the original full paper statement, not just the theorem label or phrase. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, conclusions, and the semantics of every Lean premise. If a Lean premise is a named predicate or wrapper, the judge must inspect what that predicate means in the paper model; source-looking names are not evidence. Extra replay, certificate, process, bridge, source-row, or broad package assumptions must be judged `mismatch` or `uncertain` unless explicitly source-backed or derived from source primitives. Record the model/agent validator metadata and iterate on PaperInterface.lean until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review."
+          "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, named predicate/wrapper application, equivalence direction, conclusion, and visible input. Have a third LLM compare that TeX/prose translation with the original full paper statement, not just the theorem label or phrase. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, conclusions, and the semantics of every Lean premise. If a Lean premise is a named predicate or wrapper, the judge must inspect what that predicate means in the paper model; source-looking names are not evidence. Extra replay, certificate, process, bridge, source-row, or broad package assumptions must be judged `mismatch` or `uncertain` unless explicitly source-backed or derived from source primitives. Record the model/agent validator metadata and iterate on the configured review surface until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review."
         },
         "llm_paper_coverage_review": {
           "paper_coverage_audit_file": "papers/DGJ24OptimalStrategiesRCV/paper_coverage_llm.json",
@@ -862,7 +867,8 @@
           "paper_theoremB1_trace_generated_result_realized_by_constraints",
           "paper_top_first_choice_count",
           "paper_trace_generated_structure_constraints"
-        ]
+        ],
+        "human_source_file": "papers/DGJ24OptimalStrategiesRCV/PaperInterface.lean"
       }
     },
     {
@@ -893,11 +899,12 @@
       },
       "paper_interface": {
         "path": "papers/DGJ26PracticalDynamicsRCV/PaperInterface.lean",
-        "line_count": 11027,
-        "declaration_rows": 298,
+        "line_count": 17,
+        "declaration_rows": 0,
         "review_rows": 50,
-        "oversized": true,
-        "maintainability_issue": "Large proof-facing interface; public review is constrained to the curated 50-row review_surface.include_names and all other declarations are explicit auxiliary proof-facing rows."
+        "oversized": false,
+        "maintainability_issue": null,
+        "audit_surface_path": "papers/DGJ26PracticalDynamicsRCV/AuditInterface.lean"
       },
       "artifacts": {
         "readme": "papers/DGJ26PracticalDynamicsRCV/README.md",
@@ -905,10 +912,11 @@
         "assumptions": "papers/DGJ26PracticalDynamicsRCV/Assumptions.lean",
         "final_validation_report": "papers/DGJ26PracticalDynamicsRCV/FINAL_VALIDATION_REPORT.md",
         "dependency_dag_tex": "papers/DGJ26PracticalDynamicsRCV/docs/DependencyDAG.tex",
-        "dependency_dag_pdf": "papers/DGJ26PracticalDynamicsRCV/docs/DependencyDAG.pdf"
+        "dependency_dag_pdf": "papers/DGJ26PracticalDynamicsRCV/docs/DependencyDAG.pdf",
+        "audit_interface": "papers/DGJ26PracticalDynamicsRCV/AuditInterface.lean"
       },
       "review_surface": {
-        "source_file": "papers/DGJ26PracticalDynamicsRCV/PaperInterface.lean",
+        "source_file": "papers/DGJ26PracticalDynamicsRCV/AuditInterface.lean",
         "assumption_source_file": "papers/DGJ26PracticalDynamicsRCV/Assumptions.lean",
         "llm_statement_review": {
           "lean_to_tex_file": "papers/DGJ26PracticalDynamicsRCV/lean_to_tex_llm.json",
@@ -918,7 +926,7 @@
           "assumption_judgment_file": "papers/DGJ26PracticalDynamicsRCV/assumption_match_llm.json",
           "surface_audit_threshold": 30,
           "surface_warning_threshold": 120,
-          "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, named predicate/wrapper application, equivalence direction, conclusion, and visible input. Have a third LLM compare that TeX/prose translation with the original full paper statement, not just the theorem label or phrase. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, conclusions, and the semantics of every Lean premise. If a Lean premise is a named predicate or wrapper, the judge must inspect what that predicate means in the paper model; source-looking names are not evidence. Extra replay, certificate, process, bridge, source-row, or broad package assumptions must be judged `mismatch` or `uncertain` unless explicitly source-backed or derived from source primitives. Record the model/agent validator metadata and iterate on PaperInterface.lean until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review."
+          "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, named predicate/wrapper application, equivalence direction, conclusion, and visible input. Have a third LLM compare that TeX/prose translation with the original full paper statement, not just the theorem label or phrase. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, conclusions, and the semantics of every Lean premise. If a Lean premise is a named predicate or wrapper, the judge must inspect what that predicate means in the paper model; source-looking names are not evidence. Extra replay, certificate, process, bridge, source-row, or broad package assumptions must be judged `mismatch` or `uncertain` unless explicitly source-backed or derived from source primitives. Record the model/agent validator metadata and iterate on the configured review surface until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review."
         },
         "llm_paper_coverage_review": {
           "paper_coverage_audit_file": "papers/DGJ26PracticalDynamicsRCV/paper_coverage_llm.json",
@@ -1562,7 +1570,8 @@
           "paper_theorem2_2_algorithm4_source_checker_inputs_pairwise_lt_sound_and_profile_quadratic_verification",
           "paper_theorem2_2_concrete_containment_implementation_sound_and_polynomial_runtime_from_component_bounds",
           "paper_theorem2_2_concrete_containment_implementation_sound_and_quadratic_verification_from_component_bounds"
-        ]
+        ],
+        "human_source_file": "papers/DGJ26PracticalDynamicsRCV/PaperInterface.lean"
       }
     },
     {
@@ -2269,11 +2278,12 @@
       },
       "paper_interface": {
         "path": "papers/GJ18InformativeRatingSystems/PaperInterface.lean",
-        "line_count": 2940,
-        "declaration_rows": 15,
+        "line_count": 17,
+        "declaration_rows": 0,
         "review_rows": 15,
         "oversized": false,
-        "maintainability_issue": null
+        "maintainability_issue": null,
+        "audit_surface_path": "papers/GJ18InformativeRatingSystems/AuditInterface.lean"
       },
       "artifacts": {
         "readme": "papers/GJ18InformativeRatingSystems/README.md",
@@ -2282,10 +2292,11 @@
         "dependency_dag_tex": "papers/GJ18InformativeRatingSystems/docs/DependencyDAG.tex",
         "dependency_dag_pdf": "papers/GJ18InformativeRatingSystems/docs/DependencyDAG.pdf",
         "source_archive": "papers/GJ18InformativeRatingSystems/source.tar.gz",
-        "assumptions": "papers/GJ18InformativeRatingSystems/Assumptions.lean"
+        "assumptions": "papers/GJ18InformativeRatingSystems/Assumptions.lean",
+        "audit_interface": "papers/GJ18InformativeRatingSystems/AuditInterface.lean"
       },
       "review_surface": {
-        "source_file": "papers/GJ18InformativeRatingSystems/PaperInterface.lean",
+        "source_file": "papers/GJ18InformativeRatingSystems/AuditInterface.lean",
         "assumption_source_file": "papers/GJ18InformativeRatingSystems/Assumptions.lean",
         "llm_assumption_review": "papers/GJ18InformativeRatingSystems/audit/assumption_match_llm.json",
         "assumption_policy": "strict",
@@ -2334,7 +2345,8 @@
               "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_threshold_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds_of_extended_min_eq"
             ]
           }
-        ]
+        ],
+        "human_source_file": "papers/GJ18InformativeRatingSystems/PaperInterface.lean"
       }
     },
     {
@@ -2358,11 +2370,12 @@
       },
       "paper_interface": {
         "path": "papers/GJ19OptimalBinaryRatingSystems/PaperInterface.lean",
-        "line_count": 12481,
-        "declaration_rows": 56,
+        "line_count": 17,
+        "declaration_rows": 0,
         "review_rows": 56,
-        "oversized": true,
-        "maintainability_issue": "Large paper-facing interface retained for proof navigation; review_surface.include_names is intentionally limited to a compact source-level dashboard rather than every helper row."
+        "oversized": false,
+        "maintainability_issue": null,
+        "audit_surface_path": "papers/GJ19OptimalBinaryRatingSystems/AuditInterface.lean"
       },
       "artifacts": {
         "readme": "papers/GJ19OptimalBinaryRatingSystems/README.md",
@@ -2371,10 +2384,11 @@
         "final_validation_report": "papers/GJ19OptimalBinaryRatingSystems/FINAL_VALIDATION_REPORT.md",
         "post_formalization_audit": "papers/GJ19OptimalBinaryRatingSystems/docs/POST_FORMALIZATION_AUDIT.md",
         "dependency_dag_tex": "papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.tex",
-        "dependency_dag_pdf": "papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.pdf"
+        "dependency_dag_pdf": "papers/GJ19OptimalBinaryRatingSystems/docs/DependencyDAG.pdf",
+        "audit_interface": "papers/GJ19OptimalBinaryRatingSystems/AuditInterface.lean"
       },
       "review_surface": {
-        "source_file": "papers/GJ19OptimalBinaryRatingSystems/PaperInterface.lean",
+        "source_file": "papers/GJ19OptimalBinaryRatingSystems/AuditInterface.lean",
         "assumption_source_file": "papers/GJ19OptimalBinaryRatingSystems/Assumptions.lean",
         "assumption_policy": "source-condition reducers are documented in Assumptions.lean and audit notes, not counted as public dashboard assumptions",
         "assumption_names": [],
@@ -4039,7 +4053,8 @@
           "paper_corollaryC4_equispaced_optimal_subsequence_exists_of_uniform_optimal_levelIndex_bracket",
           "paper_corollaryC4_equispaced_optimal_subsequence_exists_of_uniform_optimal_eventually_levelIndex_bracket",
           "paper_corollaryC4_equispaced_optimal_subsequence_exists_canonical_uniform_equalized_clamped_floor"
-        ]
+        ],
+        "human_source_file": "papers/GJ19OptimalBinaryRatingSystems/PaperInterface.lean"
       }
     },
     {
@@ -4055,7 +4070,8 @@
         "review_status_export": "papers/GKGMM19IterativeLocalVoting/audit/review_status_export.json",
         "start_here_next_agent": "papers/GKGMM19IterativeLocalVoting/START_HERE_NEXT_AGENT.md",
         "validator_ledger": "papers/GKGMM19IterativeLocalVoting/VALIDATOR_LEDGER.md",
-        "week_pause_handoff": "papers/GKGMM19IterativeLocalVoting/HANDOFF_2026-06-19_WEEK_PAUSE.md"
+        "week_pause_handoff": "papers/GKGMM19IterativeLocalVoting/HANDOFF_2026-06-19_WEEK_PAUSE.md",
+        "audit_interface": "papers/GKGMM19IterativeLocalVoting/AuditInterface.lean"
       },
       "authors": "Nikhil Garg; Vijay Kamble; Ashish Goel; David Marn; Kamesh Munagala",
       "build_target": "lake build GKGMM19IterativeLocalVoting",
@@ -4074,12 +4090,13 @@
       "id": "GKGMM19IterativeLocalVoting",
       "main_caveat": "The source-facing Lean interface builds and the only Lean axiom is the theorem-shaped SSGM boundary `assumption_ssgm_convergence_theorem`. The recursive source-record audit is synced to digest `95b8554bfdc06bcb346443e11bdaa7cd49de7da918adedef8339c71b7cda45d9` and reports no unresolved/unapproved source-record fields. For general constrained solution spaces, the paper-facing formalization no longer claims the exact Theorem 3 endpoint from a hidden aggregate-feasibility source record: Lean proves the constrained alternative `theorem3_zero_or_no_aggregate_feasible_direction_formula`, and proves the exact original `theorem3Statement` from the sampled projected source package only under the explicit full-space condition `E.solutionSpace = Set.univ`. The prior counterexample lemmas still document why C1/convexity, projection, convergence, and directional-field continuity alone do not imply positive aggregate feasible directions in arbitrary constrained spaces.",
       "paper_interface": {
-        "declaration_rows": 47,
-        "line_count": 2772,
-        "maintainability_issue": "Review surface is above the 30-row LLM audit threshold but below the 50-row oversize threshold; review_surface_llm.json must match the current rows.",
+        "declaration_rows": 0,
+        "line_count": 17,
+        "maintainability_issue": null,
         "oversized": false,
         "path": "papers/GKGMM19IterativeLocalVoting/PaperInterface.lean",
-        "review_rows": 47
+        "review_rows": 47,
+        "audit_surface_path": "papers/GKGMM19IterativeLocalVoting/AuditInterface.lean"
       },
       "review_entrypoint": "papers/GKGMM19IterativeLocalVoting/FINAL_VALIDATION_REPORT.md",
       "review_surface": {
@@ -4220,7 +4237,7 @@
           "assumption_judgment_file": "papers/GKGMM19IterativeLocalVoting/audit/assumption_match_llm.json",
           "lean_to_tex_file": "papers/GKGMM19IterativeLocalVoting/audit/lean_to_tex_llm.json",
           "match_judgment_file": "papers/GKGMM19IterativeLocalVoting/audit/statement_match_llm.json",
-          "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, equivalence direction, and conclusion. Have a third LLM compare that TeX/prose translation with the original full paper statement, not just the theorem label. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, and conclusions; conditional wrappers, source-row packages, omitted subclaims, weakened/strengthened statements, or broad aggregates must be judged `mismatch` or `uncertain`. A user-approved external/library proof boundary remains a raw `mismatch` with `resolution: conditional_boundary`, not a `matches` row. Record the model/agent validator metadata and iterate on PaperInterface.lean until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review.",
+          "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, equivalence direction, and conclusion. Have a third LLM compare that TeX/prose translation with the original full paper statement, not just the theorem label. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, and conclusions; conditional wrappers, source-row packages, omitted subclaims, weakened/strengthened statements, or broad aggregates must be judged `mismatch` or `uncertain`. A user-approved external/library proof boundary remains a raw `mismatch` with `resolution: conditional_boundary`, not a `matches` row. Record the model/agent validator metadata and iterate on the configured review surface until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review.",
           "review_surface_audit_file": "papers/GKGMM19IterativeLocalVoting/audit/review_surface_llm.json",
           "surface_audit_threshold": 30,
           "surface_warning_threshold": 120
@@ -4280,7 +4297,7 @@
         "source_assumption_names": [
           "assumption_conditions_c123"
         ],
-        "source_file": "papers/GKGMM19IterativeLocalVoting/PaperInterface.lean",
+        "source_file": "papers/GKGMM19IterativeLocalVoting/AuditInterface.lean",
         "statement_validator_summary": {
           "conditional_boundary": [
             "theorem1_lp_normed_dual_cases",
@@ -4319,7 +4336,8 @@
           "review_surface_sha256": "689b71e6dd74970555d5e33c4c5c0f4a9bab47978e9c1e1d52387e2d7b50488a",
           "row_count": 42,
           "stale": false
-        }
+        },
+        "human_source_file": "papers/GKGMM19IterativeLocalVoting/PaperInterface.lean"
       },
       "schema": 1,
       "source_version": "JAIR 64 (2019), 315-355; published 2019-02-18",
@@ -4530,21 +4548,23 @@
       },
       "paper_interface": {
         "path": "papers/KR21Monoculture/PaperInterface.lean",
-        "line_count": 1816,
-        "declaration_rows": 65,
+        "line_count": 17,
+        "declaration_rows": 0,
         "review_rows": 49,
         "oversized": false,
-        "maintainability_issue": null
+        "maintainability_issue": null,
+        "audit_surface_path": "papers/KR21Monoculture/AuditInterface.lean"
       },
       "artifacts": {
         "readme": "papers/KR21Monoculture/README.md",
         "paper_interface": "papers/KR21Monoculture/PaperInterface.lean",
         "final_validation_report": "papers/KR21Monoculture/FINAL_VALIDATION_REPORT.md",
         "dependency_dag_tex": "papers/KR21Monoculture/docs/DependencyDAG.tex",
-        "dependency_dag_pdf": "papers/KR21Monoculture/docs/DependencyDAG.pdf"
+        "dependency_dag_pdf": "papers/KR21Monoculture/docs/DependencyDAG.pdf",
+        "audit_interface": "papers/KR21Monoculture/AuditInterface.lean"
       },
       "review_surface": {
-        "source_file": "papers/KR21Monoculture/PaperInterface.lean",
+        "source_file": "papers/KR21Monoculture/AuditInterface.lean",
         "assumption_policy": "strict",
         "include_names": [
           "mallowsSpec",
@@ -4640,7 +4660,8 @@
             "line_start": 1636,
             "line_end": 2000
           }
-        ]
+        ],
+        "human_source_file": "papers/KR21Monoculture/PaperInterface.lean"
       }
     },
     {
@@ -4668,11 +4689,12 @@
       },
       "paper_interface": {
         "path": "papers/LBG24SpatialUnderreporting/PaperInterface.lean",
-        "line_count": 8658,
-        "declaration_rows": 27,
+        "line_count": 17,
+        "declaration_rows": 0,
         "review_rows": 27,
         "oversized": false,
-        "maintainability_issue": "Review surface curated to 24 source-facing paper-interface rows plus 3 explicit assumption rows. Alternative theorem routes, proof-support lemmas, sanity checks, and kernel-normalization rows remain Lean-checked but are excluded from the human dashboard."
+        "maintainability_issue": null,
+        "audit_surface_path": "papers/LBG24SpatialUnderreporting/AuditInterface.lean"
       },
       "artifacts": {
         "readme": "papers/LBG24SpatialUnderreporting/README.md",
@@ -4681,10 +4703,11 @@
         "final_validation_report": "papers/LBG24SpatialUnderreporting/FINAL_VALIDATION_REPORT.md",
         "dependency_dag_tex": "papers/LBG24SpatialUnderreporting/docs/DependencyDAG.tex",
         "dependency_dag_pdf": "papers/LBG24SpatialUnderreporting/docs/DependencyDAG.pdf",
-        "source_record_audit": "papers/LBG24SpatialUnderreporting/audit/source_record_audit.json"
+        "source_record_audit": "papers/LBG24SpatialUnderreporting/audit/source_record_audit.json",
+        "audit_interface": "papers/LBG24SpatialUnderreporting/AuditInterface.lean"
       },
       "review_surface": {
-        "source_file": "PaperInterface.lean",
+        "source_file": "papers/LBG24SpatialUnderreporting/AuditInterface.lean",
         "assumption_source_file": "Assumptions.lean",
         "llm_statement_review": {
           "lean_to_tex_file": "papers/LBG24SpatialUnderreporting/audit/lean_to_tex_llm.json",
@@ -4693,7 +4716,7 @@
           "assumption_judgment_file": "papers/LBG24SpatialUnderreporting/audit/assumption_match_llm.json",
           "surface_audit_threshold": 30,
           "surface_warning_threshold": 120,
-          "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, named predicate/wrapper application, equivalence direction, conclusion, and visible input. Have a third LLM compare that TeX/prose translation with the original full paper statement, not just the theorem label or phrase. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, conclusions, and the semantics of every Lean premise. If a Lean premise is a named predicate or wrapper, the judge must inspect what that predicate means in the paper model; source-looking names are not evidence. Extra replay, certificate, process, bridge, source-row, or broad package assumptions must be judged `mismatch` or `uncertain` unless explicitly source-backed or derived from source primitives. Record the model/agent validator metadata and iterate on PaperInterface.lean until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review."
+          "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, named predicate/wrapper application, equivalence direction, conclusion, and visible input. Have a third LLM compare that TeX/prose translation with the original full paper statement, not just the theorem label or phrase. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, conclusions, and the semantics of every Lean premise. If a Lean premise is a named predicate or wrapper, the judge must inspect what that predicate means in the paper model; source-looking names are not evidence. Extra replay, certificate, process, bridge, source-row, or broad package assumptions must be judged `mismatch` or `uncertain` unless explicitly source-backed or derived from source primitives. Record the model/agent validator metadata and iterate on the configured review surface until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review."
         },
         "llm_assumption_review": {
           "assumption_judgment_file": "papers/LBG24SpatialUnderreporting/audit/assumption_match_llm.json",
@@ -4856,7 +4879,8 @@
           "theorem2_multi_report_process_kernel_source_case",
           "equation7_zero_inflated_likelihood_nonnegative"
         ],
-        "paper_coverage_required": true
+        "paper_coverage_required": true,
+        "human_source_file": "papers/LBG24SpatialUnderreporting/PaperInterface.lean"
       }
     },
     {
@@ -5378,13 +5402,14 @@
       },
       "paper_interface": {
         "path": "papers/MSVV07AdWords/PaperInterface.lean",
-        "line_count": 1015,
-        "declaration_rows": 43,
+        "line_count": 17,
+        "declaration_rows": 0,
         "review_rows": 43,
         "oversized": false,
         "maintainability_issue": null,
         "proof_interface_path": "papers/MSVV07AdWords/ProofInterface.lean",
-        "proof_interface_line_count": 1887
+        "proof_interface_line_count": 1887,
+        "audit_surface_path": "papers/MSVV07AdWords/AuditInterface.lean"
       },
       "artifacts": {
         "readme": "papers/MSVV07AdWords/README.md",
@@ -5394,10 +5419,11 @@
         "dependency_dag_pdf": "papers/MSVV07AdWords/docs/DependencyDAG.pdf",
         "proof_interface": "papers/MSVV07AdWords/ProofInterface.lean",
         "source_text": "papers/MSVV07AdWords/MSVV07AdWords.txt",
-        "assumptions": "papers/MSVV07AdWords/Assumptions.lean"
+        "assumptions": "papers/MSVV07AdWords/Assumptions.lean",
+        "audit_interface": "papers/MSVV07AdWords/AuditInterface.lean"
       },
       "review_surface": {
-        "source_file": "papers/MSVV07AdWords/PaperInterface.lean",
+        "source_file": "papers/MSVV07AdWords/AuditInterface.lean",
         "assumption_source_file": "papers/MSVV07AdWords/Assumptions.lean",
         "llm_assumption_review": "papers/MSVV07AdWords/audit/assumption_match_llm.json",
         "assumption_policy": "strict",
@@ -5454,7 +5480,8 @@
             "title": "Paper-Facing Endpoints",
             "line_start": 1
           }
-        ]
+        ],
+        "human_source_file": "papers/MSVV07AdWords/PaperInterface.lean"
       }
     },
     {

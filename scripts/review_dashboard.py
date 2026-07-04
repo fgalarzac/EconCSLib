@@ -442,6 +442,18 @@ class ReviewItem:
 def find_review_source_file(folder: Path) -> Path | None:
     """Return the paper's curated human-review Lean surface, if present."""
 
+    payload = load_review_slice_payload(folder)
+    raw_source = payload.get("source_file")
+    if isinstance(raw_source, str) and raw_source.strip():
+        source = Path(raw_source.strip())
+        if not source.is_absolute():
+            if len(source.parts) == 1:
+                source = folder / source
+            else:
+                source = ROOT / source
+        if source.exists() and source.is_file():
+            return source
+
     candidate = folder / REVIEW_SOURCE_FILENAME
     if candidate.exists() and candidate.is_file():
         return candidate
@@ -2554,9 +2566,12 @@ def load_review_slice_payload(folder: Path) -> dict[str, Any]:
                 slices = review_surface.get("slices")
                 assumption_names = review_surface.get("assumption_names")
                 auxiliary_names = review_surface.get("auxiliary_names")
+                source_file = review_surface.get("source_file")
                 assumption_source_file = review_surface.get("assumption_source_file")
                 assumption_policy = review_surface.get("assumption_policy")
                 paper_coverage_required = review_surface.get("paper_coverage_required")
+                if isinstance(source_file, str) and source_file.strip():
+                    payload["source_file"] = source_file
                 if isinstance(include_names, list):
                     payload["include_names"] = include_names
                 if isinstance(slices, list):
@@ -2576,6 +2591,7 @@ def load_review_slice_payload(folder: Path) -> dict[str, Any]:
                     or "slices" in payload
                     or "assumption_names" in payload
                     or "auxiliary_names" in payload
+                    or "source_file" in payload
                     or "assumption_source_file" in payload
                     or "assumption_policy" in payload
                     or "paper_coverage_required" in payload

@@ -5,7 +5,7 @@
 |---|---|
 | Final status | Formalized |
 | Paper reference | [Designing Informative Rating Systems: Evidence from an Online Labor Market](https://doi.org/10.1287/msom.2020.0921) by Nikhil Garg, Ramesh Johari; Manufacturing & Service Operations Management 23(3), 2020. |
-| Lines of Code | 7,027 |
+| Lines of Code | 7,044 |
 
 ## Key Links
 

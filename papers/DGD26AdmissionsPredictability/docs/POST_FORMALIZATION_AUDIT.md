@@ -60,7 +60,7 @@ for the theorem whose converse was added in the latest proof pass.
 
 Current dashboard status:
 
-- 101 source-facing review rows in `PaperInterface.lean`.
+- 101 source-facing review rows in `AuditInterface.lean`.
 - 5 auxiliary LAP proof-support rows are intentionally excluded from the public
   review surface.
 - `review_surface_llm.json` is current for the 101-row surface.
