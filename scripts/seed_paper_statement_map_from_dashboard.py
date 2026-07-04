@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create a self-contained paper_statement_map.json from dashboard rows.
+"""Create a self-contained audit/paper_statement_map.json from dashboard rows.
 
 This is a seeding helper, not a substitute for source reading.  It makes the
 coverage audit concrete by materializing the current paper-facing review target
@@ -109,7 +109,7 @@ def paper_folders(paper: str | None) -> list[Path]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--paper", default="", help="Optional paper folder to seed.")
-    parser.add_argument("--write", action="store_true", help="Write paper_statement_map.json.")
+    parser.add_argument("--write", action="store_true", help="Write audit/paper_statement_map.json.")
     parser.add_argument("--force", action="store_true", help="Overwrite an existing map.")
     args = parser.parse_args()
     for folder in paper_folders(args.paper or None):

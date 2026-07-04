@@ -32,6 +32,11 @@ Allowed public paper-row statuses:
   using `conditional` as a separate public status label. DAG style:
   `dag_partial`, with `dag_conditional` reserved for visual boundary/certificate
   nodes when useful.
+- `paper draft`: The source paper itself is still moving. Use this only in the
+  private incubator for an active draft whose source inventory, proof targets,
+  and Lean wrappers may need to be remapped when a new draft arrives. This is
+  not a public completion status. DAG style: use `dag_scaffold` for inventoried
+  source regions and `dag_unformalized` for not-yet-started paper results.
 - `scaffold`: Names, interfaces, or theorem shells exist, but no substantive
   source proof has been closed. DAG style: `dag_scaffold`.
 - `not started`: No meaningful Lean artifact exists yet for the paper item.

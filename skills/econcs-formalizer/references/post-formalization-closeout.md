@@ -23,8 +23,8 @@ Required target-paper checks:
 2. Confirm every `PaperInterface.lean` declaration is classified in
    `status.json` under `review_surface.include_names`,
    `review_surface.assumption_names`, or `review_surface.auxiliary_names`.
-3. Build or refresh a source-curated `paper_statement_map.json` from the source
-   paper, not from Lean row names. For public-facing statuses, a missing
+3. Build or refresh a source-curated `audit/paper_statement_map.json` from the
+   source paper, not from Lean row names. For public-facing statuses, a missing
    explicit source inventory is a closeout blocker.
 4. Verify `paper_coverage_llm.json` against current dashboard row names. This
    paper-level source-to-dashboard lane is the only LLM-as-judge lane that says
@@ -291,7 +291,7 @@ The DAG is a human-readable proof roadmap over the source inventory, not a
 Lean implementation changelog. Before closeout, compare:
 
 - the source paper and source-block inventory,
-- `paper_statement_map.json`,
+- `audit/paper_statement_map.json`,
 - `paper_coverage_llm.json`,
 - `PaperInterface.lean` / dashboard rows,
 - `docs/DependencyDAG.tex`, and

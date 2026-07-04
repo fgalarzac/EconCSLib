@@ -1627,6 +1627,51 @@ formalization, execute the standard intake before deep proof work:
   source-faithful wrappers, auxiliary analogues, conditional wrappers, and
   unstarted paper results.
 
+### 1.2.2 Draft Paper Intake and Drift Protocol
+
+Use this protocol when the source paper is still being written or the user says
+new drafts may arrive while formalization is in progress.
+
+- Mark the paper-local `status.json` as `paper draft`, not `scaffold`,
+  `partially formalized`, or `formalized`. This status is private/incubator
+  language for a moving source, not a public completion claim. Keep it out of
+  public-facing tables unless the user explicitly wants to expose draft work.
+- Record a `draft_policy` object in `status.json` with the current source file,
+  text cache, date or version label, PDF/text/source digests, and a required
+  new-draft remapping checklist. The digest is part of the source contract:
+  if it changes, old source-match and coverage judgments do not automatically
+  apply.
+- Keep cached draft PDFs, extracted text, and source archives ignored/local
+  unless redistribution rights are explicit. Track source-safe artifacts such as
+  `citation_source.txt`, `DRAFT_VERSION_MAP.md`, `FORMALIZATION_PLAN.md`,
+  `audit/paper_statement_map.json`, and an agent source audit.
+- Build the first `audit/paper_statement_map.json` from the draft source itself,
+  using stable source-item IDs that do not depend only on theorem numbering.
+  Numbered aliases are useful, but the stable key should survive renumbering.
+- Create `DRAFT_VERSION_MAP.md` at intake. On each new draft, map every old
+  source item to the new source as one of `unchanged`, `renumbered`,
+  `reworded_same_math`, `statement_changed`, `deleted`, or `new`. Do this
+  before continuing proof work.
+- For each existing Lean-facing row, record whether it still targets the current
+  draft statement. If the source item is `statement_changed`, `deleted`, or
+  `uncertain`, mark the Lean row stale and rerun statement-match and
+  source-coverage audits after repairing the row. Do not assume that an old
+  proof remains source-faithful because the Lean file still compiles.
+- In living drafts, a holistic agent audit should usually say `DRAFT INTAKE` or
+  `DRAFT DRIFT REVIEW`, not `PASS`, until the Lean review surface has been
+  compared against the current draft. The audit must still be source-first and
+  should flag source typos, ambiguous notation, missing constants, external
+  theorem boundaries, and proof targets that are likely to shift.
+- If a draft theorem has an obvious typo or mathematical convention mismatch,
+  record it as a draft issue in the source map and plan before formalizing. Do
+  not silently prove the corrected statement under the original theorem label;
+  either wait for the draft to change or make the correction explicit in the
+  paper-facing row and audit.
+- Do not run full closeout or public-promotion checks for a `paper draft`
+  folder. Run targeted builds and source-map checks while proving, and reserve
+  final validation, human dashboard review, and public PR preparation for the
+  point when the user says the draft version should be treated as stable.
+
 ### 1.3 Paper Folder Contract
 
 Each paper-specific folder should be auditable by a human who wants to compare
@@ -1781,7 +1826,7 @@ the Lean statements against the paper.
 - Do not confuse row-local validation with paper-level coverage. A clean
   `statement_match_llm.json` only says that existing dashboard rows match their
   supplied source statements; it does not say that every paper statement is
-  represented. Maintain an explicit `paper_statement_map.json` inventory of the
+  represented. Maintain an explicit `audit/paper_statement_map.json` inventory of the
   source paper's definitions, displayed/source-defining formulas, theorem
   blocks, named subclaims, and appendix results that are intended formalization
   targets. Then populate `paper_coverage_llm.json` with an independent
@@ -1805,7 +1850,7 @@ the Lean statements against the paper.
   is only a seeding aid and must not satisfy closeout by itself.
   The inventory must be resolvable in the repo where the audit runs: if raw
   source text/PDF cannot be tracked publicly, put a compact source statement or
-  paraphrase plus citation/location directly in `paper_statement_map.json`
+  paraphrase plus citation/location directly in `audit/paper_statement_map.json`
   rather than pointing to a private `source.txt`.
   If you create the map with
   `scripts/seed_paper_statement_map_from_dashboard.py`, mark it as
@@ -1822,7 +1867,7 @@ the Lean statements against the paper.
   alternative theorem routes, kernel/probability support lemmas, or
   implementation sanity checks. Keep explicit boundary assumptions in
   `review_surface.assumption_names` and `assumption_match_llm.json`; do not
-  count those rows as ordinary source statements in `paper_statement_map.json`
+  count those rows as ordinary source statements in `audit/paper_statement_map.json`
   unless the paper itself states them as theorem targets.
   After changing the review surface or assumption-source metadata, refresh the
   paper dashboard cache, regenerate `paper_coverage_llm.json`, rerun the
@@ -1853,7 +1898,7 @@ the Lean statements against the paper.
 - Treat paper coverage as three separate LLM-as-judge lanes:
   1. **Source inventory lane.** Read the source PDF/TeX/text (or a previously
      recorded source inventory with source locations) and write
-     `paper_statement_map.json` from paper statements, not from Lean names.
+     `audit/paper_statement_map.json` from paper statements, not from Lean names.
      Mark source-derived inventories as `source_inventory_kind:
      "source_curated"` and `source_curated: true`. Include source evidence such
      as theorem/equation number, section, source-cache line, or a compact quote
@@ -2152,7 +2197,7 @@ the Lean statements against the paper.
      source-visible content that the coverage audit needs. More rows are fine
      when they make the review surface more legible to the LLM-as-judge and the
      source inventory confirms that they cover paper claims.
-  3. Build or refresh `paper_statement_map.json` from the source paper itself,
+  3. Build or refresh `audit/paper_statement_map.json` from the source paper itself,
      not from the Lean row list. It should be a canonical source inventory with
      aliases only as lookup aids. Then generate `paper_coverage_llm.json` with
      a separate paper-level judge that asks whether each source inventory item
@@ -2224,7 +2269,7 @@ the Lean statements against the paper.
      qualifiers such as "with probability 1", "almost surely", "with high
      probability", "probability tends to 1", or "probability zero". If the proof
      closes the named result only through such a probabilistic event statement,
-     include that qualifier in `paper_statement_map.json` and judge any
+     include that qualifier in `audit/paper_statement_map.json` and judge any
      deterministic Lean wrapper as conditional unless Lean also models the
      probability space/event and proves the qualifier.
      For rows that mention records/certificates/source models, first generate
@@ -2323,7 +2368,7 @@ the Lean statements against the paper.
     when the row count exceeds the surface threshold and
     `review_surface_llm.json` is missing/stale/flagged, or when explicitly
     requested;
-  - refresh the explicit source statement inventory in `paper_statement_map.json`
+  - refresh the explicit source statement inventory in `audit/paper_statement_map.json`
     when the target paper source inventory changed, then use the precheck to
     verify `paper_coverage_llm.json` against current dashboard row names. For a
     public-facing status, a missing explicit inventory is a closeout blocker
@@ -2543,7 +2588,7 @@ the Lean statements against the paper.
   - **Do not use scope notes as theorem inventory:** A prose scope note may
     clarify a diagram, but it must never be the only place where named source
     results appear. Every named Definition, Lemma, Proposition, Theorem,
-    Corollary, and appendix result in `paper_statement_map.json` or the source
+    Corollary, and appendix result in `audit/paper_statement_map.json` or the source
     inventory must be represented by a visible DAG node. Grouping is allowed
     for tightly related results, but the grouped node header must explicitly
     name the included source results, for example `\textbf{Cor. C.1-C.2;

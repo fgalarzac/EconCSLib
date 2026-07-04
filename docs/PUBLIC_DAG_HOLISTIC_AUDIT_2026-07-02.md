@@ -3,7 +3,7 @@
 - Date: 2026-07-02
 - Scope: all 24 papers listed in `papers/human_status.json`
 - Public statuses audited: 20 formalized, 4 partially formalized
-- Source artifacts checked: `paper_statement_map.json`, `paper_coverage_llm.json`,
+- Source artifacts checked: `audit/paper_statement_map.json`, `paper_coverage_llm.json`,
   paper-local `status.json`, `docs/DependencyDAG.tex`,
   `docs/DependencyDAG.pdf`, `FINAL_VALIDATION_REPORT.md`, and
   `docs/AGENT_SOURCE_AUDIT.md` when present.

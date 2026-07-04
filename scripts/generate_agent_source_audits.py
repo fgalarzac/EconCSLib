@@ -158,7 +158,8 @@ def write_audit(folder: Path, *, overwrite: bool = False) -> bool:
     if not isinstance(auxiliary_names, list):
         auxiliary_names = []
 
-    map_path = json_sidecar(folder, "paper_statement_map.json")
+    candidate_map_path = folder / "audit" / "paper_statement_map.json"
+    map_path = candidate_map_path if candidate_map_path.exists() else None
     coverage_path = json_sidecar(folder, "paper_coverage_llm.json")
     statement_path = json_sidecar(folder, "statement_match_llm.json")
     source_map = load_json(map_path) if map_path else {}

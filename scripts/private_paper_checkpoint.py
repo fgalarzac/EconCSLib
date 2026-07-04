@@ -67,7 +67,7 @@ def existing_json_sidecars(paper_dir: Path) -> list[Path]:
     names = [
         "status.json",
     ]
-    sidecars = [
+    audit_sidecars = [
         "assumption_match_llm.json",
         "lean_to_tex_llm.json",
         "paper_coverage_llm.json",
@@ -77,9 +77,10 @@ def existing_json_sidecars(paper_dir: Path) -> list[Path]:
         "source_record_match_llm.json",
         "statement_match_llm.json",
     ]
+    legacy_sidecars = [name for name in audit_sidecars if name != "paper_statement_map.json"]
     paths = [paper_dir / name for name in names]
-    paths.extend(paper_dir / "audit" / name for name in sidecars)
-    paths.extend(paper_dir / name for name in sidecars)
+    paths.extend(paper_dir / "audit" / name for name in audit_sidecars)
+    paths.extend(paper_dir / name for name in legacy_sidecars)
     return [path for path in paths if path.exists()]
 
 

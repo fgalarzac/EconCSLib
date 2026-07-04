@@ -997,7 +997,7 @@ def parse_paper_text_statements(folder: Path) -> dict[str, str]:
 def parse_paper_statement_map(folder: Path) -> dict[str, str]:
     """Load explicit paper-source line ranges for dashboard statements."""
 
-    map_path = paper_relative_file(folder, PAPER_STATEMENT_MAP_FILE, "paper_statement_map.json")
+    map_path = folder / PAPER_STATEMENT_MAP_FILE
     if not map_path.exists() or not map_path.is_file():
         return {}
 
@@ -1060,12 +1060,13 @@ def parse_paper_statement_map(folder: Path) -> dict[str, str]:
 def paper_statement_inventory(folder: Path) -> dict[str, dict[str, Any]]:
     """Return canonical source-paper statements for paper-level coverage audit.
 
-    `paper_statement_map.json` is preferred because it separates canonical source
-    items from aliases.  Fallback extraction is intentionally lightweight and is
-    best treated as a prompt scaffold, not a closeout-quality source inventory.
+    `audit/paper_statement_map.json` is the canonical source inventory because
+    it separates source items from aliases.  Fallback extraction is intentionally
+    lightweight and is best treated as a prompt scaffold, not a closeout-quality
+    source inventory.
     """
 
-    map_path = paper_relative_file(folder, PAPER_STATEMENT_MAP_FILE, "paper_statement_map.json")
+    map_path = folder / PAPER_STATEMENT_MAP_FILE
     if map_path.exists() and map_path.is_file():
         try:
             payload = json.loads(map_path.read_text(encoding="utf-8"))
@@ -3103,9 +3104,7 @@ def _cache_source_hashes(folder: Path) -> dict[str, str]:
     tex_path = find_paper_tex_source(folder)
     text_path = find_paper_text(folder)
     pdf_path = find_paper_pdf(folder)
-    statement_map_path = paper_relative_file(
-        folder, PAPER_STATEMENT_MAP_FILE, "paper_statement_map.json"
-    )
+    statement_map_path = folder / PAPER_STATEMENT_MAP_FILE
     llm_tex_path = llm_lean_to_tex_drafts_file(folder)
     llm_judge_path = llm_statement_judgments_file(folder)
     llm_surface_path = llm_review_surface_file(folder)
@@ -3548,14 +3547,14 @@ def paper_coverage_audit_required(folder: Path, inventory: dict[str, dict[str, A
         return True
     return bool(
         inventory
-        and paper_relative_file(folder, PAPER_STATEMENT_MAP_FILE, "paper_statement_map.json").exists()
+        and (folder / PAPER_STATEMENT_MAP_FILE).exists()
     )
 
 
 def _is_statement_map_source(source: object) -> bool:
     """Return whether an inventory source label names the statement-map sidecar."""
 
-    return str(source or "") in {PAPER_STATEMENT_MAP_FILE, "paper_statement_map.json"}
+    return str(source or "") == PAPER_STATEMENT_MAP_FILE
 
 
 SOURCE_NAMED_CLAIM_RE = re.compile(
@@ -3699,9 +3698,7 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
     """Summarize source-paper statement coverage by the review dashboard surface."""
 
     inventory = paper_statement_inventory(folder)
-    statement_map_path = paper_relative_file(
-        folder, PAPER_STATEMENT_MAP_FILE, "paper_statement_map.json"
-    )
+    statement_map_path = folder / PAPER_STATEMENT_MAP_FILE
     statement_map_payload: dict[str, Any] = {}
     if statement_map_path.exists() and statement_map_path.is_file():
         try:
@@ -7396,11 +7393,11 @@ def print_paper_coverage_audit_warnings(
             reasons.append("source-statement inventory is required but empty")
         if row.get("unresolved_statement_map"):
             reasons.append(
-                "paper_statement_map.json exists but has no resolvable tracked source statements"
+                "audit/paper_statement_map.json exists but has no resolvable tracked source statements"
             )
         if row.get("inventory_is_scaffold"):
             reasons.append(
-                "paper_statement_map.json is still dashboard-seeded or not marked source-curated"
+                "audit/paper_statement_map.json is still dashboard-seeded or not marked source-curated"
             )
         if row.get("missing_required"):
             reasons.append("missing paper_coverage_llm.json coverage audit")

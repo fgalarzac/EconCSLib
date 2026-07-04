@@ -128,6 +128,7 @@ ROOT_STATUS_VALUES = {
     "Main endpoints formalized with documented deviations",
     "Partially formalized",
     "Conditional",
+    "Paper draft",
     "Scaffold",
     "Not formalized",
     "Active validation",
@@ -147,6 +148,7 @@ PAPER_STATUS_VALUES = {
     "formalized with caveat",
     "partially formalized",
     "conditional",
+    "paper draft",
     "scaffold",
     "not started",
     "not formalized",
@@ -2056,7 +2058,7 @@ def paper_statement_sidecar_findings(
         parts: list[str] = []
         for key, label in (
             ("missing_inventory", "missing required source-statement inventory"),
-            ("unresolved_statement_map", "unresolved paper_statement_map.json"),
+            ("unresolved_statement_map", "unresolved audit/paper_statement_map.json"),
             ("missing_required", "missing paper-level coverage audit"),
             ("missing_coverage_count", "source statement without coverage judgment"),
             ("partial_count", "partially covered source statement"),

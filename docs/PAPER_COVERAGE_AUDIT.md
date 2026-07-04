@@ -8,7 +8,7 @@ having an incomplete or poorly matched human review surface.
 1. Source inventory.
 
    Read the source PDF, TeX, or extracted text and build
-   `paper_statement_map.json` from the paper itself. Do not build this inventory
+   `audit/paper_statement_map.json` from the paper itself. Do not build this inventory
    from Lean declaration names. Include theorem/equation numbers, source
    locations, and compact source evidence. Mark final inventories with
    `"source_inventory_kind": "source_curated"` and `"source_curated": true`.

@@ -404,7 +404,7 @@ def status_text(args: argparse.Namespace, folder: str) -> str:
                 "llm_paper_coverage_review": {
                     "paper_coverage_audit_file": f"papers/{folder}/audit/paper_coverage_llm.json",
                     "policy": (
-                        "Maintain a paper_statement_map.json inventory of source definitions, "
+                        "Maintain an audit/paper_statement_map.json inventory of source definitions, "
                         "formulas, and named statements, then use a separate LLM pass to judge "
                         "whether each source item is covered by one or more dashboard rows. "
                         "This paper-level accounting is required before calling a full-paper "

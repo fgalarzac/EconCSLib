@@ -48,6 +48,7 @@ STATUS_LABELS = {
     "formalized with caveat": "Formalized with caveat",
     "partially formalized": "Partially formalized",
     "conditional": "Partially formalized",
+    "paper draft": "Paper draft",
     "scaffold": "Scaffold",
     "not started": "Not started",
     "not formalized": "Not formalized",
@@ -58,6 +59,7 @@ STATUS_GROUPS = {
     "formalized with caveat": 0,
     "partially formalized": 1,
     "conditional": 1,
+    "paper draft": 2,
 }
 
 def load_catalog() -> dict[str, Any]:
@@ -556,8 +558,6 @@ def llm_paper_coverage_label(
             pass
 
     statement_map = load_json_object(folder / "audit" / "paper_statement_map.json")
-    if not statement_map:
-        statement_map = load_json_object(folder / "paper_statement_map.json")
     inventory_kind = str(statement_map.get("source_inventory_kind") or "")
     inventory_scaffold = (
         statement_map.get("source_curated") is False
@@ -849,7 +849,6 @@ def json_surface_paths(folder: Path) -> list[tuple[str, str]]:
     candidates = [
         ("status.json", folder / "status.json"),
         ("paper statement map", folder / "audit" / "paper_statement_map.json"),
-        ("paper statement map", folder / "paper_statement_map.json"),
         ("paper coverage audit", folder / "audit" / "paper_coverage_llm.json"),
         ("paper coverage audit", folder / "paper_coverage_llm.json"),
         ("source-record audit", folder / "audit" / "source_record_audit.json"),
