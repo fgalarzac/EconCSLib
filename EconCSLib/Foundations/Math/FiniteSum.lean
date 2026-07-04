@@ -5,6 +5,7 @@ import Mathlib.Algebra.BigOperators.Ring.Finset
 import Mathlib.Algebra.Order.BigOperators.Group.Finset
 import Mathlib.Algebra.Order.BigOperators.Ring.Finset
 import Mathlib.Data.List.GetD
+import Mathlib.Data.List.Sort
 import Mathlib.Data.Fintype.Card
 import Mathlib.Data.Fintype.EquivFin
 import Mathlib.Data.Real.Basic
@@ -1245,6 +1246,32 @@ theorem nat_finset_sum_le_list_take_map_sum_of_card_le_pairwise_sdiff
         ((order.take k).map f).sum := by
     simpa using List.sum_toFinset f hnodup_take
   exact hfinset.trans (le_of_eq hprefix)
+
+/--
+Sorting a list by decreasing values of a natural-number score produces a list
+that is pairwise decreasing in that score.
+-/
+theorem list_pairwise_decreasing_value_insertionSort
+    {α : Type*} (f : α → ℕ) (order : List α) :
+    (List.insertionSort (fun earlier later => f later ≤ f earlier) order).Pairwise
+      (fun earlier later => f later ≤ f earlier) := by
+  let r : α → α → Prop := fun earlier later => f later ≤ f earlier
+  haveI : Std.Total r := ⟨by
+    intro a b
+    exact le_total (f b) (f a)⟩
+  haveI : IsTrans α r := ⟨by
+    intro a b c hab hbc
+    exact le_trans hbc hab⟩
+  simpa [r] using List.pairwise_insertionSort r order
+
+/-- Insertion sorting by decreasing natural-number scores preserves nodupness. -/
+theorem list_insertionSort_decreasing_value_nodup
+    {α : Type*} (f : α → ℕ) {order : List α}
+    (hnodup : order.Nodup) :
+    (List.insertionSort (fun earlier later => f later ≤ f earlier) order).Nodup := by
+  exact
+    (List.perm_insertionSort
+      (fun earlier later => f later ≤ f earlier) order).nodup_iff.mpr hnodup
 
 /--
 If a list is pairwise decreasing by a natural-valued score, then every element

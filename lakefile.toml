@@ -20,6 +20,8 @@ defaultTargets = [
   "LOS02CombinatorialAuctions",
   "LBG24SpatialUnderreporting",
   "GKGMM19IterativeLocalVoting",
+  "DGJ24OptimalStrategiesRCV",
+  "DGJ26PracticalDynamicsRCV",
   "DGD26AdmissionsPredictability",
   "KR21Monoculture",
 ]
@@ -125,6 +127,14 @@ srcDir = "papers"
 
 [[lean_lib]]
 name = "GKGMM19IterativeLocalVoting"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "DGJ24OptimalStrategiesRCV"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "DGJ26PracticalDynamicsRCV"
 srcDir = "papers"
 
 [[lean_lib]]

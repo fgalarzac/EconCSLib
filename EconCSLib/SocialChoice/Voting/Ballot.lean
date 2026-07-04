@@ -1,5 +1,7 @@
+import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Finset.Card
+import Mathlib.Data.Finset.Lattice.Basic
 
 /-!
 # Ranked Ballots
@@ -18,6 +20,8 @@ or equal-rank exclusions, as thin wrappers around this API.
 - `Ballot.nextActive`
 - `Ballot.removeCandidates`
 - `Ballot.firstChoiceIn`
+- `Ballot.firstChoiceVoters`
+- `Ballot.firstChoiceCount`
 - `Ballot.strictSupportVoters`
 - `Ballot.strictSupportCount`
 - `Ballot.strictSupportCountWithBlockerPrefix`
@@ -26,6 +30,7 @@ or equal-rank exclusions, as thin wrappers around this API.
 - `Ballot.IsPrefixExtension`
 - `Ballot.PreservesPrefixThrough`
 - `Ballot.RespectsLength`
+- `Ballot.weightedActiveSupportCount`
 - `Ballot.activeSupport_card_eq_of_forall_suffixExtension_nextActive_some`
 - `Ballot.activeSupport_card_eq_of_forall_prefixExtension_inactive`
 - `Ballot.activeSupport_card_eq_of_forall_append_exhausted_prefix`
@@ -113,6 +118,20 @@ def firstChoiceIn {Candidate : Type*} [DecidableEq Candidate]
     firstChoiceIn (candidate :: rest) candidates =
       (candidate ∈ candidates) := rfl
 
+/--
+If a ballot's first choice belongs to a finite set, then it first chooses one
+of that set's singleton candidates.
+-/
+theorem firstChoiceIn_exists_singleton {Candidate : Type*} [DecidableEq Candidate]
+    {ballot : Ballot Candidate} {candidates : Finset Candidate}
+    (hfirst : firstChoiceIn ballot candidates) :
+    ∃ candidate, candidate ∈ candidates ∧ firstChoiceIn ballot {candidate} := by
+  cases ballot with
+  | nil =>
+      simp [firstChoiceIn] at hfirst
+  | cons candidate rest =>
+      exact ⟨candidate, by simpa [firstChoiceIn] using hfirst, by simp⟩
+
 instance decidableFirstChoiceIn {Candidate : Type*} [DecidableEq Candidate]
     (ballot : Ballot Candidate) (candidates : Finset Candidate) :
     Decidable (firstChoiceIn ballot candidates) := by
@@ -122,6 +141,26 @@ instance decidableFirstChoiceIn {Candidate : Type*} [DecidableEq Candidate]
   | cons candidate rest =>
       change Decidable (candidate ∈ candidates)
       infer_instance
+
+/-- Voters whose first-ranked candidate is exactly `candidate`. -/
+def firstChoiceVoters {Voter Candidate : Type*} [DecidableEq Candidate]
+    (voters : Finset Voter) (ballots : Voter → Ballot Candidate)
+    (candidate : Candidate) : Finset Voter :=
+  voters.filter fun voter => firstChoiceIn (ballots voter) {candidate}
+
+/-- Number of voters whose first-ranked candidate is exactly `candidate`. -/
+def firstChoiceCount {Voter Candidate : Type*} [DecidableEq Candidate]
+    (voters : Finset Voter) (ballots : Voter → Ballot Candidate)
+    (candidate : Candidate) : ℕ :=
+  (firstChoiceVoters voters ballots candidate).card
+
+@[simp] theorem mem_firstChoiceVoters_iff
+    {Voter Candidate : Type*} [DecidableEq Candidate]
+    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}
+    {candidate : Candidate} {voter : Voter} :
+    voter ∈ firstChoiceVoters voters ballots candidate ↔
+      voter ∈ voters ∧ firstChoiceIn (ballots voter) {candidate} := by
+  simp [firstChoiceVoters]
 
 @[simp] theorem nextActive_nil {Candidate : Type*} [DecidableEq Candidate]
     (active : Finset Candidate) :
@@ -152,6 +191,51 @@ theorem nextActive_mem {Candidate : Type*} [DecidableEq Candidate]
         simpa [← h] using hhead
       · simp [nextActive, hhead] at h
         exact ih h
+
+/--
+If a ballot's first choice lies in an initial active set and its current first
+active candidate is `candidate`, then the ballot either first chose
+`candidate` or first chose a candidate removed from the current active set.
+-/
+theorem firstChoiceIn_singleton_or_sdiff_of_nextActive_some
+    {Candidate : Type*} [DecidableEq Candidate]
+    {ballot : Ballot Candidate} {initial active : Finset Candidate}
+    {candidate : Candidate}
+    (hfirst : firstChoiceIn ballot initial)
+    (hnext : nextActive ballot active = some candidate) :
+    firstChoiceIn ballot {candidate} ∨ firstChoiceIn ballot (initial \ active) := by
+  cases hballot : ballot with
+  | nil =>
+      simp [firstChoiceIn, hballot] at hfirst
+  | cons head rest =>
+      have hhead_initial : head ∈ initial := by
+        simpa [firstChoiceIn, hballot] using hfirst
+      by_cases hhead_active : head ∈ active
+      · have hcandidate : head = candidate := by
+          simpa [nextActive, hballot, hhead_active] using hnext
+        left
+        simpa [firstChoiceIn, hballot, hcandidate]
+      · right
+        exact Finset.mem_sdiff.mpr ⟨hhead_initial, hhead_active⟩
+
+/--
+If the ballot's first choice is active, then first-active support for a
+candidate is the same as first-choice support for that candidate.
+-/
+theorem nextActive_eq_some_iff_firstChoiceIn_singleton_of_firstChoiceIn
+    {Candidate : Type*} [DecidableEq Candidate]
+    {ballot : Ballot Candidate} {active : Finset Candidate}
+    {candidate : Candidate}
+    (hfirst : firstChoiceIn ballot active) :
+    nextActive ballot active = some candidate ↔
+      firstChoiceIn ballot {candidate} := by
+  cases hballot : ballot with
+  | nil =>
+      simp [firstChoiceIn, hballot] at hfirst
+  | cons head rest =>
+      have hhead_active : head ∈ active := by
+        simpa [firstChoiceIn, hballot] using hfirst
+      simp [nextActive, firstChoiceIn, hhead_active]
 
 /--
 Removing candidates from a ballot is equivalent, for first-active lookup, to
@@ -265,6 +349,69 @@ theorem nextActive_append_left_of_forall_not_mem {Candidate : Type*} [DecidableE
         exact hpref c (by simp [hc])
       simp [List.cons_append, hhead, ih hrest]
 
+/-- If no listed candidate is active, the ballot is exhausted. -/
+theorem nextActive_eq_none_of_forall_not_mem {Candidate : Type*}
+    [DecidableEq Candidate] {ballot : Ballot Candidate}
+    {active : Finset Candidate}
+    (hballot : ∀ c, c ∈ ballot → c ∉ active) :
+    nextActive ballot active = none := by
+  induction ballot with
+  | nil =>
+      simp [nextActive]
+  | cons head rest ih =>
+      have hhead : head ∉ active := hballot head (by simp)
+      have hrest : ∀ c, c ∈ rest → c ∉ active := by
+        intro c hc
+        exact hballot c (by simp [hc])
+      simp [nextActive, hhead, ih hrest]
+
+/-- A first-active candidate is listed somewhere on the ballot. -/
+theorem mem_of_nextActive_eq_some {Candidate : Type*} [DecidableEq Candidate]
+    {ballot : Ballot Candidate} {active : Finset Candidate}
+    {candidate : Candidate}
+    (hnext : nextActive ballot active = some candidate) :
+    candidate ∈ ballot := by
+  induction ballot with
+  | nil =>
+      simp [nextActive] at hnext
+  | cons head rest ih =>
+      by_cases hhead : head ∈ active
+      · have hcandidate : head = candidate := by
+          simpa [nextActive, hhead] using hnext
+        simp [hcandidate]
+      · have hrest : nextActive rest active = some candidate := by
+          simpa [nextActive, hhead] using hnext
+        exact by simp [ih hrest]
+
+/--
+Filtering an ordered ballot by a source allocation predicate makes `candidate`
+the first active candidate exactly when the predicate keeps `candidate`,
+provided all candidates in the displayed prefix are inactive and `candidate`
+itself is active.
+-/
+theorem nextActive_filter_eq_some_iff_of_split {Candidate : Type*}
+    [DecidableEq Candidate] {order pref suffix : Ballot Candidate}
+    {active : Finset Candidate} {candidate : Candidate}
+    (keep : Candidate → Prop) [DecidablePred keep]
+    (hsplit : order = pref ++ candidate :: suffix)
+    (hprefix : ∀ c, c ∈ pref → c ∉ active)
+    (hcandidate : candidate ∈ active) :
+    nextActive (order.filter keep) active = some candidate ↔ keep candidate := by
+  constructor
+  · intro hnext
+    have hmem : candidate ∈ order.filter keep :=
+      mem_of_nextActive_eq_some hnext
+    exact of_decide_eq_true (List.mem_filter.mp hmem).2
+  · intro hkeep
+    subst order
+    rw [List.filter_append]
+    have hpref_none : nextActive (pref.filter keep) active = none := by
+      refine nextActive_eq_none_of_forall_not_mem ?_
+      intro c hc
+      exact hprefix c (List.mem_filter.mp hc).1
+    rw [nextActive_append_of_none hpref_none]
+    simp [hkeep, hcandidate]
+
 /--
 If two ballots preserve the prefix through a candidate that is still active,
 then they have the same first active candidate.
@@ -356,6 +503,220 @@ def activeSupport {Voter Candidate : Type*} [DecidableEq Candidate]
   voters.filter fun voter => nextActive (ballots voter) active = some candidate
 
 /--
+Weighted active-support count for a finite list of ballot types with
+multiplicities. This is the finite-list analogue of `activeSupport`: each block
+contributes its multiplicity exactly when its first active candidate is the
+queried candidate.
+-/
+def weightedActiveSupportCount {Candidate : Type*} [DecidableEq Candidate]
+    (entries : List (Ballot Candidate × ℕ)) (active : Finset Candidate)
+    (candidate : Candidate) : ℕ :=
+  (entries.map fun entry =>
+    if nextActive entry.1 active = some candidate then entry.2 else 0).sum
+
+@[simp] theorem weightedActiveSupportCount_nil {Candidate : Type*}
+    [DecidableEq Candidate] (active : Finset Candidate)
+    (candidate : Candidate) :
+    weightedActiveSupportCount ([] : List (Ballot Candidate × ℕ)) active
+      candidate = 0 := by
+  simp [weightedActiveSupportCount]
+
+@[simp] theorem weightedActiveSupportCount_cons {Candidate : Type*}
+    [DecidableEq Candidate] (entry : Ballot Candidate × ℕ)
+    (entries : List (Ballot Candidate × ℕ)) (active : Finset Candidate)
+    (candidate : Candidate) :
+    weightedActiveSupportCount (entry :: entries) active candidate =
+      (if nextActive entry.1 active = some candidate then entry.2 else 0) +
+        weightedActiveSupportCount entries active candidate := by
+  simp [weightedActiveSupportCount]
+
+theorem weightedActiveSupportCount_append {Candidate : Type*}
+    [DecidableEq Candidate] (left right : List (Ballot Candidate × ℕ))
+    (active : Finset Candidate) (candidate : Candidate) :
+    weightedActiveSupportCount (left ++ right) active candidate =
+      weightedActiveSupportCount left active candidate +
+        weightedActiveSupportCount right active candidate := by
+  simp [weightedActiveSupportCount, List.map_append, List.sum_append]
+
+@[simp] theorem weightedActiveSupportCount_singleton {Candidate : Type*}
+    [DecidableEq Candidate] (ballot : Ballot Candidate) (weight : ℕ)
+    (active : Finset Candidate) (candidate : Candidate) :
+    weightedActiveSupportCount [(ballot, weight)] active candidate =
+      if nextActive ballot active = some candidate then weight else 0 := by
+  simp [weightedActiveSupportCount]
+
+/--
+When every voter's first choice belongs to the active set, active support for a
+candidate is contained in that candidate's first-choice voter set.
+-/
+theorem activeSupport_subset_firstChoiceVoters_of_forall_firstChoiceIn
+    {Voter Candidate : Type*} [DecidableEq Candidate]
+    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}
+    {active : Finset Candidate} {candidate : Candidate}
+    (hfirst : ∀ voter, voter ∈ voters →
+      firstChoiceIn (ballots voter) active) :
+    activeSupport voters ballots active candidate ⊆
+      firstChoiceVoters voters ballots candidate := by
+  intro voter hvoter
+  simp [activeSupport] at hvoter ⊢
+  exact ⟨hvoter.1,
+    (nextActive_eq_some_iff_firstChoiceIn_singleton_of_firstChoiceIn
+      (hfirst voter hvoter.1)).mp hvoter.2⟩
+
+/--
+Cardinal form of
+`activeSupport_subset_firstChoiceVoters_of_forall_firstChoiceIn`.
+-/
+theorem activeSupport_card_le_firstChoiceCount_of_forall_firstChoiceIn
+    {Voter Candidate : Type*} [DecidableEq Candidate]
+    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}
+    {active : Finset Candidate} {candidate : Candidate}
+    (hfirst : ∀ voter, voter ∈ voters →
+      firstChoiceIn (ballots voter) active) :
+    (activeSupport voters ballots active candidate).card ≤
+      firstChoiceCount voters ballots candidate :=
+  Finset.card_le_card
+    (activeSupport_subset_firstChoiceVoters_of_forall_firstChoiceIn
+      (voters := voters) (ballots := ballots) (active := active)
+      (candidate := candidate) hfirst)
+
+/--
+If `candidate` is active, then first-choice support for `candidate` is included
+in first-active support at that active set.
+-/
+theorem firstChoiceVoters_subset_activeSupport_of_mem
+    {Voter Candidate : Type*} [DecidableEq Candidate]
+    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}
+    {active : Finset Candidate} {candidate : Candidate}
+    (hactive : candidate ∈ active) :
+    firstChoiceVoters voters ballots candidate ⊆
+      activeSupport voters ballots active candidate := by
+  intro voter hvoter
+  simp [firstChoiceVoters] at hvoter
+  rcases hvoter with ⟨hvoters, hfirst⟩
+  cases hballot : ballots voter with
+  | nil =>
+      simp [firstChoiceIn, hballot] at hfirst
+  | cons head rest =>
+      have hhead : head = candidate := by
+        have hsingleton : head ∈ ({candidate} : Finset Candidate) := by
+          simpa [firstChoiceIn, hballot] using hfirst
+        simpa using (Finset.mem_singleton.mp hsingleton)
+      exact Finset.mem_filter.mpr ⟨hvoters, by
+        simpa [activeSupport, hballot, hhead, hactive] using
+          nextActive_cons_of_mem candidate rest active hactive⟩
+
+/--
+If `candidate` is active, then its first-choice count is bounded by its
+first-active support count at that active set.
+-/
+theorem firstChoiceCount_le_activeSupport_card_of_mem
+    {Voter Candidate : Type*} [DecidableEq Candidate]
+    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}
+    {active : Finset Candidate} {candidate : Candidate}
+    (hactive : candidate ∈ active) :
+    firstChoiceCount voters ballots candidate ≤
+      (activeSupport voters ballots active candidate).card :=
+  Finset.card_le_card
+    (firstChoiceVoters_subset_activeSupport_of_mem
+      (voters := voters) (ballots := ballots) (active := active)
+      (candidate := candidate) hactive)
+
+/--
+If deleting one active source candidate makes `target` the next active
+candidate on a ballot, then before deleting that source the ballot selected
+either `target` or the deleted source.
+-/
+theorem nextActive_eq_some_or_source_of_nextActive_erase_eq_some
+    {Candidate : Type*} [DecidableEq Candidate]
+    {ballot : Ballot Candidate} {active : Finset Candidate}
+    {source target : Candidate}
+    (hsource : source ∈ active)
+    (htarget : target ∈ active.erase source)
+    (hnext : nextActive ballot (active.erase source) = some target) :
+    nextActive ballot active = some target ∨
+      nextActive ballot active = some source := by
+  induction ballot with
+  | nil =>
+      simp [nextActive] at hnext
+  | cons head rest ih =>
+      by_cases hhead_active : head ∈ active
+      · by_cases hhead_erased : head ∈ active.erase source
+        · have hhead_target : head = target := by
+            simpa [nextActive, hhead_erased] using hnext
+          left
+          subst head
+          have htarget_active : target ∈ active :=
+            Finset.mem_of_mem_erase htarget
+          simp [nextActive, htarget_active]
+        · have hhead_source : head = source := by
+            have hhead_ne : head ≠ source → False := by
+              intro hne
+              exact hhead_erased (Finset.mem_erase.mpr ⟨hne, hhead_active⟩)
+            exact Classical.byContradiction fun hne =>
+              hhead_ne hne
+          right
+          subst head
+          simp [nextActive, hsource]
+      · have hhead_erased : head ∉ active.erase source := by
+          intro hmem
+          exact hhead_active (Finset.mem_of_mem_erase hmem)
+        simp [nextActive, hhead_active, hhead_erased] at hnext ⊢
+        exact ih hnext
+
+/--
+After deleting one active source candidate, support for any still-active target
+is contained in the union of the target's old support and the source's old
+support.
+-/
+theorem activeSupport_erase_subset_union_activeSupport
+    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]
+    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}
+    {active : Finset Candidate} {source target : Candidate}
+    (hsource : source ∈ active)
+    (htarget : target ∈ active.erase source) :
+    activeSupport voters ballots (active.erase source) target ⊆
+      (activeSupport voters ballots active target ∪
+        activeSupport voters ballots active source) := by
+  intro voter hvoter
+  simp [activeSupport] at hvoter ⊢
+  rcases hvoter with ⟨hvoters, hnext⟩
+  rcases
+    nextActive_eq_some_or_source_of_nextActive_erase_eq_some
+      (ballot := ballots voter) hsource htarget hnext with
+    htarget_support | hsource_support
+  · exact Or.inl ⟨hvoters, htarget_support⟩
+  · exact Or.inr ⟨hvoters, hsource_support⟩
+
+/--
+Cardinal form of `activeSupport_erase_subset_union_activeSupport`: erasing one
+active source can increase any remaining target's support by at most the
+source's previous active support.
+-/
+theorem activeSupport_card_erase_le_activeSupport_card_add_source
+    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]
+    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}
+    {active : Finset Candidate} {source target : Candidate}
+    (hsource : source ∈ active)
+    (htarget : target ∈ active.erase source) :
+    (activeSupport voters ballots (active.erase source) target).card ≤
+      (activeSupport voters ballots active target).card +
+        (activeSupport voters ballots active source).card := by
+  calc
+    (activeSupport voters ballots (active.erase source) target).card ≤
+        (activeSupport voters ballots active target ∪
+            activeSupport voters ballots active source).card :=
+      Finset.card_le_card
+        (activeSupport_erase_subset_union_activeSupport
+          (voters := voters) (ballots := ballots) hsource htarget)
+    _ ≤
+        (activeSupport voters ballots active target).card +
+          (activeSupport voters ballots active source).card :=
+      Finset.card_union_le
+        (activeSupport voters ballots active target)
+        (activeSupport voters ballots active source)
+
+/--
 Voters contributing to a strict-support count.
 
 A voter contributes for `candidate`, source group `sources`, and blocker set
@@ -380,6 +741,188 @@ def strictSupportCount {Voter Candidate : Type*} [DecidableEq Candidate]
     (voters : Finset Voter) (ballots : Voter → Ballot Candidate)
     (sources blockers : Finset Candidate) (candidate : Candidate) : ℕ :=
   (strictSupportVoters voters ballots sources blockers candidate).card
+
+/--
+If a ballot selects `candidate` when `candidate` is considered together with
+some blockers, then it also selects `candidate` when `candidate` is the only
+active candidate.
+-/
+theorem nextActive_singleton_eq_some_of_nextActive_insert_eq_some
+    {Candidate : Type*} [DecidableEq Candidate]
+    {ballot : Ballot Candidate} {blockers : Finset Candidate}
+    {candidate : Candidate}
+    (hnext :
+      nextActive ballot (insert candidate blockers) = some candidate) :
+    nextActive ballot {candidate} = some candidate := by
+  induction ballot with
+  | nil =>
+      simp [nextActive] at hnext
+  | cons head rest ih =>
+      by_cases hhead_active : head ∈ insert candidate blockers
+      · simp [nextActive, hhead_active] at hnext
+        have hhead_eq : head = candidate := by
+          exact hnext
+        subst head
+        simp [nextActive]
+      · have hhead_singleton : head ∉ ({candidate} : Finset Candidate) := by
+          intro hhead_singleton
+          exact hhead_active (by
+            have hhead_eq : head = candidate := by
+              simpa using hhead_singleton
+            simp [hhead_eq])
+        simp [nextActive, hhead_active] at hnext
+        simp [nextActive, hhead_singleton]
+        exact ih hnext
+
+/--
+Adding blockers can only reduce strict support for a fixed source set and
+target candidate.
+-/
+theorem strictSupportVoters_subset_empty_blockers
+    {Voter Candidate : Type*} [DecidableEq Candidate]
+    (voters : Finset Voter) (ballots : Voter → Ballot Candidate)
+    (sources blockers : Finset Candidate) (candidate : Candidate) :
+    strictSupportVoters voters ballots sources blockers candidate ⊆
+      strictSupportVoters voters ballots sources ∅ candidate := by
+  intro voter hvoter
+  simp [strictSupportVoters] at hvoter ⊢
+  exact
+    ⟨hvoter.1, hvoter.2.1,
+      nextActive_singleton_eq_some_of_nextActive_insert_eq_some
+        hvoter.2.2⟩
+
+/--
+Strict-support counts with blockers are bounded by the corresponding
+no-blocker strict-support count.
+-/
+theorem strictSupportCount_le_empty_blockers
+    {Voter Candidate : Type*} [DecidableEq Candidate]
+    (voters : Finset Voter) (ballots : Voter → Ballot Candidate)
+    (sources blockers : Finset Candidate) (candidate : Candidate) :
+    strictSupportCount voters ballots sources blockers candidate ≤
+      strictSupportCount voters ballots sources ∅ candidate := by
+  exact Finset.card_le_card
+    (strictSupportVoters_subset_empty_blockers voters ballots sources blockers
+      candidate)
+
+/--
+Strict support from a finite source set is bounded by the sum of singleton
+source strict supports.  This is useful when a paper computes transfer mass by
+candidate of origin but a proof obligation speaks about a removed source set.
+-/
+theorem strictSupportCount_le_sum_singleton_sources
+    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]
+    (voters : Finset Voter) (ballots : Voter → Ballot Candidate)
+    (sources blockers : Finset Candidate) (candidate : Candidate) :
+    strictSupportCount voters ballots sources blockers candidate ≤
+      ∑ source ∈ sources,
+        strictSupportCount voters ballots {source} blockers candidate := by
+  let singletonSupport : Candidate → Finset Voter :=
+    fun source => strictSupportVoters voters ballots {source} blockers candidate
+  have hsubset :
+      strictSupportVoters voters ballots sources blockers candidate ⊆
+        sources.biUnion singletonSupport := by
+    intro voter hvoter
+    rcases Finset.mem_filter.mp hvoter with ⟨hvoters, hsupport⟩
+    rcases hsupport with ⟨hfirst, hnext⟩
+    rcases firstChoiceIn_exists_singleton hfirst with
+      ⟨source, hsource, hfirst_source⟩
+    exact Finset.mem_biUnion.mpr
+      ⟨source, hsource, Finset.mem_filter.mpr
+        ⟨hvoters, ⟨hfirst_source, hnext⟩⟩⟩
+  calc
+    strictSupportCount voters ballots sources blockers candidate =
+        (strictSupportVoters voters ballots sources blockers candidate).card :=
+      rfl
+    _ ≤ (sources.biUnion singletonSupport).card :=
+      Finset.card_le_card hsubset
+    _ ≤ ∑ source ∈ sources, (singletonSupport source).card :=
+      Finset.card_biUnion_le
+    _ =
+        ∑ source ∈ sources,
+          strictSupportCount voters ballots {source} blockers candidate := by
+      rfl
+
+/--
+Strict support from a singleton source is included in the source candidate's
+first-choice support.
+-/
+theorem strictSupportVoters_singleton_subset_firstChoiceVoters
+    {Voter Candidate : Type*} [DecidableEq Candidate]
+    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}
+    {source candidate : Candidate} {blockers : Finset Candidate} :
+    strictSupportVoters voters ballots {source} blockers candidate ⊆
+      firstChoiceVoters voters ballots source := by
+  intro voter hvoter
+  simp [strictSupportVoters, firstChoiceVoters] at hvoter ⊢
+  exact ⟨hvoter.1, hvoter.2.1⟩
+
+/--
+The singleton-source strict-support count is bounded by that source's
+first-choice count.
+-/
+theorem strictSupportCount_singleton_le_firstChoiceCount
+    {Voter Candidate : Type*} [DecidableEq Candidate]
+    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}
+    {source candidate : Candidate} {blockers : Finset Candidate} :
+    strictSupportCount voters ballots {source} blockers candidate ≤
+      firstChoiceCount voters ballots source :=
+  Finset.card_le_card
+    (strictSupportVoters_singleton_subset_firstChoiceVoters
+      (voters := voters) (ballots := ballots) (source := source)
+      (candidate := candidate) (blockers := blockers))
+
+/--
+First-choice support for `candidate` is included in strict support from any
+source set containing `candidate`, with no blockers.
+-/
+theorem firstChoiceVoters_subset_strictSupportVoters_of_mem_sources
+    {Voter Candidate : Type*} [DecidableEq Candidate]
+    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}
+    {sources : Finset Candidate} {candidate : Candidate}
+    (hsource : candidate ∈ sources) :
+    firstChoiceVoters voters ballots candidate ⊆
+      strictSupportVoters voters ballots sources (∅ : Finset Candidate)
+        candidate := by
+  intro voter hvoter
+  simp [firstChoiceVoters] at hvoter
+  rcases hvoter with ⟨hvoters, hfirst⟩
+  change voter ∈
+    voters.filter fun voter =>
+      firstChoiceIn (ballots voter) sources ∧
+        nextActive (ballots voter) (insert candidate (∅ : Finset Candidate)) =
+          some candidate
+  cases hballot : ballots voter with
+  | nil =>
+      simp [firstChoiceIn, hballot] at hfirst
+  | cons head rest =>
+      have hhead : head = candidate := by
+        have hsingleton : head ∈ ({candidate} : Finset Candidate) := by
+          simpa [firstChoiceIn, hballot] using hfirst
+        simpa using (Finset.mem_singleton.mp hsingleton)
+      exact Finset.mem_filter.mpr ⟨hvoters, by
+        constructor
+        · simpa [firstChoiceIn, hballot, hhead] using hsource
+        · simpa [hballot, hhead] using
+            nextActive_cons_of_mem candidate rest
+              (insert candidate (∅ : Finset Candidate))
+              (Finset.mem_insert_self candidate (∅ : Finset Candidate))⟩
+
+/--
+The first-choice count is bounded by strict support from any source set
+containing `candidate`, with no blockers.
+-/
+theorem firstChoiceCount_le_strictSupportCount_of_mem_sources
+    {Voter Candidate : Type*} [DecidableEq Candidate]
+    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}
+    {sources : Finset Candidate} {candidate : Candidate}
+    (hsource : candidate ∈ sources) :
+    firstChoiceCount voters ballots candidate ≤
+      strictSupportCount voters ballots sources (∅ : Finset Candidate)
+        candidate := by
+  exact Finset.card_le_card
+    (firstChoiceVoters_subset_strictSupportVoters_of_mem_sources
+      (voters := voters) (ballots := ballots) hsource)
 
 /--
 Ordered strict-support sum with an accumulated blocker prefix.
@@ -445,6 +988,18 @@ def blockersAfterPrefix {Candidate : Type*} [DecidableEq Candidate]
     (blockers : Finset Candidate) : List Candidate → Finset Candidate
   | [] => blockers
   | candidate :: rest => blockersAfterPrefix (insert candidate blockers) rest
+
+@[simp]
+theorem blockersAfterPrefix_eq_union_toFinset {Candidate : Type*}
+    [DecidableEq Candidate] (blockers : Finset Candidate)
+    (processed : List Candidate) :
+    blockersAfterPrefix blockers processed = blockers ∪ processed.toFinset := by
+  induction processed generalizing blockers with
+  | nil =>
+      simp [blockersAfterPrefix]
+  | cons candidate rest ih =>
+      ext other
+      simp [blockersAfterPrefix, ih]
 
 /--
 Prefix-form quota condition for an accumulated-blocker strict-support loop.
@@ -1038,6 +1593,120 @@ theorem strictSupportVoters_card_le_activeSupport_card {Voter Candidate : Type*}
     (strictSupportVoters voters ballots sources blockers candidate).card ≤
       (activeSupport voters ballots (insert candidate blockers) candidate).card :=
   Finset.card_le_card strictSupportVoters_subset_activeSupport
+
+/--
+Active support for a candidate at `insert candidate blockers` is covered by
+first-choice support for the candidate plus strict support transferred from
+`removed`, provided every active-support voter has first choice in one of those
+two classes.
+
+The partition premise is the paper- or rule-specific fact: the generic ballot
+API can see the first active candidate, but it does not know which inactive
+first choices should be treated as the removed prefix.
+-/
+theorem activeSupport_subset_firstChoiceVoters_union_strictSupportVoters_of_firstChoice_partition
+    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]
+    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}
+    {removed blockers : Finset Candidate} {candidate : Candidate}
+    (hpartition :
+      ∀ voter, voter ∈ voters →
+        nextActive (ballots voter) (insert candidate blockers) =
+          some candidate →
+        firstChoiceIn (ballots voter) {candidate} ∨
+          firstChoiceIn (ballots voter) removed) :
+    activeSupport voters ballots (insert candidate blockers) candidate ⊆
+      firstChoiceVoters voters ballots candidate ∪
+        strictSupportVoters voters ballots removed blockers candidate := by
+  intro voter hvoter
+  simp [activeSupport] at hvoter
+  rcases hvoter with ⟨hvoters, hnext⟩
+  rcases hpartition voter hvoters hnext with hfirst | hremoved
+  · have hfirstMem : voter ∈ firstChoiceVoters voters ballots candidate := by
+      change voter ∈
+        voters.filter fun voter => firstChoiceIn (ballots voter) {candidate}
+      exact Finset.mem_filter.mpr ⟨hvoters, hfirst⟩
+    exact Finset.mem_union_left _ hfirstMem
+  · have hstrictMem :
+        voter ∈ strictSupportVoters voters ballots removed blockers candidate := by
+      change voter ∈
+        voters.filter fun voter =>
+          firstChoiceIn (ballots voter) removed ∧
+            nextActive (ballots voter) (insert candidate blockers) =
+              some candidate
+      exact Finset.mem_filter.mpr ⟨hvoters, hremoved, hnext⟩
+    exact Finset.mem_union_right _ hstrictMem
+
+/--
+Cardinal form of
+`activeSupport_subset_firstChoiceVoters_union_strictSupportVoters_of_firstChoice_partition`.
+-/
+theorem activeSupport_card_le_firstChoiceCount_add_strictSupportCount_of_firstChoice_partition
+    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]
+    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}
+    {removed blockers : Finset Candidate} {candidate : Candidate}
+    (hpartition :
+      ∀ voter, voter ∈ voters →
+        nextActive (ballots voter) (insert candidate blockers) =
+          some candidate →
+        firstChoiceIn (ballots voter) {candidate} ∨
+          firstChoiceIn (ballots voter) removed) :
+    (activeSupport voters ballots (insert candidate blockers) candidate).card ≤
+      firstChoiceCount voters ballots candidate +
+        strictSupportCount voters ballots removed blockers candidate := by
+  calc
+    (activeSupport voters ballots (insert candidate blockers) candidate).card
+        ≤
+          (firstChoiceVoters voters ballots candidate ∪
+            strictSupportVoters voters ballots removed blockers candidate).card :=
+      Finset.card_le_card
+        (activeSupport_subset_firstChoiceVoters_union_strictSupportVoters_of_firstChoice_partition
+          hpartition)
+    _ ≤
+        firstChoiceCount voters ballots candidate +
+          strictSupportCount voters ballots removed blockers candidate := by
+      simpa [firstChoiceCount, strictSupportCount] using
+        (Finset.card_union_le
+          (firstChoiceVoters voters ballots candidate)
+          (strictSupportVoters voters ballots removed blockers candidate))
+
+/--
+Active-set form: if `candidate` is active, use `active.erase candidate` as the
+blocker set for the transferred strict-support count.
+-/
+theorem activeSupport_card_le_firstChoiceCount_add_strictSupportCount_removed
+    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]
+    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}
+    {active removed : Finset Candidate} {candidate : Candidate}
+    (hcandidate : candidate ∈ active)
+    (hpartition :
+      ∀ voter, voter ∈ voters →
+        nextActive (ballots voter) active = some candidate →
+        firstChoiceIn (ballots voter) {candidate} ∨
+          firstChoiceIn (ballots voter) removed) :
+    (activeSupport voters ballots active candidate).card ≤
+      firstChoiceCount voters ballots candidate +
+        strictSupportCount voters ballots removed (active.erase candidate)
+          candidate := by
+  have hactive_eq : insert candidate (active.erase candidate) = active :=
+    Finset.insert_erase hcandidate
+  have hactiveSupport_eq :
+      activeSupport voters ballots active candidate =
+        activeSupport voters ballots (insert candidate (active.erase candidate))
+          candidate := by
+    rw [hactive_eq]
+  have hbound :
+      (activeSupport voters ballots (insert candidate (active.erase candidate))
+          candidate).card ≤
+        firstChoiceCount voters ballots candidate +
+          strictSupportCount voters ballots removed (active.erase candidate)
+            candidate :=
+    activeSupport_card_le_firstChoiceCount_add_strictSupportCount_of_firstChoice_partition
+      (removed := removed) (blockers := active.erase candidate)
+      (candidate := candidate) (by
+        intro voter hvoter hnext
+        exact hpartition voter hvoter (by simpa [hactive_eq] using hnext))
+  rw [hactiveSupport_eq]
+  exact hbound
 
 /--
 Reducing every ballot by a candidate set preserves active-support sets when the

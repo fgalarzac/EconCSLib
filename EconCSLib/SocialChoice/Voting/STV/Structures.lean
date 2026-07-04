@@ -1,5 +1,6 @@
 import EconCSLib.SocialChoice.Voting.STV
 import Mathlib.Data.Finset.Card
+import Mathlib.Data.Finset.Disjoint
 import Mathlib.Data.Finset.Powerset
 import Mathlib.Data.List.Count
 import Mathlib.Data.Nat.Choose.Sum
@@ -27,6 +28,9 @@ relation.
 - `StructureConstraintCharacterization`
 - `StructurePartition`
 - `StructureOutcomeAgreement`
+- `traceStructureOf`
+- `traceStructureConstraints`
+- `RoundTallyConstraint`
 - `StructureReplay`
 -/
 
@@ -46,6 +50,66 @@ def topCandidates {Candidate : Type*} [DecidableEq Candidate]
     (finalOrder : FinalOrder Candidate) (k : ℕ) : Finset Candidate :=
   (finalOrder.order.take k).toFinset
 
+/--
+If a listed candidate is not in the dropped tail after the first `k` positions,
+then it belongs to the top-`k` winner set.
+-/
+theorem mem_topCandidates_of_mem_toFinset_of_not_mem_drop {Candidate : Type*}
+    [DecidableEq Candidate] {finalOrder : FinalOrder Candidate} {k : ℕ}
+    {candidate : Candidate}
+    (hmem : candidate ∈ finalOrder.order.toFinset)
+    (hnot_tail : candidate ∉ (finalOrder.order.drop k).toFinset) :
+    candidate ∈ finalOrder.topCandidates k := by
+  rw [topCandidates]
+  rw [List.mem_toFinset] at hmem hnot_tail ⊢
+  have hmem_append :
+      candidate ∈ finalOrder.order.take k ++ finalOrder.order.drop k := by
+    simpa [List.take_append_drop] using hmem
+  rcases List.mem_append.mp hmem_append with htake | htail
+  · exact htake
+  · exact False.elim (hnot_tail htail)
+
+/--
+A set of listed candidates disjoint from the final-order loser tail is
+contained in the top-`k` winner set.
+-/
+theorem subset_topCandidates_of_subset_toFinset_of_disjoint_drop
+    {Candidate : Type*} [DecidableEq Candidate]
+    {finalOrder : FinalOrder Candidate} {k : ℕ}
+    {candidates : Finset Candidate}
+    (hsubset_order : candidates ⊆ finalOrder.order.toFinset)
+    (hdisjoint : Disjoint candidates (finalOrder.order.drop k).toFinset) :
+    candidates ⊆ finalOrder.topCandidates k := by
+  intro candidate hcandidate
+  exact
+    mem_topCandidates_of_mem_toFinset_of_not_mem_drop
+      (finalOrder := finalOrder) (k := k)
+      (hsubset_order hcandidate)
+      (by
+        intro htail
+        exact (Finset.disjoint_left.mp hdisjoint) hcandidate htail)
+
+/-- A final order's first `k` positions contain at most `k` distinct candidates. -/
+theorem topCandidates_card_le {Candidate : Type*} [DecidableEq Candidate]
+    (finalOrder : FinalOrder Candidate) (k : ℕ) :
+    (finalOrder.topCandidates k).card ≤ k := by
+  rw [topCandidates]
+  calc
+    (finalOrder.order.take k).toFinset.card ≤
+        (finalOrder.order.take k).length :=
+          List.toFinset_card_le (finalOrder.order.take k)
+    _ ≤ k := by
+      simp [List.length_take]
+
+/-- If a final order enumerates exactly a candidate set, its length is that set's cardinality. -/
+theorem order_length_eq_card_of_toFinset_eq {Candidate : Type*}
+    [DecidableEq Candidate] (finalOrder : FinalOrder Candidate)
+    {candidates : Finset Candidate}
+    (horder : finalOrder.order.toFinset = candidates) :
+    finalOrder.order.length = candidates.card := by
+  rw [← horder]
+  exact (List.toFinset_card_of_nodup finalOrder.nodup_order).symm
+
 end FinalOrder
 
 /-- A winner/loser split produced by a voting trace. -/
@@ -55,6 +119,40 @@ structure WinLossStructure (Candidate : Type*) where
   disjoint : Disjoint winners losers
 
 namespace WinLossStructure
+
+/--
+The winner/loser split induced by a final order and a fixed number of seats:
+the first `k` ordered candidates are winners and the remaining ordered
+candidates are losers.
+-/
+def ofFinalOrder {Candidate : Type*} [DecidableEq Candidate]
+    (finalOrder : FinalOrder Candidate) (k : ℕ) :
+    WinLossStructure Candidate where
+  winners := finalOrder.topCandidates k
+  losers := (finalOrder.order.drop k).toFinset
+  disjoint := by
+    rw [FinalOrder.topCandidates]
+    refine List.disjoint_toFinset_iff_disjoint.mpr ?_
+    have hnodup :
+        (finalOrder.order.take k ++ finalOrder.order.drop k).Nodup := by
+      simpa [List.take_append_drop] using finalOrder.nodup_order
+    exact List.disjoint_of_nodup_append hnodup
+
+@[simp]
+theorem ofFinalOrder_winners {Candidate : Type*} [DecidableEq Candidate]
+    (finalOrder : FinalOrder Candidate) (k : ℕ) :
+    (ofFinalOrder finalOrder k).winners = finalOrder.topCandidates k := rfl
+
+@[simp]
+theorem ofFinalOrder_losers {Candidate : Type*} [DecidableEq Candidate]
+    (finalOrder : FinalOrder Candidate) (k : ℕ) :
+    (ofFinalOrder finalOrder k).losers =
+      (finalOrder.order.drop k).toFinset := rfl
+
+theorem ofFinalOrder_winners_card_le {Candidate : Type*}
+    [DecidableEq Candidate] (finalOrder : FinalOrder Candidate) (k : ℕ) :
+    (ofFinalOrder finalOrder k).winners.card ≤ k := by
+  simpa using finalOrder.topCandidates_card_le k
 
 /-- Number of final winners satisfying a party predicate. -/
 def partyWinnerCount {Candidate : Type*} [DecidableEq Candidate]
@@ -96,7 +194,22 @@ inductive RoundOutcome where
   | lose
   deriving DecidableEq, Repr
 
+instance : Fintype RoundOutcome where
+  elems := [RoundOutcome.win, RoundOutcome.lose].toFinset
+  complete := by
+    intro outcome
+    cases outcome <;> simp
+
 namespace RoundOutcome
+
+@[simp]
+theorem card_eq_two : Fintype.card RoundOutcome = 2 := by
+  decide
+
+@[simp]
+theorem fixedLengthSequence_card (rounds : ℕ) :
+    Fintype.card (Fin rounds → RoundOutcome) = 2 ^ rounds := by
+  simp
 
 /-- Boolean indicator for round-winning labels. -/
 def isWin : RoundOutcome → Bool
@@ -251,6 +364,11 @@ end RoundOutcome
 
 namespace RoundOutcome
 
+/-- Step kind used by a win/loss round-outcome label. -/
+def toStepKind : RoundOutcome → StepKind
+  | win => StepKind.elect
+  | lose => StepKind.eliminate
+
 /-- The round-outcome label contributed by an STV trace step kind, if any. -/
 def ofStepKind? : StepKind → Option RoundOutcome
   | StepKind.elect => some win
@@ -273,6 +391,10 @@ def ofStepKind? : StepKind → Option RoundOutcome
 @[simp] theorem ofStepKind?_finish :
     ofStepKind? StepKind.finish = none :=
   rfl
+
+@[simp] theorem ofStepKind?_toStepKind (outcome : RoundOutcome) :
+    ofStepKind? outcome.toStepKind = some outcome := by
+  cases outcome <;> rfl
 
 end RoundOutcome
 
@@ -369,6 +491,228 @@ theorem hasInitialEliminationFocusPrefix_of_getElem
       hkind ⟨n, hn_loss⟩
 
 /--
+Index-wise trace facts package into the count-only initial-elimination prefix
+predicate. This is useful when an algorithm proves that the first `length`
+trace positions are elimination rounds without identifying their focused
+candidates.
+-/
+theorem hasInitialEliminationPrefix_of_getElem_kind
+    {Candidate : Type*} {trace : STVTrace Candidate} {length : ℕ}
+    (hlen : length ≤ trace.steps.length)
+    (hkind :
+      ∀ i : Fin length,
+        (trace.steps.get
+          ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).kind =
+          StepKind.eliminate) :
+    trace.HasInitialEliminationPrefix length := by
+  refine ⟨hlen, ?_⟩
+  intro step hstep
+  rcases List.getElem_of_mem hstep with ⟨n, hn, rfl⟩
+  have hn_length : n < length := by
+    simpa [Nat.min_eq_left hlen] using hn
+  simpa [List.getElem_take, Nat.min_eq_left hlen] using
+    hkind ⟨n, hn_length⟩
+
+/--
+If enough trace steps exist and every trace step is an elimination, then the
+trace has an initial-elimination prefix of that length.
+-/
+theorem hasInitialEliminationPrefix_of_forall_mem_kind
+    {Candidate : Type*} {trace : STVTrace Candidate} {length : ℕ}
+    (hlen : length ≤ trace.steps.length)
+    (hall :
+      ∀ step, step ∈ trace.steps → step.kind = StepKind.eliminate) :
+    trace.HasInitialEliminationPrefix length := by
+  refine ⟨hlen, ?_⟩
+  intro step hstep
+  exact hall step (List.mem_of_mem_take hstep)
+
+/--
+Initial-elimination prefixes expose their indexed elimination-kind equations.
+-/
+theorem get_kind_eq_of_initialEliminationPrefix
+    {Candidate : Type*} {trace : STVTrace Candidate} {length : ℕ}
+    (hprefix : trace.HasInitialEliminationPrefix length)
+    (i : Fin length) :
+    (trace.steps.get ⟨i.1, Nat.lt_of_lt_of_le i.2 hprefix.1⟩).kind =
+      StepKind.eliminate := by
+  rcases hprefix with ⟨hlen, hkind⟩
+  have htake_mem :
+      (trace.steps.take length).get
+          ⟨i.1, by simpa [Nat.min_eq_left hlen] using i.2⟩ ∈
+        trace.steps.take length :=
+    List.getElem_mem _
+  simpa [List.getElem_take, Nat.min_eq_left hlen] using
+    hkind _ htake_mem
+
+/--
+Generated group-elimination traces have an initial-elimination prefix of any
+length bounded by the generated run length.
+
+This is the reusable bridge from an executable/source-generated elimination
+run to the prefix predicate used by paper-level sequence-reduction proofs.
+-/
+theorem minimalGroupEliminationGeneratedTrace_hasInitialEliminationPrefix_of_le
+    {Candidate : Type*} [DecidableEq Candidate]
+    {choice : MinimalTallyChoiceRule Candidate}
+    (hactiveChoice : choice.ChoosesActive)
+    (htotalChoice : choice.Total)
+    (group : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ)
+    {rounds length : ℕ} {initialActive : Finset Candidate}
+    (hlength : length ≤ rounds)
+    (hrounds : rounds = (initialActive ∩ group).card) :
+    (minimalGroupEliminationGeneratedTrace choice group tallyOf rounds
+        initialActive).HasInitialEliminationPrefix length := by
+  refine hasInitialEliminationPrefix_of_forall_mem_kind ?hlen ?hall
+  · change
+      length ≤
+        (minimalGroupEliminationGeneratedSteps choice group tallyOf rounds
+          initialActive).length
+    rw [minimalGroupEliminationGeneratedSteps_length_eq
+      hactiveChoice htotalChoice group tallyOf rounds initialActive hrounds]
+    exact hlength
+  · intro step hstep
+    exact
+      minimalGroupEliminationGeneratedSteps_all_eliminate
+        choice group tallyOf rounds initialActive step hstep
+
+/- Generated group-elimination traces have the full generated length as an
+initial-elimination prefix. -/
+theorem minimalGroupEliminationGeneratedTrace_hasInitialEliminationPrefix
+    {Candidate : Type*} [DecidableEq Candidate]
+    {choice : MinimalTallyChoiceRule Candidate}
+    (hactiveChoice : choice.ChoosesActive)
+    (htotalChoice : choice.Total)
+    (group : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ)
+    {rounds : ℕ} {initialActive : Finset Candidate}
+    (hrounds : rounds = (initialActive ∩ group).card) :
+    (minimalGroupEliminationGeneratedTrace choice group tallyOf rounds
+        initialActive).HasInitialEliminationPrefix rounds :=
+  minimalGroupEliminationGeneratedTrace_hasInitialEliminationPrefix_of_le
+    hactiveChoice htotalChoice group tallyOf le_rfl hrounds
+
+/--
+Canonical generated group-elimination traces have an initial-elimination prefix
+of any length bounded by the generated run length.
+-/
+theorem canonicalMinimalGroupEliminationGeneratedTrace_hasInitialEliminationPrefix_of_le
+    {Candidate : Type*} [DecidableEq Candidate]
+    (group : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ)
+    {rounds length : ℕ} {initialActive : Finset Candidate}
+    (hlength : length ≤ rounds)
+    (hrounds : rounds = (initialActive ∩ group).card) :
+    (minimalGroupEliminationGeneratedTrace
+        (MinimalTallyChoiceRule.canonical Candidate) group tallyOf rounds
+        initialActive).HasInitialEliminationPrefix length := by
+  exact
+    minimalGroupEliminationGeneratedTrace_hasInitialEliminationPrefix_of_le
+      MinimalTallyChoiceRule.canonical_choosesActive
+      MinimalTallyChoiceRule.canonical_total group tallyOf hlength hrounds
+
+/--
+Canonical generated group-elimination traces have the full generated length as
+an initial-elimination prefix.
+-/
+theorem canonicalMinimalGroupEliminationGeneratedTrace_hasInitialEliminationPrefix
+    {Candidate : Type*} [DecidableEq Candidate]
+    (group : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ)
+    {rounds : ℕ} {initialActive : Finset Candidate}
+    (hrounds : rounds = (initialActive ∩ group).card) :
+    (minimalGroupEliminationGeneratedTrace
+        (MinimalTallyChoiceRule.canonical Candidate) group tallyOf rounds
+        initialActive).HasInitialEliminationPrefix rounds :=
+  canonicalMinimalGroupEliminationGeneratedTrace_hasInitialEliminationPrefix_of_le
+    group tallyOf le_rfl hrounds
+
+/--
+Canonical profile-tally generated group-elimination traces have an
+initial-elimination prefix of any length bounded by the generated run length.
+
+This packages the common RCV/STV convention where the generated trace uses
+ordinary active-support ballot tallies and canonical minimum-tally
+tie-breaking.
+-/
+theorem canonicalProfileGroupEliminationGeneratedTrace_hasInitialEliminationPrefix_of_le
+    {Voter Candidate : Type*} [DecidableEq Candidate]
+    (voters : Finset Voter) (ballots : Voter → Ballot Candidate)
+    (group : Finset Candidate)
+    {rounds length : ℕ} {initialActive : Finset Candidate}
+    (hlength : length ≤ rounds)
+    (hrounds : rounds = (initialActive ∩ group).card) :
+    (canonicalProfileGroupEliminationGeneratedTrace voters ballots group
+        rounds initialActive).HasInitialEliminationPrefix length := by
+  simpa [canonicalProfileGroupEliminationGeneratedTrace,
+    canonicalProfileGroupEliminationGeneratedSteps] using
+    minimalGroupEliminationGeneratedTrace_hasInitialEliminationPrefix_of_le
+      MinimalTallyChoiceRule.canonical_choosesActive
+      MinimalTallyChoiceRule.canonical_total group
+      (profileActiveTallyOf voters ballots) hlength hrounds
+
+/--
+Canonical profile-tally generated group-elimination traces have the full
+generated length as an initial-elimination prefix.
+-/
+theorem canonicalProfileGroupEliminationGeneratedTrace_hasInitialEliminationPrefix
+    {Voter Candidate : Type*} [DecidableEq Candidate]
+    (voters : Finset Voter) (ballots : Voter → Ballot Candidate)
+    (group : Finset Candidate)
+    {rounds : ℕ} {initialActive : Finset Candidate}
+    (hrounds : rounds = (initialActive ∩ group).card) :
+    (canonicalProfileGroupEliminationGeneratedTrace voters ballots group
+        rounds initialActive).HasInitialEliminationPrefix rounds :=
+  canonicalProfileGroupEliminationGeneratedTrace_hasInitialEliminationPrefix_of_le
+    voters ballots group le_rfl hrounds
+
+/--
+If the first `length` trace positions are known to be election-or-elimination
+rounds, election rounds require an active candidate at quota, and every active
+candidate in that prefix is below quota, then the prefix consists of
+eliminations.
+-/
+theorem hasInitialEliminationPrefix_of_getElem_no_active_quota
+    {Candidate : Type*} {trace : STVTrace Candidate} {length quota : ℕ}
+    (hlen : length ≤ trace.steps.length)
+    (hkind_allowed :
+      ∀ i : Fin length,
+        (trace.steps.get
+          ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).kind =
+            StepKind.elect ∨
+          (trace.steps.get
+            ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).kind =
+            StepKind.eliminate)
+    (helect_quota :
+      ∀ i : Fin length,
+        (trace.steps.get
+          ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).kind =
+            StepKind.elect →
+          ∃ candidate,
+            candidate ∈
+              (trace.steps.get
+                ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).beforeActive ∧
+            quota ≤
+              (trace.steps.get
+                ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).tally candidate)
+    (hactive_lt_quota :
+      ∀ i : Fin length,
+        ∀ candidate,
+          candidate ∈
+            (trace.steps.get
+              ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).beforeActive →
+          (trace.steps.get
+            ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).tally candidate < quota) :
+    trace.HasInitialEliminationPrefix length := by
+  refine hasInitialEliminationPrefix_of_getElem_kind hlen ?_
+  intro i
+  rcases hkind_allowed i with helect | heliminate
+  · rcases helect_quota i helect with ⟨candidate, hactive, hquota⟩
+    exact (not_lt_of_ge hquota (hactive_lt_quota i candidate hactive)).elim
+  · exact heliminate
+
+/--
 Focused initial-elimination prefixes expose their indexed focus equations.
 
 This is the reverse direction of
@@ -460,6 +804,54 @@ theorem hasInitialLossPrefix_roundOutcomeSequence_of_initialEliminationPrefix
 end STVTrace
 
 /--
+One round-level tally constraint generated by an STV order/sequence structure.
+
+For an elimination round, `Holds` says the focused candidate is active, is weakly
+minimum-tally among active candidates, and no active candidate exceeds the quota.
+For an election round, `Holds` says the focused candidate is active, reaches the
+quota, and weakly dominates the other active tallies.  Strict tie-breaking and
+the source-specific nonlinear tally formulas are supplied by the caller.
+-/
+structure RoundTallyConstraint (Candidate : Type*) where
+  active : Finset Candidate
+  focus : Candidate
+  outcome : RoundOutcome
+  tally : Candidate → ℕ
+  quota : ℕ
+
+namespace RoundTallyConstraint
+
+/-- The inequality content of a generated STV round constraint. -/
+def Holds {Candidate : Type*} (constraint : RoundTallyConstraint Candidate) :
+    Prop :=
+  match constraint.outcome with
+  | RoundOutcome.lose =>
+      constraint.focus ∈ constraint.active ∧
+        (∀ candidate, candidate ∈ constraint.active →
+          constraint.tally constraint.focus ≤ constraint.tally candidate) ∧
+        (∀ candidate, candidate ∈ constraint.active →
+          constraint.tally candidate ≤ constraint.quota)
+  | RoundOutcome.win =>
+      constraint.focus ∈ constraint.active ∧
+        constraint.quota ≤ constraint.tally constraint.focus ∧
+        (∀ candidate, candidate ∈ constraint.active →
+          constraint.tally candidate ≤ constraint.tally constraint.focus)
+
+/-- A held election-round constraint supplies an active candidate at quota. -/
+theorem exists_active_quota_of_holds_win {Candidate : Type*}
+    {constraint : RoundTallyConstraint Candidate}
+    (hholds : constraint.Holds)
+    (hwin : constraint.outcome = RoundOutcome.win) :
+    ∃ candidate, candidate ∈ constraint.active ∧
+      constraint.quota ≤ constraint.tally candidate := by
+  cases constraint with
+  | mk active focus outcome tally quota =>
+      cases outcome <;> simp [Holds] at hholds hwin ⊢
+      exact ⟨focus, hholds.1, hholds.2.1⟩
+
+end RoundTallyConstraint
+
+/--
 An STV structure consisting of a final social choice order and a list of
 round-by-round win/loss labels.
 -/
@@ -469,9 +861,1095 @@ structure OrderSequenceStructure (Candidate : Type*) where
 
 namespace OrderSequenceStructure
 
+/-- Build an order/sequence structure from a final order and a win/loss label list. -/
+def ofFinalOrderAndSequence {Candidate : Type*}
+    (finalOrder : FinalOrder Candidate) (sequence : List RoundOutcome) :
+    OrderSequenceStructure Candidate where
+  finalOrder := finalOrder
+  sequence := sequence
+
+@[simp] theorem ofFinalOrderAndSequence_finalOrder {Candidate : Type*}
+    (finalOrder : FinalOrder Candidate) (sequence : List RoundOutcome) :
+    (ofFinalOrderAndSequence finalOrder sequence).finalOrder = finalOrder :=
+  rfl
+
+@[simp] theorem ofFinalOrderAndSequence_sequence {Candidate : Type*}
+    (finalOrder : FinalOrder Candidate) (sequence : List RoundOutcome) :
+    (ofFinalOrderAndSequence finalOrder sequence).sequence = sequence :=
+  rfl
+
 /-- The round sequence has one label for each ranked candidate. -/
 def validLength {Candidate : Type*} (struct : OrderSequenceStructure Candidate) : Prop :=
   struct.sequence.length = struct.finalOrder.order.length
+
+/-- A constructed order/sequence structure is valid when the two lists have the same length. -/
+theorem ofFinalOrderAndSequence_validLength {Candidate : Type*}
+    {finalOrder : FinalOrder Candidate} {sequence : List RoundOutcome}
+    (hlength : sequence.length = finalOrder.order.length) :
+    (ofFinalOrderAndSequence finalOrder sequence).validLength := by
+  simpa [validLength, ofFinalOrderAndSequence] using hlength
+
+/--
+Concrete elect/eliminate trace generated by processing an order with a
+parallel win/loss sequence.  The active set shrinks by erasing the focused
+candidate at every generated step; `tallyOf` supplies the source-specific
+tally formula for the current active set.
+-/
+def generatedSteps {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) :
+    List (STVStep Candidate) :=
+  match order, sequence with
+  | candidate :: restOrder, outcome :: restSequence =>
+      let step : STVStep Candidate := {
+        beforeActive := initialActive
+        afterActive := initialActive.erase candidate
+        kind := outcome.toStepKind
+        focus := some candidate
+        tally := tallyOf initialActive
+      }
+      step :: generatedSteps step.afterActive restOrder restSequence tallyOf
+  | _, _ => []
+
+/-- Terminal active set obtained by processing a generated order/sequence trace. -/
+def generatedTerminalActive {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome) :
+    Finset Candidate :=
+  match order, sequence with
+  | candidate :: restOrder, _outcome :: restSequence =>
+      generatedTerminalActive (initialActive.erase candidate) restOrder restSequence
+  | _, _ => initialActive
+
+/-- Trace generated by processing a structure's order and win/loss sequence. -/
+def generatedTrace {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ) :
+    STVTrace Candidate where
+  steps := generatedSteps initialActive struct.finalOrder.order
+    struct.sequence tallyOf
+
+/-- Terminal active set of the generated trace for a full order/sequence structure. -/
+def generatedTraceTerminalActive {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate) : Finset Candidate :=
+  generatedTerminalActive initialActive struct.finalOrder.order struct.sequence
+
+/-- Generated steps stop when either the order or the win/loss sequence ends. -/
+theorem generatedSteps_length {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) :
+    (generatedSteps initialActive order sequence tallyOf).length =
+      min order.length sequence.length := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      simp [generatedSteps]
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          simp [generatedSteps]
+        | cons outcome restSequence =>
+          simp [generatedSteps, ih, Nat.succ_min_succ]
+
+/--
+Generated order/sequence steps replay their active-set recursion from the
+initial active set to the computed terminal active set.
+-/
+theorem generatedSteps_replayStepsFrom {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) :
+    STVTrace.replayStepsFrom
+      (generatedSteps initialActive order sequence tallyOf)
+      initialActive
+      (generatedTerminalActive initialActive order sequence) := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      simp [generatedSteps, generatedTerminalActive, STVTrace.replayStepsFrom]
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          simp [generatedSteps, generatedTerminalActive, STVTrace.replayStepsFrom]
+      | cons outcome restSequence =>
+          simp [generatedSteps, generatedTerminalActive, STVTrace.replayStepsFrom]
+          exact ih (initialActive.erase candidate) restSequence
+
+/-- Generated order/sequence traces replay their active-set recursion. -/
+theorem generatedTrace_replaysFrom {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ) :
+    (generatedTrace struct initialActive tallyOf).replaysFrom initialActive
+      (generatedTraceTerminalActive struct initialActive) := by
+  simpa [generatedTrace, generatedTraceTerminalActive, STVTrace.replaysFrom] using
+    generatedSteps_replayStepsFrom initialActive struct.finalOrder.order
+      struct.sequence tallyOf
+
+/-- Generated step kinds are the supplied win/loss labels rendered as STV
+elect/eliminate step kinds. -/
+theorem generatedSteps_kinds {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) :
+    (generatedSteps initialActive order sequence tallyOf).map STVStep.kind =
+      (sequence.take order.length).map RoundOutcome.toStepKind := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      simp [generatedSteps]
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          simp [generatedSteps]
+      | cons outcome restSequence =>
+          simp [generatedSteps]
+          simpa [List.map_take] using
+            ih (initialActive.erase candidate) restSequence
+
+/-- Generated trace length from a full structure. -/
+theorem generatedTrace_steps_length {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ) :
+    (generatedTrace struct initialActive tallyOf).steps.length =
+      min struct.finalOrder.order.length struct.sequence.length := by
+  exact generatedSteps_length initialActive struct.finalOrder.order
+    struct.sequence tallyOf
+
+/-- A generated trace has a prefix of length `n` whenever both the candidate
+order and the win/loss label sequence have at least `n` entries. -/
+theorem le_generatedTrace_steps_length_of_le_order_length_of_le_sequence_length
+    {Candidate : Type*} [DecidableEq Candidate]
+    {struct : OrderSequenceStructure Candidate}
+    {initialActive : Finset Candidate}
+    {tallyOf : Finset Candidate → Candidate → ℕ}
+    {n : ℕ}
+    (horder : n ≤ struct.finalOrder.order.length)
+    (hsequence : n ≤ struct.sequence.length) :
+    n ≤ (generatedTrace struct initialActive tallyOf).steps.length := by
+  rw [generatedTrace_steps_length]
+  exact le_min horder hsequence
+
+/-- Generated trace step kinds from a full structure. -/
+theorem generatedTrace_stepKinds {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ) :
+    (generatedTrace struct initialActive tallyOf).steps.map STVStep.kind =
+      (struct.sequence.take struct.finalOrder.order.length).map
+        RoundOutcome.toStepKind := by
+  exact generatedSteps_kinds initialActive struct.finalOrder.order
+    struct.sequence tallyOf
+
+/-- Every generated step uses the tally function for its own active set. -/
+theorem generatedSteps_tally_eq {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ)
+    (i : Fin (generatedSteps initialActive order sequence tallyOf).length) :
+    ((generatedSteps initialActive order sequence tallyOf).get i).tally =
+      tallyOf
+        ((generatedSteps initialActive order sequence tallyOf).get i).beforeActive := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      exact Fin.elim0 i
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          exact Fin.elim0 i
+      | cons outcome restSequence =>
+          cases i using Fin.cases with
+          | zero =>
+              simp [generatedSteps]
+          | succ i =>
+              simpa [generatedSteps] using
+                ih (initialActive.erase candidate) restSequence i
+
+/--
+The focused candidate of generated step `i` is the `i`th candidate in the
+generated order.
+-/
+theorem generatedSteps_get_focus_eq_order_get?
+    {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ)
+    (i : Fin (generatedSteps initialActive order sequence tallyOf).length) :
+    ((generatedSteps initialActive order sequence tallyOf).get i).focus =
+      order[i.1]? := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      exact Fin.elim0 i
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          exact Fin.elim0 i
+      | cons outcome restSequence =>
+          cases i using Fin.cases with
+          | zero =>
+              simp [generatedSteps]
+          | succ i =>
+              simpa [generatedSteps] using
+                ih (initialActive.erase candidate) restSequence i
+
+/--
+The pre-active set at generated step `i` is the initial active set with the
+first `i` ordered candidates removed.
+-/
+theorem generatedSteps_get_beforeActive_eq_sdiff_take_toFinset
+    {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ)
+    (i : Fin (generatedSteps initialActive order sequence tallyOf).length) :
+    ((generatedSteps initialActive order sequence tallyOf).get i).beforeActive =
+      initialActive \ (order.take i.1).toFinset := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      exact Fin.elim0 i
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          exact Fin.elim0 i
+      | cons outcome restSequence =>
+          cases i using Fin.cases with
+          | zero =>
+              simp [generatedSteps]
+          | succ i =>
+              have hrec :=
+                ih (initialActive.erase candidate) restSequence i
+              simpa [generatedSteps, Finset.sdiff_insert,
+                Finset.erase_sdiff_comm] using hrec
+
+/-- Every generated trace step uses the tally function for its own active set. -/
+theorem generatedTrace_tally_eq {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ)
+    (i : Fin (generatedTrace struct initialActive tallyOf).steps.length) :
+    (((generatedTrace struct initialActive tallyOf).steps.get i).tally) =
+      tallyOf
+        (((generatedTrace struct initialActive tallyOf).steps.get i).beforeActive) := by
+  exact generatedSteps_tally_eq initialActive struct.finalOrder.order
+    struct.sequence tallyOf i
+
+/--
+The focused candidate of generated trace step `i` is the `i`th candidate in
+the structure's final order.
+-/
+theorem generatedTrace_get_focus_eq_order_get?
+    {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ)
+    (i : Fin (generatedTrace struct initialActive tallyOf).steps.length) :
+    (((generatedTrace struct initialActive tallyOf).steps.get i).focus) =
+      struct.finalOrder.order[i.1]? := by
+  exact generatedSteps_get_focus_eq_order_get? initialActive
+    struct.finalOrder.order struct.sequence tallyOf i
+
+/--
+The pre-active set at generated trace step `i` is the initial active set with
+the first `i` candidates in the structure order removed.
+-/
+theorem generatedTrace_get_beforeActive_eq_sdiff_take_toFinset
+    {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ)
+    (i : Fin (generatedTrace struct initialActive tallyOf).steps.length) :
+    (((generatedTrace struct initialActive tallyOf).steps.get i).beforeActive) =
+      initialActive \ (struct.finalOrder.order.take i.1).toFinset := by
+  exact generatedSteps_get_beforeActive_eq_sdiff_take_toFinset initialActive
+    struct.finalOrder.order struct.sequence tallyOf i
+
+/-- Generated step kinds are always ordinary STV elect/eliminate kinds. -/
+theorem generatedSteps_kind_elect_or_eliminate
+    {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ)
+    (i : Fin (generatedSteps initialActive order sequence tallyOf).length) :
+    ((generatedSteps initialActive order sequence tallyOf).get i).kind =
+        StepKind.elect ∨
+      ((generatedSteps initialActive order sequence tallyOf).get i).kind =
+        StepKind.eliminate := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      exact Fin.elim0 i
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          exact Fin.elim0 i
+      | cons outcome restSequence =>
+          cases i using Fin.cases with
+          | zero =>
+              cases outcome <;> simp [generatedSteps, RoundOutcome.toStepKind]
+          | succ i =>
+              simpa [generatedSteps] using
+                ih (initialActive.erase candidate) restSequence i
+
+/-- Generated trace step kinds are always ordinary STV elect/eliminate kinds. -/
+theorem generatedTrace_kind_elect_or_eliminate
+    {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ)
+    (i : Fin (generatedTrace struct initialActive tallyOf).steps.length) :
+    (((generatedTrace struct initialActive tallyOf).steps.get i).kind =
+        StepKind.elect) ∨
+      (((generatedTrace struct initialActive tallyOf).steps.get i).kind =
+        StepKind.eliminate) := by
+  exact generatedSteps_kind_elect_or_eliminate initialActive
+    struct.finalOrder.order struct.sequence tallyOf i
+
+/-- Every generated structure step removes its focused candidate. -/
+theorem generatedSteps_removesFocusedCandidate
+    {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) :
+    ∀ step,
+      step ∈ generatedSteps initialActive order sequence tallyOf →
+        step.removesFocusedCandidate := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      intro step hstep
+      simp [generatedSteps] at hstep
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          intro step hstep
+          simp [generatedSteps] at hstep
+      | cons outcome restSequence =>
+          intro step hstep
+          simp [generatedSteps] at hstep
+          rcases hstep with hhead | htail
+          · subst step
+            exact ⟨candidate, rfl, rfl⟩
+          · exact ih (initialActive.erase candidate) restSequence step htail
+
+/-- Every step in a generated structure trace removes its focused candidate. -/
+theorem generatedTrace_removesFocusedCandidate
+    {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ) :
+    ∀ step,
+      step ∈ (generatedTrace struct initialActive tallyOf).steps →
+        step.removesFocusedCandidate := by
+  exact generatedSteps_removesFocusedCandidate initialActive
+    struct.finalOrder.order struct.sequence tallyOf
+
+/--
+Generated steps whose order and round labels start with a losing prefix have
+that prefix as a focused initial-elimination prefix.
+-/
+theorem generatedSteps_hasInitialEliminationFocusPrefix_of_lossPrefix
+    {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (lossPrefix restOrder : List Candidate)
+    (restSequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) :
+    ({ steps :=
+      generatedSteps initialActive (lossPrefix ++ restOrder)
+        (List.replicate lossPrefix.length RoundOutcome.lose ++ restSequence)
+        tallyOf } : STVTrace Candidate).HasInitialEliminationFocusPrefix
+      lossPrefix := by
+  refine ⟨?_, ?_, ?_⟩
+  · simp [generatedSteps_length]
+  · induction lossPrefix generalizing initialActive with
+    | nil =>
+        simp
+    | cons candidate restPrefix ih =>
+        simpa [generatedSteps, List.replicate_succ,
+          ih (initialActive.erase candidate)]
+  · induction lossPrefix generalizing initialActive with
+    | nil =>
+        intro step hstep
+        simp at hstep
+    | cons candidate restPrefix ih =>
+        intro step hstep
+        simp [generatedSteps, List.replicate_succ] at hstep
+        rcases hstep with rfl | htail
+        · simp [RoundOutcome.toStepKind]
+        · exact ih (initialActive.erase candidate) step htail
+
+/--
+A generated trace whose structure starts with a losing candidate prefix has
+that prefix as a focused initial-elimination prefix.
+-/
+theorem generatedTrace_hasInitialEliminationFocusPrefix_of_lossPrefix
+    {Candidate : Type*} [DecidableEq Candidate]
+    {struct : OrderSequenceStructure Candidate}
+    {initialActive : Finset Candidate}
+    {lossPrefix restOrder : List Candidate}
+    {restSequence : List RoundOutcome}
+    {tallyOf : Finset Candidate → Candidate → ℕ}
+    (horder : struct.finalOrder.order = lossPrefix ++ restOrder)
+    (hsequence :
+      struct.sequence =
+        List.replicate lossPrefix.length RoundOutcome.lose ++ restSequence) :
+    (generatedTrace struct initialActive tallyOf).HasInitialEliminationFocusPrefix
+      lossPrefix := by
+  simpa [generatedTrace, horder, hsequence] using
+    generatedSteps_hasInitialEliminationFocusPrefix_of_lossPrefix
+      initialActive lossPrefix restOrder restSequence tallyOf
+
+/--
+A generated trace whose structure has an initial losing label prefix has the
+corresponding final-order prefix as a focused initial-elimination prefix.
+-/
+theorem generatedTrace_hasInitialEliminationFocusPrefix_of_initialLossPrefix
+    {Candidate : Type*} [DecidableEq Candidate]
+    {struct : OrderSequenceStructure Candidate}
+    {initialActive : Finset Candidate}
+    {tallyOf : Finset Candidate → Candidate → ℕ}
+    {length : ℕ}
+    (horder : length ≤ struct.finalOrder.order.length)
+    (hprefix : RoundOutcome.HasInitialLossPrefix struct.sequence length) :
+    (generatedTrace struct initialActive tallyOf).HasInitialEliminationFocusPrefix
+      (struct.finalOrder.order.take length) := by
+  have horder_eq :
+      struct.finalOrder.order =
+        struct.finalOrder.order.take length ++
+          struct.finalOrder.order.drop length := by
+    exact (List.take_append_drop length struct.finalOrder.order).symm
+  have hsequence_eq :
+      struct.sequence =
+        List.replicate (struct.finalOrder.order.take length).length
+            RoundOutcome.lose ++
+          struct.sequence.drop length := by
+    calc
+      struct.sequence =
+          struct.sequence.take length ++ struct.sequence.drop length :=
+        (List.take_append_drop length struct.sequence).symm
+      _ =
+          List.replicate length RoundOutcome.lose ++
+            struct.sequence.drop length := by
+        rw [hprefix]
+      _ =
+          List.replicate (struct.finalOrder.order.take length).length
+              RoundOutcome.lose ++
+            struct.sequence.drop length := by
+        rw [List.length_take, min_eq_left horder]
+  exact
+    generatedTrace_hasInitialEliminationFocusPrefix_of_lossPrefix
+      (struct := struct)
+      (initialActive := initialActive)
+      (lossPrefix := struct.finalOrder.order.take length)
+      (restOrder := struct.finalOrder.order.drop length)
+      (restSequence := struct.sequence.drop length)
+      (tallyOf := tallyOf)
+      horder_eq hsequence_eq
+
+/--
+A generated trace whose structure has an initial losing label prefix has an
+initial-elimination prefix of the same length.
+-/
+theorem generatedTrace_hasInitialEliminationPrefix_of_initialLossPrefix
+    {Candidate : Type*} [DecidableEq Candidate]
+    {struct : OrderSequenceStructure Candidate}
+    {initialActive : Finset Candidate}
+    {tallyOf : Finset Candidate → Candidate → ℕ}
+    {length : ℕ}
+    (horder : length ≤ struct.finalOrder.order.length)
+    (hprefix : RoundOutcome.HasInitialLossPrefix struct.sequence length) :
+    (generatedTrace struct initialActive tallyOf).HasInitialEliminationPrefix
+      length := by
+  have hfocus :=
+    generatedTrace_hasInitialEliminationFocusPrefix_of_initialLossPrefix
+      (struct := struct)
+      (initialActive := initialActive)
+      (tallyOf := tallyOf)
+      horder hprefix
+  have htake_len :
+      (struct.finalOrder.order.take length).length = length := by
+    simp [List.length_take, min_eq_left horder]
+  simpa [htake_len] using
+    STVTrace.hasInitialEliminationPrefix_of_initialEliminationFocusPrefix
+      hfocus
+
+/--
+Concrete round-constraint list generated by processing an order with a parallel
+win/loss sequence.  The caller supplies the source-specific tally formula for
+each active set.
+-/
+def generatedRoundConstraints {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ) :
+    List (RoundTallyConstraint Candidate) :=
+  match order, sequence with
+  | candidate :: restOrder, outcome :: restSequence =>
+      let constraint : RoundTallyConstraint Candidate := {
+        active := initialActive
+        focus := candidate
+        outcome := outcome
+        tally := tallyOf initialActive
+        quota := quota
+      }
+      constraint ::
+        generatedRoundConstraints (initialActive.erase candidate) restOrder
+          restSequence tallyOf quota
+  | _, _ => []
+
+/-- Round constraints generated by a full order-and-sequence structure. -/
+def generatedConstraints {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ) :
+    List (RoundTallyConstraint Candidate) :=
+  generatedRoundConstraints initialActive struct.finalOrder.order
+    struct.sequence tallyOf quota
+
+/-- The generated steps have exactly the structure's win/loss labels up to the
+length of the generated order. -/
+theorem roundOutcomeSequence_generatedSteps {Candidate : Type*}
+    [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) :
+    STVTrace.roundOutcomeSequence
+        ({ steps :=
+          generatedSteps initialActive order sequence tallyOf } :
+            STVTrace Candidate) =
+      sequence.take order.length := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      simp [generatedSteps, STVTrace.roundOutcomeSequence]
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          simp [generatedSteps, STVTrace.roundOutcomeSequence]
+      | cons outcome restSequence =>
+          simp [generatedSteps, STVTrace.roundOutcomeSequence,
+            STVStep.roundOutcome?]
+          exact ih (initialActive.erase candidate) restSequence
+
+/-- The generated trace has exactly the structure's win/loss labels up to the
+length of the final order. -/
+theorem roundOutcomeSequence_generatedTrace {Candidate : Type*}
+    [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ) :
+    (generatedTrace struct initialActive tallyOf).roundOutcomeSequence =
+      struct.sequence.take struct.finalOrder.order.length := by
+  exact roundOutcomeSequence_generatedSteps initialActive
+    struct.finalOrder.order struct.sequence tallyOf
+
+/-- The generated raw constraint labels match the supplied win/loss sequence up
+to the processed order length. -/
+theorem generatedRoundConstraints_outcomes {Candidate : Type*}
+    [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ) :
+    (generatedRoundConstraints initialActive order sequence tallyOf quota).map
+        RoundTallyConstraint.outcome =
+      sequence.take order.length := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      simp [generatedRoundConstraints]
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          simp [generatedRoundConstraints]
+      | cons outcome restSequence =>
+          simp [generatedRoundConstraints]
+          exact ih (initialActive.erase candidate) restSequence
+
+/-- Generated round constraints stop when either the order or win/loss sequence
+ends. -/
+theorem generatedRoundConstraints_length {Candidate : Type*}
+    [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ) :
+    (generatedRoundConstraints initialActive order sequence tallyOf quota).length =
+      min order.length sequence.length := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      simp [generatedRoundConstraints]
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          simp [generatedRoundConstraints]
+      | cons outcome restSequence =>
+          simp [generatedRoundConstraints, ih, Nat.succ_min_succ]
+
+/-- Generated constraints and generated trace steps use the same active sets. -/
+theorem generatedRoundConstraints_active_eq_generatedSteps_beforeActive
+    {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ) :
+    (generatedRoundConstraints initialActive order sequence tallyOf quota).map
+        RoundTallyConstraint.active =
+      (generatedSteps initialActive order sequence tallyOf).map
+        STVStep.beforeActive := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      simp [generatedRoundConstraints, generatedSteps]
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          simp [generatedRoundConstraints, generatedSteps]
+      | cons outcome restSequence =>
+          simp [generatedRoundConstraints, generatedSteps]
+          exact ih (initialActive.erase candidate) restSequence
+
+/-- Generated constraints and generated trace steps focus on the same
+candidates. -/
+theorem generatedRoundConstraints_focus_eq_generatedSteps_focus
+    {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ) :
+    (generatedRoundConstraints initialActive order sequence tallyOf quota).map
+        (fun constraint => some constraint.focus) =
+      (generatedSteps initialActive order sequence tallyOf).map
+        STVStep.focus := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      simp [generatedRoundConstraints, generatedSteps]
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          simp [generatedRoundConstraints, generatedSteps]
+      | cons outcome restSequence =>
+          simp [generatedRoundConstraints, generatedSteps]
+          exact ih (initialActive.erase candidate) restSequence
+
+/-- Generated constraints and generated trace steps use the same tally
+functions. -/
+theorem generatedRoundConstraints_tally_eq_generatedSteps_tally
+    {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ) :
+    (generatedRoundConstraints initialActive order sequence tallyOf quota).map
+        RoundTallyConstraint.tally =
+      (generatedSteps initialActive order sequence tallyOf).map
+        STVStep.tally := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      simp [generatedRoundConstraints, generatedSteps]
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          simp [generatedRoundConstraints, generatedSteps]
+      | cons outcome restSequence =>
+          simp [generatedRoundConstraints, generatedSteps]
+          exact ih (initialActive.erase candidate) restSequence
+
+/-- Generated constraint outcomes render as the generated trace step kinds. -/
+theorem generatedRoundConstraints_kinds_eq_generatedSteps_kinds
+    {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ) :
+    (generatedRoundConstraints initialActive order sequence tallyOf quota).map
+        (fun constraint => constraint.outcome.toStepKind) =
+      (generatedSteps initialActive order sequence tallyOf).map
+        STVStep.kind := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      simp [generatedRoundConstraints, generatedSteps]
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          simp [generatedRoundConstraints, generatedSteps]
+      | cons outcome restSequence =>
+          simp [generatedRoundConstraints, generatedSteps]
+          exact ih (initialActive.erase candidate) restSequence
+
+/--
+If each generated round constraint holds, then an elect step in the paired
+generated trace has an active candidate whose tally reaches quota.
+-/
+theorem generatedRoundConstraints_elect_quota_of_generatedSteps
+    {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ)
+    (hholds :
+      ∀ constraint,
+        constraint ∈
+          generatedRoundConstraints initialActive order sequence tallyOf quota →
+        constraint.Holds)
+    (i : Fin (generatedSteps initialActive order sequence tallyOf).length)
+    (helect :
+      ((generatedSteps initialActive order sequence tallyOf).get i).kind =
+        StepKind.elect) :
+    ∃ candidate,
+      candidate ∈
+          ((generatedSteps initialActive order sequence tallyOf).get i).beforeActive ∧
+        quota ≤
+          ((generatedSteps initialActive order sequence tallyOf).get i).tally
+            candidate := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      exact Fin.elim0 i
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          exact Fin.elim0 i
+      | cons outcome restSequence =>
+          cases i using Fin.cases with
+          | zero =>
+              cases outcome with
+              | win =>
+                  have hhead :
+                      ({
+                        active := initialActive
+                        focus := candidate
+                        outcome := RoundOutcome.win
+                        tally := tallyOf initialActive
+                        quota := quota
+                      } : RoundTallyConstraint Candidate).Holds := by
+                    exact hholds _ (by simp [generatedRoundConstraints])
+                  have hdata :
+                      candidate ∈ initialActive ∧
+                        quota ≤ tallyOf initialActive candidate ∧
+                        (∀ other, other ∈ initialActive →
+                          tallyOf initialActive other ≤
+                            tallyOf initialActive candidate) := by
+                    simpa [RoundTallyConstraint.Holds] using hhead
+                  exact ⟨candidate, hdata.1, hdata.2.1⟩
+              | lose =>
+                  simp [generatedSteps, RoundOutcome.toStepKind] at helect
+          | succ i =>
+              have htail :
+                  ∀ constraint,
+                    constraint ∈
+                      generatedRoundConstraints (initialActive.erase candidate)
+                        restOrder restSequence tallyOf quota →
+                    constraint.Holds := by
+                intro constraint hconstraint
+                exact hholds constraint
+                  (by simp [generatedRoundConstraints, hconstraint])
+              exact
+                ih (initialActive.erase candidate) restSequence htail i
+                  (by simpa [generatedSteps] using helect)
+
+/--
+If each generated round constraint holds, then an elect step in the paired
+generated trace gives the quota inequality for the step's focused candidate.
+-/
+theorem generatedRoundConstraints_elect_focus_quota_of_generatedSteps
+    {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ)
+    (hholds :
+      ∀ constraint,
+        constraint ∈
+          generatedRoundConstraints initialActive order sequence tallyOf quota →
+        constraint.Holds)
+    (i : Fin (generatedSteps initialActive order sequence tallyOf).length)
+    {candidate : Candidate}
+    (hfocus :
+      ((generatedSteps initialActive order sequence tallyOf).get i).focus =
+        some candidate)
+    (helect :
+      ((generatedSteps initialActive order sequence tallyOf).get i).kind =
+        StepKind.elect) :
+    candidate ∈
+        ((generatedSteps initialActive order sequence tallyOf).get i).beforeActive ∧
+      quota ≤
+        ((generatedSteps initialActive order sequence tallyOf).get i).tally
+          candidate := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      exact Fin.elim0 i
+  | cons focus restOrder ih =>
+      cases sequence with
+      | nil =>
+          exact Fin.elim0 i
+      | cons outcome restSequence =>
+          cases i using Fin.cases with
+          | zero =>
+              cases outcome with
+              | win =>
+                  have hcandidate : focus = candidate := by
+                    simpa [generatedSteps] using hfocus
+                  subst candidate
+                  have hhead :
+                      ({
+                        active := initialActive
+                        focus := focus
+                        outcome := RoundOutcome.win
+                        tally := tallyOf initialActive
+                        quota := quota
+                      } : RoundTallyConstraint Candidate).Holds := by
+                    exact hholds _ (by simp [generatedRoundConstraints])
+                  have hdata :
+                      focus ∈ initialActive ∧
+                        quota ≤ tallyOf initialActive focus ∧
+                        (∀ other, other ∈ initialActive →
+                          tallyOf initialActive other ≤
+                            tallyOf initialActive focus) := by
+                    simpa [RoundTallyConstraint.Holds] using hhead
+                  exact ⟨hdata.1, hdata.2.1⟩
+              | lose =>
+                  simp [generatedSteps, RoundOutcome.toStepKind] at helect
+          | succ i =>
+              have htail :
+                  ∀ constraint,
+                    constraint ∈
+                      generatedRoundConstraints (initialActive.erase focus)
+                        restOrder restSequence tallyOf quota →
+                    constraint.Holds := by
+                intro constraint hconstraint
+                exact hholds constraint
+                  (by simp [generatedRoundConstraints, hconstraint])
+              exact
+                ih (initialActive.erase focus) restSequence htail i
+                  (by simpa [generatedSteps] using hfocus)
+                  (by simpa [generatedSteps] using helect)
+
+/-- The generated constraint labels match the structure's win/loss sequence up
+to the final-order length. -/
+theorem generatedConstraints_outcomes {Candidate : Type*}
+    [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ) :
+    (generatedConstraints struct initialActive tallyOf quota).map
+        RoundTallyConstraint.outcome =
+      struct.sequence.take struct.finalOrder.order.length := by
+  exact generatedRoundConstraints_outcomes initialActive
+    struct.finalOrder.order struct.sequence tallyOf quota
+
+/-- Generated constraints from a full structure have one row for each generated
+trace step. -/
+theorem generatedConstraints_length {Candidate : Type*}
+    [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ) :
+    (generatedConstraints struct initialActive tallyOf quota).length =
+      min struct.finalOrder.order.length struct.sequence.length := by
+  exact generatedRoundConstraints_length initialActive
+    struct.finalOrder.order struct.sequence tallyOf quota
+
+/-- Full-structure generated constraints and traces use the same active sets. -/
+theorem generatedConstraints_active_eq_generatedTrace_beforeActive
+    {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ) :
+    (generatedConstraints struct initialActive tallyOf quota).map
+        RoundTallyConstraint.active =
+      (generatedTrace struct initialActive tallyOf).steps.map
+        STVStep.beforeActive := by
+  exact generatedRoundConstraints_active_eq_generatedSteps_beforeActive
+    initialActive struct.finalOrder.order struct.sequence tallyOf quota
+
+/-- Full-structure generated constraints and traces focus on the same
+candidates. -/
+theorem generatedConstraints_focus_eq_generatedTrace_focus
+    {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ) :
+    (generatedConstraints struct initialActive tallyOf quota).map
+        (fun constraint => some constraint.focus) =
+      (generatedTrace struct initialActive tallyOf).steps.map
+        STVStep.focus := by
+  exact generatedRoundConstraints_focus_eq_generatedSteps_focus
+    initialActive struct.finalOrder.order struct.sequence tallyOf quota
+
+/-- Full-structure generated constraints and traces use the same tally
+functions. -/
+theorem generatedConstraints_tally_eq_generatedTrace_tally
+    {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ) :
+    (generatedConstraints struct initialActive tallyOf quota).map
+        RoundTallyConstraint.tally =
+      (generatedTrace struct initialActive tallyOf).steps.map
+        STVStep.tally := by
+  exact generatedRoundConstraints_tally_eq_generatedSteps_tally
+    initialActive struct.finalOrder.order struct.sequence tallyOf quota
+
+/-- Full-structure generated constraint labels render as generated trace step
+kinds. -/
+theorem generatedConstraints_kinds_eq_generatedTrace_kinds
+    {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ) :
+    (generatedConstraints struct initialActive tallyOf quota).map
+        (fun constraint => constraint.outcome.toStepKind) =
+      (generatedTrace struct initialActive tallyOf).steps.map
+        STVStep.kind := by
+  exact generatedRoundConstraints_kinds_eq_generatedSteps_kinds
+    initialActive struct.finalOrder.order struct.sequence tallyOf quota
+
+/--
+If each generated constraint for a structure holds, an elect step in the
+generated trace has an active candidate whose tally reaches quota.
+-/
+theorem generatedConstraints_elect_quota_of_generatedTrace
+    {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ)
+    (hholds :
+      ∀ constraint,
+        constraint ∈ generatedConstraints struct initialActive tallyOf quota →
+        constraint.Holds)
+    (i : Fin (generatedTrace struct initialActive tallyOf).steps.length)
+    (helect :
+      (((generatedTrace struct initialActive tallyOf).steps.get i).kind =
+        StepKind.elect)) :
+    ∃ candidate,
+      candidate ∈
+          (((generatedTrace struct initialActive tallyOf).steps.get i).beforeActive) ∧
+        quota ≤
+          (((generatedTrace struct initialActive tallyOf).steps.get i).tally
+            candidate) := by
+  exact
+    generatedRoundConstraints_elect_quota_of_generatedSteps initialActive
+      struct.finalOrder.order struct.sequence tallyOf quota
+      (by simpa [generatedConstraints] using hholds) i helect
+
+/--
+If each generated constraint holds, then an elect step in the generated trace
+gives the quota inequality for the step's focused candidate.
+-/
+theorem generatedConstraints_elect_focus_quota_of_generatedTrace
+    {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ)
+    (hholds :
+      ∀ constraint,
+        constraint ∈ generatedConstraints struct initialActive tallyOf quota →
+        constraint.Holds)
+    (i : Fin (generatedTrace struct initialActive tallyOf).steps.length)
+    {candidate : Candidate}
+    (hfocus :
+      (((generatedTrace struct initialActive tallyOf).steps.get i).focus =
+        some candidate))
+    (helect :
+      (((generatedTrace struct initialActive tallyOf).steps.get i).kind =
+        StepKind.elect)) :
+    candidate ∈
+        (((generatedTrace struct initialActive tallyOf).steps.get i).beforeActive) ∧
+      quota ≤
+        (((generatedTrace struct initialActive tallyOf).steps.get i).tally
+          candidate) := by
+  exact
+    generatedRoundConstraints_elect_focus_quota_of_generatedSteps initialActive
+      struct.finalOrder.order struct.sequence tallyOf quota
+      (by simpa [generatedConstraints] using hholds) i hfocus helect
+
+/--
+If each generated constraint holds, then an elimination step in the paired
+generated trace eliminates an active minimum-tally candidate.
+-/
+theorem generatedRoundConstraints_eliminatesMinimalTally_of_generatedSteps
+    {Candidate : Type*} [DecidableEq Candidate]
+    (initialActive : Finset Candidate)
+    (order : List Candidate) (sequence : List RoundOutcome)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ)
+    (hholds :
+      ∀ constraint,
+        constraint ∈
+          generatedRoundConstraints initialActive order sequence tallyOf quota →
+        constraint.Holds)
+    (i : Fin (generatedSteps initialActive order sequence tallyOf).length)
+    (heliminate :
+      ((generatedSteps initialActive order sequence tallyOf).get i).kind =
+        StepKind.eliminate) :
+    ((generatedSteps initialActive order sequence tallyOf).get i).eliminatesMinimalTally := by
+  induction order generalizing initialActive sequence with
+  | nil =>
+      exact Fin.elim0 i
+  | cons candidate restOrder ih =>
+      cases sequence with
+      | nil =>
+          exact Fin.elim0 i
+      | cons outcome restSequence =>
+          cases i using Fin.cases with
+          | zero =>
+              cases outcome with
+              | win =>
+                  simp [generatedSteps, RoundOutcome.toStepKind] at heliminate
+              | lose =>
+                  have hhead :
+                      ({
+                        active := initialActive
+                        focus := candidate
+                        outcome := RoundOutcome.lose
+                        tally := tallyOf initialActive
+                        quota := quota
+                      } : RoundTallyConstraint Candidate).Holds := by
+                    exact hholds _ (by simp [generatedRoundConstraints])
+                  have hdata :
+                      candidate ∈ initialActive ∧
+                        (∀ other, other ∈ initialActive →
+                          tallyOf initialActive candidate ≤
+                            tallyOf initialActive other) ∧
+                        (∀ other, other ∈ initialActive →
+                          tallyOf initialActive other ≤ quota) := by
+                    simpa [RoundTallyConstraint.Holds] using hhead
+                  exact ⟨rfl, candidate, rfl, hdata.1, hdata.2.1⟩
+          | succ i =>
+              have htail :
+                  ∀ constraint,
+                    constraint ∈
+                      generatedRoundConstraints (initialActive.erase candidate)
+                        restOrder restSequence tallyOf quota →
+                    constraint.Holds := by
+                intro constraint hconstraint
+                exact hholds constraint
+                  (by simp [generatedRoundConstraints, hconstraint])
+              exact ih (initialActive.erase candidate) restSequence htail i
+                (by simpa [generatedSteps] using heliminate)
+
+/--
+If each generated constraint for a structure holds, then an elimination step in
+the generated trace eliminates an active minimum-tally candidate.
+-/
+theorem generatedConstraints_eliminatesMinimalTally_of_generatedTrace
+    {Candidate : Type*} [DecidableEq Candidate]
+    (struct : OrderSequenceStructure Candidate)
+    (initialActive : Finset Candidate)
+    (tallyOf : Finset Candidate → Candidate → ℕ) (quota : ℕ)
+    (hholds :
+      ∀ constraint,
+        constraint ∈ generatedConstraints struct initialActive tallyOf quota →
+        constraint.Holds)
+    (i : Fin (generatedTrace struct initialActive tallyOf).steps.length)
+    (heliminate :
+      (((generatedTrace struct initialActive tallyOf).steps.get i).kind =
+        StepKind.eliminate)) :
+    (((generatedTrace struct initialActive tallyOf).steps.get i).eliminatesMinimalTally) := by
+  exact
+    generatedRoundConstraints_eliminatesMinimalTally_of_generatedSteps
+      initialActive struct.finalOrder.order struct.sequence tallyOf quota
+      (by simpa [generatedConstraints] using hholds) i heliminate
+
+/-- If a structure has matching order and sequence lengths, the generated trace
+has exactly the structure's win/loss sequence. -/
+theorem roundOutcomeSequence_generatedTrace_of_validLength
+    {Candidate : Type*} [DecidableEq Candidate]
+    {struct : OrderSequenceStructure Candidate}
+    {initialActive : Finset Candidate}
+    {tallyOf : Finset Candidate → Candidate → ℕ}
+    (hvalid : struct.validLength) :
+    (generatedTrace struct initialActive tallyOf).roundOutcomeSequence =
+      struct.sequence := by
+  rw [roundOutcomeSequence_generatedTrace, ← hvalid]
+  simp
 
 end OrderSequenceStructure
 
@@ -609,6 +2087,76 @@ theorem run_eq_readOutcome_of_structureOutcomeAgreement {Data Struct Outcome : T
     (hstruct : constraints struct data) :
     run data = readOutcome struct :=
   hagreement hstruct
+
+/--
+The order-and-sequence structure read from a deterministic trace generator and
+a final-order reader.
+-/
+def traceStructureOf {Data Candidate : Type*}
+    (traceOf : Data → STVTrace Candidate)
+    (finalOrderOf : Data → FinalOrder Candidate) :
+    Data → OrderSequenceStructure Candidate :=
+  fun data =>
+    { finalOrder := finalOrderOf data
+      sequence := (traceOf data).roundOutcomeSequence }
+
+/--
+Concrete structure constraints generated by a deterministic trace: a structure
+matches a data point exactly when its final order and round win/loss sequence
+are those read from the generated trace.
+-/
+def traceStructureConstraints {Data Candidate : Type*}
+    (traceOf : Data → STVTrace Candidate)
+    (finalOrderOf : Data → FinalOrder Candidate) :
+    StructureConstraints Data (OrderSequenceStructure Candidate) :=
+  fun struct data =>
+    struct.finalOrder = finalOrderOf data ∧
+      struct.sequence = (traceOf data).roundOutcomeSequence
+
+/--
+The concrete trace-generated constraints are characterized by the
+trace-generated structure classifier.
+-/
+theorem traceStructureConstraintCharacterization
+    {Data Candidate : Type*}
+    (traceOf : Data → STVTrace Candidate)
+    (finalOrderOf : Data → FinalOrder Candidate) :
+    StructureConstraintCharacterization
+      (traceStructureOf traceOf finalOrderOf)
+      (traceStructureConstraints traceOf finalOrderOf) := by
+  intro data struct
+  constructor
+  · intro hstruct
+    rcases hstruct with ⟨hfinal, hsequence⟩
+    cases struct
+    dsimp [traceStructureOf] at hfinal hsequence ⊢
+    cases hfinal
+    cases hsequence
+    rfl
+  · intro hstruct
+    cases hstruct
+    exact ⟨rfl, rfl⟩
+
+/-- Trace-generated structure constraints form a partition of the data space. -/
+theorem traceStructurePartition {Data Candidate : Type*}
+    (traceOf : Data → STVTrace Candidate)
+    (finalOrderOf : Data → FinalOrder Candidate) :
+    StructurePartition
+      (traceStructureConstraints traceOf finalOrderOf) :=
+  structurePartition_of_structureConstraintCharacterization
+    (traceStructureConstraintCharacterization traceOf finalOrderOf)
+
+/--
+Trace-generated structure constraints agree with their generated final-order
+reader.
+-/
+theorem traceStructureOutcomeAgreement {Data Candidate : Type*}
+    (traceOf : Data → STVTrace Candidate)
+    (finalOrderOf : Data → FinalOrder Candidate) :
+    StructureOutcomeAgreement finalOrderOf OrderSequenceStructure.finalOrder
+      (traceStructureConstraints traceOf finalOrderOf) := by
+  intro data struct hstruct
+  exact hstruct.1.symm
 
 /--
 Generic replay predicate for a proposed structure and deterministic trace.
