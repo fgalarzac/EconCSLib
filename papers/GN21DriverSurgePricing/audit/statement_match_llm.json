@@ -300,14 +300,14 @@
     },
     "review_remark2_structured_scaled_earning_algebra": {
       "judgment": "matches",
-      "lean_statement_sha256": "3158eb42b34e7fbb1a555f9064d16bc621741ce10cbd91572c83d36d2a54ea6f",
+      "lean_statement_sha256": "c8445adf176f33600396165c0db09d1587645bb73d96c10da6459b641b49be24",
       "paper_statement_sha256": "0e5ca4f66365fdf7cdbc1a20427d81b8e453db02f6b30e919b2e69f477be04cc",
       "prompt_version": "statement-match-v3-semantic-full-statement",
       "reason": "Semantic rejudge: the dashboard row preserves the linked source statement at paper-facing granularity.",
       "tex_statement_sha256": "86ed5203588ff9ee61ac57500d1bf391aae27aaea9cd9f5712a86ec2fdf1c65d",
-      "validated_at": "2026-06-29T20:39:31Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validated_at": "2026-07-04T15:50:07Z",
+      "validator": "Codex digest refresh after exposing formula row",
+      "validator_type": "agent"
     },
     "review_remark3_switch_probability_per_time_tendsto_at_zero": {
       "judgment": "matches",

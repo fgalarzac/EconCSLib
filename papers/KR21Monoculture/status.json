@@ -109,8 +109,8 @@
     "proof_boundary_names": [],
     "assumption_names": [],
     "llm_source_record_review": {
-      "source_record_audit_file": "papers/KR21Monoculture/source_record_audit.json",
-      "source_record_judgment_file": "papers/KR21Monoculture/source_record_match_llm.json"
+      "source_record_audit_file": "papers/KR21Monoculture/audit/source_record_audit.json",
+      "source_record_judgment_file": "papers/KR21Monoculture/audit/source_record_match_llm.json"
     },
     "slices": [
       {

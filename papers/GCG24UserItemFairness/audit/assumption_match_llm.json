@@ -9,7 +9,29 @@
       "reason": "The source model and Theorem 3 opposing-type construction use strictly positive recommendation utilities.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hPos : R.data.model.Positive": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The source model and Theorem 3 opposing-type construction use strictly positive recommendation utilities.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_positive_recommendation_utilities"
+        },
+        "hPos : S.model.Positive": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The source model and Theorem 3 opposing-type construction use strictly positive recommendation utilities.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_positive_recommendation_utilities"
+        },
+        "hPos' : R'.data.model.Positive": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The source model and Theorem 3 opposing-type construction use strictly positive recommendation utilities.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_positive_recommendation_utilities"
+        }
+      },
+      "premises": [
+        "hPos : R.data.model.Positive",
+        "hPos : S.model.Positive",
+        "hPos' : R'.data.model.Positive"
+      ]
     },
     "assumption_theorem3_first_half_alpha_domain": {
       "judgment": "paper_condition",
@@ -19,7 +41,53 @@
       "reason": "Theorem 3 first-half monotonicity is stated for 0 < alpha <= alpha' <= 1/2.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "halpha0 : 0 < alpha": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 first-half monotonicity is stated for 0 < alpha <= alpha' <= 1/2.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_first_half_alpha_domain"
+        },
+        "halpha0' : 0 < alpha'": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 first-half monotonicity is stated for 0 < alpha <= alpha' <= 1/2.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_first_half_alpha_domain"
+        },
+        "halpha1 : alpha < 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 first-half monotonicity is stated for 0 < alpha <= alpha' <= 1/2.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_first_half_alpha_domain"
+        },
+        "halpha1' : alpha' < 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 first-half monotonicity is stated for 0 < alpha <= alpha' <= 1/2.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_first_half_alpha_domain"
+        },
+        "halpha_half : alpha ≤ 1 / 2": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 first-half monotonicity is stated for 0 < alpha <= alpha' <= 1/2.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_first_half_alpha_domain"
+        },
+        "halpha_half' : alpha' ≤ 1 / 2": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 first-half monotonicity is stated for 0 < alpha <= alpha' <= 1/2.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_first_half_alpha_domain"
+        },
+        "halpha_le : alpha ≤ alpha'": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 first-half monotonicity is stated for 0 < alpha <= alpha' <= 1/2.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_first_half_alpha_domain"
+        }
+      },
+      "premises": [
+        "halpha0 : 0 < alpha",
+        "halpha0' : 0 < alpha'",
+        "halpha1 : alpha < 1",
+        "halpha1' : alpha' < 1",
+        "halpha_half : alpha ≤ 1 / 2",
+        "halpha_half' : alpha' ≤ 1 / 2",
+        "halpha_le : alpha ≤ alpha'"
+      ]
     },
     "assumption_theorem3_opposing_type_model": {
       "judgment": "paper_condition",
@@ -29,7 +97,35 @@
       "reason": "Theorem 3 is stated for two opposing user types with a common strictly decreasing positive value vector.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hdec : OpposingTypes.StrictlyDecreasingByIndex v": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 is stated for two opposing user types with a common strictly decreasing positive value vector.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_opposing_type_model"
+        },
+        "hpos : ∀ j : Item n, 0 < v j": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 is stated for two opposing user types with a common strictly decreasing positive value vector.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_opposing_type_model"
+        },
+        "hred : R.reduced = OpposingTypes.twoTypeReducedModel alpha v": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 is stated for two opposing user types with a common strictly decreasing positive value vector.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_opposing_type_model"
+        },
+        "hred' : R'.reduced = OpposingTypes.twoTypeReducedModel alpha' v": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 is stated for two opposing user types with a common strictly decreasing positive value vector.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_opposing_type_model"
+        }
+      },
+      "premises": [
+        "hdec : OpposingTypes.StrictlyDecreasingByIndex v",
+        "hpos : ∀ j : Item n, 0 < v j",
+        "hred : R.reduced = OpposingTypes.twoTypeReducedModel alpha v",
+        "hred' : R'.reduced = OpposingTypes.twoTypeReducedModel alpha' v"
+      ]
     },
     "assumption_theorem3_second_half_alpha_domain": {
       "judgment": "paper_condition",
@@ -39,7 +135,53 @@
       "reason": "Theorem 3 second-half monotonicity is stated for 1/2 <= alpha <= alpha' < 1.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "halpha0 : 0 < alpha": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 second-half monotonicity is stated for 1/2 <= alpha <= alpha' < 1.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_second_half_alpha_domain"
+        },
+        "halpha0' : 0 < alpha'": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 second-half monotonicity is stated for 1/2 <= alpha <= alpha' < 1.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_second_half_alpha_domain"
+        },
+        "halpha1 : alpha < 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 second-half monotonicity is stated for 1/2 <= alpha <= alpha' < 1.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_second_half_alpha_domain"
+        },
+        "halpha1' : alpha' < 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 second-half monotonicity is stated for 1/2 <= alpha <= alpha' < 1.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_second_half_alpha_domain"
+        },
+        "halpha_half : 1 / 2 ≤ alpha": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 second-half monotonicity is stated for 1/2 <= alpha <= alpha' < 1.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_second_half_alpha_domain"
+        },
+        "halpha_half' : 1 / 2 ≤ alpha'": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 second-half monotonicity is stated for 1/2 <= alpha <= alpha' < 1.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_second_half_alpha_domain"
+        },
+        "halpha_le : alpha ≤ alpha'": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 second-half monotonicity is stated for 1/2 <= alpha <= alpha' < 1.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem3_second_half_alpha_domain"
+        }
+      },
+      "premises": [
+        "halpha0 : 0 < alpha",
+        "halpha0' : 0 < alpha'",
+        "halpha1 : alpha < 1",
+        "halpha1' : alpha' < 1",
+        "halpha_half : 1 / 2 ≤ alpha",
+        "halpha_half' : 1 / 2 ≤ alpha'",
+        "halpha_le : alpha ≤ alpha'"
+      ]
     },
     "assumption_theorem4_at_least_three_items": {
       "judgment": "paper_condition",
@@ -49,7 +191,17 @@
       "reason": "The Theorem 4 construction uses a nontrivial item geometry with more than two items.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hn : 2 < n": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The Theorem 4 construction uses a nontrivial item geometry with more than two items.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem4_at_least_three_items"
+        }
+      },
+      "premises": [
+        "hn : 2 < n"
+      ]
     },
     "assumption_theorem4_cold_start_type_wiring": {
       "judgment": "paper_condition",
@@ -59,7 +211,41 @@
       "reason": "Theorem 4's cold-start users are estimated as the third type while their true row is one of the two opposing rows.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hestimatedType : Rest.data.types.toType u = 2": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 4's cold-start users are estimated as the third type while their true row is one of the two opposing rows.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem4_cold_start_type_wiring"
+        },
+        "hknown0 : ∀ u : User m, Rest.data.types.toType u = 0 → Rtrue.data.types.toType u = 0": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 4's cold-start users are estimated as the third type while their true row is one of the two opposing rows.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem4_cold_start_type_wiring"
+        },
+        "hknown1 : ∀ u : User m, Rest.data.types.toType u = 1 → Rtrue.data.types.toType u = 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 4's cold-start users are estimated as the third type while their true row is one of the two opposing rows.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem4_cold_start_type_wiring"
+        },
+        "htrueType : Rtrue.data.types.toType u = 0": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 4's cold-start users are estimated as the third type while their true row is one of the two opposing rows.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem4_cold_start_type_wiring"
+        },
+        "htrueType : Rtrue.data.types.toType u = 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 4's cold-start users are estimated as the third type while their true row is one of the two opposing rows.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem4_cold_start_type_wiring"
+        }
+      },
+      "premises": [
+        "hestimatedType : Rest.data.types.toType u = 2",
+        "hknown0 : ∀ u : User m, Rest.data.types.toType u = 0 → Rtrue.data.types.toType u = 0",
+        "hknown1 : ∀ u : User m, Rest.data.types.toType u = 1 → Rtrue.data.types.toType u = 1",
+        "htrueType : Rtrue.data.types.toType u = 0",
+        "htrueType : Rtrue.data.types.toType u = 1"
+      ]
     },
     "assumption_theorem4_displayed_reduced_models": {
       "judgment": "paper_condition",
@@ -69,7 +255,23 @@
       "reason": "Theorem 4 uses the displayed true and estimated reduced matrices.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hredEst : Rest.reduced = OpposingTypes.theorem4EstimatedReducedModel beta (OpposingTypes.theorem4SmallValueVector (n := n) eps)": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 4 uses the displayed true and estimated reduced matrices.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem4_displayed_reduced_models"
+        },
+        "hredTrue : Rtrue.reduced = OpposingTypes.twoTypeReducedModel (1 / 2 : ℝ) (OpposingTypes.theorem4SmallValueVector (n := n) eps)": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 4 uses the displayed true and estimated reduced matrices.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem4_displayed_reduced_models"
+        }
+      },
+      "premises": [
+        "hredEst : Rest.reduced = OpposingTypes.theorem4EstimatedReducedModel beta (OpposingTypes.theorem4SmallValueVector (n := n) eps)",
+        "hredTrue : Rtrue.reduced = OpposingTypes.twoTypeReducedModel (1 / 2 : ℝ) (OpposingTypes.theorem4SmallValueVector (n := n) eps)"
+      ]
     },
     "assumption_theorem4_estimated_model_reduction": {
       "judgment": "paper_condition",
@@ -79,7 +281,17 @@
       "reason": "The Theorem 4 wrapper identifies the estimated model with the paper's three-type estimated utility construction.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hestimated : E.estimatedModel = Rest.data.model": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The Theorem 4 wrapper identifies the estimated model with the paper's three-type estimated utility construction.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem4_estimated_model_reduction"
+        }
+      },
+      "premises": [
+        "hestimated : E.estimatedModel = Rest.data.model"
+      ]
     },
     "assumption_theorem4_parameter_domain": {
       "judgment": "paper_condition",
@@ -89,7 +301,29 @@
       "reason": "Theorem 4's arbitrary-large misestimation conclusion is parameterized by epsilon and beta.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hbeta : (n : ℝ)⁻¹ < beta": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 4's arbitrary-large misestimation conclusion is parameterized by epsilon and beta.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem4_parameter_domain"
+        },
+        "hbeta_half : beta < 1 / 2": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 4's arbitrary-large misestimation conclusion is parameterized by epsilon and beta.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem4_parameter_domain"
+        },
+        "heps : 0 < eps": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 4's arbitrary-large misestimation conclusion is parameterized by epsilon and beta.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem4_parameter_domain"
+        }
+      },
+      "premises": [
+        "hbeta : (n : ℝ)⁻¹ < beta",
+        "hbeta_half : beta < 1 / 2",
+        "heps : 0 < eps"
+      ]
     },
     "assumption_theorem4_true_model_reduction": {
       "judgment": "paper_condition",
@@ -99,7 +333,17 @@
       "reason": "The Theorem 4 wrapper identifies the true model with the paper's two-opposing-type source construction.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "htrue : E.trueModel = Rtrue.data.model": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The Theorem 4 wrapper identifies the true model with the paper's two-opposing-type source construction.",
+          "source_location": "GCG24UserItemFairness source statement for assumption_theorem4_true_model_reduction"
+        }
+      },
+      "premises": [
+        "htrue : E.trueModel = Rtrue.data.model"
+      ]
     }
   },
   "paper": "GCG24UserItemFairness",

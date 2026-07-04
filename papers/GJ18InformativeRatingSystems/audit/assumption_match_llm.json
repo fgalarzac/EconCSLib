@@ -9,7 +9,17 @@
       "reason": "The source has a finite ordered rating scale and assumes the cumulative rating law is strictly decreasing in rating level; this supplies the positive finite rating support used by the support-safe endpoint.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hfull_support : M.fullSupport": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The source has a finite ordered rating scale and assumes the cumulative rating law is strictly decreasing in rating level; this supplies the positive finite rating support used by the support-safe endpoint.",
+          "source_location": "GJ18InformativeRatingSystems source statement for assumption_full_finite_ordinal_rating_support"
+        }
+      },
+      "premises": [
+        "hfull_support : M.fullSupport"
+      ]
     },
     "assumption_monotone_rating_scores": {
       "judgment": "paper_assumption",
@@ -19,7 +29,17 @@
       "reason": "The source design problem optimizes over increasing score functions on the ordered rating scale.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hscore_mono : Monotone M.score": {
+          "judgment": "paper_assumption",
+          "reason": "Premise inherits the row-level provenance judgment. The source design problem optimizes over increasing score functions on the ordered rating scale.",
+          "source_location": "GJ18InformativeRatingSystems source statement for assumption_monotone_rating_scores"
+        }
+      },
+      "premises": [
+        "hscore_mono : Monotone M.score"
+      ]
     },
     "assumption_nonpositive_common_dual_parameters": {
       "judgment": "paper_condition",
@@ -29,7 +49,23 @@
       "reason": "The common-dual signs are lower-tail Chernoff/Laplace-principle witnesses for the source pairwise score-comparison event; the main support-safe endpoint derives the needed witness package internally.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hz : z ≤ 0": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The common-dual signs are lower-tail Chernoff/Laplace-principle witnesses for the source pairwise score-comparison event; the main support-safe endpoint derives the needed witness package internally.",
+          "source_location": "GJ18InformativeRatingSystems source statement for assumption_nonpositive_common_dual_parameters"
+        },
+        "hz : ∀ p : finiteChainOrderedPair n, z p ≤ 0": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The common-dual signs are lower-tail Chernoff/Laplace-principle witnesses for the source pairwise score-comparison event; the main support-safe endpoint derives the needed witness package internally.",
+          "source_location": "GJ18InformativeRatingSystems source statement for assumption_nonpositive_common_dual_parameters"
+        }
+      },
+      "premises": [
+        "hz : z ≤ 0",
+        "hz : ∀ p : finiteChainOrderedPair n, z p ≤ 0"
+      ]
     },
     "assumption_pairwise_threshold_minimizer": {
       "judgment": "paper_condition",
@@ -39,7 +75,17 @@
       "reason": "The paper's displayed rate uses an infimum over the common threshold a; helper rows expose a minimizer witness while the main endpoint works through the support-safe adjacent threshold-rate minimum.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hthreshold_min : ∀ b : ℝ, M.pairwiseRateObjective sampleRate hi lo a ≤ M.pairwiseRateObjective sampleRate hi lo b": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper's displayed rate uses an infimum over the common threshold a; helper rows expose a minimizer witness while the main endpoint works through the support-safe adjacent threshold-rate minimum.",
+          "source_location": "GJ18InformativeRatingSystems source statement for assumption_pairwise_threshold_minimizer"
+        }
+      },
+      "premises": [
+        "hthreshold_min : ∀ b : ℝ, M.pairwiseRateObjective sampleRate hi lo a ≤ M.pairwiseRateObjective sampleRate hi lo b"
+      ]
     },
     "assumption_positive_integer_sample_rates": {
       "judgment": "paper_condition",
@@ -49,7 +95,23 @@
       "reason": "Integer-rate helper rows instantiate the paper's positive asymptotic sample-rate model with positive natural sample rates.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hgHi : 0 < gHi": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Integer-rate helper rows instantiate the paper's positive asymptotic sample-rate model with positive natural sample rates.",
+          "source_location": "GJ18InformativeRatingSystems source statement for assumption_positive_integer_sample_rates"
+        },
+        "hgLo : 0 < gLo": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Integer-rate helper rows instantiate the paper's positive asymptotic sample-rate model with positive natural sample rates.",
+          "source_location": "GJ18InformativeRatingSystems source statement for assumption_positive_integer_sample_rates"
+        }
+      },
+      "premises": [
+        "hgHi : 0 < gHi",
+        "hgLo : 0 < gLo"
+      ]
     },
     "assumption_positive_match_rates": {
       "judgment": "paper_condition",
@@ -59,7 +121,29 @@
       "reason": "The source model gives sellers floor(k g(theta)) ratings by time k and the large-deviation theorem is stated in the nondegenerate asymptotic sample-rate regime.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hgHi : 0 < sampleRate hi": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The source model gives sellers floor(k g(theta)) ratings by time k and the large-deviation theorem is stated in the nondegenerate asymptotic sample-rate regime.",
+          "source_location": "GJ18InformativeRatingSystems source statement for assumption_positive_match_rates"
+        },
+        "hgLo : 0 < sampleRate lo": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The source model gives sellers floor(k g(theta)) ratings by time k and the large-deviation theorem is stated in the nondegenerate asymptotic sample-rate regime.",
+          "source_location": "GJ18InformativeRatingSystems source statement for assumption_positive_match_rates"
+        },
+        "hpositive_sample : ∀ θ : Fin n, 0 < sampleRate θ": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The source model gives sellers floor(k g(theta)) ratings by time k and the large-deviation theorem is stated in the nondegenerate asymptotic sample-rate regime.",
+          "source_location": "GJ18InformativeRatingSystems source statement for assumption_positive_match_rates"
+        }
+      },
+      "premises": [
+        "hgHi : 0 < sampleRate hi",
+        "hgLo : 0 < sampleRate lo",
+        "hpositive_sample : ∀ θ : Fin n, 0 < sampleRate θ"
+      ]
     },
     "assumption_score_range_and_strict_span": {
       "judgment": "paper_condition",
@@ -69,7 +153,29 @@
       "reason": "The source score function maps ordered rating levels into [0,1] and the optimization uses increasing score functions, giving lower/upper bounds and a nontrivial span.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hscore_le_high : ∀ r : Rating, M.score r ≤ M.score rHigh": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The source score function maps ordered rating levels into [0,1] and the optimization uses increasing score functions, giving lower/upper bounds and a nontrivial span.",
+          "source_location": "GJ18InformativeRatingSystems source statement for assumption_score_range_and_strict_span"
+        },
+        "hscore_low_le : ∀ r : Rating, M.score rLow ≤ M.score r": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The source score function maps ordered rating levels into [0,1] and the optimization uses increasing score functions, giving lower/upper bounds and a nontrivial span.",
+          "source_location": "GJ18InformativeRatingSystems source statement for assumption_score_range_and_strict_span"
+        },
+        "hscore_lt : M.score rLow < M.score rHigh": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The source score function maps ordered rating levels into [0,1] and the optimization uses increasing score functions, giving lower/upper bounds and a nontrivial span.",
+          "source_location": "GJ18InformativeRatingSystems source statement for assumption_score_range_and_strict_span"
+        }
+      },
+      "premises": [
+        "hscore_le_high : ∀ r : Rating, M.score r ≤ M.score rHigh",
+        "hscore_low_le : ∀ r : Rating, M.score rLow ≤ M.score r",
+        "hscore_lt : M.score rLow < M.score rHigh"
+      ]
     },
     "assumption_two_sided_score_witnesses": {
       "judgment": "paper_condition",
@@ -79,7 +185,23 @@
       "reason": "Finite-support lower-bound helper rows expose positive and negative score-gap witnesses; the main finite ordinal endpoint derives them from full rating-law support and a strict score span.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hscoreNeg : twoSampleRateBlockScore M gHi gLo sampleNeg < 0": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Finite-support lower-bound helper rows expose positive and negative score-gap witnesses; the main finite ordinal endpoint derives them from full rating-law support and a strict score span.",
+          "source_location": "GJ18InformativeRatingSystems source statement for assumption_two_sided_score_witnesses"
+        },
+        "hscorePos : 0 < twoSampleRateBlockScore M gHi gLo samplePos": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Finite-support lower-bound helper rows expose positive and negative score-gap witnesses; the main finite ordinal endpoint derives them from full rating-law support and a strict score span.",
+          "source_location": "GJ18InformativeRatingSystems source statement for assumption_two_sided_score_witnesses"
+        }
+      },
+      "premises": [
+        "hscoreNeg : twoSampleRateBlockScore M gHi gLo sampleNeg < 0",
+        "hscorePos : 0 < twoSampleRateBlockScore M gHi gLo samplePos"
+      ]
     }
   },
   "paper": "GJ18InformativeRatingSystems",

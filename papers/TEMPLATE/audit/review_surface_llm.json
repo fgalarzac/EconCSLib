@@ -12,9 +12,9 @@
   "prompt_version": "review-surface-v2-semantic-paper-facing",
   "reason": "",
   "review_rows": 0,
-  "review_surface_sha256": "",
+  "review_surface_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
   "schema": 1,
-  "validated_at": "",
-  "validator": "",
-  "validator_type": ""
+  "validated_at": "2026-07-04T14:40:52Z",
+  "validator": "Codex review-surface metadata refresh",
+  "validator_type": "agent"
 }

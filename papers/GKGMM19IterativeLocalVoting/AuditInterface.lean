@@ -1310,7 +1310,12 @@ theorem definition3_decomposable_utilities_formula
           D.coords.sum (fun m => D.coordinateUtility m v (D.coordinate m x)) := by
   rfl
 
-/-- Definition 4: DLCD finite-budget utility formula. -/
+
+/--
+Definition 4: DLCD finite-budget utility formula.
+
+Source status: direct paper-facing Definition 4 finite-budget utility formula row.
+-/
 noncomputable def dlcdBudgetUtility
     {Dim : Type*} [Fintype Dim]
     (isExpense : Dim → Bool) (componentUtility : Dim → ℝ → ℝ)
@@ -1323,6 +1328,8 @@ noncomputable def dlcdBudgetUtility
 /--
 Source Definition 4 / DLCD: decomposable utility with a linear cost for the
 budget deficit.
+
+Source status: direct paper-facing Definition 4 DLCD formula row.
 -/
 def paper_definition4_dlcd_formula
     {Dim : Type*} [Fintype Dim]

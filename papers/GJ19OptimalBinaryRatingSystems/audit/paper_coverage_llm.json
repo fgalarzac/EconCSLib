@@ -387,20 +387,18 @@
     "lemmaC9_nested_bisection_runtime": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "lemmaC9_nested_bisection_operation_count_le_stepBound, lemmaC9_nested_bisection_operation_count_le_mul_succ_sq, paper_theorem32_runtime_isBigO_of_eventually_runtime_real_log_quadratic_le",
-      "reason": "The source item is covered by the linked source-facing dashboard rows, which expose the finite rate, refinement, convergence, or runtime components used for this named source lemma/corollary rather than leaving the claim as support-only coverage.",
+      "dashboard_evidence": "lemmaC9_nested_bisection_operation_count_le_stepBound, lemmaC9_nested_bisection_operation_count_le_mul_succ_sq",
+      "reason": "Lemma C.9 runtime is represented by the two current source-facing nested-bisection operation-count bounds; the asymptotic wrapper is proof-support metadata rather than a separate dashboard row.",
       "review_rows": [
         "lemmaC9_nested_bisection_operation_count_le_stepBound",
-        "lemmaC9_nested_bisection_operation_count_le_mul_succ_sq",
-        "paper_theorem32_runtime_isBigO_of_eventually_runtime_real_log_quadratic_le"
+        "lemmaC9_nested_bisection_operation_count_le_mul_succ_sq"
       ],
       "source_evidence": "Source inventory item `lemmaC9_nested_bisection_runtime`: Lemma C.9: NestedBisection runs in O(M log^2(1/delta)) operations for bisection grid width delta.",
       "source_grounded": true,
       "statement_sha256": "00eacbbbab7a2d4dcf7681374d04d1a8bcdd3c2eac12e9d55c7cc9b3f6b0251c",
       "support_declarations": [
         "lemmaC9_nested_bisection_operation_count_le_stepBound",
-        "lemmaC9_nested_bisection_operation_count_le_mul_succ_sq",
-        "paper_theorem32_runtime_isBigO_of_eventually_runtime_real_log_quadratic_le"
+        "lemmaC9_nested_bisection_operation_count_le_mul_succ_sq"
       ],
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
@@ -526,7 +524,7 @@
   "paper": "GJ19OptimalBinaryRatingSystems",
   "paper_statement_inventory_sha256": "c76f320cff0e225d2a5066640054f45daaa0a10555094e284da2a9867ae9cb91",
   "prompt_version": "paper-coverage-v2-source-grounded-source-to-dashboard",
-  "review_surface_sha256": "34d5a4d9078a492ffa7738bb19255bb557149454bfc7a9fb4f0f65c1b00d0dbe",
+  "review_surface_sha256": "5c76f85c3bab90fbc548930c242014433f1195337ea7c9775b653c01872c2c01",
   "schema": 1,
   "source_grounded": true,
   "validated_at": "2026-06-29T21:25:00Z",

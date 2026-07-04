@@ -21,7 +21,7 @@
     "path": "papers/MBJG25ProducerFairness/PaperInterface.lean",
     "line_count": 332,
     "declaration_rows": 27,
-    "review_rows": 27,
+    "review_rows": 17,
     "oversized": false,
     "maintainability_issue": null,
     "proof_interface_path": "papers/MBJG25ProducerFairness/ProofInterface.lean",

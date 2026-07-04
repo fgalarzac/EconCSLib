@@ -1,119 +1,132 @@
 {
-  "schema": 1,
-  "paper": "DGJ26PracticalDynamicsRCV",
-  "prompt_version": "source-record-v2-semantic-boundary-inputs",
-  "validator": "Codex source-record provenance pass",
-  "validator_type": "agent",
-  "validated_at": "2026-07-02T12:00:00Z",
-  "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
-  "comment": "Source-record provenance judgments for the current DGJ26 audit payload. Boundary inputs are source-visible theorem/formula quantities or conditions; recursive fields are classified as audited containers, proof fields, or witness data.",
+  "comment": "Source-record provenance judgments for the current DGJ26 audit payload. Boundary inputs are source-visible theorem/formula quantities or conditions; recursive fields are classified as audited containers, proof fields, or witness data. Digest refreshed after source-record helper update; classifications and reasons were preserved for currently expected judgment keys.",
   "items": {
     "Algorithm3SupportCountLoopData.budget": {
       "classification": "nonpropositional_witness_data",
+      "comment": "Field `Algorithm3SupportCountLoopData.budget` supplies non-propositional witness data or a source-model function of type `ℕ` rather than a theorem premise.",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
-      "validator": "Codex source-record provenance pass",
-      "validator_type": "agent",
-      "validated_at": "2026-07-02T12:00:00Z",
-      "comment": "Field `Algorithm3SupportCountLoopData.budget` supplies non-propositional witness data or a source-model function of type `ℕ` rather than a theorem premise."
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Algorithm3SupportCountLoopData.candidateCount": {
       "classification": "nonpropositional_witness_data",
+      "comment": "Field `Algorithm3SupportCountLoopData.candidateCount` supplies non-propositional witness data or a source-model function of type `ℕ` rather than a theorem premise.",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
-      "validator": "Codex source-record provenance pass",
-      "validator_type": "agent",
-      "validated_at": "2026-07-02T12:00:00Z",
-      "comment": "Field `Algorithm3SupportCountLoopData.candidateCount` supplies non-propositional witness data or a source-model function of type `ℕ` rather than a theorem premise."
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Algorithm3SupportCountLoopData.exactFillAddition": {
       "classification": "nonpropositional_witness_data",
+      "comment": "Field `Algorithm3SupportCountLoopData.exactFillAddition` supplies non-propositional witness data or a source-model function of type `(Slack → ℕ) → Voter → RCVBallot Candidate` rather than a theorem premise.",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
-      "validator": "Codex source-record provenance pass",
-      "validator_type": "agent",
-      "validated_at": "2026-07-02T12:00:00Z",
-      "comment": "Field `Algorithm3SupportCountLoopData.exactFillAddition` supplies non-propositional witness data or a source-model function of type `(Slack → ℕ) → Voter → RCVBallot Candidate` rather than a theorem premise."
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Algorithm3SupportCountLoopData.exactFill_firstUseCounts_eq": {
       "classification": "proved_from_primitives",
-      "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
-      "validator": "Codex source-record provenance pass",
-      "validator_type": "agent",
-      "validated_at": "2026-07-02T12:00:00Z",
       "comment": "Field `Algorithm3SupportCountLoopData.exactFill_firstUseCounts_eq` is a proof or invariant component carried by the Lean-checked source record and consumed by DGJ26 theorems through field projection.",
-      "lean_derivation": "Lean-checked field projection `Algorithm3SupportCountLoopData.exactFill_firstUseCounts_eq` from source record `Algorithm3SupportCountLoopData` in the current source-record audit."
+      "lean_derivation": "Lean-checked field projection `Algorithm3SupportCountLoopData.exactFill_firstUseCounts_eq` from source record `Algorithm3SupportCountLoopData` in the current source-record audit.",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
+      "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Algorithm3SupportCountLoopData.firstUseCounts": {
       "classification": "nonpropositional_witness_data",
+      "comment": "Field `Algorithm3SupportCountLoopData.firstUseCounts` supplies non-propositional witness data or a source-model function of type `((active : Finset Candidate) → active ∈ relevantActiveSets → Candidate → ℕ) → Slack → ℕ` rather than a theorem premise.",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
-      "validator": "Codex source-record provenance pass",
-      "validator_type": "agent",
-      "validated_at": "2026-07-02T12:00:00Z",
-      "comment": "Field `Algorithm3SupportCountLoopData.firstUseCounts` supplies non-propositional witness data or a source-model function of type `((active : Finset Candidate) → active ∈ relevantActiveSets → Candidate → ℕ) → Slack → ℕ` rather than a theorem premise."
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Algorithm3SupportCountLoopData.relevantActiveSets": {
       "classification": "nonpropositional_witness_data",
+      "comment": "Field `Algorithm3SupportCountLoopData.relevantActiveSets` supplies non-propositional witness data or a source-model function of type `Finset (Finset Candidate)` rather than a theorem premise.",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
-      "validator": "Codex source-record provenance pass",
-      "validator_type": "agent",
-      "validated_at": "2026-07-02T12:00:00Z",
-      "comment": "Field `Algorithm3SupportCountLoopData.relevantActiveSets` supplies non-propositional witness data or a source-model function of type `Finset (Finset Candidate)` rather than a theorem premise."
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Algorithm3SupportCountLoopData.requiredSlack": {
       "classification": "nonpropositional_witness_data",
+      "comment": "Field `Algorithm3SupportCountLoopData.requiredSlack` supplies non-propositional witness data or a source-model function of type `Slack → ℕ` rather than a theorem premise.",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
-      "validator": "Codex source-record provenance pass",
-      "validator_type": "agent",
-      "validated_at": "2026-07-02T12:00:00Z",
-      "comment": "Field `Algorithm3SupportCountLoopData.requiredSlack` supplies non-propositional witness data or a source-model function of type `Slack → ℕ` rather than a theorem premise."
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Algorithm3SupportCountLoopData.uniqueBallotCount": {
       "classification": "nonpropositional_witness_data",
+      "comment": "Field `Algorithm3SupportCountLoopData.uniqueBallotCount` supplies non-propositional witness data or a source-model function of type `ℕ` rather than a theorem premise.",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
-      "validator": "Codex source-record provenance pass",
-      "validator_type": "agent",
-      "validated_at": "2026-07-02T12:00:00Z",
-      "comment": "Field `Algorithm3SupportCountLoopData.uniqueBallotCount` supplies non-propositional witness data or a source-model function of type `ℕ` rather than a theorem premise."
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Algorithm3SupportCountLoopData.voters": {
       "classification": "nonpropositional_witness_data",
+      "comment": "Field `Algorithm3SupportCountLoopData.voters` supplies non-propositional witness data or a source-model function of type `Finset Voter` rather than a theorem premise.",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
-      "validator": "Codex source-record provenance pass",
-      "validator_type": "agent",
-      "validated_at": "2026-07-02T12:00:00Z",
-      "comment": "Field `Algorithm3SupportCountLoopData.voters` supplies non-propositional witness data or a source-model function of type `Finset Voter` rather than a theorem premise."
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "AlgorithmASuffixThenPrefixSupportCountLoopData.base": {
       "classification": "container_recursively_audited",
+      "comment": "Field `AlgorithmASuffixThenPrefixSupportCountLoopData.base` is a source-record container; its nested source record(s) are expanded and judged in this same current source-record audit.",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
-      "validator": "Codex source-record provenance pass",
-      "validator_type": "agent",
-      "validated_at": "2026-07-02T12:00:00Z",
-      "comment": "Field `AlgorithmASuffixThenPrefixSupportCountLoopData.base` is a source-record container; its nested source record(s) are expanded and judged in this same current source-record audit."
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "AlgorithmASuffixThenPrefixSupportCountLoopData.exactFill_reaches": {
       "classification": "proved_from_primitives",
-      "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
-      "validator": "Codex source-record provenance pass",
-      "validator_type": "agent",
-      "validated_at": "2026-07-02T12:00:00Z",
       "comment": "Field `AlgorithmASuffixThenPrefixSupportCountLoopData.exactFill_reaches` is a proof or invariant component carried by the Lean-checked source record and consumed by DGJ26 theorems through field projection.",
-      "lean_derivation": "Lean-checked field projection `AlgorithmASuffixThenPrefixSupportCountLoopData.exactFill_reaches` from source record `AlgorithmASuffixThenPrefixSupportCountLoopData` in the current source-record audit."
+      "lean_derivation": "Lean-checked field projection `AlgorithmASuffixThenPrefixSupportCountLoopData.exactFill_reaches` from source record `AlgorithmASuffixThenPrefixSupportCountLoopData` in the current source-record audit.",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
+      "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "AlgorithmASuffixThenPrefixSupportCountLoopData.pref": {
       "classification": "nonpropositional_witness_data",
+      "comment": "Field `AlgorithmASuffixThenPrefixSupportCountLoopData.pref` supplies non-propositional witness data or a source-model function of type `Voter → RCVBallot Candidate` rather than a theorem premise.",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
-      "validator": "Codex source-record provenance pass",
-      "validator_type": "agent",
-      "validated_at": "2026-07-02T12:00:00Z",
-      "comment": "Field `AlgorithmASuffixThenPrefixSupportCountLoopData.pref` supplies non-propositional witness data or a source-model function of type `Voter → RCVBallot Candidate` rather than a theorem premise."
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "AlgorithmASuffixThenPrefixSupportCountLoopData.prefix_exhausted": {
       "classification": "proved_from_primitives",
-      "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
-      "validator": "Codex source-record provenance pass",
-      "validator_type": "agent",
-      "validated_at": "2026-07-02T12:00:00Z",
       "comment": "Field `AlgorithmASuffixThenPrefixSupportCountLoopData.prefix_exhausted` is a proof or invariant component carried by the Lean-checked source record and consumed by DGJ26 theorems through field projection.",
-      "lean_derivation": "Lean-checked field projection `AlgorithmASuffixThenPrefixSupportCountLoopData.prefix_exhausted` from source record `AlgorithmASuffixThenPrefixSupportCountLoopData` in the current source-record audit."
+      "lean_derivation": "Lean-checked field projection `AlgorithmASuffixThenPrefixSupportCountLoopData.prefix_exhausted` from source record `AlgorithmASuffixThenPrefixSupportCountLoopData` in the current source-record audit.",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
+      "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     }
-  }
+  },
+  "paper": "DGJ26PracticalDynamicsRCV",
+  "prompt_version": "source-record-v2-semantic-boundary-inputs",
+  "schema": 1,
+  "source_record_audit_sha256": "29c7b0972d8e48e8f658a3569973698b67b07a229b9137c89a8f08aab6bcba52",
+  "validated_at": "2026-07-04T13:39:01Z",
+  "validator": "Codex source-record digest refresh",
+  "validator_type": "agent"
 }

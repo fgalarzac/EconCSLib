@@ -9,7 +9,8 @@ specific root-README instructions.
 - Human-facing docs should be strategic, short, and readable without Lean
   expertise. The top-level `README.md`, paper-root
   `FINAL_VALIDATION_REPORT.md` files, `PaperInterface.lean`, and
-  `docs/DependencyDAG.pdf` are the main human surfaces.
+  `docs/DependencyDAG.pdf` are the main human surfaces. Use
+  `VALIDATION_MODEL.md` to explain status labels.
 - Agent-facing docs may be detailed and operational. This file,
   `docs/ARCHITECTURE.md`, `docs/ECONCSLIB_DOMAIN_INDEX.md`, and
   `skills/econcs-formalizer/` contain workflow rules and implementation
@@ -140,6 +141,10 @@ Completed papers should also have:
 - `MainTheorems.lean`: implementation-level source-faithful wrappers.
 - `PaperInterface.lean`: the single canonical human-review Lean surface, with
   only readable paper definitions and named theorem statements.
+- `AuditInterface.lean`: optional row-level dashboard and LLM audit surface
+  when the complete review surface would make `PaperInterface.lean` too large
+  for human first-read review. If used, set `paper_interface.audit_surface_path`
+  and `review_surface.source_file` in `status.json`.
 - `ProofInterface.lean`: optional implementation-facing theorem endpoint
   surface for broad wrapper families and proof-seam checks.
 - `PostPaperAudit.lean`: exhaustive endpoint ledger when useful.

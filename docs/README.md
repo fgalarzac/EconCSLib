@@ -10,6 +10,8 @@ or what a completed formalization proves without reading proof internals.
 - [../README.md](../README.md): short project overview and review path.
 - [REVIEW_DASHBOARD.md](REVIEW_DASHBOARD.md): theorem-statement review
   dashboard workflow.
+- [VALIDATION_MODEL.md](VALIDATION_MODEL.md): how to read Lean proof status,
+  human statement review, LLM audit status, and public paper labels.
 - [PAPER_STATUS.md](PAPER_STATUS.md): generated paper citation, status labels
   linked to validation reports, human-review, Lean LOC, and note table.
 - `../papers/<PaperName>/status.json`: paper-local machine-readable source of

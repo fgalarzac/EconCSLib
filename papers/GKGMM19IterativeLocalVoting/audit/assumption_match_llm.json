@@ -9,7 +9,17 @@
       "reason": "This declaration bundles the explicit Section 3 source conditions C1-C3: nonempty bounded closed convex solution space, unique ideal points, and bounded measurable density for independently drawn ideal points.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hC : assumption_conditions_c123 E": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This declaration bundles the explicit Section 3 source conditions C1-C3: nonempty bounded closed convex solution space, unique ideal points, and bounded measurable density for independently drawn ideal points.",
+          "source_location": "GKGMM19IterativeLocalVoting source statement for assumption_conditions_c123"
+        }
+      },
+      "premises": [
+        "hC : assumption_conditions_c123 E"
+      ]
     },
     "assumption_expected_subgradient_theorem": {
       "judgment": "partial_boundary",
@@ -19,7 +29,17 @@
       "reason": "This is not a source primitive assumption; it is a theorem-shaped proof boundary for Appendix Theorem 4, now exposed separately so coverage and premise provenance do not silently pass.",
       "validated_at": "2026-06-29T20:39:31Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hExpectedSubgradient : assumption_expected_subgradient_theorem": {
+          "judgment": "partial_boundary",
+          "reason": "Premise inherits the row-level provenance judgment. This is not a source primitive assumption; it is a theorem-shaped proof boundary for Appendix Theorem 4, now exposed separately so coverage and premise provenance do not silently pass.",
+          "source_location": ""
+        }
+      },
+      "premises": [
+        "hExpectedSubgradient : assumption_expected_subgradient_theorem"
+      ]
     },
     "assumption_ssgm_convergence_theorem": {
       "judgment": "partial_boundary",
@@ -29,7 +49,17 @@
       "reason": "This is not a source assumption. It is the single user-approved theorem-shaped proof boundary for the unformalized stochastic subgradient convergence theorem bundle; endpoint consequences are derived separately from this theorem plus the concrete finite-coordinate source model.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hSSGM : assumption_ssgm_convergence_theorem E": {
+          "judgment": "partial_boundary",
+          "reason": "Premise inherits the row-level provenance judgment. This is not a source assumption. It is the single user-approved theorem-shaped proof boundary for the unformalized stochastic subgradient convergence theorem bundle; endpoint consequences are derived separately from this theorem plus the concrete finite-coordinate source model.",
+          "source_location": ""
+        }
+      },
+      "premises": [
+        "hSSGM : assumption_ssgm_convergence_theorem E"
+      ]
     }
   },
   "paper": "GKGMM19IterativeLocalVoting",

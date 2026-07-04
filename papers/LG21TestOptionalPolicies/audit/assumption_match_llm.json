@@ -9,7 +9,23 @@
       "reason": "Lemma 4.1 and downstream observed-access results are stated for source equilibria in the optional-reporting and report-required observed-access games.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hReportEq : paperSourceEquilibrium (lg21FullySpecifiedOptionalReportingSourceEquilibriumData ...)": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma 4.1 and downstream observed-access results are stated for source equilibria in the optional-reporting and report-required observed-access games.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_observed_access_source_equilibria"
+        },
+        "hTakeEq : paperSourceEquilibrium (lg21FullySpecifiedReportRequiredSourceEquilibriumData ...)": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma 4.1 and downstream observed-access results are stated for source equilibria in the optional-reporting and report-required observed-access games.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_observed_access_source_equilibria"
+        }
+      },
+      "premises": [
+        "hReportEq : paperSourceEquilibrium (lg21FullySpecifiedOptionalReportingSourceEquilibriumData ...)",
+        "hTakeEq : paperSourceEquilibrium (lg21FullySpecifiedReportRequiredSourceEquilibriumData ...)"
+      ]
     },
     "assumption_positive_gaussian_domain_conditions": {
       "judgment": "paper_condition",
@@ -19,7 +35,53 @@
       "reason": "Gaussian scales, variances, and posterior-slope parameters are positive domain facts in the source Gaussian model and its Bayesian posterior formulas.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hextraNoiseVar : 0 < extraNoiseVar": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Gaussian scales, variances, and posterior-slope parameters are positive domain facts in the source Gaussian model and its Bayesian posterior formulas.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_positive_gaussian_domain_conditions"
+        },
+        "hlawTestScale : ∀ base : Base, 0 < lawTestScale base": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Gaussian scales, variances, and posterior-slope parameters are positive domain facts in the source Gaussian model and its Bayesian posterior formulas.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_positive_gaussian_domain_conditions"
+        },
+        "hlawTestScale : ∀ base, 0 < lawTestScale base": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Gaussian scales, variances, and posterior-slope parameters are positive domain facts in the source Gaussian model and its Bayesian posterior formulas.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_positive_gaussian_domain_conditions"
+        },
+        "hslope : ∀ base : Base, 0 < slope base": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Gaussian scales, variances, and posterior-slope parameters are positive domain facts in the source Gaussian model and its Bayesian posterior formulas.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_positive_gaussian_domain_conditions"
+        },
+        "hslope : ∀ base, 0 < slope base": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Gaussian scales, variances, and posterior-slope parameters are positive domain facts in the source Gaussian model and its Bayesian posterior formulas.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_positive_gaussian_domain_conditions"
+        },
+        "hslope : ∀ e base, 0 < slope e base": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Gaussian scales, variances, and posterior-slope parameters are positive domain facts in the source Gaussian model and its Bayesian posterior formulas.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_positive_gaussian_domain_conditions"
+        },
+        "htestScale : 0 < testScale": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Gaussian scales, variances, and posterior-slope parameters are positive domain facts in the source Gaussian model and its Bayesian posterior formulas.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_positive_gaussian_domain_conditions"
+        }
+      },
+      "premises": [
+        "hextraNoiseVar : 0 < extraNoiseVar",
+        "hlawTestScale : ∀ base : Base, 0 < lawTestScale base",
+        "hlawTestScale : ∀ base, 0 < lawTestScale base",
+        "hslope : ∀ base : Base, 0 < slope base",
+        "hslope : ∀ base, 0 < slope base",
+        "hslope : ∀ e base, 0 < slope e base",
+        "htestScale : 0 < testScale"
+      ]
     },
     "assumption_section3_access_fraction_domain": {
       "judgment": "paper_condition",
@@ -29,7 +91,23 @@
       "reason": "The Section 3 proof fixes a base-feature cohort and explicitly takes the access share to be an interior fraction. Lean records the nonnegative and below-one parts used by the compact Theorem 3.1 endpoints.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hC_lt_one : ∀ e base, accessFraction e base < 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The Section 3 proof fixes a base-feature cohort and explicitly takes the access share to be an interior fraction. Lean records the nonnegative and below-one parts used by the compact Theorem 3.1 endpoints.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_section3_access_fraction_domain"
+        },
+        "hC_nonneg : ∀ e base, 0 ≤ accessFraction e base": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The Section 3 proof fixes a base-feature cohort and explicitly takes the access share to be an interior fraction. Lean records the nonnegative and below-one parts used by the compact Theorem 3.1 endpoints.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_section3_access_fraction_domain"
+        }
+      },
+      "premises": [
+        "hC_lt_one : ∀ e base, accessFraction e base < 1",
+        "hC_nonneg : ∀ e base, 0 ≤ accessFraction e base"
+      ]
     },
     "assumption_section3_source_equilibrium_instances": {
       "judgment": "paper_condition",
@@ -39,7 +117,23 @@
       "reason": "The Section 3 theorems are statements about every source equilibrium under the optional-reporting or report-required source game.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hEq : ∀ e, paperSourceEquilibrium (lg21OptionalReportingBaseSourceEquilibriumData ...)": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The Section 3 theorems are statements about every source equilibrium under the optional-reporting or report-required source game.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_section3_source_equilibrium_instances"
+        },
+        "hEq : ∀ e, paperSourceEquilibrium (lg21ReportRequiredBaseSourceEquilibriumData ...)": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The Section 3 theorems are statements about every source equilibrium under the optional-reporting or report-required source game.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_section3_source_equilibrium_instances"
+        }
+      },
+      "premises": [
+        "hEq : ∀ e, paperSourceEquilibrium (lg21OptionalReportingBaseSourceEquilibriumData ...)",
+        "hEq : ∀ e, paperSourceEquilibrium (lg21ReportRequiredBaseSourceEquilibriumData ...)"
+      ]
     },
     "assumption_section3_threshold_decision_shapes": {
       "judgment": "paper_condition",
@@ -49,7 +143,23 @@
       "reason": "The paper's Section 3 proof establishes threshold-shaped reporting/taking decisions and the named theorem states finite thresholds in both regimes.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hthreshold : ∀ e base actor, reportDecision e base actor = true ↔ decisionThreshold e base ≤ actor": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper's Section 3 proof establishes threshold-shaped reporting/taking decisions and the named theorem states finite thresholds in both regimes.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_section3_threshold_decision_shapes"
+        },
+        "hthreshold : ∀ e base actor, takeDecision e actor base = true ↔ decisionThreshold e base ≤ actor": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper's Section 3 proof establishes threshold-shaped reporting/taking decisions and the named theorem states finite thresholds in both regimes.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_section3_threshold_decision_shapes"
+        }
+      },
+      "premises": [
+        "hthreshold : ∀ e base actor, reportDecision e base actor = true ↔ decisionThreshold e base ≤ actor",
+        "hthreshold : ∀ e base actor, takeDecision e actor base = true ↔ decisionThreshold e base ≤ actor"
+      ]
     },
     "assumption_section3_zero_positive_event_blank_branch": {
       "judgment": "paper_condition",
@@ -59,7 +169,17 @@
       "reason": "The fairness-impossibility proof splits off the zero-reporter/taker branch as the already-test-blank/no-test-relevance case.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hblank_of_no_positive : ∀ e base, no positive reporter/taker event mass → ∀ test, baseOnlyEstimate e base = fullFeatureEstimate e base test": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The fairness-impossibility proof splits off the zero-reporter/taker branch as the already-test-blank/no-test-relevance case.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_section3_zero_positive_event_blank_branch"
+        }
+      },
+      "premises": [
+        "hblank_of_no_positive : ∀ e base, no positive reporter/taker event mass → ∀ test, baseOnlyEstimate e base = fullFeatureEstimate e base test"
+      ]
     },
     "assumption_source_model_event_and_consistency_predicates": {
       "judgment": "paper_condition",
@@ -69,7 +189,35 @@
       "reason": "The paper's source model contains reporting/taking events and estimation-consistency components of equilibrium; Lean names these predicates explicitly when instantiating the source games.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "estimationConsistent : Equilibrium → Prop": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper's source model contains reporting/taking events and estimation-consistency components of equilibrium; Lean names these predicates explicitly when instantiating the source games.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_source_model_event_and_consistency_predicates"
+        },
+        "reportEstimationConsistent takeEstimationConsistent : Prop": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper's source model contains reporting/taking events and estimation-consistency components of equilibrium; Lean names these predicates explicitly when instantiating the source games.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_source_model_event_and_consistency_predicates"
+        },
+        "reporterEvent : Equilibrium → Base → Student → Prop": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper's source model contains reporting/taking events and estimation-consistency components of equilibrium; Lean names these predicates explicitly when instantiating the source games.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_source_model_event_and_consistency_predicates"
+        },
+        "takerEvent : Equilibrium → Base → Student → Prop": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper's source model contains reporting/taking events and estimation-consistency components of equilibrium; Lean names these predicates explicitly when instantiating the source games.",
+          "source_location": "LG21TestOptionalPolicies source statement for assumption_source_model_event_and_consistency_predicates"
+        }
+      },
+      "premises": [
+        "estimationConsistent : Equilibrium → Prop",
+        "reportEstimationConsistent takeEstimationConsistent : Prop",
+        "reporterEvent : Equilibrium → Base → Student → Prop",
+        "takerEvent : Equilibrium → Base → Student → Prop"
+      ]
     }
   },
   "paper": "LG21TestOptionalPolicies",

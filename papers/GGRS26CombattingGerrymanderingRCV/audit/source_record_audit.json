@@ -1,5 +1,5 @@
 {
-  "boundary_input_count": 4,
+  "boundary_input_count": 2,
   "boundary_input_items": [
     {
       "input": {
@@ -8,7 +8,7 @@
       },
       "judgment_key": "paper_stv_solid_coalition_party_trace_isolation.trace : STVTrace Candidate",
       "kind": "boundary_premise",
-      "lean_source_declaration": "def paper_stv_solid_coalition_party_trace_isolation\n    {Voter Candidate : Type*} [DecidableEq Candidate]\n    (voters : Finset Voter) (ballots : Voter \u2192 Ballot Candidate)\n    (partyCandidates : Finset Candidate) (trace : STVTrace Candidate) : Prop :=\n  \u2200 step, step \u2208 trace.steps \u2192\n    (\u2203 same, same \u2208 partyCandidates \u2227 same \u2208 step.beforeActive) \u2192\n      \u2200 outside, outside \u2209 partyCandidates \u2192\n        (Ballot.activeSupport voters ballots step.beforeActive outside).card = 0",
+      "lean_source_declaration": "def paper_stv_solid_coalition_party_trace_isolation\n    {Voter Candidate : Type*} [DecidableEq Candidate]\n    (voters : Finset Voter) (ballots : Voter → Ballot Candidate)\n    (partyCandidates : Finset Candidate) (trace : STVTrace Candidate) : Prop :=\n  ∀ step, step ∈ trace.steps →\n    (∃ same, same ∈ partyCandidates ∧ same ∈ step.beforeActive) →\n      ∀ outside, outside ∉ partyCandidates →\n        (Ballot.activeSupport voters ballots step.beforeActive outside).card = 0",
       "required_check": "This visible theorem input is boundary-shaped. It needs a specific source statement/primitive or a Lean-checked constructor from paper primitives; the source-looking predicate name is not evidence.",
       "row": "paper_stv_solid_coalition_party_trace_isolation"
     },
@@ -19,51 +19,27 @@
       },
       "judgment_key": "paper_stv_solid_coalition_ballots_party_trace_isolation.trace : STVTrace Candidate",
       "kind": "boundary_premise",
-      "lean_source_declaration": "theorem paper_stv_solid_coalition_ballots_party_trace_isolation\n    {Voter Candidate : Type*} [DecidableEq Candidate]\n    {voters : Finset Voter} {ballots : Voter \u2192 Ballot Candidate}\n    {partyCandidates : Finset Candidate} {trace : STVTrace Candidate}\n    (hsolid : SolidCoalitionBallots voters ballots partyCandidates) :\n    paper_stv_solid_coalition_party_trace_isolation\n      voters ballots partyCandidates trace := by\n  simpa [paper_stv_solid_coalition_party_trace_isolation,\n    NoCrossPartyTransferBeforeExhaustion] using\n    (stvSolidCoalitionBallots_partyTraceIsolation\n      (voters := voters) (ballots := ballots)\n      (partyCandidates := partyCandidates) (trace := trace) hsolid)",
+      "lean_source_declaration": "theorem paper_stv_solid_coalition_ballots_party_trace_isolation\n    {Voter Candidate : Type*} [DecidableEq Candidate]\n    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}\n    {partyCandidates : Finset Candidate} {trace : STVTrace Candidate}\n    (hsolid : SolidCoalitionBallots voters ballots partyCandidates) :\n    paper_stv_solid_coalition_party_trace_isolation\n      voters ballots partyCandidates trace := by\n  simpa [paper_stv_solid_coalition_party_trace_isolation,\n    NoCrossPartyTransferBeforeExhaustion] using\n    (stvSolidCoalitionBallots_partyTraceIsolation\n      (voters := voters) (ballots := ballots)\n      (partyCandidates := partyCandidates) (trace := trace) hsolid)",
       "required_check": "This visible theorem input is boundary-shaped. It needs a specific source statement/primitive or a Lean-checked constructor from paper primitives; the source-looking predicate name is not evidence.",
       "row": "paper_stv_solid_coalition_ballots_party_trace_isolation"
-    },
-    {
-      "input": {
-        "names": "hstv",
-        "type": "paper_stv_solid_coalition_quota_witness_bounds seatCount partyShare seats voters"
-      },
-      "judgment_key": "paper_stv_solid_coalition_quota_witness_bounds_lower_bounds.hstv : paper_stv_solid_coalition_quota_witness_bounds seatCount partyShare seats voters",
-      "kind": "boundary_premise",
-      "lean_source_declaration": "theorem paper_stv_solid_coalition_quota_witness_bounds_lower_bounds\n    {seatCount seats voters : \u2115} {partyShare : \u211d}\n    (hstv :\n      paper_stv_solid_coalition_quota_witness_bounds seatCount partyShare seats voters) :\n    paper_stv_solid_coalition_lower_bounds seatCount partyShare seats := by\n  simpa [paper_stv_solid_coalition_quota_witness_bounds,\n    paper_stv_solid_coalition_lower_bounds,\n    stvSolidCoalitionQuotaWitnessBounds] using\n    (stvSolidCoalitionLowerBounds_of_quotaLowerBounds\n      (seatCount := seatCount) (seats := seats) (voters := voters)\n      (partyShare := partyShare)\n      (stvSolidCoalitionQuotaLowerBounds_of_quotaWitnessBounds hstv))",
-      "required_check": "This visible theorem input is boundary-shaped. It needs a specific source statement/primitive or a Lean-checked constructor from paper primitives; the source-looking predicate name is not evidence.",
-      "row": "paper_stv_solid_coalition_quota_witness_bounds_lower_bounds"
-    },
-    {
-      "input": {
-        "names": "hstv",
-        "type": "paper_stv_solid_coalition_lower_bounds seatCount partyShare seats"
-      },
-      "judgment_key": "paper_stv_solid_coalition_lower_bounds_seat_share_bounds.hstv : paper_stv_solid_coalition_lower_bounds seatCount partyShare seats",
-      "kind": "boundary_premise",
-      "lean_source_declaration": "theorem paper_stv_solid_coalition_lower_bounds_seat_share_bounds\n    {seatCount seats : \u2115} {partyShare : \u211d}\n    (hstv : paper_stv_solid_coalition_lower_bounds seatCount partyShare seats) :\n    paper_stv_seat_share_bounds seatCount partyShare seats := by\n  simpa [paper_stv_solid_coalition_lower_bounds, paper_stv_seat_share_bounds,\n    stvSolidCoalitionLowerBounds] using\n    (stvSeatShareBounds_of_solidCoalitionLowerBounds\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\n      hstv)",
-      "required_check": "This visible theorem input is boundary-shaped. It needs a specific source statement/primitive or a Lean-checked constructor from paper primitives; the source-looking predicate name is not evidence.",
-      "row": "paper_stv_solid_coalition_lower_bounds_seat_share_bounds"
     }
   ],
   "configured_review_row_count": 19,
   "expected_field_judgment_keys": [],
   "expected_input_judgment_keys": [
     "paper_stv_solid_coalition_ballots_party_trace_isolation.trace : STVTrace Candidate",
-    "paper_stv_solid_coalition_lower_bounds_seat_share_bounds.hstv : paper_stv_solid_coalition_lower_bounds seatCount partyShare seats",
-    "paper_stv_solid_coalition_party_trace_isolation.trace : STVTrace Candidate",
-    "paper_stv_solid_coalition_quota_witness_bounds_lower_bounds.hstv : paper_stv_solid_coalition_quota_witness_bounds seatCount partyShare seats voters"
+    "paper_stv_solid_coalition_party_trace_isolation.trace : STVTrace Candidate"
   ],
   "import_module": "GGRS26CombattingGerrymanderingRCV.PaperInterface",
   "lean_check": {
     "command": "lake build GGRS26CombattingGerrymanderingRCV.PaperInterface && lake env lean <generated-source-record-audit-script>",
-    "output": "GGRS26CombattingGerrymanderingRCV.paper_pav_score.{u_1} {Candidate : Type u_1} [DecidableEq Candidate]\n  (committee : Finset Candidate) (profile : List (PartyApprovalBallot Candidate)) : \u211d\n'GGRS26CombattingGerrymanderingRCV.paper_pav_score' depends on axioms: [propext, Classical.choice, Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_pav_seat_score (partyShare : \u211d) (seats seatCount : \u2115) : \u211d\n'GGRS26CombattingGerrymanderingRCV.paper_pav_seat_score' depends on axioms: [propext, Classical.choice, Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_pav_min_argmax (seatCount : \u2115) (partyShare : \u211d) (seats : \u2115) : Prop\n'GGRS26CombattingGerrymanderingRCV.paper_pav_min_argmax' depends on axioms: [propext, Classical.choice, Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_pav_marginal_conditions (seatCount : \u2115) (partyShare : \u211d) (seats : \u2115) : Prop\n'GGRS26CombattingGerrymanderingRCV.paper_pav_marginal_conditions' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_pav_seat_interval (seatCount : \u2115) (partyShare : \u211d) (seats : \u2115) : Prop\n'GGRS26CombattingGerrymanderingRCV.paper_pav_seat_interval' depends on axioms: [propext, Classical.choice, Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_seat_share_rounded (seatCount : \u2115) (partyShare : \u211d) (seats : \u2115) : Prop\n'GGRS26CombattingGerrymanderingRCV.paper_seat_share_rounded' depends on axioms: [propext, Classical.choice, Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_party_trace_isolation.{u_1, u_2} {Voter : Type u_1}\n  {Candidate : Type u_2} [DecidableEq Candidate] (voters : Finset Voter)\n  (ballots : Voter \u2192 EconCSLib.SocialChoice.Voting.Ballot Candidate) (partyCandidates : Finset Candidate)\n  (trace : EconCSLib.SocialChoice.Voting.STVTrace Candidate) : Prop\n'GGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_party_trace_isolation' depends on axioms: [propext,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_quota_witness_bounds (seatCount : \u2115) (partyShare : \u211d)\n  (seats voters : \u2115) : Prop\n'GGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_quota_witness_bounds' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_lower_bounds (seatCount : \u2115) (partyShare : \u211d) (seats : \u2115) :\n  Prop\n'GGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_lower_bounds' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_stv_seat_share_bounds (seatCount : \u2115) (partyShare : \u211d) (seats : \u2115) : Prop\n'GGRS26CombattingGerrymanderingRCV.paper_stv_seat_share_bounds' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_pav_interval_seat_share_rounded {seatCount seats : \u2115} {partyShare : \u211d}\n  (hpos : 0 < partyShare) (hle : partyShare \u2264 1) (hinterval : paper_pav_seat_interval seatCount partyShare seats) :\n  paper_seat_share_rounded seatCount partyShare seats\n'GGRS26CombattingGerrymanderingRCV.paper_pav_interval_seat_share_rounded' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_pav_marginal_conditions_seat_share_rounded {seatCount seats : \u2115}\n  {partyShare : \u211d} (hpos : 0 < partyShare) (hle : partyShare \u2264 1) (hseat : seatCount \u2264 seats)\n  (hmarg : paper_pav_marginal_conditions seatCount partyShare seats) :\n  paper_seat_share_rounded seatCount partyShare seats\n'GGRS26CombattingGerrymanderingRCV.paper_pav_marginal_conditions_seat_share_rounded' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_pav_min_argmax_seat_interval {seatCount seats : \u2115} {partyShare : \u211d}\n  (hpos : 0 < partyShare) (hle : partyShare \u2264 1) (hmin : paper_pav_min_argmax seatCount partyShare seats) :\n  paper_pav_seat_interval seatCount partyShare seats\n'GGRS26CombattingGerrymanderingRCV.paper_pav_min_argmax_seat_interval' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_pav_min_argmax_seat_share_rounded {seatCount seats : \u2115} {partyShare : \u211d}\n  (hpos : 0 < partyShare) (hle : partyShare \u2264 1) (hmin : paper_pav_min_argmax seatCount partyShare seats) :\n  paper_seat_share_rounded seatCount partyShare seats\n'GGRS26CombattingGerrymanderingRCV.paper_pav_min_argmax_seat_share_rounded' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_ballots_party_trace_isolation.{u_1, u_2} {Voter : Type u_1}\n  {Candidate : Type u_2} [DecidableEq Candidate] {voters : Finset Voter}\n  {ballots : Voter \u2192 EconCSLib.SocialChoice.Voting.Ballot Candidate} {partyCandidates : Finset Candidate}\n  {trace : EconCSLib.SocialChoice.Voting.STVTrace Candidate}\n  (hsolid : EconCSLib.SocialChoice.Voting.SolidCoalitionBallots voters ballots partyCandidates) :\n  paper_stv_solid_coalition_party_trace_isolation voters ballots partyCandidates trace\n'GGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_ballots_party_trace_isolation' depends on axioms: [propext,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_stv_quota_floors_fit {seats voters : \u2115} {partyShare : \u211d}\n  (hshare_nonneg : 0 \u2264 partyShare) (hshare_le : partyShare \u2264 1) :\n  \u230apartyShare * (\u2191voters / \u2191(EconCSLib.SocialChoice.Voting.STVQuota seats voters))\u230b\u208a +\n      \u230a(1 - partyShare) * (\u2191voters / \u2191(EconCSLib.SocialChoice.Voting.STVQuota seats voters))\u230b\u208a \u2264\n    seats\n'GGRS26CombattingGerrymanderingRCV.paper_stv_quota_floors_fit' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_quota_witness_bounds_lower_bounds\n  {seatCount seats voters : \u2115} {partyShare : \u211d}\n  (hstv : paper_stv_solid_coalition_quota_witness_bounds seatCount partyShare seats voters) :\n  paper_stv_solid_coalition_lower_bounds seatCount partyShare seats\n'GGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_quota_witness_bounds_lower_bounds' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_lower_bounds_seat_share_bounds {seatCount seats : \u2115}\n  {partyShare : \u211d} (hstv : paper_stv_solid_coalition_lower_bounds seatCount partyShare seats) :\n  paper_stv_seat_share_bounds seatCount partyShare seats\n'GGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_lower_bounds_seat_share_bounds' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax.{u_1,\n    u_2}\n  {Voter : Type u_1} {Candidate : Type u_2} [DecidableEq Voter] [DecidableEq Candidate]\n  (choice : EconCSLib.SocialChoice.Voting.FractionalSTVChoiceRule Candidate)\n  {partyVoters otherPartyVoters allVoters : Finset Voter}\n  {ballots : Voter \u2192 EconCSLib.SocialChoice.Voting.Ballot Candidate}\n  {partyCandidates otherPartyCandidates initialActive : Finset Candidate}\n  (initialWeight partyInitialWeight otherPartyInitialWeight : Voter \u2192 \u211d) {pavSeatCount seats voters : \u2115}\n  {partyShare : \u211d} (hpos : 0 < partyShare) (hle : partyShare \u2264 1) (hvoters : seats * (seats + 1) \u2264 voters)\n  (htotalChoice : choice.Total)\n  (hchoiceRespect : choice.QuotaRespecting \u2191(EconCSLib.SocialChoice.Voting.STVQuota seats voters))\n  (hpartyCandidates : seats \u2264 partyCandidates.card) (hotherPartyCandidates : seats \u2264 otherPartyCandidates.card)\n  (hpartySolid : EconCSLib.SocialChoice.Voting.SolidCoalitionBallots partyVoters ballots partyCandidates)\n  (hotherSolid : EconCSLib.SocialChoice.Voting.SolidCoalitionBallots otherPartyVoters ballots otherPartyCandidates)\n  (hinitialWeightNonneg : \u2200 voter \u2208 allVoters, 0 \u2264 initialWeight voter)\n  (hinitialTotalMass : \u2191voters = \u2211 voter \u2208 allVoters, initialWeight voter)\n  (hvoterPartition : allVoters = partyVoters \u222a otherPartyVoters)\n  (hvoterDisjoint : Disjoint partyVoters otherPartyVoters)\n  (hcandidateDisjoint : Disjoint partyCandidates otherPartyCandidates)\n  (hpartyInitialActive : partyCandidates \u2286 initialActive) (hotherInitialActive : otherPartyCandidates \u2286 initialActive)\n  (hinitialActiveSubset : initialActive \u2286 partyCandidates \u222a otherPartyCandidates)\n  (hpartyInitialWeightEq : \u2200 voter \u2208 partyVoters, initialWeight voter = partyInitialWeight voter)\n  (hotherInitialWeightEq : \u2200 voter \u2208 otherPartyVoters, initialWeight voter = otherPartyInitialWeight voter)\n  (hpartyInitialMass : partyShare * \u2191voters = \u2211 voter \u2208 partyVoters, partyInitialWeight voter)\n  (hotherInitialMass : (1 - partyShare) * \u2191voters = \u2211 voter \u2208 otherPartyVoters, otherPartyInitialWeight voter)\n  (hpav : paper_pav_min_argmax pavSeatCount partyShare seats) :\n  paper_seat_share_rounded\n      (EconCSLib.SocialChoice.Voting.partyFilledSeatCount partyCandidates seats\n        (EconCSLib.SocialChoice.Voting.fractionalSTVFilledSeatRunTrace choice allVoters ballots\n            (\u2191(EconCSLib.SocialChoice.Voting.STVQuota seats voters)) seats initialActive.card 0 initialActive\n            initialWeight).steps\n        (EconCSLib.SocialChoice.Voting.fractionalSTVFilledSeatRunTerminalActive choice allVoters ballots\n          (\u2191(EconCSLib.SocialChoice.Voting.STVQuota seats voters)) seats initialActive.card 0 initialActive\n          initialWeight))\n      partyShare seats \u2227\n    paper_seat_share_rounded pavSeatCount partyShare seats\n'GGRS26CombattingGerrymanderingRCV.paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\n",
+    "output": "GGRS26CombattingGerrymanderingRCV.paper_pav_score.{u_1} {Candidate : Type u_1} [DecidableEq Candidate]\n  (committee : Finset Candidate) (profile : List (PartyApprovalBallot Candidate)) : ℝ\n'GGRS26CombattingGerrymanderingRCV.paper_pav_score' depends on axioms: [propext, Classical.choice, Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_pav_seat_score (partyShare : ℝ) (seats seatCount : ℕ) : ℝ\n'GGRS26CombattingGerrymanderingRCV.paper_pav_seat_score' depends on axioms: [propext, Classical.choice, Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_pav_min_argmax (seatCount : ℕ) (partyShare : ℝ) (seats : ℕ) : Prop\n'GGRS26CombattingGerrymanderingRCV.paper_pav_min_argmax' depends on axioms: [propext, Classical.choice, Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_pav_marginal_conditions (seatCount : ℕ) (partyShare : ℝ) (seats : ℕ) : Prop\n'GGRS26CombattingGerrymanderingRCV.paper_pav_marginal_conditions' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_pav_seat_interval (seatCount : ℕ) (partyShare : ℝ) (seats : ℕ) : Prop\n'GGRS26CombattingGerrymanderingRCV.paper_pav_seat_interval' depends on axioms: [propext, Classical.choice, Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_seat_share_rounded (seatCount : ℕ) (partyShare : ℝ) (seats : ℕ) : Prop\n'GGRS26CombattingGerrymanderingRCV.paper_seat_share_rounded' depends on axioms: [propext, Classical.choice, Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_party_trace_isolation.{u_1, u_2} {Voter : Type u_1}\n  {Candidate : Type u_2} [DecidableEq Candidate] (voters : Finset Voter)\n  (ballots : Voter → EconCSLib.SocialChoice.Voting.Ballot Candidate) (partyCandidates : Finset Candidate)\n  (trace : EconCSLib.SocialChoice.Voting.STVTrace Candidate) : Prop\n'GGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_party_trace_isolation' depends on axioms: [propext,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_quota_witness_bounds (seatCount : ℕ) (partyShare : ℝ)\n  (seats voters : ℕ) : Prop\n'GGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_quota_witness_bounds' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_lower_bounds (seatCount : ℕ) (partyShare : ℝ) (seats : ℕ) :\n  Prop\n'GGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_lower_bounds' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_stv_seat_share_bounds (seatCount : ℕ) (partyShare : ℝ) (seats : ℕ) : Prop\n'GGRS26CombattingGerrymanderingRCV.paper_stv_seat_share_bounds' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_pav_interval_seat_share_rounded {seatCount seats : ℕ} {partyShare : ℝ}\n  (hpos : 0 < partyShare) (hle : partyShare ≤ 1) (hinterval : paper_pav_seat_interval seatCount partyShare seats) :\n  paper_seat_share_rounded seatCount partyShare seats\n'GGRS26CombattingGerrymanderingRCV.paper_pav_interval_seat_share_rounded' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_pav_marginal_conditions_seat_share_rounded {seatCount seats : ℕ}\n  {partyShare : ℝ} (hpos : 0 < partyShare) (hle : partyShare ≤ 1) (hseat : seatCount ≤ seats)\n  (hmarg : paper_pav_marginal_conditions seatCount partyShare seats) :\n  paper_seat_share_rounded seatCount partyShare seats\n'GGRS26CombattingGerrymanderingRCV.paper_pav_marginal_conditions_seat_share_rounded' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_pav_min_argmax_seat_interval {seatCount seats : ℕ} {partyShare : ℝ}\n  (hpos : 0 < partyShare) (hle : partyShare ≤ 1) (hmin : paper_pav_min_argmax seatCount partyShare seats) :\n  paper_pav_seat_interval seatCount partyShare seats\n'GGRS26CombattingGerrymanderingRCV.paper_pav_min_argmax_seat_interval' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_pav_min_argmax_seat_share_rounded {seatCount seats : ℕ} {partyShare : ℝ}\n  (hpos : 0 < partyShare) (hle : partyShare ≤ 1) (hmin : paper_pav_min_argmax seatCount partyShare seats) :\n  paper_seat_share_rounded seatCount partyShare seats\n'GGRS26CombattingGerrymanderingRCV.paper_pav_min_argmax_seat_share_rounded' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_ballots_party_trace_isolation.{u_1, u_2} {Voter : Type u_1}\n  {Candidate : Type u_2} [DecidableEq Candidate] {voters : Finset Voter}\n  {ballots : Voter → EconCSLib.SocialChoice.Voting.Ballot Candidate} {partyCandidates : Finset Candidate}\n  {trace : EconCSLib.SocialChoice.Voting.STVTrace Candidate}\n  (hsolid : EconCSLib.SocialChoice.Voting.SolidCoalitionBallots voters ballots partyCandidates) :\n  paper_stv_solid_coalition_party_trace_isolation voters ballots partyCandidates trace\n'GGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_ballots_party_trace_isolation' depends on axioms: [propext,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_stv_quota_floors_fit {seats voters : ℕ} {partyShare : ℝ}\n  (hshare_nonneg : 0 ≤ partyShare) (hshare_le : partyShare ≤ 1) :\n  ⌊partyShare * (↑voters / ↑(EconCSLib.SocialChoice.Voting.STVQuota seats voters))⌋₊ +\n      ⌊(1 - partyShare) * (↑voters / ↑(EconCSLib.SocialChoice.Voting.STVQuota seats voters))⌋₊ ≤\n    seats\n'GGRS26CombattingGerrymanderingRCV.paper_stv_quota_floors_fit' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_quota_witness_bounds_lower_bounds\n  {seatCount seats voters : ℕ} {partyShare : ℝ}\n  (hstv : paper_stv_solid_coalition_quota_witness_bounds seatCount partyShare seats voters) :\n  paper_stv_solid_coalition_lower_bounds seatCount partyShare seats\n'GGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_quota_witness_bounds_lower_bounds' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_lower_bounds_seat_share_bounds {seatCount seats : ℕ}\n  {partyShare : ℝ} (hstv : paper_stv_solid_coalition_lower_bounds seatCount partyShare seats) :\n  paper_stv_seat_share_bounds seatCount partyShare seats\n'GGRS26CombattingGerrymanderingRCV.paper_stv_solid_coalition_lower_bounds_seat_share_bounds' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nGGRS26CombattingGerrymanderingRCV.paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax.{u_1,\n    u_2}\n  {Voter : Type u_1} {Candidate : Type u_2} [DecidableEq Voter] [DecidableEq Candidate]\n  (choice : EconCSLib.SocialChoice.Voting.FractionalSTVChoiceRule Candidate)\n  {partyVoters otherPartyVoters allVoters : Finset Voter}\n  {ballots : Voter → EconCSLib.SocialChoice.Voting.Ballot Candidate}\n  {partyCandidates otherPartyCandidates initialActive : Finset Candidate}\n  (initialWeight partyInitialWeight otherPartyInitialWeight : Voter → ℝ) {pavSeatCount seats voters : ℕ}\n  {partyShare : ℝ} (hpos : 0 < partyShare) (hle : partyShare ≤ 1) (hvoters : seats * (seats + 1) ≤ voters)\n  (htotalChoice : choice.Total)\n  (hchoiceRespect : choice.QuotaRespecting ↑(EconCSLib.SocialChoice.Voting.STVQuota seats voters))\n  (hpartyCandidates : seats ≤ partyCandidates.card) (hotherPartyCandidates : seats ≤ otherPartyCandidates.card)\n  (hpartySolid : EconCSLib.SocialChoice.Voting.SolidCoalitionBallots partyVoters ballots partyCandidates)\n  (hotherSolid : EconCSLib.SocialChoice.Voting.SolidCoalitionBallots otherPartyVoters ballots otherPartyCandidates)\n  (hinitialWeightNonneg : ∀ voter ∈ allVoters, 0 ≤ initialWeight voter)\n  (hinitialTotalMass : ↑voters = ∑ voter ∈ allVoters, initialWeight voter)\n  (hvoterPartition : allVoters = partyVoters ∪ otherPartyVoters)\n  (hvoterDisjoint : Disjoint partyVoters otherPartyVoters)\n  (hcandidateDisjoint : Disjoint partyCandidates otherPartyCandidates)\n  (hpartyInitialActive : partyCandidates ⊆ initialActive) (hotherInitialActive : otherPartyCandidates ⊆ initialActive)\n  (hinitialActiveSubset : initialActive ⊆ partyCandidates ∪ otherPartyCandidates)\n  (hpartyInitialWeightEq : ∀ voter ∈ partyVoters, initialWeight voter = partyInitialWeight voter)\n  (hotherInitialWeightEq : ∀ voter ∈ otherPartyVoters, initialWeight voter = otherPartyInitialWeight voter)\n  (hpartyInitialMass : partyShare * ↑voters = ∑ voter ∈ partyVoters, partyInitialWeight voter)\n  (hotherInitialMass : (1 - partyShare) * ↑voters = ∑ voter ∈ otherPartyVoters, otherPartyInitialWeight voter)\n  (hpav : paper_pav_min_argmax pavSeatCount partyShare seats) :\n  paper_seat_share_rounded\n      (EconCSLib.SocialChoice.Voting.partyFilledSeatCount partyCandidates seats\n        (EconCSLib.SocialChoice.Voting.fractionalSTVFilledSeatRunTrace choice allVoters ballots\n            (↑(EconCSLib.SocialChoice.Voting.STVQuota seats voters)) seats initialActive.card 0 initialActive\n            initialWeight).steps\n        (EconCSLib.SocialChoice.Voting.fractionalSTVFilledSeatRunTerminalActive choice allVoters ballots\n          (↑(EconCSLib.SocialChoice.Voting.STVQuota seats voters)) seats initialActive.card 0 initialActive\n          initialWeight))\n      partyShare seats ∧\n    paper_seat_share_rounded pavSeatCount partyShare seats\n'GGRS26CombattingGerrymanderingRCV.paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\n",
     "returncode": 0,
     "truncated": false
   },
-  "llm_judge_prompt": "You are auditing Lean formalization provenance, not just theorem text.\nPaper: GGRS26CombattingGerrymanderingRCV\n\nFor each item below, compare the original paper source statement/proof text with the Lean-checked statement and the dependency path. Scrutinize every visible theorem input semantically: names and source-looking type suffixes are only routing hints, not evidence. Do not approve by theorem label, phrase overlap, or source-looking Lean name. Each input must correspond to a specific paper primitive/source assumption, be derived by a Lean-checked constructor from paper primitives, be an approved external boundary, or remain an unresolved conditional/partial boundary. In particular, any Certificate, Replay, Process, or Bridge input needs a specific source statement or an instantiation path from the paper's primitive model; do not accept it merely because the final theorem name resembles the paper claim.\n\nClassify the item as one of: proved_from_primitives, validated_source_assumption, approved_external_boundary, container_recursively_audited, derived_consequence_record, nonpropositional_witness_data, or unresolved_assumed_math. Use container_recursively_audited only for a field whose type is another audited record/source/certificate and whose nested fields are separately judged; do not use it for a field whose type is a mathematical proposition or formula. Use derived_consequence_record only for fields of a theorem-output/consequence record whose constructor proof is separately checked and whose premise records are separately audited. Use nonpropositional_witness_data only for bare data witnesses (for example a chosen stream, cost function, gradient/noise/bias function, or projection function) whose type is not proposition-valued and does not itself state an equality, recurrence, optimality, measurability, convergence, continuity, or response/trajectory semantics. The proposition-valued fields that constrain that witness must still be classified separately. Mark unresolved_assumed_math if the Lean row merely takes a record/certificate/replay/process/bridge/source-model field that states convexity, response semantics, trace/replay validity, transfer preservation, trajectory generation, continuity, convergence, equilibrium, or a displayed formula that should be derived. Do not mark a field as proved just because Lean typechecks a projection from a structure premise.\n\n[\n  {\n    \"input\": {\n      \"names\": \"trace\",\n      \"type\": \"STVTrace Candidate\"\n    },\n    \"judgment_key\": \"paper_stv_solid_coalition_party_trace_isolation.trace : STVTrace Candidate\",\n    \"kind\": \"boundary_premise\",\n    \"lean_source_declaration\": \"def paper_stv_solid_coalition_party_trace_isolation\\n    {Voter Candidate : Type*} [DecidableEq Candidate]\\n    (voters : Finset Voter) (ballots : Voter \\u2192 Ballot Candidate)\\n    (partyCandidates : Finset Candidate) (trace : STVTrace Candidate) : Prop :=\\n  \\u2200 step, step \\u2208 trace.steps \\u2192\\n    (\\u2203 same, same \\u2208 partyCandidates \\u2227 same \\u2208 step.beforeActive) \\u2192\\n      \\u2200 outside, outside \\u2209 partyCandidates \\u2192\\n        (Ballot.activeSupport voters ballots step.beforeActive outside).card = 0\",\n    \"required_check\": \"This visible theorem input is boundary-shaped. It needs a specific source statement/primitive or a Lean-checked constructor from paper primitives; the source-looking predicate name is not evidence.\",\n    \"row\": \"paper_stv_solid_coalition_party_trace_isolation\"\n  },\n  {\n    \"input\": {\n      \"names\": \"trace\",\n      \"type\": \"STVTrace Candidate\"\n    },\n    \"judgment_key\": \"paper_stv_solid_coalition_ballots_party_trace_isolation.trace : STVTrace Candidate\",\n    \"kind\": \"boundary_premise\",\n    \"lean_source_declaration\": \"theorem paper_stv_solid_coalition_ballots_party_trace_isolation\\n    {Voter Candidate : Type*} [DecidableEq Candidate]\\n    {voters : Finset Voter} {ballots : Voter \\u2192 Ballot Candidate}\\n    {partyCandidates : Finset Candidate} {trace : STVTrace Candidate}\\n    (hsolid : SolidCoalitionBallots voters ballots partyCandidates) :\\n    paper_stv_solid_coalition_party_trace_isolation\\n      voters ballots partyCandidates trace := by\\n  simpa [paper_stv_solid_coalition_party_trace_isolation,\\n    NoCrossPartyTransferBeforeExhaustion] using\\n    (stvSolidCoalitionBallots_partyTraceIsolation\\n      (voters := voters) (ballots := ballots)\\n      (partyCandidates := partyCandidates) (trace := trace) hsolid)\",\n    \"required_check\": \"This visible theorem input is boundary-shaped. It needs a specific source statement/primitive or a Lean-checked constructor from paper primitives; the source-looking predicate name is not evidence.\",\n    \"row\": \"paper_stv_solid_coalition_ballots_party_trace_isolation\"\n  },\n  {\n    \"input\": {\n      \"names\": \"hstv\",\n      \"type\": \"paper_stv_solid_coalition_quota_witness_bounds seatCount partyShare seats voters\"\n    },\n    \"judgment_key\": \"paper_stv_solid_coalition_quota_witness_bounds_lower_bounds.hstv : paper_stv_solid_coalition_quota_witness_bounds seatCount partyShare seats voters\",\n    \"kind\": \"boundary_premise\",\n    \"lean_source_declaration\": \"theorem paper_stv_solid_coalition_quota_witness_bounds_lower_bounds\\n    {seatCount seats voters : \\u2115} {partyShare : \\u211d}\\n    (hstv :\\n      paper_stv_solid_coalition_quota_witness_bounds seatCount partyShare seats voters) :\\n    paper_stv_solid_coalition_lower_bounds seatCount partyShare seats := by\\n  simpa [paper_stv_solid_coalition_quota_witness_bounds,\\n    paper_stv_solid_coalition_lower_bounds,\\n    stvSolidCoalitionQuotaWitnessBounds] using\\n    (stvSolidCoalitionLowerBounds_of_quotaLowerBounds\\n      (seatCount := seatCount) (seats := seats) (voters := voters)\\n      (partyShare := partyShare)\\n      (stvSolidCoalitionQuotaLowerBounds_of_quotaWitnessBounds hstv))\",\n    \"required_check\": \"This visible theorem input is boundary-shaped. It needs a specific source statement/primitive or a Lean-checked constructor from paper primitives; the source-looking predicate name is not evidence.\",\n    \"row\": \"paper_stv_solid_coalition_quota_witness_bounds_lower_bounds\"\n  },\n  {\n    \"input\": {\n      \"names\": \"hstv\",\n      \"type\": \"paper_stv_solid_coalition_lower_bounds seatCount partyShare seats\"\n    },\n    \"judgment_key\": \"paper_stv_solid_coalition_lower_bounds_seat_share_bounds.hstv : paper_stv_solid_coalition_lower_bounds seatCount partyShare seats\",\n    \"kind\": \"boundary_premise\",\n    \"lean_source_declaration\": \"theorem paper_stv_solid_coalition_lower_bounds_seat_share_bounds\\n    {seatCount seats : \\u2115} {partyShare : \\u211d}\\n    (hstv : paper_stv_solid_coalition_lower_bounds seatCount partyShare seats) :\\n    paper_stv_seat_share_bounds seatCount partyShare seats := by\\n  simpa [paper_stv_solid_coalition_lower_bounds, paper_stv_seat_share_bounds,\\n    stvSolidCoalitionLowerBounds] using\\n    (stvSeatShareBounds_of_solidCoalitionLowerBounds\\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\\n      hstv)\",\n    \"required_check\": \"This visible theorem input is boundary-shaped. It needs a specific source statement/primitive or a Lean-checked constructor from paper primitives; the source-looking predicate name is not evidence.\",\n    \"row\": \"paper_stv_solid_coalition_lower_bounds_seat_share_bounds\"\n  },\n  {\n    \"lean_source_declaration\": \"noncomputable def paper_pav_score {Candidate : Type*} [DecidableEq Candidate]\\n    (committee : Finset Candidate) (profile : List (PartyApprovalBallot Candidate)) : \\u211d :=\\n  partyPAVScore committee profile\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_score\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"Candidate\",\n        \"type\": \"Type*\"\n      },\n      {\n        \"names\": \"committee\",\n        \"type\": \"Finset Candidate\"\n      },\n      {\n        \"names\": \"profile\",\n        \"type\": \"List (PartyApprovalBallot Candidate)\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"noncomputable def paper_pav_seat_score (partyShare : \\u211d) (seats seatCount : \\u2115) : \\u211d :=\\n  partyShare * pavHarmonicSum seatCount +\\n    (1 - partyShare) * pavHarmonicSum (seats - seatCount)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_seat_score\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"seats seatCount\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def paper_pav_min_argmax (seatCount : \\u2115) (partyShare : \\u211d) (seats : \\u2115) : Prop :=\\n  seatCount \\u2264 seats \\u2227\\n    (\\u2200 candidate, candidate \\u2264 seats \\u2192\\n      paper_pav_seat_score partyShare seats candidate \\u2264\\n        paper_pav_seat_score partyShare seats seatCount) \\u2227\\n    (\\u2200 candidate, candidate \\u2264 seats \\u2192\\n      paper_pav_seat_score partyShare seats candidate =\\n        paper_pav_seat_score partyShare seats seatCount \\u2192\\n      seatCount \\u2264 candidate)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_min_argmax\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"seats\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def paper_pav_marginal_conditions (seatCount : \\u2115) (partyShare : \\u211d)\\n    (seats : \\u2115) : Prop :=\\n  pavSeatMarginalConditions seatCount partyShare seats\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_marginal_conditions\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"seats\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def paper_pav_seat_interval (seatCount : \\u2115) (partyShare : \\u211d) (seats : \\u2115) : Prop :=\\n  pavSeatInterval seatCount partyShare seats\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_seat_interval\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"seats\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def paper_seat_share_rounded (seatCount : \\u2115) (partyShare : \\u211d) (seats : \\u2115) : Prop :=\\n  seatShareRounded seatCount partyShare seats\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_seat_share_rounded\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"seats\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def paper_stv_solid_coalition_party_trace_isolation\\n    {Voter Candidate : Type*} [DecidableEq Candidate]\\n    (voters : Finset Voter) (ballots : Voter \\u2192 Ballot Candidate)\\n    (partyCandidates : Finset Candidate) (trace : STVTrace Candidate) : Prop :=\\n  \\u2200 step, step \\u2208 trace.steps \\u2192\\n    (\\u2203 same, same \\u2208 partyCandidates \\u2227 same \\u2208 step.beforeActive) \\u2192\\n      \\u2200 outside, outside \\u2209 partyCandidates \\u2192\\n        (Ballot.activeSupport voters ballots step.beforeActive outside).card = 0\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_stv_solid_coalition_party_trace_isolation\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"Voter Candidate\",\n        \"type\": \"Type*\"\n      },\n      {\n        \"names\": \"voters\",\n        \"type\": \"Finset Voter\"\n      },\n      {\n        \"names\": \"ballots\",\n        \"type\": \"Voter \\u2192 Ballot Candidate\"\n      },\n      {\n        \"names\": \"partyCandidates\",\n        \"type\": \"Finset Candidate\"\n      },\n      {\n        \"names\": \"trace\",\n        \"type\": \"STVTrace Candidate\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def paper_stv_solid_coalition_quota_witness_bounds (seatCount : \\u2115)\\n    (partyShare : \\u211d) (seats voters : \\u2115) : Prop :=\\n  stvSolidCoalitionQuotaWitnessBounds seatCount partyShare seats voters\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_stv_solid_coalition_quota_witness_bounds\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"seats voters\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def paper_stv_solid_coalition_lower_bounds (seatCount : \\u2115) (partyShare : \\u211d)\\n    (seats : \\u2115) :\\n    Prop :=\\n  stvSolidCoalitionLowerBounds seatCount partyShare seats\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_stv_solid_coalition_lower_bounds\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"seats\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def paper_stv_seat_share_bounds (seatCount : \\u2115) (partyShare : \\u211d) (seats : \\u2115) :\\n    Prop :=\\n  stvSeatShareBounds seatCount partyShare seats\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_stv_seat_share_bounds\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"seats\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_pav_interval_seat_share_rounded {seatCount seats : \\u2115} {partyShare : \\u211d}\\n    (hpos : 0 < partyShare) (hle : partyShare \\u2264 1)\\n    (hinterval : paper_pav_seat_interval seatCount partyShare seats) :\\n    paper_seat_share_rounded seatCount partyShare seats := by\\n  simpa [paper_pav_seat_interval, paper_seat_share_rounded] using\\n    (pavSeatInterval_seatShareRounded\\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\\n      hpos hle hinterval)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_interval_seat_share_rounded\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount seats\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"hpos\",\n        \"type\": \"0 < partyShare\"\n      },\n      {\n        \"names\": \"hle\",\n        \"type\": \"partyShare \\u2264 1\"\n      },\n      {\n        \"names\": \"hinterval\",\n        \"type\": \"paper_pav_seat_interval seatCount partyShare seats\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_pav_marginal_conditions_seat_share_rounded {seatCount seats : \\u2115}\\n    {partyShare : \\u211d}\\n    (hpos : 0 < partyShare) (hle : partyShare \\u2264 1) (hseat : seatCount \\u2264 seats)\\n    (hmarg : paper_pav_marginal_conditions seatCount partyShare seats) :\\n    paper_seat_share_rounded seatCount partyShare seats := by\\n  simpa [paper_pav_marginal_conditions, paper_seat_share_rounded] using\\n    (pavSeatMarginalConditions_seatShareRounded\\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\\n      hpos hle hseat hmarg)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_marginal_conditions_seat_share_rounded\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount seats\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"hpos\",\n        \"type\": \"0 < partyShare\"\n      },\n      {\n        \"names\": \"hle\",\n        \"type\": \"partyShare \\u2264 1\"\n      },\n      {\n        \"names\": \"hseat\",\n        \"type\": \"seatCount \\u2264 seats\"\n      },\n      {\n        \"names\": \"hmarg\",\n        \"type\": \"paper_pav_marginal_conditions seatCount partyShare seats\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_pav_min_argmax_seat_interval {seatCount seats : \\u2115}\\n    {partyShare : \\u211d}\\n    (hpos : 0 < partyShare) (hle : partyShare \\u2264 1)\\n    (hmin : paper_pav_min_argmax seatCount partyShare seats) :\\n    paper_pav_seat_interval seatCount partyShare seats := by\\n  simpa [paper_pav_min_argmax, paper_pav_seat_score, paper_pav_seat_interval,\\n    pavSeatMinArgmax, pavSeatScore, pavSeatInterval] using\\n    (pavSeatMinArgmax_seatInterval\\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\\n      hpos hle hmin)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_min_argmax_seat_interval\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount seats\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"hpos\",\n        \"type\": \"0 < partyShare\"\n      },\n      {\n        \"names\": \"hle\",\n        \"type\": \"partyShare \\u2264 1\"\n      },\n      {\n        \"names\": \"hmin\",\n        \"type\": \"paper_pav_min_argmax seatCount partyShare seats\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_pav_min_argmax_seat_share_rounded {seatCount seats : \\u2115}\\n    {partyShare : \\u211d}\\n    (hpos : 0 < partyShare) (hle : partyShare \\u2264 1)\\n    (hmin : paper_pav_min_argmax seatCount partyShare seats) :\\n    paper_seat_share_rounded seatCount partyShare seats := by\\n  simpa [paper_pav_min_argmax, paper_pav_seat_score, paper_seat_share_rounded,\\n    pavSeatMinArgmax, pavSeatScore, seatShareRounded] using\\n    (pavSeatMinArgmax_seatShareRounded\\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\\n      hpos hle hmin)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_min_argmax_seat_share_rounded\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount seats\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"hpos\",\n        \"type\": \"0 < partyShare\"\n      },\n      {\n        \"names\": \"hle\",\n        \"type\": \"partyShare \\u2264 1\"\n      },\n      {\n        \"names\": \"hmin\",\n        \"type\": \"paper_pav_min_argmax seatCount partyShare seats\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_stv_solid_coalition_ballots_party_trace_isolation\\n    {Voter Candidate : Type*} [DecidableEq Candidate]\\n    {voters : Finset Voter} {ballots : Voter \\u2192 Ballot Candidate}\\n    {partyCandidates : Finset Candidate} {trace : STVTrace Candidate}\\n    (hsolid : SolidCoalitionBallots voters ballots partyCandidates) :\\n    paper_stv_solid_coalition_party_trace_isolation\\n      voters ballots partyCandidates trace := by\\n  simpa [paper_stv_solid_coalition_party_trace_isolation,\\n    NoCrossPartyTransferBeforeExhaustion] using\\n    (stvSolidCoalitionBallots_partyTraceIsolation\\n      (voters := voters) (ballots := ballots)\\n      (partyCandidates := partyCandidates) (trace := trace) hsolid)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_stv_solid_coalition_ballots_party_trace_isolation\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"Voter Candidate\",\n        \"type\": \"Type*\"\n      },\n      {\n        \"names\": \"voters\",\n        \"type\": \"Finset Voter\"\n      },\n      {\n        \"names\": \"ballots\",\n        \"type\": \"Voter \\u2192 Ballot Candidate\"\n      },\n      {\n        \"names\": \"partyCandidates\",\n        \"type\": \"Finset Candidate\"\n      },\n      {\n        \"names\": \"trace\",\n        \"type\": \"STVTrace Candidate\"\n      },\n      {\n        \"names\": \"hsolid\",\n        \"type\": \"SolidCoalitionBallots voters ballots partyCandidates\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_stv_quota_floors_fit {seats voters : \\u2115} {partyShare : \\u211d}\\n    (hshare_nonneg : 0 \\u2264 partyShare) (hshare_le : partyShare \\u2264 1) :\\n    \\u230apartyShare * ((voters : \\u211d) / (STVQuota seats voters : \\u211d))\\u230b\\u208a +\\n        \\u230a(1 - partyShare) *\\n          ((voters : \\u211d) / (STVQuota seats voters : \\u211d))\\u230b\\u208a \\u2264 seats :=\\n  stvTwoPartyQuotaFloors_sum_le_seats hshare_nonneg hshare_le\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_stv_quota_floors_fit\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seats voters\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"hshare_nonneg\",\n        \"type\": \"0 \\u2264 partyShare\"\n      },\n      {\n        \"names\": \"hshare_le\",\n        \"type\": \"partyShare \\u2264 1\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_stv_solid_coalition_quota_witness_bounds_lower_bounds\\n    {seatCount seats voters : \\u2115} {partyShare : \\u211d}\\n    (hstv :\\n      paper_stv_solid_coalition_quota_witness_bounds seatCount partyShare seats voters) :\\n    paper_stv_solid_coalition_lower_bounds seatCount partyShare seats := by\\n  simpa [paper_stv_solid_coalition_quota_witness_bounds,\\n    paper_stv_solid_coalition_lower_bounds,\\n    stvSolidCoalitionQuotaWitnessBounds] using\\n    (stvSolidCoalitionLowerBounds_of_quotaLowerBounds\\n      (seatCount := seatCount) (seats := seats) (voters := voters)\\n      (partyShare := partyShare)\\n      (stvSolidCoalitionQuotaLowerBounds_of_quotaWitnessBounds hstv))\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_stv_solid_coalition_quota_witness_bounds_lower_bounds\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount seats voters\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"hstv\",\n        \"type\": \"paper_stv_solid_coalition_quota_witness_bounds seatCount partyShare seats voters\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_stv_solid_coalition_lower_bounds_seat_share_bounds\\n    {seatCount seats : \\u2115} {partyShare : \\u211d}\\n    (hstv : paper_stv_solid_coalition_lower_bounds seatCount partyShare seats) :\\n    paper_stv_seat_share_bounds seatCount partyShare seats := by\\n  simpa [paper_stv_solid_coalition_lower_bounds, paper_stv_seat_share_bounds,\\n    stvSolidCoalitionLowerBounds] using\\n    (stvSeatShareBounds_of_solidCoalitionLowerBounds\\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\\n      hstv)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_stv_solid_coalition_lower_bounds_seat_share_bounds\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount seats\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"hstv\",\n        \"type\": \"paper_stv_solid_coalition_lower_bounds seatCount partyShare seats\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax\\n    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]\\n    (choice : FractionalSTVChoiceRule Candidate)\\n    {partyVoters otherPartyVoters allVoters : Finset Voter}\\n    {ballots : Voter \\u2192 Ballot Candidate}\\n    {partyCandidates otherPartyCandidates : Finset Candidate}\\n    {initialActive : Finset Candidate}\\n    (initialWeight partyInitialWeight otherPartyInitialWeight : Voter \\u2192 \\u211d)\\n    {pavSeatCount seats voters : \\u2115} {partyShare : \\u211d}\\n    (hpos : 0 < partyShare) (hle : partyShare \\u2264 1)\\n    (hvoters : seats * (seats + 1) \\u2264 voters)\\n    (htotalChoice : choice.Total)\\n    (hchoiceRespect : choice.QuotaRespecting (STVQuota seats voters : \\u211d))\\n    (hpartyCandidates : seats \\u2264 partyCandidates.card)\\n    (hotherPartyCandidates : seats \\u2264 otherPartyCandidates.card)\\n    (hpartySolid : SolidCoalitionBallots partyVoters ballots partyCandidates)\\n    (hotherSolid :\\n      SolidCoalitionBallots otherPartyVoters ballots otherPartyCandidates)\\n    (hinitialWeightNonneg :\\n      \\u2200 voter, voter \\u2208 allVoters \\u2192 0 \\u2264 initialWeight voter)\\n    (hinitialTotalMass :\\n      (voters : \\u211d) = \\u2211 voter \\u2208 allVoters, initialWeight voter)\\n    (hvoterPartition : allVoters = partyVoters \\u222a otherPartyVoters)\\n    (hvoterDisjoint : Disjoint partyVoters otherPartyVoters)\\n    (hcandidateDisjoint : Disjoint partyCandidates otherPartyCandidates)\\n    (hpartyInitialActive : partyCandidates \\u2286 initialActive)\\n    (hotherInitialActive : otherPartyCandidates \\u2286 initialActive)\\n    (hinitialActiveSubset :\\n      initialActive \\u2286 partyCandidates \\u222a otherPartyCandidates)\\n    (hpartyInitialWeightEq :\\n      \\u2200 voter, voter \\u2208 partyVoters \\u2192\\n        initialWeight voter = partyInitialWeight voter)\\n    (hotherInitialWeightEq :\\n      \\u2200 voter, voter \\u2208 otherPartyVoters \\u2192\\n        initialWeight voter = otherPartyInitialWeight voter)\\n    (hpartyInitialMass :\\n      partyShare * (voters : \\u211d) =\\n        \\u2211 voter \\u2208 partyVoters, partyInitialWeight voter)\\n    (hotherInitialMass :\\n      (1 - partyShare) * (voters : \\u211d) =\\n        \\u2211 voter \\u2208 otherPartyVoters, otherPartyInitialWeight voter)\\n    (hpav : paper_pav_min_argmax pavSeatCount partyShare seats) :\\n    paper_seat_share_rounded\\n        (partyFilledSeatCount partyCandidates seats\\n          (fractionalSTVFilledSeatRunTrace choice allVoters ballots\\n            (STVQuota seats voters : \\u211d) seats initialActive.card 0\\n            initialActive initialWeight).steps\\n          (fractionalSTVFilledSeatRunTerminalActive choice allVoters ballots\\n            (STVQuota seats voters : \\u211d) seats initialActive.card 0\\n            initialActive initialWeight))\\n        partyShare seats \\u2227\\n      paper_seat_share_rounded pavSeatCount partyShare seats := by\\n  simpa [paper_pav_min_argmax, paper_pav_seat_score,\\n    paper_seat_share_rounded, pavSeatMinArgmax, pavSeatScore,\\n    seatShareRounded] using\\n    (proposition1_seatSharesRounded_of_generatedFilledSeatRunFractionalSTVTrace_globalWeightTerminal_and_pavMinArgmax_of_total\\n      (Voter := Voter) (Candidate := Candidate) choice\\n      (partyVoters := partyVoters) (otherPartyVoters := otherPartyVoters)\\n      (allVoters := allVoters) (ballots := ballots)\\n      (partyCandidates := partyCandidates)\\n      (otherPartyCandidates := otherPartyCandidates)\\n      (initialActive := initialActive) initialWeight\\n      partyInitialWeight otherPartyInitialWeight\\n      (pavSeatCount := pavSeatCount) (seats := seats) (voters := voters)\\n      (partyShare := partyShare) hpos hle hvoters htotalChoice hchoiceRespect\\n      hpartyCandidates hotherPartyCandidates hpartySolid hotherSolid\\n      hinitialWeightNonneg hinitialTotalMass hvoterPartition hvoterDisjoint\\n      hcandidateDisjoint hpartyInitialActive hotherInitialActive\\n      hinitialActiveSubset hpartyInitialWeightEq hotherInitialWeightEq\\n      hpartyInitialMass hotherInitialMass hpav)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"Voter Candidate\",\n        \"type\": \"Type*\"\n      },\n      {\n        \"names\": \"choice\",\n        \"type\": \"FractionalSTVChoiceRule Candidate\"\n      },\n      {\n        \"names\": \"partyVoters otherPartyVoters allVoters\",\n        \"type\": \"Finset Voter\"\n      },\n      {\n        \"names\": \"ballots\",\n        \"type\": \"Voter \\u2192 Ballot Candidate\"\n      },\n      {\n        \"names\": \"partyCandidates otherPartyCandidates\",\n        \"type\": \"Finset Candidate\"\n      },\n      {\n        \"names\": \"initialActive\",\n        \"type\": \"Finset Candidate\"\n      },\n      {\n        \"names\": \"initialWeight partyInitialWeight otherPartyInitialWeight\",\n        \"type\": \"Voter \\u2192 \\u211d\"\n      },\n      {\n        \"names\": \"pavSeatCount seats voters\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"hpos\",\n        \"type\": \"0 < partyShare\"\n      },\n      {\n        \"names\": \"hle\",\n        \"type\": \"partyShare \\u2264 1\"\n      },\n      {\n        \"names\": \"hvoters\",\n        \"type\": \"seats * (seats + 1) \\u2264 voters\"\n      },\n      {\n        \"names\": \"htotalChoice\",\n        \"type\": \"choice.Total\"\n      },\n      {\n        \"names\": \"hchoiceRespect\",\n        \"type\": \"choice.QuotaRespecting (STVQuota seats voters : \\u211d)\"\n      },\n      {\n        \"names\": \"hpartyCandidates\",\n        \"type\": \"seats \\u2264 partyCandidates.card\"\n      },\n      {\n        \"names\": \"hotherPartyCandidates\",\n        \"type\": \"seats \\u2264 otherPartyCandidates.card\"\n      },\n      {\n        \"names\": \"hpartySolid\",\n        \"type\": \"SolidCoalitionBallots partyVoters ballots partyCandidates\"\n      },\n      {\n        \"names\": \"hotherSolid\",\n        \"type\": \"SolidCoalitionBallots otherPartyVoters ballots otherPartyCandidates\"\n      },\n      {\n        \"names\": \"hinitialWeightNonneg\",\n        \"type\": \"\\u2200 voter, voter \\u2208 allVoters \\u2192 0 \\u2264 initialWeight voter\"\n      },\n      {\n        \"names\": \"hinitialTotalMass\",\n        \"type\": \"(voters : \\u211d) = \\u2211 voter \\u2208 allVoters, initialWeight voter\"\n      },\n      {\n        \"names\": \"hvoterPartition\",\n        \"type\": \"allVoters = partyVoters \\u222a otherPartyVoters\"\n      },\n      {\n        \"names\": \"hvoterDisjoint\",\n        \"type\": \"Disjoint partyVoters otherPartyVoters\"\n      },\n      {\n        \"names\": \"hcandidateDisjoint\",\n        \"type\": \"Disjoint partyCandidates otherPartyCandidates\"\n      },\n      {\n        \"names\": \"hpartyInitialActive\",\n        \"type\": \"partyCandidates \\u2286 initialActive\"\n      },\n      {\n        \"names\": \"hotherInitialActive\",\n        \"type\": \"otherPartyCandidates \\u2286 initialActive\"\n      },\n      {\n        \"names\": \"hinitialActiveSubset\",\n        \"type\": \"initialActive \\u2286 partyCandidates \\u222a otherPartyCandidates\"\n      },\n      {\n        \"names\": \"hpartyInitialWeightEq\",\n        \"type\": \"\\u2200 voter, voter \\u2208 partyVoters \\u2192 initialWeight voter = partyInitialWeight voter\"\n      },\n      {\n        \"names\": \"hotherInitialWeightEq\",\n        \"type\": \"\\u2200 voter, voter \\u2208 otherPartyVoters \\u2192 initialWeight voter = otherPartyInitialWeight voter\"\n      },\n      {\n        \"names\": \"hpartyInitialMass\",\n        \"type\": \"partyShare * (voters : \\u211d) = \\u2211 voter \\u2208 partyVoters, partyInitialWeight voter\"\n      },\n      {\n        \"names\": \"hotherInitialMass\",\n        \"type\": \"(1 - partyShare) * (voters : \\u211d) = \\u2211 voter \\u2208 otherPartyVoters, otherPartyInitialWeight voter\"\n      },\n      {\n        \"names\": \"hpav\",\n        \"type\": \"paper_pav_min_argmax pavSeatCount partyShare seats\"\n      }\n    ]\n  }\n]",
+  "llm_judge_prompt": "You are auditing Lean formalization provenance, not just theorem text.\nPaper: GGRS26CombattingGerrymanderingRCV\n\nFor each item below, compare the original paper source statement/proof text with the Lean-checked statement and the dependency path. Scrutinize every visible theorem input semantically: names and source-looking type suffixes are only routing hints, not evidence. Do not approve by theorem label, phrase overlap, or source-looking Lean name. Each input must correspond to a specific paper primitive/source assumption, be derived by a Lean-checked constructor from paper primitives, be an approved external boundary, or remain an unresolved conditional/partial boundary. In particular, any Certificate, Replay, Process, or Bridge input needs a specific source statement or an instantiation path from the paper's primitive model; do not accept it merely because the final theorem name resembles the paper claim.\n\nClassify the item as one of: proved_from_primitives, validated_source_assumption, approved_external_boundary, container_recursively_audited, derived_consequence_record, nonpropositional_witness_data, or unresolved_assumed_math. Use container_recursively_audited only for a field whose type is another audited record/source/certificate and whose nested fields are separately judged; do not use it for a field whose type is a mathematical proposition or formula. Use derived_consequence_record only for fields of a theorem-output/consequence record whose constructor proof is separately checked and whose premise records are separately audited. Use nonpropositional_witness_data only for bare data witnesses (for example a chosen stream, cost function, gradient/noise/bias function, or projection function) whose type is not proposition-valued and does not itself state an equality, recurrence, optimality, measurability, convergence, continuity, or response/trajectory semantics. The proposition-valued fields that constrain that witness must still be classified separately. Mark unresolved_assumed_math if the Lean row merely takes a record/certificate/replay/process/bridge/source-model field that states convexity, response semantics, trace/replay validity, transfer preservation, trajectory generation, continuity, convergence, equilibrium, or a displayed formula that should be derived. Do not mark a field as proved just because Lean typechecks a projection from a structure premise.\n\n[\n  {\n    \"input\": {\n      \"names\": \"trace\",\n      \"type\": \"STVTrace Candidate\"\n    },\n    \"judgment_key\": \"paper_stv_solid_coalition_party_trace_isolation.trace : STVTrace Candidate\",\n    \"kind\": \"boundary_premise\",\n    \"lean_source_declaration\": \"def paper_stv_solid_coalition_party_trace_isolation\\n    {Voter Candidate : Type*} [DecidableEq Candidate]\\n    (voters : Finset Voter) (ballots : Voter \\u2192 Ballot Candidate)\\n    (partyCandidates : Finset Candidate) (trace : STVTrace Candidate) : Prop :=\\n  \\u2200 step, step \\u2208 trace.steps \\u2192\\n    (\\u2203 same, same \\u2208 partyCandidates \\u2227 same \\u2208 step.beforeActive) \\u2192\\n      \\u2200 outside, outside \\u2209 partyCandidates \\u2192\\n        (Ballot.activeSupport voters ballots step.beforeActive outside).card = 0\",\n    \"required_check\": \"This visible theorem input is boundary-shaped. It needs a specific source statement/primitive or a Lean-checked constructor from paper primitives; the source-looking predicate name is not evidence.\",\n    \"row\": \"paper_stv_solid_coalition_party_trace_isolation\"\n  },\n  {\n    \"input\": {\n      \"names\": \"trace\",\n      \"type\": \"STVTrace Candidate\"\n    },\n    \"judgment_key\": \"paper_stv_solid_coalition_ballots_party_trace_isolation.trace : STVTrace Candidate\",\n    \"kind\": \"boundary_premise\",\n    \"lean_source_declaration\": \"theorem paper_stv_solid_coalition_ballots_party_trace_isolation\\n    {Voter Candidate : Type*} [DecidableEq Candidate]\\n    {voters : Finset Voter} {ballots : Voter \\u2192 Ballot Candidate}\\n    {partyCandidates : Finset Candidate} {trace : STVTrace Candidate}\\n    (hsolid : SolidCoalitionBallots voters ballots partyCandidates) :\\n    paper_stv_solid_coalition_party_trace_isolation\\n      voters ballots partyCandidates trace := by\\n  simpa [paper_stv_solid_coalition_party_trace_isolation,\\n    NoCrossPartyTransferBeforeExhaustion] using\\n    (stvSolidCoalitionBallots_partyTraceIsolation\\n      (voters := voters) (ballots := ballots)\\n      (partyCandidates := partyCandidates) (trace := trace) hsolid)\",\n    \"required_check\": \"This visible theorem input is boundary-shaped. It needs a specific source statement/primitive or a Lean-checked constructor from paper primitives; the source-looking predicate name is not evidence.\",\n    \"row\": \"paper_stv_solid_coalition_ballots_party_trace_isolation\"\n  },\n  {\n    \"lean_source_declaration\": \"noncomputable def paper_pav_score {Candidate : Type*} [DecidableEq Candidate]\\n    (committee : Finset Candidate) (profile : List (PartyApprovalBallot Candidate)) : \\u211d :=\\n  partyPAVScore committee profile\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_score\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"Candidate\",\n        \"type\": \"Type*\"\n      },\n      {\n        \"names\": \"committee\",\n        \"type\": \"Finset Candidate\"\n      },\n      {\n        \"names\": \"profile\",\n        \"type\": \"List (PartyApprovalBallot Candidate)\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"noncomputable def paper_pav_seat_score (partyShare : \\u211d) (seats seatCount : \\u2115) : \\u211d :=\\n  partyShare * pavHarmonicSum seatCount +\\n    (1 - partyShare) * pavHarmonicSum (seats - seatCount)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_seat_score\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"seats seatCount\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def paper_pav_min_argmax (seatCount : \\u2115) (partyShare : \\u211d) (seats : \\u2115) : Prop :=\\n  seatCount \\u2264 seats \\u2227\\n    (\\u2200 candidate, candidate \\u2264 seats \\u2192\\n      paper_pav_seat_score partyShare seats candidate \\u2264\\n        paper_pav_seat_score partyShare seats seatCount) \\u2227\\n    (\\u2200 candidate, candidate \\u2264 seats \\u2192\\n      paper_pav_seat_score partyShare seats candidate =\\n        paper_pav_seat_score partyShare seats seatCount \\u2192\\n      seatCount \\u2264 candidate)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_min_argmax\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"seats\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def paper_pav_marginal_conditions (seatCount : \\u2115) (partyShare : \\u211d)\\n    (seats : \\u2115) : Prop :=\\n  pavSeatMarginalConditions seatCount partyShare seats\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_marginal_conditions\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"seats\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def paper_pav_seat_interval (seatCount : \\u2115) (partyShare : \\u211d) (seats : \\u2115) : Prop :=\\n  pavSeatInterval seatCount partyShare seats\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_seat_interval\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"seats\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def paper_seat_share_rounded (seatCount : \\u2115) (partyShare : \\u211d) (seats : \\u2115) : Prop :=\\n  seatShareRounded seatCount partyShare seats\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_seat_share_rounded\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"seats\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def paper_stv_solid_coalition_party_trace_isolation\\n    {Voter Candidate : Type*} [DecidableEq Candidate]\\n    (voters : Finset Voter) (ballots : Voter \\u2192 Ballot Candidate)\\n    (partyCandidates : Finset Candidate) (trace : STVTrace Candidate) : Prop :=\\n  \\u2200 step, step \\u2208 trace.steps \\u2192\\n    (\\u2203 same, same \\u2208 partyCandidates \\u2227 same \\u2208 step.beforeActive) \\u2192\\n      \\u2200 outside, outside \\u2209 partyCandidates \\u2192\\n        (Ballot.activeSupport voters ballots step.beforeActive outside).card = 0\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_stv_solid_coalition_party_trace_isolation\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"Voter Candidate\",\n        \"type\": \"Type*\"\n      },\n      {\n        \"names\": \"voters\",\n        \"type\": \"Finset Voter\"\n      },\n      {\n        \"names\": \"ballots\",\n        \"type\": \"Voter \\u2192 Ballot Candidate\"\n      },\n      {\n        \"names\": \"partyCandidates\",\n        \"type\": \"Finset Candidate\"\n      },\n      {\n        \"names\": \"trace\",\n        \"type\": \"STVTrace Candidate\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def paper_stv_solid_coalition_quota_witness_bounds (seatCount : \\u2115)\\n    (partyShare : \\u211d) (seats voters : \\u2115) : Prop :=\\n  stvSolidCoalitionQuotaWitnessBounds seatCount partyShare seats voters\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_stv_solid_coalition_quota_witness_bounds\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"seats voters\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def paper_stv_solid_coalition_lower_bounds (seatCount : \\u2115) (partyShare : \\u211d)\\n    (seats : \\u2115) :\\n    Prop :=\\n  stvSolidCoalitionLowerBounds seatCount partyShare seats\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_stv_solid_coalition_lower_bounds\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"seats\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def paper_stv_seat_share_bounds (seatCount : \\u2115) (partyShare : \\u211d) (seats : \\u2115) :\\n    Prop :=\\n  stvSeatShareBounds seatCount partyShare seats\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_stv_seat_share_bounds\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"seats\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_pav_interval_seat_share_rounded {seatCount seats : \\u2115} {partyShare : \\u211d}\\n    (hpos : 0 < partyShare) (hle : partyShare \\u2264 1)\\n    (hinterval : paper_pav_seat_interval seatCount partyShare seats) :\\n    paper_seat_share_rounded seatCount partyShare seats := by\\n  simpa [paper_pav_seat_interval, paper_seat_share_rounded] using\\n    (pavSeatInterval_seatShareRounded\\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\\n      hpos hle hinterval)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_interval_seat_share_rounded\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount seats\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"hpos\",\n        \"type\": \"0 < partyShare\"\n      },\n      {\n        \"names\": \"hle\",\n        \"type\": \"partyShare \\u2264 1\"\n      },\n      {\n        \"names\": \"hinterval\",\n        \"type\": \"paper_pav_seat_interval seatCount partyShare seats\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_pav_marginal_conditions_seat_share_rounded {seatCount seats : \\u2115}\\n    {partyShare : \\u211d}\\n    (hpos : 0 < partyShare) (hle : partyShare \\u2264 1) (hseat : seatCount \\u2264 seats)\\n    (hmarg : paper_pav_marginal_conditions seatCount partyShare seats) :\\n    paper_seat_share_rounded seatCount partyShare seats := by\\n  simpa [paper_pav_marginal_conditions, paper_seat_share_rounded] using\\n    (pavSeatMarginalConditions_seatShareRounded\\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\\n      hpos hle hseat hmarg)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_marginal_conditions_seat_share_rounded\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount seats\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"hpos\",\n        \"type\": \"0 < partyShare\"\n      },\n      {\n        \"names\": \"hle\",\n        \"type\": \"partyShare \\u2264 1\"\n      },\n      {\n        \"names\": \"hseat\",\n        \"type\": \"seatCount \\u2264 seats\"\n      },\n      {\n        \"names\": \"hmarg\",\n        \"type\": \"paper_pav_marginal_conditions seatCount partyShare seats\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_pav_min_argmax_seat_interval {seatCount seats : \\u2115}\\n    {partyShare : \\u211d}\\n    (hpos : 0 < partyShare) (hle : partyShare \\u2264 1)\\n    (hmin : paper_pav_min_argmax seatCount partyShare seats) :\\n    paper_pav_seat_interval seatCount partyShare seats := by\\n  simpa [paper_pav_min_argmax, paper_pav_seat_score, paper_pav_seat_interval,\\n    pavSeatMinArgmax, pavSeatScore, pavSeatInterval] using\\n    (pavSeatMinArgmax_seatInterval\\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\\n      hpos hle hmin)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_min_argmax_seat_interval\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount seats\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"hpos\",\n        \"type\": \"0 < partyShare\"\n      },\n      {\n        \"names\": \"hle\",\n        \"type\": \"partyShare \\u2264 1\"\n      },\n      {\n        \"names\": \"hmin\",\n        \"type\": \"paper_pav_min_argmax seatCount partyShare seats\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_pav_min_argmax_seat_share_rounded {seatCount seats : \\u2115}\\n    {partyShare : \\u211d}\\n    (hpos : 0 < partyShare) (hle : partyShare \\u2264 1)\\n    (hmin : paper_pav_min_argmax seatCount partyShare seats) :\\n    paper_seat_share_rounded seatCount partyShare seats := by\\n  simpa [paper_pav_min_argmax, paper_pav_seat_score, paper_seat_share_rounded,\\n    pavSeatMinArgmax, pavSeatScore, seatShareRounded] using\\n    (pavSeatMinArgmax_seatShareRounded\\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\\n      hpos hle hmin)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_pav_min_argmax_seat_share_rounded\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount seats\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"hpos\",\n        \"type\": \"0 < partyShare\"\n      },\n      {\n        \"names\": \"hle\",\n        \"type\": \"partyShare \\u2264 1\"\n      },\n      {\n        \"names\": \"hmin\",\n        \"type\": \"paper_pav_min_argmax seatCount partyShare seats\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_stv_solid_coalition_ballots_party_trace_isolation\\n    {Voter Candidate : Type*} [DecidableEq Candidate]\\n    {voters : Finset Voter} {ballots : Voter \\u2192 Ballot Candidate}\\n    {partyCandidates : Finset Candidate} {trace : STVTrace Candidate}\\n    (hsolid : SolidCoalitionBallots voters ballots partyCandidates) :\\n    paper_stv_solid_coalition_party_trace_isolation\\n      voters ballots partyCandidates trace := by\\n  simpa [paper_stv_solid_coalition_party_trace_isolation,\\n    NoCrossPartyTransferBeforeExhaustion] using\\n    (stvSolidCoalitionBallots_partyTraceIsolation\\n      (voters := voters) (ballots := ballots)\\n      (partyCandidates := partyCandidates) (trace := trace) hsolid)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_stv_solid_coalition_ballots_party_trace_isolation\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"Voter Candidate\",\n        \"type\": \"Type*\"\n      },\n      {\n        \"names\": \"voters\",\n        \"type\": \"Finset Voter\"\n      },\n      {\n        \"names\": \"ballots\",\n        \"type\": \"Voter \\u2192 Ballot Candidate\"\n      },\n      {\n        \"names\": \"partyCandidates\",\n        \"type\": \"Finset Candidate\"\n      },\n      {\n        \"names\": \"trace\",\n        \"type\": \"STVTrace Candidate\"\n      },\n      {\n        \"names\": \"hsolid\",\n        \"type\": \"SolidCoalitionBallots voters ballots partyCandidates\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_stv_quota_floors_fit {seats voters : \\u2115} {partyShare : \\u211d}\\n    (hshare_nonneg : 0 \\u2264 partyShare) (hshare_le : partyShare \\u2264 1) :\\n    \\u230apartyShare * ((voters : \\u211d) / (STVQuota seats voters : \\u211d))\\u230b\\u208a +\\n        \\u230a(1 - partyShare) *\\n          ((voters : \\u211d) / (STVQuota seats voters : \\u211d))\\u230b\\u208a \\u2264 seats :=\\n  stvTwoPartyQuotaFloors_sum_le_seats hshare_nonneg hshare_le\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_stv_quota_floors_fit\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seats voters\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"hshare_nonneg\",\n        \"type\": \"0 \\u2264 partyShare\"\n      },\n      {\n        \"names\": \"hshare_le\",\n        \"type\": \"partyShare \\u2264 1\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_stv_solid_coalition_quota_witness_bounds_lower_bounds\\n    {seatCount seats voters : \\u2115} {partyShare : \\u211d}\\n    (hstv :\\n      paper_stv_solid_coalition_quota_witness_bounds seatCount partyShare seats voters) :\\n    paper_stv_solid_coalition_lower_bounds seatCount partyShare seats := by\\n  simpa [paper_stv_solid_coalition_quota_witness_bounds,\\n    paper_stv_solid_coalition_lower_bounds,\\n    stvSolidCoalitionQuotaWitnessBounds] using\\n    (stvSolidCoalitionLowerBounds_of_quotaLowerBounds\\n      (seatCount := seatCount) (seats := seats) (voters := voters)\\n      (partyShare := partyShare)\\n      (stvSolidCoalitionQuotaLowerBounds_of_quotaWitnessBounds hstv))\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_stv_solid_coalition_quota_witness_bounds_lower_bounds\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount seats voters\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"hstv\",\n        \"type\": \"paper_stv_solid_coalition_quota_witness_bounds seatCount partyShare seats voters\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_stv_solid_coalition_lower_bounds_seat_share_bounds\\n    {seatCount seats : \\u2115} {partyShare : \\u211d}\\n    (hstv : paper_stv_solid_coalition_lower_bounds seatCount partyShare seats) :\\n    paper_stv_seat_share_bounds seatCount partyShare seats := by\\n  simpa [paper_stv_solid_coalition_lower_bounds, paper_stv_seat_share_bounds,\\n    stvSolidCoalitionLowerBounds] using\\n    (stvSeatShareBounds_of_solidCoalitionLowerBounds\\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\\n      hstv)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_stv_solid_coalition_lower_bounds_seat_share_bounds\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"seatCount seats\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"hstv\",\n        \"type\": \"paper_stv_solid_coalition_lower_bounds seatCount partyShare seats\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax\\n    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]\\n    (choice : FractionalSTVChoiceRule Candidate)\\n    {partyVoters otherPartyVoters allVoters : Finset Voter}\\n    {ballots : Voter \\u2192 Ballot Candidate}\\n    {partyCandidates otherPartyCandidates : Finset Candidate}\\n    {initialActive : Finset Candidate}\\n    (initialWeight partyInitialWeight otherPartyInitialWeight : Voter \\u2192 \\u211d)\\n    {pavSeatCount seats voters : \\u2115} {partyShare : \\u211d}\\n    (hpos : 0 < partyShare) (hle : partyShare \\u2264 1)\\n    (hvoters : seats * (seats + 1) \\u2264 voters)\\n    (htotalChoice : choice.Total)\\n    (hchoiceRespect : choice.QuotaRespecting (STVQuota seats voters : \\u211d))\\n    (hpartyCandidates : seats \\u2264 partyCandidates.card)\\n    (hotherPartyCandidates : seats \\u2264 otherPartyCandidates.card)\\n    (hpartySolid : SolidCoalitionBallots partyVoters ballots partyCandidates)\\n    (hotherSolid :\\n      SolidCoalitionBallots otherPartyVoters ballots otherPartyCandidates)\\n    (hinitialWeightNonneg :\\n      \\u2200 voter, voter \\u2208 allVoters \\u2192 0 \\u2264 initialWeight voter)\\n    (hinitialTotalMass :\\n      (voters : \\u211d) = \\u2211 voter \\u2208 allVoters, initialWeight voter)\\n    (hvoterPartition : allVoters = partyVoters \\u222a otherPartyVoters)\\n    (hvoterDisjoint : Disjoint partyVoters otherPartyVoters)\\n    (hcandidateDisjoint : Disjoint partyCandidates otherPartyCandidates)\\n    (hpartyInitialActive : partyCandidates \\u2286 initialActive)\\n    (hotherInitialActive : otherPartyCandidates \\u2286 initialActive)\\n    (hinitialActiveSubset :\\n      initialActive \\u2286 partyCandidates \\u222a otherPartyCandidates)\\n    (hpartyInitialWeightEq :\\n      \\u2200 voter, voter \\u2208 partyVoters \\u2192\\n        initialWeight voter = partyInitialWeight voter)\\n    (hotherInitialWeightEq :\\n      \\u2200 voter, voter \\u2208 otherPartyVoters \\u2192\\n        initialWeight voter = otherPartyInitialWeight voter)\\n    (hpartyInitialMass :\\n      partyShare * (voters : \\u211d) =\\n        \\u2211 voter \\u2208 partyVoters, partyInitialWeight voter)\\n    (hotherInitialMass :\\n      (1 - partyShare) * (voters : \\u211d) =\\n        \\u2211 voter \\u2208 otherPartyVoters, otherPartyInitialWeight voter)\\n    (hpav : paper_pav_min_argmax pavSeatCount partyShare seats) :\\n    paper_seat_share_rounded\\n        (partyFilledSeatCount partyCandidates seats\\n          (fractionalSTVFilledSeatRunTrace choice allVoters ballots\\n            (STVQuota seats voters : \\u211d) seats initialActive.card 0\\n            initialActive initialWeight).steps\\n          (fractionalSTVFilledSeatRunTerminalActive choice allVoters ballots\\n            (STVQuota seats voters : \\u211d) seats initialActive.card 0\\n            initialActive initialWeight))\\n        partyShare seats \\u2227\\n      paper_seat_share_rounded pavSeatCount partyShare seats := by\\n  simpa [paper_pav_min_argmax, paper_pav_seat_score,\\n    paper_seat_share_rounded, pavSeatMinArgmax, pavSeatScore,\\n    seatShareRounded] using\\n    (proposition1_seatSharesRounded_of_generatedFilledSeatRunFractionalSTVTrace_globalWeightTerminal_and_pavMinArgmax_of_total\\n      (Voter := Voter) (Candidate := Candidate) choice\\n      (partyVoters := partyVoters) (otherPartyVoters := otherPartyVoters)\\n      (allVoters := allVoters) (ballots := ballots)\\n      (partyCandidates := partyCandidates)\\n      (otherPartyCandidates := otherPartyCandidates)\\n      (initialActive := initialActive) initialWeight\\n      partyInitialWeight otherPartyInitialWeight\\n      (pavSeatCount := pavSeatCount) (seats := seats) (voters := voters)\\n      (partyShare := partyShare) hpos hle hvoters htotalChoice hchoiceRespect\\n      hpartyCandidates hotherPartyCandidates hpartySolid hotherSolid\\n      hinitialWeightNonneg hinitialTotalMass hvoterPartition hvoterDisjoint\\n      hcandidateDisjoint hpartyInitialActive hotherInitialActive\\n      hinitialActiveSubset hpartyInitialWeightEq hotherInitialWeightEq\\n      hpartyInitialMass hotherInitialMass hpav)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"Voter Candidate\",\n        \"type\": \"Type*\"\n      },\n      {\n        \"names\": \"choice\",\n        \"type\": \"FractionalSTVChoiceRule Candidate\"\n      },\n      {\n        \"names\": \"partyVoters otherPartyVoters allVoters\",\n        \"type\": \"Finset Voter\"\n      },\n      {\n        \"names\": \"ballots\",\n        \"type\": \"Voter \\u2192 Ballot Candidate\"\n      },\n      {\n        \"names\": \"partyCandidates otherPartyCandidates\",\n        \"type\": \"Finset Candidate\"\n      },\n      {\n        \"names\": \"initialActive\",\n        \"type\": \"Finset Candidate\"\n      },\n      {\n        \"names\": \"initialWeight partyInitialWeight otherPartyInitialWeight\",\n        \"type\": \"Voter \\u2192 \\u211d\"\n      },\n      {\n        \"names\": \"pavSeatCount seats voters\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"partyShare\",\n        \"type\": \"\\u211d\"\n      },\n      {\n        \"names\": \"hpos\",\n        \"type\": \"0 < partyShare\"\n      },\n      {\n        \"names\": \"hle\",\n        \"type\": \"partyShare \\u2264 1\"\n      },\n      {\n        \"names\": \"hvoters\",\n        \"type\": \"seats * (seats + 1) \\u2264 voters\"\n      },\n      {\n        \"names\": \"htotalChoice\",\n        \"type\": \"choice.Total\"\n      },\n      {\n        \"names\": \"hchoiceRespect\",\n        \"type\": \"choice.QuotaRespecting (STVQuota seats voters : \\u211d)\"\n      },\n      {\n        \"names\": \"hpartyCandidates\",\n        \"type\": \"seats \\u2264 partyCandidates.card\"\n      },\n      {\n        \"names\": \"hotherPartyCandidates\",\n        \"type\": \"seats \\u2264 otherPartyCandidates.card\"\n      },\n      {\n        \"names\": \"hpartySolid\",\n        \"type\": \"SolidCoalitionBallots partyVoters ballots partyCandidates\"\n      },\n      {\n        \"names\": \"hotherSolid\",\n        \"type\": \"SolidCoalitionBallots otherPartyVoters ballots otherPartyCandidates\"\n      },\n      {\n        \"names\": \"hinitialWeightNonneg\",\n        \"type\": \"\\u2200 voter, voter \\u2208 allVoters \\u2192 0 \\u2264 initialWeight voter\"\n      },\n      {\n        \"names\": \"hinitialTotalMass\",\n        \"type\": \"(voters : \\u211d) = \\u2211 voter \\u2208 allVoters, initialWeight voter\"\n      },\n      {\n        \"names\": \"hvoterPartition\",\n        \"type\": \"allVoters = partyVoters \\u222a otherPartyVoters\"\n      },\n      {\n        \"names\": \"hvoterDisjoint\",\n        \"type\": \"Disjoint partyVoters otherPartyVoters\"\n      },\n      {\n        \"names\": \"hcandidateDisjoint\",\n        \"type\": \"Disjoint partyCandidates otherPartyCandidates\"\n      },\n      {\n        \"names\": \"hpartyInitialActive\",\n        \"type\": \"partyCandidates \\u2286 initialActive\"\n      },\n      {\n        \"names\": \"hotherInitialActive\",\n        \"type\": \"otherPartyCandidates \\u2286 initialActive\"\n      },\n      {\n        \"names\": \"hinitialActiveSubset\",\n        \"type\": \"initialActive \\u2286 partyCandidates \\u222a otherPartyCandidates\"\n      },\n      {\n        \"names\": \"hpartyInitialWeightEq\",\n        \"type\": \"\\u2200 voter, voter \\u2208 partyVoters \\u2192 initialWeight voter = partyInitialWeight voter\"\n      },\n      {\n        \"names\": \"hotherInitialWeightEq\",\n        \"type\": \"\\u2200 voter, voter \\u2208 otherPartyVoters \\u2192 initialWeight voter = otherPartyInitialWeight voter\"\n      },\n      {\n        \"names\": \"hpartyInitialMass\",\n        \"type\": \"partyShare * (voters : \\u211d) = \\u2211 voter \\u2208 partyVoters, partyInitialWeight voter\"\n      },\n      {\n        \"names\": \"hotherInitialMass\",\n        \"type\": \"(1 - partyShare) * (voters : \\u211d) = \\u2211 voter \\u2208 otherPartyVoters, otherPartyInitialWeight voter\"\n      },\n      {\n        \"names\": \"hpav\",\n        \"type\": \"paper_pav_min_argmax pavSeatCount partyShare seats\"\n      }\n    ]\n  }\n]",
   "paper": "GGRS26CombattingGerrymanderingRCV",
-  "paper_dir": "/home/nkgarg/src/EconCSLib-meta/EconCSLib-private/papers/GGRS26CombattingGerrymanderingRCV",
+  "paper_dir": "/home/nkgarg/src_wsl/EconCSLib-meta/EconCSLib-public/papers/GGRS26CombattingGerrymanderingRCV",
   "prompt_version": "source-record-v2-semantic-boundary-inputs",
   "recursion_failure_count": 0,
   "recursion_failures": [],
@@ -74,11 +50,11 @@
     "paper_pav_interval_seat_share_rounded": [
       {
         "names": "seatCount seats",
-        "type": "\u2115"
+        "type": "ℕ"
       },
       {
         "names": "partyShare",
-        "type": "\u211d"
+        "type": "ℝ"
       },
       {
         "names": "hpos",
@@ -86,7 +62,7 @@
       },
       {
         "names": "hle",
-        "type": "partyShare \u2264 1"
+        "type": "partyShare ≤ 1"
       },
       {
         "names": "hinterval",
@@ -96,25 +72,25 @@
     "paper_pav_marginal_conditions": [
       {
         "names": "seatCount",
-        "type": "\u2115"
+        "type": "ℕ"
       },
       {
         "names": "partyShare",
-        "type": "\u211d"
+        "type": "ℝ"
       },
       {
         "names": "seats",
-        "type": "\u2115"
+        "type": "ℕ"
       }
     ],
     "paper_pav_marginal_conditions_seat_share_rounded": [
       {
         "names": "seatCount seats",
-        "type": "\u2115"
+        "type": "ℕ"
       },
       {
         "names": "partyShare",
-        "type": "\u211d"
+        "type": "ℝ"
       },
       {
         "names": "hpos",
@@ -122,11 +98,11 @@
       },
       {
         "names": "hle",
-        "type": "partyShare \u2264 1"
+        "type": "partyShare ≤ 1"
       },
       {
         "names": "hseat",
-        "type": "seatCount \u2264 seats"
+        "type": "seatCount ≤ seats"
       },
       {
         "names": "hmarg",
@@ -136,25 +112,25 @@
     "paper_pav_min_argmax": [
       {
         "names": "seatCount",
-        "type": "\u2115"
+        "type": "ℕ"
       },
       {
         "names": "partyShare",
-        "type": "\u211d"
+        "type": "ℝ"
       },
       {
         "names": "seats",
-        "type": "\u2115"
+        "type": "ℕ"
       }
     ],
     "paper_pav_min_argmax_seat_interval": [
       {
         "names": "seatCount seats",
-        "type": "\u2115"
+        "type": "ℕ"
       },
       {
         "names": "partyShare",
-        "type": "\u211d"
+        "type": "ℝ"
       },
       {
         "names": "hpos",
@@ -162,7 +138,7 @@
       },
       {
         "names": "hle",
-        "type": "partyShare \u2264 1"
+        "type": "partyShare ≤ 1"
       },
       {
         "names": "hmin",
@@ -172,11 +148,11 @@
     "paper_pav_min_argmax_seat_share_rounded": [
       {
         "names": "seatCount seats",
-        "type": "\u2115"
+        "type": "ℕ"
       },
       {
         "names": "partyShare",
-        "type": "\u211d"
+        "type": "ℝ"
       },
       {
         "names": "hpos",
@@ -184,7 +160,7 @@
       },
       {
         "names": "hle",
-        "type": "partyShare \u2264 1"
+        "type": "partyShare ≤ 1"
       },
       {
         "names": "hmin",
@@ -208,25 +184,25 @@
     "paper_pav_seat_interval": [
       {
         "names": "seatCount",
-        "type": "\u2115"
+        "type": "ℕ"
       },
       {
         "names": "partyShare",
-        "type": "\u211d"
+        "type": "ℝ"
       },
       {
         "names": "seats",
-        "type": "\u2115"
+        "type": "ℕ"
       }
     ],
     "paper_pav_seat_score": [
       {
         "names": "partyShare",
-        "type": "\u211d"
+        "type": "ℝ"
       },
       {
         "names": "seats seatCount",
-        "type": "\u2115"
+        "type": "ℕ"
       }
     ],
     "paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax": [
@@ -244,7 +220,7 @@
       },
       {
         "names": "ballots",
-        "type": "Voter \u2192 Ballot Candidate"
+        "type": "Voter → Ballot Candidate"
       },
       {
         "names": "partyCandidates otherPartyCandidates",
@@ -256,15 +232,15 @@
       },
       {
         "names": "initialWeight partyInitialWeight otherPartyInitialWeight",
-        "type": "Voter \u2192 \u211d"
+        "type": "Voter → ℝ"
       },
       {
         "names": "pavSeatCount seats voters",
-        "type": "\u2115"
+        "type": "ℕ"
       },
       {
         "names": "partyShare",
-        "type": "\u211d"
+        "type": "ℝ"
       },
       {
         "names": "hpos",
@@ -272,11 +248,11 @@
       },
       {
         "names": "hle",
-        "type": "partyShare \u2264 1"
+        "type": "partyShare ≤ 1"
       },
       {
         "names": "hvoters",
-        "type": "seats * (seats + 1) \u2264 voters"
+        "type": "seats * (seats + 1) ≤ voters"
       },
       {
         "names": "htotalChoice",
@@ -284,15 +260,15 @@
       },
       {
         "names": "hchoiceRespect",
-        "type": "choice.QuotaRespecting (STVQuota seats voters : \u211d)"
+        "type": "choice.QuotaRespecting (STVQuota seats voters : ℝ)"
       },
       {
         "names": "hpartyCandidates",
-        "type": "seats \u2264 partyCandidates.card"
+        "type": "seats ≤ partyCandidates.card"
       },
       {
         "names": "hotherPartyCandidates",
-        "type": "seats \u2264 otherPartyCandidates.card"
+        "type": "seats ≤ otherPartyCandidates.card"
       },
       {
         "names": "hpartySolid",
@@ -304,15 +280,15 @@
       },
       {
         "names": "hinitialWeightNonneg",
-        "type": "\u2200 voter, voter \u2208 allVoters \u2192 0 \u2264 initialWeight voter"
+        "type": "∀ voter, voter ∈ allVoters → 0 ≤ initialWeight voter"
       },
       {
         "names": "hinitialTotalMass",
-        "type": "(voters : \u211d) = \u2211 voter \u2208 allVoters, initialWeight voter"
+        "type": "(voters : ℝ) = ∑ voter ∈ allVoters, initialWeight voter"
       },
       {
         "names": "hvoterPartition",
-        "type": "allVoters = partyVoters \u222a otherPartyVoters"
+        "type": "allVoters = partyVoters ∪ otherPartyVoters"
       },
       {
         "names": "hvoterDisjoint",
@@ -324,31 +300,31 @@
       },
       {
         "names": "hpartyInitialActive",
-        "type": "partyCandidates \u2286 initialActive"
+        "type": "partyCandidates ⊆ initialActive"
       },
       {
         "names": "hotherInitialActive",
-        "type": "otherPartyCandidates \u2286 initialActive"
+        "type": "otherPartyCandidates ⊆ initialActive"
       },
       {
         "names": "hinitialActiveSubset",
-        "type": "initialActive \u2286 partyCandidates \u222a otherPartyCandidates"
+        "type": "initialActive ⊆ partyCandidates ∪ otherPartyCandidates"
       },
       {
         "names": "hpartyInitialWeightEq",
-        "type": "\u2200 voter, voter \u2208 partyVoters \u2192 initialWeight voter = partyInitialWeight voter"
+        "type": "∀ voter, voter ∈ partyVoters → initialWeight voter = partyInitialWeight voter"
       },
       {
         "names": "hotherInitialWeightEq",
-        "type": "\u2200 voter, voter \u2208 otherPartyVoters \u2192 initialWeight voter = otherPartyInitialWeight voter"
+        "type": "∀ voter, voter ∈ otherPartyVoters → initialWeight voter = otherPartyInitialWeight voter"
       },
       {
         "names": "hpartyInitialMass",
-        "type": "partyShare * (voters : \u211d) = \u2211 voter \u2208 partyVoters, partyInitialWeight voter"
+        "type": "partyShare * (voters : ℝ) = ∑ voter ∈ partyVoters, partyInitialWeight voter"
       },
       {
         "names": "hotherInitialMass",
-        "type": "(1 - partyShare) * (voters : \u211d) = \u2211 voter \u2208 otherPartyVoters, otherPartyInitialWeight voter"
+        "type": "(1 - partyShare) * (voters : ℝ) = ∑ voter ∈ otherPartyVoters, otherPartyInitialWeight voter"
       },
       {
         "names": "hpav",
@@ -358,47 +334,47 @@
     "paper_seat_share_rounded": [
       {
         "names": "seatCount",
-        "type": "\u2115"
+        "type": "ℕ"
       },
       {
         "names": "partyShare",
-        "type": "\u211d"
+        "type": "ℝ"
       },
       {
         "names": "seats",
-        "type": "\u2115"
+        "type": "ℕ"
       }
     ],
     "paper_stv_quota_floors_fit": [
       {
         "names": "seats voters",
-        "type": "\u2115"
+        "type": "ℕ"
       },
       {
         "names": "partyShare",
-        "type": "\u211d"
+        "type": "ℝ"
       },
       {
         "names": "hshare_nonneg",
-        "type": "0 \u2264 partyShare"
+        "type": "0 ≤ partyShare"
       },
       {
         "names": "hshare_le",
-        "type": "partyShare \u2264 1"
+        "type": "partyShare ≤ 1"
       }
     ],
     "paper_stv_seat_share_bounds": [
       {
         "names": "seatCount",
-        "type": "\u2115"
+        "type": "ℕ"
       },
       {
         "names": "partyShare",
-        "type": "\u211d"
+        "type": "ℝ"
       },
       {
         "names": "seats",
-        "type": "\u2115"
+        "type": "ℕ"
       }
     ],
     "paper_stv_solid_coalition_ballots_party_trace_isolation": [
@@ -412,7 +388,7 @@
       },
       {
         "names": "ballots",
-        "type": "Voter \u2192 Ballot Candidate"
+        "type": "Voter → Ballot Candidate"
       },
       {
         "names": "partyCandidates",
@@ -430,25 +406,25 @@
     "paper_stv_solid_coalition_lower_bounds": [
       {
         "names": "seatCount",
-        "type": "\u2115"
+        "type": "ℕ"
       },
       {
         "names": "partyShare",
-        "type": "\u211d"
+        "type": "ℝ"
       },
       {
         "names": "seats",
-        "type": "\u2115"
+        "type": "ℕ"
       }
     ],
     "paper_stv_solid_coalition_lower_bounds_seat_share_bounds": [
       {
         "names": "seatCount seats",
-        "type": "\u2115"
+        "type": "ℕ"
       },
       {
         "names": "partyShare",
-        "type": "\u211d"
+        "type": "ℝ"
       },
       {
         "names": "hstv",
@@ -466,7 +442,7 @@
       },
       {
         "names": "ballots",
-        "type": "Voter \u2192 Ballot Candidate"
+        "type": "Voter → Ballot Candidate"
       },
       {
         "names": "partyCandidates",
@@ -480,25 +456,25 @@
     "paper_stv_solid_coalition_quota_witness_bounds": [
       {
         "names": "seatCount",
-        "type": "\u2115"
+        "type": "ℕ"
       },
       {
         "names": "partyShare",
-        "type": "\u211d"
+        "type": "ℝ"
       },
       {
         "names": "seats voters",
-        "type": "\u2115"
+        "type": "ℕ"
       }
     ],
     "paper_stv_solid_coalition_quota_witness_bounds_lower_bounds": [
       {
         "names": "seatCount seats voters",
-        "type": "\u2115"
+        "type": "ℕ"
       },
       {
         "names": "partyShare",
-        "type": "\u211d"
+        "type": "ℝ"
       },
       {
         "names": "hstv",
@@ -509,7 +485,7 @@
   "rows_with_record_premises": [],
   "rows_with_semantic_inputs": [
     {
-      "lean_source_declaration": "noncomputable def paper_pav_score {Candidate : Type*} [DecidableEq Candidate]\n    (committee : Finset Candidate) (profile : List (PartyApprovalBallot Candidate)) : \u211d :=\n  partyPAVScore committee profile",
+      "lean_source_declaration": "noncomputable def paper_pav_score {Candidate : Type*} [DecidableEq Candidate]\n    (committee : Finset Candidate) (profile : List (PartyApprovalBallot Candidate)) : ℝ :=\n  partyPAVScore committee profile",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_pav_score",
@@ -529,103 +505,103 @@
       ]
     },
     {
-      "lean_source_declaration": "noncomputable def paper_pav_seat_score (partyShare : \u211d) (seats seatCount : \u2115) : \u211d :=\n  partyShare * pavHarmonicSum seatCount +\n    (1 - partyShare) * pavHarmonicSum (seats - seatCount)",
+      "lean_source_declaration": "noncomputable def paper_pav_seat_score (partyShare : ℝ) (seats seatCount : ℕ) : ℝ :=\n  partyShare * pavHarmonicSum seatCount +\n    (1 - partyShare) * pavHarmonicSum (seats - seatCount)",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_pav_seat_score",
       "visible_inputs": [
         {
           "names": "partyShare",
-          "type": "\u211d"
+          "type": "ℝ"
         },
         {
           "names": "seats seatCount",
-          "type": "\u2115"
+          "type": "ℕ"
         }
       ]
     },
     {
-      "lean_source_declaration": "def paper_pav_min_argmax (seatCount : \u2115) (partyShare : \u211d) (seats : \u2115) : Prop :=\n  seatCount \u2264 seats \u2227\n    (\u2200 candidate, candidate \u2264 seats \u2192\n      paper_pav_seat_score partyShare seats candidate \u2264\n        paper_pav_seat_score partyShare seats seatCount) \u2227\n    (\u2200 candidate, candidate \u2264 seats \u2192\n      paper_pav_seat_score partyShare seats candidate =\n        paper_pav_seat_score partyShare seats seatCount \u2192\n      seatCount \u2264 candidate)",
+      "lean_source_declaration": "def paper_pav_min_argmax (seatCount : ℕ) (partyShare : ℝ) (seats : ℕ) : Prop :=\n  seatCount ≤ seats ∧\n    (∀ candidate, candidate ≤ seats →\n      paper_pav_seat_score partyShare seats candidate ≤\n        paper_pav_seat_score partyShare seats seatCount) ∧\n    (∀ candidate, candidate ≤ seats →\n      paper_pav_seat_score partyShare seats candidate =\n        paper_pav_seat_score partyShare seats seatCount →\n      seatCount ≤ candidate)",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_pav_min_argmax",
       "visible_inputs": [
         {
           "names": "seatCount",
-          "type": "\u2115"
+          "type": "ℕ"
         },
         {
           "names": "partyShare",
-          "type": "\u211d"
+          "type": "ℝ"
         },
         {
           "names": "seats",
-          "type": "\u2115"
+          "type": "ℕ"
         }
       ]
     },
     {
-      "lean_source_declaration": "def paper_pav_marginal_conditions (seatCount : \u2115) (partyShare : \u211d)\n    (seats : \u2115) : Prop :=\n  pavSeatMarginalConditions seatCount partyShare seats",
+      "lean_source_declaration": "def paper_pav_marginal_conditions (seatCount : ℕ) (partyShare : ℝ)\n    (seats : ℕ) : Prop :=\n  pavSeatMarginalConditions seatCount partyShare seats",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_pav_marginal_conditions",
       "visible_inputs": [
         {
           "names": "seatCount",
-          "type": "\u2115"
+          "type": "ℕ"
         },
         {
           "names": "partyShare",
-          "type": "\u211d"
+          "type": "ℝ"
         },
         {
           "names": "seats",
-          "type": "\u2115"
+          "type": "ℕ"
         }
       ]
     },
     {
-      "lean_source_declaration": "def paper_pav_seat_interval (seatCount : \u2115) (partyShare : \u211d) (seats : \u2115) : Prop :=\n  pavSeatInterval seatCount partyShare seats",
+      "lean_source_declaration": "def paper_pav_seat_interval (seatCount : ℕ) (partyShare : ℝ) (seats : ℕ) : Prop :=\n  pavSeatInterval seatCount partyShare seats",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_pav_seat_interval",
       "visible_inputs": [
         {
           "names": "seatCount",
-          "type": "\u2115"
+          "type": "ℕ"
         },
         {
           "names": "partyShare",
-          "type": "\u211d"
+          "type": "ℝ"
         },
         {
           "names": "seats",
-          "type": "\u2115"
+          "type": "ℕ"
         }
       ]
     },
     {
-      "lean_source_declaration": "def paper_seat_share_rounded (seatCount : \u2115) (partyShare : \u211d) (seats : \u2115) : Prop :=\n  seatShareRounded seatCount partyShare seats",
+      "lean_source_declaration": "def paper_seat_share_rounded (seatCount : ℕ) (partyShare : ℝ) (seats : ℕ) : Prop :=\n  seatShareRounded seatCount partyShare seats",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_seat_share_rounded",
       "visible_inputs": [
         {
           "names": "seatCount",
-          "type": "\u2115"
+          "type": "ℕ"
         },
         {
           "names": "partyShare",
-          "type": "\u211d"
+          "type": "ℝ"
         },
         {
           "names": "seats",
-          "type": "\u2115"
+          "type": "ℕ"
         }
       ]
     },
     {
-      "lean_source_declaration": "def paper_stv_solid_coalition_party_trace_isolation\n    {Voter Candidate : Type*} [DecidableEq Candidate]\n    (voters : Finset Voter) (ballots : Voter \u2192 Ballot Candidate)\n    (partyCandidates : Finset Candidate) (trace : STVTrace Candidate) : Prop :=\n  \u2200 step, step \u2208 trace.steps \u2192\n    (\u2203 same, same \u2208 partyCandidates \u2227 same \u2208 step.beforeActive) \u2192\n      \u2200 outside, outside \u2209 partyCandidates \u2192\n        (Ballot.activeSupport voters ballots step.beforeActive outside).card = 0",
+      "lean_source_declaration": "def paper_stv_solid_coalition_party_trace_isolation\n    {Voter Candidate : Type*} [DecidableEq Candidate]\n    (voters : Finset Voter) (ballots : Voter → Ballot Candidate)\n    (partyCandidates : Finset Candidate) (trace : STVTrace Candidate) : Prop :=\n  ∀ step, step ∈ trace.steps →\n    (∃ same, same ∈ partyCandidates ∧ same ∈ step.beforeActive) →\n      ∀ outside, outside ∉ partyCandidates →\n        (Ballot.activeSupport voters ballots step.beforeActive outside).card = 0",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_stv_solid_coalition_party_trace_isolation",
@@ -640,7 +616,7 @@
         },
         {
           "names": "ballots",
-          "type": "Voter \u2192 Ballot Candidate"
+          "type": "Voter → Ballot Candidate"
         },
         {
           "names": "partyCandidates",
@@ -653,78 +629,78 @@
       ]
     },
     {
-      "lean_source_declaration": "def paper_stv_solid_coalition_quota_witness_bounds (seatCount : \u2115)\n    (partyShare : \u211d) (seats voters : \u2115) : Prop :=\n  stvSolidCoalitionQuotaWitnessBounds seatCount partyShare seats voters",
+      "lean_source_declaration": "def paper_stv_solid_coalition_quota_witness_bounds (seatCount : ℕ)\n    (partyShare : ℝ) (seats voters : ℕ) : Prop :=\n  stvSolidCoalitionQuotaWitnessBounds seatCount partyShare seats voters",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_stv_solid_coalition_quota_witness_bounds",
       "visible_inputs": [
         {
           "names": "seatCount",
-          "type": "\u2115"
+          "type": "ℕ"
         },
         {
           "names": "partyShare",
-          "type": "\u211d"
+          "type": "ℝ"
         },
         {
           "names": "seats voters",
-          "type": "\u2115"
+          "type": "ℕ"
         }
       ]
     },
     {
-      "lean_source_declaration": "def paper_stv_solid_coalition_lower_bounds (seatCount : \u2115) (partyShare : \u211d)\n    (seats : \u2115) :\n    Prop :=\n  stvSolidCoalitionLowerBounds seatCount partyShare seats",
+      "lean_source_declaration": "def paper_stv_solid_coalition_lower_bounds (seatCount : ℕ) (partyShare : ℝ)\n    (seats : ℕ) :\n    Prop :=\n  stvSolidCoalitionLowerBounds seatCount partyShare seats",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_stv_solid_coalition_lower_bounds",
       "visible_inputs": [
         {
           "names": "seatCount",
-          "type": "\u2115"
+          "type": "ℕ"
         },
         {
           "names": "partyShare",
-          "type": "\u211d"
+          "type": "ℝ"
         },
         {
           "names": "seats",
-          "type": "\u2115"
+          "type": "ℕ"
         }
       ]
     },
     {
-      "lean_source_declaration": "def paper_stv_seat_share_bounds (seatCount : \u2115) (partyShare : \u211d) (seats : \u2115) :\n    Prop :=\n  stvSeatShareBounds seatCount partyShare seats",
+      "lean_source_declaration": "def paper_stv_seat_share_bounds (seatCount : ℕ) (partyShare : ℝ) (seats : ℕ) :\n    Prop :=\n  stvSeatShareBounds seatCount partyShare seats",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_stv_seat_share_bounds",
       "visible_inputs": [
         {
           "names": "seatCount",
-          "type": "\u2115"
+          "type": "ℕ"
         },
         {
           "names": "partyShare",
-          "type": "\u211d"
+          "type": "ℝ"
         },
         {
           "names": "seats",
-          "type": "\u2115"
+          "type": "ℕ"
         }
       ]
     },
     {
-      "lean_source_declaration": "theorem paper_pav_interval_seat_share_rounded {seatCount seats : \u2115} {partyShare : \u211d}\n    (hpos : 0 < partyShare) (hle : partyShare \u2264 1)\n    (hinterval : paper_pav_seat_interval seatCount partyShare seats) :\n    paper_seat_share_rounded seatCount partyShare seats := by\n  simpa [paper_pav_seat_interval, paper_seat_share_rounded] using\n    (pavSeatInterval_seatShareRounded\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\n      hpos hle hinterval)",
+      "lean_source_declaration": "theorem paper_pav_interval_seat_share_rounded {seatCount seats : ℕ} {partyShare : ℝ}\n    (hpos : 0 < partyShare) (hle : partyShare ≤ 1)\n    (hinterval : paper_pav_seat_interval seatCount partyShare seats) :\n    paper_seat_share_rounded seatCount partyShare seats := by\n  simpa [paper_pav_seat_interval, paper_seat_share_rounded] using\n    (pavSeatInterval_seatShareRounded\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\n      hpos hle hinterval)",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_pav_interval_seat_share_rounded",
       "visible_inputs": [
         {
           "names": "seatCount seats",
-          "type": "\u2115"
+          "type": "ℕ"
         },
         {
           "names": "partyShare",
-          "type": "\u211d"
+          "type": "ℝ"
         },
         {
           "names": "hpos",
@@ -732,7 +708,7 @@
         },
         {
           "names": "hle",
-          "type": "partyShare \u2264 1"
+          "type": "partyShare ≤ 1"
         },
         {
           "names": "hinterval",
@@ -741,18 +717,18 @@
       ]
     },
     {
-      "lean_source_declaration": "theorem paper_pav_marginal_conditions_seat_share_rounded {seatCount seats : \u2115}\n    {partyShare : \u211d}\n    (hpos : 0 < partyShare) (hle : partyShare \u2264 1) (hseat : seatCount \u2264 seats)\n    (hmarg : paper_pav_marginal_conditions seatCount partyShare seats) :\n    paper_seat_share_rounded seatCount partyShare seats := by\n  simpa [paper_pav_marginal_conditions, paper_seat_share_rounded] using\n    (pavSeatMarginalConditions_seatShareRounded\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\n      hpos hle hseat hmarg)",
+      "lean_source_declaration": "theorem paper_pav_marginal_conditions_seat_share_rounded {seatCount seats : ℕ}\n    {partyShare : ℝ}\n    (hpos : 0 < partyShare) (hle : partyShare ≤ 1) (hseat : seatCount ≤ seats)\n    (hmarg : paper_pav_marginal_conditions seatCount partyShare seats) :\n    paper_seat_share_rounded seatCount partyShare seats := by\n  simpa [paper_pav_marginal_conditions, paper_seat_share_rounded] using\n    (pavSeatMarginalConditions_seatShareRounded\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\n      hpos hle hseat hmarg)",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_pav_marginal_conditions_seat_share_rounded",
       "visible_inputs": [
         {
           "names": "seatCount seats",
-          "type": "\u2115"
+          "type": "ℕ"
         },
         {
           "names": "partyShare",
-          "type": "\u211d"
+          "type": "ℝ"
         },
         {
           "names": "hpos",
@@ -760,11 +736,11 @@
         },
         {
           "names": "hle",
-          "type": "partyShare \u2264 1"
+          "type": "partyShare ≤ 1"
         },
         {
           "names": "hseat",
-          "type": "seatCount \u2264 seats"
+          "type": "seatCount ≤ seats"
         },
         {
           "names": "hmarg",
@@ -773,18 +749,18 @@
       ]
     },
     {
-      "lean_source_declaration": "theorem paper_pav_min_argmax_seat_interval {seatCount seats : \u2115}\n    {partyShare : \u211d}\n    (hpos : 0 < partyShare) (hle : partyShare \u2264 1)\n    (hmin : paper_pav_min_argmax seatCount partyShare seats) :\n    paper_pav_seat_interval seatCount partyShare seats := by\n  simpa [paper_pav_min_argmax, paper_pav_seat_score, paper_pav_seat_interval,\n    pavSeatMinArgmax, pavSeatScore, pavSeatInterval] using\n    (pavSeatMinArgmax_seatInterval\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\n      hpos hle hmin)",
+      "lean_source_declaration": "theorem paper_pav_min_argmax_seat_interval {seatCount seats : ℕ}\n    {partyShare : ℝ}\n    (hpos : 0 < partyShare) (hle : partyShare ≤ 1)\n    (hmin : paper_pav_min_argmax seatCount partyShare seats) :\n    paper_pav_seat_interval seatCount partyShare seats := by\n  simpa [paper_pav_min_argmax, paper_pav_seat_score, paper_pav_seat_interval,\n    pavSeatMinArgmax, pavSeatScore, pavSeatInterval] using\n    (pavSeatMinArgmax_seatInterval\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\n      hpos hle hmin)",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_pav_min_argmax_seat_interval",
       "visible_inputs": [
         {
           "names": "seatCount seats",
-          "type": "\u2115"
+          "type": "ℕ"
         },
         {
           "names": "partyShare",
-          "type": "\u211d"
+          "type": "ℝ"
         },
         {
           "names": "hpos",
@@ -792,7 +768,7 @@
         },
         {
           "names": "hle",
-          "type": "partyShare \u2264 1"
+          "type": "partyShare ≤ 1"
         },
         {
           "names": "hmin",
@@ -801,18 +777,18 @@
       ]
     },
     {
-      "lean_source_declaration": "theorem paper_pav_min_argmax_seat_share_rounded {seatCount seats : \u2115}\n    {partyShare : \u211d}\n    (hpos : 0 < partyShare) (hle : partyShare \u2264 1)\n    (hmin : paper_pav_min_argmax seatCount partyShare seats) :\n    paper_seat_share_rounded seatCount partyShare seats := by\n  simpa [paper_pav_min_argmax, paper_pav_seat_score, paper_seat_share_rounded,\n    pavSeatMinArgmax, pavSeatScore, seatShareRounded] using\n    (pavSeatMinArgmax_seatShareRounded\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\n      hpos hle hmin)",
+      "lean_source_declaration": "theorem paper_pav_min_argmax_seat_share_rounded {seatCount seats : ℕ}\n    {partyShare : ℝ}\n    (hpos : 0 < partyShare) (hle : partyShare ≤ 1)\n    (hmin : paper_pav_min_argmax seatCount partyShare seats) :\n    paper_seat_share_rounded seatCount partyShare seats := by\n  simpa [paper_pav_min_argmax, paper_pav_seat_score, paper_seat_share_rounded,\n    pavSeatMinArgmax, pavSeatScore, seatShareRounded] using\n    (pavSeatMinArgmax_seatShareRounded\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\n      hpos hle hmin)",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_pav_min_argmax_seat_share_rounded",
       "visible_inputs": [
         {
           "names": "seatCount seats",
-          "type": "\u2115"
+          "type": "ℕ"
         },
         {
           "names": "partyShare",
-          "type": "\u211d"
+          "type": "ℝ"
         },
         {
           "names": "hpos",
@@ -820,7 +796,7 @@
         },
         {
           "names": "hle",
-          "type": "partyShare \u2264 1"
+          "type": "partyShare ≤ 1"
         },
         {
           "names": "hmin",
@@ -829,7 +805,7 @@
       ]
     },
     {
-      "lean_source_declaration": "theorem paper_stv_solid_coalition_ballots_party_trace_isolation\n    {Voter Candidate : Type*} [DecidableEq Candidate]\n    {voters : Finset Voter} {ballots : Voter \u2192 Ballot Candidate}\n    {partyCandidates : Finset Candidate} {trace : STVTrace Candidate}\n    (hsolid : SolidCoalitionBallots voters ballots partyCandidates) :\n    paper_stv_solid_coalition_party_trace_isolation\n      voters ballots partyCandidates trace := by\n  simpa [paper_stv_solid_coalition_party_trace_isolation,\n    NoCrossPartyTransferBeforeExhaustion] using\n    (stvSolidCoalitionBallots_partyTraceIsolation\n      (voters := voters) (ballots := ballots)\n      (partyCandidates := partyCandidates) (trace := trace) hsolid)",
+      "lean_source_declaration": "theorem paper_stv_solid_coalition_ballots_party_trace_isolation\n    {Voter Candidate : Type*} [DecidableEq Candidate]\n    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}\n    {partyCandidates : Finset Candidate} {trace : STVTrace Candidate}\n    (hsolid : SolidCoalitionBallots voters ballots partyCandidates) :\n    paper_stv_solid_coalition_party_trace_isolation\n      voters ballots partyCandidates trace := by\n  simpa [paper_stv_solid_coalition_party_trace_isolation,\n    NoCrossPartyTransferBeforeExhaustion] using\n    (stvSolidCoalitionBallots_partyTraceIsolation\n      (voters := voters) (ballots := ballots)\n      (partyCandidates := partyCandidates) (trace := trace) hsolid)",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_stv_solid_coalition_ballots_party_trace_isolation",
@@ -844,7 +820,7 @@
         },
         {
           "names": "ballots",
-          "type": "Voter \u2192 Ballot Candidate"
+          "type": "Voter → Ballot Candidate"
         },
         {
           "names": "partyCandidates",
@@ -861,42 +837,42 @@
       ]
     },
     {
-      "lean_source_declaration": "theorem paper_stv_quota_floors_fit {seats voters : \u2115} {partyShare : \u211d}\n    (hshare_nonneg : 0 \u2264 partyShare) (hshare_le : partyShare \u2264 1) :\n    \u230apartyShare * ((voters : \u211d) / (STVQuota seats voters : \u211d))\u230b\u208a +\n        \u230a(1 - partyShare) *\n          ((voters : \u211d) / (STVQuota seats voters : \u211d))\u230b\u208a \u2264 seats :=\n  stvTwoPartyQuotaFloors_sum_le_seats hshare_nonneg hshare_le",
+      "lean_source_declaration": "theorem paper_stv_quota_floors_fit {seats voters : ℕ} {partyShare : ℝ}\n    (hshare_nonneg : 0 ≤ partyShare) (hshare_le : partyShare ≤ 1) :\n    ⌊partyShare * ((voters : ℝ) / (STVQuota seats voters : ℝ))⌋₊ +\n        ⌊(1 - partyShare) *\n          ((voters : ℝ) / (STVQuota seats voters : ℝ))⌋₊ ≤ seats :=\n  stvTwoPartyQuotaFloors_sum_le_seats hshare_nonneg hshare_le",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_stv_quota_floors_fit",
       "visible_inputs": [
         {
           "names": "seats voters",
-          "type": "\u2115"
+          "type": "ℕ"
         },
         {
           "names": "partyShare",
-          "type": "\u211d"
+          "type": "ℝ"
         },
         {
           "names": "hshare_nonneg",
-          "type": "0 \u2264 partyShare"
+          "type": "0 ≤ partyShare"
         },
         {
           "names": "hshare_le",
-          "type": "partyShare \u2264 1"
+          "type": "partyShare ≤ 1"
         }
       ]
     },
     {
-      "lean_source_declaration": "theorem paper_stv_solid_coalition_quota_witness_bounds_lower_bounds\n    {seatCount seats voters : \u2115} {partyShare : \u211d}\n    (hstv :\n      paper_stv_solid_coalition_quota_witness_bounds seatCount partyShare seats voters) :\n    paper_stv_solid_coalition_lower_bounds seatCount partyShare seats := by\n  simpa [paper_stv_solid_coalition_quota_witness_bounds,\n    paper_stv_solid_coalition_lower_bounds,\n    stvSolidCoalitionQuotaWitnessBounds] using\n    (stvSolidCoalitionLowerBounds_of_quotaLowerBounds\n      (seatCount := seatCount) (seats := seats) (voters := voters)\n      (partyShare := partyShare)\n      (stvSolidCoalitionQuotaLowerBounds_of_quotaWitnessBounds hstv))",
+      "lean_source_declaration": "theorem paper_stv_solid_coalition_quota_witness_bounds_lower_bounds\n    {seatCount seats voters : ℕ} {partyShare : ℝ}\n    (hstv :\n      paper_stv_solid_coalition_quota_witness_bounds seatCount partyShare seats voters) :\n    paper_stv_solid_coalition_lower_bounds seatCount partyShare seats := by\n  simpa [paper_stv_solid_coalition_quota_witness_bounds,\n    paper_stv_solid_coalition_lower_bounds,\n    stvSolidCoalitionQuotaWitnessBounds] using\n    (stvSolidCoalitionLowerBounds_of_quotaLowerBounds\n      (seatCount := seatCount) (seats := seats) (voters := voters)\n      (partyShare := partyShare)\n      (stvSolidCoalitionQuotaLowerBounds_of_quotaWitnessBounds hstv))",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_stv_solid_coalition_quota_witness_bounds_lower_bounds",
       "visible_inputs": [
         {
           "names": "seatCount seats voters",
-          "type": "\u2115"
+          "type": "ℕ"
         },
         {
           "names": "partyShare",
-          "type": "\u211d"
+          "type": "ℝ"
         },
         {
           "names": "hstv",
@@ -905,18 +881,18 @@
       ]
     },
     {
-      "lean_source_declaration": "theorem paper_stv_solid_coalition_lower_bounds_seat_share_bounds\n    {seatCount seats : \u2115} {partyShare : \u211d}\n    (hstv : paper_stv_solid_coalition_lower_bounds seatCount partyShare seats) :\n    paper_stv_seat_share_bounds seatCount partyShare seats := by\n  simpa [paper_stv_solid_coalition_lower_bounds, paper_stv_seat_share_bounds,\n    stvSolidCoalitionLowerBounds] using\n    (stvSeatShareBounds_of_solidCoalitionLowerBounds\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\n      hstv)",
+      "lean_source_declaration": "theorem paper_stv_solid_coalition_lower_bounds_seat_share_bounds\n    {seatCount seats : ℕ} {partyShare : ℝ}\n    (hstv : paper_stv_solid_coalition_lower_bounds seatCount partyShare seats) :\n    paper_stv_seat_share_bounds seatCount partyShare seats := by\n  simpa [paper_stv_solid_coalition_lower_bounds, paper_stv_seat_share_bounds,\n    stvSolidCoalitionLowerBounds] using\n    (stvSeatShareBounds_of_solidCoalitionLowerBounds\n      (seatCount := seatCount) (seats := seats) (partyShare := partyShare)\n      hstv)",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_stv_solid_coalition_lower_bounds_seat_share_bounds",
       "visible_inputs": [
         {
           "names": "seatCount seats",
-          "type": "\u2115"
+          "type": "ℕ"
         },
         {
           "names": "partyShare",
-          "type": "\u211d"
+          "type": "ℝ"
         },
         {
           "names": "hstv",
@@ -925,7 +901,7 @@
       ]
     },
     {
-      "lean_source_declaration": "theorem paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax\n    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]\n    (choice : FractionalSTVChoiceRule Candidate)\n    {partyVoters otherPartyVoters allVoters : Finset Voter}\n    {ballots : Voter \u2192 Ballot Candidate}\n    {partyCandidates otherPartyCandidates : Finset Candidate}\n    {initialActive : Finset Candidate}\n    (initialWeight partyInitialWeight otherPartyInitialWeight : Voter \u2192 \u211d)\n    {pavSeatCount seats voters : \u2115} {partyShare : \u211d}\n    (hpos : 0 < partyShare) (hle : partyShare \u2264 1)\n    (hvoters : seats * (seats + 1) \u2264 voters)\n    (htotalChoice : choice.Total)\n    (hchoiceRespect : choice.QuotaRespecting (STVQuota seats voters : \u211d))\n    (hpartyCandidates : seats \u2264 partyCandidates.card)\n    (hotherPartyCandidates : seats \u2264 otherPartyCandidates.card)\n    (hpartySolid : SolidCoalitionBallots partyVoters ballots partyCandidates)\n    (hotherSolid :\n      SolidCoalitionBallots otherPartyVoters ballots otherPartyCandidates)\n    (hinitialWeightNonneg :\n      \u2200 voter, voter \u2208 allVoters \u2192 0 \u2264 initialWeight voter)\n    (hinitialTotalMass :\n      (voters : \u211d) = \u2211 voter \u2208 allVoters, initialWeight voter)\n    (hvoterPartition : allVoters = partyVoters \u222a otherPartyVoters)\n    (hvoterDisjoint : Disjoint partyVoters otherPartyVoters)\n    (hcandidateDisjoint : Disjoint partyCandidates otherPartyCandidates)\n    (hpartyInitialActive : partyCandidates \u2286 initialActive)\n    (hotherInitialActive : otherPartyCandidates \u2286 initialActive)\n    (hinitialActiveSubset :\n      initialActive \u2286 partyCandidates \u222a otherPartyCandidates)\n    (hpartyInitialWeightEq :\n      \u2200 voter, voter \u2208 partyVoters \u2192\n        initialWeight voter = partyInitialWeight voter)\n    (hotherInitialWeightEq :\n      \u2200 voter, voter \u2208 otherPartyVoters \u2192\n        initialWeight voter = otherPartyInitialWeight voter)\n    (hpartyInitialMass :\n      partyShare * (voters : \u211d) =\n        \u2211 voter \u2208 partyVoters, partyInitialWeight voter)\n    (hotherInitialMass :\n      (1 - partyShare) * (voters : \u211d) =\n        \u2211 voter \u2208 otherPartyVoters, otherPartyInitialWeight voter)\n    (hpav : paper_pav_min_argmax pavSeatCount partyShare seats) :\n    paper_seat_share_rounded\n        (partyFilledSeatCount partyCandidates seats\n          (fractionalSTVFilledSeatRunTrace choice allVoters ballots\n            (STVQuota seats voters : \u211d) seats initialActive.card 0\n            initialActive initialWeight).steps\n          (fractionalSTVFilledSeatRunTerminalActive choice allVoters ballots\n            (STVQuota seats voters : \u211d) seats initialActive.card 0\n            initialActive initialWeight))\n        partyShare seats \u2227\n      paper_seat_share_rounded pavSeatCount partyShare seats := by\n  simpa [paper_pav_min_argmax, paper_pav_seat_score,\n    paper_seat_share_rounded, pavSeatMinArgmax, pavSeatScore,\n    seatShareRounded] using\n    (proposition1_seatSharesRounded_of_generatedFilledSeatRunFractionalSTVTrace_globalWeightTerminal_and_pavMinArgmax_of_total\n      (Voter := Voter) (Candidate := Candidate) choice\n      (partyVoters := partyVoters) (otherPartyVoters := otherPartyVoters)\n      (allVoters := allVoters) (ballots := ballots)\n      (partyCandidates := partyCandidates)\n      (otherPartyCandidates := otherPartyCandidates)\n      (initialActive := initialActive) initialWeight\n      partyInitialWeight otherPartyInitialWeight\n      (pavSeatCount := pavSeatCount) (seats := seats) (voters := voters)\n      (partyShare := partyShare) hpos hle hvoters htotalChoice hchoiceRespect\n      hpartyCandidates hotherPartyCandidates hpartySolid hotherSolid\n      hinitialWeightNonneg hinitialTotalMass hvoterPartition hvoterDisjoint\n      hcandidateDisjoint hpartyInitialActive hotherInitialActive\n      hinitialActiveSubset hpartyInitialWeightEq hotherInitialWeightEq\n      hpartyInitialMass hotherInitialMass hpav)",
+      "lean_source_declaration": "theorem paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax\n    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]\n    (choice : FractionalSTVChoiceRule Candidate)\n    {partyVoters otherPartyVoters allVoters : Finset Voter}\n    {ballots : Voter → Ballot Candidate}\n    {partyCandidates otherPartyCandidates : Finset Candidate}\n    {initialActive : Finset Candidate}\n    (initialWeight partyInitialWeight otherPartyInitialWeight : Voter → ℝ)\n    {pavSeatCount seats voters : ℕ} {partyShare : ℝ}\n    (hpos : 0 < partyShare) (hle : partyShare ≤ 1)\n    (hvoters : seats * (seats + 1) ≤ voters)\n    (htotalChoice : choice.Total)\n    (hchoiceRespect : choice.QuotaRespecting (STVQuota seats voters : ℝ))\n    (hpartyCandidates : seats ≤ partyCandidates.card)\n    (hotherPartyCandidates : seats ≤ otherPartyCandidates.card)\n    (hpartySolid : SolidCoalitionBallots partyVoters ballots partyCandidates)\n    (hotherSolid :\n      SolidCoalitionBallots otherPartyVoters ballots otherPartyCandidates)\n    (hinitialWeightNonneg :\n      ∀ voter, voter ∈ allVoters → 0 ≤ initialWeight voter)\n    (hinitialTotalMass :\n      (voters : ℝ) = ∑ voter ∈ allVoters, initialWeight voter)\n    (hvoterPartition : allVoters = partyVoters ∪ otherPartyVoters)\n    (hvoterDisjoint : Disjoint partyVoters otherPartyVoters)\n    (hcandidateDisjoint : Disjoint partyCandidates otherPartyCandidates)\n    (hpartyInitialActive : partyCandidates ⊆ initialActive)\n    (hotherInitialActive : otherPartyCandidates ⊆ initialActive)\n    (hinitialActiveSubset :\n      initialActive ⊆ partyCandidates ∪ otherPartyCandidates)\n    (hpartyInitialWeightEq :\n      ∀ voter, voter ∈ partyVoters →\n        initialWeight voter = partyInitialWeight voter)\n    (hotherInitialWeightEq :\n      ∀ voter, voter ∈ otherPartyVoters →\n        initialWeight voter = otherPartyInitialWeight voter)\n    (hpartyInitialMass :\n      partyShare * (voters : ℝ) =\n        ∑ voter ∈ partyVoters, partyInitialWeight voter)\n    (hotherInitialMass :\n      (1 - partyShare) * (voters : ℝ) =\n        ∑ voter ∈ otherPartyVoters, otherPartyInitialWeight voter)\n    (hpav : paper_pav_min_argmax pavSeatCount partyShare seats) :\n    paper_seat_share_rounded\n        (partyFilledSeatCount partyCandidates seats\n          (fractionalSTVFilledSeatRunTrace choice allVoters ballots\n            (STVQuota seats voters : ℝ) seats initialActive.card 0\n            initialActive initialWeight).steps\n          (fractionalSTVFilledSeatRunTerminalActive choice allVoters ballots\n            (STVQuota seats voters : ℝ) seats initialActive.card 0\n            initialActive initialWeight))\n        partyShare seats ∧\n      paper_seat_share_rounded pavSeatCount partyShare seats := by\n  simpa [paper_pav_min_argmax, paper_pav_seat_score,\n    paper_seat_share_rounded, pavSeatMinArgmax, pavSeatScore,\n    seatShareRounded] using\n    (proposition1_seatSharesRounded_of_generatedFilledSeatRunFractionalSTVTrace_globalWeightTerminal_and_pavMinArgmax_of_total\n      (Voter := Voter) (Candidate := Candidate) choice\n      (partyVoters := partyVoters) (otherPartyVoters := otherPartyVoters)\n      (allVoters := allVoters) (ballots := ballots)\n      (partyCandidates := partyCandidates)\n      (otherPartyCandidates := otherPartyCandidates)\n      (initialActive := initialActive) initialWeight\n      partyInitialWeight otherPartyInitialWeight\n      (pavSeatCount := pavSeatCount) (seats := seats) (voters := voters)\n      (partyShare := partyShare) hpos hle hvoters htotalChoice hchoiceRespect\n      hpartyCandidates hotherPartyCandidates hpartySolid hotherSolid\n      hinitialWeightNonneg hinitialTotalMass hvoterPartition hvoterDisjoint\n      hcandidateDisjoint hpartyInitialActive hotherInitialActive\n      hinitialActiveSubset hpartyInitialWeightEq hotherInitialWeightEq\n      hpartyInitialMass hotherInitialMass hpav)",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax",
@@ -944,7 +920,7 @@
         },
         {
           "names": "ballots",
-          "type": "Voter \u2192 Ballot Candidate"
+          "type": "Voter → Ballot Candidate"
         },
         {
           "names": "partyCandidates otherPartyCandidates",
@@ -956,15 +932,15 @@
         },
         {
           "names": "initialWeight partyInitialWeight otherPartyInitialWeight",
-          "type": "Voter \u2192 \u211d"
+          "type": "Voter → ℝ"
         },
         {
           "names": "pavSeatCount seats voters",
-          "type": "\u2115"
+          "type": "ℕ"
         },
         {
           "names": "partyShare",
-          "type": "\u211d"
+          "type": "ℝ"
         },
         {
           "names": "hpos",
@@ -972,11 +948,11 @@
         },
         {
           "names": "hle",
-          "type": "partyShare \u2264 1"
+          "type": "partyShare ≤ 1"
         },
         {
           "names": "hvoters",
-          "type": "seats * (seats + 1) \u2264 voters"
+          "type": "seats * (seats + 1) ≤ voters"
         },
         {
           "names": "htotalChoice",
@@ -984,15 +960,15 @@
         },
         {
           "names": "hchoiceRespect",
-          "type": "choice.QuotaRespecting (STVQuota seats voters : \u211d)"
+          "type": "choice.QuotaRespecting (STVQuota seats voters : ℝ)"
         },
         {
           "names": "hpartyCandidates",
-          "type": "seats \u2264 partyCandidates.card"
+          "type": "seats ≤ partyCandidates.card"
         },
         {
           "names": "hotherPartyCandidates",
-          "type": "seats \u2264 otherPartyCandidates.card"
+          "type": "seats ≤ otherPartyCandidates.card"
         },
         {
           "names": "hpartySolid",
@@ -1004,15 +980,15 @@
         },
         {
           "names": "hinitialWeightNonneg",
-          "type": "\u2200 voter, voter \u2208 allVoters \u2192 0 \u2264 initialWeight voter"
+          "type": "∀ voter, voter ∈ allVoters → 0 ≤ initialWeight voter"
         },
         {
           "names": "hinitialTotalMass",
-          "type": "(voters : \u211d) = \u2211 voter \u2208 allVoters, initialWeight voter"
+          "type": "(voters : ℝ) = ∑ voter ∈ allVoters, initialWeight voter"
         },
         {
           "names": "hvoterPartition",
-          "type": "allVoters = partyVoters \u222a otherPartyVoters"
+          "type": "allVoters = partyVoters ∪ otherPartyVoters"
         },
         {
           "names": "hvoterDisjoint",
@@ -1024,31 +1000,31 @@
         },
         {
           "names": "hpartyInitialActive",
-          "type": "partyCandidates \u2286 initialActive"
+          "type": "partyCandidates ⊆ initialActive"
         },
         {
           "names": "hotherInitialActive",
-          "type": "otherPartyCandidates \u2286 initialActive"
+          "type": "otherPartyCandidates ⊆ initialActive"
         },
         {
           "names": "hinitialActiveSubset",
-          "type": "initialActive \u2286 partyCandidates \u222a otherPartyCandidates"
+          "type": "initialActive ⊆ partyCandidates ∪ otherPartyCandidates"
         },
         {
           "names": "hpartyInitialWeightEq",
-          "type": "\u2200 voter, voter \u2208 partyVoters \u2192 initialWeight voter = partyInitialWeight voter"
+          "type": "∀ voter, voter ∈ partyVoters → initialWeight voter = partyInitialWeight voter"
         },
         {
           "names": "hotherInitialWeightEq",
-          "type": "\u2200 voter, voter \u2208 otherPartyVoters \u2192 initialWeight voter = otherPartyInitialWeight voter"
+          "type": "∀ voter, voter ∈ otherPartyVoters → initialWeight voter = otherPartyInitialWeight voter"
         },
         {
           "names": "hpartyInitialMass",
-          "type": "partyShare * (voters : \u211d) = \u2211 voter \u2208 partyVoters, partyInitialWeight voter"
+          "type": "partyShare * (voters : ℝ) = ∑ voter ∈ partyVoters, partyInitialWeight voter"
         },
         {
           "names": "hotherInitialMass",
-          "type": "(1 - partyShare) * (voters : \u211d) = \u2211 voter \u2208 otherPartyVoters, otherPartyInitialWeight voter"
+          "type": "(1 - partyShare) * (voters : ℝ) = ∑ voter ∈ otherPartyVoters, otherPartyInitialWeight voter"
         },
         {
           "names": "hpav",
@@ -1057,7 +1033,8 @@
       ]
     }
   ],
-  "source_record_audit_sha256": "d3cfe4594e7807a024510221bb58784fc85093578099148b3e2495b4d867b05f",
-  "source_record_judgment_file": "source_record_match_llm.json",
-  "unconfigured_paper_interface_rows": []
+  "source_record_audit_sha256": "5ae6dfe70855ce73c14579e2320b8442dee01d494af8eac24a658ca1a725ceed",
+  "source_record_judgment_file": "audit/source_record_match_llm.json",
+  "unconfigured_paper_interface_rows": [],
+  "unconfigured_review_surface_rows": []
 }

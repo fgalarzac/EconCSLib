@@ -19,7 +19,7 @@
     "path": "papers/DSWG24DiscretizationBias/PaperInterface.lean",
     "line_count": 456,
     "declaration_rows": 41,
-    "review_rows": 41,
+    "review_rows": 32,
     "oversized": false,
     "maintainability_issue": null
   },

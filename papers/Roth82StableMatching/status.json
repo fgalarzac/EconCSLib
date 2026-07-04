@@ -19,7 +19,7 @@
     "path": "papers/Roth82StableMatching/PaperInterface.lean",
     "line_count": 490,
     "declaration_rows": 29,
-    "review_rows": 29,
+    "review_rows": 27,
     "oversized": false,
     "maintainability_issue": null
   },
@@ -91,7 +91,6 @@
           "womenDeferredAcceptance",
           "paretoOptimal",
           "efficientMatchingProcedure",
-          "serialDictatorshipMechanism",
           "manReportStrictlyRanksPartnerFirst",
           "reportMisrepresentsKthChoice",
           "theorem1_stable_complete_outcome_exists_on_strict_marriage_domain",
@@ -106,6 +105,9 @@
           "theorem7_arbitrary_k_on_strict_profiles"
         ]
       }
+    ],
+    "auxiliary_names": [
+      "serialDictatorshipMechanism"
     ]
   }
 }

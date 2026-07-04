@@ -9,7 +9,23 @@
       "reason": "The Mallows no-randomization corollary selects W winners from the reference ranking and uses the adjacent pivotal pair W,W+1.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hW : 0 < W.val": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The Mallows no-randomization corollary selects W winners from the reference ranking and uses the adjacent pivotal pair W,W+1.",
+          "source_location": "GGSG19TopThree source statement for assumption_mallows_nontrivial_winner_and_noise"
+        },
+        "hq_lt : M.q < 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The Mallows no-randomization corollary selects W winners from the reference ranking and uses the adjacent pivotal pair W,W+1.",
+          "source_location": "GGSG19TopThree source statement for assumption_mallows_nontrivial_winner_and_noise"
+        }
+      },
+      "premises": [
+        "hW : 0 < W.val",
+        "hq_lt : M.q < 1"
+      ]
     },
     "assumption_nontrivial_k_approval_cutoffs": {
       "judgment": "paper_condition",
@@ -19,7 +35,23 @@
       "reason": "The K-approval randomization theorem ranges over proper nontrivial K-approval cutoffs.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hK_lt : ∀ rule, K rule < n + 2": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The K-approval randomization theorem ranges over proper nontrivial K-approval cutoffs.",
+          "source_location": "GGSG19TopThree source statement for assumption_nontrivial_k_approval_cutoffs"
+        },
+        "hK_pos : ∀ rule, 0 < K rule": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The K-approval randomization theorem ranges over proper nontrivial K-approval cutoffs.",
+          "source_location": "GGSG19TopThree source statement for assumption_nontrivial_k_approval_cutoffs"
+        }
+      },
+      "premises": [
+        "hK_lt : ∀ rule, K rule < n + 2",
+        "hK_pos : ∀ rule, 0 < K rule"
+      ]
     },
     "assumption_pairwise_approval_ternary_gap_domain": {
       "judgment": "paper_condition",
@@ -29,7 +61,23 @@
       "reason": "Proposition 3 specializes to K-approval, where score gaps are ternary, and uses the source condition that the higher-score candidate has larger expected score.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hle : pDown ≤ pUp": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Proposition 3 specializes to K-approval, where score gaps are ternary, and uses the source condition that the higher-score candidate has larger expected score.",
+          "source_location": "GGSG19TopThree source statement for assumption_pairwise_approval_ternary_gap_domain"
+        },
+        "hscore : ∀ signal, hiScore signal - loScore signal = 1 ∨ hiScore signal - loScore signal = 0 ∨ hiScore signal - loScore signal = -1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Proposition 3 specializes to K-approval, where score gaps are ternary, and uses the source condition that the higher-score candidate has larger expected score.",
+          "source_location": "GGSG19TopThree source statement for assumption_pairwise_approval_ternary_gap_domain"
+        }
+      },
+      "premises": [
+        "hle : pDown ≤ pUp",
+        "hscore : ∀ signal, hiScore signal - loScore signal = 1 ∨ hiScore signal - loScore signal = 0 ∨ hiScore signal - loScore signal = -1"
+      ]
     },
     "assumption_randomized_mechanism_probability_weights": {
       "judgment": "paper_condition",
@@ -39,7 +87,23 @@
       "reason": "Randomized scoring and K-approval mechanisms choose component rules with probabilities.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hsum : (∑ rule : Rule, weight rule) = 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Randomized scoring and K-approval mechanisms choose component rules with probabilities.",
+          "source_location": "GGSG19TopThree source statement for assumption_randomized_mechanism_probability_weights"
+        },
+        "hweight : ∀ rule, 0 ≤ weight rule": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Randomized scoring and K-approval mechanisms choose component rules with probabilities.",
+          "source_location": "GGSG19TopThree source statement for assumption_randomized_mechanism_probability_weights"
+        }
+      },
+      "premises": [
+        "hsum : (∑ rule : Rule, weight rule) = 1",
+        "hweight : ∀ rule, 0 ≤ weight rule"
+      ]
     },
     "assumption_strict_cross_tier_no_ties": {
       "judgment": "paper_condition",
@@ -49,7 +113,17 @@
       "reason": "Proposition 1 is exactly the strict cross-tier top-prefix regime; the source states strict inequalities between every higher-tier and lower-tier candidate at every prefix cutoff.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hNoTie : ∀ stage : Fin Stage, ∀ hi lo : Candidate n, hi ∈ targetPrefix stage → lo ∉ targetPrefix stage → ∀ cut : RankingProperPrefixCut n, rankingTopPrefixProb law lo cut ≠ rankingTopPrefixProb law hi cut": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Proposition 1 is exactly the strict cross-tier top-prefix regime; the source states strict inequalities between every higher-tier and lower-tier candidate at every prefix cutoff.",
+          "source_location": "GGSG19TopThree source statement for assumption_strict_cross_tier_no_ties"
+        }
+      },
+      "premises": [
+        "hNoTie : ∀ stage : Fin Stage, ∀ hi lo : Candidate n, hi ∈ targetPrefix stage → lo ∉ targetPrefix stage → ∀ cut : RankingProperPrefixCut n, rankingTopPrefixProb law lo cut ≠ rankingTopPrefixProb law hi cut"
+      ]
     }
   },
   "paper": "GGSG19TopThree",

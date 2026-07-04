@@ -774,7 +774,7 @@
   "paper": "GCG24UserItemFairness",
   "paper_statement_inventory_sha256": "242c9126315bcc9c0e7e93510d115ee1ac617fec0f2270a7c59f14494fca4ac5",
   "prompt_version": "paper-coverage-v2-source-grounded-source-to-dashboard",
-  "review_surface_sha256": "2491fef1e5f7db6eaba3ff313dccc9943dbfb92e0411da51084ec50937317f1f",
+  "review_surface_sha256": "6278bad34067d427891d052aa19f11d4f9c7d33d1dbd2a4a5fc70e959f5d9540",
   "schema": 1,
   "source_grounded": true,
   "validated_at": "2026-06-29T20:39:31Z",

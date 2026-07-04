@@ -7199,8 +7199,7 @@ one-survival witness inputs.
 Source status: direct paper-facing Boolean checker for packaged Algorithm 3
 extended-removal inputs.
 -/
-noncomputable def
-    paper_theorem2_1_canonical_generated_branch_checker_inputs_check
+noncomputable def paper_theorem2_1_canonical_generated_branch_checker_inputs_check
     {Voter Candidate : Type*} [DecidableEq Candidate]
     (voters : Finset Voter) (ballots : Voter → RCVBallot Candidate)
     (candidates lower : Finset Candidate) (budget quota : ℕ)

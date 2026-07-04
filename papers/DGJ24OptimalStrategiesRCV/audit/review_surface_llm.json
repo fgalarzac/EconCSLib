@@ -9,7 +9,7 @@
   "judgment": "passes",
   "reason": "Current DGJ24 dashboard rows are curated paper-facing formalization targets; auxiliary and superseded wrapper rows are not part of the reviewed surface.",
   "review_rows": 65,
-  "review_surface_sha256": "8da135983f0756f3e51dc6e2067991332682e857d972a64566c1254857e4b48c",
+  "review_surface_sha256": "c1a36c8aa743827a353697c55276836f2494be413bff74eb9cd059c79f620066",
   "items": {
     "paper_addition_strategy_shape": {
       "judgment": "paper_facing",

@@ -22,7 +22,7 @@
   },
   "paper_interface": {
     "path": "papers/TEMPLATE/PaperInterface.lean",
-    "line_count": 0,
+    "line_count": 57,
     "declaration_rows": 0,
     "review_rows": 0,
     "oversized": false,
@@ -71,6 +71,10 @@
         "title": "All source-facing review rows",
         "names": []
       }
+    ],
+    "auxiliary_names": [
+      "paperDefinition1_formula",
+      "paper_theorem_1_statement"
     ]
   }
 }

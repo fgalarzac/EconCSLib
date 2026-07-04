@@ -390,7 +390,7 @@
   "paper": "LBG24SpatialUnderreporting",
   "paper_statement_inventory_sha256": "7127d8531865c77912951621f837ddfd86924f03ac2b139dce8fd4e3c7ef0a94",
   "prompt_version": "paper-coverage-v2-source-grounded-source-to-dashboard",
-  "review_surface_sha256": "6d1d4dbcdcc218f3cb950f9651fc8f20554295e70821780b504e80c3be57c98f",
+  "review_surface_sha256": "a680c5d2f6a099f41da1740b1d1e657e4cbf3ffb855f9dccf70f36a225a632f6",
   "schema": 1,
   "source_grounded": true,
   "validated_at": "2026-06-29T18:08:26Z",

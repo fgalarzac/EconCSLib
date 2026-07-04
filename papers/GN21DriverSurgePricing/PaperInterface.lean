@@ -143,8 +143,19 @@ Remark 2: structured-price scaled earning algebra
 Source status: source-facing theorem summary
 Source note: Paper source map uses `source.txt` lines 3017--3036.
 -/
-abbrev review_remark2_structured_scaled_earning_algebra :=
-  @paper_remark2_structured_scaled_earning_algebra
+theorem review_remark2_structured_scaled_earning_algebra
+    (μ : Measure TripLength) (arrivalRate m z switchIJ switchJI : ℝ)
+    (σ : TripPolicy)
+    (htime_integrable : IntegrableOn (fun τ : TripLength => τ) σ μ)
+    (hq_integrable :
+      IntegrableOn (fun τ : TripLength =>
+        gn21SwitchProb switchIJ switchJI τ) σ μ) :
+    gn21ScaledStateEarning μ arrivalRate
+        (ctmcStructuredSurgePrice m z switchIJ switchJI) σ =
+      m * (gn21ScaledStateTime μ arrivalRate σ - 1) +
+        z * (gn21ExitWeightIntegral μ arrivalRate switchIJ switchJI σ - switchIJ) := by
+  exact paper_remark2_structured_scaled_earning_algebra μ arrivalRate m z
+    switchIJ switchJI σ htime_integrable hq_integrable
 
 /--
 Remark 2: substituting the structured price and scaled earning formulas into

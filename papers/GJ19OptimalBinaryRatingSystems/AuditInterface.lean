@@ -1358,7 +1358,12 @@ theorem lemma31_endpoint_aware_maximizer_iff_pairwise_equalized
     hm sampleRate candidate alt hcandidate halt
     hsample_high hsample_low heq_candidate
 
-/-- The source binary-rating model has Bernoulli MGF `(1-t)+t exp z`. -/
+
+/--
+The source binary-rating model has Bernoulli MGF `(1-t)+t exp z`.
+
+Source status: direct paper-facing binary-rating MGF formula row.
+-/
 theorem binary_rating_model_mgf_formula {Seller : Type*}
     (successProb : Seller → ℝ)
     (hprob0 : ∀ θ, 0 ≤ successProb θ)
@@ -1368,7 +1373,12 @@ theorem binary_rating_model_mgf_formula {Seller : Type*}
       (1 - successProb θ) + successProb θ * Real.exp z :=
   binaryRatingModel_mgf_eq successProb hprob0 hprob1 θ z
 
-/-- The source binary-rating model has Bernoulli log-MGF formula. -/
+
+/--
+The source binary-rating model has Bernoulli log-MGF formula.
+
+Source status: direct paper-facing binary-rating log-MGF formula row.
+-/
 theorem binary_rating_model_log_mgf_formula {Seller : Type*}
     (successProb : Seller → ℝ)
     (hprob0 : ∀ θ, 0 ≤ successProb θ)
@@ -1378,7 +1388,12 @@ theorem binary_rating_model_log_mgf_formula {Seller : Type*}
       Real.log ((1 - successProb θ) + successProb θ * Real.exp z) :=
   binaryRatingModel_logMGF_eq successProb hprob0 hprob1 θ z
 
-/-- Derivative of the source binary-rating log-MGF. -/
+
+/--
+Derivative of the source binary-rating log-MGF.
+
+Source status: direct paper-facing log-MGF derivative formula row.
+-/
 theorem binary_rating_model_log_mgf_derivative_formula {Seller : Type*}
     (successProb : Seller → ℝ)
     (hprob0 : ∀ θ, 0 ≤ successProb θ)
@@ -1394,6 +1409,8 @@ theorem binary_rating_model_log_mgf_derivative_formula {Seller : Type*}
 /--
 Interior binary-model rate function equals the Bernoulli KL formula used in
 the paper.
+
+Source status: direct paper-facing Bernoulli-KL rate-function formula row.
 -/
 theorem binary_rating_model_rate_function_is_bernoulli_kl
     {Seller : Type*}
@@ -1411,6 +1428,8 @@ theorem binary_rating_model_rate_function_is_bernoulli_kl
 /--
 Interior support-safe binary-model rate function equals the Bernoulli KL
 formula used in the paper.
+
+Source status: direct paper-facing support-safe Bernoulli-KL rate-function formula row.
 -/
 theorem binary_rating_model_rate_function_top_is_bernoulli_kl
     {Seller : Type*}
@@ -1428,6 +1447,8 @@ theorem binary_rating_model_rate_function_top_is_bernoulli_kl
 /--
 Interior pairwise support-safe binary rate objective equals the weighted
 two-Bernoulli KL threshold rate.
+
+Source status: direct paper-facing pairwise threshold-rate objective formula row.
 -/
 theorem binary_rating_pairwise_rate_objective_top_is_threshold_kl_rate
     {Seller : Type*}
@@ -1449,6 +1470,8 @@ theorem binary_rating_pairwise_rate_objective_top_is_threshold_kl_rate
 /--
 For two interior binary-rating levels, the support-safe threshold rate equals
 the closed weighted Bernoulli rate used in the adjacent-rate analysis.
+
+Source status: direct paper-facing closed weighted threshold-rate formula row.
 -/
 theorem binary_rating_pairwise_threshold_rate_top_is_closed_weighted_rate
     {Seller : Type*}
@@ -1488,6 +1511,8 @@ theorem binary_rating_model_full_support_of_interior_probabilities
 /--
 Pairwise floor-count LDP certificate package for binary rating models, derived
 from common log-MGF derivative witnesses.
+
+Source status: direct paper-facing pairwise threshold-rate certificate row.
 -/
 def binary_rating_pairwise_threshold_rate_certificates_from_derivatives
     {Seller Pair : Type*}
@@ -8526,7 +8551,12 @@ theorem lemmaC5_uniform_doubled_endpoint_levels_even
         ⟨2 * i.val, by omega⟩ = oldLevels i :=
   uniformDoubledEndpointLevels_even oldLevels i
 
-/-- Lemma C.5 doubled chain: first odd index has the endpoint split formula. -/
+
+/--
+Lemma C.5 doubled chain: first odd index has the endpoint split formula.
+
+Source status: direct paper-facing Lemma C.5 first-odd endpoint formula row.
+-/
 theorem lemmaC5_uniform_doubled_endpoint_levels_first_odd
     {m : ℕ} (oldLevels : Fin (m + 2) → ℝ) :
     lemmaC5_uniform_doubled_endpoint_levels oldLevels
@@ -8535,7 +8565,12 @@ theorem lemmaC5_uniform_doubled_endpoint_levels_first_odd
         (oldLevels (adjacentHighIndex (firstAdjacentIndex : Fin (m + 1)))) :=
   uniformDoubledEndpointLevels_first_odd oldLevels
 
-/-- Lemma C.5 doubled chain: last odd index has the endpoint split formula. -/
+
+/--
+Lemma C.5 doubled chain: last odd index has the endpoint split formula.
+
+Source status: direct paper-facing Lemma C.5 last-odd endpoint formula row.
+-/
 theorem lemmaC5_uniform_doubled_endpoint_levels_last_odd
     {m : ℕ} (hm : 0 < m) (oldLevels : Fin (m + 2) → ℝ) :
     lemmaC5_uniform_doubled_endpoint_levels oldLevels

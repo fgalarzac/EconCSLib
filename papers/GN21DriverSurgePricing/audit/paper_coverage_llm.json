@@ -214,11 +214,11 @@
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
       "dashboard_evidence": "review_definition_threshold_policy",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Definition: threshold policies. A trip policy accepts exactly the positive trip lengths whose payment-per-time `w \u03c4 / \u03c4` is at least the cutoff `c`. The dashboard row `review_definition_threshold_policy` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Definition: threshold policies. A trip policy accepts exactly the positive trip lengths whose payment-per-time `w τ / τ` is at least the cutoff `c`. The dashboard row `review_definition_threshold_policy` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
       "review_rows": [
         "review_definition_threshold_policy"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GN21DriverSurgePricing.txt and paper-local SOURCE_AUDIT.md. direct paper definition. Source inventory item: Definition: threshold policies. A trip policy accepts exactly the positive trip lengths whose payment-per-time `w \u03c4 / \u03c4` is at least the cutoff `c`.",
+      "source_evidence": "Source basis: /tmp/econcs_source_text/GN21DriverSurgePricing.txt and paper-local SOURCE_AUDIT.md. direct paper definition. Source inventory item: Definition: threshold policies. A trip policy accepts exactly the positive trip lengths whose payment-per-time `w τ / τ` is at least the cutoff `c`.",
       "source_grounded": true,
       "statement_sha256": "2120dacda0715d4dfc97a2c29590e802c7db482c59af6d2bc765e96b13fa1358",
       "support_declarations": [],
@@ -582,7 +582,7 @@
   "paper": "GN21DriverSurgePricing",
   "paper_statement_inventory_sha256": "8405ab6cc2eb495b92447d832c0203aa53706d21911994857a9459d47ab3ef9a",
   "prompt_version": "paper-coverage-v2-source-grounded-source-to-dashboard",
-  "review_surface_sha256": "429119873152daeced92beefe3a71f9a3dacd3450ad6c2d2e97cf484b6c533f1",
+  "review_surface_sha256": "f995f6cf1362e86b189a2c3e239cc2d697c3a34d523bd327c1f4efcc186ca9dc",
   "schema": 1,
   "source_grounded": true,
   "validated_at": "2026-06-29T20:39:31Z",

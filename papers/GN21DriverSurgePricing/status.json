@@ -22,13 +22,13 @@
   "main_caveat": "",
   "paper_interface": {
     "declaration_rows": 36,
-    "line_count": 400,
+    "line_count": 411,
     "maintainability_issue": null,
     "oversized": false,
     "path": "papers/GN21DriverSurgePricing/PaperInterface.lean",
     "proof_interface_line_count": 5534,
     "proof_interface_path": "papers/GN21DriverSurgePricing/ProofInterface.lean",
-    "review_rows": 36
+    "review_rows": 26
   },
   "review_entrypoint": "papers/GN21DriverSurgePricing/FINAL_VALIDATION_REPORT.md",
   "review_surface": {
@@ -107,7 +107,8 @@
         "title": "All source-facing review rows"
       }
     ],
-    "source_file": "papers/GN21DriverSurgePricing/PaperInterface.lean"
+    "source_file": "papers/GN21DriverSurgePricing/PaperInterface.lean",
+    "auxiliary_names": []
   },
   "schema": 1,
   "source_version": "Management Science 2022 / arXiv v4, 2021",

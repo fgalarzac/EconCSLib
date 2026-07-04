@@ -132,18 +132,18 @@
     "review_remark2_structured_derivative_kernel_algebra": {
       "lean_statement_sha256": "4163025eda02ec77cf00ec901a88659dd04eface848b1e0ef55dd086550567f5",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall (q u m z switchIJ Qi Qj Ti Tj Rj : \u211d), gn21DerivativeSignKernel q u (m * u + z * q) Qi Qj Ti Tj (m * (Ti - 1) + z * (Qi - switchIJ)) (Rj * Tj) = gn21StructuredDerivativeSignKernel q u m z switchIJ Qi Qj Ti Tj Rj",
+      "tex_statement": "\\forall (q u m z switchIJ Qi Qj Ti Tj Rj : ℝ), gn21DerivativeSignKernel q u (m * u + z * q) Qi Qj Ti Tj (m * (Ti - 1) + z * (Qi - switchIJ)) (Rj * Tj) = gn21StructuredDerivativeSignKernel q u m z switchIJ Qi Qj Ti Tj Rj",
       "translated_at": "2026-06-29T20:39:31Z",
       "translator": "codex-gpt-5.5-semantic-rejudge",
       "validator_type": "model"
     },
     "review_remark2_structured_scaled_earning_algebra": {
-      "lean_statement_sha256": "3158eb42b34e7fbb1a555f9064d16bc621741ce10cbd91572c83d36d2a54ea6f",
+      "lean_statement_sha256": "c8445adf176f33600396165c0db09d1587645bb73d96c10da6459b641b49be24",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall (\\mu : Measure TripLength) (arrivalRate m z switchIJ switchJI : \u211d) (\\sigma : TripPolicy), IntegrableOn (fun \\tau  =>  \\tau) \\sigma \\mu \\to IntegrableOn (fun \\tau  =>  gn21SwitchProb switchIJ switchJI \\tau) \\sigma \\mu \\to gn21ScaledStateEarning \\mu arrivalRate (ctmcStructuredSurgePrice m z switchIJ switchJI) \\sigma = m * (gn21ScaledStateTime \\mu arrivalRate \\sigma - 1) + z * (gn21ExitWeightIntegral \\mu arrivalRate switchIJ switchJI \\sigma - switchIJ)",
-      "translated_at": "2026-06-29T20:39:31Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "tex_statement": "\\forall (\\mu : Measure TripLength) (arrivalRate m z switchIJ switchJI : ℝ) (\\sigma : TripPolicy), IntegrableOn (fun \\tau  =>  \\tau) \\sigma \\mu \\to IntegrableOn (fun \\tau  =>  gn21SwitchProb switchIJ switchJI \\tau) \\sigma \\mu \\to gn21ScaledStateEarning \\mu arrivalRate (ctmcStructuredSurgePrice m z switchIJ switchJI) \\sigma = m * (gn21ScaledStateTime \\mu arrivalRate \\sigma - 1) + z * (gn21ExitWeightIntegral \\mu arrivalRate switchIJ switchJI \\sigma - switchIJ)",
+      "translated_at": "2026-07-04T15:50:07Z",
+      "translator": "Codex digest refresh after exposing formula row",
+      "validator_type": "agent"
     },
     "review_remark3_switch_probability_per_time_tendsto_at_zero": {
       "lean_statement_sha256": "4b5c9c93e299181663da3d5f790eddc5b39a2037d6a92d147b302f952ff2767f",

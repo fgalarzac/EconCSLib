@@ -9,7 +9,35 @@
       "reason": "The paper fixes bid values in the normalized positive range from the lowest bid 1 to the highest bid h, and Theorem 6.2 uses h as a high-value bound.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hvalue_bound : ∀ i, values i ≤ highValue": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper fixes bid values in the normalized positive range from the lowest bid 1 to the highest bid h, and Theorem 6.2 uses h as a high-value bound.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_bid_value_range_conditions"
+        },
+        "hvalue_ge_one : ∀ i : Agent, 1 ≤ values i": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper fixes bid values in the normalized positive range from the lowest bid 1 to the highest bid h, and Theorem 6.2 uses h as a high-value bound.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_bid_value_range_conditions"
+        },
+        "hvalue_le_h : ∀ i : Agent, values i ≤ h": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper fixes bid values in the normalized positive range from the lowest bid 1 to the highest bid h, and Theorem 6.2 uses h as a high-value bound.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_bid_value_range_conditions"
+        },
+        "hvalues_nonneg : ∀ i : Agent, 0 ≤ values i": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper fixes bid values in the normalized positive range from the lowest bid 1 to the highest bid h, and Theorem 6.2 uses h as a high-value bound.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_bid_value_range_conditions"
+        }
+      },
+      "premises": [
+        "hvalue_bound : ∀ i, values i ≤ highValue",
+        "hvalue_ge_one : ∀ i : Agent, 1 ≤ values i",
+        "hvalue_le_h : ∀ i : Agent, values i ≤ h",
+        "hvalues_nonneg : ∀ i : Agent, 0 ≤ values i"
+      ]
     },
     "assumption_high_value_attained": {
       "judgment": "paper_condition",
@@ -19,7 +47,17 @@
       "reason": "The paper defines h as the highest bid value, so the finite profile has some bidder attaining h.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hmax : ∃ i : Agent, values i = h": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper defines h as the highest bid value, so the finite profile has some bidder attaining h.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_high_value_attained"
+        }
+      },
+      "premises": [
+        "hmax : ∃ i : Agent, values i = h"
+      ]
     },
     "assumption_high_value_scale_conditions": {
       "judgment": "paper_condition",
@@ -29,7 +67,35 @@
       "reason": "The paper normalizes the smallest bid to 1, denotes the highest bid by h, and the lower-bound sections use the two-value 1/h family.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hh_ge_one : 1 ≤ h": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper normalizes the smallest bid to 1, denotes the highest bid by h, and the lower-bound sections use the two-value 1/h family.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_high_value_scale_conditions"
+        },
+        "hh_pos : 0 < h": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper normalizes the smallest bid to 1, denotes the highest bid by h, and the lower-bound sections use the two-value 1/h family.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_high_value_scale_conditions"
+        },
+        "hhigh_ge_two : 2 ≤ highValue": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper normalizes the smallest bid to 1, denotes the highest bid by h, and the lower-bound sections use the two-value 1/h family.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_high_value_scale_conditions"
+        },
+        "hhigh_pos : 0 < highValue": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper normalizes the smallest bid to 1, denotes the highest bid by h, and the lower-bound sections use the two-value 1/h family.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_high_value_scale_conditions"
+        }
+      },
+      "premises": [
+        "hh_ge_one : 1 ≤ h",
+        "hh_pos : 0 < h",
+        "hhigh_ge_two : 2 ≤ highValue",
+        "hhigh_pos : 0 < highValue"
+      ]
     },
     "assumption_low_bid_below_high_bid": {
       "judgment": "paper_condition",
@@ -39,7 +105,17 @@
       "reason": "Lemma 8.1 compares a lower bid with a higher bid.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hlt : low < high": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma 8.1 compares a lower bid with a higher bid.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_low_bid_below_high_bid"
+        }
+      },
+      "premises": [
+        "hlt : low < high"
+      ]
     },
     "assumption_lower_bound_positive_alpha": {
       "judgment": "paper_condition",
@@ -49,7 +125,17 @@
       "reason": "The lower-bound theorems quantify over a positive constant alpha in the `alpha h <= F` regime.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "halpha_pos : 0 < alpha": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The lower-bound theorems quantify over a positive constant alpha in the `alpha h <= F` regime.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_lower_bound_positive_alpha"
+        }
+      },
+      "premises": [
+        "halpha_pos : 0 < alpha"
+      ]
     },
     "assumption_theorem8_2_journal_raw_cdf_monotone_offer_source_model": {
       "judgment": "paper_condition",
@@ -59,7 +145,17 @@
       "reason": "The paper folder intentionally uses the later journal version's monotone randomized-auction refinement as the controlled source statement for Section 8.2, rather than the broader preliminary SODA wording.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "model : PaperTheorem82JournalRawCDFMonotoneOfferSourceModel Agent Price": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper folder intentionally uses the later journal version's monotone randomized-auction refinement as the controlled source statement for Section 8.2, rather than the broader preliminary SODA wording.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_theorem8_2_journal_raw_cdf_monotone_offer_source_model"
+        }
+      },
+      "premises": [
+        "model : PaperTheorem82JournalRawCDFMonotoneOfferSourceModel Agent Price"
+      ]
     },
     "assumption_theorem9_3_primitive_set_of_bids_deterministic_source_model": {
       "judgment": "paper_condition",
@@ -69,7 +165,17 @@
       "reason": "The SODA paper defines deterministic auctions on sets of bids and Lemma 9.2 studies the focused slice A_i(B_i^x); the Lean model makes that deterministic set-of-bids/focused-outcome convention explicit.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "model : PaperTheorem93PrimitiveSetOfBidsDeterministicSourceModel highValue": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The SODA paper defines deterministic auctions on sets of bids and Lemma 9.2 studies the focused slice A_i(B_i^x); the Lean model makes that deterministic set-of-bids/focused-outcome convention explicit.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_theorem9_3_primitive_set_of_bids_deterministic_source_model"
+        }
+      },
+      "premises": [
+        "model : PaperTheorem93PrimitiveSetOfBidsDeterministicSourceModel highValue"
+      ]
     },
     "assumption_total_value_notation": {
       "judgment": "paper_condition",
@@ -79,7 +185,17 @@
       "reason": "The paper explicitly defines T as the sum of all bids.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "htotal : total = totalValue values": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper explicitly defines T as the sum of all bids.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_total_value_notation"
+        }
+      },
+      "premises": [
+        "htotal : total = totalValue values"
+      ]
     },
     "assumption_truthful_auction_condition": {
       "judgment": "paper_condition",
@@ -89,7 +205,23 @@
       "reason": "Lemma 8.1 and Lemma 9.2 are explicitly stated for truthful auctions.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hM : truthful M": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma 8.1 and Lemma 9.2 are explicitly stated for truthful auctions.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_truthful_auction_condition"
+        },
+        "htruth : truthful M": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma 8.1 and Lemma 9.2 are explicitly stated for truthful auctions.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_truthful_auction_condition"
+        }
+      },
+      "premises": [
+        "hM : truthful M",
+        "htruth : truthful M"
+      ]
     },
     "assumption_two_winner_benchmark_large_enough": {
       "judgment": "paper_condition",
@@ -99,7 +231,17 @@
       "reason": "Theorem 7.2 explicitly assumes the fixed-price benchmark is at least twice the high bid.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hF_ge_two_h : 2 * h ≤ twoWinnerBenchmark values": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 7.2 explicitly assumes the fixed-price benchmark is at least twice the high bid.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_two_winner_benchmark_large_enough"
+        }
+      },
+      "premises": [
+        "hF_ge_two_h : 2 * h ≤ twoWinnerBenchmark values"
+      ]
     },
     "assumption_weighted_pairing_large_market": {
       "judgment": "paper_condition",
@@ -109,7 +251,17 @@
       "reason": "Theorem 7.1 explicitly assumes 4h <= T.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hlarge : 4 * h ≤ total": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 7.1 explicitly assumes 4h <= T.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_weighted_pairing_large_market"
+        }
+      },
+      "premises": [
+        "hlarge : 4 * h ≤ total"
+      ]
     },
     "assumption_weighted_pairing_log_factor": {
       "judgment": "paper_condition",
@@ -119,7 +271,23 @@
       "reason": "The Lean endpoint replaces the asymptotic square-root logarithmic factor with an explicit finite parameter s satisfying the required log bound.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hlog_le_s_sq : Real.logb 2 h + 2 ≤ s ^ 2": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The Lean endpoint replaces the asymptotic square-root logarithmic factor with an explicit finite parameter s satisfying the required log bound.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_weighted_pairing_log_factor"
+        },
+        "hs_ge_two : 2 ≤ s": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The Lean endpoint replaces the asymptotic square-root logarithmic factor with an explicit finite parameter s satisfying the required log bound.",
+          "source_location": "GHW01DigitalGoods source statement for assumption_weighted_pairing_log_factor"
+        }
+      },
+      "premises": [
+        "hlog_le_s_sq : Real.logb 2 h + 2 ≤ s ^ 2",
+        "hs_ge_two : 2 ≤ s"
+      ]
     }
   },
   "paper": "GHW01DigitalGoods",

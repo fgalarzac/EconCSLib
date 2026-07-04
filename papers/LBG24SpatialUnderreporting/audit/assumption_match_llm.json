@@ -1,16 +1,6 @@
 {
   "comment": "Semantic premise provenance rejudge. Certificate/replay/process premises are not accepted by name and must be paper conditions, documented caveats, partial boundaries, or derived from primitives.",
   "items": {
-    "Theorem2PrimitiveSourceModel": {
-      "judgment": "partial_boundary",
-      "lean_statement_sha256": "115c3ec044860ee35a8f0f98ff5855db2c4573cdce6ca52d41ff83222a7d0e0f",
-      "paper_statement_sha256": "71251518da4f8b7e8e10ae8d16955377c7b771198bb5faf0204f04e9828c4331",
-      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "Compact source-model wrapper approved for this public partial checkpoint: it packages the homogeneous count law and fixed Condition 1/2 kernels rather than deriving them from the concrete process.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
     "assumption_theorem2_poisson_process_and_conditions": {
       "judgment": "paper_condition",
       "lean_statement_sha256": "a553b5d1054cc913586e60edbbbbe0e7669688c55870d2b2cfc2eba83f599329",
@@ -19,17 +9,113 @@
       "reason": "This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem2_poisson_process_and_condition_semantics": {
-      "judgment": "paper_condition",
-      "lean_statement_sha256": "40eafcbb77d633180514049af9dfa3934e35c34ef0b0a790233024e06f042578",
-      "paper_statement_sha256": "71251518da4f8b7e8e10ae8d16955377c7b771198bb5faf0204f04e9828c4331",
-      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premises": [
+        "A : assumption_theorem2_poisson_process_and_conditions Ω P",
+        "Cert : DurationCensoredFirstCountObservationCertificate 𝓕",
+        "Cert : EconCSLib.Probability.PoissonProcess.DurationCensoredFirstCountObservationCertificate 𝓕",
+        "M : LBG24SpatialUnderreporting.Theorem2FixedConditionDensitySourceModel",
+        "M : Theorem2FixedConditionDensitySourceModel",
+        "T : EconCSLib.Probability.PoissonProcess.OrderedOneJumpWindow",
+        "T : OrderedOneJumpWindow",
+        "W : EconCSLib.Probability.PoissonProcess.ObservationWindow",
+        "W : EconCSLib.Probability.PoissonProcess.StoppingObservationWindow 𝓕",
+        "W : ObservationWindow",
+        "W : StoppingObservationWindow 𝓕",
+        "anonymous : EconCSLib.Probability.PoissonProcess.FirstCountArrivalCertificate 𝓕 reportCount firstReportTime",
+        "anonymous : EconCSLib.Probability.PoissonProcess.FirstCountArrivalCertificate 𝓕 reportCount startTime",
+        "anonymous : FirstCountArrivalCertificate 𝓕 reportCount firstReportTime",
+        "anonymous : FirstCountArrivalCertificate 𝓕 reportCount startTime",
+        "caseFromWindow : EconCSLib.Probability.PoissonProcess.ObservationWindow → LBG24SpatialUnderreporting.Theorem2ObservedWindowCase",
+        "caseFromWindow : ObservationWindow → Theorem2ObservedWindowCase"
+      ],
+      "premise_judgments": {
+        "A : assumption_theorem2_poisson_process_and_conditions Ω P": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        },
+        "Cert : DurationCensoredFirstCountObservationCertificate 𝓕": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        },
+        "Cert : EconCSLib.Probability.PoissonProcess.DurationCensoredFirstCountObservationCertificate 𝓕": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        },
+        "M : LBG24SpatialUnderreporting.Theorem2FixedConditionDensitySourceModel": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        },
+        "M : Theorem2FixedConditionDensitySourceModel": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        },
+        "T : EconCSLib.Probability.PoissonProcess.OrderedOneJumpWindow": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        },
+        "T : OrderedOneJumpWindow": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        },
+        "W : EconCSLib.Probability.PoissonProcess.ObservationWindow": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        },
+        "W : EconCSLib.Probability.PoissonProcess.StoppingObservationWindow 𝓕": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        },
+        "W : ObservationWindow": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        },
+        "W : StoppingObservationWindow 𝓕": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        },
+        "anonymous : EconCSLib.Probability.PoissonProcess.FirstCountArrivalCertificate 𝓕 reportCount firstReportTime": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        },
+        "anonymous : EconCSLib.Probability.PoissonProcess.FirstCountArrivalCertificate 𝓕 reportCount startTime": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        },
+        "anonymous : FirstCountArrivalCertificate 𝓕 reportCount firstReportTime": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        },
+        "anonymous : FirstCountArrivalCertificate 𝓕 reportCount startTime": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        },
+        "caseFromWindow : EconCSLib.Probability.PoissonProcess.ObservationWindow → LBG24SpatialUnderreporting.Theorem2ObservedWindowCase": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        },
+        "caseFromWindow : ObservationWindow → Theorem2ObservedWindowCase": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. This row packages the paper's Theorem 2 Poisson-process and Condition 1/2 source semantics as an explicit assumption/provenance object.",
+          "source_location": "LBG24SpatialUnderreporting source statement for assumption_theorem2_poisson_process_and_conditions"
+        }
+      }
     }
   },
   "paper": "LBG24SpatialUnderreporting",

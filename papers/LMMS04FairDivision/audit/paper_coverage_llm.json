@@ -581,15 +581,19 @@
     "theorem3_3_external_solver_consequence_and_selected_pair_full_summary_source_output_of_claim_3_4_source_average_forward_additive_no_top_of_margin": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "conditional_boundary",
-      "dashboard_evidence": "theorem3_3_external_solver_consequence_and_selected_pair_full_summary_source_output_of_claim_3_4_source_average_forward_additive_no_top_of_margin",
-      "reason": "Composed external solver consequence remains a documented partial boundary.",
+      "dashboard_evidence": "Linked current review row(s): theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee, theorem3_3_claim34_fixed_rounding_ratio_endpoint",
+      "reason": "This partial-boundary source item is covered through the compact current Theorem 3.3 solver/Claim 3.4 dashboard row(s), which expose the same conditional external-solver endpoint without keeping the broad package projection rows on the human review surface.",
       "review_rows": [
-        "theorem3_3_external_solver_consequence_and_selected_pair_full_summary_source_output_of_claim_3_4_source_average_forward_additive_no_top_of_margin"
+        "theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee",
+        "theorem3_3_claim34_fixed_rounding_ratio_endpoint"
       ],
       "source_evidence": "Source basis: /tmp/econcs_source_text/LMMS04FairDivision.txt, local PDF cache, and validation report. partial boundary. Source inventory item: Theorem 3.3 strongest Claim-3.4 additive external-solver endpoint. selected-pair estimates, this returns the compact external-solver package.",
       "source_grounded": true,
       "statement_sha256": "a63a500afd79eb8bd0df4451f3ce2227bf6b3ceace9720217381ab52372bd381",
-      "support_declarations": [],
+      "support_declarations": [
+        "theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee",
+        "theorem3_3_claim34_fixed_rounding_ratio_endpoint"
+      ],
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
       "validator_type": "model"
@@ -597,15 +601,17 @@
     "theorem3_3_external_solver_selected_pair_full_summary_source_output_consequence": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "conditional_boundary",
-      "dashboard_evidence": "theorem3_3_external_solver_selected_pair_full_summary_source_output_consequence",
-      "reason": "External solver output consequence is a documented partial boundary.",
+      "dashboard_evidence": "Linked current review row(s): theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee",
+      "reason": "This partial-boundary source item is covered through the compact current Theorem 3.3 solver/Claim 3.4 dashboard row(s), which expose the same conditional external-solver endpoint without keeping the broad package projection rows on the human review surface.",
       "review_rows": [
-        "theorem3_3_external_solver_selected_pair_full_summary_source_output_consequence"
+        "theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee"
       ],
       "source_evidence": "Source basis: /tmp/econcs_source_text/LMMS04FairDivision.txt, local PDF cache, and validation report. partial boundary. Source inventory item: Theorem 3.3 compact external-solver consequence projection. the external solver consequence, pending the reusable fixed-dimension IP theorem.",
       "source_grounded": true,
       "statement_sha256": "23e09f60c3462d22db35aacfa2c8a7ff3af094e8d70ebe5fb37669d860cb1292",
-      "support_declarations": [],
+      "support_declarations": [
+        "theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee"
+      ],
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
       "validator_type": "model"
@@ -613,15 +619,17 @@
     "theorem3_3_external_solver_selected_pair_full_summary_source_output_package": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "conditional_boundary",
-      "dashboard_evidence": "theorem3_3_external_solver_selected_pair_full_summary_source_output_package",
-      "reason": "External solver output package is a documented partial boundary.",
+      "dashboard_evidence": "Linked current review row(s): theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee",
+      "reason": "This partial-boundary source item is covered through the compact current Theorem 3.3 solver/Claim 3.4 dashboard row(s), which expose the same conditional external-solver endpoint without keeping the broad package projection rows on the human review surface.",
       "review_rows": [
-        "theorem3_3_external_solver_selected_pair_full_summary_source_output_package"
+        "theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee"
       ],
       "source_evidence": "Source basis: /tmp/econcs_source_text/LMMS04FairDivision.txt, local PDF cache, and validation report. partial boundary. Source inventory item: Theorem 3.3 compact external-solver package. runtime/FPTAS conclusion is exactly the supplied external solver consequence.",
       "source_grounded": true,
       "statement_sha256": "80da952c3e3fa3b53e32d1e93fc4aa24c1e5ebab3ae1b02bee5029673c9853e7",
-      "support_declarations": [],
+      "support_declarations": [
+        "theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee"
+      ],
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
       "validator_type": "model"
@@ -629,15 +637,17 @@
     "theorem3_3_external_solver_selected_pair_full_summary_source_output_payload": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "conditional_boundary",
-      "dashboard_evidence": "theorem3_3_external_solver_selected_pair_full_summary_source_output_payload",
-      "reason": "External solver output payload is a documented partial boundary.",
+      "dashboard_evidence": "Linked current review row(s): theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee",
+      "reason": "This partial-boundary source item is covered through the compact current Theorem 3.3 solver/Claim 3.4 dashboard row(s), which expose the same conditional external-solver endpoint without keeping the broad package projection rows on the human review surface.",
       "review_rows": [
-        "theorem3_3_external_solver_selected_pair_full_summary_source_output_payload"
+        "theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee"
       ],
       "source_evidence": "Source basis: /tmp/econcs_source_text/LMMS04FairDivision.txt, local PDF cache, and validation report. partial boundary. Source inventory item: Theorem 3.3 compact external-solver payload projection. payload from the conditional external-solver package.",
       "source_grounded": true,
       "statement_sha256": "c6c3f9276a3b0951c8264a2252408069c950854075a894d1fe95ccbb81a134e9",
-      "support_declarations": [],
+      "support_declarations": [
+        "theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee"
+      ],
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
       "validator_type": "model"
@@ -790,7 +800,7 @@
   "paper": "LMMS04FairDivision",
   "paper_statement_inventory_sha256": "a8f54a176b556ac56a85e4df54b1036e04307cb31b480a287634b6bde8f50640",
   "prompt_version": "paper-coverage-v2-source-grounded-source-to-dashboard",
-  "review_surface_sha256": "1769431b11813f9804af404aa3f837b980cca79b4813c53044e834ec6b35dc0c",
+  "review_surface_sha256": "a86772e3dd6f015ff28515386870dc4d5880644b068e5c705e121bd90e49575e",
   "schema": 1,
   "source_grounded": true,
   "validated_at": "2026-06-29T18:08:26Z",

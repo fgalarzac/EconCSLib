@@ -138,6 +138,8 @@ theorem proposition7_reliability_forces_fixed_deferral
 /--
 Proposition 9: for the same fixed agent, reliability forces one fixed tie label
 on the `p_k = 1 / 2` slice.
+
+Source status: direct paper-facing Proposition 9 reliability implication.
 -/
 theorem proposition9_reliability_forces_fixed_tie_label
     {n : ℕ} [Nonempty (Fin n)] (C : CollaborationStrategy n) (k : Fin n)

@@ -9,7 +9,7 @@
   "judgment": "passes",
   "reason": "Current DGJ26 dashboard rows are curated paper-facing definitions, formulas, algorithm checks, and theorem endpoints for the practical-dynamics RCV formalization.",
   "review_rows": 50,
-  "review_surface_sha256": "ba0be12e9273fe71ff38658cec80d04cf5a1ff6c5d0217225520010cb22393d7",
+  "review_surface_sha256": "5bf328146a0583ecf6878b87f3f579ffa6081f647117b83709e660b0441c6f27",
   "items": {
     "paper_algorithm3_full_election_run": {
       "judgment": "paper_facing",

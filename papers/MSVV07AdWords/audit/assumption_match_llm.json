@@ -9,7 +9,17 @@
       "reason": "Section 6 explicitly defines the next-highest bid variant over alive bidders.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "alive : Advertiser → Query → Prop": {
+          "judgment": "paper_assumption",
+          "reason": "Premise inherits the row-level provenance judgment. Section 6 explicitly defines the next-highest bid variant over alive bidders.",
+          "source_location": "MSVV07AdWords source statement for assumption_alive_bidder_predicate"
+        }
+      },
+      "premises": [
+        "alive : Advertiser → Query → Prop"
+      ]
     },
     "assumption_availability_predicate": {
       "judgment": "paper_assumption",
@@ -19,7 +29,17 @@
       "reason": "Section 6 allows advertisers to enter during the query sequence, represented in Lean by an availability predicate.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "available : Advertiser → Query → Prop": {
+          "judgment": "paper_assumption",
+          "reason": "Premise inherits the row-level provenance judgment. Section 6 allows advertisers to enter during the query sequence, represented in Lean by an availability predicate.",
+          "source_location": "MSVV07AdWords source statement for assumption_availability_predicate"
+        }
+      },
+      "premises": [
+        "available : Advertiser → Query → Prop"
+      ]
     },
     "assumption_click_through_rates_probability_bounds": {
       "judgment": "paper_assumption",
@@ -29,7 +49,23 @@
       "reason": "Section 6 identifies click-through rate as the probability that a user clicks on the ad.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hctr_le_one : ∀ a q, ctr a q ≤ 1": {
+          "judgment": "paper_assumption",
+          "reason": "Premise inherits the row-level provenance judgment. Section 6 identifies click-through rate as the probability that a user clicks on the ad.",
+          "source_location": "MSVV07AdWords source statement for assumption_click_through_rates_probability_bounds"
+        },
+        "hctr_nonneg : ∀ a q, 0 ≤ ctr a q": {
+          "judgment": "paper_assumption",
+          "reason": "Premise inherits the row-level provenance judgment. Section 6 identifies click-through rate as the probability that a user clicks on the ad.",
+          "source_location": "MSVV07AdWords source statement for assumption_click_through_rates_probability_bounds"
+        }
+      },
+      "premises": [
+        "hctr_le_one : ∀ a q, ctr a q ≤ 1",
+        "hctr_nonneg : ∀ a q, 0 ≤ ctr a q"
+      ]
     },
     "assumption_epsilon_range": {
       "judgment": "paper_condition",
@@ -39,7 +75,23 @@
       "reason": "The finite explicit-error theorem uses epsilon as the small-bids fraction/error parameter; the displayed finite bound is stated on the normalized small-bids range.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hepsilon : 0 ≤ epsilon": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The finite explicit-error theorem uses epsilon as the small-bids fraction/error parameter; the displayed finite bound is stated on the normalized small-bids range.",
+          "source_location": "MSVV07AdWords source statement for assumption_epsilon_range"
+        },
+        "hepsilon_le_one : epsilon ≤ 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The finite explicit-error theorem uses epsilon as the small-bids fraction/error parameter; the displayed finite bound is stated on the normalized small-bids range.",
+          "source_location": "MSVV07AdWords source statement for assumption_epsilon_range"
+        }
+      },
+      "premises": [
+        "hepsilon : 0 ≤ epsilon",
+        "hepsilon_le_one : epsilon ≤ 1"
+      ]
     },
     "assumption_full_distinct_query_history": {
       "judgment": "paper_condition",
@@ -49,7 +101,23 @@
       "reason": "The finite Lean endpoint represents the online sequence as a complete enumeration of finitely many query events.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hcover : AdWordsInstance.historyFinset history = Finset.univ": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The finite Lean endpoint represents the online sequence as a complete enumeration of finitely many query events.",
+          "source_location": "MSVV07AdWords source statement for assumption_full_distinct_query_history"
+        },
+        "hnodup : history.Nodup": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The finite Lean endpoint represents the online sequence as a complete enumeration of finitely many query events.",
+          "source_location": "MSVV07AdWords source statement for assumption_full_distinct_query_history"
+        }
+      },
+      "premises": [
+        "hcover : AdWordsInstance.historyFinset history = Finset.univ",
+        "hnodup : history.Nodup"
+      ]
     },
     "assumption_next_highest_alive_small_bids": {
       "judgment": "paper_condition",
@@ -59,7 +127,17 @@
       "reason": "The alive-bidders next-price endpoint applies Theorem 8 to alive next-price effective charges, so those charges must satisfy the same small-bids condition.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hnext_small : ∀ a q, section6_next_highest_bid_alive I alive a q ≤ epsilon * I.budget a": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The alive-bidders next-price endpoint applies Theorem 8 to alive next-price effective charges, so those charges must satisfy the same small-bids condition.",
+          "source_location": "MSVV07AdWords source statement for assumption_next_highest_alive_small_bids"
+        }
+      },
+      "premises": [
+        "hnext_small : ∀ a q, section6_next_highest_bid_alive I alive a q ≤ epsilon * I.budget a"
+      ]
     },
     "assumption_next_highest_all_small_bids": {
       "judgment": "paper_condition",
@@ -69,7 +147,17 @@
       "reason": "The all-bidders next-price endpoint applies Theorem 8 to the next-price effective charges, so those effective charges must satisfy the same small-bids condition.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hnext_small : ∀ a q, section6_next_highest_bid_all I a q ≤ epsilon * I.budget a": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The all-bidders next-price endpoint applies Theorem 8 to the next-price effective charges, so those effective charges must satisfy the same small-bids condition.",
+          "source_location": "MSVV07AdWords source statement for assumption_next_highest_all_small_bids"
+        }
+      },
+      "premises": [
+        "hnext_small : ∀ a q, section6_next_highest_bid_all I a q ≤ epsilon * I.budget a"
+      ]
     },
     "assumption_nonnegative_bids": {
       "judgment": "paper_assumption",
@@ -79,7 +167,17 @@
       "reason": "The AdWords model treats bids as monetary bid/revenue quantities for assigning queries to bidders.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hbid : I.NonnegativeBids": {
+          "judgment": "paper_assumption",
+          "reason": "Premise inherits the row-level provenance judgment. The AdWords model treats bids as monetary bid/revenue quantities for assigning queries to bidders.",
+          "source_location": "MSVV07AdWords source statement for assumption_nonnegative_bids"
+        }
+      },
+      "premises": [
+        "hbid : I.NonnegativeBids"
+      ]
     },
     "assumption_weighted_bids_nonnegative_weights": {
       "judgment": "paper_condition",
@@ -89,7 +187,17 @@
       "reason": "Section 8 defines effective bids as actual bid times advertiser weight; the Lean theorem states the nonnegative-weight regime for preserving nonnegative effective bids.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hweight_nonneg : ∀ a, 0 ≤ weight a": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Section 8 defines effective bids as actual bid times advertiser weight; the Lean theorem states the nonnegative-weight regime for preserving nonnegative effective bids.",
+          "source_location": "MSVV07AdWords source statement for assumption_weighted_bids_nonnegative_weights"
+        }
+      },
+      "premises": [
+        "hweight_nonneg : ∀ a, 0 ≤ weight a"
+      ]
     },
     "assumption_weighted_effective_small_bids": {
       "judgment": "paper_condition",
@@ -99,7 +207,17 @@
       "reason": "The weighted-bids endpoint applies Theorem 8 to weighted effective bids, so the weighted effective bids must satisfy the small-bids condition.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hweighted_small : ∀ a q, weight a * I.bid a q ≤ epsilon * I.budget a": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The weighted-bids endpoint applies Theorem 8 to weighted effective bids, so the weighted effective bids must satisfy the small-bids condition.",
+          "source_location": "MSVV07AdWords source statement for assumption_weighted_effective_small_bids"
+        }
+      },
+      "premises": [
+        "hweighted_small : ∀ a q, weight a * I.bid a q ≤ epsilon * I.budget a"
+      ]
     }
   },
   "paper": "MSVV07AdWords",

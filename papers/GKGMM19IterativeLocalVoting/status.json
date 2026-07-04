@@ -36,7 +36,7 @@
     "maintainability_issue": null,
     "oversized": false,
     "path": "papers/GKGMM19IterativeLocalVoting/PaperInterface.lean",
-    "review_rows": 47,
+    "review_rows": 44,
     "audit_surface_path": "papers/GKGMM19IterativeLocalVoting/AuditInterface.lean"
   },
   "review_entrypoint": "papers/GKGMM19IterativeLocalVoting/FINAL_VALIDATION_REPORT.md",

@@ -4,7 +4,7 @@
   "prompt_version": "review-surface-v2-semantic-paper-facing",
   "reason": "Semantic review-surface pass: the dashboard favors source-visible, LLM-legible paper claims over compactness; named definitions, examples, remarks, propositions, theorems, corollaries, and main-text lemmas are exposed as review rows rather than hidden as support-only declarations.",
   "review_rows": 43,
-  "review_surface_sha256": "c4ece09cc6a9fe10c870e7e66725283bb5870554e157ce80e8170e9242405b4b",
+  "review_surface_sha256": "d0ae123fdc50e24c9be1a6d3957d2f38ab3156d3309487aae5ffc523b5daca20",
   "schema": 1,
   "validated_at": "2026-06-29T21:25:00Z",
   "validator": "codex-gpt-5.5-semantic-rejudge",

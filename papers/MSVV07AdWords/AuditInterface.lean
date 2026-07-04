@@ -330,7 +330,12 @@ theorem section5_lemma4_dual_optimal_from_primal_dual_match
       primalFeasible dualFeasible primalObjective dualObjective hweak
       ha hystar hvalue
 
-/-- Section 5 Lemma 5: the perturbed LP right side is the base right side plus delta. -/
+/--
+Section 5 Lemma 5: the perturbed LP right side is the base right side plus delta.
+
+Source status: direct paper-facing algebraic row for Lemma 5's perturbed
+right-hand side identity.
+-/
 theorem section5_lemma5_tradeoff_rhs_eq_base_add_delta
     {m : ℕ} (N : ℝ) (alpha beta : Fin m → ℝ) (i : Fin m)
     (hbeta_prefix :
@@ -359,7 +364,12 @@ theorem section5_lemma6_per_query_tradeoff
     Proof.section5_lemma6_per_query_tradeoff
       psi hoptCurrent_le_type hpsi_antitone hoptBid_nonneg hchoice
 
-/-- Section 5 Lemma 7: summing the pointwise tradeoff yields the perturbation bound. -/
+/--
+Section 5 Lemma 7: summing the pointwise tradeoff yields the perturbation bound.
+
+Source status: direct paper-facing summation row for Lemma 7's weighted
+perturbation bound.
+-/
 theorem section5_lemma7_weighted_perturbation_bound
     {m Query : Type*} [Fintype m] [Fintype Query]
     (psi alpha beta : m → ℝ) (opt alg : Query → ℝ)

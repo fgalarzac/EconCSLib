@@ -20,73 +20,78 @@ LLM-as-judge jobs unless the user explicitly asks for an all-paper refresh.
 Required target-paper checks:
 
 1. Refresh the uncached dashboard row surface for the target paper.
-2. Confirm every `PaperInterface.lean` declaration is classified in
+2. Confirm the human entrypoint stays compact. `PaperInterface.lean` should be
+   the first file a human reads. If the row-level dashboard or LLM audit surface
+   is large, it should live in `AuditInterface.lean`, with
+   `status.json` `paper_interface.audit_surface_path` and
+   `review_surface.source_file` pointing to that file.
+3. Confirm every declaration in the configured review surface is classified in
    `status.json` under `review_surface.include_names`,
    `review_surface.assumption_names`, or `review_surface.auxiliary_names`.
-3. Build or refresh a source-curated `audit/paper_statement_map.json` from the
+4. Build or refresh a source-curated `audit/paper_statement_map.json` from the
    source paper, not from Lean row names. For public-facing statuses, a missing
    explicit source inventory is a closeout blocker.
-4. Verify `paper_coverage_llm.json` against current dashboard row names. This
+5. Verify `paper_coverage_llm.json` against current dashboard row names. This
    paper-level source-to-dashboard lane is the only LLM-as-judge lane that says
    whether every source statement is represented.
-5. Verify `lean_to_tex_llm.json` for every current non-assumption review row
+6. Verify `lean_to_tex_llm.json` for every current non-assumption review row
    using source-stable declaration digests.
-6. Verify `statement_match_llm.json` with the strict full-statement,
+7. Verify `statement_match_llm.json` with the strict full-statement,
    exact-formula prompt. The raw row judgment should stay strict:
    intentionally accepted conditional rows remain `mismatch` with
    `resolution: "conditional_boundary"`.
-7. Verify `assumption_match_llm.json` for every assumption and proof-boundary
+8. Verify `assumption_match_llm.json` for every assumption and proof-boundary
    name. Source-assumption provenance must work at premise granularity through
    `premise_judgments`.
-8. Generate or refresh the code-backed recursive source-record audit for every
+9. Generate or refresh the code-backed recursive source-record audit for every
    row whose statement or visible premises mention a record, certificate,
    replay, process, bridge, source model, source row, or consequence package.
    Save `source_record_audit.json` and refresh `source_record_match_llm.json`
    only for missing, stale, or structurally changed target-paper rows.
-9. Inspect source-record classifications before setting status. Remaining
+10. Inspect source-record classifications before setting status. Remaining
    `approved_external_boundary`, `unresolved_assumed_math`, stale
    source-record digests, or missing source-record judgments make the affected
    row partial/conditional unless Lean has discharged the field or the status
    claim explicitly excludes that source item.
-10. Run a proof-level library-lift pass. Extract small, targeted generic
+11. Run a proof-level library-lift pass. Extract small, targeted generic
     lemmas/results when the destination is clear and the relevant builds can be
     checked; otherwise record the candidate and destination module in the final
     report.
-11. Run a final easy-extension pass after the Lean proof route is known.
+12. Run a final easy-extension pass after the Lean proof route is known.
     Re-read the paper claims and final formal endpoints, then ask which
     generalizations, conjectures, or extensions are trivial or near-trivial:
     weakened assumptions, immediate corollaries, stronger conclusions, or
     natural adjacent conjectures. Prove only cheap extensions that do not
     distract from source closeout, and record both proved and deferred
     candidates in the final report.
-12. Run a skill-update pass. If the paper taught a reusable workflow lesson,
+13. Run a skill-update pass. If the paper taught a reusable workflow lesson,
     update this skill or an appropriate reference before final handoff; if it
     did not, state that explicitly in the final report or handoff.
-13. Update `docs/DependencyDAG.tex`, render `docs/DependencyDAG.pdf`, visually inspect
+14. Update `docs/DependencyDAG.tex`, render `docs/DependencyDAG.pdf`, visually inspect
     it, and record the DAG evidence in the final report and post-formalization
     audit note.
-14. Write or refresh `docs/AGENT_SOURCE_AUDIT.md` as an independent source-first
+15. Write or refresh `docs/AGENT_SOURCE_AUDIT.md` as an independent source-first
     holistic audit. It must read the source first, build or verify the source
     inventory from the source itself, then inspect `PaperInterface.lean` and
     Lean statements for omissions, hidden strengthening/weakening, and semantic
     mismatches. It must not merely summarize existing sidecars. Write
     `## Overall status: PASS` only when the independent source-first audit
     agrees that the claimed source surface is covered.
-15. Run the targeted repository closeout audit after report/DAG edits:
+16. Run the targeted repository closeout audit after report/DAG edits:
     `python3 scripts/audit_repository.py --paper <paper-folder> --paper-closeout --include-active --info-limit 0`.
     Do not claim post-formalization completion while it reports missing/stale
     DAG, validation-report, source-record, LLM-sidecar, or hidden-premise
     findings for that paper.
-16. Rerun `python3 scripts/review_dashboard.py --paper <paper-folder> --precheck`
+17. Rerun `python3 scripts/review_dashboard.py --paper <paper-folder> --precheck`
     and record all remaining unresolved `mismatch`, accepted
     `conditional_boundary`, `uncertain`, stale, missing, or broad-surface
     findings in the final report.
-17. Update paper-local `status.json` at the same time as the DAG and final
+18. Update paper-local `status.json` at the same time as the DAG and final
     report, then run `python3 scripts/sync_paper_status.py` so generated
     status tables move with the paper-local source of truth.
     The root `README.md` is protected hand-written prose and must not be edited
     during closeout unless the user gives specific root-README instructions.
-18. Refresh the final-report LLM-as-judge summary block from the sidecars.
+19. Refresh the final-report LLM-as-judge summary block from the sidecars.
     In the public repository, run
     `python3 scripts/refresh_validation_report_audit_summaries.py` and then
     `python3 scripts/refresh_validation_report_audit_summaries.py --check`.

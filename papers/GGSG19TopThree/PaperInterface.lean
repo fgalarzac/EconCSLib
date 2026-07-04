@@ -29,6 +29,8 @@ Source Definition 1: asymptotic design invariance.
 
 A reasonable rule family is design-invariant for a goal when all reasonable
 rules induce the same limiting outcome.
+
+Source status: direct paper-facing Definition 1 row.
 -/
 def paper_definition_design_invariant
     {Rule Outcome : Type*} [TopologicalSpace Outcome]
@@ -42,6 +44,8 @@ Source Definition 3: rate optimality.
 
 Within a feasible design class, a rule is rate-optimal when it maximizes the
 finite learning rate.
+
+Source status: direct paper-facing Definition 3 row.
 -/
 def paper_definition_rate_optimal
     {Rule : Type*} (feasible : Set Rule) (rate : Rule → ℝ) (βstar : Rule) : Prop :=

@@ -9,7 +9,65 @@
       "reason": "Lemma 3.5 and Claim 3.4 work in the half-load window L/2 < load < 2L; Lean exposes the positivity/nonnegativity consequences used by the algebraic transfer endpoint.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hoptMax : 0 ≤ optMax": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma 3.5 and Claim 3.4 work in the half-load window L/2 < load < 2L; Lean exposes the positivity/nonnegativity consequences used by the algebraic transfer endpoint.",
+          "source_location": "LMMS04FairDivision source statement for assumption_additive_transfer_load_window_conditions"
+        },
+        "hoptMax_half : L ≤ 2 * optMax": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma 3.5 and Claim 3.4 work in the half-load window L/2 < load < 2L; Lean exposes the positivity/nonnegativity consequences used by the algebraic transfer endpoint.",
+          "source_location": "LMMS04FairDivision source statement for assumption_additive_transfer_load_window_conditions"
+        },
+        "hoptMin : 0 < optMin": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma 3.5 and Claim 3.4 work in the half-load window L/2 < load < 2L; Lean exposes the positivity/nonnegativity consequences used by the algebraic transfer endpoint.",
+          "source_location": "LMMS04FairDivision source statement for assumption_additive_transfer_load_window_conditions"
+        },
+        "hoptMin_half : L ≤ 2 * optMin": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma 3.5 and Claim 3.4 work in the half-load window L/2 < load < 2L; Lean exposes the positivity/nonnegativity consequences used by the algebraic transfer endpoint.",
+          "source_location": "LMMS04FairDivision source statement for assumption_additive_transfer_load_window_conditions"
+        },
+        "houtMin : 0 < outMin": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma 3.5 and Claim 3.4 work in the half-load window L/2 < load < 2L; Lean exposes the positivity/nonnegativity consequences used by the algebraic transfer endpoint.",
+          "source_location": "LMMS04FairDivision source statement for assumption_additive_transfer_load_window_conditions"
+        },
+        "hroundedMax_half : L ≤ 2 * roundedMax": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma 3.5 and Claim 3.4 work in the half-load window L/2 < load < 2L; Lean exposes the positivity/nonnegativity consequences used by the algebraic transfer endpoint.",
+          "source_location": "LMMS04FairDivision source statement for assumption_additive_transfer_load_window_conditions"
+        },
+        "hroundedMax_nonneg : 0 ≤ roundedMax": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma 3.5 and Claim 3.4 work in the half-load window L/2 < load < 2L; Lean exposes the positivity/nonnegativity consequences used by the algebraic transfer endpoint.",
+          "source_location": "LMMS04FairDivision source statement for assumption_additive_transfer_load_window_conditions"
+        },
+        "hroundedMin : 0 < roundedMin": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma 3.5 and Claim 3.4 work in the half-load window L/2 < load < 2L; Lean exposes the positivity/nonnegativity consequences used by the algebraic transfer endpoint.",
+          "source_location": "LMMS04FairDivision source statement for assumption_additive_transfer_load_window_conditions"
+        },
+        "hroundedMin_half : L ≤ 2 * roundedMin": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma 3.5 and Claim 3.4 work in the half-load window L/2 < load < 2L; Lean exposes the positivity/nonnegativity consequences used by the algebraic transfer endpoint.",
+          "source_location": "LMMS04FairDivision source statement for assumption_additive_transfer_load_window_conditions"
+        }
+      },
+      "premises": [
+        "hoptMax : 0 ≤ optMax",
+        "hoptMax_half : L ≤ 2 * optMax",
+        "hoptMin : 0 < optMin",
+        "hoptMin_half : L ≤ 2 * optMin",
+        "houtMin : 0 < outMin",
+        "hroundedMax_half : L ≤ 2 * roundedMax",
+        "hroundedMax_nonneg : 0 ≤ roundedMax",
+        "hroundedMin : 0 < roundedMin",
+        "hroundedMin_half : L ≤ 2 * roundedMin"
+      ]
     },
     "assumption_alpha_marginal_value_bound": {
       "judgment": "paper_condition",
@@ -19,7 +77,17 @@
       "reason": "The alpha-bounded form of Theorem 2.1 assumes every marginal value is at most alpha; the source's named maximum-marginal version is the closed specialization.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hbound : MarginalBound v alpha": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The alpha-bounded form of Theorem 2.1 assumes every marginal value is at most alpha; the source's named maximum-marginal version is the closed specialization.",
+          "source_location": "LMMS04FairDivision source statement for assumption_alpha_marginal_value_bound"
+        }
+      },
+      "premises": [
+        "hbound : MarginalBound v alpha"
+      ]
     },
     "assumption_base_load_at_most_rounded_average": {
       "judgment": "paper_condition",
@@ -29,7 +97,17 @@
       "reason": "The source explicitly states that the original average load is at most the rounded average load.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hbase_le_avg : L ≤ LR": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The source explicitly states that the original average load is at most the rounded average load.",
+          "source_location": "LMMS04FairDivision source statement for assumption_base_load_at_most_rounded_average"
+        }
+      },
+      "premises": [
+        "hbase_le_avg : L ≤ LR"
+      ]
     },
     "assumption_claim34_positive_small_goods_domain": {
       "judgment": "paper_condition",
@@ -39,7 +117,35 @@
       "reason": "Claim 3.4 is stated after reducing to goods with positive value below L.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hgoods_lt : ∀ g : SourceItem, g ∈ goods → v g < L": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Claim 3.4 is stated after reducing to goods with positive value below L.",
+          "source_location": "LMMS04FairDivision source statement for assumption_claim34_positive_small_goods_domain"
+        },
+        "hgoods_pos : ∀ g : SourceItem, g ∈ goods → 0 < v g": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Claim 3.4 is stated after reducing to goods with positive value below L.",
+          "source_location": "LMMS04FairDivision source statement for assumption_claim34_positive_small_goods_domain"
+        },
+        "hitem_lt : ∀ A : Alloc, ∀ i : SourceAgent, ∀ g : SourceItem, g ∈ M.bundleOf A i → M.commonValue g < L": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Claim 3.4 is stated after reducing to goods with positive value below L.",
+          "source_location": "LMMS04FairDivision source statement for assumption_claim34_positive_small_goods_domain"
+        },
+        "hitem_nonneg : ∀ A : Alloc, ∀ i : SourceAgent, ∀ g : SourceItem, g ∈ M.bundleOf A i → 0 ≤ M.commonValue g": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Claim 3.4 is stated after reducing to goods with positive value below L.",
+          "source_location": "LMMS04FairDivision source statement for assumption_claim34_positive_small_goods_domain"
+        }
+      },
+      "premises": [
+        "hgoods_lt : ∀ g : SourceItem, g ∈ goods → v g < L",
+        "hgoods_pos : ∀ g : SourceItem, g ∈ goods → 0 < v g",
+        "hitem_lt : ∀ A : Alloc, ∀ i : SourceAgent, ∀ g : SourceItem, g ∈ M.bundleOf A i → M.commonValue g < L",
+        "hitem_nonneg : ∀ A : Alloc, ∀ i : SourceAgent, ∀ g : SourceItem, g ∈ M.bundleOf A i → 0 ≤ M.commonValue g"
+      ]
     },
     "assumption_claim34_rounded_type_window_condition": {
       "judgment": "paper_condition",
@@ -49,7 +155,17 @@
       "reason": "The Claim 3.4 rounded finite-IP endpoint compares assignments whose rounded bundle types lie in the selected min/max load window.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "∀ i : SourceAgent, typeOf i ∈ Theorem33.roundedTypesInValueWindow L lambda p.1 p.2": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The Claim 3.4 rounded finite-IP endpoint compares assignments whose rounded bundle types lie in the selected min/max load window.",
+          "source_location": "LMMS04FairDivision source statement for assumption_claim34_rounded_type_window_condition"
+        }
+      },
+      "premises": [
+        "∀ i : SourceAgent, typeOf i ∈ Theorem33.roundedTypesInValueWindow L lambda p.1 p.2"
+      ]
     },
     "assumption_duplicate_free_goods_enumeration": {
       "judgment": "paper_condition",
@@ -59,7 +175,17 @@
       "reason": "The constructive algorithm allocates the finite set of goods one-by-one; Lean represents that finite set by a duplicate-free list.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hnodup : goodsList.Nodup": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The constructive algorithm allocates the finite set of goods one-by-one; Lean represents that finite set by a duplicate-free list.",
+          "source_location": "LMMS04FairDivision source statement for assumption_duplicate_free_goods_enumeration"
+        }
+      },
+      "premises": [
+        "hnodup : goodsList.Nodup"
+      ]
     },
     "assumption_external_graham_scheduling_boundary": {
       "judgment": "partial_boundary",
@@ -69,7 +195,17 @@
       "reason": "External Graham scheduling approximation boundary for the partial Section 3 formalization.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "C : Theorem32.Graham14SchedulingApproximationCertificate load optimalRatio": {
+          "judgment": "partial_boundary",
+          "reason": "Premise inherits the row-level provenance judgment. External Graham scheduling approximation boundary for the partial Section 3 formalization.",
+          "source_location": ""
+        }
+      },
+      "premises": [
+        "C : Theorem32.Graham14SchedulingApproximationCertificate load optimalRatio"
+      ]
     },
     "assumption_fixed_dimension_ip_runtime_boundary": {
       "judgment": "partial_boundary",
@@ -79,7 +215,17 @@
       "reason": "Fixed-dimension IP runtime/search complexity boundary for the partial Section 3 formalization.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "cert : Theorem33.RoundedInstanceSearchCertificate M L epsilon lambda optimal": {
+          "judgment": "partial_boundary",
+          "reason": "Premise inherits the row-level provenance judgment. Fixed-dimension IP runtime/search complexity boundary for the partial Section 3 formalization.",
+          "source_location": ""
+        }
+      },
+      "premises": [
+        "cert : Theorem33.RoundedInstanceSearchCertificate M L epsilon lambda optimal"
+      ]
     },
     "assumption_nonnegative_alpha_bound": {
       "judgment": "paper_condition",
@@ -89,7 +235,17 @@
       "reason": "Theorem 2.1 uses alpha as the maximum marginal utility; monotonicity of the source valuations makes this bound nonnegative.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "halpha_nonneg : 0 ≤ alpha": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 2.1 uses alpha as the maximum marginal utility; monotonicity of the source valuations makes this bound nonnegative.",
+          "source_location": "LMMS04FairDivision source statement for assumption_nonnegative_alpha_bound"
+        }
+      },
+      "premises": [
+        "halpha_nonneg : 0 ≤ alpha"
+      ]
     },
     "assumption_positive_atom_bound": {
       "judgment": "paper_condition",
@@ -99,7 +255,17 @@
       "reason": "The measure-valued extension separates the alpha = 0 divisible case and proves the finite partition route for alpha > 0.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "halpha_pos : 0 < alpha": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The measure-valued extension separates the alpha = 0 divisible case and proves the finite partition route for alpha > 0.",
+          "source_location": "LMMS04FairDivision source statement for assumption_positive_atom_bound"
+        }
+      },
+      "premises": [
+        "halpha_pos : 0 < alpha"
+      ]
     },
     "assumption_positive_rounding_and_load_parameters": {
       "judgment": "paper_condition",
@@ -109,7 +275,35 @@
       "reason": "The rounding construction uses positive average load L, rounded average LR, and a positive lambda chosen as O(1/epsilon).",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hL : 0 < L": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The rounding construction uses positive average load L, rounded average LR, and a positive lambda chosen as O(1/epsilon).",
+          "source_location": "LMMS04FairDivision source statement for assumption_positive_rounding_and_load_parameters"
+        },
+        "hLR : 0 < LR": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The rounding construction uses positive average load L, rounded average LR, and a positive lambda chosen as O(1/epsilon).",
+          "source_location": "LMMS04FairDivision source statement for assumption_positive_rounding_and_load_parameters"
+        },
+        "hlambda : 0 < lambda": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The rounding construction uses positive average load L, rounded average LR, and a positive lambda chosen as O(1/epsilon).",
+          "source_location": "LMMS04FairDivision source statement for assumption_positive_rounding_and_load_parameters"
+        },
+        "hlambda : 1 < lambda": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The rounding construction uses positive average load L, rounded average LR, and a positive lambda chosen as O(1/epsilon).",
+          "source_location": "LMMS04FairDivision source statement for assumption_positive_rounding_and_load_parameters"
+        }
+      },
+      "premises": [
+        "hL : 0 < L",
+        "hLR : 0 < LR",
+        "hlambda : 0 < lambda",
+        "hlambda : 1 < lambda"
+      ]
     },
     "assumption_ptas_error_parameter_range": {
       "judgment": "paper_condition",
@@ -119,7 +313,23 @@
       "reason": "The PTAS/FPTAS theorem is stated for positive error epsilon; the exact finite arithmetic endpoint restricts to epsilon <= 1 without loss for the displayed small-error regime.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hepsilon_le_one : epsilon ≤ 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The PTAS/FPTAS theorem is stated for positive error epsilon; the exact finite arithmetic endpoint restricts to epsilon <= 1 without loss for the displayed small-error regime.",
+          "source_location": "LMMS04FairDivision source statement for assumption_ptas_error_parameter_range"
+        },
+        "hepsilon_pos : 0 < epsilon": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The PTAS/FPTAS theorem is stated for positive error epsilon; the exact finite arithmetic endpoint restricts to epsilon <= 1 without loss for the displayed small-error regime.",
+          "source_location": "LMMS04FairDivision source statement for assumption_ptas_error_parameter_range"
+        }
+      },
+      "premises": [
+        "hepsilon_le_one : epsilon ≤ 1",
+        "hepsilon_pos : 0 < epsilon"
+      ]
     },
     "assumption_uniform_random_weight_normalization": {
       "judgment": "paper_condition",
@@ -129,7 +339,41 @@
       "reason": "Theorem 4.2 assumes normalized nonnegative additive utilities with every item value at most alpha and proves a bound for any positive threshold parameter.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "halpha : 0 ≤ alpha": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 4.2 assumes normalized nonnegative additive utilities with every item value at most alpha and proves a bound for any positive threshold parameter.",
+          "source_location": "LMMS04FairDivision source statement for assumption_uniform_random_weight_normalization"
+        },
+        "hbound : ∀ p : Agent, ∀ g : Item, w p g ≤ alpha": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 4.2 assumes normalized nonnegative additive utilities with every item value at most alpha and proves a bound for any positive threshold parameter.",
+          "source_location": "LMMS04FairDivision source statement for assumption_uniform_random_weight_normalization"
+        },
+        "hnonneg : ∀ p : Agent, ∀ g : Item, 0 ≤ w p g": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 4.2 assumes normalized nonnegative additive utilities with every item value at most alpha and proves a bound for any positive threshold parameter.",
+          "source_location": "LMMS04FairDivision source statement for assumption_uniform_random_weight_normalization"
+        },
+        "hsum : ∀ p : Agent, ∑ g : Item, w p g = 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 4.2 assumes normalized nonnegative additive utilities with every item value at most alpha and proves a bound for any positive threshold parameter.",
+          "source_location": "LMMS04FairDivision source statement for assumption_uniform_random_weight_normalization"
+        },
+        "ht : 0 < t": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 4.2 assumes normalized nonnegative additive utilities with every item value at most alpha and proves a bound for any positive threshold parameter.",
+          "source_location": "LMMS04FairDivision source statement for assumption_uniform_random_weight_normalization"
+        }
+      },
+      "premises": [
+        "halpha : 0 ≤ alpha",
+        "hbound : ∀ p : Agent, ∀ g : Item, w p g ≤ alpha",
+        "hnonneg : ∀ p : Agent, ∀ g : Item, 0 ≤ w p g",
+        "hsum : ∀ p : Agent, ∑ g : Item, w p g = 1",
+        "ht : 0 < t"
+      ]
     }
   },
   "paper": "LMMS04FairDivision",

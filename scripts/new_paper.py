@@ -792,7 +792,10 @@ import {folder}.Assumptions
 
 This is the compact Lean file a human should read after formalization to check
 whether the paper's definitions and named theorem statements were represented
-correctly.
+correctly. If row-level dashboard or LLM audit declarations become too large
+for this first-read file, move those rows to `AuditInterface.lean` and set
+`status.json` `paper_interface.audit_surface_path` plus
+`review_surface.source_file`.
 
 Rules for completing this file:
 

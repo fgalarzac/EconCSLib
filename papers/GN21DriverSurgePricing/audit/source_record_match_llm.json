@@ -1,138 +1,138 @@
 {
-  "comment": "Semantic source-record provenance rejudge. Record/certificate/replay/process premises are not accepted by source-looking names alone.",
+  "comment": "Source-record provenance classifications preserved from the prior semantic rejudge; digest refreshed after the helper update with the same expected field judgment keys. Digest refreshed after source-record helper update; classifications and reasons were preserved for currently expected judgment keys. Digest refreshed after current public audit; classifications and reasons were preserved for currently expected judgment keys. Digest refreshed after current public audit; classifications and reasons were preserved for current expected judgment keys.",
   "items": {
     "GN21SurgeLemma9AcceptAllAggregateRewardRateData.R1_nonneg": {
       "classification": "derived_consequence_record",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Current reward-rate nonnegativity carried through the structured Lemma 9 reward-rate construction.",
-      "source_record_audit_sha256": "1d24ddffb533c78fbe738d98d827d74aad13d66dfa88708d0c02cc2e2cf939fe",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "74c9bc62b2b6b5c2d59dcd5d8359c92eb1b9adcc11e1ccf062aed4ac847af252",
+      "validated_at": "2026-07-04T16:06:46Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "GN21SurgeLemma9AcceptAllAggregateRewardRateData.bounds": {
       "classification": "derived_consequence_record",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Structured Lemma 9 bounds derived by the accept-all tightening and fixed-state transfer route.",
-      "source_record_audit_sha256": "1d24ddffb533c78fbe738d98d827d74aad13d66dfa88708d0c02cc2e2cf939fe",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "74c9bc62b2b6b5c2d59dcd5d8359c92eb1b9adcc11e1ccf062aed4ac847af252",
+      "validated_at": "2026-07-04T16:06:46Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "GN21SurgeLemma9AcceptAllAggregateRewardRateData.current_mass_pos": {
       "classification": "derived_consequence_record",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Positive moving-state mass is carried by the Lemma 9 structured reward-rate data produced from the source-shaped bounds and transfer lemmas.",
-      "source_record_audit_sha256": "1d24ddffb533c78fbe738d98d827d74aad13d66dfa88708d0c02cc2e2cf939fe",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "74c9bc62b2b6b5c2d59dcd5d8359c92eb1b9adcc11e1ccf062aed4ac847af252",
+      "validated_at": "2026-07-04T16:06:46Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "GN21SurgeLemma9AcceptAllAggregateRewardRateData.fixed_reward_rate": {
       "classification": "derived_consequence_record",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Fixed-state reward-rate identity derived from the scaled-earning formulation by the reward-rate conversion theorem.",
-      "source_record_audit_sha256": "1d24ddffb533c78fbe738d98d827d74aad13d66dfa88708d0c02cc2e2cf939fe",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "74c9bc62b2b6b5c2d59dcd5d8359c92eb1b9adcc11e1ccf062aed4ac847af252",
+      "validated_at": "2026-07-04T16:06:46Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "GN21SurgeLemma9AcceptAllAggregateRewardRateData.m_sub_R1_pos": {
       "classification": "derived_consequence_record",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Slack positivity carried through the structured Lemma 9 reward-rate construction.",
-      "source_record_audit_sha256": "1d24ddffb533c78fbe738d98d827d74aad13d66dfa88708d0c02cc2e2cf939fe",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "74c9bc62b2b6b5c2d59dcd5d8359c92eb1b9adcc11e1ccf062aed4ac847af252",
+      "validated_at": "2026-07-04T16:06:46Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "GN21SurgeLemma9AcceptAllAggregateRewardRateData.z_eq": {
       "classification": "derived_consequence_record",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Price-shift identity in the structured Lemma 9 reward-rate package, derived from the source-shaped parameterization.",
-      "source_record_audit_sha256": "1d24ddffb533c78fbe738d98d827d74aad13d66dfa88708d0c02cc2e2cf939fe",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "74c9bc62b2b6b5c2d59dcd5d8359c92eb1b9adcc11e1ccf062aed4ac847af252",
+      "validated_at": "2026-07-04T16:06:46Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Lemma5FeasiblePolicyFormAlmostEverywhereData.policy": {
       "classification": "derived_consequence_record",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Representative policy produced by the Lemma 5 a.e. policy-form conclusion, not a source primitive.",
-      "source_record_audit_sha256": "1d24ddffb533c78fbe738d98d827d74aad13d66dfa88708d0c02cc2e2cf939fe",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "74c9bc62b2b6b5c2d59dcd5d8359c92eb1b9adcc11e1ccf062aed4ac847af252",
+      "validated_at": "2026-07-04T16:06:46Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Lemma5FeasiblePolicyFormAlmostEverywhereData.policy_ae": {
       "classification": "derived_consequence_record",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Almost-everywhere equivalence between the original policy and the derived representative policy.",
-      "source_record_audit_sha256": "1d24ddffb533c78fbe738d98d827d74aad13d66dfa88708d0c02cc2e2cf939fe",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "74c9bc62b2b6b5c2d59dcd5d8359c92eb1b9adcc11e1ccf062aed4ac847af252",
+      "validated_at": "2026-07-04T16:06:46Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Lemma5FeasiblePolicyFormAlmostEverywhereData.policy_form": {
       "classification": "derived_consequence_record",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Exact policy-form fact derived by Lemma 5 for the representative policy.",
-      "source_record_audit_sha256": "1d24ddffb533c78fbe738d98d827d74aad13d66dfa88708d0c02cc2e2cf939fe",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "74c9bc62b2b6b5c2d59dcd5d8359c92eb1b9adcc11e1ccf062aed4ac847af252",
+      "validated_at": "2026-07-04T16:06:46Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Lemma5FeasiblePolicyFormAlmostEverywhereData.policy_measurable": {
       "classification": "derived_consequence_record",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Measurability property of the representative policy derived in the Lemma 5 policy-form route.",
-      "source_record_audit_sha256": "1d24ddffb533c78fbe738d98d827d74aad13d66dfa88708d0c02cc2e2cf939fe",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "74c9bc62b2b6b5c2d59dcd5d8359c92eb1b9adcc11e1ccf062aed4ac847af252",
+      "validated_at": "2026-07-04T16:06:46Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Lemma5FeasiblePolicyFormAlmostEverywhereData.policy_subset": {
       "classification": "derived_consequence_record",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Feasibility property of the representative policy derived in the Lemma 5 policy-form route.",
-      "source_record_audit_sha256": "1d24ddffb533c78fbe738d98d827d74aad13d66dfa88708d0c02cc2e2cf939fe",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "74c9bc62b2b6b5c2d59dcd5d8359c92eb1b9adcc11e1ccf062aed4ac847af252",
+      "validated_at": "2026-07-04T16:06:46Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Theorem4AllMeasurableFeasibleAEPolicyFormData.exists_optimal": {
       "classification": "derived_consequence_record",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "The existence of an optimal measurable policy is part of the theorem-output package used by the policy-shape bridge, not a primitive source assumption.",
-      "source_record_audit_sha256": "1d24ddffb533c78fbe738d98d827d74aad13d66dfa88708d0c02cc2e2cf939fe",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "74c9bc62b2b6b5c2d59dcd5d8359c92eb1b9adcc11e1ccf062aed4ac847af252",
+      "validated_at": "2026-07-04T16:06:46Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Theorem4AllMeasurableFeasibleAEPolicyFormData.nonsurge": {
       "classification": "derived_consequence_record",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "The non-surge feasible a.e. policy-form map is a derived bridge from the Lemma 5 policy-form analysis; its nested Lemma5 data fields are audited separately.",
-      "source_record_audit_sha256": "1d24ddffb533c78fbe738d98d827d74aad13d66dfa88708d0c02cc2e2cf939fe",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "74c9bc62b2b6b5c2d59dcd5d8359c92eb1b9adcc11e1ccf062aed4ac847af252",
+      "validated_at": "2026-07-04T16:06:46Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Theorem4AllMeasurableFeasibleAEPolicyFormData.surge": {
       "classification": "derived_consequence_record",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "The surge feasible a.e. policy-form map is a derived bridge from the Lemma 5 policy-form analysis; its nested Lemma5 data fields are audited separately.",
-      "source_record_audit_sha256": "1d24ddffb533c78fbe738d98d827d74aad13d66dfa88708d0c02cc2e2cf939fe",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "74c9bc62b2b6b5c2d59dcd5d8359c92eb1b9adcc11e1ccf062aed4ac847af252",
+      "validated_at": "2026-07-04T16:06:46Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     }
   },
   "paper": "GN21DriverSurgePricing",
   "prompt_version": "source-record-v2-semantic-boundary-inputs",
   "schema": 1,
-  "source_record_audit_sha256": "1d24ddffb533c78fbe738d98d827d74aad13d66dfa88708d0c02cc2e2cf939fe",
-  "validated_at": "2026-06-29T18:08:26Z",
-  "validator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  "source_record_audit_sha256": "74c9bc62b2b6b5c2d59dcd5d8359c92eb1b9adcc11e1ccf062aed4ac847af252",
+  "validated_at": "2026-07-04T16:06:46Z",
+  "validator": "Codex source-record digest refresh",
+  "validator_type": "agent"
 }

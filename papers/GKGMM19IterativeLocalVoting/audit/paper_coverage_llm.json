@@ -772,7 +772,7 @@
   "paper": "GKGMM19IterativeLocalVoting",
   "paper_statement_inventory_sha256": "76daad17822d1ad6f2b16d10017fdbe74c61e3e8d99d949bd0da361bc6c6cfa9",
   "prompt_version": "paper-coverage-v2-source-grounded-source-to-dashboard",
-  "review_surface_sha256": "38b0ba38fb5ed43ca6025eee88e57d69e0d72aaadd2aff5746885b73339764a3",
+  "review_surface_sha256": "791bfd65582567411db49b7f96ba372be104afee687ef2435b1c8e3e8f2a8150",
   "schema": 1,
   "source_grounded": true,
   "validated_at": "2026-06-29T20:39:31Z",

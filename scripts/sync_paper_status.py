@@ -226,7 +226,7 @@ def aggregate_payload(records: list[tuple[Path, dict[str, Any]]]) -> dict[str, A
         "paper_interface_maintenance_policy": (
             "PaperInterface.lean should stay compact and source-facing. Broad proof aliases belong "
             "in ProofInterface.lean or implementation modules. If row-level dashboard or "
-            "LLM-as-judge coverage needs a larger surface, put it in AuditInterface.lean and "
+            "LLM audit coverage needs a larger surface, put it in AuditInterface.lean and "
             "point review_surface.source_file there."
         ),
         "papers": papers,
@@ -847,6 +847,30 @@ def dependency_dag_path(folder: Path, payload: dict[str, Any]) -> str | None:
     return first_present_artifact(folder, payload, "dependency_dag_pdf", "dependency_dag_tex")
 
 
+def paper_interface_path(folder: Path, payload: dict[str, Any]) -> str | None:
+    interface = payload.get("paper_interface", {})
+    if isinstance(interface, dict):
+        path = paper_file_if_present(folder, interface.get("path"))
+        if path:
+            return path
+    return first_present_artifact(folder, payload, "paper_interface")
+
+
+def audit_surface_path(folder: Path, payload: dict[str, Any]) -> str | None:
+    interface = payload.get("paper_interface", {})
+    if isinstance(interface, dict):
+        path = paper_file_if_present(folder, interface.get("audit_surface_path"))
+        if path:
+            return path
+    review_surface = payload.get("review_surface", {})
+    if isinstance(review_surface, dict):
+        path = paper_file_if_present(folder, review_surface.get("source_file"))
+        interface_path = paper_interface_path(folder, payload)
+        if path and path != interface_path:
+            return path
+    return None
+
+
 def json_surface_paths(folder: Path) -> list[tuple[str, str]]:
     candidates = [
         ("status.json", folder / "status.json"),
@@ -881,6 +905,8 @@ def paper_reference_markdown(folder: Path, payload: dict[str, Any]) -> str:
 def generated_paper_readme_block(folder: Path, payload: dict[str, Any]) -> str:
     review_path = review_entrypoint_path(folder, payload)
     dag_path = dependency_dag_path(folder, payload)
+    interface_path = paper_interface_path(folder, payload)
+    audit_path = audit_surface_path(folder, payload)
     notes_path = str((folder / LEGACY_README_NOTES).relative_to(ROOT))
     include_notes = (ROOT / notes_path).exists() or legacy_readme_body(folder) is not None
     json_links = [
@@ -899,6 +925,16 @@ def generated_paper_readme_block(folder: Path, payload: dict[str, Any]) -> str:
         link_lines.append(f"- Dependency DAG: {markdown_file_link(folder, dag_path, Path(dag_path).name)}")
     else:
         link_lines.append("- Dependency DAG: not tracked in this folder.")
+    if interface_path:
+        link_lines.append(
+            f"- Compact Lean interface: {markdown_file_link(folder, interface_path, Path(interface_path).name)}"
+        )
+    else:
+        link_lines.append("- Compact Lean interface: not tracked in this folder.")
+    if audit_path:
+        link_lines.append(
+            f"- Audited review surface: {markdown_file_link(folder, audit_path, Path(audit_path).name)}"
+        )
     link_lines.append("- Source/status JSON: " + "; ".join(json_links) + ".")
     if include_notes:
         link_lines.append(

@@ -9,7 +9,17 @@
       "reason": "The model time/review count is a sample mass and therefore nonnegative.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "ht : 0 ≤ t": {
+          "judgment": "paper_assumption",
+          "reason": "Premise inherits the row-level provenance judgment. The model time/review count is a sample mass and therefore nonnegative.",
+          "source_location": "MBJG25ProducerFairness source statement for assumption_nonnegative_time"
+        }
+      },
+      "premises": [
+        "ht : 0 ≤ t"
+      ]
     },
     "assumption_positive_prior_shape": {
       "judgment": "paper_condition",
@@ -19,7 +29,17 @@
       "reason": "The source models a Beta prior with shape parameters and uses their total mass as prior strength. Positive total shape mass is the source-domain condition under which the displayed posterior and prior-mean formulas are meaningful.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hshape : 0 < alpha + beta": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The source models a Beta prior with shape parameters and uses their total mass as prior strength. Positive total shape mass is the source-domain condition under which the displayed posterior and prior-mean formulas are meaningful.",
+          "source_location": "MBJG25ProducerFairness source statement for assumption_positive_prior_shape"
+        }
+      },
+      "premises": [
+        "hshape : 0 < alpha + beta"
+      ]
     },
     "assumption_positive_time": {
       "judgment": "paper_condition",
@@ -29,7 +49,17 @@
       "reason": "The fixed-setting theorems discuss estimates after t timesteps/reviews; the monotonicity and denominator arguments use positive elapsed sample mass.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "ht : 0 < t": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The fixed-setting theorems discuss estimates after t timesteps/reviews; the monotonicity and denominator arguments use positive elapsed sample mass.",
+          "source_location": "MBJG25ProducerFairness source statement for assumption_positive_time"
+        }
+      },
+      "premises": [
+        "ht : 0 < t"
+      ]
     },
     "assumption_prior_strength_nonnegative": {
       "judgment": "paper_assumption",
@@ -39,7 +69,23 @@
       "reason": "The source defines prior strength eta as a nonnegative weight.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hetaLow_nonneg : 0 ≤ etaLow": {
+          "judgment": "paper_assumption",
+          "reason": "Premise inherits the row-level provenance judgment. The source defines prior strength eta as a nonnegative weight.",
+          "source_location": "MBJG25ProducerFairness source statement for assumption_prior_strength_nonnegative"
+        },
+        "heta_nonneg : 0 ≤ eta": {
+          "judgment": "paper_assumption",
+          "reason": "Premise inherits the row-level provenance judgment. The source defines prior strength eta as a nonnegative weight.",
+          "source_location": "MBJG25ProducerFairness source statement for assumption_prior_strength_nonnegative"
+        }
+      },
+      "premises": [
+        "hetaLow_nonneg : 0 ≤ etaLow",
+        "heta_nonneg : 0 ≤ eta"
+      ]
     },
     "assumption_prior_strength_strict_order": {
       "judgment": "paper_condition",
@@ -49,7 +95,17 @@
       "reason": "The corrected strict variance row compares strictly stronger prior strength.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "heta_lt : etaLow < etaHigh": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The corrected strict variance row compares strictly stronger prior strength.",
+          "source_location": "MBJG25ProducerFairness source statement for assumption_prior_strength_strict_order"
+        }
+      },
+      "premises": [
+        "heta_lt : etaLow < etaHigh"
+      ]
     },
     "assumption_prior_strength_weak_order": {
       "judgment": "paper_condition",
@@ -59,7 +115,17 @@
       "reason": "The Theorem 3.1 monotonicity statement compares a lower and a higher prior strength.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "heta_le : etaLow ≤ etaHigh": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The Theorem 3.1 monotonicity statement compares a lower and a higher prior strength.",
+          "source_location": "MBJG25ProducerFairness source statement for assumption_prior_strength_weak_order"
+        }
+      },
+      "premises": [
+        "heta_le : etaLow ≤ etaHigh"
+      ]
     },
     "assumption_quality_at_most_one": {
       "judgment": "paper_assumption",
@@ -69,7 +135,17 @@
       "reason": "The source states true product quality lies in the Bernoulli interval.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hq1 : q ≤ 1": {
+          "judgment": "paper_assumption",
+          "reason": "Premise inherits the row-level provenance judgment. The source states true product quality lies in the Bernoulli interval.",
+          "source_location": "MBJG25ProducerFairness source statement for assumption_quality_at_most_one"
+        }
+      },
+      "premises": [
+        "hq1 : q ≤ 1"
+      ]
     },
     "assumption_quality_lt_one": {
       "judgment": "documented_additional_assumption",
@@ -83,7 +159,17 @@
       "human_override": "formalized_non_caveat",
       "human_override_by": "ngarg",
       "human_override_note": "Automated semantic mismatch: the Lean row adds the interior-quality condition 0 < q_v < 1 to the strict variance-decrease statement. Human override: record this as an additional assumption in the validation report; it does not change the paper-level status from formalized.",
-      "paper_status_effect": "keep_status_formalized_without_caveat"
+      "paper_status_effect": "keep_status_formalized_without_caveat",
+      "premise_judgments": {
+        "hq1 : q < 1": {
+          "judgment": "documented_additional_assumption",
+          "reason": "Premise inherits the row-level provenance judgment. Additional interior-quality assumption 0 < q_v < 1 for the strict variance-decrease statement.",
+          "source_location": ""
+        }
+      },
+      "premises": [
+        "hq1 : q < 1"
+      ]
     },
     "assumption_quality_nonnegative": {
       "judgment": "paper_assumption",
@@ -93,7 +179,17 @@
       "reason": "The source states true product quality lies in the Bernoulli interval.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hq0 : 0 ≤ q": {
+          "judgment": "paper_assumption",
+          "reason": "Premise inherits the row-level provenance judgment. The source states true product quality lies in the Bernoulli interval.",
+          "source_location": "MBJG25ProducerFairness source statement for assumption_quality_nonnegative"
+        }
+      },
+      "premises": [
+        "hq0 : 0 ≤ q"
+      ]
     },
     "assumption_quality_positive": {
       "judgment": "documented_additional_assumption",
@@ -107,7 +203,17 @@
       "human_override": "formalized_non_caveat",
       "human_override_by": "ngarg",
       "human_override_note": "Automated semantic mismatch: the Lean row adds the interior-quality condition 0 < q_v < 1 to the strict variance-decrease statement. Human override: record this as an additional assumption in the validation report; it does not change the paper-level status from formalized.",
-      "paper_status_effect": "keep_status_formalized_without_caveat"
+      "paper_status_effect": "keep_status_formalized_without_caveat",
+      "premise_judgments": {
+        "hq0 : 0 < q": {
+          "judgment": "documented_additional_assumption",
+          "reason": "Premise inherits the row-level provenance judgment. Additional interior-quality assumption 0 < q_v < 1 for the strict variance-decrease statement.",
+          "source_location": ""
+        }
+      },
+      "premises": [
+        "hq0 : 0 < q"
+      ]
     }
   },
   "paper": "MBJG25ProducerFairness",

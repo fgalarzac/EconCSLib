@@ -19,7 +19,7 @@
     "path": "papers/MSVV07AdWords/PaperInterface.lean",
     "line_count": 17,
     "declaration_rows": 0,
-    "review_rows": 43,
+    "review_rows": 33,
     "oversized": false,
     "maintainability_issue": null,
     "proof_interface_path": "papers/MSVV07AdWords/ProofInterface.lean",
@@ -96,6 +96,43 @@
         "line_start": 1
       }
     ],
-    "human_source_file": "papers/MSVV07AdWords/PaperInterface.lean"
+    "human_source_file": "papers/MSVV07AdWords/PaperInterface.lean",
+    "auxiliary_names": [
+      "PaperAssignment",
+      "PaperFractionalFeasible",
+      "PaperInstance",
+      "PaperSmallBidsLimitFamily",
+      "paperAssignment_query_choice",
+      "paperBalanceScore",
+      "paperCanAssign",
+      "paperFeasible",
+      "paperFractionalRevenue",
+      "paperInstance_has_budget_and_bid",
+      "paperIsBalanceChoice",
+      "paperMsvvRatio",
+      "paperRevenue",
+      "paperSlotsPerPageDistinct",
+      "paperSmallBids",
+      "paperSpend",
+      "paperTradeoff",
+      "section6_effective_bids_theorem8_finite_explicit_error",
+      "section6_multiple_slots_distinct_choice_run_assignment_per_page_distinct",
+      "section6_multiple_slots_theorem8_finite_explicit_error",
+      "section6_next_highest_bid_alive",
+      "section6_next_highest_bid_all",
+      "section8_weighted_bids_theorem8_finite_explicit_error",
+      "theorem8_finite_explicit_error",
+      "theorem9CappedNormalizedRevenue",
+      "theorem9FeasiblePrefixRuleFamily",
+      "theorem9FeasiblePrefixRuleFamily_fields",
+      "theorem9HardDistribution",
+      "theorem9IntegralPrefixAlgorithm",
+      "theorem9IntegralPrefixAlgorithm_choice_feasible",
+      "theorem9RandomizedOnlineAlgorithm",
+      "theorem9RandomizedOnlineAlgorithm_pmf",
+      "theorem9_capped_normalized_revenue_eq_prefix_spend",
+      "theorem9_no_randomized_feasible_prefix_rule_family_beats_msvv_ratio",
+      "theorem9_no_randomized_integral_prefix_algorithm_beats_msvv_ratio"
+    ]
   }
 }

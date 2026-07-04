@@ -9,7 +9,47 @@
       "reason": "Theorem 1(ii) and Lemma 1 use a bounded upper support endpoint, nonnegative value domain, and positive tail constants.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hM_pos : 0 < M": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(ii) and Lemma 1 use a bounded upper support endpoint, nonnegative value domain, and positive tail constants.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_bounded_upper_endpoint_density_domain"
+        },
+        "h_base_bounds : ∀ᵐ y ∂baseMeasure, L ≤ y ∧ y ≤ M": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(ii) and Lemma 1 use a bounded upper support endpoint, nonnegative value domain, and positive tail constants.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_bounded_upper_endpoint_density_domain"
+        },
+        "h_nonneg : ∀ᵐ y ∂baseMeasure, 0 ≤ y": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(ii) and Lemma 1 use a bounded upper support endpoint, nonnegative value domain, and positive tail constants.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_bounded_upper_endpoint_density_domain"
+        },
+        "hbeta_pos : 0 < beta": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(ii) and Lemma 1 use a bounded upper support endpoint, nonnegative value domain, and positive tail constants.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_bounded_upper_endpoint_density_domain"
+        },
+        "hc_pos : 0 < c": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(ii) and Lemma 1 use a bounded upper support endpoint, nonnegative value domain, and positive tail constants.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_bounded_upper_endpoint_density_domain"
+        },
+        "hwidth_pos : 0 < M - L": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(ii) and Lemma 1 use a bounded upper support endpoint, nonnegative value domain, and positive tail constants.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_bounded_upper_endpoint_density_domain"
+        }
+      },
+      "premises": [
+        "hM_pos : 0 < M",
+        "h_base_bounds : ∀ᵐ y ∂baseMeasure, L ≤ y ∧ y ≤ M",
+        "h_nonneg : ∀ᵐ y ∂baseMeasure, 0 ≤ y",
+        "hbeta_pos : 0 < beta",
+        "hc_pos : 0 < c",
+        "hwidth_pos : 0 < M - L"
+      ]
     },
     "assumption_common_mean_argmax_domain": {
       "judgment": "paper_condition",
@@ -19,7 +59,23 @@
       "reason": "The all-consumed endpoint chooses a type maximizing likelihood when conditional means are common and nonnegative.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hbest : ∀ t, likelihood t ≤ likelihood best": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The all-consumed endpoint chooses a type maximizing likelihood when conditional means are common and nonnegative.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_common_mean_argmax_domain"
+        },
+        "hmean_nonneg : 0 ≤ mean": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The all-consumed endpoint chooses a type maximizing likelihood when conditional means are common and nonnegative.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_common_mean_argmax_domain"
+        }
+      },
+      "premises": [
+        "hbest : ∀ t, likelihood t ≤ likelihood best",
+        "hmean_nonneg : 0 ≤ mean"
+      ]
     },
     "assumption_decaying_bernoulli_parameter_domain": {
       "judgment": "paper_condition",
@@ -29,7 +85,77 @@
       "reason": "Theorem 2 uses decaying Bernoulli success probabilities, with source alpha regimes and nondegenerate Bernoulli probability domains.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "halpha : 0 < alpha": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 2 uses decaying Bernoulli success probabilities, with source alpha regimes and nondegenerate Bernoulli probability domains.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_decaying_bernoulli_parameter_domain"
+        },
+        "halpha_gt_one : 1 < alpha": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 2 uses decaying Bernoulli success probabilities, with source alpha regimes and nondegenerate Bernoulli probability domains.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_decaying_bernoulli_parameter_domain"
+        },
+        "halpha_lt_one : alpha < 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 2 uses decaying Bernoulli success probabilities, with source alpha regimes and nondegenerate Bernoulli probability domains.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_decaying_bernoulli_parameter_domain"
+        },
+        "halpha_nonneg : 0 ≤ alpha": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 2 uses decaying Bernoulli success probabilities, with source alpha regimes and nondegenerate Bernoulli probability domains.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_decaying_bernoulli_parameter_domain"
+        },
+        "hc : 0 < c": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 2 uses decaying Bernoulli success probabilities, with source alpha regimes and nondegenerate Bernoulli probability domains.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_decaying_bernoulli_parameter_domain"
+        },
+        "hc_nonneg : 0 ≤ c": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 2 uses decaying Bernoulli success probabilities, with source alpha regimes and nondegenerate Bernoulli probability domains.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_decaying_bernoulli_parameter_domain"
+        },
+        "hc_pos : 0 < c": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 2 uses decaying Bernoulli success probabilities, with source alpha regimes and nondegenerate Bernoulli probability domains.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_decaying_bernoulli_parameter_domain"
+        },
+        "hd : 0 ≤ d": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 2 uses decaying Bernoulli success probabilities, with source alpha regimes and nondegenerate Bernoulli probability domains.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_decaying_bernoulli_parameter_domain"
+        },
+        "hd_nonneg : 0 ≤ d": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 2 uses decaying Bernoulli success probabilities, with source alpha regimes and nondegenerate Bernoulli probability domains.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_decaying_bernoulli_parameter_domain"
+        },
+        "hfirst : decayingBernoulliSuccess c d 1 0 < 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 2 uses decaying Bernoulli success probabilities, with source alpha regimes and nondegenerate Bernoulli probability domains.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_decaying_bernoulli_parameter_domain"
+        },
+        "hfirst : decayingBernoulliSuccess c d alpha 0 < 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 2 uses decaying Bernoulli success probabilities, with source alpha regimes and nondegenerate Bernoulli probability domains.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_decaying_bernoulli_parameter_domain"
+        }
+      },
+      "premises": [
+        "halpha : 0 < alpha",
+        "halpha_gt_one : 1 < alpha",
+        "halpha_lt_one : alpha < 1",
+        "halpha_nonneg : 0 ≤ alpha",
+        "hc : 0 < c",
+        "hc_nonneg : 0 ≤ c",
+        "hc_pos : 0 < c",
+        "hd : 0 ≤ d",
+        "hd_nonneg : 0 ≤ d",
+        "hfirst : decayingBernoulliSuccess c d 1 0 < 1",
+        "hfirst : decayingBernoulliSuccess c d alpha 0 < 1"
+      ]
     },
     "assumption_example1_positive_calibrated_exponential_parameters": {
       "judgment": "paper_condition",
@@ -39,7 +165,35 @@
       "reason": "Example 1 is a two-type probability model with an exponential conditional-value distribution.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hlambda : 0 < lambda": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Example 1 is a two-type probability model with an exponential conditional-value distribution.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_example1_positive_calibrated_exponential_parameters"
+        },
+        "hp1 : 0 < p1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Example 1 is a two-type probability model with an exponential conditional-value distribution.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_example1_positive_calibrated_exponential_parameters"
+        },
+        "hp2 : 0 < p2": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Example 1 is a two-type probability model with an exponential conditional-value distribution.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_example1_positive_calibrated_exponential_parameters"
+        },
+        "hp_sum : p1 + p2 = 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Example 1 is a two-type probability model with an exponential conditional-value distribution.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_example1_positive_calibrated_exponential_parameters"
+        }
+      },
+      "premises": [
+        "hlambda : 0 < lambda",
+        "hp1 : 0 < p1",
+        "hp2 : 0 < p2",
+        "hp_sum : p1 + p2 = 1"
+      ]
     },
     "assumption_exponential_order_statistic_domain": {
       "judgment": "paper_condition",
@@ -49,7 +203,23 @@
       "reason": "Theorem 1(iii) and Lemma D.3 use a positive-rate exponential distribution and positive top-k count.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hk_pos : 0 < k": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(iii) and Lemma D.3 use a positive-rate exponential distribution and positive top-k count.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_exponential_order_statistic_domain"
+        },
+        "hlambda_pos : 0 < lambda": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(iii) and Lemma D.3 use a positive-rate exponential distribution and positive top-k count.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_exponential_order_statistic_domain"
+        }
+      },
+      "premises": [
+        "hk_pos : 0 < k",
+        "hlambda_pos : 0 < lambda"
+      ]
     },
     "assumption_finite_discrete_top_value_domain": {
       "judgment": "paper_condition",
@@ -59,7 +229,53 @@
       "reason": "Theorem 1(i) and its proof use a finite discrete support with a top value and lower support values.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hk_pos : 0 < k": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(i) and its proof use a finite discrete support with a top value and lower support values.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_finite_discrete_top_value_domain"
+        },
+        "hsecond_le_top : xSecond ≤ xTop": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(i) and its proof use a finite discrete support with a top value and lower support values.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_finite_discrete_top_value_domain"
+        },
+        "hsecond_lt_top : xSecond < xTop": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(i) and its proof use a finite discrete support with a top value and lower support values.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_finite_discrete_top_value_domain"
+        },
+        "hvalue_le : ∀ ω, value ω ≤ xTop": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(i) and its proof use a finite discrete support with a top value and lower support values.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_finite_discrete_top_value_domain"
+        },
+        "hvalue_split : ∀ ω, value ω = xTop ∨ value ω ≤ xSecond": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(i) and its proof use a finite discrete support with a top value and lower support values.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_finite_discrete_top_value_domain"
+        },
+        "hxSecond_nonneg : 0 ≤ xSecond": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(i) and its proof use a finite discrete support with a top value and lower support values.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_finite_discrete_top_value_domain"
+        },
+        "hxTop_pos : 0 < xTop": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(i) and its proof use a finite discrete support with a top value and lower support values.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_finite_discrete_top_value_domain"
+        }
+      },
+      "premises": [
+        "hk_pos : 0 < k",
+        "hsecond_le_top : xSecond ≤ xTop",
+        "hsecond_lt_top : xSecond < xTop",
+        "hvalue_le : ∀ ω, value ω ≤ xTop",
+        "hvalue_split : ∀ ω, value ω = xTop ∨ value ω ≤ xSecond",
+        "hxSecond_nonneg : 0 ≤ xSecond",
+        "hxTop_pos : 0 < xTop"
+      ]
     },
     "assumption_lemmaD2_cdf_power_sandwich_monotone_bounded_support": {
       "judgment": "paper_condition",
@@ -69,7 +285,59 @@
       "reason": "Lemma D.2's bounded-tail route uses the reflected-CDF power-tail asymptotic, monotonicity/range facts, positive rank count, and bounded-support saturation.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hG_eq_one_of_support : ∀ x : ℝ, M ≤ x → G x = 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma D.2's bounded-tail route uses the reflected-CDF power-tail asymptotic, monotonicity/range facts, positive rank count, and bounded-support saturation.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_lemmaD2_cdf_power_sandwich_monotone_bounded_support"
+        },
+        "hG_le_one : ∀ x : ℝ, G x ≤ 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma D.2's bounded-tail route uses the reflected-CDF power-tail asymptotic, monotonicity/range facts, positive rank count, and bounded-support saturation.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_lemmaD2_cdf_power_sandwich_monotone_bounded_support"
+        },
+        "hG_measurable : Measurable G": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma D.2's bounded-tail route uses the reflected-CDF power-tail asymptotic, monotonicity/range facts, positive rank count, and bounded-support saturation.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_lemmaD2_cdf_power_sandwich_monotone_bounded_support"
+        },
+        "hG_mono : Monotone G": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma D.2's bounded-tail route uses the reflected-CDF power-tail asymptotic, monotonicity/range facts, positive rank count, and bounded-support saturation.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_lemmaD2_cdf_power_sandwich_monotone_bounded_support"
+        },
+        "hG_nonneg : ∀ x : ℝ, 0 ≤ G x": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma D.2's bounded-tail route uses the reflected-CDF power-tail asymptotic, monotonicity/range facts, positive rank count, and bounded-support saturation.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_lemmaD2_cdf_power_sandwich_monotone_bounded_support"
+        },
+        "hM_pos : 0 < M": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma D.2's bounded-tail route uses the reflected-CDF power-tail asymptotic, monotonicity/range facts, positive rank count, and bounded-support saturation.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_lemmaD2_cdf_power_sandwich_monotone_bounded_support"
+        },
+        "k_pos : 0 < k": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma D.2's bounded-tail route uses the reflected-CDF power-tail asymptotic, monotonicity/range facts, positive rank count, and bounded-support saturation.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_lemmaD2_cdf_power_sandwich_monotone_bounded_support"
+        },
+        "tail : BoundedTailCDFPowerSandwich G β c": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma D.2's bounded-tail route uses the reflected-CDF power-tail asymptotic, monotonicity/range facts, positive rank count, and bounded-support saturation.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_lemmaD2_cdf_power_sandwich_monotone_bounded_support"
+        }
+      },
+      "premises": [
+        "hG_eq_one_of_support : ∀ x : ℝ, M ≤ x → G x = 1",
+        "hG_le_one : ∀ x : ℝ, G x ≤ 1",
+        "hG_measurable : Measurable G",
+        "hG_mono : Monotone G",
+        "hG_nonneg : ∀ x : ℝ, 0 ≤ G x",
+        "hM_pos : 0 < M",
+        "k_pos : 0 < k",
+        "tail : BoundedTailCDFPowerSandwich G β c"
+      ]
     },
     "assumption_nonnegative_homogeneity_exponent": {
       "judgment": "paper_condition",
@@ -79,7 +347,17 @@
       "reason": "Corollary 1 quantifies over gamma >= 0.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hgamma_nonneg : 0 ≤ gamma": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Corollary 1 quantifies over gamma >= 0.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_nonnegative_homogeneity_exponent"
+        }
+      },
+      "premises": [
+        "hgamma_nonneg : 0 ≤ gamma"
+      ]
     },
     "assumption_pareto_finite_mean_domain": {
       "judgment": "paper_condition",
@@ -89,7 +367,23 @@
       "reason": "Theorem 1(iv) and Lemma D.4 use Pareto alpha > 1 and positive top-k count.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "halpha : 1 < alpha": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(iv) and Lemma D.4 use Pareto alpha > 1 and positive top-k count.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_pareto_finite_mean_domain"
+        },
+        "hk : 0 < k": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 1(iv) and Lemma D.4 use Pareto alpha > 1 and positive top-k count.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_pareto_finite_mean_domain"
+        }
+      },
+      "premises": [
+        "halpha : 1 < alpha",
+        "hk : 0 < k"
+      ]
     },
     "assumption_positive_rounding_population_size": {
       "judgment": "paper_condition",
@@ -99,7 +393,17 @@
       "reason": "Lemma D.5 and finite rounding statements are stated for positive population size.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hNpos : 0 < N": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Lemma D.5 and finite rounding statements are stated for positive population size.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_positive_rounding_population_size"
+        }
+      },
+      "premises": [
+        "hNpos : 0 < N"
+      ]
     },
     "assumption_positive_type_likelihoods": {
       "judgment": "paper_condition",
@@ -109,7 +413,29 @@
       "reason": "The paper's finite-type model uses type preference probabilities p_t as likelihood weights and normalizes homogeneity targets by them.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hlike_pos : ∀ t : ItemType T, 0 < likelihood t": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper's finite-type model uses type preference probabilities p_t as likelihood weights and normalizes homogeneity targets by them.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_positive_type_likelihoods"
+        },
+        "hlike_pos : ∀ t, 0 < B.likelihood t": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper's finite-type model uses type preference probabilities p_t as likelihood weights and normalizes homogeneity targets by them.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_positive_type_likelihoods"
+        },
+        "hlike_pos : ∀ t, 0 < likelihood t": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The paper's finite-type model uses type preference probabilities p_t as likelihood weights and normalizes homogeneity targets by them.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_positive_type_likelihoods"
+        }
+      },
+      "premises": [
+        "hlike_pos : ∀ t : ItemType T, 0 < likelihood t",
+        "hlike_pos : ∀ t, 0 < B.likelihood t",
+        "hlike_pos : ∀ t, 0 < likelihood t"
+      ]
     },
     "assumption_proposition4_continuous_sphere_laplace_boundary": {
       "judgment": "paper_condition",
@@ -119,7 +445,29 @@
       "reason": "Proposition 4's concrete sphere endpoint is formalized. This row records the theorem-level regularity and Gamma-interpretation note used by the paper-facing wrapper, not an open proof boundary.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hGamma : paper Γ(α) is interpreted by the Laplace-defined supremum objective": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Proposition 4's concrete sphere endpoint is formalized. This row records the theorem-level regularity and Gamma-interpretation note used by the paper-facing wrapper, not an open proof boundary.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_proposition4_continuous_sphere_laplace_boundary"
+        },
+        "hp : Continuous q": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Proposition 4's concrete sphere endpoint is formalized. This row records the theorem-level regularity and Gamma-interpretation note used by the paper-facing wrapper, not an open proof boundary.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_proposition4_continuous_sphere_laplace_boundary"
+        },
+        "hp_pos : ∀ r ∈ Set.Icc (0 : ℝ) 2, 0 < q r": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Proposition 4's concrete sphere endpoint is formalized. This row records the theorem-level regularity and Gamma-interpretation note used by the paper-facing wrapper, not an open proof boundary.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_proposition4_continuous_sphere_laplace_boundary"
+        }
+      },
+      "premises": [
+        "hGamma : paper Γ(α) is interpreted by the Laplace-defined supremum objective",
+        "hp : Continuous q",
+        "hp_pos : ∀ r ∈ Set.Icc (0 : ℝ) 2, 0 < q r"
+      ]
     },
     "assumption_uniform_top_k_positive_count_domain": {
       "judgment": "paper_condition",
@@ -129,7 +477,17 @@
       "reason": "Proposition 2 is about positive top-k recommendation/consumption counts along a positive population sequence.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hkpos : ∀ N, 0 < N → 0 < kseq N": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Proposition 2 is about positive top-k recommendation/consumption counts along a positive population sequence.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_uniform_top_k_positive_count_domain"
+        }
+      },
+      "premises": [
+        "hkpos : ∀ N, 0 < N → 0 < kseq N"
+      ]
     },
     "assumption_unique_common_mean_argmax_domain": {
       "judgment": "paper_condition",
@@ -139,7 +497,23 @@
       "reason": "The converse endpoint uses the nondegenerate positive common mean and a unique likelihood maximizer.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hbest_strict : ∀ t, t ≠ best → likelihood t < likelihood best": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The converse endpoint uses the nondegenerate positive common mean and a unique likelihood maximizer.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_unique_common_mean_argmax_domain"
+        },
+        "hmean_pos : 0 < mean": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. The converse endpoint uses the nondegenerate positive common mean and a unique likelihood maximizer.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_unique_common_mean_argmax_domain"
+        }
+      },
+      "premises": [
+        "hbest_strict : ∀ t, t ≠ best → likelihood t < likelihood best",
+        "hmean_pos : 0 < mean"
+      ]
     },
     "assumption_varying_bernoulli_probability_domain": {
       "judgment": "paper_condition",
@@ -149,7 +523,29 @@
       "reason": "Theorem 3 and Corollary 3 use Bernoulli success probabilities in the nondegenerate probability range.",
       "validated_at": "2026-06-29T18:08:26Z",
       "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "validator_type": "model",
+      "premise_judgments": {
+        "hprob_eq : ∀ i j : ItemType T, B.successProb i = B.successProb j": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 and Corollary 3 use Bernoulli success probabilities in the nondegenerate probability range.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_varying_bernoulli_probability_domain"
+        },
+        "hprob_lt_one : ∀ t, B.successProb t < 1": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 and Corollary 3 use Bernoulli success probabilities in the nondegenerate probability range.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_varying_bernoulli_probability_domain"
+        },
+        "hprob_pos : ∀ t, 0 < B.successProb t": {
+          "judgment": "paper_condition",
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 and Corollary 3 use Bernoulli success probabilities in the nondegenerate probability range.",
+          "source_location": "PRPKG24AccuracyDiversity source statement for assumption_varying_bernoulli_probability_domain"
+        }
+      },
+      "premises": [
+        "hprob_eq : ∀ i j : ItemType T, B.successProb i = B.successProb j",
+        "hprob_lt_one : ∀ t, B.successProb t < 1",
+        "hprob_pos : ∀ t, 0 < B.successProb t"
+      ]
     }
   },
   "paper": "PRPKG24AccuracyDiversity",

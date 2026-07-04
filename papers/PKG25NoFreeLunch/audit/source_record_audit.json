@@ -1,55 +1,177 @@
 {
   "boundary_input_count": 0,
   "boundary_input_items": [],
-  "configured_review_row_count": 6,
+  "configured_review_row_count": 15,
   "expected_field_judgment_keys": [],
   "expected_input_judgment_keys": [],
   "import_module": "PKG25NoFreeLunch.PaperInterface",
   "lean_check": {
     "command": "lake build PKG25NoFreeLunch.PaperInterface && lake env lean <generated-source-record-audit-script>",
-    "output": "PKG25NoFreeLunch.definition_collaboration_strategy (n : \u2115) : Type\n'PKG25NoFreeLunch.definition_collaboration_strategy' depends on axioms: [propext, Classical.choice, Quot.sound]\nPKG25NoFreeLunch.definition_interior_prediction_profile {n : \u2115} (p : Fin n \u2192 \u211d) : Prop\n'PKG25NoFreeLunch.definition_interior_prediction_profile' depends on axioms: [propext, Classical.choice, Quot.sound]\nPKG25NoFreeLunch.definition_non_collaborative {n : \u2115} (C : CollaborationStrategy n) : Prop\n'PKG25NoFreeLunch.definition_non_collaborative' depends on axioms: [propext, Classical.choice, Quot.sound]\nPKG25NoFreeLunch.definition_reliable {n : \u2115} (C : CollaborationStrategy n) : Prop\n'PKG25NoFreeLunch.definition_reliable' depends on axioms: [propext, Classical.choice, Quot.sound]\nPKG25NoFreeLunch.theorem_main_no_free_lunch {n : \u2115} [Nonempty (Fin n)] (C : CollaborationStrategy n) :\n  Reliable C \u2192 NonCollaborative C\n'PKG25NoFreeLunch.theorem_main_no_free_lunch' depends on axioms: [propext, Classical.choice, Quot.sound]\n",
+    "output": "PKG25NoFreeLunch.definition_collaboration_setting (n : ℕ) : Type 1\n'PKG25NoFreeLunch.definition_collaboration_setting' depends on axioms: [propext, Classical.choice, Quot.sound]\nPKG25NoFreeLunch.definition_collaboration_strategy (n : ℕ) : Type\n'PKG25NoFreeLunch.definition_collaboration_strategy' depends on axioms: [propext, Classical.choice, Quot.sound]\nPKG25NoFreeLunch.definition_interior_prediction_profile {n : ℕ} (p : Fin n → ℝ) : Prop\n'PKG25NoFreeLunch.definition_interior_prediction_profile' depends on axioms: [propext, Classical.choice, Quot.sound]\nPKG25NoFreeLunch.definition_non_collaborative {n : ℕ} (C : CollaborationStrategy n) : Prop\n'PKG25NoFreeLunch.definition_non_collaborative' depends on axioms: [propext, Classical.choice, Quot.sound]\nPKG25NoFreeLunch.definition_reliable {n : ℕ} (C : CollaborationStrategy n) : Prop\n'PKG25NoFreeLunch.definition_reliable' depends on axioms: [propext, Classical.choice, Quot.sound]\nPKG25NoFreeLunch.definition_correct_on (prediction : Label) (eta : ℝ) : Prop\n'PKG25NoFreeLunch.definition_correct_on' depends on axioms: [propext, Classical.choice, Quot.sound]\nPKG25NoFreeLunch.definition_incorrect_on (prediction : Label) (eta : ℝ) : Prop\n'PKG25NoFreeLunch.definition_incorrect_on' depends on axioms: [propext, Classical.choice, Quot.sound]\nPKG25NoFreeLunch.definition_agree_on (prediction1 prediction2 : Label) : Prop\n'PKG25NoFreeLunch.definition_agree_on' does not depend on any axioms\nPKG25NoFreeLunch.definition_disagree_on (prediction1 prediction2 : Label) : Prop\n'PKG25NoFreeLunch.definition_disagree_on' does not depend on any axioms\nPKG25NoFreeLunch.proposition6_linear_combination_settings {n ell : ℕ} (S : Fin ell → FiniteCollaborationSetting n)\n  (w : Fin ell → ℝ) (hw_nonneg : ∀ (r : Fin ell), 0 ≤ w r) (hw_sum : ∑ r, w r = 1) :\n  ∃ Smix,\n    (∀ (i : Fin n), Smix.agentAccuracy i = ∑ r, w r * (S r).agentAccuracy i) ∧\n      ∀ (C : CollaborationStrategy n),\n        FiniteCollaborationSetting.strategyAccuracy C Smix =\n          ∑ r, w r * FiniteCollaborationSetting.strategyAccuracy C (S r)\n'PKG25NoFreeLunch.proposition6_linear_combination_settings' depends on axioms: [propext, Classical.choice, Quot.sound]\nPKG25NoFreeLunch.lemma8_bad_tuple_counterexample_setting {n : ℕ} {C : CollaborationStrategy n} {p : Fin n → ℝ}\n  (hp : Interior p) {k : Fin n} (hhalf_ne : p k ≠ 1 / 2) (hbad : C p ≠ roundProb (p k)) :\n  WeakCounterexampleFor (FiniteCollaborationSetting.toAccuracySurface C (part1Setting (C p) p hp)) k\n'PKG25NoFreeLunch.lemma8_bad_tuple_counterexample_setting' depends on axioms: [propext, Classical.choice, Quot.sound]\nPKG25NoFreeLunch.proposition7_reliability_forces_fixed_deferral {n : ℕ} [Nonempty (Fin n)]\n  (C : CollaborationStrategy n) : Reliable C → ∃ k, DefersAwayFromHalf C k\n'PKG25NoFreeLunch.proposition7_reliability_forces_fixed_deferral' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nPKG25NoFreeLunch.proposition9_reliability_forces_fixed_tie_label {n : ℕ} [Nonempty (Fin n)]\n  (C : CollaborationStrategy n) (k : Fin n) (hrel : Reliable C) (hk : DefersAwayFromHalf C k) :\n  ∃ α, ConstantOnHalfSlice C k α\n'PKG25NoFreeLunch.proposition9_reliability_forces_fixed_tie_label' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\nPKG25NoFreeLunch.theorem_main_no_free_lunch {n : ℕ} [Nonempty (Fin n)] (C : CollaborationStrategy n) :\n  Reliable C → NonCollaborative C\n'PKG25NoFreeLunch.theorem_main_no_free_lunch' depends on axioms: [propext, Classical.choice, Quot.sound]\n",
     "returncode": 0,
     "truncated": false
   },
-  "llm_judge_prompt": "You are auditing Lean formalization provenance, not just theorem text.\nPaper: PKG25NoFreeLunch\n\nFor each item below, compare the original paper source statement/proof text with the Lean-checked statement and the dependency path. Scrutinize every visible theorem input semantically: names and source-looking type suffixes are only routing hints, not evidence. Do not approve by theorem label, phrase overlap, or source-looking Lean name. Each input must correspond to a specific paper primitive/source assumption, be derived by a Lean-checked constructor from paper primitives, be an approved external boundary, or remain an unresolved conditional/partial boundary. In particular, any Certificate, Replay, Process, or Bridge input needs a specific source statement or an instantiation path from the paper's primitive model; do not accept it merely because the final theorem name resembles the paper claim.\n\nClassify the item as one of: proved_from_primitives, validated_source_assumption, approved_external_boundary, container_recursively_audited, derived_consequence_record, nonpropositional_witness_data, or unresolved_assumed_math. Use container_recursively_audited only for a field whose type is another audited record/source/certificate and whose nested fields are separately judged; do not use it for a field whose type is a mathematical proposition or formula. Use derived_consequence_record only for fields of a theorem-output/consequence record whose constructor proof is separately checked and whose premise records are separately audited. Use nonpropositional_witness_data only for bare data witnesses (for example a chosen stream, cost function, gradient/noise/bias function, or projection function) whose type is not proposition-valued and does not itself state an equality, recurrence, optimality, measurability, convergence, continuity, or response/trajectory semantics. The proposition-valued fields that constrain that witness must still be classified separately. Mark unresolved_assumed_math if the Lean row merely takes a record/certificate/replay/process/bridge/source-model field that states convexity, response semantics, trace/replay validity, transfer preservation, trajectory generation, continuity, convergence, equilibrium, or a displayed formula that should be derived. Do not mark a field as proved just because Lean typechecks a projection from a structure premise.\n\n[\n  {\n    \"lean_source_declaration\": \"abbrev definition_collaboration_strategy (n : \\u2115) := CollaborationStrategy n\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"definition_collaboration_strategy\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"n\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"abbrev definition_interior_prediction_profile {n : \\u2115} := @Interior n\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"definition_interior_prediction_profile\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"n\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"abbrev definition_non_collaborative {n : \\u2115} := @NonCollaborative n\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"definition_non_collaborative\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"n\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"abbrev definition_reliable {n : \\u2115} := @Reliable n\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"definition_reliable\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"n\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem theorem_main_no_free_lunch {n : \\u2115} [Nonempty (Fin n)]\\n    (C : CollaborationStrategy n) :\\n    Reliable C \\u2192 NonCollaborative C :=\\n  main_no_free_lunch C\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"theorem_main_no_free_lunch\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"n\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"C\",\n        \"type\": \"CollaborationStrategy n\"\n      }\n    ]\n  }\n]",
+  "llm_judge_prompt": "You are auditing Lean formalization provenance, not just theorem text.\nPaper: PKG25NoFreeLunch\n\nFor each item below, compare the original paper source statement/proof text with the Lean-checked statement and the dependency path. Scrutinize every visible theorem input semantically: names and source-looking type suffixes are only routing hints, not evidence. Do not approve by theorem label, phrase overlap, or source-looking Lean name. Each input must correspond to a specific paper primitive/source assumption, be derived by a Lean-checked constructor from paper primitives, be an approved external boundary, or remain an unresolved conditional/partial boundary. In particular, any Certificate, Replay, Process, or Bridge input needs a specific source statement or an instantiation path from the paper's primitive model; do not accept it merely because the final theorem name resembles the paper claim.\n\nClassify the item as one of: proved_from_primitives, validated_source_assumption, approved_external_boundary, container_recursively_audited, derived_consequence_record, nonpropositional_witness_data, or unresolved_assumed_math. Use container_recursively_audited only for a field whose type is another audited record/source/certificate and whose nested fields are separately judged; do not use it for a field whose type is a mathematical proposition or formula. Use derived_consequence_record only for fields of a theorem-output/consequence record whose constructor proof is separately checked and whose premise records are separately audited. Use nonpropositional_witness_data only for bare data witnesses (for example a chosen stream, cost function, gradient/noise/bias function, or projection function) whose type is not proposition-valued and does not itself state an equality, recurrence, optimality, measurability, convergence, continuity, or response/trajectory semantics. The proposition-valued fields that constrain that witness must still be classified separately. Mark unresolved_assumed_math if the Lean row merely takes a record/certificate/replay/process/bridge/source-model field that states convexity, response semantics, trace/replay validity, transfer preservation, trajectory generation, continuity, convergence, equilibrium, or a displayed formula that should be derived. Do not mark a field as proved just because Lean typechecks a projection from a structure premise.\n\n[\n  {\n    \"lean_source_declaration\": \"abbrev definition_collaboration_setting (n : \\u2115) := FiniteCollaborationSetting n\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"definition_collaboration_setting\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"n\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"abbrev definition_collaboration_strategy (n : \\u2115) := CollaborationStrategy n\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"definition_collaboration_strategy\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"n\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"abbrev definition_interior_prediction_profile {n : \\u2115} := @Interior n\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"definition_interior_prediction_profile\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"n\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"abbrev definition_non_collaborative {n : \\u2115} := @NonCollaborative n\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"definition_non_collaborative\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"n\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"abbrev definition_reliable {n : \\u2115} := @Reliable n\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"definition_reliable\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"n\",\n        \"type\": \"\\u2115\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def definition_correct_on (prediction : Label) (eta : \\u211d) : Prop :=\\n  prediction = roundProb eta\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"definition_correct_on\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"prediction\",\n        \"type\": \"Label\"\n      },\n      {\n        \"names\": \"eta\",\n        \"type\": \"\\u211d\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def definition_incorrect_on (prediction : Label) (eta : \\u211d) : Prop :=\\n  prediction \\u2260 roundProb eta\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"definition_incorrect_on\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"prediction\",\n        \"type\": \"Label\"\n      },\n      {\n        \"names\": \"eta\",\n        \"type\": \"\\u211d\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def definition_agree_on (prediction1 prediction2 : Label) : Prop :=\\n  prediction1 = prediction2\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"definition_agree_on\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"prediction1 prediction2\",\n        \"type\": \"Label\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"def definition_disagree_on (prediction1 prediction2 : Label) : Prop :=\\n  prediction1 \\u2260 prediction2\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"definition_disagree_on\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"prediction1 prediction2\",\n        \"type\": \"Label\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem proposition6_linear_combination_settings\\n    {n ell : \\u2115} (S : Fin ell \\u2192 FiniteCollaborationSetting n) (w : Fin ell \\u2192 \\u211d)\\n    (hw_nonneg : \\u2200 r : Fin ell, 0 \\u2264 w r)\\n    (hw_sum : \\u2211 r : Fin ell, w r = 1) :\\n    \\u2203 Smix : FiniteCollaborationSetting n,\\n      (\\u2200 i : Fin n,\\n        Smix.agentAccuracy i = \\u2211 r : Fin ell, w r * (S r).agentAccuracy i) \\u2227\\n      (\\u2200 C : CollaborationStrategy n,\\n        Smix.strategyAccuracy C = \\u2211 r : Fin ell, w r * (S r).strategyAccuracy C) := by\\n  refine \\u27e8FiniteCollaborationSetting.mix S w hw_nonneg hw_sum, ?_, ?_\\u27e9\\n  \\u00b7 intro i\\n    exact FiniteCollaborationSetting.agentAccuracy_mix S w hw_nonneg hw_sum i\\n  \\u00b7 intro C\\n    exact FiniteCollaborationSetting.strategyAccuracy_mix S w hw_nonneg hw_sum C\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"proposition6_linear_combination_settings\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"n ell\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"S\",\n        \"type\": \"Fin ell \\u2192 FiniteCollaborationSetting n\"\n      },\n      {\n        \"names\": \"w\",\n        \"type\": \"Fin ell \\u2192 \\u211d\"\n      },\n      {\n        \"names\": \"hw_nonneg\",\n        \"type\": \"\\u2200 r : Fin ell, 0 \\u2264 w r\"\n      },\n      {\n        \"names\": \"hw_sum\",\n        \"type\": \"\\u2211 r : Fin ell, w r = 1\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem lemma8_bad_tuple_counterexample_setting\\n    {n : \\u2115} {C : CollaborationStrategy n} {p : Fin n \\u2192 \\u211d} (hp : Interior p)\\n    {k : Fin n} (hhalf_ne : p k \\u2260 (1 : \\u211d) / 2)\\n    (hbad : C p \\u2260 roundProb (p k)) :\\n    WeakCounterexampleFor\\n      (FiniteCollaborationSetting.toAccuracySurface C\\n        (part1Setting (C p) p hp)) k := by\\n  exact part1Setting_weakCounterexample hp hhalf_ne hbad\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"lemma8_bad_tuple_counterexample_setting\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"n\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"C\",\n        \"type\": \"CollaborationStrategy n\"\n      },\n      {\n        \"names\": \"p\",\n        \"type\": \"Fin n \\u2192 \\u211d\"\n      },\n      {\n        \"names\": \"hp\",\n        \"type\": \"Interior p\"\n      },\n      {\n        \"names\": \"k\",\n        \"type\": \"Fin n\"\n      },\n      {\n        \"names\": \"hhalf_ne\",\n        \"type\": \"p k \\u2260 (1 : \\u211d) / 2\"\n      },\n      {\n        \"names\": \"hbad\",\n        \"type\": \"C p \\u2260 roundProb (p k)\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem proposition7_reliability_forces_fixed_deferral\\n    {n : \\u2115} [Nonempty (Fin n)] (C : CollaborationStrategy n) :\\n    Reliable C \\u2192 \\u2203 k : Fin n, DefersAwayFromHalf C k := by\\n  intro hrel\\n  exact reliableFinite_exists_defers_away (C := C) (reliableFinite_of_reliable hrel)\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"proposition7_reliability_forces_fixed_deferral\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"n\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"C\",\n        \"type\": \"CollaborationStrategy n\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem proposition9_reliability_forces_fixed_tie_label\\n    {n : \\u2115} [Nonempty (Fin n)] (C : CollaborationStrategy n) (k : Fin n)\\n    (hrel : Reliable C) (hk : DefersAwayFromHalf C k) :\\n    \\u2203 \\u03b1 : Label, ConstantOnHalfSlice C k \\u03b1 := by\\n  exact reliableFinite_constant_on_half (C := C) (reliableFinite_of_reliable hrel) hk\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"proposition9_reliability_forces_fixed_tie_label\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"n\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"C\",\n        \"type\": \"CollaborationStrategy n\"\n      },\n      {\n        \"names\": \"k\",\n        \"type\": \"Fin n\"\n      },\n      {\n        \"names\": \"hrel\",\n        \"type\": \"Reliable C\"\n      },\n      {\n        \"names\": \"hk\",\n        \"type\": \"DefersAwayFromHalf C k\"\n      }\n    ]\n  },\n  {\n    \"lean_source_declaration\": \"theorem theorem_main_no_free_lunch {n : \\u2115} [Nonempty (Fin n)]\\n    (C : CollaborationStrategy n) :\\n    Reliable C \\u2192 NonCollaborative C :=\\n  main_no_free_lunch C\",\n    \"record_premises\": [],\n    \"required_check\": \"Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.\",\n    \"row\": \"theorem_main_no_free_lunch\",\n    \"visible_inputs\": [\n      {\n        \"names\": \"n\",\n        \"type\": \"\\u2115\"\n      },\n      {\n        \"names\": \"C\",\n        \"type\": \"CollaborationStrategy n\"\n      }\n    ]\n  }\n]",
   "paper": "PKG25NoFreeLunch",
-  "paper_dir": "/home/nkgarg/src_wsl/EconCSLib-meta/EconCSLib-private/papers/PKG25NoFreeLunch",
+  "paper_dir": "/home/nkgarg/src_wsl/EconCSLib-meta/EconCSLib-public/papers/PKG25NoFreeLunch",
   "prompt_version": "source-record-v2-semantic-boundary-inputs",
   "recursion_failure_count": 0,
   "recursion_failures": [],
   "recursive_field_count": 0,
   "recursive_field_items": [],
-  "review_row_count": 6,
+  "review_row_count": 15,
   "row_visible_inputs": {
+    "definition_agree_on": [
+      {
+        "names": "prediction1 prediction2",
+        "type": "Label"
+      }
+    ],
+    "definition_collaboration_setting": [
+      {
+        "names": "n",
+        "type": "ℕ"
+      }
+    ],
     "definition_collaboration_strategy": [
       {
         "names": "n",
-        "type": "\u2115"
+        "type": "ℕ"
+      }
+    ],
+    "definition_correct_on": [
+      {
+        "names": "prediction",
+        "type": "Label"
+      },
+      {
+        "names": "eta",
+        "type": "ℝ"
+      }
+    ],
+    "definition_disagree_on": [
+      {
+        "names": "prediction1 prediction2",
+        "type": "Label"
+      }
+    ],
+    "definition_incorrect_on": [
+      {
+        "names": "prediction",
+        "type": "Label"
+      },
+      {
+        "names": "eta",
+        "type": "ℝ"
       }
     ],
     "definition_interior_prediction_profile": [
       {
         "names": "n",
-        "type": "\u2115"
+        "type": "ℕ"
       }
     ],
     "definition_non_collaborative": [
       {
         "names": "n",
-        "type": "\u2115"
+        "type": "ℕ"
       }
     ],
     "definition_reliable": [
       {
         "names": "n",
-        "type": "\u2115"
+        "type": "ℕ"
       }
     ],
     "definition_rounding_convention": [],
+    "lemma8_bad_tuple_counterexample_setting": [
+      {
+        "names": "n",
+        "type": "ℕ"
+      },
+      {
+        "names": "C",
+        "type": "CollaborationStrategy n"
+      },
+      {
+        "names": "p",
+        "type": "Fin n → ℝ"
+      },
+      {
+        "names": "hp",
+        "type": "Interior p"
+      },
+      {
+        "names": "k",
+        "type": "Fin n"
+      },
+      {
+        "names": "hhalf_ne",
+        "type": "p k ≠ (1 : ℝ) / 2"
+      },
+      {
+        "names": "hbad",
+        "type": "C p ≠ roundProb (p k)"
+      }
+    ],
+    "proposition6_linear_combination_settings": [
+      {
+        "names": "n ell",
+        "type": "ℕ"
+      },
+      {
+        "names": "S",
+        "type": "Fin ell → FiniteCollaborationSetting n"
+      },
+      {
+        "names": "w",
+        "type": "Fin ell → ℝ"
+      },
+      {
+        "names": "hw_nonneg",
+        "type": "∀ r : Fin ell, 0 ≤ w r"
+      },
+      {
+        "names": "hw_sum",
+        "type": "∑ r : Fin ell, w r = 1"
+      }
+    ],
+    "proposition7_reliability_forces_fixed_deferral": [
+      {
+        "names": "n",
+        "type": "ℕ"
+      },
+      {
+        "names": "C",
+        "type": "CollaborationStrategy n"
+      }
+    ],
+    "proposition9_reliability_forces_fixed_tie_label": [
+      {
+        "names": "n",
+        "type": "ℕ"
+      },
+      {
+        "names": "C",
+        "type": "CollaborationStrategy n"
+      },
+      {
+        "names": "k",
+        "type": "Fin n"
+      },
+      {
+        "names": "hrel",
+        "type": "Reliable C"
+      },
+      {
+        "names": "hk",
+        "type": "DefersAwayFromHalf C k"
+      }
+    ],
     "theorem_main_no_free_lunch": [
       {
         "names": "n",
-        "type": "\u2115"
+        "type": "ℕ"
       },
       {
         "names": "C",
@@ -60,62 +182,238 @@
   "rows_with_record_premises": [],
   "rows_with_semantic_inputs": [
     {
-      "lean_source_declaration": "abbrev definition_collaboration_strategy (n : \u2115) := CollaborationStrategy n",
+      "lean_source_declaration": "abbrev definition_collaboration_setting (n : ℕ) := FiniteCollaborationSetting n",
+      "record_premises": [],
+      "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
+      "row": "definition_collaboration_setting",
+      "visible_inputs": [
+        {
+          "names": "n",
+          "type": "ℕ"
+        }
+      ]
+    },
+    {
+      "lean_source_declaration": "abbrev definition_collaboration_strategy (n : ℕ) := CollaborationStrategy n",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "definition_collaboration_strategy",
       "visible_inputs": [
         {
           "names": "n",
-          "type": "\u2115"
+          "type": "ℕ"
         }
       ]
     },
     {
-      "lean_source_declaration": "abbrev definition_interior_prediction_profile {n : \u2115} := @Interior n",
+      "lean_source_declaration": "abbrev definition_interior_prediction_profile {n : ℕ} := @Interior n",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "definition_interior_prediction_profile",
       "visible_inputs": [
         {
           "names": "n",
-          "type": "\u2115"
+          "type": "ℕ"
         }
       ]
     },
     {
-      "lean_source_declaration": "abbrev definition_non_collaborative {n : \u2115} := @NonCollaborative n",
+      "lean_source_declaration": "abbrev definition_non_collaborative {n : ℕ} := @NonCollaborative n",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "definition_non_collaborative",
       "visible_inputs": [
         {
           "names": "n",
-          "type": "\u2115"
+          "type": "ℕ"
         }
       ]
     },
     {
-      "lean_source_declaration": "abbrev definition_reliable {n : \u2115} := @Reliable n",
+      "lean_source_declaration": "abbrev definition_reliable {n : ℕ} := @Reliable n",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "definition_reliable",
       "visible_inputs": [
         {
           "names": "n",
-          "type": "\u2115"
+          "type": "ℕ"
         }
       ]
     },
     {
-      "lean_source_declaration": "theorem theorem_main_no_free_lunch {n : \u2115} [Nonempty (Fin n)]\n    (C : CollaborationStrategy n) :\n    Reliable C \u2192 NonCollaborative C :=\n  main_no_free_lunch C",
+      "lean_source_declaration": "def definition_correct_on (prediction : Label) (eta : ℝ) : Prop :=\n  prediction = roundProb eta",
+      "record_premises": [],
+      "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
+      "row": "definition_correct_on",
+      "visible_inputs": [
+        {
+          "names": "prediction",
+          "type": "Label"
+        },
+        {
+          "names": "eta",
+          "type": "ℝ"
+        }
+      ]
+    },
+    {
+      "lean_source_declaration": "def definition_incorrect_on (prediction : Label) (eta : ℝ) : Prop :=\n  prediction ≠ roundProb eta",
+      "record_premises": [],
+      "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
+      "row": "definition_incorrect_on",
+      "visible_inputs": [
+        {
+          "names": "prediction",
+          "type": "Label"
+        },
+        {
+          "names": "eta",
+          "type": "ℝ"
+        }
+      ]
+    },
+    {
+      "lean_source_declaration": "def definition_agree_on (prediction1 prediction2 : Label) : Prop :=\n  prediction1 = prediction2",
+      "record_premises": [],
+      "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
+      "row": "definition_agree_on",
+      "visible_inputs": [
+        {
+          "names": "prediction1 prediction2",
+          "type": "Label"
+        }
+      ]
+    },
+    {
+      "lean_source_declaration": "def definition_disagree_on (prediction1 prediction2 : Label) : Prop :=\n  prediction1 ≠ prediction2",
+      "record_premises": [],
+      "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
+      "row": "definition_disagree_on",
+      "visible_inputs": [
+        {
+          "names": "prediction1 prediction2",
+          "type": "Label"
+        }
+      ]
+    },
+    {
+      "lean_source_declaration": "theorem proposition6_linear_combination_settings\n    {n ell : ℕ} (S : Fin ell → FiniteCollaborationSetting n) (w : Fin ell → ℝ)\n    (hw_nonneg : ∀ r : Fin ell, 0 ≤ w r)\n    (hw_sum : ∑ r : Fin ell, w r = 1) :\n    ∃ Smix : FiniteCollaborationSetting n,\n      (∀ i : Fin n,\n        Smix.agentAccuracy i = ∑ r : Fin ell, w r * (S r).agentAccuracy i) ∧\n      (∀ C : CollaborationStrategy n,\n        Smix.strategyAccuracy C = ∑ r : Fin ell, w r * (S r).strategyAccuracy C) := by\n  refine ⟨FiniteCollaborationSetting.mix S w hw_nonneg hw_sum, ?_, ?_⟩\n  · intro i\n    exact FiniteCollaborationSetting.agentAccuracy_mix S w hw_nonneg hw_sum i\n  · intro C\n    exact FiniteCollaborationSetting.strategyAccuracy_mix S w hw_nonneg hw_sum C",
+      "record_premises": [],
+      "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
+      "row": "proposition6_linear_combination_settings",
+      "visible_inputs": [
+        {
+          "names": "n ell",
+          "type": "ℕ"
+        },
+        {
+          "names": "S",
+          "type": "Fin ell → FiniteCollaborationSetting n"
+        },
+        {
+          "names": "w",
+          "type": "Fin ell → ℝ"
+        },
+        {
+          "names": "hw_nonneg",
+          "type": "∀ r : Fin ell, 0 ≤ w r"
+        },
+        {
+          "names": "hw_sum",
+          "type": "∑ r : Fin ell, w r = 1"
+        }
+      ]
+    },
+    {
+      "lean_source_declaration": "theorem lemma8_bad_tuple_counterexample_setting\n    {n : ℕ} {C : CollaborationStrategy n} {p : Fin n → ℝ} (hp : Interior p)\n    {k : Fin n} (hhalf_ne : p k ≠ (1 : ℝ) / 2)\n    (hbad : C p ≠ roundProb (p k)) :\n    WeakCounterexampleFor\n      (FiniteCollaborationSetting.toAccuracySurface C\n        (part1Setting (C p) p hp)) k := by\n  exact part1Setting_weakCounterexample hp hhalf_ne hbad",
+      "record_premises": [],
+      "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
+      "row": "lemma8_bad_tuple_counterexample_setting",
+      "visible_inputs": [
+        {
+          "names": "n",
+          "type": "ℕ"
+        },
+        {
+          "names": "C",
+          "type": "CollaborationStrategy n"
+        },
+        {
+          "names": "p",
+          "type": "Fin n → ℝ"
+        },
+        {
+          "names": "hp",
+          "type": "Interior p"
+        },
+        {
+          "names": "k",
+          "type": "Fin n"
+        },
+        {
+          "names": "hhalf_ne",
+          "type": "p k ≠ (1 : ℝ) / 2"
+        },
+        {
+          "names": "hbad",
+          "type": "C p ≠ roundProb (p k)"
+        }
+      ]
+    },
+    {
+      "lean_source_declaration": "theorem proposition7_reliability_forces_fixed_deferral\n    {n : ℕ} [Nonempty (Fin n)] (C : CollaborationStrategy n) :\n    Reliable C → ∃ k : Fin n, DefersAwayFromHalf C k := by\n  intro hrel\n  exact reliableFinite_exists_defers_away (C := C) (reliableFinite_of_reliable hrel)",
+      "record_premises": [],
+      "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
+      "row": "proposition7_reliability_forces_fixed_deferral",
+      "visible_inputs": [
+        {
+          "names": "n",
+          "type": "ℕ"
+        },
+        {
+          "names": "C",
+          "type": "CollaborationStrategy n"
+        }
+      ]
+    },
+    {
+      "lean_source_declaration": "theorem proposition9_reliability_forces_fixed_tie_label\n    {n : ℕ} [Nonempty (Fin n)] (C : CollaborationStrategy n) (k : Fin n)\n    (hrel : Reliable C) (hk : DefersAwayFromHalf C k) :\n    ∃ α : Label, ConstantOnHalfSlice C k α := by\n  exact reliableFinite_constant_on_half (C := C) (reliableFinite_of_reliable hrel) hk",
+      "record_premises": [],
+      "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
+      "row": "proposition9_reliability_forces_fixed_tie_label",
+      "visible_inputs": [
+        {
+          "names": "n",
+          "type": "ℕ"
+        },
+        {
+          "names": "C",
+          "type": "CollaborationStrategy n"
+        },
+        {
+          "names": "k",
+          "type": "Fin n"
+        },
+        {
+          "names": "hrel",
+          "type": "Reliable C"
+        },
+        {
+          "names": "hk",
+          "type": "DefersAwayFromHalf C k"
+        }
+      ]
+    },
+    {
+      "lean_source_declaration": "theorem theorem_main_no_free_lunch {n : ℕ} [Nonempty (Fin n)]\n    (C : CollaborationStrategy n) :\n    Reliable C → NonCollaborative C :=\n  main_no_free_lunch C",
       "record_premises": [],
       "required_check": "Every visible input must be semantically matched to the paper source model, not accepted by name. Every record/certificate/replay/process/bridge premise below must be recursively proved from primitives, validated as an explicit paper source assumption, approved as an external boundary, or marked unresolved proof debt.",
       "row": "theorem_main_no_free_lunch",
       "visible_inputs": [
         {
           "names": "n",
-          "type": "\u2115"
+          "type": "ℕ"
         },
         {
           "names": "C",
@@ -124,7 +422,8 @@
       ]
     }
   ],
-  "source_record_audit_sha256": "5276e33e71a7ee654e387610ad1e291f0c01a271457d9e130d1ce900ce18bde5",
-  "source_record_judgment_file": "source_record_match_llm.json",
-  "unconfigured_paper_interface_rows": []
+  "source_record_audit_sha256": "37e2a5b16030c55d1af5731b5f8d291210f2c2667ec26b93319c773f203b1113",
+  "source_record_judgment_file": "audit/source_record_match_llm.json",
+  "unconfigured_paper_interface_rows": [],
+  "unconfigured_review_surface_rows": []
 }

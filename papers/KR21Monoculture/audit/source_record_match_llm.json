@@ -1,0 +1,72 @@
+{
+  "comment": "Digest refreshed after source-record helper update; six nonpropositional model data classifications were preserved and the stale theorem-input judgment was removed because it is no longer part of the source-record audit key set.",
+  "items": {
+    "Model.algorithmRanking": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
+      "reason": "This field is model data: a ranking distribution or value function. It does not by itself assert continuity, optimality, convergence, equilibrium, or another proposition-valued mathematical theorem.",
+      "source_location": "papers/KR21Monoculture/Game.lean",
+      "source_record_audit_sha256": "a02c981b7563ae432a0a664601fd864269cd06c41c3ee3dad764fe5437f41025",
+      "validated_at": "2026-07-04T13:41:58Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "Model.humanRanking": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
+      "reason": "This field is model data: a ranking distribution or value function. It does not by itself assert continuity, optimality, convergence, equilibrium, or another proposition-valued mathematical theorem.",
+      "source_location": "papers/KR21Monoculture/Game.lean",
+      "source_record_audit_sha256": "a02c981b7563ae432a0a664601fd864269cd06c41c3ee3dad764fe5437f41025",
+      "validated_at": "2026-07-04T13:41:58Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "Model.value": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
+      "reason": "This field is model data: a ranking distribution or value function. It does not by itself assert continuity, optimality, convergence, equilibrium, or another proposition-valued mathematical theorem.",
+      "source_location": "papers/KR21Monoculture/Game.lean",
+      "source_record_audit_sha256": "a02c981b7563ae432a0a664601fd864269cd06c41c3ee3dad764fe5437f41025",
+      "validated_at": "2026-07-04T13:41:58Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "SequentialModel.algorithmRanking": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
+      "reason": "This field is model data: a ranking distribution or value function. It does not by itself assert continuity, optimality, convergence, equilibrium, or another proposition-valued mathematical theorem.",
+      "source_location": "papers/KR21Monoculture/Sequential.lean",
+      "source_record_audit_sha256": "a02c981b7563ae432a0a664601fd864269cd06c41c3ee3dad764fe5437f41025",
+      "validated_at": "2026-07-04T13:41:58Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "SequentialModel.humanRanking": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
+      "reason": "This field is model data: a ranking distribution or value function. It does not by itself assert continuity, optimality, convergence, equilibrium, or another proposition-valued mathematical theorem.",
+      "source_location": "papers/KR21Monoculture/Sequential.lean",
+      "source_record_audit_sha256": "a02c981b7563ae432a0a664601fd864269cd06c41c3ee3dad764fe5437f41025",
+      "validated_at": "2026-07-04T13:41:58Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "SequentialModel.value": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v2-semantic-boundary-inputs",
+      "reason": "This field is model data: a ranking distribution or value function. It does not by itself assert continuity, optimality, convergence, equilibrium, or another proposition-valued mathematical theorem.",
+      "source_location": "papers/KR21Monoculture/Sequential.lean",
+      "source_record_audit_sha256": "a02c981b7563ae432a0a664601fd864269cd06c41c3ee3dad764fe5437f41025",
+      "validated_at": "2026-07-04T13:41:58Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    }
+  },
+  "paper": "KR21Monoculture",
+  "prompt_version": "source-record-v2-semantic-boundary-inputs",
+  "schema": 1,
+  "source_record_audit_sha256": "a02c981b7563ae432a0a664601fd864269cd06c41c3ee3dad764fe5437f41025",
+  "validated_at": "2026-07-04T13:41:58Z",
+  "validator": "Codex source-record digest refresh",
+  "validator_type": "agent"
+}

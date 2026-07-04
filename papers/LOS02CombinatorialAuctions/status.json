@@ -20,7 +20,7 @@
     "path": "papers/LOS02CombinatorialAuctions/PaperInterface.lean",
     "line_count": 371,
     "declaration_rows": 39,
-    "review_rows": 39,
+    "review_rows": 30,
     "oversized": false,
     "maintainability_issue": null,
     "proof_interface_path": "papers/LOS02CombinatorialAuctions/ProofInterface.lean",
@@ -88,21 +88,7 @@
       {
         "id": "source-definitions",
         "title": "Source Definitions",
-        "names": [
-          "utility",
-          "truthfulOn",
-          "generalizedVickreyAuction",
-          "singleMindedAcceptedMechanism",
-          "singleMindedTruthfulOn",
-          "nonnegativeNonemptySingleMindedProfile",
-          "weightedSetPackingValue",
-          "setPackingSingleMindedBids",
-          "averageAmountPerGood",
-          "averageOrderOf",
-          "greedyAcceptedFromOrder",
-          "averageGreedyAcceptedSet",
-          "averageGreedyPayment"
-        ]
+        "names": []
       },
       {
         "id": "sections-4-6",
@@ -126,13 +112,28 @@
           "theorem7_2_sqrt_norm_approx_of_sorted_order",
           "lemma9_1_exists_nonnegative_critical_value_of_monotonicity",
           "lemma9_2_denied_bidder_utility_eq_zero",
-          "lemma9_3_truthful_utility_nonnegative_of_nonnegative_infinity_certificate",
           "lemma9_4_no_profitable_value_only_lie_of_nonnegative_infinity_axioms",
           "lemma9_5_finite_threshold_mono_of_nonnegative_infinity_certificate",
           "theorem9_6_single_minded_truthful_of_nonnegative_infinity_axioms",
           "theorem10_2_averageGreedy_truthful"
         ]
       }
+    ],
+    "auxiliary_names": [
+      "averageAmountPerGood",
+      "averageGreedyAcceptedSet",
+      "averageGreedyPayment",
+      "averageOrderOf",
+      "generalizedVickreyAuction",
+      "greedyAcceptedFromOrder",
+      "lemma9_3_truthful_utility_nonnegative_of_nonnegative_infinity_certificate",
+      "nonnegativeNonemptySingleMindedProfile",
+      "setPackingSingleMindedBids",
+      "singleMindedAcceptedMechanism",
+      "singleMindedTruthfulOn",
+      "truthfulOn",
+      "utility",
+      "weightedSetPackingValue"
     ]
   }
 }

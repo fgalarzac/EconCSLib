@@ -11,7 +11,7 @@
   "review_entrypoint": "papers/LMMS04FairDivision/FINAL_VALIDATION_REPORT.md",
   "human_review": {
     "reviewed_rows": 0,
-    "total_rows": 48,
+    "total_rows": 44,
     "stale_rows": 0,
     "mismatch_rows": 0,
     "source": "paper-local status.json review_surface; human entries come from dashboard logs"
@@ -20,7 +20,7 @@
     "path": "papers/LMMS04FairDivision/PaperInterface.lean",
     "line_count": 303,
     "declaration_rows": 48,
-    "review_rows": 48,
+    "review_rows": 31,
     "oversized": false,
     "maintainability_issue": null,
     "proof_interface_path": "papers/LMMS04FairDivision/ProofInterface.lean",
@@ -72,10 +72,6 @@
       "theorem3_2_graham_certificate_to_envy_ratio_bound",
       "theorem3_2_graham_factor_eq_seven_fifths",
       "theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee",
-      "theorem3_3_external_solver_selected_pair_full_summary_source_output_package",
-      "theorem3_3_external_solver_selected_pair_full_summary_source_output_payload",
-      "theorem3_3_external_solver_selected_pair_full_summary_source_output_consequence",
-      "theorem3_3_external_solver_consequence_and_selected_pair_full_summary_source_output_of_claim_3_4_source_average_forward_additive_no_top_of_margin",
       "theorem3_3_claim34_fixed_rounding_ratio_endpoint",
       "theorem3_3_claim34_capped_weighted_supply_ratio_endpoint",
       "claim3_4_bounded_optimal_of_exact_allocations_with_nonempty_positive_goods",
@@ -125,34 +121,36 @@
         "title": "Section 3 PTAS Boundary",
         "names": [
           "theorem3_3_solver_auto_cap_full_ip_summary_with_ratio_guarantee",
-          "theorem3_3_external_solver_selected_pair_full_summary_source_output_package",
-          "theorem3_3_external_solver_selected_pair_full_summary_source_output_payload",
-          "theorem3_3_external_solver_selected_pair_full_summary_source_output_consequence",
-          "theorem3_3_external_solver_consequence_and_selected_pair_full_summary_source_output_of_claim_3_4_source_average_forward_additive_no_top_of_margin",
           "theorem3_3_claim34_fixed_rounding_ratio_endpoint",
           "theorem3_3_claim34_capped_weighted_supply_ratio_endpoint",
           "claim3_4_bounded_optimal_of_exact_allocations_with_nonempty_positive_goods",
-          "claim3_4_bounded_optimal_of_identical_utilities_model",
-          "theorem3_3_ratio_transfer_certificate_epsilon_of_agentwise_additive_loads",
-          "lemma3_5_additive_transfer_certificate_epsilon_of_opt_loads"
+          "theorem3_3_ratio_transfer_certificate_epsilon_of_agentwise_additive_loads"
         ]
       },
       {
         "id": "section-4-truthfulness",
         "title": "Section 4 Truthfulness",
         "names": [
-          "directMechanism",
-          "randomizedDirectMechanism",
           "truthful",
           "randomizedTruthful",
-          "theorem4_1_source_goods",
-          "theorem4_1_true_report",
           "theorem4_1_source_not_truthful_envy_free_whenever_exists",
           "theorem4_1_source_minimum_envy_not_truthful",
           "theorem4_2_uniform_random_mechanism_truthful",
           "theorem4_2_uniform_random_max_envy_probability_bound"
         ]
       }
+    ],
+    "auxiliary_names": [
+      "claim3_4_bounded_optimal_of_identical_utilities_model",
+      "directMechanism",
+      "lemma3_5_additive_transfer_certificate_epsilon_of_opt_loads",
+      "randomizedDirectMechanism",
+      "theorem4_1_source_goods",
+      "theorem4_1_true_report",
+      "theorem3_3_external_solver_consequence_and_selected_pair_full_summary_source_output_of_claim_3_4_source_average_forward_additive_no_top_of_margin",
+      "theorem3_3_external_solver_selected_pair_full_summary_source_output_consequence",
+      "theorem3_3_external_solver_selected_pair_full_summary_source_output_package",
+      "theorem3_3_external_solver_selected_pair_full_summary_source_output_payload"
     ]
   }
 }

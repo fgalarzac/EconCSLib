@@ -1,282 +1,132 @@
 {
-  "comment": "Semantic source-record provenance rejudge. Record/certificate/replay/process premises are not accepted by source-looking names alone.",
+  "comment": "Semantic source-record provenance rejudge. Record/certificate/replay/process premises are not accepted by source-looking names alone. Digest refreshed after source-record helper update; classifications and reasons were preserved for currently expected judgment keys. Digest refreshed after current public audit; classifications and reasons were preserved for current expected judgment keys and stale extras were pruned.",
   "items": {
     "HomogeneousPoissonCountingProcessByLaw.count": {
       "classification": "approved_external_boundary",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
       "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
+      "validated_at": "2026-07-04T15:48:57Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "HomogeneousPoissonCountingProcessByLaw.count_mono_ae": {
       "classification": "approved_external_boundary",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
       "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
+      "validated_at": "2026-07-04T15:48:57Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "HomogeneousPoissonCountingProcessByLaw.count_zero_ae": {
       "classification": "approved_external_boundary",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
       "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
+      "validated_at": "2026-07-04T15:48:57Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "HomogeneousPoissonCountingProcessByLaw.hasIndepIncrements": {
       "classification": "approved_external_boundary",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
       "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
+      "validated_at": "2026-07-04T15:48:57Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "HomogeneousPoissonCountingProcessByLaw.increment_hasLaw": {
       "classification": "approved_external_boundary",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
       "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
+      "validated_at": "2026-07-04T15:48:57Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "HomogeneousPoissonCountingProcessByLaw.rate": {
       "classification": "approved_external_boundary",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
       "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
+      "validated_at": "2026-07-04T15:48:57Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "HomogeneousPoissonCountingProcessByLaw.rate_pos": {
       "classification": "approved_external_boundary",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
       "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "Theorem2ConditionFunctionSemantics.endDensityOfRate": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "Theorem2ConditionFunctionSemantics.endDensity_rateIndependent": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "Theorem2ConditionFunctionSemantics.startDensityOfRate": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "Theorem2ConditionFunctionSemantics.startDensity_rateIndependent": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "Theorem2ConditionFunctionSemantics.survivalIntegralOfRate": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "Theorem2ConditionFunctionSemantics.survivalIntegral_rateIndependent": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
+      "validated_at": "2026-07-04T15:48:57Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Theorem2ConditionFunctions.endDensity": {
       "classification": "approved_external_boundary",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
       "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
+      "validated_at": "2026-07-04T15:48:57Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Theorem2ConditionFunctions.startDensity": {
       "classification": "approved_external_boundary",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
       "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
+      "validated_at": "2026-07-04T15:48:57Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "Theorem2ConditionFunctions.survivalIntegral": {
       "classification": "approved_external_boundary",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
       "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
+      "validated_at": "2026-07-04T15:48:57Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
-    "Theorem2FixedConditionDensitySourceModel.condition1": {
-      "classification": "container_recursively_audited",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Container field whose nested source-record fields are separately judged in this sidecar.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "Theorem2FixedConditionDensitySourceModel.condition2": {
-      "classification": "container_recursively_audited",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Container field whose nested source-record fields are separately judged in this sidecar.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "Theorem2FixedConditionOneSource.startDensity": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "Theorem2FixedConditionTwoDensitySource.endDensityKernel": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "Theorem2FixedConditionTwoDensitySource.observedEndTime": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "Theorem2FixedConditionTwoDensitySource.survivalLower": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "Theorem2FixedConditionTwoDensitySource.survivalUpper": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "Theorem2PrimitiveSourceModel.countProcess": {
-      "classification": "container_recursively_audited",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Container field whose nested source-record fields are separately judged in this sidecar.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "Theorem2PrimitiveSourceModel.fixedConditionModel": {
-      "classification": "container_recursively_audited",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Container field whose nested source-record fields are separately judged in this sidecar.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem1_likelihood_decomposition_from_poisson_increment_laws.H : HomogeneousPoissonCountingProcessByLaw \u03a9 P": {
+    "theorem1_likelihood_decomposition_from_poisson_increment_laws.H : HomogeneousPoissonCountingProcessByLaw Ω P": {
       "classification": "approved_external_boundary",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Documented partial-formalization boundary for this paper; the current theorem checks consequences conditional on this source-record/certificate field.",
       "source_location": "status.json main_caveat / paper-local validation report",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
+      "validated_at": "2026-07-04T15:48:57Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
-    "theorem1_likelihood_product_decomposition_from_poisson_increment_laws.H : HomogeneousPoissonCountingProcessByLaw \u03a9 P": {
+    "theorem1_likelihood_product_decomposition_from_poisson_increment_laws.H : HomogeneousPoissonCountingProcessByLaw Ω P": {
       "classification": "approved_external_boundary",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Documented partial-formalization boundary for this paper; the current theorem checks consequences conditional on this source-record/certificate field.",
       "source_location": "status.json main_caveat / paper-local validation report",
-      "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
+      "validated_at": "2026-07-04T15:48:57Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     }
   },
   "paper": "LBG24SpatialUnderreporting",
   "prompt_version": "source-record-v2-semantic-boundary-inputs",
   "schema": 1,
-  "source_record_audit_sha256": "5fd0437e90f25d1e6c34651f1e3804f1479be0949c0262bbb98025c7ded34dd3",
-  "validated_at": "2026-06-29T18:08:26Z",
-  "validator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
+  "validated_at": "2026-07-04T15:48:57Z",
+  "validator": "Codex source-record digest refresh",
+  "validator_type": "agent"
 }

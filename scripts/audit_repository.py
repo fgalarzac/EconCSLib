@@ -120,6 +120,7 @@ REVIEW_ROW_WARN_THRESHOLD = 80
 PAPER_STATUS_FILE = PAPERS / "status.json"
 HUMAN_STATUS_FILE = PAPERS / "human_status.json"
 PAPER_INTERFACE_OVERSIZED_LINE_THRESHOLD = 3000
+PAPER_INTERFACE_COMPACT_LINE_THRESHOLD = 1000
 ROOT_STATUS_VALUES = {
     "Formalized",
     "Formalized with caveat",
@@ -4665,6 +4666,63 @@ def check_machine_paper_status(
             )
             continue
         review_source_text = review_source_path.read_text(encoding="utf-8")
+        review_source_is_interface = review_source_path.resolve() == interface_path.resolve()
+        audit_surface_value = interface.get("audit_surface_path")
+        if review_source_is_interface:
+            if actual_line_count > PAPER_INTERFACE_COMPACT_LINE_THRESHOLD:
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        PAPER_STATUS_FILE,
+                        f"`{paper_id}` PaperInterface.lean has {actual_line_count} lines; "
+                        "move row-level dashboard or LLM audit declarations into "
+                        "`AuditInterface.lean` and keep `PaperInterface.lean` compact",
+                    )
+                )
+        else:
+            if actual_line_count > PAPER_INTERFACE_COMPACT_LINE_THRESHOLD:
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        PAPER_STATUS_FILE,
+                        f"`{paper_id}` compact PaperInterface.lean has {actual_line_count} lines "
+                        f"even though review rows are routed through "
+                        f"`{review_source_path.relative_to(ROOT)}`",
+                    )
+                )
+            if not isinstance(audit_surface_value, str) or not audit_surface_value.strip():
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        PAPER_STATUS_FILE,
+                        f"`{paper_id}.paper_interface.audit_surface_path` should name the "
+                        "non-compact review surface when `review_surface.source_file` is not "
+                        "`PaperInterface.lean`",
+                    )
+                )
+            else:
+                audit_surface_path = ROOT / audit_surface_value.strip()
+                if audit_surface_path.resolve() != review_source_path.resolve():
+                    findings.append(
+                        Finding(
+                            "ERROR",
+                            PAPER_STATUS_FILE,
+                            f"`{paper_id}.paper_interface.audit_surface_path` "
+                            f"({audit_surface_value}) should match "
+                            f"`review_surface.source_file` "
+                            f"({review_source_path.relative_to(ROOT)})",
+                        )
+                    )
+                if review_source_path.name != "AuditInterface.lean":
+                    findings.append(
+                        Finding(
+                            "WARN",
+                            PAPER_STATUS_FILE,
+                            f"`{paper_id}` uses `{review_source_path.relative_to(ROOT)}` as the "
+                            "non-compact review surface; prefer `AuditInterface.lean` for "
+                            "row-level dashboard and LLM audit declarations",
+                        )
+                    )
         findings.extend(
             paper_statement_sidecar_findings(
                 paper_id,

@@ -1,32 +1,32 @@
 {
-  "comment": "Semantic source-record provenance rejudge. Record/certificate/replay/process premises are not accepted by source-looking names alone.",
+  "comment": "Semantic source-record provenance rejudge. Record/certificate/replay/process premises are not accepted by source-looking names alone. Digest refreshed after source-record helper update; classifications and reasons were preserved for currently expected judgment keys. Digest refreshed after current public audit; classifications and reasons were preserved for current expected judgment keys and stale extras were pruned.",
   "items": {
     "paper_lemmaC3_partition_integral_hasExponentialRate_of_min_component_uniform_logRate.hweight_bound : ∀ component, ∀ᵐ x ∂μ.restrict (P.pieceSet component), weight x ≤ W component": {
       "classification": "validated_source_assumption",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Visible theorem input is a named paper/source-domain assumption already exposed in the assumption provenance lane.",
       "source_location": "paper_statement_map.json / Assumptions.lean",
-      "source_record_audit_sha256": "6560d3afaee3d400520a0e29b7b4eefaa39df158a279e1e2fe5e35f5bc0a9ef9",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "3e5e1047beb2b6238e379ba7b3c71208539165dfd5027ae59fa2f2b8838e8b0b",
+      "validated_at": "2026-07-04T15:48:57Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     },
     "paper_theoremC1_weighted_laplace_integral_exponential_rate_of_uniform_tendsto_weightedEssentialInf.hweight_bound : ∀ᵐ x ∂μ, weight x ≤ W": {
       "classification": "validated_source_assumption",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Visible theorem input is a named paper/source-domain assumption already exposed in the assumption provenance lane.",
       "source_location": "paper_statement_map.json / Assumptions.lean",
-      "source_record_audit_sha256": "6560d3afaee3d400520a0e29b7b4eefaa39df158a279e1e2fe5e35f5bc0a9ef9",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_record_audit_sha256": "3e5e1047beb2b6238e379ba7b3c71208539165dfd5027ae59fa2f2b8838e8b0b",
+      "validated_at": "2026-07-04T15:48:57Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
     }
   },
   "paper": "GJ19OptimalBinaryRatingSystems",
   "prompt_version": "source-record-v2-semantic-boundary-inputs",
   "schema": 1,
-  "source_record_audit_sha256": "6560d3afaee3d400520a0e29b7b4eefaa39df158a279e1e2fe5e35f5bc0a9ef9",
-  "validated_at": "2026-06-29T18:08:26Z",
-  "validator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  "source_record_audit_sha256": "3e5e1047beb2b6238e379ba7b3c71208539165dfd5027ae59fa2f2b8838e8b0b",
+  "validated_at": "2026-07-04T15:48:57Z",
+  "validator": "Codex source-record digest refresh",
+  "validator_type": "agent"
 }

@@ -20,6 +20,7 @@ import getpass
 import os
 import json
 import re
+import signal
 import sys
 import subprocess
 import urllib.parse
@@ -763,23 +764,33 @@ def run_lean_check_previews(
         script_path = Path(tmpdir) / "review_agent_preview.lean"
         script_path.write_text(script, encoding="utf-8")
         try:
-            proc = subprocess.run(
+            proc = subprocess.Popen(
                 ["lake", "env", "lean", str(script_path)],
                 cwd=str(ROOT),
-                check=False,
-                capture_output=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 text=True,
-                timeout=timeout_seconds,
+                start_new_session=True,
             )
+            stdout, _stderr = proc.communicate(timeout=timeout_seconds)
         except (OSError, subprocess.TimeoutExpired):
+            if "proc" in locals():
+                try:
+                    os.killpg(proc.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+                try:
+                    proc.communicate(timeout=1)
+                except (OSError, subprocess.TimeoutExpired):
+                    pass
             AGENT_PREVIEW_CACHE[cache_key] = {}
             return {}
 
-    if proc.returncode != 0 and not proc.stdout.strip():
+    if proc.returncode != 0 and not stdout.strip():
         AGENT_PREVIEW_CACHE[cache_key] = {}
         return {}
 
-    checked = _parse_lean_check_previews(proc.stdout, canonical_names)
+    checked = _parse_lean_check_previews(stdout, canonical_names)
     AGENT_PREVIEW_CACHE[cache_key] = checked
     return checked
 

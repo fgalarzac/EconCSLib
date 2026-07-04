@@ -113,6 +113,8 @@ theorem example1_diverse_favorite_policy_item_fairness :
 /--
 Example 1, homogeneous-preferences algebra: the displayed bounds imply the
 linear normalized user/item fairness tradeoff `Umin + Imin <= 1 + epsilon`.
+
+Source status: direct paper-facing Example 1 homogeneous tradeoff inequality.
 -/
 theorem example1_homogeneous_tradeoff_bound
     {epsilon rho1 rho2 Umin Imin : ℝ}
@@ -156,7 +158,12 @@ abbrev appendix_d_lemma7_pivot_monotonicity :=
 abbrev appendix_d_lemma8_selected_pivot_stitching :=
   @OpposingTypes.paper_lemma8_reducedOptimalItemFairness_mono_firstHalf_center_of_alpha_le
 
-/-- Appendix D, Lemma 9: the `q_j`/pair-share algebra. -/
+
+/--
+Appendix D, Lemma 9: the `q_j`/pair-share algebra.
+
+Source status: direct paper-facing Appendix D Lemma 9 algebra row.
+-/
 abbrev appendix_d_lemma9_pair_share_algebra :=
   @OpposingTypes.paper_lemma9_pairShare_strictly_increases_in_alpha
 
@@ -180,7 +187,12 @@ abbrev appendix_e_lemma13_pivot_support :=
 abbrev appendix_e_lemma14_uniqueness :=
   @OpposingTypes.paper_lemma14_problem11_equalizedBasicOptimal_policy_eq
 
-/-- Appendix E, Lemma 15: Problem 11 closed-form lambda formula. -/
+
+/--
+Appendix E, Lemma 15: Problem 11 closed-form lambda formula.
+
+Source status: direct paper-facing Appendix E Lemma 15 closed-form formula row.
+-/
 abbrev appendix_e_lemma15_closed_formula :=
   @OpposingTypes.paper_lemma15_problem11_lambda_eq_of_pivot_lt_mirror
 

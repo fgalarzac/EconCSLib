@@ -87,13 +87,14 @@ not in sparse public/paper notes.
 Treat `formalized` as a strong provenance claim: every exposed paper result is
 proved by Lean from imported Lean/mathlib/library declarations plus explicit
 theorem parameters that are either discharged by the proof or recorded as
-validated paper-source assumptions. The LLM-as-judge checks are necessary audit
-evidence that the exposed Lean statements and explicit assumptions match the
-source paper, but they are not themselves Lean proofs and they do not certify
-hidden premises. Before saying a whole paper is fully formalized, confirm the
-Lean-native axiom audit (`#print axioms` via `scripts/audit_repository.py`),
-the row-local statement checks, and the visible-premise/source-assumption
-checks are current and clean for that paper. Treat any user request for a
+validated paper-source assumptions. The LLM-as-judge checks are audit evidence
+that the exposed Lean statements and explicit assumptions match the source
+paper, but they are not themselves Lean proofs, human review, or certification
+of hidden premises. Before saying a whole paper is fully formalized, confirm
+the Lean-native axiom audit (`#print axioms` via
+`scripts/audit_repository.py`), the row-local statement checks, and the
+visible-premise/source-assumption checks are current and clean for that paper.
+Treat any user request for a
 "Lean axiom" or "axiom dependency" check on a paper result as a request for
 the recursive repository audit path, not a single ad hoc `#print axioms` call:
 the audit must expand the paper-facing row, follow paper-local aliases and
@@ -1263,8 +1264,8 @@ thin wrappers and explicit empirical/simulation-boundary ledgers.
 Before adding any new STV/RCV simulator, generated trace, full-election-run,
 candidate-removal runner, Algorithm A/3/7 checker, or concrete algorithm type,
 search the existing voting library and same-domain paper folders first. In
-particular, inspect the GGRS RCV development and its imports, plus DGJ24/DGJ26
-shared declarations, for `STVTrace`, `generatedTrace`, `replaysFrom`,
+particular, inspect existing RCV developments and their shared declarations for
+`STVTrace`, `generatedTrace`, `replaysFrom`,
 `minimalGroupElimination`, `canonicalProfileGroupElimination`, and
 source-run/checker APIs. Reuse or thinly wrap that machinery unless the plan
 records a concrete reason it cannot express the source algorithm.
@@ -2194,6 +2195,12 @@ the Lean statements against the paper.
      empirical sections, helper lemmas, or library-internal facts unless they
      are explicitly paper-facing. Completeness beats compactness: do not hide
      named source content only because it makes the review surface longer.
+     If row-level dashboard or LLM audit declarations make this first-read file
+     too large for human review, move them to `AuditInterface.lean`, point
+     `status.json` `review_surface.source_file` there, and set
+     `paper_interface.audit_surface_path`. `PaperInterface.lean` remains the
+     compact human entrypoint and should import the audited review surface when
+     that split is used.
   2. If the dashboard has more than 30 rows, run a no-paper-context surface
      pass over the row list and save `review_surface_llm.json`. The pass asks
      only whether each row belongs on the human-facing paper surface. At 120 or

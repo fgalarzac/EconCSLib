@@ -38,6 +38,7 @@ TOP_LEVEL_RE = re.compile(
 )
 FIELD_RE = re.compile(r"^\s{2,}([A-Za-z_][A-Za-z0-9_']*)\s*:\s*(.*)$")
 BINDER_RE = re.compile(r"[\(\{]([^()\{\}\[\]]+?)\s*:\s*([^()\{\}\[\]]+?)[\)\}]")
+IMPORT_RE = re.compile(r"^\s*import\s+([A-Za-z_][A-Za-z0-9_'.]*)\s*$")
 BOUNDARY_INPUT_RE = re.compile(
     r"(certificate|replay|process|bridge|trace|path|transfer|preservation|"
     r"source[_ -]?(?:row|rows|table|model|family)|"
@@ -286,10 +287,32 @@ def visible_inputs_from_declaration(declaration: str) -> list[dict[str, str]]:
 
 def boundary_input_kind(row: str, visible_input: dict[str, str]) -> str:
     _ = row
+    if is_plain_data_input_type(visible_input.get("type", "")):
+        return ""
     haystack = f"{visible_input.get('names', '')} {visible_input.get('type', '')}"
     if BOUNDARY_INPUT_RE.search(haystack):
         return "boundary_premise"
     return ""
+
+
+def is_plain_data_input_type(type_text: str) -> bool:
+    """Return true for ordinary carrier/data binders, not theorem premises.
+
+    The source-record lane is meant to audit visible proof/source premises.
+    Names such as `baseSupport` or `transferSupport` are source-shaped, but a
+    bare `ℕ` variable is a quantified source quantity rather than an assumed
+    proof boundary. Proposition-valued hypotheses and record/certificate inputs
+    still flow through the audit.
+    """
+
+    text = normalize_ws(type_text)
+    if not text:
+        return False
+    if any(token in text for token in ("→", "->", "∀", "∃", "=", "≤", "<", "≥", ">", "∈", "↔", "∧", "∨")):
+        return False
+    if source_like_type_names(text):
+        return False
+    return True
 
 
 def boundary_input_judgment_key(row: str, visible_input: dict[str, str]) -> str:
@@ -357,6 +380,50 @@ def parse_declarations(interface_path: Path) -> dict[str, str]:
             index += 1
         decls[name] = "\n".join(lines[start:index]).strip()
     return decls
+
+
+def paper_import_file(root: Path, module: str) -> Path | None:
+    parts = [part for part in module.split(".") if part]
+    if len(parts) < 2:
+        return None
+    paper_dir = root / "papers" / parts[0]
+    if not paper_dir.exists():
+        return None
+    path = paper_dir.joinpath(*parts[1:]).with_suffix(".lean")
+    if path.exists():
+        return path
+    return None
+
+
+def imported_paper_lean_files(root: Path, seed_files: list[Path]) -> list[Path]:
+    """Return paper-local Lean files imported by the current paper surface.
+
+    Downstream papers may expose source records imported from an already
+    formalized public paper. Include only modules that resolve under
+    `papers/<Paper>/...`; general reusable-library imports stay out of this
+    source-record parser unless added explicitly elsewhere.
+    """
+
+    out: list[Path] = []
+    seen: set[Path] = set()
+    queue = list(seed_files)
+    while queue:
+        path = queue.pop(0).resolve()
+        if path in seen or not path.exists():
+            continue
+        seen.add(path)
+        for line in mask_block_comments(read_text(path)).splitlines():
+            match = IMPORT_RE.match(line)
+            if not match:
+                continue
+            imported = paper_import_file(root, match.group(1))
+            if imported is None:
+                continue
+            imported = imported.resolve()
+            if imported not in seen:
+                out.append(imported)
+                queue.append(imported)
+    return out
 
 
 def first_declaration_namespace(interface_path: Path) -> str:
@@ -753,6 +820,7 @@ def main() -> int:
         }
 
     lean_files = list(paper_dir.glob("*.lean"))
+    lean_files.extend(imported_paper_lean_files(root, lean_files + [interface_path]))
     poisson_library = root / "EconCSLib" / "Foundations" / "Probability" / "PoissonProcess.lean"
     if poisson_library.exists():
         lean_files.append(poisson_library)

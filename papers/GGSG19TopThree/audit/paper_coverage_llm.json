@@ -198,11 +198,11 @@
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
       "dashboard_evidence": "source_proposition4_thm_goal_learning_finite_support",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Source Proposition `thm:goal_learning`, finite relevant-pair aggregation form. The finite aggregate has an exact finite exponent unless all relevant pairwise errors are eventually empty, represented as extended rate `\u22a4`. The dashboard row `source_proposition4_thm_goal_learning_finite_support` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "reason": "The source item is the paper-facing statement/formula summarized as: Source Proposition `thm:goal_learning`, finite relevant-pair aggregation form. The finite aggregate has an exact finite exponent unless all relevant pairwise errors are eventually empty, represented as extended rate `⊤`. The dashboard row `source_proposition4_thm_goal_learning_finite_support` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
       "review_rows": [
         "source_proposition4_thm_goal_learning_finite_support"
       ],
-      "source_evidence": "Source basis: /tmp/econcs_source_text/GGSG19TopThree.txt and validation report/source audit notes. Source inventory item: Source Proposition `thm:goal_learning`, finite relevant-pair aggregation form. The finite aggregate has an exact finite exponent unless all relevant pairwise errors are eventually empty, represented as extended rate `\u22a4`.",
+      "source_evidence": "Source basis: /tmp/econcs_source_text/GGSG19TopThree.txt and validation report/source audit notes. Source inventory item: Source Proposition `thm:goal_learning`, finite relevant-pair aggregation form. The finite aggregate has an exact finite exponent unless all relevant pairwise errors are eventually empty, represented as extended rate `⊤`.",
       "source_grounded": true,
       "statement_sha256": "1a17ea4a9bdab1e2b50f6f551bb91151cdf997bfea1375b3c461ca055b5243b2",
       "support_declarations": [],
@@ -278,7 +278,7 @@
   "paper": "GGSG19TopThree",
   "paper_statement_inventory_sha256": "fcdc0cf68f608b0583c1aecd81ab30fe478767da7e7a47834cf3178d8f725538",
   "prompt_version": "paper-coverage-v2-source-grounded-source-to-dashboard",
-  "review_surface_sha256": "9a948d310778cb1503658e0edd31613212bc9fb2f65f5990cef88bfbacff4d4e",
+  "review_surface_sha256": "68e2827903c4784dd0aae496721831159514fb3bde917f977c4105a1af5e83e9",
   "schema": 1,
   "source_grounded": true,
   "validated_at": "2026-06-29T20:39:31Z",

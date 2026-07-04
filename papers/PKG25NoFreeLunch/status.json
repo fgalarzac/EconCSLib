@@ -24,7 +24,7 @@
   "main_caveat": "None",
   "paper_interface": {
     "declaration_rows": 15,
-    "line_count": 163,
+    "line_count": 165,
     "maintainability_issue": null,
     "oversized": false,
     "path": "papers/PKG25NoFreeLunch/PaperInterface.lean",

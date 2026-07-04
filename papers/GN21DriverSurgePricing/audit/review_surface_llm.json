@@ -4,7 +4,7 @@
   "prompt_version": "review-surface-v2-semantic-paper-facing",
   "reason": "Semantic review-surface pass: source-visible review targets are exposed as paper-facing rows, with helper-only implementation details kept outside the dashboard unless needed for source coverage.",
   "review_rows": 36,
-  "review_surface_sha256": "429119873152daeced92beefe3a71f9a3dacd3450ad6c2d2e97cf484b6c533f1",
+  "review_surface_sha256": "f995f6cf1362e86b189a2c3e239cc2d697c3a34d523bd327c1f4efcc186ca9dc",
   "schema": 1,
   "validated_at": "2026-06-29T20:39:31Z",
   "validator": "codex-gpt-5.5-semantic-rejudge",
