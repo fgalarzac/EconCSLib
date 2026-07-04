@@ -108,6 +108,10 @@
     ],
     "proof_boundary_names": [],
     "assumption_names": [],
+    "llm_assumption_review": {
+      "assumption_judgment_file": "papers/KR21Monoculture/audit/assumption_match_llm.json",
+      "policy": "No KR21-specific paper-assumption rows are currently listed; this field records that strict assumption provenance was considered and that the empty assumption ledger is intentional."
+    },
     "llm_source_record_review": {
       "source_record_audit_file": "papers/KR21Monoculture/audit/source_record_audit.json",
       "source_record_judgment_file": "papers/KR21Monoculture/audit/source_record_match_llm.json"
