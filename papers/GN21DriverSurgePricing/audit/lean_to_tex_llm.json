@@ -138,7 +138,7 @@
       "validator_type": "model"
     },
     "review_remark2_structured_scaled_earning_algebra": {
-      "lean_statement_sha256": "c8445adf176f33600396165c0db09d1587645bb73d96c10da6459b641b49be24",
+      "lean_statement_sha256": "f911bbfdc8235fafa61a27a30fc52c3881e9778e5b43391f94742e64c3b07a28",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
       "tex_statement": "\\forall (\\mu : Measure TripLength) (arrivalRate m z switchIJ switchJI : ℝ) (\\sigma : TripPolicy), IntegrableOn (fun \\tau  =>  \\tau) \\sigma \\mu \\to IntegrableOn (fun \\tau  =>  gn21SwitchProb switchIJ switchJI \\tau) \\sigma \\mu \\to gn21ScaledStateEarning \\mu arrivalRate (ctmcStructuredSurgePrice m z switchIJ switchJI) \\sigma = m * (gn21ScaledStateTime \\mu arrivalRate \\sigma - 1) + z * (gn21ExitWeightIntegral \\mu arrivalRate switchIJ switchJI \\sigma - switchIJ)",
       "translated_at": "2026-07-04T15:50:07Z",
