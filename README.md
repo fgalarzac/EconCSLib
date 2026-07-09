@@ -32,15 +32,10 @@ Set a durable goal:
 /goal fully formalize <PaperFolder> until full done, and then run the post formalization audit.
 ```
 
-I often queue up a bunch of
-```text
-keep going until closeout
-```
-commands in Codex, but this is increasingly not needed given a goal.
-
 Useful steering advice:
 - I often ask it for the status and steer it into proving one thing or another first.
 - Often it will state something is a caveat/error in the paper, but I ask it to look for the source assumptions carefully and usually it'll find it.
+- You may want to give feedback on what is the right "formalization boundary" -- do you want the paper fully formalized from the basic axioms, or are you OK assuming something fundamental not yet proven in the upstream libraries (e.g., classic compressed sensing results or that stochastic subgradient descent converges). 
 
 (And please let me know what your experience is like!).
 
