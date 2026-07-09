@@ -49,8 +49,8 @@ For future public-release checkpoints:
    `papers/human_status.json`, `docs/PAPER_STATUS.md`, per-paper generated
    `README.md` entrypoints, and `site/index.html` list the same public papers
    and use only the status vocabulary in `docs/STATUS.md`. The root
-   `README.md` is protected by `docs/root_readme_lock.json` and should not be
-   edited unless the user gives specific root-README instructions.
+   `README.md` is hand-written prose; agents should not edit it unless the user
+   gives specific root-README instructions.
 5. Decide whether the reviewed workshop paper PDF should be linked externally
    or added as a final public artifact.
 6. Confirm the public repository `LICENSE` and citation metadata before

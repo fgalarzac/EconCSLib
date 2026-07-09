@@ -820,11 +820,10 @@ at a status milestone. That command regenerates the detailed
 `papers/status.json`, the compact human-facing `papers/human_status.json`,
 `docs/PAPER_STATUS.md`, per-paper generated `README.md` entrypoints, and the
 status table in `site/index.html`. Do not hand-edit those generated status
-outputs. The root `README.md` is protected hand-written prose, not a generated
-status surface; do not edit it unless the user gives specific root-README
-instructions, and then refresh `docs/root_readme_lock.json` with
-`python3 scripts/root_readme_policy.py --write-lock`. The sync script defaults
-to tracked paper status
+outputs. The root `README.md` is hand-written prose, not a generated status
+surface. Humans may edit it directly, but agents must not edit it unless the
+user gives specific root-README instructions; no lock-file refresh is required
+for human edits. The sync script defaults to tracked paper status
 files so untracked draft scaffolds do not pollute generated CI-facing tables;
 use `--include-untracked` only when intentionally syncing a new untracked
 paper scaffold. During routine proof iteration, do not run the status sync just

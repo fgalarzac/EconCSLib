@@ -24,10 +24,9 @@ repository are ready.
    `papers/status.json`, `papers/human_status.json`, `docs/PAPER_STATUS.md`,
    per-paper `README.md` files, and the generated site status table are in sync. Use
    `papers/status.json` for detailed audit metadata.
-4. Confirm the protected root `README.md` was not edited unless the user gave
-   specific root-README instructions; if it was, refresh
-   `docs/root_readme_lock.json` with
-   `python3 scripts/root_readme_policy.py --write-lock`.
+4. Confirm no agent or generator edited the root `README.md` unless the user
+   gave specific root-README instructions. Human README edits are allowed
+   directly and do not require a lock-file refresh.
 5. Run `python3 scripts/audit_repository.py` and confirm there are 0 errors.
 6. Preview the static site locally, for example:
 
@@ -56,5 +55,5 @@ Treat the site as a summary layer. The source of truth remains:
 
 When a paper status changes, update the paper-local `status.json`, run
 `python3 scripts/sync_paper_status.py`, then update site prose only if
-surrounding non-generated text needs to change. Do not update root README prose
-unless the user gives specific root-README instructions.
+surrounding non-generated text needs to change. Agents should not update root
+README prose unless the user gives specific root-README instructions.

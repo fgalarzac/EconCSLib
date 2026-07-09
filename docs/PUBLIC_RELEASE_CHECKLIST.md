@@ -64,8 +64,8 @@ Each public paper folder should have:
 - [ ] Merge the filtered history into the public repository.
 - [ ] Update paper-local `status.json`, run `python3 scripts/sync_paper_status.py`,
       and then update surrounding site prose, roadmap, or release notes only if
-      needed. Do not edit the root `README.md` unless the user gives specific
-      root-README instructions and `docs/root_readme_lock.json` is refreshed.
+      needed. Agents should not edit the root `README.md` unless the user gives
+      specific root-README instructions.
 
 ## GitHub Pages Readiness
 

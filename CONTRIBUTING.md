@@ -124,8 +124,7 @@ Before opening a pull request:
   `status.json`, and audit sidecars when changing a paper-facing theorem
   status;
 - do not edit the root `README.md` unless the user gives specific root-README
-  instructions; if that happens, refresh `docs/root_readme_lock.json` with
-  `python3 scripts/root_readme_policy.py --write-lock`;
+  instructions;
 - keep source-paper caveats and additional assumptions explicit in theorem
   statements and ledgers; and
 - avoid mixing unrelated paper work into a library PR.
@@ -193,9 +192,8 @@ lake build EconCSLib
 - [ ] `python3 scripts/sync_paper_status.py --check` passes after generated
       status files, docs tables, per-paper README entrypoints, and site rows
       are refreshed.
-- [ ] The protected root `README.md` is unchanged, unless this PR was
-      explicitly asked to edit root README prose and refreshed
-      `docs/root_readme_lock.json`.
+- [ ] The root `README.md` is unchanged, unless this PR was explicitly asked to
+      edit root README prose.
 - [ ] Source PDFs, extracted source-paper text caches, rendered local PDFs,
       dashboard caches, and other ignored local artifacts are not added to Git.
 

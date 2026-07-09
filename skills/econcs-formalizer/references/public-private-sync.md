@@ -125,8 +125,8 @@ For public-safe paths, prefer the latest semantically valid artifact:
   `docs/PAPER_STATUS.md`, `site/index.html`, and per-paper generated
   `README.md` entrypoints): never copy across the public/private boundary.
   Regenerate them in the destination checkout. The root `README.md` is
-  protected hand-written prose; do not copy, regenerate, or edit it unless the
-  user gives specific root-README instructions.
+  hand-written prose; do not copy, regenerate, or edit it unless the user gives
+  specific root-README instructions.
 
 ## Source Artifacts
 
@@ -183,8 +183,8 @@ fails. Before treating sidecars as current:
 - Do not raw-merge private `main` into public `main`.
 - Do not copy `papers/status.json`, `papers/human_status.json`,
   `docs/PAPER_STATUS.md`, root `README.md`, or `site/index.html` across repos.
-  The root `README.md` is protected by `docs/root_readme_lock.json`; update that
-  lock only after an explicitly requested root README edit.
+  The root `README.md` is hand-written prose; humans may edit it directly, but
+  agents should change it only after explicit root-README instructions.
 - Do not copy `.review_traces` caches, local source PDFs/text, or unpacked
   source archives into public by default.
 - Do not keep stale LLM sidecars because a warm local checkout passes.
