@@ -192,9 +192,10 @@ Before opening a pull request:
   `PaperInterface.lean`, `status.json`, and `FINAL_VALIDATION_REPORT.md` when
   changing paper-facing status.
 - Run `python3 scripts/sync_paper_status.py` after editing a paper-local
-  `status.json`; it refreshes the aggregate JSON, docs table, per-paper
-  README entrypoints, and site table. Include the generated status files in the
-  pull request.
+  `status.json`; it refreshes the aggregate JSON, docs table, and site table.
+  Include the generated status files in the pull request. Paper-folder README
+  entrypoints are refreshed only with `--sync-readmes` after explicit README
+  instructions.
 - Explain any caveat, source-model assumption, certificate, or proof-route
   deviation in human-facing files.
 - Include the exact commands you ran in the pull request description.

@@ -1251,6 +1251,15 @@ def main() -> int:
             "This is slower; the default status sync reads tracked sidecars only."
         ),
     )
+    parser.add_argument(
+        "--sync-readmes",
+        action="store_true",
+        help=(
+            "also regenerate paper-folder README entrypoints and migrate legacy "
+            "README bodies into docs/FORMALIZATION_NOTES.md. Leave off unless "
+            "README edits were explicitly requested."
+        ),
+    )
     args = parser.parse_args()
 
     records = paper_records(include_untracked=args.include_untracked)
@@ -1262,12 +1271,13 @@ def main() -> int:
         DOCS_PAPER_STATUS: render_paper_status_md(human),
         SITE_INDEX: render_site_index(human),
     }
-    for folder, payload in records:
-        legacy_notes = render_legacy_readme_notes(folder)
-        if legacy_notes is not None:
-            path, rendered = legacy_notes
-            outputs[path] = rendered
-        outputs[folder / "README.md"] = render_paper_readme(folder, payload)
+    if args.sync_readmes:
+        for folder, payload in records:
+            legacy_notes = render_legacy_readme_notes(folder)
+            if legacy_notes is not None:
+                path, rendered = legacy_notes
+                outputs[path] = rendered
+            outputs[folder / "README.md"] = render_paper_readme(folder, payload)
     try:
         assert_no_root_readme_outputs(outputs)
         assert_root_readme_policy()

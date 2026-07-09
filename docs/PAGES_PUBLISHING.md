@@ -22,8 +22,8 @@ repository are ready.
 2. Review `site/index.html` for accurate contact text and non-generated prose.
 3. Run `python3 scripts/sync_paper_status.py --check` to confirm
    `papers/status.json`, `papers/human_status.json`, `docs/PAPER_STATUS.md`,
-   per-paper `README.md` files, and the generated site status table are in sync. Use
-   `papers/status.json` for detailed audit metadata.
+   and the generated site status table are in sync. Use `papers/status.json`
+   for detailed audit metadata.
 4. Confirm no agent or generator edited the root `README.md` unless the user
    gave specific root-README instructions. Human README edits are allowed
    directly and do not require a lock-file refresh.

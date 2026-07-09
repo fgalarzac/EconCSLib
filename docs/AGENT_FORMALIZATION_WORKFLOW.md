@@ -120,9 +120,10 @@ Completed papers should also have:
   rows/slices, interface metadata, and artifact paths. After editing it, run
   `python3 scripts/sync_paper_status.py` to regenerate the detailed aggregate
   `papers/status.json`, the compact human-facing `papers/human_status.json`,
-  `docs/PAPER_STATUS.md`, paper-local `README.md` entrypoints, and the
-  `site/index.html` status table. Do not hand-edit those generated status files
-  or rows. The root `README.md` is not a generated status surface; the sync
+  `docs/PAPER_STATUS.md`, and the `site/index.html` status table. Do not
+  hand-edit those generated status files or rows. Paper-local README entrypoints
+  are not refreshed by default; use `--sync-readmes` only after explicit README
+  instructions. The root `README.md` is not a generated status surface; the sync
   script only checks that generators do not write it or insert generated blocks.
   The sync script defaults to tracked paper status files so local draft
   scaffolds do not pollute CI-facing generated tables; pass

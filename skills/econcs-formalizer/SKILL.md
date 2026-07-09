@@ -818,28 +818,31 @@ truth for paper status, compact `human_summary` notes, human-review row counts,
 After changing any of that metadata, run `python3 scripts/sync_paper_status.py`
 at a status milestone. That command regenerates the detailed
 `papers/status.json`, the compact human-facing `papers/human_status.json`,
-`docs/PAPER_STATUS.md`, per-paper generated `README.md` entrypoints, and the
-status table in `site/index.html`. Do not hand-edit those generated status
-outputs. The root `README.md` is hand-written prose, not a generated status
-surface. Humans may edit it directly, but agents must not edit it unless the
-user gives specific root-README instructions; no lock-file refresh is required
-for human edits. The sync script defaults to tracked paper status
+`docs/PAPER_STATUS.md`, and the status table in `site/index.html`. Do not
+hand-edit those generated status outputs. README files are human-facing prose
+surfaces, not generated status surfaces by default. Humans may edit them
+directly, but agents must not edit any README unless the user gives specific
+README instructions. `sync_paper_status.py` only refreshes paper-folder README
+entrypoints with `--sync-readmes`, which agents should use only after explicit
+README instructions. The sync script defaults to tracked paper status
 files so untracked draft scaffolds do not pollute generated CI-facing tables;
 use `--include-untracked` only when intentionally syncing a new untracked
 paper scaffold. During routine proof iteration, do not run the status sync just
 because Lean LOC changed or a small proof seam was added; defer
 generated table/doc refreshes until a named paper result closes, a status note
 changes, a final report/handoff is prepared, or the user explicitly asks. If
-paper README/docs/site/table text is wrong, fix the paper-local `status.json`
-and rerun the sync script at that milestone. If a generated table needs
+docs/site/table text is wrong, fix the paper-local `status.json`
+and rerun the sync script at that milestone; if README prose needs to change,
+wait for explicit README instructions. If a generated table needs
 display-only publication wording that differs from local provenance, use
 `papers/catalog.json` `publication_overrides` and leave paper-local
 `source_version` fields as the source/provenance record.
 If stale paper-local documentation or status is distorting the proof plan,
 causing closed work to be rediscovered, or could lead a human to stop the right
-proof campaign from an obsolete status belief, update the smallest paper-local
-README/handoff/status fields immediately. Still defer repository-wide generated
-paper README/docs/site/table refreshes until the next real milestone unless those
+proof campaign from an obsolete status belief, update the smallest non-README
+handoff/status fields immediately, and ask before editing README prose. Still
+defer repository-wide generated docs/site/table refreshes until the next real
+milestone unless those
 generated files are the misleading decision source.
 Keep `sync_paper_status.py` metadata-only and fast by default. It should not
 import dashboard code, run Lean previews, refresh LLM sidecars, or perform
@@ -3599,9 +3602,8 @@ Never enter a cycle of modifying a single line in a shell command just to test s
   `ProofInterface.lean` or implementation modules. Curate the review rows and
   optional slices in paper-local `status.json` under `review_surface`, then run
   `python3 scripts/sync_paper_status.py` to refresh `papers/status.json`,
-  `papers/human_status.json`, `docs/PAPER_STATUS.md`, per-paper README
-  entrypoints, and the site status table; after that, refresh the ignored dashboard
-  cache. Do not confuse "0/N reviewed" with stale or failed Lean validation; it
+  `papers/human_status.json`, `docs/PAPER_STATUS.md`, and the site status table;
+  after that, refresh the ignored dashboard cache. Do not confuse "0/N reviewed" with stale or failed Lean validation; it
   only means no human review entries have been saved.
   Final human review should normally expose a compact source-facing surface,
   not every proof endpoint. Do not report an unfiltered declaration count such
@@ -3712,9 +3714,9 @@ Never enter a cycle of modifying a single line in a shell command just to test s
 - Update the paper-local `status.json` at the same time as the DAG and final
   report, using the exact caveats from the final report. Then
   run `python3 scripts/sync_paper_status.py` so `docs/PAPER_STATUS.md`,
-  per-paper README entrypoints, `papers/status.json`,
-  `papers/human_status.json`, and `site/index.html` status table all move
-  together. Do not manually edit generated table rows, and do not let any public
+  `papers/status.json`, `papers/human_status.json`, and `site/index.html`
+  status table all move together. Do not manually edit generated table rows,
+  and do not let any public
   status surface keep stale "partial" or "active" wording after a paper-local
   validation report says a paper is formalized.
 - Use one status vocabulary per artifact. At paper and repository level,

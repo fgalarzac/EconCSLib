@@ -17,8 +17,9 @@ external contributions. Last checked on 2026-06-03.
 - [x] Each public `papers/<PaperName>/status.json` is current, and
       `python3 scripts/sync_paper_status.py --check` confirms that the generated
       `papers/status.json`, `papers/human_status.json`, and
-      `docs/PAPER_STATUS.md`, per-paper `README.md` files, and
-      `site/index.html` are in sync.
+      `docs/PAPER_STATUS.md` and `site/index.html` are in sync. Paper-local
+      README files are human-owned and are refreshed only with explicit README
+      instructions.
 - [x] The generated `docs/PAPER_STATUS.md` and site status tables
       summarize the same public paper set, statuses, review counts, Lean LOC,
       and sparse notes as `papers/human_status.json`.

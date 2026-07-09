@@ -190,8 +190,7 @@ lake build EconCSLib
 - [ ] Caveats and source-proof deviations are documented in the paper README or
       `FINAL_VALIDATION_REPORT.md`.
 - [ ] `python3 scripts/sync_paper_status.py --check` passes after generated
-      status files, docs tables, per-paper README entrypoints, and site rows
-      are refreshed.
+      status files, docs tables, and site rows are refreshed.
 - [ ] The root `README.md` is unchanged, unless this PR was explicitly asked to
       edit root README prose.
 - [ ] Source PDFs, extracted source-paper text caches, rendered local PDFs,
