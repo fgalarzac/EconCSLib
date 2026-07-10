@@ -151,11 +151,11 @@ Paper-facing ledgers should:
   certificate interfaces;
 - avoid `#check`-only ledgers and hidden proof placeholders.
 
-A `formalized` README row should point to a real Lean declaration and should
+A `formalized` status row should point to a real Lean declaration and should
 list `None` under remaining assumptions. Conditional rows must name the exact
 open certificate, bridge, or assumption declaration.
 
-Paper README status cells use the controlled vocabulary in `docs/STATUS.md`.
+Paper status cells use the controlled vocabulary in `docs/STATUS.md`.
 Do not put free-form progress prose in the status cell; put caveats, closed
 sub-results, and remaining certificates in the final ledger column.
 

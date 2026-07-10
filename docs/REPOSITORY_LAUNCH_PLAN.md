@@ -48,9 +48,9 @@ For future public-release checkpoints:
 4. Run `python3 scripts/sync_paper_status.py --check`, then confirm
    `papers/human_status.json`, `docs/PAPER_STATUS.md`, per-paper generated
    `README.md` entrypoints, and `site/index.html` list the same public papers
-   and use only the status vocabulary in `docs/STATUS.md`. The root
-   `README.md` is hand-written prose; agents should not edit it unless the user
-   gives specific root-README instructions.
+   and use only the status vocabulary in `docs/STATUS.md`. README files are
+   hand-written prose by default, and LLM agents should not edit them unless the
+   user gives express README-edit permission in the current task.
 5. Decide whether the reviewed workshop paper PDF should be linked externally
    or added as a final public artifact.
 6. Confirm the public repository `LICENSE` and citation metadata before
@@ -82,5 +82,5 @@ machine-level polynomial-time reductions, randomized complexity classes, and
 cited Karp/Hastad-style hardness facts.
 
 Other partial papers should stay private unless their remaining gap is similarly
-explicit, reusable, documented in the paper README and validation report, and
+explicit, reusable, documented in status surfaces and the validation report, and
 useful for public contributors to inspect.

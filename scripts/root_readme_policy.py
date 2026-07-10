@@ -3,7 +3,8 @@
 
 Human edits to README.md are allowed directly. This policy only blocks generated
 README outputs and generated-block markers; agent-facing documentation still
-requires explicit user instructions before an LLM edits the root README.
+requires express user instructions in the current task before an LLM edits any
+README file.
 """
 
 from __future__ import annotations

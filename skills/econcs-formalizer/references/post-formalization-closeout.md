@@ -89,8 +89,9 @@ Required target-paper checks:
 18. Update paper-local `status.json` at the same time as the DAG and final
     report, then run `python3 scripts/sync_paper_status.py` so generated
     status tables move with the paper-local source of truth.
-    The root `README.md` is protected hand-written prose and must not be edited
-    during closeout unless the user gives specific root-README instructions.
+    README files are protected hand-written prose and must not be edited,
+    regenerated, migrated, copied, or reformatted during closeout unless the
+    user gives express README-edit permission in the current task.
 19. Refresh the final-report LLM-as-judge summary block from the sidecars.
     In the public repository, run
     `python3 scripts/refresh_validation_report_audit_summaries.py` and then

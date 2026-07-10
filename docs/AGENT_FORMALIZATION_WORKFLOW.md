@@ -1,8 +1,10 @@
 # Agent Formalization Workflow
 
-This file is for agents and maintainers. The top-level `README.md` is
-hand-written human-facing project prose. Humans may edit it directly, but agents
-must not edit it unless the user gives specific root-README instructions.
+This file is for agents and maintainers. `README.md` files are hand-written
+human-facing project prose unless the user explicitly says otherwise. Humans may
+edit them directly, but agents must not edit, regenerate, migrate, copy, or
+reformat any README unless the user gives express README-edit permission in the
+current task.
 
 ## Documentation Split
 
@@ -18,9 +20,12 @@ must not edit it unless the user gives specific root-README instructions.
   proof repair.
 
 Do not put long theorem ledgers, raw command transcripts, or proof-internal
-details in the top-level README. Do not add generated blocks or generator
-outputs there. If the user explicitly asks for a root README edit, make only
-that edit; no lock-file refresh is required.
+details in README files. Do not add generated blocks or generator outputs there.
+If the user explicitly asks for a README edit, make only that edit; no lock-file
+refresh is required.
+Default CI, status sync, and repository-audit commands must not fail because of
+human README prose edits. Any README lint or generated-README migration should
+be an explicit opt-in maintenance action, not part of ordinary `--check` paths.
 
 ## Starting A Paper
 
@@ -121,10 +126,9 @@ Completed papers should also have:
   `python3 scripts/sync_paper_status.py` to regenerate the detailed aggregate
   `papers/status.json`, the compact human-facing `papers/human_status.json`,
   `docs/PAPER_STATUS.md`, and the `site/index.html` status table. Do not
-  hand-edit those generated status files or rows. Paper-local README entrypoints
-  are not refreshed by default; use `--sync-readmes` only after explicit README
-  instructions. The root `README.md` is not a generated status surface; the sync
-  script only checks that generators do not write it or insert generated blocks.
+  hand-edit those generated status files or rows. README files are not refreshed
+  by default; use `--sync-readmes` only after express README-edit permission in
+  the current task. No README is a generated status surface by default.
   The sync script defaults to tracked paper status files so local draft
   scaffolds do not pollute CI-facing generated tables; pass
   `--include-untracked` only when intentionally syncing a new untracked paper

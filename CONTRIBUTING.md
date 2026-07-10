@@ -120,11 +120,11 @@ Before opening a pull request:
 - keep imports as narrow as practical;
 - avoid `sorry`, `admit`, new top-level `axiom`s, or `unsafe` declarations;
 - run the relevant targeted `lake build` command;
-- update the paper README, dependency DAG, validation report, paper-local
-  `status.json`, and audit sidecars when changing a paper-facing theorem
-  status;
-- do not edit the root `README.md` unless the user gives specific root-README
-  instructions;
+- update the dependency DAG, validation report, paper-local `status.json`, and
+  audit sidecars when changing a paper-facing theorem status; update README
+  prose only when the task explicitly asks for it;
+- do not edit any `README.md` in agent-authored work unless the user gives
+  express README-edit permission in the current task;
 - keep source-paper caveats and additional assumptions explicit in theorem
   statements and ledgers; and
 - avoid mixing unrelated paper work into a library PR.
@@ -187,12 +187,13 @@ lake build EconCSLib
 - [ ] `docs/AGENT_SOURCE_AUDIT.md` records an independent source-first holistic
       audit that does not merely summarize existing sidecars and checks for
       omissions, hidden strengthening/weakening, and semantic mismatches.
-- [ ] Caveats and source-proof deviations are documented in the paper README or
-      `FINAL_VALIDATION_REPORT.md`.
+- [ ] Caveats and source-proof deviations are documented in
+      `FINAL_VALIDATION_REPORT.md` or other non-README status surfaces; README
+      prose changes were made only if explicitly requested.
 - [ ] `python3 scripts/sync_paper_status.py --check` passes after generated
       status files, docs tables, and site rows are refreshed.
-- [ ] The root `README.md` is unchanged, unless this PR was explicitly asked to
-      edit root README prose.
+- [ ] No `README.md` was changed by an LLM agent unless the current task
+      explicitly asked for that README edit.
 - [ ] Source PDFs, extracted source-paper text caches, rendered local PDFs,
       dashboard caches, and other ignored local artifacts are not added to Git.
 

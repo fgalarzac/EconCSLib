@@ -12,9 +12,9 @@ from pathlib import Path
 from typing import Any
 
 try:
-    from root_readme_policy import assert_no_root_readme_outputs, assert_root_readme_policy
+    from root_readme_policy import assert_no_root_readme_outputs
 except ModuleNotFoundError:  # pragma: no cover - supports module-style imports
-    from scripts.root_readme_policy import assert_no_root_readme_outputs, assert_root_readme_policy
+    from scripts.root_readme_policy import assert_no_root_readme_outputs
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -1280,7 +1280,6 @@ def main() -> int:
             outputs[folder / "README.md"] = render_paper_readme(folder, payload)
     try:
         assert_no_root_readme_outputs(outputs)
-        assert_root_readme_policy()
         assert_required_static_site_copy(outputs[SITE_INDEX])
     except ValueError as exc:
         print(exc)

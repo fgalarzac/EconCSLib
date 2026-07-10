@@ -75,7 +75,7 @@ division, rankings, Mallows models, and social-choice/ranking papers.
   invoking finite uniform probability relabeling.
   Keep optional-list/rural-hospitals strengthenings separate from complete
   all-acceptable wrappers, and make the domain assumption visible in paper
-  theorem names and README rows.
+  theorem names and status rows.
 - For Roth rural-hospitals or college-admissions papers, reuse the one-to-one
   stable-matching/DA layer where possible, but introduce capacities as a
   separate abstraction. Do not mix complete-marriage all-acceptable wrappers

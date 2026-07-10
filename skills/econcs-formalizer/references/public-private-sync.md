@@ -122,11 +122,11 @@ For public-safe paths, prefer the latest semantically valid artifact:
   audience-relevant capability summaries rather than internal implementation
   inventories.
 - Aggregate files (`papers/status.json`, `papers/human_status.json`,
-  `docs/PAPER_STATUS.md`, `site/index.html`, and per-paper generated
-  `README.md` entrypoints): never copy across the public/private boundary.
-  Regenerate them in the destination checkout. The root `README.md` is
-  hand-written prose; do not copy, regenerate, or edit it unless the user gives
-  specific root-README instructions.
+  `docs/PAPER_STATUS.md`, and `site/index.html`): never copy across the
+  public/private boundary. Regenerate them in the destination checkout.
+  `README.md` files are human-owned prose; do not copy, regenerate, migrate, or
+  edit any README unless the user gives express README-edit permission in the
+  current task.
 
 ## Source Artifacts
 
@@ -182,9 +182,9 @@ fails. Before treating sidecars as current:
 
 - Do not raw-merge private `main` into public `main`.
 - Do not copy `papers/status.json`, `papers/human_status.json`,
-  `docs/PAPER_STATUS.md`, root `README.md`, or `site/index.html` across repos.
-  The root `README.md` is hand-written prose; humans may edit it directly, but
-  agents should change it only after explicit root-README instructions.
+  `docs/PAPER_STATUS.md`, or `site/index.html` across repos. README files are
+  human-owned prose; agents should edit or copy them only after express
+  README-edit permission in the current task.
 - Do not copy `.review_traces` caches, local source PDFs/text, or unpacked
   source archives into public by default.
 - Do not keep stale LLM sidecars because a warm local checkout passes.

@@ -188,9 +188,10 @@ Before opening a pull request:
   review.
 - Keep source PDFs, dashboard caches, and local artifacts out of Git unless the
   repository already tracks that artifact type intentionally.
-- Update `README.md`, `docs/DependencyDAG.tex`, `docs/DependencyDAG.pdf`,
+- Update `docs/DependencyDAG.tex`, `docs/DependencyDAG.pdf`,
   `PaperInterface.lean`, `status.json`, and `FINAL_VALIDATION_REPORT.md` when
-  changing paper-facing status.
+  changing paper-facing status. Update README prose only when the task
+  explicitly asks for it.
 - Run `python3 scripts/sync_paper_status.py` after editing a paper-local
   `status.json`; it refreshes the aggregate JSON, docs table, and site table.
   Include the generated status files in the pull request. Paper-folder README

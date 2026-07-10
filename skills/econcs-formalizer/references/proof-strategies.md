@@ -24,7 +24,8 @@ one concrete reusable pattern, failed approach, or exact build/search command
 over a broad reminder that duplicates existing guidance.
 
 For stronger-model pauses, update the public status surfaces as part of the
-same checkpoint: paper README/handoff, paper-local `status.json`,
-`docs/PAPER_STATUS.md`, and the website status table. The useful payload is a
+same checkpoint: paper handoff, paper-local `status.json`,
+`docs/PAPER_STATUS.md`, and the website status table. Update README prose only
+after express README-edit permission in the current task. The useful payload is a
 short list of current strongest wrappers/certificates and hard proof seams, not
 a long helper lemma changelog.

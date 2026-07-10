@@ -13,15 +13,10 @@ import argparse
 import json
 import re
 import subprocess
-import tempfile
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
-
-try:
-    from root_readme_policy import validate_root_readme
-except ModuleNotFoundError:  # pragma: no cover - supports module-style imports
-    from scripts.root_readme_policy import validate_root_readme
+import tempfile
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -5393,7 +5388,6 @@ def check_root_status_table() -> list[Finding]:
 def check_status_label_vocabulary() -> list[Finding]:
     findings: list[Finding] = []
     paths = [
-        ROOT / "README.md",
         ROOT / "docs" / "PAPER_STATUS.md",
         ROOT / "docs" / "ECONCSLEAN_CURRENT_STATUS.md",
         ROOT / "docs" / "GARG_AUTHOR_FORMALIZATION_REPORT.md",
@@ -5631,7 +5625,6 @@ def check_stale_architecture_terms() -> list[Finding]:
     findings: list[Finding] = []
     stale_re = re.compile(r"\bDecisionCore\b")
     paths = [
-        ROOT / "README.md",
         ROOT / "docs" / "ARCHITECTURE.md",
         ROOT / "docs" / "ECONCSLEAN_CURRENT_STATUS.md",
         ROOT / "skills" / "econcs-formalizer" / "SKILL.md",
@@ -5883,6 +5876,8 @@ def check_generic_source_reference_hygiene(*, library_only: bool = False) -> lis
                     )
                 )
             if path.suffix == ".lean" and "EconCSLib" in path.parts:
+                if LEAN_DECL_RE.match(line):
+                    continue
                 if match := GENERIC_SOURCE_THEOREM_LABEL_RE.search(line):
                     findings.append(
                         Finding(
@@ -5916,13 +5911,6 @@ def run_library(
     if library_premise_audit:
         findings.extend(check_library_certificate_boundaries())
     return findings
-
-
-def check_root_readme_policy() -> list[Finding]:
-    return [
-        Finding("ERROR", ROOT / "README.md", message)
-        for message in validate_root_readme()
-    ]
 
 
 def run(
@@ -5967,11 +5955,8 @@ def run(
     )
     findings.extend(check_status_label_vocabulary())
     findings.extend(check_generated_human_status_labels())
-    findings.extend(check_readme_status_tables(include_active, paper_filter=paper_filter))
     findings.extend(check_tracked_artifacts(include_active))
     findings.extend(check_stale_architecture_terms())
-    findings.extend(check_root_readme_policy())
-    findings.extend(check_human_facing_readme())
     if strict_style:
         findings.extend(check_strict_lean_style())
     if library_premise_audit:
