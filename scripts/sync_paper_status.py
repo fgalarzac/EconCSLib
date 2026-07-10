@@ -1256,11 +1256,27 @@ def main() -> int:
         action="store_true",
         help=(
             "also regenerate paper-folder README entrypoints and migrate legacy "
-            "README bodies into docs/FORMALIZATION_NOTES.md. Leave off unless "
-            "README edits were explicitly requested."
+            "README bodies into docs/FORMALIZATION_NOTES.md. Requires "
+            "--readme-edit-permission and explicit README-edit permission from "
+            "the user in the current task."
+        ),
+    )
+    parser.add_argument(
+        "--readme-edit-permission",
+        action="store_true",
+        help=(
+            "confirm the current user request expressly permits README edits; "
+            "only meaningful with --sync-readmes"
         ),
     )
     args = parser.parse_args()
+    if args.sync_readmes and not args.readme_edit_permission:
+        print(
+            "refusing to write README files: rerun with "
+            "`--sync-readmes --readme-edit-permission` only after express "
+            "README-edit permission in the current task"
+        )
+        return 2
 
     records = paper_records(include_untracked=args.include_untracked)
     aggregate = aggregate_payload(records)

@@ -126,7 +126,8 @@ For public-safe paths, prefer the latest semantically valid artifact:
   public/private boundary. Regenerate them in the destination checkout.
   `README.md` files are human-owned prose; do not copy, regenerate, migrate, or
   edit any README unless the user gives express README-edit permission in the
-  current task.
+  current task. If README regeneration is explicitly requested, use
+  `scripts/sync_paper_status.py --sync-readmes --readme-edit-permission`.
 
 ## Source Artifacts
 

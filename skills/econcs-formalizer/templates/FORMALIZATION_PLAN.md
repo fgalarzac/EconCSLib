@@ -86,7 +86,8 @@ source risks, and reusable-library choices before opening Lean files.
 - [ ] Replace paper scaffold with source-facing Lean definitions and rows.
 - [ ] Prove all rows marked in-scope, or downgrade them with an explicit
       boundary note.
-- [ ] Update README, status, DAG, and validation report from the same row list.
+- [ ] Update status, DAG, and validation report from the same row list.
+      Update README prose only with express README-edit permission.
 - [ ] Run build, audits, placeholder/provenance checks, and DAG validation.
 - [ ] Record any unresolved source bug, assumption, or library debt.
 

@@ -127,8 +127,9 @@ Completed papers should also have:
   `papers/status.json`, the compact human-facing `papers/human_status.json`,
   `docs/PAPER_STATUS.md`, and the `site/index.html` status table. Do not
   hand-edit those generated status files or rows. README files are not refreshed
-  by default; use `--sync-readmes` only after express README-edit permission in
-  the current task. No README is a generated status surface by default.
+  by default; use `--sync-readmes --readme-edit-permission` only after express
+  README-edit permission in the current task. No README is a generated status
+  surface by default.
   The sync script defaults to tracked paper status files so local draft
   scaffolds do not pollute CI-facing generated tables; pass
   `--include-untracked` only when intentionally syncing a new untracked paper

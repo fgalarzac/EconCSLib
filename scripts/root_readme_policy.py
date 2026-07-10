@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Keep generators away from the hand-written root README.
 
-Human edits to README.md are allowed directly. This policy only blocks generated
-README outputs and generated-block markers; agent-facing documentation still
-requires express user instructions in the current task before an LLM edits any
-README file.
+Human edits to README.md are allowed directly. This module intentionally does
+not inspect README prose. It only blocks generator output maps that would write
+the root README; agent-facing documentation still requires express user
+instructions in the current task before an LLM edits any README file.
 """
 
 from __future__ import annotations
@@ -17,12 +17,6 @@ from typing import Iterable
 ROOT = Path(__file__).resolve().parents[1]
 ROOT_README = ROOT / "README.md"
 
-GENERATED_MARKERS = (
-    "<!-- BEGIN GENERATED",
-    "<!-- END GENERATED",
-)
-
-
 def root_relative(path: Path) -> str:
     try:
         return str(path.relative_to(ROOT))
@@ -31,20 +25,13 @@ def root_relative(path: Path) -> str:
 
 
 def validate_root_readme() -> list[str]:
-    """Return policy violations for generated root README edits."""
+    """Return policy violations for the non-content README policy.
 
-    messages: list[str] = []
-    if not ROOT_README.exists():
-        return [f"{root_relative(ROOT_README)} is missing"]
+    Kept for backward compatibility with older CI commands. Human README edits
+    should not make CLI checks fail, so content validation is deliberately empty.
+    """
 
-    text = ROOT_README.read_text(encoding="utf-8")
-    for marker in GENERATED_MARKERS:
-        if marker in text:
-            messages.append(
-                f"{root_relative(ROOT_README)} contains generated-output marker `{marker}`"
-            )
-
-    return messages
+    return []
 
 
 def assert_root_readme_policy() -> None:
@@ -88,7 +75,7 @@ def main() -> int:
         for message in messages:
             print(f"- {message}")
         return 1
-    print("root README policy passed")
+    print("root README policy passed; README prose was not inspected")
     return 0
 
 

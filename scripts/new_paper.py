@@ -4,7 +4,9 @@
 The script performs the deterministic intake step for a new source paper:
 create the citation-specific folder, cache the source PDF when possible,
 extract a text cache with `pdftotext` when available, and write the required
-README/DAG/MainTheorems/PaperInterface/status/formalization-plan/.gitignore files.
+DAG/MainTheorems/PaperInterface/status/formalization-plan/.gitignore files.
+It does not create or update README files; those are human-owned prose unless
+the current task gives express README-edit permission.
 """
 
 from __future__ import annotations
@@ -124,6 +126,10 @@ def extract_text(pdf: Path, txt: Path, force: bool) -> None:
 
 
 def readme_text(args: argparse.Namespace, folder: str) -> str:
+    raise RuntimeError(
+        "new_paper.py does not generate README files; README edits require "
+        "express README-edit permission in the current task"
+    )
     title = args.title or "[Paper Title]"
     authors = args.authors or "[Authors]"
     version = args.version or "[Conference/Journal/arXiv version]"
@@ -630,7 +636,7 @@ def dag_text() -> str:
 
 \dagPaperMetadata{[Paper Title]}{[Authors]}{[Publication Venue]}{[Year]}{[Formalized PDF link]}
 
-% --- Legend: README status vocabulary plus formalized node-type styles. ---
+% --- Legend: status vocabulary plus formalized node-type styles. ---
 \dagPaperLegendRightOfMetadata{
 \node[dag_result, dag_template_legend] (legRes) at (0,0) {formalized\\result};
 \node[dag_lemma, dag_template_legend] (legLem) at (4.2,0) {formalized\\lemma};
@@ -657,7 +663,7 @@ def dag_text() -> str:
   (B.west)` and increase spacing if the arrowhead visually merges with a node.
   After every layout change, render and inspect the PDF; if anything overlaps,
   increase row or column spacing before adding complicated curves. Once the
-  initial named-result map is complete, prefer README-status style updates over
+  initial named-result map is complete, prefer status/DAG updates over
   adding new boxes or arrows.
 };
 
@@ -891,9 +897,10 @@ This is a lightweight handoff document for source-to-Lean mapping.
 
 ## Formalization checklist
 
-- [ ] Full named-result inventory copied to the README theorem table.
+- [ ] Full named-result inventory represented in PaperInterface/status rows
+      and the dependency DAG.
 - [ ] DAG graph includes all required paper-stage nodes and dependencies.
-- [ ] README status and remaining-assumption notes match proof artifacts.
+- [ ] Status rows, remaining-assumption notes, and proof artifacts agree.
 - [ ] Post-formalization library elevation pass completed: reusable proof
       results, techniques, and primitives were moved into `EconCSLib` when
       local/low-risk, or recorded with destination modules in the final report.
@@ -981,7 +988,8 @@ useful; it is not the final validation report.
 - [ ] Replace paper scaffold with source-facing Lean definitions and rows.
 - [ ] Prove all rows marked in-scope, or downgrade them with an explicit
       boundary note.
-- [ ] Update README, status, DAG, and validation report from the same row list.
+- [ ] Update status, DAG, and validation report from the same row list.
+      Update README prose only with express README-edit permission.
 - [ ] Run build, audits, placeholder/provenance checks, and DAG validation.
 - [ ] Record any unresolved source bug, assumption, or library debt.
 
@@ -1132,8 +1140,8 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("url", help="paper URL; arXiv abs URLs are converted to PDF URLs")
     parser.add_argument("--folder", help="citation-style folder name, e.g. ABC24ShortTitle")
-    parser.add_argument("--title", help="paper title for README and theorem ledger")
-    parser.add_argument("--authors", help="paper authors for README")
+    parser.add_argument("--title", help="paper title for status and theorem ledger")
+    parser.add_argument("--authors", help="paper authors for status metadata")
     parser.add_argument("--version", help="source version, conference, journal, or arXiv version")
     parser.add_argument("--official-url", help="canonical paper URL if different from input URL")
     parser.add_argument("--pdf-url", help="direct PDF URL if different from input URL")
