@@ -1,0 +1,315 @@
+{
+  "credited_entries_sha256": "194a18312d8ac3e330900f708d1a729a1f635c0825394270cf29eda2758ca8b9",
+  "engine": {
+    "id": "legacy-v10-semantic-material-trust-ledger",
+    "schema": 1,
+    "sha256": "3269f7f81ee79fc7e19bfa264469f5ff67da026e0ad2e01bb421e97b4db692a8",
+    "source_paths": [
+      "scripts/formalization_protocol.py",
+      "scripts/source_coverage_scope.py",
+      "scripts/theorem_realization_transition.py",
+      "scripts/legacy_v10_trust_ledger.py"
+    ]
+  },
+  "entries": [
+    {
+      "component_sha256s": {
+        "audit_authority_identity": "b73a6ff1da3af76392d697c49ebc86ad5ceb293597af666fd49057f7a9a1ccc1",
+        "formalization_scope_semantic_identity": "3f35ded4fe31fe57cc9253368e2d681e9968da64b331330a6b7f1b80a681c292",
+        "governing_correction_semantic_sha256s": "ea80df781846e0f4aed151019d0da4fa8420c3af159452aef6e5c2468df77a4e",
+        "lean_owned_dependency_and_artifact_context": "aceea60ea7731199ccf8da993d52ce666dd3c7f81cfddd78166273afa7b0c097",
+        "selected_source_item_semantic_sha256s": "850823708f0a882b9b3e325ea30ba1eedb2adee44974c5354f56d6eb69a3c229",
+        "source_record_semantic_identity": "a2b8bda5205d1696f426c23271cf1393f09493843b6f27212f898bced6141d43",
+        "statement_semantic_identities": "87010c5d458c47986ea897f2099d9e4dd13daed87587b25246e7ba78fe8f7935"
+      },
+      "entry_identity_sha256": "14306c2cdd45d1c3bb43231c1497c79a15b249161f225e3687e98353e09ea936",
+      "lookup_identity_sha256": "241933f5417cbc6132d15930a1bd2b425e83ae46a0135d8a847f8019c1068807",
+      "material_identity_sha256": "b9a5b32ff7e307089372a04b505cdc001483bac66e05c49e4ed74a69ed7cd44c",
+      "navigation": {
+        "folder": "papers/Roth82StableMatching",
+        "paper_id": "Roth82StableMatching",
+        "title": "The Economics of Matching: Stability and Incentives"
+      },
+      "schema": 1
+    },
+    {
+      "component_sha256s": {
+        "audit_authority_identity": "b73a6ff1da3af76392d697c49ebc86ad5ceb293597af666fd49057f7a9a1ccc1",
+        "formalization_scope_semantic_identity": "3f35ded4fe31fe57cc9253368e2d681e9968da64b331330a6b7f1b80a681c292",
+        "governing_correction_semantic_sha256s": "ea80df781846e0f4aed151019d0da4fa8420c3af159452aef6e5c2468df77a4e",
+        "lean_owned_dependency_and_artifact_context": "aceea60ea7731199ccf8da993d52ce666dd3c7f81cfddd78166273afa7b0c097",
+        "selected_source_item_semantic_sha256s": "926aa84f0d1a48c28b861cb923ba3868201a14ea489884280cfc3aab497223a3",
+        "source_record_semantic_identity": "b129f0e588b6210dee8e9fe17947504aaa773278701b26d3634236d655c9d058",
+        "statement_semantic_identities": "ffd3f77830f86244401795aecde4547b19cdce111fd332564fc8f251bbd6ba4d"
+      },
+      "entry_identity_sha256": "1db62baa064912bc8909b2fd76dfef6e5700426f4ea475a5f6d07d50aa5a6433",
+      "lookup_identity_sha256": "f5281f8ab2dbb88b284431283142cd084406b393adb8ce6263659cf6fdc598c0",
+      "material_identity_sha256": "2f47c2cb4eafbd7bd68618adc35d04939d8fa02bda7409b2e693b2b0c6e9d7a2",
+      "navigation": {
+        "folder": "papers/GJ19OptimalBinaryRatingSystems",
+        "paper_id": "GJ19OptimalBinaryRatingSystems",
+        "title": "Designing Optimal Binary Rating Systems"
+      },
+      "schema": 1
+    },
+    {
+      "component_sha256s": {
+        "audit_authority_identity": "b73a6ff1da3af76392d697c49ebc86ad5ceb293597af666fd49057f7a9a1ccc1",
+        "formalization_scope_semantic_identity": "3f35ded4fe31fe57cc9253368e2d681e9968da64b331330a6b7f1b80a681c292",
+        "governing_correction_semantic_sha256s": "ea80df781846e0f4aed151019d0da4fa8420c3af159452aef6e5c2468df77a4e",
+        "lean_owned_dependency_and_artifact_context": "aceea60ea7731199ccf8da993d52ce666dd3c7f81cfddd78166273afa7b0c097",
+        "selected_source_item_semantic_sha256s": "170c7558a84290a15255ac192129f8c522b7cf8eef3f89a48bc7c4d6ae6c77d8",
+        "source_record_semantic_identity": "6ba0342f96179d6608d8ec42f01d0cf32cf9d5fc83425d3f38614056aff6f16d",
+        "statement_semantic_identities": "727e98a45461ede7846cc69ddde6866760a9de7e2234a7e9e7bedc2590007590"
+      },
+      "entry_identity_sha256": "230a0ce5a286c13909e0b75cdc8ef1bb7a91aa646c679b93daa6ef56c95ce86e",
+      "lookup_identity_sha256": "cf9596700856d0bf82ac540751b959df8adb99482e959fab905531b5ae22a2f1",
+      "material_identity_sha256": "59ce7a5b87a0adff65ae979762320cad354c7c9745b21d9f8e6a35c439a562aa",
+      "navigation": {
+        "folder": "papers/EOS07GSP",
+        "paper_id": "EOS07GSP",
+        "title": "Internet Advertising and the Generalized Second-Price Auction"
+      },
+      "schema": 1
+    },
+    {
+      "component_sha256s": {
+        "audit_authority_identity": "9ce363ed1c90b24f15b24cfdfd5d17dfde9651cdae958b97992402286e9d3e15",
+        "formalization_scope_semantic_identity": "3f35ded4fe31fe57cc9253368e2d681e9968da64b331330a6b7f1b80a681c292",
+        "governing_correction_semantic_sha256s": "ea80df781846e0f4aed151019d0da4fa8420c3af159452aef6e5c2468df77a4e",
+        "lean_owned_dependency_and_artifact_context": "b207eb561c34b746ef0076c5e5110706d919ff66254f8a96e7127ccf51cc94fe",
+        "selected_source_item_semantic_sha256s": "7ae978b8171bbac13034e98491a27631dc6489b04da458d595184709a9f3d44a",
+        "source_record_semantic_identity": "368575be73a3ebee6553c5bcf3152630991fed9e169f30540d003cd13fd384fd",
+        "statement_semantic_identities": "d85724ae1c465cb323509b878b32cde87ca2e3ee0f1035d9a190464f66b4588c"
+      },
+      "entry_identity_sha256": "37a4067b9514c72fca1894f08afc12db3c722417dddab621cf052d136952cba5",
+      "lookup_identity_sha256": "0dbcbe63d96d51d4f1d701bf05aa9986c863c1b2c6bfcf75a5d0e57e858ca37a",
+      "material_identity_sha256": "71297aac1fa5c2a87ddd9b983cf00dc934d4a541909a49f90dc91ce4136dace4",
+      "navigation": {
+        "folder": "papers/GHW01DigitalGoods",
+        "paper_id": "GHW01DigitalGoods",
+        "title": "Competitive Auctions and Digital Goods"
+      },
+      "schema": 1
+    },
+    {
+      "component_sha256s": {
+        "audit_authority_identity": "40a1bdbfea8297e7af12add640ed48ca5db7f43a3abead0e9c1a3db88b8148ba",
+        "formalization_scope_semantic_identity": "3f35ded4fe31fe57cc9253368e2d681e9968da64b331330a6b7f1b80a681c292",
+        "governing_correction_semantic_sha256s": "ea80df781846e0f4aed151019d0da4fa8420c3af159452aef6e5c2468df77a4e",
+        "lean_owned_dependency_and_artifact_context": "71ffb3e181574246ac0e5fc7636e96a5e40c25752f4b44b82149fd3d2924f727",
+        "selected_source_item_semantic_sha256s": "ceeb9628f4826d7e9b1e5ceefc07110a7013a2eaf8fceea467a3acf648c8de59",
+        "source_record_semantic_identity": "ae8e3be31639330c9769c141ff331f05316bd13d1975bf5a89273baab9302469",
+        "statement_semantic_identities": "c698c37ef0600f1637e9a9b1d773478a8a851b3835842a41cc70b858a3bc08b6"
+      },
+      "entry_identity_sha256": "59480caca0f0b1d507835b58be9b69a8f1a934eebe8eaaa6dfc4699e62b3455a",
+      "lookup_identity_sha256": "252a9a51640c82969ec674b761faf075b24b4c4a96d163ff2c5267f0a426c62e",
+      "material_identity_sha256": "dc410c552ea8a3b97d0a4c7ec15417621682755d10d0e2fa8a285b8b7e63181f",
+      "navigation": {
+        "folder": "papers/GGRS26CombattingGerrymanderingRCV",
+        "paper_id": "GGRS26CombattingGerrymanderingRCV",
+        "title": "Combatting Gerrymandering with Ranked Choice Voting: an Experimental Analysis of Multi-member Districts in the United States"
+      },
+      "schema": 1
+    },
+    {
+      "component_sha256s": {
+        "audit_authority_identity": "ae9d8022cd67a9d6b7b5afc898a0a54f188f5011414f0f7c65908348f1683b8e",
+        "formalization_scope_semantic_identity": "3f35ded4fe31fe57cc9253368e2d681e9968da64b331330a6b7f1b80a681c292",
+        "governing_correction_semantic_sha256s": "ea80df781846e0f4aed151019d0da4fa8420c3af159452aef6e5c2468df77a4e",
+        "lean_owned_dependency_and_artifact_context": "aceea60ea7731199ccf8da993d52ce666dd3c7f81cfddd78166273afa7b0c097",
+        "selected_source_item_semantic_sha256s": "fe7e2755d3dc255359541e58d43a11c46111b55b05c6715c7dece30493b3296c",
+        "source_record_semantic_identity": "35f6e20cb4c01294a0308f13bd76934dcd03f0bdbafe1395c7bd051990eafb8f",
+        "statement_semantic_identities": "37e84b4860796d62c6e636dacc3b2ae11f0252dc74b0db77012a932a2dd649f0"
+      },
+      "entry_identity_sha256": "5fabcf4559385b399cf6a5ee735522b5fafc01d363a2454200765177f5ac84fa",
+      "lookup_identity_sha256": "830d41ed7527dcc5ad3966c58e348e6133d4634a9903983ebd31e862f6a5cffc",
+      "material_identity_sha256": "3eea3957e1df74585d3d0c315bc8eb76e987a192a8a28984ff081d0f9fe77cc2",
+      "navigation": {
+        "folder": "papers/PKG25NoFreeLunch",
+        "paper_id": "PKG25NoFreeLunch",
+        "title": "A No Free Lunch Theorem for Human-AI Collaboration"
+      },
+      "schema": 1
+    },
+    {
+      "component_sha256s": {
+        "audit_authority_identity": "b73a6ff1da3af76392d697c49ebc86ad5ceb293597af666fd49057f7a9a1ccc1",
+        "formalization_scope_semantic_identity": "3f35ded4fe31fe57cc9253368e2d681e9968da64b331330a6b7f1b80a681c292",
+        "governing_correction_semantic_sha256s": "ea80df781846e0f4aed151019d0da4fa8420c3af159452aef6e5c2468df77a4e",
+        "lean_owned_dependency_and_artifact_context": "aceea60ea7731199ccf8da993d52ce666dd3c7f81cfddd78166273afa7b0c097",
+        "selected_source_item_semantic_sha256s": "86e7e5ed1f787baa3b3043ebbfd43b690d432d742bdee55b46f9b722918ec169",
+        "source_record_semantic_identity": "55368170a625ee88e75764bf5f817e7be1f18889e3a73ebb34b01381fcba5952",
+        "statement_semantic_identities": "fb0ec33ae98426e9042f164c19e5e2283aa8119b34337ac51af5f71edeaa0e37"
+      },
+      "entry_identity_sha256": "6f44534a89bca295b191dfb59a2c46c467d719b281977ad8114e131d93dd62dc",
+      "lookup_identity_sha256": "17815adb90cdc5d78a24f36546bfd95154ba306e062692a3a42fb121e01b795c",
+      "material_identity_sha256": "fe8ae11d49711f931cb186c3420a607485d969875657d0893c4cbbce362f7664",
+      "navigation": {
+        "folder": "papers/MBJG25ProducerFairness",
+        "paper_id": "MBJG25ProducerFairness",
+        "title": "Balancing Producer Fairness and Efficiency via Prior-Weighted Rating System Design"
+      },
+      "schema": 1
+    },
+    {
+      "component_sha256s": {
+        "audit_authority_identity": "55b4b3a41d8fdd8bce3c5f7d345341393b14adb5e7fcb3931e89e7cd36656ff4",
+        "formalization_scope_semantic_identity": "3f35ded4fe31fe57cc9253368e2d681e9968da64b331330a6b7f1b80a681c292",
+        "governing_correction_semantic_sha256s": "ea80df781846e0f4aed151019d0da4fa8420c3af159452aef6e5c2468df77a4e",
+        "lean_owned_dependency_and_artifact_context": "2e0b70ce3d79fb7560a4ba98d7e298ad06c3793dfb5dc57002dd3ba35bb6a3d7",
+        "selected_source_item_semantic_sha256s": "9d78287eea07f7f0c241112c73b8ec0b3492107ac2ce46f0bdf595c58127100f",
+        "source_record_semantic_identity": "25634155a7e032629b08b2db306b9ea8474b7d11cb0d681f21e2e665f5047d7a",
+        "statement_semantic_identities": "65c4a8c6c7bb1643380284331758867a72148be35738bea635e055f336b6513c"
+      },
+      "entry_identity_sha256": "835814a04d0df76c057ef1a4fe01f96a7afecf822bd24b061dc3e1ec57ce0c3f",
+      "lookup_identity_sha256": "ac7786cbcdf6d666b592331f5487979d93befca3a3f5eeec22e7b8a40f600bf1",
+      "material_identity_sha256": "e5a939f38a7ff5975604a2cec3c034e6a96bfd31c794d8538bbd21416a1017b1",
+      "navigation": {
+        "folder": "papers/KR21Monoculture",
+        "paper_id": "KR21Monoculture",
+        "title": "Algorithmic Monoculture and Social Welfare"
+      },
+      "schema": 1
+    },
+    {
+      "component_sha256s": {
+        "audit_authority_identity": "29517352d6c357cc5508b739fa6a88eef7596ab81e33e1927ec8b0f67c94954d",
+        "formalization_scope_semantic_identity": "3f35ded4fe31fe57cc9253368e2d681e9968da64b331330a6b7f1b80a681c292",
+        "governing_correction_semantic_sha256s": "ea80df781846e0f4aed151019d0da4fa8420c3af159452aef6e5c2468df77a4e",
+        "lean_owned_dependency_and_artifact_context": "aceea60ea7731199ccf8da993d52ce666dd3c7f81cfddd78166273afa7b0c097",
+        "selected_source_item_semantic_sha256s": "1847a9bade772e675f38f1743ece4c49289f9327a6d06d55d1c530b0d2d01c2c",
+        "source_record_semantic_identity": "61d1ea1be8ffb25cf52c474ca7fc1b2bed0bdce882b3cdd8e7d092eb9356c856",
+        "statement_semantic_identities": "5c3a6774adfaba5a4b53f225b931c816cf1559dcd84b09aba75f1abacb530905"
+      },
+      "entry_identity_sha256": "859ae37c53fcae3b06204c138be5cb4f01b4d889b38d6b1b96ef8fffd2b63149",
+      "lookup_identity_sha256": "f796b2ecb3f81f682c231ee11099c144faa733f52dc838059ec5e95df54e06f6",
+      "material_identity_sha256": "3a7600aa61fbf1376dea6f6dc220855a56e24ae620dd11741ebec14d7809d43e",
+      "navigation": {
+        "folder": "papers/MSVV07AdWords",
+        "paper_id": "MSVV07AdWords",
+        "title": "AdWords and Generalized Online Matching"
+      },
+      "schema": 1
+    },
+    {
+      "component_sha256s": {
+        "audit_authority_identity": "4bdca594039c9ceca82f526445bb58daaa7096e3921431c238e725cd70cc02ed",
+        "formalization_scope_semantic_identity": "3f35ded4fe31fe57cc9253368e2d681e9968da64b331330a6b7f1b80a681c292",
+        "governing_correction_semantic_sha256s": "ea80df781846e0f4aed151019d0da4fa8420c3af159452aef6e5c2468df77a4e",
+        "lean_owned_dependency_and_artifact_context": "a69787254db70f8c3cc228ccde0191bb9277d69e6ad331c27b8ee6804ef52d47",
+        "selected_source_item_semantic_sha256s": "bb81ba1a71dd584be3db2a302769554bff889eccc3d3964be0817b01101f8939",
+        "source_record_semantic_identity": "7d528deca1daaee3b8841b087ca2680a5cad7b0bdbac7434c6ec79b14e12456e",
+        "statement_semantic_identities": "1136877f35d6f76eaaca0bb16f164543f9754f5a6490f3b05704be05136eb376"
+      },
+      "entry_identity_sha256": "9e75b51970946efcf3d8d544db798b30f4b9cd18627fb092f5911939331197c9",
+      "lookup_identity_sha256": "7b26f35d9035ae4ee4e62b8c0d7e6150767fb4e2313f34f5ad1107af0c6eaff3",
+      "material_identity_sha256": "b362423eaaa8696a35f81e7440913547269f23116d3625248ea730ad2f202d7c",
+      "navigation": {
+        "folder": "papers/GCG24UserItemFairness",
+        "paper_id": "GCG24UserItemFairness",
+        "title": "User-item fairness tradeoffs in recommendations"
+      },
+      "schema": 1
+    },
+    {
+      "component_sha256s": {
+        "audit_authority_identity": "c1618b1d82190a606b5fb6874058c4158d9e61034ed883910e1540d6db7d66a4",
+        "formalization_scope_semantic_identity": "3f35ded4fe31fe57cc9253368e2d681e9968da64b331330a6b7f1b80a681c292",
+        "governing_correction_semantic_sha256s": "ea80df781846e0f4aed151019d0da4fa8420c3af159452aef6e5c2468df77a4e",
+        "lean_owned_dependency_and_artifact_context": "aceea60ea7731199ccf8da993d52ce666dd3c7f81cfddd78166273afa7b0c097",
+        "selected_source_item_semantic_sha256s": "82dad8418aa5141998309b9cab84a3d942d078d8dd994b3ca13b2ae6e9c535f1",
+        "source_record_semantic_identity": "5a3fea95ea247e3d44a6d024ec8c7f22fe127d2e4581b51bd16349b6145660f2",
+        "statement_semantic_identities": "e2d1208dad06ccf3409b6f3b44e8a55c2359434c501f93950733a9448456f652"
+      },
+      "entry_identity_sha256": "a2c0758c30362ed2acdcecfd80059b9fffb3ee867e63e2f477dd1b6aededec98",
+      "lookup_identity_sha256": "8cadd53aa2e29731d1ff9a7b9fa7079c14d8729b600f7c651dec590b8d368cb9",
+      "material_identity_sha256": "aefbc979629f5fe62ba13aac318fa5d0ecf7d87d9301b27fd111088037006169",
+      "navigation": {
+        "folder": "papers/GGSG19TopThree",
+        "paper_id": "GGSG19TopThree",
+        "title": "Who is in Your Top Three? Optimizing Learning in Elections with Many Candidates"
+      },
+      "schema": 1
+    },
+    {
+      "component_sha256s": {
+        "audit_authority_identity": "b73a6ff1da3af76392d697c49ebc86ad5ceb293597af666fd49057f7a9a1ccc1",
+        "formalization_scope_semantic_identity": "3f35ded4fe31fe57cc9253368e2d681e9968da64b331330a6b7f1b80a681c292",
+        "governing_correction_semantic_sha256s": "ea80df781846e0f4aed151019d0da4fa8420c3af159452aef6e5c2468df77a4e",
+        "lean_owned_dependency_and_artifact_context": "aceea60ea7731199ccf8da993d52ce666dd3c7f81cfddd78166273afa7b0c097",
+        "selected_source_item_semantic_sha256s": "574e97a21b8bf7be950eca33010edfd2105c1f8e9aa4f2d482cea78310d7406b",
+        "source_record_semantic_identity": "b62860e70ddf337e5fa49abcdee51752f3996611eb601bfb524fe49c77942b4f",
+        "statement_semantic_identities": "b39b474e62480adccb3c3097413ff653bc7e8c658e07bacb3381f468c31560b0"
+      },
+      "entry_identity_sha256": "aa7a0d4474b6e1840d7c76497c283969d1ca86d97f5065474d7752c54dc6a3c4",
+      "lookup_identity_sha256": "d0b78bd98e060dc2d6029dccfe849e2ad62a44ac981f7050eb28fc3d7bf58ac5",
+      "material_identity_sha256": "7e644e3f858d5ef80544c5b253b20a4939e7b104f84e45fc8311ff9721969244",
+      "navigation": {
+        "folder": "papers/DGD26AdmissionsPredictability",
+        "paper_id": "DGD26AdmissionsPredictability",
+        "title": "Capacity Constraints Make Admissions Processes Less Predictable"
+      },
+      "schema": 1
+    },
+    {
+      "component_sha256s": {
+        "audit_authority_identity": "c1618b1d82190a606b5fb6874058c4158d9e61034ed883910e1540d6db7d66a4",
+        "formalization_scope_semantic_identity": "3f35ded4fe31fe57cc9253368e2d681e9968da64b331330a6b7f1b80a681c292",
+        "governing_correction_semantic_sha256s": "ea80df781846e0f4aed151019d0da4fa8420c3af159452aef6e5c2468df77a4e",
+        "lean_owned_dependency_and_artifact_context": "aceea60ea7731199ccf8da993d52ce666dd3c7f81cfddd78166273afa7b0c097",
+        "selected_source_item_semantic_sha256s": "7eec68705dfb3506f29214889cac4bf87a089a55cc6652b09b7a8f7db9e79900",
+        "source_record_semantic_identity": "1171fff18f16d975c00477ce57c90a4a36323f5ad7c79e72263260275ec07826",
+        "statement_semantic_identities": "4c18f450c3b7609ef4d0cc7d02d4f6c4d98b9894372f3f4c25e1be886776da93"
+      },
+      "entry_identity_sha256": "b2a1ba3686f61d9fffb322a93c875a8bc237c02ed6f502752a2a4f7d5f76f875",
+      "lookup_identity_sha256": "1a3fb4b08e4595f2bb068db0d8bae9e8a58c7c87d888c78c0b0585e538db74d5",
+      "material_identity_sha256": "4fe5fe8a7b4352fdbc2a2e0ad58cdad16dd2379461bf2fbe09e22cafc153f35f",
+      "navigation": {
+        "folder": "papers/DSWG24DiscretizationBias",
+        "paper_id": "DSWG24DiscretizationBias",
+        "title": "Addressing Discretization-Induced Bias in Demographic Prediction"
+      },
+      "schema": 1
+    },
+    {
+      "component_sha256s": {
+        "audit_authority_identity": "56fbd884b51a49bb2de4f68b1d21fc1da23d66e6fc27abe6c1ce07388f31d0bc",
+        "formalization_scope_semantic_identity": "2475b8c03a18e7816dc6226a09de8e12176927cd5b36b510219c20302194a281",
+        "governing_correction_semantic_sha256s": "080dad6678834af92c55b187be70049c0ed9f1abe5d74e812bf090b6dd0ed68a",
+        "lean_owned_dependency_and_artifact_context": "4bfbbc21502dd9da79c764259ea5f5c5f62068142a82ba041c17931754016809",
+        "selected_source_item_semantic_sha256s": "95afdf65d54354ccb8bf7a57e04dfbea63b2f60533defa1dd1a471e0d07a68b2",
+        "source_record_semantic_identity": "1f6620e12f1a530d1da237b190586ad5d1ed045b2abcb6bf31a3eb322c23abe4",
+        "statement_semantic_identities": "648f8f455a87accacbde5cb03b5ff8e751dc94b2b11c7438f0a8b24bd68b6ef1"
+      },
+      "entry_identity_sha256": "c1b45dc50c054cb49ba4f342aaf10f8a640a2757b13605b39474a5e663b3b3ac",
+      "lookup_identity_sha256": "07c932e7ed1588c7b603442b8e53e42146c57a3d56bf60c09b699fdcda893227",
+      "material_identity_sha256": "4f4ab1a195555312c940c46ab785ee1c55b03ab2c636d167a82cf6f8521c1532",
+      "navigation": {
+        "folder": "papers/GJ18InformativeRatingSystems",
+        "paper_id": "GJ18InformativeRatingSystems",
+        "title": "Designing Informative Rating Systems: Evidence from an Online Labor Market"
+      },
+      "schema": 1
+    }
+  ],
+  "formalization_material_protocol_sha256": "09fda6508b3941d8e786d498ba61571f2271ed5869a008bd03efc1a12b6cc03a",
+  "generated_aggregate_exclusions": [
+    "papers/status.json",
+    "papers/human_status.json",
+    "docs/PAPER_STATUS.md",
+    "site/index.html"
+  ],
+  "identity_excludes_configured_manifest": true,
+  "identity_input_paths": [
+    "status.json",
+    "audit/paper_statement_map.json",
+    "audit/statement_match_llm.json",
+    "audit/source_record_audit.json",
+    "audit/source_proof_fidelity.json"
+  ],
+  "manifest_id": "legacy-v10-semantic-material-identities",
+  "material_identity_schema": 2,
+  "schema": 1,
+  "selected_entry_count": 14
+}

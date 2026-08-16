@@ -1,6 +1,7 @@
 {
   "schema": 1,
   "id": "MBJG25ProducerFairness",
+  "repository_visibility": "public",
   "title": "Balancing Producer Fairness and Efficiency via Prior-Weighted Rating System Design",
   "authors": "Thomas Ma, Michael S. Bernstein, Ramesh Johari, and Nikhil Garg",
   "source_version": "ICWSM 2025 / arXiv:2207.04369",
@@ -10,18 +11,18 @@
   "human_summary": "Strict variance decrease is formalized with the explicit interior-quality assumption 0 < q_v < 1.",
   "review_entrypoint": "papers/MBJG25ProducerFairness/FINAL_VALIDATION_REPORT.md",
   "human_review": {
-    "reviewed_rows": 10,
-    "total_rows": 27,
+    "reviewed_rows": 0,
+    "total_rows": 39,
     "stale_rows": 0,
     "mismatch_rows": 0,
-    "uncertain_rows": 2,
+    "uncertain_rows": 0,
     "source": "paper-local status.json review_surface; human entries come from dashboard logs"
   },
   "paper_interface": {
     "path": "papers/MBJG25ProducerFairness/PaperInterface.lean",
-    "line_count": 332,
-    "declaration_rows": 27,
-    "review_rows": 17,
+    "line_count": 584,
+    "declaration_rows": 39,
+    "review_rows": 28,
     "oversized": false,
     "maintainability_issue": null,
     "proof_interface_path": "papers/MBJG25ProducerFairness/ProofInterface.lean",
@@ -48,6 +49,7 @@
     "assumption_names": [
       "assumption_positive_prior_shape",
       "assumption_positive_time",
+      "assumption_positive_rating_count",
       "assumption_nonnegative_time",
       "assumption_quality_nonnegative",
       "assumption_quality_at_most_one",
@@ -58,10 +60,13 @@
       "assumption_prior_strength_strict_order"
     ],
     "include_names": [
+      "paper_posterior_rating",
       "paper_posterior_mean",
       "paper_bias",
       "paper_variance",
       "paper_squared_bias",
+      "paper_fixed_market_mse",
+      "paper_facing_fixed_mse_decomposition",
       "paper_facing_theorem3_1_variance_weak_decrease",
       "paper_facing_theorem3_1_variance_strict_decrease_interior",
       "paper_facing_theorem3_1_squared_bias_nondecreasing",
@@ -71,36 +76,78 @@
       "paper_facing_theorem3_2_variance_global_max_at_half",
       "paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_zero",
       "paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_one",
+      "paper_facing_selection_rate",
       "paper_facing_individual_producer_unfairness",
+      "paper_facing_marketplace_producer_unfairness",
       "paper_facing_thompson_sampling_mechanism",
       "paper_facing_expected_regret",
-      "paper_facing_responsive_mse_decomposition"
+      "paper_facing_responsive_mse_decomposition",
+      "paper_facing_eq20_bayesian_rating_equivalence",
+      "paper_ordinal_posterior_rating",
+      "paper_facing_eq21_zero_prior_comparison",
+      "paper_facing_k_sampling_mechanism",
+      "paper_facing_k_sampling_one_is_argmax",
+      "paper_facing_k_sampling_market_size_is_uniform"
     ],
     "slices": [
       {
-        "id": "all",
-        "title": "All source-facing review rows",
+        "id": "fixed_model",
+        "title": "Fixed-model formulas and named results",
         "names": [
+          "paper_posterior_rating",
           "paper_posterior_mean",
           "paper_bias",
           "paper_variance",
           "paper_squared_bias",
+          "paper_fixed_market_mse",
+          "paper_facing_fixed_mse_decomposition",
           "paper_facing_theorem3_1_variance_weak_decrease",
           "paper_facing_theorem3_1_variance_strict_decrease_interior",
           "paper_facing_theorem3_1_squared_bias_nondecreasing",
           "paper_facing_theorem3_2_squared_bias_convex_in_quality",
           "paper_facing_theorem3_2_squared_bias_global_min_at_prior_mean",
           "paper_facing_theorem3_2_variance_concave_in_quality",
-          "paper_facing_theorem3_2_variance_global_max_at_half",
+          "paper_facing_theorem3_2_variance_global_max_at_half"
+        ]
+      },
+      {
+        "id": "source_note",
+        "title": "Theorem 3.1 endpoint correction evidence",
+        "names": [
           "paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_zero",
-          "paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_one",
+          "paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_one"
+        ]
+      },
+      {
+        "id": "responsive_model",
+        "title": "Responsive-market metrics and Appendix C",
+        "names": [
+          "paper_facing_selection_rate",
           "paper_facing_individual_producer_unfairness",
+          "paper_facing_marketplace_producer_unfairness",
           "paper_facing_thompson_sampling_mechanism",
           "paper_facing_expected_regret",
           "paper_facing_responsive_mse_decomposition"
         ]
+      },
+      {
+        "id": "appendix_extensions",
+        "title": "Appendix D--F formulas and sampling variants",
+        "names": [
+          "paper_facing_eq20_bayesian_rating_equivalence",
+          "paper_ordinal_posterior_rating",
+          "paper_facing_eq21_zero_prior_comparison",
+          "paper_facing_k_sampling_mechanism",
+          "paper_facing_k_sampling_one_is_argmax",
+          "paper_facing_k_sampling_market_size_is_uniform"
+        ]
       }
-    ]
+    ],
+    "source_definition_names": [],
+    "source_proof_fidelity_review": {
+      "ledger_file": "papers/MBJG25ProducerFairness/audit/source_proof_fidelity.json",
+      "policy": "Minor printed formula/domain slips are formalized notes only when surrounding source semantics uniquely determine the correction and Lean checks the repaired target plus comparison evidence. Here Lean checks the strict-variance closed/interior split with both endpoint counterexamples, Equation 20 with the uniquely implied Beta(C,1-C) shape, and corrected Equation 21 with its printed zero-prior special case. A weaker unresolved target or a non-source theorem premise would instead require partial status."
+    }
   },
   "human_summary_review": {
     "status": "human_approved",

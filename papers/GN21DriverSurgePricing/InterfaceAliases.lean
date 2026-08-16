@@ -2,7 +2,7 @@ import GN21DriverSurgePricing.ProofInterface
 import GN21DriverSurgePricing.Lemma5Frontier
 import GN21DriverSurgePricing.Theorem4Frontier
 import GN21DriverSurgePricing.Theorem3Frontier
-import GN21DriverSurgePricing.Theorem2ExplicitInstance
+import GN21DriverSurgePricing.Theorem2ContinuousInstance
 
 /-!
 # Compatibility Aliases: Driver Surge Pricing
@@ -585,6 +585,31 @@ Theorem 2: the both-state explicit atomic instance refutes measured dynamic
 incentive compatibility for multiplicative pricing.
 -/
 abbrev theorem2_multiplicative_measured_not_ic_both_states_explicit_atomic := @paper_theorem2_multiplicative_measured_not_ic_both_states_explicit_atomic
+
+/--
+Theorem 2: explicit bounded-density continuous measured counterexample showing
+multiplicative pricing is not dynamically incentive compatible.
+-/
+abbrev theorem2_multiplicative_measured_not_ic_explicit_continuous :=
+  @paper_theorem2_multiplicative_measured_not_ic_both_states_explicit_continuous
+
+/--
+Theorem 2: one explicit continuous multiplicative-pricing instance has
+profitable positive-finite-cutoff deviations in both states.
+-/
+abbrev theorem2_multiplicative_measured_profitable_deviations_both_states_explicit_continuous :=
+  @paper_theorem2_multiplicative_measured_profitable_deviations_in_both_states_explicit_continuous
+
+/--
+Theorem 2: the continuous both-state witness, with its positive finite
+non-surge reject-long and surge reject-short cutoffs stated explicitly.
+-/
+abbrev theorem2_multiplicative_measured_profitable_positive_finite_cutoff_deviations_both_states_explicit_continuous :=
+  @paper_theorem2_multiplicative_measured_profitable_positive_finite_cutoff_deviations_in_both_states_explicit_continuous
+
+/-- The continuous both-state Theorem 2 instance refutes measured dynamic IC. -/
+abbrev theorem2_multiplicative_measured_not_ic_both_states_explicit_continuous :=
+  @paper_theorem2_multiplicative_measured_not_ic_both_states_explicit_continuous
 
 /-- Lemma 9: non-surge current constraint feasibility. -/
 abbrev lemma9_current_nonsurge_feasible := @lemma9_constraint_set_feasible_for_current_nonsurge

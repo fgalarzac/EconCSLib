@@ -1,9 +1,16 @@
 import KR21Monoculture.MallowsFiniteLemmas
 import KR21Monoculture.Theorem1
+import KR21Monoculture.Definition2AsymptoticBridge
 import KR21Monoculture.MallowsPairwise
 import KR21Monoculture.MallowsFamily
 import KR21Monoculture.Sequential
 import KR21Monoculture.RUM
+import KR21Monoculture.Distributional
+import KR21Monoculture.Theorem5Differentiability
+import KR21Monoculture.PlackettLuce
+import KR21Monoculture.Simulation
+import KR21Monoculture.AppendixB
+import KR21Monoculture.QuantitativeWitnesses
 
 open EconCSLib MeasureTheory
 open scoped ENNReal NNReal
@@ -12387,9 +12394,10 @@ structure PaperTheorem2RUMLimitBoundary (F : AccuracyFamily 1) : Type where
 Source-facing concentration boundary for the RUM route to Theorem 2.
 
 Compared with `PaperTheorem2RUMLimitBoundary`, this replaces the payoff-level
-eventual `g < f` field with the primitive finite-ranking facts that imply it:
-the human law puts positive mass on the swapped top-two ranking, and the
-algorithmic law converges atomwise to the deterministic true ranking.
+eventual `g < f` field with algorithmic atomwise concentration toward the
+deterministic true ranking.  The source Definition-2 premise is supplied to
+the bridge separately, so it is neither duplicated as a ranking-atom
+assumption nor hidden in the concentration boundary.
 -/
 structure PaperTheorem2RUMConcentrationBoundary
     (F : AccuracyFamily 1) (center : Ranking 1) : Type where
@@ -12397,8 +12405,6 @@ structure PaperTheorem2RUMConcentrationBoundary
     ∀ θ, 0 < θ →
       ∀ π : Ranking 1, EconCSLib.EpsilonContinuousAt
         (fun θ' => ((F.dist θ') π).toReal) θ
-  human_swapTopTwo_positive :
-    ∀ θ, 0 < θ → 0 < ((F.dist θ) (swapTopTwo center)).toReal
   algorithm_atomwise_concentration :
     ∀ lower δ, 0 < δ →
       ∃ hi, lower < hi ∧
@@ -12434,14 +12440,18 @@ consumed by the Theorem 1 crossing proof.
 noncomputable def paper_theorem2_rumLimitBoundary_of_concentrationBoundary
     {F : AccuracyFamily 1} {center : Ranking 1}
     (hvalue : StrictlyOrderedBy center F.value)
+    (hpref : ∀ θ, 0 < θ → Model.PrefersIndependentReranking (F.dist θ) F.value)
     (boundary : PaperTheorem2RUMConcentrationBoundary F center) :
     PaperTheorem2RUMLimitBoundary F where
   dist_atom_continuity := boundary.dist_atom_continuity
   asymptotic_first_dominance := by
     intro θH lower hθH hθH_lower
-    rcases AccuracyFamily.exists_atomwise_radius_first_dominance_near_pureCenter
+    have hpure :=
+      AccuracyFamily.expected_human_against_pureCenter_lt_pureCenter_payoff_of_prefersIndependent
         (F.dist θH) center F.value hvalue
-        (boundary.human_swapTopTwo_positive θH hθH) with
+        (hpref θH hθH)
+    rcases AccuracyFamily.exists_atomwise_radius_first_dominance_near_pureCenter_of_pure_gap
+        (F.dist θH) center F.value hpure with
       ⟨δ, hδ_pos, hδ⟩
     rcases boundary.algorithm_atomwise_concentration lower δ hδ_pos with
       ⟨hi, hlo_hi, hclose⟩
@@ -13178,12 +13188,6 @@ noncomputable def paper_theorem2_gaussianStd_concentrationBoundary_of_rum_source
     · filter_upwards [Ioi_mem_nhds hθ] with θ' hθ'
       rw [hdist θ' hθ']
     · rw [hdist θ hθ]
-  human_swapTopTwo_positive := by
-    intro θ hθ
-    rw [hdist θ hθ, swapTopTwo_refl_candidate1_eq_rum3Ranking102]
-    exact theorem8GaussianDefinition2RankingPMFStd_ranking102_toReal_pos
-      (σ := 1 / θ) (x1 := x1) (x2 := x2) (x3 := x3)
-      (one_div_pos.mpr hθ)
   algorithm_atomwise_concentration := by
     intro lower δ hδ
     rcases theorem8GaussianDefinition2RankingPMFStd_atomwise_concentration
@@ -13220,11 +13224,6 @@ noncomputable def paper_theorem2_laplacianCanonical_concentrationBoundary_of_rum
       rw [hdist θ' hθ']
       simp [hθ']
     · simp [hθ, hdist θ hθ]
-  human_swapTopTwo_positive := by
-    intro θ hθ
-    rw [hdist θ hθ, swapTopTwo_refl_candidate1_eq_rum3Ranking102]
-    exact theorem7LaplacianDefinition2RankingPMF_ranking102_toReal_pos
-      (lam := θ) (x1 := x1) (x2 := x2) (x3 := x3) hθ
   algorithm_atomwise_concentration := by
     intro lower δ hδ
     rcases theorem7LaplacianDefinition2RankingPMF_atomwise_concentration
@@ -13268,12 +13267,6 @@ noncomputable def paper_theorem2_laplacianRate_concentrationBoundary_of_rum_sour
             (lam θ) x1 x2 x3 (hlam_pos θ hθ)) :
     PaperTheorem2RUMConcentrationBoundary F (Equiv.refl (Candidate 1)) where
   dist_atom_continuity := hdist_atom_continuity
-  human_swapTopTwo_positive := by
-    intro θ hθ
-    rw [hdist θ hθ, swapTopTwo_refl_candidate1_eq_rum3Ranking102]
-    exact theorem7LaplacianDefinition2RankingPMF_ranking102_toReal_pos
-      (lam := lam θ) (x1 := x1) (x2 := x2) (x3 := x3)
-      (hlam_pos θ hθ)
   algorithm_atomwise_concentration := by
     intro lower δ hδ
     rcases theorem7LaplacianDefinition2RankingPMF_atomwise_concentration
@@ -13351,7 +13344,8 @@ noncomputable def paper_theorem2_laplacianRate_concentrationBoundary_of_continuo
 /--
 Paper Theorem 2, Gaussian RUM route to the final Theorem 1 conclusion, with
 the remaining analytic input stated as atomwise concentration toward the
-deterministic true ranking and positive swapped-ranking human mass.
+deterministic true ranking.  The source Definition-2 result supplies the
+strict limiting gap without a distinguished ranking atom.
 -/
 theorem paper_theorem2_gaussianStd_target_from_rum_concentration_boundary
     {F : AccuracyFamily 1} {θH x1 x2 x3 : ℝ}
@@ -13381,12 +13375,23 @@ theorem paper_theorem2_gaussianStd_target_from_rum_concentration_boundary
     (paper_theorem2_rumLimitBoundary_of_concentrationBoundary
       (strictlyOrderedBy_refl_threeCandidate_of_values
         hvalue1 hvalue2 hvalue3 hx12 hx23)
+      (fun θ hθ => by
+        rw [hdist θ hθ]
+        exact
+          MallowsComparison.paper_definition2_threeCandidate_gaussianStd_prefersIndependentReranking
+            (σ := 1 / θ) (x1 := x1) (x2 := x2) (x3 := x3)
+            (value := F.value)
+            (one_div_pos.mpr hθ)
+            (by rw [hvalue1, hvalue2]; exact hx12)
+            (by rw [hvalue2, hvalue3]; exact hx23)
+            hx12 hx23)
       boundary)
 
 /--
 Paper Theorem 2, Laplace RUM route to the final Theorem 1 conclusion, with the
 remaining analytic input stated as atomwise concentration toward the
-deterministic true ranking and positive swapped-ranking human mass.
+deterministic true ranking.  The source Definition-2 result supplies the
+strict limiting gap without a distinguished ranking atom.
 -/
 theorem paper_theorem2_laplacianRate_target_from_rum_concentration_boundary
     {F : AccuracyFamily 1} {θH x1 x2 x3 : ℝ}
@@ -13411,15 +13416,25 @@ theorem paper_theorem2_laplacianRate_target_from_rum_concentration_boundary
     (paper_theorem2_rumLimitBoundary_of_concentrationBoundary
       (strictlyOrderedBy_refl_threeCandidate_of_values
         hvalue1 hvalue2 hvalue3 hx12 hx23)
+      (fun θ hθ => by
+        rw [hdist θ hθ]
+        exact
+          MallowsComparison.paper_definition2_threeCandidate_laplacian_prefersIndependentReranking
+            (lam := lam θ) (x1 := x1) (x2 := x2) (x3 := x3)
+            (value := F.value)
+            (hlam_pos θ hθ)
+            (by rw [hvalue1, hvalue2]; exact hx12)
+            (by rw [hvalue2, hvalue3]; exact hx23)
+            hx12 hx23)
       boundary)
 
 /--
 Paper Theorem 2, Gaussian RUM route from the concrete source model.
 
 The source-model proof supplies Definition 2, Definition 3, finite-removal
-monotonicity, positive swapped-ranking mass, and high-accuracy atomwise
-concentration. Atomwise continuity of the finite ranking law is derived from
-the continuous Gaussian score source, rather than assumed.
+monotonicity, and high-accuracy atomwise concentration. Atomwise continuity
+of the finite ranking law is derived from the continuous Gaussian score source,
+rather than assumed.
 -/
 theorem paper_theorem2_gaussianStd_target_from_rum_source
     {F : AccuracyFamily 1} {θH x1 x2 x3 : ℝ}
@@ -13485,8 +13500,8 @@ Paper Theorem 2, canonical Laplace RUM route from the concrete source model.
 
 Here the paper accuracy parameter is the Laplace rate itself. The concrete
 source proof derives Definition 2, Definition 3, finite-removal monotonicity,
-positive swapped-ranking mass, high-accuracy concentration, and atomwise
-continuity of the finite ranking law.
+high-accuracy concentration, and atomwise continuity of the finite ranking
+law.
 -/
 theorem paper_theorem2_laplacianCanonical_target_from_rum_source
     {F : AccuracyFamily 1} {θH x1 x2 x3 : ℝ}
@@ -13512,10 +13527,10 @@ theorem paper_theorem2_laplacianCanonical_target_from_rum_source
 Paper Theorem 2, Laplace RUM route from the concrete source model.
 
 The source-model proof supplies Definition 2, Definition 3, finite-removal
-monotonicity, positive swapped-ranking mass, and high-accuracy atomwise
-concentration. The rate map is required to be positive, strictly increasing,
-and divergent; the remaining explicit paper-level hypothesis is atomwise
-continuity of the finite ranking law.
+monotonicity, and high-accuracy atomwise concentration. The rate map is
+required to be positive, strictly increasing, and divergent; the remaining
+explicit paper-level hypothesis is atomwise continuity of the finite ranking
+law.
 -/
 theorem paper_theorem2_laplacianRate_target_from_rum_source_and_atom_continuity
     {F : AccuracyFamily 1} {θH x1 x2 x3 : ℝ}

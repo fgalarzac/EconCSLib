@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "description": "Create a release-specific exact-file allowlist, then have the reviewer pin its exact SHA256 in the fixed external approval artifact. Directory entries are forbidden.",
+  "entries": [
+    {
+      "path": "papers/ExamplePublicPaper/PaperInterface.lean",
+      "kind": "file",
+      "provenance": "private_blob",
+      "source_commit": "0000000000000000000000000000000000000000",
+      "reason": "Replace with the reviewed private source commit and exact-file public-safety rationale.",
+      "public_safety_reviewed": false
+    },
+    {
+      "path": "lakefile.toml",
+      "kind": "file",
+      "provenance": "public_base_edit",
+      "public_base_blob_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "candidate_blob_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "reason": "Replace both digests with the exact reviewed before/after blob SHA256 values and explain the in-place public-only edit.",
+      "public_safety_reviewed": false
+    },
+    {
+      "path": "config/public-only-release-config.json",
+      "kind": "file",
+      "provenance": "public_base_addition",
+      "candidate_blob_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "reason": "Replace the digest with the exact reviewed candidate blob SHA256 and explain why this file is public-specific rather than a byte-identical private_blob export.",
+      "public_safety_reviewed": false
+    }
+  ]
+}

@@ -18,19 +18,22 @@
     "total_rows": 48
   },
   "id": "GCG24UserItemFairness",
+  "repository_visibility": "public",
   "main_caveat": "",
+  "human_summary": "",
   "paper_interface": {
-    "declaration_rows": 48,
-    "line_count": 399,
+    "declaration_rows": 51,
+    "line_count": 1625,
     "maintainability_issue": null,
     "oversized": false,
     "path": "papers/GCG24UserItemFairness/PaperInterface.lean",
-    "review_rows": 38
+    "review_rows": 36
   },
   "review_entrypoint": "papers/GCG24UserItemFairness/FINAL_VALIDATION_REPORT.md",
   "review_surface": {
     "assumption_names": [
       "assumption_positive_recommendation_utilities",
+      "assumption_proposition2_utility_rows_determine_types",
       "assumption_theorem3_opposing_type_model",
       "assumption_theorem3_first_half_alpha_domain",
       "assumption_theorem3_second_half_alpha_domain",
@@ -39,10 +42,24 @@
       "assumption_theorem4_estimated_model_reduction",
       "assumption_theorem4_displayed_reduced_models",
       "assumption_theorem4_cold_start_type_wiring",
-      "assumption_theorem4_parameter_domain"
+      "assumption_theorem4_parameter_domain",
+      "assumption_theorem4_universal_value_vector"
     ],
     "assumption_policy": "strict",
     "assumption_source_file": "papers/GCG24UserItemFairness/Assumptions.lean",
+    "auxiliary_names": [
+      "priceOfFairnessAt",
+      "example1_diverse_favorite_policy_user_fairness",
+      "example1_diverse_favorite_policy_item_fairness",
+      "example1_homogeneous_tradeoff_bound",
+      "appendix_c_lemma2_item_fairness_lp_value",
+      "appendix_d_lemma5_problem6_closed_form",
+      "appendix_d_lemma6_mirror_inverse_gap",
+      "appendix_d_lemma7_pivot_monotonicity",
+      "appendix_d_lemma10_midpoint_candidate",
+      "appendix_d_lemma11_denominator_monotonicity",
+      "proposition2_user_symmetric_lp_eq_source_problem5"
+    ],
     "include_names": [
       "recommendationUtility",
       "rawUserUtility",
@@ -52,40 +69,90 @@
       "itemNormalizer",
       "normalizedItemUtility",
       "itemFairness",
-      "solvesProblemOne",
-      "priceOfFairnessAt",
       "priceOfFairness",
+      "solvesProblemOne_iff",
       "priceOfMisestimation",
-      "example1_diverse_favorite_policy_user_fairness",
-      "example1_diverse_favorite_policy_item_fairness",
-      "example1_homogeneous_tradeoff_bound",
+      "problem11EqualityFeasibleSet",
+      "problem11BasicFeasible",
       "appendix_c_lemma1_item_fairness_positive",
-      "appendix_c_lemma2_item_fairness_lp_value",
+      "appendix_c_lemma2_item_fairness_equality_lp_solution_set",
       "appendix_d_lemma3_unconstrained_baseline",
-      "appendix_d_lemma4_problem6_structure",
-      "appendix_d_lemma5_problem6_closed_form",
-      "appendix_d_lemma6_mirror_inverse_gap",
-      "appendix_d_lemma7_pivot_monotonicity",
+      "appendix_d_lemma4_problem6_unique_sparse_solution",
+      "appendix_d_lemma5_problem6_active_optimizer_closed_form",
+      "appendix_d_lemma6_optimal_policy_type_utility_order",
+      "appendix_d_lemma7_active_optimizer_pivot_monotonicity",
       "appendix_d_lemma8_selected_pivot_stitching",
       "appendix_d_lemma9_pair_share_algebra",
-      "appendix_d_lemma10_midpoint_candidate",
-      "appendix_d_lemma11_denominator_monotonicity",
+      "appendix_d_lemma10_active_optimizer_pivot_at_or_before_midpoint",
+      "appendix_d_lemma11_optimal_item_fairness_mono_on_active_pivot_interval",
       "appendix_e_lemma12_symmetrized_policy",
-      "appendix_e_lemma13_pivot_support",
-      "appendix_e_lemma14_uniqueness",
-      "appendix_e_lemma15_closed_formula",
+      "appendix_e_lemma13_every_optimal_basic_solution_has_pivot_support",
+      "appendix_e_lemma14_problem11_has_unique_optimal_solution",
+      "appendix_e_lemma15_optimal_solution_full_closed_form",
+      "appendix_e_lemma15_printed_center_value_counterexample",
       "appendix_e_lemma16_midpoint_order_algebra",
-      "appendix_e_lemma17_no_right_half_support",
+      "appendix_e_lemma17_every_optimal_solution_has_no_right_half_support",
       "proposition1_symmetric_lp_reduction",
       "proposition2_symmetric_optimum_exists",
       "theorem3_price_decreases_first_half",
       "theorem3_price_increases_second_half",
+      "theorem4_misestimation_without_fairness_universal",
       "theorem4_misestimation_tradeoff_typeZero",
       "theorem4_misestimation_tradeoff_typeOne"
     ],
     "llm_assumption_review": {
       "assumption_judgment_file": "papers/GCG24UserItemFairness/audit/assumption_match_llm.json",
+      "required_prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
       "policy": "Every paper-facing theorem premise not derived from prior Lean declarations must be declared in Assumptions.lean, listed in assumption_names, and judged by an independent LLM as a true paper/source model assumption or paper-statement condition rather than a proof assumption."
+    },
+    "llm_statement_review": {
+      "lean_to_tex_file": "papers/GCG24UserItemFairness/audit/lean_to_tex_llm.json",
+      "match_judgment_file": "papers/GCG24UserItemFairness/audit/statement_match_llm.json",
+      "review_surface_audit_file": "papers/GCG24UserItemFairness/audit/review_surface_llm.json",
+      "paper_coverage_audit_file": "papers/GCG24UserItemFairness/audit/paper_coverage_llm.json",
+      "defect_support_judgment_file": "papers/GCG24UserItemFairness/audit/defect_support_match_llm.json",
+      "assumption_judgment_file": "papers/GCG24UserItemFairness/audit/assumption_match_llm.json",
+      "surface_audit_threshold": 30,
+      "surface_warning_threshold": 120,
+      "require_explicit_source_routes": true,
+      "required_prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
+      "policy": "Use complete binder-name-independent Lean signature atoms and source obligations. A v10 match requires equivalent quantification, hypotheses, finite-policy semantics, and full conclusion arity. Source anchors and expanded semantic obligations, not declaration names, determine the route."
+    },
+    "llm_paper_coverage_review": {
+      "paper_coverage_audit_file": "papers/GCG24UserItemFairness/audit/paper_coverage_llm.json",
+      "defect_support_judgment_file": "papers/GCG24UserItemFairness/audit/defect_support_match_llm.json",
+      "required_prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins",
+      "policy": "Use the source-presentation-first named-theory inventory. Appendix proof restatements are retained only as byte-pinned aliases of the same source result. Examples, figures, captions, and ordinary explanatory prose are outside normal theorem coverage unless a deep all-prose audit is requested."
+    },
+    "llm_source_record_review": {
+      "source_record_audit_file": "papers/GCG24UserItemFairness/audit/source_record_audit.json",
+      "source_record_judgment_file": "papers/GCG24UserItemFairness/audit/source_record_match_llm.json",
+      "required_prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "policy": "Classify every boundary-shaped input and record field from expanded semantic content. Bare carrier/model data are witness data; proposition-valued fields need exact source evidence or a Lean derivation. Do not infer a source model from record, field, theorem, or function names."
+    },
+    "semantic_model_review": {
+      "schema": 2,
+      "required_dimensions": [
+        "expanded_binders_and_domain",
+        "carrier_and_domain",
+        "probability_support_endpoints",
+        "joint_law_and_state_evolution",
+        "conditioning_and_calibration_semantics",
+        "expectation_definedness",
+        "null_cell_totalization_and_partition_scope",
+        "extended_rate_codomain"
+      ],
+      "policy": "Review every expanded paper-facing model surface semantically against the pinned source. Record not-applicable only after inspecting the carrier, probability, conditioning, expectation, partition, and rate semantics; names are routing only."
+    },
+    "paper_coverage_required": true,
+    "proposition_spec_proofs": {},
+    "source_definition_names": [
+      "problem11EqualityFeasibleSet",
+      "problem11BasicFeasible"
+    ],
+    "source_proof_fidelity_review": {
+      "ledger_file": "papers/GCG24UserItemFairness/audit/source_proof_fidelity.json",
+      "policy": "Audit source proof steps by source locator and mathematical claim, not by Lean declaration name. A source proof defect is never a validated paper assumption: prove a repaired derivation, record an open proof obligation, or record an explicit corrected paper statement."
     },
     "slices": [
       {
@@ -99,14 +166,16 @@
           "itemNormalizer",
           "normalizedItemUtility",
           "itemFairness",
-          "solvesProblemOne",
-          "priceOfFairnessAt",
           "priceOfFairness",
+          "solvesProblemOne_iff",
           "priceOfMisestimation",
+          "problem11EqualityFeasibleSet",
+          "problem11BasicFeasible",
           "proposition1_symmetric_lp_reduction",
           "proposition2_symmetric_optimum_exists",
           "theorem3_price_decreases_first_half",
           "theorem3_price_increases_second_half",
+          "theorem4_misestimation_without_fairness_universal",
           "theorem4_misestimation_tradeoff_typeZero",
           "theorem4_misestimation_tradeoff_typeOne"
         ],

@@ -1295,6 +1295,55 @@ theorem pmfExpReciprocalSucc_le_add_prob_of_eq_on_event
           rfl
 
 /--
+If `Y` is pointwise no larger than `X` on a good event, then the
+reciprocal-successor expectation of `X` is at most that of `Y`, up to the
+probability of the bad event.  Outside the good event the pointwise loss is
+bounded by `1`.
+-/
+theorem pmfExpReciprocalSucc_le_add_prob_of_ge_on_event
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (X Y : α → ℕ) (good : α → Prop) [DecidablePred good]
+    (hge : ∀ a, good a → Y a ≤ X a) :
+    pmfExpReciprocalSucc μ X ≤
+      pmfExpReciprocalSucc μ Y + pmfProb μ (fun a => ¬ good a) := by
+  have hpoint :
+      ∀ a,
+        (((X a + 1 : ℕ) : ℝ)⁻¹) ≤
+          (((Y a + 1 : ℕ) : ℝ)⁻¹) +
+            (if ¬ good a then (1 : ℝ) else 0) := by
+    intro a
+    by_cases hg : good a
+    · simpa [hg] using reciprocal_succ_nat_antitone (hge a hg)
+    · have hx_le_one :
+          (((X a + 1 : ℕ) : ℝ)⁻¹) ≤ 1 := by
+        simpa using
+          (reciprocal_succ_nat_antitone (x := 0) (y := X a)
+            (Nat.zero_le (X a)))
+      have hypos : 0 < ((Y a + 1 : ℕ) : ℝ) := by
+        exact_mod_cast Nat.succ_pos (Y a)
+      have hy_nonneg : 0 ≤ (((Y a + 1 : ℕ) : ℝ)⁻¹) :=
+        le_of_lt (inv_pos.mpr hypos)
+      have hone_le : (1 : ℝ) ≤ (((Y a + 1 : ℕ) : ℝ)⁻¹) + 1 := by
+        simpa using add_le_add_right hy_nonneg 1
+      exact le_trans hx_le_one (by simpa [hg] using hone_le)
+  unfold pmfExpReciprocalSucc
+  calc
+    pmfExp μ (fun a => (((X a + 1 : ℕ) : ℝ)⁻¹)) ≤
+        pmfExp μ
+          (fun a =>
+            (((Y a + 1 : ℕ) : ℝ)⁻¹) +
+              (if ¬ good a then (1 : ℝ) else 0)) :=
+          pmfExp_le_pmfExp_of_forall_le μ _ _ hpoint
+    _ = pmfExp μ (fun a => (((Y a + 1 : ℕ) : ℝ)⁻¹)) +
+          pmfExp μ (fun a => if ¬ good a then (1 : ℝ) else 0) := by
+          exact pmfExp_add μ
+            (fun a => (((Y a + 1 : ℕ) : ℝ)⁻¹))
+            (fun a => if ¬ good a then (1 : ℝ) else 0)
+    _ = pmfExp μ (fun a => (((Y a + 1 : ℕ) : ℝ)⁻¹)) +
+          pmfProb μ (fun a => ¬ good a) := by
+          rfl
+
+/--
 Uniform expectation on a product is the corresponding nested independent
 uniform expectation.
 -/
@@ -3596,6 +3645,42 @@ theorem pmfExp_lt_of_forall_le_exists_lt {α : Type*}
   · rcases hex with ⟨a, hmass, hlt⟩
     exact ⟨a, Finset.mem_univ a,
       mul_lt_mul_of_pos_left hlt hmass⟩
+
+/--
+A finite PMF expectation is strictly below a constant when every positive-mass
+atom is at most that constant and one positive-mass atom is strictly below it.
+Zero-mass atoms may have arbitrary values.
+-/
+theorem pmfExp_lt_of_support_forall_le_exists_lt {α : Type*}
+    [Fintype α] [DecidableEq α]
+    (μ : PMF α) (f : α → ℝ) (c : ℝ)
+    (hle : ∀ a, 0 < (μ a).toReal → f a ≤ c)
+    (hex : ∃ a, 0 < (μ a).toReal ∧ f a < c) :
+    pmfExp μ f < c := by
+  classical
+  let supportValue : α → ℝ :=
+    fun a => if (μ a).toReal = 0 then c else f a
+  have hExpEq : pmfExp μ f = pmfExp μ supportValue := by
+    unfold pmfExp supportValue
+    refine Finset.sum_congr rfl ?_
+    intro a _ha
+    by_cases hzero : (μ a).toReal = 0
+    · simp [hzero]
+    · simp [hzero]
+  have hsupport_le : ∀ a, supportValue a ≤ c := by
+    intro a
+    by_cases hzero : (μ a).toReal = 0
+    · simp [supportValue, hzero]
+    · have hmass : 0 < (μ a).toReal :=
+        lt_of_le_of_ne ENNReal.toReal_nonneg (Ne.symm hzero)
+      simpa [supportValue, hzero] using hle a hmass
+  have hsupport_lt : ∃ a, 0 < (μ a).toReal ∧ supportValue a < c := by
+    rcases hex with ⟨a, hmass, hlt⟩
+    have hzero : (μ a).toReal ≠ 0 := ne_of_gt hmass
+    exact ⟨a, hmass, by simpa [supportValue, hzero] using hlt⟩
+  rw [hExpEq]
+  exact pmfExp_lt_of_forall_le_exists_lt μ supportValue c
+    hsupport_le hsupport_lt
 
 /--
 A finite PMF expectation is strictly below a constant when every positive-mass

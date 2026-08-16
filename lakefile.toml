@@ -13,15 +13,16 @@ defaultTargets = [
   "GHW01DigitalGoods",
   "EOS07GSP",
   "MSVV07AdWords",
+  "PRPKG24AccuracyDiversity",
   "GJ18InformativeRatingSystems",
+  "GJ19OptimalBinaryRatingSystems",
   "GGSG19TopThree",
   "PKG25NoFreeLunch",
   "LMMS04FairDivision",
   "LOS02CombinatorialAuctions",
   "LBG24SpatialUnderreporting",
   "GKGMM19IterativeLocalVoting",
-  "DGJ24OptimalStrategiesRCV",
-  "DGJ26PracticalDynamicsRCV",
+  "GGRS26CombattingGerrymanderingRCV",
   "DGD26AdmissionsPredictability",
   "KR21Monoculture",
 ]
@@ -127,14 +128,6 @@ srcDir = "papers"
 
 [[lean_lib]]
 name = "GKGMM19IterativeLocalVoting"
-srcDir = "papers"
-
-[[lean_lib]]
-name = "DGJ24OptimalStrategiesRCV"
-srcDir = "papers"
-
-[[lean_lib]]
-name = "DGJ26PracticalDynamicsRCV"
 srcDir = "papers"
 
 [[lean_lib]]

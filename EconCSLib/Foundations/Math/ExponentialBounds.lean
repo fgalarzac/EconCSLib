@@ -1,5 +1,6 @@
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
+import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Tactic
 
 /-!
@@ -23,6 +24,8 @@ Reusable real exponential inequalities for finite probability estimates.
   endpoint-refinement logarithmic bound used in rate-doubling arguments.
 - `half_mul_le_one_sub_exp_neg_of_mem_Icc`: a linear lower bound for
   `1 - exp (-x)` on `[0, 1]`.
+- `mul_exp_neg_lt_one_of_log_lt`: if a finite union count has logarithm below
+  a tail rate, then `count * exp (-rate) < 1`.
 - `mul_delta_split_budget_eq_of_delta_eq_div_mul_add`: algebra for choosing
   a grid width from a two-term error budget.
 -/
@@ -35,6 +38,24 @@ theorem exp_log_div_two_eq_sqrt {x : ℝ} (hx : 0 < x) :
     Real.exp (Real.log x / 2) = Real.sqrt x := by
   rw [← Real.log_sqrt hx.le]
   exact Real.exp_log (Real.sqrt_pos.mpr hx)
+
+/--
+Union-bound exponential-tail arithmetic: if `log count < rate`, then a
+uniform failure probability bounded by `exp (-rate)` has total mass below one
+over `count` events.
+-/
+theorem mul_exp_neg_lt_one_of_log_lt
+    {count rate : ℝ} (hcount : 0 < count)
+    (hlog : Real.log count < rate) :
+    count * Real.exp (-rate) < 1 := by
+  have hsub : Real.log count - rate < 0 := by linarith
+  have hexp : Real.exp (Real.log count - rate) < 1 := by
+    rw [Real.exp_lt_one_iff]
+    exact hsub
+  have hrewrite :
+      count * Real.exp (-rate) = Real.exp (Real.log count - rate) := by
+    rw [Real.exp_sub, Real.exp_log hcount, Real.exp_neg, div_eq_mul_inv]
+  simpa [hrewrite] using hexp
 
 /--
 For `0 ≤ x < 1`, the logarithmic penalty from `1 - x^2` is no larger than
@@ -173,6 +194,118 @@ theorem exp_neg_two_mul_nat_div_le_one_sub_inv_pow_of_two_le
       _ = (Real.exp (-(2 / x))) ^ N :=
           Real.exp_nat_mul (-(2 / x)) N
   simpa [hleft] using hpow
+
+/--
+If a finite set has cardinality at most `C`, then the product of the constant
+factor `exp (-A/C)` over that set is at least `exp (-A)` for `A ≥ 0`.
+
+This is the deterministic exponential floor behind product-ratio bounds such
+as `∏ exp (-2 ε σ / C) ≥ exp (-2 ε σ)`.
+-/
+theorem exp_neg_le_finset_prod_const_exp_neg_div_of_card_le
+    {α : Type*} (s : Finset α) {A C : ℝ}
+    (hA_nonneg : 0 ≤ A) (hC_pos : 0 < C)
+    (hcard : (s.card : ℝ) ≤ C) :
+    Real.exp (-A) ≤ ∏ _i ∈ s, Real.exp (-(A / C)) := by
+  rw [Finset.prod_const]
+  rw [← Real.exp_nat_mul]
+  refine Real.exp_le_exp.mpr ?_
+  have hcard_div_le_one : (s.card : ℝ) / C ≤ 1 := by
+    rw [div_le_one hC_pos]
+    exact hcard
+  have harg :
+      -A ≤ (s.card : ℝ) * (-(A / C)) := by
+    have hmul : A * ((s.card : ℝ) / C) ≤ A * 1 :=
+      mul_le_mul_of_nonneg_left hcard_div_le_one hA_nonneg
+    have hrewrite :
+        (s.card : ℝ) * (A / C) = A * ((s.card : ℝ) / C) := by
+      ring
+    have hle : (s.card : ℝ) * (A / C) ≤ A := by
+      simpa [hrewrite] using hmul
+    linarith
+  simpa [neg_div, mul_neg] using harg
+
+/--
+Small-probability exponential floor for ratios of failure probabilities.
+
+If `q` is at most `sigma / C` and at most one half, then the paper-style
+failure ratio `(1 - q) / (1 - (1 - epsilon) q)` is bounded below by
+`exp (-2 epsilon sigma / C)`.
+-/
+theorem exp_neg_two_mul_mul_div_le_one_sub_div_one_sub_one_sub_mul
+    {epsilon sigma C q : ℝ}
+    (hepsilon_nonneg : 0 ≤ epsilon) (hepsilon_le_one : epsilon ≤ 1)
+    (hsigma_nonneg : 0 ≤ sigma) (hC_pos : 0 < C)
+    (hq_nonneg : 0 ≤ q) (hq_le_half : q ≤ 1 / 2)
+    (hq_le : q ≤ sigma / C) :
+    Real.exp (-(2 * epsilon * sigma / C)) ≤
+      (1 - q) / (1 - (1 - epsilon) * q) := by
+  let den : ℝ := 1 - (1 - epsilon) * q
+  let x : ℝ := epsilon * q / den
+  have hq_lt_one : q < 1 := by linarith
+  have hone_sub_q_pos : 0 < 1 - q := by linarith
+  have hden_pos : 0 < den := by
+    dsimp [den]
+    have hmul_le : (1 - epsilon) * q ≤ q := by
+      have hone_sub_nonneg : 0 ≤ 1 - epsilon := by linarith
+      have hone_sub_le_one : 1 - epsilon ≤ 1 := by linarith
+      nlinarith
+    linarith
+  have hx_nonneg : 0 ≤ x := by
+    dsimp [x]
+    exact div_nonneg (mul_nonneg hepsilon_nonneg hq_nonneg) hden_pos.le
+  have hx_lt_one : x < 1 := by
+    dsimp [x]
+    rw [div_lt_one hden_pos]
+    dsimp [den]
+    linarith
+  have hone_sub_x_eq :
+      1 - x = (1 - q) / den := by
+    dsimp [x]
+    calc
+      1 - epsilon * q / den = (den - epsilon * q) / den := by
+        field_simp [ne_of_gt hden_pos]
+      _ = (1 - q) / den := by
+        have hnum : den - epsilon * q = 1 - q := by
+          dsimp [den]
+          ring
+        rw [hnum]
+  have hx_div_eq :
+      x / (1 - x) = epsilon * q / (1 - q) := by
+    dsimp [x]
+    rw [hone_sub_x_eq]
+    field_simp [ne_of_gt hden_pos, ne_of_gt hone_sub_q_pos]
+  have hq_div_le : q / (1 - q) ≤ 2 * q := by
+    have hden_half : 1 / 2 ≤ 1 - q := by linarith
+    have hden_pos' : 0 < 1 - q := hone_sub_q_pos
+    have hle_inv : (1 - q)⁻¹ ≤ (2 : ℝ) := by
+      rw [inv_le_comm₀ hden_pos' (by norm_num : (0 : ℝ) < 2)]
+      norm_num
+      linarith
+    have hmul := mul_le_mul_of_nonneg_left hle_inv hq_nonneg
+    simpa [div_eq_mul_inv, mul_comm, mul_left_comm, mul_assoc] using hmul
+  have hx_div_le : x / (1 - x) ≤ 2 * epsilon * sigma / C := by
+    rw [hx_div_eq]
+    have h1 : epsilon * (q / (1 - q)) ≤ epsilon * (2 * q) :=
+      mul_le_mul_of_nonneg_left hq_div_le hepsilon_nonneg
+    have h2 : epsilon * (2 * q) ≤ epsilon * (2 * (sigma / C)) := by
+      exact mul_le_mul_of_nonneg_left
+        (mul_le_mul_of_nonneg_left hq_le (by norm_num : (0 : ℝ) ≤ 2))
+        hepsilon_nonneg
+    have halg1 : epsilon * q / (1 - q) =
+        epsilon * (q / (1 - q)) := by ring
+    have halg2 : epsilon * (2 * (sigma / C)) =
+        2 * epsilon * sigma / C := by ring
+    simpa [halg1, halg2] using le_trans h1 h2
+  have hneglog :
+      -Real.log (1 - x) ≤ 2 * epsilon * sigma / C :=
+    (neg_log_one_sub_le_div_self hx_nonneg hx_lt_one).trans hx_div_le
+  have hlog_lower : -(2 * epsilon * sigma / C) ≤ Real.log (1 - x) := by
+    linarith
+  have hone_sub_x_pos : 0 < 1 - x := by linarith
+  have hexp : Real.exp (-(2 * epsilon * sigma / C)) ≤ 1 - x :=
+    (Real.le_log_iff_exp_le hone_sub_x_pos).mp hlog_lower
+  simpa [hone_sub_x_eq, den] using hexp
 
 /--
 Elementary shifted-log bound used in bisection approximation arguments:

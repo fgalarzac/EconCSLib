@@ -88,7 +88,8 @@ abbrev audit_lemma3_measured_time_fraction_formula := @PaperInterface.lemma3_mea
 /-! ## Structural response lemmas -/
 
 /-- Audit endpoint for Lemma 5: fixed-response feasible policy form a.e. -/
-abbrev audit_lemma5_fixed_response_policy_form := @PaperInterface.lemma5_fixed_response_policy_form
+abbrev audit_lemma5_full_variational_policy_forms :=
+  @PaperInterface.lemma5_full_variational_policy_forms
 
 /-- Audit endpoint for Lemma 6: upper-endpoint derivative formula. -/
 abbrev audit_lemma6_upper_endpoint_derivative_formula := @PaperInterface.lemma6_upper_endpoint_derivative_formula
@@ -110,20 +111,25 @@ abbrev audit_lemma10_nonsurge_derivative_positive_of_acceptAll_bounds := @PaperI
 /-- Audit endpoint for Theorem 2: multiplicative policy shape handoff. -/
 abbrev audit_theorem2_multiplicative_policy_shape_ae := @PaperInterface.theorem2_multiplicative_policy_shape_ae_of_feasible_ae_policy_forms
 
-/-- Audit endpoint for Theorem 2: explicit measured multiplicative non-IC instance. -/
-abbrev audit_theorem2_multiplicative_measured_not_ic_explicit_atomic := @PaperInterface.theorem2_multiplicative_measured_not_ic_explicit_atomic
+/--
+Audit endpoint for Theorem 2: explicit bounded-density continuous measured
+multiplicative non-IC instance.  The legacy identifier is retained pending the
+repository-wide audit-ledger naming migration.
+-/
+abbrev audit_theorem2_multiplicative_measured_not_ic_explicit_atomic := @PaperInterface.theorem2_multiplicative_measured_not_ic_explicit_continuous
 
 /-- Audit endpoint for Theorem 2: explicit both-state multiplicative deviations. -/
-abbrev audit_theorem2_multiplicative_measured_profitable_deviations_both_states := @PaperInterface.theorem2_multiplicative_measured_profitable_deviations_both_states_explicit_atomic
+abbrev audit_theorem2_multiplicative_measured_profitable_deviations_both_states := @PaperInterface.theorem2_multiplicative_measured_profitable_deviations_both_states_explicit_continuous
 
 /-- Audit endpoint for Theorem 2: explicit both-state positive finite cutoff deviations. -/
-abbrev audit_theorem2_multiplicative_measured_profitable_positive_finite_cutoff_deviations_both_states := @PaperInterface.theorem2_multiplicative_measured_profitable_positive_finite_cutoff_deviations_both_states_explicit_atomic
+abbrev audit_theorem2_multiplicative_measured_profitable_positive_finite_cutoff_deviations_both_states := @PaperInterface.theorem2_multiplicative_measured_profitable_positive_finite_cutoff_deviations_both_states_explicit_continuous
 
 /-- Audit endpoint for Theorem 2: both-state explicit measured non-IC instance. -/
-abbrev audit_theorem2_multiplicative_measured_not_ic_both_states := @PaperInterface.theorem2_multiplicative_measured_not_ic_both_states_explicit_atomic
+abbrev audit_theorem2_multiplicative_measured_not_ic_both_states := @PaperInterface.theorem2_multiplicative_measured_not_ic_both_states_explicit_continuous
 
 /-- Audit endpoint for Theorem 4: measurable structural representatives. -/
-abbrev audit_theorem4_structural_policy_representatives := @PaperInterface.theorem4_structural_policy_representatives_of_gn21_bracket_source_data
+abbrev audit_theorem4_full_structural_policy_forms_open_corrected :=
+  @PaperInterface.theorem4_full_structural_policy_forms_open_corrected
 
 /-- Audit endpoint for Theorem 4's accept-all uniqueness route used by Theorem 3. -/
 abbrev audit_theorem4_acceptAll_ae_unique_of_current_bounds_source := @PaperInterface.theorem4_acceptAll_ae_unique_of_current_bounds_source
@@ -153,6 +159,14 @@ abbrev audit_theorem3_defined_reward_ic_of_positive_mass := @PaperInterface.theo
 
 /-- Audit endpoint for Theorem 3: source assumptions over the defined-reward interface. -/
 abbrev audit_theorem3_defined_reward_source := @PaperInterface.theorem3_defined_reward_source
+
+/--
+Audit endpoint for the proved small-surge-gap Theorem 3 subcase.  Its input
+record contains scalar model conditions only; in particular it contains no
+policy-dependent reward-rate equation, optimality fact, or Lemma 9 bounds.
+-/
+abbrev audit_theorem3_positive_mass_ic_small_surge_gap :=
+  @PaperInterface.review_theorem3_positive_mass_ic_small_surge_gap_subcase
 
 /-- Audit endpoint for Theorem 3: full feasible sequential current-bounds source-data route. -/
 abbrev audit_theorem3_feasible_sequential_current_bounds_source_data := @PaperInterface.theorem3_feasible_sequential_current_bounds_source_data

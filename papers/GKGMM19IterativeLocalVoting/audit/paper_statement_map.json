@@ -1,6 +1,8 @@
 {
   "comment": "Declaration-keyed source/subclaim statements for closeout LLM-as-judge sidecars. Endpoint rows keep the original source theorem, so conditional Lean wrappers are judged honestly.",
   "generated_at": "2026-06-29T20:39:31Z",
+  "source_artifact_path": "source.pdf",
+  "source_artifact_sha256": "f0813ec98ba1c763267cf814cc63401c8d1bd0685118bd67ea97d9aa5f55a02d",
   "items": {
     "algorithm1_local_neighborhood_formula": {
       "source_location": "Algorithm 1",
@@ -63,7 +65,7 @@
       "statement": "Algorithm 1 stopping-window source formula: all iterates in the recent window [t-N,t] are pairwise within epsilon in the chosen movement norm."
     },
     "assumption_conditions_c123": {
-      "source_location": "paper source inventory; exact source location to be refined",
+      "source_location": "Section 3 assumptions C1-C3",
       "source_url": "https://arxiv.org/pdf/1702.07984; published article: https://doi.org/10.1613/jair.1.11358",
       "statement": "Section 3 source assumptions C1-C3: nonempty bounded closed convex solution space, unique ideal points, and a bounded measurable density for independently drawn ideal points."
     },

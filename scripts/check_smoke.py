@@ -11,6 +11,7 @@ The smoke pass focuses on importability and visibility:
 from __future__ import annotations
 
 import argparse
+import json
 import subprocess
 from pathlib import Path
 
@@ -18,7 +19,24 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PAPERS = ROOT / "papers"
 EXAMPLES = ROOT / "examples"
-ACTIVE_PAPERS: set[str] = set()
+AUDIT_CONFIG = PAPERS / "audit_config.json"
+
+
+def active_paper_names() -> set[str]:
+    if not AUDIT_CONFIG.exists():
+        return set()
+    payload = json.loads(AUDIT_CONFIG.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"{AUDIT_CONFIG.relative_to(ROOT)} should contain a JSON object")
+    if payload.get("schema") != 1:
+        raise ValueError(f"{AUDIT_CONFIG.relative_to(ROOT)} should use schema 1")
+    raw = payload.get("active_papers", [])
+    if not isinstance(raw, list):
+        raise ValueError("active_papers should be a list")
+    return {str(item).strip() for item in raw if str(item).strip()}
+
+
+ACTIVE_PAPERS = active_paper_names()
 
 
 def run(cmd: list[str], *, cwd: Path = ROOT) -> None:

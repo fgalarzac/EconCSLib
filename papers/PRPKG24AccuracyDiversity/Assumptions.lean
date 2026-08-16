@@ -1,4 +1,5 @@
 import PRPKG24AccuracyDiversity.ProofInterface
+import PRPKG24AccuracyDiversity.SourcePreferenceMixture
 
 /-!
 # Paper Assumptions: PRPKG24 Accuracy-Diversity
@@ -27,6 +28,7 @@ abbrev assumption_example1_positive_calibrated_exponential_parameters
 -- audit-premise: hxSecond_nonneg : 0 ≤ xSecond
 -- audit-premise: hsecond_le_top : xSecond ≤ xTop
 -- audit-premise: hsecond_lt_top : xSecond < xTop
+-- audit-premise: hvalue_nonneg : ∀ ω, 0 ≤ value ω
 -- audit-premise: hvalue_le : ∀ ω, value ω ≤ xTop
 -- audit-premise: hvalue_split : ∀ ω, value ω = xTop ∨ value ω ≤ xSecond
 abbrev assumption_finite_discrete_top_value_domain {Ω : Type*}
@@ -36,8 +38,15 @@ abbrev assumption_finite_discrete_top_value_domain {Ω : Type*}
       0 ≤ xSecond ∧
         xSecond ≤ xTop ∧
           xSecond < xTop ∧
-            (∀ ω, value ω ≤ xTop) ∧
-              (∀ ω, value ω = xTop ∨ value ω ≤ xSecond)
+            (∀ ω, 0 ≤ value ω) ∧
+              (∀ ω, value ω ≤ xTop) ∧
+                (∀ ω, value ω = xTop ∨ value ω ≤ xSecond)
+
+/-- A source preference PMF has positive support when every type is selectable. -/
+-- audit-premise: hpreference_pos : ∀ t, 0 < (preferenceLaw t).toReal
+abbrev assumption_positive_source_preference_law {T : ℕ}
+    (preferenceLaw : SourcePreferenceLaw T) : Prop :=
+  ∀ t : ItemType T, 0 < (preferenceLaw t).toReal
 
 /-- Type-likelihood weights in the optimization model are positive. -/
 -- audit-premise: hlike_pos : ∀ t : ItemType T, 0 < likelihood t
@@ -92,35 +101,65 @@ abbrev assumption_unique_common_mean_argmax_domain {T : ℕ}
 abbrev assumption_nonnegative_homogeneity_exponent (gamma : ℝ) : Prop :=
   0 ≤ gamma
 
-/-- Theorem 2 decaying Bernoulli statements use source parameter domains. -/
+/-
+Theorem 2's literal finite rank-varying Bernoulli law.  The source's phrase
+"i.i.d. Bernoulli" is not used here: different ranks have different success
+parameters, so the checked model is independent across ranks rather than iid.
+-/
 -- audit-premise: halpha_nonneg : 0 ≤ alpha
--- audit-premise: halpha_lt_one : alpha < 1
--- audit-premise: halpha_gt_one : 1 < alpha
--- audit-premise: halpha : 0 < alpha
--- audit-premise: hc : 0 < c
--- audit-premise: hc_pos : 0 < c
 -- audit-premise: hc_nonneg : 0 ≤ c
--- audit-premise: hd : 0 ≤ d
 -- audit-premise: hd_nonneg : 0 ≤ d
--- audit-premise: hfirst : decayingBernoulliSuccess c d alpha 0 < 1
--- audit-premise: hfirst : decayingBernoulliSuccess c d 1 0 < 1
+-- audit-premise: hfirst_le_one : decayingBernoulliSuccess c d alpha 0 ≤ 1
+abbrev assumption_decaying_bernoulli_probability_domain
+    (alpha c d : ℝ) : Prop :=
+  0 ≤ alpha ∧
+    0 ≤ c ∧
+      0 ≤ d ∧
+        decayingBernoulliSuccess c d alpha 0 ≤ 1
+
+/-
+The universal-optimum top-one branches additionally need a nonflat first
+rank.  At `c = 0` or first-rank success probability one, non-homogeneous
+optimal selections can exist; this is a visible corrected-source condition.
+-/
+-- audit-premise: halpha_nonneg : 0 ≤ alpha
+-- audit-premise: hc_pos : 0 < c
+-- audit-premise: hd_nonneg : 0 ≤ d
+-- audit-premise: hfirst_lt_one : decayingBernoulliSuccess c d alpha 0 < 1
+abbrev assumption_decaying_bernoulli_top_one_nondegenerate_domain
+    (alpha c d : ℝ) : Prop :=
+  0 ≤ alpha ∧
+    0 < c ∧
+      0 ≤ d ∧
+        decayingBernoulliSuccess c d alpha 0 < 1
+
+/-- Backward-compatible audit alias for the literal finite-law domain. -/
 abbrev assumption_decaying_bernoulli_parameter_domain
     (alpha c d : ℝ) : Prop :=
-  ((0 ≤ alpha ∧ alpha < 1) ∨ alpha = 1 ∨ 1 < alpha ∨ 0 < alpha) ∧
-    0 < c ∧
-      0 ≤ c ∧
-        0 ≤ d ∧
-          decayingBernoulliSuccess c d alpha 0 < 1 ∧
-            decayingBernoulliSuccess c d 1 0 < 1
+  assumption_decaying_bernoulli_probability_domain alpha c d
 
-/-- Theorem 3/Corollary 3 require Bernoulli probabilities in `(0,1)`. -/
+/-- Every source Bernoulli probability lies in its probability range. -/
+-- audit-premise: hprob_valid : ∀ t, 0 ≤ B.successProb t ∧ B.successProb t ≤ 1
+abbrev assumption_bernoulli_success_probability_range {T : ℕ}
+    (B : BernoulliSatisfactionModel T) : Prop :=
+  ∀ t, 0 ≤ B.successProb t ∧ B.successProb t ≤ 1
+
+/-- Theorem 3's top-one conclusion uses typewise probabilities in `(0,1)`. -/
+-- audit-premise: hprob_pos : ∀ t, 0 < B.successProb t
+-- audit-premise: hprob_lt_one : ∀ t, B.successProb t < 1
+abbrev assumption_theorem3_varying_bernoulli_probability_domain {T : ℕ}
+    (B : BernoulliSatisfactionModel T) : Prop :=
+  assumption_bernoulli_success_probability_range B ∧
+    (∀ t, 0 < B.successProb t) ∧
+      (∀ t, B.successProb t < 1)
+
+/-- Corollary 3 additionally specializes Theorem 3 to a common probability. -/
 -- audit-premise: hprob_pos : ∀ t, 0 < B.successProb t
 -- audit-premise: hprob_lt_one : ∀ t, B.successProb t < 1
 -- audit-premise: hprob_eq : ∀ i j : ItemType T, B.successProb i = B.successProb j
-abbrev assumption_varying_bernoulli_probability_domain {T : ℕ}
+abbrev assumption_corollary3_iid_bernoulli_probability_domain {T : ℕ}
     (B : BernoulliSatisfactionModel T) : Prop :=
-  (∀ t, 0 < B.successProb t) ∧
-    (∀ t, B.successProb t < 1) ∧
+  assumption_theorem3_varying_bernoulli_probability_domain B ∧
       (∀ i j : ItemType T, B.successProb i = B.successProb j)
 
 /-- Proposition 2's corrected uniform route uses positive type likelihoods and top-k counts. -/
@@ -152,16 +191,30 @@ abbrev assumption_lemmaD2_cdf_power_sandwich_monotone_bounded_support
                 (∀ x : ℝ, M ≤ x → G x = 1)
 
 /--
-Proposition 4's concrete continuous-sphere theorem is proved in
-`ContinuousSphereConcrete.lean` under the source-shaped regularity that the
-radial kernel is continuous and positive on the unit-sphere distance range.
-Validation note: the paper's displayed `Gamma` limit notation is read as the
-Lean supremum objective supplied by the positive-Laplace library theorem.
+Proposition 4's source radial kernel is nonconstant on distances realized by
+the unit sphere and takes values in `(0, 1]` there.  The two witnessed radii
+make "nonconstant" an explicit property of the realized distance range rather
+than of irrelevant values of `q` outside `[0, 2]`.
+-/
+-- audit-premise: hp_nonconstant : ∃ r ∈ Set.Icc (0 : ℝ) 2, ∃ s ∈ Set.Icc (0 : ℝ) 2, q r ≠ q s
+-- audit-premise: hp_range : ∀ r ∈ Set.Icc (0 : ℝ) 2, 0 < q r ∧ q r ≤ 1
+abbrev assumption_proposition4_radial_nonsatisfaction_kernel
+    (q : ℝ → ℝ) : Prop :=
+  (∃ r ∈ Set.Icc (0 : ℝ) 2,
+      ∃ s ∈ Set.Icc (0 : ℝ) 2, q r ≠ q s) ∧
+    ∀ r : ℝ, r ∈ Set.Icc (0 : ℝ) 2 → 0 < q r ∧ q r ≤ 1
+
+/--
+The compact-sphere Laplace step needs continuity of the radial kernel.  The
+paper does not state this regularity explicitly; Lean exposes it as the minor
+analytic boundary needed to turn the Laplace heuristic into an exact limit.
+Source status: explicit formalization boundary, not a source-stated premise.
+Source note: Schema-2 issue PRPKG24-PROP4-CONTINUITY-BOUNDARY-01 governs continuity; it is not literal source provenance.
 -/
 -- audit-premise: hp : Continuous q
--- audit-premise: hp_pos : ∀ r ∈ Set.Icc (0 : ℝ) 2, 0 < q r
--- audit-premise: hGamma : paper Γ(α) is interpreted by the Laplace-defined supremum objective
-abbrev assumption_proposition4_continuous_sphere_laplace_boundary : Prop := True
+abbrev assumption_proposition4_continuous_sphere_laplace_boundary
+    (q : ℝ → ℝ) : Prop :=
+  Continuous q
 
 /-- Lemma D.5's finite rounding endpoint is stated for positive `N`. -/
 -- audit-premise: hNpos : 0 < N

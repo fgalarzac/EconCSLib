@@ -1,495 +1,2089 @@
 {
-  "audit_kind": "source_to_dashboard_llm",
-  "comment": "Source-grounded source-to-dashboard coverage rejudge. Coverage links must point to current row-local statement/assumption judgments.",
+  "schema": 1,
+  "paper": "GHW01DigitalGoods",
+  "prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins",
+  "audit_kind": "source_to_dashboard_agent",
+  "source_grounded": true,
+  "seed_scaffold": false,
+  "validator": "Codex GHW01 named-theory coverage judge (strict manifest reattestation)",
+  "validator_type": "agent",
+  "validated_at": "2026-08-04T04:15:00Z",
+  "comment": "Five corrected source-definition judgments were freshly reviewed and bound to their complete current row sets and elaborated signature digests. The other 44 item judgments are preserved exactly because their item-level source semantics and linked Lean signatures are unchanged. Reuse receipts for the five changed items are intentionally absent until the integrated four-sidecar candidate is bootstrapped.",
+  "source_coverage_mode": "named_theoretical_statements",
+  "source_artifact_path": "GHW01DigitalGoods.txt",
+  "source_artifact_sha256": "16a8854d7e81a6d10168bb5559a71703d4c6d4cb52c7740aab747bc05c33e66a",
+  "paper_statement_inventory_sha256": "fa567a6c42ec8819fe21b6f5389608cf31c4ce8636d7b4e7366757f4c0e7f0e5",
+  "review_surface_sha256": "74070c96b526748eec3fecdf37b403f3fb36a3533e2ed9e38ac9e3d90e240be5",
   "items": {
-    "assumption_bid_value_range_conditions": {
-      "audit_kind": "source_to_dashboard_llm",
+    "result_theorem7_2_tightness": {
       "coverage": "covered",
-      "dashboard_evidence": "assumption_bid_value_range_conditions",
-      "reason": "The source item is the paper-facing statement/formula summarized as: High-value theorem inputs have bids in the normalized range. The dashboard row `assumption_bid_value_range_conditions` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
       "review_rows": [
-        "assumption_bid_value_range_conditions"
+        "theorem7_2_weighted_pairing_tightness_selected_sqrt_log"
       ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: High-value theorem inputs have bids in the normalized range.",
-      "source_grounded": true,
-      "statement_sha256": "4e25e38daa7305353671369a45e736693cd53b5e97dfab25b903d2c834a17600",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "review_row_signature_sha256": {
+        "theorem7_2_weighted_pairing_tightness_selected_sqrt_log": "8cfdb2e5ed0cc64ec38013e04797e5e2fb1b97d8586312f1041767f35c3e6068"
+      },
+      "reason": "The selected source family uses k=s^2+2 and proves the direct W <= 6F/sqrt(log_2 h) bound. The finite weighted-offer construction is internal, so this remains the direct tightness family rather than an auxiliary certificate.",
+      "source_evidence": "GHW01DigitalGoods.txt:626-720 gives Theorem 7.2's tightness construction and asymptotic upper family.",
+      "dashboard_evidence": "The theorem states the direct source-defined weighted-pairing revenue ratio for the displayed family.",
+      "statement_sha256": "60d6767a80ccdcea71791f7597a660293bd79cf19e977e55afcf9cc034ccc641",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "525ed8de39874d24ee14519b9f4d9191a8f2b2f3dd213897e1c71038fc939cb8",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "525ed8de39874d24ee14519b9f4d9191a8f2b2f3dd213897e1c71038fc939cb8",
+          "source_anchor_quote_identity_sha256": "7e19037f6c48153f88900605f71dee95a31992cfeb034064b73116abde9b0260",
+          "source_target_sha256": "60d6767a80ccdcea71791f7597a660293bd79cf19e977e55afcf9cc034ccc641",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "theorem",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
     },
-    "assumption_high_value_attained": {
-      "audit_kind": "source_to_dashboard_llm",
+    "result_theorem9_1_bid_independent_lower_bound": {
       "coverage": "covered",
-      "dashboard_evidence": "assumption_high_value_attained",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Corollary 4.2 fixes `h` as a maximum bid. The dashboard row `assumption_high_value_attained` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "assumption_high_value_attained"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Corollary 4.2 fixes `h` as a maximum bid.",
-      "source_grounded": true,
-      "statement_sha256": "2be02d33826b6c1fd06593ded16cdcf4a0d441486d16f21083baca022269cecc",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "assumption_high_value_scale_conditions": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "assumption_high_value_scale_conditions",
-      "reason": "The source item is the paper-facing statement/formula summarized as: The paper normalizes the lowest/highest bid scale in the high-value theorems. The dashboard row `assumption_high_value_scale_conditions` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "assumption_high_value_scale_conditions"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: The paper normalizes the lowest/highest bid scale in the high-value theorems.",
-      "source_grounded": true,
-      "statement_sha256": "e762be1a24c212ebbbd9bfab4a50c92f96a32f9787ffc31da6e2775d5876175d",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "assumption_low_bid_below_high_bid": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "assumption_low_bid_below_high_bid",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Lemma 8.1 compares a lower bid with a higher bid. The dashboard row `assumption_low_bid_below_high_bid` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "assumption_low_bid_below_high_bid"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Lemma 8.1 compares a lower bid with a higher bid.",
-      "source_grounded": true,
-      "statement_sha256": "03a46178d9f9bf34095f7687631739a992dbaaeca4b90ad43f6a1e765f53eadf",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "assumption_lower_bound_positive_alpha": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "assumption_lower_bound_positive_alpha",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Lower-bound theorems quantify over positive constants. The dashboard row `assumption_lower_bound_positive_alpha` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "assumption_lower_bound_positive_alpha"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Lower-bound theorems quantify over positive constants.",
-      "source_grounded": true,
-      "statement_sha256": "a205172e5e786d2b8823b492c67cf768ad27a2274b89a45ff6a813f7ca88b0ee",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "assumption_theorem8_2_journal_raw_cdf_monotone_offer_source_model": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "assumption_theorem8_2_journal_raw_cdf_monotone_offer_source_model",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 8.2 is checked against the later journal version's monotone randomized offer formulation rather than the broader preliminary SODA wording. The dashboard row `assumption_theorem8_2_journal_raw_cdf_monotone_offer_source_model` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "assumption_theorem8_2_journal_raw_cdf_monotone_offer_source_model"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Theorem 8.2 is checked against the later journal version's monotone randomized offer formulation rather than the broader preliminary SODA wording.",
-      "source_grounded": true,
-      "statement_sha256": "e20b05ac87b6120bdb1e032f5d54f453e00b2f7690dc4e83b46964ce434eab65",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "assumption_theorem9_3_primitive_set_of_bids_deterministic_source_model": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "assumption_theorem9_3_primitive_set_of_bids_deterministic_source_model",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 9.3 uses the paper's deterministic set-of-bids convention and focused slice `A_i(B_i^x)` to represent each bidder's offer from the other bids and the bidder's own reported value. The dashboard row `assumption_theorem9_3_primitive_set_of_bids_deterministic_source_model` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "assumption_theorem9_3_primitive_set_of_bids_deterministic_source_model"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Theorem 9.3 uses the paper's deterministic set-of-bids convention and focused slice `A_i(B_i^x)` to represent each bidder's offer from the other bids and the bidder's own reported value.",
-      "source_grounded": true,
-      "statement_sha256": "d1cd8a4769f005146b59f238442ed11be0862d274d1038f28ef5e6cf08a412c9",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "assumption_total_value_notation": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "assumption_total_value_notation",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Weighted-pairing statements expose the paper's total-value notation. The dashboard row `assumption_total_value_notation` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "assumption_total_value_notation"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Weighted-pairing statements expose the paper's total-value notation.",
-      "source_grounded": true,
-      "statement_sha256": "7a06ea3cdbe232f39ea1a60a5cc8d8beb24c149382c52bd58f6e9949e6ae04cb",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "assumption_truthful_auction_condition": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "assumption_truthful_auction_condition",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Lemma 8.1 and Lemma 9.2 are stated for truthful auctions. The dashboard row `assumption_truthful_auction_condition` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "assumption_truthful_auction_condition"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Lemma 8.1 and Lemma 9.2 are stated for truthful auctions.",
-      "source_grounded": true,
-      "statement_sha256": "ed3b535ef85799f3a9e209ddabd8818b0fe9de3b022547b257efe9c988a622ef",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "assumption_two_winner_benchmark_large_enough": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "assumption_two_winner_benchmark_large_enough",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 7.2 assumes the two-winner benchmark is at least twice the high bid. The dashboard row `assumption_two_winner_benchmark_large_enough` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "assumption_two_winner_benchmark_large_enough"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Theorem 7.2 assumes the two-winner benchmark is at least twice the high bid.",
-      "source_grounded": true,
-      "statement_sha256": "77e3ee86b2bb2548597805d2c6abffda8cc4cd041617e5a4c3010f6747a27382",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "assumption_weighted_pairing_large_market": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "assumption_weighted_pairing_large_market",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 7.1 assumes the high-bid value is small relative to total value. The dashboard row `assumption_weighted_pairing_large_market` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "assumption_weighted_pairing_large_market"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Theorem 7.1 assumes the high-bid value is small relative to total value.",
-      "source_grounded": true,
-      "statement_sha256": "e3300999962d5f323725d9f7360fc27e3a35fb4158de45b66a33c275fb34700d",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "assumption_weighted_pairing_log_factor": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "assumption_weighted_pairing_log_factor",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 7.2 packages the logarithmic factor with `s`. The dashboard row `assumption_weighted_pairing_log_factor` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "assumption_weighted_pairing_log_factor"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Theorem 7.2 packages the logarithmic factor with `s`.",
-      "source_grounded": true,
-      "statement_sha256": "f4a1c98afc53c401db53838d95f16a4e4858cd9694e99d33c584986618fcccd1",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "corollary4_2_fixed_price_lower_bound": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "corollary4_2_fixed_price_lower_bound",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Corollary 4.2: truncating bids below `h / n` and applying Theorem 4.1 gives the logarithmic fixed-price lower bound. internally from the source proof. The dashboard row `corollary4_2_fixed_price_lower_bound` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "corollary4_2_fixed_price_lower_bound"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. source corollary endpoint.. Source inventory item: Corollary 4.2: truncating bids below `h / n` and applying Theorem 4.1 gives the logarithmic fixed-price lower bound. internally from the source proof.",
-      "source_grounded": true,
-      "statement_sha256": "7e66d885f1c35b8cbe4873834808339c826cd56ddbb2afe36250ee15dfc4797f",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "fixedPriceBenchmark": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "fixedPriceBenchmark",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Fixed-price benchmark over bidder-value candidate prices, requiring at least `minWinners` winners. The dashboard row `fixedPriceBenchmark` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "fixedPriceBenchmark"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Fixed-price benchmark over bidder-value candidate prices, requiring at least `minWinners` winners.",
-      "source_grounded": true,
-      "statement_sha256": "30065a57835fefd51ad30ec76cd86d44bf191a1ad97d13a4e3f14aaf2521887a",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "lemma6_1_fair_coin": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "lemma6_1_fair_coin",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Lemma 6.1: fair-coin random sampling lower-tail estimate. The dashboard row `lemma6_1_fair_coin` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "lemma6_1_fair_coin"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. source lemma endpoint.. Source inventory item: Lemma 6.1: fair-coin random sampling lower-tail estimate.",
-      "source_grounded": true,
-      "statement_sha256": "5c640c657a79696f9da28f8d803b68b241ec576cffba924ecee671a5f46e8920",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "lemma8_1_truthful_monotone": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "lemma8_1_truthful_monotone",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Lemma 8.1: truthfulness implies monotone own-bid allocation. The dashboard row `lemma8_1_truthful_monotone` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "lemma8_1_truthful_monotone"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Lemma 8.1: truthfulness implies monotone own-bid allocation.",
-      "source_grounded": true,
-      "statement_sha256": "18502f7df9d12f74a515f448a8d8ff9811b81a87ea513695057dd3cf5525e99d",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "lemma9_2_threshold_domination": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "lemma9_2_threshold_domination",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Lemma 9.2: deterministic truthful binary auctions admit threshold offers. truthful deterministic auctions are bid-independent lemma. The dashboard row `lemma9_2_threshold_domination` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "lemma9_2_threshold_domination"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. source lemma endpoint.. Source inventory item: Lemma 9.2: deterministic truthful binary auctions admit threshold offers. truthful deterministic auctions are bid-independent lemma.",
-      "source_grounded": true,
-      "statement_sha256": "72323219d7b981a7377835a245b7593c83eb03ed4393743cbe6200ceea98e4b7",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "revenue": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "revenue",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Digital-goods auction revenue: total payments collected from all bidders. The dashboard row `revenue` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "revenue"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Digital-goods auction revenue: total payments collected from all bidders.",
-      "source_grounded": true,
-      "statement_sha256": "2e68748f418ba8050b42e161add8ec65dab304c6b1e19e14618d2af84726c810",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "singlePriceRevenue": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "singlePriceRevenue",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Single-price revenue at price `p`. The dashboard row `singlePriceRevenue` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "singlePriceRevenue"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Single-price revenue at price `p`.",
-      "source_grounded": true,
-      "statement_sha256": "d74648fea847146f4c20c8d79f4a2f58dc1ed6e2f36d204b34ab88114e52f941",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem4_1_high_value": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "theorem4_1_high_value",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 4.1: high-value profiles have a logarithmic fixed-price lower bound. The dashboard row `theorem4_1_high_value` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "theorem4_1_high_value"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Theorem 4.1: high-value profiles have a logarithmic fixed-price lower bound.",
-      "source_grounded": true,
-      "statement_sha256": "62e9fee28b420b1dda7eeb8553804a75a1466f88c615419902e5c13a0f1a293f",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem6_2_random_sampling": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "theorem6_2_random_sampling",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 6.2: random-sampling auction revenue guarantee for finite candidate benchmark inputs satisfying `alpha * h <= F`. `alpha * h <= F` is the source theorem condition. The dashboard row `theorem6_2_random_sampling` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "theorem6_2_random_sampling"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. source theorem endpoint.. Source inventory item: Theorem 6.2: random-sampling auction revenue guarantee for finite candidate benchmark inputs satisfying `alpha * h <= F`. `alpha * h <= F` is the source theorem condition.",
-      "source_grounded": true,
-      "statement_sha256": "59fce542da51d4b5c11eadb04200156b969242ea007fdb6b9792c2dae0d46d3e",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem7_1_weighted_pairing": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "theorem7_1_weighted_pairing",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 7.1: weighted pairing gets a logarithmic guarantee when `4h <= T`. paper's `Omega(T / log h)` bound under the displayed side condition. The dashboard row `theorem7_1_weighted_pairing` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "theorem7_1_weighted_pairing"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. source theorem endpoint.. Source inventory item: Theorem 7.1: weighted pairing gets a logarithmic guarantee when `4h <= T`. paper's `Omega(T / log h)` bound under the displayed side condition.",
-      "source_grounded": true,
-      "statement_sha256": "601fbafea83ae8ff3498ee1620fcf8fcd9c95a51cb0ea85b24a78ede37bec2d6",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem7_2_weighted_pairing_benchmark": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "theorem7_2_weighted_pairing_benchmark",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 7.2: weighted pairing competes with the two-winner benchmark. The dashboard row `theorem7_2_weighted_pairing_benchmark` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "theorem7_2_weighted_pairing_benchmark"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Theorem 7.2: weighted pairing competes with the two-winner benchmark.",
-      "source_grounded": true,
-      "statement_sha256": "e989bcc5e7632506b77405d571d497e12137fd68530dcf778a1844acb95e7935",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem8_2_truthful_revenue_upper_bound": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "theorem8_2_truthful_revenue_upper_bound",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 8.2 source-version endpoint. For Section 8.2, the paper-facing formalization follows the journal version's refined monotone truthful randomized offer-auction wording. Every such auction has expected revenue at most the fixed-pric... The dashboard row `theorem8_2_truthful_revenue_upper_bound` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "theorem8_2_truthful_revenue_upper_bound"
-      ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. source-version endpoint.. Source inventory item: Theorem 8.2 source-version endpoint. For Section 8.2, the paper-facing formalization follows the journal version's refined monotone truthful randomized offer-auction wording. Every such auction has expected revenue at most the fixed-price benchmark `F`. Thi...",
-      "source_grounded": true,
-      "statement_sha256": "a838594925b8c8ad97267fd7548cb99151b15871d018e2903a41760fd883e24d",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem9_1_bid_independent_lower_bound": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "theorem9_1_bid_independent_lower_bound",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 9.1: bid-independent auctions have a lower-bound witness. the paper's positive `alpha` large-market condition. The dashboard row `theorem9_1_bid_independent_lower_bound` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
       "review_rows": [
         "theorem9_1_bid_independent_lower_bound"
       ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. source theorem endpoint.. Source inventory item: Theorem 9.1: bid-independent auctions have a lower-bound witness. the paper's positive `alpha` large-market condition.",
-      "source_grounded": true,
-      "statement_sha256": "8bae4113cf366b9515af131e1838ee5d542803c48ef37e4b5cfee722ce6679c2",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "review_row_signature_sha256": {
+        "theorem9_1_bid_independent_lower_bound": "21b074591bfd7b21aa1dbc8d82eaf85ee4aa2c946fce3cb021d4bdb4297f6ab7"
+      },
+      "reason": "For every deterministic bid-independent boundary rule, integer attained high value H >= 2, and positive real alpha, the endpoint constructs a binary profile with positive high-bid count and proves both the ordinary ratio R/F <= 1/H and H*alpha <= F.",
+      "source_evidence": "GHW01DigitalGoods.txt:979-1090 states Theorem 9.1 and its two-value construction; lines 344-375 permit the per-other-bids weak versus strict threshold boundary choice.",
+      "dashboard_evidence": "The theorem quantifies the erased-multiset offer rule, H >= 2, and 0 < alpha; returns a positive high-count witness so H is attained and F is positive; and states the literal division inequality plus the scale bound.",
+      "statement_sha256": "472dad0a117cbff3f11261189bf79958970934a02487679efb82654fbcfcc213",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "2928c81919d1bf3e33f3d4f2c829a3a4c1d9368105cd7947f407b1eff0596008",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "2928c81919d1bf3e33f3d4f2c829a3a4c1d9368105cd7947f407b1eff0596008",
+          "source_anchor_quote_identity_sha256": "837ea631c9aa9381ae498d73a3336a26b83948c56b2af3e2f884c96f07837471",
+          "source_target_sha256": "472dad0a117cbff3f11261189bf79958970934a02487679efb82654fbcfcc213",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "theorem",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-BID-INDEPENDENT-BOUNDARY-01",
+              "GHW01-THEOREM93-HIGH-VALUE-DISCRETIZATION-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-BID-INDEPENDENT-BOUNDARY-01": "092482628c5241adb359674105962c36d02d0e2996b29be373b06c2fd5a4b1b6",
+              "GHW01-THEOREM93-HIGH-VALUE-DISCRETIZATION-01": "068566e0518872ff9c65da3563de983c992374667b0b856a0d1d4539505b6bd6"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
     },
-    "theorem9_3_deterministic_truthful_lower_bound": {
-      "audit_kind": "source_to_dashboard_llm",
+    "result_theorem9_3_deterministic_lower_bound": {
       "coverage": "covered",
-      "dashboard_evidence": "theorem9_3_deterministic_truthful_lower_bound",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 9.3: deterministic truthful auctions have a lower-bound witness. The source model supplies the paper's set-of-bids focused-outcome convention; erased-list relabeling and then Lemma 9.2's anonymous list-price representation are co... The dashboard row `theorem9_3_deterministic_truthful_lower_bound` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
       "review_rows": [
         "theorem9_3_deterministic_truthful_lower_bound"
       ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. source theorem endpoint.. Source inventory item: Theorem 9.3: deterministic truthful auctions have a lower-bound witness. The source model supplies the paper's set-of-bids focused-outcome convention; erased-list relabeling and then Lemma 9.2's anonymous list-price representation are constructed internally...",
-      "source_grounded": true,
-      "statement_sha256": "fd4d3267d3c2ddd610b511fa7c51a2574e0e528c09153368021bbcebb86c9999",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "review_row_signature_sha256": {
+        "theorem9_3_deterministic_truthful_lower_bound": "1d9609e964f30c18ac09479d248d91801978cff4b3a44e5d540f0abd0fa97dde"
+      },
+      "reason": "On the paper's primitive deterministic source model, the endpoint uses erased bid multisets, nonnegative sale prices, integer attained H >= 2, and positive real alpha to construct a binary profile with positive high-bid count and prove R/F <= 1/H and H*alpha <= F.",
+      "source_evidence": "GHW01DigitalGoods.txt:1100-1104 and :1130 state Theorem 9.3; lines 195-204 and 1105-1117 provide the set-of-bids and deterministic sale-price model used by the witness proof.",
+      "dashboard_evidence": "The theorem exposes the audited source-model carrier rather than a list ordering, assumes H >= 2 and 0 < alpha, constructs positive highCount, and concludes the ordinary positive-denominator ratio and scale inequalities.",
+      "statement_sha256": "440689fe791e47413c55a4e44746d77614021a0179dc3636022dea42255b37c8",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "12ce1ca2c8e4509809d778e81867e9f1e01035066c982204a9e24dad4d359188",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "12ce1ca2c8e4509809d778e81867e9f1e01035066c982204a9e24dad4d359188",
+          "source_anchor_quote_identity_sha256": "8d30b0e6d25da2d48409dad29fd76d18fba7863e594983d65d7b3110e9a397dc",
+          "source_target_sha256": "440689fe791e47413c55a4e44746d77614021a0179dc3636022dea42255b37c8",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "theorem",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-THEOREM93-HIGH-VALUE-DISCRETIZATION-01",
+              "GHW01-THEOREM93-SALE-PRICE-CONVENTION-01",
+              "GHW01-THEOREM93-SET-OF-BIDS-ERASED-MULTISET-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-THEOREM93-HIGH-VALUE-DISCRETIZATION-01": "068566e0518872ff9c65da3563de983c992374667b0b856a0d1d4539505b6bd6",
+              "GHW01-THEOREM93-SALE-PRICE-CONVENTION-01": "61e4025518fd366f4fc2c453dc0de3c02a05a5d562fa14a5b8f103c9d2716ff6",
+              "GHW01-THEOREM93-SET-OF-BIDS-ERASED-MULTISET-01": "f27482aa0a298f4f1273fa6a12d9a69dd9003aecba38225858045f1801e933d6"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
     },
-    "totalValue": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "totalValue",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Total bid value `T = sum_i v_i`. The dashboard row `totalValue` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+    "result_theorem4_1": {
+      "coverage": "covered_corrected_target",
+      "target_kind": "approved_corrected_target",
       "review_rows": [
-        "totalValue"
+        "theorem4_1_high_value"
       ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. direct source text.. Source inventory item: Total bid value `T = sum_i v_i`.",
-      "source_grounded": true,
-      "statement_sha256": "2cd82a76307593a707fda856b53f2376152e08579771fba302a895d9a98a163e",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "review_row_signature_sha256": {
+        "theorem4_1_high_value": "c7b937dc0eac6fad933f0ee71b9e8a7dd9b380a2452ad547aa9a55a71dff310a"
+      },
+      "reason": "The reviewed endpoint proves the approved nondegenerate target: h is an attained highest bid, h >= 2, all bids lie in [1,h], and T <= 2 log_2(h) F. It is intentionally not credited as the archival theorem with an undefined/zero logarithmic domain.",
+      "source_evidence": "GHW01DigitalGoods.txt:359-370 contains archival Theorem 4.1; docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md pins the h >= 2 repair.",
+      "dashboard_evidence": "The theorem has the explicit h domain, attained-maximum witness, normalized range, and exact corrected inequality.",
+      "statement_sha256": "0c854cf4e28f902d2f2c2f5e0d92f3b48ed71e809540d843075af1d58242e7ab",
+      "archival_statement_sha256": "ddd164e336b8162f95c8c8452335bce9f91ab4f8c6bdad47eeec38fe6e67714a",
+      "corrected_target_sha256": "9d4d17e5c99a83263ca4fbe344c3b51a534b707ca9f34a86b895bc7eb54220e2",
+      "governing_defect_ids": [
+        "GHW01-THEOREM4.1-LOG-DOMAIN-01"
+      ],
+      "archival_equivalence_claimed": false,
+      "approval_artifact_path": "docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md",
+      "approval_artifact_sha256": "0ae49b044ae048f0a8c215214149e3c2d9976adcf52ff39b55c7776aa1a39363",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "77d09bce8fc8ecd0ebb19a680108e95363ab54321e69733185928dd80ade230e",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "77d09bce8fc8ecd0ebb19a680108e95363ab54321e69733185928dd80ade230e",
+          "source_anchor_quote_identity_sha256": "04c6e061d6339f991da880ba67f015f163b6e258a00b337a203783bd8a548e34",
+          "source_target_sha256": "0c854cf4e28f902d2f2c2f5e0d92f3b48ed71e809540d843075af1d58242e7ab",
+          "source_target_disposition": {
+            "kind": "approved_corrected_target",
+            "archival_statement_sha256": "ddd164e336b8162f95c8c8452335bce9f91ab4f8c6bdad47eeec38fe6e67714a",
+            "corrected_target_sha256": "9d4d17e5c99a83263ca4fbe344c3b51a534b707ca9f34a86b895bc7eb54220e2",
+            "governing_defect_ids": [
+              "GHW01-THEOREM4.1-LOG-DOMAIN-01"
+            ],
+            "approval_artifact_sha256": "0ae49b044ae048f0a8c215214149e3c2d9976adcf52ff39b55c7776aa1a39363",
+            "archival_equivalence_claimed": false,
+            "source_kind": "theorem",
+            "source_status": "corrected",
+            "coverage_status": "corrected_source_statement"
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-HIGHEST-BID-PARAMETER-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-HIGHEST-BID-PARAMETER-01": "7a27a72d358a3eebbe479f31672fd1381d1c90fcc002ce3a038f960902f40563"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
     },
-    "truthful": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "truthful",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Dominant-strategy truthfulness: truthful bidding weakly dominates replacing one agent's value report by any alternative report. The dashboard row `truthful` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+    "result_corollary4_2": {
+      "coverage": "covered_corrected_target",
+      "target_kind": "approved_corrected_target",
       "review_rows": [
-        "truthful"
+        "corollary4_2_fixed_price_lower_bound"
       ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Dominant-strategy truthfulness: truthful bidding weakly dominates replacing one agent's value report by any alternative report.",
-      "source_grounded": true,
-      "statement_sha256": "ba7af04a51dde16de97f069df4dc2fa56824760a94bc73f6b22ef25900bf9aa5",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "review_row_signature_sha256": {
+        "corollary4_2_fixed_price_lower_bound": "b3b146b0d035c00a7ad60d47d4828bb4778987d8e24e6204d22b87f33740965e"
+      },
+      "reason": "The endpoint proves the approved finite-cardinality correction: n >= 2, a positive attained maximum h, nonnegative bids bounded by h, and T <= 4 log_2(n) F. The missing archival log-domain condition is not silently inferred.",
+      "source_evidence": "GHW01DigitalGoods.txt:301-307 contains archival Corollary 4.2; docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md pins the n >= 2 target.",
+      "dashboard_evidence": "The theorem displays the cardinality, maximum, sign, upper-bound, and corrected logarithmic conclusion.",
+      "statement_sha256": "177fe4b5a74f8daddef62be5e9f796c4fbed9e0b53c4d5adb9944da2e6cda323",
+      "archival_statement_sha256": "9d90c31125d2a526d144aadc5ba758da1266563d9201551e086baabb327987b2",
+      "corrected_target_sha256": "da5f13e8c5aadbdb6a146257d4f2d6e173de0ea2e964151cdf867be53860cd85",
+      "governing_defect_ids": [
+        "GHW01-COROLLARY4.2-LOG-DOMAIN-01"
+      ],
+      "archival_equivalence_claimed": false,
+      "approval_artifact_path": "docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md",
+      "approval_artifact_sha256": "0ae49b044ae048f0a8c215214149e3c2d9976adcf52ff39b55c7776aa1a39363",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "9c29b5af26ebfb19a13361bb2d003dc84ccddc7d6fd38b390cd6daa7c02efb7c",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "9c29b5af26ebfb19a13361bb2d003dc84ccddc7d6fd38b390cd6daa7c02efb7c",
+          "source_anchor_quote_identity_sha256": "7c38f5f8b763319b9013f010facc8de50c68c5dd4521241754db669fa8811204",
+          "source_target_sha256": "177fe4b5a74f8daddef62be5e9f796c4fbed9e0b53c4d5adb9944da2e6cda323",
+          "source_target_disposition": {
+            "kind": "approved_corrected_target",
+            "archival_statement_sha256": "9d90c31125d2a526d144aadc5ba758da1266563d9201551e086baabb327987b2",
+            "corrected_target_sha256": "da5f13e8c5aadbdb6a146257d4f2d6e173de0ea2e964151cdf867be53860cd85",
+            "governing_defect_ids": [
+              "GHW01-COROLLARY4.2-LOG-DOMAIN-01"
+            ],
+            "approval_artifact_sha256": "0ae49b044ae048f0a8c215214149e3c2d9976adcf52ff39b55c7776aa1a39363",
+            "archival_equivalence_claimed": false,
+            "source_kind": "corollary",
+            "source_status": "corrected",
+            "coverage_status": "corrected_source_statement"
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
     },
-    "twoWinnerBenchmark": {
-      "audit_kind": "source_to_dashboard_llm",
+    "result_lemma6_1_fixed_size_lower_tail": {
       "coverage": "covered",
-      "dashboard_evidence": "twoWinnerBenchmark",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Two-winner fixed-price benchmark `F^(2)`: the best single-price revenue selling to at least two bidders. The dashboard row `twoWinnerBenchmark` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
       "review_rows": [
-        "twoWinnerBenchmark"
+        "lemma6_1_fixed_size"
       ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Two-winner fixed-price benchmark `F^(2)`: the best single-price revenue selling to at least two bidders.",
-      "source_grounded": true,
-      "statement_sha256": "f256bcbdbfe5580bc80b5f59b8e6f935d5096b7e03ca742d0e65fe026733c149",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "review_row_signature_sha256": {
+        "lemma6_1_fixed_size": "f603c161a33dc784949c25b8ad7425bbb11112fdbbb233e2cea99027a8858ad7"
+      },
+      "reason": "The row gives the fixed-cardinality uniform law, B subset A, the nontrivial sample-size range, delta in (0,1], the exact strict lower-tail event, and the displayed exponential bound. It is not a fair-coin surrogate.",
+      "source_evidence": "GHW01DigitalGoods.txt:428-454 states Lemma 6.1 for a uniformly random k-element subset and its lower-tail bound.",
+      "dashboard_evidence": "The theorem quantifies arbitrary A, B, k, and delta with the same cardinality expression and exponential conclusion.",
+      "statement_sha256": "f62c6fef77312599422d4f856113aef318a195860cb894e41b50cdaaaeaaa6f9",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "e1ed8699b481c3de6eb1eb26bd26879293619f41ae5890a6005be033bb0dfb99",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "e1ed8699b481c3de6eb1eb26bd26879293619f41ae5890a6005be033bb0dfb99",
+          "source_anchor_quote_identity_sha256": "c6b50115c8ac07b4a4286fb410bb21fa502c503862eedf817f0b649d66a6467a",
+          "source_target_sha256": "f62c6fef77312599422d4f856113aef318a195860cb894e41b50cdaaaeaaa6f9",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "lemma",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
     },
-    "weightedPairingRevenue": {
-      "audit_kind": "source_to_dashboard_llm",
+    "result_theorem6_2_random_sampling": {
       "coverage": "covered",
-      "dashboard_evidence": "weightedPairingRevenue",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Expected revenue of the weighted-pairing auction. The dashboard row `weightedPairingRevenue` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
       "review_rows": [
-        "weightedPairingRevenue"
+        "theorem6_2_random_sampling"
       ],
-      "source_evidence": "Source basis: documented source inventory from SODA paper and Goldberg-Hartline-Karlin-Saks-Wright journal version for Theorem 8.2 crosswalk. Source inventory item: Expected revenue of the weighted-pairing auction.",
-      "source_grounded": true,
-      "statement_sha256": "e8e36c5fa255e678cd1bfb75269f91df47fc8cea494d6b8095b95beb1e0eafb1",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "review_row_signature_sha256": {
+        "theorem6_2_random_sampling": "839aa4990bee2d9ac8f56f603e33638a11d9fcd6bf07bbd6f72aeb7ca3a38ffa"
+      },
+      "reason": "The source-facing result uses the exact uniform half-sample and complementary market. The endpoint exposes that finite probability space, an attained high value h, the alpha*h <= F condition, and the stated F/6 event with the two exponential failure terms; its natural alpha is the documented count convention rather than a hidden rounding step.",
+      "source_evidence": "GHW01DigitalGoods.txt:455-547 defines the sampling mechanism and states Theorem 6.2's revenue/probability guarantee.",
+      "dashboard_evidence": "The theorem uses Fin(2m), a uniform m-subset law, the directional auction, and the exact displayed probability inequality.",
+      "statement_sha256": "a37f38ff4220922078eacc137c3d1878b80c40ca4fc319c13fd94d69d52086c4",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "733e2f1fe018befb9492bac6eda4e46262a102387f824c62cb720ea37a4c1a77",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "733e2f1fe018befb9492bac6eda4e46262a102387f824c62cb720ea37a4c1a77",
+          "source_anchor_quote_identity_sha256": "a5c176cdae34586060531dab848fda8f3384ea80d42235b81e3a98bc13a16f39",
+          "source_target_sha256": "a37f38ff4220922078eacc137c3d1878b80c40ca4fc319c13fd94d69d52086c4",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "theorem",
+            "source_status": "source theorem endpoint",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-HIGHEST-BID-PARAMETER-01",
+              "GHW01-THEOREM62-DISCRETE-ALPHA-01",
+              "GHW01-THEOREM62-EXACT-HALF-SAMPLING-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-HIGHEST-BID-PARAMETER-01": "7a27a72d358a3eebbe479f31672fd1381d1c90fcc002ce3a038f960902f40563",
+              "GHW01-THEOREM62-DISCRETE-ALPHA-01": "2c3c65f34287b838b13e30a0016ccadffa3693d1c5bc5ce85c0ac0e71706df28",
+              "GHW01-THEOREM62-EXACT-HALF-SAMPLING-01": "2ed76a541df6bdc020e8c2544cb6e033ea8eb05af966eecad8b97b8fe1767803"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "result_theorem7_1_weighted_pairing": {
+      "coverage": "covered_corrected_target",
+      "target_kind": "approved_corrected_target",
+      "review_rows": [
+        "theorem7_1_weighted_pairing"
+      ],
+      "review_row_signature_sha256": {
+        "theorem7_1_weighted_pairing": "8e87dad506f57265ae45be2f6dec277e4fa72745840c54a1d09dc8962c297291"
+      },
+      "reason": "The reviewed target makes h >= 2 and attained-highest-bid semantics explicit, retains normalized bids and 4h <= T, and proves the direct canonical weighted-pairing revenue bound T <= 576 log_2(h) W. The finite offer construction is proof-internal. The singular h=1 archival denominator is not claimed equivalent.",
+      "source_evidence": "GHW01DigitalGoods.txt:563-607 contains archival Theorem 7.1; docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md pins the nondegenerate operational-W target.",
+      "dashboard_evidence": "The theorem exposes the source total, range, attained maximum, large-market condition, and direct source-defined W inequality.",
+      "statement_sha256": "cd171a27a12bcca72eb3c7ff296c34d5dd860732eaa3bba72581ccc2c3fd3c0e",
+      "archival_statement_sha256": "57d7cceb7e60039baf4aa833be8d5dc603653497730e41756e3d02d97975c577",
+      "corrected_target_sha256": "a1708f40a8df2f2b921454fd5cccc880ac4ba5da8e69017b55d4f9a7f1473270",
+      "governing_defect_ids": [
+        "GHW01-THEOREM7-LOG-DOMAIN-01"
+      ],
+      "archival_equivalence_claimed": false,
+      "approval_artifact_path": "docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md",
+      "approval_artifact_sha256": "0ae49b044ae048f0a8c215214149e3c2d9976adcf52ff39b55c7776aa1a39363",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "c56695963a9276868432d81cc178d17a8818831ffdfcd689ce67957f38800eca",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "c56695963a9276868432d81cc178d17a8818831ffdfcd689ce67957f38800eca",
+          "source_anchor_quote_identity_sha256": "369c5127e0f6f22563dc4b24d234d2625b8ee559f2f522b822fe4377c26e45b8",
+          "source_target_sha256": "cd171a27a12bcca72eb3c7ff296c34d5dd860732eaa3bba72581ccc2c3fd3c0e",
+          "source_target_disposition": {
+            "kind": "approved_corrected_target",
+            "archival_statement_sha256": "57d7cceb7e60039baf4aa833be8d5dc603653497730e41756e3d02d97975c577",
+            "corrected_target_sha256": "a1708f40a8df2f2b921454fd5cccc880ac4ba5da8e69017b55d4f9a7f1473270",
+            "governing_defect_ids": [
+              "GHW01-THEOREM7-LOG-DOMAIN-01"
+            ],
+            "approval_artifact_sha256": "0ae49b044ae048f0a8c215214149e3c2d9976adcf52ff39b55c7776aa1a39363",
+            "archival_equivalence_claimed": false,
+            "source_kind": "theorem",
+            "source_status": "corrected",
+            "coverage_status": "corrected_source_statement"
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-HIGHEST-BID-PARAMETER-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-HIGHEST-BID-PARAMETER-01": "7a27a72d358a3eebbe479f31672fd1381d1c90fcc002ce3a038f960902f40563"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "result_lemma8_1_monotone_allocation": {
+      "coverage": "covered_corrected_target",
+      "target_kind": "approved_corrected_target",
+      "review_rows": [
+        "lemma8_1_truthful_monotone"
+      ],
+      "review_row_signature_sha256": {
+        "lemma8_1_truthful_monotone": "3ebb225a6c222fb07ad5293ef29f258a08715a90168e68e0bd739b0da1379661"
+      },
+      "reason": "The reviewed endpoint proves the approved journal correction: under the cross-bidder offer-CDF condition, b_i < b_j implies that bidder i's probability of receiving an acceptable offer is at most bidder j's. It does not claim that the archival truthfulness-only premise suffices.",
+      "source_evidence": "GHW01DigitalGoods.txt:746-795 preserves archival SODA Lemma 8.1; docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md pins the journal Definition 8.1 cross-bidder CDF repair without claiming archival equivalence.",
+      "dashboard_evidence": "The theorem quantifies finite offer support, bidder values, prices, and bidder-specific offer laws; assumes the CDF order for x <= b_i and b_i < b_j; and concludes the two acceptance-probability inequality.",
+      "statement_sha256": "998df8b8fd4507215e9c38d49832186582fb19b15758c2112f049edbbf752f3f",
+      "archival_statement_sha256": "1c8fe643d964e18fc9be70b71c8de3ef33d77237d0de21593ac7c7deb5db5c8b",
+      "corrected_target_sha256": "088b2a4ac256edecab4564367192623a5d13b8d0d7b76352b6a4da8fa078d391",
+      "governing_defect_ids": [
+        "GHW01-LEMMA8.1-CROSS-BIDDER-01"
+      ],
+      "archival_equivalence_claimed": false,
+      "approval_artifact_path": "docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md",
+      "approval_artifact_sha256": "0ae49b044ae048f0a8c215214149e3c2d9976adcf52ff39b55c7776aa1a39363",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "4e08353dbc16b0309478524d673d4242b77897e8d0c1701d938c5441e9bdc211",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "4e08353dbc16b0309478524d673d4242b77897e8d0c1701d938c5441e9bdc211",
+          "source_anchor_quote_identity_sha256": "741daef385aa25ddf6b74f7f818fc27b338848b3b11ce11ef748e0292e2ffa55",
+          "source_target_sha256": "998df8b8fd4507215e9c38d49832186582fb19b15758c2112f049edbbf752f3f",
+          "source_target_disposition": {
+            "kind": "approved_corrected_target",
+            "archival_statement_sha256": "1c8fe643d964e18fc9be70b71c8de3ef33d77237d0de21593ac7c7deb5db5c8b",
+            "corrected_target_sha256": "088b2a4ac256edecab4564367192623a5d13b8d0d7b76352b6a4da8fa078d391",
+            "governing_defect_ids": [
+              "GHW01-LEMMA8.1-CROSS-BIDDER-01"
+            ],
+            "approval_artifact_sha256": "0ae49b044ae048f0a8c215214149e3c2d9976adcf52ff39b55c7776aa1a39363",
+            "archival_equivalence_claimed": false,
+            "source_kind": "lemma",
+            "source_status": "corrected",
+            "coverage_status": "corrected_source_statement"
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "result_theorem8_2_journal_revenue_upper_bound": {
+      "coverage": "covered_corrected_target",
+      "target_kind": "approved_corrected_target",
+      "review_rows": [
+        "theorem8_2_truthful_revenue_upper_bound"
+      ],
+      "review_row_signature_sha256": {
+        "theorem8_2_truthful_revenue_upper_bound": "1b63139c22afb320a0d43eb98a3e01d9f58b44200ee2231a39f465adc71bee7d"
+      },
+      "reason": "The row proves the separately approved journal formulation: finite offer support, nonnegative values and prices, and monotone offer CDFs imply expected revenue at most F. The unrestricted preliminary SODA sentence is retained only as archival text.",
+      "source_evidence": "GHW01DigitalGoods.txt:833 has archival SODA Theorem 8.2; the journal Definition 8.1/Theorem 8.2 target is pinned in docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md.",
+      "dashboard_evidence": "The theorem quantifies the finite price law and displays every journal antecedent plus the expected-revenue <= fixed-price-benchmark conclusion.",
+      "statement_sha256": "e1d6d6a9948aeacf3ee3a38a93972fd0b8a9a1b699b468bc377b5b7db78d86bc",
+      "archival_statement_sha256": "1554e4fe431ec05e47319150e3497b4f27baa04c5a801652f39df0e036517495",
+      "corrected_target_sha256": "5603570b428446a82f27599916320626220740bd24600248c6fe4187392f8687",
+      "governing_defect_ids": [
+        "GHW01-THEOREM82-SODA-SOURCE-VERSION-01"
+      ],
+      "archival_equivalence_claimed": false,
+      "approval_artifact_path": "docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md",
+      "approval_artifact_sha256": "0ae49b044ae048f0a8c215214149e3c2d9976adcf52ff39b55c7776aa1a39363",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "2defde571bb7b1fa7043caaf17f0a90ab3fe8fb397c20e4bf92dedcfb2584e85",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "2defde571bb7b1fa7043caaf17f0a90ab3fe8fb397c20e4bf92dedcfb2584e85",
+          "source_anchor_quote_identity_sha256": "b33346ce919296461dcf5ba867296188d177f91daed520633d7fd0977265ac74",
+          "source_target_sha256": "e1d6d6a9948aeacf3ee3a38a93972fd0b8a9a1b699b468bc377b5b7db78d86bc",
+          "source_target_disposition": {
+            "kind": "approved_corrected_target",
+            "archival_statement_sha256": "1554e4fe431ec05e47319150e3497b4f27baa04c5a801652f39df0e036517495",
+            "corrected_target_sha256": "5603570b428446a82f27599916320626220740bd24600248c6fe4187392f8687",
+            "governing_defect_ids": [
+              "GHW01-THEOREM82-SODA-SOURCE-VERSION-01"
+            ],
+            "approval_artifact_sha256": "0ae49b044ae048f0a8c215214149e3c2d9976adcf52ff39b55c7776aa1a39363",
+            "archival_equivalence_claimed": false,
+            "source_kind": "theorem",
+            "source_status": "corrected",
+            "coverage_status": "corrected_source_statement"
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "result_lemma9_2_bid_independence": {
+      "coverage": "covered",
+      "review_rows": [
+        "lemma9_2_bid_independence"
+      ],
+      "review_row_signature_sha256": {
+        "lemma9_2_bid_independence": "25f1605898faa7be674d1b180da7d188186eed8db719d7f0685b1482f96769f5"
+      },
+      "reason": "The endpoint proves the full critical-offer shape for each fixed-other-bids slice: no winners or one constant price, losers below it, winners above it, and either source-allowed boundary choice. The ordinary sale-price conventions needed for that characterization remain explicit rather than being inferred from the word truthful.",
+      "source_evidence": "GHW01DigitalGoods.txt:1105-1128 proves that a truthful deterministic auction is bid-independent and describes the open/closed critical region.",
+      "dashboard_evidence": "The theorem assumes truthfulness, individual rationality, no positive transfers, and binary allocation, then concludes DeterministicOfferBidIndependent for every focused slice.",
+      "statement_sha256": "d153f6fa0557078ef3860786f4a78be3469bf448bd59dc5c8628792c8c206a16",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "16ed0f6e80263a3d0bb1067ccb354d2f7c61c53541a1ddd85f2a81bcb10b4904",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "16ed0f6e80263a3d0bb1067ccb354d2f7c61c53541a1ddd85f2a81bcb10b4904",
+          "source_anchor_quote_identity_sha256": "ec248f17463d1739d480e1699545ba046435dc78d947a82fe3f7a2e328f9ca18",
+          "source_target_sha256": "d153f6fa0557078ef3860786f4a78be3469bf448bd59dc5c8628792c8c206a16",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "lemma",
+            "source_status": "source lemma endpoint",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-THEOREM93-SALE-PRICE-CONVENTION-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-THEOREM93-SALE-PRICE-CONVENTION-01": "61e4025518fd366f4fc2c453dc0de3c02a05a5d562fa14a5b8f103c9d2716ff6"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_dual_price_sampling_auction": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_dualPriceRandomSamplingAuction"
+      ],
+      "review_row_signature_sha256": {
+        "source_dualPriceRandomSamplingAuction": "785f38c3c004a63c82ca9429227366447dda37e9c0f9a8b5a7f0be9a3f191a22"
+      },
+      "reason": "The route symmetrically offers the sample-derived threshold to the complement and the complement-derived threshold to the sample.",
+      "source_evidence": "GHW01DigitalGoods.txt:417-422 is the pinned source passage for: The dual-price sampling variant offers f(B') to the complement and f(B\\B') to the sample, typically with half sampling.",
+      "dashboard_evidence": "The reviewed joint outcome law computes each side's offer from the opposite side rather than reusing a bidder's own report.",
+      "statement_sha256": "3b8e076d1174fc5b3ff042d8ed8ea418737af8aef6a1eaeb601b2b7fe7833b95",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "b4a49d36f2b2fd2f99f89ed118cd90a33df2a5308c8f8a91a294cf0ebdf40c1a",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "b4a49d36f2b2fd2f99f89ed118cd90a33df2a5308c8f8a91a294cf0ebdf40c1a",
+          "source_anchor_quote_identity_sha256": "744e8dda4eea7e6aa891c039f1a8a2da8a4643f75e2829bdec4db845aef08be7",
+          "source_target_sha256": "3b8e076d1174fc5b3ff042d8ed8ea418737af8aef6a1eaeb601b2b7fe7833b95",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_weighted_pairing_revenue": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_weightedPairingOutcomeExpectedRevenue_eq_W",
+        "source_weightedPairingW",
+        "source_weightedPairingOutcomeExpectedRevenue"
+      ],
+      "review_row_signature_sha256": {
+        "source_weightedPairingOutcomeExpectedRevenue_eq_W": "bf87790290626976b5adcedff1d81ed73f6942f5277133f4aec075b687ff71b7",
+        "source_weightedPairingW": "7a374d7c9146d6ab1df9d01c97f61a9fcff312542b7c2893d5e0c2969bf76478",
+        "source_weightedPairingOutcomeExpectedRevenue": "f359d648b54f51d7748f4ea63896baaf850e14b84683fe1e371089664416cc51"
+      },
+      "reason": "The linked clauses identify W, the finite expected revenue of the genuine weighted-pairing joint outcome law, and prove that the outcome-law expectation equals W.",
+      "source_evidence": "GHW01DigitalGoods.txt:621-623 is the pinned source passage for: W denotes the expected revenue of the weighted-pairing auction.",
+      "dashboard_evidence": "The reviewed surface exposes both quantities over the same normalized nonsingleton profile and an equality theorem connecting them.",
+      "statement_sha256": "f5d70bc2ca7beadff71ff2ccc9a909f763cd8208edce1c5f2b78fbc228957a58",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "0a90afeb4f46732f9d6af754edebf5c7f379ca880710b4cb50687b3e0a7e7842",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "0a90afeb4f46732f9d6af754edebf5c7f379ca880710b4cb50687b3e0a7e7842",
+          "source_anchor_quote_identity_sha256": "215be48962b6356b01faab590d4ac99a5c6261940e2d87eb2964ab9b4df41279",
+          "source_target_sha256": "f5d70bc2ca7beadff71ff2ccc9a909f763cd8208edce1c5f2b78fbc228957a58",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-WEIGHTED-PAIRING-JOINT-LAW-01",
+              "GHW01-WEIGHTED-PAIRING-PROBABILITY-DOMAIN-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-WEIGHTED-PAIRING-JOINT-LAW-01": "ac6aedf68ab584347d63f61eae6c1bae17e309ebf508f2a0b14e7cdcee5db5ae",
+              "GHW01-WEIGHTED-PAIRING-PROBABILITY-DOMAIN-01": "4aa415bf660b5ad791d58cf4105996fb8315a47c7cf63b4c8eb0384d124593ee"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_k_item_vickrey": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_kItemVickreyAuction"
+      ],
+      "review_row_signature_sha256": {
+        "source_kItemVickreyAuction": "55a0aaff3ddd197d591e939a3df7cd859a6e80fe3945eef60805f2ea3c46e016"
+      },
+      "reason": "The route selects the k highest bidders and charges each winner the next bid, so the mechanism is the source k-item single-price Vickrey auction.",
+      "source_evidence": "GHW01DigitalGoods.txt:284-287 is the pinned source passage for: The k-item Vickrey auction sells to the k highest bidders at the (k+1)-st highest bid, hence is single-price.",
+      "dashboard_evidence": "The reviewed outcome uses the order statistic at rank k+1 as a common payment and restricts winners to the top-k set.",
+      "statement_sha256": "e898d1ef7b7981de782baec67050aca9c136bd6d294b051b184fa4074be0a054",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "765e71f0b1ddb2c207ee5878f638a36aaf91348ab543ae9bb7167ef55e21ac7e",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "765e71f0b1ddb2c207ee5878f638a36aaf91348ab543ae9bb7167ef55e21ac7e",
+          "source_anchor_quote_identity_sha256": "fb2ef6fc718a5ac0a94d58143af2281b8c23059ff74fd9620d1e4477cba3d3ea",
+          "source_target_sha256": "e898d1ef7b7981de782baec67050aca9c136bd6d294b051b184fa4074be0a054",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "model_bounded_dual_price_sampling_auction": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_boundedDualPriceSampling"
+      ],
+      "review_row_signature_sha256": {
+        "source_boundedDualPriceSampling": "3e84d7d7d87a6a7399b3c4800dbffac33e4c408c1573e77fd91cb4fce2518522"
+      },
+      "reason": "The route implements the bounded dual-price mechanism on two equal halves, using the opposite half's capacity-adjusted threshold and an explicit even-capacity split.",
+      "source_evidence": "GHW01DigitalGoods.txt:1692-1696 is the pinned source passage for: The bounded dual-price auction samples n/2 bids and uses opt_{k/2} so approximately k/2 bids are selected from each half.",
+      "dashboard_evidence": "The reviewed outcome law requires n = 2m and models total capacity as twice a half-capacity, bounding selections from each half accordingly.",
+      "statement_sha256": "6cba2e6b6424931f65cf99c36a9ada7523d058f976cc65cb642296d258554aeb",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "49974aa656dc41f373e8e9d703fe89502b47a33a8b06ef8cb1f710476978f7bf",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "49974aa656dc41f373e8e9d703fe89502b47a33a8b06ef8cb1f710476978f7bf",
+          "source_anchor_quote_identity_sha256": "2d9d1b8fa5197249738f3e559d0051f44b9c24dc3686bf79ec89986ec1ec3c82",
+          "source_target_sha256": "6cba2e6b6424931f65cf99c36a9ada7523d058f976cc65cb642296d258554aeb",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-BOUNDED-DUAL-EVEN-CAPACITY-01",
+              "GHW01-BOUNDED-REJECTION-PRIORITY-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-BOUNDED-DUAL-EVEN-CAPACITY-01": "cdc9680b5649d282b4e661d5ac7a9f8a6f61b7f6b910e9ba6de238dadb1fa3f1",
+              "GHW01-BOUNDED-REJECTION-PRIORITY-01": "1a91099a078ba7abf83492649568118c460c2176238a94ba6cf0202397836a48"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_deterministic_optimal_threshold_auction": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_deterministicOptimalThresholdAuction"
+      ],
+      "review_row_signature_sha256": {
+        "source_deterministicOptimalThresholdAuction": "708bca5b98f1893c9c0d21b65a7d18660e3500853032c9ad85721f9a72005bbc"
+      },
+      "reason": "The route instantiates the bid-independent mechanism with the canonical opt(B_i) offer for each bidder, not the global opt(B) fixed-pricing rule.",
+      "source_evidence": "GHW01DigitalGoods.txt:991-1013 is the pinned source passage for: The deterministic optimal-threshold auction is the bid-independent auction with f=opt and offers bidder i opt(B_i), unlike optimal fixed pricing's opt(B).",
+      "dashboard_evidence": "The reviewed auction removes each bidder before computing the attained optimal threshold and then applies the bid-independent outcome recipe.",
+      "statement_sha256": "a4275d763fda140cfd7c36621664489c0bf4d8856fa515a9ec1fd87b1d727e04",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "26ab305f2dc0155544fd3de7219bbcf30c00b74ad5e0d076e140cd4f726915ae",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "26ab305f2dc0155544fd3de7219bbcf30c00b74ad5e0d076e140cd4f726915ae",
+          "source_anchor_quote_identity_sha256": "3590c35483cdaac7191ea10e0991dc99759f27a53725af67bf0c2bc41de371e9",
+          "source_target_sha256": "a4275d763fda140cfd7c36621664489c0bf4d8856fa515a9ec1fd87b1d727e04",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-NONEMPTY-OTHER-BID-DOMAIN-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-NONEMPTY-OTHER-BID-DOMAIN-01": "67ef04d44957e03753ca686ea20a3770cbcf78e121d4b176d22e1d3b04c55b8c"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_auction_correctness": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_deterministicCorrect",
+        "source_randomizedCorrect"
+      ],
+      "review_row_signature_sha256": {
+        "source_deterministicCorrect": "02417cd43788bcf5798fcc90975667c91a0268f1a6249f104be82d45584b727f",
+        "source_randomizedCorrect": "4e4dcedd8c0f5f86ed389d7ca7fab08e84b79a291106571676cd63aef4dde6ee"
+      },
+      "reason": "Each linked clause defines correctness as the conjunction of the corresponding truthfulness condition and individual rationality for every realized winner. Randomized clauses are credited only on the documented discrete, countably supported PMF domain GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01; no coverage of continuous outcome laws is claimed.",
+      "source_evidence": "GHW01DigitalGoods.txt:79-83 is the pinned source passage for: An auction is correct exactly when it is truthful and fills every winning bid at or below that bidder's bid value.",
+      "dashboard_evidence": "The deterministic route uses realized truthfulness; the randomized route uses expected truthfulness and requires every supported outcome to charge winners at most their bids. Randomized clauses are credited only on the documented discrete, countably supported PMF domain GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01; no coverage of continuous outcome laws is claimed.",
+      "statement_sha256": "020eb21dca8058b3cdf3511ca45ec55999aef921cfc4d804da8119af15ce2216",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "79d75e7b70af7ff5733bd31df7c08d85f12081a2ed1320840ca433756fb42375",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "79d75e7b70af7ff5733bd31df7c08d85f12081a2ed1320840ca433756fb42375",
+          "source_anchor_quote_identity_sha256": "0137138600941212cee92662127857f6f1938c178dac58d4ce5b2606f219b580",
+          "source_target_sha256": "020eb21dca8058b3cdf3511ca45ec55999aef921cfc4d804da8119af15ce2216",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "documented_source_model_convention",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01",
+              "GHW01-RANDOMIZED-EXPECTED-PROFIT-FINITENESS-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01": "4b353502664b40c6f7219c99d5b0e23bb8a426657d6fa58dfae77fe6b9a6e083",
+              "GHW01-RANDOMIZED-EXPECTED-PROFIT-FINITENESS-01": "30f844d2e9902b36be6d16a7b5dcd5b2f013d396d6e3bf0898125d80df2ab4da"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_bidder_profit": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_profitDefinition"
+      ],
+      "review_row_signature_sha256": {
+        "source_profitDefinition": "2d68a8236f2a5aeccc43d4064f4c7084e5e8704382fa1a3a7a3ca4f22ec128e5"
+      },
+      "reason": "The route gives utility minus payment to a winning bidder and zero to a losing bidder, preserving both branches of the source profit definition.",
+      "source_evidence": "GHW01DigitalGoods.txt:215-218 is the pinned source passage for: A winning bidder's profit is utility minus payment, while a losing bidder's profit is zero.",
+      "dashboard_evidence": "The reviewed function branches on allocation and subtracts the winner's own payment only in the allocated branch.",
+      "statement_sha256": "6b3e2e93fc72147f9efcfe07ecaed0af26d62b0b4aab814f1f5fc385cc2e6011",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "7a97c82dca9e199b9d79bd460d74ece708938156ef882b86af73be09bcaedd08",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "7a97c82dca9e199b9d79bd460d74ece708938156ef882b86af73be09bcaedd08",
+          "source_anchor_quote_identity_sha256": "cb69e42a83d55d7d733610dcf23bd066cfbe2cf309c8cac1e2cf0f1bc1e09d36",
+          "source_target_sha256": "6b3e2e93fc72147f9efcfe07ecaed0af26d62b0b4aab814f1f5fc385cc2e6011",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_exact_half_optimal_threshold": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_exactHalfOptimalThresholdAuction"
+      ],
+      "review_row_signature_sha256": {
+        "source_exactHalfOptimalThresholdAuction": "dc74961a3213c6f522590dea13786f4ef74186255139bd3e3f2ad675ce4a4187"
+      },
+      "reason": "The route uses a uniform sample containing exactly n/2 bidders, computes opt on that sample, and applies the resulting threshold to the complement.",
+      "source_evidence": "GHW01DigitalGoods.txt:455-465 is the pinned source passage for: The random-sampling optimal-threshold auction samples exactly n/2 bids, computes opt on that sample, and accepts non-sample bids above the resulting threshold at that price.",
+      "dashboard_evidence": "The reviewed mechanism requires n=2m with m>0 and composes the exact-half law with the optimal-threshold directional outcome recipe.",
+      "statement_sha256": "94f57cf0869592555a1fa101e48efbd2b23e7af734adedd3e0c2c8f22c0b9d4f",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "fa8674fd05eb3135c09a4cb6730eec975e7d5f919f7691930a343bb60ae5c974",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "fa8674fd05eb3135c09a4cb6730eec975e7d5f919f7691930a343bb60ae5c974",
+          "source_anchor_quote_identity_sha256": "5a8872824f37cf0b0a2a503df43ce2dfaae25db502e62d22d3ef30122d902ac2",
+          "source_target_sha256": "94f57cf0869592555a1fa101e48efbd2b23e7af734adedd3e0c2c8f22c0b9d4f",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-SECTION11-STRICT-THRESHOLD-TIE-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-SECTION11-STRICT-THRESHOLD-TIE-01": "870b8932831b5c89e9ce64f4034e0ee25f6a89c8a3cc2d95660f37f2991ada72"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_weighted_pairing_auction": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_weightedPairingAuction"
+      ],
+      "review_row_signature_sha256": {
+        "source_weightedPairingAuction": "0a4177bd943a5cc8dadb4c8c1169a0ef6f06ccbc4175a98a0ad4cb31b0e8afae"
+      },
+      "reason": "The route samples bidder i's comparison bid from B_i with probability proportional to that bid divided by T-b_i, accepts exactly when the sampled bid is at most b_i, and charges the sampled bid.",
+      "source_evidence": "GHW01DigitalGoods.txt:495-508 is the pinned source passage for: The weighted-pairing auction samples an other bid b from B_i proportional to b/(T-b_i), accepts bidder i exactly when b <= b_i, and charges b.",
+      "dashboard_evidence": "The reviewed genuine joint outcome law uses normalized nonsingleton profiles, the other-bid weighted distribution, and the source allocation/payment rule.",
+      "statement_sha256": "2ea16ece94f943c211264ad4dbe6606e0a7fcad5e1b661a9724cbfbc25bb9c1e",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "8b5ff76ee7b1c766bf6c4824a6e9c1ab5578b3c44782ca86d5a22dd25126ea31",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "8b5ff76ee7b1c766bf6c4824a6e9c1ab5578b3c44782ca86d5a22dd25126ea31",
+          "source_anchor_quote_identity_sha256": "83b36e45d3cce651f7be63b29cc9f3968880fded66fa23c41e0b2d95b1292a05",
+          "source_target_sha256": "2ea16ece94f943c211264ad4dbe6606e0a7fcad5e1b661a9724cbfbc25bb9c1e",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-WEIGHTED-PAIRING-JOINT-LAW-01",
+              "GHW01-WEIGHTED-PAIRING-PROBABILITY-DOMAIN-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-WEIGHTED-PAIRING-JOINT-LAW-01": "ac6aedf68ab584347d63f61eae6c1bae17e309ebf508f2a0b14e7cdcee5db5ae",
+              "GHW01-WEIGHTED-PAIRING-PROBABILITY-DOMAIN-01": "4aa415bf660b5ad791d58cf4105996fb8315a47c7cf63b4c8eb0384d124593ee"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_bounded_supply_top_k_total": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_boundedSupplyTk"
+      ],
+      "review_row_signature_sha256": {
+        "source_boundedSupplyTk": "e1d271e7198367b9cd49a40acdf9428bf6b3d1375bdf608fcb1485852cf8dd3c"
+      },
+      "reason": "The route realizes T_k as the greatest total value obtainable from exactly k bidders, equivalently the sum of the k highest bids on the stated capacity domain.",
+      "source_evidence": "GHW01DigitalGoods.txt:1629-1631 is the pinned source passage for: T_k is optimal multi-price revenue restricted to satisfying k bidders, equivalently the sum of the highest k bids.",
+      "dashboard_evidence": "The reviewed definition optimizes the sum over k-element bidder subsets and requires k not to exceed the bidder count.",
+      "statement_sha256": "5652107c06e16b38f3a3bf8cf860a910f41ab75ffac26083e14175dab639faa1",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "daa8c11a2abe0c86800328b694082c013b1016342a62fb4cf27b11168c66127a",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "daa8c11a2abe0c86800328b694082c013b1016342a62fb4cf27b11168c66127a",
+          "source_anchor_quote_identity_sha256": "3c179674611eed434f494bd025fb63032368958033584f7dd34699c29d23b2bc",
+          "source_target_sha256": "5652107c06e16b38f3a3bf8cf860a910f41ab75ffac26083e14175dab639faa1",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-BOUNDED-TOP-K-EXACT-CARDINALITY-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-BOUNDED-TOP-K-EXACT-CARDINALITY-01": "9a96fbf67c4e7874d9e949710f08afea4a567a2a1fc120d26d9d8f6f1614c818"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "model_bounded_single_price_sampling_auction": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_boundedSinglePriceSampling"
+      ],
+      "review_row_signature_sha256": {
+        "source_boundedSinglePriceSampling": "01b119d34b5db090a6ed5d1a0a79f7d2e49ba2db194ea66250ef9d1372a5288e"
+      },
+      "reason": "The route implements uniform fixed-size sampling, computes the supply-adjusted optimal threshold from the sample, and enforces the capacity bound with the paper's explicit floor and rejection conventions.",
+      "source_evidence": "GHW01DigitalGoods.txt:1679-1690 is the pinned source passage for: The bounded single-price sampling auction applies the supply-adjusted optimal threshold to an m-bid sample and rejects excess accepted bids until at most k remain.",
+      "dashboard_evidence": "The reviewed outcome law requires 0 < m < n, uses the sampled threshold with floor(m*k/(n-m)), and resolves excess acceptances without exceeding k.",
+      "statement_sha256": "2a40c954f5c4e01e0ffb03d86465864516d2150afd727e4a832e11a29d2b3a99",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "fe9c10820ade469921e3329e49a6b12ca236be375b76e8e155344061be77a8da",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "fe9c10820ade469921e3329e49a6b12ca236be375b76e8e155344061be77a8da",
+          "source_anchor_quote_identity_sha256": "1de2b2a9e386a750b01a0d8a06aa02efd31db14f9cd7d7806680544616232ec5",
+          "source_target_sha256": "2a40c954f5c4e01e0ffb03d86465864516d2150afd727e4a832e11a29d2b3a99",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-BOUNDED-REJECTION-PRIORITY-01",
+              "GHW01-BOUNDED-SAMPLE-CAPACITY-FLOOR-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-BOUNDED-REJECTION-PRIORITY-01": "1a91099a078ba7abf83492649568118c460c2176238a94ba6cf0202397836a48",
+              "GHW01-BOUNDED-SAMPLE-CAPACITY-FLOOR-01": "bf8e731ea1f896aa58693737ea65b7ef11fee64fb4ff8c757f51781ce87d6ae1"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_bid_independent_auction": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_acceptsThreshold",
+        "source_otherBids",
+        "source_bidIndependentRule",
+        "source_bidIndependentAuction",
+        "source_bidIndependentOutcome",
+        "source_thresholdOffer"
+      ],
+      "review_row_signature_sha256": {
+        "source_acceptsThreshold": "15c1e662e3c11111998d0e280acf17f4ad21f8e007f2f4545f691638d9bc2b0f",
+        "source_otherBids": "8a71b72a2dadbf3f721d12fff5fe5cd440881b316a7b97e81c5f46b4e7c87002",
+        "source_bidIndependentRule": "4c774e57d3c21b2e400ccfd8d0f539844cf4aea88a94d3f0fdaaa091bec61f9f",
+        "source_bidIndependentAuction": "0f11708d7964c052ba2b2318fd5cce8340bda83a7525cf74d290f65901ec5ffc",
+        "source_bidIndependentOutcome": "06e8a994e1cbc8ae54beb717e3f32c5fd067475072175eb280bab170375db1e0",
+        "source_thresholdOffer": "db824983ea84814d43dcc52d272f0aed4120c2eb0408a0577d93f8b1c07ff6bc"
+      },
+      "reason": "The six linked clauses jointly remove bidder i, compute an offer only from B_i, apply the permitted weak-or-strict threshold boundary, and make i win and pay that offer exactly when the test passes.",
+      "source_evidence": "GHW01DigitalGoods.txt:351-357 is the pinned source passage for: A bid-independent auction offers bidder i the price f(B_i), determined only by other bids, and accepts exactly when the returned threshold's weak-or-strict boundary test holds (the main text uses b_i >= f(B_i), while the footnote also permits b_i > f(B_i)).",
+      "dashboard_evidence": "The reviewed carrier and outcome law separate other-bid input from i's report and expose every step from offer construction through the induced deterministic mechanism.",
+      "statement_sha256": "671a9a85ecb63bd0afcda953a13b8e5bad1fb9f56d29e72d144d0391bd068a6c",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "d4ca079990f8006da87418aa5e362d327686ab469d22e78db729f4e10a0ef160",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "d4ca079990f8006da87418aa5e362d327686ab469d22e78db729f4e10a0ef160",
+          "source_anchor_quote_identity_sha256": "07409d200b0aeef13ac4d80bb518e156ba22af82c2bf724f199f14756d2d2edc",
+          "source_target_sha256": "671a9a85ecb63bd0afcda953a13b8e5bad1fb9f56d29e72d144d0391bd068a6c",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_truthfulness": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_deterministicTruthful",
+        "source_randomizedTruthful"
+      ],
+      "review_row_signature_sha256": {
+        "source_deterministicTruthful": "5a29e1451b251e1695e7a53eac71442d70161d2a2770fda14a60cb16b6cc4b8d",
+        "source_randomizedTruthful": "d3d7ebbdda592b02e634b7e9ee061b8b926b3aad128fac37eb5bfc1cfc194271"
+      },
+      "reason": "The deterministic and randomized clauses both hold other reports fixed and compare truthful reporting with every alternative own report; the former compares realized profit and the latter finite expected profit. Randomized clauses are credited only on the documented discrete, countably supported PMF domain GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01; no coverage of continuous outcome laws is claimed.",
+      "source_evidence": "GHW01DigitalGoods.txt:215-222 is the pinned source passage for: An auction is truthful when bidding utility is a dominant strategy: with other bids fixed, truthful bidding maximizes realized or expected profit.",
+      "dashboard_evidence": "The reviewed predicates quantify the bidder and alternative report, update only that coordinate, and state the correct weak utility inequality in the realized and expected settings. Randomized clauses are credited only on the documented discrete, countably supported PMF domain GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01; no coverage of continuous outcome laws is claimed.",
+      "statement_sha256": "7da57df40326ec44104eb6ff78b911fac356fefe3f2eb6bea7581d99f8d82760",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "96dd4ad51b3f2bad0a5f9d20ba6935ad68280b48b9390f23ea3e9378a1256dcf",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "96dd4ad51b3f2bad0a5f9d20ba6935ad68280b48b9390f23ea3e9378a1256dcf",
+          "source_anchor_quote_identity_sha256": "f71b62da9f986be503da9f069d5c20dd25aec2e914dd9fffbd50e1517147a7a7",
+          "source_target_sha256": "7da57df40326ec44104eb6ff78b911fac356fefe3f2eb6bea7581d99f8d82760",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "documented_source_model_convention",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01",
+              "GHW01-RANDOMIZED-EXPECTED-PROFIT-FINITENESS-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01": "4b353502664b40c6f7219c99d5b0e23bb8a426657d6fa58dfae77fe6b9a6e083",
+              "GHW01-RANDOMIZED-EXPECTED-PROFIT-FINITENESS-01": "30f844d2e9902b36be6d16a7b5dcd5b2f013d396d6e3bf0898125d80df2ab4da"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_random_sampling_auction": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_randomSamplingAuction"
+      ],
+      "review_row_signature_sha256": {
+        "source_randomSamplingAuction": "bb0edbe1a9f8a3c44d5d7880b5f7deb4f50f3dfa210e72b28a7f092b0d7b873d"
+      },
+      "reason": "The route samples independently of bid values, computes the threshold from the sample, and offers it only to the nonsampled bidders.",
+      "source_evidence": "GHW01DigitalGoods.txt:410-416 is the pinned source passage for: A random-sampling auction selects a bid-value-independent sample B', computes f(B'), and offers that threshold to the non-sample.",
+      "dashboard_evidence": "The reviewed plan separates the sample law and sample-only rule input from the directional outcome law on the complement.",
+      "statement_sha256": "16c11148a585913aa4024a36730222c54b2eca811a8a76812d1bf866f7ef0b06",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "a13768cc8b5aa6ad27bdce4853753aa0929bc144b77cbf33b9348c1fdfb75761",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "a13768cc8b5aa6ad27bdce4853753aa0929bc144b77cbf33b9348c1fdfb75761",
+          "source_anchor_quote_identity_sha256": "f3231cb4090b4bdfff1fc0a5c879291425b014738cc5891fe5c024805aa24307",
+          "source_target_sha256": "16c11148a585913aa4024a36730222c54b2eca811a8a76812d1bf866f7ef0b06",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "result_theorem7_2_lower_bound": {
+      "coverage": "covered_corrected_target",
+      "target_kind": "approved_corrected_target",
+      "review_rows": [
+        "theorem7_2_weighted_pairing_benchmark"
+      ],
+      "review_row_signature_sha256": {
+        "theorem7_2_weighted_pairing_benchmark": "231b10b9156569c14330218c2233c04734dc6d20c0f86d9c4d45fd57b2f84727"
+      },
+      "reason": "The reviewed target adds h >= 2 to the source's F >= 2h regime, retains the normalized attained-highest-bid model, and proves the direct canonical weighted-pairing revenue bound F <= 2304 sqrt(log_2(h)) W. It does not call the h=1-singular archival wording proved.",
+      "source_evidence": "GHW01DigitalGoods.txt:615-680 contains the archival lower-bound clause; docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md pins its approved repaired target.",
+      "dashboard_evidence": "The theorem makes the F condition, h domain, profile conditions, direct source-defined W, and explicit coefficient visible.",
+      "statement_sha256": "292ba25a4d18cb120944f52482cfbfdaa18f9cd5d2556bfb344a5f2ebcf257f3",
+      "archival_statement_sha256": "e465c3cbbb18e940217644cbdfa7060143784cf0280d0688d85822890bb860e4",
+      "corrected_target_sha256": "0bb77be0c514b4a5e9d1edfcd789b6b1c005766c4b874030cd7451d36f483531",
+      "governing_defect_ids": [
+        "GHW01-THEOREM7-LOG-DOMAIN-01"
+      ],
+      "archival_equivalence_claimed": false,
+      "approval_artifact_path": "docs/CORRECTED_TARGET_APPROVALS_2026-07-26.md",
+      "approval_artifact_sha256": "0ae49b044ae048f0a8c215214149e3c2d9976adcf52ff39b55c7776aa1a39363",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "ba67f318b31a85926fee9323a426b6cea5582dc62a30fbc7a7eebe8a4390c387",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "ba67f318b31a85926fee9323a426b6cea5582dc62a30fbc7a7eebe8a4390c387",
+          "source_anchor_quote_identity_sha256": "1575731d5a865e7eb775fa74c5f91ca8990ef5ce68ab522d0c6a67e899e2adfd",
+          "source_target_sha256": "292ba25a4d18cb120944f52482cfbfdaa18f9cd5d2556bfb344a5f2ebcf257f3",
+          "source_target_disposition": {
+            "kind": "approved_corrected_target",
+            "archival_statement_sha256": "e465c3cbbb18e940217644cbdfa7060143784cf0280d0688d85822890bb860e4",
+            "corrected_target_sha256": "0bb77be0c514b4a5e9d1edfcd789b6b1c005766c4b874030cd7451d36f483531",
+            "governing_defect_ids": [
+              "GHW01-THEOREM7-LOG-DOMAIN-01"
+            ],
+            "approval_artifact_sha256": "0ae49b044ae048f0a8c215214149e3c2d9976adcf52ff39b55c7776aa1a39363",
+            "archival_equivalence_claimed": false,
+            "source_kind": "theorem",
+            "source_status": "corrected",
+            "coverage_status": "corrected_source_statement"
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-HIGHEST-BID-PARAMETER-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-HIGHEST-BID-PARAMETER-01": "7a27a72d358a3eebbe479f31672fd1381d1c90fcc002ce3a038f960902f40563"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_fixed_price_benchmark": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_optimalFixedPriceRevenue"
+      ],
+      "review_row_signature_sha256": {
+        "source_optimalFixedPriceRevenue": "ea83619e1470b4523be0200ef598648122e5e57b8dbd887a9a6b5e81bf755e9b"
+      },
+      "reason": "The route realizes F as the maximum fixed-price revenue over prices drawn from the finite input-bid support, matching the paper's optimal fixed-pricing benchmark.",
+      "source_evidence": "GHW01DigitalGoods.txt:134-138 is the pinned source passage for: F is the optimal fixed-pricing revenue.",
+      "dashboard_evidence": "The reviewed definition computes fixed-price revenue at every candidate bid price and takes the finite maximum.",
+      "statement_sha256": "d8e7755a35dc400028e2c6cbdbd9e15a5ab55222752379b3c935672f6cdc0bc2",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "43f06839f483d33541f979ce44ee58bfe549bdaf879b76b198ba5a255f39ff0a",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "43f06839f483d33541f979ce44ee58bfe549bdaf879b76b198ba5a255f39ff0a",
+          "source_anchor_quote_identity_sha256": "fafefa785acd3b752c925eb6fa9e0fb60c1d47fb6779485c197f9d20b5d1bd06",
+          "source_target_sha256": "d8e7755a35dc400028e2c6cbdbd9e15a5ab55222752379b3c935672f6cdc0bc2",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "documented_source_model_convention",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-NORMALIZED-BID-DOMAIN-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-NORMALIZED-BID-DOMAIN-01": "05004758583ccfc3d5d4cf2c6e34b61f0dd5ab52a30a479caaa020e649a8cdf8"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_fixed_pricing": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_fixedPriceAuction",
+        "source_fixedPriceOutcome",
+        "source_fixedPriceRevenue",
+        "source_optimalThresholdDefinition",
+        "source_optimalFixedPriceRevenue"
+      ],
+      "review_row_signature_sha256": {
+        "source_fixedPriceAuction": "2891efec8e7fa756f6997070863bd9afed818da9b64d053475a9b5ef19c5c64c",
+        "source_fixedPriceOutcome": "5f13b047a09d65d8e44a37171d27014d2dc22b2392fd96432db082d70d1069c1",
+        "source_fixedPriceRevenue": "6da368b7f63abd00f7d821f58e7b82968c3892059d5d48743da2488a85591718",
+        "source_optimalThresholdDefinition": "8da8962c8e01a7c8a32fe0d40aab84239a7c95a54cfdc0d2de9f7d84e07c6413",
+        "source_optimalFixedPriceRevenue": "ea83619e1470b4523be0200ef598648122e5e57b8dbd887a9a6b5e81bf755e9b"
+      },
+      "reason": "The five linked clauses jointly specify the posted-price outcome, the fixed-price mechanism, its collected revenue, the maximum achievable fixed-price revenue, and a perfect-information price choice attaining that maximum.",
+      "source_evidence": "GHW01DigitalGoods.txt:97-103 is the pinned source passage for: Fixed pricing posts one estimated price, while optimal fixed pricing chooses the price that maximizes fixed-price revenue when consumer utilities are known.",
+      "dashboard_evidence": "The reviewed outcome accepts exactly bids weakly above p and charges p; the remaining routes lift that recipe to a mechanism, compute its revenue and maximum value, and select an attaining candidate price.",
+      "statement_sha256": "5d145d29f1fcab17712c683b5f12a6397e8800967daeb8af8078028ac6502c6a",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "dbc828d8dac365afd7ed9787ab27ba24f7867821c9846f233f969405280d0661",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "dbc828d8dac365afd7ed9787ab27ba24f7867821c9846f233f969405280d0661",
+          "source_anchor_quote_identity_sha256": "cc333f866a2e00c073743aca99472f642694a963c3f936198fb309e51319db34",
+          "source_target_sha256": "5d145d29f1fcab17712c683b5f12a6397e8800967daeb8af8078028ac6502c6a",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "model_unlimited_supply": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_unlimitedSupplyRandomizedAuction",
+        "source_unlimitedSupplyDeterministicAuction"
+      ],
+      "review_row_signature_sha256": {
+        "source_unlimitedSupplyRandomizedAuction": "522d77e1a66c7417901c38a484bfdf5e35d1427c6abc377ad6231bdec33619cb",
+        "source_unlimitedSupplyDeterministicAuction": "aae035652b445a2a5a7615acef1818b4a7cccd430e87d61cf143f80c09cc52d5"
+      },
+      "reason": "The deterministic and randomized routes model the unit-demand digital-goods setting without any winner-cardinality capacity restriction, matching unlimited reproducible supply. Randomized clauses are credited only on the documented discrete, countably supported PMF domain GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01; no coverage of continuous outcome laws is claimed.",
+      "source_evidence": "GHW01DigitalGoods.txt:89-96 is the pinned source passage for: The paper's unlimited-supply market has unit-demand consumers, enough copies for all consumers or on-demand reproduction at negligible marginal cost, and each utility is the maximum willingness to pay.",
+      "dashboard_evidence": "Both reviewed auction carriers allow an arbitrary subset of bidders to be served; no k-unit feasibility premise appears. Randomized clauses are credited only on the documented discrete, countably supported PMF domain GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01; no coverage of continuous outcome laws is claimed.",
+      "statement_sha256": "fd50fa4b4dd00145d24c1d07b6cd69fc4421f4bc601188d2ee911bc8f6d06739",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "e33c429f2bd8681bca6d9e16feafd6e96f8a39d7bc07903aef7ad4d1f0e9d961",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "e33c429f2bd8681bca6d9e16feafd6e96f8a39d7bc07903aef7ad4d1f0e9d961",
+          "source_anchor_quote_identity_sha256": "0118785c02bb1456b0c4a51e9cc2b97ca18009e6d1690d082500fc278a368eb4",
+          "source_target_sha256": "fd50fa4b4dd00145d24c1d07b6cd69fc4421f4bc601188d2ee911bc8f6d06739",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "documented_source_model_convention",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01": "4b353502664b40c6f7219c99d5b0e23bb8a426657d6fa58dfae77fe6b9a6e083"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_scarce_supply": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_scarceSupply"
+      ],
+      "review_row_signature_sha256": {
+        "source_scarceSupply": "f37f5c586a9b3085e0698bf116061bccc6f13c54f730ff75296b9e15c2fd3969"
+      },
+      "reason": "The route says optimal fixed pricing fills all available units at both capacities k and k+1, allowing the two optimizing price witnesses to differ.",
+      "source_evidence": "GHW01DigitalGoods.txt:1623-1625 is the pinned source passage for: Items are in scarce supply when optimal fixed pricing with k or k+1 available items sells every available item.",
+      "dashboard_evidence": "The reviewed predicate existentially supplies a capacity-filling optimal threshold for each of the two capacities rather than forcing one common optimizer.",
+      "statement_sha256": "cf79e39eda02675236d7bc130dc2821310cbaf71a46b3d8a12ea552979f2406d",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "264c5a8ba52a86d514f2776b9325e5e9503aee761efa6a90837101be3696cbd1",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "264c5a8ba52a86d514f2776b9325e5e9503aee761efa6a90837101be3696cbd1",
+          "source_anchor_quote_identity_sha256": "1cd529664ced6517ff73806e38b55cb06ca0f0e87b6c206b9a79aa4a0038f546",
+          "source_target_sha256": "cf79e39eda02675236d7bc130dc2821310cbaf71a46b3d8a12ea552979f2406d",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_bid_extrema": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_lowestBid",
+        "source_highestBid",
+        "source_normalizedBidScale"
+      ],
+      "review_row_signature_sha256": {
+        "source_lowestBid": "4e7098f52d506131ad9166a4f060fab024144acdb6f4e78bda158f375ba1baf7",
+        "source_highestBid": "8a5bb0052e23691cc2653ded83c064ecc22db4afb4234e5fe37e411b88fe9745",
+        "source_normalizedBidScale": "ba5497d8093ac4fee19520ed3ba690a694e471996e0773475c7087346ae7fda7"
+      },
+      "reason": "The linked clauses expose the actual minimum and maximum bid values and separately state the normalization that the minimum equals one.",
+      "source_evidence": "GHW01DigitalGoods.txt:130-132 is the pinned source passage for: The normalized source scale sets the lowest bid to one and denotes the highest bid by h.",
+      "dashboard_evidence": "The reviewed finite extrema are attained on the nonempty profile, and the scale predicate constrains the minimum rather than merely imposing lower bounds on an unrelated parameter.",
+      "statement_sha256": "35d1cee7cce680af507943a06404fa8dc07b85608260afa30ef7ad0919c66e6a",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "d7f1f623f06b707c7e3ca129bdd43d2eef44e869112156e125c73f5b0c98ed5a",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "d7f1f623f06b707c7e3ca129bdd43d2eef44e869112156e125c73f5b0c98ed5a",
+          "source_anchor_quote_identity_sha256": "2913ba7394e524ddb7f2757a746167a0b6d05dcdca67cff55f005555a034c0dc",
+          "source_target_sha256": "35d1cee7cce680af507943a06404fa8dc07b85608260afa30ef7ad0919c66e6a",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_auction_outcome": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_outcomeFillsAtOrBelow",
+        "source_auctionOutcome"
+      ],
+      "review_row_signature_sha256": {
+        "source_outcomeFillsAtOrBelow": "6e792b20624aa487fc53529707bc8fc978640da11990419ff0a19cc8b1287629",
+        "source_auctionOutcome": "a72def904e27d1dc7b2116e78c1a14ea8d1cd443480bf97f8862a3c667b7ac1e"
+      },
+      "reason": "The linked clauses represent the set of satisfied bids with one sale price per winner and require every such price to be no greater than that winner's bid.",
+      "source_evidence": "GHW01DigitalGoods.txt:200-203 is the pinned source passage for: An auction outcome is a subset of satisfied bids with corresponding sale prices no greater than each winning bid.",
+      "dashboard_evidence": "The reviewed outcome carrier separates allocation from payment and the feasibility predicate quantifies exactly over allocated bidders.",
+      "statement_sha256": "e635f29031979220a163d558f56fd790d5a935da9724e7c8c00023abf8460af9",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "dfedba1f549506710bb6b7e5374a35d12ea3e9dc348039dc86fa9568ca6b5274",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "dfedba1f549506710bb6b7e5374a35d12ea3e9dc348039dc86fa9568ca6b5274",
+          "source_anchor_quote_identity_sha256": "2eb0eeb33412deb784ba7a312293d4cffcc23af9b860138c1fbcdcc9c54a3f49",
+          "source_target_sha256": "e635f29031979220a163d558f56fd790d5a935da9724e7c8c00023abf8460af9",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_optimal_threshold": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_optimalSinglePriceAuction",
+        "source_optimalThresholdDefinition",
+        "source_optimalSinglePriceOutcome",
+        "source_isOptimalThreshold"
+      ],
+      "review_row_signature_sha256": {
+        "source_optimalSinglePriceAuction": "852430eafbcbe8d47b11a70f778b3042671d844bad35d311f71d6707cfbf0df0",
+        "source_optimalThresholdDefinition": "8da8962c8e01a7c8a32fe0d40aab84239a7c95a54cfdc0d2de9f7d84e07c6413",
+        "source_optimalSinglePriceOutcome": "9c044541b2261e0682197d7baa01c84d719cf70524d906b0a6c855957ef5033e",
+        "source_isOptimalThreshold": "d4019355c0063850f983deeed681a335d30714b82beaffb7af520643bc7e5713"
+      },
+      "reason": "The linked clauses jointly require an input-bid price attaining F, select such an opt(B), accept exactly bids at least opt(B), charge that price, and lift the recipe to the auction.",
+      "source_evidence": "GHW01DigitalGoods.txt:317-335 is the pinned source passage for: opt(B) returns a fixed price attaining F; the optimal single-price auction accepts exactly bids at least opt(B) and charges opt(B).",
+      "dashboard_evidence": "The reviewed partition covers candidate membership, benchmark attainment, allocation/payment behavior, and mechanism-level application without using a caller-supplied optimum premise.",
+      "statement_sha256": "7d9df71dc3982245baf545e5bedb5e13ab7e450abd0d386b22a76a709924ff59",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "6e6b60500643fa8f8b8188e794d52f60bae453c62e949df55913c3bc00418e85",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "6e6b60500643fa8f8b8188e794d52f60bae453c62e949df55913c3bc00418e85",
+          "source_anchor_quote_identity_sha256": "3926d83e83f76f02a829a74bc50c5fd210ba3aaf130cded95d17e23e4155586e",
+          "source_target_sha256": "7d9df71dc3982245baf545e5bedb5e13ab7e450abd0d386b22a76a709924ff59",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_auction_mechanisms": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_randomizedAuction",
+        "source_deterministicAuction"
+      ],
+      "review_row_signature_sha256": {
+        "source_randomizedAuction": "522d77e1a66c7417901c38a484bfdf5e35d1427c6abc377ad6231bdec33619cb",
+        "source_deterministicAuction": "aae035652b445a2a5a7615acef1818b4a7cccd430e87d61cf143f80c09cc52d5"
+      },
+      "reason": "The deterministic route maps each bid profile to one outcome, while the randomized route maps it to a probability law over outcomes. Randomized clauses are credited only on the documented discrete, countably supported PMF domain GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01; no coverage of continuous outcome laws is claimed.",
+      "source_evidence": "GHW01DigitalGoods.txt:203-210 is the pinned source passage for: A deterministic auction maps bid sets to auction outcomes, and a randomized auction maps bid sets to distributions over auction outcomes.",
+      "dashboard_evidence": "The reviewed function types preserve the source input and outcome domains and distinguish a realized outcome from a distribution over outcomes. Randomized clauses are credited only on the documented discrete, countably supported PMF domain GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01; no coverage of continuous outcome laws is claimed.",
+      "statement_sha256": "f9d239f856c063b85537780c352a30cba2ab7af9a21ae067080be43a536df7b7",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "3b772d3f92ade15739cec718f3f6747ad4765d54ab37af8df56e75227790aa3e",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "3b772d3f92ade15739cec718f3f6747ad4765d54ab37af8df56e75227790aa3e",
+          "source_anchor_quote_identity_sha256": "c9c5e541dd188f8a80ad78363e6009d8e7e9acfe54a195d016eac97bb8e53087",
+          "source_target_sha256": "f9d239f856c063b85537780c352a30cba2ab7af9a21ae067080be43a536df7b7",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "documented_source_model_convention",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01": "4b353502664b40c6f7219c99d5b0e23bb8a426657d6fa58dfae77fe6b9a6e083"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_bounded_supply_optimal_threshold": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_boundedSupplyOptK"
+      ],
+      "review_row_signature_sha256": {
+        "source_boundedSupplyOptK": "48e3d398dff001834cfcecde703be1547d37b8b7b05ada1a7b16a34b5f60cdbb"
+      },
+      "reason": "The route selects a canonical bid-value threshold whose capacity-capped fixed-price revenue attains F_k.",
+      "source_evidence": "GHW01DigitalGoods.txt:1680-1683 is the pinned source passage for: opt_k returns an optimal threshold selling at most k items and supplies the threshold used for F_k.",
+      "dashboard_evidence": "The reviewed definition is paired with the relational optimal-threshold predicate and the attainment theorem for the bounded benchmark.",
+      "statement_sha256": "c11965c4508087c98460ebdce45079dcf5e9019faf05b47ef84904ce8817640c",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "6db0c1200b278ec8cda17e1dfc8a7ec7135ee828dc207dea92eba21724e54fa7",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "6db0c1200b278ec8cda17e1dfc8a7ec7135ee828dc207dea92eba21724e54fa7",
+          "source_anchor_quote_identity_sha256": "bdad88c2b26287d7a6ad48a35d3d12c635913201a46a449d402ba61a09849f00",
+          "source_target_sha256": "c11965c4508087c98460ebdce45079dcf5e9019faf05b47ef84904ce8817640c",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-BOUNDED-OPT-CAP-SEMANTICS-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-BOUNDED-OPT-CAP-SEMANTICS-01": "4d75a4343a2d8fe209a56b7a5c3c03f68a4a7b9f8ee3e9d7e3ae0fb3aa06d88d"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_scale_conditions": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_totalValueScaleCondition",
+        "source_fixedPriceScaleCondition",
+        "source_positiveAlpha"
+      ],
+      "review_row_signature_sha256": {
+        "source_totalValueScaleCondition": "829550cac03fefc05b753942eccc96f5a047c1515df6d8493d92949bb8f7b2c4",
+        "source_fixedPriceScaleCondition": "829550cac03fefc05b753942eccc96f5a047c1515df6d8493d92949bb8f7b2c4",
+        "source_positiveAlpha": "e4c86284097bc455c599030d2850b161e3a67389c86ea642b06afe92c37afd0c"
+      },
+      "reason": "The linked clauses state alpha*h <= F, the weaker alpha*h <= T variant, and the source's positive scale parameter convention.",
+      "source_evidence": "GHW01DigitalGoods.txt:257-265 is the pinned source passage for: The primary scale condition is alpha h <= F, with the weaker alpha h <= T condition used in some proofs.",
+      "dashboard_evidence": "The reviewed predicates use the same alpha and highest-bid parameter in both inequalities and explicitly require alpha > 0.",
+      "statement_sha256": "276a5937753938cce1ab95505bc92fac46fedeaf30558fd6a3b8a34de0a79b35",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "00cbc13759ca725c440a7512a3569b5081e751403d1f13c6bc2834e95f9c787c",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "00cbc13759ca725c440a7512a3569b5081e751403d1f13c6bc2834e95f9c787c",
+          "source_anchor_quote_identity_sha256": "c4013556f087c83a06ac7b4c6a93a94e66fcb55866486bfbd12b09e3825f6765",
+          "source_target_sha256": "276a5937753938cce1ab95505bc92fac46fedeaf30558fd6a3b8a34de0a79b35",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "model_sorted_bid_convention": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_sortedBidConvention"
+      ],
+      "review_row_signature_sha256": {
+        "source_sortedBidConvention": "341878dc22ff86d5b8007defa859c0bf8ca709874e5838a85a85e60e40cf0e3a"
+      },
+      "reason": "The route states an indexing order that is nondecreasing in bid value while allowing an arbitrary total tie break among equal bids.",
+      "source_evidence": "GHW01DigitalGoods.txt:196-199 is the pinned source passage for: Bids are indexed in nondecreasing order, with an arbitrary total tie-breaking order respecting the bid-value partial order.",
+      "dashboard_evidence": "The reviewed relation requires order compatibility with values and does not infer strict inequalities from index order at ties.",
+      "statement_sha256": "aa6657e3def465b6f014e5b8924c136b46e16ad422e16b3b6529aa728f341142",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "d4a1a4354bb2c39bcef9ef36b4f0aaea6da716089d31f0cfdb45d07b058916cf",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "d4a1a4354bb2c39bcef9ef36b4f0aaea6da716089d31f0cfdb45d07b058916cf",
+          "source_anchor_quote_identity_sha256": "7bdf21c61cd30832c993491e93b34c443aa1bfe2ffcf5f383ee8384688c29c16",
+          "source_target_sha256": "aa6657e3def465b6f014e5b8924c136b46e16ad422e16b3b6529aa728f341142",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_performance_convention": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_revenueBigO",
+        "source_revenueBigOmega",
+        "source_performanceRatio"
+      ],
+      "review_row_signature_sha256": {
+        "source_revenueBigO": "2404a1271bf555ffd8e57062dbd33ff2cbe7c6b97babcaed67f058abde339f64",
+        "source_revenueBigOmega": "690543a96d8472a77fc02fe76736be9d528783d68ef31e4071a17fe9bdc9eff5",
+        "source_performanceRatio": "d61e689cbb4c0fe7873704516a48653f0751ca67f7c93c91823d3962a1cf9c05"
+      },
+      "reason": "The linked clauses retain the R/T and R/F performance ratios, require one positive constant giving the Omega lower bound uniformly over all instances, and one nonnegative constant giving the O upper bound uniformly over all instances.",
+      "source_evidence": "GHW01DigitalGoods.txt:239-245 is the pinned source passage for: Auction performance is measured by R/T or R/F; lower-bound guarantees use Omega and impossibility upper bounds use O.",
+      "dashboard_evidence": "The reviewed predicates quantify each comparison constant outside the universal instance binder and state c*B(x) <= R(x) for Omega and R(x) <= C*B(x) for O.",
+      "statement_sha256": "824ac86e3ef4b62c213519798a105d102c9eb301c0f400b17d2222dc8d1faaf5",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "0a9a5391de44d14f97ff9cfc8ed009859fdc64d3f660310c139b54f287c62d4f",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "0a9a5391de44d14f97ff9cfc8ed009859fdc64d3f660310c139b54f287c62d4f",
+          "source_anchor_quote_identity_sha256": "a0cc51ed598df52391012ee312a885da4b138903ebeb68be5ccda1081ff58377",
+          "source_target_sha256": "824ac86e3ef4b62c213519798a105d102c9eb301c0f400b17d2222dc8d1faaf5",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_bounded_supply_fixed_price_benchmark": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_boundedSupplyFk"
+      ],
+      "review_row_signature_sha256": {
+        "source_boundedSupplyFk": "0360f583b857b5a19887b02701a27d76313aba3b4ac791944fc39ba1fa1f530a"
+      },
+      "reason": "The route defines F_k as the best fixed-price revenue after capping the number of sales at k, so both the price optimization and capacity restriction are retained.",
+      "source_evidence": "GHW01DigitalGoods.txt:1599-1604 is the pinned source passage for: F_k is optimal fixed-pricing revenue subject to selling at most k items.",
+      "dashboard_evidence": "The reviewed definition maximizes the capacity-capped fixed-price revenue over the finite bid-price candidates.",
+      "statement_sha256": "062ba56c39994e9ad0c42837b129ca31e8cb5c543200034ab434e4aca179709a",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "cc74ef0c24094105a23240f436b051e84a67bef5ef41230e19a8871eb683d8bd",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "cc74ef0c24094105a23240f436b051e84a67bef5ef41230e19a8871eb683d8bd",
+          "source_anchor_quote_identity_sha256": "076db72cb49588533ddba0386870e9a481b8958c194f81ab1d2eb6757de7ac39",
+          "source_target_sha256": "062ba56c39994e9ad0c42837b129ca31e8cb5c543200034ab434e4aca179709a",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_revenue": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_deterministicRevenue",
+        "source_outcomeRevenue",
+        "source_randomizedRevenueLaw"
+      ],
+      "review_row_signature_sha256": {
+        "source_deterministicRevenue": "80b121524be1bbb98d26b56d029b01a500fe92819e269d5c8f3492114070d659",
+        "source_outcomeRevenue": "8985b32911332fa68a5011c7da91030adef85d3ac6c36df68060c64b756e9ee9",
+        "source_randomizedRevenueLaw": "ef4610e8291b5f58ee99060a171a90605c8174c33963d65c6dbc837a6af9a158"
+      },
+      "reason": "The linked clauses jointly preserve all three source semantics: outcome revenue is the sum of winner sale prices, deterministic revenue is that realized sum, and randomized revenue is the induced random variable. Randomized clauses are credited only on the documented discrete, countably supported PMF domain GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01; no coverage of continuous outcome laws is claimed.",
+      "source_evidence": "GHW01DigitalGoods.txt:211-214 is the pinned source passage for: Auction revenue R is the sum of all sale prices.",
+      "dashboard_evidence": "The reviewed signatures sum prices only over allocated bidders, apply that sum to a deterministic outcome, and push it through the randomized outcome law. Randomized clauses are credited only on the documented discrete, countably supported PMF domain GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01; no coverage of continuous outcome laws is claimed.",
+      "statement_sha256": "e1ded66ce7593389574b446496a4ead3f99f313040f23550a356763328e5bedc",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "4195391f024f1e81d2c1c65d0648a96b1c3a9437f7bfc26e03ed89f3918dddf9",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "4195391f024f1e81d2c1c65d0648a96b1c3a9437f7bfc26e03ed89f3918dddf9",
+          "source_anchor_quote_identity_sha256": "159c31aae30d7091aa9c1f8731c053347afb42852a6974a23599a75aa5641acb",
+          "source_target_sha256": "e1ded66ce7593389574b446496a4ead3f99f313040f23550a356763328e5bedc",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "documented_source_model_convention",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01": "4b353502664b40c6f7219c99d5b0e23bb8a426657d6fa58dfae77fe6b9a6e083"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_independent_half_analysis_model": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_independentHalfSamplingAnalysisLaw"
+      ],
+      "review_row_signature_sha256": {
+        "source_independentHalfSamplingAnalysisLaw": "9b9d2dc286d35cb0f796f5608161e99247f0b4e562cbae2e9aa9333a8fbb351b"
+      },
+      "reason": "The route is the separate analytical law that includes each bidder independently with probability one half, rather than the exact-half mechanism law.",
+      "source_evidence": "GHW01DigitalGoods.txt:466-469 is the pinned source passage for: For analysis, the paper separately samples each bid independently with probability 1/2.",
+      "dashboard_evidence": "The reviewed probability model is a product of fair Bernoulli membership choices and is kept distinct from fixed-cardinality sampling.",
+      "statement_sha256": "eb12abeeff0077f9ece0f82a16de17eae6a680bafd48d2934edbea01bd5f5805",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "8813b23511cc35f3c8fe54f6ff1faa91469d47f1a4fbbeced0cd7a48d9dc091a",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "8813b23511cc35f3c8fe54f6ff1faa91469d47f1a4fbbeced0cd7a48d9dc091a",
+          "source_anchor_quote_identity_sha256": "ac6e3d2c0f8d0815f1e02940651c24816d345781271d253d8395cc938d11164e",
+          "source_target_sha256": "eb12abeeff0077f9ece0f82a16de17eae6a680bafd48d2934edbea01bd5f5805",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_price_classes": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_deterministicIsSinglePrice",
+        "source_singlePriceOutcome",
+        "source_randomizedMultiPriceAuction",
+        "source_randomizedIsSinglePrice",
+        "source_deterministicMultiPriceAuction"
+      ],
+      "review_row_signature_sha256": {
+        "source_deterministicIsSinglePrice": "319e56ee9e3ceddaf702edb58a7c6ee7da1138af4a4323e9fcde89d158b85680",
+        "source_singlePriceOutcome": "3acface21a905e79660e1f8304c8a0dafc44570381611b37881903b183d61558",
+        "source_randomizedMultiPriceAuction": "522d77e1a66c7417901c38a484bfdf5e35d1427c6abc377ad6231bdec33619cb",
+        "source_randomizedIsSinglePrice": "722f4c243b6c7e253f4ddbfe1a5e86dc8edb1d1110660ae8c223320789b4156d",
+        "source_deterministicMultiPriceAuction": "aae035652b445a2a5a7615acef1818b4a7cccd430e87d61cf143f80c09cc52d5"
+      },
+      "reason": "The five linked clauses jointly distinguish common-price outcomes and deterministic or randomized single-price mechanisms from the broader multi-price class, where different winner prices are permitted rather than required. Randomized clauses are credited only on the documented discrete, countably supported PMF domain GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01; no coverage of continuous outcome laws is claimed.",
+      "source_evidence": "GHW01DigitalGoods.txt:67-70 is the pinned source passage for: Single-price auctions charge every winning bidder the same price; multi-price auctions may charge winners different prices, and either class may be randomized.",
+      "dashboard_evidence": "The reviewed predicates inspect winner payments outcome by outcome and do not smuggle an existential unequal-price witness into the multi-price classification. Randomized clauses are credited only on the documented discrete, countably supported PMF domain GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01; no coverage of continuous outcome laws is claimed.",
+      "statement_sha256": "74ee4e0a7ade89c925b06dec547bc3f6c255a319570d730ae17717e94dccafa1",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "26ba5ec7a2d01d9ddbb9258ba6d529779a0f8c3a3730c16241de172e752796da",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "26ba5ec7a2d01d9ddbb9258ba6d529779a0f8c3a3730c16241de172e752796da",
+          "source_anchor_quote_identity_sha256": "a99a1d10af421b87097e573825d2179ab3d8a85b959a098e87f5d8b41f2fa971",
+          "source_target_sha256": "74ee4e0a7ade89c925b06dec547bc3f6c255a319570d730ae17717e94dccafa1",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "documented_source_model_convention",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-RANDOMIZED-AUCTION-PMF-DOMAIN-01": "4b353502664b40c6f7219c99d5b0e23bb8a426657d6fa58dfae77fe6b9a6e083"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "model_bidder_values_and_bids": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_bidProfile",
+        "source_bidValues",
+        "source_auctionInput"
+      ],
+      "review_row_signature_sha256": {
+        "source_bidProfile": "a8feee7f53a526b307a91a07913c746ade4e04990da3bcf9feaa746b5e52d910",
+        "source_bidValues": "a8feee7f53a526b307a91a07913c746ade4e04990da3bcf9feaa746b5e52d910",
+        "source_auctionInput": "d7a501aaa1be180a687980d26c8d56569de68d54cd972387d259ddfa2f3850e8"
+      },
+      "reason": "The linked model clauses keep each bidder's utility value and submitted bid as distinct profiles and package both as the auction input.",
+      "source_evidence": "GHW01DigitalGoods.txt:195-196 is the pinned source passage for: Each bidder i has utility value u_i and submits bid b_i.",
+      "dashboard_evidence": "The reviewed carrier has separate value and report functions indexed by the same finite bidder type; neither is silently identified with the other.",
+      "statement_sha256": "b309812b0d7ee86ce4a860f03f259232135b2cab5b151c33671bb8222c461dff",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "e1b2e241e3e97a81f856545ca609ac2dfd2abe575fa39791a433f29cfe052bd6",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "e1b2e241e3e97a81f856545ca609ac2dfd2abe575fa39791a433f29cfe052bd6",
+          "source_anchor_quote_identity_sha256": "f76de9261fba033ac722cd493ba393107f161f7c49036e33b6c8c48a290f95a4",
+          "source_target_sha256": "b309812b0d7ee86ce4a860f03f259232135b2cab5b151c33671bb8222c461dff",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_bidder_count": {
+      "coverage": "covered",
+      "review_rows": [
+        "source_bidderCount"
+      ],
+      "review_row_signature_sha256": {
+        "source_bidderCount": "924127dd08999bb010304e97ffba07f62c061bf17f2689f828e393f3d0f0d85b"
+      },
+      "reason": "The route interprets n as the finite cardinality of the bidder type, exactly the number of participating bidders.",
+      "source_evidence": "GHW01DigitalGoods.txt:128-130 is the pinned source passage for: The notation n denotes the number of bidders.",
+      "dashboard_evidence": "The reviewed definition returns the Fintype cardinality and introduces no allocation or sample-size surrogate.",
+      "statement_sha256": "47fdde46dbe4c88f29b73b78665bebeabf2c31870d347aefca65c7037582e0ce",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "b3b5ffd89de65ecf5343599f6806cbad364031b95d12f8c1b540099adbcc81e8",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "b3b5ffd89de65ecf5343599f6806cbad364031b95d12f8c1b540099adbcc81e8",
+          "source_anchor_quote_identity_sha256": "e10d01abd6e31722edfc0f41448b38484f29d12c3ef9cfb6ec3fc2c0226e5fed",
+          "source_target_sha256": "47fdde46dbe4c88f29b73b78665bebeabf2c31870d347aefca65c7037582e0ce",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "2f6b0945882e698acef2865a993f3e6537783448f26456233221a44ba3ee1e65"
+      }
+    },
+    "definition_competitive_auction": {
+      "validator": "Codex GHW01 five-definition semantic coverage reattestation",
+      "validator_type": "agent",
+      "validated_at": "2026-08-04T04:15:00Z",
+      "coverage": "covered",
+      "review_rows": [
+        "source_competitiveDefinition",
+        "source_competitive_iff_uniformPositiveRevenueBenchmarkRatio"
+      ],
+      "review_row_signature_sha256": {
+        "source_competitiveDefinition": "88e3877e8c99e5a9f6a84d8a72068c1cded6ed6280a835f3003b5d8bb177256d",
+        "source_competitive_iff_uniformPositiveRevenueBenchmarkRatio": "292ae890ea609fe3d5b769cbd0314b04dd1c8f1f946b1cb02e5fd7fa57d5b430"
+      },
+      "reason": "The two component-routed rows jointly state the uniform positive Omega(F) predicate and prove its R/F characterization under the positive-benchmark premise needed for division.",
+      "source_evidence": "GHW01DigitalGoods.txt:266-267 is the pinned source passage for: Under specified assumptions, an auction is competitive when its revenue is Omega(F), equivalently R/F is Omega(1).",
+      "dashboard_evidence": "One reviewed row exposes a single positive constant uniform over the admissible class; the second proves the iff with the same constant and ratio when every admissible benchmark is positive.",
+      "statement_sha256": "9859bdc809e3a50ecf493416a992ab8d05075f5ceecc2ec93bed043c1ef84298",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "0d7c6add71b3a7dbf22b6c0b563a4f6a9ec0c4147018d282ca6bcce42288d162",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "0d7c6add71b3a7dbf22b6c0b563a4f6a9ec0c4147018d282ca6bcce42288d162",
+          "source_anchor_quote_identity_sha256": "f5fafc90b9f7aa64fcfb313ae7c0b84a6808e5bbf07e88e224aa12d75df35fb0",
+          "source_target_sha256": "9859bdc809e3a50ecf493416a992ab8d05075f5ceecc2ec93bed043c1ef84298",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "d869ca217faa84a423a150d1a4439eecbaeab1807220080d0168928ed52d4c00"
+      }
+    },
+    "model_bounded_supply_capacity": {
+      "validator": "Codex GHW01 five-definition semantic coverage reattestation",
+      "validator_type": "agent",
+      "validated_at": "2026-08-04T04:15:00Z",
+      "coverage": "covered",
+      "review_rows": [
+        "source_boundedSupplyModel"
+      ],
+      "review_row_signature_sha256": {
+        "source_boundedSupplyModel": "e589270ecf98ac751d4f0b7e83c4523eb80536950d97c7be921d8d1cc348accd"
+      },
+      "reason": "The linked predicate combines binary allocation with a profilewise at-most-k capacity bound, so fewer than k sales remain permitted.",
+      "source_evidence": "GHW01DigitalGoods.txt:1595-1600 is the pinned source passage for: In the paper's digital-goods model, k is the supply cap: a binary allocation sells at most k items in total and may sell fewer than k.",
+      "dashboard_evidence": "The reviewed model quantifies over every bid profile and bounds the finite sum of binary allocations by the natural capacity.",
+      "statement_sha256": "386ed5081c91afe44b4e061282c50ded4a42b0e4f5c33efb1a0f818e0f423519",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "76abd161720187c1485609132f86b7f5f21c3edb9e5c311c83f7e16a0e4b7bfd",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "76abd161720187c1485609132f86b7f5f21c3edb9e5c311c83f7e16a0e4b7bfd",
+          "source_anchor_quote_identity_sha256": "c897377e45fbacef9f337fb1f2e73284b6748c4124665aa7ec01a5c16aab6c4f",
+          "source_target_sha256": "386ed5081c91afe44b4e061282c50ded4a42b0e4f5c33efb1a0f818e0f423519",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "d869ca217faa84a423a150d1a4439eecbaeab1807220080d0168928ed52d4c00"
+      }
+    },
+    "definition_unlimited_vickrey_family": {
+      "validator": "Codex GHW01 five-definition semantic coverage reattestation",
+      "validator_type": "agent",
+      "validated_at": "2026-08-04T04:15:00Z",
+      "coverage": "covered",
+      "review_rows": [
+        "source_admissibleVickreySupplyRule"
+      ],
+      "review_row_signature_sha256": {
+        "source_admissibleVickreySupplyRule": "530d9b2723b6411dc2bc25940a170f90a0ac6b09419016a35b18e2711ec02899"
+      },
+      "reason": "The linked definition states exactly the admissible inequalities 1 <= f(n) < n on the meaningful bidder-count domain n >= 2.",
+      "source_evidence": "GHW01DigitalGoods.txt:289-291 is the pinned source passage for: For every bidder count n >= 2, an admissible unlimited-supply Vickrey supply rule has k=f(n) with 1 <= f(n) < n.",
+      "dashboard_evidence": "The reviewed predicate universally quantifies over n, guards the claim by 2 <= n, and then states both source inequalities.",
+      "statement_sha256": "0751926e2eb5b2b5247b234ec64dd04dd2d8d2094cef69ec732f53ae618abeab",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "486b3413a7eae450a30f403697fa40397147e83d6a9db2952c94acbef67670b7",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "486b3413a7eae450a30f403697fa40397147e83d6a9db2952c94acbef67670b7",
+          "source_anchor_quote_identity_sha256": "62aec7ce5408c3ed9970aa3d9f1dbd4f4949721f82d0672534d23a9b3764b552",
+          "source_target_sha256": "0751926e2eb5b2b5247b234ec64dd04dd2d8d2094cef69ec732f53ae618abeab",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "d869ca217faa84a423a150d1a4439eecbaeab1807220080d0168928ed52d4c00"
+      }
+    },
+    "definition_total_value": {
+      "validator": "Codex GHW01 direct-premise source-to-dashboard semantic reviewer",
+      "validator_type": "agent",
+      "validated_at": "2026-08-04T04:11:33Z",
+      "coverage": "covered",
+      "review_rows": [
+        "totalValue",
+        "source_truthfulReports_totalValue_bridge"
+      ],
+      "review_row_signature_sha256": {
+        "totalValue": "42a05a28940fb46471b5ae5416e9254beba1c66a7b36bffa04d742265fdac4fd",
+        "source_truthfulReports_totalValue_bridge": "14f56d02ef0bae6408ff98c138a544c9d8e371689c0e1f665b2c9f321777359c"
+      },
+      "reason": "Fresh source-first review confirms that the two routed rows jointly identify T with the unconditional finite utility sum, with the bid sum under the visible pointwise condition b_i = u_i, and with full-value outcome revenue.",
+      "source_evidence": "GHW01DigitalGoods.txt:132-134; GHW01DigitalGoods.txt:226-232 is the pinned source passage for: T is the finite sum of bidders' utility values; under the source convention b_i = u_i used when considering truthful auctions, it is also the sum of the bids and equals the revenue of the full-value untruthful multi-price outcome.",
+      "dashboard_evidence": "The direct definition is the finite utility sum. The bridge visibly assumes SourceDefinitions.TruthfulReports, whose body is input.bids = input.values, and its terminal conjunction states both the utility-to-bid equality and the unconditional bid-sum/full-value-revenue equality.",
+      "statement_sha256": "fa08a86dc96047b10ce063429df03a48c178830034c99ff58abc1f784ee74272",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "b10aa142b4014100ff8a37381cdff54add3d1abe1f59dce6e25c2ace57d5fae8",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "b10aa142b4014100ff8a37381cdff54add3d1abe1f59dce6e25c2ace57d5fae8",
+          "source_anchor_quote_identity_sha256": "846603c69a3ffa5518d9286383797bac11ffb972a4f4e9f9ac74ec4e0e1aedd3",
+          "source_target_sha256": "fa08a86dc96047b10ce063429df03a48c178830034c99ff58abc1f784ee74272",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          },
+          "source_model_convention_pins": {
+            "schema": 2,
+            "model_convention_ids": [
+              "GHW01-TOTAL-VALUE-TRUTHFUL-BIDDING-01"
+            ],
+            "record_sha256_by_id": {
+              "GHW01-TOTAL-VALUE-TRUTHFUL-BIDDING-01": "5031d4d4a556d87ebf340b705a75644c6516049664961516060f9b69784d2765"
+            }
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "03d182b75e5fed67d605c8373b9c1eab485a7038f13485a3e87a49542288656b"
+      }
+    },
+    "definition_threshold_boundary_convention": {
+      "validator": "Codex GHW01 five-definition semantic coverage reattestation",
+      "validator_type": "agent",
+      "validated_at": "2026-08-04T04:15:00Z",
+      "coverage": "covered",
+      "review_rows": [
+        "source_thresholdBoundaryConvention"
+      ],
+      "review_row_signature_sha256": {
+        "source_thresholdBoundaryConvention": "5d8e9bff43987690d467685518298714b3cbfe9c04c4db25feedbb738dc86965"
+      },
+      "reason": "The linked definition has exactly the weak and strict threshold comparison cases permitted by the source.",
+      "source_evidence": "GHW01DigitalGoods.txt:372-374 is the pinned source passage for: A bid-independent offer rule may choose either weak or strict comparison with its threshold.",
+      "dashboard_evidence": "The reviewed two-constructor boundary carrier distinguishes weak acceptance from strict acceptance without asserting the separate revenue-maximization motivation.",
+      "statement_sha256": "f33e3250d5b455f9cfaff7202170ff4e5dfd3dcf5357ca0a7293314f8d0e3221",
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "60457ac89c672871bc4dde4ca8b930e31cb3a011f4b6f13180a156e93c04bf6b",
+      "semantic_reuse_v1": {
+        "schema": 3,
+        "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+        "source_item": {
+          "schema": 2,
+          "source_item_semantic_sha256": "60457ac89c672871bc4dde4ca8b930e31cb3a011f4b6f13180a156e93c04bf6b",
+          "source_anchor_quote_identity_sha256": "a7b7d5e5fd7a8faa48caa642911532630e5c664041bfd7b3f83c20cc33f31649",
+          "source_target_sha256": "f33e3250d5b455f9cfaff7202170ff4e5dfd3dcf5357ca0a7293314f8d0e3221",
+          "source_target_disposition": {
+            "kind": "ordinary_or_convention",
+            "source_kind": "definition",
+            "source_status": "exact",
+            "coverage_status": "",
+            "protocol_role": ""
+          }
+        },
+        "source_coverage_mode": "named_theoretical_statements",
+        "review_validator_identity_sha256": "d869ca217faa84a423a150d1a4439eecbaeab1807220080d0168928ed52d4c00"
+      }
     }
-  },
-  "paper": "GHW01DigitalGoods",
-  "paper_statement_inventory_sha256": "44f01f5d2c32a180db8140500715edac0d09e8604c5bc2a234dda0ed314fe1d1",
-  "prompt_version": "paper-coverage-v2-source-grounded-source-to-dashboard",
-  "review_surface_sha256": "98cc7c0cca5637e84729456366626904407a2bfa5f18c59834ea9f851affc387",
-  "schema": 1,
-  "source_grounded": true,
-  "validated_at": "2026-06-29T18:08:26Z",
-  "validator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  }
 }

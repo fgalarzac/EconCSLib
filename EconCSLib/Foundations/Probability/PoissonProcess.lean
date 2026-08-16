@@ -3808,12 +3808,15 @@ def toHomogeneousCountProcessLaw
 end HomogeneousPoissonCountingProcess
 
 /--
-Homogeneous Poisson counting process whose increment marginals are stated as
-mathlib distribution laws.
+Legacy all-real-time homogeneous Poisson counting-process interface whose
+increment marginals are stated as mathlib distribution laws.
 
-This is the preferred primitive interface for reusable homogeneous Poisson
-process arguments.  The formula-facing `HomogeneousPoissonCountingProcess`
-below is derived from these `HasLaw` fields, rather than assumed separately.
+Because its natural-valued count is both monotone on all real times and zero
+at time zero, the positive-rate version is uninhabited: the interval `[-1, 0]`
+must have pathwise zero count, while the increment law requires a nondegenerate
+Poisson count.  It is retained for compatibility with older algebraic proof
+surfaces only.  New source models must use the forward-time interface in
+`ForwardPoisson.lean` (or an explicit stationary/two-sided construction).
 -/
 structure HomogeneousPoissonCountingProcessByLaw
     (Ω : Type*) [MeasurableSpace Ω] (P : Measure Ω) where
@@ -3941,6 +3944,42 @@ theorem intervalCount_zero_prob_eq_exponential_tail
   rw [H.intervalCount_zero_prob hst]
   exact noArrivalProb_eq_exponential_tail
     H.rate H.rate_pos (sub_nonneg.mpr hst)
+
+/-- The legacy all-real-time, monotone, zero-start positive-rate interface is
+uninhabited.  This rules out treating it as a forward post-arrival process:
+on `[-1, 0]`, monotonicity and the zero baseline force a zero increment almost
+surely, contradicting the positive-rate Poisson increment law. -/
+theorem false
+    (H : HomogeneousPoissonCountingProcessByLaw Ω P) : False := by
+  have hst : (-1 : ℝ) ≤ 0 := by norm_num
+  letI : IsProbabilityMeasure P := (H.increment_hasLaw hst).isProbabilityMeasure
+  have hzero : ∀ᵐ ω ∂P, H.intervalCount (-1) 0 ω = 0 := by
+    filter_upwards [H.count_mono_ae, H.count_zero_ae] with ω hmono hzero
+    have hle : H.count (-1) ω ≤ H.count 0 ω := hmono hst
+    have hleft : H.count (-1) ω = 0 := by omega
+    simp [intervalCount, hleft, hzero]
+  let A : Set Ω := {ω | H.intervalCount (-1) 0 ω = 0}
+  have hAuniv : A =ᵐ[P] Set.univ := by
+    filter_upwards [hzero] with ω hω
+    dsimp only [A]
+    apply propext
+    change H.intervalCount (-1) 0 ω = 0 ↔ True
+    constructor
+    · intro _
+      trivial
+    · intro _
+      exact hω
+  have hAone : P.real A = 1 := by
+    calc
+      P.real A = P.real Set.univ := MeasureTheory.measureReal_congr hAuniv
+      _ = 1 := by simp [MeasureTheory.Measure.real]
+  have hAprob : P.real A = noArrivalProb H.rate (0 - (-1 : ℝ)) := by
+    simpa only [A] using H.intervalCount_zero_prob hst
+  have htail_lt : noArrivalProb H.rate (0 - (-1 : ℝ)) < 1 := by
+    rw [noArrivalProb]
+    rw [Real.exp_lt_one_iff]
+    nlinarith [H.rate_pos]
+  linarith
 
 /-- Window-count event probability for a deterministic observation window. -/
 theorem windowCount_prob

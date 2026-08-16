@@ -2,35 +2,60 @@
 \input{../../../docs/tikz/dag_preamble.tex}
 
 \begin{document}
-\begin{tikzpicture}[node distance=1.05cm and 1.5cm,
-  every node/.style={font=\sffamily\small}]
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.append style={outer sep=4pt}]
 
-\dagPaperMetadata{College Admissions and the Stability of Marriage}{D. Gale and L. S. Shapley}{The American Mathematical Monthly}{1962}{https://doi.org/10.1080/00029890.1962.11989827}
+\dagPaperMetadata
+  {College Admissions and the Stability of Marriage}
+  {D. Gale and L. S. Shapley}
+  {The American Mathematical Monthly}
+  {1962}
+  {https://doi.org/10.1080/00029890.1962.11989827}
+
 \dagPaperLegendRightOfMetadata{
-\node[dag_result, dag_template_legend] (legRes) {\textbf{Closed}\\paper-facing};
-\node[dag_model, right=0.35cm of legRes, dag_template_legend] (legDef) {\textbf{Definition}\\model};
+\node[dag_result, dag_template_legend] (legDone) at (0,0) {formalized source\\item};
+\node[dag_model, dag_template_legend] (legModel) at (4.0,0) {source model or\\procedure};
 }
-\daglegend{(legRes)(legDef)}{Legend}
+\daglegend{(legDone)(legModel)}{Legend}
 
 \begin{dagPaperBody}
-\node[dag_model] (Defs) at (0,0)
-  {\textbf{Definitions}\\strict marriage domain, stability, completeness, proposer optimality};
-\node[dag_result] (DA) at (0,-3)
-  {\textbf{Deferred Acceptance}\\reusable stability, completeness, optimality};
-\node[dag_result] (Thm1) at (6,-3)
-  {\textbf{Theorem 1}\\stable marriages exist};
-\node[dag_result] (QuotaOne) at (6,-6)
-  {\textbf{Quota-one admissions}\\one-to-one and many-to-one wrappers};
-\node[dag_result] (Thm2) at (12,-3)
-  {\textbf{Theorem 2}\\applicant/proposer optimality};
-\node[dag_result] (ManyToOne) at (12,-6)
-  {\textbf{General quotas}\\stable college admissions via cloned seats};
 
-\draw[dag_arrow] (Defs) -- (DA);
-\draw[dag_arrow] (DA) -- (Thm1);
-\draw[dag_arrow] (Thm1) -- (QuotaOne);
-\draw[dag_arrow] (DA) -- (Thm2);
-\draw[dag_arrow] (DA) -- (ManyToOne);
+\node[dag_model] (MarriageModel) at (0,0) {
+  \textbf{Marriage model (Section 3)} \\
+  Finite equal-side communities with complete strict preferences
+};
+\node[dag_result] (MarriageUnstable) at (7,0) {
+  \textbf{Definition (Section 3)} \\
+  An unstable marriage has a mutually preferred unmatched pair
+};
+\node[dag_result] (Thm1) at (14,0) {
+  \textbf{Theorem 1} \\
+  A stable complete marriage exists
+};
+
+\node[dag_model] (CollegeModel) at (0,-5) {
+  \textbf{College-admissions model (Sections 3--4)} \\
+  Quotas, strict preferences, and the applicant-proposing procedure
+};
+\node[dag_result] (CollegeUnstable) at (7,-5) {
+  \textbf{Definition (page 10)} \\
+  Unstable college assignment
+};
+\node[dag_result] (CollegeOptimalDefinition) at (14,-5) {
+  \textbf{Definition (page 10)} \\
+  Applicant-optimal stable assignment
+};
+\node[dag_result] (Thm2) at (21,-5) {
+  \textbf{Theorem 2} \\
+  The Section 4 assignment is applicant-optimal among stable assignments
+};
+
+\draw[dag_arrow] (MarriageModel) -- (MarriageUnstable);
+\draw[dag_arrow] (MarriageUnstable) -- (Thm1);
+
+\draw[dag_arrow] (CollegeModel) -- (CollegeUnstable);
+\draw[dag_arrow] (CollegeUnstable) -- (CollegeOptimalDefinition);
+\draw[dag_arrow] (CollegeOptimalDefinition) -- (Thm2);
+
 \end{dagPaperBody}
 \end{tikzpicture}
 \end{document}

@@ -1,135 +1,217 @@
 {
-  "comment": "Semantic premise provenance rejudge. Certificate/replay/process premises are not accepted by name and must be paper conditions, documented caveats, partial boundaries, or derived from primitives.",
+  "schema": 1,
+  "paper": "GGSG19TopThree",
+  "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
+  "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+  "validator_type": "agent",
+  "validated_at": "2026-07-19T05:55:37Z",
+  "assumption_surface_sha256": "133574e35dcd9533aec48dade5ae3fc80a8f462a5c8abfba46f6389633cc3332",
+  "comment": "Current v3 source-first premise audit of the five configured assumption rows. The former no-tie row is removed: Proposition 1 now proves the equality boundary using independent uniform tie breaking. The Mallows parameter interval is partitioned into a zero-noise theorem and a positive-noise theorem without introducing an additional assumption.",
   "items": {
-    "assumption_mallows_nontrivial_winner_and_noise": {
-      "judgment": "paper_condition",
-      "lean_statement_sha256": "13be07790831e316040d153984d00dfeca7455a9b4f3a8f6ab2c001ceb8287ff",
-      "paper_statement_sha256": "8a964ecbd60b59f8789b06eff4134768e0df0516aa9c0fda1783abff8efb80db",
-      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "The Mallows no-randomization corollary selects W winners from the reference ranking and uses the adjacent pivotal pair W,W+1.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
-      "premise_judgments": {
-        "hW : 0 < W.val": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The Mallows no-randomization corollary selects W winners from the reference ranking and uses the adjacent pivotal pair W,W+1.",
-          "source_location": "GGSG19TopThree source statement for assumption_mallows_nontrivial_winner_and_noise"
-        },
-        "hq_lt : M.q < 1": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The Mallows no-randomization corollary selects W winners from the reference ranking and uses the adjacent pivotal pair W,W+1.",
-          "source_location": "GGSG19TopThree source statement for assumption_mallows_nontrivial_winner_and_noise"
-        }
-      },
-      "premises": [
-        "hW : 0 < W.val",
-        "hq_lt : M.q < 1"
-      ]
-    },
-    "assumption_nontrivial_k_approval_cutoffs": {
-      "judgment": "paper_condition",
-      "lean_statement_sha256": "952c5858f9376a6544bf3eec646760beecae2b12ebcb5082bdf3983288c1e8b3",
-      "paper_statement_sha256": "3998841e1d0354d2fa4d6697c0d0c7efbe4a83759c32fff2fa285ce837917a56",
-      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "The K-approval randomization theorem ranges over proper nontrivial K-approval cutoffs.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
-      "premise_judgments": {
-        "hK_lt : ∀ rule, K rule < n + 2": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The K-approval randomization theorem ranges over proper nontrivial K-approval cutoffs.",
-          "source_location": "GGSG19TopThree source statement for assumption_nontrivial_k_approval_cutoffs"
-        },
-        "hK_pos : ∀ rule, 0 < K rule": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The K-approval randomization theorem ranges over proper nontrivial K-approval cutoffs.",
-          "source_location": "GGSG19TopThree source statement for assumption_nontrivial_k_approval_cutoffs"
-        }
-      },
-      "premises": [
-        "hK_lt : ∀ rule, K rule < n + 2",
-        "hK_pos : ∀ rule, 0 < K rule"
-      ]
-    },
     "assumption_pairwise_approval_ternary_gap_domain": {
       "judgment": "paper_condition",
-      "lean_statement_sha256": "08c3ed3458916508b01fa7d42853b5585b515fdf5116600e53981b6a70218068",
-      "paper_statement_sha256": "2b198efdd2e44cd58ac0e50cee946df60bdcf04e1631f918d42e2c4de79fa52e",
+      "lean_signature_sha256": "d1953ffafb7f70f01ddb651c93729faadcf2772a1bd69fe9f52f12d92aa578f4",
+      "lean_statement_sha256": "2b27ddd44ba8d8b33d6f0fb06f489703e28c3b668e907be13b99c3bb58575ae7",
+      "paper_statement_sha256": "ae45c339923527b448b16ae261c075815eda0ebc246927447e064aa27b48ebb9",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "Proposition 3 specializes to K-approval, where score gaps are ternary, and uses the source condition that the higher-score candidate has larger expected score.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
+      "reason": "The row unfolds the exact K-approval score-gap model used in Proposition 3: every one-voter gap is in {1,0,-1}, the three named masses are the probabilities of those events, and the correctly ordered pair has nonnegative expected gap. These are source-model primitives and definitions, not imported proof conclusions.",
+      "validated_at": "2026-07-19T05:55:37Z",
+      "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+      "validator_type": "agent",
       "premise_judgments": {
         "hle : pDown ≤ pUp": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Proposition 3 specializes to K-approval, where score gaps are ternary, and uses the source condition that the higher-score candidate has larger expected score.",
-          "source_location": "GGSG19TopThree source statement for assumption_pairwise_approval_ternary_gap_domain"
+          "judgment": "derived_from_source_primitives",
+          "reason": "For the source's correctly ordered candidate pair, the expected ternary score gap is pUp minus pDown and is nonnegative; the strict positive case is the Proposition 3 learning domain.",
+          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1317",
+          "source_evidence": "Pinned TeX archive 667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a; exact anchor: source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1317.",
+          "validated_at": "2026-07-19T05:55:37Z",
+          "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+          "validator_type": "agent"
         },
         "hscore : ∀ signal, hiScore signal - loScore signal = 1 ∨ hiScore signal - loScore signal = 0 ∨ hiScore signal - loScore signal = -1": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Proposition 3 specializes to K-approval, where score gaps are ternary, and uses the source condition that the higher-score candidate has larger expected score.",
-          "source_location": "GGSG19TopThree source statement for assumption_pairwise_approval_ternary_gap_domain"
+          "judgment": "source_text_model_primitive",
+          "reason": "A K-approval ballot awards each candidate either zero or one, so the difference for a fixed pair is exactly one, zero, or minus one.",
+          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1317",
+          "source_evidence": "Pinned TeX archive 667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a; exact anchor: source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1317.",
+          "validated_at": "2026-07-19T05:55:37Z",
+          "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+          "validator_type": "agent"
+        },
+        "hpUp : EconCSLib.pmfProb law (fun signal => hiScore signal - loScore signal = 1) = pUp": {
+          "judgment": "source_text_model_primitive",
+          "reason": "The source defines the favorable one-sided probability as the probability that the higher candidate is approved and the lower candidate is not.",
+          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1244-1246",
+          "source_evidence": "Pinned TeX archive 667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a; exact anchor: source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1244-1246.",
+          "validated_at": "2026-07-19T05:55:37Z",
+          "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+          "validator_type": "agent"
+        },
+        "hpDown : EconCSLib.pmfProb law (fun signal => hiScore signal - loScore signal = -1) = pDown": {
+          "judgment": "source_text_model_primitive",
+          "reason": "The source defines the unfavorable one-sided probability as the reverse approval-only event.",
+          "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1244-1246",
+          "source_evidence": "Pinned TeX archive 667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a; exact anchor: source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1244-1246.",
+          "validated_at": "2026-07-19T05:55:37Z",
+          "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+          "validator_type": "agent"
+        },
+        "hpZero : EconCSLib.pmfProb law (fun signal => hiScore signal - loScore signal = 0) = pZero": {
+          "judgment": "derived_from_source_primitives",
+          "reason": "The zero-gap mass is the remaining K-approval event where both candidates receive the same score; the proof writes this ternary mass explicitly.",
+          "source_location": "source_tex/arxiv.tex:1308-1323",
+          "source_evidence": "Pinned TeX archive 667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a; exact anchor: source_tex/arxiv.tex:1308-1323.",
+          "validated_at": "2026-07-19T05:55:37Z",
+          "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+          "validator_type": "agent"
         }
       },
       "premises": [
         "hle : pDown ≤ pUp",
-        "hscore : ∀ signal, hiScore signal - loScore signal = 1 ∨ hiScore signal - loScore signal = 0 ∨ hiScore signal - loScore signal = -1"
-      ]
+        "hscore : ∀ signal, hiScore signal - loScore signal = 1 ∨ hiScore signal - loScore signal = 0 ∨ hiScore signal - loScore signal = -1",
+        "hpUp : EconCSLib.pmfProb law (fun signal => hiScore signal - loScore signal = 1) = pUp",
+        "hpDown : EconCSLib.pmfProb law (fun signal => hiScore signal - loScore signal = -1) = pDown",
+        "hpZero : EconCSLib.pmfProb law (fun signal => hiScore signal - loScore signal = 0) = pZero"
+      ],
+      "source_artifact_path": "papers/GGSG19TopThree/source.tar.gz",
+      "source_artifact_sha256": "667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a",
+      "source_location": "source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1323",
+      "source_evidence": "Pinned TeX archive 667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a; exact anchor: source_tex/arxiv.tex:497-515; source_tex/arxiv.tex:1308-1323."
     },
     "assumption_randomized_mechanism_probability_weights": {
       "judgment": "paper_condition",
-      "lean_statement_sha256": "4c557344aeeeaad443362287ff29138717f3bcce26602cbb8c53c67bcca8ec3a",
-      "paper_statement_sha256": "652cce3fee59a3829a255835f273d964c0ff5e7ee7a1ebdc3e3d69bc815d6bc3",
+      "lean_signature_sha256": "d5ba0f0418479b9fe6252f0424c0cded468ba06345d54d3250d23b87d73025d9",
+      "lean_statement_sha256": "0ffedd0405cfe1e8e35bf46de03f319cea6c5f12876d2a686014520507cedab4",
+      "paper_statement_sha256": "4e7d1e51e3b603628eaaade432a063a2aa5336045aee761bb567d668453a7a88",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "Randomized scoring and K-approval mechanisms choose component rules with probabilities.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
+      "reason": "The source defines randomized scoring and randomized K-approval mechanisms by selecting each component with probability d_p. Nonnegativity and total mass one are exactly the probability-vector conditions, not extra proof assumptions.",
+      "validated_at": "2026-07-19T05:55:37Z",
+      "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+      "validator_type": "agent",
       "premise_judgments": {
-        "hsum : (∑ rule : Rule, weight rule) = 1": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Randomized scoring and K-approval mechanisms choose component rules with probabilities.",
-          "source_location": "GGSG19TopThree source statement for assumption_randomized_mechanism_probability_weights"
-        },
         "hweight : ∀ rule, 0 ≤ weight rule": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Randomized scoring and K-approval mechanisms choose component rules with probabilities.",
-          "source_location": "GGSG19TopThree source statement for assumption_randomized_mechanism_probability_weights"
+          "judgment": "source_text_model_primitive",
+          "reason": "Each component weight is a probability d_p in the randomized-mechanism definition.",
+          "source_location": "source_tex/arxiv.tex:661-669",
+          "source_evidence": "Pinned TeX archive 667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a; exact anchor: source_tex/arxiv.tex:661-669.",
+          "validated_at": "2026-07-19T05:55:37Z",
+          "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+          "validator_type": "agent"
+        },
+        "hsum : (∑ rule : Rule, weight rule) = 1": {
+          "judgment": "source_text_model_primitive",
+          "reason": "The component-selection probabilities form the complete finite randomized mechanism and therefore sum to one.",
+          "source_location": "source_tex/arxiv.tex:661-669",
+          "source_evidence": "Pinned TeX archive 667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a; exact anchor: source_tex/arxiv.tex:661-669.",
+          "validated_at": "2026-07-19T05:55:37Z",
+          "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+          "validator_type": "agent"
         }
       },
       "premises": [
-        "hsum : (∑ rule : Rule, weight rule) = 1",
-        "hweight : ∀ rule, 0 ≤ weight rule"
-      ]
+        "hweight : ∀ rule, 0 ≤ weight rule",
+        "hsum : (∑ rule : Rule, weight rule) = 1"
+      ],
+      "source_artifact_path": "papers/GGSG19TopThree/source.tar.gz",
+      "source_artifact_sha256": "667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a",
+      "source_location": "source_tex/arxiv.tex:661-673; source_tex/arxiv.tex:1405-1409; source_tex/arxiv.tex:1513-1521",
+      "source_evidence": "Pinned TeX archive 667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a; exact anchor: source_tex/arxiv.tex:661-673; source_tex/arxiv.tex:1405-1409; source_tex/arxiv.tex:1513-1521."
     },
-    "assumption_strict_cross_tier_no_ties": {
+    "assumption_mallows_nontrivial_winner_and_parameter_domain": {
       "judgment": "paper_condition",
-      "lean_statement_sha256": "1ac5e4ce529cd240c94ace46e6d3807b0828b7cd3460dafef0620da7ca2e1ce5",
-      "paper_statement_sha256": "14738df3047384c164f33095d5bb750d194c554f7970f5b5a6e3671640f76923",
+      "lean_signature_sha256": "b1264b4830c7479bd0f8789835c224dac89e14d4d6e42c7c50a2d2903de0b08d",
+      "lean_statement_sha256": "5152ea0299f30d8489e3b310c941b11ef29b06cacf8bad3eebe0b2b79bebb0c7",
+      "paper_statement_sha256": "1ef098706d63c76e1e02dd5436218e234f5be219290adddd2b2eb07f1843d5c3",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "Proposition 1 is exactly the strict cross-tier top-prefix regime; the source states strict inequalities between every higher-tier and lower-tier candidate at every prefix cutoff.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
+      "reason": "The positive-parameter Mallows corollary needs a genuine W versus W+1 pivotal pair and the source domain 0<phi<1. Lean handles phi=0 in its separate deterministic corollary row, so strict positivity here is an exact domain partition rather than an added restriction on the paper's combined claim.",
+      "validated_at": "2026-07-19T05:55:37Z",
+      "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+      "validator_type": "agent",
       "premise_judgments": {
-        "hNoTie : ∀ stage : Fin Stage, ∀ hi lo : Candidate n, hi ∈ targetPrefix stage → lo ∉ targetPrefix stage → ∀ cut : RankingProperPrefixCut n, rankingTopPrefixProb law lo cut ≠ rankingTopPrefixProb law hi cut": {
+        "hDomain : 0 < W.val ∧ 0 < q ∧ q < 1": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Proposition 1 is exactly the strict cross-tier top-prefix regime; the source states strict inequalities between every higher-tier and lower-tier candidate at every prefix cutoff.",
-          "source_location": "GGSG19TopThree source statement for assumption_strict_cross_tier_no_ties"
+          "reason": "A nonempty winner tier supplies the pivotal adjacent pair W,W+1, and this row is explicitly the positive-noise branch of the Mallows parameter interval; the separate zero-noise row proves the omitted endpoint.",
+          "source_location": "source_tex/arxiv.tex:289-295; source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+          "source_evidence": "Pinned TeX archive 667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a; exact anchor: source_tex/arxiv.tex:289-295; source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534.",
+          "validated_at": "2026-07-19T05:55:37Z",
+          "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+          "validator_type": "agent"
         }
       },
       "premises": [
-        "hNoTie : ∀ stage : Fin Stage, ∀ hi lo : Candidate n, hi ∈ targetPrefix stage → lo ∉ targetPrefix stage → ∀ cut : RankingProperPrefixCut n, rankingTopPrefixProb law lo cut ≠ rankingTopPrefixProb law hi cut"
-      ]
+        "hDomain : 0 < W.val ∧ 0 < q ∧ q < 1"
+      ],
+      "source_artifact_path": "papers/GGSG19TopThree/source.tar.gz",
+      "source_artifact_sha256": "667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a",
+      "source_location": "source_tex/arxiv.tex:289-295; source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534",
+      "source_evidence": "Pinned TeX archive 667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a; exact anchor: source_tex/arxiv.tex:289-295; source_tex/arxiv.tex:725-733; source_tex/arxiv.tex:1531-1534."
+    },
+    "assumption_mallows_repeated_insertion_parameter_domain": {
+      "judgment": "paper_condition",
+      "lean_signature_sha256": "0981cc88fe49365c6a0c85406113d4b2f9ee8de874e732fc51737a6aa4ba13f9",
+      "lean_statement_sha256": "dff2c92047ee33c45f35fd8cb4da8c9caecddd64b761b64a070fc7e4bb57dc76",
+      "paper_statement_sha256": "c230d7b590f486235f708d296d3fb2331ea73a9ebdaafe5540b6fb95d36ef966",
+      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
+      "reason": "The source defines the Mallows noise parameter on the closed interval [0,1], and the repeated-insertion kernel is stated on that entire interval. Lean exposes exactly those two endpoint-inclusive inequalities.",
+      "validated_at": "2026-07-19T05:55:37Z",
+      "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+      "validator_type": "agent",
+      "premise_judgments": {
+        "hDomain : 0 ≤ q ∧ q ≤ 1": {
+          "judgment": "source_text_model_primitive",
+          "reason": "The source explicitly declares phi in the closed interval [0,1], including both deterministic and uniform endpoints.",
+          "source_location": "source_tex/arxiv.tex:289-295; source_tex/arxiv.tex:1541-1549",
+          "source_evidence": "Pinned TeX archive 667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a; exact anchor: source_tex/arxiv.tex:289-295; source_tex/arxiv.tex:1541-1549.",
+          "validated_at": "2026-07-19T05:55:37Z",
+          "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+          "validator_type": "agent"
+        }
+      },
+      "premises": [
+        "hDomain : 0 ≤ q ∧ q ≤ 1"
+      ],
+      "source_artifact_path": "papers/GGSG19TopThree/source.tar.gz",
+      "source_artifact_sha256": "667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a",
+      "source_location": "source_tex/arxiv.tex:289-295; source_tex/arxiv.tex:1541-1549",
+      "source_evidence": "Pinned TeX archive 667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a; exact anchor: source_tex/arxiv.tex:289-295; source_tex/arxiv.tex:1541-1549."
+    },
+    "assumption_nontrivial_k_approval_cutoffs": {
+      "judgment": "paper_condition",
+      "lean_signature_sha256": "efd3b6cda2a5d8e9543184d00722f170d65092419bde936b2a7b5d521b44dd60",
+      "lean_statement_sha256": "059a49d5af2488a8656fed18b683608ed90523357e3c1d5411a9391a66b482c4",
+      "paper_statement_sha256": "c0d1011388aa4d08629d68748fe5e4a042e300a4f180da1dc49f03282f7779e5",
+      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
+      "reason": "The source's reasonable-design class excludes constant scoring rules. For K-approval this is exactly the proper positive-cutoff range, excluding approve-none and approve-all.",
+      "validated_at": "2026-07-19T05:55:37Z",
+      "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+      "validator_type": "agent",
+      "premise_judgments": {
+        "hK_pos : ∀ rule, 0 < K rule": {
+          "judgment": "derived_from_source_primitives",
+          "reason": "K=0 is the constant approve-none rule and is excluded by the source's nonconstant reasonable-scoring design class.",
+          "source_location": "source_tex/arxiv.tex:329-341; source_tex/arxiv.tex:701-721",
+          "source_evidence": "Pinned TeX archive 667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a; exact anchor: source_tex/arxiv.tex:329-341; source_tex/arxiv.tex:701-721.",
+          "validated_at": "2026-07-19T05:55:37Z",
+          "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+          "validator_type": "agent"
+        },
+        "hK_lt : ∀ rule, K rule < n + 2": {
+          "judgment": "derived_from_source_primitives",
+          "reason": "Approving every candidate is constant and is excluded by the same source design class; the Lean candidate universe has n+2 candidates.",
+          "source_location": "source_tex/arxiv.tex:329-341; source_tex/arxiv.tex:701-721",
+          "source_evidence": "Pinned TeX archive 667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a; exact anchor: source_tex/arxiv.tex:329-341; source_tex/arxiv.tex:701-721.",
+          "validated_at": "2026-07-19T05:55:37Z",
+          "validator": "Codex GGSG19 source-first premise provenance audit 2026-07-19",
+          "validator_type": "agent"
+        }
+      },
+      "premises": [
+        "hK_pos : ∀ rule, 0 < K rule",
+        "hK_lt : ∀ rule, K rule < n + 2"
+      ],
+      "source_artifact_path": "papers/GGSG19TopThree/source.tar.gz",
+      "source_artifact_sha256": "667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a",
+      "source_location": "source_tex/arxiv.tex:329-341; source_tex/arxiv.tex:701-721; source_tex/arxiv.tex:1513-1521",
+      "source_evidence": "Pinned TeX archive 667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a; exact anchor: source_tex/arxiv.tex:329-341; source_tex/arxiv.tex:701-721; source_tex/arxiv.tex:1513-1521."
     }
-  },
-  "paper": "GGSG19TopThree",
-  "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-  "schema": 1,
-  "validated_at": "2026-06-29T18:08:26Z",
-  "validator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  }
 }

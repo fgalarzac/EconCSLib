@@ -17411,6 +17411,21 @@ theorem sum_bestInSetWeight_eq_partition
   simpa [toShared, toShared_bestInSetWeight] using
     (M.toShared).sum_bestInSetWeight_eq_partition remaining
 
+/-- The probability that a candidate is best in a remaining set is its
+normalized Mallows best-in-set fiber mass. -/
+theorem bestInSetProbability_eq_weight_div_partition
+    {n : ℕ} (M : MallowsSpec n)
+    (remaining : Finset (Candidate n)) (c : Candidate n) :
+    pmfProb M.law (fun pi => c = bestInSet pi remaining) =
+      M.bestInSetWeight remaining c / M.partition := by
+  classical
+  unfold pmfProb pmfExp MallowsSpec.bestInSetWeight
+  rw [Finset.sum_div]
+  refine Finset.sum_congr rfl ?_
+  intro pi _
+  rw [M.law_apply_toReal]
+  by_cases h : c = bestInSet pi remaining <;> simp [h]
+
 /-- Expected best-in-set value in terms of unnormalized Mallows fibers. -/
 theorem expectedBestInSet_eq_sum_bestInSetWeight_div_partition
     (value : Candidate n → ℝ) (remaining : Finset (Candidate n)) :
@@ -18001,6 +18016,18 @@ theorem reflMallowsBestInSetWeight_cross_nonneg_card_le_two
       (reflMallowsBestInSetWeight_pair_cross_pos
         n hqMore_pos hq_lt hcd)
 
+/-- The identity-center first-choice fiber at rank zero has positive raw mass. -/
+theorem reflFirstWeight_zero_pos
+    (n : ℕ) {q : ℝ} (hq : 0 < q) :
+    0 < reflFirstWeight n q 0 := by
+  unfold reflFirstWeight
+  refine Finset.sum_pos' ?_ ?_
+  · intro tau _
+    exact pow_nonneg hq.le _
+  · refine ⟨Equiv.refl (Candidate n), ?_, ?_⟩
+    · simp [reflFirstChoiceFiber, firstChoice]
+    · simp
+
 /-- Full remaining-set best-in-set fiber MLR reduces to first-choice MLR. -/
 theorem reflMallowsBestInSetWeight_univ_cross_nonneg
     (n : ℕ) {qMore qLess : ℝ} (hqMore_pos : 0 < qMore)
@@ -18055,6 +18082,52 @@ theorem reflMallowsBestInSetWeight_univ_cross_nonneg
   rw [hfactor]
   exact mul_nonneg (mul_nonneg hAMore_nonneg hALess_nonneg) hrank
 
+/-- The full remaining-set fiber MLR is strict for distinct center ranks. -/
+theorem reflMallowsBestInSetWeight_univ_cross_pos
+    (n : ℕ) {qMore qLess : ℝ} (hqMore_pos : 0 < qMore)
+    (hq_lt : qMore < qLess) {c d : Candidate n} (hcd : c < d) :
+    0 <
+      reflMallowsBestInSetWeight n qMore Finset.univ c *
+          reflMallowsBestInSetWeight n qLess Finset.univ d -
+        reflMallowsBestInSetWeight n qMore Finset.univ d *
+          reflMallowsBestInSetWeight n qLess Finset.univ c := by
+  classical
+  rw [reflMallowsBestInSetWeight_univ_eq_reflFirstWeight,
+    reflMallowsBestInSetWeight_univ_eq_reflFirstWeight,
+    reflMallowsBestInSetWeight_univ_eq_reflFirstWeight,
+    reflMallowsBestInSetWeight_univ_eq_reflFirstWeight]
+  rw [reflFirstWeight_eq_rank_mul_zero n qMore c,
+    reflFirstWeight_eq_rank_mul_zero n qMore d,
+    reflFirstWeight_eq_rank_mul_zero n qLess c,
+    reflFirstWeight_eq_rank_mul_zero n qLess d]
+  let AMore : ℝ := reflFirstWeight n qMore 0
+  let ALess : ℝ := reflFirstWeight n qLess 0
+  have hqLess_pos : 0 < qLess := lt_trans hqMore_pos hq_lt
+  have hAMore_pos : 0 < AMore := by
+    exact reflFirstWeight_zero_pos n hqMore_pos
+  have hALess_pos : 0 < ALess := by
+    exact reflFirstWeight_zero_pos n hqLess_pos
+  have hrank :
+      0 <
+        qMore ^ (c : ℕ) * qLess ^ (d : ℕ) -
+          qMore ^ (d : ℕ) * qLess ^ (c : ℕ) :=
+    sub_pos.mpr (by
+      simpa [mul_comm, mul_left_comm, mul_assoc] using
+        rankPower_mul_lt_mul_rankPower hqMore_pos hq_lt hcd)
+  change
+    0 <
+      (qMore ^ (c : ℕ) * AMore) * (qLess ^ (d : ℕ) * ALess) -
+        (qMore ^ (d : ℕ) * AMore) * (qLess ^ (c : ℕ) * ALess)
+  have hfactor :
+      (qMore ^ (c : ℕ) * AMore) * (qLess ^ (d : ℕ) * ALess) -
+          (qMore ^ (d : ℕ) * AMore) * (qLess ^ (c : ℕ) * ALess) =
+        (AMore * ALess) *
+          (qMore ^ (c : ℕ) * qLess ^ (d : ℕ) -
+            qMore ^ (d : ℕ) * qLess ^ (c : ℕ)) := by
+    ring
+  rw [hfactor]
+  exact mul_pos (mul_pos hAMore_pos hALess_pos) hrank
+
 /-- In the three-candidate universe, the best-in-set fiber MLR target is fully
 closed: remaining sets are singletons, pairs, or the full set. -/
 theorem reflMallowsBestInSetWeightMLR_one
@@ -18085,6 +18158,174 @@ theorem reflMallowsBestInSetWeightMLR_one
     subst remaining
     exact reflMallowsBestInSetWeight_univ_cross_nonneg
       1 hqMore_pos hq_lt hcd
+
+/-- In the three-candidate universe, every nonvacuous ordered fiber comparison
+is strict: a remaining set containing an ordered pair has size two or three. -/
+theorem reflMallowsBestInSetWeightMLR_one_strict
+    {qMore qLess : ℝ} (hqMore_pos : 0 < qMore)
+    (hq_lt : qMore < qLess) :
+    ∀ {remaining : Finset (Candidate 1)}, remaining.Nonempty →
+      ∀ {c d : Candidate 1}, c ∈ remaining → d ∈ remaining → c < d →
+        0 <
+          reflMallowsBestInSetWeight 1 qMore remaining c *
+              reflMallowsBestInSetWeight 1 qLess remaining d -
+            reflMallowsBestInSetWeight 1 qMore remaining d *
+              reflMallowsBestInSetWeight 1 qLess remaining c := by
+  classical
+  intro remaining hremaining c d hc hd hcd
+  have hcard_pos : 0 < remaining.card := Finset.card_pos.mpr hremaining
+  have hcard_le_three : remaining.card ≤ 3 := by
+    have h := Finset.card_le_univ remaining
+    simpa [Candidate] using h
+  have hcases :
+      remaining.card = 1 ∨ remaining.card = 2 ∨ remaining.card = 3 := by
+    omega
+  rcases hcases with hcard_one | hcard_two | hcard_three
+  · exfalso
+    have hcard_le_one : remaining.card ≤ 1 := by omega
+    exact (ne_of_lt hcd)
+      ((Finset.card_le_one.mp hcard_le_one) c hc d hd)
+  · have hpair_subset :
+        ({c, d} : Finset (Candidate 1)) ⊆ remaining := by
+      intro x hx
+      have hx_cases : x = c ∨ x = d := by
+        simpa using hx
+      rcases hx_cases with rfl | rfl
+      · exact hc
+      · exact hd
+    have hpair_card :
+        ({c, d} : Finset (Candidate 1)).card = 2 :=
+      Finset.card_pair (ne_of_lt hcd)
+    have hpair_eq_remaining :
+        ({c, d} : Finset (Candidate 1)) = remaining :=
+      Finset.eq_of_subset_of_card_le hpair_subset (by
+        rw [hcard_two, hpair_card])
+    rw [← hpair_eq_remaining]
+    exact reflMallowsBestInSetWeight_pair_cross_pos
+      1 hqMore_pos hq_lt hcd
+  · have hcard_univ :
+        remaining.card = Fintype.card (Candidate 1) := by
+      simpa [Candidate] using hcard_three
+    have hremaining_univ : remaining = Finset.univ :=
+      remaining.eq_univ_of_card hcard_univ
+    subst remaining
+    exact reflMallowsBestInSetWeight_univ_cross_pos
+      1 hqMore_pos hq_lt hcd
+
+/--
+Normalized best-in-set Mallows MLR in the three-candidate universe, with an
+arbitrary common center. Smaller `q` denotes the more accurate law.
+-/
+theorem mallowsBestInSetProbabilityMLR_three_candidates
+    {MAcc MNoisy : MallowsSpec 1}
+    (hcenter : MAcc.center = MNoisy.center)
+    (hq_lt : MAcc.q < MNoisy.q)
+    {remaining : Finset (Candidate 1)} (hremaining : remaining.Nonempty)
+    {better worse : Candidate 1}
+    (hbetter : better ∈ remaining) (hworse : worse ∈ remaining)
+    (hcenter_order : rankOf MAcc.center better < rankOf MAcc.center worse) :
+    0 ≤
+      pmfProb MAcc.law (fun pi => better = bestInSet pi remaining) *
+          pmfProb MNoisy.law (fun pi => worse = bestInSet pi remaining) -
+        pmfProb MAcc.law (fun pi => worse = bestInSet pi remaining) *
+          pmfProb MNoisy.law (fun pi => better = bestInSet pi remaining) := by
+  rw [MAcc.bestInSetProbability_eq_weight_div_partition,
+    MNoisy.bestInSetProbability_eq_weight_div_partition,
+    MAcc.bestInSetProbability_eq_weight_div_partition,
+    MNoisy.bestInSetProbability_eq_weight_div_partition]
+  classical
+  have hraw :
+      0 ≤
+        MAcc.bestInSetWeight remaining better *
+            MNoisy.bestInSetWeight remaining worse -
+          MAcc.bestInSetWeight remaining worse *
+            MNoisy.bestInSetWeight remaining better := by
+    rw [MAcc.bestInSetWeight_eq_reflMallowsBestInSetWeight_centerCoords hremaining better,
+      MAcc.bestInSetWeight_eq_reflMallowsBestInSetWeight_centerCoords hremaining worse,
+      MNoisy.bestInSetWeight_eq_reflMallowsBestInSetWeight_centerCoords hremaining better,
+      MNoisy.bestInSetWeight_eq_reflMallowsBestInSetWeight_centerCoords hremaining worse]
+    have himage : (remaining.image (rankOf MAcc.center)).Nonempty :=
+      Finset.image_nonempty.mpr hremaining
+    have hbetter_image :
+        rankOf MAcc.center better ∈ remaining.image (rankOf MAcc.center) :=
+      Finset.mem_image.mpr ⟨better, hbetter, rfl⟩
+    have hworse_image :
+        rankOf MAcc.center worse ∈ remaining.image (rankOf MAcc.center) :=
+      Finset.mem_image.mpr ⟨worse, hworse, rfl⟩
+    simpa [hcenter] using
+      (reflMallowsBestInSetWeightMLR_one MAcc.q_pos hq_lt
+        himage hbetter_image hworse_image hcenter_order)
+  have hnormalize :
+      (MAcc.bestInSetWeight remaining better / MAcc.partition) *
+            (MNoisy.bestInSetWeight remaining worse / MNoisy.partition) -
+          (MAcc.bestInSetWeight remaining worse / MAcc.partition) *
+            (MNoisy.bestInSetWeight remaining better / MNoisy.partition) =
+        (MAcc.bestInSetWeight remaining better *
+              MNoisy.bestInSetWeight remaining worse -
+            MAcc.bestInSetWeight remaining worse *
+              MNoisy.bestInSetWeight remaining better) /
+          (MAcc.partition * MNoisy.partition) := by
+    field_simp [MAcc.partition_ne_zero, MNoisy.partition_ne_zero]
+  rw [hnormalize]
+  exact div_nonneg hraw (mul_nonneg MAcc.partition_pos.le MNoisy.partition_pos.le)
+
+/--
+Normalized strict best-in-set Mallows MLR in the three-candidate universe,
+with an arbitrary common center.  The positive finite partitions preserve the
+strict raw-fiber comparison.
+-/
+theorem mallowsBestInSetProbabilityMLR_three_candidates_strict
+    {MAcc MNoisy : MallowsSpec 1}
+    (hcenter : MAcc.center = MNoisy.center)
+    (hq_lt : MAcc.q < MNoisy.q)
+    {remaining : Finset (Candidate 1)} (hremaining : remaining.Nonempty)
+    {better worse : Candidate 1}
+    (hbetter : better ∈ remaining) (hworse : worse ∈ remaining)
+    (hcenter_order : rankOf MAcc.center better < rankOf MAcc.center worse) :
+    0 <
+      pmfProb MAcc.law (fun pi => better = bestInSet pi remaining) *
+          pmfProb MNoisy.law (fun pi => worse = bestInSet pi remaining) -
+        pmfProb MAcc.law (fun pi => worse = bestInSet pi remaining) *
+          pmfProb MNoisy.law (fun pi => better = bestInSet pi remaining) := by
+  rw [MAcc.bestInSetProbability_eq_weight_div_partition,
+    MNoisy.bestInSetProbability_eq_weight_div_partition,
+    MAcc.bestInSetProbability_eq_weight_div_partition,
+    MNoisy.bestInSetProbability_eq_weight_div_partition]
+  classical
+  have hraw :
+      0 <
+        MAcc.bestInSetWeight remaining better *
+            MNoisy.bestInSetWeight remaining worse -
+          MAcc.bestInSetWeight remaining worse *
+            MNoisy.bestInSetWeight remaining better := by
+    rw [MAcc.bestInSetWeight_eq_reflMallowsBestInSetWeight_centerCoords hremaining better,
+      MAcc.bestInSetWeight_eq_reflMallowsBestInSetWeight_centerCoords hremaining worse,
+      MNoisy.bestInSetWeight_eq_reflMallowsBestInSetWeight_centerCoords hremaining better,
+      MNoisy.bestInSetWeight_eq_reflMallowsBestInSetWeight_centerCoords hremaining worse]
+    have himage : (remaining.image (rankOf MAcc.center)).Nonempty :=
+      Finset.image_nonempty.mpr hremaining
+    have hbetter_image :
+        rankOf MAcc.center better ∈ remaining.image (rankOf MAcc.center) :=
+      Finset.mem_image.mpr ⟨better, hbetter, rfl⟩
+    have hworse_image :
+        rankOf MAcc.center worse ∈ remaining.image (rankOf MAcc.center) :=
+      Finset.mem_image.mpr ⟨worse, hworse, rfl⟩
+    simpa [hcenter] using
+      (reflMallowsBestInSetWeightMLR_one_strict MAcc.q_pos hq_lt
+        himage hbetter_image hworse_image hcenter_order)
+  have hnormalize :
+      (MAcc.bestInSetWeight remaining better / MAcc.partition) *
+            (MNoisy.bestInSetWeight remaining worse / MNoisy.partition) -
+          (MAcc.bestInSetWeight remaining worse / MAcc.partition) *
+            (MNoisy.bestInSetWeight remaining better / MNoisy.partition) =
+        (MAcc.bestInSetWeight remaining better *
+              MNoisy.bestInSetWeight remaining worse -
+            MAcc.bestInSetWeight remaining worse *
+              MNoisy.bestInSetWeight remaining better) /
+          (MAcc.partition * MNoisy.partition) := by
+    field_simp [MAcc.partition_ne_zero, MNoisy.partition_ne_zero]
+  rw [hnormalize]
+  exact div_pos hraw (mul_pos MAcc.partition_pos MNoisy.partition_pos)
 
 /-- Center-convex remaining sets satisfy the identity-center best-in-set fiber
 MLR target.  The proof deletes absent extremes until the interval is the full

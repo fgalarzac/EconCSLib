@@ -1,6 +1,7 @@
 import Mathlib.Algebra.Group.Defs
 import Mathlib.Algebra.Order.Floor.Semiring
 import Mathlib.Data.Finset.Card
+import Mathlib.Data.Finset.Max
 import Mathlib.Data.Real.Archimedean
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic.Linarith
@@ -95,6 +96,42 @@ def IsMinArgmaxOn (score : ℕ → ℝ) (choice upper : ℕ) : Prop :=
   choice ≤ upper ∧
     (∀ candidate, candidate ≤ upper → score candidate ≤ score choice) ∧
     (∀ candidate, candidate ≤ upper → score candidate = score choice → choice ≤ candidate)
+
+/-- A finite natural score domain has a leftmost maximizing choice. -/
+theorem exists_isMinArgmaxOn (score : ℕ → ℝ) (upper : ℕ) :
+    ∃ choice, IsMinArgmaxOn score choice upper := by
+  classical
+  let candidates := Finset.range (upper + 1)
+  have hcandidates : candidates.Nonempty := by
+    exact ⟨0, by simp [candidates]⟩
+  obtain ⟨maximizer, hmaximizer, hmax⟩ :=
+    Finset.exists_max_image candidates score hcandidates
+  let maximizers := candidates.filter (fun candidate => score candidate = score maximizer)
+  have hmaximizerMem : maximizer ∈ maximizers := by
+    simp [maximizers, hmaximizer]
+  let choice := maximizers.min' ⟨maximizer, hmaximizerMem⟩
+  have hchoiceMem : choice ∈ maximizers := by
+    exact Finset.min'_mem maximizers ⟨maximizer, hmaximizerMem⟩
+  have hchoiceCandidates : choice ∈ candidates :=
+    (Finset.mem_filter.mp hchoiceMem).1
+  have hchoiceScore : score choice = score maximizer :=
+    (Finset.mem_filter.mp hchoiceMem).2
+  refine ⟨choice, ?_, ?_, ?_⟩
+  · exact Nat.lt_succ_iff.mp (Finset.mem_range.mp hchoiceCandidates)
+  · intro candidate hcandidate
+    have hcandidateMem : candidate ∈ candidates := by
+      exact Finset.mem_range.mpr (Nat.lt_succ_iff.mpr hcandidate)
+    calc
+      score candidate ≤ score maximizer := hmax candidate hcandidateMem
+      _ = score choice := hchoiceScore.symm
+  · intro candidate hcandidate heq
+    have hcandidateMem : candidate ∈ candidates := by
+      exact Finset.mem_range.mpr (Nat.lt_succ_iff.mpr hcandidate)
+    have hcandidateMax : candidate ∈ maximizers := by
+      apply Finset.mem_filter.mpr
+      refine ⟨hcandidateMem, ?_⟩
+      exact heq.trans hchoiceScore
+    exact Finset.min'_le maximizers candidate hcandidateMax
 
 /--
 Generic floor/ceiling seat-share target used by proportional multi-member

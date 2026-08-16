@@ -14,10 +14,12 @@
   {\textbf{Lemma}\\source route};
 \node[dag_model, right=0.35cm of legLem, dag_template_legend] (legDef)
   {\textbf{Definition}\\model};
+\node[dag_partial, right=0.35cm of legDef, dag_template_legend] (legPart)
+  {\textbf{Source-open}\\heuristic};
 
 
 }
-\daglegend{(legRes)(legLem)(legDef)}{Legend}
+\daglegend{(legRes)(legLem)(legDef)(legPart)}{Legend}
 
 \begin{dagPaperBody}
 \begin{scope}[xshift=5.6cm]
@@ -28,9 +30,11 @@
 \node[dag_model, below=of Model, text width=3.5cm] (SmallBids)
   {\textbf{Assumption}\\small bids relative to budgets};
 \node[dag_model, below=of SmallBids, text width=3.5cm] (Balance)
-  {\textbf{Algorithm (Sec. 3)}\\Balance/MSVV scaled bid rule};
+  {\textbf{Algorithm (Sec. 3)}\\Balance/MSVV scaled-bid rule};
+\node[dag_result, left=of Balance, text width=3.5cm] (Cost)
+  {\textbf{Operational Routes}\\cost-threaded scan; slab/type/fiber accounting; Sec.~6 $\alpha/\beta$ formulas; exact tightness};
 \node[dag_result, below=of Balance, text width=3.5cm] (LP)
-  {\textbf{LP/Dual Surface}\\offline optimum and weak duality};
+  {\textbf{LP/Dual Surface}\\displayed programs, witnesses, and weak duality};
 \node[dag_result, below=of LP, text width=3.5cm] (History)
   {\textbf{Online History}\\run feasibility and revenue accounting};
 
@@ -56,13 +60,17 @@
 \node[dag_result, below=of Charge, text width=3.5cm] (Delta)
   {\textbf{Finite $\delta$ Theorem}\\explicit small-bids error bound};
 \node[dag_result, below=of Delta, text width=3.5cm] (T8)
-  {\textbf{Theorem 8 (Sec. 5)}\\exact $y^*$ source route and small-bids limit};
+  {\textbf{Theorem 8 (Sec. 5)}\\suffix exponent and unspent coefficient $k-i$; small-bids limit};
 
 % Extensions
 \node[dag_result, below=of T8, text width=3.5cm] (Sec6)
   {\textbf{Section 6}\\effective bids, CTRs, availability, slots};
-\node[dag_result, below=of Sec6, text width=3.5cm] (Sec8)
-  {\textbf{Section 8}\\advertiser-weighted bids};
+\node[dag_partial, below=of Sec6, text width=3.5cm] (Sec8)
+  {\textbf{Section 8: Source-open}\\models and proposals encoded; guarantees and heuristics remain open in the paper};
+\node[dag_result, below=of Sec8, text width=3.5cm] (AppArithmetic)
+  {\textbf{Appendix Corrections}\\printed phase total and positive phase-3 residual; true factor below $1-1/e$};
+\node[dag_result, below=of AppArithmetic, text width=3.5cm] (AppConstruction)
+  {\textbf{Appendix Execution}\\fluid source-rule run, $\mathrm{OPT}=1$, and DERIVED $\kappa>1$ family with limits};
 
 % Lower bound
 \node[dag_model, right=of L4, text width=3.7cm] (Yao)
@@ -70,20 +78,22 @@
 \node[dag_result, below=of Yao, text width=3.7cm] (Harmonic)
   {\textbf{Harmonic Cap}\\finite layer count and asymptotic bound};
 \node[dag_result, below=of Harmonic, text width=3.7cm] (T9)
-  {\textbf{Theorem 9 (Sec. 7)}\\randomized-online lower bound with capped spend};
+  {\textbf{Theorem 9 (Sec. 7)}\\source intermediates, harmonic payoff, and randomized-online lower bound};
 
 % Edges
 \draw[dag_arrow] (Model) -- (SmallBids);
-\draw[dag_arrow] (Model) -- (Balance);
-\draw[dag_arrow] (Model) -- (LP);
-\draw[dag_arrow] (Balance) -- (History);
-\draw[dag_arrow] (LP) -- (Charge);
+\draw[dag_arrow] (SmallBids) -- (Balance);
+\draw[dag_arrow] (Balance) -- (Cost);
+\draw[dag_arrow] (Balance) -- (LP);
+\draw[dag_arrow] (Balance.east) -- ++(0.7cm,0) |- (History.east);
+\draw[dag_arrow] (LP.west) -- ++(-1.1cm,0) |- (Charge.north);
 \draw[dag_arrow] (History) -- (Charge);
-\draw[dag_arrow] (SmallBids.west) -| (Charge);
+\draw[dag_arrow] (SmallBids.west) -- ++(-0.55cm,0) |- (Charge.north);
 \draw[dag_arrow] (Charge) -- (Delta);
 \draw[dag_arrow] (Delta) -- (T8);
 \draw[dag_arrow] (T8) -- (Sec6);
-\draw[dag_arrow] (Sec6) -- (Sec8);
+\draw[dag_dashed_arrow] (Sec6) -- (Sec8);
+\draw[dag_arrow] (AppArithmetic) -- (AppConstruction);
 
 \draw[dag_dashed_arrow] (Balance) -- (L1);
 \draw[dag_dashed_arrow] (L1) -- (L2);

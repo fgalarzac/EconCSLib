@@ -5,176 +5,1454 @@
   "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
   "source_inventory_kind": "source_curated",
   "source_curated": true,
-  "source_inventory_policy": "Curated from the local PMLR main-paper and supplement text caches in source/garg19a.txt and source/garg19a-supp.txt. Items are source-facing theorem, lemma, definition, equation, and model-condition statements; support-only proof-route lemmas are retained so paper-level completeness does not depend only on compact dashboard rows.",
-  "generated_at": "2026-06-29T02:15:07Z",
+  "source_coverage_mode": "named_theoretical_statements",
+  "source_inventory_policy": "Source-first atomic inventory of mathematical model definitions, displayed formulas, algorithms, named results, proof-critical equations, and explicit extensions in the pinned PMLR main paper and supplement. Empirical material is separately identified as contextual in the paper-local audit; no item was inferred from a Lean declaration name.",
+  "generated_at": "2026-07-19T12:55:00Z",
+  "validator": "Codex GJ19 source-first closeout 2026-07-19",
+  "validator_type": "agent",
+  "source_artifact_path": "audit/source_archive_surface.tex",
+  "source_artifact_sha256": "d0575ebda40cce734106cc22a7da0bd8c5eb4dd04925c82af8fc6d30dc85a870",
   "items": {
-    "model_nondecreasing_match_function": {
-      "statement": "Model setup: item quality is matched according to a nondecreasing match function g(theta), bounded above and bounded away from zero.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Main paper Section 3.1, model and problem specification, lines 204-211 in local extracted text.",
-      "aliases": []
+    "model_quality_continuum": {
+      "statement": "Items have true quality theta in the normalized unit interval [0,1].",
+      "source_location": "audit/source_archive_surface.tex:187-204; Main paper Section 2",
+      "source_kind": "model",
+      "aliases": [
+        "source_quality_domain"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 187,
+          "line_end": 204,
+          "quoted_text": "3\n\nModel and optimization\n\nWe now formalize our model and show how to optimize the rating function to maximize the learning\nrate. We focus on finding an optimal \u03b2 : [0, 1] 7\u2192\n[0, 1], a map from item quality \u03b8 to the probability\nit should receive a positive rating. This section requires no data: we characterize the optimal system.\n3.1\n\nModel and problem specification\n\nOur model is constructed to emphasize the rating system\u2019s learning rate. Time is discrete (k =\n0, 1, 2, . . .). Informally: there is a set of items. Each\ntime step, buyers match with the items and leave a\nrating according to \u03b2(\u03b8). The platform records the\nratings and ranks the items. Formally:\n",
+          "quoted_text_sha256": "8a5a229d11c19b708641cef7f2ff0286ce1f405fe7af160f4a86c4daea4307db"
+        }
+      ]
     },
-    "theorem31_two_stage_optimality": {
-      "statement": "Theorem 3.1: the optimal beta decomposes into an optimal discretization S* maximizing the limiting value and optimal levels t* maximizing the large-deviation rate among those discretizations.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Main paper Theorem 3.1, around lines 487-506 in local extracted text.",
-      "aliases": []
+    "model_uniform_quality_rank": {
+      "statement": "The quality continuum is normalized so item quality rank is uniform on [0,1].",
+      "source_location": "audit/source_archive_surface.tex:187-204; Main paper Section 2",
+      "source_kind": "model",
+      "aliases": [],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 187,
+          "line_end": 204,
+          "quoted_text": "3\n\nModel and optimization\n\nWe now formalize our model and show how to optimize the rating function to maximize the learning\nrate. We focus on finding an optimal \u03b2 : [0, 1] 7\u2192\n[0, 1], a map from item quality \u03b8 to the probability\nit should receive a positive rating. This section requires no data: we characterize the optimal system.\n3.1\n\nModel and problem specification\n\nOur model is constructed to emphasize the rating system\u2019s learning rate. Time is discrete (k =\n0, 1, 2, . . .). Informally: there is a set of items. Each\ntime step, buyers match with the items and leave a\nrating according to \u03b2(\u03b8). The platform records the\nratings and ranks the items. Formally:\n",
+          "quoted_text_sha256": "8a5a229d11c19b708641cef7f2ff0286ce1f405fe7af160f4a86c4daea4307db"
+        }
+      ]
     },
-    "theorem31_adjacent_rate_expression": {
-      "statement": "Theorem 3.1 rate expression: r(t) is the minimum over adjacent intervals of inf_a {g_{i+1} KL(a||t_{i+1}) + g_i KL(a||t_i)}.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Main paper Theorem 3.1 display (3), around lines 500-506 in local extracted text.",
-      "aliases": []
+    "model_matching_counts": {
+      "statement": "An item of quality theta receives n_k(theta)=floor(k g(theta)) ratings.",
+      "source_location": "audit/source_archive_surface.tex:199-218; Main paper Section 2",
+      "source_kind": "model",
+      "aliases": [
+        "source_matching_count"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 199,
+          "line_end": 218,
+          "quoted_text": "Our model is constructed to emphasize the rating system\u2019s learning rate. Time is discrete (k =\n0, 1, 2, . . .). Informally: there is a set of items. Each\ntime step, buyers match with the items and leave a\nrating according to \u03b2(\u03b8). The platform records the\nratings and ranks the items. Formally:\n\nexistence of a nondecreasing match function g(\u03b8),\nwhere item \u03b8 receives nk (\u03b8) = bkg(\u03b8)c matches, and\nthus ratings, up to time k. In other words, item\n1\ntime steps.\n\u03b8 is matched approximately every g(\u03b8)\ng(\u03b8) \u2264 1 and bounded away from 0, i.e. \u2203c > 0:\ng(\u03b8) > c. This accumulation captures the feature\nthat better items may be more likely to match.\nRatings. The key quantity for our subsequent\nanalysis is the probability of a positive rating for\neach \u03b8, \u03b2(\u03b8) , Pr(positive rating|\u03b8). Let y` (\u03b8) \u223c\nBernoulli(\u03b2(\u03b8)) be the rating an item of quality \u03b8\nreceives at the `th time it matches.",
+          "quoted_text_sha256": "6c154c28d30af776665387bf4d4e6f3f3f00366064a8f68fc2e8146f9215981c"
+        }
+      ]
     },
-    "lemma31_equalized_rates_optimize": {
-      "statement": "Lemma 3.1: the unique endpoint-normalized solution equalizing all adjacent rates maximizes r(t).",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Main paper Lemma 3.1, around lines 534-548 in local extracted text; supplement Section C.4 proof.",
-      "aliases": []
+    "model_matching_function_conditions": {
+      "statement": "The matching function g is nondecreasing, bounded above by one, and bounded strictly away from zero on [0,1].",
+      "source_location": "audit/source_archive_surface.tex:199-218; Main paper Section 2",
+      "source_kind": "model",
+      "aliases": [
+        "source_matching_function"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 199,
+          "line_end": 218,
+          "quoted_text": "Our model is constructed to emphasize the rating system\u2019s learning rate. Time is discrete (k =\n0, 1, 2, . . .). Informally: there is a set of items. Each\ntime step, buyers match with the items and leave a\nrating according to \u03b2(\u03b8). The platform records the\nratings and ranks the items. Formally:\n\nexistence of a nondecreasing match function g(\u03b8),\nwhere item \u03b8 receives nk (\u03b8) = bkg(\u03b8)c matches, and\nthus ratings, up to time k. In other words, item\n1\ntime steps.\n\u03b8 is matched approximately every g(\u03b8)\ng(\u03b8) \u2264 1 and bounded away from 0, i.e. \u2203c > 0:\ng(\u03b8) > c. This accumulation captures the feature\nthat better items may be more likely to match.\nRatings. The key quantity for our subsequent\nanalysis is the probability of a positive rating for\neach \u03b8, \u03b2(\u03b8) , Pr(positive rating|\u03b8). Let y` (\u03b8) \u223c\nBernoulli(\u03b2(\u03b8)) be the rating an item of quality \u03b8\nreceives at the `th time it matches.",
+          "quoted_text_sha256": "6c154c28d30af776665387bf4d4e6f3f3f00366064a8f68fc2e8146f9215981c"
+        }
+      ]
     },
-    "theorem32_nested_bisection_runtime": {
-      "statement": "Theorem 3.2: NestedBisection finds an epsilon-optimal t in O(M log^2(M/epsilon)) operations.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Main paper Theorem 3.2, around lines 587-598 in local extracted text; supplement Algorithm 1 and Section C.6 proof.",
-      "aliases": []
+    "model_binary_response": {
+      "statement": "Each rating is an independent Bernoulli observation with success probability beta(theta).",
+      "source_location": "audit/source_archive_surface.tex:214-227; Main paper Section 2",
+      "source_kind": "model",
+      "aliases": [],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 214,
+          "line_end": 227,
+          "quoted_text": "Ratings. The key quantity for our subsequent\nanalysis is the probability of a positive rating for\neach \u03b8, \u03b2(\u03b8) , Pr(positive rating|\u03b8). Let y` (\u03b8) \u223c\nBernoulli(\u03b2(\u03b8)) be the rating an item of quality \u03b8\nreceives at the `th time it matches.\nAggregating ratings and ranking sellers.\nThese ratings are aggregated into a reputation score,\nxk (\u03b8), at each time k. The score is the fraction\nof positive ratings received up to time k: xk (\u03b8) ,\nPnk (\u03b8)\n1\n`=0 y` (\u03b8) with x0 (\u03b8) , 0 for all \u03b8. Thus,\nnk (\u03b8)\nxk (\u03b8) \u223c nk1(\u03b8) Binomial(\u03b2(\u03b8), nk (\u03b8)).",
+          "quoted_text_sha256": "0c8d4aaf6c25d18d2535e94bd6fb7319170e0b74cb285f97fa519a2e20ba8ffc"
+        }
+      ]
+    },
+    "model_empirical_reputation_score": {
+      "statement": "The platform reputation is the empirical average of an item's binary ratings.",
+      "source_location": "audit/source_archive_surface.tex:219-237; Main paper Section 2",
+      "source_kind": "definition",
+      "aliases": [
+        "source_empirical_reputation_score"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 219,
+          "line_end": 237,
+          "quoted_text": "Aggregating ratings and ranking sellers.\nThese ratings are aggregated into a reputation score,\nxk (\u03b8), at each time k. The score is the fraction\nof positive ratings received up to time k: xk (\u03b8) ,\nPnk (\u03b8)\n1\n`=0 y` (\u03b8) with x0 (\u03b8) , 0 for all \u03b8. Thus,\nnk (\u03b8)\nxk (\u03b8) \u223c nk1(\u03b8) Binomial(\u03b2(\u03b8), nk (\u03b8)).\nSystem state. The state of the system is given by a\njoint distribution \u00b5k (\u0398, X), which gives the mass of\nitems of quality \u03b8 \u2208 \u0398 \u2282 [0, 1] with aggregate score\nxk (\u03b8) \u2208 X \u2282 [0, 1] at time k. Because our model is\na continuum, the evolution of the system state \u00b5k\nfollows a deterministic dynamical system.\nWe have described these dynamics at the level of individual items; however, such statements should be\ninterpreted as describing the evolution of the joint\ndistribution \u00b5k . The state update for \u00b5k is determined by the mass of items that match and the distributions of their ratings. A formal description of\nthe state evolution is in Appendix Section B.1.",
+          "quoted_text_sha256": "16d8c91805a65787520dd33f4737942cb7e349be05b27bac9849217452fefc43"
+        }
+      ]
+    },
+    "model_empirical_reputation_distribution": {
+      "statement": "Conditional on quality, the empirical reputation has the corresponding scaled binomial distribution.",
+      "source_location": "audit/source_archive_surface.tex:219-237; Main paper Section 2",
+      "source_kind": "formula",
+      "aliases": [],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 219,
+          "line_end": 237,
+          "quoted_text": "Aggregating ratings and ranking sellers.\nThese ratings are aggregated into a reputation score,\nxk (\u03b8), at each time k. The score is the fraction\nof positive ratings received up to time k: xk (\u03b8) ,\nPnk (\u03b8)\n1\n`=0 y` (\u03b8) with x0 (\u03b8) , 0 for all \u03b8. Thus,\nnk (\u03b8)\nxk (\u03b8) \u223c nk1(\u03b8) Binomial(\u03b2(\u03b8), nk (\u03b8)).\nSystem state. The state of the system is given by a\njoint distribution \u00b5k (\u0398, X), which gives the mass of\nitems of quality \u03b8 \u2208 \u0398 \u2282 [0, 1] with aggregate score\nxk (\u03b8) \u2208 X \u2282 [0, 1] at time k. Because our model is\na continuum, the evolution of the system state \u00b5k\nfollows a deterministic dynamical system.\nWe have described these dynamics at the level of individual items; however, such statements should be\ninterpreted as describing the evolution of the joint\ndistribution \u00b5k . The state update for \u00b5k is determined by the mass of items that match and the distributions of their ratings. A formal description of\nthe state evolution is in Appendix Section B.1.",
+          "quoted_text_sha256": "16d8c91805a65787520dd33f4737942cb7e349be05b27bac9849217452fefc43"
+        }
+      ]
+    },
+    "model_state_measure": {
+      "statement": "mu_k(Theta,X) is the mass of items whose true qualities lie in Theta and whose reputation scores lie in X at time k.",
+      "source_location": "audit/source_archive_surface.tex:228-237; Main paper Section 2",
+      "source_kind": "definition",
+      "aliases": [
+        "source_system_state"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 228,
+          "line_end": 237,
+          "quoted_text": "System state. The state of the system is given by a\njoint distribution \u00b5k (\u0398, X), which gives the mass of\nitems of quality \u03b8 \u2208 \u0398 \u2282 [0, 1] with aggregate score\nxk (\u03b8) \u2208 X \u2282 [0, 1] at time k. Because our model is\na continuum, the evolution of the system state \u00b5k\nfollows a deterministic dynamical system.\nWe have described these dynamics at the level of individual items; however, such statements should be\ninterpreted as describing the evolution of the joint\ndistribution \u00b5k . The state update for \u00b5k is determined by the mass of items that match and the distributions of their ratings. A formal description of\nthe state evolution is in Appendix Section B.1.",
+          "quoted_text_sha256": "3da73bd7208a8d7849cfd4c7c768f0a516e06418ae66aba61e21eb08f1b45f7c"
+        }
+      ]
+    },
+    "definition_pairwise_accuracy_eq1": {
+      "statement": "Equation (1) defines P_k(theta_1,theta_2) as the probability that the higher-quality item receives the higher reputation score, with the source tie convention.",
+      "source_location": "audit/source_archive_surface.tex:238-256; Main paper Section 2",
+      "source_kind": "definition",
+      "aliases": [
+        "source_definition_pairwise_accuracy_eq1"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 238,
+          "line_end": 256,
+          "quoted_text": "Platform objective. The platform wishes to rank\nthe items accurately. Given \u03b2 and \u03b81 > \u03b82 , define:\n\u0001\nPk (\u03b81 , \u03b82 |\u03b2) =\u00b5k xk (\u03b81 ) > xk (\u03b82 )|\u03b81 , \u03b82\n\u0001\n\u2212 \u00b5k xk (\u03b81 ) < xk (\u03b82 )|\u03b81 , \u03b82\n(1)\n\nItems. The system consists of a set [0, 1] of items,\nwhere each item is associated with a unique (but unknown) quality \u03b8 \u2208 [0, 1]; i.e., the system consists of\na continuum of a unit mass of items whose unknown\nqualities are uniform2 in [0, 1]. Below, we discretize\nthe continuous quality space [0, 1] into M types, to\ncalculate a stepwise increasing \u03b2. We will make clear\nwhy we introduce a continuum but then discretize.\n\nThis expression captures observed score ranking\u2019s\naccuracy. When \u03b81 > \u03b82 but xk (\u03b81 ) < xk (\u03b82 ), the\nranking mistakenly orders \u03b81 below \u03b82 . A good system has large Pk (\u03b81 , \u03b82 |\u03b2). Integrating across items",
+          "quoted_text_sha256": "df89e81673b9b4076b73e49a1489d6102ac222482927399a878d527c71ca18e4"
+        }
+      ]
+    },
+    "definition_weighted_objective_eq2": {
+      "statement": "Equation (2) defines W_k as the normalized positive-weight integral of pairwise ranking accuracy over ordered quality pairs.",
+      "source_location": "audit/source_archive_surface.tex:257-288; Main paper Section 2",
+      "source_kind": "definition",
+      "aliases": [
+        "source_definition_weighted_objective_eq2"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 257,
+          "line_end": 288,
+          "quoted_text": "creates the following objective for each time k:\nZ\nWk =\nw(\u03b81 , \u03b82 )Pk (\u03b81 , \u03b82 |\u03b2)d\u03b81 d\u03b82\n(2)\n\nMatching with buyers. Items accumulate ratings\nover time by matching with buyers. We assume the\n\nWeight function w(\u03b81 , \u03b82 ) > 0 indicates how much\nthe platform cares about not mistaking a quality \u03b81\nitem with Ra quality \u03b82 item. We consider scaled w\nsuch that \u03b81 >\u03b82 w(\u03b81 , \u03b82 )d\u03b81 d\u03b82 = 1.\n\n1\nNote that a rating is not the same as a reward; buyers\noften give positive ratings after bad experiences.\n2\nAny distribution can be handled by considering \u03b8 to\nbe the item\u2019s quantile rather than its absolute quality.\n\n\u03b81 >\u03b82\n\nOur first question then becomes: What \u03b2 yields the\nhighest value of Wk ? As discussed above, the plat-\n\n\fDesigning Optimal Binary Rating Systems\n\nform influences \u03b2 through the design of its rating\nsystem. The optimal choice of \u03b2 sets the benchmark.\nDiscussion. Objective function. The specification\n(2) of the objective is quite rich. It contains scaled",
+          "quoted_text_sha256": "c6e49964340d44cb742d6e68e90322ebb88ea42bccc3434cd3654d859fb4d623"
+        }
+      ]
+    },
+    "definition_large_deviation_rate": {
+      "statement": "For a fixed rating rule beta, the large-deviation rate is the limit -lim_{k to infinity} k^{-1} log(W-W_k), when that limit exists.",
+      "source_location": "audit/source_archive_surface.tex:321-360; Main paper Section 2",
+      "source_kind": "definition",
+      "aliases": [
+        "source_definition_large_deviation_rate"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 321,
+          "line_end": 360,
+          "quoted_text": "Large deviations & discretization\n\nRecall the question: What \u03b2 yields the highest value\nof Wk ?. We now refine objective Wk and constrain \u03b2\nto form a non-degenerate, feasible optimization task.\nLarge deviation rate function. Wk is not one\nobjective: it has a different value per time k, and\nno single \u03b2 simultaneously optimizes Wk for all\n3\nWe use \u03b81 \u03b82 (\u03b81 \u2212 \u03b82 ), (1 \u2212 \u03b81 )(1 \u2212 \u03b82 )(\u03b81 \u2212 \u03b82 ), and\n1\n( 2 \u2212 \u03b81 )2 ( 12 \u2212 \u03b82 )2 (\u03b81 \u2212 \u03b82 ) as examples.\n\nk.4 Considering asymptotic performance is also\ninsufficient: when \u03b2 is strictly increasing in \u03b8,\nlimk\u2192\u221e Pk (\u03b81 , \u03b82 |\u03b2) = 1 \u2200\u03b81 , \u03b82 by the law of large\nnumbers. Thus, W , limk\u2192\u221e Wk = 1, and any such\n\u03b2 is asymptotically optimal.\nFor this reason, we consider maximization of the\nrate at which Wk converges, i.e., how fast the estimated item ranking converges to the true item ranking. We use a large deviations approach (Dembo\nand Zeitouni, 2010) to quantify this convergence\nrate. Formally, given sequence Yk \u2264 limk\u2192\u221e Yk =\nY , the large deviations rate of convergence is\n\u2212 limk\u2192\u221e k1 log(Y \u2212 Yk ) = c. If c exists then Yk approaches Y exponentially fast: Y \u2212 Yk = e\u2212kc+o(k) .\nThen, we wish to choose \u03b2 to maximize Wk \u2019s large\ndeviations rate, r = \u2212 limk\u2192\u221e k1 log(W \u2212 Wk ).\nDiscretizing \u03b2. Unfortunately, even this problem\nis degenerate if we consider continuous \u03b2: for any \u03b2\nthat is not piecewise constant, the large deviations\nrate of convergence is zero, i.e., convergence of Wk\nto its limit is only polynomially fast, and characterizing the dependence of this convergence rate on \u03b2\nis intractable. Thus, the rate of convergence for Wk\nis not a satisfactory objective with continuous \u03b2.\nWe make progress by discretizing \u03b2; in particular,\nwe restrict attention to optimization over stepwise\nincreasing \u03b2 functions.5 Among stepwise increasing\n\u03b2, the large deviations rate of Wk to its limiting\nvalue W can be shown to be nondegenerate, i.e. \u2203c >\n0 s.t. W \u2212 Wk = e\u2212kc+o(k) . (See Lemma C.4 in the\nAppendix for further discussion.)",
+          "quoted_text_sha256": "d3e9b81c737c209cf3096359fd724deb714ee4b3d6976831456f15e64a875b22"
+        }
+      ]
+    },
+    "definition_step_rule_partition_levels": {
+      "statement": "The design beta is a nondecreasing step rule on ordered quality intervals with levels 0=t_0<...<t_{M-1}=1 and ordered cutpoints.",
+      "source_location": "audit/source_archive_surface.tex:354-368; Main paper Section 2",
+      "source_kind": "definition",
+      "aliases": [
+        "source_definition_step_rule_partition_levels"
+      ],
+      "source_defect_ids": [
+        "GJ19-C5-ENDPOINT-TYPO-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 354,
+          "line_end": 368,
+          "quoted_text": "We make progress by discretizing \u03b2; in particular,\nwe restrict attention to optimization over stepwise\nincreasing \u03b2 functions.5 Among stepwise increasing\n\u03b2, the large deviations rate of Wk to its limiting\nvalue W can be shown to be nondegenerate, i.e. \u2203c >\n0 s.t. W \u2212 Wk = e\u2212kc+o(k) . (See Lemma C.4 in the\nAppendix for further discussion.)\nNotationally, we will calculate an optimal stepwise\nincreasing \u03b2 with M levels, i.e. there are M intervals\nSi \u2282 [0, 1] and levels ti such that when \u03b81 , \u03b82 \u2208 Si ,\nthen \u03b2(\u03b81 ) = \u03b2(\u03b82 ) , ti . The challenge is calculating an optimal S \u2217 = {Si } and t\u2217 = {ti }.\nThe physical interpretation is that we group the\nitems into M subsets (types) Si \u2282 [0, 1]. When\nitems \u03b81 , \u03b82 are in the same subset, then their asymptotic reputation scores are the same, limk xk (\u03b81 ) =\nlimk xk (\u03b82 ) , ti . These items cannot be distinguished from one another even asymptotically.",
+          "quoted_text_sha256": "98e796118753eaa105894b5b3e30fd9cfd3ff607df907bc9f3be71ba1f85c5df"
+        }
+      ]
+    },
+    "definition_lexicographic_objective": {
+      "statement": "A rating rule is optimal when it first maximizes the limiting value W and then maximizes the exponential convergence rate among limiting-value maximizers.",
+      "source_location": "audit/source_archive_surface.tex:459-476; Main paper Section 3",
+      "source_kind": "definition",
+      "aliases": [
+        "source_definition_lexicographic_optimality"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 459,
+          "line_end": 476,
+          "quoted_text": "Our optimization problem: Within the class of\nstepwise increasing functions with M levels, find the\n\u03b2 that is optimal, i.e. is\n\nFor Kendall\u2019s \u03c4 and Spearman\u2019s \u03c1, the optimal intervals are simply equispaced in [0, 1], i.e. Si\u2217 =\n[ Mi , i+1\nM ), because the entire item quality distribution is equally important. For other objective weight\nfunctions w, the difficulty of finding the optimal subsets S \u2217 depends on the properties of w. Since S \u2217 is\ntrivial for Kendall\u2019s \u03c4 and Spearman\u2019s \u03c1 \u2013 and w\nis just an analytic tool that formalizes a platform\u2019s\ngoals \u2013 we focus on finding the optimal levels t\u2217 .\n\n(1) Asymptotically optimal. It yields the highest limiting value of Wk . AND\n(2) Rate optimal. It yields the fastest large deviations rate r among asymptotically optimal \u03b2.\n\u0001\nA remarkable result of our paper is a O M log2 M\n\u000f\nprocedure to find an optimal \u03b2 with M levels.",
+          "quoted_text_sha256": "edbdafd57cd8416a0d2fafbe6302d29f317de34b9ac2934443fa577d4597cf5a"
+        }
+      ]
+    },
+    "theorem31_discretization_value": {
+      "statement": "Theorem 3.1 chooses ordered cells S* to maximize the limiting weighted cross-cell value and then chooses rate-optimal levels on that value-optimal discretization.",
+      "source_location": "audit/source_archive_surface.tex:488-507; Main paper Section 3",
+      "source_kind": "theorem",
+      "aliases": [
+        "paper_theorem31_exists_cell_integral_volume_weighted_uniform_endpoint_two_stage_lexicographic_optimality_of_integrableOn_Icc",
+        "paper_theorem31_kendall_constant_weight_equispaced_canonical_uniform_endpoint_lexicographic_optimality",
+        "paper_theorem31_spearman_linear_weight_equispaced_canonical_uniform_endpoint_lexicographic_optimality",
+        "theorem31_source_matching_function_value_argmax_certificate",
+        "theorem31_source_matching_function_unique_value_argmax_lexicographic"
+      ],
+      "source_defect_ids": [
+        "GJ19-T31-GENERAL-G-CLOSURE-01"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.theorem31_source_matching_function_unique_value_argmax_lexicographic"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 488,
+          "line_end": 507,
+          "quoted_text": "Theorem 3.1. The \u03b2 defined by the following\nSuppose we started with a set of M items. Then the\nchoices of S \u2217 and t\u2217 is optimal:\nonly remaining challenge is to equalize the rates at\nR\nP\nwhich each item is separated from others: the large\n\u2217\nS = arg max 0\u2264i<j<M \u03b82 \u2208Si ,\u03b81 \u2208Sj w(\u03b81 , \u03b82 )d(\u03b81 , \u03b82 )\ndeviations rate is unaffected by the weight function\n\u2217\n6\nw (it does not appear in the simplification of r(t)).\nt = arg max r(t), where gi , inf \u03b8\u2208Si g(\u03b8) and\nIn other words, given a discrete set of M items\n1\n(equiv, given S \u2217 ), calculating the optimal t is equivr(t) , \u2212 lim log(W \u2212 Wk )\n(3)\nalent to solving a maximin problem for the rates at\nk\u2192\u221e k",
+          "quoted_text_sha256": "ed386f9f8d91a79e9b0d4cbb986427e7cb86e42315f8bb78151b1e7c52657e7b"
+        }
+      ]
+    },
+    "theorem31_adjacent_rate_eq3": {
+      "statement": "Theorem 3.1 equation (3) identifies the overall exponent as the minimum over adjacent cells of inf_a {g_{i+1} KL(a||t_{i+1})+g_i KL(a||t_i)} with g_i=inf_{theta in S_i}g(theta).",
+      "source_location": "audit/source_archive_surface.tex:501-518; Main paper Section 3",
+      "source_kind": "theorem",
+      "aliases": [
+        "source_theorem31_adjacent_rate_eq3"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.source_theorem31_adjacent_rate_eq3"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 501,
+          "line_end": 518,
+          "quoted_text": "t = arg max r(t), where gi , inf \u03b8\u2208Si g(\u03b8) and\nIn other words, given a discrete set of M items\n1\n(equiv, given S \u2217 ), calculating the optimal t is equivr(t) , \u2212 lim log(W \u2212 Wk )\n(3)\nalent to solving a maximin problem for the rates at\nk\u2192\u221e k\nwhich\neach type is distinguished from each of the\n= min inf {gi+1 KL(a||ti+1 ) + gi KL(a||ti )}\n0\u2264i\u2264M \u22122 a\u2208R\nothers. Thus, the algorithm below also solves the\ninverse bandits problem in which we wish to rank\nThe proof is in the Appendix. The main hurdle is\nthe M arms, and we can choose the structure of the\nshowing that the continuum of rates for Pk (\u03b81 , \u03b82 )\n(binary) observations at each arm.\nfor each pair \u03b81 , \u03b82 translates into a rate for Wk .",
+          "quoted_text_sha256": "506da15b77f8271aa9f5d38cf412783cad4b53f830c5c02fb77fc343243c8bae"
+        }
+      ]
+    },
+    "theorem31_cell_matching_rate_definition": {
+      "statement": "For an ordered source cell S_i and nondecreasing matching function g, the cell sample-rate coefficient g_i is the infimum of g over S_i, attained at the cell's lower cutpoint.",
+      "source_location": "audit/source_archive_surface.tex:501-518; Main paper Theorem 3.1, equation (3)",
+      "source_kind": "formula",
+      "aliases": [
+        "theorem31_source_cell_matching_rate_eq_lower_cutpoint"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 501,
+          "line_end": 518,
+          "quoted_text": "t = arg max r(t), where gi , inf \u03b8\u2208Si g(\u03b8) and\nIn other words, given a discrete set of M items\n1\n(equiv, given S \u2217 ), calculating the optimal t is equivr(t) , \u2212 lim log(W \u2212 Wk )\n(3)\nalent to solving a maximin problem for the rates at\nk\u2192\u221e k\nwhich\neach type is distinguished from each of the\n= min inf {gi+1 KL(a||ti+1 ) + gi KL(a||ti )}\n0\u2264i\u2264M \u22122 a\u2208R\nothers. Thus, the algorithm below also solves the\ninverse bandits problem in which we wish to rank\nThe proof is in the Appendix. The main hurdle is\nthe M arms, and we can choose the structure of the\nshowing that the continuum of rates for Pk (\u03b81 , \u03b82 )\n(binary) observations at each arm.\nfor each pair \u03b81 , \u03b82 translates into a rate for Wk .",
+          "quoted_text_sha256": "506da15b77f8271aa9f5d38cf412783cad4b53f830c5c02fb77fc343243c8bae"
+        }
+      ]
+    },
+    "definition_bernoulli_kl": {
+      "statement": "The Bernoulli KL divergence is KL(a||b)=a log(a/b)+(1-a)log((1-a)/(1-b)), with the intended endpoint convention.",
+      "source_location": "audit/source_archive_surface.tex:519-526; Main paper Section 3",
+      "source_kind": "definition",
+      "aliases": [
+        "definition_bernoulli_kl_formula",
+        "definition_bernoulli_kl_top_formula"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 519,
+          "line_end": 526,
+          "quoted_text": "We further note that the choice of M is not conse6\nb\n1\u2212b\nquential; in the Appendix Section B.4 we show that\nKL(a||b) = a log a + (1 \u2212 a) log 1\u2212a is the Kullbackin an appropriate sense, a sequence of optimal \u03b2M\nLeibler (KL) divergence between Bernoulli random varifor\neach M converges as M gets large.\nables with success probabilities a and b respectively.",
+          "quoted_text_sha256": "41b18049f15026b6b889c376aa5a3727ef9f014f516f16770262910447aedf69"
+        }
+      ]
+    },
+    "lemma31_equalization_eq4": {
+      "statement": "Lemma 3.1 says the unique finite level vector maximizing the minimum adjacent rate equalizes all adjacent rates subject to t_0=0 and t_{M-1}=1.",
+      "source_location": "audit/source_archive_surface.tex:530-549; Main paper Section 3",
+      "source_kind": "lemma",
+      "aliases": [
+        "source_lemma31_equalization_eq4"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.source_lemma31_equalization_eq4"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 530,
+          "line_end": 549,
+          "quoted_text": "Algorithm to find the optimal levels We now\ndescribe how to find t\u2217 , the maximizer of r(t).\nThe following lemma describes a system of equations\nto find the t\u2217 that maximizes r. It states that t\u2217\nequalizes the rates at which each interval i is separated from its neighbors. The proof involves manipulation of r and convexity, and is in the appendix.\nLemma 3.1. The unique solution t\u2217 to the following\nsystem of equations maximizes r(t):\nr(t0 , t1 ) = r(t1 , t2 ) = \u00b7 \u00b7 \u00b7 = r(tM \u22122 , tM \u22121 )\n\n(4)\n\nt0 = 0, tM \u22121 = 1\n\u0014\u0012\ngi\u22121\ngi\nr(ti\u22121 , ti ) , \u2212 log (1 \u2212 ti\u22121 ) gi\u22121 +gi (1 \u2212 ti ) gi\u22121 +gi\ngi\u22121\n\ngi\n",
+          "quoted_text_sha256": "6a72fc14dcff2e543c6a7e64b0dc1bfb8d2d51b71d5f8cb91d9c9a4bda528df7"
+        }
+      ]
+    },
+    "lemma31_closed_adjacent_rate": {
+      "statement": "Lemma 3.1 gives the closed weighted Bernoulli adjacent-rate formula obtained at the common threshold.",
+      "source_location": "audit/source_archive_surface.tex:542-571; Main paper Section 3",
+      "source_kind": "formula",
+      "aliases": [
+        "lemma31_closed_adjacent_rate_formula",
+        "binary_rating_pairwise_threshold_rate_top_is_closed_weighted_rate"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 542,
+          "line_end": 571,
+          "quoted_text": "\u0014\u0012\ngi\u22121\ngi\nr(ti\u22121 , ti ) , \u2212 log (1 \u2212 ti\u22121 ) gi\u22121 +gi (1 \u2212 ti ) gi\u22121 +gi\ngi\u22121\n\ngi\n\nALGORITHM 1: Nested Bisection\nData: Number of intervals M , match function g\nResult: \u03b2 levels, i.e. {t0 . . . tM \u22121 }\nFunction main (M , \u03b4, g)\nwhile Uncertainty region for tM \u22122 is bigger\nthan error tolerance do\nCalculate r(tM \u22122 , 1), the rate between\ncurrent guess for tM \u22122 , and tM \u22121 = 1.\nFixing tM \u22122 , find t1 . . . tM \u22123 such that\nr(t1 , t2 ) = r(t2 , t3 ) = \u00b7 \u00b7 \u00b7 =\nr(tM \u22123 , tM \u22122 ) = r(tM \u22122 , 1), which can be\ndone through a sequence of bisection\nroutines.\nCalculate r(0, t1 ), the rate between current\nguess for t1 , and t0 = 0.\nCompare r(tM \u22122 , 1) and r(0, t1 ), adjust\nuncertainty region for tM \u22122 accordingly.\nreturn {ti }\n\n\u0013gi\u22121 +gi \u0015\n\n+ti\u22121 gi\u22121 +gi ti gi\u22121 +gi",
+          "quoted_text_sha256": "5602d33164c7b5a5dfa2c6f13119f011ed509284522f53057ead15c42b2025be"
+        }
+      ]
+    },
+    "algorithm1_high_level": {
+      "statement": "Algorithm 1 performs an outer bisection on t_{M-2}; each candidate reconstructs the other levels by inner bisections at the last-pair target rate and updates the outer interval by comparing the candidate first and last rates.",
+      "source_location": "audit/source_archive_surface.tex:550-587; Main paper Section 3",
+      "source_kind": "algorithm",
+      "aliases": [
+        "theorem32_weighted_nested_bisection_output"
+      ],
+      "source_defect_ids": [
+        "GJ19-ALG1-PSEUDOCODE-TYPO-01",
+        "GJ19-T32-EXECUTABLE-ALGORITHM-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 550,
+          "line_end": 587,
+          "quoted_text": "ALGORITHM 1: Nested Bisection\nData: Number of intervals M , match function g\nResult: \u03b2 levels, i.e. {t0 . . . tM \u22121 }\nFunction main (M , \u03b4, g)\nwhile Uncertainty region for tM \u22122 is bigger\nthan error tolerance do\nCalculate r(tM \u22122 , 1), the rate between\ncurrent guess for tM \u22122 , and tM \u22121 = 1.\nFixing tM \u22122 , find t1 . . . tM \u22123 such that\nr(t1 , t2 ) = r(t2 , t3 ) = \u00b7 \u00b7 \u00b7 =\nr(tM \u22123 , tM \u22122 ) = r(tM \u22122 , 1), which can be\ndone through a sequence of bisection\nroutines.\nCalculate r(0, t1 ), the rate between current\nguess for t1 , and t0 = 0.\nCompare r(tM \u22122 , 1) and r(0, t1 ), adjust\nuncertainty region for tM \u22122 accordingly.\nreturn {ti }\n\n\u0013gi\u22121 +gi \u0015\n\n+ti\u22121 gi\u22121 +gi ti gi\u22121 +gi\nWe do not know of any algorithm that efficiently\nand provably solves such convex equality systems\nin general. However, we leverage some structure in\nour setting to develop an algorithm, NestedBisection, with run-time and optimality guarantees. The\nefficiency of our algorithm results from the property\nthat, given a rate, ti is uniquely determined by the\nvalue of either of the adjacent levels ti\u22121 , ti+1 , reducing an exponentially large search space to an almost\nlinear one. Physically, i.e., we only need to separate\neach type of item from its neighboring types.\nBelow we include pseudo-code. Akin to branch and\nbound, the algorithm proceeds via bisection on the\noptimal value of tM \u22122 . For each candidate value\nof tM \u22122 , the other values can be found using a sequence of bisection subroutines. These values approximately obey all the equalities in the system (4)\nexcept the first. The direction of the first equality\u2019s\nviolation reveals how to change the interval for the\nnext outer bisection iteration.",
+          "quoted_text_sha256": "ced4a7be72afcbed3fc09a7ea4c32618574e1a7290a677fe4ef726de39a8652f"
+        }
+      ]
+    },
+    "theorem32_approximation_runtime": {
+      "statement": "Theorem 3.2 claims NestedBisection returns an epsilon-optimal level vector in O(M log^2(M/epsilon)) operations.",
+      "source_location": "audit/source_archive_surface.tex:588-598; Main paper Section 3",
+      "source_kind": "theorem",
+      "aliases": [
+        "theorem32_weighted_nested_bisection_loss_and_runtime"
+      ],
+      "source_defect_ids": [
+        "GJ19-T32-FIRST-RATE-TYPO-01",
+        "GJ19-T32-EXECUTABLE-ALGORITHM-01"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.theorem32_weighted_nested_bisection_loss_and_runtime"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 588,
+          "line_end": 598,
+          "quoted_text": "Theorem 3.2. \u0001NestedBisection finds an \u000f-optimal t\nin O M log2 M\noperations, where \u000f-optimal means\n\u000f\nthat r(t) is within additive constant \u000f of optimal.\nThe proof is in the appendix. The main difficulty\nis finding a Lipschitz constant \u000f(\u03b4) for how much\nthe rate changes with a shift \u03b4 in a level ti . This\nrequires lower bounding t1 as a function of M . In\npractice, the algorithm runs instantaneously on a\nmodern machine (e.g. for M = 200).",
+          "quoted_text_sha256": "b80dba72ca65dfddc92df6cf4f973ea878a0241acccfbbe1722ad520de278fc4"
+        }
+      ]
+    },
+    "section4_response_mixture": {
+      "statement": "Section 4 uses a probability distribution H over the finite question set Y.",
+      "source_location": "audit/source_archive_surface.tex:642-668; Main paper Section 3",
+      "source_kind": "definition",
+      "aliases": [
+        "section4_question_distribution"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 642,
+          "line_end": 668,
+          "quoted_text": "Resources available to platform. We suppose\nthe platform has a set Y of possible binary questions that it could ask a buyer, e.g., \u201cAre you satisfied with your experience\u201d or \u201cIs this experience\nyour best on our platform?\u201d. Informally, at each\nrating opportunity (i.e., match made), the rater can\nbe shown a single question y \u2208 Y. Let \u03c8(\u03b8, y) be the\nprobability an item quality \u03b8 would receive a positive\nrating when the rater is asked question y \u2208 Y.\nWe further suppose the platform has a set \u0398 of representative items for which it has access to item quality. \u0398, then, is the granularity at which the platform\ncan collect data about historical performance, or\notherwise get expert labels. (We assume M \u001d |\u0398|).\nUsing known set \u0398, the platform can run an experiment to create an estimate \u03c8\u0302(\u03b8, y), \u2200y \u2208 Y, \u03b8 \u2208 \u0398.\nDesign heuristic. How can the platform build an\neffective rating system using these primitives and\n\u03b2? We consider the following heuristic design: the\nplatform randomly shows a question y \u2208 Y to each\nbuyer. The choice of the platform is a distribution\nH(y) over y \u2208 Y; in other words, for the platform\nthe design of the system amounts to choosing the frequency with which each question is shown. At each\nrating opportunity, y is chosen from Y according to\nH, independently across opportunities.\nClearly, the probability that\nP an item \u03b8 receives a\npositive rating is: \u03b2\u0303(\u03b8) , y\u2208Y \u03c8(\u03b8, y)H(y).\nWe want a distribution H such that \u03b2\u0303(\u03b8) = \u03b2(\u03b8) for\nall \u03b8 \u2208 [0, 1], i.e., that the positive rating probability\nfor each item is exactly the optimal value. However,\nthere may not exist any set of questions Y with associated \u03c8 and choice of H such that \u03b2\u0303 = \u03b2.7",
+          "quoted_text_sha256": "a1c3c5655e75448f09090b920f312428648a066a6e8dfa2666ab2dea03dbee0d"
+        }
+      ]
+    },
+    "section4_induced_binary_response": {
+      "statement": "The induced binary response is beta-tilde(theta)=integral psi(theta,y)dH(y).",
+      "source_location": "audit/source_archive_surface.tex:652-668; Main paper Section 3",
+      "source_kind": "formula",
+      "aliases": [
+        "section4_induced_binary_response"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 652,
+          "line_end": 668,
+          "quoted_text": "Using known set \u0398, the platform can run an experiment to create an estimate \u03c8\u0302(\u03b8, y), \u2200y \u2208 Y, \u03b8 \u2208 \u0398.\nDesign heuristic. How can the platform build an\neffective rating system using these primitives and\n\u03b2? We consider the following heuristic design: the\nplatform randomly shows a question y \u2208 Y to each\nbuyer. The choice of the platform is a distribution\nH(y) over y \u2208 Y; in other words, for the platform\nthe design of the system amounts to choosing the frequency with which each question is shown. At each\nrating opportunity, y is chosen from Y according to\nH, independently across opportunities.\nClearly, the probability that\nP an item \u03b8 receives a\npositive rating is: \u03b2\u0303(\u03b8) , y\u2208Y \u03c8(\u03b8, y)H(y).\nWe want a distribution H such that \u03b2\u0303(\u03b8) = \u03b2(\u03b8) for\nall \u03b8 \u2208 [0, 1], i.e., that the positive rating probability\nfor each item is exactly the optimal value. However,\nthere may not exist any set of questions Y with associated \u03c8 and choice of H such that \u03b2\u0303 = \u03b2.7",
+          "quoted_text_sha256": "e9bd47cae12755b5fd111c03b7812a70eef503c4e2abb5a21a1f688d32d8f69f"
+        }
+      ]
+    },
+    "section4_l1_design_eq5": {
+      "statement": "Equation (5) defines the finite representative-item L1 discrepancy between the response induced by H and the target optimal binary response beta.",
+      "source_location": "audit/source_archive_surface.tex:669-696; Main paper Section 3",
+      "source_kind": "formula",
+      "aliases": [
+        "section4_l1_design_objective"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 669,
+          "line_end": 696,
+          "quoted_text": "We propose the following heuristic to address this\ndifficulty. Choose a probability distribution H to\nminimize the following L1 distance:\nX\nX\nmin\n|\u03b2(\u03b8) \u2212\n\u03c8\u0302(\u03b8, y)H(y)|\n(5)\nH:kHk1 =1\n\n\u03b8\u2208\u0398\n\ny\u2208Y\n\nThis heuristic uses the data available to the platform, \u03c8\u0302(\u03b8, y) for a set of items \u03b8 \u2208 \u0398, and designs H\nso at least these items receive ratings close to their\noptimal ratings \u03b2(\u03b8i ). Then, as long as \u03c8 is wellbehaved, and \u0398 is representative of the full set, one\ncan hope that \u03b2\u0303(\u03b8) u \u03b2(\u03b8), for all \u03b8 \u2208 [0, 1].\nDiscussion. Real-world analogue & constraints. A\nspecial case of this system is already in place on\n7\n\nThere are special cases where an exact solution exists. For example, let Y = [0, 1], and \u03c8(\u03b8, y) = I[\u03b8 \u2265 y].\n\nmany platforms, where the same question is always\nshown. Static systems can be designed by restricting\nH to only have mass at one question y. More generally, constraints can be used in optimization (5).",
+          "quoted_text_sha256": "e80ffce901bb135cf8ac069fc766e3420010ebacc4a35b785e27c5fc1de70ca7"
+        }
+      ]
+    },
+    "section4_question_design_minimizer": {
+      "statement": "The Section 4 design heuristic chooses a probability distribution H minimizing the equation-(5) L1 discrepancy.",
+      "source_location": "audit/source_archive_surface.tex:669-696; Main paper Section 4",
+      "source_kind": "algorithm",
+      "aliases": [
+        "section4_question_design_solution"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 669,
+          "line_end": 696,
+          "quoted_text": "We propose the following heuristic to address this\ndifficulty. Choose a probability distribution H to\nminimize the following L1 distance:\nX\nX\nmin\n|\u03b2(\u03b8) \u2212\n\u03c8\u0302(\u03b8, y)H(y)|\n(5)\nH:kHk1 =1\n\n\u03b8\u2208\u0398\n\ny\u2208Y\n\nThis heuristic uses the data available to the platform, \u03c8\u0302(\u03b8, y) for a set of items \u03b8 \u2208 \u0398, and designs H\nso at least these items receive ratings close to their\noptimal ratings \u03b2(\u03b8i ). Then, as long as \u03c8 is wellbehaved, and \u0398 is representative of the full set, one\ncan hope that \u03b2\u0303(\u03b8) u \u03b2(\u03b8), for all \u03b8 \u2208 [0, 1].\nDiscussion. Real-world analogue & constraints. A\nspecial case of this system is already in place on\n7\n\nThere are special cases where an exact solution exists. For example, let Y = [0, 1], and \u03c8(\u03b8, y) = I[\u03b8 \u2265 y].\n\nmany platforms, where the same question is always\nshown. Static systems can be designed by restricting\nH to only have mass at one question y. More generally, constraints can be used in optimization (5).",
+          "quoted_text_sha256": "e80ffce901bb135cf8ac069fc766e3420010ebacc4a35b785e27c5fc1de70ca7"
+        }
+      ]
+    },
+    "appendixB1_active_set": {
+      "statement": "Appendix B.1 defines E_k as the item qualities receiving one additional rating between times k-1 and k.",
+      "source_location": "audit/source_archive_surface.tex:1820-1828; Supplement Appendix B",
+      "source_kind": "definition",
+      "aliases": [
+        "appendixB1_active_set"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1820,
+          "line_end": 1828,
+          "quoted_text": "\nFormal specification of system state update\n\nRecall that \u00b5k (\u0398, X) is the mass of items with true quality \u03b8 \u2208 \u0398 \u2286 [0, 1] and a reputation score\nx \u2208 X \u2286 [0, 1] at time k. Let Ek = {\u03b8 : nk (\u03b8) = nk\u22121 (\u03b8) + 1}. These are the items who receive an\nadditional rating at time k; for all \u03b8 \u2208 Ekc , nk (\u03b8) = nk\u22121 (\u03b8). Our system is completely deterministic,\nand evolves according to the distributions of the individual seller dynamics.\nFor each \u03b8 \u2208 Ek , x, x0 , define \u03c9(\u03b8, x, x0 ) as follows:\n\u03c9(\u03b8, x, x0 ) = \u03b2(\u03b8)I{nk (\u03b8)x \u2212 nk\u22121 (\u03b8)x0 = 1} + (1 \u2212 \u03b2(\u03b8))I{nk (\u03b8)x \u2212 nk\u22121 (\u03b8)x0 = 0}.",
+          "quoted_text_sha256": "ec57d9856e071deebe2ab297bd432a4b0ff1860137b16b62ddae087e83219e33"
+        }
+      ]
+    },
+    "appendixB1_transition_kernel": {
+      "statement": "Appendix B.1 defines omega(theta,x,x') as the Bernoulli transition probability from reputation x' to x when an item receives a new rating.",
+      "source_location": "audit/source_archive_surface.tex:1828-1831; Supplement Appendix B",
+      "source_kind": "definition",
+      "aliases": [
+        "appendixB1_transition_kernel"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1828,
+          "line_end": 1831,
+          "quoted_text": "\u03c9(\u03b8, x, x0 ) = \u03b2(\u03b8)I{nk (\u03b8)x \u2212 nk\u22121 (\u03b8)x0 = 1} + (1 \u2212 \u03b2(\u03b8))I{nk (\u03b8)x \u2212 nk\u22121 (\u03b8)x0 = 0}.\nThen \u03c9 gives the probability of transition from x0 to x when an item receives a rating. We then\nhave:\nZ Z",
+          "quoted_text_sha256": "88144f52dae47043dd3f7219353f37bbfec24516f43dc2a0d15da803fcd1b9b9"
+        }
+      ]
+    },
+    "appendixB1_state_update": {
+      "statement": "The state-update display evolves mu_{k+1} by integrating the transition kernel over E_k and carrying the complement E_k^c forward unchanged.",
+      "source_location": "audit/source_archive_surface.tex:1832-1852; Supplement Appendix B",
+      "source_kind": "formula",
+      "aliases": [
+        "appendixB1_state_update"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1832,
+          "line_end": 1852,
+          "quoted_text": "Z\nZ Z\n1\n\n\u00b5k+1 (\u0398, X) =\nEk\n\nx0 =0\n\n\u03c9(\u03b8, x, x0 )dx\u00b5k (dx0 , d\u03b8) +\n\nx\u2208X\n\nEkc\n\n\u00b5k (dx, d\u03b8).\nx\u2208X\n\nIt is straightforward but tedious to check that the preceding dynamics are well defined, given our\nprimitives.\n",
+          "quoted_text_sha256": "1a51c6fd4df0440542b6df61f8559b95b9df2f989a135ad7d8bb663e3141acaf"
+        }
+      ]
+    },
+    "algorithm1_detailed_main": {
+      "statement": "The detailed main routine bisects the last interior level over [1-1/(M-1),1-delta], reconstructs the candidate chain, compares endpoint rates, and returns the final reconstructed levels.",
+      "source_location": "audit/source_archive_surface.tex:1863-1880; Supplement Appendix B",
+      "source_kind": "algorithm",
+      "aliases": [],
+      "source_defect_ids": [
+        "GJ19-ALG1-PSEUDOCODE-TYPO-01",
+        "GJ19-T32-EXECUTABLE-ALGORITHM-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1863,
+          "line_end": 1880,
+          "quoted_text": "Data: Set size M , grid width \u03b4, match function g\n/* Assume \u03b4 << mini ti \u2212 ti\u22121\nResult: \u03b2M levels {t0 . . . tM \u22121 }\nFunction main (M , \u03b4, g)\nt0 = 0, tM \u22121 = 1\n` = 1 \u2212 M1\u22121 , u = 1 \u2212 \u03b4\nwhile u \u2212 ` > \u03b4/2 do\njM \u22122 = r+`\n2\nratelast = \u2212gM \u22122 log(tM \u22122 )\n{j1 . . . jM \u22123 } = CalculateOtherLevels(jM \u22122 , ratelast , g)\nratefirst = \u2212g1 log(1 \u2212 t1 )\nif ratefirst < ratelast then ` = jM \u22122\nelse u = jM \u22122\n{t1 . . . tM \u22122 } = CalculateOtherLevels(u, g)\ntM \u22122 = u\nreturn {ti }\nFunction PairwiseRate (tm\u22121",
+          "quoted_text_sha256": "0ccd834a5225bb8d09a254372742e3b464f642402e920ef1b96e7c64debc0d1c"
+        }
+      ]
+    },
+    "algorithm1_pairwise_rate": {
+      "statement": "PairwiseRate evaluates the closed weighted Bernoulli separation exponent for two adjacent candidate levels and matching rates.",
+      "source_location": "audit/source_archive_surface.tex:1881-1906; Supplement Appendix B",
+      "source_kind": "algorithm",
+      "aliases": [],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1881,
+          "line_end": 1906,
+          "quoted_text": "\u0014 , tm , gm , gm\u22121 )\nreturn \u2212(gm\u22121 + gm ) log (1 \u2212 tm\u22121 )\n\ngm\u22121\ngm\u22121 +gm\n\n(1 \u2212 tm )\n\ngm\ngm\u22121 +gm\n\ngm\u22121\ngm\u22121 +gm\n\n+ tm\u22121\n\ngm\ngm\u22121 +gm\n\n*/\n\n\u0015\n\ntm\n\nFunction CalculateOtherLevels (jM \u22122 , ratetarget , g)",
+          "quoted_text_sha256": "33a85ff51495b435cc12147e65bce92568ad766e997274bd93fddcc5e7e57d37"
+        }
+      ]
+    },
+    "algorithm1_calculate_other_levels": {
+      "statement": "CalculateOtherLevels sequentially reconstructs lower candidate levels by calling BisectNextLevel at a fixed target rate.",
+      "source_location": "audit/source_archive_surface.tex:1907-1912; Supplement Appendix B",
+      "source_kind": "algorithm",
+      "aliases": [],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1907,
+          "line_end": 1912,
+          "quoted_text": "/* Given target rate from current guess jM \u22122 , sequentially fix other levels.\n\nforeach m \u2208 M \u2212 3 . . . 1 do\njm = BisectNextLevel (jm+1 , ratetarget , gm , gm+1 )\nreturn {j1 . . . jM \u22123 }\nFunction BisectNextLevel (jm , ratetarget , gm\u22121 , gm )",
+          "quoted_text_sha256": "7706ade914de93888198f7a41466ff3c606dbcac7e1a712c528e4ab5dcb0c32d"
+        }
+      ]
+    },
+    "algorithm1_bisect_next_level": {
+      "statement": "BisectNextLevel bisects a lower endpoint until its PairwiseRate is within the grid convention of the target rate and returns the selected endpoint.",
+      "source_location": "audit/source_archive_surface.tex:1913-1921; Supplement Appendix B",
+      "source_kind": "algorithm",
+      "aliases": [],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1913,
+          "line_end": 1921,
+          "quoted_text": "` = 0, r = jm \u2212 \u03b4\nwhile r \u2212 ` > \u03b4/2 do\njm\u22121 = r+`\n2\nratem = PairwiseRate(jm\u22121 , jm , gm\u22121 , gm )\nif ratem \u2264 ratetarget then r = jm\u22121\nelse ` = jm\u22121\nreturn r\n",
+          "quoted_text_sha256": "a8228b1239639d707abecef3566b85a29f7bebd8c0ee7aac122ecff48b04d628"
+        }
+      ]
     },
     "lemmaB1_matching_rate_shift": {
-      "statement": "Lemma B.1: if matching rates shift upward above index k and downward below k, with equality at k, then the kth optimal beta level shifts upward.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section B.3 Lemma B.1, around lines 854-865 in local extracted text.",
-      "aliases": []
+      "statement": "Lemma B.1 says that a one-crossing shift between matching-rate vectors g and g-tilde implies the corresponding optimal levels satisfy t*_k >= t-tilde*_k.",
+      "source_location": "audit/source_archive_surface.tex:1927-1949; Supplement Appendix B",
+      "source_kind": "lemma",
+      "aliases": [
+        "lemmaB1_matching_rate_shift"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.lemmaB1_matching_rate_shift"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1927,
+          "line_end": 1949,
+          "quoted_text": "\nFormalization of effect of matching rates shifting\n\nMatching concentrating at the top items moves mass of \u03b2(\u03b8) away from high \u03b8, and subsequently\nmass of H(y) away from the questions that help distinguish the top items, as observed in Figures 1b and 3b above. Informally, this occurs because when matching concentrates, top items are\naccumulating many ratings more ratings comparatively, and so the amount of information needed\nper rating is comparatively less. We formalize this intuition in Lemma B.1 below.\nThe lemma states that if matching rates shift such that there is an index k above which matching\nrates increase and below which they decrease, then correspondingly the levels of \u03b2, (i.e. ti ) become\ncloser together above k.\nLemma B.1. Suppose k, g, g\u0303 such that \u2200j \u2208 {k+1 . . . M \u22121}, gj \u2265 g\u0303j , and \u2200j \u2208 {0 . . . k\u22121}, gj \u2264 g\u0303j ,\nand gk = g\u0303k . Then, t\u2217k \u2265 t\u0303\u2217k .\nProof. This proof is similar to that of Lemma 3.1, except that with the matching function changing\nthe overall rate function can either increase, decrease, or stay the same. Suppose the overall rate\nfunction decreased or stayed the same when the matching function changed from g\u0303 to g. Then\ngM \u22122 > g\u0303M \u22122 and the target rate is no larger, and so t\u2217M \u22122 > t\u0303\u2217M \u22122 . Then, t\u2217M \u22123 > t\u0303\u2217M \u22123 (a smaller\nwidth is needed because the matching rates are higher and the rate is no larger, and the next value\nalso increased). This shifting continues until t\u2217k+1 > t\u0303\u2217k+1 . Then, t\u2217k > t\u0303\u2217k .\nSuppose instead that the overall rate function increased when the matching function changed\nfrom g\u0303 to g. Then g1 < g\u03031 and the target rate is larger, and so t\u22171 > t\u0303\u22171 . Then, t\u22172 > t\u0303\u22172 (a larger\nwidth is needed and the previous value also increased). This shifting continues until t\u2217k\u22121 > t\u0303\u2217k\u22121 .\nThen, t\u2217k > t\u0303\u2217k .\n",
+          "quoted_text_sha256": "1f2a0134bc31f6e7ba81ea5d6940abe8956d75519da0dce71580fe63d8a3f425"
+        }
+      ]
     },
-    "theoremB1_uniform_subsequence_convergence": {
-      "statement": "Theorem B.1: for uniform g, if the interval-quantile maps q_M^w converge uniformly, every dyadic subsequence beta_{C 2^N + 1}^w has a uniform limit.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section B.4 Theorem B.1, around lines 896-905 and Section C.7 proof around lines 2385-2506 in local extracted text.",
-      "aliases": []
+    "theoremB1_quantile_representation": {
+      "statement": "Theorem B.1 uses q_M^w(theta), the normalized index of the optimal weighted partition cell containing theta, and represents beta_M^w by the corresponding optimal level.",
+      "source_location": "audit/source_archive_surface.tex:1951-1979; Supplement Appendix B",
+      "source_kind": "definition",
+      "aliases": [
+        "source_theoremB1_quantile_representation"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1951,
+          "line_end": 1979,
+          "quoted_text": "\nLimit of \u03b2 as M \u2192 \u221e\n\nw denote the optimal \u03b2 with M intervals for weight function w, with intervals {S wM } =\nLet \u03b2M\ni\nwM\nwM . Let q\nwM , swM ), i.e. the quantile of\n{[si , swM\n)}\nand\nlevels\nt\n(\u03b8)\n=\ni/M\nwhen\n\u03b8\n\u2208\n[s\nwM\ni+1\ni\ni+1\ninterval item of type \u03b8 is in.\nThen, we have the following convergence result for \u03b2M .\n\nTheorem B.1. Let g be uniform. Suppose w such that qwM converges uniformly. Then, \u2200C \u2208",
+          "quoted_text_sha256": "9bd460d942026e80a3d9ac3d777f6190dcd6b3329e6e858db821281cdc018f2a"
+        }
+      ]
+    },
+    "theoremB1_uniform_subsequence": {
+      "statement": "For uniform matching, if q_M^w converges uniformly, then every geometric subsequence beta_{C 2^N+1}^w converges uniformly to a limiting response function.",
+      "source_location": "audit/source_archive_surface.tex:1980-2003; Supplement Appendix B",
+      "source_kind": "theorem",
+      "aliases": [
+        "paper_theoremB1_uniform_subsequence_principle_to_of_quantile_floor_tendstoUniformlyOn_geometric_mesh"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.paper_theoremB1_uniform_subsequence_principle_to_of_quantile_floor_tendstoUniformlyOn_geometric_mesh"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1980,
+          "line_end": 2003,
+          "quoted_text": "w\nw uniformly as N \u2192 \u221e.\nN, \u2203\u03b2 w s.t. \u03b2C2\nN +1 \u2192 \u03b2\nThe proof is technical and is below. We leverage the fact that, for g uniform, the levels of \u03b22M\ncan be analytically written as a function of the levels of \u03b2M . We believe (numerically observe)\nthat this theorem holds for the entire sequence as opposed to the each such subsequence, and for\ngeneral matching functions g. However, our proof technique does not carry over, and the proof\nwould leverage more global properties of the optimal \u03b2M .\nFurthermore, the condition on w is light. For example, it holds for Kendall\u2019s \u03c4 , Spearman\u2019s \u03c1,\nand all other examples mentioned in this work.\nThis convergence result suggests that the choice of M when calculating a asymptotic and rate\noptimal \u03b2 is not consequential. As M increases, the limiting value of Wk increases to 1 (i.e. the\nasymptotic value increases), but the optimal rate decreases to 0. As discussed above, with strictly\nincreasing and continuous \u03b2, the asymptotic value is 1 but the large deviations rate does not exist,\ni.e. convergence is polynomial.\nThis result could potentially be strengthened as follows: first, show convergence on the entire\nsequence as opposed to these exponential subsequences, as conjectured; second, show desirable\nproperties of the limiting function itself. It is conceivable but not necessarily true that the limiting\n9\n\n\ffunction is \u201cbetter\u201d than other strictly continuous increasing functions in some rate sense, even\nthough the comparison through large deviations rate is degenerate.\n",
+          "quoted_text_sha256": "ed4d61a1632a124d323f246f90cbdb6bc8d5f45222a1817dece3af91e380c3f1"
+        }
+      ]
+    },
+    "known_type_experiment_definition": {
+      "statement": "KnownTypeExperiment records finitely many approximately known representative qualities and their empirical response frequencies for each question.",
+      "source_location": "audit/source_archive_surface.tex:2005-2027; Supplement Appendix B",
+      "source_kind": "algorithm",
+      "aliases": [
+        "appendixB5_known_type_experiment"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2005,
+          "line_end": 2027,
+          "quoted_text": "\nLearning \u03c8(\u03b8, y) through experiments\n\nNow, we show how a platform would run an experiment to decide to learn \u03c8(\u03b8, y). In particular,\none potential issue is that the platform does not have any items with know quality that it can use\nas representative items in its optimization. In this case, we show that it can use ratings within the\nexperiment itself to identify these representative items. The results essentially follow from the law\nof large numbers.\nWe assume that |\u0398| = L representative items i \u2208 {1 . . . L} are in the experiment, and each are\nmatched N times. The experiment proceeds as follows: every time an item is matched, show the\nbuyer a random question from Y. For each word y \u2208 Y, track the empirical \u03c8\u0302(i, y), the proportion\nof times a positive response was given to question y. Alternatively, if Y is totally ordered (i.e. a\npositive rating for a given y also implies positive ratings would be given to all \u201ceasier\u201d y 0 ), and\ncan be phrased as a multiple choice question, data collection can be faster: e.g., as we do in our\nexperiments: Y consists of a set of totally ordered adjectives that can describe the item; the rater is\nasked to pick an adjective out of the set; this is interpreted as the item receiving a positive answer\nto the questions induced by the chosen answer and all worse adjectives, and a negative answer to\nall better adjectives.\nFirst, suppose the platform approximately knows the quality \u03b8i of each item i, and \u03b8i are evenly\ndistributed in [0, 1]. Suppose the items are ordered by index, i.e. \u03b81 < \u03b82 < \u00b7 \u00b7 \u00b7 < \u03b8L . Then let\n\u03c8\u0302(\u03b8, y) = \u03c8\u0302(i, y) when \u03b8 \u2208 [\u03b8i\u22121 , \u03b8i ]. Call this procedure KnownTypeExperiment.\nLemma B.2. Suppose \u03c8(\u03b8, y) is Lipschitz continuous in \u03b8. With KnownTypeExperiment, \u03c8\u0302(i, y) \u2192\n\u03c8(\u03b8i , y)\u2200y uniformly as N \u2192 \u221e. As L \u2192 \u221e, \u03c8\u0302(\u03b8, y) \u2192 \u03c8(\u03b8, y)\u2200\u03b8 uniformly.",
+          "quoted_text_sha256": "898d73ba83bb657cabe3115fba547c5e1ad05e1acea95d501a18a99c2874fe9b"
+        }
+      ]
+    },
+    "known_type_neighbor_extension": {
+      "statement": "KnownTypeExperiment extends each representative item's empirical question response to the neighboring quality interval.",
+      "source_location": "audit/source_archive_surface.tex:2018-2031; Supplement Appendix B.5",
+      "source_kind": "algorithm",
+      "aliases": [],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2018,
+          "line_end": 2031,
+          "quoted_text": "can be phrased as a multiple choice question, data collection can be faster: e.g., as we do in our\nexperiments: Y consists of a set of totally ordered adjectives that can describe the item; the rater is\nasked to pick an adjective out of the set; this is interpreted as the item receiving a positive answer\nto the questions induced by the chosen answer and all worse adjectives, and a negative answer to\nall better adjectives.\nFirst, suppose the platform approximately knows the quality \u03b8i of each item i, and \u03b8i are evenly\ndistributed in [0, 1]. Suppose the items are ordered by index, i.e. \u03b81 < \u03b82 < \u00b7 \u00b7 \u00b7 < \u03b8L . Then let\n\u03c8\u0302(\u03b8, y) = \u03c8\u0302(i, y) when \u03b8 \u2208 [\u03b8i\u22121 , \u03b8i ]. Call this procedure KnownTypeExperiment.\nLemma B.2. Suppose \u03c8(\u03b8, y) is Lipschitz continuous in \u03b8. With KnownTypeExperiment, \u03c8\u0302(i, y) \u2192\n\u03c8(\u03b8i , y)\u2200y uniformly as N \u2192 \u221e. As L \u2192 \u221e, \u03c8\u0302(\u03b8, y) \u2192 \u03c8(\u03b8, y)\u2200\u03b8 uniformly.\nProof. The proof follows directly from the Strong Law of Large Numbers. As N \u2192 \u221e, \u2200i, \u03c8\u0302(i, x) \u2192\n\u03c8(\u03b8i , x) uniformly. Now, let L \u2192 \u221e. \u2200\u000f, \u2203L0 s.t. \u2200L > L0 , \u2200\u03b8, \u2203i s.t. |\u03b8 \u2212\u03b8i | < \u000f. \u03c8(\u03b8, x) is Lipschitz\nin \u03b8 by assumption, and so \u03c8\u0302(\u03b8, x) \u2192 \u03c8(\u03b8, x) uniformly.\nWe now relax the assumption that the platform has an existing set of items with known qualities.",
+          "quoted_text_sha256": "86dda81062e4a9acca71e805e295c03c3358000d99bbbe150da6ba122b597b49"
+        }
+      ]
+    },
+    "experiment_random_question_observations": {
+      "statement": "On every experimental match, the platform draws a question from Y and records a binary positive or negative response for that item.",
+      "source_location": "audit/source_archive_surface.tex:2005-2027; Supplement Appendix B.5",
+      "source_kind": "algorithm",
+      "aliases": [
+        "appendixB5_random_question_experiment"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2005,
+          "line_end": 2027,
+          "quoted_text": "\nLearning \u03c8(\u03b8, y) through experiments\n\nNow, we show how a platform would run an experiment to decide to learn \u03c8(\u03b8, y). In particular,\none potential issue is that the platform does not have any items with know quality that it can use\nas representative items in its optimization. In this case, we show that it can use ratings within the\nexperiment itself to identify these representative items. The results essentially follow from the law\nof large numbers.\nWe assume that |\u0398| = L representative items i \u2208 {1 . . . L} are in the experiment, and each are\nmatched N times. The experiment proceeds as follows: every time an item is matched, show the\nbuyer a random question from Y. For each word y \u2208 Y, track the empirical \u03c8\u0302(i, y), the proportion\nof times a positive response was given to question y. Alternatively, if Y is totally ordered (i.e. a\npositive rating for a given y also implies positive ratings would be given to all \u201ceasier\u201d y 0 ), and\ncan be phrased as a multiple choice question, data collection can be faster: e.g., as we do in our\nexperiments: Y consists of a set of totally ordered adjectives that can describe the item; the rater is\nasked to pick an adjective out of the set; this is interpreted as the item receiving a positive answer\nto the questions induced by the chosen answer and all worse adjectives, and a negative answer to\nall better adjectives.\nFirst, suppose the platform approximately knows the quality \u03b8i of each item i, and \u03b8i are evenly\ndistributed in [0, 1]. Suppose the items are ordered by index, i.e. \u03b81 < \u03b82 < \u00b7 \u00b7 \u00b7 < \u03b8L . Then let\n\u03c8\u0302(\u03b8, y) = \u03c8\u0302(i, y) when \u03b8 \u2208 [\u03b8i\u22121 , \u03b8i ]. Call this procedure KnownTypeExperiment.\nLemma B.2. Suppose \u03c8(\u03b8, y) is Lipschitz continuous in \u03b8. With KnownTypeExperiment, \u03c8\u0302(i, y) \u2192\n\u03c8(\u03b8i , y)\u2200y uniformly as N \u2192 \u221e. As L \u2192 \u221e, \u03c8\u0302(\u03b8, y) \u2192 \u03c8(\u03b8, y)\u2200\u03b8 uniformly.",
+          "quoted_text_sha256": "898d73ba83bb657cabe3115fba547c5e1ad05e1acea95d501a18a99c2874fe9b"
+        }
+      ]
+    },
+    "experiment_empirical_question_response": {
+      "statement": "For each item and question y, the experiment tracks the fraction of question-y observations receiving a positive response.",
+      "source_location": "audit/source_archive_surface.tex:2005-2027; Supplement Appendix B.5",
+      "source_kind": "definition",
+      "aliases": [
+        "appendixB5_empirical_question_response"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2005,
+          "line_end": 2027,
+          "quoted_text": "\nLearning \u03c8(\u03b8, y) through experiments\n\nNow, we show how a platform would run an experiment to decide to learn \u03c8(\u03b8, y). In particular,\none potential issue is that the platform does not have any items with know quality that it can use\nas representative items in its optimization. In this case, we show that it can use ratings within the\nexperiment itself to identify these representative items. The results essentially follow from the law\nof large numbers.\nWe assume that |\u0398| = L representative items i \u2208 {1 . . . L} are in the experiment, and each are\nmatched N times. The experiment proceeds as follows: every time an item is matched, show the\nbuyer a random question from Y. For each word y \u2208 Y, track the empirical \u03c8\u0302(i, y), the proportion\nof times a positive response was given to question y. Alternatively, if Y is totally ordered (i.e. a\npositive rating for a given y also implies positive ratings would be given to all \u201ceasier\u201d y 0 ), and\ncan be phrased as a multiple choice question, data collection can be faster: e.g., as we do in our\nexperiments: Y consists of a set of totally ordered adjectives that can describe the item; the rater is\nasked to pick an adjective out of the set; this is interpreted as the item receiving a positive answer\nto the questions induced by the chosen answer and all worse adjectives, and a negative answer to\nall better adjectives.\nFirst, suppose the platform approximately knows the quality \u03b8i of each item i, and \u03b8i are evenly\ndistributed in [0, 1]. Suppose the items are ordered by index, i.e. \u03b81 < \u03b82 < \u00b7 \u00b7 \u00b7 < \u03b8L . Then let\n\u03c8\u0302(\u03b8, y) = \u03c8\u0302(i, y) when \u03b8 \u2208 [\u03b8i\u22121 , \u03b8i ]. Call this procedure KnownTypeExperiment.\nLemma B.2. Suppose \u03c8(\u03b8, y) is Lipschitz continuous in \u03b8. With KnownTypeExperiment, \u03c8\u0302(i, y) \u2192\n\u03c8(\u03b8i , y)\u2200y uniformly as N \u2192 \u221e. As L \u2192 \u221e, \u03c8\u0302(\u03b8, y) \u2192 \u03c8(\u03b8, y)\u2200\u03b8 uniformly.",
+          "quoted_text_sha256": "898d73ba83bb657cabe3115fba547c5e1ad05e1acea95d501a18a99c2874fe9b"
+        }
+      ]
     },
     "lemmaB2_known_type_learning": {
-      "statement": "Lemma B.2: with KnownTypeExperiment and Lipschitz psi(theta,y), empirical estimates converge uniformly to psi as the number of samples and representatives grow.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section B.5 Lemma B.2, around lines 943-957 in local extracted text.",
-      "aliases": []
+      "statement": "Lemma B.2 claims uniform convergence of the KnownTypeExperiment estimator to psi under Lipschitz continuity as the per-item samples and representative mesh grow.",
+      "source_location": "audit/source_archive_surface.tex:2027-2031; Supplement Appendix B",
+      "source_kind": "lemma",
+      "aliases": [
+        "paper_lemmaB2_knownTypeExperiment_uniform_convergence_of_lipschitz_tracking"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.paper_lemmaB2_knownTypeExperiment_uniform_convergence_of_lipschitz_tracking"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2027,
+          "line_end": 2031,
+          "quoted_text": "\u03c8(\u03b8i , y)\u2200y uniformly as N \u2192 \u221e. As L \u2192 \u221e, \u03c8\u0302(\u03b8, y) \u2192 \u03c8(\u03b8, y)\u2200\u03b8 uniformly.\nProof. The proof follows directly from the Strong Law of Large Numbers. As N \u2192 \u221e, \u2200i, \u03c8\u0302(i, x) \u2192\n\u03c8(\u03b8i , x) uniformly. Now, let L \u2192 \u221e. \u2200\u000f, \u2203L0 s.t. \u2200L > L0 , \u2200\u03b8, \u2203i s.t. |\u03b8 \u2212\u03b8i | < \u000f. \u03c8(\u03b8, x) is Lipschitz\nin \u03b8 by assumption, and so \u03c8\u0302(\u03b8, x) \u2192 \u03c8(\u03b8, x) uniformly.\nWe now relax the assumption that the platform has an existing set of items with known qualities.",
+          "quoted_text_sha256": "403073f812cafe238758ddf38f30072425ab53226cf55416a170b9423a0c9c6a"
+        }
+      ]
+    },
+    "lemmaB2_fixed_finite_slln_step": {
+      "statement": "For a fixed finite representative set and finite question set with positive question mass, the Strong Law makes every empirical conditional question-response frequency converge simultaneously to its source response probability as N tends to infinity.",
+      "source_location": "audit/source_archive_surface.tex:2005-2031; Supplement Appendix B.5, Lemma B.2 proof",
+      "source_kind": "claim",
+      "aliases": [
+        "lemmaB2_knownTypeExperiment_random_question_slln"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.lemmaB2_knownTypeExperiment_random_question_slln"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2005,
+          "line_end": 2031,
+          "quoted_text": "\nLearning \u03c8(\u03b8, y) through experiments\n\nNow, we show how a platform would run an experiment to decide to learn \u03c8(\u03b8, y). In particular,\none potential issue is that the platform does not have any items with know quality that it can use\nas representative items in its optimization. In this case, we show that it can use ratings within the\nexperiment itself to identify these representative items. The results essentially follow from the law\nof large numbers.\nWe assume that |\u0398| = L representative items i \u2208 {1 . . . L} are in the experiment, and each are\nmatched N times. The experiment proceeds as follows: every time an item is matched, show the\nbuyer a random question from Y. For each word y \u2208 Y, track the empirical \u03c8\u0302(i, y), the proportion\nof times a positive response was given to question y. Alternatively, if Y is totally ordered (i.e. a\npositive rating for a given y also implies positive ratings would be given to all \u201ceasier\u201d y 0 ), and\ncan be phrased as a multiple choice question, data collection can be faster: e.g., as we do in our\nexperiments: Y consists of a set of totally ordered adjectives that can describe the item; the rater is\nasked to pick an adjective out of the set; this is interpreted as the item receiving a positive answer\nto the questions induced by the chosen answer and all worse adjectives, and a negative answer to\nall better adjectives.\nFirst, suppose the platform approximately knows the quality \u03b8i of each item i, and \u03b8i are evenly\ndistributed in [0, 1]. Suppose the items are ordered by index, i.e. \u03b81 < \u03b82 < \u00b7 \u00b7 \u00b7 < \u03b8L . Then let\n\u03c8\u0302(\u03b8, y) = \u03c8\u0302(i, y) when \u03b8 \u2208 [\u03b8i\u22121 , \u03b8i ]. Call this procedure KnownTypeExperiment.\nLemma B.2. Suppose \u03c8(\u03b8, y) is Lipschitz continuous in \u03b8. With KnownTypeExperiment, \u03c8\u0302(i, y) \u2192\n\u03c8(\u03b8i , y)\u2200y uniformly as N \u2192 \u221e. As L \u2192 \u221e, \u03c8\u0302(\u03b8, y) \u2192 \u03c8(\u03b8, y)\u2200\u03b8 uniformly.\nProof. The proof follows directly from the Strong Law of Large Numbers. As N \u2192 \u221e, \u2200i, \u03c8\u0302(i, x) \u2192\n\u03c8(\u03b8i , x) uniformly. Now, let L \u2192 \u221e. \u2200\u000f, \u2203L0 s.t. \u2200L > L0 , \u2200\u03b8, \u2203i s.t. |\u03b8 \u2212\u03b8i | < \u000f. \u03c8(\u03b8, x) is Lipschitz\nin \u03b8 by assumption, and so \u03c8\u0302(\u03b8, x) \u2192 \u03c8(\u03b8, x) uniformly.\nWe now relax the assumption that the platform has an existing set of items with known qualities.",
+          "quoted_text_sha256": "c2c2ba79abc917ae29bfa4d0e07a46e3fbc5e818d81b9d3bbfadb322b95d5358"
+        }
+      ]
+    },
+    "unknown_type_experiment_definition": {
+      "statement": "UnknownTypeExperiment records unknown true qualities, empirical question responses and aggregate scores, and the item occupying each empirical rank.",
+      "source_location": "audit/source_archive_surface.tex:2032-2044; Supplement Appendix B",
+      "source_kind": "algorithm",
+      "aliases": [
+        "appendixB5_unknown_type_experiment"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2032,
+          "line_end": 2044,
+          "quoted_text": "Suppose instead the platform has many items L of unknown quality who are expected to match N\ntimes each over the experiment time period. For each item, the platform would again ask questions\nfrom Y, drawn according to any distribution (with positive mass on each question). Then generate\n\u03c8\u0302(\u03b8, y) as follows: first, rank the items according to their ratings during the experiment itself.\nThen, for each y, \u03c8\u0302(\u03b8, y) is\nthe empirical\nperformance of the \u03b8th percentile item in the ranking, i.e.\n\u0002 i\u22121\n\u0003\ni\n\u03c8\u0302(\u03b8, y) = \u03c8\u0302(\u03b8i , y) for \u03b8 \u2208 L , L . Call this procedure UnknownTypeExperiment.\nLemma B.3. Suppose \u03c8(\u03b8, y) is Lipschitz continuous in \u03b8. With UnknownTypeExperiment, \u03c8\u0302(\u03b8, y) \u2192\n\u03c8(\u03b8, y)\u2200y, \u03b8 uniformly as L, N \u2192 \u221e.",
+          "quoted_text_sha256": "94546f575c4e1a2690ad68e521da37e898f30983d9a67302c1bc15467487d3d0"
+        }
+      ]
+    },
+    "unknown_type_percentile_extension": {
+      "statement": "UnknownTypeExperiment assigns each quality-percentile interval the empirical question responses of the item occupying the corresponding empirical rank.",
+      "source_location": "audit/source_archive_surface.tex:2032-2060; Supplement Appendix B.5",
+      "source_kind": "algorithm",
+      "aliases": [],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2032,
+          "line_end": 2060,
+          "quoted_text": "Suppose instead the platform has many items L of unknown quality who are expected to match N\ntimes each over the experiment time period. For each item, the platform would again ask questions\nfrom Y, drawn according to any distribution (with positive mass on each question). Then generate\n\u03c8\u0302(\u03b8, y) as follows: first, rank the items according to their ratings during the experiment itself.\nThen, for each y, \u03c8\u0302(\u03b8, y) is\nthe empirical\nperformance of the \u03b8th percentile item in the ranking, i.e.\n\u0002 i\u22121\n\u0003\ni\n\u03c8\u0302(\u03b8, y) = \u03c8\u0302(\u03b8i , y) for \u03b8 \u2208 L , L . Call this procedure UnknownTypeExperiment.\nLemma B.3. Suppose \u03c8(\u03b8, y) is Lipschitz continuous in \u03b8. With UnknownTypeExperiment, \u03c8\u0302(\u03b8, y) \u2192\n\u03c8(\u03b8, y)\u2200y, \u03b8 uniformly as L, N \u2192 \u221e.\nProof. Fix L. Denote each item in the experiment as i \u2208 {1 . . . L} (with true quality \u03b8i 6= \u03b8j ),\nand each item has N samples. Without loss of generality, assume the items are indexed according\nto their rank on the average of their scores on the samples, defined as the percentage of positive\nratings received. i = 1 is then the worst item, and i = L is the best item according to scores in the\nexperiment.\nFor \u03c8(\u03b8, x) increasing in \u03b8, as N \u2192 \u221e, P r(\u03b8i > \u03b8j |i < j) \u2192 0 almost surely by SLLN, and for\na fixed L, {\u03b8i } this convergence\u0002is uniform.\nFurthermore, by SLLN, \u03c8\u0302(i, x) \u2192 \u03c8(\u03b8i , x) as N \u2192 \u221e.\n\u0003\ni\u22121 i\nRecall \u03c8\u0302(\u03b8, x) = \u03c8\u0302(i, x) for \u03b8 \u2208 L , L .\n10\n\n\fNow, let L \u2192 \u221e. \u2200\u000f, \u2203L0 s.t. \u2200L > L0 , \u2200\u03b8, \u2203i s.t. |\u03b8 \u2212 \u03b8i | < \u000f. \u03c8(\u03b8, x) is Lipschitz in \u03b8 by\nassumption, and so \u03c8\u0302(\u03b8, x) \u2192 \u03c8(\u03b8, x) uniformly.\n",
+          "quoted_text_sha256": "ee68bb9230e2b3d283af18883803eb35c8d5d375c49951d253e236b791805ad1"
+        }
+      ]
     },
     "lemmaB3_unknown_type_learning": {
-      "statement": "Lemma B.3: with UnknownTypeExperiment and Lipschitz psi(theta,y), empirical estimates converge uniformly to psi as item count and samples grow.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section B.5 Lemma B.3, around lines 960-980 in local extracted text.",
-      "aliases": []
+      "statement": "Lemma B.3 claims the UnknownTypeExperiment estimator converges uniformly to psi as the numbers of items and samples grow, under the printed Lipschitz hypothesis.",
+      "source_location": "audit/source_archive_surface.tex:2044-2060; Supplement Appendix B",
+      "source_kind": "lemma",
+      "aliases": [
+        "paper_lemmaB3_unknownTypeExperiment_uniform_convergence_of_ranking_tracking"
+      ],
+      "source_defect_ids": [
+        "GJ19-B3-RANKING-IDENTIFIABILITY-01"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.paper_lemmaB3_unknownTypeExperiment_uniform_convergence_of_ranking_tracking"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2044,
+          "line_end": 2060,
+          "quoted_text": "\u03c8(\u03b8, y)\u2200y, \u03b8 uniformly as L, N \u2192 \u221e.\nProof. Fix L. Denote each item in the experiment as i \u2208 {1 . . . L} (with true quality \u03b8i 6= \u03b8j ),\nand each item has N samples. Without loss of generality, assume the items are indexed according\nto their rank on the average of their scores on the samples, defined as the percentage of positive\nratings received. i = 1 is then the worst item, and i = L is the best item according to scores in the\nexperiment.\nFor \u03c8(\u03b8, x) increasing in \u03b8, as N \u2192 \u221e, P r(\u03b8i > \u03b8j |i < j) \u2192 0 almost surely by SLLN, and for\na fixed L, {\u03b8i } this convergence\u0002is uniform.\nFurthermore, by SLLN, \u03c8\u0302(i, x) \u2192 \u03c8(\u03b8i , x) as N \u2192 \u221e.\n\u0003\ni\u22121 i\nRecall \u03c8\u0302(\u03b8, x) = \u03c8\u0302(i, x) for \u03b8 \u2208 L , L .\n10\n\n\fNow, let L \u2192 \u221e. \u2200\u000f, \u2203L0 s.t. \u2200L > L0 , \u2200\u03b8, \u2203i s.t. |\u03b8 \u2212 \u03b8i | < \u000f. \u03c8(\u03b8, x) is Lipschitz in \u03b8 by\nassumption, and so \u03c8\u0302(\u03b8, x) \u2192 \u03c8(\u03b8, x) uniformly.\n",
+          "quoted_text_sha256": "e54efae32790578d780789bb387c7382c03b4d8245bfc5aed2c960ca0ef107c2"
+        }
+      ]
+    },
+    "lemmaB3_fixed_finite_slln_ranking_step": {
+      "statement": "For fixed finite L, the Strong Law makes empirical question responses converge and makes empirical average-score ranking recover the true quality order, provided the mixed expected score is strictly increasing in true quality.",
+      "source_location": "audit/source_archive_surface.tex:2032-2060; Supplement Appendix B.5, corrected Lemma B.3 proof step",
+      "source_kind": "claim",
+      "aliases": [
+        "lemmaB3_unknownTypeExperiment_random_question_response_and_rank"
+      ],
+      "source_defect_ids": [
+        "GJ19-B3-RANKING-IDENTIFIABILITY-01"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.lemmaB3_unknownTypeExperiment_random_question_response_and_rank"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2032,
+          "line_end": 2060,
+          "quoted_text": "Suppose instead the platform has many items L of unknown quality who are expected to match N\ntimes each over the experiment time period. For each item, the platform would again ask questions\nfrom Y, drawn according to any distribution (with positive mass on each question). Then generate\n\u03c8\u0302(\u03b8, y) as follows: first, rank the items according to their ratings during the experiment itself.\nThen, for each y, \u03c8\u0302(\u03b8, y) is\nthe empirical\nperformance of the \u03b8th percentile item in the ranking, i.e.\n\u0002 i\u22121\n\u0003\ni\n\u03c8\u0302(\u03b8, y) = \u03c8\u0302(\u03b8i , y) for \u03b8 \u2208 L , L . Call this procedure UnknownTypeExperiment.\nLemma B.3. Suppose \u03c8(\u03b8, y) is Lipschitz continuous in \u03b8. With UnknownTypeExperiment, \u03c8\u0302(\u03b8, y) \u2192\n\u03c8(\u03b8, y)\u2200y, \u03b8 uniformly as L, N \u2192 \u221e.\nProof. Fix L. Denote each item in the experiment as i \u2208 {1 . . . L} (with true quality \u03b8i 6= \u03b8j ),\nand each item has N samples. Without loss of generality, assume the items are indexed according\nto their rank on the average of their scores on the samples, defined as the percentage of positive\nratings received. i = 1 is then the worst item, and i = L is the best item according to scores in the\nexperiment.\nFor \u03c8(\u03b8, x) increasing in \u03b8, as N \u2192 \u221e, P r(\u03b8i > \u03b8j |i < j) \u2192 0 almost surely by SLLN, and for\na fixed L, {\u03b8i } this convergence\u0002is uniform.\nFurthermore, by SLLN, \u03c8\u0302(i, x) \u2192 \u03c8(\u03b8i , x) as N \u2192 \u221e.\n\u0003\ni\u22121 i\nRecall \u03c8\u0302(\u03b8, x) = \u03c8\u0302(i, x) for \u03b8 \u2208 L , L .\n10\n\n\fNow, let L \u2192 \u221e. \u2200\u000f, \u2203L0 s.t. \u2200L > L0 , \u2200\u03b8, \u2203i s.t. |\u03b8 \u2212 \u03b8i | < \u000f. \u03c8(\u03b8, x) is Lipschitz in \u03b8 by\nassumption, and so \u03c8\u0302(\u03b8, x) \u2192 \u03c8(\u03b8, x) uniformly.\n",
+          "quoted_text_sha256": "ee68bb9230e2b3d283af18883803eb35c8d5d375c49951d253e236b791805ad1"
+        }
+      ]
     },
     "lemmaC1_pairwise_error_rate": {
-      "statement": "Lemma C.1: the left-tail pairwise score error has large-deviation exponent inf_a {g(theta_1) I(a|theta_1) + g(theta_2) I(a|theta_2)}.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.1 Lemma C.1, around lines 1003-1038 in local extracted text.",
-      "aliases": []
+      "statement": "Lemma C.1 identifies the large-deviation exponent of the pairwise score-error event as the infimum over a common threshold of the two weighted Bernoulli rate functions.",
+      "source_location": "audit/source_archive_surface.tex:2083-2131; Supplement Appendix B",
+      "source_kind": "lemma",
+      "aliases": [
+        "source_lemmaC1_pairwise_error_rate_from_derivatives"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.source_lemmaC1_pairwise_error_rate_from_derivatives"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2083,
+          "line_end": 2131,
+          "quoted_text": "\nRate functions for Pk (\u03b81 , \u03b82 )\n\nLemma C.1.\n1\nlim \u2212 log [\u00b5((xk (\u03b81 ) \u2212 xk (\u03b82 )) \u2264 0|\u03b81 , \u03b82 )] = inf {g(\u03b81 )I(a|\u03b81 ) + g(\u03b82 )I(a|\u03b82 )}\na\u2208R\nk\u2192\u221e k\nwhere I(a|`) = supz {za \u2212 \u039b(z|\u03b8)}, and \u039b(z|\u03b8) is the log moment generating function of a single\nsample from x(\u03b81 ) and g(\u03b8) is the sampling rate.\nProof. limk\u2192\u221e \u2212 k1 log [\u00b5((xk (\u03b81 ) \u2212 xk (\u03b82 )) \u2264 0|\u03b81 , \u03b82 )]\n\u0015\n\u0014Z\n1\n\u00b5((xk (\u03b81 ) = a|\u03b81 )\u00b5(xk (\u03b82 ) \u2265 a|\u03b82 )da\n= lim \u2212 log\nk\u2192\u221e k\n\u0014Za\u2208R\n\u0015\n1\n\u2212kg(\u03b81 )I(a|\u03b81 ) \u2212kg(\u03b82 )I(a|\u03b82 )\n= lim \u2212 log\ne\ne\nda\nk\u2192\u221e k\na\u2208R\n= inf {g(\u03b81 )I(a|\u03b81 ) + g(\u03b82 )I(a|\u03b82 )}\n\n(1)\n(2)\nLaplace principle\n\na\u2208R\n\n(3)\n\nWhere (2) is a basic result from large deviations, where kg(\u03b8i ) is the number of samples item\nof quality \u03b8i has received.\nNote that this lemma also appears in Glynn and Juneja (2004), which uses the Gartner-Ellis\nTheorem in the proof. Our proof is conceptually similar but instead uses Laplace\u2019s principle.\n1\u2212b\nRecall that KL(a||b) = a log ab + (1 \u2212 a) log 1\u2212a\nis the Kullback-Leibler (KL) divergence between\nBernoulli random variables with success probabilities a and b respectively. It is well known that\nfor a Bernoulli random variable with success probability t,\nI(a|t) = KL(a||t)\n11\n",
+          "quoted_text_sha256": "06dbd9a9d88edfc98175763b3d6a6e509a4426c09e15417b563dbf8925c217e2"
+        }
+      ]
+    },
+    "lemmaC1_mgf_ldp_equations1_3": {
+      "statement": "Equations (1)-(3) in the Lemma C.1 proof factor the pairwise event, apply the individual large-deviation rate functions, and minimize their sum at a common threshold.",
+      "source_location": "audit/source_archive_surface.tex:2094-2131; Supplement Appendix C",
+      "source_kind": "equation",
+      "aliases": [
+        "binary_rating_model_mgf_formula",
+        "binary_rating_model_log_mgf_formula",
+        "binary_rating_model_log_mgf_derivative_formula"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2094,
+          "line_end": 2131,
+          "quoted_text": "\u0015\n\u0014Z\n1\n\u00b5((xk (\u03b81 ) = a|\u03b81 )\u00b5(xk (\u03b82 ) \u2265 a|\u03b82 )da\n= lim \u2212 log\nk\u2192\u221e k\n\u0014Za\u2208R\n\u0015\n1\n\u2212kg(\u03b81 )I(a|\u03b81 ) \u2212kg(\u03b82 )I(a|\u03b82 )\n= lim \u2212 log\ne\ne\nda\nk\u2192\u221e k\na\u2208R\n= inf {g(\u03b81 )I(a|\u03b81 ) + g(\u03b82 )I(a|\u03b82 )}\n\n(1)\n(2)\nLaplace principle\n\na\u2208R\n\n(3)\n\nWhere (2) is a basic result from large deviations, where kg(\u03b8i ) is the number of samples item\nof quality \u03b8i has received.\nNote that this lemma also appears in Glynn and Juneja (2004), which uses the Gartner-Ellis\nTheorem in the proof. Our proof is conceptually similar but instead uses Laplace\u2019s principle.\n1\u2212b\nRecall that KL(a||b) = a log ab + (1 \u2212 a) log 1\u2212a\nis the Kullback-Leibler (KL) divergence between\nBernoulli random variables with success probabilities a and b respectively. It is well known that\nfor a Bernoulli random variable with success probability t,\nI(a|t) = KL(a||t)\n11\n",
+          "quoted_text_sha256": "2aa0d8226c147c9272e5e04d488bfcde1a6a099b841be68e1d20e113a2cd388e"
+        }
+      ]
     },
     "lemmaC2_binary_complement_rate": {
-      "statement": "Lemma C.2: for Bernoulli scores with I(a|theta)=KL(a||beta(theta)), the complement pairwise ranking probability has the same infimum rate.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.1 Lemma C.2, around lines 1050-1076 in local extracted text.",
-      "aliases": []
+      "statement": "Lemma C.2 applies Lemma C.1 to the complement ranking-error probability and obtains the same adjacent Bernoulli exponent.",
+      "source_location": "audit/source_archive_surface.tex:2133-2161; Supplement Appendix C",
+      "source_kind": "lemma",
+      "aliases": [
+        "source_lemmaC2_binary_complement_rate"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.source_lemmaC2_binary_complement_rate"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2133,
+          "line_end": 2161,
+          "quoted_text": "Lemma C.2. Let \u03b81 > \u03b82 and I(a|\u03b8) = KL(a||\u03b2(\u03b8)). Further, Let P k (\u03b81 , \u03b82 ) = 1 \u2212 Pk (\u03b81 , \u03b82 ).\nThen,\n1\n\u2212 lim log P k (\u03b81 , \u03b82 ) = inf {g(\u03b81 )I(a|\u03b81 ) + g(\u03b82 )I(a|\u03b82 )} ,\n(4)\na\u2208R\nk\u2192\u221e k\nProof. Follows directly from Lemma C.1.\n\u2212 lim\n\n1\n\nk\u2192\u221e k\n\nlog P k (\u03b81 , \u03b82 |\u03b2)\n\n1\n= lim \u2212 log [1 + \u00b5k (xk (\u03b81 ) \u2212 xk (\u03b82 ) < 0|\u03b81 , \u03b82 ) \u2212 \u00b5k (xk (\u03b81 ) \u2212 xk (\u03b82 ) > 0|\u03b81 , \u03b82 )]\nk\u2192\u221e k\n1\n= lim \u2212 log [2\u00b5k (xk (\u03b81 ) \u2212 xk (\u03b82 ) < 0|\u03b81 , \u03b82 ) + \u00b5k (xk (\u03b81 ) \u2212 xk (\u03b82 ) = 0|\u03b81 , \u03b82 )]\nk\u2192\u221e k\n1\n= lim \u2212 log [\u00b5k (xk (\u03b81 ) \u2212 xk (\u03b82 ) \u2264 0|\u03b81 , \u03b82 )]\nk\u2192\u221e k\n= inf {g(\u03b81 )I(a|\u03b81 ) + g(\u03b82 )I(a|\u03b82 )}\nLemma C.1\na\u2208R\n",
+          "quoted_text_sha256": "30a284c43bd8e5416b57563b91f821278abdaf1e0b9651f2e05fe95338974ee7"
+        }
+      ]
     },
     "theoremC1_laplace_principle": {
-      "statement": "Theorem C.1: under compactness, finite measure, nonnegativity, essential infima, and uniform convergence of rate functions, the integral of exp(-n phi_n) has exponent -phi.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.2 Theorem C.1, around lines 1086-1138 in local extracted text.",
-      "aliases": []
+      "statement": "Theorem C.1 says a nonnegative sequence of rate functions converging uniformly on a compact finite-measure space has log-integral exponent equal to the negative essential infimum.",
+      "source_location": "audit/source_archive_surface.tex:2163-2223; Supplement Appendix C",
+      "source_kind": "theorem",
+      "aliases": [
+        "source_theoremC1_laplace_principle"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.source_theoremC1_laplace_principle"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2163,
+          "line_end": 2223,
+          "quoted_text": "\nLaplace\u2019s principle with sequence of rate functions\n\nIn order to derive a rate function for W k = (limk Wk ) \u2212 Wk , we need to be able to relate its rate to\nthat of P k (\u03b81 , \u03b82 ). The following theorem, related to Laplace\u2019s principle for large deviations allows\nus to do so.\nTheorem C.1. Suppose that X is compact with finite Lebesgue measure \u00b5(X) < \u221e. Suppose that\n\u03d5(x) has an essential infimum \u03d5 on X, that \u03d5n (x) has an essential infimum \u03d5n , that both \u03d5 and\nall \u03d5n are nonnegative, and that \u03d5n \u2192 \u03d5 uniformly:\nlim sup |\u03d5n (x) \u2212 \u03d5(x)| = 0.\n\nn\u2192\u221e x\u2208X\n\nThen:\n\n1\nlog\nn\u2192\u221e n\n\nZ\n\nlim\n\ne\u2212n\u03d5n (x) dx = \u2212\u03d5.\n\n(5)\n\nX\n\nProof. First, we note that for all x and n, e\u2212n\u03d5n (x) \u2264 e\u2212n\u03d5n . Therefore, letting (\u2217) denote the\nLHS of (5), we have:\nZ\n1\n(\u2217) \u2264 lim log\ne\u2212n\u03d5n dx = \u2212\u03d5,\nn\u2192\u221e n\nX\nwhere the last limit follows from the fact that \u03d5n converges uniformly to \u03d5, so that \u03d5n \u2192 \u03d5.\nNext, for \u000f > 0 let An (\u000f) = {x : \u03d5n (x) \u2264 \u03d5n + \u000f} and let A(\u000f) = {x : \u03d5(x) \u2264 \u03d5 + \u000f}. It\nfollows (again by uniform convergence) that for all sufficiently large n, A(\u000f/2) \u2286 An (\u000f), so that\n\u00b5(A(\u000f/2)) \u2264 \u00b5(An (\u000f)) for all sufficiently large n. Further, \u00b5(A(\u000f/2)) > 0, since \u03d5 is the essential\ninfimum.\nSince:\nZ\ne\u2212n\u03d5n (x) dx \u2265 \u00b5(An (\u000f))e\u2212n(\u03d5n +\u000f) ,\nX\n\n12\n\n\fit follows that:\n\n1\nlog \u00b5(An (\u000f)).\nn\u2192\u221e n\nTo complete the proof, observe that since \u00b5(An (\u000f)) is bounded below by a positive constant for all\nsufficiently large n, the last limit is zero. Therefore:\n(\u2217) \u2265 \u2212\u03d5 \u2212 \u000f + lim\n\n(\u2217) \u2265 \u2212\u03d5 \u2212 \u000f.\nSince \u000f was arbitrary, this completes the proof.\nRemark C.1. Let X = [0, 1] \u00d7 [0, 1], \u03d5n (\u03b81 , \u03b82 ) = \u2212 n1 log P n (\u03b81 , \u03b82 ). Then, all the conditions for",
+          "quoted_text_sha256": "00f250c400e0e400605f791eea20d114c6c7e4388aa07a7aabe6bb8c308cd1d8"
+        }
+      ]
+    },
+    "remarkC1_full_square_application": {
+      "statement": "Corrected Remark C.1: on the full quality square, the weighted Laplace conclusion follows only when Theorem C.1's integrability, essential-infimum, positive-weight-near-minimizer, and uniform-convergence conditions are explicit; the actual piecewise-constant application avoids the false diagonal-uniformity claim by using the finite separated-cell route in Lemma C.3.",
+      "source_location": "audit/source_archive_surface.tex:2224-2225; Supplement Appendix C",
+      "source_kind": "remark",
+      "source_status": "corrected_source_statement",
+      "source_note": "The source's later C.4 proof explicitly observes nonuniform convergence near the diagonal. Lean therefore proves the valid conditional full-square Laplace statement and derives the advertised piecewise-constant rate through separated cells instead.",
+      "aliases": [
+        "source_remarkC1_full_square_application_under_explicit_conditions"
+      ],
+      "source_defect_ids": [
+        "GJ19-C1-UNIFORM-REMARK-01"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.source_remarkC1_full_square_application_under_explicit_conditions"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2224,
+          "line_end": 2225,
+          "quoted_text": "Theorem C.1 are met.\n",
+          "quoted_text_sha256": "0e07c44e04072501046e62bd6da2baae0a5d32d367777e4f3709ec8a29aba043"
+        }
+      ]
     },
     "lemmaC3_piecewise_constant_rate": {
-      "statement": "Lemma C.3: for piecewise constant beta with levels t_i, Wbar_k has exponent equal to the minimum adjacent Bernoulli rate.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.3 Lemma C.3, around lines 1155-1270 in local extracted text.",
-      "aliases": []
+      "statement": "Lemma C.3 says a finite piecewise-constant response has objective-gap exponent equal to the minimum adjacent weighted Bernoulli separation rate.",
+      "source_location": "audit/source_archive_surface.tex:2227-2364; Supplement Appendix C",
+      "source_kind": "lemma",
+      "aliases": [
+        "paper_lemmaC3_partition_integral_hasExponentialRate_of_min_component_uniform_logRate"
+      ],
+      "source_defect_ids": [
+        "GJ19-C3-TIE-COMPLEMENT-01"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.paper_lemmaC3_partition_integral_hasExponentialRate_of_min_component_uniform_logRate"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2227,
+          "line_end": 2364,
+          "quoted_text": "\nRate function for Wk\n\nOur next lemma shows that we can obtain a nontrivial large deviations rate for Wk when \u03b2 is a\nstep-wise increasing\nR function.\nRecall Wk = \u03b81 >\u03b82 w(\u03b81 , \u03b82 )Pk (\u03b81 , \u03b82 |\u03b2)d(\u03b81 , \u03b82 ).\nLet P k (\u03b81 , \u03b82 ) = 1 \u2212 Pk (\u03b81 , \u03b82 ).\nR\nFurther, let W k = (limk Wk ) \u2212 Wk = \u03b81 >\u03b82 w(\u03b81 , \u03b82 )P k (\u03b81 , \u03b82 |\u03b2)d(\u03b81 , \u03b82 ). (recall we assumed\nw integrates to 1 without loss of generality).\nLemma C.3. Suppose \u03b2 is piecewise constant with M levels {ti }. Let gi , inf \u03b8\u2208Si g(\u03b8) = g(si )\nThen,\n1\n\u2212 lim log W k = min inf {gi+1 I(a|ti+1 ) + gi I(a|ti )} , r,\n(6)\n0\u2264i\u2264M \u22122 a\u2208R\nk\u2192\u221e k\nwhere I(a|t) = KL(a||t) as defined in Lemma C.2.\nProof. When \u03b2 is step-wise increasing with M levels {ti }, then\nX Z\nWk =\nw(\u03b81 , \u03b82 )P k (\u03b81 , \u03b82 |\u03b2)d(\u03b81 , \u03b82 )\n0\u2264i<j<M\n\n\u03b82 \u2208Si ,\u03b81 \u2208Sj\n\nas P k (\u03b81 , \u03b82 ) = 0 when \u03b2(\u03b81 ) = \u03b2(\u03b82 ).\n\n13\n\n\f\u2212 limk\u2192\u221e k1 log W k\n1\n= \u2212 lim log\nk\u2192\u221e k\n1\n= \u2212 lim log\nk\u2192\u221e k\n\nZ\nw(\u03b81 , \u03b82 )P k (\u03b81 , \u03b82 |\u03b2)d(\u03b81 , \u03b82 )\nX Z\nw(\u03b81 , \u03b82 )P k (\u03b81 , \u03b82 |\u03b2)d(\u03b81 , \u03b82 )\n\n0\u2264i<j<M\n\n=\n=\n\nmin\n\ninf\n\n(8)\n\n\u03b82 \u2208Si ,\u03b81 \u2208Sj\n\n\" Z\n#!\n1\n= \u2212 max\nlim\nlog\nw(\u03b81 , \u03b82 )P k (\u03b8j , \u03b8i |\u03b2)d(\u03b81 , \u03b82 )\n0\u2264i<j<M k\u2192\u221e k\n\u03b82 \u2208Si ,\u03b81 \u2208Sj\n\u0013\n\u0012\n\u0003\n1\u0002\n= \u2212 max\nsup\nlog w(\u03b81 , \u03b82 )P k (\u03b8j , \u03b8i |\u03b2)\nlim\n0\u2264i<j<M \u03b81 \u2208Sj ,\u03b82 \u2208Si k\u2192\u221e k\n\u0012\n\u0013\n1\n= \u2212 max\nsup\nlim log P k (\u03b8j , \u03b8i |\u03b2)\n0\u2264i<j<M \u03b81 \u2208Sj ,\u03b82 \u2208Si k\u2192\u221e k\n\u0012\n\u0013\n1\n\u2212 lim log P k (\u03b8j , \u03b8i |\u03b2)\n= min\ninf\n0\u2264i<j<M \u03b81 \u2208Sj ,\u03b82 \u2208Si\nk\u2192\u221e k\n=\n\n(7)\n\n\u03b81 >\u03b82\n\ninf {g(\u03b81 )I(a|tj ) + g(\u03b82 )I(a|ti )}\n\n0\u2264i<j<M \u03b81 \u2208Sj ,\u03b82 \u2208Si a\u2208R\n\n(9)\n(10)\n(11)\n(12)\n(13)\n\nmin\n\ninf {gj I(a|tj ) + gi I(a|ti )}\n\n(14)\n\nmin\n\ninf {gi+1 I(a|ti+1 ) + gi I(a|ti )}\n\n(15)\n\n0\u2264i<j<M a\u2208R\n\n0\u2264i<M \u22121 a\u2208R\n\nThe last line follows from adjacent ti , ti+1 dominating the rate due to monotonicity properties.\nLine (10) follows from Theorem C.1.\n\u0011i\nh\n\u0010P\nN \u000f\n\u000f\n= maxN\nLine (9) follows from: \u2200a\u000fi \u2265 0, lim sup\u000f\u21920 \u000f log\na\ni lim sup\u000f\u21920 \u000f log(ai ), which\ni\ni\nis a finite case version (with fewer assumptions) of Theorem C.1. See, e.g., Lemma 1.2.15 in (Dembo\nand Zeitouni, 2010) for a proof of this property.\n",
+          "quoted_text_sha256": "80899135cab14588101a0c2f3161898ca21ed820b5f21da45ad337f49e78ff5b"
+        }
+      ]
     },
-    "lemmaC4_positive_rate_iff_piecewise_constant": {
-      "statement": "Lemma C.4: beta is piecewise constant if and only if Wbar_k has a positive exponential convergence rate.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.3 Lemma C.4, around lines 1282-1315 in local extracted text.",
-      "aliases": []
+    "lemmaC3_proof_equations7_15": {
+      "statement": "Equations (7)-(15) decompose the weighted objective gap into finitely many cell-pair integrals, apply the component rates, and reduce the minimum to adjacent cells.",
+      "source_location": "audit/source_archive_surface.tex:2254-2358; Supplement Appendix C",
+      "source_kind": "equation",
+      "aliases": [
+        "paper_theorem31_monotone_chain_adjacent_rate_le_nonadjacent_rate",
+        "paper_theorem31_endpoint_aware_adjacent_witness_dominates_ordered_pair"
+      ],
+      "source_defect_ids": [
+        "GJ19-C3-TIE-COMPLEMENT-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2254,
+          "line_end": 2358,
+          "quoted_text": "as P k (\u03b81 , \u03b82 ) = 0 when \u03b2(\u03b81 ) = \u03b2(\u03b82 ).\n\n13\n\n\f\u2212 limk\u2192\u221e k1 log W k\n1\n= \u2212 lim log\nk\u2192\u221e k\n1\n= \u2212 lim log\nk\u2192\u221e k\n\nZ\nw(\u03b81 , \u03b82 )P k (\u03b81 , \u03b82 |\u03b2)d(\u03b81 , \u03b82 )\nX Z\nw(\u03b81 , \u03b82 )P k (\u03b81 , \u03b82 |\u03b2)d(\u03b81 , \u03b82 )\n\n0\u2264i<j<M\n\n=\n=\n\nmin\n\ninf\n\n(8)\n\n\u03b82 \u2208Si ,\u03b81 \u2208Sj\n\n\" Z\n#!\n1\n= \u2212 max\nlim\nlog\nw(\u03b81 , \u03b82 )P k (\u03b8j , \u03b8i |\u03b2)d(\u03b81 , \u03b82 )\n0\u2264i<j<M k\u2192\u221e k\n\u03b82 \u2208Si ,\u03b81 \u2208Sj\n\u0013\n\u0012\n\u0003\n1\u0002\n= \u2212 max\nsup\nlog w(\u03b81 , \u03b82 )P k (\u03b8j , \u03b8i |\u03b2)\nlim\n0\u2264i<j<M \u03b81 \u2208Sj ,\u03b82 \u2208Si k\u2192\u221e k\n\u0012\n\u0013\n1\n= \u2212 max\nsup\nlim log P k (\u03b8j , \u03b8i |\u03b2)\n0\u2264i<j<M \u03b81 \u2208Sj ,\u03b82 \u2208Si k\u2192\u221e k\n\u0012\n\u0013\n1\n\u2212 lim log P k (\u03b8j , \u03b8i |\u03b2)\n= min\ninf\n0\u2264i<j<M \u03b81 \u2208Sj ,\u03b82 \u2208Si\nk\u2192\u221e k\n=\n\n(7)\n\n\u03b81 >\u03b82\n\ninf {g(\u03b81 )I(a|tj ) + g(\u03b82 )I(a|ti )}\n\n0\u2264i<j<M \u03b81 \u2208Sj ,\u03b82 \u2208Si a\u2208R\n\n(9)\n(10)\n(11)\n(12)\n(13)\n\nmin\n\ninf {gj I(a|tj ) + gi I(a|ti )}\n\n(14)\n\nmin\n\ninf {gi+1 I(a|ti+1 ) + gi I(a|ti )}\n\n(15)\n\n0\u2264i<j<M a\u2208R\n\n0\u2264i<M \u22121 a\u2208R\n\nThe last line follows from adjacent ti , ti+1 dominating the rate due to monotonicity properties.\nLine (10) follows from Theorem C.1.\n\u0011i\nh\n\u0010P\nN \u000f\n\u000f\n= maxN\nLine (9) follows from: \u2200a\u000fi \u2265 0, lim sup\u000f\u21920 \u000f log\na",
+          "quoted_text_sha256": "3ad8d1fc645de72aeb521e4e8b2974fb2dddfe8078b19a5db9afef11d48ce3e2"
+        }
+      ]
+    },
+    "lemmaC4_positive_rate_iff_step": {
+      "statement": "Corrected Lemma C.4: every finite strict endpoint chain with positive monotone sampling rates and positive selected-cell weights has a positive exponential-rate certificate for its canonical tie-erased selected pullback; every monotone positive-support source that is not finite-step has rate zero, and hence no positive exponential-rate certificate, for its defined tie-erased objective gap.",
+      "source_location": "audit/source_archive_surface.tex:2366-2399; Supplement Appendix C",
+      "source_kind": "lemma",
+      "source_status": "corrected_source_statement",
+      "source_note": "The printed iff silently uses a finite selected cross-level objective in the forward proof and a general tie-erased source objective in the reverse proof, while the raw strict-pair complement retains within-level terms. Lean therefore states the two valid branches explicitly rather than certifying a same-object iff without an additional realization bridge.",
+      "aliases": [
+        "paper_lemmaC4_finite_selected_pullback_positive_rate_and_nonfiniteStep_source_zero_rate"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.paper_lemmaC4_finite_selected_pullback_positive_rate_and_nonfiniteStep_source_zero_rate"
+      ],
+      "source_defect_ids": [
+        "GJ19-C1-UNIFORM-REMARK-01",
+        "GJ19-C3-TIE-COMPLEMENT-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2366,
+          "line_end": 2399,
+          "quoted_text": "Proof. =\u21d2 follows directly from Lemma C.3: inf a\u2208R {gi+1 I(a|ti+1 ) + gi I(a|ti )} > 0 when ti 6= ti+1 ,\nwhich holds when \u03b2 is piece-wise constant with the appropriate number of levels.\n\u21d0= Consider \u03b2 that is not piece-wise constant. Recall that we further assume that \u03b2 is nondecreasing, and discontinuous only on a measure 0 set. Following algebra steps similar to those in\nLemma C.3, but for general \u03b2:\nZ\n1\n1\nlog W k = \u2212 lim log\nw(\u03b81 , \u03b82 )P k (\u03b81 , \u03b82 |\u03b2)d(\u03b81 , \u03b82 )\nk\u2192\u221e k\nk\u2192\u221e k\n\u03b81 >\u03b82\n\u0012\n\u0013\n1\n= inf \u2212 lim log P k (\u03b8j , \u03b8i |\u03b2)\n\u03b81 >\u03b82\nk\u2192\u221e k\n=0\n\n\u2212 lim\n\n(16)\n(17)\n(18)\n\nWhere the last line follows from \u03b2 continuous at some \u03b81 , and so lim\u03b82 \u2192\u03b81 P k (\u03b81 , \u03b82 |\u03b2) = 1.\nIntuitively, what goes wrong with continuous \u03b2 is that P k (\u03b81 , \u03b82 |\u03b2) does not converge uniformly:\n\u2200\u000f, k, \u2203\u03b82 6= \u03b81 P k (\u03b81 , \u03b82 ) > \u000f\n14\n\n\fi.e. close by items are very hard to distinguish from one another. Then, because the large deviations\nrate of W k is dominated by the worst rates under the integral, we don\u2019t get a positive rate.\n",
+          "quoted_text_sha256": "bc9e7b797ac1d2ca5d376ad425fbe3c297b673c4e7ea2fd8a3bc720481d73328"
+        }
+      ]
+    },
+    "lemmaC4_proof_equations16_18": {
+      "statement": "Equations (16)-(18) express the general objective-gap exponent as an infimum over quality pairs and use arbitrarily close qualities at a continuity point to obtain rate zero for a non-step rule.",
+      "source_location": "audit/source_archive_surface.tex:2369-2399; Supplement Appendix C",
+      "source_kind": "equation",
+      "aliases": [],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2369,
+          "line_end": 2399,
+          "quoted_text": "Lemma C.3, but for general \u03b2:\nZ\n1\n1\nlog W k = \u2212 lim log\nw(\u03b81 , \u03b82 )P k (\u03b81 , \u03b82 |\u03b2)d(\u03b81 , \u03b82 )\nk\u2192\u221e k\nk\u2192\u221e k\n\u03b81 >\u03b82\n\u0012\n\u0013\n1\n= inf \u2212 lim log P k (\u03b8j , \u03b8i |\u03b2)\n\u03b81 >\u03b82\nk\u2192\u221e k\n=0\n\n\u2212 lim\n\n(16)\n(17)\n(18)\n\nWhere the last line follows from \u03b2 continuous at some \u03b81 , and so lim\u03b82 \u2192\u03b81 P k (\u03b81 , \u03b82 |\u03b2) = 1.\nIntuitively, what goes wrong with continuous \u03b2 is that P k (\u03b81 , \u03b82 |\u03b2) does not converge uniformly:\n\u2200\u000f, k, \u2203\u03b82 6= \u03b81 P k (\u03b81 , \u03b82 ) > \u000f\n14\n\n\fi.e. close by items are very hard to distinguish from one another. Then, because the large deviations\nrate of W k is dominated by the worst rates under the integral, we don\u2019t get a positive rate.\n",
+          "quoted_text_sha256": "bee74cc5898eb945a7eff43af0a474f1a989090b47df6fe782c67254d68f5f34"
+        }
+      ]
+    },
+    "remarkC2_kl_convexity": {
+      "statement": "Remark C.2 records continuity, diagonal minima, and strict coordinatewise separation of the weighted Bernoulli KL objective used in Lemma 3.1. Its phrase 'strictly convex in t_i,t_{i+1}, with minima at t_i=t_{i+1}' is interpreted through that exact used content, since literal joint strict convexity is incompatible with a whole diagonal of minima.",
+      "source_location": "audit/source_archive_surface.tex:2405-2409; Supplement Appendix C",
+      "source_kind": "remark",
+      "aliases": [
+        "source_remarkC2_weighted_kl_separation_monotonicity"
+      ],
+      "source_defect_ids": [
+        "GJ19-C2-JOINT-STRICT-CONVEXITY-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2405,
+          "line_end": 2409,
+          "quoted_text": "convex, with minima at a = b, when a, b \u2208 (0, 1). Note that inf a {gi KL(a||ti ) + g(i + 1)KL(a||ti+1 )},\nfor all feasible g, is also continuous and strictly convex in ti , ti+1 , with minima at ti = ti+1 .\nOne consequence of the above fact is that fixing either ti or ti+1 and moving the other farther\naway monotonically increases KL, while moving it closer decreases KL.\nC.4.1",
+          "quoted_text_sha256": "7fa6337fd144a3d5d933e39d65e51c5014dc83817a1e24225029f235c4ac1d29"
+        }
+      ]
+    },
+    "theorem31_limit_equations19_20": {
+      "statement": "Equations (19)-(20) identify the limiting weighted objective of a step rule with the total weight of cross-level ordered quality pairs, yielding the source partition-value problem.",
+      "source_location": "audit/source_archive_surface.tex:2412-2448; Supplement Appendix C",
+      "source_kind": "equation",
+      "aliases": [],
+      "source_defect_ids": [
+        "GJ19-T31-GENERAL-G-CLOSURE-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2412,
+          "line_end": 2448,
+          "quoted_text": "\nProof. We use the same notation as the proof for Lemma C.3.\nPart 1.\n\"Z\n#\nX\nlim Wk = lim\nw(\u03b81 , \u03b82 )Pk (\u03b81 , \u03b82 |\u03b2)d(\u03b81 , \u03b82 )\nk\u2192\u221e\n\nk\u2192\u221e\n\n=\n\n0\u2264i<j<M\n\n(19)\n\n\u03b82 \u2208Si ,\u03b81 \u2208Sj\n\nZ\n\nX\n\nw(\u03b81 , \u03b82 )d(\u03b81 , \u03b82 )\n\n0\u2264i<j<M\n\n(20)\n\n\u03b82 \u2208Si ,\u03b81 \u2208Sj\n\n(20) follows from bounded convergence and Pk (\u03b81 , \u03b82 |\u03b2) \u2192 1 for \u03b81 \u2208 Sj , t2 \u2208\n/ Sj . Thus choosing s\nto maximize (20) maximizes the asymptotic value of Wk .\nPart 2. Follows directly from Lemma C.3.\nC.4.2",
+          "quoted_text_sha256": "2e2866c0dd5df3d81ffc36bea08a08df3f0510545baf512d798af1759a081033"
+        }
+      ]
+    },
+    "lemma31_threshold_equations21_22": {
+      "statement": "Equations (21)-(22) solve the weighted common-threshold first-order condition and substitute it to obtain the closed adjacent-rate formula.",
+      "source_location": "audit/source_archive_surface.tex:2451-2640; Supplement Appendix C",
+      "source_kind": "equation",
+      "aliases": [],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2451,
+          "line_end": 2640,
+          "quoted_text": "\nProof. Recall r(t) , \u2212 limk\u2192\u221e k1 log(W \u2212Wk ) = min0\u2264i\u2264M \u22122 inf a\u2208R {gi+1 KL(a||ti+1 ) + gi KL(a||ti )}.\nWe show the following:\nr(t) =\nmin\n\nlog(1 \u2212 t1 )\u2212g1 ,\n\"\nlog (1 \u2212 ti\u22121 )\n\ngi\u22121\ngi\u22121 +gi\n\n(1 \u2212 ti )\n\ngi\ngi\u22121 +gi\n\ngi\u22121\ngi\u22121 +gi\n\n+ ti\u22121\n\ngi\ngi\u22121 +gi\n\nti\n\n#\u2212gi\u22121 \u2212gi\nfor 1 < i < M \u2212 1,\n\n!\nlog(tM \u22122 )\u2212gM \u22122\nand t\u2217 maximizes rw (t) \u21d0\u21d2 all the terms inside the minimization rw (t\u2217 ) are equal. Further, the\noptimal levels t\u2217 are unique. The result immediately follows, that {ti } is the unique solution that\nequalizes the rates inside the minimization, by noting that the optimal r has t0 = 0, tM \u22121 = 1.\nWe first prove the alternative form for r. Note that {gi\u22121 KL(a||ti\u22121 ) + gi KL(a||ti )} is convex\nin a, and so we can find an analytic form for the infinum over a.\n\n15\n\n\fLet ai = arg inf a\u2208[ti\u22121 ,ti ] {gi\u22121 KL(a||ti\u22121 ) + gi KL(a||ti )}\n=\u21d2 \u2207ai [gi\u22121 KL(ai ||ti\u22121 ) + gi KL(ai ||ti )] = 0\n\u0012\n\u0012\n\u0014\n\u0013\n\u0013\u0015\nai\nai\n1 \u2212 ai\n1 \u2212 ai\n+ (1 \u2212 ai ) log\n+ gi ai log + (1 \u2212 ai ) log\n=0\n=\u21d2 \u2207ai gi\u22121 ai log\nti\u22121\n1 \u2212 ti\u22121\nti\n1 \u2212 ti\n\u0012\n\u0012\n\u0013\n\u0013\nai\nai\n1 \u2212 ai\n1 \u2212 ai\n\u2212 log\n+ gi log \u2212 log\n=0\n=\u21d2 gi\u22121 log\nti\u22121\n1 \u2212 ti\u22121\nti\n1 \u2212 ti\n\u0012\n\u0013gi\u22121 +gi\n\u0013gi\u22121\n\u0013gi\n\u0012\n\u0012\nai\nti\u22121\nti\n=\u21d2 log\n= log\n+ log\n1 \u2212 ai\n1 \u2212 ti\u22121\n1 \u2212 ti\n\u0014\u0012\n\u0013gi\u22121 \u0012\n\u0013 gi \u0015 1\ngi\u22121 +gi\nai\nti\u22121\nti\n=\u21d2\n=\n1 \u2212 ai\n1 \u2212 ti\u22121\n1 \u2212 ti\n\u0013gi\u22121 \u0012\n\u0013gi \u0015 1\n\u0014\u0012\ngi\u22121 +gi\nc\nti\u22121\nti\n=\u21d2 ai =\n, where c =\n1+c\n1 \u2212 ti\u22121\n1 \u2212 ti\nThen,\ngi\u22121 KL(ai ||ti\u22121 ) + gi KL(ai ||ti )\na\na\n1\u2212a\n1\u2212a\n= gi\u22121 a log\n+ gi a log + gi\u22121 (1 \u2212 a) log\n+ gi (1 \u2212 a) log\nti\u22121\nti\n1 \u2212 ti\u22121\n1 \u2212 ti\n\u0014\n\u0015\n1 \u2212 ti\u22121\na\n1 \u2212 ti\n+ gi\u22121 log\n= a (gi\u22121 + gi ) log\n+ gi log\n+ log(1 \u2212 a)gi\u22121 +gi \u2212 log(1 \u2212 ti\u22121 )gi\u22121 (1 \u2212 ti )gi\n1\u2212a\nti\u22121\nti\n(21)\n= (gi\u22121 + gi ) log(1 \u2212 a) \u2212 log(1 \u2212 ti\u22121 )gi\u22121 (1 \u2212 ti )gi\n\"\"\n#\n\u0014\u0012\n\u0013gi\u22121 \u0012\n\u0013gi \u0015 1 #\ngi\u22121\ngi\ngi\u22121 +gi\nti\u22121\nti\n= \u2212(gi\u22121 + gi ) log 1 +\n(1 \u2212 ti\u22121 ) gi\u22121 +gi (1 \u2212 ti ) gi\u22121 +gi\n1 \u2212 ti\u22121\n1 \u2212 ti\n#\n\"\ng\ng\ngi\u22121\n\ngi\n\ng\n\ni\u22121\n+gi\n\ni\u22121\n= \u2212(gi\u22121 + gi ) log (1 \u2212 ti\u22121 ) gi\u22121 +gi (1 \u2212 ti ) gi\u22121 +gi + ti\u22121\n\ng\n\ni\n+gi\n\nti i\u22121\n\n(22)\n\n\u0011gi\u22121 \u0010\n\u0011g i i\nh\u0010\nti\u22121\nti\na\nWhere line (21) uses 1\u2212a\n. Note that the\n= c and (gi\u22121 + gi ) log c = log 1\u2212t",
+          "quoted_text_sha256": "0c5af43ef8be0463b31b84cdbc6e69a6553cbb2d5cf6aaf693ff6b126c48dc6b"
+        }
+      ]
+    },
+    "lemma31_equalization_uniqueness_proof": {
+      "statement": "The remaining Lemma 3.1 proof shows an optimizer must equalize all adjacent rates and that the equalized endpoint chain is unique.",
+      "source_location": "audit/source_archive_surface.tex:2641-2668; Supplement Appendix C",
+      "source_kind": "equation",
+      "aliases": [],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2641,
+          "line_end": 2668,
+          "quoted_text": "1\u2212ti\ni\u22121\nfirst and last rates emerge, respectively, by plugging in t0 = 0, tM = 1, which holds trivially at the\noptimum from monotonicity.\nWe note that a similar derivation, of the large deviation rate for two binomial distributions with\ndifferent probability of successes and match rates, appears in Glynn and Juneja (2004). In that\nwork, the authors seek to optimize the g in order to identify the single best item out of a set of\npossible items, and a concave program emerges. In this work, because we optimize the probability\nof successes and care about retrieving a ranking of the items, no such concave or convex program\nemerges.\nNow we show that t\u2217 maximizes rw (t) \u21d0\u21d2 all the terms inside the minimization rw (t) are\nequal.\nequalizes =\u21d2 optimal. Let r(i) be the ith term in the minimization, starting at i = 1. Note\nthat (holding the other fixed) increasing ti increases the ith term monotonically and decreases the\n(i + 1)th term monotonically. Suppose \u03b2 s.t. r(i) = r(j)\u2200i, j. To increase the minimization term,\none must increase r(i) , \u2200i. To increase r(1), t1 must increase, regardless of what the other levels\nare. Then, to increase r(2), t2 must increase . . . to increase r(M \u22122), tM \u22122 must increase. However,\nto increase r(M \u2212 1), tM \u22122 must decrease, and we have a contradiction. Thus, one cannot increase\n16\n\n\fall terms simultaneously.\nequalizes \u21d0= optimal. Suppose t maximizes r(t) but the terms inside the minimization are\nnot equal. Then \u2203i s.t. r(i) = minj r(j) and either r(i) 6= r(i \u2212 1) or r(i) 6= r(i + 1). r(i) can be\nincreased without lowering the overall rate. This method can be repeated \u2200i : r(i) = minj r(j) and\nso t would not be optimal, a contradiction.\nUniqueness follows from the overall rate unique determining t1 , tM \u22122 and so iteratively uniquely\ndetermining the rest.\n",
+          "quoted_text_sha256": "2fa0fd8b09c40cb49940bb98b634c3be0402619e18a2bfb8a0fb7020ca422cbb"
+        }
+      ]
+    },
+    "appendixC5_rate_notation_eq23": {
+      "statement": "Equation (23) fixes the adjacent closed-rate notation r_i used in the refinement and Theorem 3.2 analysis.",
+      "source_location": "audit/source_archive_surface.tex:2670-2714; Supplement Appendix C",
+      "source_kind": "definition",
+      "aliases": [
+        "source_appendixC5_rate_notation_eq23"
+      ],
+      "source_defect_ids": [
+        "GJ19-C5-LANDAU-LOWER-BOUND-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2670,
+          "line_end": 2714,
+          "quoted_text": "\nAdditional necessary lemmas\n\nNow, we begin the set-up that will lead to a proof for Theorem 3.2. It turns out that proving the\ntheorem requires, in the process, essentially proving our convergence result with M \u2192 \u221e, Theorem B.1. For Theorem 3.2, we need a lower bound for t1 as a function of M . This seems hard\nto do in general. Luckily, in our case, there is a property for how t\u2217 changes when M is doubled.\nUsing this property, we can derive that t\u22171 \u2265 O(M \u22123 ).\n\u22121\nRecall that step-wise increasing \u03b2 with M intervals Si = [si , si+1 ) has levels {ti }M\ni=0 , where\nt0 = 1, tM \u22121 = 1, and s0 , 0, sM , 1.\nFurthermore, we use the following notation for the large deviation rate\n#\n\"\ng\ng\n\nri = \u2212(gi\u22121 + gi ) log (1 \u2212 ti\u22121 )\n\ngi\u22121\ngi\u22121 +gi\n\n(1 \u2212 ti )\n\ngi\ngi\u22121 +gi\n\ni\u22121\ngi\u22121 +gi\n\n+ ti\u22121\n\ng\n\ni\n+gi\n\nti i\u22121\n\n(23)\n\nfor i \u2208 {1 . . . M \u2212 1}, which implies r1 = \u2212g1 log(1 \u2212 t1 ) and rM \u22121 = \u2212gM \u22122 log(tM \u22122 ).\nWe further use rM \u22121 to be the rate achieved by the optimal \u03b2M with M intervals.\n\u22121\nLemma C.5. Suppose g uniform, i.e. gi = 1, \u2200i and that \u03b2M has values\u221a{ti }M",
+          "quoted_text_sha256": "7fdf1e2afb1870296b7314615311fbc9af3c45e0991dab5952ec60d83d9eba9e"
+        }
+      ]
     },
     "lemmaC5_uniform_doubled_chain": {
-      "statement": "Lemma C.5: under uniform matching, the optimal beta_{2M-1} levels are obtained from beta_M by copying old levels and inserting the displayed square-root midpoint formulas.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.4 Lemma C.5, around lines 1631-1945 in local extracted text.",
-      "aliases": []
+      "statement": "Lemma C.5 explicitly constructs the optimal equalized levels for a doubled uniform-matching chain from the smaller optimal chain.",
+      "source_location": "audit/source_archive_surface.tex:2715-2895; Supplement Appendix C",
+      "source_kind": "lemma",
+      "aliases": [
+        "source_lemmaC5_uniform_doubled_chain"
+      ],
+      "source_defect_ids": [
+        "GJ19-C5-ENDPOINT-TYPO-01"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.source_lemmaC5_uniform_doubled_chain"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2715,
+          "line_end": 2895,
+          "quoted_text": "i=0\u0001 . Then \u03b22M \u22121\n2M \u22122\n1\n0\n0\n0\nhas values {ti }i=0 , where t2i = ti , \u2200i \u2208 {0 . . . M \u2212 1}, t1 = 2 1 \u2212 1 \u2212 t1 and t02M \u22123 =\n\u221a\n1\n2 (1 + tM \u22122 ).\n\nProof. We first set the values t02i = ti and then optimally choose the remaining values t0k , k odd.\nThen, we show that the resulting large deviation rates between all adjacent pairs are equal. Then,\nby the proof of Lemma 3.1, which showed that equalizing the rates between adjacent intervals is a\n\u22122\nsufficient condition for optimality, \u03b22M \u22121 has the levels {t0i }2M\ni=0 .\nLet r0 denote rates between adjacent t0 as r does for t. Supposing t02 = t1 , we find t01 such that\n0\nr1 = r20 and t01 < t02 .\n\u0014q\n\u0015\nq\n0\n0\n0\n0\n0\n\u2212 log(1 \u2212 t1 ) = \u22122 log\n(1 \u2212 t1 )(1 \u2212 t2 ) + t1 t2\nq\n=\u21d2 1 \u2212 t01 = (1 \u2212 t01 )(1 \u2212 t02 ) + t01 t02 + 2 (1 \u2212 t01 )(1 \u2212 t02 )t01 t02\n\u0012\n\u0013\nq\n\u0001\n\u221a\n1\n1\n0\n0\n=\u21d2 t1 =\n1 \u2212 1 \u2212 t2 =\n1 \u2212 1 \u2212 t1\n2\n2\n1\n0\n0\n0\nSimilarly, r2M\n\u22123 = r2M \u22122 when t2M \u22123 = 2 (1 +\nby choosing such t01 , t02M \u22123 .\n\n\u221a\n\n0\n0\ntM \u22122 ). It follows that r10 = r20 = r2M\n\u22123 = r2M \u22122\n\n17\n\n\f0\nNext, we find t0k \u2208 (t0k\u22121 , t0k+1 ) for k \u2208 {3, 5, . . . 2M \u2212 5} such that the rates rk0 = rk+1\n.\n\nq\nq\nhq\ni\nhq\ni\n0\n0\n0\n0\n0\n0\n(1 \u2212 tk )(1 \u2212 tk\u22121 ) + tk tk\u22121 = \u22122 log\n(1 \u2212 tk )(1 \u2212 tk+1 ) + t0k t0k+1\n\u22122 log\nq\n\uf8f92\n\uf8eeq\n0\n0\n1\n\u2212\nt\n\u2212\n1\n\u2212\nt\nk+1\nk\u22121\nc\n\uf8fb\nq\nq\n=\u21d2 t0k =\n, where c = \uf8f0\n1+c\n0\n0\n\u2212 t\nt\nk\u22121\n\nk+1\n\nNow, we show that rk0 = rj0 , \u2200j, k by showing that the difference between each rate ri and its\n0 is constant. r = r , \u2200j, k by assumption and so r 0 = r 0 , \u2200j, k follows.\nanalogous rate r2i\nj\nk\nj\nk\n\u221a\n1\n0\n(1\n+\nt\n).\nThus\nif\nr\n=\n\u2212 log x for some x, then\nrM \u22121 = \u2212 log tM \u22122 and r2M\n=\n\u2212\nlog\ni\nM\n\u22122\n\u22122\n2\n\u221a\nr2i = \u2212 log 21 (1 + x) would imply that all the rates are equal. Thus, it is sufficient to show that\nq\ni2 1 h\ni\nhq\np\np\n(1 \u2212 t02i\u22121 )(1 \u2212 t02i ) + t02i\u22121 t02i =\n1 + (1 \u2212 ti\u22121 )(1 \u2212 ti ) + ti\u22121 ti\n2\n\"s\u0012\n#2\nr\n\u0013\ni\np\np\nc\nc\n1h\n\u2261\n1\u2212\n1 + (1 \u2212 ti\u22121 )(1 \u2212 ti ) + ti\u22121 ti\n(1 \u2212 ti ) +\nti =\n1+c\n1+c\n2\n\u00152\n\u0014\u221a\n\u221a\n1 \u2212 ti \u2212 1 \u2212 ti\u22121\n\u221a\nwhere c =\n\u221a\nti\u22121 \u2212 ti\n\n(24)\n(25)\n\nThe proof for (25) is algebraically tedious and is shown in Remark C.3 below.",
+          "quoted_text_sha256": "b47957cfc070f8e8acfc50598d35f0c0f6b8be8fd9d33e887194c5f2673a2ba3"
+        }
+      ]
+    },
+    "lemmaC5_refinement_equations24_25": {
+      "statement": "Equations (24)-(25) and Remark C.3 verify the new interior levels and equal adjacent rates in the doubled uniform chain.",
+      "source_location": "audit/source_archive_surface.tex:2884-3038; Supplement Appendix C",
+      "source_kind": "equation",
+      "aliases": [
+        "source_lemmaC5_refinement_equation24",
+        "source_lemmaC5_refinement_equation25"
+      ],
+      "source_defect_ids": [
+        "GJ19-C5-ENDPOINT-TYPO-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 2884,
+          "line_end": 3038,
+          "quoted_text": "\u0014\u221a\n\u221a\n1 \u2212 ti \u2212 1 \u2212 ti\u22121\n\u221a\nwhere c =\n\u221a\nti\u22121 \u2212 ti\n\n(24)\n(25)\n\nThe proof for (25) is algebraically tedious and is shown in Remark C.3 below.\nThen, by the proof of Lemma 3.1, which shows that equalizing the rates inside the minimization\n\u22122\nterms implies an optimal {ti }, \u03b22M \u22121 has the levels {t0i }2M\ni=0 .\nRemark C.3.\n\"s\u0012\n\nc\n1\u2212\n1+c\n\nr\n\n\u0013\n(1 \u2212 ti ) +\n\n#2\n\ni\np\np\n1h\n1 + (1 \u2212 ti\u22121 )(1 \u2212 ti ) + ti\u22121 ti\n2\n\u00152\n\u0014\u221a\n\u221a\n1 \u2212 ti \u2212 1 \u2212 ti\u22121\n\u221a\nwhere c =\n\u221a\nti\u22121 \u2212 ti\n\nc\nti\n1+c\n\n=\n\n\u221a\n\u221a\n\u221a\n\u221a\nProof. Let x = ti , y = 1 \u2212 ti , z = ti\u22121 , and w = 1 \u2212 ti\u22121 . Note that x > z, w > y, y =\n1 \u2212 x2 , w = 1 \u2212 z 2 . Then,\nc\n(y \u2212 w)2\n1\n(x \u2212 z)2\n=\n, and\n=\nc+1\n2 \u2212 2xz \u2212 2yw\nc+1\n2 \u2212 2xz \u2212 2yw\n1\n(To show the above two equalities, factor out (x\u2212z)\n2 from numerator and denominator, and substi2\n2\ntute y = 1 \u2212 x , w = 1 \u2212 z ).\n\n18\n\n\fNow, the left hand side:\n\"s\u0012\n\nc\n1\u2212\n1+c\n\n#2\nc\n(1 \u2212 ti ) +\nti\n1+c\ni2\nhp\np\n(x \u2212 z)2 y 2 + (y \u2212 w)2 x2\nr\n\n\u0013\n\n1\n2 \u2212 2xz \u2212 2yw\n(x \u2212 z)2 y 2 + (y \u2212 w)2 x2 + 2xy(x \u2212 z)(w \u2212 y)\n=\n2 \u2212 2xz \u2212 2yw\n2\n2\n2\n2\nz y + w x \u2212 2wxyz\n=\n2 \u2212 2xz \u2212 2yw\n=\n\np\np\n(y \u2212 w)2 = w \u2212 y, (x \u2212 z)2 = x \u2212 z\n\nThe right hand side:\ni\np\np\n1h\n1 + (1 \u2212 ti\u22121 )(1 \u2212 ti ) + ti\u22121 ti\n2\n1\n= [1 + (wy + xz)]\n2\nMultiplying both sides by 2 \u2212 2xz \u2212 2yw, we have:\n\"s\u0012\n\nc\n1\u2212\n1+c\n\nr\n\n\u0013\n(1 \u2212 ti ) +\n\nc\nti\n1+c\n\n#2\n=\n\ni\np\np\n1h\n1 + (1 \u2212 ti\u22121 )(1 \u2212 ti ) + ti\u22121 ti\n2\n\n\u2261 z 2 y 2 + w2 x2 \u2212 2wxyz = 1 \u2212 (wy + xz)2\n\u2261 z 2 (1 \u2212 x2 ) + (1 \u2212 z 2 )x2 \u2212 2wxyz = 1 \u2212 w2 y 2 \u2212 x2 z 2 \u2212 2wxyz\n\u2261 z 2 \u2212 2x2 z 2 + x2 = 1 \u2212 (1 \u2212 z 2 )(1 \u2212 x2 ) \u2212 x2 z 2\n\u22610=0\n",
+          "quoted_text_sha256": "2094fc338b9b21fcde62795ca3959bd15131934e7c42839484a58e5aea0d2fa6"
+        }
+      ]
     },
     "corollaryC1_rate_tends_to_zero": {
-      "statement": "Corollary C.1: under uniform matching, for every epsilon there is M such that all larger finite optimal rates are below epsilon.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.5 Corollary C.1, around lines 1958-2010 in local extracted text.",
-      "aliases": []
+      "statement": "Corollary C.1 says the optimal uniform-matching finite-chain rate tends to zero as the number of intervals grows.",
+      "source_location": "audit/source_archive_surface.tex:3042-3092; Supplement Appendix C",
+      "source_kind": "corollary",
+      "aliases": [
+        "paper_corollaryC2_uniform_equalized_last_rate_tendsto_zero"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.paper_corollaryC2_uniform_equalized_last_rate_tendsto_zero"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 3042,
+          "line_end": 3092,
+          "quoted_text": "0\n\nProof. Let M = 2N , M 0 = 2N +1 \u2212 1, for some N . We show that rM \u2264 12 rM . The corollary follows\n0\nby noting that rK < rK \u2200K 0 > K and that rK < \u221e, \u2200K.\n0\n\n0\n\nM\nrM \u2212 rM = \u2212 log tM\nM \u22122 + log tM 0 \u22122\n\u0014\n\u0015\nq\n1 1 M\nM\n= \u2212 log tM \u22122 + log\n+\nt\n2 2 M \u22122\n\uf8ee\n\uf8f9\n1 1\n1\n1 \uf8fb\n= log \uf8f0 M + q\n2 tM \u22122 2 tM\n\nLemma C.5\n\nM \u22122\n\n1\n\u2265 \u2212 log tM\nM \u22122\n2\n1\n0\n=\u21d2 rM \u2264 rM\n2\n\nq\n\n19\n\nM\ntM\nM \u22122 \u2265 tM \u22122\n\n\fM",
+          "quoted_text_sha256": "8b81d8c985d361490d2dfdbebef61f62ef2d658d67ba4c87a7d583a2fc3ab378"
+        }
+      ]
     },
-    "corollaryC2_adjacent_mesh_tends_to_zero": {
-      "statement": "Corollary C.2: under uniform matching, the maximum adjacent level gap tends to zero.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.5 Corollary C.2, around lines 2010-2047 in local extracted text.",
-      "aliases": []
+    "corollaryC2_mesh_tends_to_zero": {
+      "statement": "Corollary C.2 says the maximum adjacent level gap of optimal uniform-matching rules tends to zero.",
+      "source_location": "audit/source_archive_surface.tex:3094-3125; Supplement Appendix C",
+      "source_kind": "corollary",
+      "aliases": [
+        "paper_corollaryC2_uniform_equalized_adjacent_mesh_tendsto_zero"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.paper_corollaryC2_uniform_equalized_adjacent_mesh_tendsto_zero"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 3094,
+          "line_end": 3125,
+          "quoted_text": "k \u2212 tk\u22121 < \u03b4.\n\nProof. This corollary follows directly from Corollary C.1. If the rates are upper bounded, then so\nare the level differences.\nWe first find where the rate is minimized given a width between levels of \u03b4\nhp\ni\np\nxm = arg min \u22122 log\n(1 \u2212 x \u2212 \u03b4)(1 \u2212 x) + x(x + \u03b4)\nx\n\n1 1\n= \u2212 \u03b4\n2 2\nThen given an upper bound of \u000f on the rate, there is a bound on \u03b4 determined by the largest\npossible difference at levels symmetric around 21 .\n\" r\n\n1\n1\nr = \u22122 log 2 ( \u2212 \u03b4)( + \u03b4)\n2\n2\n\u0002\n\u0003\n= \u2212 log 1 \u2212 4\u03b4 2\n1p\n\u2265 \u000f when \u03b4 >\n1 \u2212 e\u2212\u000f\n2\n",
+          "quoted_text_sha256": "037b0e821221b2707066b02392b035c950229b3faabbaf798a79a6f224f01abe"
+        }
+      ]
     },
-    "lemmaC6_monotone_penultimate_lower_bound": {
-      "statement": "Lemma C.6: if g is nondecreasing in theta, then the penultimate optimal level satisfies t_{M-2} >= 1 - 1/(M-1).",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.5 Lemma C.6, around lines 2047-2076 in local extracted text.",
-      "aliases": []
+    "lemmaC6_monotone_penultimate_bound": {
+      "statement": "Lemma C.6 claims that nondecreasing matching implies t_{M-2} >= 1-1/(M-1).",
+      "source_location": "audit/source_archive_surface.tex:3131-3159; Supplement Appendix C",
+      "source_kind": "lemma",
+      "aliases": [
+        "lemmaC6_penultimate_level_ge_one_sub_inv_of_width_minimal",
+        "lemmaC6_uniform_penultimate_level_ge_one_sub_inv_of_equalized_rates",
+        "lemmaC6_monotone_matching_penultimate_level_bound"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.lemmaC6_monotone_matching_penultimate_level_bound"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 3131,
+          "line_end": 3159,
+          "quoted_text": "Proof. Note that, with uniform matching, \u2200x \u2208 (0, 1], y \u2208 [0, 1 \u2212 x] the rate with values ti\u22121 =\ny, ti = y + x is no more than the last with tM \u22122 = 1 \u2212 x. With width x, in other words, the extreme\npoints have a larger rates than the middle points. For i \u2208\n/ {1, M \u2212 1}:\nri = inf {gi\u22121 KL(a||ti\u22121 ) + gi KL(a||ti )}\na\n\n= inf {KL(a||y) + KL(a||y + x)}\nuniform matching\na\nh\ni\n1\n1\n1\n1\n= \u22122 log (1 \u2212 y) 2 (1 \u2212 y \u2212 x) 2 + y 2 (y + x) 2\n(26)\nh\ni\n= \u2212 log (1 \u2212 y)(1 \u2212 y \u2212 x) + y(y + x) + 2 [(1 \u2212 y)(1 \u2212 y \u2212 x)y(y + x)]1/2\n\u2264 \u2212 log(1 \u2212 x)\nWhere line (26) follows from line (22).\nBy the proof of Lemma 3.1, the optimal levels equalize the rates between each level. Then,\nwhen g is non-decreasing, gM \u22122 \u2265 g` , \u2200` \u2208 {1 . . . M \u2212 3}. Then, at the same level differences, the\nrate corresponding to the last level is no smaller. Thus, to equalize the rates, the last width must\nbe no larger than any other width. Thus, tM \u22122 \u2265 1 \u2212 L1 .\nN +1 \u22121\n",
+          "quoted_text_sha256": "2256579dcddaf95e2576642fd3acf4ab95617d6358d5df1f4f9360f47d2263bf"
+        }
+      ]
     },
-    "lemmaC7_uniform_rate_refinement_lower_bound": {
-      "statement": "Lemma C.7: under uniform matching, the refined optimal rate along the doubled chain is at least one fifth of the old rate.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.5 Lemma C.7, around lines 2077-2150 in local extracted text.",
-      "aliases": []
+    "lemmaC7_uniform_refinement_rate": {
+      "statement": "Lemma C.7 lower-bounds the optimal rate after uniform doubled refinement by one fifth of the previous optimal rate.",
+      "source_location": "audit/source_archive_surface.tex:3161-3233; Supplement Appendix C",
+      "source_kind": "lemma",
+      "aliases": [
+        "lemmaC7_uniform_refined_last_rate_ge_one_fifth",
+        "lemmaC7_uniform_refined_objective_rate_ge_one_fifth",
+        "lemmaC7_uniform_doubled_objective_rate_ge_one_fifth_old_objective"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.lemmaC7_uniform_doubled_objective_rate_ge_one_fifth_old_objective"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 3161,
+          "line_end": 3233,
+          "quoted_text": "\n20\n\nN\n\n\u2265 15 r2 .\n\n\f1\nProof. Let K = 2N , K 0 = 2N +1 \u2212 1. Note that tK\nK\u22121 \u2265 2 by Lemma C.6.\n0\n\n0\n\nK\nrK \u2212 rK = \u2212 log tK\nK\u22122 + log tK 0 \u22122\n\u0014\n\u0015\nq\n1 1 K\nK\n= \u2212 log tK\u22122 + log\n+\nt\n2 2 K\u22122\n\uf8ee\n\uf8f9\n1\n1\n1\n1\n\uf8fb\n= log \uf8f0 K + q\n2 tK\u22122 2 tK\n\nLemma C.5\n\nK\u22122\n\n\u2264 log\n\ntK\nK\u22122\n\n\u0001\n\n\u0014\n\u0015\n\u0001\u2212 45\n1 K \u0001\u22121 1 K \u0001\u2212 21\n1\nK\nK\n\u2264 tK\u22122\nwhen tK\u22122 \u2208\nt\n+\nt\n,1\n2 K\u22122\n2 K\u22122\n2\n\n\u2212 54\n\n1\n0\n=\u21d2 rK \u2265 rK\n5\n\n\u22123 .\nLemma C.8. With uniform matching (gi = 1), \u2203C > 0 s.t. \u2200M, tM",
+          "quoted_text_sha256": "90a11c8e0aeb83e8dffb4a290aabaa9f0d07076524c5dba355653f831196e422"
+        }
+      ]
     },
-    "lemmaC8_uniform_first_level_lower_bound": {
-      "statement": "Lemma C.8: under uniform matching, the first interior optimal level has a polynomial lower bound C M^{-3}.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.5 Lemma C.8, around lines 2150-2184 in local extracted text.",
-      "aliases": []
+    "lemmaC8_uniform_first_level_bound": {
+      "statement": "Lemma C.8 derives a polynomial lower bound on the first interior optimal level under uniform matching.",
+      "source_location": "audit/source_archive_surface.tex:3234-3267; Supplement Appendix C",
+      "source_kind": "lemma",
+      "aliases": [
+        "source_lemmaC8_uniform_first_level_polynomial_lower_bound"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.source_lemmaC8_uniform_first_level_polynomial_lower_bound"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 3234,
+          "line_end": 3267,
+          "quoted_text": "1 \u2265 CM\n\nProof. By Lemma C.7, \u2203C2 > 0 s.t. rM \u2265 C2 5\u2212dlog2 M e . Then\nM\n\u2212 log(1 \u2212 tM\n1 )=r\n\n\u2265 C2 5\u2212dlog2 M e\nh\ni\n\u2212dlog2 M e\n=\u21d2 tM\n1 \u2265 1 \u2212 exp \u2212C2 5\nh\ni\n\u2212 1\n\u2265 1 \u2212 exp \u2212C3 M log5 2\ne\u22121\n\u2212 1\nC3 M log5 2\ne\nM\n=\u21d2 \u2203C > 0 s.t. t1 \u2265 CM \u22123\n\ne\u2212x \u2264 1 \u2212\n\n\u2265\n\ne\u22121\nx for x \u2208 [0, 1]\ne\n\n\u22123 .\nCorollary C.3. With monotonically non-decreasing g, \u2203C > 0 s.t. \u2200M, tM",
+          "quoted_text_sha256": "5d25c40b28e4a991b9b15ab7800c2ccaa40efb16ce7fa19972e6cc63e16b3f7a"
+        }
+      ]
     },
-    "corollaryC3_monotone_first_level_lower_bound": {
-      "statement": "Corollary C.3: under monotonically nondecreasing g, the first interior optimal level has a polynomial lower bound C M^{-3}, using Lemma B.1.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.5 Corollary C.3, around lines 2184-2191 in local extracted text.",
-      "aliases": []
+    "corollaryC3_monotone_first_level_bound": {
+      "statement": "Corollary C.3 extends the first-level lower-bound condition to normalized nondecreasing matching rates.",
+      "source_location": "audit/source_archive_surface.tex:3268-3274; Supplement Appendix C",
+      "source_kind": "corollary",
+      "aliases": [
+        "corollaryC3_monotone_scaled_first_level_ge_half_inv_adjacent_count_sq"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.corollaryC3_monotone_scaled_first_level_ge_half_inv_adjacent_count_sq"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 3268,
+          "line_end": 3274,
+          "quoted_text": "1 \u2265 CM\n\nProof. The result follows from noting that tM\n1 with uniform matching lower bounds the first value\nwith any other monotonically non-decreasing g, which is a direct application of Lemma B.1 \u2013 scale\ng such that g1 = 1. Then, gj \u2265 1, j > 1 and g0 \u2264 1. Then, the condition of the lemma holds.\nLemma C.9. The run-time of NestedBisection is O(M log2 1\u03b4 ), where \u03b4 is the bisection grid width",
+          "quoted_text_sha256": "1e0be324e60b52543b587e6fe3de9b5426421b689c99d1466c3de8c0ca5a7808"
+        }
+      ]
     },
     "lemmaC9_nested_bisection_runtime": {
-      "statement": "Lemma C.9: NestedBisection runs in O(M log^2(1/delta)) operations for bisection grid width delta.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.5 Lemma C.9, around lines 2191-2205 in local extracted text.",
-      "aliases": []
+      "statement": "Lemma C.9 counts the nested-bisection iterations as O(M log^2(1/delta)).",
+      "source_location": "audit/source_archive_surface.tex:3275-3279; Supplement Appendix C",
+      "source_kind": "lemma",
+      "aliases": [
+        "source_lemmaC9_nested_bisection_runtime_log_squared"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.source_lemmaC9_nested_bisection_runtime_log_squared"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 3275,
+          "line_end": 3279,
+          "quoted_text": "and M is the number of intervals.\nProof. The outer bisection, in main, runs at most log2 2\u03b4 + 1 iterations. Each outer iteration calls\nBisectNextLevel M \u2212 3 times, and the inner bisection in each call runs for at most log2 2\u03b4 iterations.\nThus the run-time of algorithm is O(M log2 1\u03b4 ).\n",
+          "quoted_text_sha256": "57bbdb5bc0be9a965caf42e9e3a45c96fe31812795e311dbc2deeacf56e16bad"
+        }
+      ]
     },
-    "definitionC1_kendall_spearman_population_objectives": {
-      "statement": "Definition C.1: population Kendall tau and Spearman rho objectives are proportional to the displayed integrals of P_k.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.8 Definition C.1, around lines 2515-2530 in local extracted text.",
-      "aliases": []
+    "theorem32_proof_and_error_runtime": {
+      "statement": "The Appendix C.6 proof relates grid width delta to additive rate loss, establishes the outer-loop invariant, and combines it with Lemma C.9 to prove Theorem 3.2.",
+      "source_location": "audit/source_archive_surface.tex:3281-3458; Supplement Appendix C",
+      "source_kind": "equation",
+      "aliases": [
+        "theorem32_rate_loss_le_of_nested_bisection_width_minimal"
+      ],
+      "source_defect_ids": [
+        "GJ19-T32-FIRST-RATE-TYPO-01",
+        "GJ19-T32-EXECUTABLE-ALGORITHM-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 3281,
+          "line_end": 3458,
+          "quoted_text": "\nProof for Theorem 3.2\n\nFinally, we are ready to prove Theorem 3.2. It follows from formalizing the relationship between \u03b4,\nthe bisection grid width, and \u000f, the additive approximation error in the rate function.\n\n21\n\n\fProof. Recall M is the number of intervals (levels) in \u03b2. We use j, t, t\u2217 to denote the levels in a\ncertain iteration, the returned levels, and the optimal levels, respectively. We use r(\u00b7) to denote the\nindividual rates between returned levels, i.e. r(1) = \u2212g1 log(1 \u2212 t1 ), r(m) = {gm\u22121 KL(am ||tm\u22121 ) +\ngm KL(am ||tm )}, m \u2208 {2 . . . M \u2212 2}, r(M \u2212 1) = \u2212gM \u22122 log(tM \u22122 ), and use r\u2217 to denote the optimal\nrate.\nBy Lemma C.6, t\u2217M \u22122 \u2265 1 \u2212 M1\u22121 . By assumption, t\u2217M \u22122 < 1 \u2212 \u03b4. Thus, t\u2217M \u22122 \u2208 [1 \u2212 M1\u22121 , 1 \u2212 \u03b4],\nthe starting interval for the outer bisection.\nFirst, suppose the outer bisection terminates such that tM \u22122 \u2264 t\u2217M \u22122 + \u03b4. We prove that this\ncase always occurs below.\n\u0010 t\u2217 +\u03b4 \u0011\n.\nIn this case, r\u2217 \u2212r(M \u22121) is at most \u2212gM \u22122 log(t\u2217M \u22122 )+gM \u22122 log(t\u2217M \u22122 +\u03b4) = gM \u22122 log Mt\u2217\u22122\nM \u22122\n\nFor all m \u2208 {M \u2212 2 . . . 2}, in the final CalculateOtherLevels call the algorithm will use bisection\nto match the corresponding rate with this last rate, r(M \u2212 1) = \u2212gM \u22122 log(tM \u22122 ), setting tm\u22122 to\nthe smallest value such that r(m) \u2264 r(M \u2212 1) (i.e. the right end of the final interval is chosen).\nThen, \u2200m \u2208 {M \u2212 2 . . . 2}, r(m) \u2208 [r(M \u2212 1) \u2212 \u000f(\u03b4), r(M \u2212 1)], where \u000f(\u03b4) is an upper bound\non the change in the rate functions with a shift of \u03b4 in one of the parameters.\nFor now, assume r(1) = \u2212g1 log(t1 ) \u2265 r(M \u2212 1). We prove that this occurs below. Then,\nr(m) \u2265 r(M \u2212 1) \u2212 \u000f(\u03b4)\n\u2265 \u2212gM \u22122 log\n\nt\u2217M \u22122 + \u03b4\n\n\u2200m \u2208 {1 . . . M }\n\u0001\n\n\u2212 \u000f(\u03b4)\n\nNow we characterize \u000f(\u03b4) in the region [t\u22171 + \u03b4, t\u2217M \u22122 + \u03b4]. In particular, we want to bound the\n\u0010 t\u2217 +\u03b4 \u0011\nrate loss from the other levels r(m), m > 1 after the gM \u22122 log Mt\u2217\u22122\nloss in in r(M \u2212 1). Note\nM \u22122\n\nthat the only source of error is a level shifting right by \u03b4. rj (\u00b7) denotes individual rates between\nlevels j in an intermediary iteration. Let a0i be the minimum point inside the rate infimum after\nthe shift by \u03b4.\n\u0002\n\u0003\n\u000f(\u03b4) = sup gi\u22121 KL(ai ||ti\u22121 ) + gi KL(ai ||ti ) \u2212 gi\u22121 KL(a0i ||ti\u22121 + \u03b4) \u2212 gi KL(a0i ||ti )\nti\u22121 ,ti\n\n\u0002\n\u0003\n\u2264 sup gi\u22121 KL(a0i ||ti\u22121 ) + gi KL(a0i ||ti ) \u2212 gi\u22121 KL(a0i ||ti\u22121 + \u03b4) + gi KL(a0i ||ti )\n\nai is inf point\n\nti\u22121 ,ti\n\n\u0014\n= sup gi\u22121\nti\u22121 ,ti\n\n\u0014\n\n=\u21d2\n\nti\u22121 + \u03b4\n1 \u2212 ti\u22121 \u2212 \u03b4\na0i log\n+ (1 \u2212 a0i ) log\nti\u22121\n1 \u2212 ti\u22121\n\n\u0015\n\n\u0015\n\nti\u22121 + \u03b4\n\u2264 sup gi\u22121 a0i log\nti\u22121\nti\u22121 ,ti\n\u0014\n\u0015\n\u2217\nt +\u03b4\n\u2264 gM \u22122 log 1 \u2217\nt1\n\u0012 \u2217\n\u0013\n\u0014\n\u0015\nt\n+\u03b4\nt\u22171 + \u03b4\nr(m) \u2265 r\u2217 \u2212 gM \u22122 log M \u22122\n\u2212\ng\nlog\nM \u22122\nt\u2217M \u22122\nt\u22171\n\u03b4\n\u03b4\n\u2265 r\u2217 \u2212 gM \u22122 \u2217\n\u2212 gM \u22122 \u2217\ntM \u22122\nt1\n\u0014\n\u0015\n1\nM \u22121\n\u2217\n\u2265 r \u2212 \u03b4gM \u22122\n+\nM \u2212 2 t\u22171\n\n2nd term negative\ntj \u2265 t\u22171 , gj \u2264 gM \u22122\n\nlog(1 + x) \u2264 x\nt\u2217M \u22122 \u2265 1 \u2212\n\nh\ni\n\u22121\n3 . Then, let\nBy Corollary C.3, \u2203C > 0 s.t. t\u22171 \u2265 CM \u22123 =\u21d2 r(m) \u2265 r\u2217 \u2212 \u03b4gM \u22122 M\n+\nCM\nM \u22122\n\u000f\n\u03b4=g\n.\nSupposing\nthe\nalgorithm\nterminates\nin\nsuch\nan\niteration,\nit finds an \u000f-optimal\nM \u22121\n3\nM \u22122 [ M \u22122 +CM ]\n22\n\n1\nM \u22121\n\n\f\u0012\n\u0013\nM \u22121\n\u0001\ngM \u22122 [ M\n+CM 3 ]\n\u22122\n\u03b2 in time O M log2\n= O M log2 M\u000f .\n\u000f\nNext, we show that the algorithm only terminates the outer bisection when u \u2264 t\u2217M \u22122 + \u03b4. The\nclaim follows from ` \u2264 t\u2217M \u22122 being an algorithm invariant. The initial ` = 1 \u2212 M1\u22121 \u2264 t\u2217M \u22122\nby Lemma C.6. ` can only be set to be > t\u2217M \u22122 if in the current iteration, jM \u22122 > t\u2217M \u22122 and\nrj (1) < rj (M \u2212 1). However, if jM \u22122 \u2265 t\u2217M \u22122 , then rj (1) \u2265 rj (M \u2212 1) (jm \u2265 t\u2217m \u2200m), following\nfrom a shifting argument like that given in Lemma 3.1 and that the inner bisection is such that\nrj (m) \u2264 rj (M \u2212 1), m \u2208 {2 . . . M \u2212 2}, i.e. all the values tm > t\u2217m . Thus, ` \u2264 t\u2217M \u22122 is an algorithm\ninvariant and u > t\u2217M \u22122 + \u03b4 =\u21d2 u \u2212 ` > \u03b4.\nFinally, we show that r(1) \u2265 r(M \u2212 1) at the returned {ti }. By assumption, in the initial iteration, u \u2265 t\u2217M \u22122 , and recall that the returned {ti } such that tM \u22122 = u from the final iteration.\nAs shown in the previous paragraph, jM \u22122 \u2265 t\u2217M \u22122 =\u21d2 rj (1) \u2265 rj (M \u2212 1). Thus, if the algorithm\nterminates in the first iteration, then r(1) \u2265 r(M \u2212 1). In any subsequent iteration, u is changed\nonly if rj (1) \u2265 rj (M \u2212 1) at its new value. Thus, rj (1) \u2265 rj (M \u2212 1) is an algorithm invariant, and\nr(1) \u2265 r(M \u2212 1).\nThe algorithm terminates in finite time. Thus, it terminates when tM \u22122 = u \u2264 t\u2217M \u22122 + \u03b4 and\n\u0001\nfinds a (\u000f, M, g)-optimal \u03b2 in time O M log2 M\u000f .\nIn Theorem 3.2, there is an guarantee of an additive error away from the optimal rate. To",
+          "quoted_text_sha256": "2b5a7d912d14f665860744e678df584324e1573e7e7557063e02b9b9b3176887"
+        }
+      ]
     },
-    "lemmaC10_spearman_weight_reduction": {
-      "statement": "Lemma C.10: Spearman rho can be written as an ordered-pair objective with weight w(theta_1,theta_2)=theta_1-theta_2.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.8 Lemma C.10, around lines 2531-2614 in local extracted text.",
-      "aliases": []
+    "theorem32_multiplicative_extension": {
+      "statement": "The source states that uniform matching plus Lemma C.7 yields a (1-epsilon) multiplicative approximation in O(M log^2(M/epsilon)) time.",
+      "source_location": "audit/source_archive_surface.tex:3459-3465; Supplement Appendix C",
+      "source_kind": "remark",
+      "aliases": [],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 3459,
+          "line_end": 3465,
+          "quoted_text": "instead have a multiplicative error bound for uniform matching, one can use the lower bound on\nthe optimal rate from Lemma C.7, \u2203C > 0 s.t. r\u2217 \u2265 CM \u22123 . Then, for uniform\nmatching, the\n\u0001\n2 M\nalgorithm returns a (1 \u2212 \u000f) multiplicative approximation in time O M log \u000f .\n",
+          "quoted_text_sha256": "ddbadf24bc1cefe4a47e00c50ef94aad922d4aa2f19759ab6769fd98bdf5344f"
+        }
+      ]
     },
-    "lemmaC11_kendall_equispaced_intervals": {
-      "statement": "Lemma C.11: with constant weight, the Kendall interval objective is maximized by equispaced cutpoints.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.8 Lemma C.11, around lines 2614-2629 in local extracted text.",
-      "aliases": []
+    "theoremB1_proof_selector_nesting": {
+      "statement": "The Theorem B.1 proof uses the C.5 doubled-chain representation and uniform convergence of quantile maps to control the floor-selected optimal levels along geometric subsequences.",
+      "source_location": "audit/source_archive_surface.tex:3467-3589; Supplement Appendix C",
+      "source_kind": "equation",
+      "aliases": [
+        "source_theoremB1_proof_selector_nesting"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 3467,
+          "line_end": 3589,
+          "quoted_text": "\nProof of Theorem B.1\n\nw denote the optimal \u03b2 with M intervals for weight function w, with intervals swM and levels\nLet \u03b2M\ntwM . Let qwM (\u03b8) = i/M when \u03b8 \u2208 [swM\n, swM\ni\ni+1 ), i.e. the quantile of interval item of type \u03b8 is in.\nThen we have the following convergence result for \u03b2M .\n\nTheorem B.1. Let g be uniform. Suppose w such that qwM converges uniformly. Then, \u2200C \u2208\nw uniformly as N \u2192 \u221e.\nw\nN, \u2203\u03b2 w s.t. \u03b2C2\nN +1 \u2192 \u03b2\nhProof. Note that\n\u0011 the condition on q implies that \u2203M s.t.\nM\nM\nsbx\u03b8 M c , sdx\u03b8 M e .\n\n\u2200M > M , \u2200\u03b8, \u2203x\u03b8 such that \u03b8 \u2208\n\nh\n\u0011\nM\nLet M 0 = 2M \u2212 1, M 00 = 4M \u2212 3, M q = 2q M \u2212 2q + 1. \u03b8 \u2208 sM\n,\ns\n=\u21d2 \u03b2M (\u03b8) =\nbx\u03b8 M c dx\u03b8 M e\nh\ni\nM\nM\ntM\nbx\u03b8 M c \u2208 tbx\u03b8 M c\u22121 , tbx\u03b8 M c+1 . Then,\n0\n\n\u03b2M 0 (\u03b8) = tM\nbx\u03b8 M 0 c\n0\n\n= tM\nbx (2M \u22121)c\nh \u03b80\ni\nM0\n\u2208 tM\n,\nt\n2bx\u03b8 M c\u22122 2bx\u03b8 M c+2\ni\nh\nM\n\u2282 tM\n,\nt\nbx\u03b8 M c\u22121 bx\u03b8 M c+1\n\n23\n\nLemma C.5\n\n\fAnd, for general q,\nq\n\n\u03b2M q (\u03b8) = tM\nbx (2q M \u22122q +1)c\ni\nh \u03b8q\nMq\n,\nt\n\u2208 tM\nq\nq\nq\nbx\u03b8 (2 M )c+1\nbx\u03b8 2 M c\u22122\nh q\ni\nMq\n\u2282 tM\n,\nt\nq\nq\nq\n2 bx\u03b8 M c\u22122\n2 bx\u03b8 M c+1\nh\ni\nM\n\u2282 tM\n,\nt\nbx\u03b8 M c\u22121 bx\u03b8 M c+1\n\nLemma C.5\n\nh\ni\nM\nThen, \u2200N 0 > 1, \u03b8: \u03b22N 0 M \u22122N 0 +1 (\u03b8) \u2208 tM\n,\nt\nbx\u03b8 M c\u22121 bx\u03b8 M c+1 and\nM\n|\u03b22N 0 M \u22122N 0 +1 (\u03b8) \u2212 \u03b2M (\u03b8)| \u2264 tM\nbx\u03b8 M c+1 \u2212 tbx\u03b8 M c\u22121\n0\n\n0\n\nK\nBy Corollary C.2, \u2200\u03b4 > 0, \u2203K s.t. \u2200K 0 > K, tK\nbx\u03b8 K 0 c+1 \u2212 tbx\u03b8 K 0 c\u22121 < 2\u03b4.\nBy the Cauchy criterion, \u2203\u03b2 s.t. \u03b2(C\u22121)2N +1 \u2192 \u03b2 uniformly.\nBy change of variables, \u2203\u03b2 s.t. \u03b2C2N +1 \u2192 \u03b2 uniformly.\n\nCorollary C.4. For Kendall\u2019s tau and Spearman\u2019s rho correlation measures, \u2203\u03b2 s.t. \u03b22N \u2192 \u03b2",
+          "quoted_text_sha256": "68e703ca2ca833a788222a1e71d250ddc428f47ca2ffe4e544c5644c7cf06d2f"
+        }
+      ]
     },
-    "lemmaC12_spearman_equispaced_intervals": {
-      "statement": "Lemma C.12: with weight theta_1-theta_2, the Spearman interval objective is maximized by equispaced cutpoints.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.8 Lemma C.12, around lines 2629-2645 in local extracted text.",
-      "aliases": []
+    "corollaryC4_kendall_spearman_subsequence": {
+      "statement": "Corollary C.4 applies Theorem B.1 to Kendall and Spearman weights to obtain uniformly convergent optimal subsequences.",
+      "source_location": "audit/source_archive_surface.tex:3590-3593; Supplement Appendix C",
+      "source_kind": "corollary",
+      "aliases": [
+        "source_corollaryC4_kendall_spearman_subsequence"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.source_corollaryC4_kendall_spearman_subsequence"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 3590,
+          "line_end": 3593,
+          "quoted_text": "uniformly as N \u2192 \u221e.\nProof. For Kendall\u2019s tau and Spearman\u2019s rho, {si } is spaced such that \u2200i, j, si \u2212 si\u22121 = sj \u2212 sj\u22121 .\nThus, x\u03b8 = \u03b8 meets the criterion.\n",
+          "quoted_text_sha256": "47ee5123dd993eebcbea6a19ff6282a8f8d81232b1360dca4370758491b1cb82"
+        }
+      ]
     },
-    "corollaryC4_kendall_spearman_uniform_subsequence": {
-      "statement": "Corollary C.4: for Kendall tau and Spearman rho, there exists beta such that beta_{2^N} converges uniformly.",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Supplement Section C.7 Corollary C.4, around lines 2506-2512 in local extracted text.",
-      "aliases": []
+    "definitionC1_kendall_spearman": {
+      "statement": "Definition C.1 gives the Kendall constant-weight and Spearman linear-distance population ranking objectives.",
+      "source_location": "audit/source_archive_surface.tex:3595-3614; Supplement Appendix C",
+      "source_kind": "definition",
+      "aliases": [
+        "definitionC1_kendall_spearman_population_objectives"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 3595,
+          "line_end": 3614,
+          "quoted_text": "\nKendall\u2019s tau and Spearman\u2019s rho related proofs\n\nDefinition C.1 (see e.g. Embrechts et al. (2003); Nelsen (2007)). The population version of\nKendall-tau correlation between item true quality and rating scores is proportional to\nZ\n\u03c4\nPk (\u03b81 , \u03b82 )d\u03b81 d\u03b82\nWk , 2\n\u03b81 >\u03b82\n\nSimilarly, given items with qualities \u03b81 , \u03b82 , \u03b83 , the population version of Spearman\u2019s rho correlation\nbetween item true quality and rating scores is\nZ\n\u03c1\nPk (\u03b81 , \u03b83 )d\u03b81 d\u03b82 d\u03b83\nWk , 6\n\u03b81 >\u03b82 ,\u03b83\n\nLemma C.10. Spearman\u2019s \u03c1 can also be written as being proportional to",
+          "quoted_text_sha256": "bc85a44d9e9b98a8d097812d892fbec02d51d7d1dea05bfacf2e2ff33d6c35cf"
+        }
+      ]
     },
-    "source_definition_bernoulli_kl_formula": {
-      "statement": "Definition below Theorem 3.1: Bernoulli KL divergence KL(a||b) = a log(a/b) + (1-a) log((1-a)/(1-b)).",
-      "source_url": "https://proceedings.mlr.press/v89/garg19a.html; https://proceedings.mlr.press/v89/garg19a/garg19a.pdf; https://proceedings.mlr.press/v89/garg19a/garg19a-supp.pdf",
-      "source_location": "Main paper Theorem 3.1 footnote/display, around lines 520-523 in local extracted text.",
-      "aliases": []
+    "lemmaC10_spearman_reduction": {
+      "statement": "Lemma C.10 reduces the Spearman ordered-pair interval integral to the cubic interval-gap objective.",
+      "source_location": "audit/source_archive_surface.tex:3615-3697; Supplement Appendix C",
+      "source_kind": "lemma",
+      "aliases": [
+        "paper_lemmaC10_spearman_linear_weight_ordered_pair_interval_objective_eq_gap_objective"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.paper_lemmaC10_spearman_linear_weight_ordered_pair_interval_objective_eq_gap_objective"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 3615,
+          "line_end": 3697,
+          "quoted_text": "i.e. with w(\u03b81 , \u03b82 ) = (\u03b81 \u2212 \u03b82 ).\nProof. Recall Pk (\u03b81 , \u03b83 ) =\nP r((\u03b81 \u2212 \u03b82 )(xk1 \u2212 xk3 ) > 0)\nZ\nZ\n=\nP r(xk1 \u2212 xk3 > 0)d\u03b81 d\u03b82 d\u03b83 +\n\u03b81 >\u03b82 ,\u03b83\n\nZ\n=\n\nP r(xk1 \u2212 xk3 > 0)\n\nR\n\n\u03b81 >\u03b82 (\u03b81 \u2212\u03b82 )Pk (\u03b81 , \u03b82 )d\u03b81 d\u03b82 ,\n\nP r(xk1 \u2212 xk3 < 0)d\u03b81 d\u03b82 d\u03b83\n\n\u03b81 <\u03b82 ,\u03b83\n\n\u0014Z \u03b81\n\n\u0015\n\nZ\n\nP r(xk1 \u2212 xk3 < 0)\n\n\u0014Z 1\n\n\u0015\n\nd\u03b82 d\u03b81 d\u03b83 +\nd\u03b82 d\u03b81 d\u03b83\n\u03b8 ,\u03b8\n\u03b82 =0\n\u03b81 ,\u03b83\n\u03b82 =\u03b81\nZ 1 3h\ni\n=\nP r(xk1 \u2212 xk3 > 0)\u03b81 ] + P r(xk1 \u2212 xk3 < 0)(1 \u2212 \u03b81 ) d\u03b81 d\u03b83\n\u03b8 ,\u03b8\nZ 1 3h\nh\nii\n=\nP r(xk1 \u2212 xk3 < 0) + \u03b81 P r(xk1 \u2212 xk3 > 0) \u2212 P r(xk1 \u2212 xk3 < 0) d\u03b81 d\u03b83\n\u03b81 ,\u03b83\n\n24\n\n\fSimilarly,\nP r((\u03b81 \u2212 \u03b82 )(xk1 \u2212 xk3 ) < 0) =\nZ\nh\nh\nii\n=\nP r(xk1 \u2212 xk3 > 0) + \u03b81 P r(xk1 \u2212 xk3 < 0) \u2212 P r(xk1 \u2212 xk3 > 0) d\u03b81 d\u03b83\n\u03b8 ,\u03b8\nZ 1 3h\nh\nii\n=\nP r(xk3 \u2212 xk1 > 0) + \u03b83 P r(xk3 \u2212 xk1 < 0) \u2212 P r(xk3 \u2212 xk1 > 0) d\u03b81 d\u03b83\n\u03b81 ,\u03b83\n\nWhere the second equality follows from \u03b81 , \u03b83 interchangeable. Then\nZ\nWk\u03c1 = 3\n(\u03b81 \u2212 \u03b82 )Pk (\u03b81 , \u03b82 )d\u03b81 d\u03b82\n\u03b81 ,\u03b82\nZ\n6(\u03b81 \u2212 \u03b82 )Pk (\u03b81 , \u03b82 )d\u03b81 d\u03b82\n=\n\u03b81 >\u03b82\n\nNote that Spearman\u2019s \u03c1 is similar to Kendall\u2019s \u03c4 with an additional weighting for how far apart\nthe two values that are flipped are.\nLemma C.11. When w is constant, i.e. for Kendall\u2019s \u03c4 rank correlation, the intervals s that",
+          "quoted_text_sha256": "80b9751bb49ff5cb1dd17a47e098cde213a43e47b1166d130429ea9f60c32125"
+        }
+      ]
+    },
+    "lemmaC11_kendall_equispaced": {
+      "statement": "Lemma C.11 and equation (27) show equispaced intervals maximize the finite Kendall constant-weight objective.",
+      "source_location": "audit/source_archive_surface.tex:3698-3712; Supplement Appendix C",
+      "source_kind": "lemma",
+      "aliases": [
+        "paper_lemmaC11_kendall_constant_weight_ordered_pair_interval_objective_le_equispaced"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.paper_lemmaC11_kendall_constant_weight_ordered_pair_interval_objective_le_equispaced"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 3698,
+          "line_end": 3712,
+          "quoted_text": "maximize (20),\nX\nX Z\nw(\u03b81 , \u03b82 )d(\u03b81 , \u03b82 ) =\n(si+1 \u2212 si )(sj+1 \u2212 sj )\n(27)\n0\u2264i<j<M\n\n\u03b82 \u2208Si ,\u03b81 \u2208Sj\n\n0\u2264i<j<M\n\n, are {si = Mi }M\ni=0 .\nLemma C.12. When w is (\u03b81 \u2212 \u03b82 ), i.e. for Spearman\u2019s \u03c1 rank correlation, the intervals s that",
+          "quoted_text_sha256": "dfb46156b223c621c8c3b2377a4a3eafd41730ce18ae57ce1504e8e136da88fc"
+        }
+      ]
+    },
+    "lemmaC12_spearman_equispaced": {
+      "statement": "Lemma C.12 and equation (28) show equispaced intervals maximize the finite Spearman linear-weight objective.",
+      "source_location": "audit/source_archive_surface.tex:3713-3760; Supplement Appendix C",
+      "source_kind": "lemma",
+      "aliases": [
+        "paper_lemmaC12_spearman_linear_weight_ordered_pair_interval_objective_le_equispaced"
+      ],
+      "proof_lean_declarations": [
+        "GJ19OptimalBinaryRatingSystems.PaperInterface.paper_lemmaC12_spearman_linear_weight_ordered_pair_interval_objective_le_equispaced"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 3713,
+          "line_end": 3760,
+          "quoted_text": "maximize (20),\nX Z\nw(\u03b81 , \u03b82 )d(\u03b81 , \u03b82 )\n(28)\n0\u2264i<j<M\n\n\u03b82 \u2208Si ,\u03b81 \u2208Sj\n\nare {si = Mi }M\ni=0 , i.e. the same as those for Kendall\u2019s \u03c4 .\nProof.\nX\n0\u2264i<j<M\n\nZ\nw(\u03b81 , \u03b82 )d(\u03b81 , \u03b82 ) =\n\u03b82 \u2208Si ,\u03b81 \u2208Sj\n\nZ\n\nX\n\n(\u03b81 \u2212 \u03b82 )d(\u03b81 , \u03b82 )\n\n0\u2264i<j<M\n\n=\n\n\u03b82 \u2208Si ,\u03b81 \u2208Sj\n\n\u0012\n\nX\n0<i<j\u2264M\n\nsj + sj\u22121 si + si\u22121\n\u2212\n2\n2\n\n\u0013\n(si \u2212 si\u22121 )(sj \u2212 sj\u22121 )\n\nFinding an asymptotically optimal {si } then is a constrained third order polynomial maximization\ni=M , as for Kendall\u2019s tau\nproblem with M variables. The maximum is achieved at {si = Mi }i=0\ncorrelation.\n",
+          "quoted_text_sha256": "c8cba583c3a4eec4485eeca02b9fc1e1b069416594807c2ff40f6cdd02e41fcf"
+        }
+      ]
     }
-  }
+  },
+  "source_archive_surface": {
+    "schema": 1,
+    "generator": "archive-members-normalized-text-v1",
+    "archive": {
+      "path": "papers/GJ19OptimalBinaryRatingSystems/source.tar",
+      "sha256": "59780d7a9ea09cccd9c6877103434757a6597212512958c6e22e60b189826e89"
+    },
+    "members": [
+      {
+        "path": "source.txt",
+        "sha256": "398a9b9ef2136ce5fe81d9858833c09f05564c640d9db667052c09fbf52f4010"
+      },
+      {
+        "path": "source-supplement.txt",
+        "sha256": "fc695a627e7659275d6510f2d0243b8a867d4e9cdec38209af643a7eda972090"
+      }
+    ]
+  },
+  "source_anchor_evidence_required": true
 }

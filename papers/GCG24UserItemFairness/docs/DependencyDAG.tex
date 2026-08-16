@@ -24,7 +24,6 @@
 \node[dag_result, dag_template_legend] (legRes) at (0,0) {formalized\\result};
 \node[dag_lemma, dag_template_legend] (legLem) at (4.2,0) {formalized\\lemma};
 \node[dag_model, dag_template_legend] (legDef) at (8.4,0) {formalized\\definition};
-\node[dag_caveat_legend] (legCav) at (12.6,0) {formalized\\with caveat};
 \node[dag_partial, dag_template_legend] (legPart) at (0,-2.6) {partially\\formalized};
 \node[dag_conditional, dag_template_legend] (legCond) at (4.2,-2.6) {conditional};
 \node[dag_scaffold, dag_template_legend] (legScaf) at (8.4,-2.6) {scaffold};
@@ -32,7 +31,7 @@
 
 
 }
-\daglegend{(legRes)(legLem)(legDef)(legCav)(legPart)(legCond)(legScaf)(legNot)}{Legend}
+\daglegend{(legRes)(legLem)(legDef)(legPart)(legCond)(legScaf)(legNot)}{Legend}
 
 \begin{scope}[xshift=8.2cm]
 
@@ -123,7 +122,7 @@
 };
 \node[dag_lemma] (Lemma11) at (14.8,-23.9) {
   \textbf{Lemma 11 (App. D)} \\
-  fixed-pivot monotonicity \\
+  selected-pivot interval monotonicity \\
   formalized
 };
 \node[dag_lemma] (Lemma16) at (14.8,-27.8) {
@@ -164,9 +163,9 @@
   formalized
 };
 \node[dag_lemma] (Lemma15) at (22.2,-31.7) {
-  \textbf{Lemma 15 (App. E)} \\
-  closed coordinates \\
-  center convention explicit
+\textbf{Lemma 15 (App. E)} \\
+closed coordinates \\
+formalized center-coordinate formula
 };
 \node[dag_result] (Theorem4) at (22.2,-35.6) {
   \textbf{Theorem 4 (Sec. 5/App. E)} \\

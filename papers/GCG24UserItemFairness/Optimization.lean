@@ -1522,6 +1522,195 @@ def SolvesProblemOne {m n : ℕ} [NeZero m] [NeZero n]
     (W : RecommendationModel m n) (γ : ℝ) (ρ : Policy m n) : Prop :=
   IsOptimalAtLevel W γ ρ
 
+/-! ### Proposition 1: the source equality-form linear program -/
+
+/-- The two comparison forms needed for a finite linear description of `S`. -/
+inductive PolicyLinearComparison where
+  | eq
+  | le
+deriving DecidableEq
+
+/-- A coefficient-level linear expression in the real policy coordinates. -/
+noncomputable def policyLinearExpression {m n : ℕ}
+    (a : User m → Item n → ℝ) (ρ : Policy m n) : ℝ :=
+  ∑ u : User m, ∑ j : Item n, a u j * (ρ u j).toReal
+
+/-- Satisfaction of one equality or weak-inequality policy constraint. -/
+def policyLinearConstraintHolds {m n : ℕ}
+    (a : User m → Item n → ℝ) (b : ℝ) (rel : PolicyLinearComparison)
+    (ρ : Policy m n) : Prop :=
+  match rel with
+  | .eq => policyLinearExpression a ρ = b
+  | .le => policyLinearExpression a ρ ≤ b
+
+/-- A source condition-(i) witness: membership in `S` is exactly satisfaction
+of a finite, explicitly coefficient-level family of linear constraints. -/
+structure FiniteLinearPolicySetDescription {m n : ℕ}
+    (S : Set (Policy m n)) where
+  ConstraintIndex : Type
+  constraintFintype : Fintype ConstraintIndex
+  coefficient : ConstraintIndex → User m → Item n → ℝ
+  rhs : ConstraintIndex → ℝ
+  comparison : ConstraintIndex → PolicyLinearComparison
+  mem_iff :
+    ∀ ρ : Policy m n,
+      ρ ∈ S ↔
+        ∀ c : ConstraintIndex,
+          policyLinearConstraintHolds (coefficient c) (rhs c) (comparison c) ρ
+
+namespace FiniteLinearPolicySetDescription
+
+/-- A policy satisfies the finite constraints describing `S`. -/
+def Satisfies {m n : ℕ} {S : Set (Policy m n)}
+    (D : FiniteLinearPolicySetDescription S) (ρ : Policy m n) : Prop :=
+  ∀ c : D.ConstraintIndex,
+    policyLinearConstraintHolds (D.coefficient c) (D.rhs c) (D.comparison c) ρ
+
+theorem satisfies_iff_mem {m n : ℕ} {S : Set (Policy m n)}
+    (D : FiniteLinearPolicySetDescription S) (ρ : Policy m n) :
+    D.Satisfies ρ ↔ ρ ∈ S := by
+  exact (D.mem_iff ρ).symm
+
+end FiniteLinearPolicySetDescription
+
+/-- The item-`j` equality of the source LP, written as a linear expression in
+the policy coordinates and the objective variable `ell`. -/
+noncomputable def propositionOneItemEqualityExpression {m n : ℕ}
+    (W : RecommendationModel m n) (j : Item n)
+    (ρ : Policy m n) (ell : ℝ) : ℝ :=
+  (∑ u : User m,
+      (W.utility u j / itemNormalizer W j) * (ρ u j).toReal) - ell
+
+/-- Under the paper's positive-utility model, the coefficient-level item
+equation is exactly `I_j(ρ) = ell`. -/
+theorem propositionOneItemEqualityExpression_eq_normalized_sub
+    {m n : ℕ} [NeZero m]
+    (W : RecommendationModel m n) (hPos : W.Positive)
+    (j : Item n) (ρ : Policy m n) (ell : ℝ) :
+    propositionOneItemEqualityExpression W j ρ ell =
+      normalizedItemUtility W ρ j - ell := by
+  have hden : 0 < itemNormalizer W j :=
+    W.columnHasPositiveDemand_of_positive hPos j
+  unfold propositionOneItemEqualityExpression normalizedItemUtility
+  rw [dif_neg hden.ne']
+  unfold rawItemUtility
+  apply congrArg (fun x : ℝ => x - ell)
+  rw [Finset.sum_div]
+  refine Finset.sum_congr rfl ?_
+  intro u _hu
+  ring
+
+theorem propositionOneItemEqualityExpression_eq_zero_iff
+    {m n : ℕ} [NeZero m]
+    (W : RecommendationModel m n) (hPos : W.Positive)
+    (j : Item n) (ρ : Policy m n) (ell : ℝ) :
+    propositionOneItemEqualityExpression W j ρ ell = 0 ↔
+      normalizedItemUtility W ρ j = ell := by
+  rw [propositionOneItemEqualityExpression_eq_normalized_sub W hPos]
+  exact sub_eq_zero
+
+/-- Feasibility for the concrete LP `L` in Proposition 1: the policy satisfies
+the finite linear description of `S`, and every normalized item utility equals
+the objective variable.  The policy type itself supplies the simplex rows. -/
+abbrev PropositionOneLPFeasible {m n : ℕ} {S : Set (Policy m n)}
+    (W : RecommendationModel m n)
+    (D : FiniteLinearPolicySetDescription S)
+    (ρ : Policy m n) (ell : ℝ) : Prop :=
+  D.Satisfies ρ ∧
+    ∀ j : Item n, propositionOneItemEqualityExpression W j ρ ell = 0
+
+/-- A maximizer of Proposition 1's concrete LP `L`. -/
+abbrev PropositionOneLPSolution {m n : ℕ} {S : Set (Policy m n)}
+    (W : RecommendationModel m n)
+    (D : FiniteLinearPolicySetDescription S)
+    (ρ : Policy m n) (ell : ℝ) : Prop :=
+  PropositionOneLPFeasible W D ρ ell ∧
+    ∀ ρ' : Policy m n, ∀ ell' : ℝ,
+      PropositionOneLPFeasible W D ρ' ell' → ell' ≤ ell
+
+/-- The LP has the source policy as its unique policy optimizer (and hence
+also pins the optimal objective value). -/
+abbrev PropositionOneLPUniquePolicyOptimizer {m n : ℕ} [NeZero n]
+    {S : Set (Policy m n)}
+    (W : RecommendationModel m n)
+    (D : FiniteLinearPolicySetDescription S)
+    (ρstar : Policy m n) : Prop :=
+  PropositionOneLPSolution W D ρstar (optimalItemFairness W) ∧
+    ∀ ρ : Policy m n, ∀ ell : ℝ,
+      PropositionOneLPSolution W D ρ ell →
+        ρ = ρstar ∧ ell = optimalItemFairness W
+
+/--
+Proposition 1, with the source hypotheses and conclusion.
+
+Condition (i) is the finite coefficient-level description `D`; condition (ii)
+is `hProblemTwo`; condition (iii) is `hUniqueFeasible`.  The conclusion is not
+a reduction witness: it proves that the source equality-form LP `L` recovers
+`ρstar` as its unique policy optimizer.
+-/
+theorem propositionOne_unique_policy_optimizer_of_source_conditions
+    {m n : ℕ} [NeZero m] [NeZero n]
+    (W : RecommendationModel m n) (hPos : W.Positive)
+    (S : Set (Policy m n)) (D : FiniteLinearPolicySetDescription S)
+    (ρstar : Policy m n)
+    (hProblemTwo : IsOptimalAtLevel W 1 ρstar)
+    (hStarMem : ρstar ∈ S)
+    (hUniqueFeasible :
+      ∀ ρ : Policy m n,
+        ρ ∈ S → itemFairness W ρ = optimalItemFairness W → ρ = ρstar) :
+    PropositionOneLPUniquePolicyOptimizer W D ρstar := by
+  have hNonneg : W.Nonnegative := W.nonnegative_of_positive hPos
+  have hstar_item_le :
+      itemFairness W ρstar ≤ optimalItemFairness W := by
+    exact le_csSup (attainableItemFairnessSet_bddAbove_of_nonnegative W hNonneg)
+      ⟨ρstar, rfl⟩
+  have hstar_item_ge :
+      optimalItemFairness W ≤ itemFairness W ρstar := by
+    simpa [feasibleAtLevel] using hProblemTwo.1
+  have hstar_item :
+      itemFairness W ρstar = optimalItemFairness W :=
+    le_antisymm hstar_item_le hstar_item_ge
+  have hstar_equalized :
+      itemFairnessEqualityLPFeasible W ρstar (optimalItemFairness W) := by
+    rw [← hstar_item]
+    exact itemFairnessEqualityLPFeasible_of_optimal_of_slackImprovement
+      W hNonneg hstar_item
+      (itemFairnessSlackImprovementProperty_of_positive_of_optimal
+        W hPos hstar_item)
+  have hstar_feasible :
+      PropositionOneLPFeasible W D ρstar (optimalItemFairness W) := by
+    refine ⟨(D.satisfies_iff_mem ρstar).mpr hStarMem, ?_⟩
+    intro j
+    exact (propositionOneItemEqualityExpression_eq_zero_iff
+      W hPos j ρstar (optimalItemFairness W)).mpr (hstar_equalized j)
+  have hupper :
+      ∀ ρ : Policy m n, ∀ ell : ℝ,
+        PropositionOneLPFeasible W D ρ ell → ell ≤ optimalItemFairness W := by
+    intro ρ ell hfeas
+    have heq : itemFairnessEqualityLPFeasible W ρ ell := by
+      intro j
+      exact (propositionOneItemEqualityExpression_eq_zero_iff
+        W hPos j ρ ell).mp (hfeas.2 j)
+    have hitem : itemFairness W ρ = ell :=
+      itemFairness_eq_of_itemFairnessEqualityLPFeasible W ρ ell heq
+    rw [← hitem]
+    exact le_csSup (attainableItemFairnessSet_bddAbove_of_nonnegative W hNonneg)
+      ⟨ρ, rfl⟩
+  refine ⟨⟨hstar_feasible, hupper⟩, ?_⟩
+  intro ρ ell hsol
+  have hell_le : ell ≤ optimalItemFairness W := hupper ρ ell hsol.1
+  have hopt_le : optimalItemFairness W ≤ ell :=
+    hsol.2 ρstar (optimalItemFairness W) hstar_feasible
+  have hell : ell = optimalItemFairness W := le_antisymm hell_le hopt_le
+  have hρmem : ρ ∈ S := (D.satisfies_iff_mem ρ).mp hsol.1.1
+  have heq : itemFairnessEqualityLPFeasible W ρ ell := by
+    intro j
+    exact (propositionOneItemEqualityExpression_eq_zero_iff
+      W hPos j ρ ell).mp (hsol.1.2 j)
+  have hitem : itemFairness W ρ = ell :=
+    itemFairness_eq_of_itemFairnessEqualityLPFeasible W ρ ell heq
+  exact ⟨hUniqueFeasible ρ hρmem (hitem.trans hell), hell⟩
+
 end RecommendationModel
 
 namespace EstimatedRecommendationModel

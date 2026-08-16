@@ -1,4 +1,4 @@
-import EconCSLib.Foundations.Probability.PoissonProcess
+import EconCSLib.Foundations.Probability.PoissonStopping
 import EconCSLib.Foundations.Probability.RenewalReward
 import Mathlib.Tactic
 
@@ -568,6 +568,38 @@ def nycStoppingObservationWindowOfLocalCountProcess
           (inspectionTime ω)) (workOrderTime ω) :=
   rfl
 
+/--
+Filtered homogeneous-Poisson version of the stochastic NYC window.  Relative
+to the local count-process route, adaptedness and stationary Poisson increment
+laws are packaged in `H`; the remaining path-space premise is the first-report
+sublevel identity.  This does not infer a random-window Poisson law.
+-/
+def nycStoppingObservationWindowOfFilteredHomogeneousPoisson
+    {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
+    (H : FilteredHomogeneousPoissonCountingProcessByLaw Ω P)
+    (startTime inspectionTime workOrderTime : Ω → ℝ)
+    (h_first_level_sets :
+      ∀ t : ℝ, {ω | startTime ω ≤ t} = {ω | 1 ≤ H.process.count t ω})
+    (h_inspection_stopping : IsStoppingTime H.filtration inspectionTime)
+    (h_workOrder_stopping : IsStoppingTime H.filtration workOrderTime)
+    (h_inspection : ∀ ω, startTime ω ≤ inspectionTime ω)
+    (h_workOrder : ∀ ω, startTime ω ≤ workOrderTime ω) :
+    StoppingObservationWindow H.filtration :=
+  (DurationCensoredFirstCountObservationCertificate.ofFilteredHomogeneousPoisson
+    H startTime inspectionTime workOrderTime empiricalMaxObservationDurationDays
+    empiricalMaxObservationDurationDays_nonneg h_first_level_sets
+    h_inspection_stopping h_workOrder_stopping h_inspection h_workOrder).stoppingObservationWindow
+
+/-- The filtered-Poisson NYC first-report time is a native Mathlib stopping time. -/
+theorem nycFirstReport_nativeStoppingOfFilteredHomogeneousPoisson
+    {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
+    (H : FilteredHomogeneousPoissonCountingProcessByLaw Ω P)
+    (startTime : Ω → ℝ)
+    (h_first_level_sets :
+      ∀ t : ℝ, {ω | startTime ω ≤ t} = {ω | 1 ≤ H.process.count t ω}) :
+    MeasureTheory.IsStoppingTime H.filtration (toNativeStoppingTime startTime) :=
+  (H.firstCountArrivalCertificate startTime h_first_level_sets).isStoppingTime_native
+
 @[simp] theorem nycObservationWindow_startTime
     (startTime inspectionTime workOrderTime : ℝ)
     (h_inspection : startTime ≤ inspectionTime)
@@ -881,6 +913,40 @@ def chicagoStoppingObservationWindowOfLocalCountProcess
         min (min (firstReportTime ω + empiricalMaxObservationDurationDays)
           (closedTime ω)) (retrievalTime ω) :=
   rfl
+
+/--
+Filtered homogeneous-Poisson version of the stochastic Chicago window.  It
+packages adapted count coordinates in `H` and leaves the genuine path-space
+first-report identity explicit.
+-/
+def chicagoStoppingObservationWindowOfFilteredHomogeneousPoisson
+    {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
+    (H : FilteredHomogeneousPoissonCountingProcessByLaw Ω P)
+    (firstReportTime closedTime retrievalTime : Ω → ℝ)
+    (h_first_level_sets :
+      ∀ t : ℝ, {ω | firstReportTime ω ≤ t} =
+        {ω | 1 ≤ H.process.count t ω})
+    (h_closed_stopping : IsStoppingTime H.filtration closedTime)
+    (h_retrieval_stopping : IsStoppingTime H.filtration retrievalTime)
+    (h_closed : ∀ ω, firstReportTime ω ≤ closedTime ω)
+    (h_retrieval : ∀ ω, firstReportTime ω ≤ retrievalTime ω) :
+    StoppingObservationWindow H.filtration :=
+  (DurationCensoredFirstCountObservationCertificate.ofFilteredHomogeneousPoisson
+    H firstReportTime closedTime retrievalTime empiricalMaxObservationDurationDays
+    empiricalMaxObservationDurationDays_nonneg h_first_level_sets
+    h_closed_stopping h_retrieval_stopping h_closed h_retrieval).stoppingObservationWindow
+
+/-- The filtered-Poisson Chicago first-report time is a native Mathlib stopping time. -/
+theorem chicagoFirstReport_nativeStoppingOfFilteredHomogeneousPoisson
+    {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
+    (H : FilteredHomogeneousPoissonCountingProcessByLaw Ω P)
+    (firstReportTime : Ω → ℝ)
+    (h_first_level_sets :
+      ∀ t : ℝ, {ω | firstReportTime ω ≤ t} =
+        {ω | 1 ≤ H.process.count t ω}) :
+    MeasureTheory.IsStoppingTime H.filtration
+      (toNativeStoppingTime firstReportTime) :=
+  (H.firstCountArrivalCertificate firstReportTime h_first_level_sets).isStoppingTime_native
 
 @[simp] theorem chicagoObservationWindow_startTime
     (firstReportTime closedTime retrievalTime : ℝ)
@@ -2302,6 +2368,38 @@ theorem theorem2_interarrival_tail_likelihood_eq_exposure_raw_shape
     theorem2InterarrivalTailLikelihood jumps rate gap tail =
       rate ^ jumps.card * Real.exp (-(rate * exposure)) := by
   exact interarrivalTailLikelihood_eq_exposure_rawShape jumps gap hexposure
+
+/--
+Corrected Appendix B.2 multi-report Poisson kernel on an ordered timeline.
+The first stored gap is `t_{m+1} - s`, not `t_{m+1} - t_m`; consequently all
+gaps plus the terminal tail telescope to the observation exposure `e - s`.
+-/
+theorem theorem2_orderedTimeline_interarrival_tail_collects
+    (T : OrderedFiniteJumpTimeline) (rate : ℝ) :
+    theorem2InterarrivalTailLikelihood (Finset.univ : Finset (Fin T.count))
+        rate T.gap T.tail =
+      rate ^ T.count * Real.exp (-(rate * T.window.exposure)) := by
+  rw [theorem2_interarrival_tail_likelihood_eq_exposure_raw_shape
+    (jumps := (Finset.univ : Finset (Fin T.count)))
+    (rate := rate) (exposure := T.window.exposure) (tail := T.tail)
+    T.gap (by simpa using T.exposure_eq)]
+  simp
+
+/--
+The corrected ordered-timeline kernel factors into the Poisson count PMF and
+the ordered-simplex reciprocal-volume residual.  This is the direct finite
+Poisson correction behind the source's multi-report Eq. (30)--(32) algebra.
+-/
+theorem theorem2_orderedTimeline_interarrival_tail_factorizes
+    (T : OrderedFiniteJumpTimeline) (rate : ℝ)
+    (h_exposure : T.window.exposure ≠ 0) :
+    theorem2InterarrivalTailLikelihood (Finset.univ : Finset (Fin T.count))
+        rate T.gap T.tail =
+      ((T.count.factorial : ℝ) / T.window.exposure ^ T.count) *
+        sourcePoissonPMF rate T.window.exposure T.count := by
+  rw [theorem2_orderedTimeline_interarrival_tail_collects]
+  simpa [sourcePoissonPMF] using
+    (ratePowerExp_factor_countLikelihood 1 rate T.window.exposure T.count h_exposure)
 
 /--
 Appendix B.2 Eq. (24) to Eq. (25): the one-report interarrival density and
@@ -3732,11 +3830,11 @@ structure Theorem2ConditionFunctionSemantics where
     ∀ baseCount : ℕ, RateIndependent (survivalIntegralOfRate baseCount)
 
 /--
-Source-vocabulary form of Theorem 2 Condition 1 at a fixed observed start
-realization.  The paper's condition says the start-density contribution
-`g(s)` is independent of the Poisson rate and of the future sample path after
-the first jump; the latter is represented by this record carrying no future
-path argument, while the former is the explicit `RateIndependent` field.
+Algebraic fixed-history form of Theorem 2 Condition 1.  It records only the
+rate-independence of the evaluated start-density contribution `g(s)`.  A
+missing future-path argument cannot itself express independence of the random
+start from the post-first-report sample path; that stochastic source premise
+is formalized separately in `ConditionOneTail.lean`.
 -/
 structure Theorem2ConditionOneSource where
   startDensityOfRate : ℝ → ℝ
@@ -3799,7 +3897,8 @@ More concrete Condition 2 source model: a rate-indexed density kernel
 `h_m(t)` over possible end times, together with the observed end-time
 evaluation and the lower limits used in the paper's survival-integral factors
 `∫ h_m(t) dt`.  The scalar Condition 2 source record is derived from this
-kernel, so the survival terms are no longer independent opaque scalars.
+kernel, which determines the survival terms from the same endpoint-density
+family.
 -/
 structure Theorem2ConditionTwoDensitySource where
   endDensityKernelOfRate : ℕ → ℝ → ℝ → ℝ
@@ -6484,9 +6583,8 @@ end Theorem2SourceCase
 namespace Theorem2ProcessKernelCase
 
 /--
-Collapse an explicit no-arrival/interarrival process-kernel case to the older
-source-shaped Appendix B.2 case after the rate-dependent kernels have been
-collected.
+Collapse an explicit no-arrival/interarrival process-kernel case to the
+source-shaped Appendix B.2 case after collecting the rate-dependent kernels.
 -/
 def toSourceCase : Theorem2ProcessKernelCase → Theorem2SourceCase
   | zero startDensity endDensity exposure =>
@@ -6554,10 +6652,7 @@ theorem likelihood_eq_toSourceCase_likelihood
 
 end Theorem2ProcessKernelCase
 
-/--
-Unified Appendix B.2 source-case factorization for the collapsed legacy
-source-shaped case.
--/
+/-- Unified Appendix B.2 source-case factorization. -/
 theorem theorem2_source_case_factorization
     (C : Theorem2SourceCase) (rate : ℝ) :
     C.likelihood rate =
@@ -6589,8 +6684,8 @@ theorem theorem2_source_case_factorization
 
 /--
 Explicit process-kernel cases factor through their collapsed source cases.
-This machine-checks that the stronger no-arrival/interarrival-kernel layer
-strictly refines the older source-shaped algebraic layer.
+Thus the no-arrival/interarrival-kernel layer refines the source-shaped
+algebraic layer.
 -/
 theorem theorem2_process_kernel_case_factorization_via_source_case
     (C : Theorem2ProcessKernelCase) (rate : ℝ) :

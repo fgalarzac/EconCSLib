@@ -360,6 +360,63 @@ theorem card_le_sum_choose_of_winPositions_card_bounds
     _ ≤ ∑ wins ∈ Finset.Icc 1 maxWins, rounds.choose wins :=
       card_feasibleWinPositionSets_le_sum_choose rounds maxWins
 
+/--
+Win-position sets with at most `maxWins` wins, including the all-loss case.
+
+This is the appropriate finite family when a full STV order may end in an
+elimination because partially ranked ballots have exhausted.  It deliberately
+does not assert that a particular election model realizes every such sequence.
+-/
+def winPositionSetsAtMost (rounds maxWins : ℕ) : Finset (Finset (Fin rounds)) :=
+  (Finset.Icc 0 maxWins).biUnion fun wins =>
+    (Finset.univ : Finset (Fin rounds)).powersetCard wins
+
+/-- A fixed-length sequence with at most `maxWins` wins belongs to the zero-inclusive family. -/
+theorem winPositions_mem_winPositionSetsAtMost_of_card_le
+    {rounds maxWins : ℕ} {sequence : Fin rounds → RoundOutcome}
+    (hle : (winPositions sequence).card ≤ maxWins) :
+    winPositions sequence ∈ winPositionSetsAtMost rounds maxWins := by
+  unfold winPositionSetsAtMost
+  refine Finset.mem_biUnion.mpr
+    ⟨(winPositions sequence).card, Finset.mem_Icc.mpr ⟨Nat.zero_le _, hle⟩, ?_⟩
+  simp [winPositions]
+
+/-- The zero-inclusive win-position family has the corresponding binomial bound. -/
+theorem card_winPositionSetsAtMost_le_sum_choose (rounds maxWins : ℕ) :
+    (winPositionSetsAtMost rounds maxWins).card ≤
+      ∑ wins ∈ Finset.Icc 0 maxWins, rounds.choose wins := by
+  unfold winPositionSetsAtMost
+  calc
+    ((Finset.Icc 0 maxWins).biUnion fun wins =>
+        (Finset.univ : Finset (Fin rounds)).powersetCard wins).card
+        ≤ ∑ wins ∈ Finset.Icc 0 maxWins,
+            ((Finset.univ : Finset (Fin rounds)).powersetCard wins).card :=
+          Finset.card_biUnion_le
+    _ = ∑ wins ∈ Finset.Icc 0 maxWins, rounds.choose wins := by
+          refine Finset.sum_congr rfl ?_
+          intro wins _hwins
+          simp
+
+/--
+Any finite family of fixed-length win/loss sequences with at most `maxWins`
+wins has size bounded by the zero-inclusive binomial sum.
+-/
+theorem card_le_sum_choose_of_winPositions_card_le
+    {rounds maxWins : ℕ} {sequences : Finset (Fin rounds → RoundOutcome)}
+    (hbounds : ∀ sequence ∈ sequences,
+      (winPositions sequence).card ≤ maxWins) :
+    sequences.card ≤ ∑ wins ∈ Finset.Icc 0 maxWins, rounds.choose wins := by
+  calc
+    sequences.card ≤ (winPositionSetsAtMost rounds maxWins).card := by
+      refine Finset.card_le_card_of_injOn (fun sequence => winPositions sequence) ?_ ?_
+      · intro sequence hsequence
+        exact winPositions_mem_winPositionSetsAtMost_of_card_le
+          (hbounds sequence hsequence)
+      · intro sequence hsequence otherSequence hotherSequence hpositions
+        exact winPositions_injective rounds hpositions
+    _ ≤ ∑ wins ∈ Finset.Icc 0 maxWins, rounds.choose wins :=
+      card_winPositionSetsAtMost_le_sum_choose rounds maxWins
+
 end RoundOutcome
 
 namespace RoundOutcome
@@ -706,6 +763,107 @@ theorem hasInitialEliminationPrefix_of_getElem_no_active_quota
             ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).tally candidate < quota) :
     trace.HasInitialEliminationPrefix length := by
   refine hasInitialEliminationPrefix_of_getElem_kind hlen ?_
+  intro i
+  rcases hkind_allowed i with helect | heliminate
+  · rcases helect_quota i helect with ⟨candidate, hactive, hquota⟩
+    exact (not_lt_of_ge hquota (hactive_lt_quota i candidate hactive)).elim
+  · exact heliminate
+
+/--
+External-tally variant of
+`hasInitialEliminationPrefix_of_getElem_no_active_quota`.
+
+This is useful for executable STV models whose semantic round tally is stored
+outside the generic natural-valued `STVStep.tally` field.
+-/
+theorem hasInitialEliminationPrefix_of_getElem_no_active_external_quota
+    {Candidate Score : Type*} [Preorder Score]
+    {trace : STVTrace Candidate} {length : ℕ} {quota : Score}
+    (roundTally : Fin trace.steps.length → Candidate → Score)
+    (hlen : length ≤ trace.steps.length)
+    (hkind_allowed :
+      ∀ i : Fin length,
+        (trace.steps.get
+          ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).kind =
+            StepKind.elect ∨
+          (trace.steps.get
+            ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).kind =
+            StepKind.eliminate)
+    (helect_quota :
+      ∀ i : Fin length,
+        (trace.steps.get
+          ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).kind =
+            StepKind.elect →
+          ∃ candidate,
+            candidate ∈
+              (trace.steps.get
+                ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).beforeActive ∧
+            quota ≤
+              roundTally
+                ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩ candidate)
+    (hactive_lt_quota :
+      ∀ i : Fin length,
+        ∀ candidate,
+          candidate ∈
+            (trace.steps.get
+              ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).beforeActive →
+          roundTally
+              ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩ candidate < quota) :
+    trace.HasInitialEliminationPrefix length := by
+  refine hasInitialEliminationPrefix_of_getElem_kind hlen ?_
+  intro i
+  rcases hkind_allowed i with helect | heliminate
+  · rcases helect_quota i helect with ⟨candidate, hactive, hquota⟩
+    exact (not_lt_of_ge hquota (hactive_lt_quota i candidate hactive)).elim
+  · exact heliminate
+
+/--
+External-tally no-quota criterion for focused initial-elimination prefixes.
+
+Besides proving that the prefix contains only eliminations, callers provide
+the indexed focus equations that identify those eliminations with the supplied
+candidate list.
+-/
+theorem hasInitialEliminationFocusPrefix_of_getElem_no_active_external_quota
+    {Candidate Score : Type*} [Preorder Score]
+    {trace : STVTrace Candidate} {lossPrefix : List Candidate} {quota : Score}
+    (roundTally : Fin trace.steps.length → Candidate → Score)
+    (hlen : lossPrefix.length ≤ trace.steps.length)
+    (hfocus :
+      ∀ i : Fin lossPrefix.length,
+        (trace.steps.get
+          ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).focus =
+          some (lossPrefix.get i))
+    (hkind_allowed :
+      ∀ i : Fin lossPrefix.length,
+        (trace.steps.get
+          ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).kind =
+            StepKind.elect ∨
+          (trace.steps.get
+            ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).kind =
+            StepKind.eliminate)
+    (helect_quota :
+      ∀ i : Fin lossPrefix.length,
+        (trace.steps.get
+          ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).kind =
+            StepKind.elect →
+          ∃ candidate,
+            candidate ∈
+              (trace.steps.get
+                ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).beforeActive ∧
+            quota ≤
+              roundTally
+                ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩ candidate)
+    (hactive_lt_quota :
+      ∀ i : Fin lossPrefix.length,
+        ∀ candidate,
+          candidate ∈
+            (trace.steps.get
+              ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩).beforeActive →
+          roundTally
+              ⟨i.1, Nat.lt_of_lt_of_le i.2 hlen⟩ candidate < quota) :
+    trace.HasInitialEliminationFocusPrefix lossPrefix := by
+  refine hasInitialEliminationFocusPrefix_of_getElem hlen hfocus ?_
   intro i
   rcases hkind_allowed i with helect | heliminate
   · rcases helect_quota i helect with ⟨candidate, hactive, hquota⟩

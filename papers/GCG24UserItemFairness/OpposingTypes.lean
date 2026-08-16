@@ -960,6 +960,15 @@ theorem problem6Dual_left_coeff_le
   rw [div_le_iff₀ hqj0]
   nlinarith
 
+/-- Strict left-side dual slack when `q_t < q_j`. -/
+theorem problem6Dual_left_coeff_lt
+    {qt qj : ℝ}
+    (hqj0 : 0 < qj) (hqj1 : qj < 1) (hqt_lt : qt < qj) :
+    (qt / qj) * (1 - qj) < 1 - qt := by
+  rw [div_mul_eq_mul_div]
+  rw [div_lt_iff₀ hqj0]
+  nlinarith
+
 /--
 Problem 6 dual algebra: if `q_j ≤ q_t`, the right-side dual coefficient also
 respects the `x` budget.
@@ -971,6 +980,16 @@ theorem problem6Dual_right_coeff_le
   have hden : 0 < 1 - qj := sub_pos.mpr hqj1
   rw [div_mul_eq_mul_div]
   rw [div_le_iff₀ hden]
+  nlinarith
+
+/-- Strict right-side dual slack when `q_j < q_t`. -/
+theorem problem6Dual_right_coeff_lt
+    {qt qj : ℝ}
+    (hqj1 : qj < 1) (hjt_lt : qj < qt) :
+    ((1 - qt) / (1 - qj)) * qj < qt := by
+  have hden : 0 < 1 - qj := sub_pos.mpr hqj1
+  rw [div_mul_eq_mul_div]
+  rw [div_lt_iff₀ hden]
   nlinarith
 
 /--
@@ -1797,9 +1816,10 @@ Every item line has either an exact middle item or an item immediately before
 the middle mirror pair.  This removes the odd/even midpoint case split from
 paper-level theorem statements.
 -/
-theorem midpoint_center_or_succ_center {n : ℕ} [NeZero n] (hn : 2 < n) :
+theorem midpoint_center_or_succ_center {n : ℕ} [NeZero n] :
     (∃ c : Item n, c.val = (reverseItem c).val) ∨
       (∃ c : Item n, c.val + 1 = (reverseItem c).val) := by
+  have hn0 : n ≠ 0 := NeZero.ne n
   rcases Nat.mod_two_eq_zero_or_one n with hmod | hmod
   · right
     let c : Item n := ⟨n / 2 - 1, by omega⟩
@@ -9709,6 +9729,53 @@ theorem problem6ClosedDualWeight_one_sub_pairShare_le {n : ℕ}
         _ ≤ problem6ClosedValue alpha v t *
               (1 - pairShare alpha v t) := le_rfl
 
+/-- The closed dual has strict `x`-coefficient slack after the pivot. -/
+theorem problem6ClosedDualWeight_pairShare_lt_of_after {n : ℕ}
+    {alpha : ℝ} {v : Item n → ℝ} {t j : Item n}
+    (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
+    (hpos : ∀ j : Item n, 0 < v j)
+    (hdec : StrictlyDecreasingByIndex v)
+    (htj : t.val < j.val) :
+    problem6ClosedDualWeight alpha v t j * pairShare alpha v j <
+      problem6ClosedValue alpha v t * pairShare alpha v t := by
+  have hq_lt : pairShare alpha v j < pairShare alpha v t :=
+    pairShare_strictAnti_index halpha0 halpha1 hpos hdec htj
+  have hcoeff :
+      ((1 - pairShare alpha v t) /
+          (1 - pairShare alpha v j)) * pairShare alpha v j <
+        pairShare alpha v t :=
+    problem6Dual_right_coeff_lt
+      (pairShare_lt_one j halpha0 halpha1 hpos) hq_lt
+  have hmul := mul_lt_mul_of_pos_left hcoeff
+    (problem6ClosedValue_pos t halpha0 halpha1 hpos)
+  rw [problem6ClosedDualWeight_after htj]
+  convert hmul using 1 <;> ring
+
+/-- The closed dual has strict `y`-coefficient slack before the pivot. -/
+theorem problem6ClosedDualWeight_one_sub_pairShare_lt_of_before {n : ℕ}
+    {alpha : ℝ} {v : Item n → ℝ} {t j : Item n}
+    (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
+    (hpos : ∀ j : Item n, 0 < v j)
+    (hdec : StrictlyDecreasingByIndex v)
+    (hjt : j.val < t.val) :
+    problem6ClosedDualWeight alpha v t j *
+        (1 - pairShare alpha v j) <
+      problem6ClosedValue alpha v t *
+        (1 - pairShare alpha v t) := by
+  have hq_lt : pairShare alpha v t < pairShare alpha v j :=
+    pairShare_strictAnti_index halpha0 halpha1 hpos hdec hjt
+  have hcoeff :
+      (pairShare alpha v t / pairShare alpha v j) *
+          (1 - pairShare alpha v j) <
+        1 - pairShare alpha v t :=
+    problem6Dual_left_coeff_lt
+      (pairShare_pos j halpha0 halpha1 hpos)
+      (pairShare_lt_one j halpha0 halpha1 hpos) hq_lt
+  have hmul := mul_lt_mul_of_pos_left hcoeff
+    (problem6ClosedValue_pos t halpha0 halpha1 hpos)
+  rw [problem6ClosedDualWeight_before hjt]
+  convert hmul using 1 <;> ring
+
 /-- Problem 6 dual `x`-budget bound. -/
 theorem problem6ClosedDual_x_budget_le {n : ℕ}
     {alpha : ℝ} {v : Item n → ℝ} {t : Item n}
@@ -9766,6 +9833,74 @@ theorem problem6ClosedDual_y_budget_le {n : ℕ}
           (1 - pairShare alpha v t) := by
           rw [← Finset.mul_sum, problem6_typeOne_sum_eq_one]
           ring
+
+/-- A positive type-`0` coordinate after the pivot makes the dual budget strict. -/
+theorem problem6ClosedDual_x_budget_lt_of_after_pos {n : ℕ}
+    {alpha : ℝ} {v : Item n → ℝ} {t j : Item n}
+    (ρ : TypePolicy 2 n)
+    (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
+    (hpos : ∀ j : Item n, 0 < v j)
+    (hdec : StrictlyDecreasingByIndex v)
+    (htj : t.val < j.val) (hxj : 0 < (ρ 0 j).toReal) :
+    (∑ l : Item n,
+        problem6ClosedDualWeight alpha v t l *
+          pairShare alpha v l * (ρ 0 l).toReal) <
+      problem6ClosedValue alpha v t * pairShare alpha v t := by
+  calc
+    (∑ l : Item n,
+        problem6ClosedDualWeight alpha v t l *
+          pairShare alpha v l * (ρ 0 l).toReal) <
+        ∑ l : Item n,
+          (problem6ClosedValue alpha v t * pairShare alpha v t) *
+            (ρ 0 l).toReal := by
+      refine Finset.sum_lt_sum ?_ ?_
+      · intro l _hl
+        exact mul_le_mul_of_nonneg_right
+          (problem6ClosedDualWeight_pairShare_le
+            halpha0 halpha1 hpos hdec)
+          ENNReal.toReal_nonneg
+      · exact ⟨j, Finset.mem_univ j,
+          mul_lt_mul_of_pos_right
+            (problem6ClosedDualWeight_pairShare_lt_of_after
+              halpha0 halpha1 hpos hdec htj) hxj⟩
+    _ = problem6ClosedValue alpha v t * pairShare alpha v t := by
+      rw [← Finset.mul_sum, problem6_typeZero_sum_eq_one]
+      ring
+
+/-- A positive type-`1` coordinate before the pivot makes the dual budget strict. -/
+theorem problem6ClosedDual_y_budget_lt_of_before_pos {n : ℕ}
+    {alpha : ℝ} {v : Item n → ℝ} {t j : Item n}
+    (ρ : TypePolicy 2 n)
+    (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
+    (hpos : ∀ j : Item n, 0 < v j)
+    (hdec : StrictlyDecreasingByIndex v)
+    (hjt : j.val < t.val) (hyj : 0 < (ρ 1 j).toReal) :
+    (∑ l : Item n,
+        problem6ClosedDualWeight alpha v t l *
+          (1 - pairShare alpha v l) * (ρ 1 l).toReal) <
+      problem6ClosedValue alpha v t *
+        (1 - pairShare alpha v t) := by
+  calc
+    (∑ l : Item n,
+        problem6ClosedDualWeight alpha v t l *
+          (1 - pairShare alpha v l) * (ρ 1 l).toReal) <
+        ∑ l : Item n,
+          (problem6ClosedValue alpha v t *
+            (1 - pairShare alpha v t)) * (ρ 1 l).toReal := by
+      refine Finset.sum_lt_sum ?_ ?_
+      · intro l _hl
+        exact mul_le_mul_of_nonneg_right
+          (problem6ClosedDualWeight_one_sub_pairShare_le
+            halpha0 halpha1 hpos hdec)
+          ENNReal.toReal_nonneg
+      · exact ⟨j, Finset.mem_univ j,
+          mul_lt_mul_of_pos_right
+            (problem6ClosedDualWeight_one_sub_pairShare_lt_of_before
+              halpha0 halpha1 hpos hdec hjt) hyj⟩
+    _ = problem6ClosedValue alpha v t *
+          (1 - pairShare alpha v t) := by
+      rw [← Finset.mul_sum, problem6_typeOne_sum_eq_one]
+      ring
 
 /--
 Problem 6 closed-form weak duality certificate: every feasible policy/value is
@@ -9881,6 +10016,319 @@ theorem problem6FirstClosedPivot_optimalityCertificate {n : ℕ} [NeZero n]
     halpha0 halpha1 hpos hdec
     (problem6FirstClosedPivot_denominatorBounds
       halpha0 halpha1 hpos)
+
+/-- An optimal Problem 6 value equals any certified closed-form value. -/
+theorem problem6PolicyOptimal_value_eq_closedValue_of_certificate
+    {n : ℕ} [NeZero n]
+    {alpha : ℝ} {v : Item n → ℝ} {ρ : TypePolicy 2 n} {ell : ℝ}
+    {t : Item n}
+    (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
+    (hpos : ∀ j : Item n, 0 < v j)
+    (cert : Problem6ClosedOptimalityCertificate alpha v t)
+    (hopt : Problem6PolicyOptimal alpha v ρ ell) :
+    ell = problem6ClosedValue alpha v t := by
+  let hpivot : Problem6ClosedNonnegativePivots alpha v t :=
+    problem6ClosedNonnegativePivots_of_denominatorBounds
+      halpha0 halpha1 hpos cert.denominator_bounds
+  let ρclosed : TypePolicy 2 n :=
+    problem6ClosedPolicy alpha v t halpha0 halpha1 hpos hpivot
+  have hle : ell ≤ problem6ClosedValue alpha v t :=
+    cert.upper_bound ρ ell hopt.1
+  have hge : problem6ClosedValue alpha v t ≤ ell := by
+    apply hopt.2 ρclosed
+    dsimp [ρclosed, hpivot]
+    exact problem6ClosedPolicy_feasible_of_denominatorBounds
+      halpha0 halpha1 hpos cert.denominator_bounds
+  exact le_antisymm hle hge
+
+/-- Equalized item equations turn the closed dual's weighted sum into `ell`. -/
+theorem problem6ClosedDual_weighted_sum_eq_of_item_eq
+    {n : ℕ}
+    {alpha : ℝ} {v : Item n → ℝ} {ρ : TypePolicy 2 n} {ell : ℝ}
+    {t : Item n}
+    (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
+    (hpos : ∀ j : Item n, 0 < v j)
+    (hitem_eq :
+      ∀ j : Item n,
+        pairShare alpha v j * (ρ 0 j).toReal +
+          (1 - pairShare alpha v j) * (ρ 1 j).toReal = ell) :
+    (∑ j : Item n,
+        problem6ClosedDualWeight alpha v t j *
+          pairShare alpha v j * (ρ 0 j).toReal) +
+      (∑ j : Item n,
+        problem6ClosedDualWeight alpha v t j *
+          (1 - pairShare alpha v j) * (ρ 1 j).toReal) = ell := by
+  let w : Item n → ℝ := problem6ClosedDualWeight alpha v t
+  calc
+    (∑ j : Item n, w j * pairShare alpha v j * (ρ 0 j).toReal) +
+        (∑ j : Item n,
+          w j * (1 - pairShare alpha v j) * (ρ 1 j).toReal) =
+      ∑ j : Item n, w j *
+        (pairShare alpha v j * (ρ 0 j).toReal +
+          (1 - pairShare alpha v j) * (ρ 1 j).toReal) := by
+        rw [← Finset.sum_add_distrib]
+        refine Finset.sum_congr rfl ?_
+        intro j _hj
+        ring
+    _ = ∑ j : Item n, w j * ell := by
+      refine Finset.sum_congr rfl ?_
+      intro j _hj
+      rw [hitem_eq j]
+    _ = (∑ j : Item n, w j) * ell := by rw [Finset.sum_mul]
+    _ = ell := by
+      rw [show (∑ j : Item n, w j) = 1 by
+        simpa [w] using
+          problem6ClosedDualWeight_sum_eq_one
+            (alpha := alpha) (v := v) (t := t)
+            halpha0 halpha1 hpos]
+      ring
+
+/--
+Strict dual slack derives the source Lemma 4 threshold support for every
+equalized optimum; no basic-feasible or sparsity premise is required.
+-/
+theorem problem6PolicyOptimal_equalized_thresholdSupport_of_closedCertificate
+    {n : ℕ} [NeZero n]
+    {alpha : ℝ} {v : Item n → ℝ} {ρ : TypePolicy 2 n} {ell : ℝ}
+    {t : Item n}
+    (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
+    (hpos : ∀ j : Item n, 0 < v j)
+    (hdec : StrictlyDecreasingByIndex v)
+    (cert : Problem6ClosedOptimalityCertificate alpha v t)
+    (hitem_eq :
+      ∀ j : Item n,
+        pairShare alpha v j * (ρ 0 j).toReal +
+          (1 - pairShare alpha v j) * (ρ 1 j).toReal = ell)
+    (hopt : Problem6PolicyOptimal alpha v ρ ell) :
+    (∀ {j : Item n}, t.val < j.val → ρ 0 j = 0) ∧
+      (∀ {j : Item n}, j.val < t.val → ρ 1 j = 0) := by
+  have hvalue : ell = problem6ClosedValue alpha v t :=
+    problem6PolicyOptimal_value_eq_closedValue_of_certificate
+      halpha0 halpha1 hpos cert hopt
+  have hweighted :=
+    problem6ClosedDual_weighted_sum_eq_of_item_eq
+      (t := t) halpha0 halpha1 hpos hitem_eq
+  constructor
+  · intro j htj
+    by_contra hxj
+    have hxj_pos : 0 < (ρ 0 j).toReal :=
+      typePolicy_toReal_pos_of_ne_zero ρ hxj
+    have hx_lt :=
+      problem6ClosedDual_x_budget_lt_of_after_pos
+        ρ halpha0 halpha1 hpos hdec htj hxj_pos
+    have hy_le :=
+      problem6ClosedDual_y_budget_le
+        (t := t) ρ halpha0 halpha1 hpos hdec
+    have hlt : ell < problem6ClosedValue alpha v t := by
+      calc
+        ell =
+            (∑ l : Item n,
+              problem6ClosedDualWeight alpha v t l *
+                pairShare alpha v l * (ρ 0 l).toReal) +
+            (∑ l : Item n,
+              problem6ClosedDualWeight alpha v t l *
+                (1 - pairShare alpha v l) * (ρ 1 l).toReal) :=
+          hweighted.symm
+        _ < problem6ClosedValue alpha v t * pairShare alpha v t +
+              problem6ClosedValue alpha v t *
+                (1 - pairShare alpha v t) :=
+          add_lt_add_of_lt_of_le hx_lt hy_le
+        _ = problem6ClosedValue alpha v t := by ring
+    rw [hvalue] at hlt
+    exact (lt_irrefl _ hlt)
+  · intro j hjt
+    by_contra hyj
+    have hyj_pos : 0 < (ρ 1 j).toReal :=
+      typePolicy_toReal_pos_of_ne_zero ρ hyj
+    have hx_le :=
+      problem6ClosedDual_x_budget_le
+        (t := t) ρ halpha0 halpha1 hpos hdec
+    have hy_lt :=
+      problem6ClosedDual_y_budget_lt_of_before_pos
+        ρ halpha0 halpha1 hpos hdec hjt hyj_pos
+    have hlt : ell < problem6ClosedValue alpha v t := by
+      calc
+        ell =
+            (∑ l : Item n,
+              problem6ClosedDualWeight alpha v t l *
+                pairShare alpha v l * (ρ 0 l).toReal) +
+            (∑ l : Item n,
+              problem6ClosedDualWeight alpha v t l *
+                (1 - pairShare alpha v l) * (ρ 1 l).toReal) :=
+          hweighted.symm
+        _ < problem6ClosedValue alpha v t * pairShare alpha v t +
+              problem6ClosedValue alpha v t *
+                (1 - pairShare alpha v t) :=
+          add_lt_add_of_le_of_lt hx_le hy_lt
+        _ = problem6ClosedValue alpha v t := by ring
+    rw [hvalue] at hlt
+    exact (lt_irrefl _ hlt)
+
+/--
+Every equalized Problem 6 optimum has the source-active sparse form at its
+last positive `x` coordinate.
+-/
+theorem problem6PolicyOptimal_equalized_sparseActive
+    {n : ℕ} [NeZero n]
+    {alpha : ℝ} {v : Item n → ℝ} {ρ : TypePolicy 2 n} {ell : ℝ}
+    (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
+    (hpos : ∀ j : Item n, 0 < v j)
+    (hdec : StrictlyDecreasingByIndex v)
+    (hitem_eq :
+      ∀ j : Item n,
+        pairShare alpha v j * (ρ 0 j).toReal +
+          (1 - pairShare alpha v j) * (ρ 1 j).toReal = ell)
+    (hopt : Problem6PolicyOptimal alpha v ρ ell) :
+    Problem6SparseEqualizedActive alpha v (TypePolicy.lastActiveTypeZero ρ)
+      (fun j : Item n => (ρ 0 j).toReal)
+      (fun j : Item n => (ρ 1 j).toReal) ell := by
+  let t0 : Item n :=
+    problem6FirstClosedPivot alpha v halpha0 halpha1 hpos
+  let cert : Problem6ClosedOptimalityCertificate alpha v t0 :=
+    problem6FirstClosedPivot_optimalityCertificate
+      halpha0 halpha1 hpos hdec
+  have hsupport :=
+    problem6PolicyOptimal_equalized_thresholdSupport_of_closedCertificate
+      halpha0 halpha1 hpos hdec cert hitem_eq hopt
+  let t : Item n := TypePolicy.lastActiveTypeZero ρ
+  have ht_le : t.val ≤ t0.val := by
+    by_contra hnot
+    have ht0t : t0.val < t.val := by omega
+    have hzero : ρ 0 t = 0 := hsupport.1 ht0t
+    exact TypePolicy.lastActiveTypeZero_active ρ hzero
+  refine
+    { sparse :=
+        { item_eq := hitem_eq
+          sum_x := problem6_typeZero_sum_eq_one ρ
+          sum_y := problem6_typeOne_sum_eq_one ρ
+          x_after_pivot_zero := ?_
+          y_before_pivot_zero := ?_ }
+      x_nonneg := fun j => ENNReal.toReal_nonneg
+      y_nonneg := fun j => ENNReal.toReal_nonneg
+      x_pivot_pos := typePolicy_toReal_pos_of_ne_zero ρ
+        (TypePolicy.lastActiveTypeZero_active ρ) }
+  · intro j hj
+    exact congrArg ENNReal.toReal
+      (TypePolicy.typeZero_zero_after_lastActive ρ hj)
+  · intro j hj
+    have hj0 : j.val < t0.val := lt_of_lt_of_le hj ht_le
+    exact congrArg ENNReal.toReal (hsupport.2 hj0)
+
+/-- The canonical first-closed policy directly satisfies Problem 6. -/
+theorem problem6FirstClosedPolicy_item_eq_and_optimal
+    {n : ℕ} [NeZero n]
+    {alpha : ℝ} {v : Item n → ℝ}
+    (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
+    (hpos : ∀ j : Item n, 0 < v j)
+    (hdec : StrictlyDecreasingByIndex v) :
+    let t := problem6FirstClosedPivot alpha v halpha0 halpha1 hpos
+    let ρ := problem6FirstClosedPolicy alpha v halpha0 halpha1 hpos
+    (∀ j : Item n,
+      pairShare alpha v j * (ρ 0 j).toReal +
+        (1 - pairShare alpha v j) * (ρ 1 j).toReal =
+          problem6ClosedValue alpha v t) ∧
+      Problem6PolicyOptimal alpha v ρ (problem6ClosedValue alpha v t) := by
+  dsimp
+  let t : Item n :=
+    problem6FirstClosedPivot alpha v halpha0 halpha1 hpos
+  let cert : Problem6ClosedOptimalityCertificate alpha v t :=
+    problem6FirstClosedPivot_optimalityCertificate
+      halpha0 halpha1 hpos hdec
+  let hpivot : Problem6ClosedNonnegativePivots alpha v t :=
+    problem6ClosedNonnegativePivots_of_denominatorBounds
+      halpha0 halpha1 hpos cert.denominator_bounds
+  have hclosed :
+      Problem6EqualizedBasicOptimal alpha v
+        (problem6ClosedPolicy alpha v t halpha0 halpha1 hpos hpivot)
+        (problem6ClosedValue alpha v t) := by
+    refine
+      { item_eq := ?_
+        optimal := ?_
+        basic_feasible := ?_ }
+    · intro j
+      rw [problem6ClosedPolicy_zero_toReal halpha0 halpha1 hpos hpivot,
+        problem6ClosedPolicy_one_toReal halpha0 halpha1 hpos hpivot]
+      exact problem6Closed_item_eq t j halpha0 halpha1 hpos
+    · exact
+        ⟨problem6ClosedPolicy_feasible_of_denominatorBounds
+            halpha0 halpha1 hpos cert.denominator_bounds,
+          cert.upper_bound⟩
+    · exact problem6ClosedPolicy_basicFeasibleSupportCertificate
+        halpha0 halpha1 hpos hpivot
+  have hpolicy :
+      problem6FirstClosedPolicy alpha v halpha0 halpha1 hpos =
+        problem6ClosedPolicy alpha v t halpha0 halpha1 hpos hpivot := by
+    dsimp [t, cert, hpivot]
+    exact problem6FirstClosedPolicy_eq_closedPolicy_of_firstClosedPivot_eq
+      halpha0 halpha1 hpos rfl
+  rw [hpolicy]
+  exact ⟨hclosed.item_eq, hclosed.optimal⟩
+
+/--
+Appendix D, Lemma 4 uniqueness from primitive Problem 6 equations and global
+optimality.  The threshold conclusion is derived internally by strict dual
+slack rather than assumed through a basic-feasible package.
+-/
+theorem problem6PolicyOptimal_equalized_eq_firstClosedPolicy
+    {n : ℕ} [NeZero n]
+    {alpha : ℝ} {v : Item n → ℝ} {ρ : TypePolicy 2 n} {ell : ℝ}
+    (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
+    (hpos : ∀ j : Item n, 0 < v j)
+    (hdec : StrictlyDecreasingByIndex v)
+    (hitem_eq :
+      ∀ j : Item n,
+        pairShare alpha v j * (ρ 0 j).toReal +
+          (1 - pairShare alpha v j) * (ρ 1 j).toReal = ell)
+    (hopt : Problem6PolicyOptimal alpha v ρ ell) :
+    ρ = problem6FirstClosedPolicy alpha v halpha0 halpha1 hpos ∧
+      ell = problem6ClosedValue alpha v
+        (problem6FirstClosedPivot alpha v halpha0 halpha1 hpos) := by
+  let t : Item n :=
+    problem6FirstClosedPivot alpha v halpha0 halpha1 hpos
+  let cert : Problem6ClosedOptimalityCertificate alpha v t :=
+    problem6FirstClosedPivot_optimalityCertificate
+      halpha0 halpha1 hpos hdec
+  have hsupport :=
+    problem6PolicyOptimal_equalized_thresholdSupport_of_closedCertificate
+      halpha0 halpha1 hpos hdec cert hitem_eq hopt
+  let x : Item n → ℝ := fun j => (ρ 0 j).toReal
+  let y : Item n → ℝ := fun j => (ρ 1 j).toReal
+  have hsparse : Problem6SparseEqualized alpha v t x y ell :=
+    { item_eq := hitem_eq
+      sum_x := problem6_typeZero_sum_eq_one ρ
+      sum_y := problem6_typeOne_sum_eq_one ρ
+      x_after_pivot_zero := fun {_j} hj =>
+        congrArg ENNReal.toReal (hsupport.1 hj)
+      y_before_pivot_zero := fun {_j} hj =>
+        congrArg ENNReal.toReal (hsupport.2 hj) }
+  rcases problem6SparseEqualized_eq_closed
+      halpha0 halpha1 hpos hsparse with ⟨hell, hx, hy⟩
+  let hpivot : Problem6ClosedNonnegativePivots alpha v t :=
+    problem6ClosedNonnegativePivots_of_denominatorBounds
+      halpha0 halpha1 hpos cert.denominator_bounds
+  have hpolicy_closed :
+      ρ = problem6ClosedPolicy alpha v t halpha0 halpha1 hpos hpivot := by
+    funext k
+    fin_cases k
+    · apply pmf_eq_of_forall_toReal_eq
+      intro j
+      change (ρ 0 j).toReal =
+        ((problem6ClosedPolicy alpha v t halpha0 halpha1 hpos hpivot) 0 j).toReal
+      rw [problem6ClosedPolicy_zero_toReal]
+      exact congrFun hx j
+    · apply pmf_eq_of_forall_toReal_eq
+      intro j
+      change (ρ 1 j).toReal =
+        ((problem6ClosedPolicy alpha v t halpha0 halpha1 hpos hpivot) 1 j).toReal
+      rw [problem6ClosedPolicy_one_toReal]
+      exact congrFun hy j
+  have hfirst :
+      problem6FirstClosedPolicy alpha v halpha0 halpha1 hpos =
+        problem6ClosedPolicy alpha v t halpha0 halpha1 hpos hpivot := by
+    dsimp [t, cert, hpivot]
+    exact problem6FirstClosedPolicy_eq_closedPolicy_of_firstClosedPivot_eq
+      halpha0 halpha1 hpos rfl
+  exact ⟨hpolicy_closed.trans hfirst.symm, by simpa [t] using hell⟩
 
 /--
 Appendix D, Lemma 4/5 bridge: an equalized optimal Problem 6 policy supplies
@@ -13317,7 +13765,6 @@ theorem theorem3_typeFairness_mono_across_adjacent_closed_boundary
     {n : ℕ} [NeZero n]
     {alphaLeft alphaBoundary alphaRight : ℝ}
     {v : Item n → ℝ} {t u : Item n}
-    (hn : 2 < n)
     (halphaLeft0 : 0 < alphaLeft) (halphaLeft1 : alphaLeft < 1)
     (halphaBoundary0 : 0 < alphaBoundary)
     (halphaBoundary1 : alphaBoundary < 1)
@@ -13414,22 +13861,32 @@ theorem theorem3_typeFairness_mono_across_adjacent_closed_boundary
     exact
       problem6EqualizedBasicOptimal_of_closed_certificate
         halphaBoundary0 halphaBoundary1 hpos certBoundaryU
-  have hpolicy_boundary :
-      problem6ClosedPolicy alphaBoundary v u
-          halphaBoundary0 halphaBoundary1 hpos hpivotBoundaryU =
-        problem6ClosedPolicy alphaBoundary v t
-          halphaBoundary0 halphaBoundary1 hpos hpivotBoundaryT := by
-    exact
-      problem6EqualizedBasicOptimal_policy_eq_of_feasibleAtLevel_one_equalized_shared
-        hn halphaBoundary0 halphaBoundary1 hpos hdec
-        hoptBoundaryT
-        (problem6EqualizedBasicOptimal_feasibleAtLevel_one
-          halphaBoundary0 halphaBoundary1 hpos hoptBoundaryU)
-        (fun l =>
-          problem6EqualizedBasicOptimal_item_value_eq_itemFairness
-            halphaBoundary0 halphaBoundary1 hpos hoptBoundaryU l)
-        (problem6_sharedItemsBound_of_equalizedBasicOptimal
-          halphaBoundary0 halphaBoundary1 hpos hoptBoundaryU)
+  have hoptBoundaryTEq :
+      TypeWeightedRecommendationModel.optimalTypeFairnessAtLevel
+          (twoTypeReducedModel alphaBoundary v) 1 =
+        TypeWeightedRecommendationModel.typeFairness
+          (twoTypeReducedModel alphaBoundary v)
+          (problem6ClosedPolicy alphaBoundary v t
+            halphaBoundary0 halphaBoundary1 hpos hpivotBoundaryT) :=
+    problem6EqualizedBasicOptimal_optimalTypeFairnessAtLevel_one_eq_of_upper_bound
+      halphaBoundary0 halphaBoundary1 hpos hoptBoundaryT
+      (fun ρ hfeas =>
+        problem6ClosedPolicy_typeFairness_dominates_feasibleAtLevel_one_of_closed_certificate_alpha_le_half_of_pivot_le_reverse
+          halphaBoundary0 halphaBoundary1 halphaBoundary_half hpos hdec
+          certBoundaryT hcenter_t ρ hfeas)
+  have hoptBoundaryUEq :
+      TypeWeightedRecommendationModel.optimalTypeFairnessAtLevel
+          (twoTypeReducedModel alphaBoundary v) 1 =
+        TypeWeightedRecommendationModel.typeFairness
+          (twoTypeReducedModel alphaBoundary v)
+          (problem6ClosedPolicy alphaBoundary v u
+            halphaBoundary0 halphaBoundary1 hpos hpivotBoundaryU) :=
+    problem6EqualizedBasicOptimal_optimalTypeFairnessAtLevel_one_eq_of_upper_bound
+      halphaBoundary0 halphaBoundary1 hpos hoptBoundaryU
+      (fun ρ hfeas =>
+        problem6ClosedPolicy_typeFairness_dominates_feasibleAtLevel_one_of_closed_certificate_alpha_le_half_of_pivot_le_reverse
+          halphaBoundary0 halphaBoundary1 halphaBoundary_half hpos hdec
+          certBoundaryU hcenter_u ρ hfeas)
   have hboundary_step :
       TypeWeightedRecommendationModel.typeFairness
           (twoTypeReducedModel alphaBoundary v)
@@ -13439,7 +13896,7 @@ theorem theorem3_typeFairness_mono_across_adjacent_closed_boundary
           (twoTypeReducedModel alphaBoundary v)
           (problem6ClosedPolicy alphaBoundary v u
             halphaBoundary0 halphaBoundary1 hpos hpivotBoundaryU) := by
-    rw [hpolicy_boundary]
+    rw [← hoptBoundaryTEq, ← hoptBoundaryUEq]
   have hboundary_to_right :
       TypeWeightedRecommendationModel.typeFairness
           (twoTypeReducedModel alphaBoundary v)
@@ -13470,7 +13927,6 @@ theorem theorem3_typeFairness_mono_across_adjacent_firstClosedPivot_boundary_cen
     {n : ℕ} [NeZero n]
     {alphaLeft alphaBoundary alphaRight : ℝ}
     {v : Item n → ℝ} {c t u : Item n}
-    (hn : 2 < n)
     (halphaLeft0 : 0 < alphaLeft) (halphaLeft1 : alphaLeft < 1)
     (halphaBoundary0 : 0 < alphaBoundary)
     (halphaBoundary1 : alphaBoundary < 1)
@@ -13514,7 +13970,6 @@ theorem theorem3_typeFairness_mono_across_adjacent_firstClosedPivot_boundary_cen
     simpa [← hright_pivot] using h
   have hclosed :=
     theorem3_typeFairness_mono_across_adjacent_closed_boundary
-      hn
       halphaLeft0 halphaLeft1
       halphaBoundary0 halphaBoundary1
       halphaRight0 halphaRight1
@@ -13547,7 +14002,6 @@ theorem theorem3_typeFairness_mono_across_adjacent_firstClosedPivot_boundary_suc
     {n : ℕ} [NeZero n]
     {alphaLeft alphaBoundary alphaRight : ℝ}
     {v : Item n → ℝ} {c t u : Item n}
-    (hn : 2 < n)
     (halphaLeft0 : 0 < alphaLeft) (halphaLeft1 : alphaLeft < 1)
     (halphaBoundary0 : 0 < alphaBoundary)
     (halphaBoundary1 : alphaBoundary < 1)
@@ -13591,7 +14045,6 @@ theorem theorem3_typeFairness_mono_across_adjacent_firstClosedPivot_boundary_suc
     simpa [← hright_pivot] using h
   have hclosed :=
     theorem3_typeFairness_mono_across_adjacent_closed_boundary
-      hn
       halphaLeft0 halphaLeft1
       halphaBoundary0 halphaBoundary1
       halphaRight0 halphaRight1
@@ -13724,7 +14177,6 @@ theorem theorem3_typeFairness_mono_across_adjacent_firstClosedPivot_change_cente
     {n : ℕ} [NeZero n]
     {alphaLeft alphaRight : ℝ}
     {v : Item n → ℝ} {c t u : Item n}
-    (hn : 2 < n)
     (halphaLeft0 : 0 < alphaLeft) (halphaLeft1 : alphaLeft < 1)
     (halphaRight0 : 0 < alphaRight) (halphaRight1 : alphaRight < 1)
     (hleft_le_right : alphaLeft ≤ alphaRight)
@@ -13755,7 +14207,6 @@ theorem theorem3_typeFairness_mono_across_adjacent_firstClosedPivot_change_cente
       halphaBoundary0, halphaBoundary1, hboundary⟩
   exact
     theorem3_typeFairness_mono_across_adjacent_firstClosedPivot_boundary_center
-      hn
       halphaLeft0 halphaLeft1
       halphaBoundary0 halphaBoundary1
       halphaRight0 halphaRight1
@@ -13771,7 +14222,6 @@ theorem theorem3_typeFairness_mono_across_adjacent_firstClosedPivot_change_succ_
     {n : ℕ} [NeZero n]
     {alphaLeft alphaRight : ℝ}
     {v : Item n → ℝ} {c t u : Item n}
-    (hn : 2 < n)
     (halphaLeft0 : 0 < alphaLeft) (halphaLeft1 : alphaLeft < 1)
     (halphaRight0 : 0 < alphaRight) (halphaRight1 : alphaRight < 1)
     (hleft_le_right : alphaLeft ≤ alphaRight)
@@ -13802,7 +14252,6 @@ theorem theorem3_typeFairness_mono_across_adjacent_firstClosedPivot_change_succ_
       halphaBoundary0, halphaBoundary1, hboundary⟩
   exact
     theorem3_typeFairness_mono_across_adjacent_firstClosedPivot_boundary_succ_center
-      hn
       halphaLeft0 halphaLeft1
       halphaBoundary0 halphaBoundary1
       halphaRight0 halphaRight1
@@ -13819,7 +14268,6 @@ first pivots.
 theorem theorem3_typeFairness_mono_firstHalf_center_of_firstClosedPivot_endpoints
     {n : ℕ} [NeZero n]
     {alphaLeft alphaRight : ℝ} {v : Item n → ℝ} {c t u : Item n}
-    (hn : 2 < n)
     (halphaLeft0 : 0 < alphaLeft) (halphaLeft1 : alphaLeft < 1)
     (halphaRight0 : 0 < alphaRight) (halphaRight1 : alphaRight < 1)
     (hleft_le_right : alphaLeft ≤ alphaRight)
@@ -13873,7 +14321,7 @@ theorem theorem3_typeFairness_mono_firstHalf_center_of_firstClosedPivot_endpoint
         by_cases hadj : u.val = t.val + 1
         · exact
             theorem3_typeFairness_mono_across_adjacent_firstClosedPivot_change_center
-              hn halphaLeft0 halphaLeft1 halphaRight0 halphaRight1
+              halphaLeft0 halphaLeft1 halphaRight0 halphaRight1
               hleft_le_right halphaLeft_half halphaRight_half
               hpos hdec hcenter_c hleft_pivot hright_pivot hadj
         · have hskip : t.val + 1 < u.val := by omega
@@ -13895,7 +14343,7 @@ theorem theorem3_typeFairness_mono_firstHalf_center_of_firstClosedPivot_endpoint
                     halphaMid0 halphaMid1 hpos) := by
             exact
               theorem3_typeFairness_mono_across_adjacent_firstClosedPivot_change_center
-                hn halphaLeft0 halphaLeft1 halphaMid0 halphaMid1
+                halphaLeft0 halphaLeft1 halphaMid0 halphaMid1
                 hleft_le_mid halphaLeft_half halphaMid_half
                 hpos hdec hcenter_c hleft_pivot hmid_pivot hs_val
           have hs_le_u : s.val ≤ u.val := by
@@ -13925,7 +14373,6 @@ Theorem 3 global canonical closed-policy first-half stitch, even-center case.
 theorem theorem3_typeFairness_mono_firstHalf_succ_center_of_firstClosedPivot_endpoints
     {n : ℕ} [NeZero n]
     {alphaLeft alphaRight : ℝ} {v : Item n → ℝ} {c t u : Item n}
-    (hn : 2 < n)
     (halphaLeft0 : 0 < alphaLeft) (halphaLeft1 : alphaLeft < 1)
     (halphaRight0 : 0 < alphaRight) (halphaRight1 : alphaRight < 1)
     (hleft_le_right : alphaLeft ≤ alphaRight)
@@ -13979,7 +14426,7 @@ theorem theorem3_typeFairness_mono_firstHalf_succ_center_of_firstClosedPivot_end
         by_cases hadj : u.val = t.val + 1
         · exact
             theorem3_typeFairness_mono_across_adjacent_firstClosedPivot_change_succ_center
-              hn halphaLeft0 halphaLeft1 halphaRight0 halphaRight1
+              halphaLeft0 halphaLeft1 halphaRight0 halphaRight1
               hleft_le_right halphaLeft_half halphaRight_half
               hpos hdec hsucc hleft_pivot hright_pivot hadj
         · have hskip : t.val + 1 < u.val := by omega
@@ -14001,7 +14448,7 @@ theorem theorem3_typeFairness_mono_firstHalf_succ_center_of_firstClosedPivot_end
                     halphaMid0 halphaMid1 hpos) := by
             exact
               theorem3_typeFairness_mono_across_adjacent_firstClosedPivot_change_succ_center
-                hn halphaLeft0 halphaLeft1 halphaMid0 halphaMid1
+                halphaLeft0 halphaLeft1 halphaMid0 halphaMid1
                 hleft_le_mid halphaLeft_half halphaMid_half
                 hpos hdec hsucc hleft_pivot hmid_pivot hs_val
           have hs_le_u : s.val ≤ u.val := by
@@ -14032,7 +14479,6 @@ odd-center case.
 theorem theorem3_typeFairness_mono_firstHalf_center_of_alpha_le
     {n : ℕ} [NeZero n]
     {alpha alpha' : ℝ} {v : Item n → ℝ} {c : Item n}
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha0' : 0 < alpha') (halpha1' : alpha' < 1)
     (halpha_le : alpha ≤ alpha')
@@ -14052,7 +14498,7 @@ theorem theorem3_typeFairness_mono_firstHalf_center_of_alpha_le
       (alphaLeft := alpha) (alphaRight := alpha') (v := v) (c := c)
       (t := problem6FirstClosedPivot alpha v halpha0 halpha1 hpos)
       (u := problem6FirstClosedPivot alpha' v halpha0' halpha1' hpos)
-      hn halpha0 halpha1 halpha0' halpha1' halpha_le
+      halpha0 halpha1 halpha0' halpha1' halpha_le
       halpha_half halpha_half' hpos hdec hcenter_c rfl rfl
 
 /--
@@ -14062,7 +14508,6 @@ even-center case.
 theorem theorem3_typeFairness_mono_firstHalf_succ_center_of_alpha_le
     {n : ℕ} [NeZero n]
     {alpha alpha' : ℝ} {v : Item n → ℝ} {c : Item n}
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha0' : 0 < alpha') (halpha1' : alpha' < 1)
     (halpha_le : alpha ≤ alpha')
@@ -14082,7 +14527,7 @@ theorem theorem3_typeFairness_mono_firstHalf_succ_center_of_alpha_le
       (alphaLeft := alpha) (alphaRight := alpha') (v := v) (c := c)
       (t := problem6FirstClosedPivot alpha v halpha0 halpha1 hpos)
       (u := problem6FirstClosedPivot alpha' v halpha0' halpha1' hpos)
-      hn halpha0 halpha1 halpha0' halpha1' halpha_le
+      halpha0 halpha1 halpha0' halpha1' halpha_le
       halpha_half halpha_half' hpos hdec hsucc rfl rfl
 
 /--
@@ -14222,7 +14667,6 @@ theorem problem6FirstClosedPolicy_feasibleCanonicalization_firstHalf_of_pivot_le
 theorem problem6FirstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_of_alpha_le_half_of_pivot_le_reverse
     {n : ℕ} [NeZero n]
     {alpha : ℝ} {v : Item n → ℝ}
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha_half : alpha ≤ 1 / 2)
     (hpos : ∀ j : Item n, 0 < v j)
@@ -14236,16 +14680,47 @@ theorem problem6FirstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_of_alpha_le_
       TypeWeightedRecommendationModel.typeFairness
         (twoTypeReducedModel alpha v)
         (problem6FirstClosedPolicy alpha v halpha0 halpha1 hpos) := by
-  exact
-    problem6FirstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_of_feasible_canonicalization
-      hn halpha0 halpha1 hpos hdec
-      (problem6FirstClosedPolicy_feasibleCanonicalization_firstHalf_of_pivot_le_reverse
-        halpha0 halpha1 halpha_half hpos hdec hcenter)
+  let t : Item n :=
+    problem6FirstClosedPivot alpha v halpha0 halpha1 hpos
+  let hbounds : Problem6ClosedPivotDenominatorBounds alpha v t :=
+    problem6FirstClosedPivot_denominatorBounds
+      (alpha := alpha) (v := v) halpha0 halpha1 hpos
+  let cert : Problem6ClosedOptimalityCertificate alpha v t :=
+    problem6ClosedOptimalityCertificate_of_denominatorBounds
+      halpha0 halpha1 hpos hdec hbounds
+  let hpivot : Problem6ClosedNonnegativePivots alpha v t :=
+    problem6ClosedNonnegativePivots_of_denominatorBounds
+      halpha0 halpha1 hpos hbounds
+  have hclosed :
+      Problem6EqualizedBasicOptimal alpha v
+        (problem6ClosedPolicy alpha v t halpha0 halpha1 hpos hpivot)
+        (problem6ClosedValue alpha v t) := by
+    dsimp [cert, hpivot]
+    exact problem6EqualizedBasicOptimal_of_closed_certificate
+      halpha0 halpha1 hpos cert
+  have hvalue :
+      TypeWeightedRecommendationModel.optimalTypeFairnessAtLevel
+          (twoTypeReducedModel alpha v) 1 =
+        TypeWeightedRecommendationModel.typeFairness
+          (twoTypeReducedModel alpha v)
+          (problem6ClosedPolicy alpha v t halpha0 halpha1 hpos hpivot) :=
+    problem6EqualizedBasicOptimal_optimalTypeFairnessAtLevel_one_eq_of_upper_bound
+      halpha0 halpha1 hpos hclosed
+      (fun ρ hfeas =>
+        problem6ClosedPolicy_typeFairness_dominates_feasibleAtLevel_one_of_closed_certificate_alpha_le_half_of_pivot_le_reverse
+          halpha0 halpha1 halpha_half hpos hdec cert hcenter ρ hfeas)
+  have hpolicy :
+      problem6FirstClosedPolicy alpha v halpha0 halpha1 hpos =
+        problem6ClosedPolicy alpha v t halpha0 halpha1 hpos hpivot := by
+    dsimp [t, hpivot, hbounds]
+    exact
+      problem6FirstClosedPolicy_eq_closedPolicy_of_firstClosedPivot_eq
+        halpha0 halpha1 hpos (hpivot_eq := rfl)
+  rw [hvalue, hpolicy]
 
 theorem problem6FirstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_firstHalf_center
     {n : ℕ} [NeZero n]
     {alpha : ℝ} {v : Item n → ℝ} {c : Item n}
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha_half : alpha ≤ 1 / 2)
     (hpos : ∀ j : Item n, 0 < v j)
@@ -14258,14 +14733,13 @@ theorem problem6FirstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_firstHalf_ce
         (problem6FirstClosedPolicy alpha v halpha0 halpha1 hpos) := by
   exact
     problem6FirstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_of_alpha_le_half_of_pivot_le_reverse
-      hn halpha0 halpha1 halpha_half hpos hdec
+      halpha0 halpha1 halpha_half hpos hdec
       (problem6FirstClosedPivot_le_reverse_of_alpha_le_half_center
         halpha0 halpha1 halpha_half hpos hcenter_c)
 
 theorem problem6FirstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_firstHalf_succ_center
     {n : ℕ} [NeZero n]
     {alpha : ℝ} {v : Item n → ℝ} {c : Item n}
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha_half : alpha ≤ 1 / 2)
     (hpos : ∀ j : Item n, 0 < v j)
@@ -14278,7 +14752,7 @@ theorem problem6FirstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_firstHalf_su
         (problem6FirstClosedPolicy alpha v halpha0 halpha1 hpos) := by
   exact
     problem6FirstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_of_alpha_le_half_of_pivot_le_reverse
-      hn halpha0 halpha1 halpha_half hpos hdec
+      halpha0 halpha1 halpha_half hpos hdec
       (problem6FirstClosedPivot_le_reverse_of_alpha_le_half_succ_center
         halpha0 halpha1 halpha_half hpos hsucc)
 
@@ -14468,7 +14942,7 @@ theorem theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_center_of_alpha_l
   rw [hleft, hright]
   exact
     theorem3_typeFairness_mono_firstHalf_center_of_alpha_le
-      hn halpha0 halpha1 halpha0' halpha1' halpha_le
+      halpha0 halpha1 halpha0' halpha1' halpha_le
       halpha_half halpha_half' hpos hdec hcenter_c
 
 /--
@@ -14535,7 +15009,7 @@ theorem theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_succ_center_of_al
   rw [hleft, hright]
   exact
     theorem3_typeFairness_mono_firstHalf_succ_center_of_alpha_le
-      hn halpha0 halpha1 halpha0' halpha1' halpha_le
+      halpha0 halpha1 halpha0' halpha1' halpha_le
       halpha_half halpha_half' hpos hdec hsucc
 
 /--
@@ -14546,7 +15020,6 @@ endpoints, so no external canonicalization hypothesis remains.
 theorem theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_center_of_alpha_le
     {n : ℕ} [NeZero n]
     {alpha alpha' : ℝ} {v : Item n → ℝ} {c : Item n}
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha0' : 0 < alpha') (halpha1' : alpha' < 1)
     (halpha_le : alpha ≤ alpha')
@@ -14561,14 +15034,14 @@ theorem theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_center_of_alpha_l
         (twoTypeReducedModel alpha' v) 1 := by
   have hleft :=
     problem6FirstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_firstHalf_center
-      hn halpha0 halpha1 halpha_half hpos hdec hcenter_c
+      halpha0 halpha1 halpha_half hpos hdec hcenter_c
   have hright :=
     problem6FirstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_firstHalf_center
-      hn halpha0' halpha1' halpha_half' hpos hdec hcenter_c
+      halpha0' halpha1' halpha_half' hpos hdec hcenter_c
   rw [hleft, hright]
   exact
     theorem3_typeFairness_mono_firstHalf_center_of_alpha_le
-      hn halpha0 halpha1 halpha0' halpha1' halpha_le
+      halpha0 halpha1 halpha0' halpha1' halpha_le
       halpha_half halpha_half' hpos hdec hcenter_c
 
 /--
@@ -14579,7 +15052,6 @@ endpoints, so no external canonicalization hypothesis remains.
 theorem theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_succ_center_of_alpha_le
     {n : ℕ} [NeZero n]
     {alpha alpha' : ℝ} {v : Item n → ℝ} {c : Item n}
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha0' : 0 < alpha') (halpha1' : alpha' < 1)
     (halpha_le : alpha ≤ alpha')
@@ -14594,14 +15066,14 @@ theorem theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_succ_center_of_al
         (twoTypeReducedModel alpha' v) 1 := by
   have hleft :=
     problem6FirstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_firstHalf_succ_center
-      hn halpha0 halpha1 halpha_half hpos hdec hsucc
+      halpha0 halpha1 halpha_half hpos hdec hsucc
   have hright :=
     problem6FirstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_firstHalf_succ_center
-      hn halpha0' halpha1' halpha_half' hpos hdec hsucc
+      halpha0' halpha1' halpha_half' hpos hdec hsucc
   rw [hleft, hright]
   exact
     theorem3_typeFairness_mono_firstHalf_succ_center_of_alpha_le
-      hn halpha0 halpha1 halpha0' halpha1' halpha_le
+      halpha0 halpha1 halpha0' halpha1' halpha_le
       halpha_half halpha_half' hpos hdec hsucc
 
 /--

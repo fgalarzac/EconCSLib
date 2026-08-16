@@ -229,6 +229,91 @@ theorem paper_theorem1ii_perfect_classifier_prior_bias_zero
   rw [paperBias, paperMarginalLabelShare_eq_truth_share_of_rule_eq_truth μ rule htruth y]
   ring
 
+/--
+Support-sensitive version of the marginal-share identity used by Theorem 1(ii).
+
+The rule need only agree with the true label on positive-mass joint atoms;
+zero-mass feature/label pairs contribute zero to both finite expectations.
+-/
+theorem paperMarginalLabelShare_eq_truth_share_of_rule_eq_truth_on_support
+    [Fintype X] [DecidableEq X] [Fintype Y] [DecidableEq Y]
+    (μ : PMF (X × Y)) (rule : X → Y)
+    (htruth : ∀ xy : X × Y, μ xy ≠ 0 → rule xy.1 = xy.2) (y : Y) :
+    paperMarginalLabelShare μ rule y = paperPrior μ y := by
+  classical
+  unfold paperMarginalLabelShare paperPrior featureMarginal labelMarginal
+  rw [EconCSLib.pmf_map_apply_toReal_eq_pmfProb_preimage]
+  unfold EconCSLib.pmfProb
+  rw [EconCSLib.pmfExp_map]
+  unfold EconCSLib.pmfExp
+  refine Finset.sum_congr rfl ?_
+  intro xy _
+  by_cases hmass : μ xy = 0
+  · simp [hmass]
+  · simp [htruth xy hmass]
+
+/--
+Theorem 1(ii), prior-reference endpoint with the exact positive-support
+perfect-classifier premise.
+-/
+theorem paper_theorem1ii_perfect_classifier_prior_bias_zero_on_support
+    [Fintype X] [DecidableEq X] [Fintype Y] [DecidableEq Y]
+    (μ : PMF (X × Y)) (q : X → Y → ℝ) (rule : X → Y)
+    (hperfect : ∀ x z, μ (x, z) ≠ 0 →
+      rule x = z ∧ q x z = 1 ∧ ∀ a, a ≠ z → q x a = 0)
+    (y : Y) :
+    paperBias μ rule (paperPrior μ) y = 0 := by
+  rw [paperBias,
+    paperMarginalLabelShare_eq_truth_share_of_rule_eq_truth_on_support μ rule
+      (fun xy hxy => (hperfect xy.1 xy.2 hxy).1) y]
+  ring
+
+/--
+Under the source's positive-support one-hot condition, the aggregate posterior
+reference equals the prior class share.
+-/
+theorem paperAggregatePosterior_eq_prior_of_perfect_classifier_on_support
+    [Fintype X] [DecidableEq X] [Fintype Y] [DecidableEq Y]
+    (μ : PMF (X × Y)) (q : X → Y → ℝ) (rule : X → Y)
+    (hperfect : ∀ x z, μ (x, z) ≠ 0 →
+      rule x = z ∧ q x z = 1 ∧ ∀ a, a ≠ z → q x a = 0)
+    (y : Y) :
+    paperAggregatePosterior μ q y = paperPrior μ y := by
+  classical
+  unfold paperAggregatePosterior paperPrior featureMarginal labelMarginal
+  rw [EconCSLib.pmf_map_apply_toReal_eq_pmfProb_preimage]
+  unfold EconCSLib.pmfProb
+  rw [EconCSLib.pmfExp_map]
+  unfold EconCSLib.pmfExp
+  refine Finset.sum_congr rfl ?_
+  intro xy _
+  by_cases hmass : μ xy = 0
+  · simp [hmass]
+  · by_cases hy : xy.2 = y
+    · subst y
+      simp [(hperfect xy.1 xy.2 hmass).2.1]
+    · have hqy : q xy.1 y = 0 :=
+        (hperfect xy.1 xy.2 hmass).2.2 y (Ne.symm hy)
+      simp [hy, hqy]
+
+/--
+Theorem 1(ii), aggregate-posterior-reference endpoint with the exact
+positive-support perfect-classifier premise.
+-/
+theorem paper_theorem1ii_perfect_classifier_aggregate_bias_zero_on_support
+    [Fintype X] [DecidableEq X] [Fintype Y] [DecidableEq Y]
+    (μ : PMF (X × Y)) (q : X → Y → ℝ) (rule : X → Y)
+    (hperfect : ∀ x z, μ (x, z) ≠ 0 →
+      rule x = z ∧ q x z = 1 ∧ ∀ a, a ≠ z → q x a = 0)
+    (y : Y) :
+    paperAggregateBias μ q rule y = 0 := by
+  unfold paperAggregateBias paperBias
+  rw [paperMarginalLabelShare_eq_truth_share_of_rule_eq_truth_on_support μ rule
+      (fun xy hxy => (hperfect xy.1 xy.2 hxy).1) y,
+    paperAggregatePosterior_eq_prior_of_perfect_classifier_on_support
+      μ q rule hperfect y]
+  ring
+
 theorem paperAggregateBias_eq_pmfExp_pointwise
     [Fintype X] [DecidableEq X] [Fintype Y] [DecidableEq Y]
     (μ : PMF (X × Y)) (q : X → Y → ℝ) (rule : X → Y) (y : Y) :
@@ -21668,6 +21753,14 @@ noncomputable def expectedDatasetFidelity {Sample : Type*} [Fintype Sample]
   EconCSLib.pmfExp sampleLaw
     (fun sample => datasetFidelity pref (policy sample))
 
+/-- Expected distributional fidelity for a dataset-dependent reference family. -/
+noncomputable def expectedDatasetFidelityAt {Sample : Type*} [Fintype Sample]
+    [DecidableEq Sample] {N K : ℕ}
+    (sampleLaw : PMF Sample) (prefAt : Sample → Fin K → ℝ)
+    (policy : Sample → Fin N → Fin K) : ℝ :=
+  EconCSLib.pmfExp sampleLaw
+    (fun sample => datasetFidelity (prefAt sample) (policy sample))
+
 /-- Measure-integral expected dataset accuracy for measurable sample spaces. -/
 noncomputable def measureExpectedDatasetAccuracy {Sample : Type*} [MeasurableSpace Sample]
     {N K : ℕ} (sampleLaw : Measure Sample)
@@ -22077,6 +22170,59 @@ theorem not_expectedDataset_pareto_of_positive_mass_sample_dominated
     (expectedDatasetAccuracy sampleLaw posterior)
     (expectedDatasetFidelity sampleLaw pref) haccExp hfidExp
 
+/--
+Dataset-dependent-reference version of the positive-mass expected-policy
+Pareto lift.  Changing the policy at one positive-mass sample leaves every
+other sample's own reference vector unchanged.
+-/
+theorem not_expectedDatasetAt_pareto_of_positive_mass_sample_dominated
+    {Sample : Type*} [Fintype Sample] [DecidableEq Sample] {N K : ℕ}
+    (sampleLaw : PMF Sample) (posterior : Sample → Fin N → Fin K → ℝ)
+    (prefAt : Sample → Fin K → ℝ) (policy : Sample → Fin N → Fin K)
+    (sample : Sample) (betterDecision : Fin N → Fin K)
+    (hmass : 0 < (sampleLaw sample).toReal)
+    (hacc :
+      datasetAccuracyScore (posterior sample) (policy sample) ≤
+        datasetAccuracyScore (posterior sample) betterDecision)
+    (hfid :
+      datasetFidelity (prefAt sample) (policy sample) <
+        datasetFidelity (prefAt sample) betterDecision) :
+    ¬ Pareto.ParetoOptimal
+      (expectedDatasetAccuracy sampleLaw posterior)
+      (expectedDatasetFidelityAt sampleLaw prefAt) policy := by
+  classical
+  let betterPolicy := switchPolicyAtSample policy sample betterDecision
+  have haccExp :
+      expectedDatasetAccuracy sampleLaw posterior policy ≤
+        expectedDatasetAccuracy sampleLaw posterior betterPolicy := by
+    unfold expectedDatasetAccuracy
+    refine EconCSLib.pmfExp_le_pmfExp_of_forall_le sampleLaw _ _ ?_
+    intro s
+    by_cases hs : s = sample
+    · subst s
+      simpa [betterPolicy, switchPolicyAtSample] using hacc
+    · simp [betterPolicy, switchPolicyAtSample, hs]
+  have hfidExp :
+      expectedDatasetFidelityAt sampleLaw prefAt policy <
+        expectedDatasetFidelityAt sampleLaw prefAt betterPolicy := by
+    unfold expectedDatasetFidelityAt
+    refine pmfExp_lt_pmfExp_of_forall_le_exists_lt sampleLaw _ _ ?_ ?_
+    · intro s
+      by_cases hs : s = sample
+      · subst s
+        exact le_of_lt (by
+          simpa [betterPolicy, switchPolicyAtSample] using hfid)
+      · simp [betterPolicy, switchPolicyAtSample, hs]
+    · exact ⟨sample, hmass, by
+        simpa [betterPolicy, switchPolicyAtSample] using hfid⟩
+  refine Pareto.not_paretoOptimal_of_dominated
+    (expectedDatasetAccuracy sampleLaw posterior)
+    (expectedDatasetFidelityAt sampleLaw prefAt)
+    (rule := policy) (better := betterPolicy) ?_
+  exact Pareto.paretoDominates_of_weakAccuracy_strictFidelity
+    (expectedDatasetAccuracy sampleLaw posterior)
+    (expectedDatasetFidelityAt sampleLaw prefAt) haccExp hfidExp
+
 theorem not_expectedDataset_weightedObjective_maximizer_of_positive_mass_sample_dominated
     {Sample : Type*} [Fintype Sample] [DecidableEq Sample] {N K : ℕ}
     (sampleLaw : PMF Sample) (posterior : Sample → Fin N → Fin K → ℝ)
@@ -22125,6 +22271,62 @@ theorem not_expectedDataset_weightedObjective_maximizer_of_positive_mass_sample_
   have hlt := Pareto.weightedObjective_lt_of_weakAccuracy_strictFidelity
     (expectedDatasetAccuracy sampleLaw posterior)
     (expectedDatasetFidelity sampleLaw pref)
+    hγnonneg hγlt haccExp hfidExp
+  exact not_lt_of_ge (hmax betterPolicy) hlt
+
+/--
+Dataset-dependent-reference version of the positive-mass expected-policy
+weighted-objective lift for `0 ≤ γ < 1`.
+-/
+theorem not_expectedDatasetAt_weightedObjective_maximizer_of_positive_mass_sample_dominated
+    {Sample : Type*} [Fintype Sample] [DecidableEq Sample] {N K : ℕ}
+    (sampleLaw : PMF Sample) (posterior : Sample → Fin N → Fin K → ℝ)
+    (prefAt : Sample → Fin K → ℝ) (policy : Sample → Fin N → Fin K)
+    (sample : Sample) (betterDecision : Fin N → Fin K)
+    {γ : ℝ} (hγnonneg : 0 ≤ γ) (hγlt : γ < 1)
+    (hmass : 0 < (sampleLaw sample).toReal)
+    (hacc :
+      datasetAccuracyScore (posterior sample) (policy sample) ≤
+        datasetAccuracyScore (posterior sample) betterDecision)
+    (hfid :
+      datasetFidelity (prefAt sample) (policy sample) <
+        datasetFidelity (prefAt sample) betterDecision) :
+    ¬ ∀ other : Sample → Fin N → Fin K,
+        Pareto.weightedObjective γ
+            (expectedDatasetAccuracy sampleLaw posterior)
+            (expectedDatasetFidelityAt sampleLaw prefAt) other ≤
+          Pareto.weightedObjective γ
+            (expectedDatasetAccuracy sampleLaw posterior)
+            (expectedDatasetFidelityAt sampleLaw prefAt) policy := by
+  classical
+  let betterPolicy := switchPolicyAtSample policy sample betterDecision
+  have haccExp :
+      expectedDatasetAccuracy sampleLaw posterior policy ≤
+        expectedDatasetAccuracy sampleLaw posterior betterPolicy := by
+    unfold expectedDatasetAccuracy
+    refine EconCSLib.pmfExp_le_pmfExp_of_forall_le sampleLaw _ _ ?_
+    intro s
+    by_cases hs : s = sample
+    · subst s
+      simpa [betterPolicy, switchPolicyAtSample] using hacc
+    · simp [betterPolicy, switchPolicyAtSample, hs]
+  have hfidExp :
+      expectedDatasetFidelityAt sampleLaw prefAt policy <
+        expectedDatasetFidelityAt sampleLaw prefAt betterPolicy := by
+    unfold expectedDatasetFidelityAt
+    refine pmfExp_lt_pmfExp_of_forall_le_exists_lt sampleLaw _ _ ?_ ?_
+    · intro s
+      by_cases hs : s = sample
+      · subst s
+        exact le_of_lt (by
+          simpa [betterPolicy, switchPolicyAtSample] using hfid)
+      · simp [betterPolicy, switchPolicyAtSample, hs]
+    · exact ⟨sample, hmass, by
+        simpa [betterPolicy, switchPolicyAtSample] using hfid⟩
+  intro hmax
+  have hlt := Pareto.weightedObjective_lt_of_weakAccuracy_strictFidelity
+    (expectedDatasetAccuracy sampleLaw posterior)
+    (expectedDatasetFidelityAt sampleLaw prefAt)
     hγnonneg hγlt haccExp hfidExp
   exact not_lt_of_ge (hmax betterPolicy) hlt
 

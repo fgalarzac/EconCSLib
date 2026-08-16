@@ -50,6 +50,421 @@ theorem theorem32_realBisectionRun_upper_true_of_upper_true
         theorem32_realBisectionStep_upper_true_of_upper_true above ih
 
 /--
+The lower endpoint of a Boolean bisection run is either still the initial
+lower endpoint or is a point at which the classifier returned false.
+-/
+theorem theorem32_realBisectionRun_lower_eq_initial_or_lower_false
+    (above : ℝ → Bool) {n : ℕ} {lower upper : ℝ} :
+    (EconCSLib.Optimization.realBisectionRun above n lower upper).1 = lower ∨
+      above (EconCSLib.Optimization.realBisectionRun above n lower upper).1 =
+        false := by
+  induction n with
+  | zero =>
+      left
+      simp [EconCSLib.Optimization.realBisectionRun]
+  | succ n ih =>
+      let current :=
+        EconCSLib.Optimization.realBisectionRun above n lower upper
+      change current.1 = lower ∨ above current.1 = false at ih
+      have hsucc :
+          EconCSLib.Optimization.realBisectionRun above (n + 1) lower upper =
+            EconCSLib.Optimization.realBisectionStep
+              above current.1 current.2 := by
+        simp [EconCSLib.Optimization.realBisectionRun,
+          EconCSLib.Optimization.realBisectionStepFn,
+          Function.iterate_succ_apply', current]
+      rw [hsucc]
+      by_cases hmid :
+          above
+            (EconCSLib.Optimization.realBisectionMidpoint
+              current.1 current.2) = true
+      · simpa [EconCSLib.Optimization.realBisectionStep, hmid] using ih
+      · have hmid_false :
+            above
+                (EconCSLib.Optimization.realBisectionMidpoint
+                  current.1 current.2) = false := by
+          cases h :
+              above
+                (EconCSLib.Optimization.realBisectionMidpoint
+                  current.1 current.2) <;>
+            simp [h] at hmid ⊢
+        right
+        simpa [EconCSLib.Optimization.realBisectionStep, hmid_false] using
+          hmid_false
+
+/--
+A Boolean bisection run stays below any common upper bound on both of its
+initial endpoints.  This convex-hull invariant does not require the endpoints
+to be presented in increasing order.
+-/
+theorem theorem32_realBisectionRun_upper_le_of_endpoints_le
+    (above : ℝ → Bool) {n : ℕ} {lower upper bound : ℝ}
+    (hlower : lower ≤ bound) (hupper : upper ≤ bound) :
+    (EconCSLib.Optimization.realBisectionRun above n lower upper).2 ≤
+      bound := by
+  have hpair :
+      ∀ k : ℕ,
+        (EconCSLib.Optimization.realBisectionRun
+            above k lower upper).1 ≤ bound ∧
+          (EconCSLib.Optimization.realBisectionRun
+            above k lower upper).2 ≤ bound := by
+    intro k
+    induction k with
+    | zero =>
+        simpa [EconCSLib.Optimization.realBisectionRun] using
+          And.intro hlower hupper
+    | succ k ih =>
+        let current :=
+          EconCSLib.Optimization.realBisectionRun above k lower upper
+        change current.1 ≤ bound ∧ current.2 ≤ bound at ih
+        have hsucc :
+            EconCSLib.Optimization.realBisectionRun above (k + 1) lower upper =
+              EconCSLib.Optimization.realBisectionStep
+                above current.1 current.2 := by
+          simp [EconCSLib.Optimization.realBisectionRun,
+            EconCSLib.Optimization.realBisectionStepFn,
+            Function.iterate_succ_apply', current]
+        rw [hsucc]
+        have hmid_bound :
+            EconCSLib.Optimization.realBisectionMidpoint
+                current.1 current.2 ≤ bound := by
+          dsimp [EconCSLib.Optimization.realBisectionMidpoint]
+          linarith [ih.1, ih.2]
+        by_cases hmid :
+            above
+                (EconCSLib.Optimization.realBisectionMidpoint
+                  current.1 current.2) = true
+        · simpa [EconCSLib.Optimization.realBisectionStep, hmid] using
+            And.intro ih.1 hmid_bound
+        · have hmid_false :
+              above
+                  (EconCSLib.Optimization.realBisectionMidpoint
+                    current.1 current.2) = false := by
+            cases h :
+                above
+                  (EconCSLib.Optimization.realBisectionMidpoint
+                    current.1 current.2) <;>
+              simp [h] at hmid ⊢
+          simpa [EconCSLib.Optimization.realBisectionStep, hmid_false] using
+            And.intro hmid_bound ih.2
+  exact (hpair n).2
+
+/--
+When a run starts at lower endpoint `0`, a positive returned upper endpoint
+forces the initial upper endpoint to be positive.
+-/
+theorem theorem32_realBisectionRun_initial_upper_pos_of_returned_upper_pos
+    (above : ℝ → Bool) {n : ℕ} {upper : ℝ}
+    (hreturned :
+      0 < (EconCSLib.Optimization.realBisectionRun above n 0 upper).2) :
+    0 < upper := by
+  by_contra hnot
+  have hupper : upper ≤ 0 := le_of_not_gt hnot
+  have hrun :
+      (EconCSLib.Optimization.realBisectionRun above n 0 upper).2 ≤ 0 :=
+    theorem32_realBisectionRun_upper_le_of_endpoints_le
+      above le_rfl hupper
+  linarith
+
+/-- A bisection step never lowers the running lower endpoint. -/
+theorem theorem32_realBisectionStep_initial_lower_le_lower
+    (above : ℝ → Bool) {lower upper : ℝ}
+    (hlowerUpper : lower ≤ upper) :
+    lower ≤ (EconCSLib.Optimization.realBisectionStep above lower upper).1 := by
+  by_cases hmid :
+      above (EconCSLib.Optimization.realBisectionMidpoint lower upper) = true
+  · simp [EconCSLib.Optimization.realBisectionStep, hmid]
+  · have hmid_false :
+        above (EconCSLib.Optimization.realBisectionMidpoint lower upper) =
+          false := by
+      cases h :
+          above (EconCSLib.Optimization.realBisectionMidpoint lower upper) <;>
+        simp [h] at hmid ⊢
+    simpa [EconCSLib.Optimization.realBisectionStep, hmid_false] using
+      EconCSLib.Optimization.realBisectionMidpoint_lower_le hlowerUpper
+
+/-- A finite bisection run never lowers its initial lower endpoint. -/
+theorem theorem32_realBisectionRun_initial_lower_le_lower
+    (above : ℝ → Bool) {n : ℕ} {lower upper : ℝ}
+    (hlowerUpper : lower ≤ upper) :
+    lower ≤
+      (EconCSLib.Optimization.realBisectionRun above n lower upper).1 := by
+  induction n with
+  | zero =>
+      simp [EconCSLib.Optimization.realBisectionRun]
+  | succ n ih =>
+      have hrun :
+          (EconCSLib.Optimization.realBisectionRun above n lower upper).1 ≤
+            (EconCSLib.Optimization.realBisectionRun above n lower upper).2 :=
+        EconCSLib.Optimization.realBisectionRun_lower_le_upper
+          above hlowerUpper
+      have hstep :
+          (EconCSLib.Optimization.realBisectionRun above n lower upper).1 ≤
+            (EconCSLib.Optimization.realBisectionStep above
+              (EconCSLib.Optimization.realBisectionRun above n lower upper).1
+              (EconCSLib.Optimization.realBisectionRun above n lower upper).2).1 :=
+        theorem32_realBisectionStep_initial_lower_le_lower above hrun
+      have hsucc :
+          (EconCSLib.Optimization.realBisectionRun above n lower upper).1 ≤
+            (EconCSLib.Optimization.realBisectionRun
+              above (n + 1) lower upper).1 := by
+        simpa [EconCSLib.Optimization.realBisectionRun,
+          EconCSLib.Optimization.realBisectionStepFn,
+          Function.iterate_succ_apply'] using hstep
+      exact ih.trans hsucc
+
+/-- Positive initial width remains strictly positive after finitely many steps. -/
+theorem theorem32_realBisectionRun_lower_lt_upper_of_initial_lt
+    (above : ℝ → Bool) {n : ℕ} {lower upper : ℝ}
+    (hlowerUpper : lower < upper) :
+    (EconCSLib.Optimization.realBisectionRun above n lower upper).1 <
+      (EconCSLib.Optimization.realBisectionRun above n lower upper).2 := by
+  have hwidth :=
+    EconCSLib.Optimization.realBisectionRun_width_eq
+      (n := n) above hlowerUpper.le
+  have hpow_pos : 0 < (2 : ℝ) ^ n := pow_pos (by norm_num) n
+  have hquot_pos : 0 < (upper - lower) / (2 : ℝ) ^ n :=
+    div_pos (sub_pos.mpr hlowerUpper) hpow_pos
+  linarith
+
+/--
+Two classifiers that agree at every positive point below the initial upper
+endpoint produce the same run from `[0, upper]`.  This is the operational
+bridge needed for Algorithm 1: every tested midpoint is positive even though
+the source interval itself has lower endpoint zero.
+-/
+theorem theorem32_realBisectionRun_eq_of_eq_on_pos_le_upper
+    (above above' : ℝ → Bool) {n : ℕ} {upper : ℝ}
+    (hupper : 0 < upper)
+    (heq : ∀ x, 0 < x → x ≤ upper → above x = above' x) :
+    EconCSLib.Optimization.realBisectionRun above n 0 upper =
+      EconCSLib.Optimization.realBisectionRun above' n 0 upper := by
+  induction n with
+  | zero =>
+      simp [EconCSLib.Optimization.realBisectionRun]
+  | succ n ih =>
+      let current :=
+        EconCSLib.Optimization.realBisectionRun above n 0 upper
+      have hcurrent_nonempty : current.1 ≤ current.2 := by
+        exact
+          EconCSLib.Optimization.realBisectionRun_lower_le_upper
+            above hupper.le
+      have hcurrent_strict : current.1 < current.2 := by
+        exact
+          theorem32_realBisectionRun_lower_lt_upper_of_initial_lt
+            (n := n) above hupper
+      have hcurrent_lower_nonneg : 0 ≤ current.1 := by
+        exact
+          theorem32_realBisectionRun_initial_lower_le_lower
+            (n := n) above hupper.le
+      have hcurrent_upper_le : current.2 ≤ upper := by
+        exact
+          EconCSLib.Optimization.realBisectionRun_upper_le_initial
+            (n := n) above hupper.le
+      have hmid_pos :
+          0 < EconCSLib.Optimization.realBisectionMidpoint current.1 current.2 := by
+        unfold EconCSLib.Optimization.realBisectionMidpoint
+        nlinarith
+      have hmid_le :
+          EconCSLib.Optimization.realBisectionMidpoint current.1 current.2 ≤
+            upper :=
+        (EconCSLib.Optimization.realBisectionMidpoint_le_upper
+          hcurrent_nonempty).trans hcurrent_upper_le
+      have hclass :
+          above
+              (EconCSLib.Optimization.realBisectionMidpoint
+                current.1 current.2) =
+            above'
+              (EconCSLib.Optimization.realBisectionMidpoint
+                current.1 current.2) :=
+        heq _ hmid_pos hmid_le
+      have hstep :
+          EconCSLib.Optimization.realBisectionStep above current.1 current.2 =
+            EconCSLib.Optimization.realBisectionStep
+              above' current.1 current.2 := by
+        simp only [EconCSLib.Optimization.realBisectionStep]
+        rw [hclass]
+      calc
+        EconCSLib.Optimization.realBisectionRun above (n + 1) 0 upper =
+            EconCSLib.Optimization.realBisectionStep above current.1 current.2 := by
+          simp [EconCSLib.Optimization.realBisectionRun,
+            EconCSLib.Optimization.realBisectionStepFn,
+            Function.iterate_succ_apply', current]
+        _ = EconCSLib.Optimization.realBisectionStep
+              above' current.1 current.2 := hstep
+        _ = EconCSLib.Optimization.realBisectionRun above' (n + 1) 0 upper := by
+          rw [show current =
+              EconCSLib.Optimization.realBisectionRun above' n 0 upper by
+            simpa [current] using ih]
+          simp [EconCSLib.Optimization.realBisectionRun,
+            EconCSLib.Optimization.realBisectionStepFn,
+            Function.iterate_succ_apply']
+
+/--
+One-sided outer invariant used by the literal source loop.  To keep the
+running lower endpoint below a comparison target, only the source false
+branch needs to be sound; no converse characterization of the true branch is
+required.
+-/
+theorem theorem32_realBisectionStep_lower_le_target_of_false_sound
+    (above : ℝ → Bool) {target lower upper : ℝ}
+    (hlower : lower ≤ target)
+    (hfalse : ∀ x, above x = false → x ≤ target) :
+    (EconCSLib.Optimization.realBisectionStep above lower upper).1 ≤
+      target := by
+  by_cases hmid :
+      above (EconCSLib.Optimization.realBisectionMidpoint lower upper) = true
+  · simpa [EconCSLib.Optimization.realBisectionStep, hmid] using hlower
+  · have hmid_false :
+        above (EconCSLib.Optimization.realBisectionMidpoint lower upper) =
+          false := by
+      cases h :
+          above (EconCSLib.Optimization.realBisectionMidpoint lower upper) <;>
+        simp [h] at hmid ⊢
+    simpa [EconCSLib.Optimization.realBisectionStep, hmid_false] using
+      hfalse (EconCSLib.Optimization.realBisectionMidpoint lower upper)
+        hmid_false
+
+/-- Finite bisection preserves the one-sided lower-target invariant. -/
+theorem theorem32_realBisectionRun_lower_le_target_of_false_sound
+    (above : ℝ → Bool) {target lower upper : ℝ} {n : ℕ}
+    (hlower : lower ≤ target)
+    (hfalse : ∀ x, above x = false → x ≤ target) :
+    (EconCSLib.Optimization.realBisectionRun above n lower upper).1 ≤
+      target := by
+  induction n with
+  | zero =>
+      simpa [EconCSLib.Optimization.realBisectionRun] using hlower
+  | succ n ih =>
+      simpa [EconCSLib.Optimization.realBisectionRun,
+        EconCSLib.Optimization.realBisectionStepFn,
+        Function.iterate_succ_apply'] using
+        theorem32_realBisectionStep_lower_le_target_of_false_sound
+          above ih hfalse
+
+/--
+Interval-local one-sided bisection invariant.  Only points queried inside the
+initial source search interval need a sound false branch.
+-/
+theorem theorem32_realBisectionRun_lower_le_target_of_false_sound_on_Icc
+    (above : ℝ → Bool) {target lower upper : ℝ} {n : ℕ}
+    (hlowerUpper : lower ≤ upper)
+    (hlowerTarget : lower ≤ target)
+    (hfalse :
+      ∀ x, lower ≤ x → x ≤ upper → above x = false → x ≤ target) :
+    (EconCSLib.Optimization.realBisectionRun above n lower upper).1 ≤
+      target := by
+  induction n with
+  | zero =>
+      simpa [EconCSLib.Optimization.realBisectionRun] using hlowerTarget
+  | succ n ih =>
+      let current :=
+        EconCSLib.Optimization.realBisectionRun above n lower upper
+      change current.1 ≤ target at ih
+      have hsucc :
+          EconCSLib.Optimization.realBisectionRun above (n + 1) lower upper =
+            EconCSLib.Optimization.realBisectionStep
+              above current.1 current.2 := by
+        simp [EconCSLib.Optimization.realBisectionRun,
+          EconCSLib.Optimization.realBisectionStepFn,
+          Function.iterate_succ_apply', current]
+      rw [hsucc]
+      have hcurrent_nonempty : current.1 ≤ current.2 :=
+        EconCSLib.Optimization.realBisectionRun_lower_le_upper
+          above hlowerUpper
+      have hlower_current : lower ≤ current.1 :=
+        theorem32_realBisectionRun_initial_lower_le_lower
+          (n := n) above hlowerUpper
+      have hcurrent_upper : current.2 ≤ upper :=
+        EconCSLib.Optimization.realBisectionRun_upper_le_initial
+          (n := n) above hlowerUpper
+      by_cases hmid :
+          above
+            (EconCSLib.Optimization.realBisectionMidpoint
+              current.1 current.2) = true
+      · simpa [EconCSLib.Optimization.realBisectionStep, hmid] using ih
+      · have hmid_false :
+            above
+                (EconCSLib.Optimization.realBisectionMidpoint
+                  current.1 current.2) = false := by
+          cases h :
+              above
+                (EconCSLib.Optimization.realBisectionMidpoint
+                  current.1 current.2) <;>
+            simp [h] at hmid ⊢
+        have hlower_mid :
+            lower ≤
+              EconCSLib.Optimization.realBisectionMidpoint
+                current.1 current.2 :=
+          hlower_current.trans
+            (EconCSLib.Optimization.realBisectionMidpoint_lower_le
+              hcurrent_nonempty)
+        have hmid_upper :
+            EconCSLib.Optimization.realBisectionMidpoint
+                current.1 current.2 ≤ upper :=
+          (EconCSLib.Optimization.realBisectionMidpoint_le_upper
+            hcurrent_nonempty).trans hcurrent_upper
+        have hmid_target :=
+          hfalse
+            (EconCSLib.Optimization.realBisectionMidpoint
+              current.1 current.2)
+            hlower_mid hmid_upper hmid_false
+        simpa [EconCSLib.Optimization.realBisectionStep, hmid_false] using
+          hmid_target
+
+/-- Interval-local form of the one-sided outer bisection error bound. -/
+theorem theorem32_realBisectionRun_upper_le_target_add_delta_of_false_sound_on_Icc
+    (above : ℝ → Bool) {target lower upper delta : ℝ} {n : ℕ}
+    (hlowerUpper : lower ≤ upper)
+    (hlowerTarget : lower ≤ target)
+    (hfalse :
+      ∀ x, lower ≤ x → x ≤ upper → above x = false → x ≤ target)
+    (hwidth : (upper - lower) / (2 : ℝ) ^ n ≤ delta) :
+    (EconCSLib.Optimization.realBisectionRun above n lower upper).2 ≤
+      target + delta := by
+  have hlowerRun :
+      (EconCSLib.Optimization.realBisectionRun above n lower upper).1 ≤
+        target :=
+    theorem32_realBisectionRun_lower_le_target_of_false_sound_on_Icc
+      above hlowerUpper hlowerTarget hfalse
+  have hrunWidth :
+      (EconCSLib.Optimization.realBisectionRun above n lower upper).2 -
+          (EconCSLib.Optimization.realBisectionRun above n lower upper).1 =
+        (upper - lower) / (2 : ℝ) ^ n :=
+    EconCSLib.Optimization.realBisectionRun_width_eq
+      (n := n) above hlowerUpper
+  linarith
+
+/--
+One-sided bisection error bound: false-branch soundness places the returned
+upper endpoint at most one final bracket width above the comparison target.
+The upper endpoint is allowed to lie below the target, which only improves
+the last adjacent rate in Theorem 3.2.
+-/
+theorem theorem32_realBisectionRun_upper_le_target_add_delta_of_false_sound
+    (above : ℝ → Bool) {target lower upper delta : ℝ} {n : ℕ}
+    (hlowerUpper : lower ≤ upper)
+    (hlowerTarget : lower ≤ target)
+    (hfalse : ∀ x, above x = false → x ≤ target)
+    (hwidth : (upper - lower) / (2 : ℝ) ^ n ≤ delta) :
+    (EconCSLib.Optimization.realBisectionRun above n lower upper).2 ≤
+      target + delta := by
+  have hlowerRun :
+      (EconCSLib.Optimization.realBisectionRun above n lower upper).1 ≤
+        target :=
+    theorem32_realBisectionRun_lower_le_target_of_false_sound
+      above hlowerTarget hfalse
+  have hrunWidth :
+      (EconCSLib.Optimization.realBisectionRun
+          above n lower upper).2 -
+          (EconCSLib.Optimization.realBisectionRun
+            above n lower upper).1 =
+        (upper - lower) / (2 : ℝ) ^ n :=
+    EconCSLib.Optimization.realBisectionRun_width_eq
+      (n := n) above hlowerUpper
+  linarith
+
+/--
 Source-shaped outer classifier from Algorithm 1: after `CalculateOtherLevels`
 at a tested final-low endpoint, the branch that updates the upper endpoint is
 the non-strict comparison `ratelast ≤ ratefirst`.
@@ -324,6 +739,377 @@ theorem theorem32_inner_weighted_target_lt_rate_iff_threshold_classifier_false
         weightedBernoulliClosedThresholdRate gHi gLo pHi x ≤ target :=
       not_le_of_gt htarget_lt_rate
     exact lt_of_not_ge (fun hroot_le_x => hnot_rate_le (hiff.mp hroot_le_x))
+
+/-!
+The preceding equivalences use the inverse root as a proof device.  Algorithm
+1 itself does not know that root: `BisectNextLevel` evaluates the pairwise
+rate at the tested midpoint.  The following Boolean predicate is the literal
+source branch test and therefore belongs to the executable object.
+-/
+
+/-- Algorithm 1's direct weighted `PairwiseRate <= ratetarget` test. -/
+def theorem32InnerSourceWeightedRateAbove
+    (gHi gLo pHi target x : ℝ) : Bool :=
+  if weightedBernoulliClosedThresholdRate gHi gLo pHi x ≤ target then
+    true
+  else
+    false
+
+/-- True branch of the direct weighted inner rate classifier. -/
+theorem theorem32InnerSourceWeightedRateAbove_eq_true_iff
+    (gHi gLo pHi target x : ℝ) :
+    theorem32InnerSourceWeightedRateAbove gHi gLo pHi target x = true ↔
+      weightedBernoulliClosedThresholdRate gHi gLo pHi x ≤ target := by
+  unfold theorem32InnerSourceWeightedRateAbove
+  by_cases h :
+      weightedBernoulliClosedThresholdRate gHi gLo pHi x ≤ target
+  · simp [h]
+  · simp [h]
+
+/-- False branch of the direct weighted inner rate classifier. -/
+theorem theorem32InnerSourceWeightedRateAbove_eq_false_iff
+    (gHi gLo pHi target x : ℝ) :
+    theorem32InnerSourceWeightedRateAbove gHi gLo pHi target x = false ↔
+      target < weightedBernoulliClosedThresholdRate gHi gLo pHi x := by
+  unfold theorem32InnerSourceWeightedRateAbove
+  by_cases h :
+      weightedBernoulliClosedThresholdRate gHi gLo pHi x ≤ target
+  · simp [h]
+  · simp [h, lt_of_not_ge h]
+
+/--
+On a feasible inner bracket, the literal source rate test agrees with the
+inverse-root threshold classifier used in the proof layer.
+-/
+theorem theorem32InnerSourceWeightedRateAbove_eq_threshold_classifier
+    {gHi gLo floor pHi target x : ℝ}
+    (hfeasible :
+      WeightedBernoulliLowEndpointTargetFeasible
+        gHi gLo floor pHi target)
+    (hfloor_le_x : floor ≤ x) (hx_le_hi : x ≤ pHi) :
+    theorem32InnerSourceWeightedRateAbove gHi gLo pHi target x =
+      EconCSLib.Optimization.realBisectionAboveTarget
+        (weightedBernoulliLowEndpointOfRateOrFloor
+          gHi gLo floor pHi target) x := by
+  apply Bool.eq_iff_iff.mpr
+  rw [theorem32InnerSourceWeightedRateAbove_eq_true_iff,
+    theorem32_inner_weighted_rate_le_target_iff_threshold_classifier_true
+      hfeasible hfloor_le_x hx_le_hi]
+
+/--
+The same classifier equivalence on the whole positive source bisection
+interval.  Below the proof-only floor, interval expansion makes the direct
+pairwise rate strictly exceed the target, so both classifiers take the false
+branch.  The floor is used only to prove equivalence; the literal classifier
+does not receive it.
+-/
+theorem theorem32InnerSourceWeightedRateAbove_eq_threshold_classifier_of_pos
+    {gHi gLo floor pHi target x : ℝ}
+    (hfeasible :
+      WeightedBernoulliLowEndpointTargetFeasible
+        gHi gLo floor pHi target)
+    (hx_pos : 0 < x) (hx_le_hi : x ≤ pHi) :
+    theorem32InnerSourceWeightedRateAbove gHi gLo pHi target x =
+      EconCSLib.Optimization.realBisectionAboveTarget
+        (weightedBernoulliLowEndpointOfRateOrFloor
+          gHi gLo floor pHi target) x := by
+  by_cases hfloor_le_x : floor ≤ x
+  · exact
+      theorem32InnerSourceWeightedRateAbove_eq_threshold_classifier
+        hfeasible hfloor_le_x hx_le_hi
+  · have hx_lt_floor : x < floor := lt_of_not_ge hfloor_le_x
+    have hrate_floor_le_x :
+        weightedBernoulliClosedThresholdRate gHi gLo pHi floor ≤
+          weightedBernoulliClosedThresholdRate gHi gLo pHi x := by
+      exact
+        weightedBernoulliClosedThresholdRate_le_of_shrink
+          (gHi := gHi) (gLo := gLo)
+          (pHi := pHi) (pLo := x) (pHi' := pHi) (pLo' := floor)
+          hfeasible.hgHi.le hfeasible.hgLo.le
+          (add_pos hfeasible.hgHi hfeasible.hgLo)
+          hx_pos hx_lt_floor.le hfeasible.hfloor_lt_hi.le le_rfl
+          hfeasible.hpHi1
+    have htarget_lt_rate :
+        target < weightedBernoulliClosedThresholdRate gHi gLo pHi x :=
+      hfeasible.htarget_lt_floor.trans_le hrate_floor_le_x
+    have hdirect :
+        theorem32InnerSourceWeightedRateAbove gHi gLo pHi target x =
+          false :=
+      (theorem32InnerSourceWeightedRateAbove_eq_false_iff
+        gHi gLo pHi target x).2 htarget_lt_rate
+    have hfloor_le_root :
+        floor ≤
+          weightedBernoulliLowEndpointOfRateOrFloor
+            gHi gLo floor pHi target :=
+      floor_le_weightedBernoulliLowEndpointOfRateOrFloor_unconditional
+    have hthreshold :
+        EconCSLib.Optimization.realBisectionAboveTarget
+            (weightedBernoulliLowEndpointOfRateOrFloor
+              gHi gLo floor pHi target) x = false :=
+      EconCSLib.Optimization.realBisectionAboveTarget_eq_false_iff.mpr
+        (hx_lt_floor.trans_le hfloor_le_root)
+    rw [hdirect, hthreshold]
+
+/--
+Exact-hit-compatible classifier equivalence.  The source shifting argument
+often yields the weak boundary condition `target <= rate(high, floor)`.  If
+equality holds, the clipped proof root is the floor; strict antitonicity of the
+direct rate test still makes its Boolean branch identical at every positive
+midpoint.  Thus the literal loop does not need an artificial exact-hit return.
+-/
+theorem theorem32InnerSourceWeightedRateAbove_eq_threshold_classifier_of_weak_floor_rate
+    {gHi gLo floor pHi target x : ℝ}
+    (hgHi : 0 < gHi) (hgLo : 0 < gLo)
+    (hfloor0 : 0 < floor) (hfloor_lt_hi : floor < pHi)
+    (hpHi1 : pHi < 1) (htarget_pos : 0 < target)
+    (htarget_le_floor_rate :
+      target ≤
+        weightedBernoulliClosedThresholdRate gHi gLo pHi floor)
+    (hx_pos : 0 < x) (hx_le_hi : x ≤ pHi) :
+    theorem32InnerSourceWeightedRateAbove gHi gLo pHi target x =
+      EconCSLib.Optimization.realBisectionAboveTarget
+        (weightedBernoulliLowEndpointOfRateOrFloor
+          gHi gLo floor pHi target) x := by
+  by_cases htarget_lt_floor_rate :
+      target < weightedBernoulliClosedThresholdRate gHi gLo pHi floor
+  · exact
+      theorem32InnerSourceWeightedRateAbove_eq_threshold_classifier_of_pos
+        { hgHi := hgHi
+          hgLo := hgLo
+          hfloor0 := hfloor0
+          hfloor_lt_hi := hfloor_lt_hi
+          hpHi1 := hpHi1
+          htarget_pos := htarget_pos
+          htarget_lt_floor := htarget_lt_floor_rate }
+        hx_pos hx_le_hi
+  · have hfloor_rate_le_target :
+        weightedBernoulliClosedThresholdRate gHi gLo pHi floor ≤ target :=
+      le_of_not_gt htarget_lt_floor_rate
+    have htarget_eq_floor_rate :
+        target =
+          weightedBernoulliClosedThresholdRate gHi gLo pHi floor :=
+      le_antisymm htarget_le_floor_rate hfloor_rate_le_target
+    have hnot_feasible :
+        ¬ WeightedBernoulliLowEndpointTargetFeasible
+            gHi gLo floor pHi target := by
+      intro hfeasible
+      exact htarget_lt_floor_rate hfeasible.htarget_lt_floor
+    have hroot_eq :
+        weightedBernoulliLowEndpointOfRateOrFloor
+            gHi gLo floor pHi target = floor :=
+      weightedBernoulliLowEndpointOfRateOrFloor_eq_floor_of_not_feasible
+        hnot_feasible
+    apply Bool.eq_iff_iff.mpr
+    rw [theorem32InnerSourceWeightedRateAbove_eq_true_iff,
+      EconCSLib.Optimization.realBisectionAboveTarget_eq_true_iff, hroot_eq]
+    constructor
+    · intro hrate_le
+      by_contra hnot
+      have hx_lt_floor : x < floor := lt_of_not_ge hnot
+      have hrate_strict :
+          weightedBernoulliClosedThresholdRate gHi gLo pHi floor <
+            weightedBernoulliClosedThresholdRate gHi gLo pHi x := by
+        exact
+          weightedBernoulliClosedThresholdRate_lt_of_shrink_lo_lt
+            hgHi hgLo hx_pos hx_lt_floor hfloor_lt_hi.le le_rfl hpHi1
+      exact
+        (not_lt_of_ge (by
+          simpa [htarget_eq_floor_rate] using hrate_le)) hrate_strict
+    · intro hfloor_le_x
+      have hrate_le_floor :
+          weightedBernoulliClosedThresholdRate gHi gLo pHi x ≤
+            weightedBernoulliClosedThresholdRate gHi gLo pHi floor := by
+        exact
+          weightedBernoulliClosedThresholdRate_le_of_shrink
+            hgHi.le hgLo.le (add_pos hgHi hgLo) hfloor0 hfloor_le_x
+            hx_le_hi le_rfl hpHi1
+      simpa [htarget_eq_floor_rate] using hrate_le_floor
+
+/--
+Operational inner-loop equivalence.  Under the proof-layer feasibility
+conditions, the source's direct `PairwiseRate <= target` bisection and the
+inverse-root bisection return exactly the same bracket from any positive
+source upper endpoint below `pHi`.  The inverse root is used only in this
+correctness theorem, not by the literal algorithm.
+-/
+theorem theorem32InnerSourceWeightedRateRun_eq_threshold_run
+    {gHi gLo floor pHi target upper : ℝ} {innerSteps : ℕ}
+    (hfeasible :
+      WeightedBernoulliLowEndpointTargetFeasible
+        gHi gLo floor pHi target)
+    (hupper_pos : 0 < upper) (hupper_le_hi : upper ≤ pHi) :
+    EconCSLib.Optimization.realBisectionRun
+        (theorem32InnerSourceWeightedRateAbove gHi gLo pHi target)
+        innerSteps 0 upper =
+      EconCSLib.Optimization.realBisectionRun
+        (EconCSLib.Optimization.realBisectionAboveTarget
+          (weightedBernoulliLowEndpointOfRateOrFloor
+            gHi gLo floor pHi target))
+        innerSteps 0 upper := by
+  apply theorem32_realBisectionRun_eq_of_eq_on_pos_le_upper
+  · exact hupper_pos
+  · intro x hx_pos hx_le_upper
+    exact
+      theorem32InnerSourceWeightedRateAbove_eq_threshold_classifier_of_pos
+        hfeasible hx_pos (hx_le_upper.trans hupper_le_hi)
+
+/--
+Weak-boundary operational inner-loop equivalence.  This is the version used
+by the non-strict source shifting invariant and covers an exact target-rate
+hit without consulting the unknown optimum in the algorithm definition.
+-/
+theorem theorem32InnerSourceWeightedRateRun_eq_threshold_run_of_weak_floor_rate
+    {gHi gLo floor pHi target upper : ℝ} {innerSteps : ℕ}
+    (hgHi : 0 < gHi) (hgLo : 0 < gLo)
+    (hfloor0 : 0 < floor) (hfloor_lt_hi : floor < pHi)
+    (hpHi1 : pHi < 1) (htarget_pos : 0 < target)
+    (htarget_le_floor_rate :
+      target ≤
+        weightedBernoulliClosedThresholdRate gHi gLo pHi floor)
+    (hupper_pos : 0 < upper) (hupper_le_hi : upper ≤ pHi) :
+    EconCSLib.Optimization.realBisectionRun
+        (theorem32InnerSourceWeightedRateAbove gHi gLo pHi target)
+        innerSteps 0 upper =
+      EconCSLib.Optimization.realBisectionRun
+        (EconCSLib.Optimization.realBisectionAboveTarget
+          (weightedBernoulliLowEndpointOfRateOrFloor
+            gHi gLo floor pHi target))
+        innerSteps 0 upper := by
+  apply theorem32_realBisectionRun_eq_of_eq_on_pos_le_upper
+  · exact hupper_pos
+  · intro x hx_pos hx_le_upper
+    exact
+      theorem32InnerSourceWeightedRateAbove_eq_threshold_classifier_of_weak_floor_rate
+        hgHi hgLo hfloor0 hfloor_lt_hi hpHi1 htarget_pos
+        htarget_le_floor_rate hx_pos (hx_le_upper.trans hupper_le_hi)
+
+/--
+One literal `BisectNextLevel` domination step.  If an exact comparison low
+endpoint still has rate at least the target, while the source right endpoint
+already has rate at most the target, the upper endpoint returned by direct
+rate bisection lies at or to the right of that comparison endpoint.  This is
+the local engine of the paper's backward shifting argument.
+-/
+theorem theorem32InnerSourceWeightedRateRun_comparison_le_returned_upper
+    {gHi gLo floor pHi target comparison upper : ℝ}
+    {innerSteps : ℕ}
+    (hgHi : 0 < gHi) (hgLo : 0 < gLo)
+    (hfloor0 : 0 < floor) (hfloor_lt_hi : floor < pHi)
+    (hpHi1 : pHi < 1) (htarget_pos : 0 < target)
+    (hfloor_le_comparison : floor ≤ comparison)
+    (hcomparison_le_hi : comparison ≤ pHi)
+    (htarget_le_comparison_rate :
+      target ≤
+        weightedBernoulliClosedThresholdRate
+          gHi gLo pHi comparison)
+    (hfloor_le_upper : floor ≤ upper)
+    (hupper_le_hi : upper ≤ pHi)
+    (hupper_rate_le_target :
+      weightedBernoulliClosedThresholdRate gHi gLo pHi upper ≤ target) :
+    comparison ≤
+      (EconCSLib.Optimization.realBisectionRun
+        (theorem32InnerSourceWeightedRateAbove gHi gLo pHi target)
+        innerSteps 0 upper).2 := by
+  let root :=
+    weightedBernoulliLowEndpointOfRateOrFloor
+      gHi gLo floor pHi target
+  have htarget_le_floor_rate :
+      target ≤
+        weightedBernoulliClosedThresholdRate gHi gLo pHi floor := by
+    have hcomparison_rate_le_floor_rate :
+        weightedBernoulliClosedThresholdRate gHi gLo pHi comparison ≤
+          weightedBernoulliClosedThresholdRate gHi gLo pHi floor := by
+      exact
+        weightedBernoulliClosedThresholdRate_le_of_shrink
+          hgHi.le hgLo.le (add_pos hgHi hgLo) hfloor0
+          hfloor_le_comparison hcomparison_le_hi le_rfl hpHi1
+    exact htarget_le_comparison_rate.trans hcomparison_rate_le_floor_rate
+  have hcomparison_le_root : comparison ≤ root := by
+    exact
+      le_weightedBernoulliLowEndpointOfRateOrFloor_of_target_le_rate
+        hgHi hgLo hfloor0 hfloor_lt_hi hpHi1 htarget_pos
+        hfloor_le_comparison hcomparison_le_hi
+        htarget_le_comparison_rate
+  have hroot_le_upper : root ≤ upper := by
+    exact
+      weightedBernoulliLowEndpointOfRateOrFloor_le_of_rate_le_target
+        hfloor_le_upper hupper_le_hi hupper_rate_le_target
+  have hroot_nonneg : 0 ≤ root := by
+    exact hfloor0.le.trans
+      floor_le_weightedBernoulliLowEndpointOfRateOrFloor_unconditional
+  have hthreshold_upper :
+      root ≤
+        (EconCSLib.Optimization.realBisectionRun
+          (EconCSLib.Optimization.realBisectionAboveTarget root)
+          innerSteps 0 upper).2 :=
+    EconCSLib.Optimization.realBisectionRun_aboveTarget_target_le_upper
+      hroot_nonneg hroot_le_upper
+  have hruns :
+      EconCSLib.Optimization.realBisectionRun
+          (theorem32InnerSourceWeightedRateAbove gHi gLo pHi target)
+          innerSteps 0 upper =
+        EconCSLib.Optimization.realBisectionRun
+          (EconCSLib.Optimization.realBisectionAboveTarget root)
+          innerSteps 0 upper := by
+    simpa [root] using
+      theorem32InnerSourceWeightedRateRun_eq_threshold_run_of_weak_floor_rate
+        (innerSteps := innerSteps) hgHi hgLo hfloor0 hfloor_lt_hi hpHi1
+        htarget_pos htarget_le_floor_rate
+        (hfloor0.trans_le hfloor_le_upper) hupper_le_hi
+  calc
+    comparison ≤ root := hcomparison_le_root
+    _ ≤
+        (EconCSLib.Optimization.realBisectionRun
+          (EconCSLib.Optimization.realBisectionAboveTarget root)
+          innerSteps 0 upper).2 := hthreshold_upper
+    _ =
+        (EconCSLib.Optimization.realBisectionRun
+          (theorem32InnerSourceWeightedRateAbove gHi gLo pHi target)
+          innerSteps 0 upper).2 := by rw [hruns]
+
+/--
+General-matching source-grid rate bound.  If both local matching rates are at
+most the final matching rate, an interval of width `grid` has weighted closed
+rate at most `gLast * -log (1-grid)`.  This is the weighted replacement for
+the uniform-only grid estimate used by the earlier proof witness.
+-/
+theorem theorem32_weighted_grid_interval_rate_le_last_neg_log_one_sub
+    {gHi gLo gLast pHi grid : ℝ}
+    (hgHi : 0 < gHi) (hgLo : 0 < gLo) (hgLast : 0 < gLast)
+    (hgHi_le : gHi ≤ gLast) (hgLo_le : gLo ≤ gLast)
+    (hgrid_nonneg : 0 ≤ grid) (hgrid_lt_one : grid < 1)
+    (hupper_pos : 0 < pHi - grid) (hpHi_lt_one : pHi < 1) :
+    weightedBernoulliClosedThresholdRate
+        gHi gLo pHi (pHi - grid) ≤
+      gLast * (-Real.log (1 - grid)) := by
+  have hpLo_lt_one : pHi - grid < 1 := by linarith
+  have hweights :
+      weightedBernoulliClosedThresholdRate
+          gHi gLo pHi (pHi - grid) ≤
+        weightedBernoulliClosedThresholdRate
+          gLast gLast pHi (pHi - grid) :=
+    weightedBernoulliClosedThresholdRate_le_of_weights_le
+      hgHi hgLo hgLast hgLast hgHi_le hgLo_le
+      (by linarith) hpHi_lt_one hupper_pos hpLo_lt_one
+  have huniform :
+      weightedBernoulliClosedThresholdRate
+          1 1 pHi (pHi - grid) ≤
+        -Real.log (1 - grid) := by
+    have h :=
+      weightedBernoulliClosedThresholdRate_one_one_le_neg_log_one_sub_width
+        (pLo := pHi - grid) (x := grid)
+        hupper_pos.le hgrid_nonneg (by linarith) hgrid_lt_one
+    simpa [sub_add_cancel] using h
+  calc
+    weightedBernoulliClosedThresholdRate gHi gLo pHi (pHi - grid)
+        ≤ weightedBernoulliClosedThresholdRate
+            gLast gLast pHi (pHi - grid) := hweights
+    _ = gLast *
+          weightedBernoulliClosedThresholdRate
+            1 1 pHi (pHi - grid) :=
+      weightedBernoulliClosedThresholdRate_same_weights_eq_mul_uniform hgLast
+    _ ≤ gLast * (-Real.log (1 - grid)) :=
+      mul_le_mul_of_nonneg_left huniform hgLast.le
 
 theorem theorem32_inner_rate_le_target_iff_threshold_classifier_true
     {floor pHi target x : ℝ}
@@ -943,6 +1729,118 @@ theorem binaryEndpointAwareAdjacentRate_last_ge_of_bisection_bracket
                   delta) /
               optimal (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))))
         = gLast * (-Real.log (target + delta)) := by
+          simpa [last, low, target] using hleft
+    _ ≤ gLast * (-Real.log upper) := hscaled_neglog
+    _ = binaryEndpointAwareAdjacentRate returned sampleRate
+        (lastAdjacentIndex : Fin (m + 1)) := by
+          simpa [last, low, upper] using hreturned_last.symm
+
+/--
+One-sided nonuniform last-rate bridge.  The source outer proof only needs the
+returned last low endpoint to be at most `delta` above the optimum.  If it
+falls below the optimum, the returned last rate is better, so a full
+two-sided bisection bracket is unnecessary.
+-/
+theorem binaryEndpointAwareAdjacentRate_last_ge_of_upper_le_target_add_delta
+    {m : ℕ} (hm : 0 < m)
+    (optimal returned sampleRate : Fin (m + 2) → ℝ)
+    {gLast delta : ℝ}
+    (hoptimalLevels : BinaryEndpointLevelVector optimal)
+    (hreturnedLevels : BinaryEndpointLevelVector returned)
+    (hgLast_nonneg : 0 ≤ gLast)
+    (hgLast :
+      sampleRate (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) =
+        gLast)
+    (hupper :
+      returned (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) ≤
+        optimal (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) +
+          delta) :
+    binaryEndpointAwareAdjacentRate optimal sampleRate
+        (lastAdjacentIndex : Fin (m + 1)) -
+        gLast *
+          Real.log
+            ((optimal (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) +
+                  delta) /
+              optimal (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1)))) ≤
+      binaryEndpointAwareAdjacentRate returned sampleRate
+        (lastAdjacentIndex : Fin (m + 1)) := by
+  let last : Fin (m + 1) := lastAdjacentIndex
+  let low : Fin (m + 2) := adjacentLowIndex last
+  let target : ℝ := optimal low
+  let upper : ℝ := returned low
+  have hlast_val : last.val = m := by simp [last]
+  have hfirst_val : last.val ≠ 0 := by omega
+  have htarget_pos : 0 < target := by
+    simpa [target, low, last] using
+      BinaryEndpointLevelVector_last_low_pos
+        (m := m) hm hoptimalLevels
+  have hupper_pos : 0 < upper := by
+    simpa [upper, low, last] using
+      BinaryEndpointLevelVector_last_low_pos
+        (m := m) hm hreturnedLevels
+  have hupper_le : upper ≤ target + delta := by
+    simpa [target, upper, low, last] using hupper
+  have htarget_delta_pos : 0 < target + delta :=
+    hupper_pos.trans_le hupper_le
+  have hlog_le : Real.log upper ≤ Real.log (target + delta) :=
+    Real.log_le_log hupper_pos hupper_le
+  have hneglog_le : -Real.log (target + delta) ≤ -Real.log upper := by
+    linarith
+  have hscaled_neglog :
+      gLast * (-Real.log (target + delta)) ≤
+        gLast * (-Real.log upper) :=
+    mul_le_mul_of_nonneg_left hneglog_le hgLast_nonneg
+  have hopt_last :
+      binaryEndpointAwareAdjacentRate optimal sampleRate last =
+        gLast * (-Real.log target) := by
+    have hbranch :=
+      binaryEndpointAwareAdjacentRate_last optimal sampleRate last
+        hfirst_val hlast_val
+    have hbranch' :
+        binaryEndpointAwareAdjacentRate optimal sampleRate last =
+          -(sampleRate low * Real.log target) := by
+      simpa [target, low, last] using hbranch
+    calc
+      binaryEndpointAwareAdjacentRate optimal sampleRate last =
+          -(sampleRate low * Real.log target) := hbranch'
+      _ = gLast * (-Real.log target) := by
+        rw [hgLast]
+        ring
+  have hreturned_last :
+      binaryEndpointAwareAdjacentRate returned sampleRate last =
+        gLast * (-Real.log upper) := by
+    have hbranch :=
+      binaryEndpointAwareAdjacentRate_last returned sampleRate last
+        hfirst_val hlast_val
+    have hbranch' :
+        binaryEndpointAwareAdjacentRate returned sampleRate last =
+          -(sampleRate low * Real.log upper) := by
+      simpa [upper, low, last] using hbranch
+    calc
+      binaryEndpointAwareAdjacentRate returned sampleRate last =
+          -(sampleRate low * Real.log upper) := hbranch'
+      _ = gLast * (-Real.log upper) := by
+        rw [hgLast]
+        ring
+  have hleft :
+      binaryEndpointAwareAdjacentRate optimal sampleRate last -
+          gLast * Real.log ((target + delta) / target) =
+        gLast * (-Real.log (target + delta)) := by
+    have hlog_div :
+        Real.log ((target + delta) / target) =
+          Real.log (target + delta) - Real.log target := by
+      rw [Real.log_div (ne_of_gt htarget_delta_pos) (ne_of_gt htarget_pos)]
+    rw [hopt_last, hlog_div]
+    ring
+  calc
+    binaryEndpointAwareAdjacentRate optimal sampleRate
+        (lastAdjacentIndex : Fin (m + 1)) -
+        gLast *
+          Real.log
+            ((optimal (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) +
+                  delta) /
+              optimal (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1)))) =
+        gLast * (-Real.log (target + delta)) := by
           simpa [last, low, target] using hleft
     _ ≤ gLast * (-Real.log upper) := hscaled_neglog
     _ = binaryEndpointAwareAdjacentRate returned sampleRate
@@ -4239,8 +5137,2831 @@ structure Theorem32NestedBisectionRunCertificate
   houter : outerSteps ≤ L + 1
   hinner : innerSteps ≤ L
 
+/-!
+## Literal direct-rate semantics of Algorithm 1
+
+The inverse-root recursions below are useful proof devices, but the source
+pseudocode evaluates `PairwiseRate` at each midpoint.  These definitions
+record that literal ideal-real computation.  In particular, neither the inner
+recursion nor the outer classifier reads the unknown optimal endpoint vector.
+-/
+
 /--
-Source-shaped backward `CalculateOtherLevels` recursion used by Algorithm 1.
+Literal weighted `CalculateOtherLevels` recursion.  Each `BisectNextLevel`
+call uses the source interval `[0, high - grid]` and branches by directly
+testing whether the weighted pairwise rate is at most the target rate.
+-/
+noncomputable def theorem32WeightedBackwardGridRateBisectionFromTop
+    (n innerSteps : ℕ) (sampleRate : Fin (n + 2) → ℝ)
+    (grid target lastLow : ℝ) : ℕ → ℝ
+  | 0 => 1
+  | 1 => lastLow
+  | d + 2 =>
+      let high :=
+        theorem32WeightedBackwardGridRateBisectionFromTop
+          n innerSteps sampleRate grid target lastLow (d + 1)
+      let adj : Fin (n + 1) := ⟨n - d - 1, by omega⟩
+      (EconCSLib.Optimization.realBisectionRun
+        (theorem32InnerSourceWeightedRateAbove
+          (sampleRate (adjacentHighIndex adj))
+          (sampleRate (adjacentLowIndex adj)) high target)
+        innerSteps 0 (high - grid)).2
+
+/-- Endpoint vector returned by the literal weighted backward recursion. -/
+noncomputable def theorem32WeightedBackwardGridRateBisectionLevels
+    (n innerSteps : ℕ) (sampleRate : Fin (n + 2) → ℝ)
+    (grid target lastLow : ℝ) : Fin (n + 2) → ℝ := fun k =>
+  if k.val = 0 then 0
+  else
+    theorem32WeightedBackwardGridRateBisectionFromTop
+      n innerSteps sampleRate grid target lastLow (n + 1 - k.val)
+
+/-- The literal weighted backward recursion fixes the final endpoint at `1`. -/
+theorem theorem32WeightedBackwardGridRateBisectionLevels_last
+    (n innerSteps : ℕ) (sampleRate : Fin (n + 2) → ℝ)
+    (grid target lastLow : ℝ) :
+    theorem32WeightedBackwardGridRateBisectionLevels
+        n innerSteps sampleRate grid target lastLow
+        (lastLevelIndex : Fin (n + 2)) = 1 := by
+  simp [theorem32WeightedBackwardGridRateBisectionLevels,
+    theorem32WeightedBackwardGridRateBisectionFromTop]
+
+/-- The literal weighted recursion records the tested penultimate endpoint. -/
+theorem theorem32WeightedBackwardGridRateBisectionLevels_last_low
+    {n innerSteps : ℕ} (hn : 0 < n)
+    (sampleRate : Fin (n + 2) → ℝ) (grid target lastLow : ℝ) :
+    theorem32WeightedBackwardGridRateBisectionLevels
+        n innerSteps sampleRate grid target lastLow
+        (adjacentLowIndex (lastAdjacentIndex : Fin (n + 1))) =
+      lastLow := by
+  have hn_ne : n ≠ 0 := Nat.ne_of_gt hn
+  simp [theorem32WeightedBackwardGridRateBisectionLevels,
+    theorem32WeightedBackwardGridRateBisectionFromTop, adjacentLowIndex,
+    lastAdjacentIndex, hn_ne]
+
+/-- The literal recursion's final adjacent rate is its selected last rate. -/
+theorem theorem32WeightedBackwardGridRateBisectionLevels_last_rate
+    {n innerSteps : ℕ} (hn : 0 < n)
+    (sampleRate : Fin (n + 2) → ℝ)
+    (grid target lastLow : ℝ) :
+    binaryEndpointAwareAdjacentRate
+        (theorem32WeightedBackwardGridRateBisectionLevels
+          n innerSteps sampleRate grid target lastLow)
+        sampleRate (lastAdjacentIndex : Fin (n + 1)) =
+      sampleRate (adjacentLowIndex (lastAdjacentIndex : Fin (n + 1))) *
+        (-Real.log lastLow) := by
+  let returned :=
+    theorem32WeightedBackwardGridRateBisectionLevels
+      n innerSteps sampleRate grid target lastLow
+  let last : Fin (n + 1) := lastAdjacentIndex
+  have hlast_val : last.val = n := by simp [last]
+  have hfirst_val : last.val ≠ 0 := by omega
+  have hbranch :=
+    binaryEndpointAwareAdjacentRate_last returned sampleRate last
+      hfirst_val hlast_val
+  have hlow : returned (adjacentLowIndex last) = lastLow := by
+    simpa [returned, last] using
+      theorem32WeightedBackwardGridRateBisectionLevels_last_low
+        (n := n) (innerSteps := innerSteps) hn sampleRate grid target lastLow
+  calc
+    binaryEndpointAwareAdjacentRate returned sampleRate last =
+        -(sampleRate (adjacentLowIndex last) *
+          Real.log (returned (adjacentLowIndex last))) := by
+      simpa [returned, last] using hbranch
+    _ = sampleRate (adjacentLowIndex last) * (-Real.log lastLow) := by
+      rw [hlow]
+      ring
+
+/--
+Every interior coordinate of the literal recursion is exactly the upper
+endpoint returned by its direct-rate `BisectNextLevel` call.
+-/
+theorem theorem32WeightedBackwardGridRateBisectionLevels_returnedLow
+    {n innerSteps : ℕ} (sampleRate : Fin (n + 2) → ℝ)
+    (grid target lastLow : ℝ)
+    (i : Fin (n + 1)) (hfirst : i.val ≠ 0) (hlast : i.val ≠ n) :
+    let returned :=
+      theorem32WeightedBackwardGridRateBisectionLevels
+        n innerSteps sampleRate grid target lastLow
+    (EconCSLib.Optimization.realBisectionRun
+      (theorem32InnerSourceWeightedRateAbove
+        (sampleRate (adjacentHighIndex i))
+        (sampleRate (adjacentLowIndex i))
+        (returned (adjacentHighIndex i)) target)
+      innerSteps 0 (returned (adjacentHighIndex i) - grid)).2 =
+      returned (adjacentLowIndex i) := by
+  dsimp
+  have hi_lt : i.val < n := lt_of_le_of_ne (Nat.le_of_lt_succ i.2) hlast
+  have hlow_sub : n + 1 - i.val = (n - i.val) + 1 := by omega
+  have hhigh_sub : n + 1 - (i.val + 1) = n - i.val := by omega
+  rcases Nat.exists_eq_succ_of_ne_zero (by omega : n - i.val ≠ 0) with
+    ⟨d, hd⟩
+  have hlow_sub' : n + 1 - i.val = d + 2 := by omega
+  have hhigh_sub' : n + 1 - (i.val + 1) = d + 1 := by omega
+  have hadj : (⟨n - d - 1, by omega⟩ : Fin (n + 1)) = i := by
+    ext
+    simp
+    omega
+  simp [theorem32WeightedBackwardGridRateBisectionLevels,
+    adjacentLowIndex, adjacentHighIndex, hfirst, hlow_sub', hhigh_sub',
+    theorem32WeightedBackwardGridRateBisectionFromTop, hadj]
+
+/--
+Every nonterminal value generated by the literal backward recursion is at
+most the selected outer endpoint.  Only convexity of midpoint updates and
+`grid ≥ 0` are used; no inner root or feasibility premise is needed.
+-/
+theorem theorem32WeightedBackwardGridRateBisectionFromTop_le_lastLow
+    {n innerSteps : ℕ} (sampleRate : Fin (n + 2) → ℝ)
+    {grid target lastLow : ℝ} (hgrid : 0 ≤ grid)
+    (hlastLow : 0 ≤ lastLow) {d : ℕ} (hd : 0 < d) :
+    theorem32WeightedBackwardGridRateBisectionFromTop
+        n innerSteps sampleRate grid target lastLow d ≤ lastLow := by
+  induction d using Nat.strong_induction_on with
+  | h d ih =>
+      cases d with
+      | zero => omega
+      | succ d =>
+          cases d with
+          | zero =>
+              simp [theorem32WeightedBackwardGridRateBisectionFromTop]
+          | succ d =>
+              have hhigh :
+                  theorem32WeightedBackwardGridRateBisectionFromTop
+                      n innerSteps sampleRate grid target lastLow (d + 1) ≤
+                    lastLow :=
+                ih (d + 1) (by omega) (by omega)
+              let high :=
+                theorem32WeightedBackwardGridRateBisectionFromTop
+                  n innerSteps sampleRate grid target lastLow (d + 1)
+              let adj : Fin (n + 1) := ⟨n - d - 1, by omega⟩
+              let above :=
+                theorem32InnerSourceWeightedRateAbove
+                  (sampleRate (adjacentHighIndex adj))
+                  (sampleRate (adjacentLowIndex adj)) high target
+              have hrun :
+                  (EconCSLib.Optimization.realBisectionRun
+                    above innerSteps 0 (high - grid)).2 ≤ lastLow :=
+                theorem32_realBisectionRun_upper_le_of_endpoints_le
+                  above hlastLow (by dsimp [high]; linarith)
+              simpa [theorem32WeightedBackwardGridRateBisectionFromTop,
+                high, adj, above, Nat.succ_eq_add_one, Nat.add_assoc] using
+                hrun
+
+/-- Every nonendpoint coordinate of the literal recursion is below `lastLow`. -/
+theorem theorem32WeightedBackwardGridRateBisectionLevels_le_lastLow
+    {n innerSteps : ℕ} (sampleRate : Fin (n + 2) → ℝ)
+    {grid target lastLow : ℝ} (hgrid : 0 ≤ grid)
+    (hlastLow : 0 ≤ lastLow) (k : Fin (n + 2))
+    (hk_first : k.val ≠ 0) (hk_last : k.val ≠ n + 1) :
+    theorem32WeightedBackwardGridRateBisectionLevels
+        n innerSteps sampleRate grid target lastLow k ≤ lastLow := by
+  have hd : 0 < n + 1 - k.val := by omega
+  simp only [theorem32WeightedBackwardGridRateBisectionLevels, hk_first,
+    if_false]
+  exact
+    theorem32WeightedBackwardGridRateBisectionFromTop_le_lastLow
+      sampleRate hgrid hlastLow hd
+
+/--
+If an interior low endpoint returned by a literal inner run is positive, then
+the run must have started with a positive `high - grid` endpoint.  Its returned
+upper endpoint is therefore at most `high - grid`, giving strict adjacency.
+-/
+theorem theorem32WeightedBackwardGridRateBisectionLevels_interior_strict_of_low_pos
+    {n innerSteps : ℕ} (sampleRate : Fin (n + 2) → ℝ)
+    (grid target lastLow : ℝ) (hgrid_pos : 0 < grid)
+    (i : Fin (n + 1)) (hi_first : i.val ≠ 0) (hi_last : i.val ≠ n)
+    (hlow_pos :
+      0 <
+        theorem32WeightedBackwardGridRateBisectionLevels
+          n innerSteps sampleRate grid target lastLow
+          (adjacentLowIndex i)) :
+    theorem32WeightedBackwardGridRateBisectionLevels
+        n innerSteps sampleRate grid target lastLow
+        (adjacentLowIndex i) <
+      theorem32WeightedBackwardGridRateBisectionLevels
+        n innerSteps sampleRate grid target lastLow
+        (adjacentHighIndex i) := by
+  let returned :=
+    theorem32WeightedBackwardGridRateBisectionLevels
+      n innerSteps sampleRate grid target lastLow
+  let above :=
+    theorem32InnerSourceWeightedRateAbove
+      (sampleRate (adjacentHighIndex i))
+      (sampleRate (adjacentLowIndex i))
+      (returned (adjacentHighIndex i)) target
+  have hreturnedLow :=
+    theorem32WeightedBackwardGridRateBisectionLevels_returnedLow
+      (n := n) (innerSteps := innerSteps)
+      sampleRate grid target lastLow i hi_first hi_last
+  have hrun_pos :
+      0 <
+        (EconCSLib.Optimization.realBisectionRun above innerSteps 0
+          (returned (adjacentHighIndex i) - grid)).2 := by
+    simpa [above, returned, hreturnedLow] using hlow_pos
+  have hupper_pos :
+      0 < returned (adjacentHighIndex i) - grid :=
+    theorem32_realBisectionRun_initial_upper_pos_of_returned_upper_pos
+      above hrun_pos
+  have hrun_le :
+      (EconCSLib.Optimization.realBisectionRun above innerSteps 0
+          (returned (adjacentHighIndex i) - grid)).2 ≤
+        returned (adjacentHighIndex i) - grid :=
+    EconCSLib.Optimization.realBisectionRun_upper_le_initial
+      above hupper_pos.le
+  have hlow_le :
+      returned (adjacentLowIndex i) ≤
+        returned (adjacentHighIndex i) - grid := by
+    simpa [above, returned, hreturnedLow] using hrun_le
+  simpa [returned] using (show
+    returned (adjacentLowIndex i) < returned (adjacentHighIndex i) by
+      linarith)
+
+/--
+Positivity of the first interior level propagates through every later
+nonterminal coordinate of the literal backward recursion.
+-/
+theorem theorem32WeightedBackwardGridRateBisectionLevels_pos_of_first_high_pos
+    {n innerSteps : ℕ} (hn : 1 < n)
+    (sampleRate : Fin (n + 2) → ℝ) (grid target lastLow : ℝ)
+    (hgrid_pos : 0 < grid)
+    (hfirst_pos :
+      0 <
+        theorem32WeightedBackwardGridRateBisectionLevels
+          n innerSteps sampleRate grid target lastLow
+          (adjacentHighIndex (firstAdjacentIndex : Fin (n + 1))))
+    (k : ℕ) (hk_pos : 1 ≤ k) (hk_le : k ≤ n) :
+    0 <
+      theorem32WeightedBackwardGridRateBisectionLevels
+        n innerSteps sampleRate grid target lastLow
+        (⟨k, by omega⟩ : Fin (n + 2)) := by
+  induction k using Nat.strong_induction_on with
+  | h k ih =>
+      by_cases hk_one : k = 1
+      · subst k
+        simpa [firstAdjacentIndex, adjacentHighIndex] using hfirst_pos
+      · have hk_prev_pos : 1 ≤ k - 1 := by omega
+        have hk_prev_le : k - 1 ≤ n := by omega
+        have hprev := ih (k - 1) (by omega) hk_prev_pos hk_prev_le
+        let i : Fin (n + 1) := ⟨k - 1, by omega⟩
+        have hi_first : i.val ≠ 0 := by simp [i]; omega
+        have hi_last : i.val ≠ n := by simp [i]; omega
+        have hstrict :=
+          theorem32WeightedBackwardGridRateBisectionLevels_interior_strict_of_low_pos
+            sampleRate grid target lastLow hgrid_pos i hi_first hi_last
+            (by simpa [i, adjacentLowIndex] using hprev)
+        have hk_pred : k - 1 + 1 = k := Nat.sub_add_cancel (by omega)
+        simpa [i, adjacentHighIndex, hk_pred] using hprev.trans hstrict
+
+/--
+The literal direct-rate backward recursion is automatically a valid endpoint
+vector once its first interior coordinate is positive and its selected outer
+endpoint lies below `1`.  No inverse-root feasibility premise is used.
+-/
+theorem theorem32WeightedBackwardGridRateBisectionLevels_isEndpointLevelVector_of_first_high_pos
+    {n innerSteps : ℕ} (hn : 1 < n)
+    (sampleRate : Fin (n + 2) → ℝ) (grid target lastLow : ℝ)
+    (hgrid_pos : 0 < grid) (hlastLow_lt_one : lastLow < 1)
+    (hfirst_pos :
+      0 <
+        theorem32WeightedBackwardGridRateBisectionLevels
+          n innerSteps sampleRate grid target lastLow
+          (adjacentHighIndex (firstAdjacentIndex : Fin (n + 1)))) :
+    BinaryEndpointLevelVector
+      (theorem32WeightedBackwardGridRateBisectionLevels
+        n innerSteps sampleRate grid target lastLow) := by
+  let returned :=
+    theorem32WeightedBackwardGridRateBisectionLevels
+      n innerSteps sampleRate grid target lastLow
+  refine ⟨?_, ?_, ?_⟩
+  · simp [theorem32WeightedBackwardGridRateBisectionLevels]
+  · simpa [returned] using
+      theorem32WeightedBackwardGridRateBisectionLevels_last
+        n innerSteps sampleRate grid target lastLow
+  · intro i
+    by_cases hi_first : i.val = 0
+    · have hi : i = (firstAdjacentIndex : Fin (n + 1)) := by
+        ext
+        simpa [firstAdjacentIndex] using hi_first
+      subst i
+      have hlow :
+          returned
+              (adjacentLowIndex (firstAdjacentIndex : Fin (n + 1))) = 0 := by
+        simp [returned, theorem32WeightedBackwardGridRateBisectionLevels,
+          adjacentLowIndex, firstAdjacentIndex]
+      simpa [returned, hlow] using hfirst_pos
+    · by_cases hi_last : i.val = n
+      · have hi : i = (lastAdjacentIndex : Fin (n + 1)) := by
+          ext
+          simpa [lastAdjacentIndex] using hi_last
+        subst i
+        have hlow :
+            returned
+                (adjacentLowIndex (lastAdjacentIndex : Fin (n + 1))) =
+              lastLow := by
+          simpa [returned] using
+            theorem32WeightedBackwardGridRateBisectionLevels_last_low
+              (n := n) (innerSteps := innerSteps) (Nat.lt_of_succ_lt hn)
+              sampleRate grid target lastLow
+        have hhigh :
+            returned
+                (adjacentHighIndex (lastAdjacentIndex : Fin (n + 1))) = 1 := by
+          simpa [returned, adjacentHighIndex, lastAdjacentIndex,
+            lastLevelIndex] using
+            theorem32WeightedBackwardGridRateBisectionLevels_last
+              n innerSteps sampleRate grid target lastLow
+        change returned
+            (adjacentLowIndex (lastAdjacentIndex : Fin (n + 1))) <
+          returned
+            (adjacentHighIndex (lastAdjacentIndex : Fin (n + 1)))
+        rw [hlow, hhigh]
+        exact hlastLow_lt_one
+      · have hlow_pos : 0 < returned (adjacentLowIndex i) := by
+          simpa [returned, adjacentLowIndex] using
+            theorem32WeightedBackwardGridRateBisectionLevels_pos_of_first_high_pos
+              hn sampleRate grid target lastLow hgrid_pos hfirst_pos
+              i.val (Nat.pos_of_ne_zero hi_first) (Nat.le_of_lt_succ i.2)
+        simpa [returned] using
+          theorem32WeightedBackwardGridRateBisectionLevels_interior_strict_of_low_pos
+            sampleRate grid target lastLow hgrid_pos i hi_first hi_last
+            hlow_pos
+
+/--
+Every literal inner bisection whose source right endpoint has rate at most the
+target returns a low endpoint with rate at most that target.
+-/
+theorem theorem32WeightedBackwardGridRateBisectionLevels_interior_rate_le_target
+    {n innerSteps : ℕ} (sampleRate : Fin (n + 2) → ℝ)
+    (grid target lastLow : ℝ)
+    (i : Fin (n + 1)) (hfirst : i.val ≠ 0) (hlast : i.val ≠ n)
+    (hgrid_upper_rate_le_target :
+      let returned :=
+        theorem32WeightedBackwardGridRateBisectionLevels
+          n innerSteps sampleRate grid target lastLow
+      weightedBernoulliClosedThresholdRate
+          (sampleRate (adjacentHighIndex i))
+          (sampleRate (adjacentLowIndex i))
+          (returned (adjacentHighIndex i))
+          (returned (adjacentHighIndex i) - grid) ≤
+        target) :
+    let returned :=
+      theorem32WeightedBackwardGridRateBisectionLevels
+        n innerSteps sampleRate grid target lastLow
+    binaryEndpointAwareAdjacentRate returned sampleRate i ≤ target := by
+  let returned :=
+    theorem32WeightedBackwardGridRateBisectionLevels
+      n innerSteps sampleRate grid target lastLow
+  let above :=
+    theorem32InnerSourceWeightedRateAbove
+      (sampleRate (adjacentHighIndex i))
+      (sampleRate (adjacentLowIndex i))
+      (returned (adjacentHighIndex i)) target
+  have hinitial_true :
+      above (returned (adjacentHighIndex i) - grid) = true :=
+    (theorem32InnerSourceWeightedRateAbove_eq_true_iff
+      (sampleRate (adjacentHighIndex i))
+      (sampleRate (adjacentLowIndex i))
+      (returned (adjacentHighIndex i)) target
+      (returned (adjacentHighIndex i) - grid)).2
+      (by simpa [returned] using hgrid_upper_rate_le_target)
+  have hrun_true :
+      above
+          (EconCSLib.Optimization.realBisectionRun above innerSteps 0
+            (returned (adjacentHighIndex i) - grid)).2 = true :=
+    theorem32_realBisectionRun_upper_true_of_upper_true above hinitial_true
+  have hreturnedLow :=
+    theorem32WeightedBackwardGridRateBisectionLevels_returnedLow
+      (n := n) (innerSteps := innerSteps)
+      sampleRate grid target lastLow i hfirst hlast
+  have hreturned_true :
+      above (returned (adjacentLowIndex i)) = true := by
+    simpa [above, returned, hreturnedLow] using hrun_true
+  have hrate_le :=
+    (theorem32InnerSourceWeightedRateAbove_eq_true_iff
+      (sampleRate (adjacentHighIndex i))
+      (sampleRate (adjacentLowIndex i))
+      (returned (adjacentHighIndex i)) target
+      (returned (adjacentLowIndex i))).mp hreturned_true
+  change binaryEndpointAwareAdjacentRate returned sampleRate i ≤ target
+  rw [binaryEndpointAwareAdjacentRate_interior
+    returned sampleRate i hfirst hlast]
+  exact hrate_le
+
+/--
+The literal direct-rate inner run produces the same root bracket used by the
+quantitative Theorem 3.2 loss bound.  Feasibility and the source right-endpoint
+rate condition are proof obligations; the algorithm itself still evaluates
+only direct pairwise rates.
+-/
+theorem theorem32WeightedBackwardGridRateBisectionLevels_inner_bracket_of_feasible
+    {n innerSteps : ℕ} (sampleRate : Fin (n + 2) → ℝ)
+    (grid floor target lastLow : ℝ)
+    (hgrid_pos : 0 < grid)
+    (i : Fin (n + 1)) (hfirst : i.val ≠ 0) (hlast : i.val ≠ n)
+    (hfeasible :
+      let returned :=
+        theorem32WeightedBackwardGridRateBisectionLevels
+          n innerSteps sampleRate grid target lastLow
+      WeightedBernoulliLowEndpointTargetFeasible
+        (sampleRate (adjacentHighIndex i))
+        (sampleRate (adjacentLowIndex i)) floor
+        (returned (adjacentHighIndex i)) target)
+    (hfloor_le_grid_upper :
+      let returned :=
+        theorem32WeightedBackwardGridRateBisectionLevels
+          n innerSteps sampleRate grid target lastLow
+      floor ≤ returned (adjacentHighIndex i) - grid)
+    (hgrid_upper_rate_le_target :
+      let returned :=
+        theorem32WeightedBackwardGridRateBisectionLevels
+          n innerSteps sampleRate grid target lastLow
+      weightedBernoulliClosedThresholdRate
+          (sampleRate (adjacentHighIndex i))
+          (sampleRate (adjacentLowIndex i))
+          (returned (adjacentHighIndex i))
+          (returned (adjacentHighIndex i) - grid) ≤
+        target)
+    (hwidth :
+      let returned :=
+        theorem32WeightedBackwardGridRateBisectionLevels
+          n innerSteps sampleRate grid target lastLow
+      (returned (adjacentHighIndex i) - grid - 0) /
+          (2 : ℝ) ^ innerSteps ≤
+        grid) :
+    let returned :=
+      theorem32WeightedBackwardGridRateBisectionLevels
+        n innerSteps sampleRate grid target lastLow
+    let root :=
+      weightedBernoulliLowEndpointOfRateOrFloor
+        (sampleRate (adjacentHighIndex i))
+        (sampleRate (adjacentLowIndex i)) floor
+        (returned (adjacentHighIndex i)) target
+    EconCSLib.Optimization.RealBisectionBracket root
+      (EconCSLib.Optimization.realBisectionRun
+        (theorem32InnerSourceWeightedRateAbove
+          (sampleRate (adjacentHighIndex i))
+          (sampleRate (adjacentLowIndex i))
+          (returned (adjacentHighIndex i)) target)
+        innerSteps 0 (returned (adjacentHighIndex i) - grid)).1
+      (returned (adjacentLowIndex i)) grid := by
+  let returned :=
+    theorem32WeightedBackwardGridRateBisectionLevels
+      n innerSteps sampleRate grid target lastLow
+  let root :=
+    weightedBernoulliLowEndpointOfRateOrFloor
+      (sampleRate (adjacentHighIndex i))
+      (sampleRate (adjacentLowIndex i)) floor
+      (returned (adjacentHighIndex i)) target
+  have hroot_mem :
+      root ∈ Set.Ioo floor (returned (adjacentHighIndex i)) := by
+    simpa [root, returned] using
+      weightedBernoulliLowEndpointOfRateOrFloor_mem_Ioo_of_feasible hfeasible
+  have hroot_nonneg : 0 ≤ root :=
+    (hfeasible.hfloor0.trans hroot_mem.1).le
+  have hroot_le_grid_upper :
+      root ≤ returned (adjacentHighIndex i) - grid := by
+    exact
+      weightedBernoulliLowEndpointOfRateOrFloor_le_of_rate_le_target
+        (by simpa [returned] using hfloor_le_grid_upper)
+        (by linarith)
+        (by simpa [returned] using hgrid_upper_rate_le_target)
+  have hsource_upper_pos :
+      0 < returned (adjacentHighIndex i) - grid :=
+    hfeasible.hfloor0.trans_le
+      (by simpa [returned] using hfloor_le_grid_upper)
+  have hruns :
+      EconCSLib.Optimization.realBisectionRun
+          (theorem32InnerSourceWeightedRateAbove
+            (sampleRate (adjacentHighIndex i))
+            (sampleRate (adjacentLowIndex i))
+            (returned (adjacentHighIndex i)) target)
+          innerSteps 0 (returned (adjacentHighIndex i) - grid) =
+        EconCSLib.Optimization.realBisectionRun
+          (EconCSLib.Optimization.realBisectionAboveTarget root)
+          innerSteps 0 (returned (adjacentHighIndex i) - grid) := by
+    simpa [root, returned] using
+      theorem32InnerSourceWeightedRateRun_eq_threshold_run
+        (innerSteps := innerSteps) hfeasible hsource_upper_pos (by linarith)
+  have hthreshold_bracket :
+      EconCSLib.Optimization.RealBisectionBracket root
+        (EconCSLib.Optimization.realBisectionRun
+          (EconCSLib.Optimization.realBisectionAboveTarget root)
+          innerSteps 0 (returned (adjacentHighIndex i) - grid)).1
+        (EconCSLib.Optimization.realBisectionRun
+          (EconCSLib.Optimization.realBisectionAboveTarget root)
+          innerSteps 0 (returned (adjacentHighIndex i) - grid)).2
+        grid :=
+    EconCSLib.Optimization.realBisectionRun_bracket_aboveTarget_of_width_le
+      hroot_nonneg hroot_le_grid_upper (by simpa [returned] using hwidth)
+  have hreturnedLow :=
+    theorem32WeightedBackwardGridRateBisectionLevels_returnedLow
+      (n := n) (innerSteps := innerSteps)
+      sampleRate grid target lastLow i hfirst hlast
+  rw [← hruns] at hthreshold_bracket
+  rw [hreturnedLow] at hthreshold_bracket
+  simpa [returned, root] using hthreshold_bracket
+
+/--
+The source shifting invariant for literal weighted `CalculateOtherLevels`.
+If the tested final-low endpoint is at or to the right of the equalized
+optimum, then the direct-rate backward recursion places every interior
+endpoint at or to the right of its optimal counterpart.  The only grid
+condition is the paper's implicit small-grid requirement, written explicitly
+as `optimalLow + grid <= optimalHigh` on every interior interval.
+
+Unlike the older conditional source wrappers, this theorem derives the shift
+from the direct midpoint rate tests.  It does not assume either the returned
+endpoint domination or the outer branch conclusion.
+-/
+theorem theorem32WeightedBackwardGridRateBisectionLevels_comparison_domination_of_last_low_ge
+    {n innerSteps : ℕ} (hn : 1 < n)
+    (optimal sampleRate : Fin (n + 2) → ℝ)
+    (hoptimalLevels : BinaryEndpointLevelVector optimal)
+    (heq : BinaryEndpointAwareAdjacentRatesEqualize optimal sampleRate)
+    (hsample_pos : ∀ idx : Fin (n + 2), 0 < sampleRate idx)
+    (hsample_mono :
+      ∀ {a b : Fin (n + 2)}, a.val ≤ b.val → sampleRate a ≤ sampleRate b)
+    (grid lastLow : ℝ)
+    (hgrid_pos : 0 < grid)
+    (hlastLow_pos : 0 < lastLow) (hlastLow_lt_one : lastLow < 1)
+    (hlastLow_le_one_sub_grid : lastLow ≤ 1 - grid)
+    (hoptimal_last_low_le :
+      optimal (adjacentLowIndex (lastAdjacentIndex : Fin (n + 1))) ≤
+        lastLow)
+    (hgrid_fits :
+      ∀ i : Fin (n + 1), i.val ≠ 0 → i.val ≠ n →
+        optimal (adjacentLowIndex i) + grid ≤
+          optimal (adjacentHighIndex i)) :
+    let gLast : ℝ :=
+      sampleRate (adjacentLowIndex (lastAdjacentIndex : Fin (n + 1)))
+    let target : ℝ := gLast * (-Real.log lastLow)
+    let returned :=
+      theorem32WeightedBackwardGridRateBisectionLevels
+        n innerSteps sampleRate grid target lastLow
+    ∀ i : Fin (n + 1), i.val ≠ 0 → i.val ≠ n →
+      optimal (adjacentHighIndex i) ≤ returned (adjacentHighIndex i) ∧
+        optimal (adjacentLowIndex i) ≤ returned (adjacentLowIndex i) ∧
+        returned (adjacentHighIndex i) ≤ lastLow ∧
+        returned (adjacentLowIndex i) ≤ lastLow := by
+  let last : Fin (n + 1) := lastAdjacentIndex
+  let lastLowIndex : Fin (n + 2) := adjacentLowIndex last
+  let first : Fin (n + 1) := firstAdjacentIndex
+  let tFirst : ℝ := optimal (adjacentHighIndex first)
+  let gLast : ℝ := sampleRate lastLowIndex
+  let target : ℝ := gLast * (-Real.log lastLow)
+  let returned :=
+    theorem32WeightedBackwardGridRateBisectionLevels
+      n innerSteps sampleRate grid target lastLow
+  have hgLast : 0 < gLast := hsample_pos lastLowIndex
+  have htFirst_pos : 0 < tFirst := by
+    dsimp [tFirst, first]
+    exact
+      BinaryEndpointLevelVector_pos_of_not_first
+        hoptimalLevels
+        (adjacentHighIndex (firstAdjacentIndex : Fin (n + 1)))
+        (by simp [adjacentHighIndex, firstAdjacentIndex])
+  have hneglog_lastLow_pos : 0 < -Real.log lastLow := by
+    exact neg_pos.mpr (Real.log_neg hlastLow_pos hlastLow_lt_one)
+  have htarget_pos : 0 < target :=
+    mul_pos hgLast hneglog_lastLow_pos
+  have hone_sub_grid_pos : 0 < 1 - grid :=
+    hlastLow_pos.trans_le hlastLow_le_one_sub_grid
+  have hgrid_lt_one : grid < 1 := by linarith
+  have hgrid_log_le_target :
+      gLast * (-Real.log (1 - grid)) ≤ target := by
+    have hlog_le : Real.log lastLow ≤ Real.log (1 - grid) :=
+      Real.log_le_log hlastLow_pos hlastLow_le_one_sub_grid
+    dsimp [target]
+    exact mul_le_mul_of_nonneg_left (by linarith) hgLast.le
+  have htarget_le_optimal_rate :
+      ∀ i : Fin (n + 1),
+        target ≤ binaryEndpointAwareAdjacentRate optimal sampleRate i := by
+    have hoptimal_last_low_pos : 0 < optimal lastLowIndex :=
+      BinaryEndpointLevelVector_pos_of_not_first
+        hoptimalLevels lastLowIndex (by simp [lastLowIndex, last]; omega)
+    have hlog_le :
+        Real.log (optimal lastLowIndex) ≤ Real.log lastLow :=
+      Real.log_le_log hoptimal_last_low_pos
+        (by simpa [lastLowIndex, last] using hoptimal_last_low_le)
+    have hlast_formula :
+        binaryEndpointAwareAdjacentRate optimal sampleRate last =
+          gLast * (-Real.log (optimal lastLowIndex)) := by
+      simpa [gLast, lastLowIndex] using
+        binaryEndpointAwareAdjacentRate_last optimal sampleRate last
+          (by simp [last]; omega) (by simp [last])
+    intro i
+    calc
+      target ≤ gLast * (-Real.log (optimal lastLowIndex)) := by
+        dsimp [target]
+        exact mul_le_mul_of_nonneg_left (by linarith) hgLast.le
+      _ = binaryEndpointAwareAdjacentRate optimal sampleRate last :=
+        hlast_formula.symm
+      _ = binaryEndpointAwareAdjacentRate optimal sampleRate i := heq last i
+  have hstep :
+      ∀ d : ℕ, 1 ≤ d → d < n →
+        let i : Fin (n + 1) := ⟨n - d, by omega⟩
+        optimal (adjacentHighIndex i) ≤ returned (adjacentHighIndex i) ∧
+          optimal (adjacentLowIndex i) ≤ returned (adjacentLowIndex i) ∧
+          returned (adjacentHighIndex i) ≤ lastLow ∧
+          returned (adjacentLowIndex i) ≤ lastLow := by
+    intro d
+    refine Nat.strong_induction_on d ?_
+    intro d ih hd_pos hd_lt
+    let i : Fin (n + 1) := ⟨n - d, by omega⟩
+    have hi_first : i.val ≠ 0 := by
+      dsimp [i]
+      omega
+    have hi_last : i.val ≠ n := by
+      dsimp [i]
+      omega
+    have hhigh_data :
+        optimal (adjacentHighIndex i) ≤ returned (adjacentHighIndex i) ∧
+          returned (adjacentHighIndex i) ≤ lastLow := by
+      by_cases hd_one : d = 1
+      · subst d
+        have hoptimal_high_eq :
+            optimal (adjacentHighIndex i) = optimal lastLowIndex := by
+          congr 1
+          ext
+          simp [i, lastLowIndex, last, adjacentHighIndex]
+          omega
+        have hreturned_high_eq :
+            returned (adjacentHighIndex i) = lastLow := by
+          have hidx : adjacentHighIndex i = lastLowIndex := by
+            ext
+            simp [i, lastLowIndex, last, adjacentHighIndex]
+            omega
+          rw [hidx]
+          simpa [returned, target, gLast, lastLowIndex, last] using
+            theorem32WeightedBackwardGridRateBisectionLevels_last_low
+              (n := n) (innerSteps := innerSteps) (Nat.lt_of_succ_lt hn)
+              sampleRate grid target lastLow
+        constructor
+        · calc
+            optimal (adjacentHighIndex i) = optimal lastLowIndex :=
+              hoptimal_high_eq
+            _ ≤ lastLow := by
+              simpa [lastLowIndex, last] using hoptimal_last_low_le
+            _ = returned (adjacentHighIndex i) := hreturned_high_eq.symm
+        · exact hreturned_high_eq.le
+      · let j : Fin (n + 1) := ⟨n - (d - 1), by omega⟩
+        have hd_pred_pos : 1 ≤ d - 1 := by omega
+        have hd_pred_lt : d - 1 < n := by omega
+        have hprev := ih (d - 1) (by omega) hd_pred_pos hd_pred_lt
+        have hoptimal_high_eq_low :
+            optimal (adjacentHighIndex i) =
+              optimal (adjacentLowIndex j) := by
+          congr 1
+          ext
+          simp [i, j, adjacentHighIndex, adjacentLowIndex]
+          omega
+        have hreturned_high_eq_low :
+            returned (adjacentHighIndex i) =
+              returned (adjacentLowIndex j) := by
+          congr 1
+          ext
+          simp [i, j, adjacentHighIndex, adjacentLowIndex]
+          omega
+        constructor
+        · calc
+            optimal (adjacentHighIndex i) =
+                optimal (adjacentLowIndex j) := hoptimal_high_eq_low
+            _ ≤ returned (adjacentLowIndex j) := hprev.2.1
+            _ = returned (adjacentHighIndex i) :=
+              hreturned_high_eq_low.symm
+        · rw [hreturned_high_eq_low]
+          exact hprev.2.2.2
+    have hhigh_dom := hhigh_data.1
+    have hhigh_le_last := hhigh_data.2
+    have hoptimal_low_pos : 0 < optimal (adjacentLowIndex i) :=
+      BinaryEndpointLevelVector_pos_of_not_first
+        hoptimalLevels (adjacentLowIndex i) (by exact hi_first)
+    have hfloor_le_optimal_low : tFirst ≤ optimal (adjacentLowIndex i) := by
+      apply BinaryEndpointLevelVector_mono hoptimalLevels
+      simp [first, adjacentHighIndex, adjacentLowIndex]
+      omega
+    have hfloor_lt_high : tFirst < returned (adjacentHighIndex i) :=
+      hfloor_le_optimal_low.trans_lt
+        ((hoptimalLevels.2.2 i).trans_le hhigh_dom)
+    have hreturned_high_lt_one : returned (adjacentHighIndex i) < 1 :=
+      hhigh_le_last.trans_lt hlastLow_lt_one
+    have hfloor_le_grid_upper :
+        tFirst ≤ returned (adjacentHighIndex i) - grid := by
+      have hopt_low_le_grid_upper :
+          optimal (adjacentLowIndex i) ≤
+            returned (adjacentHighIndex i) - grid := by
+        linarith [hgrid_fits i hi_first hi_last, hhigh_dom]
+      exact hfloor_le_optimal_low.trans hopt_low_le_grid_upper
+    have hgrid_upper_pos :
+        0 < returned (adjacentHighIndex i) - grid :=
+      htFirst_pos.trans_le hfloor_le_grid_upper
+    have htarget_le_comparison_rate :
+        target ≤
+          weightedBernoulliClosedThresholdRate
+            (sampleRate (adjacentHighIndex i))
+            (sampleRate (adjacentLowIndex i))
+            (returned (adjacentHighIndex i))
+            (optimal (adjacentLowIndex i)) := by
+      have hoptimal_interior :
+          binaryEndpointAwareAdjacentRate optimal sampleRate i =
+            weightedBernoulliClosedThresholdRate
+              (sampleRate (adjacentHighIndex i))
+              (sampleRate (adjacentLowIndex i))
+              (optimal (adjacentHighIndex i))
+              (optimal (adjacentLowIndex i)) :=
+        binaryEndpointAwareAdjacentRate_interior
+          optimal sampleRate i hi_first hi_last
+      have hexpand :
+          weightedBernoulliClosedThresholdRate
+              (sampleRate (adjacentHighIndex i))
+              (sampleRate (adjacentLowIndex i))
+              (optimal (adjacentHighIndex i))
+              (optimal (adjacentLowIndex i)) ≤
+            weightedBernoulliClosedThresholdRate
+              (sampleRate (adjacentHighIndex i))
+              (sampleRate (adjacentLowIndex i))
+              (returned (adjacentHighIndex i))
+              (optimal (adjacentLowIndex i)) := by
+        exact
+          weightedBernoulliClosedThresholdRate_le_of_shrink
+            (hsample_pos (adjacentHighIndex i)).le
+            (hsample_pos (adjacentLowIndex i)).le
+            (add_pos (hsample_pos (adjacentHighIndex i))
+              (hsample_pos (adjacentLowIndex i)))
+            hoptimal_low_pos le_rfl
+            (hoptimalLevels.2.2 i).le hhigh_dom hreturned_high_lt_one
+      calc
+        target ≤ binaryEndpointAwareAdjacentRate optimal sampleRate i :=
+          htarget_le_optimal_rate i
+        _ =
+            weightedBernoulliClosedThresholdRate
+              (sampleRate (adjacentHighIndex i))
+              (sampleRate (adjacentLowIndex i))
+              (optimal (adjacentHighIndex i))
+              (optimal (adjacentLowIndex i)) := hoptimal_interior
+        _ ≤
+            weightedBernoulliClosedThresholdRate
+              (sampleRate (adjacentHighIndex i))
+              (sampleRate (adjacentLowIndex i))
+              (returned (adjacentHighIndex i))
+              (optimal (adjacentLowIndex i)) := hexpand
+    have hsample_high_le_last :
+        sampleRate (adjacentHighIndex i) ≤ gLast := by
+      dsimp [gLast, lastLowIndex, last]
+      apply hsample_mono
+      simp [adjacentHighIndex]
+      omega
+    have hsample_low_le_last :
+        sampleRate (adjacentLowIndex i) ≤ gLast := by
+      dsimp [gLast, lastLowIndex, last]
+      apply hsample_mono
+      simp [adjacentLowIndex]
+      omega
+    have hgrid_upper_rate_le_target :
+        weightedBernoulliClosedThresholdRate
+            (sampleRate (adjacentHighIndex i))
+            (sampleRate (adjacentLowIndex i))
+            (returned (adjacentHighIndex i))
+            (returned (adjacentHighIndex i) - grid) ≤
+          target := by
+      exact
+        (theorem32_weighted_grid_interval_rate_le_last_neg_log_one_sub
+          (hsample_pos (adjacentHighIndex i))
+          (hsample_pos (adjacentLowIndex i)) hgLast
+          hsample_high_le_last hsample_low_le_last hgrid_pos.le hgrid_lt_one
+          hgrid_upper_pos hreturned_high_lt_one).trans hgrid_log_le_target
+    have hlow_dom :
+        optimal (adjacentLowIndex i) ≤ returned (adjacentLowIndex i) := by
+      have hrun_dom :=
+        theorem32InnerSourceWeightedRateRun_comparison_le_returned_upper
+          (innerSteps := innerSteps)
+          (hsample_pos (adjacentHighIndex i))
+          (hsample_pos (adjacentLowIndex i))
+          htFirst_pos hfloor_lt_high hreturned_high_lt_one htarget_pos
+          hfloor_le_optimal_low
+          ((hoptimalLevels.2.2 i).le.trans hhigh_dom)
+          htarget_le_comparison_rate hfloor_le_grid_upper
+          (by linarith [hgrid_pos]) hgrid_upper_rate_le_target
+      have hreturnedLow :=
+        theorem32WeightedBackwardGridRateBisectionLevels_returnedLow
+          (n := n) (innerSteps := innerSteps)
+          sampleRate grid target lastLow i hi_first hi_last
+      simpa [returned, target, gLast] using hrun_dom.trans_eq hreturnedLow
+    have hlow_le_last : returned (adjacentLowIndex i) ≤ lastLow := by
+      have hrun_upper :
+          (EconCSLib.Optimization.realBisectionRun
+            (theorem32InnerSourceWeightedRateAbove
+              (sampleRate (adjacentHighIndex i))
+              (sampleRate (adjacentLowIndex i))
+              (returned (adjacentHighIndex i)) target)
+            innerSteps 0 (returned (adjacentHighIndex i) - grid)).2 ≤
+            returned (adjacentHighIndex i) - grid :=
+        EconCSLib.Optimization.realBisectionRun_upper_le_initial
+          (theorem32InnerSourceWeightedRateAbove
+            (sampleRate (adjacentHighIndex i))
+            (sampleRate (adjacentLowIndex i))
+            (returned (adjacentHighIndex i)) target)
+          hgrid_upper_pos.le
+      have hreturnedLow :=
+        theorem32WeightedBackwardGridRateBisectionLevels_returnedLow
+          (n := n) (innerSteps := innerSteps)
+          sampleRate grid target lastLow i hi_first hi_last
+      rw [hreturnedLow] at hrun_upper
+      linarith
+    exact ⟨hhigh_dom, hlow_dom, hhigh_le_last, hlow_le_last⟩
+  dsimp
+  intro i hi_first hi_last
+  have hd_pos : 1 ≤ n - i.val := by omega
+  have hd_lt : n - i.val < n := by
+    have hi_pos : 0 < i.val := Nat.pos_of_ne_zero hi_first
+    omega
+  have hi_eq : (⟨n - (n - i.val), by omega⟩ : Fin (n + 1)) = i := by
+    have hval : n - (n - i.val) = i.val := by omega
+    ext
+    exact hval
+  have h := hstep (n - i.val) hd_pos hd_lt
+  simpa [returned, target, gLast, hi_eq] using h
+
+/--
+Source outer-branch shifting consequence.  Once the tested final-low endpoint
+is weakly to the right of the equalized optimum, literal
+`CalculateOtherLevels` returns a first endpoint whose rate is at least the
+returned last rate.  Therefore Algorithm 1 cannot take its strict
+`ratefirst < ratelast` lower-update branch to the right of the optimum.
+-/
+theorem theorem32WeightedBackwardGridRateBisectionLevels_last_rate_le_first_rate_of_last_low_ge
+    {n innerSteps : ℕ} (hn : 1 < n)
+    (optimal sampleRate : Fin (n + 2) → ℝ)
+    (hoptimalLevels : BinaryEndpointLevelVector optimal)
+    (heq : BinaryEndpointAwareAdjacentRatesEqualize optimal sampleRate)
+    (hsample_pos : ∀ idx : Fin (n + 2), 0 < sampleRate idx)
+    (hsample_mono :
+      ∀ {a b : Fin (n + 2)}, a.val ≤ b.val → sampleRate a ≤ sampleRate b)
+    (grid lastLow : ℝ)
+    (hgrid_pos : 0 < grid)
+    (hlastLow_pos : 0 < lastLow) (hlastLow_lt_one : lastLow < 1)
+    (hlastLow_le_one_sub_grid : lastLow ≤ 1 - grid)
+    (hoptimal_last_low_le :
+      optimal (adjacentLowIndex (lastAdjacentIndex : Fin (n + 1))) ≤
+        lastLow)
+    (hgrid_fits :
+      ∀ i : Fin (n + 1), i.val ≠ 0 → i.val ≠ n →
+        optimal (adjacentLowIndex i) + grid ≤
+          optimal (adjacentHighIndex i)) :
+    let gLast : ℝ :=
+      sampleRate (adjacentLowIndex (lastAdjacentIndex : Fin (n + 1)))
+    let target : ℝ := gLast * (-Real.log lastLow)
+    let returned :=
+      theorem32WeightedBackwardGridRateBisectionLevels
+        n innerSteps sampleRate grid target lastLow
+    binaryEndpointAwareAdjacentRate returned sampleRate
+        (lastAdjacentIndex : Fin (n + 1)) ≤
+      binaryEndpointAwareAdjacentRate returned sampleRate
+        (firstAdjacentIndex : Fin (n + 1)) := by
+  let last : Fin (n + 1) := lastAdjacentIndex
+  let first : Fin (n + 1) := firstAdjacentIndex
+  let iOne : Fin (n + 1) := ⟨1, by omega⟩
+  let lastLowIndex : Fin (n + 2) := adjacentLowIndex last
+  let gLast : ℝ := sampleRate lastLowIndex
+  let target : ℝ := gLast * (-Real.log lastLow)
+  let returned :=
+    theorem32WeightedBackwardGridRateBisectionLevels
+      n innerSteps sampleRate grid target lastLow
+  have hiOne_first : iOne.val ≠ 0 := by simp [iOne]
+  have hiOne_last : iOne.val ≠ n := by
+    simp [iOne]
+    omega
+  have hdom :=
+    theorem32WeightedBackwardGridRateBisectionLevels_comparison_domination_of_last_low_ge
+      (n := n) (innerSteps := innerSteps) hn optimal sampleRate
+      hoptimalLevels heq hsample_pos hsample_mono grid lastLow hgrid_pos
+      hlastLow_pos hlastLow_lt_one hlastLow_le_one_sub_grid
+      hoptimal_last_low_le hgrid_fits iOne hiOne_first hiOne_last
+  have hfirst_dom :
+      optimal (adjacentHighIndex first) ≤
+        returned (adjacentHighIndex first) := by
+    have hidx : adjacentLowIndex iOne = adjacentHighIndex first := by
+      ext
+      simp [iOne, first, adjacentLowIndex,
+        adjacentHighIndex]
+    simpa [returned, target, gLast, lastLowIndex, last, hidx] using hdom.2.1
+  have hreturned_first_le_lastLow :
+      returned (adjacentHighIndex first) ≤ lastLow := by
+    have hidx : adjacentLowIndex iOne = adjacentHighIndex first := by
+      ext
+      simp [iOne, first, adjacentLowIndex,
+        adjacentHighIndex]
+    simpa [returned, target, gLast, lastLowIndex, last, hidx] using
+      hdom.2.2.2
+  have hoptimal_first_lt_one : optimal (adjacentHighIndex first) < 1 := by
+    exact
+      BinaryEndpointLevelVector_lt_one_of_not_last
+        hoptimalLevels (adjacentHighIndex first) (by
+          simp [first, adjacentHighIndex]
+          omega)
+  have hreturned_first_lt_one : returned (adjacentHighIndex first) < 1 :=
+    hreturned_first_le_lastLow.trans_lt hlastLow_lt_one
+  have hfirst_log :
+      -Real.log (1 - optimal (adjacentHighIndex first)) ≤
+        -Real.log (1 - returned (adjacentHighIndex first)) := by
+    have hlog :
+        Real.log (1 - returned (adjacentHighIndex first)) ≤
+          Real.log (1 - optimal (adjacentHighIndex first)) :=
+      Real.log_le_log (sub_pos.mpr hreturned_first_lt_one) (by linarith)
+    linarith
+  have hfirst_rate_ge :
+      binaryEndpointAwareAdjacentRate optimal sampleRate first ≤
+        binaryEndpointAwareAdjacentRate returned sampleRate first := by
+    rw [binaryEndpointAwareAdjacentRate_first optimal sampleRate first
+        (by simp [first]),
+      binaryEndpointAwareAdjacentRate_first returned sampleRate first
+        (by simp [first])]
+    exact
+      mul_le_mul_of_nonneg_left hfirst_log
+        (hsample_pos (adjacentHighIndex first)).le
+  have hoptimal_last_low_pos : 0 < optimal lastLowIndex :=
+    BinaryEndpointLevelVector_pos_of_not_first
+      hoptimalLevels lastLowIndex (by simp [lastLowIndex, last]; omega)
+  have hlast_log :
+      -Real.log lastLow ≤ -Real.log (optimal lastLowIndex) := by
+    have hlog : Real.log (optimal lastLowIndex) ≤ Real.log lastLow :=
+      Real.log_le_log hoptimal_last_low_pos
+        (by simpa [lastLowIndex, last] using hoptimal_last_low_le)
+    linarith
+  have hreturned_last_formula :
+      binaryEndpointAwareAdjacentRate returned sampleRate last =
+        gLast * (-Real.log lastLow) := by
+    simpa [returned, target, gLast, lastLowIndex, last] using
+      theorem32WeightedBackwardGridRateBisectionLevels_last_rate
+        (n := n) (innerSteps := innerSteps) (Nat.lt_of_succ_lt hn)
+        sampleRate grid target lastLow
+  have hoptimal_last_formula :
+      binaryEndpointAwareAdjacentRate optimal sampleRate last =
+        gLast * (-Real.log (optimal lastLowIndex)) := by
+    simpa [gLast, lastLowIndex] using
+      binaryEndpointAwareAdjacentRate_last optimal sampleRate last
+        (by simp [last]; omega) (by simp [last])
+  have hlast_rate_le :
+      binaryEndpointAwareAdjacentRate returned sampleRate last ≤
+        binaryEndpointAwareAdjacentRate optimal sampleRate last := by
+    rw [hreturned_last_formula, hoptimal_last_formula]
+    exact mul_le_mul_of_nonneg_left hlast_log
+      (hsample_pos lastLowIndex).le
+  calc
+    binaryEndpointAwareAdjacentRate returned sampleRate last
+        ≤ binaryEndpointAwareAdjacentRate optimal sampleRate last :=
+      hlast_rate_le
+    _ = binaryEndpointAwareAdjacentRate optimal sampleRate first :=
+      heq last first
+    _ ≤ binaryEndpointAwareAdjacentRate returned sampleRate first :=
+      hfirst_rate_ge
+
+/--
+The literal weighted outer classifier's false branch is sound on its source
+search interval: a strict `ratefirst < ratelast` test can occur only at or to
+the left of the equalized optimal final-low endpoint.
+-/
+theorem theorem32WeightedBackwardGridRateBisection_outer_false_sound
+    {n innerSteps : ℕ} (hn : 1 < n)
+    (optimal sampleRate : Fin (n + 2) → ℝ)
+    (hoptimalLevels : BinaryEndpointLevelVector optimal)
+    (heq : BinaryEndpointAwareAdjacentRatesEqualize optimal sampleRate)
+    (hsample_pos : ∀ idx : Fin (n + 2), 0 < sampleRate idx)
+    (hsample_mono :
+      ∀ {a b : Fin (n + 2)}, a.val ≤ b.val → sampleRate a ≤ sampleRate b)
+    (grid : ℝ) (hgrid_pos : 0 < grid)
+    (hgrid_fits :
+      ∀ i : Fin (n + 1), i.val ≠ 0 → i.val ≠ n →
+        optimal (adjacentLowIndex i) + grid ≤
+          optimal (adjacentHighIndex i)) :
+    let gLast : ℝ :=
+      sampleRate (adjacentLowIndex (lastAdjacentIndex : Fin (n + 1)))
+    let candidate : ℝ → Fin (n + 2) → ℝ := fun x =>
+      theorem32WeightedBackwardGridRateBisectionLevels
+        n innerSteps sampleRate grid (gLast * (-Real.log x)) x
+    ∀ x, 0 < x → x ≤ 1 - grid →
+      theorem32OuterSourceWeightedRateAbove (candidate x) sampleRate = false →
+        x ≤ optimal
+          (adjacentLowIndex (lastAdjacentIndex : Fin (n + 1))) := by
+  let gLast : ℝ :=
+    sampleRate (adjacentLowIndex (lastAdjacentIndex : Fin (n + 1)))
+  let candidate : ℝ → Fin (n + 2) → ℝ := fun x =>
+    theorem32WeightedBackwardGridRateBisectionLevels
+      n innerSteps sampleRate grid (gLast * (-Real.log x)) x
+  dsimp
+  intro x hx_pos hx_le_upper hfalse
+  by_contra hnot
+  have hoptimal_last_le :
+      optimal (adjacentLowIndex (lastAdjacentIndex : Fin (n + 1))) ≤ x :=
+    le_of_not_ge hnot
+  have hx_lt_one : x < 1 := by linarith [hgrid_pos]
+  have hlast_le_first :
+      binaryEndpointAwareAdjacentRate (candidate x) sampleRate
+          (lastAdjacentIndex : Fin (n + 1)) ≤
+        binaryEndpointAwareAdjacentRate (candidate x) sampleRate
+          (firstAdjacentIndex : Fin (n + 1)) := by
+    simpa [candidate, gLast] using
+      theorem32WeightedBackwardGridRateBisectionLevels_last_rate_le_first_rate_of_last_low_ge
+        (n := n) (innerSteps := innerSteps) hn optimal sampleRate
+        hoptimalLevels heq hsample_pos hsample_mono grid x hgrid_pos
+        hx_pos hx_lt_one hx_le_upper hoptimal_last_le hgrid_fits
+  have hfirst_lt_last :
+      binaryEndpointAwareAdjacentRate (candidate x) sampleRate
+          (firstAdjacentIndex : Fin (n + 1)) <
+        binaryEndpointAwareAdjacentRate (candidate x) sampleRate
+          (lastAdjacentIndex : Fin (n + 1)) :=
+    (theorem32OuterSourceWeightedRateAbove_eq_false_iff
+      (candidate x) sampleRate).mp hfalse
+  exact (not_lt_of_ge hlast_le_first) hfirst_lt_last
+
+/--
+Literal weighted `NestedBisection` output.  The outer search uses the source
+lower and upper endpoints, constructs every tested candidate by the direct
+rate recursion, and applies the source `ratelast ≤ ratefirst` branch test.
+This definition deliberately contains no optimal-vector argument.
+-/
+noncomputable def theorem32WeightedNestedBisectionOutput
+    (m outerSteps innerSteps : ℕ)
+    (sampleRate : Fin (m + 2) → ℝ) (grid : ℝ) :
+    Fin (m + 2) → ℝ :=
+  let gLast : ℝ :=
+    sampleRate (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1)))
+  let candidate : ℝ → Fin (m + 2) → ℝ := fun lastLow =>
+    theorem32WeightedBackwardGridRateBisectionLevels
+      m innerSteps sampleRate grid (gLast * (-Real.log lastLow)) lastLow
+  let above : ℝ → Bool := fun lastLow =>
+    theorem32OuterSourceWeightedRateAbove (candidate lastLow) sampleRate
+  let lastLow : ℝ :=
+    (EconCSLib.Optimization.realBisectionRun above outerSteps
+      (1 - 1 / ((m + 1 : ℕ) : ℝ)) (1 - grid)).2
+  candidate lastLow
+
+/-- The literal nested output records the actual outer-run upper endpoint. -/
+theorem theorem32WeightedNestedBisectionOutput_last_low
+    {m outerSteps innerSteps : ℕ} (hm : 0 < m)
+    (sampleRate : Fin (m + 2) → ℝ) (grid : ℝ) :
+    let gLast : ℝ :=
+      sampleRate (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1)))
+    let candidate : ℝ → Fin (m + 2) → ℝ := fun lastLow =>
+      theorem32WeightedBackwardGridRateBisectionLevels
+        m innerSteps sampleRate grid (gLast * (-Real.log lastLow)) lastLow
+    let above : ℝ → Bool := fun lastLow =>
+      theorem32OuterSourceWeightedRateAbove (candidate lastLow) sampleRate
+    let lastLow : ℝ :=
+      (EconCSLib.Optimization.realBisectionRun above outerSteps
+        (1 - 1 / ((m + 1 : ℕ) : ℝ)) (1 - grid)).2
+    theorem32WeightedNestedBisectionOutput
+        m outerSteps innerSteps sampleRate grid
+        (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) =
+      lastLow := by
+  dsimp
+  exact
+    theorem32WeightedBackwardGridRateBisectionLevels_last_low
+      (n := m) (innerSteps := innerSteps) hm sampleRate grid
+      (sampleRate
+          (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) *
+        (-Real.log
+          (EconCSLib.Optimization.realBisectionRun
+            (fun lastLow =>
+              theorem32OuterSourceWeightedRateAbove
+                (theorem32WeightedBackwardGridRateBisectionLevels
+                  m innerSteps sampleRate grid
+                  (sampleRate
+                      (adjacentLowIndex
+                        (lastAdjacentIndex : Fin (m + 1))) *
+                    (-Real.log lastLow))
+                  lastLow)
+                sampleRate)
+            outerSteps (1 - 1 / ((m + 1 : ℕ) : ℝ)) (1 - grid)).2))
+      (EconCSLib.Optimization.realBisectionRun
+        (fun lastLow =>
+          theorem32OuterSourceWeightedRateAbove
+            (theorem32WeightedBackwardGridRateBisectionLevels
+              m innerSteps sampleRate grid
+              (sampleRate
+                  (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) *
+                (-Real.log lastLow))
+              lastLow)
+            sampleRate)
+        outerSteps (1 - 1 / ((m + 1 : ℕ) : ℝ)) (1 - grid)).2
+
+/-- The literal nested output's last adjacent rate has the source formula. -/
+theorem theorem32WeightedNestedBisectionOutput_last_rate
+    {m outerSteps innerSteps : ℕ} (hm : 0 < m)
+    (sampleRate : Fin (m + 2) → ℝ) (grid : ℝ) :
+    let returned :=
+      theorem32WeightedNestedBisectionOutput
+        m outerSteps innerSteps sampleRate grid
+    let last : Fin (m + 1) := lastAdjacentIndex
+    let gLast : ℝ := sampleRate (adjacentLowIndex last)
+    let lastLow : ℝ := returned (adjacentLowIndex last)
+    binaryEndpointAwareAdjacentRate returned sampleRate last =
+      gLast * (-Real.log lastLow) := by
+  dsimp
+  simpa using
+    binaryEndpointAwareAdjacentRate_last
+      (theorem32WeightedNestedBisectionOutput
+        m outerSteps innerSteps sampleRate grid)
+      sampleRate (lastAdjacentIndex : Fin (m + 1))
+      (by simp; omega) (by simp)
+
+/--
+The literal nested output is the direct backward candidate evaluated at its
+own recorded final-low endpoint.  This eliminates the outer-loop `let` when
+reusing inner-run correctness lemmas.
+-/
+theorem theorem32WeightedNestedBisectionOutput_eq_backward_levels
+    {m outerSteps innerSteps : ℕ} (hm : 0 < m)
+    (sampleRate : Fin (m + 2) → ℝ) (grid : ℝ) :
+    let returned :=
+      theorem32WeightedNestedBisectionOutput
+        m outerSteps innerSteps sampleRate grid
+    let last : Fin (m + 1) := lastAdjacentIndex
+    let gLast : ℝ := sampleRate (adjacentLowIndex last)
+    let lastLow : ℝ := returned (adjacentLowIndex last)
+    returned =
+      theorem32WeightedBackwardGridRateBisectionLevels
+        m innerSteps sampleRate grid (gLast * (-Real.log lastLow)) lastLow := by
+  have hlast :=
+    theorem32WeightedNestedBisectionOutput_last_low
+      (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+      hm sampleRate grid
+  dsimp at hlast ⊢
+  rw [hlast]
+  rfl
+
+/--
+The literal outer loop returns a final-low endpoint at most one grid width to
+the right of the equalized optimum.  Both bracketing facts are derived: the
+lower endpoint is Lemma C.6, and false-branch soundness is the direct shifting
+theorem above.
+-/
+theorem theorem32WeightedNestedBisectionOutput_last_low_le_optimal_add_grid
+    {m outerSteps innerSteps : ℕ} (hm : 1 < m)
+    (optimal sampleRate : Fin (m + 2) → ℝ)
+    (hoptimalLevels : BinaryEndpointLevelVector optimal)
+    (heq : BinaryEndpointAwareAdjacentRatesEqualize optimal sampleRate)
+    (hsample_pos : ∀ idx : Fin (m + 2), 0 < sampleRate idx)
+    (hsample_mono :
+      ∀ {a b : Fin (m + 2)}, a.val ≤ b.val → sampleRate a ≤ sampleRate b)
+    (grid : ℝ) (hgrid_pos : 0 < grid)
+    (hoptimal_last_low_le_upper :
+      optimal (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) ≤
+        1 - grid)
+    (hgrid_fits :
+      ∀ i : Fin (m + 1), i.val ≠ 0 → i.val ≠ m →
+        optimal (adjacentLowIndex i) + grid ≤
+          optimal (adjacentHighIndex i))
+    (houter_width :
+      ((1 - grid) - (1 - 1 / ((m + 1 : ℕ) : ℝ))) /
+          (2 : ℝ) ^ outerSteps ≤
+        grid) :
+    theorem32WeightedNestedBisectionOutput
+        m outerSteps innerSteps sampleRate grid
+        (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) ≤
+      optimal (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) + grid := by
+  let lower : ℝ := 1 - 1 / ((m + 1 : ℕ) : ℝ)
+  let upper : ℝ := 1 - grid
+  let optimalLast : ℝ :=
+    optimal (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1)))
+  let gLast : ℝ :=
+    sampleRate (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1)))
+  let candidate : ℝ → Fin (m + 2) → ℝ := fun x =>
+    theorem32WeightedBackwardGridRateBisectionLevels
+      m innerSteps sampleRate grid (gLast * (-Real.log x)) x
+  let above : ℝ → Bool := fun x =>
+    theorem32OuterSourceWeightedRateAbove (candidate x) sampleRate
+  have hlower_pos : 0 < lower := by
+    simpa [lower] using
+      one_sub_inv_adjacent_count_pos (m := m) (Nat.lt_of_succ_lt hm)
+  have hlower_optimal : lower ≤ optimalLast := by
+    dsimp [lower, optimalLast]
+    exact
+      BinaryEndpointLevelVector_monotone_equalized_last_low_ge_one_sub_inv
+        (Nat.lt_of_succ_lt hm) hoptimalLevels heq hsample_pos hsample_mono
+  have hoptimal_upper : optimalLast ≤ upper := by
+    simpa [optimalLast, upper] using hoptimal_last_low_le_upper
+  have hlower_upper : lower ≤ upper :=
+    hlower_optimal.trans hoptimal_upper
+  have hfalse :
+      ∀ x, lower ≤ x → x ≤ upper → above x = false →
+        x ≤ optimalLast := by
+    intro x hlower_x hx_upper hx_false
+    have hx_pos : 0 < x := hlower_pos.trans_le hlower_x
+    have hx_le_one_sub_grid : x ≤ 1 - grid := by
+      simpa [upper] using hx_upper
+    simpa [above, candidate, gLast, optimalLast] using
+      theorem32WeightedBackwardGridRateBisection_outer_false_sound
+        (n := m) (innerSteps := innerSteps) hm optimal sampleRate
+        hoptimalLevels heq hsample_pos hsample_mono grid hgrid_pos
+        hgrid_fits x hx_pos hx_le_one_sub_grid
+        (by simpa [above, candidate, gLast] using hx_false)
+  have hrun_upper :
+      (EconCSLib.Optimization.realBisectionRun
+        above outerSteps lower upper).2 ≤ optimalLast + grid :=
+    theorem32_realBisectionRun_upper_le_target_add_delta_of_false_sound_on_Icc
+      above hlower_upper hlower_optimal hfalse
+      (by simpa [lower, upper] using houter_width)
+  have houtput_last :=
+    theorem32WeightedNestedBisectionOutput_last_low
+      (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+      (Nat.lt_of_succ_lt hm) sampleRate grid
+  simpa [above, candidate, gLast, lower, upper, optimalLast] using
+    houtput_last.trans_le hrun_upper
+
+/--
+The literal nested output satisfies the source's final endpoint-rate
+invariant.  It follows from the true branch at the initial outer upper
+endpoint and preservation of that true upper endpoint by Boolean bisection.
+-/
+theorem theorem32WeightedNestedBisectionOutput_last_rate_le_first_rate
+    {m outerSteps innerSteps : ℕ} (hm : 1 < m)
+    (optimal sampleRate : Fin (m + 2) → ℝ)
+    (hoptimalLevels : BinaryEndpointLevelVector optimal)
+    (heq : BinaryEndpointAwareAdjacentRatesEqualize optimal sampleRate)
+    (hsample_pos : ∀ idx : Fin (m + 2), 0 < sampleRate idx)
+    (hsample_mono :
+      ∀ {a b : Fin (m + 2)}, a.val ≤ b.val → sampleRate a ≤ sampleRate b)
+    (grid : ℝ) (hgrid_pos : 0 < grid)
+    (hoptimal_last_low_le_upper :
+      optimal (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) ≤
+        1 - grid)
+    (hgrid_fits :
+      ∀ i : Fin (m + 1), i.val ≠ 0 → i.val ≠ m →
+        optimal (adjacentLowIndex i) + grid ≤
+          optimal (adjacentHighIndex i)) :
+    binaryEndpointAwareAdjacentRate
+        (theorem32WeightedNestedBisectionOutput
+          m outerSteps innerSteps sampleRate grid)
+        sampleRate (lastAdjacentIndex : Fin (m + 1)) ≤
+      binaryEndpointAwareAdjacentRate
+        (theorem32WeightedNestedBisectionOutput
+          m outerSteps innerSteps sampleRate grid)
+        sampleRate (firstAdjacentIndex : Fin (m + 1)) := by
+  let lower : ℝ := 1 - 1 / ((m + 1 : ℕ) : ℝ)
+  let upper : ℝ := 1 - grid
+  let gLast : ℝ :=
+    sampleRate (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1)))
+  let candidate : ℝ → Fin (m + 2) → ℝ := fun x =>
+    theorem32WeightedBackwardGridRateBisectionLevels
+      m innerSteps sampleRate grid (gLast * (-Real.log x)) x
+  let above : ℝ → Bool := fun x =>
+    theorem32OuterSourceWeightedRateAbove (candidate x) sampleRate
+  let lastLow : ℝ :=
+    (EconCSLib.Optimization.realBisectionRun
+      above outerSteps lower upper).2
+  have hoptimal_last_pos :
+      0 < optimal
+        (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) :=
+    BinaryEndpointLevelVector_last_low_pos
+      (Nat.lt_of_succ_lt hm) hoptimalLevels
+  have hupper_pos : 0 < upper :=
+    hoptimal_last_pos.trans_le
+      (by simpa [upper] using hoptimal_last_low_le_upper)
+  have hupper_lt_one : upper < 1 := by
+    dsimp [upper]
+    linarith
+  have hupper_last_le_first :
+      binaryEndpointAwareAdjacentRate (candidate upper) sampleRate
+          (lastAdjacentIndex : Fin (m + 1)) ≤
+        binaryEndpointAwareAdjacentRate (candidate upper) sampleRate
+          (firstAdjacentIndex : Fin (m + 1)) := by
+    simpa [candidate, gLast, upper] using
+      theorem32WeightedBackwardGridRateBisectionLevels_last_rate_le_first_rate_of_last_low_ge
+        (n := m) (innerSteps := innerSteps) hm optimal sampleRate
+        hoptimalLevels heq hsample_pos hsample_mono grid upper hgrid_pos
+        hupper_pos hupper_lt_one (by simp [upper])
+        (by simpa [upper] using hoptimal_last_low_le_upper) hgrid_fits
+  have hupper_true : above upper = true := by
+    exact
+      (theorem32OuterSourceWeightedRateAbove_eq_true_iff
+        (candidate upper) sampleRate).2 hupper_last_le_first
+  have hlastLow_true : above lastLow = true := by
+    dsimp [lastLow]
+    exact
+      theorem32_realBisectionRun_upper_true_of_upper_true
+        above hupper_true
+  have hreturned_branch :
+      binaryEndpointAwareAdjacentRate (candidate lastLow) sampleRate
+          (lastAdjacentIndex : Fin (m + 1)) ≤
+        binaryEndpointAwareAdjacentRate (candidate lastLow) sampleRate
+          (firstAdjacentIndex : Fin (m + 1)) :=
+    (theorem32OuterSourceWeightedRateAbove_eq_true_iff
+      (candidate lastLow) sampleRate).mp hlastLow_true
+  simpa [theorem32WeightedNestedBisectionOutput, candidate, gLast,
+    lastLow, above, lower, upper] using hreturned_branch
+
+/--
+The literal weighted nested-bisection output is a genuine endpoint vector.
+The proof derives positivity of the returned first interior endpoint from the
+outer true-branch rate invariant and then propagates that positivity through
+the direct backward recursion.  In particular, well-formedness is not an
+extra Algorithm 1 shooting premise.
+-/
+theorem theorem32WeightedNestedBisectionOutput_isEndpointLevelVector
+    {m outerSteps innerSteps : ℕ} (hm : 1 < m)
+    (optimal sampleRate : Fin (m + 2) → ℝ)
+    (hoptimalLevels : BinaryEndpointLevelVector optimal)
+    (heq : BinaryEndpointAwareAdjacentRatesEqualize optimal sampleRate)
+    (hsample_pos : ∀ idx : Fin (m + 2), 0 < sampleRate idx)
+    (hsample_mono :
+      ∀ {a b : Fin (m + 2)}, a.val ≤ b.val → sampleRate a ≤ sampleRate b)
+    (grid : ℝ) (hgrid_pos : 0 < grid)
+    (hoptimal_last_low_le_upper :
+      optimal (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) ≤
+        1 - grid)
+    (hgrid_fits :
+      ∀ i : Fin (m + 1), i.val ≠ 0 → i.val ≠ m →
+        optimal (adjacentLowIndex i) + grid ≤
+          optimal (adjacentHighIndex i)) :
+    BinaryEndpointLevelVector
+      (theorem32WeightedNestedBisectionOutput
+        m outerSteps innerSteps sampleRate grid) := by
+  let returned :=
+    theorem32WeightedNestedBisectionOutput
+      m outerSteps innerSteps sampleRate grid
+  let last : Fin (m + 1) := lastAdjacentIndex
+  let first : Fin (m + 1) := firstAdjacentIndex
+  let lastIndex : Fin (m + 2) := adjacentLowIndex last
+  let firstIndex : Fin (m + 2) := adjacentHighIndex first
+  let gLast : ℝ := sampleRate lastIndex
+  let lower : ℝ := 1 - 1 / ((m + 1 : ℕ) : ℝ)
+  let upper : ℝ := 1 - grid
+  let candidate : ℝ → Fin (m + 2) → ℝ := fun x =>
+    theorem32WeightedBackwardGridRateBisectionLevels
+      m innerSteps sampleRate grid (gLast * (-Real.log x)) x
+  let above : ℝ → Bool := fun x =>
+    theorem32OuterSourceWeightedRateAbove (candidate x) sampleRate
+  let lastLow : ℝ :=
+    (EconCSLib.Optimization.realBisectionRun
+      above outerSteps lower upper).2
+  let target : ℝ := gLast * (-Real.log lastLow)
+  have hm_pos : 0 < m := Nat.lt_of_succ_lt hm
+  have hlower_pos : 0 < lower := by
+    simpa [lower] using one_sub_inv_adjacent_count_pos hm_pos
+  have hlower_optimal : lower ≤ optimal lastIndex := by
+    dsimp [lower, lastIndex, last]
+    exact
+      BinaryEndpointLevelVector_monotone_equalized_last_low_ge_one_sub_inv
+        hm_pos hoptimalLevels heq hsample_pos hsample_mono
+  have hlower_upper : lower ≤ upper :=
+    hlower_optimal.trans
+      (by simpa [upper, lastIndex, last] using hoptimal_last_low_le_upper)
+  have hlower_le_run : lower ≤ lastLow := by
+    have hlower_le_lower :
+        lower ≤
+          (EconCSLib.Optimization.realBisectionRun
+            above outerSteps lower upper).1 :=
+      theorem32_realBisectionRun_initial_lower_le_lower above hlower_upper
+    have hlower_runupper :
+        (EconCSLib.Optimization.realBisectionRun
+            above outerSteps lower upper).1 ≤
+          (EconCSLib.Optimization.realBisectionRun
+            above outerSteps lower upper).2 :=
+      EconCSLib.Optimization.realBisectionRun_lower_le_upper
+        above hlower_upper
+    exact hlower_le_lower.trans hlower_runupper
+  have hlastLow_pos : 0 < lastLow := hlower_pos.trans_le hlower_le_run
+  have hlastLow_le_upper : lastLow ≤ upper :=
+    EconCSLib.Optimization.realBisectionRun_upper_le_initial
+      above hlower_upper
+  have hlastLow_lt_one : lastLow < 1 := by
+    have hupper_lt_one : upper < 1 := by dsimp [upper]; linarith
+    exact hlastLow_le_upper.trans_lt hupper_lt_one
+  have hreturned_last : returned lastIndex = lastLow := by
+    simpa [returned, lastIndex, last, lastLow, above, candidate,
+      lower, upper, gLast] using
+      theorem32WeightedNestedBisectionOutput_last_low
+        (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+        hm_pos sampleRate grid
+  have hreturned_eq :
+      returned =
+        theorem32WeightedBackwardGridRateBisectionLevels
+          m innerSteps sampleRate grid target lastLow := by
+    have hself :
+        returned =
+          theorem32WeightedBackwardGridRateBisectionLevels
+            m innerSteps sampleRate grid
+              (gLast * (-Real.log (returned lastIndex)))
+              (returned lastIndex) := by
+      simpa [returned, last, gLast, lastIndex] using
+        theorem32WeightedNestedBisectionOutput_eq_backward_levels
+          (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+          hm_pos sampleRate grid
+    rw [hreturned_last] at hself
+    simpa [target] using hself
+  have hfirst_le_lastLow : returned firstIndex ≤ lastLow := by
+    rw [hreturned_eq]
+    exact
+      theorem32WeightedBackwardGridRateBisectionLevels_le_lastLow
+        sampleRate hgrid_pos.le hlastLow_pos.le firstIndex
+        (by simp [firstIndex, first])
+        (by
+          simp [firstIndex, first]
+          omega)
+  have hfirst_lt_one : returned firstIndex < 1 :=
+    hfirst_le_lastLow.trans_lt hlastLow_lt_one
+  have hgLast_pos : 0 < gLast := hsample_pos lastIndex
+  have htarget_pos : 0 < target :=
+    mul_pos hgLast_pos
+      (neg_pos.mpr (Real.log_neg hlastLow_pos hlastLow_lt_one))
+  have hlast_rate :
+      binaryEndpointAwareAdjacentRate returned sampleRate last = target := by
+    have hself :
+        binaryEndpointAwareAdjacentRate returned sampleRate last =
+          gLast * (-Real.log (returned lastIndex)) := by
+      simpa [returned, last, gLast, lastIndex] using
+        theorem32WeightedNestedBisectionOutput_last_rate
+          (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+          hm_pos sampleRate grid
+    rw [hreturned_last] at hself
+    simpa [target] using hself
+  have hlast_le_first :
+      binaryEndpointAwareAdjacentRate returned sampleRate last ≤
+        binaryEndpointAwareAdjacentRate returned sampleRate first := by
+    simpa [returned, last, first] using
+      theorem32WeightedNestedBisectionOutput_last_rate_le_first_rate
+        (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+        hm optimal sampleRate hoptimalLevels heq hsample_pos hsample_mono
+        grid hgrid_pos hoptimal_last_low_le_upper hgrid_fits
+  have hfirst_rate_pos :
+      0 < binaryEndpointAwareAdjacentRate returned sampleRate first := by
+    calc
+      0 < target := htarget_pos
+      _ = binaryEndpointAwareAdjacentRate returned sampleRate last :=
+        hlast_rate.symm
+      _ ≤ binaryEndpointAwareAdjacentRate returned sampleRate first :=
+        hlast_le_first
+  have hfirst_formula :
+      binaryEndpointAwareAdjacentRate returned sampleRate first =
+        sampleRate firstIndex * (-Real.log (1 - returned firstIndex)) := by
+    simpa [firstIndex] using
+      binaryEndpointAwareAdjacentRate_first returned sampleRate first
+        (by simp [first])
+  have hneglog_pos : 0 < -Real.log (1 - returned firstIndex) := by
+    have hmul :
+        0 < sampleRate firstIndex *
+          (-Real.log (1 - returned firstIndex)) := by
+      simpa [hfirst_formula] using hfirst_rate_pos
+    rcases (mul_pos_iff.mp hmul) with h | h
+    · exact h.2
+    · exact False.elim ((not_lt_of_ge (hsample_pos firstIndex).le) h.1)
+  have hfirst_pos : 0 < returned firstIndex := by
+    have harg_pos : 0 < 1 - returned firstIndex := sub_pos.mpr hfirst_lt_one
+    have harg_lt_one : 1 - returned firstIndex < 1 :=
+      (Real.log_neg_iff harg_pos).mp (by linarith)
+    linarith
+  change BinaryEndpointLevelVector returned
+  rw [hreturned_eq] at hfirst_pos ⊢
+  exact
+    theorem32WeightedBackwardGridRateBisectionLevels_isEndpointLevelVector_of_first_high_pos
+      hm sampleRate grid target lastLow hgrid_pos hlastLow_lt_one
+      (by simpa [firstIndex, first] using hfirst_pos)
+
+/--
+The final outer true branch places the returned first interior endpoint at or
+to the right of the equalized optimum's first endpoint.  To the right of the
+optimal last endpoint this is the source shifting lemma; to its left it
+follows from strict last-rate and first-rate monotonicity.
+-/
+theorem theorem32WeightedNestedBisectionOutput_first_high_ge_optimal
+    {m outerSteps innerSteps : ℕ} (hm : 1 < m)
+    (optimal sampleRate : Fin (m + 2) → ℝ)
+    (hoptimalLevels : BinaryEndpointLevelVector optimal)
+    (heq : BinaryEndpointAwareAdjacentRatesEqualize optimal sampleRate)
+    (hsample_pos : ∀ idx : Fin (m + 2), 0 < sampleRate idx)
+    (hsample_mono :
+      ∀ {a b : Fin (m + 2)}, a.val ≤ b.val → sampleRate a ≤ sampleRate b)
+    (grid : ℝ) (hgrid_pos : 0 < grid)
+    (hoptimal_last_low_le_upper :
+      optimal (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) ≤
+        1 - grid)
+    (hgrid_fits :
+      ∀ i : Fin (m + 1), i.val ≠ 0 → i.val ≠ m →
+        optimal (adjacentLowIndex i) + grid ≤
+          optimal (adjacentHighIndex i)) :
+    optimal (adjacentHighIndex (firstAdjacentIndex : Fin (m + 1))) ≤
+      theorem32WeightedNestedBisectionOutput
+        m outerSteps innerSteps sampleRate grid
+        (adjacentHighIndex (firstAdjacentIndex : Fin (m + 1))) := by
+  let returned :=
+    theorem32WeightedNestedBisectionOutput
+      m outerSteps innerSteps sampleRate grid
+  let first : Fin (m + 1) := firstAdjacentIndex
+  let last : Fin (m + 1) := lastAdjacentIndex
+  let lastLow : ℝ := returned (adjacentLowIndex last)
+  let gLast : ℝ := sampleRate (adjacentLowIndex last)
+  let target : ℝ := gLast * (-Real.log lastLow)
+  have hm_pos : 0 < m := Nat.lt_of_succ_lt hm
+  have hreturnedLevels : BinaryEndpointLevelVector returned := by
+    simpa [returned] using
+      theorem32WeightedNestedBisectionOutput_isEndpointLevelVector
+        (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+        hm optimal sampleRate hoptimalLevels heq hsample_pos hsample_mono
+        grid hgrid_pos hoptimal_last_low_le_upper hgrid_fits
+  have hreturned_eq :
+      returned =
+        theorem32WeightedBackwardGridRateBisectionLevels
+          m innerSteps sampleRate grid target lastLow := by
+    simpa [returned, last, gLast, lastLow, target] using
+      theorem32WeightedNestedBisectionOutput_eq_backward_levels
+        (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+        hm_pos sampleRate grid
+  have hlastLow_pos : 0 < lastLow := by
+    simpa [lastLow, last] using
+      BinaryEndpointLevelVector_last_low_pos hm_pos hreturnedLevels
+  have hlastLow_lt_one : lastLow < 1 := by
+    exact
+      BinaryEndpointLevelVector_lt_one_of_not_last
+        hreturnedLevels (adjacentLowIndex last)
+        (by simp [last, lastAdjacentIndex, adjacentLowIndex])
+  have hlastLow_le_one_sub_grid : lastLow ≤ 1 - grid := by
+    let lowerOuter : ℝ := 1 - 1 / ((m + 1 : ℕ) : ℝ)
+    let upperOuter : ℝ := 1 - grid
+    let candidate : ℝ → Fin (m + 2) → ℝ := fun x =>
+      theorem32WeightedBackwardGridRateBisectionLevels
+        m innerSteps sampleRate grid (gLast * (-Real.log x)) x
+    let above : ℝ → Bool := fun x =>
+      theorem32OuterSourceWeightedRateAbove (candidate x) sampleRate
+    have hlower_optimal :
+        lowerOuter ≤ optimal (adjacentLowIndex last) := by
+      dsimp [lowerOuter, last]
+      exact
+        BinaryEndpointLevelVector_monotone_equalized_last_low_ge_one_sub_inv
+          hm_pos hoptimalLevels heq hsample_pos hsample_mono
+    have hlower_upper : lowerOuter ≤ upperOuter :=
+      hlower_optimal.trans
+        (by simpa [upperOuter, last] using hoptimal_last_low_le_upper)
+    have hrun_upper :
+        (EconCSLib.Optimization.realBisectionRun
+          above outerSteps lowerOuter upperOuter).2 ≤ upperOuter :=
+      EconCSLib.Optimization.realBisectionRun_upper_le_initial
+        above hlower_upper
+    have houtputLast :=
+      theorem32WeightedNestedBisectionOutput_last_low
+        (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+        hm_pos sampleRate grid
+    simpa [lastLow, returned, last, above, candidate, gLast,
+      lowerOuter, upperOuter] using houtputLast.trans_le hrun_upper
+  have hlast_le_first :
+      binaryEndpointAwareAdjacentRate returned sampleRate last ≤
+        binaryEndpointAwareAdjacentRate returned sampleRate first := by
+    simpa [returned, last, first] using
+      theorem32WeightedNestedBisectionOutput_last_rate_le_first_rate
+        (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+        hm optimal sampleRate hoptimalLevels heq hsample_pos hsample_mono
+        grid hgrid_pos hoptimal_last_low_le_upper hgrid_fits
+  by_cases hright : optimal (adjacentLowIndex last) ≤ lastLow
+  · let iOne : Fin (m + 1) := ⟨1, by omega⟩
+    have hdom :=
+      theorem32WeightedBackwardGridRateBisectionLevels_comparison_domination_of_last_low_ge
+        (n := m) (innerSteps := innerSteps) hm optimal sampleRate
+        hoptimalLevels heq hsample_pos hsample_mono grid lastLow hgrid_pos
+        hlastLow_pos hlastLow_lt_one hlastLow_le_one_sub_grid hright
+        hgrid_fits iOne (by simp [iOne]) (by simp [iOne]; omega)
+    have hidx : adjacentLowIndex iOne = adjacentHighIndex first := by
+      ext
+      simp [iOne, first, adjacentLowIndex,
+        adjacentHighIndex]
+    calc
+      optimal (adjacentHighIndex first) = optimal (adjacentLowIndex iOne) :=
+        congrArg optimal hidx.symm
+      _ ≤ theorem32WeightedBackwardGridRateBisectionLevels
+            m innerSteps sampleRate grid target lastLow
+            (adjacentLowIndex iOne) := hdom.2.1
+      _ = returned (adjacentLowIndex iOne) :=
+        (congrFun hreturned_eq (adjacentLowIndex iOne)).symm
+      _ = returned (adjacentHighIndex first) := congrArg returned hidx
+  · have hleft : lastLow < optimal (adjacentLowIndex last) :=
+      lt_of_not_ge hright
+    have hlast_rate_lt :
+        binaryEndpointAwareAdjacentRate optimal sampleRate last <
+          binaryEndpointAwareAdjacentRate returned sampleRate last := by
+      simpa [returned, last] using
+        binaryEndpointAwareAdjacentRate_last_lt_of_low_lt
+          hm_pos sampleRate returned optimal hreturnedLevels hoptimalLevels
+          (hsample_pos (adjacentLowIndex last))
+          (by simpa [lastLow] using hleft)
+    have hfirst_rate_lt :
+        binaryEndpointAwareAdjacentRate optimal sampleRate first <
+          binaryEndpointAwareAdjacentRate returned sampleRate first := by
+      calc
+        binaryEndpointAwareAdjacentRate optimal sampleRate first =
+            binaryEndpointAwareAdjacentRate optimal sampleRate last :=
+          heq first last
+        _ < binaryEndpointAwareAdjacentRate returned sampleRate last :=
+          hlast_rate_lt
+        _ ≤ binaryEndpointAwareAdjacentRate returned sampleRate first :=
+          hlast_le_first
+    exact
+      (binaryEndpointAwareAdjacentRate_first_improvement_forces_high_increase
+        hm_pos sampleRate optimal returned hoptimalLevels hreturnedLevels
+        (hsample_pos (adjacentHighIndex first)) (by rfl)
+        hfirst_rate_lt).le
+
+/--
+Direct-rate inner-grid certificate for the literal Algorithm 1 output.  The
+lower endpoint of each completed inner run is positive, hence it is a tested
+false point rather than the initial zero.  The resulting strict rate bound and
+the post-run width give the logarithmic loss with base `tFirst - grid`, without
+assuming an inverse root exists in the shooting interval.
+-/
+theorem theorem32WeightedNestedBisectionOutput_inner_rate_ge_last_sub_log
+    {m outerSteps innerSteps : ℕ} (hm : 1 < m)
+    (optimal sampleRate : Fin (m + 2) → ℝ)
+    (hoptimalLevels : BinaryEndpointLevelVector optimal)
+    (heq : BinaryEndpointAwareAdjacentRatesEqualize optimal sampleRate)
+    (hsample_pos : ∀ idx : Fin (m + 2), 0 < sampleRate idx)
+    (hsample_mono :
+      ∀ {a b : Fin (m + 2)}, a.val ≤ b.val → sampleRate a ≤ sampleRate b)
+    (grid : ℝ) (hgrid_pos : 0 < grid)
+    (hgrid_lt_tFirst :
+      grid < optimal
+        (adjacentHighIndex (firstAdjacentIndex : Fin (m + 1))))
+    (hoptimal_last_low_le_upper :
+      optimal (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) ≤
+        1 - grid)
+    (hgrid_fits :
+      ∀ i : Fin (m + 1), i.val ≠ 0 → i.val ≠ m →
+        optimal (adjacentLowIndex i) + grid ≤
+          optimal (adjacentHighIndex i))
+    (hinner_unit_width : 1 / (2 : ℝ) ^ innerSteps ≤ grid) :
+    let returned :=
+      theorem32WeightedNestedBisectionOutput
+        m outerSteps innerSteps sampleRate grid
+    let last : Fin (m + 1) := lastAdjacentIndex
+    let first : Fin (m + 1) := firstAdjacentIndex
+    let gLast : ℝ := sampleRate (adjacentLowIndex last)
+    let tFirst : ℝ := optimal (adjacentHighIndex first)
+    ∀ i : Fin (m + 1),
+      binaryEndpointAwareAdjacentRate returned sampleRate last -
+          gLast * Real.log (tFirst / (tFirst - grid)) ≤
+        binaryEndpointAwareAdjacentRate returned sampleRate i := by
+  let returned :=
+    theorem32WeightedNestedBisectionOutput
+      m outerSteps innerSteps sampleRate grid
+  let last : Fin (m + 1) := lastAdjacentIndex
+  let first : Fin (m + 1) := firstAdjacentIndex
+  let gLast : ℝ := sampleRate (adjacentLowIndex last)
+  let tFirst : ℝ := optimal (adjacentHighIndex first)
+  let lastLow : ℝ := returned (adjacentLowIndex last)
+  let target : ℝ := gLast * (-Real.log lastLow)
+  have hm_pos : 0 < m := Nat.lt_of_succ_lt hm
+  have hreturnedLevels : BinaryEndpointLevelVector returned := by
+    simpa [returned] using
+      theorem32WeightedNestedBisectionOutput_isEndpointLevelVector
+        (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+        hm optimal sampleRate hoptimalLevels heq hsample_pos hsample_mono
+        grid hgrid_pos hoptimal_last_low_le_upper hgrid_fits
+  have hreturned_eq :
+      returned =
+        theorem32WeightedBackwardGridRateBisectionLevels
+          m innerSteps sampleRate grid target lastLow := by
+    simpa [returned, last, gLast, lastLow, target] using
+      theorem32WeightedNestedBisectionOutput_eq_backward_levels
+        (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+        hm_pos sampleRate grid
+  have htFirst_pos : 0 < tFirst := by
+    exact
+      BinaryEndpointLevelVector_pos_of_not_first
+        hoptimalLevels (adjacentHighIndex first)
+        (by simp [first, adjacentHighIndex])
+  have hbase_pos : 0 < tFirst - grid := by
+    simpa [tFirst, first] using sub_pos.mpr hgrid_lt_tFirst
+  have hfirst_dom :
+      tFirst ≤ returned (adjacentHighIndex first) := by
+    simpa [returned, tFirst, first] using
+      theorem32WeightedNestedBisectionOutput_first_high_ge_optimal
+        (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+        hm optimal sampleRate hoptimalLevels heq hsample_pos hsample_mono
+        grid hgrid_pos hoptimal_last_low_le_upper hgrid_fits
+  have hlast_rate :
+      binaryEndpointAwareAdjacentRate returned sampleRate last = target := by
+    simpa [returned, last, gLast, lastLow, target] using
+      theorem32WeightedNestedBisectionOutput_last_rate
+        (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+        hm_pos sampleRate grid
+  have hlast_le_first :
+      binaryEndpointAwareAdjacentRate returned sampleRate last ≤
+        binaryEndpointAwareAdjacentRate returned sampleRate first := by
+    simpa [returned, last, first] using
+      theorem32WeightedNestedBisectionOutput_last_rate_le_first_rate
+        (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+        hm optimal sampleRate hoptimalLevels heq hsample_pos hsample_mono
+        grid hgrid_pos hoptimal_last_low_le_upper hgrid_fits
+  have hcommon_ratio_ge_one : 1 ≤ tFirst / (tFirst - grid) := by
+    rw [le_div_iff₀ hbase_pos]
+    linarith
+  have hcommon_log_nonneg :
+      0 ≤ Real.log (tFirst / (tFirst - grid)) :=
+    Real.log_nonneg hcommon_ratio_ge_one
+  change ∀ i : Fin (m + 1),
+    binaryEndpointAwareAdjacentRate returned sampleRate last -
+        gLast * Real.log (tFirst / (tFirst - grid)) ≤
+      binaryEndpointAwareAdjacentRate returned sampleRate i
+  intro i
+  by_cases hi_first : i.val = 0
+  · have hi : i = first := by
+      ext
+      simpa [first, firstAdjacentIndex] using hi_first
+    subst i
+    have hpenalty_nonneg :
+        0 ≤ gLast * Real.log (tFirst / (tFirst - grid)) :=
+      mul_nonneg (hsample_pos (adjacentLowIndex last)).le
+        hcommon_log_nonneg
+    exact (sub_le_self _ hpenalty_nonneg).trans hlast_le_first
+  · by_cases hi_last : i.val = m
+    · have hi : i = last := by
+        ext
+        simpa [last, lastAdjacentIndex] using hi_last
+      subst i
+      exact sub_le_self _
+        (mul_nonneg (hsample_pos (adjacentLowIndex last)).le
+          hcommon_log_nonneg)
+    · let high : ℝ := returned (adjacentHighIndex i)
+      let low : ℝ := returned (adjacentLowIndex i)
+      let above :=
+        theorem32InnerSourceWeightedRateAbove
+          (sampleRate (adjacentHighIndex i))
+          (sampleRate (adjacentLowIndex i)) high target
+      let run :=
+        EconCSLib.Optimization.realBisectionRun
+          above innerSteps 0 (high - grid)
+      let runLower : ℝ := run.1
+      have hfirst_to_low : returned (adjacentHighIndex first) ≤ low := by
+        dsimp [low]
+        apply BinaryEndpointLevelVector_mono hreturnedLevels
+        simp [first, adjacentHighIndex, adjacentLowIndex]
+        omega
+      have htFirst_le_low : tFirst ≤ low :=
+        hfirst_dom.trans hfirst_to_low
+      have hlow_lt_high : low < high := by
+        simpa [low, high] using hreturnedLevels.2.2 i
+      have hhigh_pos : 0 < high :=
+        htFirst_pos.trans_le (htFirst_le_low.trans hlow_lt_high.le)
+      have hhigh_lt_one : high < 1 := by
+        dsimp [high]
+        exact
+          BinaryEndpointLevelVector_lt_one_of_not_last
+            hreturnedLevels (adjacentHighIndex i)
+            (by simp [adjacentHighIndex]; omega)
+      have hgrid_upper_nonneg : 0 ≤ high - grid := by
+        have : grid < high := hgrid_lt_tFirst.trans_le
+          (htFirst_le_low.trans hlow_lt_high.le)
+        linarith
+      have hreturnedLow : run.2 = low := by
+        simpa [run, above, high, low, returned, hreturned_eq] using
+          theorem32WeightedBackwardGridRateBisectionLevels_returnedLow
+            (n := m) (innerSteps := innerSteps)
+            sampleRate grid target lastLow i hi_first hi_last
+      have hrun_width : run.2 - run.1 ≤ grid := by
+        have hwidth_eq :
+            run.2 - run.1 = (high - grid) / (2 : ℝ) ^ innerSteps := by
+          simpa [run, above] using
+            EconCSLib.Optimization.realBisectionRun_width_eq
+              above hgrid_upper_nonneg
+        have hhigh_le_one : high ≤ 1 := hhigh_lt_one.le
+        have hpow_nonneg : 0 ≤ (2 : ℝ) ^ innerSteps :=
+          pow_nonneg (by norm_num) innerSteps
+        have hraw :
+            (high - grid) / (2 : ℝ) ^ innerSteps ≤
+              1 / (2 : ℝ) ^ innerSteps :=
+          div_le_div_of_nonneg_right (by linarith) hpow_nonneg
+        rw [hwidth_eq]
+        exact hraw.trans hinner_unit_width
+      have hrunLower_ge : tFirst - grid ≤ runLower := by
+        dsimp [runLower]
+        rw [hreturnedLow] at hrun_width
+        linarith
+      have hrunLower_pos : 0 < runLower := hbase_pos.trans_le hrunLower_ge
+      have hrun_lower_or_false :=
+        theorem32_realBisectionRun_lower_eq_initial_or_lower_false
+          (above := above) (n := innerSteps) (lower := 0)
+          (upper := high - grid)
+      have hrunLower_false : above runLower = false := by
+        rcases hrun_lower_or_false with hzero | hfalse
+        · exact False.elim (ne_of_gt hrunLower_pos (by simpa [runLower, run] using hzero))
+        · simpa [runLower, run] using hfalse
+      have htarget_lt_lower_rate :
+          target <
+            weightedBernoulliClosedThresholdRate
+              (sampleRate (adjacentHighIndex i))
+              (sampleRate (adjacentLowIndex i)) high runLower :=
+        (theorem32InnerSourceWeightedRateAbove_eq_false_iff
+          (sampleRate (adjacentHighIndex i))
+          (sampleRate (adjacentLowIndex i)) high target runLower).mp
+          (by simpa [above] using hrunLower_false)
+      have hrunLower_le_low : runLower ≤ low := by
+        have hrun_order : run.1 ≤ run.2 :=
+          EconCSLib.Optimization.realBisectionRun_lower_le_upper
+            above hgrid_upper_nonneg
+        simpa [runLower, hreturnedLow] using hrun_order
+      have hlow_le_add : low ≤ runLower + grid := by
+        dsimp [runLower]
+        rw [hreturnedLow] at hrun_width
+        linarith
+      have hlow_lt_one : low < 1 := hlow_lt_high.trans hhigh_lt_one
+      have hshift :=
+        weightedBernoulliClosedThresholdRate_low_shift_ge_sub_log_add_div
+          (hsample_pos (adjacentHighIndex i)).le
+          (hsample_pos (adjacentLowIndex i)).le
+          (add_pos (hsample_pos (adjacentHighIndex i))
+            (hsample_pos (adjacentLowIndex i)))
+          hhigh_pos hhigh_lt_one hrunLower_pos hrunLower_le_low hlow_le_add
+          hlow_lt_one
+      have hratio_le :
+          (runLower + grid) / runLower ≤
+            tFirst / (tFirst - grid) := by
+        have hdiv :
+            grid / runLower ≤ grid / (tFirst - grid) :=
+          div_le_div_of_nonneg_left hgrid_pos.le hbase_pos hrunLower_ge
+        have hleft :
+            (runLower + grid) / runLower = 1 + grid / runLower := by
+          field_simp [ne_of_gt hrunLower_pos]
+        have hright :
+            tFirst / (tFirst - grid) =
+              1 + grid / (tFirst - grid) := by
+          field_simp [ne_of_gt hbase_pos]
+          ring
+        rw [hleft, hright]
+        linarith
+      have hratio_pos : 0 < (runLower + grid) / runLower := by
+        exact div_pos (add_pos hrunLower_pos hgrid_pos) hrunLower_pos
+      have hlog_le :
+          Real.log ((runLower + grid) / runLower) ≤
+            Real.log (tFirst / (tFirst - grid)) :=
+        Real.log_le_log hratio_pos hratio_le
+      have hsample_low_le_last :
+          sampleRate (adjacentLowIndex i) ≤ gLast := by
+        dsimp [gLast, last]
+        apply hsample_mono
+        simp [adjacentLowIndex]
+        omega
+      have hlocal_log_nonneg :
+          0 ≤ Real.log ((runLower + grid) / runLower) := by
+        apply Real.log_nonneg
+        rw [le_div_iff₀ hrunLower_pos]
+        linarith
+      have hpenalty_le :
+          sampleRate (adjacentLowIndex i) *
+              Real.log ((runLower + grid) / runLower) ≤
+            gLast * Real.log (tFirst / (tFirst - grid)) := by
+        calc
+          sampleRate (adjacentLowIndex i) *
+                Real.log ((runLower + grid) / runLower) ≤
+              gLast * Real.log ((runLower + grid) / runLower) :=
+            mul_le_mul_of_nonneg_right hsample_low_le_last
+              hlocal_log_nonneg
+          _ ≤ gLast * Real.log (tFirst / (tFirst - grid)) :=
+            mul_le_mul_of_nonneg_left hlog_le
+              (hsample_pos (adjacentLowIndex last)).le
+      have hinterior :
+          target - gLast * Real.log (tFirst / (tFirst - grid)) ≤
+            weightedBernoulliClosedThresholdRate
+              (sampleRate (adjacentHighIndex i))
+              (sampleRate (adjacentLowIndex i)) high low := by
+        linarith
+      rw [hlast_rate]
+      simpa [high, low] using
+        (show
+          target - gLast * Real.log (tFirst / (tFirst - grid)) ≤
+            binaryEndpointAwareAdjacentRate returned sampleRate i by
+          rw [binaryEndpointAwareAdjacentRate_interior
+            returned sampleRate i hi_first hi_last]
+          exact hinterior)
+
+/-- Minimum adjacent gap of a finite source-optimal endpoint vector. -/
+noncomputable def theorem32WeightedSourceGapMin {m : ℕ}
+    (optimal : Fin (m + 2) → ℝ) : ℝ :=
+  EconCSLib.finiteMin (fun i : Fin (m + 1) =>
+    optimal (adjacentHighIndex i) - optimal (adjacentLowIndex i))
+
+/-- A finite strict endpoint vector has a strictly positive minimum gap. -/
+theorem theorem32WeightedSourceGapMin_pos {m : ℕ}
+    (optimal : Fin (m + 2) → ℝ)
+    (hoptimalLevels : BinaryEndpointLevelVector optimal) :
+    0 < theorem32WeightedSourceGapMin optimal := by
+  unfold theorem32WeightedSourceGapMin
+  exact EconCSLib.finiteMin_pos _ (fun i => sub_pos.mpr (hoptimalLevels.2.2 i))
+
+/--
+The source equalization and monotone matching hypotheses give a polynomial
+lower bound on every optimal adjacent gap after normalizing the first active
+sample rate to one.  The only model-dependent factor is the last (hence
+largest) finite sample rate.
+-/
+theorem theorem32WeightedSourceGapMin_ge_polynomial
+    {m : ℕ} (hm : 1 < m)
+    (optimal sampleRate : Fin (m + 2) → ℝ)
+    (hoptimalLevels : BinaryEndpointLevelVector optimal)
+    (heq : BinaryEndpointAwareAdjacentRatesEqualize optimal sampleRate)
+    (hsample_pos : ∀ idx : Fin (m + 2), 0 < sampleRate idx)
+    (hsample_mono :
+      ∀ {a b : Fin (m + 2)}, a.val ≤ b.val → sampleRate a ≤ sampleRate b)
+    (hfirst_sample :
+      sampleRate
+          (adjacentHighIndex (firstAdjacentIndex : Fin (m + 1))) = 1) :
+    let sourceFirstLower : ℝ := ((1 / ((m + 1 : ℕ) : ℝ)) ^ 2) / 2
+    let gLast : ℝ :=
+      sampleRate (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1)))
+    sourceFirstLower / (2 * gLast) ≤ theorem32WeightedSourceGapMin optimal := by
+  let first : Fin (m + 1) := firstAdjacentIndex
+  let last : Fin (m + 1) := lastAdjacentIndex
+  let tFirst : ℝ := optimal (adjacentHighIndex first)
+  let tLast : ℝ := optimal (adjacentLowIndex last)
+  let gLast : ℝ := sampleRate (adjacentLowIndex last)
+  let sourceFirstLower : ℝ := ((1 / ((m + 1 : ℕ) : ℝ)) ^ 2) / 2
+  have hm_pos : 0 < m := Nat.zero_lt_of_lt hm
+  have hgLast : 0 < gLast := hsample_pos _
+  have hsourceFirstLower : 0 < sourceFirstLower := by
+    dsimp [sourceFirstLower]
+    positivity
+  have htFirst_lower : sourceFirstLower ≤ tFirst := by
+    simpa [sourceFirstLower, tFirst, first] using
+      BinaryEndpointAwareAdjacentRatesEqualize_monotone_scaled_first_level_ge_half_inv_adjacent_count_sq
+        hm_pos hoptimalLevels heq hsample_pos hsample_mono hfirst_sample
+  have htFirst_nonneg : 0 ≤ tFirst := by
+    exact BinaryEndpointLevelVector_nonneg hoptimalLevels _
+  have htFirst_lt_one : tFirst < 1 := by
+    simpa [tFirst, first] using
+      BinaryEndpointLevelVector_first_high_lt_one hm_pos hoptimalLevels
+  have hfirst_log : sourceFirstLower ≤ -Real.log (1 - tFirst) :=
+    htFirst_lower.trans
+      (EconCSLib.Math.le_neg_log_one_sub htFirst_nonneg htFirst_lt_one)
+  have hfirst_formula :
+      binaryEndpointAwareAdjacentRate optimal sampleRate first =
+        -Real.log (1 - tFirst) := by
+    rw [binaryEndpointAwareAdjacentRate_first optimal sampleRate first (by
+      simp [first])]
+    have hsample_first : sampleRate (adjacentHighIndex first) = 1 := by
+      simpa [first] using hfirst_sample
+    rw [hsample_first]
+    simp [tFirst]
+  have hlast_formula :
+      binaryEndpointAwareAdjacentRate optimal sampleRate last =
+        gLast * (-Real.log tLast) := by
+    simpa [gLast, tLast, last] using
+      binaryEndpointAwareAdjacentRate_last optimal sampleRate last
+        (by simp [last]; omega) (by simp [last])
+  have hrate_eq :
+      -Real.log (1 - tFirst) = gLast * (-Real.log tLast) := by
+    simpa [hfirst_formula, hlast_formula] using heq first last
+  have hsource_rate :
+      sourceFirstLower ≤ gLast * (-Real.log tLast) :=
+    hfirst_log.trans_eq hrate_eq
+  have htLast_pos : 0 < tLast := by
+    simpa [tLast, last] using
+      BinaryEndpointLevelVector_last_low_pos hm_pos hoptimalLevels
+  have htLast_le_one : tLast ≤ 1 :=
+    BinaryEndpointLevelVector_le_one hoptimalLevels _
+  have htLast_half : (1 / 2 : ℝ) ≤ tLast := by
+    have hlastLower :
+        1 - 1 / ((m + 1 : ℕ) : ℝ) ≤ tLast := by
+      simpa [tLast, last] using
+        BinaryEndpointLevelVector_monotone_equalized_last_low_ge_one_sub_inv
+          hm_pos hoptimalLevels heq hsample_pos hsample_mono
+    exact (one_half_le_one_sub_inv_adjacent_count hm_pos).trans hlastLower
+  let gap : ℝ := 1 - tLast
+  have hgap_nonneg : 0 ≤ gap := by
+    dsimp [gap]
+    linarith
+  have hgap_lt_one : gap < 1 := by
+    dsimp [gap]
+    linarith
+  have hlast_log : -Real.log tLast ≤ gap / tLast := by
+    simpa [gap] using
+      EconCSLib.Math.neg_log_one_sub_le_div_self hgap_nonneg hgap_lt_one
+  have hsource_gap_div : sourceFirstLower ≤ gLast * (gap / tLast) :=
+    hsource_rate.trans (mul_le_mul_of_nonneg_left hlast_log hgLast.le)
+  have hsource_half_le_mul : sourceFirstLower / 2 ≤ gLast * gap := by
+    have hmul := mul_le_mul_of_nonneg_right hsource_gap_div htLast_pos.le
+    have hleft : sourceFirstLower / 2 ≤ sourceFirstLower * tLast := by
+      nlinarith
+    have hright : (gLast * (gap / tLast)) * tLast = gLast * gap := by
+      field_simp [htLast_pos.ne']
+    exact hleft.trans (by simpa [hright] using hmul)
+  have hgap_lower : sourceFirstLower / (2 * gLast) ≤ gap := by
+    rw [div_le_iff₀ (mul_pos (by norm_num) hgLast)]
+    nlinarith
+  unfold theorem32WeightedSourceGapMin
+  apply EconCSLib.le_finiteMin
+  intro i
+  have hlast_width :
+      1 - tLast ≤
+        optimal (adjacentHighIndex i) - optimal (adjacentLowIndex i) := by
+    have h :=
+      BinaryEndpointAwareAdjacentRatesEqualize_monotone_last_width_le_all
+        hm_pos hoptimalLevels heq hsample_pos hsample_mono i
+    have htop : optimal (adjacentHighIndex last) = 1 := by
+      simpa [last, lastAdjacentIndex, adjacentHighIndex, lastLevelIndex] using
+        hoptimalLevels.2.1
+    rw [htop] at h
+    simpa [tLast, last] using h
+  exact hgap_lower.trans (by simpa [gap] using hlast_width)
+
+/--
+Concrete source-small grid used to close Algorithm 1.  The first term is half
+the polynomial adjacent-gap lower bound derived from equalization, rather than
+the unknown minimum gap of the optimizer.  The second is the epsilon loss
+budget, with the Corollary C.3 first-level lower bound halved to absorb the
+direct-run `tFirst - grid` logarithm.
+-/
+noncomputable def theorem32WeightedSourceGrid {m : ℕ}
+    (sampleRate : Fin (m + 2) → ℝ) (eps : ℝ) : ℝ :=
+  let sourceFirstLower := ((1 / ((m + 1 : ℕ) : ℝ)) ^ 2) / 2
+  let lastLower := 1 - 1 / ((m + 1 : ℕ) : ℝ)
+  let firstLower := sourceFirstLower / 2
+  let gLast :=
+    sampleRate (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1)))
+  let gapLowerHalf := sourceFirstLower / (4 * gLast)
+  min gapLowerHalf
+    (eps / (gLast * (lastLower⁻¹ + firstLower⁻¹)))
+
+/--
+Positivity and the two defining upper bounds of the concrete source grid.  In
+particular, the polynomial term is at most half the actual optimal gap, so the
+grid is source-small without inspecting the unknown optimizer.
+-/
+theorem theorem32WeightedSourceGrid_spec
+    {m : ℕ} (hm : 1 < m)
+    (optimal sampleRate : Fin (m + 2) → ℝ) (eps : ℝ)
+    (hoptimalLevels : BinaryEndpointLevelVector optimal)
+    (heq : BinaryEndpointAwareAdjacentRatesEqualize optimal sampleRate)
+    (hsample_pos : ∀ idx : Fin (m + 2), 0 < sampleRate idx)
+    (hsample_mono :
+      ∀ {a b : Fin (m + 2)}, a.val ≤ b.val → sampleRate a ≤ sampleRate b)
+    (hfirst_sample :
+      sampleRate
+          (adjacentHighIndex (firstAdjacentIndex : Fin (m + 1))) = 1)
+    (heps : 0 < eps) :
+    let gapHalf := theorem32WeightedSourceGapMin optimal / 2
+    let sourceFirstLower := ((1 / ((m + 1 : ℕ) : ℝ)) ^ 2) / 2
+    let lastLower := 1 - 1 / ((m + 1 : ℕ) : ℝ)
+    let firstLower := sourceFirstLower / 2
+    let gLast :=
+      sampleRate (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1)))
+    0 < theorem32WeightedSourceGrid sampleRate eps ∧
+      theorem32WeightedSourceGrid sampleRate eps ≤ gapHalf ∧
+      theorem32WeightedSourceGrid sampleRate eps ≤
+        eps / (gLast * (lastLower⁻¹ + firstLower⁻¹)) := by
+  dsimp
+  have hm_pos : 0 < m := Nat.zero_lt_of_lt hm
+  have hlastLower : 0 < 1 - 1 / ((m + 1 : ℕ) : ℝ) :=
+    one_sub_inv_adjacent_count_pos hm_pos
+  have hsourceFirstLower :
+      0 < ((1 / ((m + 1 : ℕ) : ℝ)) ^ 2) / 2 := by
+    positivity
+  have hfirstLower :
+      0 < (((1 / ((m + 1 : ℕ) : ℝ)) ^ 2) / 2) / 2 := by
+    positivity
+  have hgLast :
+      0 < sampleRate
+        (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) :=
+    hsample_pos _
+  have hbudget :
+      0 <
+        eps /
+          (sampleRate
+              (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) *
+            ((1 - 1 / ((m + 1 : ℕ) : ℝ))⁻¹ +
+              ((((1 / ((m + 1 : ℕ) : ℝ)) ^ 2) / 2) / 2)⁻¹)) := by
+    apply div_pos heps
+    exact mul_pos hgLast
+      (add_pos (inv_pos.mpr hlastLower) (inv_pos.mpr hfirstLower))
+  have hgapLower :
+      ((1 / ((m + 1 : ℕ) : ℝ)) ^ 2 / 2) /
+          (2 * sampleRate
+            (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1)))) ≤
+        theorem32WeightedSourceGapMin optimal := by
+    simpa using
+      theorem32WeightedSourceGapMin_ge_polynomial hm optimal sampleRate
+        hoptimalLevels heq hsample_pos hsample_mono hfirst_sample
+  have hgapLowerHalf :
+      ((1 / ((m + 1 : ℕ) : ℝ)) ^ 2 / 2) /
+          (4 * sampleRate
+            (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1)))) ≤
+        theorem32WeightedSourceGapMin optimal / 2 := by
+    have hgLast_ne :
+        sampleRate
+            (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) ≠ 0 :=
+      hgLast.ne'
+    have hhalf_eq :
+        ((1 / ((m + 1 : ℕ) : ℝ)) ^ 2 / 2) /
+            (4 * sampleRate
+              (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1)))) =
+          (((1 / ((m + 1 : ℕ) : ℝ)) ^ 2 / 2) /
+            (2 * sampleRate
+              (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))))) / 2 := by
+      field_simp [hgLast_ne]
+      norm_num
+    rw [hhalf_eq]
+    exact div_le_div_of_nonneg_right hgapLower (by norm_num)
+  refine ⟨?_, (min_le_left _ _).trans hgapLowerHalf, min_le_right _ _⟩
+  simpa [theorem32WeightedSourceGrid] using
+    (lt_min_iff.mpr
+      ⟨(by positivity :
+          0 <
+            ((1 / ((m + 1 : ℕ) : ℝ)) ^ 2 / 2) /
+              (4 * sampleRate
+                (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))))),
+        hbudget⟩)
+
+/--
+Fully discharged general-matching Theorem 3.2 for the literal weighted
+Algorithm 1 object.  For every positive tolerance, the named finite-gap grid
+is positive and a finite common dyadic depth exists.  At that depth the
+optimum-independent nested bisection returns an endpoint vector whose rate
+loss is at most `eps`, with the source quadratic nested-bisection step bound.
+
+All former operational shooting premises are derived here: finite gap
+positivity, outer and inner width budgets, returned-vector well-formedness,
+first-level placement, and the direct inner false-endpoint rate certificate.
+-/
+theorem theorem32WeightedNestedBisectionOutput_exists_source_depth_of_eps_pos
+    {m : ℕ} (hm : 1 < m)
+    (optimal sampleRate : Fin (m + 2) → ℝ)
+    (eps : ℝ)
+    (hoptimalLevels : BinaryEndpointLevelVector optimal)
+    (heq : BinaryEndpointAwareAdjacentRatesEqualize optimal sampleRate)
+    (hsample_pos : ∀ idx : Fin (m + 2), 0 < sampleRate idx)
+    (hsample_mono :
+      ∀ {a b : Fin (m + 2)}, a.val ≤ b.val → sampleRate a ≤ sampleRate b)
+    (hfirst_sample :
+      sampleRate
+          (adjacentHighIndex (firstAdjacentIndex : Fin (m + 1))) = 1)
+    (heps : 0 < eps) :
+    let grid := theorem32WeightedSourceGrid sampleRate eps
+    let lastLower : ℝ := 1 - 1 / ((m + 1 : ℕ) : ℝ)
+    let sourceDepthBudget : ℝ :=
+      max (((1 - grid) - lastLower) / 2) 1
+    let runtimeLog : ℝ :=
+      Real.logb 2 (max 1 (sourceDepthBudget / grid)) + 2
+    0 < grid ∧
+      ∃ L : ℕ,
+        ((L + 1 : ℕ) : ℝ) ≤ runtimeLog ∧
+          binaryEndpointAwareAdjacentRateObjective optimal sampleRate -
+              binaryEndpointAwareAdjacentRateObjective
+                (theorem32WeightedNestedBisectionOutput
+                  m (L + 1) L sampleRate grid) sampleRate ≤ eps ∧
+            nestedBisectionOperationCount (m + 2) (L + 1) L ≤
+              EconCSLib.Optimization.nestedBisectionStepBound (m + 2) L ∧
+            ((nestedBisectionOperationCount
+                (m + 2) (L + 1) L : ℕ) : ℝ) ≤
+              ((m + 2 : ℕ) : ℝ) * runtimeLog ^ 2 := by
+  let grid := theorem32WeightedSourceGrid sampleRate eps
+  let gapMin := theorem32WeightedSourceGapMin optimal
+  let lastLower : ℝ := 1 - 1 / ((m + 1 : ℕ) : ℝ)
+  let sourceFirstLower : ℝ := ((1 / ((m + 1 : ℕ) : ℝ)) ^ 2) / 2
+  let firstLower : ℝ := sourceFirstLower / 2
+  let first : Fin (m + 1) := firstAdjacentIndex
+  let last : Fin (m + 1) := lastAdjacentIndex
+  let tFirst : ℝ := optimal (adjacentHighIndex first)
+  let tLast : ℝ := optimal (adjacentLowIndex last)
+  let gLast : ℝ := sampleRate (adjacentLowIndex last)
+  let epsGrid : ℝ :=
+    eps / (gLast * (lastLower⁻¹ + firstLower⁻¹))
+  let sourceDepthBudget : ℝ :=
+    max (((1 - grid) - lastLower) / 2) 1
+  let runtimeLog : ℝ :=
+    Real.logb 2 (max 1 (sourceDepthBudget / grid)) + 2
+  have hm_pos : 0 < m := Nat.lt_of_succ_lt hm
+  have hgrid_spec :=
+    theorem32WeightedSourceGrid_spec hm optimal sampleRate eps
+      hoptimalLevels heq hsample_pos hsample_mono hfirst_sample heps
+  have hgrid_pos : 0 < grid := by
+    simpa [grid] using hgrid_spec.1
+  have hgrid_le_gap_half : grid ≤ gapMin / 2 := by
+    simpa [grid, gapMin] using hgrid_spec.2.1
+  have hgrid_le_epsGrid : grid ≤ epsGrid := by
+    simpa [grid, epsGrid, gLast, last, lastLower, firstLower,
+      sourceFirstLower] using hgrid_spec.2.2
+  have hgapMin_pos : 0 < gapMin := by
+    simpa [gapMin] using theorem32WeightedSourceGapMin_pos optimal hoptimalLevels
+  have hgapMin_le :
+      ∀ i : Fin (m + 1),
+        gapMin ≤
+          optimal (adjacentHighIndex i) - optimal (adjacentLowIndex i) := by
+    intro i
+    simpa [gapMin, theorem32WeightedSourceGapMin] using
+      (EconCSLib.finiteMin_le
+        (fun j : Fin (m + 1) =>
+          optimal (adjacentHighIndex j) - optimal (adjacentLowIndex j)) i)
+  have hgrid_fits :
+      ∀ i : Fin (m + 1), i.val ≠ 0 → i.val ≠ m →
+        optimal (adjacentLowIndex i) + grid ≤
+          optimal (adjacentHighIndex i) := by
+    intro i _hi_first _hi_last
+    have hhalf_le : gapMin / 2 ≤ gapMin := by linarith
+    linarith [hgrid_le_gap_half, hhalf_le, hgapMin_le i]
+  have hfirst_gap : gapMin ≤ tFirst := by
+    have h := hgapMin_le first
+    have hfirst_zero : optimal (adjacentLowIndex first) = 0 := by
+      simpa [first, firstAdjacentIndex, adjacentLowIndex] using hoptimalLevels.1
+    simpa [tFirst, hfirst_zero] using h
+  have hgrid_lt_tFirst : grid < tFirst := by
+    have hhalf_lt : gapMin / 2 < gapMin := by linarith
+    exact hgrid_le_gap_half.trans_lt (hhalf_lt.trans_le hfirst_gap)
+  have hlast_gap : gapMin ≤ 1 - tLast := by
+    have h := hgapMin_le last
+    have hlast_one : optimal (adjacentHighIndex last) = 1 := by
+      simpa [last, lastAdjacentIndex, adjacentHighIndex, lastLevelIndex] using
+        hoptimalLevels.2.1
+    simpa [tLast, hlast_one] using h
+  have hoptimal_last_low_le_upper : tLast ≤ 1 - grid := by
+    have hhalf_le : gapMin / 2 ≤ gapMin := by linarith
+    linarith [hgrid_le_gap_half, hhalf_le, hlast_gap]
+  let outerWidth : ℝ := (1 - grid) - lastLower
+  have hdepth_budget :
+      ∃ L : ℕ,
+        max (outerWidth / 2) 1 ≤ grid * (2 : ℝ) ^ L ∧
+          ((L + 1 : ℕ) : ℝ) ≤ runtimeLog := by
+    simpa [sourceDepthBudget, runtimeLog, outerWidth] using
+      (EconCSLib.Optimization.exists_nat_le_delta_mul_pow_two_and_succ_le_logb_max
+        (budget := sourceDepthBudget) (delta := grid) hgrid_pos)
+  rcases hdepth_budget with ⟨L, hdepth, hdepth_log⟩
+  have hpaired :
+      max (outerWidth / (2 : ℝ) ^ (L + 1))
+          (1 / (2 : ℝ) ^ L) ≤ grid :=
+    EconCSLib.Optimization.max_outer_half_inner_width_div_pow_two_le_of_le_delta_mul_pow_two
+      hdepth
+  have houter_width :
+      ((1 - grid) - (1 - 1 / ((m + 1 : ℕ) : ℝ))) /
+          (2 : ℝ) ^ (L + 1) ≤ grid := by
+    exact (le_max_left _ _).trans hpaired
+  have hinner_unit_width : 1 / (2 : ℝ) ^ L ≤ grid :=
+    (le_max_right _ _).trans hpaired
+  let returned :=
+    theorem32WeightedNestedBisectionOutput m (L + 1) L sampleRate grid
+  have hreturnedLevels : BinaryEndpointLevelVector returned := by
+    simpa [returned] using
+      theorem32WeightedNestedBisectionOutput_isEndpointLevelVector
+        (m := m) (outerSteps := L + 1) (innerSteps := L)
+        hm optimal sampleRate hoptimalLevels heq hsample_pos hsample_mono
+        grid hgrid_pos
+        (by simpa [tLast, last] using hoptimal_last_low_le_upper)
+        hgrid_fits
+  have hlastLow_upper :
+      returned (adjacentLowIndex last) ≤ tLast + grid := by
+    simpa [returned, last, tLast] using
+      theorem32WeightedNestedBisectionOutput_last_low_le_optimal_add_grid
+        (m := m) (outerSteps := L + 1) (innerSteps := L)
+        hm optimal sampleRate hoptimalLevels heq hsample_pos hsample_mono
+        grid hgrid_pos
+        (by simpa [tLast, last] using hoptimal_last_low_le_upper)
+        hgrid_fits houter_width
+  have hgLast_pos : 0 < gLast := hsample_pos (adjacentLowIndex last)
+  have htLast_pos : 0 < tLast := by
+    exact
+      BinaryEndpointLevelVector_last_low_pos hm_pos hoptimalLevels
+  have htFirst_pos : 0 < tFirst := by
+    exact
+      BinaryEndpointLevelVector_pos_of_not_first
+        hoptimalLevels (adjacentHighIndex first)
+        (by simp [first, adjacentHighIndex])
+  let rStar : ℝ :=
+    binaryEndpointAwareAdjacentRate optimal sampleRate last
+  have hoptimal_rates :
+      ∀ i : Fin (m + 1),
+        binaryEndpointAwareAdjacentRate optimal sampleRate i = rStar := by
+    intro i
+    exact heq i last
+  have hlastLoss :
+      rStar - gLast * Real.log ((tLast + grid) / tLast) ≤
+        binaryEndpointAwareAdjacentRate returned sampleRate last := by
+    have h :=
+      binaryEndpointAwareAdjacentRate_last_ge_of_upper_le_target_add_delta
+        hm_pos optimal returned sampleRate hoptimalLevels hreturnedLevels
+        hgLast_pos.le (by simp [gLast, last]) hlastLow_upper
+    simpa [rStar, gLast, tLast, last] using h
+  have hinnerGrid :
+      ∀ i : Fin (m + 1),
+        binaryEndpointAwareAdjacentRate returned sampleRate last -
+            gLast * Real.log (tFirst / (tFirst - grid)) ≤
+          binaryEndpointAwareAdjacentRate returned sampleRate i := by
+    simpa [returned, last, first, gLast, tFirst] using
+      theorem32WeightedNestedBisectionOutput_inner_rate_ge_last_sub_log
+        (m := m) (outerSteps := L + 1) (innerSteps := L)
+        hm optimal sampleRate hoptimalLevels heq hsample_pos hsample_mono
+        grid hgrid_pos
+        (by simpa [tFirst, first] using hgrid_lt_tFirst)
+        (by simpa [tLast, last] using hoptimal_last_low_le_upper)
+        hgrid_fits hinner_unit_width
+  have hlastLower_pos : 0 < lastLower := by
+    simpa [lastLower] using one_sub_inv_adjacent_count_pos hm_pos
+  have hsourceFirstLower_pos : 0 < sourceFirstLower := by
+    dsimp [sourceFirstLower]
+    positivity
+  have hfirstLower_pos : 0 < firstLower := by
+    dsimp [firstLower]
+    positivity
+  have hsourceFirstLower_le : sourceFirstLower ≤ tFirst := by
+    simpa [sourceFirstLower, tFirst, first] using
+      BinaryEndpointAwareAdjacentRatesEqualize_monotone_scaled_first_level_ge_half_inv_adjacent_count_sq
+        hm_pos hoptimalLevels heq hsample_pos hsample_mono hfirst_sample
+  have hfirstLower_le_base : firstLower ≤ tFirst - grid := by
+    have hgrid_le_tFirst_half : grid ≤ tFirst / 2 := by
+      exact hgrid_le_gap_half.trans
+        (div_le_div_of_nonneg_right hfirst_gap (by norm_num))
+    dsimp [firstLower]
+    linarith
+  have hlastLower_le : lastLower ≤ tLast := by
+    simpa [lastLower, tLast, last] using
+      BinaryEndpointLevelVector_monotone_equalized_last_low_ge_one_sub_inv
+        hm_pos hoptimalLevels heq hsample_pos hsample_mono
+  have hepsGrid_choice :
+      epsGrid =
+        eps / (gLast * (lastLower⁻¹ + firstLower⁻¹)) := rfl
+  have hbudget_epsGrid :
+      gLast * (epsGrid / lastLower) +
+          gLast * (epsGrid / firstLower) ≤ eps := by
+    exact
+      binaryEndpointAwareAdjacentRateObjective_shift_linear_loss_le_of_delta_choice
+        hgLast_pos heps.le hfirstLower_pos hlastLower_pos le_rfl le_rfl
+        (by simpa [add_comm] using hepsGrid_choice)
+  have hbudget_grid :
+      gLast * (grid / lastLower) +
+          gLast * (grid / firstLower) ≤ eps := by
+    have hlast_term :
+        gLast * (grid / lastLower) ≤
+          gLast * (epsGrid / lastLower) := by
+      exact mul_le_mul_of_nonneg_left
+        (div_le_div_of_nonneg_right hgrid_le_epsGrid hlastLower_pos.le)
+        hgLast_pos.le
+    have hfirst_term :
+        gLast * (grid / firstLower) ≤
+          gLast * (epsGrid / firstLower) := by
+      exact mul_le_mul_of_nonneg_left
+        (div_le_div_of_nonneg_right hgrid_le_epsGrid hfirstLower_pos.le)
+        hgLast_pos.le
+    exact (add_le_add hlast_term hfirst_term).trans hbudget_epsGrid
+  have hlinear :
+      gLast * (grid / tLast) +
+          gLast * (grid / (tFirst - grid)) ≤ eps := by
+    exact
+      binaryEndpointAwareAdjacentRateObjective_shift_linear_loss_le_of_lower_bounds
+        hgLast_pos.le hgrid_pos.le hfirstLower_pos hlastLower_pos
+        hfirstLower_le_base hlastLower_le hbudget_grid
+  have hloss :
+      binaryEndpointAwareAdjacentRateObjective optimal sampleRate -
+          binaryEndpointAwareAdjacentRateObjective returned sampleRate ≤ eps := by
+    have hgrid' :
+        ∀ i : Fin (m + 1),
+          binaryEndpointAwareAdjacentRate returned sampleRate last -
+              gLast * Real.log (((tFirst - grid) + grid) /
+                (tFirst - grid)) ≤
+            binaryEndpointAwareAdjacentRate returned sampleRate i := by
+      intro i
+      simpa only [sub_add_cancel] using hinnerGrid i
+    exact
+      binaryEndpointAwareAdjacentRateObjective_loss_le_of_shift_log_certificates
+        optimal returned sampleRate hgLast_pos.le
+        (sub_pos.mpr hgrid_lt_tFirst) htLast_pos hgrid_pos.le
+        hoptimal_rates hlastLoss hgrid' hlinear
+  have hruntime_step :
+      nestedBisectionOperationCount (m + 2) (L + 1) L ≤
+        EconCSLib.Optimization.nestedBisectionStepBound (m + 2) L :=
+    nestedBisectionOperationCount_le_stepBound
+      (Nat.le_refl (L + 1)) (Nat.le_refl L)
+  have hruntime_log :
+      ((nestedBisectionOperationCount (m + 2) (L + 1) L : ℕ) : ℝ) ≤
+        ((m + 2 : ℕ) : ℝ) * runtimeLog ^ 2 := by
+    simpa [nestedBisectionOperationCount, Nat.mul_add, Nat.mul_one] using
+      EconCSLib.Optimization.nestedBisection_operation_count_real_le_mul_sq_of_depth_le
+        (M := m + 2) (L := L) (outerSteps := L + 1) (innerSteps := L)
+        (R := runtimeLog) (by omega) hdepth_log
+        (Nat.le_refl (L + 1)) (Nat.le_refl L)
+  refine ⟨hgrid_pos, L, hdepth_log, ?_, hruntime_step, hruntime_log⟩
+  simpa [returned] using hloss
+
+/--
+End-to-end general-matching Theorem 3.2 certificate for the literal
+optimum-independent Algorithm 1 object.  The source's informal
+`delta << min gap` requirement is exposed through operational, checkable
+conditions on the returned inner shooting brackets: well-formed returned
+levels, feasible target roots, room for the source `high - grid` endpoint,
+and the advertised inner/outer width bounds.  The shifting argument, final
+outer endpoint bound, final first-rate invariant, logarithmic rate loss, and
+runtime conclusion are all derived here.
+-/
+theorem theorem32WeightedNestedBisectionOutput_loss_and_runtime_le_of_source_grid_conditions
+    {m L outerSteps innerSteps : ℕ} (hm : 1 < m)
+    (optimal sampleRate : Fin (m + 2) → ℝ)
+    (eps grid : ℝ)
+    (hoptimalLevels : BinaryEndpointLevelVector optimal)
+    (heq : BinaryEndpointAwareAdjacentRatesEqualize optimal sampleRate)
+    (hsample_pos : ∀ idx : Fin (m + 2), 0 < sampleRate idx)
+    (hsample_mono :
+      ∀ {a b : Fin (m + 2)}, a.val ≤ b.val → sampleRate a ≤ sampleRate b)
+    (hfirst_sample :
+      sampleRate
+          (adjacentHighIndex (firstAdjacentIndex : Fin (m + 1))) =
+        1)
+    (heps : 0 ≤ eps) (hgrid_pos : 0 < grid)
+    (hgrid_choice :
+      let gLast : ℝ :=
+        sampleRate (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1)))
+      grid =
+        eps /
+          (gLast *
+            ((1 - 1 / ((m + 1 : ℕ) : ℝ))⁻¹ +
+              (((1 / ((m + 1 : ℕ) : ℝ)) ^ 2) / 2)⁻¹)))
+    (hoptimal_last_low_le_upper :
+      optimal (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) ≤
+        1 - grid)
+    (hgrid_fits_optimal :
+      ∀ i : Fin (m + 1), i.val ≠ 0 → i.val ≠ m →
+        optimal (adjacentLowIndex i) + grid ≤
+          optimal (adjacentHighIndex i))
+    (houter_width :
+      ((1 - grid) - (1 - 1 / ((m + 1 : ℕ) : ℝ))) /
+          (2 : ℝ) ^ outerSteps ≤
+        grid)
+    (hreturnedLevels :
+      BinaryEndpointLevelVector
+        (theorem32WeightedNestedBisectionOutput
+          m outerSteps innerSteps sampleRate grid))
+    (hinner_feasible :
+      let returned :=
+        theorem32WeightedNestedBisectionOutput
+          m outerSteps innerSteps sampleRate grid
+      let last : Fin (m + 1) := lastAdjacentIndex
+      let first : Fin (m + 1) := firstAdjacentIndex
+      let gLast : ℝ := sampleRate (adjacentLowIndex last)
+      let lastLow : ℝ := returned (adjacentLowIndex last)
+      let target : ℝ := gLast * (-Real.log lastLow)
+      let tFirst : ℝ := optimal (adjacentHighIndex first)
+      ∀ i : Fin (m + 1), i.val ≠ 0 → i.val ≠ m →
+        WeightedBernoulliLowEndpointTargetFeasible
+          (sampleRate (adjacentHighIndex i))
+          (sampleRate (adjacentLowIndex i)) tFirst
+          (returned (adjacentHighIndex i)) target)
+    (hfloor_le_grid_upper :
+      let returned :=
+        theorem32WeightedNestedBisectionOutput
+          m outerSteps innerSteps sampleRate grid
+      let first : Fin (m + 1) := firstAdjacentIndex
+      let tFirst : ℝ := optimal (adjacentHighIndex first)
+      ∀ i : Fin (m + 1), i.val ≠ 0 → i.val ≠ m →
+        tFirst ≤ returned (adjacentHighIndex i) - grid)
+    (hinner_width :
+      let returned :=
+        theorem32WeightedNestedBisectionOutput
+          m outerSteps innerSteps sampleRate grid
+      ∀ i : Fin (m + 1), i.val ≠ 0 → i.val ≠ m →
+        (returned (adjacentHighIndex i) - grid - 0) /
+            (2 : ℝ) ^ innerSteps ≤
+          grid)
+    (houterSteps : outerSteps ≤ L + 1)
+    (hinnerSteps : innerSteps ≤ L) :
+    let returned :=
+      theorem32WeightedNestedBisectionOutput
+        m outerSteps innerSteps sampleRate grid
+    binaryEndpointAwareAdjacentRateObjective optimal sampleRate -
+        binaryEndpointAwareAdjacentRateObjective returned sampleRate ≤ eps ∧
+      nestedBisectionOperationCount (m + 2) outerSteps innerSteps ≤
+        EconCSLib.Optimization.nestedBisectionStepBound (m + 2) L := by
+  let returned :=
+    theorem32WeightedNestedBisectionOutput
+      m outerSteps innerSteps sampleRate grid
+  let last : Fin (m + 1) := lastAdjacentIndex
+  let first : Fin (m + 1) := firstAdjacentIndex
+  let gLast : ℝ := sampleRate (adjacentLowIndex last)
+  let lastLow : ℝ := returned (adjacentLowIndex last)
+  let target : ℝ := gLast * (-Real.log lastLow)
+  let tFirst : ℝ := optimal (adjacentHighIndex first)
+  let rStar : ℝ :=
+    binaryEndpointAwareAdjacentRate optimal sampleRate last
+  let root : Fin (m + 1) → ℝ := fun i =>
+    weightedBernoulliLowEndpointOfRateOrFloor
+      (sampleRate (adjacentHighIndex i))
+      (sampleRate (adjacentLowIndex i)) tFirst
+      (returned (adjacentHighIndex i)) target
+  let lower : Fin (m + 1) → ℝ := fun i =>
+    (EconCSLib.Optimization.realBisectionRun
+      (theorem32InnerSourceWeightedRateAbove
+        (sampleRate (adjacentHighIndex i))
+        (sampleRate (adjacentLowIndex i))
+        (returned (adjacentHighIndex i)) target)
+      innerSteps 0 (returned (adjacentHighIndex i) - grid)).1
+  have hm_pos : 0 < m := Nat.lt_of_succ_lt hm
+  have hreturned_eq :
+      returned =
+        theorem32WeightedBackwardGridRateBisectionLevels
+          m innerSteps sampleRate grid target lastLow := by
+    simpa [returned, last, gLast, lastLow, target] using
+      theorem32WeightedNestedBisectionOutput_eq_backward_levels
+        (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+        hm_pos sampleRate grid
+  have hgLast_pos : 0 < gLast := hsample_pos (adjacentLowIndex last)
+  have htFirst_pos : 0 < tFirst := by
+    exact
+      BinaryEndpointLevelVector_pos_of_not_first
+        hoptimalLevels (adjacentHighIndex first) (by
+          simp [first, adjacentHighIndex])
+  have hoptimal_rates :
+      ∀ i : Fin (m + 1),
+        binaryEndpointAwareAdjacentRate optimal sampleRate i = rStar := by
+    intro i
+    exact heq i last
+  have hlast_width :
+      ∀ i : Fin (m + 1),
+        optimal (adjacentHighIndex last) - optimal (adjacentLowIndex last) ≤
+          optimal (adjacentHighIndex i) - optimal (adjacentLowIndex i) := by
+    simpa [last] using
+      BinaryEndpointAwareAdjacentRatesEqualize_monotone_last_width_le_all
+        hm_pos hoptimalLevels heq hsample_pos hsample_mono
+  have hlastLow_upper :
+      lastLow ≤
+        optimal (adjacentLowIndex last) + grid := by
+    simpa [lastLow, returned, last] using
+      theorem32WeightedNestedBisectionOutput_last_low_le_optimal_add_grid
+        (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+        hm optimal sampleRate hoptimalLevels heq hsample_pos hsample_mono
+        grid hgrid_pos
+        (by simpa [last] using hoptimal_last_low_le_upper)
+        hgrid_fits_optimal houter_width
+  have hfirstRate :
+      binaryEndpointAwareAdjacentRate returned sampleRate last ≤
+        binaryEndpointAwareAdjacentRate returned sampleRate first := by
+    simpa [returned, last, first] using
+      theorem32WeightedNestedBisectionOutput_last_rate_le_first_rate
+        (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+        hm optimal sampleRate hoptimalLevels heq hsample_pos hsample_mono
+        grid hgrid_pos
+        (by simpa [last] using hoptimal_last_low_le_upper)
+        hgrid_fits_optimal
+  have hlastLoss :
+      rStar -
+          gLast *
+            Real.log
+              ((optimal (adjacentLowIndex last) + grid) /
+                optimal (adjacentLowIndex last)) ≤
+        binaryEndpointAwareAdjacentRate returned sampleRate last := by
+    have h :=
+      binaryEndpointAwareAdjacentRate_last_ge_of_upper_le_target_add_delta
+        hm_pos optimal returned sampleRate hoptimalLevels hreturnedLevels
+        hgLast_pos.le (by simp [gLast, last]) hlastLow_upper
+    simpa [rStar, gLast, last] using h
+  have hlastLow_le_one_sub_grid : lastLow ≤ 1 - grid := by
+    let lowerOuter : ℝ := 1 - 1 / ((m + 1 : ℕ) : ℝ)
+    let upperOuter : ℝ := 1 - grid
+    let candidate : ℝ → Fin (m + 2) → ℝ := fun x =>
+      theorem32WeightedBackwardGridRateBisectionLevels
+        m innerSteps sampleRate grid (gLast * (-Real.log x)) x
+    let above : ℝ → Bool := fun x =>
+      theorem32OuterSourceWeightedRateAbove (candidate x) sampleRate
+    have hlower_optimal : lowerOuter ≤ optimal (adjacentLowIndex last) := by
+      dsimp [lowerOuter, last]
+      exact
+        BinaryEndpointLevelVector_monotone_equalized_last_low_ge_one_sub_inv
+          hm_pos hoptimalLevels heq hsample_pos hsample_mono
+    have hlower_upper : lowerOuter ≤ upperOuter :=
+      hlower_optimal.trans
+        (by simpa [upperOuter, last] using hoptimal_last_low_le_upper)
+    have hrun_upper :
+        (EconCSLib.Optimization.realBisectionRun
+          above outerSteps lowerOuter upperOuter).2 ≤ upperOuter :=
+      EconCSLib.Optimization.realBisectionRun_upper_le_initial
+        above hlower_upper
+    have houtputLast :=
+      theorem32WeightedNestedBisectionOutput_last_low
+        (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+        hm_pos sampleRate grid
+    simpa [lastLow, returned, last, above, candidate, gLast,
+      lowerOuter, upperOuter] using houtputLast.trans_le hrun_upper
+  have hlastLow_pos : 0 < lastLow := by
+    simpa [lastLow, last] using
+      BinaryEndpointLevelVector_last_low_pos hm_pos hreturnedLevels
+  have hlastLow_lt_one : lastLow < 1 := by
+    have : 1 - grid < 1 := by linarith
+    exact hlastLow_le_one_sub_grid.trans_lt this
+  have htarget_pos : 0 < target := by
+    exact mul_pos hgLast_pos
+      (neg_pos.mpr (Real.log_neg hlastLow_pos hlastLow_lt_one))
+  have hgrid_lt_one : grid < 1 := by linarith
+  have hgrid_log_le_target :
+      gLast * (-Real.log (1 - grid)) ≤ target := by
+    have hone_sub_pos : 0 < 1 - grid :=
+      hlastLow_pos.trans_le hlastLow_le_one_sub_grid
+    have hlog_le : Real.log lastLow ≤ Real.log (1 - grid) :=
+      Real.log_le_log hlastLow_pos hlastLow_le_one_sub_grid
+    dsimp [target]
+    exact mul_le_mul_of_nonneg_left (by linarith) hgLast_pos.le
+  have hlastRate :
+      binaryEndpointAwareAdjacentRate returned sampleRate last = target := by
+    simpa [returned, last, gLast, lastLow, target] using
+      theorem32WeightedNestedBisectionOutput_last_rate
+        (m := m) (outerSteps := outerSteps) (innerSteps := innerSteps)
+        hm_pos sampleRate grid
+  have hgrid_upper_rate :
+      ∀ i : Fin (m + 1), i.val ≠ 0 → i.val ≠ m →
+        weightedBernoulliClosedThresholdRate
+            (sampleRate (adjacentHighIndex i))
+            (sampleRate (adjacentLowIndex i))
+            (returned (adjacentHighIndex i))
+            (returned (adjacentHighIndex i) - grid) ≤
+          target := by
+    intro i hi_first hi_last
+    have hhigh_not_last : (adjacentHighIndex i).val ≠ m + 1 := by
+      simp [adjacentHighIndex]
+      omega
+    have hhigh_lt_one : returned (adjacentHighIndex i) < 1 :=
+      BinaryEndpointLevelVector_lt_one_of_not_last
+        hreturnedLevels (adjacentHighIndex i) hhigh_not_last
+    have hsource_upper_pos :
+        0 < returned (adjacentHighIndex i) - grid :=
+      htFirst_pos.trans_le
+        (by simpa [returned, tFirst] using
+          hfloor_le_grid_upper i hi_first hi_last)
+    have hsample_high_le : sampleRate (adjacentHighIndex i) ≤ gLast := by
+      dsimp [gLast, last]
+      apply hsample_mono
+      simp [adjacentHighIndex]
+      omega
+    have hsample_low_le : sampleRate (adjacentLowIndex i) ≤ gLast := by
+      dsimp [gLast, last]
+      apply hsample_mono
+      simp [adjacentLowIndex]
+      omega
+    exact
+      (theorem32_weighted_grid_interval_rate_le_last_neg_log_one_sub
+        (hsample_pos (adjacentHighIndex i))
+        (hsample_pos (adjacentLowIndex i)) hgLast_pos
+        hsample_high_le hsample_low_le hgrid_pos.le hgrid_lt_one
+        hsource_upper_pos hhigh_lt_one).trans hgrid_log_le_target
+  have hroot0 :
+      ∀ i : Fin (m + 1), i.val ≠ 0 → i.val ≠ m → 0 < root i := by
+    intro i hi_first hi_last
+    have hmem :=
+      weightedBernoulliLowEndpointOfRateOrFloor_mem_Ioo_of_feasible
+        (hinner_feasible i hi_first hi_last)
+    exact (hinner_feasible i hi_first hi_last).hfloor0.trans hmem.1
+  have htFirst_le_root :
+      ∀ i : Fin (m + 1), i.val ≠ 0 → i.val ≠ m →
+        tFirst ≤ root i := by
+    intro i hi_first hi_last
+    exact
+      floor_le_weightedBernoulliLowEndpointOfRateOrFloor_unconditional
+  have hroot_rate :
+      ∀ i : Fin (m + 1), i.val ≠ 0 → i.val ≠ m →
+        weightedBernoulliClosedThresholdRate
+            (sampleRate (adjacentHighIndex i))
+            (sampleRate (adjacentLowIndex i))
+            (returned (adjacentHighIndex i)) (root i) =
+          binaryEndpointAwareAdjacentRate returned sampleRate last := by
+    intro i hi_first hi_last
+    calc
+      weightedBernoulliClosedThresholdRate
+          (sampleRate (adjacentHighIndex i))
+          (sampleRate (adjacentLowIndex i))
+          (returned (adjacentHighIndex i)) (root i) = target := by
+        simpa [root, returned, tFirst, target] using
+          weightedBernoulliLowEndpointOfRateOrFloor_rate_of_feasible
+            (hinner_feasible i hi_first hi_last)
+      _ = binaryEndpointAwareAdjacentRate returned sampleRate last :=
+        hlastRate.symm
+  have hbracket :
+      ∀ i : Fin (m + 1), i.val ≠ 0 → i.val ≠ m →
+        EconCSLib.Optimization.RealBisectionBracket
+          (root i) (lower i) (returned (adjacentLowIndex i)) grid := by
+    intro i hi_first hi_last
+    dsimp [root, lower]
+    rw [hreturned_eq]
+    exact
+      theorem32WeightedBackwardGridRateBisectionLevels_inner_bracket_of_feasible
+        (n := m) (innerSteps := innerSteps)
+        sampleRate grid tFirst target lastLow hgrid_pos i hi_first hi_last
+        (by
+          have hf := hinner_feasible i hi_first hi_last
+          change WeightedBernoulliLowEndpointTargetFeasible
+            (sampleRate (adjacentHighIndex i))
+            (sampleRate (adjacentLowIndex i)) tFirst
+            (returned (adjacentHighIndex i)) target at hf
+          rw [hreturned_eq] at hf
+          exact hf)
+        (by
+          have hf := hfloor_le_grid_upper i hi_first hi_last
+          change tFirst ≤ returned (adjacentHighIndex i) - grid at hf
+          rw [hreturned_eq] at hf
+          exact hf)
+        (by
+          have hg := hgrid_upper_rate i hi_first hi_last
+          rw [hreturned_eq] at hg
+          exact hg)
+        (by
+          have hw := hinner_width i hi_first hi_last
+          change (returned (adjacentHighIndex i) - grid - 0) /
+              (2 : ℝ) ^ innerSteps ≤ grid at hw
+          rw [hreturned_eq] at hw
+          exact hw)
+  have hgLast_eq :
+      sampleRate
+          (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) = gLast := by
+    simp [gLast, last]
+  have hinnerGrid :
+      ∀ i : Fin (m + 1),
+        binaryEndpointAwareAdjacentRate returned sampleRate last -
+            gLast * Real.log ((tFirst + grid) / tFirst) ≤
+          binaryEndpointAwareAdjacentRate returned sampleRate i := by
+    intro i
+    have hratio_ge_one : 1 ≤ (tFirst + grid) / tFirst := by
+      rw [le_div_iff₀ htFirst_pos]
+      linarith
+    have hlog_nonneg :
+        0 ≤ Real.log ((tFirst + grid) / tFirst) :=
+      Real.log_nonneg hratio_ge_one
+    have hgLast_nonneg : 0 ≤ gLast := by
+      have hpos :=
+        hsample_pos
+          (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1)))
+      rw [hgLast_eq] at hpos
+      exact hpos.le
+    have hscaled_log_nonneg :
+        0 ≤ gLast * Real.log ((tFirst + grid) / tFirst) :=
+      mul_nonneg hgLast_nonneg hlog_nonneg
+    by_cases hi_first : i.val = 0
+    · have hi : i = first := by
+        ext
+        simpa [first, firstAdjacentIndex] using hi_first
+      subst i
+      exact
+        (sub_le_self
+          (binaryEndpointAwareAdjacentRate returned sampleRate last)
+          hscaled_log_nonneg).trans hfirstRate
+    · by_cases hi_last : i.val = m
+      · have hi : i = last := by
+          ext
+          simpa [last, lastAdjacentIndex] using hi_last
+        subst i
+        exact
+          sub_le_self
+            (binaryEndpointAwareAdjacentRate returned sampleRate last)
+            hscaled_log_nonneg
+      · have hhigh_not_first : (adjacentHighIndex i).val ≠ 0 := by
+          simp [adjacentHighIndex]
+        have hhigh_not_last : (adjacentHighIndex i).val ≠ m + 1 := by
+          simp [adjacentHighIndex]
+          omega
+        have hlow_not_last : (adjacentLowIndex i).val ≠ m + 1 := by
+          simp [adjacentLowIndex]
+          omega
+        have hhi0 : 0 < returned (adjacentHighIndex i) :=
+          BinaryEndpointLevelVector_pos_of_not_first
+            hreturnedLevels (adjacentHighIndex i) hhigh_not_first
+        have hhi1 : returned (adjacentHighIndex i) < 1 :=
+          BinaryEndpointLevelVector_lt_one_of_not_last
+            hreturnedLevels (adjacentHighIndex i) hhigh_not_last
+        have hreturned1 : returned (adjacentLowIndex i) < 1 :=
+          BinaryEndpointLevelVector_lt_one_of_not_last
+            hreturnedLevels (adjacentLowIndex i) hlow_not_last
+        have hlow_rate_le_last :
+            sampleRate (adjacentLowIndex i) ≤ gLast := by
+          have hidx :
+              (adjacentLowIndex i).val ≤
+                (adjacentLowIndex
+                  (lastAdjacentIndex : Fin (m + 1))).val := by
+            simp [adjacentLowIndex, lastAdjacentIndex]
+            omega
+          exact
+            (hsample_mono
+              (a := adjacentLowIndex i)
+              (b := adjacentLowIndex
+                (lastAdjacentIndex : Fin (m + 1))) hidx).trans_eq hgLast_eq
+        have hlocal_scale :
+            sampleRate (adjacentLowIndex i) *
+                Real.log ((tFirst + grid) / tFirst) ≤
+              gLast * Real.log ((tFirst + grid) / tFirst) :=
+          mul_le_mul_of_nonneg_right hlow_rate_le_last hlog_nonneg
+        have hstep :=
+          binaryEndpointAwareAdjacentRate_interior_ge_target_sub_first_log_of_bisection_bracket
+            returned sampleRate i hi_first hi_last
+            (root := root i) (lower := lower i) (delta := grid)
+            (target := binaryEndpointAwareAdjacentRate returned sampleRate last)
+            (tFirst := tFirst)
+            (hsample_pos (adjacentHighIndex i)).le
+            (hsample_pos (adjacentLowIndex i)).le
+            (add_pos (hsample_pos (adjacentHighIndex i))
+              (hsample_pos (adjacentLowIndex i)))
+            hhi0 hhi1 (hroot0 i hi_first hi_last) hreturned1
+            htFirst_pos (htFirst_le_root i hi_first hi_last) hgrid_pos.le
+            (hroot_rate i hi_first hi_last)
+            (hbracket i hi_first hi_last)
+        linarith
+  simpa [returned, last, first, gLast, tFirst, rStar] using
+    binaryEndpointAwareAdjacentRateObjective_loss_and_runtime_le_of_nested_bisection_monotone_equalized_width_minimal_run
+      (m := m) (M := m + 2) (L := L)
+      (outerSteps := outerSteps) (innerSteps := innerSteps)
+      hm_pos optimal returned sampleRate
+      (rStar := rStar) (gLast := gLast) (delta := grid) (eps := eps)
+      hgLast_pos heps hoptimalLevels heq hsample_pos hsample_mono
+      hfirst_sample hlast_width
+      (by simpa [gLast] using hgrid_choice)
+      hoptimal_rates hlastLoss hinnerGrid houterSteps hinnerSteps
+
+/--
+Source-shaped inverse-root backward `CalculateOtherLevels` recursion used in
+the proof of Algorithm 1.
 `d = 0` is the fixed last endpoint `1`, `d = 1` is the outer bisection's
 returned penultimate endpoint, and larger `d` values are produced by the
 inner `BisectNextLevel` low-endpoint bisection from the already-computed high
@@ -4626,12 +8347,13 @@ theorem theorem32BackwardGridLowBisectionLevels_last_low
     lastAdjacentIndex, hn_ne]
 
 /--
-Uniform source-shaped `NestedBisection` output for the doubled endpoint chain.
-This is the executable specialization represented by the Theorem 3.2 proof:
-the outer bisection searches the penultimate optimal endpoint on
+Proof-internal uniform bisection witness for the doubled endpoint chain.
+This packages the comparison construction used by the Theorem 3.2 proof: the
+outer bisection searches the penultimate optimal endpoint on
 `[1 - 1/(2m+2), 1 - grid]`, the inner recursion uses the supplement's
 `r = j_m - grid` right endpoint, and an exact outer hit returns the already
-optimal doubled chain.
+optimal doubled chain.  It is not the literal optimum-independent Algorithm 1
+implementation; see `theorem32WeightedNestedBisectionOutput` above.
 -/
 noncomputable def theorem32UniformDoubledNestedBisectionOutput
     (m L : ℕ) (oldLevels : Fin (m + 2) → ℝ) (grid : ℝ) :
@@ -18883,6 +22605,79 @@ theorem binaryEndpointAwareAdjacentRateObjective_exists_grid_depth_loss_and_runt
   exact
     ⟨grid, hgrid_pos, hgrid_lt, L, by
       simpa [theorem32UniformDoubledNestedBisectionOutput] using hcert⟩
+
+/--
+Multiplicative extension for the proof-internal named uniform bisection
+witness.  Running the additive theorem with tolerance
+`ρ * r⋆` gives a returned rate at least `(1 - ρ) * r⋆`, with the same
+checked nested-bisection runtime bound.
+-/
+theorem binaryEndpointAwareAdjacentRateObjective_exists_grid_depth_multiplicative_and_runtime_le_of_theorem32_uniform_doubled_nested_bisection_output
+    {m M : ℕ} (hm : 0 < m)
+    (oldLevels : Fin (m + 2) → ℝ)
+    {ρ : ℝ} (hρ : 0 < ρ)
+    (holdLevels : BinaryEndpointLevelVector oldLevels)
+    (holdEq :
+      BinaryEndpointAwareAdjacentRatesEqualize oldLevels
+        (fun _ : Fin (m + 2) ↦ (1 : ℝ))) :
+    ∃ grid : ℝ,
+      0 < grid ∧
+      grid <
+        ((1 / 5 : ℝ) *
+            binaryEndpointAwareAdjacentRateObjective oldLevels
+              (fun _ : Fin (m + 2) ↦ (1 : ℝ))) / 2 ∧
+      ∃ L : ℕ,
+        (1 - ρ) *
+              binaryEndpointAwareAdjacentRateObjective
+                (uniformDoubledEndpointLevels oldLevels)
+                (fun _ : Fin ((2 * m + 1) + 2) ↦ (1 : ℝ)) ≤
+            binaryEndpointAwareAdjacentRateObjective
+              (theorem32UniformDoubledNestedBisectionOutput m L oldLevels grid)
+              (fun _ : Fin ((2 * m + 1) + 2) ↦ (1 : ℝ)) ∧
+          nestedBisectionOperationCount M (L + 1) L ≤
+            EconCSLib.Optimization.nestedBisectionStepBound M L := by
+  let optimal : Fin ((2 * m + 1) + 2) → ℝ :=
+    uniformDoubledEndpointLevels oldLevels
+  let uniform : Fin ((2 * m + 1) + 2) → ℝ := fun _ ↦ (1 : ℝ)
+  let rStar : ℝ :=
+    binaryEndpointAwareAdjacentRateObjective optimal uniform
+  have hoptimalLevels : BinaryEndpointLevelVector optimal := by
+    simpa [optimal] using
+      uniformDoubledEndpointLevels_isEndpointLevelVector hm holdLevels
+  have hrStar_pos : 0 < rStar := by
+    unfold rStar binaryEndpointAwareAdjacentRateObjective
+    apply EconCSLib.finiteMin_pos
+    intro i
+    exact
+      binaryEndpointAwareAdjacentRate_pos
+        (m := 2 * m + 1) (by omega) optimal uniform hoptimalLevels
+        (by intro j; norm_num [uniform])
+        (by intro j; norm_num [uniform]) i
+  have htol_pos : 0 < ρ * rStar := mul_pos hρ hrStar_pos
+  rcases
+    binaryEndpointAwareAdjacentRateObjective_exists_grid_depth_loss_and_runtime_le_of_theorem32_uniform_doubled_nested_bisection_output_of_eps_pos
+      (m := m) (M := M) hm oldLevels htol_pos holdLevels holdEq with
+    ⟨grid, hgrid_pos, hgrid_lt, L, hloss, hruntime⟩
+  refine ⟨grid, hgrid_pos, hgrid_lt, L, ?_, hruntime⟩
+  change
+    (1 - ρ) * rStar ≤
+      binaryEndpointAwareAdjacentRateObjective
+        (theorem32UniformDoubledNestedBisectionOutput m L oldLevels grid)
+        uniform
+  calc
+    (1 - ρ) * rStar = rStar - ρ * rStar := by ring
+    _ ≤
+        binaryEndpointAwareAdjacentRateObjective
+          (theorem32UniformDoubledNestedBisectionOutput m L oldLevels grid)
+          uniform := by
+      have hloss' :
+          rStar -
+              binaryEndpointAwareAdjacentRateObjective
+                (theorem32UniformDoubledNestedBisectionOutput
+                  m L oldLevels grid) uniform ≤
+            ρ * rStar := by
+        simpa [rStar, optimal, uniform] using hloss
+      linarith
 
 /--
 Theorem 3.2 for the named uniform source-shaped `NestedBisection` output in

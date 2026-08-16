@@ -8487,8 +8487,9 @@ theorem corollary1_exponential_top_k_order_statistic_gamma_one_sequence_formula
       likelihood lambda k hlambda_pos hk_pos hlike_pos seq
 
 /--
-Source Corollary 1, concrete model existence for every nonnegative `gamma`.
-The returned model has no external certificate premise.
+Top-one (`k = 1`) supporting specialization of Corollary 1, retained for
+downstream compatibility.  The arbitrary-fixed-`k` paper-facing route is in
+`PaperInterface.corollary1`.
 -/
 theorem corollary1_any_nonnegative_gamma_concrete_model_sequence_formula
     {T : ℕ} [NeZero T]

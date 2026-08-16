@@ -13,6 +13,14 @@ open Filter Topology
 open MeasureTheory
 
 /--
+The quality-by-observation domain on which the Appendix B learning statements
+are uniform: source quality lies in `[0,1]` and the observation coordinate is
+unrestricted.
+-/
+def lemmaBUniformLearningDomain (Y : Type*) : Set (ℝ × Y) :=
+  Set.Icc (0 : ℝ) 1 ×ˢ Set.univ
+
+/--
 Equispaced interval quantile map: the interval index `floor (M θ)` normalized
 by `M`.  This is the quantile map used by the Kendall/Spearman equispaced
 partition branch of Corollary C.4.

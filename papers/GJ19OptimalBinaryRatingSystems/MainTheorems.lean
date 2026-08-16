@@ -1687,6 +1687,120 @@ theorem binaryEndpointAwareAdjacentRate_uniformEndpointLevels_le_of_sampleRate_m
           hpHi0 hpHi1 hpLo0 hpLo1
 
 /--
+Scaling both sample weights by the same positive constant scales the closed
+Bernoulli threshold exponent by that constant.  The normalized powers in the
+closed-rate base are unchanged.
+-/
+theorem weightedBernoulliClosedThresholdRate_same_weights_eq_mul_uniform
+    {g pHi pLo : ℝ} (hg : 0 < g) :
+    weightedBernoulliClosedThresholdRate g g pHi pLo =
+      g * weightedBernoulliClosedThresholdRate 1 1 pHi pLo := by
+  have hratio : g / (g + g) = (1 : ℝ) / 2 := by
+    have hden : g + g ≠ 0 := by nlinarith
+    apply (div_eq_iff hden).2
+    ring
+  simp only [weightedBernoulliClosedThresholdRate,
+    weightedBernoulliClosedRateBase, weightedBernoulliFailureBase,
+    weightedBernoulliSuccessBase]
+  rw [hratio]
+  norm_num
+  ring
+
+/--
+If a positive sample-rate vector is nondecreasing, each adjacent exponent is
+at most the exponent obtained by replacing both local sample rates by the
+last interior sample rate.  This is the weight-comparison step used in the
+source proof of Lemma C.6.
+-/
+theorem binaryEndpointAwareAdjacentRate_le_last_sample_uniformized_of_mono
+    {m : ℕ} (hm : 0 < m)
+    {levels sampleRate : Fin (m + 2) → ℝ}
+    (hlevels : BinaryEndpointLevelVector levels)
+    (hsample_pos : ∀ idx : Fin (m + 2), 0 < sampleRate idx)
+    (hsample_mono :
+      ∀ {a b : Fin (m + 2)}, a.val ≤ b.val → sampleRate a ≤ sampleRate b)
+    (i : Fin (m + 1)) :
+    binaryEndpointAwareAdjacentRate levels sampleRate i ≤
+      sampleRate (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) *
+        binaryEndpointAwareAdjacentRate levels
+          (fun _ : Fin (m + 2) ↦ (1 : ℝ)) i := by
+  let lastLow : Fin (m + 2) :=
+    adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))
+  let gLast : ℝ := sampleRate lastLow
+  have hgLast : 0 < gLast := hsample_pos lastLow
+  by_cases hfirst : i.val = 0
+  · have hlocal_le : sampleRate (adjacentHighIndex i) ≤ gLast := by
+      apply hsample_mono
+      simp [lastLow, adjacentHighIndex]
+      omega
+    have hlog_nonneg :
+        0 ≤ -Real.log (1 - levels (adjacentHighIndex i)) := by
+      have hhigh_pos : 0 < levels (adjacentHighIndex i) :=
+        BinaryEndpointLevelVector_pos_of_not_first hlevels
+          (adjacentHighIndex i) (by simp [adjacentHighIndex])
+      have hhigh_le_one : levels (adjacentHighIndex i) ≤ 1 :=
+        BinaryEndpointLevelVector_le_one hlevels (adjacentHighIndex i)
+      have hone_sub_mem : 1 - levels (adjacentHighIndex i) ∈ Set.Icc (0 : ℝ) 1 := by
+        constructor <;> linarith
+      exact neg_nonneg.mpr
+        (Real.log_nonpos hone_sub_mem.1 hone_sub_mem.2)
+    rw [binaryEndpointAwareAdjacentRate_first levels sampleRate i hfirst,
+      binaryEndpointAwareAdjacentRate_first levels
+        (fun _ : Fin (m + 2) ↦ (1 : ℝ)) i hfirst]
+    simpa [gLast] using mul_le_mul_of_nonneg_right hlocal_le hlog_nonneg
+  · by_cases hlast : i.val = m
+    · have hi : adjacentLowIndex i = lastLow := by
+        ext
+        simp [lastLow, adjacentLowIndex, hlast]
+      have hi_sample :
+          sampleRate (adjacentLowIndex i) = sampleRate lastLow :=
+        congrArg sampleRate hi
+      rw [binaryEndpointAwareAdjacentRate_last levels sampleRate i hfirst hlast,
+        binaryEndpointAwareAdjacentRate_last levels
+          (fun _ : Fin (m + 2) ↦ (1 : ℝ)) i hfirst hlast, hi_sample]
+      simp [lastLow]
+    · have hlow_le : sampleRate (adjacentLowIndex i) ≤ gLast := by
+        apply hsample_mono
+        simp [lastLow, adjacentLowIndex]
+        omega
+      have hhigh_le : sampleRate (adjacentHighIndex i) ≤ gLast := by
+        apply hsample_mono
+        simp [lastLow, adjacentHighIndex]
+        omega
+      have hpHi0 : 0 < levels (adjacentHighIndex i) :=
+        BinaryEndpointLevelVector_pos_of_not_first hlevels
+          (adjacentHighIndex i) (by simp [adjacentHighIndex])
+      have hpHi1 : levels (adjacentHighIndex i) < 1 :=
+        BinaryEndpointLevelVector_lt_one_of_not_last hlevels
+          (adjacentHighIndex i) (by
+            simp [adjacentHighIndex]
+            omega)
+      have hpLo0 : 0 < levels (adjacentLowIndex i) :=
+        BinaryEndpointLevelVector_pos_of_not_first hlevels
+          (adjacentLowIndex i) (by
+            simpa [adjacentLowIndex] using hfirst)
+      have hpLo1 : levels (adjacentLowIndex i) < 1 :=
+        lt_of_le_of_lt
+          (BinaryEndpointLevelVector_adjacent_ordered hlevels i) hpHi1
+      rw [binaryEndpointAwareAdjacentRate_interior levels sampleRate i hfirst hlast,
+        binaryEndpointAwareAdjacentRate_interior levels
+          (fun _ : Fin (m + 2) ↦ (1 : ℝ)) i hfirst hlast]
+      calc
+        weightedBernoulliClosedThresholdRate
+            (sampleRate (adjacentHighIndex i))
+            (sampleRate (adjacentLowIndex i))
+            (levels (adjacentHighIndex i)) (levels (adjacentLowIndex i))
+            ≤ weightedBernoulliClosedThresholdRate gLast gLast
+                (levels (adjacentHighIndex i)) (levels (adjacentLowIndex i)) :=
+          weightedBernoulliClosedThresholdRate_le_of_weights_le
+            (hsample_pos (adjacentHighIndex i))
+            (hsample_pos (adjacentLowIndex i)) hgLast hgLast
+            hhigh_le hlow_le hpHi0 hpHi1 hpLo0 hpLo1
+        _ = gLast * weightedBernoulliClosedThresholdRate 1 1
+              (levels (adjacentHighIndex i)) (levels (adjacentLowIndex i)) :=
+          weightedBernoulliClosedThresholdRate_same_weights_eq_mul_uniform hgLast
+
+/--
 Lemma C.6 rate-comparison bridge: if every interval narrower than the last
 one would have strictly smaller adjacent rate than the last interval, then
 equalized adjacent rates force the last interval to be no wider than every
@@ -1721,6 +1835,114 @@ theorem BinaryEndpointAwareAdjacentRatesEqualize_last_width_le_all_of_rate_stric
           (lastAdjacentIndex : Fin (m + 1)) :=
     heq i (lastAdjacentIndex : Fin (m + 1))
   exact (not_lt_of_ge (le_of_eq hrate_eq.symm)) hrate_lt
+
+/--
+General monotone-matching Lemma C.6 width comparison.  If adjacent rates are
+equalized and sample rates are positive and nondecreasing, the last interval
+is no wider than any other interval.
+-/
+theorem BinaryEndpointAwareAdjacentRatesEqualize_monotone_last_width_le_all
+    {m : ℕ} (hm : 0 < m)
+    {levels sampleRate : Fin (m + 2) → ℝ}
+    (hlevels : BinaryEndpointLevelVector levels)
+    (heq : BinaryEndpointAwareAdjacentRatesEqualize levels sampleRate)
+    (hsample_pos : ∀ idx : Fin (m + 2), 0 < sampleRate idx)
+    (hsample_mono :
+      ∀ {a b : Fin (m + 2)}, a.val ≤ b.val → sampleRate a ≤ sampleRate b) :
+    ∀ i : Fin (m + 1),
+      levels (adjacentHighIndex (lastAdjacentIndex : Fin (m + 1))) -
+          levels (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) ≤
+        levels (adjacentHighIndex i) - levels (adjacentLowIndex i) := by
+  apply
+    BinaryEndpointAwareAdjacentRatesEqualize_last_width_le_all_of_rate_strict_of_width_lt
+      heq
+  intro i hwidth_lt
+  let wi : ℝ :=
+    levels (adjacentHighIndex i) - levels (adjacentLowIndex i)
+  let wl : ℝ :=
+    levels (adjacentHighIndex (lastAdjacentIndex : Fin (m + 1))) -
+      levels (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1)))
+  let lastLow : Fin (m + 2) :=
+    adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))
+  let gLast : ℝ := sampleRate lastLow
+  have hgLast : 0 < gLast := hsample_pos lastLow
+  have hwi_uniform :
+      binaryEndpointAwareAdjacentRate levels
+          (fun _ : Fin (m + 2) ↦ (1 : ℝ)) i ≤
+        -Real.log (1 - wi) := by
+    simpa [wi] using
+      binaryEndpointAwareAdjacentRate_uniform_le_neg_log_one_sub_width
+        hm hlevels i
+  have hactual_le :
+      binaryEndpointAwareAdjacentRate levels sampleRate i ≤
+        gLast * binaryEndpointAwareAdjacentRate levels
+          (fun _ : Fin (m + 2) ↦ (1 : ℝ)) i := by
+    simpa [gLast, lastLow] using
+      binaryEndpointAwareAdjacentRate_le_last_sample_uniformized_of_mono
+        hm hlevels hsample_pos hsample_mono i
+  have hwl_lt_one : wl < 1 := by
+    dsimp [wl]
+    exact
+      BinaryEndpointLevelVector_adjacent_width_lt_one hm hlevels
+        (lastAdjacentIndex : Fin (m + 1))
+  have hwi_lt_wl : wi < wl := by simpa [wi, wl] using hwidth_lt
+  have hlog_lt : -Real.log (1 - wi) < -Real.log (1 - wl) := by
+    have hone_sub_wl_pos : 0 < 1 - wl := by linarith
+    have hone_sub_lt : 1 - wl < 1 - wi := by linarith
+    have := Real.log_lt_log hone_sub_wl_pos hone_sub_lt
+    linarith
+  have hlast_rate :
+      binaryEndpointAwareAdjacentRate levels sampleRate
+          (lastAdjacentIndex : Fin (m + 1)) =
+        gLast * (-Real.log (1 - wl)) := by
+    have hlast :=
+      binaryEndpointAwareAdjacentRate_last levels sampleRate
+        (lastAdjacentIndex : Fin (m + 1)) (by
+          simp
+          omega) (by simp)
+    have hlast_high :
+        levels (adjacentHighIndex (lastAdjacentIndex : Fin (m + 1))) = 1 := by
+      simpa [lastAdjacentIndex, adjacentHighIndex, lastLevelIndex] using
+        hlevels.2.1
+    have hone_sub_wl :
+        1 - wl =
+          levels (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) := by
+      dsimp [wl]
+      have hlast_high' :
+          levels ((⟨m + 1, by omega⟩ : Fin (m + 2))) = 1 := by
+        simpa [lastAdjacentIndex, adjacentHighIndex] using hlast_high
+      rw [hlast_high']
+      ring
+    simpa [gLast, lastLow, hone_sub_wl] using hlast
+  calc
+    binaryEndpointAwareAdjacentRate levels sampleRate i
+        ≤ gLast * binaryEndpointAwareAdjacentRate levels
+            (fun _ : Fin (m + 2) ↦ (1 : ℝ)) i := hactual_le
+    _ ≤ gLast * (-Real.log (1 - wi)) :=
+      mul_le_mul_of_nonneg_left hwi_uniform hgLast.le
+    _ < gLast * (-Real.log (1 - wl)) :=
+      mul_lt_mul_of_pos_left hlog_lt hgLast
+    _ = binaryEndpointAwareAdjacentRate levels sampleRate
+          (lastAdjacentIndex : Fin (m + 1)) := hlast_rate.symm
+
+/--
+Lemma C.6 as stated for a general positive nondecreasing matching function:
+the penultimate level is at least `1 - 1/(m+1)`.
+-/
+theorem BinaryEndpointLevelVector_monotone_equalized_last_low_ge_one_sub_inv
+    {m : ℕ} (hm : 0 < m)
+    {levels sampleRate : Fin (m + 2) → ℝ}
+    (hlevels : BinaryEndpointLevelVector levels)
+    (heq : BinaryEndpointAwareAdjacentRatesEqualize levels sampleRate)
+    (hsample_pos : ∀ idx : Fin (m + 2), 0 < sampleRate idx)
+    (hsample_mono :
+      ∀ {a b : Fin (m + 2)}, a.val ≤ b.val → sampleRate a ≤ sampleRate b) :
+    1 - 1 / ((m + 1 : ℕ) : ℝ) ≤
+      levels (adjacentLowIndex (lastAdjacentIndex : Fin (m + 1))) :=
+  BinaryEndpointLevelVector_last_low_ge_one_sub_inv_of_last_width_le_all
+    hlevels
+    (BinaryEndpointAwareAdjacentRatesEqualize_monotone_last_width_le_all
+      hm hlevels heq hsample_pos hsample_mono)
 
 /--
 Uniform-matching Lemma C.6 width-minimality: for endpoint-normalized levels

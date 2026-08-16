@@ -78,6 +78,21 @@ theorem FiniteLinearExpectation.add {ω : Type*}
     expect (fun x => f x + g x) = expect f + expect g :=
   hlin.2.2 f g
 
+/-- A finite-linear expectation commutes with pointwise negation. -/
+theorem FiniteLinearExpectation.neg {ω : Type*}
+    {expect : (ω → ℝ) → ℝ} (hlin : FiniteLinearExpectation expect)
+    (f : ω → ℝ) :
+    expect (fun x => -f x) = -expect f := by
+  simpa using FiniteLinearExpectation.const_mul hlin (-1) f
+
+/-- A finite-linear expectation commutes with pointwise subtraction. -/
+theorem FiniteLinearExpectation.sub {ω : Type*}
+    {expect : (ω → ℝ) → ℝ} (hlin : FiniteLinearExpectation expect)
+    (f g : ω → ℝ) :
+    expect (fun x => f x - g x) = expect f - expect g := by
+  simpa [sub_eq_add_neg, FiniteLinearExpectation.neg hlin g] using
+    FiniteLinearExpectation.add hlin f (fun x => -g x)
+
 theorem FiniteLinearExpectation.zero {ω : Type*}
     {expect : (ω → ℝ) → ℝ} (hlin : FiniteLinearExpectation expect) :
     expect (fun _ : ω => 0) = 0 := by

@@ -1,479 +1,460 @@
 {
   "audit_kind": "source_to_dashboard_llm",
-  "comment": "Source-grounded source-to-dashboard coverage rejudge. Coverage links must point to current row-local statement/assumption judgments.",
+  "comment": "Fresh source-first semantic coverage of all 21 normal-scope definitions and named results. Each item is bound to one exact closed proof manifest; transparent Specs provide comparison surfaces but receive no independent proof credit. Judgments use byte-pinned source atoms and expanded proposition content, never declaration-name semantics.",
   "items": {
-    "assumption_equal_cardinality": {
+    "complete_marriage_outcome_definition": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "assumption_equal_cardinality",
-      "reason": "The source item is the paper-facing statement/formula summarized as: The source marriage-problem representation uses balanced one-to-one markets. This is the equal-size condition needed for complete strict-marriage endpoints. The dashboard row `assumption_equal_cardinality` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "Closed proof row completeMarriageOutcome_iff_source_definition, elaborated signature SHA-256 38dbce0bfc48bcc49eac42f27557880ad83c73c8e581b8f944e62e96d5616879, has exactly the paired transparent Spec type whose source-atom closure is pinned in the statement map. The row name is used only as navigation; coverage rests on the expanded proposition and exact manifest digest.",
+      "reason": "The elaborated proposition requires every man to have some woman and every woman to have some man in the mutually consistent Assignment representation. Thus the reviewed endpoint is a complete one-to-one marriage outcome, not merely a partial matching.",
+      "review_row_signature_sha256": {
+        "completeMarriageOutcome_iff_source_definition": "38dbce0bfc48bcc49eac42f27557880ad83c73c8e581b8f944e62e96d5616879"
+      },
       "review_rows": [
-        "assumption_equal_cardinality"
+        "completeMarriageOutcome_iff_source_definition"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: The source marriage-problem representation uses balanced one-to-one markets. This is the equal-size condition needed for complete strict-marriage endpoints.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:140-145, quote SHA-256 e49220fe8da85d1a90ae1694002816d85906e4996b281d6a658ca09f7b19452d. Source atom: Every man and every woman has exactly one mutually consistent partner in a marriage outcome.",
       "source_grounded": true,
-      "statement_sha256": "9a4f3f9d23be486ca37b1374b2111ee77954e40547e192edc00199fd3ba0c0dc",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "3333f0e2225a6a3a76feebf0ce19fdc0b6a9b153defc7628d618ab30b84f71f8",
+      "statement_sha256": "a42190842053e221172a73680c5edcf0a4e9d7676e12dd732d96c966933bd42f",
+      "validated_at": "2026-08-04T17:30:00Z",
+      "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "assumption_simple_report_ranks_partner_first": {
+    "corollary5_1": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "assumption_simple_report_ranks_partner_first",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Roth's Lemma 1 simple-misrepresentation route assumes the simplified report strictly ranks the obtained partner first. The dashboard row `assumption_simple_report_ranks_partner_first` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "The closed proof row is navigation to the exact current elaborated signature SHA-256 31be2807132bce4693220a84aebc27bcba7c5778d012de4efdb6a8a95db9220c; coverage rests on its complete expanded proposition and source/Spec closure, not on the row name.",
+      "reason": "Both proposal directions explicitly include their source side-optimal stable outcome and the complete first-choice-preserving replacement result. The new equal-cardinality premise is the source balanced-marriage condition.",
+      "review_row_signature_sha256": {
+        "corollary5_1_first_choice_need_not_be_misrepresented": "31be2807132bce4693220a84aebc27bcba7c5778d012de4efdb6a8a95db9220c"
+      },
       "review_rows": [
-        "assumption_simple_report_ranks_partner_first"
+        "corollary5_1_first_choice_need_not_be_misrepresented"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Roth's Lemma 1 simple-misrepresentation route assumes the simplified report strictly ranks the obtained partner first.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:477-479, quote SHA-256 bc2cc6ee54d9d823d2d832af3a8f762d18a811368ae490f19c545942f250c53e. Source atom: Any outcome attainable by a non-proposing-side report can be weakly matched by a report that preserves that agent's true first choice.",
       "source_grounded": true,
-      "statement_sha256": "49b60764ab51ffad9a595994d5ed762573c9551e9972464940221ead2f7da861",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "92f1c508ecd215294d9370705fa358822a731b3d139e2646b2bfce7dc6097eb2",
+      "statement_sha256": "7418652a28c98916b8b8c51b05a510d3692c3a730da16b05cc9d12db4bd4cbe9",
+      "validated_at": "2026-08-04T18:18:16Z",
+      "validator": "Codex Roth82 fresh source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "completeMarriageOutcome": {
+    "dominant_truthfulness_definition": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "completeMarriageOutcome",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Marriage-problem outcome: a complete one-to-one matching. The dashboard row `completeMarriageOutcome` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "Closed proof row truthfulForAllAgents_iff_source_definition, elaborated signature SHA-256 d1682b80efa4cdd371216b3f26a96ea52bcd96bdf781df5e396ff9506f3674d4, has exactly the paired transparent Spec type whose source-atom closure is pinned in the statement map. The row name is used only as navigation; coverage rests on the expanded proposition and exact manifest digest.",
+      "reason": "The elaborated proposition covers unilateral reports by agents on either side and compares each deviating outcome under that agent's true score table with the truthful outcome, holding the other reports fixed. Both action domains and both dominant-strategy inequalities are present.",
+      "review_row_signature_sha256": {
+        "truthfulForAllAgents_iff_source_definition": "d1682b80efa4cdd371216b3f26a96ea52bcd96bdf781df5e396ff9506f3674d4"
+      },
       "review_rows": [
-        "completeMarriageOutcome"
+        "truthfulForAllAgents_iff_source_definition"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Marriage-problem outcome: a complete one-to-one matching.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:340-351, quote SHA-256 1111f7f610ef89a5d85d802e37052acf15c4b2e3ae4d607d5df85f89136bcc16. Source atom: For either side, no legal unilateral report yields an outcome strictly preferred under the agent's true ranking to truthful reporting.",
       "source_grounded": true,
-      "statement_sha256": "0ff93d7989d45fe293c355a32e3857c9ae3c70f8f2e43b34a0cf64283e7abe0c",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "3a9a7a0d7b1552f8f213aff0e6da717fe87b176fc76f0b3ce41510fb97ec078b",
+      "statement_sha256": "024f270993a206ae228414fe8ec8550d059a7c7315c4ff4aeb59d152f44675b4",
+      "validated_at": "2026-08-04T17:30:00Z",
+      "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "corollary5_1_no_need_to_misrepresent_first_choice": {
+    "efficient_matching_procedure_definition": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "corollary5_1_no_need_to_misrepresent_first_choice",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Corollary 5.1: under each side-optimal DA procedure, the non-proposing side can match any report's outcome with a report preserving its true first choice. The dashboard row `corollary5_1_no_need_to_misrepresent_first_choice` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "Closed proof row efficientMatchingProcedure_iff_source_definition, current elaborated signature SHA-256 58fcc69a6b4c4a479a1d027d438d6de082973134b32fd5a625942a35fdc13d1f, proves exactly its paired transparent Spec. Coverage is based on the expanded proposition, content-addressed manifest, and source-atom closure; the declaration name is navigation only.",
+      "reason": "The repaired quantifier ranges over exactly the source-legal marriage profiles: every score row is strict and every partner is preferred to the unmatched value. Within that domain the expanded proposition requires completeness and excludes a complete assignment that weakly improves all participants and strictly improves at least one; it does not substitute stability for Pareto efficiency.",
+      "review_row_signature_sha256": {
+        "efficientMatchingProcedure_iff_source_definition": "58fcc69a6b4c4a479a1d027d438d6de082973134b32fd5a625942a35fdc13d1f"
+      },
       "review_rows": [
-        "corollary5_1_no_need_to_misrepresent_first_choice"
+        "efficientMatchingProcedure_iff_source_definition"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Corollary 5.1: under each side-optimal DA procedure, the non-proposing side can match any report's outcome with a report preserving its true first choice.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:433-435, quote SHA-256 ab4c20e26a01c98c49a0daeece53336f06cb9cafb8e8116832a94348c9614b74. Source atom: An efficient matching procedure returns a Pareto-optimal outcome for every reported preference profile.",
       "source_grounded": true,
-      "statement_sha256": "b69c7a86d75c7d9d52761f186964a9755a4801ea057d428a4677470eeaa0a84a",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "35cf954188e2e78c0c13f741ecd1a8c51383513d3aadef0f883bff8449f28f9b",
+      "statement_sha256": "7af4742effca32cd46eef1fe53970e61ac1ce09253cfe35b6abfa481194d6e14",
+      "validated_at": "2026-08-04T16:32:05Z",
+      "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "efficientMatchingProcedure": {
+    "general_quota_outcome_definition": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "efficientMatchingProcedure",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Efficient procedure: every reported preference profile returns a Pareto-optimal matching. The dashboard row `efficientMatchingProcedure` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "Closed proof row fillsIndividualQuotas_iff_source_definition, current elaborated signature SHA-256 16821795e6f7040c793f2362b938c14143bf5efe1b5ba19694ae4d5ab35f408a, proves exactly its paired transparent Spec. Coverage is based on the expanded proposition, content-addressed manifest, and source-atom closure; the declaration name is navigation only.",
+      "reason": "The byte-pinned source defines a quota outcome by assigning every agent exactly the stated number of partners. The repaired Lean surface makes finiteness explicit before using finite cardinality on both sides, so Set.ncard's total value on an infinite set cannot satisfy a quota accidentally; mutual membership consistency remains part of the assignment carrier.",
+      "review_row_signature_sha256": {
+        "fillsIndividualQuotas_iff_source_definition": "16821795e6f7040c793f2362b938c14143bf5efe1b5ba19694ae4d5ab35f408a"
+      },
       "review_rows": [
-        "efficientMatchingProcedure"
+        "fillsIndividualQuotas_iff_source_definition"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Efficient procedure: every reported preference profile returns a Pareto-optimal matching.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:167-175, quote SHA-256 6e77ff39cbab944c485ac6c2ef54afe626e9c3f43759b08da0bf187a15c8fb02. Source atom: Each agent has an individual quota and an outcome gives that agent exactly the stated number of partners.",
       "source_grounded": true,
-      "statement_sha256": "f539f5e4c497284c626663617b701f25aba733c75221350a2eae6577c5597ee4",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "9f493afb09afc86eed1e07f08ae7f41f66f24a980e96ec8cc28a6f8c22ac6400",
+      "statement_sha256": "4be8d896bee696ae270b7c8a32ae67f2a38254bba66a04fbdfcf77bf1d553b8f",
+      "validated_at": "2026-08-04T16:32:05Z",
+      "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "lemma1_strict_simple_misrepresentation_same_partner": {
+    "lemma1": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "lemma1_strict_simple_misrepresentation_same_partner",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Lemma 1: Roth's strict simple-misrepresentation same-partner route. The dashboard row `lemma1_strict_simple_misrepresentation_same_partner` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "Closed proof row lemma1_simple_report_same_partner, elaborated signature SHA-256 a3ef9e1b586e9a6df13325441c84a2f2b70be1dd904717c43a9368659b7458af, has exactly the paired transparent Spec type whose source-atom closure is pinned in the statement map. The row name is used only as navigation; coverage rests on the expanded proposition and exact manifest digest.",
+      "reason": "Given the partner produced by an arbitrary report, the closed proposition assumes the associated simple report strictly ranks that partner above every alternative and proves the two reports return the same partner. The simple-report-first condition is exactly the source's construction condition.",
+      "review_row_signature_sha256": {
+        "lemma1_simple_report_same_partner": "a3ef9e1b586e9a6df13325441c84a2f2b70be1dd904717c43a9368659b7458af"
+      },
       "review_rows": [
-        "lemma1_strict_simple_misrepresentation_same_partner"
+        "lemma1_simple_report_same_partner"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Lemma 1: Roth's strict simple-misrepresentation same-partner route.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:537-537, quote SHA-256 e3a8fbb9b53b90f4c234c91d88a5b9f3414881bdb13038be39905aff9c5b4c73. Source atom: The original report and its simple top-partner replacement produce the same partner for the reporting man.",
       "source_grounded": true,
-      "statement_sha256": "44ef01336561f0cd1433650c39c0c78686da8a606b2d7a4582f0a53a7270bf91",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "66a3abac94cb22ab13d4236c3b58195e20f0333b8ef1aae94fd51769d6a6a790",
+      "statement_sha256": "01a9409af85edb89829dc2c7fb24e2a4010f60953de5f0a06da805b92a2aca67",
+      "validated_at": "2026-08-04T17:30:00Z",
+      "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "lemma2_strict_simple_misrepresentation_no_men_harmed_on_strict_domain": {
+    "lemma2": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "lemma2_strict_simple_misrepresentation_no_men_harmed_on_strict_domain",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Lemma 2: a strict simple misrepresentation cannot harm any other man on the strict marriage domain. The dashboard row `lemma2_strict_simple_misrepresentation_no_men_harmed_on_strict_domain` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "Closed proof row lemma2_simple_report_harms_no_man, elaborated signature SHA-256 26463e02d9883db573c59be606d440a1abb89b19966091b850f099c8741e731b, has exactly the paired transparent Spec type whose source-atom closure is pinned in the statement map. The row name is used only as navigation; coverage rests on the expanded proposition and exact manifest digest.",
+      "reason": "On a balanced strict complete-marriage domain, the closed proposition assumes a simple report, its returned top partner, and weak improvement for the reporter, then concludes weak improvement for every man. It retains the source antecedent and the all-men endpoint.",
+      "review_row_signature_sha256": {
+        "lemma2_simple_report_harms_no_man": "26463e02d9883db573c59be606d440a1abb89b19966091b850f099c8741e731b"
+      },
       "review_rows": [
-        "lemma2_strict_simple_misrepresentation_no_men_harmed_on_strict_domain"
+        "lemma2_simple_report_harms_no_man"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Lemma 2: a strict simple misrepresentation cannot harm any other man on the strict marriage domain.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:564-567, quote SHA-256 0a42cb5261f959c0a2a273cc09344f343218d238c3314a54e76bfe4c2e506473. Source atom: If the simple-report outcome leaves the reporting man weakly better off, it leaves every man weakly better off.",
       "source_grounded": true,
-      "statement_sha256": "8c0cbcec0b8f9d01293ad53f049a94808c2fecd8725abd3df3a87bf3c439ff81",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "718574ad303cee4f5619e1c42371d0cafcb2cf64f243870eea17cda9dc2f51cf",
+      "statement_sha256": "b348e7de19cf2ad8365aff1ac192d43c57bd9cbffabceb1a3df8a035be65907d",
+      "validated_at": "2026-08-04T17:30:00Z",
+      "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "manReportStrictlyRanksPartnerFirst": {
+    "marriage_model_definition": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "manReportStrictlyRanksPartnerFirst",
-      "reason": "The source item is the paper-facing statement/formula summarized as: A report strictly ranks the optional partner first. The dashboard row `manReportStrictlyRanksPartnerFirst` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "The closed proof row is navigation to the exact current elaborated signature SHA-256 60c6750ab3259e64a6d066e7a8e705ae187eed6690a77a34a7d9e917ef2dfaed; coverage rests on its complete expanded proposition and source/Spec closure, not on the row name.",
+      "reason": "The proposition exactly covers finite equal cardinality and both sides' complete strict tie-free preferences. It intentionally gives no credit for complete outcomes, which have their own separately reviewed definition.",
+      "review_row_signature_sha256": {
+        "sourceMarriageModel_iff_source_definition": "60c6750ab3259e64a6d066e7a8e705ae187eed6690a77a34a7d9e917ef2dfaed"
+      },
       "review_rows": [
-        "manReportStrictlyRanksPartnerFirst"
+        "sourceMarriageModel_iff_source_definition"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: A report strictly ranks the optional partner first.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:176-197, quote SHA-256 2123d65bf25a071b4a6b9aa3edfec487a86e7f1a19041fb732c3d18cb254d01f. Source atom: The marriage model has equal finite sides and each agent has a complete strict ordering without ties over the opposite side.",
       "source_grounded": true,
-      "statement_sha256": "f3a806b62ec7f79d3efa27290f925cdf831fec4d7e7c197922090fa967c7468a",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "fc290cb3a1eeb532ddd3c766692dbc991a4c3a14dc7d3eb5676726c393a5e2c2",
+      "statement_sha256": "12d1f3965c6a3e1dd05be6f66eae8a97d7d485cdd9ea1a72286242db343c065d",
+      "validated_at": "2026-08-04T18:18:16Z",
+      "validator": "Codex Roth82 fresh source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "menDeferredAcceptance": {
+    "matching_procedure_definition": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "menDeferredAcceptance",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Men-proposing deferred acceptance, Roth's procedure/outcome `G(P)`/`g(P)`. The dashboard row `menDeferredAcceptance` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "The closed proof row is navigation to the exact current elaborated signature SHA-256 f4180a22ccb198370ec4644a281f43989aca3d50fcf656cbf0cd08f6ef4c3b08; coverage rests on its complete expanded proposition and source/Spec closure, not on the row name.",
+      "reason": "The expanded function type has the exact legal-profile input and complete-outcome codomain. It therefore does not broaden the source procedure to arbitrary score tables or partial assignments.",
+      "review_row_signature_sha256": {
+        "matchingProcedure_eq_source_definition": "f4180a22ccb198370ec4644a281f43989aca3d50fcf656cbf0cd08f6ef4c3b08"
+      },
       "review_rows": [
-        "menDeferredAcceptance"
+        "matchingProcedure_eq_source_definition"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Men-proposing deferred acceptance, Roth's procedure/outcome `G(P)`/`g(P)`.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:300-303, quote SHA-256 63e113f7b30d0353dae5367908f91bc3f7077bf0fe7482eb257c85eeec190c66. Source atom: A matching procedure elicits the agents reported preferences and aggregates the reported two-sided profile into an outcome.",
       "source_grounded": true,
-      "statement_sha256": "952a482907bee6e819f0571676f12d16ce2cb317e00c72bab395ce9117e8a630",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "39acbe0c20219cb492741d6e7e557b90e7a06aca4e44013e9e9c8af044296f03",
+      "statement_sha256": "9c79d17c2281d8c43f72ff3ccab0f436ca364e58e466edb3eabaf89f0a808dad",
+      "validated_at": "2026-08-04T18:18:16Z",
+      "validator": "Codex Roth82 fresh source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "menOptimal": {
+    "preference_profile_definition": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "menOptimal",
-      "reason": "The source item is the paper-facing statement/formula summarized as: A stable matching is men-optimal if every man weakly prefers it to any stable matching. The dashboard row `menOptimal` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "The closed proof row is navigation to the exact current elaborated signature SHA-256 7543af52feb0dda98c36f46c87403f16092b8e2f2bac17c3e7a1b1d33ca541e7; coverage rests on its complete expanded proposition and source/Spec closure, not on the row name.",
+      "reason": "The expanded equality includes both sides' score tables and both rowwise injectivity conditions, so it covers the source vector of strict preferences rather than an unrestricted pair of functions.",
+      "review_row_signature_sha256": {
+        "preferenceProfile_eq_source_definition": "7543af52feb0dda98c36f46c87403f16092b8e2f2bac17c3e7a1b1d33ca541e7"
+      },
       "review_rows": [
-        "menOptimal"
+        "preferenceProfile_eq_source_definition"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: A stable matching is men-optimal if every man weakly prefers it to any stable matching.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:130-138, quote SHA-256 97c8c5c207a9697be53470790905b4f445b421625087f43fc0cb224baab27d54. Source atom: A preference profile contains one preference ordering for each member of both disjoint sides.",
       "source_grounded": true,
-      "statement_sha256": "d07a2dc701ce60da12b9bc1984bf52584f22a9986c72473e4ac0dedbcb945b6e",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "77ce9022f604a038259a528a0f23959f9712c3faf53e07a0b8d511d107d76bbf",
+      "statement_sha256": "f71091d58fbaf03903c438165ef26c93dee9b74a6568f58910b519342195a794",
+      "validated_at": "2026-08-04T18:18:16Z",
+      "validator": "Codex Roth82 fresh source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "paretoOptimal": {
+    "side_optimal_stable_outcome_definition": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "paretoOptimal",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Pareto-optimal complete matching among complete matchings. The dashboard row `paretoOptimal` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "Closed proof row sideOptimalStableOutcome_iff_source_definition, elaborated signature SHA-256 c75549417194298d279d9994225f490bcbdcf9d910500e2e9220ebd9e84c6d52, has exactly the paired transparent Spec type whose source-atom closure is pinned in the statement map. The row name is used only as navigation; coverage rests on the expanded proposition and exact manifest digest.",
+      "reason": "The elaborated proposition includes stability and comparison with every other stable outcome, pointwise for every member of the selected side, and states the symmetric men and women forms. The relation is weak side-wide optimality, not aggregate welfare.",
+      "review_row_signature_sha256": {
+        "sideOptimalStableOutcome_iff_source_definition": "c75549417194298d279d9994225f490bcbdcf9d910500e2e9220ebd9e84c6d52"
+      },
       "review_rows": [
-        "paretoOptimal"
+        "sideOptimalStableOutcome_iff_source_definition"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Pareto-optimal complete matching among complete matchings.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:463-466, quote SHA-256 09747a4564c0c2ac4835865bfaf1072e77d591b62a958f985c0dc82f1e2a38fc. Source atom: A side-optimal stable outcome is stable and is weakly preferred to every other stable outcome by every agent on that selected side.",
       "source_grounded": true,
-      "statement_sha256": "50c5a7c13dfcc53c113a9556ee24077dd6da4c843253ee928aba6b75cb54e3f4",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "3f76ef7c1e3e74e9e3029f6cbfa09c274ca4bcc5ef86eb863ad55aa492c33c87",
+      "statement_sha256": "4afb507c95d59b45d559d673421a9912fea35a27716dbf90289584b24c73e7d7",
+      "validated_at": "2026-08-04T17:30:00Z",
+      "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "possibleForMan": {
+    "simple_misrepresentation_definition": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "possibleForMan",
-      "reason": "The source item is the paper-facing statement/formula summarized as: A woman is possible for a man if some stable outcome matches them. The dashboard row `possibleForMan` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "Closed proof row manReportStrictlyRanksPartnerFirst_iff_source_definition, elaborated signature SHA-256 2fe990db2becda1a6d40a171f7e90417380c027b547077e227dc07ecf16020f7, has exactly the paired transparent Spec type whose source-atom closure is pinned in the statement map. The row name is used only as navigation; coverage rests on the expanded proposition and exact manifest digest.",
+      "reason": "The elaborated proposition states that the partner obtained under the original misreport is strictly above every distinct alternative in the associated simple report. It is the full top-partner condition used by the source, not merely preservation of relative ranks below the top.",
+      "review_row_signature_sha256": {
+        "manReportStrictlyRanksPartnerFirst_iff_source_definition": "2fe990db2becda1a6d40a171f7e90417380c027b547077e227dc07ecf16020f7"
+      },
       "review_rows": [
-        "possibleForMan"
+        "manReportStrictlyRanksPartnerFirst_iff_source_definition"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: A woman is possible for a man if some stable outcome matches them.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:522-529, quote SHA-256 4a72e487b27f3bc8ba95cfcd080897ec726a5dfe93664aa8e816b50bb4577fba. Source atom: The associated simple misrepresentation ranks the partner obtained under the original misreport strictly above every alternative partner.",
       "source_grounded": true,
-      "statement_sha256": "7b2c1109b6a0bc1029bf976cbea3894c6ddeb3067c04c1fafb52e280388126da",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "1fc64322909fb32a0d842c79f4fabbe2be50bfe89da1851b59988fe61ba31713",
+      "statement_sha256": "14da6b046901eca1839183d334033eb9cd1d77a50faa0299da883db5393eb91a",
+      "validated_at": "2026-08-04T17:30:00Z",
+      "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "preferenceProfile": {
+    "stable_marriage_definition": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "preferenceProfile",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Roth preference profile `P`: one score table for each side. The dashboard row `preferenceProfile` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "Closed proof row sourceStableMarriage_iff_source_definition, elaborated signature SHA-256 fd567eed0bafff4ac5a441f513883af29f7849a80bc51eef1454d62805d4be03, has exactly the paired transparent Spec type whose source-atom closure is pinned in the statement map. The row name is used only as navigation; coverage rests on the expanded proposition and exact manifest digest.",
+      "reason": "The elaborated proposition conjoins completeness with the negation of an existential man-woman pair for which both strict score comparisons favor one another over their assigned partners. It neither weakens the two-sided blocking condition nor substitutes operational individual rationality for the source definition.",
+      "review_row_signature_sha256": {
+        "sourceStableMarriage_iff_source_definition": "fd567eed0bafff4ac5a441f513883af29f7849a80bc51eef1454d62805d4be03"
+      },
       "review_rows": [
-        "preferenceProfile"
+        "sourceStableMarriage_iff_source_definition"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Roth preference profile `P`: one score table for each side.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:145-165, quote SHA-256 bbccd76cebc990c571a8b00596f851b845067c0b4bdef299c73a6fa4d1850505. Source atom: A complete marriage outcome is stable when there is no man and woman who both strictly prefer each other to their current partners.",
       "source_grounded": true,
-      "statement_sha256": "186f42769e128bde92d0493d7bf7ce31a34f450613c6c651047cbb675b06c4e5",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "4d1d7224fb5baed09eb7cbb27be5ea9feb2569495ef09b35f531f929f232215d",
+      "statement_sha256": "54e15a189392029c520b9f590649cb7149ba774bb81ba757748b431261a943a7",
+      "validated_at": "2026-08-04T17:30:00Z",
+      "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "reportMisrepresentsKthChoice": {
+    "stable_matching_procedure_definition": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "reportMisrepresentsKthChoice",
-      "reason": "The source item is the paper-facing statement/formula summarized as: A report changes the identity of some alternative that was truly ranked `k`. The dashboard row `reportMisrepresentsKthChoice` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "Closed proof row sourceStableMatchingProcedure_iff_source_definition, elaborated signature SHA-256 005329209fcfd5a58eb04cb3533b53d08ecdda722aa8d8d986862c10454f22cc, has exactly the paired transparent Spec type whose source-atom closure is pinned in the statement map. The row name is used only as navigation; coverage rests on the expanded proposition and exact manifest digest.",
+      "reason": "The elaborated proposition quantifies over every legal two-sided reported profile and requires the mechanism's complete outcome to have no blocking pair at that same profile. The conclusion is procedure-wide stability, not stability of one supplied run.",
+      "review_row_signature_sha256": {
+        "sourceStableMatchingProcedure_iff_source_definition": "005329209fcfd5a58eb04cb3533b53d08ecdda722aa8d8d986862c10454f22cc"
+      },
       "review_rows": [
-        "reportMisrepresentsKthChoice"
+        "sourceStableMatchingProcedure_iff_source_definition"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. direct paper definition. Source inventory item: A report changes the identity of some alternative that was truly ranked `k`.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:313-323, quote SHA-256 1823bc6b49d139faa68db29f72fb0c8a457a704784764d94aa4d635892d0ff69. Source atom: For every reported preference profile, a stable matching procedure returns an outcome stable for those reports.",
       "source_grounded": true,
-      "statement_sha256": "9163989291f38e040f024c5c5af917a79262b9ed04a0002da2f5bb05c36c94aa",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "51eb403d5bd3e647325034d3fb7395dc9af5bf970a1423b9a55ed98c67bb3516",
+      "statement_sha256": "aea7f3b8013e9e15c12231a6399999fd97ec7f75761de99ad6d315be6a03eaed",
+      "validated_at": "2026-08-04T17:30:00Z",
+      "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "serialDictatorshipMechanism_matches": {
+    "theorem1": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "serialDictatorshipMechanism_matches",
-      "reason": "The source item is the paper-facing statement/formula summarized as: The serial-dictatorship mechanism chooses its permutation from the men's reported preferences and matches each man to `p m` and each woman to `p.symm w`. The dashboard row `serialDictatorshipMechanism_matches` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "Closed proof row theorem1_stable_outcome_exists, elaborated signature SHA-256 fd3251de554c650d4644c83dc95b84ef72c30de4e9bd1d6e5e427b0fe8d62e62, has exactly the paired transparent Spec type whose source-atom closure is pinned in the statement map. The row name is used only as navigation; coverage rests on the expanded proposition and exact manifest digest.",
+      "reason": "The closed proposition quantifies over arbitrary finite balanced strict complete-marriage markets and concludes existence of an Assignment that is complete and has no two-sided blocking pair. Positivity is the score encoding of the source domain in which every potential partner is preferred to being unmatched.",
+      "review_row_signature_sha256": {
+        "theorem1_stable_outcome_exists": "fd3251de554c650d4644c83dc95b84ef72c30de4e9bd1d6e5e427b0fe8d62e62"
+      },
       "review_rows": [
-        "serialDictatorshipMechanism_matches"
+        "theorem1_stable_outcome_exists"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: The serial-dictatorship mechanism chooses its permutation from the men's reported preferences and matches each man to `p m` and each woman to `p.symm w`.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:227-227, quote SHA-256 cc02cee890eb2da2d91d715a550278ccdbfe41f38d578a7f78ef048acb3b9095. Source atom: Every finite complete strict marriage market has at least one stable outcome.",
       "source_grounded": true,
-      "statement_sha256": "11a2f3109c0411a716e972e4d14afea76d050f68436c3b883c70b1234639ad2e",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "3c1df5e5146827985360a3f152885409bd182a4024edd2775beac907078f2372",
+      "statement_sha256": "80cf7e8f19c95c99888cdb6114d99245c869494cd540056b0f932bd099e912c9",
+      "validated_at": "2026-08-04T17:30:00Z",
+      "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "stable": {
+    "theorem2": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "stable",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Stable matching: every assigned partner is acceptable and no man-woman pair strictly blocks the matching. The dashboard row `stable` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "Closed proof row theorem2_side_optimal_stable_outcomes, elaborated signature SHA-256 81d73d7ec9c2d5f088778bf7a105d66eca97fdcfe48da1c667fae74b03d83794, has exactly the paired transparent Spec type whose source-atom closure is pinned in the statement map. The row name is used only as navigation; coverage rests on the expanded proposition and exact manifest digest.",
+      "reason": "The closed proposition supplies both a men-side and a women-side stable outcome. Each is weakly best for every member of its side among all stable outcomes, and balanced-domain completeness is included, so neither symmetric half nor the stable-completeness endpoint is missing.",
+      "review_row_signature_sha256": {
+        "theorem2_side_optimal_stable_outcomes": "81d73d7ec9c2d5f088778bf7a105d66eca97fdcfe48da1c667fae74b03d83794"
+      },
       "review_rows": [
-        "stable"
+        "theorem2_side_optimal_stable_outcomes"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Stable matching: every assigned partner is acceptable and no man-woman pair strictly blocks the matching.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:258-259, quote SHA-256 17aeefb3b35642fc47227b7f8699824b0e25ee9ca2b1a8d90ddccb1c2b8e51e4. Source atom: There is a stable outcome weakly preferred by every man to every other stable outcome and a symmetric outcome for every woman.",
       "source_grounded": true,
-      "statement_sha256": "f7d5c26c0ff99e6f3b38851fc83791a034b498747e1001c45e62deb14daa989c",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "88550823b2c17c7f578eb5a258908f0f071a0114b41587bb6bd9db703275fdc0",
+      "statement_sha256": "18e760456604307e1f1e055ff8e935d02dfc098fc3e23dad2d57b0afe60e6d2f",
+      "validated_at": "2026-08-04T17:30:00Z",
+      "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "stableMatchingProcedure": {
+    "theorem3": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "stableMatchingProcedure",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Stable matching procedure on strict reported preference profiles. The dashboard row `stableMatchingProcedure` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "Closed proof row theorem3_no_stable_truthful_procedure, elaborated signature SHA-256 2a5ef89ad7ff079ff11c7a7ce20a079cbd3eb251c998afe9ba1b44dec5a0e47c, has exactly the paired transparent Spec type whose source-atom closure is pinned in the statement map. The row name is used only as navigation; coverage rests on the expanded proposition and exact manifest digest.",
+      "reason": "The closed proposition negates existence of a mechanism that is stable at every legal profile and dominant-strategy truthful for every agent on both sides. Its fixed finite counterexample domain is a valid witness to the source's universal nonexistence claim and does not assume a candidate mechanism's failure.",
+      "review_row_signature_sha256": {
+        "theorem3_no_stable_truthful_procedure": "2a5ef89ad7ff079ff11c7a7ce20a079cbd3eb251c998afe9ba1b44dec5a0e47c"
+      },
       "review_rows": [
-        "stableMatchingProcedure"
+        "theorem3_no_stable_truthful_procedure"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Stable matching procedure on strict reported preference profiles.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:356-357, quote SHA-256 000927377c304d112bb085c4dcc61e726489b9eae5f1d53a261a80c9d45946e6. Source atom: No procedure can be stable at every legal profile and dominant-strategy truthful for every agent on both sides.",
       "source_grounded": true,
-      "statement_sha256": "cba89474fbb3106bf98f9dd01f0b865b2c054cfd5d0cd0bfb89ad1abfd42d1f7",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "d02f449a33c76e8ad88ade34aeb1cdb47d332e8b59610d249346320e93373c15",
+      "statement_sha256": "4342790f7bab42e8dec1c7f5d6a810b8ad68dea42d5426ea7315cd37ec220e38",
+      "validated_at": "2026-08-04T17:30:00Z",
+      "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "stableOutcomes": {
+    "theorem4": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "stableOutcomes",
-      "reason": "The source item is the paper-facing statement/formula summarized as: The stable-outcome set `C(P)` for a reported preference profile. The dashboard row `stableOutcomes` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "Closed proof row theorem4_efficient_truthful_procedure_exists, elaborated signature SHA-256 15aea3b5bb0a34f22a4b7ae72483a59765a5eeb3d9338d46e728bbcbdb06ee7e, has exactly the paired transparent Spec type whose source-atom closure is pinned in the statement map. The row name is used only as navigation; coverage rests on the expanded proposition and exact manifest digest.",
+      "reason": "The selected closed proposition quantifies a matching-procedure witness for each finite balanced market and requires that witness to satisfy the audited efficiency and all-agent dominant-truthfulness definitions. Its proof constructs serial dictatorship as the witness; the source-facing conclusion does not hardcode the implementation.",
+      "review_row_signature_sha256": {
+        "theorem4_efficient_truthful_procedure_exists": "15aea3b5bb0a34f22a4b7ae72483a59765a5eeb3d9338d46e728bbcbdb06ee7e"
+      },
       "review_rows": [
-        "stableOutcomes"
+        "theorem4_efficient_truthful_procedure_exists"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: The stable-outcome set `C(P)` for a reported preference profile.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:438-439, quote SHA-256 f86039aad0d5e8e9a29f8d3655f3cec589f75530e80bcc0a21725a501689f504. Source atom: There exists a matching procedure that is Pareto efficient and dominant-strategy truthful for every agent.",
       "source_grounded": true,
-      "statement_sha256": "bc6bc0b64b5d5c88bca9684dd011b3c94013d5a07b2685af7c7cd949a4bc2143",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "ec8f88d049b89af1106e29eec596328bc2a81e72a8c7b9ee129284bfadcf2434",
+      "statement_sha256": "7f06a485f65fd630f2bc6ac272c9bd1baac1e6a0ece7b8eeee7ddb3547e6d77e",
+      "validated_at": "2026-08-04T17:30:00Z",
+      "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "strictMarriageDomain": {
+    "theorem5": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "strictMarriageDomain",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Strict marriage domain: each side has strict rankings over the opposite side, and every potential pair is strictly preferred to being unmatched. The dashboard row `strictMarriageDomain` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "The closed proof row is navigation to the exact current elaborated signature SHA-256 a7fba5020d3521e83eb3aded9dbd58fb21d34a979531554b6c15c914a30dae8e; coverage rests on its complete expanded proposition and source/Spec closure, not on the row name.",
+      "reason": "The endpoint now includes the source side-optimal stable-outcome fact for each proposal direction before proving the same side's universal no-gain result. Neither optimality conjunct is supplied by a theorem-facing premise.",
+      "review_row_signature_sha256": {
+        "theorem5_optimal_side_truthful": "a7fba5020d3521e83eb3aded9dbd58fb21d34a979531554b6c15c914a30dae8e"
+      },
       "review_rows": [
-        "strictMarriageDomain"
+        "theorem5_optimal_side_truthful"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Strict marriage domain: each side has strict rankings over the opposite side, and every potential pair is strictly preferred to being unmatched.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:468-471, quote SHA-256 0e4a0f52e3972d17ddb05fd3c58c609f98505689c633fd78234b13519a71b2e5. Source atom: For either proposal direction, every agent on the side receiving its optimal stable outcome has truthful reporting as a dominant strategy.",
       "source_grounded": true,
-      "statement_sha256": "199e56f6dd3d1e864e3eaf84583ea9a2563d67d8fc8a575154a644cb1c26f993",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "a3251f1a4e8db06334f105f5e61ab8083f85a6ee61b517a8b4457ec9e0f829ab",
+      "statement_sha256": "ea8cffafbe86aa0879173c12a149e9dcf429c4fd986ef0e4d131ba01a7004c1d",
+      "validated_at": "2026-08-04T18:18:16Z",
+      "validator": "Codex Roth82 fresh source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "theorem1_stable_complete_outcome_exists_on_strict_marriage_domain": {
+    "theorem6": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "theorem1_stable_complete_outcome_exists_on_strict_marriage_domain",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 1: on an equal-size strict marriage domain, a stable complete outcome exists. The dashboard row `theorem1_stable_complete_outcome_exists_on_strict_marriage_domain` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "Closed proof row theorem6_no_outcome_strictly_better_for_all_men, elaborated signature SHA-256 0fd1ae81d882687caa7a5f8d16eb267c5a4b751baf53de5e5e51e2cbe874cacd, has exactly the paired transparent Spec type whose source-atom closure is pinned in the statement map. The row name is used only as navigation; coverage rests on the expanded proposition and exact manifest digest.",
+      "reason": "The closed proposition rules out every complete feasible Assignment that all men strictly prefer to the men-proposing deferred-acceptance outcome. The comparison ranges over stable and unstable feasible outcomes, preserving the theorem's stronger weak-Pareto conclusion.",
+      "review_row_signature_sha256": {
+        "theorem6_no_outcome_strictly_better_for_all_men": "0fd1ae81d882687caa7a5f8d16eb267c5a4b751baf53de5e5e51e2cbe874cacd"
+      },
       "review_rows": [
-        "theorem1_stable_complete_outcome_exists_on_strict_marriage_domain"
+        "theorem6_no_outcome_strictly_better_for_all_men"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Theorem 1: on an equal-size strict marriage domain, a stable complete outcome exists.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:678-684, quote SHA-256 da2f73003ce7f2bd9595441b891e0da7fa769688766985f0922cb4e0c78e150f. Source atom: There is no feasible complete outcome that every man strictly prefers to the men-proposing deferred-acceptance outcome.",
       "source_grounded": true,
-      "statement_sha256": "d1ce8e42274a41b2744ac01b7e6ac9c2c79bd1370ccbb1c26e6ffd843fe5dc4d",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "f57b2def2c67aae4382d8af3f612a42c1ec3d24910bac025ab7750ca3da44946",
+      "statement_sha256": "912b553fe7664b443b9d4c1dfb3d5264cddd5cee1efb4fe3f79a76f73522a901",
+      "validated_at": "2026-08-04T17:30:00Z",
+      "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     },
-    "theorem2_optimal_stable_outcomes_on_strict_marriage_domain": {
+    "theorem7": {
       "audit_kind": "source_to_dashboard_llm",
       "coverage": "covered",
-      "dashboard_evidence": "theorem2_optimal_stable_outcomes_on_strict_marriage_domain",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 2: men-optimal and women-optimal stable outcomes exist on the strict marriage domain. The dashboard row `theorem2_optimal_stable_outcomes_on_strict_marriage_domain` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
+      "dashboard_evidence": "Closed proof row theorem7_later_choice_manipulation_unavoidable, elaborated signature SHA-256 4517b48ba0e1f41582b8222bd8aba216e2b43d82180fe3f08c5c026f8c166168, has exactly the paired transparent Spec type whose source-atom closure is pinned in the statement map. The row name is used only as navigation; coverage rests on the expanded proposition and exact manifest digest.",
+      "reason": "For every rank strictly beyond first, the closed proposition produces a finite balanced strict complete-marriage market in which every stable procedure exposes some profitable report changing that rank. The quantifier order preserves an instance against arbitrary stable procedures rather than selecting a favorable procedure.",
+      "review_row_signature_sha256": {
+        "theorem7_later_choice_manipulation_unavoidable": "4517b48ba0e1f41582b8222bd8aba216e2b43d82180fe3f08c5c026f8c166168"
+      },
       "review_rows": [
-        "theorem2_optimal_stable_outcomes_on_strict_marriage_domain"
+        "theorem7_later_choice_manipulation_unavoidable"
       ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Theorem 2: men-optimal and women-optimal stable outcomes exist on the strict marriage domain.",
+      "seed_scaffold": false,
+      "source_evidence": "Byte-pinned source anchor Roth82StableMatching.txt:713-714, quote SHA-256 65564e5e45888b113fa81dc3ef03e8a8f240c16bdfe0d1b3f5a94775e8721dbd. Source atom: For every kth rank beyond first choice, some finite strict complete marriage market forces a profitable kth-choice misreport under every stable procedure.",
       "source_grounded": true,
-      "statement_sha256": "0c093543f6a321bfc83f1f704b93023814baf404118a9cc452a05262f39a9de4",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem3_no_stable_truthful_procedure_on_strict_profiles": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "theorem3_no_stable_truthful_procedure_on_strict_profiles",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 3: on Roth's strict 3-by-3 counterexample domain, no procedure stable on strict profiles is truthful for both sides. The dashboard row `theorem3_no_stable_truthful_procedure_on_strict_profiles` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "theorem3_no_stable_truthful_procedure_on_strict_profiles"
-      ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Theorem 3: on Roth's strict 3-by-3 counterexample domain, no procedure stable on strict profiles is truthful for both sides.",
-      "source_grounded": true,
-      "statement_sha256": "6e4e64d5413553e1762f71dd174f306e683cd18c791b2184206884d9683ce94a",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem4_serial_dictatorship_constructed": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "theorem4_serial_dictatorship_constructed",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 4: Roth's constructed serial-dictatorship procedure is efficient on strict men-side profiles, truthful for men on that strict men-side domain, and truthful for women. The dashboard row `theorem4_serial_dictatorship_constructed` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "theorem4_serial_dictatorship_constructed"
-      ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Theorem 4: Roth's constructed serial-dictatorship procedure is efficient on strict men-side profiles, truthful for men on that strict men-side domain, and truthful for women.",
-      "source_grounded": true,
-      "statement_sha256": "9a9a2f261c1239be98382bdbb26f10005ed33cc1ac9f7be6446eb7f0743def7a",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem5_optimal_side_truthful_on_strict_domain_of_card_eq": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "theorem5_optimal_side_truthful_on_strict_domain_of_card_eq",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 5: side-optimal deferred-acceptance procedures are strategyproof on equal-size strict marriage domains. The dashboard row `theorem5_optimal_side_truthful_on_strict_domain_of_card_eq` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "theorem5_optimal_side_truthful_on_strict_domain_of_card_eq"
-      ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. direct paper statement. Source inventory item: Theorem 5: side-optimal deferred-acceptance procedures are strategyproof on equal-size strict marriage domains.",
-      "source_grounded": true,
-      "statement_sha256": "2e031a4c89c5ba96f4b9f090d45f4ec78db7502cf51444a1b954fe4dde62b071",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem6_weak_pareto_for_men_on_strict_marriage_domain": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "theorem6_weak_pareto_for_men_on_strict_marriage_domain",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 6: the men-optimal stable outcome is weakly Pareto optimal on the strict marriage domain. The dashboard row `theorem6_weak_pareto_for_men_on_strict_marriage_domain` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "theorem6_weak_pareto_for_men_on_strict_marriage_domain"
-      ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Theorem 6: the men-optimal stable outcome is weakly Pareto optimal on the strict marriage domain.",
-      "source_grounded": true,
-      "statement_sha256": "ed308a01aa97b01bbf5f602af86edd362041ab84b06d83afb0458c76f17b0e14",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem7_arbitrary_k_on_strict_profiles": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "theorem7_arbitrary_k_on_strict_profiles",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Theorem 7: for any `k > 1`, some finite balanced strict-profile market admits a profitable stable-procedure `k`th-choice manipulation. The dashboard row `theorem7_arbitrary_k_on_strict_profiles` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "theorem7_arbitrary_k_on_strict_profiles"
-      ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. direct paper statement. Source inventory item: Theorem 7: for any `k > 1`, some finite balanced strict-profile market admits a profitable stable-procedure `k`th-choice manipulation.",
-      "source_grounded": true,
-      "statement_sha256": "3c0c2ee5120e309f9edfe4a9af5ef5fab8a8b2a39ed78d8de8d5c60800283197",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "truthfulForAllAgents": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "truthfulForAllAgents",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Truthful revelation is dominant for both sides on strict true and reported profiles. The dashboard row `truthfulForAllAgents` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "truthfulForAllAgents"
-      ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Truthful revelation is dominant for both sides on strict true and reported profiles.",
-      "source_grounded": true,
-      "statement_sha256": "17de5542e6c3978cdcdb81440f739214a4a7e54dba5a4b30000a9e634c0c716a",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "womenDeferredAcceptance": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "womenDeferredAcceptance",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Women-proposing deferred acceptance, represented on the original `(M, W)` sides by reversing roles and swapping the resulting assignment back. The dashboard row `womenDeferredAcceptance` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "womenDeferredAcceptance"
-      ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Women-proposing deferred acceptance, represented on the original `(M, W)` sides by reversing roles and swapping the resulting assignment back.",
-      "source_grounded": true,
-      "statement_sha256": "48c00c609b6cd57d28cbdfcbbc7cf167d7c048a401411ae2e0dda3f1cd8d4f5a",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "womenOptimal": {
-      "audit_kind": "source_to_dashboard_llm",
-      "coverage": "covered",
-      "dashboard_evidence": "womenOptimal",
-      "reason": "The source item is the paper-facing statement/formula summarized as: Women-optimal stable matching, with the symmetric weak-preference condition. The dashboard row `womenOptimal` exposes the corresponding Lean statement for that same source claim, with the paper-facing theorem/formula represented in the review surface rather than merely inferred from a name match.",
-      "review_rows": [
-        "womenOptimal"
-      ],
-      "source_evidence": "Source basis: documented source inventory for Roth 1982 from prior source audit and validation report; local source text not tracked in this repo. Source inventory item: Women-optimal stable matching, with the symmetric weak-preference condition.",
-      "source_grounded": true,
-      "statement_sha256": "18c4fcee983cb4fc9524f86403c443de1e6e2149cf5fff9ef18734715438c3e9",
-      "support_declarations": [],
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "source_item_coverage_digest_schema": 5,
+      "source_item_coverage_sha256": "c28c6662c83ef602a73494ae01c299836f45bafc1274dea06b4dfcea22f1e73d",
+      "statement_sha256": "750fa2c5e55207ef2f8ffc6ad966a8623ec24821203c80907841f55edc034f85",
+      "validated_at": "2026-08-04T17:30:00Z",
+      "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+      "validator_type": "agent"
     }
   },
   "paper": "Roth82StableMatching",
-  "paper_statement_inventory_sha256": "0fef8b2f5688ee4d53c588662ede17ecdb11d0e6b68b77bea96a48ce9529ee43",
-  "prompt_version": "paper-coverage-v2-source-grounded-source-to-dashboard",
-  "review_surface_sha256": "8e729d5b22642eb79d020275d88a5f9f69b596cad412ecc711bcaa552e1b7ef7",
+  "paper_statement_inventory_sha256": "ce4e9f7d4fd053e15b0f7051e018202629cb96f1f03389455288b0f6896997b9",
+  "prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins",
+  "review_surface_sha256": "207cc6900e432c622354da2af5ccbd965c6df036864d8c500aef6a0714a886af",
   "schema": 1,
+  "seed_scaffold": false,
+  "source_artifact_path": "Roth82StableMatching.txt",
+  "source_artifact_sha256": "55d2c35a8077a74dc9953dcb6f838fcd6e91edc9e77079a2419f185835a79fd4",
+  "source_coverage_mode": "named_theoretical_statements",
   "source_grounded": true,
-  "validated_at": "2026-06-29T18:08:26Z",
-  "validator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  "validated_at": "2026-08-04T18:18:16Z",
+  "validator": "Independent Codex Roth82 source-to-surface semantic auditor 2026-08-04",
+  "validator_type": "agent"
 }

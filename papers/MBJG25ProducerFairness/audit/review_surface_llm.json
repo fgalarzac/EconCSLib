@@ -1,12 +1,12 @@
 {
-  "judgment": "passes",
+  "schema": 1,
   "paper": "MBJG25ProducerFairness",
   "prompt_version": "review-surface-v2-semantic-paper-facing",
-  "reason": "Semantic review-surface pass: current dashboard rows are paper-facing definitions, assumptions, theorem endpoints, or explicitly documented partial/source-version boundaries; helper-only rows remain outside the compact dashboard surface.",
-  "review_rows": 27,
-  "review_surface_sha256": "18aaea21e0197dfcd9ed870355f82f817bc10b57995cc132260d6c32c4cd6c74",
-  "schema": 1,
-  "validated_at": "2026-06-29T18:08:26Z",
-  "validator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  "validated_at": "2026-07-18T19:45:00Z",
+  "validator": "Codex MBJG25 paper-surface curator 2026-07-18",
+  "validator_type": "agent",
+  "judgment": "passes",
+  "review_rows": 39,
+  "review_surface_sha256": "272506a527416982cbf5cc55bd53cdf6d68bcd5e3765f31d1a46f86db69128a5",
+  "reason": "The 39-row surface exposes every source formula and metric in Equations 1-5, both named theorem clauses, source model conditions, the exact available-set regret and Thompson choice specifications, the repaired Appendix C decomposition, Appendix D--F formulas and k-sampling rule, and explicit correction evidence for the strict endpoints and Equations 20--21."
 }

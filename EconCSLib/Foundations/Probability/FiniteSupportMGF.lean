@@ -722,6 +722,96 @@ theorem finiteMGF_ge_pmfProb_score_eq_zero
   · simp [hzero, mul_nonneg ENNReal.toReal_nonneg (Real.exp_pos _).le]
 
 /--
+At the lower endpoint of a nonnegative finite score law, the finite MGF
+converges to the mass of the zero-score event as the dual parameter tends to
+minus infinity.  Zero-mass labels are intentionally ignored.
+-/
+theorem finiteMGF_tendsto_pmfProb_score_eq_zero_atBot_of_support_nonneg
+    (μ : PMF α) (score : α → ℝ)
+    (hsupport : ∀ a, 0 < (μ a).toReal → 0 ≤ score a) :
+    Filter.Tendsto (fun z : ℝ => finiteMGF μ score z)
+      Filter.atBot
+      (nhds (EconCSLib.pmfProb μ (fun a => score a = 0))) := by
+  classical
+  have hsum :
+      Filter.Tendsto
+        (fun z : ℝ =>
+          ∑ a : α, (μ a).toReal * Real.exp (z * score a))
+        Filter.atBot
+        (nhds (∑ a : α,
+          (μ a).toReal * (if score a = 0 then (1 : ℝ) else 0))) := by
+    refine tendsto_finset_sum (Finset.univ : Finset α) ?_
+    intro a _ha
+    by_cases hmass_zero : (μ a).toReal = 0
+    · have hterm_zero :
+          (fun z : ℝ => (μ a).toReal * Real.exp (z * score a)) =
+            fun _ : ℝ => (μ a).toReal * (if score a = 0 then (1 : ℝ) else 0) := by
+          funext z
+          simp [hmass_zero]
+      rw [hterm_zero]
+      exact tendsto_const_nhds
+    · have hmass_pos : 0 < (μ a).toReal :=
+        lt_of_le_of_ne ENNReal.toReal_nonneg (Ne.symm hmass_zero)
+      by_cases hscore_zero : score a = 0
+      · have hterm_const :
+          (fun z : ℝ => (μ a).toReal * Real.exp (z * score a)) =
+            fun _ : ℝ => (μ a).toReal * (if score a = 0 then (1 : ℝ) else 0) := by
+          funext z
+          simp [hscore_zero]
+        rw [hterm_const]
+        exact tendsto_const_nhds
+      · have hscore_pos : 0 < score a :=
+          lt_of_le_of_ne (hsupport a hmass_pos) (Ne.symm hscore_zero)
+        have harg :
+            Filter.Tendsto (fun z : ℝ => z * score a)
+              Filter.atBot Filter.atBot :=
+          Filter.tendsto_id.atBot_mul_const hscore_pos
+        have hexp :
+            Filter.Tendsto (fun z : ℝ => Real.exp (z * score a))
+              Filter.atBot (nhds 0) :=
+          Real.tendsto_exp_atBot.comp harg
+        have hterm := hexp.const_mul ((μ a).toReal)
+        have htarget :
+            (μ a).toReal * (if score a = 0 then (1 : ℝ) else 0) = 0 := by
+          simp [hscore_zero]
+        simpa [htarget] using hterm
+  simpa [finiteMGF, EconCSLib.pmfProb, EconCSLib.pmfExp] using hsum
+
+/--
+If a finite law is concentrated on one score, its MGF is the exponential MGF
+of that constant.  The premise is support-based so zero-mass labels need not
+share the score.
+-/
+theorem finiteMGF_eq_exp_of_support_score_eq_const
+    (μ : PMF α) (score : α → ℝ) (c z : ℝ)
+    (hconst : ∀ a, 0 < (μ a).toReal → score a = c) :
+    finiteMGF μ score z = Real.exp (z * c) := by
+  classical
+  unfold finiteMGF
+  calc
+    ∑ a : α, (μ a).toReal * Real.exp (z * score a)
+        = ∑ a : α, (μ a).toReal * Real.exp (z * c) := by
+          refine Finset.sum_congr rfl ?_
+          intro a _ha
+          by_cases hmass : 0 < (μ a).toReal
+          · rw [hconst a hmass]
+          · have hzero : (μ a).toReal = 0 :=
+              le_antisymm (le_of_not_gt hmass) ENNReal.toReal_nonneg
+            simp [hzero]
+    _ = (∑ a : α, (μ a).toReal) * Real.exp (z * c) := by
+          rw [Finset.sum_mul]
+    _ = Real.exp (z * c) := by rw [pmfToRealSum μ, one_mul]
+
+/-- A finite log-MGF is linear when its score is constant on positive support. -/
+theorem finiteLogMGF_eq_mul_of_support_score_eq_const
+    (μ : PMF α) (score : α → ℝ) (c z : ℝ)
+    (hconst : ∀ a, 0 < (μ a).toReal → score a = c) :
+    finiteLogMGF μ score z = z * c := by
+  rw [finiteLogMGF,
+    finiteMGF_eq_exp_of_support_score_eq_const μ score c z hconst,
+    Real.log_exp]
+
+/--
 If the zero-score event has positive probability, the finite log-MGF range is
 bounded below.  The lower bound is `log Pr(score = 0)`.
 -/
@@ -927,6 +1017,87 @@ def finiteRateFunctionTop (μ : PMF α) (score : α → ℝ)
     (finiteLegendreValue μ score a z : WithTop ℝ))
 
 /--
+For a nonpositive dual parameter, a global lower score bound upper-bounds the
+finite MGF. This is the elementary estimate behind the fact that the legacy
+real-valued Legendre wrapper is not sound outside the score hull.
+-/
+theorem finiteMGF_le_exp_mul_of_nonpos_of_score_lower_bound
+    (μ : PMF α) (score : α → ℝ) (b z : ℝ)
+    (hz : z ≤ 0) (hlower : ∀ x : α, b ≤ score x) :
+    finiteMGF μ score z ≤ Real.exp (z * b) := by
+  unfold finiteMGF
+  calc
+    (Finset.univ.sum fun x : α =>
+        (μ x).toReal * Real.exp (z * score x)) ≤
+      Finset.univ.sum fun x : α =>
+        (μ x).toReal * Real.exp (z * b) := by
+          refine Finset.sum_le_sum fun x _ => ?_
+          apply mul_le_mul_of_nonneg_left
+          · apply Real.exp_le_exp.mpr
+            exact mul_le_mul_of_nonpos_left (hlower x) hz
+          · exact ENNReal.toReal_nonneg
+    _ = (Finset.univ.sum fun x : α => (μ x).toReal) *
+          Real.exp (z * b) := by
+          rw [Finset.sum_mul]
+    _ = Real.exp (z * b) := by rw [pmfToRealSum μ, one_mul]
+
+/-- A lower score bound controls the finite log-MGF along negative duals. -/
+theorem finiteLogMGF_le_mul_of_nonpos_of_score_lower_bound
+    (μ : PMF α) (score : α → ℝ) (b z : ℝ)
+    (hz : z ≤ 0) (hlower : ∀ x : α, b ≤ score x) :
+    finiteLogMGF μ score z ≤ z * b := by
+  unfold finiteLogMGF
+  have hmgf := finiteMGF_le_exp_mul_of_nonpos_of_score_lower_bound
+    μ score b z hz hlower
+  have hlog := Real.log_le_log (finiteMGF_pos μ score z) hmgf
+  simpa using hlog
+
+/--
+Below a global score lower bound, the real Legendre-value range is unbounded
+above. This is a warning about `finiteRateFunction`'s `Real.sSup` codomain,
+not a large-deviation statement: the mathematically correct extended value is
+`⊤`.
+-/
+theorem finiteLegendreValue_not_bddAbove_of_lt_score_lower_bound
+    (μ : PMF α) (score : α → ℝ) (a b : ℝ)
+    (ha : a < b) (hlower : ∀ x : α, b ≤ score x) :
+    ¬ BddAbove (Set.range fun z : ℝ => finiteLegendreValue μ score a z) := by
+  rw [not_bddAbove_iff]
+  intro bound
+  let z : ℝ := -(abs bound + 1) / (b - a)
+  have hba : 0 < b - a := sub_pos.mpr ha
+  have hz : z ≤ 0 := by
+    dsimp [z]
+    exact div_nonpos_of_nonpos_of_nonneg
+      (neg_nonpos.mpr (by positivity)) hba.le
+  have hlog := finiteLogMGF_le_mul_of_nonpos_of_score_lower_bound
+    μ score b z hz hlower
+  have hgrowth : z * a - z * b = abs bound + 1 := by
+    dsimp [z]
+    field_simp [ne_of_gt hba]
+    ring
+  refine ⟨finiteLegendreValue μ score a z, ⟨z, rfl⟩, ?_⟩
+  unfold finiteLegendreValue
+  calc
+    bound < abs bound + 1 := by linarith [le_abs_self bound]
+    _ = z * a - z * b := hgrowth.symm
+    _ ≤ z * a - finiteLogMGF μ score z := by linarith
+
+/--
+`finiteRateFunction` has a legacy `Real` codomain. Since `Real.sSup` is zero
+on an unbounded-above set, its value below a global score lower bound is zero,
+whereas `finiteRateFunctionTop` correctly returns `⊤` there.
+-/
+theorem finiteRateFunction_eq_zero_of_lt_score_lower_bound
+    (μ : PMF α) (score : α → ℝ) (a b : ℝ)
+    (ha : a < b) (hlower : ∀ x : α, b ≤ score x) :
+    finiteRateFunction μ score a = 0 := by
+  unfold finiteRateFunction
+  exact Real.sSup_of_not_bddAbove
+    (finiteLegendreValue_not_bddAbove_of_lt_score_lower_bound
+      μ score a b ha hlower)
+
+/--
 Finite-support Chernoff exponent for the left-tail event of a score with
 positive mean, written as `- inf_z log E exp(z X)`. The actual tail theorem is
 supplied by a caller-provided LDP/Chernoff certificate; this definition fixes
@@ -1118,6 +1289,200 @@ theorem finiteRateFunctionTop_nonneg
   have hzero := finiteRateFunctionTop_ge_eval μ score a 0
   simpa [finiteLegendreValue, finiteLogMGF_zero] using hzero
 
+/--
+The extended finite rate of a law concentrated at one score is zero at that
+score.  This handles the degenerate endpoint case without pretending a finite
+Legendre dual is stationary.
+-/
+theorem finiteRateFunctionTop_eq_zero_of_support_score_eq_const
+    (μ : PMF α) (score : α → ℝ) (c : ℝ)
+    (hconst : ∀ a, 0 < (μ a).toReal → score a = c) :
+    finiteRateFunctionTop μ score c = 0 := by
+  apply le_antisymm
+  · unfold finiteRateFunctionTop
+    refine csSup_le (Set.range_nonempty _) ?_
+    intro y hy
+    rcases hy with ⟨z, rfl⟩
+    simp only [finiteLegendreValue]
+    rw [finiteLogMGF_eq_mul_of_support_score_eq_const μ score c z hconst]
+    norm_num
+  · exact finiteRateFunctionTop_nonneg μ score c
+
+/--
+Away from its sole positive-support score, a concentrated finite law has
+infinite extended Legendre rate.  The proof witnesses arbitrarily large
+finite dual values directly.
+-/
+theorem finiteRateFunctionTop_eq_top_of_support_score_eq_const_of_ne
+    (μ : PMF α) (score : α → ℝ) (c x : ℝ)
+    (hconst : ∀ a, 0 < (μ a).toReal → score a = c)
+    (hxc : x ≠ c) :
+    finiteRateFunctionTop μ score x = ⊤ := by
+  classical
+  unfold finiteRateFunctionTop
+  let f : ℝ → ℝ := fun z => finiteLegendreValue μ score x z
+  have hsub_ne : x - c ≠ 0 := sub_ne_zero.mpr hxc
+  have hnotbdd : ¬ BddAbove (Set.range f) := by
+    rw [not_bddAbove_iff]
+    intro b
+    let z : ℝ := (b + 1) / (x - c)
+    refine ⟨f z, ⟨z, rfl⟩, ?_⟩
+    have hval : f z = b + 1 := by
+      dsimp [f, z]
+      simp only [finiteLegendreValue]
+      rw [finiteLogMGF_eq_mul_of_support_score_eq_const μ score c
+        ((b + 1) / (x - c)) hconst]
+      field_simp [hsub_ne]
+    rw [hval]
+    linarith
+  have htop_notmem :
+      (⊤ : WithTop ℝ) ∉ Set.range (fun z : ℝ => (f z : WithTop ℝ)) := by
+    rintro ⟨z, hz⟩
+    exact WithTop.coe_ne_top hz
+  have hpreimage :
+      ((fun y : ℝ => (y : WithTop ℝ)) ⁻¹'
+        Set.range (fun z : ℝ => (f z : WithTop ℝ))) = Set.range f := by
+    ext y
+    simp
+  change
+    (if (⊤ : WithTop ℝ) ∈ Set.range (fun z : ℝ => (f z : WithTop ℝ)) then ⊤
+      else if BddAbove
+        ((fun y : ℝ => (y : WithTop ℝ)) ⁻¹'
+          Set.range (fun z : ℝ => (f z : WithTop ℝ))) then
+        (↑(sSup ((fun y : ℝ => (y : WithTop ℝ)) ⁻¹'
+          Set.range (fun z : ℝ => (f z : WithTop ℝ))) : ℝ) : WithTop ℝ)
+      else ⊤) = ⊤
+  simp [htop_notmem, hpreimage, hnotbdd]
+
+/--
+At the finite lower endpoint of a nonnegative score law, the extended
+Legendre rate is the negative logarithm of the zero-score mass.  Unlike the
+interior derivative theorem, this result does not require a finite minimizing
+dual parameter.
+-/
+theorem finiteRateFunctionTop_eq_neg_log_pmfProb_score_eq_zero_of_support_nonneg
+    (μ : PMF α) (score : α → ℝ)
+    (hsupport : ∀ a, 0 < (μ a).toReal → 0 ≤ score a)
+    {pZero : ℝ}
+    (hpZero : EconCSLib.pmfProb μ (fun a => score a = 0) = pZero)
+    (hpZero_pos : 0 < pZero) :
+    finiteRateFunctionTop μ score 0 = (-Real.log pZero : WithTop ℝ) := by
+  have hmgf :
+      Filter.Tendsto (fun z : ℝ => finiteMGF μ score z)
+        Filter.atBot
+        (nhds pZero) := by
+    simpa [hpZero] using
+      finiteMGF_tendsto_pmfProb_score_eq_zero_atBot_of_support_nonneg
+        μ score hsupport
+  have hlog :
+      Filter.Tendsto (fun z : ℝ => finiteLogMGF μ score z)
+        Filter.atBot
+        (nhds (Real.log pZero)) := by
+    simpa [finiteLogMGF] using
+      (Real.continuousAt_log (ne_of_gt hpZero_pos)).tendsto.comp hmgf
+  have hneg :
+      Filter.Tendsto (fun z : ℝ => -finiteLogMGF μ score z)
+        Filter.atBot
+        (nhds (-Real.log pZero)) := by
+    simpa using hlog.neg
+  have hub :
+      BddAbove (Set.range fun z : ℝ => finiteLegendreValue μ score 0 z) := by
+    refine ⟨-Real.log pZero, ?_⟩
+    intro y hy
+    rcases hy with ⟨z, rfl⟩
+    have hbound :
+        Real.log pZero ≤ finiteLogMGF μ score z := by
+      rw [← hpZero]
+      unfold finiteLogMGF
+      exact Real.log_le_log (by simpa [hpZero] using hpZero_pos)
+        (finiteMGF_ge_pmfProb_score_eq_zero μ score z)
+    simp only [finiteLegendreValue]
+    linarith
+  have hrate : finiteRateFunction μ score 0 = -Real.log pZero := by
+    apply csSup_eq_of_forall_le_of_forall_lt_exists_gt (Set.range_nonempty _)
+    · intro y hy
+      rcases hy with ⟨z, rfl⟩
+      have hbound :
+          Real.log pZero ≤ finiteLogMGF μ score z := by
+        rw [← hpZero]
+        unfold finiteLogMGF
+        exact Real.log_le_log (by simpa [hpZero] using hpZero_pos)
+          (finiteMGF_ge_pmfProb_score_eq_zero μ score z)
+      simp only [finiteLegendreValue]
+      linarith
+    · intro w hw
+      rcases (hneg.eventually_const_lt hw).exists with ⟨z, hz⟩
+      refine ⟨finiteLegendreValue μ score 0 z, ⟨z, rfl⟩, ?_⟩
+      simpa [finiteLegendreValue] using hz
+  unfold finiteRateFunctionTop
+  have hrate_top :
+      (finiteRateFunction μ score 0 : WithTop ℝ) =
+        (-Real.log pZero : WithTop ℝ) := by
+    simpa using congrArg (fun x : ℝ => (x : WithTop ℝ)) hrate
+  rw [← hrate_top]
+  unfold finiteRateFunction
+  change
+    sSup (Set.range fun z : ℝ =>
+      (finiteLegendreValue μ score 0 z : WithTop ℝ)) =
+      ((sSup (Set.range fun z : ℝ => finiteLegendreValue μ score 0 z) : ℝ) : WithTop ℝ)
+  rw [show
+    Set.range (fun z : ℝ => (finiteLegendreValue μ score 0 z : WithTop ℝ)) =
+      (fun x : ℝ => (x : WithTop ℝ)) ''
+        Set.range (fun z : ℝ => finiteLegendreValue μ score 0 z) by
+      ext x
+      constructor
+      · rintro ⟨z, rfl⟩
+        exact ⟨finiteLegendreValue μ score 0 z, ⟨z, rfl⟩, rfl⟩
+      · rintro ⟨x, ⟨z, rfl⟩, rfl⟩
+        exact ⟨z, rfl⟩]
+  exact (WithTop.coe_sSup' hub).symm
+
+/--
+Shifting a score by its displayed threshold leaves the extended Legendre rate
+at that threshold unchanged.  This transfers lower-endpoint results from zero
+to an arbitrary finite score.
+-/
+theorem finiteRateFunctionTop_score_eq_shift_at_score
+    (μ : PMF α) (score : α → ℝ) (c : ℝ) :
+    finiteRateFunctionTop μ score c =
+      finiteRateFunctionTop μ (fun a => score a - c) 0 := by
+  have hleg : ∀ z : ℝ,
+      finiteLegendreValue μ score c z =
+        finiteLegendreValue μ (fun a => score a - c) 0 z := by
+    intro z
+    simp only [finiteLegendreValue]
+    rw [finiteLogMGF_sub_const]
+    ring
+  unfold finiteRateFunctionTop
+  congr 1
+  ext y
+  constructor
+  · rintro ⟨z, rfl⟩
+    exact ⟨z, by
+      simpa using congrArg (fun q : ℝ => (q : WithTop ℝ)) (hleg z).symm⟩
+  · rintro ⟨z, rfl⟩
+    exact ⟨z, by
+      simpa using congrArg (fun q : ℝ => (q : WithTop ℝ)) (hleg z)⟩
+
+/--
+Endpoint-rate identity at an arbitrary lower support score.  It is the
+score-shifted form of the zero-score endpoint theorem and requires no finite
+stationary dual.
+-/
+theorem finiteRateFunctionTop_eq_neg_log_pmfProb_score_eq_of_support_lower_bound
+    (μ : PMF α) (score : α → ℝ) (c : ℝ)
+    (hsupport : ∀ a, 0 < (μ a).toReal → c ≤ score a)
+    {pMin : ℝ}
+    (hpMin : EconCSLib.pmfProb μ (fun a => score a = c) = pMin)
+    (hpMin_pos : 0 < pMin) :
+    finiteRateFunctionTop μ score c = (-Real.log pMin : WithTop ℝ) := by
+  rw [finiteRateFunctionTop_score_eq_shift_at_score]
+  apply finiteRateFunctionTop_eq_neg_log_pmfProb_score_eq_zero_of_support_nonneg
+  · intro a hmass
+    exact sub_nonneg.mpr (hsupport a hmass)
+  · simpa [sub_eq_zero] using hpMin
+  · exact hpMin_pos
+
 /-- The finite Legendre rate function is nonnegative whenever the supremum is finite. -/
 theorem finiteRateFunction_nonneg
     (μ : PMF α) (score : α → ℝ) (a : ℝ)
@@ -1126,6 +1491,18 @@ theorem finiteRateFunction_nonneg
     0 ≤ finiteRateFunction μ score a := by
   have hzero := finiteRateFunction_ge_eval μ score a 0 hbdd
   simpa [finiteLegendreValue, finiteLogMGF_zero] using hzero
+
+/--
+The legacy real Legendre wrapper is nonnegative both when its supremum is
+bounded and when its default value is used for an unbounded range.
+-/
+theorem finiteRateFunction_nonneg_or_default
+    (μ : PMF α) (score : α → ℝ) (a : ℝ) :
+    0 ≤ finiteRateFunction μ score a := by
+  by_cases hbdd : BddAbove (Set.range fun z : ℝ =>
+      finiteLegendreValue μ score a z)
+  · exact finiteRateFunction_nonneg μ score a hbdd
+  · rw [finiteRateFunction, Real.sSup_of_not_bddAbove hbdd]
 
 /--
 If the finite log-MGF derivative at `z0` is `a`, then the Legendre values at

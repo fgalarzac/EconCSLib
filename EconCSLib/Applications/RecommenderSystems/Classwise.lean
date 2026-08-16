@@ -39,6 +39,12 @@ structure FiberRepresentatives {α κ : Type*} (τ : α → κ) where
   repr : κ → α
   repr_spec : ∀ k, τ (repr k) = k
 
+/-- A surjective classification map has a chosen representative in every fiber. -/
+noncomputable def FiberRepresentatives.ofSurjective {α κ : Type*}
+    {τ : α → κ} (hτ : Function.Surjective τ) : FiberRepresentatives τ where
+  repr := fun k => Classical.choose (hτ k)
+  repr_spec := fun k => Classical.choose_spec (hτ k)
+
 /-- Descend a policy on `α` to the class space `κ` by evaluating it on representatives. -/
 def descendAlong {α κ β : Type*} {τ : α → κ}
     (reps : FiberRepresentatives τ) (ρ : Policy α β) : Policy κ β :=

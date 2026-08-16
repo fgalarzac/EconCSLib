@@ -1196,6 +1196,24 @@ theorem measurableSet_union_three_ioo
 /-- Probability mass of a trip-length acceptance set under the trip distribution. -/
 def singleStateTripMass (μ : Measure TripLength) (σ : TripPolicy) : ℝ := (μ σ).toReal
 
+/-- The empty policy has zero accepted-trip mass. -/
+theorem singleStateTripMass_empty (μ : Measure TripLength) :
+    singleStateTripMass μ (∅ : TripPolicy) = 0 := by
+  simp [singleStateTripMass]
+
+/-- Zero real trip mass on a finite-measure accepted set forces measure zero. -/
+theorem measure_zero_of_singleStateTripMass_eq_zero_of_ne_top
+    {μ : Measure TripLength} {σ : TripPolicy}
+    (hmass : singleStateTripMass μ σ = 0)
+    (hfinite : μ σ ≠ ⊤) :
+    μ σ = 0 := by
+  have hzero_or_top : μ σ = 0 ∨ μ σ = ⊤ := by
+    simpa [singleStateTripMass] using
+      (ENNReal.toReal_eq_zero_iff (μ σ)).mp hmass
+  rcases hzero_or_top with hzero | htop
+  · exact hzero
+  · exact False.elim (hfinite htop)
+
 /-- Expected trip time contributed by an accepted trip-length set. -/
 def singleStateTripTime (μ : Measure TripLength) (σ : TripPolicy) : ℝ := ∫ τ in σ, τ ∂μ
 
@@ -1662,6 +1680,60 @@ theorem singleStateTripPayment_acceptAll_pos_of_rate_nonneg_of_positive_payout_m
     (setIntegral_pos_iff_support_of_nonneg_ae hnonneg_ae
       hw_integrable_acceptAll).2 hsupport_pos
 
+/--
+If positive payouts have zero measure on the feasible domain, every feasible
+policy has zero expected payment.  Together with nonnegative on-trip rates,
+this is the zero-payout branch omitted by the compact positive-payment proof.
+-/
+theorem singleStateTripPayment_eq_zero_of_zero_positive_payout_mass
+    (μ : Measure TripLength) (w : PricingFunction) (σ : TripPolicy)
+    (hrate_nonneg : ∀ τ : TripLength, 0 < τ → 0 ≤ w τ / τ)
+    (hσ_subset : σ ⊆ acceptAllPolicy)
+    (hzero :
+      μ {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ} = 0) :
+    singleStateTripPayment μ w σ = 0 := by
+  unfold singleStateTripPayment
+  apply setIntegral_eq_zero_of_ae_eq_zero
+  rw [ae_iff]
+  apply measure_mono_null _ hzero
+  intro τ hτ
+  change ¬ (τ ∈ σ → w τ = 0) at hτ
+  change τ ∈ acceptAllPolicy ∧ 0 < w τ
+  have hτ_sigma : τ ∈ σ := by
+    by_contra hnot
+    apply hτ
+    intro hmem
+    exact False.elim (hnot hmem)
+  have hw_ne : w τ ≠ 0 := by
+    intro hw_zero
+    exact hτ (fun _ => hw_zero)
+  have hτ_accept : τ ∈ acceptAllPolicy := hσ_subset hτ_sigma
+  have hτ_pos : 0 < τ := by
+    simpa [acceptAllPolicy, positiveTripLengths] using hτ_accept
+  have hw_nonneg : 0 ≤ w τ := by
+    have hmul := mul_nonneg (hrate_nonneg τ hτ_pos) (le_of_lt hτ_pos)
+    have hτ_ne : τ ≠ 0 := ne_of_gt hτ_pos
+    field_simp [hτ_ne] at hmul
+    simpa [mul_comm] using hmul
+  exact ⟨hτ_accept, lt_of_le_of_ne hw_nonneg (Ne.symm hw_ne)⟩
+
+/--
+Under the zero-positive-payout branch, every feasible policy has zero
+single-state renewal reward.
+-/
+theorem singleStateRenewalReward_eq_zero_of_zero_positive_payout_mass
+    (μ : Measure TripLength) (arrivalRate : ℝ) (w : PricingFunction)
+    (σ : TripPolicy)
+    (hrate_nonneg : ∀ τ : TripLength, 0 < τ → 0 ≤ w τ / τ)
+    (hσ_subset : σ ⊆ acceptAllPolicy)
+    (hzero :
+      μ {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ} = 0) :
+    singleStateRenewalReward μ arrivalRate w σ = 0 := by
+  unfold singleStateRenewalReward
+  rw [singleStateTripPayment_eq_zero_of_zero_positive_payout_mass
+    μ w σ hrate_nonneg hσ_subset hzero]
+  simp
+
 /-- Renewal reward is positive when arrival rate and expected accepted payment are positive. -/
 theorem singleStateRenewalReward_pos_of_payment_pos
     (μ : Measure TripLength) (arrivalRate : ℝ) (w : PricingFunction)
@@ -1838,6 +1910,24 @@ def strictThresholdPolicy (w : PricingFunction) (c : ℝ) : TripPolicy := Set.Io
 
 /-- Canonical complete-threshold set, accepting trips with rate weakly above `c`. -/
 def completeThresholdPolicy (w : PricingFunction) (c : ℝ) : TripPolicy := Set.Ioi (0 : ℝ) ∩ {τ : TripLength | c ≤ w τ / τ}
+
+/--
+In the zero-positive-payout branch, the strict cutoff-zero policy has zero
+measure: every trip it accepts has strictly positive payment.
+-/
+theorem strictThresholdPolicy_zero_measure_of_zero_positive_payout_mass
+    (μ : Measure TripLength) (w : PricingFunction)
+    (hzero :
+      μ {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ} = 0) :
+    μ (strictThresholdPolicy w 0) = 0 := by
+  apply measure_mono_null _ hzero
+  intro τ hτ
+  refine ⟨hτ.1, ?_⟩
+  have hτ_pos : 0 < τ := hτ.1
+  have hmul := mul_pos hτ.2 hτ_pos
+  have hτ_ne : τ ≠ 0 := ne_of_gt hτ_pos
+  field_simp [hτ_ne] at hmul
+  simpa [mul_comm] using hmul
 
 /-- Canonical threshold boundary set, where the on-trip rate equals `c`. -/
 def thresholdBoundaryPolicy (w : PricingFunction) (c : ℝ) : TripPolicy := Set.Ioi (0 : ℝ) ∩ {τ : TripLength | w τ / τ = c}
@@ -4903,6 +4993,33 @@ def affinePricing (m a : ℝ) : PricingFunction := fun τ => m * τ + a
 /-- Multiplicative pricing `w(τ)=mτ`, the single-state special case discussed in Section 3.1. -/
 def multiplicativePricing (m : ℝ) : PricingFunction := fun τ => m * τ
 
+/-- Multiplicative prices are continuous in trip length. -/
+theorem continuous_multiplicativePricing (m : ℝ) :
+    Continuous (multiplicativePricing m) := by
+  unfold multiplicativePricing
+  exact continuous_const.mul continuous_id
+
+/-- Multiplicative prices are integrable on a policy set whenever trip time is. -/
+theorem integrableOn_multiplicativePricing
+    (μ : Measure TripLength)
+    (m : ℝ)
+    (σ : TripPolicy)
+    (htime_integrable :
+      IntegrableOn (fun τ : TripLength => τ) σ μ) :
+    IntegrableOn (multiplicativePricing m) σ μ := by
+  unfold multiplicativePricing
+  exact htime_integrable.const_mul m
+
+/-- Multiplicative set payment is the multiplier times accepted trip time. -/
+theorem singleStateTripPayment_multiplicativePricing
+    (μ : Measure TripLength)
+    (m : ℝ)
+    (σ : TripPolicy) :
+    singleStateTripPayment μ (multiplicativePricing m) σ =
+      m * singleStateTripTime μ σ := by
+  unfold singleStateTripPayment multiplicativePricing singleStateTripTime
+  rw [integral_const_mul]
+
 /-- The affine on-trip rate `w(τ)/τ` is measurable. -/
 theorem measurable_affinePricing_rate (m a : ℝ) :
     Measurable (fun τ : TripLength => affinePricing m a τ / τ) := by
@@ -7149,6 +7266,43 @@ theorem paper_theorem1_single_state_threshold_best_response_measurable_of_positi
         μ w hw_integrable_acceptAll hrate_nonneg hpositive_payout_mass)
 
 /--
+Theorem 1 with its zero-payout case formalized explicitly.  The positive
+branch uses the compactness proof; when positive payouts have zero feasible
+mass, every feasible policy has reward zero and cutoff zero is optimal.
+-/
+theorem paper_theorem1_single_state_threshold_best_response_measurable_of_nonnegative_rate
+    (μ : Measure TripLength) (arrivalRate : ℝ) (w : PricingFunction)
+    (hrate_measurable : Measurable (fun τ : TripLength => w τ / τ))
+    (hrate_nonneg : ∀ τ : TripLength, 0 < τ → 0 ≤ w τ / τ)
+    (hfinite_acceptAll : μ acceptAllPolicy ≠ ⊤)
+    (hw_integrable_acceptAll : IntegrableOn w acceptAllPolicy μ)
+    (htime_integrable_acceptAll :
+      IntegrableOn (fun τ : TripLength => τ) acceptAllPolicy μ)
+    (hlambda : 0 < arrivalRate) :
+    ∃ c : ℝ, 0 ≤ c ∧ ∃ σ : TripPolicy,
+      thresholdRatePolicy w c σ ∧
+        singleStateMeasurableOptimal
+          (singleStateRenewalReward μ arrivalRate w) σ := by
+  by_cases hpositive : 0 < μ {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ}
+  · exact
+      paper_theorem1_single_state_threshold_best_response_measurable_of_positive_payout_mass
+        μ arrivalRate w hrate_measurable hrate_nonneg hfinite_acceptAll
+        hw_integrable_acceptAll htime_integrable_acceptAll hlambda hpositive
+  · have hzero :
+        μ {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ} = 0 :=
+      nonpos_iff_eq_zero.mp (not_lt.mp hpositive)
+    refine ⟨0, le_rfl, completeThresholdPolicy w 0,
+      thresholdRatePolicy_completeThresholdPolicy w 0, ?_⟩
+    refine ⟨completeThresholdPolicy_subset_acceptAll w 0,
+      measurableSet_completeThresholdPolicy w 0 hrate_measurable, ?_⟩
+    intro ρ hρ_subset hρ_measurable
+    rw [singleStateRenewalReward_eq_zero_of_zero_positive_payout_mass
+      μ arrivalRate w ρ hrate_nonneg hρ_subset hzero]
+    rw [singleStateRenewalReward_eq_zero_of_zero_positive_payout_mass
+      μ arrivalRate w (completeThresholdPolicy w 0) hrate_nonneg
+      (completeThresholdPolicy_subset_acceptAll w 0) hzero]
+
+/--
 Theorem 1, conditional source-facing wrapper: given the continuous
 renewal-reward threshold certificate, an optimal threshold policy exists.
 -/
@@ -8054,6 +8208,73 @@ theorem paper_lemma4_single_state_threshold_mass_zero_uniqueness_measurable_of_p
       (singleStateTripPayment_acceptAll_pos_of_rate_nonneg_of_positive_payout_mass
         μ w hw_integrable_acceptAll hrate_nonneg hpositive_payout_mass)
 
+/--
+Lemma 4 with its zero-payout case formalized explicitly.  At zero positive
+payout mass, the complete cutoff-zero policy is accept-all and every feasible
+policy has reward zero; the strict cutoff-zero portion is null.
+-/
+theorem paper_lemma4_single_state_threshold_mass_zero_uniqueness_measurable_of_nonnegative_rate
+    (μ : Measure TripLength) (arrivalRate : ℝ) (w : PricingFunction)
+    (hrate_measurable : Measurable (fun τ : TripLength => w τ / τ))
+    (hrate_nonneg : ∀ τ : TripLength, 0 < τ → 0 ≤ w τ / τ)
+    (hfinite_acceptAll : μ acceptAllPolicy ≠ ⊤)
+    (hw_integrable_acceptAll : IntegrableOn w acceptAllPolicy μ)
+    (htime_integrable_acceptAll :
+      IntegrableOn (fun τ : TripLength => τ) acceptAllPolicy μ)
+    (hlambda : 0 < arrivalRate) :
+    ∃ cstar : ℝ, 0 ≤ cstar ∧ ∃ σstar : TripPolicy,
+      thresholdRatePolicy w cstar σstar ∧
+        singleStateRenewalReward μ arrivalRate w σstar = cstar ∧
+        singleStateMeasurableOptimal
+          (singleStateRenewalReward μ arrivalRate w) σstar ∧
+        ∀ ρ : TripPolicy, ρ ⊆ acceptAllPolicy → MeasurableSet ρ →
+          singleStateMeasurableOptimal
+            (singleStateRenewalReward μ arrivalRate w) ρ →
+            singleStateTripMass μ (strictThresholdPolicy w cstar \ ρ) = 0 ∧
+              singleStateTripMass μ (ρ \ completeThresholdPolicy w cstar) = 0 := by
+  by_cases hpositive : 0 < μ {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ}
+  · exact
+      paper_lemma4_single_state_threshold_mass_zero_uniqueness_measurable_of_positive_payout_mass
+        μ arrivalRate w hrate_measurable hrate_nonneg hfinite_acceptAll
+        hw_integrable_acceptAll htime_integrable_acceptAll hlambda hpositive
+  · have hzero :
+        μ {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ} = 0 :=
+      nonpos_iff_eq_zero.mp (not_lt.mp hpositive)
+    have hcomplete_eq : completeThresholdPolicy w 0 = acceptAllPolicy :=
+      completeThresholdPolicy_eq_acceptAll_of_nonneg_rate_of_nonpos
+        w 0 hrate_nonneg le_rfl
+    have hcomplete_optimal :
+        singleStateMeasurableOptimal
+          (singleStateRenewalReward μ arrivalRate w)
+          (completeThresholdPolicy w 0) := by
+      refine ⟨completeThresholdPolicy_subset_acceptAll w 0,
+        measurableSet_completeThresholdPolicy w 0 hrate_measurable, ?_⟩
+      intro ρ hρ_subset hρ_measurable
+      rw [singleStateRenewalReward_eq_zero_of_zero_positive_payout_mass
+        μ arrivalRate w ρ hrate_nonneg hρ_subset hzero]
+      rw [singleStateRenewalReward_eq_zero_of_zero_positive_payout_mass
+        μ arrivalRate w (completeThresholdPolicy w 0) hrate_nonneg
+        (completeThresholdPolicy_subset_acceptAll w 0) hzero]
+    refine ⟨0, le_rfl, completeThresholdPolicy w 0,
+      thresholdRatePolicy_completeThresholdPolicy w 0,
+      singleStateRenewalReward_eq_zero_of_zero_positive_payout_mass
+        μ arrivalRate w (completeThresholdPolicy w 0) hrate_nonneg
+        (completeThresholdPolicy_subset_acceptAll w 0) hzero,
+      hcomplete_optimal, ?_⟩
+    intro ρ hρ_subset _hρ_measurable _hρ_optimal
+    constructor
+    · have hstrict_zero : μ (strictThresholdPolicy w 0) = 0 :=
+        strictThresholdPolicy_zero_measure_of_zero_positive_payout_mass
+          μ w hzero
+      have hdiff_zero : μ (strictThresholdPolicy w 0 \ ρ) = 0 :=
+        measure_mono_null Set.diff_subset hstrict_zero
+      simp [singleStateTripMass, hdiff_zero]
+    · have hdiff_empty : ρ \ completeThresholdPolicy w 0 = ∅ := by
+        rw [hcomplete_eq]
+        exact Set.diff_eq_empty.mpr hρ_subset
+      rw [hdiff_empty]
+      exact singleStateTripMass_empty μ
+
 /-- Two threshold policies agree away from the boundary set `w(τ)/τ = c`. -/
 def agreesAwayFromThresholdBoundary
     (w : PricingFunction) (c : ℝ) (σ ρ : TripPolicy) : Prop := ∀ ⦃τ : TripLength⦄, 0 < τ → w τ / τ ≠ c → (τ ∈ σ ↔ τ ∈ ρ)
@@ -8385,6 +8606,18 @@ theorem dynamicFeasibleMeasurablePolicy_acceptAll :
   intro i
   exact ⟨fun _ hτ => hτ, measurableSet_acceptAllPolicy⟩
 
+/-- The empty dynamic policy accepts no trip in either state. -/
+def emptyDynamicPolicy : Fin 2 → TripPolicy := fun _ => ∅
+
+/-- The empty dynamic policy is feasible and measurable in both states. -/
+theorem dynamicFeasibleMeasurablePolicy_empty :
+    dynamicFeasibleMeasurablePolicy emptyDynamicPolicy := by
+  intro i
+  constructor
+  · intro τ hτ
+    exact False.elim hτ
+  · simp [emptyDynamicPolicy]
+
 /-- Replacing one state by accept-all preserves feasible measurability. -/
 theorem dynamicFeasibleMeasurablePolicy_update_acceptAll
     {σ : Fin 2 → TripPolicy}
@@ -8473,6 +8706,26 @@ def dynamicMeasurableOptimal
   dynamicFeasibleMeasurablePolicy σ ∧
     ∀ ρ : Fin 2 → TripPolicy,
       dynamicFeasibleMeasurablePolicy ρ → R ρ ≤ R σ
+
+/--
+Constant dynamic reward functional.  This is not a GN21 pricing model; it is a
+boundary case used to keep abstract dynamic-reward statements from claiming
+model-specific policy shapes without the measured multiplicative hypotheses.
+-/
+def constantDynamicReward (c : ℝ) : DynamicReward := fun _ => c
+
+/--
+Under a constant dynamic reward, every feasible measurable dynamic policy is
+optimal.  Any Theorem 2 policy-shape claim over an arbitrary `DynamicReward`
+therefore needs a source-model construction, not just the optimizer predicate.
+-/
+theorem dynamicMeasurableOptimal_constantDynamicReward
+    (c : ℝ) {σ : Fin 2 → TripPolicy}
+    (hσ : dynamicFeasibleMeasurablePolicy σ) :
+    dynamicMeasurableOptimal (constantDynamicReward c) σ := by
+  refine ⟨hσ, ?_⟩
+  intro ρ _hρ
+  simp [constantDynamicReward]
 
 /--
 Dynamic measurable IC predicate: accepting all trips in both states is optimal
@@ -9323,6 +9576,12 @@ def gn21ExitWeightIntegral
     (μ : Measure TripLength) (arrivalRate switchIJ switchJI : ℝ)
     (σ : TripPolicy) : ℝ := switchIJ + arrivalRate * ∫ τ in σ, gn21SwitchProb switchIJ switchJI τ ∂μ
 
+/-- With no accepted trips, the Appendix D exit weight is the raw switch rate. -/
+theorem gn21ExitWeightIntegral_empty
+    (μ : Measure TripLength) (arrivalRate switchIJ switchJI : ℝ) :
+    gn21ExitWeightIntegral μ arrivalRate switchIJ switchJI (∅ : TripPolicy) = switchIJ := by
+  simp [gn21ExitWeightIntegral]
+
 /-- Exit weights are at least the raw switch rate under nonnegative arrivals and feasible trips. -/
 theorem gn21ExitWeightIntegral_ge_switch_of_nonneg
     (μ : Measure TripLength) (arrivalRate switchIJ switchJI : ℝ)
@@ -9364,6 +9623,15 @@ Appendix D scaled state time `T_i = λ_i F_i(σ_i)T_i(σ_i) =
 -/
 def gn21ScaledStateTime
     (μ : Measure TripLength) (arrivalRate : ℝ) (σ : TripPolicy) : ℝ := 1 + arrivalRate * singleStateTripTime μ σ
+
+/--
+With no accepted trips, Appendix D's scaled state-time primitive is one:
+the driver remains available while waiting for a state transition.
+-/
+theorem gn21ScaledStateTime_empty
+    (μ : Measure TripLength) (arrivalRate : ℝ) :
+    gn21ScaledStateTime μ arrivalRate (∅ : TripPolicy) = 1 := by
+  simp [gn21ScaledStateTime, singleStateTripTime]
 
 /-- Scaled state time is monotone among feasible policies under nonnegative arrivals. -/
 theorem gn21ScaledStateTime_le_acceptAll_of_subset
@@ -9409,6 +9677,37 @@ theorem gn21ScaledStateTime_pos_of_nonneg
 def gn21ScaledStateEarning
     (μ : Measure TripLength) (arrivalRate : ℝ)
     (w : PricingFunction) (σ : TripPolicy) : ℝ := arrivalRate * singleStateTripPayment μ w σ
+
+/-- A measure-zero accepted set contributes zero to Appendix D's scaled earning. -/
+theorem gn21ScaledStateEarning_eq_zero_of_measure_zero
+    (μ : Measure TripLength) (arrivalRate : ℝ)
+    (w : PricingFunction) (σ : TripPolicy)
+    (hmeasure_zero : μ σ = 0) :
+    gn21ScaledStateEarning μ arrivalRate w σ = 0 := by
+  unfold gn21ScaledStateEarning
+  rw [singleStateTripPayment_eq_zero_of_measure_zero μ w σ hmeasure_zero]
+  ring
+
+/-- The empty accepted set contributes zero to Appendix D's scaled earning. -/
+theorem gn21ScaledStateEarning_empty
+    (μ : Measure TripLength) (arrivalRate : ℝ)
+    (w : PricingFunction) :
+    gn21ScaledStateEarning μ arrivalRate w (∅ : TripPolicy) = 0 := by
+  simp [gn21ScaledStateEarning, singleStateTripPayment]
+
+/--
+Under multiplicative pricing, scaled state earning is the multiplier times
+scaled state trip time.
+-/
+theorem gn21ScaledStateEarning_multiplicativePricing
+    (μ : Measure TripLength)
+    (arrivalRate m : ℝ)
+    (σ : TripPolicy) :
+    gn21ScaledStateEarning μ arrivalRate (multiplicativePricing m) σ =
+      m * (gn21ScaledStateTime μ arrivalRate σ - 1) := by
+  unfold gn21ScaledStateEarning gn21ScaledStateTime
+  rw [singleStateTripPayment_multiplicativePricing]
+  ring
 
 /-- Exit-weight integral over a disjoint union of accepted trip-length sets. -/
 theorem gn21ExitWeightIntegral_union
@@ -10591,6 +10890,45 @@ theorem paper_remark4_switch_time_minus_switch_probability_nonneg
           ((lambdaIJ + lambdaJI) * τ) = lambdaIJ * τ := by
     field_simp [ne_of_gt hsum]
   linarith
+
+/--
+Switch-probability integrability follows from trip-time integrability on a
+feasible positive-time policy set.  This is the measured form of the Remark 4
+domination `q_{i→j}(τ) ≤ λ_{i→j} τ`.
+-/
+theorem integrableOn_gn21SwitchProb_of_time_integrable
+    (μ : Measure TripLength)
+    (switchIJ switchJI : ℝ)
+    (σ : TripPolicy)
+    (hswitch_nonneg : 0 ≤ switchIJ)
+    (hsum : 0 < switchIJ + switchJI)
+    (hσ_subset : σ ⊆ acceptAllPolicy)
+    (hσ_measurable : MeasurableSet σ)
+    (htime_integrable :
+      IntegrableOn (fun τ : TripLength => τ) σ μ) :
+    IntegrableOn
+      (fun τ : TripLength => gn21SwitchProb switchIJ switchJI τ) σ μ := by
+  refine
+    (htime_integrable.const_mul switchIJ).mono'
+      (continuous_gn21SwitchProb switchIJ switchJI).measurable.aestronglyMeasurable
+      ?_
+  filter_upwards [ae_restrict_mem hσ_measurable] with τ hτ
+  have hτ_pos : 0 < τ := by
+    exact hσ_subset hτ
+  have hq_nonneg :
+      0 ≤ gn21SwitchProb switchIJ switchJI τ :=
+    paper_lemma2_switch_probability_nonneg switchIJ switchJI τ
+      hswitch_nonneg hsum (le_of_lt hτ_pos)
+  have hq_le :
+      gn21SwitchProb switchIJ switchJI τ ≤ switchIJ * τ := by
+    have hgap :=
+      paper_remark4_switch_time_minus_switch_probability_nonneg
+        switchIJ switchJI τ hswitch_nonneg hsum (le_of_lt hτ_pos)
+    linarith
+  have hmul_nonneg : 0 ≤ switchIJ * τ :=
+    mul_nonneg hswitch_nonneg (le_of_lt hτ_pos)
+  simpa [Real.norm_of_nonneg hq_nonneg, Real.norm_of_nonneg hmul_nonneg]
+    using hq_le
 
 /--
 Remark 4 strict pointwise inequality: for positive elapsed time, the CTMC
@@ -13837,6 +14175,20 @@ theorem sameStrictSign_neg_left {x y : ℝ}
     (h : sameStrictSign x y) (hy : y < 0) :
     x < 0 := h.2.mpr hy
 
+/-- Transport a nonpositive bound across a strict-sign equivalence. -/
+theorem sameStrictSign_nonpos_right {x y : ℝ}
+    (h : sameStrictSign x y) (hx : x ≤ 0) :
+    y ≤ 0 := by
+  by_contra hy
+  exact (not_lt_of_ge hx) (sameStrictSign_pos_left h (lt_of_not_ge hy))
+
+/-- Transport a nonnegative bound across a strict-sign equivalence. -/
+theorem sameStrictSign_nonneg_right {x y : ℝ}
+    (h : sameStrictSign x y) (hx : 0 ≤ x) :
+    0 ≤ y := by
+  by_contra hy
+  exact (not_lt_of_ge hx) (sameStrictSign_neg_left h (lt_of_not_ge hy))
+
 /-- Same strict sign is transitive. -/
 theorem sameStrictSign_trans {x y z : ℝ}
     (hxy : sameStrictSign x y) (hyz : sameStrictSign y z) :
@@ -14008,6 +14360,31 @@ theorem endpoint_path_lt_of_hasDerivAt_pos_on_Icc
     f a < f b :=
   EconCSLib.Optimization.endpoint_path_lt_of_hasDerivAt_pos_on_Icc
     hab hf hderiv hderiv_pos
+
+/--
+Pointwise derivative witnesses suffice for strict endpoint-path improvement;
+the derivative need not be named by one global formula.
+-/
+theorem endpoint_path_lt_of_exists_hasDerivAt_pos_on_Icc
+    {f : ℝ → ℝ} {a b : ℝ}
+    (hab : a < b)
+    (hf : ContinuousOn f (Set.Icc a b))
+    (hderiv :
+      ∀ x ∈ Set.Ioo a b,
+        ∃ derivativeValue : ℝ,
+          HasDerivAt f derivativeValue x ∧ 0 < derivativeValue) :
+    f a < f b := by
+  classical
+  let f' : ℝ → ℝ := fun x =>
+    if hx : x ∈ Set.Ioo a b then (hderiv x hx).choose else 0
+  apply endpoint_path_lt_of_hasDerivAt_pos_on_Icc
+      (f' := f') hab hf
+  · intro x hx
+    simp only [f', dif_pos hx]
+    exact (hderiv x hx).choose_spec.1
+  · intro x hx
+    simp only [f', dif_pos hx]
+    exact (hderiv x hx).choose_spec.2
 
 /--
 Global endpoint calculus bridge for nonpositive derivative: moving from the
@@ -24215,6 +24592,27 @@ theorem GN21WithDensityAcceptAllSupport.density_pos_of_pos
   exact_mod_cast hpos
 
 /--
+The accept-all support package gives positive real accepted-trip mass to the
+accept-all policy.  This is an internal bridge from the source density support
+primitives to the nondegenerate reward-rate domain; paper-facing statements
+should still expose the primitive support facts rather than hide them in this
+record.
+-/
+theorem GN21WithDensityAcceptAllSupport.singleStateTripMass_acceptAll_pos
+    {μ : Measure TripLength}
+    (D : GN21WithDensityAcceptAllSupport μ) :
+    0 < singleStateTripMass μ acceptAllPolicy := by
+  rw [D.hμ]
+  exact
+    singleStateTripMass_withDensity_pos_of_pos_on
+      (fun τ => (D.densityNN τ : ℝ≥0∞))
+      (measurable_coe_nnreal_ennreal.comp D.hdensity_meas)
+      measurableSet_acceptAllPolicy
+      (by simp [acceptAllPolicy, positiveTripLengths, positiveRealAcceptAll])
+      D.hfinite_acceptAll
+      (fun τ hτ => by simpa using D.hpos_acceptAll τ hτ)
+
+/--
 If a positive-volume measurable set lies inside a target set and inside
 accept-all, then the support package gives positive target measure.
 -/
@@ -28579,6 +28977,38 @@ def Lemma5PositiveResponsePolicyFormData.positive
 Structured CTMC one-threshold Lemma 5 policy-form package for the decreasing
 response branch.
 -/
+def gn21StructuredLemma6ResponseShapeData_strictlyDecreasing
+    (m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI t : ℝ)
+    (hcoeff_pos :
+      0 < (Rj - Ri) + z * (Qi / Ti + Qj / Tj))
+    (hlambdaIJ : 0 < lambdaIJ)
+    (hsum : 0 < lambdaIJ + lambdaJI)
+    (ht_pos : 0 < t)
+    (hzero :
+      gn21Lemma6Response (gn21SwitchProb lambdaIJ lambdaJI t) t
+          (m * t + z * gn21SwitchProb lambdaIJ lambdaJI t)
+          Qi Qj Ti Tj Ri Rj = 0) :
+    Lemma5PositiveResponseShapeData
+      (fun u : TripLength =>
+        gn21Lemma6Response (gn21SwitchProb lambdaIJ lambdaJI u) u
+          (m * u + z * gn21SwitchProb lambdaIJ lambdaJI u)
+          Qi Qj Ti Tj Ri Rj)
+      .strictlyDecreasing :=
+  Lemma5PositiveResponseShapeData.strictlyDecreasing
+    (response := fun u : TripLength =>
+      gn21Lemma6Response (gn21SwitchProb lambdaIJ lambdaJI u) u
+        (m * u + z * gn21SwitchProb lambdaIJ lambdaJI u)
+        Qi Qj Ti Tj Ri Rj)
+    t ht_pos
+    (strictAntiOn_gn21Lemma6Response_structured_ctmc_of_coeff_pos
+      m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI hcoeff_pos
+      hlambdaIJ hsum)
+    hzero
+
+/--
+Structured CTMC one-threshold Lemma 5 policy-form package for the decreasing
+response branch.
+-/
 def gn21StructuredLemma6ResponsePolicyFormData_strictlyDecreasing
     (m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI t : ℝ)
     (hcoeff_pos :
@@ -28597,16 +29027,41 @@ def gn21StructuredLemma6ResponsePolicyFormData_strictlyDecreasing
           Qi Qj Ti Tj Ri Rj)
       .strictlyDecreasing :=
   Lemma5PositiveResponsePolicyFormData.of_shapeData
-    (Lemma5PositiveResponseShapeData.strictlyDecreasing
-      (response := fun u : TripLength =>
+    (gn21StructuredLemma6ResponseShapeData_strictlyDecreasing
+      m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI t hcoeff_pos hlambdaIJ
+      hsum ht_pos hzero)
+
+/--
+Structured CTMC one-threshold Lemma 5 policy-form package for the increasing
+response branch.
+-/
+def gn21StructuredLemma6ResponseShapeData_strictlyIncreasing
+    (m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI t : ℝ)
+    (hcoeff_neg :
+      (Rj - Ri) + z * (Qi / Ti + Qj / Tj) < 0)
+    (hlambdaIJ : 0 < lambdaIJ)
+    (hsum : 0 < lambdaIJ + lambdaJI)
+    (ht_pos : 0 < t)
+    (hzero :
+      gn21Lemma6Response (gn21SwitchProb lambdaIJ lambdaJI t) t
+          (m * t + z * gn21SwitchProb lambdaIJ lambdaJI t)
+          Qi Qj Ti Tj Ri Rj = 0) :
+    Lemma5PositiveResponseShapeData
+      (fun u : TripLength =>
         gn21Lemma6Response (gn21SwitchProb lambdaIJ lambdaJI u) u
           (m * u + z * gn21SwitchProb lambdaIJ lambdaJI u)
           Qi Qj Ti Tj Ri Rj)
-      t ht_pos
-      (strictAntiOn_gn21Lemma6Response_structured_ctmc_of_coeff_pos
-        m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI hcoeff_pos
-        hlambdaIJ hsum)
-      hzero)
+      .strictlyIncreasing :=
+  Lemma5PositiveResponseShapeData.strictlyIncreasing
+    (response := fun u : TripLength =>
+      gn21Lemma6Response (gn21SwitchProb lambdaIJ lambdaJI u) u
+        (m * u + z * gn21SwitchProb lambdaIJ lambdaJI u)
+        Qi Qj Ti Tj Ri Rj)
+    t ht_pos
+    (strictMonoOn_gn21Lemma6Response_structured_ctmc_of_coeff_neg
+      m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI hcoeff_neg
+      hlambdaIJ hsum)
+    hzero
 
 /--
 Structured CTMC one-threshold Lemma 5 policy-form package for the increasing
@@ -28630,16 +29085,46 @@ def gn21StructuredLemma6ResponsePolicyFormData_strictlyIncreasing
           Qi Qj Ti Tj Ri Rj)
       .strictlyIncreasing :=
   Lemma5PositiveResponsePolicyFormData.of_shapeData
-    (Lemma5PositiveResponseShapeData.strictlyIncreasing
-      (response := fun u : TripLength =>
+    (gn21StructuredLemma6ResponseShapeData_strictlyIncreasing
+      m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI t hcoeff_neg hlambdaIJ
+      hsum ht_pos hzero)
+
+/--
+Structured CTMC decreasing one-threshold package when the source proof gives a
+positive-interval sign bracket instead of an explicit zero cutoff.
+-/
+noncomputable def gn21StructuredLemma6ResponseShapeData_strictlyDecreasing_of_bracket
+    (m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI a b : ℝ)
+    (hcoeff_pos :
+      0 < (Rj - Ri) + z * (Qi / Ti + Qj / Tj))
+    (hlambdaIJ : 0 < lambdaIJ)
+    (hsum : 0 < lambdaIJ + lambdaJI)
+    (ha_pos : 0 < a)
+    (hab : a ≤ b)
+    (hleft :
+      0 ≤
+        gn21Lemma6Response (gn21SwitchProb lambdaIJ lambdaJI a) a
+          (m * a + z * gn21SwitchProb lambdaIJ lambdaJI a)
+          Qi Qj Ti Tj Ri Rj)
+    (hright :
+      gn21Lemma6Response (gn21SwitchProb lambdaIJ lambdaJI b) b
+          (m * b + z * gn21SwitchProb lambdaIJ lambdaJI b)
+          Qi Qj Ti Tj Ri Rj ≤
+        0) :
+    Lemma5PositiveResponseShapeData
+      (fun u : TripLength =>
         gn21Lemma6Response (gn21SwitchProb lambdaIJ lambdaJI u) u
           (m * u + z * gn21SwitchProb lambdaIJ lambdaJI u)
           Qi Qj Ti Tj Ri Rj)
-      t ht_pos
-      (strictMonoOn_gn21Lemma6Response_structured_ctmc_of_coeff_neg
-        m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI hcoeff_neg
-        hlambdaIJ hsum)
-      hzero)
+      .strictlyDecreasing := by
+  classical
+  rcases exists_gn21Lemma6Response_structured_ctmc_zero_of_bracket
+      m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI a b ha_pos hab hleft hright
+    with ⟨t, ht_pos, hzero⟩
+  exact
+    gn21StructuredLemma6ResponseShapeData_strictlyDecreasing
+      m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI t hcoeff_pos hlambdaIJ
+      hsum ht_pos hzero
 
 /--
 Structured CTMC decreasing one-threshold package when the source proof gives a
@@ -28668,14 +29153,47 @@ noncomputable def gn21StructuredLemma6ResponsePolicyFormData_strictlyDecreasing_
         gn21Lemma6Response (gn21SwitchProb lambdaIJ lambdaJI u) u
           (m * u + z * gn21SwitchProb lambdaIJ lambdaJI u)
           Qi Qj Ti Tj Ri Rj)
-      .strictlyDecreasing := by
+      .strictlyDecreasing :=
+  Lemma5PositiveResponsePolicyFormData.of_shapeData
+    (gn21StructuredLemma6ResponseShapeData_strictlyDecreasing_of_bracket
+      m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI a b hcoeff_pos hlambdaIJ
+      hsum ha_pos hab hleft hright)
+
+/--
+Structured CTMC increasing one-threshold package when the source proof gives a
+negative-to-positive sign bracket instead of an explicit zero cutoff.
+-/
+noncomputable def gn21StructuredLemma6ResponseShapeData_strictlyIncreasing_of_bracket
+    (m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI a b : ℝ)
+    (hcoeff_neg :
+      (Rj - Ri) + z * (Qi / Ti + Qj / Tj) < 0)
+    (hlambdaIJ : 0 < lambdaIJ)
+    (hsum : 0 < lambdaIJ + lambdaJI)
+    (ha_pos : 0 < a)
+    (hab : a ≤ b)
+    (hleft :
+      gn21Lemma6Response (gn21SwitchProb lambdaIJ lambdaJI a) a
+          (m * a + z * gn21SwitchProb lambdaIJ lambdaJI a)
+          Qi Qj Ti Tj Ri Rj ≤
+        0)
+    (hright :
+      0 ≤
+        gn21Lemma6Response (gn21SwitchProb lambdaIJ lambdaJI b) b
+          (m * b + z * gn21SwitchProb lambdaIJ lambdaJI b)
+          Qi Qj Ti Tj Ri Rj) :
+    Lemma5PositiveResponseShapeData
+      (fun u : TripLength =>
+        gn21Lemma6Response (gn21SwitchProb lambdaIJ lambdaJI u) u
+          (m * u + z * gn21SwitchProb lambdaIJ lambdaJI u)
+          Qi Qj Ti Tj Ri Rj)
+      .strictlyIncreasing := by
   classical
-  rcases exists_gn21Lemma6Response_structured_ctmc_zero_of_bracket
+  rcases exists_gn21Lemma6Response_structured_ctmc_zero_of_reverse_bracket
       m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI a b ha_pos hab hleft hright
     with ⟨t, ht_pos, hzero⟩
   exact
-    gn21StructuredLemma6ResponsePolicyFormData_strictlyDecreasing
-      m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI t hcoeff_pos hlambdaIJ
+    gn21StructuredLemma6ResponseShapeData_strictlyIncreasing
+      m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI t hcoeff_neg hlambdaIJ
       hsum ht_pos hzero
 
 /--
@@ -28705,15 +29223,11 @@ noncomputable def gn21StructuredLemma6ResponsePolicyFormData_strictlyIncreasing_
         gn21Lemma6Response (gn21SwitchProb lambdaIJ lambdaJI u) u
           (m * u + z * gn21SwitchProb lambdaIJ lambdaJI u)
           Qi Qj Ti Tj Ri Rj)
-      .strictlyIncreasing := by
-  classical
-  rcases exists_gn21Lemma6Response_structured_ctmc_zero_of_reverse_bracket
-      m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI a b ha_pos hab hleft hright
-    with ⟨t, ht_pos, hzero⟩
-  exact
-    gn21StructuredLemma6ResponsePolicyFormData_strictlyIncreasing
-      m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI t hcoeff_neg hlambdaIJ
-      hsum ht_pos hzero
+      .strictlyIncreasing :=
+  Lemma5PositiveResponsePolicyFormData.of_shapeData
+    (gn21StructuredLemma6ResponseShapeData_strictlyIncreasing_of_bracket
+      m z Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI a b hcoeff_neg hlambdaIJ
+      hsum ha_pos hab hleft hright)
 
 /--
 Positive pointwise scaling on feasible trip lengths preserves the
@@ -37688,6 +38202,19 @@ def gn21MeasuredStateRewardRate
     (gn21StateCycleTime μ arrivalRate σ)
 
 /--
+The zero-numerator convention for the displayed state reward rate.  In
+particular, a policy with no accepted-payment contribution has state earning
+rate zero even when the source quotient's denominator is an endpoint value.
+-/
+theorem gn21MeasuredStateRewardRate_eq_zero_of_payment_zero
+    (μ : Measure TripLength) (arrivalRate : ℝ)
+    (w : PricingFunction) (σ : TripPolicy)
+    (hpayment : singleStateTripPayment μ w σ = 0) :
+    gn21MeasuredStateRewardRate μ arrivalRate w σ = 0 := by
+  simp [gn21MeasuredStateRewardRate, gn21StateRewardRate,
+    gn21StateMeanEarning, hpayment]
+
+/--
 The Appendix cycle-earning mean is the cycle-time mean multiplied by the
 single-state reward rate.
 -/
@@ -38829,6 +39356,57 @@ theorem gn21ScaledStateEarning_eq_reward_mul_scaled_time_of_measuredStateRewardR
     congrArg (fun x => x * gn21ScaledStateTime μ arrivalRate σ) hscaled
   field_simp [hscaledTime] at hmul
   exact hmul.symm
+
+/--
+Appendix-D rate algebra extended to the source's zero-acceptance endpoint.
+
+At positive accepted mass this is the usual quotient cancellation.  At zero
+accepted mass, the displayed rate is totalized to zero because its payment
+numerator vanishes, so the same scaled identity still holds.  This lets later
+Theorem 2 arguments retain the source's empty-policy cutoff endpoints instead
+of imposing an artificial positive-mass condition on the other state.
+-/
+theorem gn21ScaledStateEarning_eq_reward_mul_scaled_time_of_measuredStateRewardRate_endpoint
+    (μ : Measure TripLength) [IsFiniteMeasure μ]
+    (arrivalRate rewardRate : ℝ)
+    (w : PricingFunction) (σ : TripPolicy)
+    (harrival_pos : 0 < arrivalRate)
+    (hσ_measurable : MeasurableSet σ)
+    (hσ_subset : σ ⊆ acceptAllPolicy)
+    (hreward :
+      gn21MeasuredStateRewardRate μ arrivalRate w σ = rewardRate) :
+    gn21ScaledStateEarning μ arrivalRate w σ =
+      rewardRate * gn21ScaledStateTime μ arrivalRate σ := by
+  by_cases hmass_zero : singleStateTripMass μ σ = 0
+  · have hmeasure_zero : μ σ = 0 :=
+      measure_zero_of_singleStateTripMass_eq_zero_of_ne_top hmass_zero
+        (measure_ne_top μ σ)
+    have hearning_zero : gn21ScaledStateEarning μ arrivalRate w σ = 0 :=
+      gn21ScaledStateEarning_eq_zero_of_measure_zero μ arrivalRate w σ
+        hmeasure_zero
+    have hpayment_zero : singleStateTripPayment μ w σ = 0 :=
+      singleStateTripPayment_eq_zero_of_measure_zero μ w σ hmeasure_zero
+    have hrate_zero :
+        gn21MeasuredStateRewardRate μ arrivalRate w σ = 0 :=
+      gn21MeasuredStateRewardRate_eq_zero_of_payment_zero μ arrivalRate w σ
+        hpayment_zero
+    have hreward_zero : rewardRate = 0 := by
+      calc
+        rewardRate = gn21MeasuredStateRewardRate μ arrivalRate w σ := hreward.symm
+        _ = 0 := hrate_zero
+    rw [hearning_zero, hreward_zero]
+    simp
+  · have hmass_ne : singleStateTripMass μ σ ≠ 0 := hmass_zero
+    have harrivalMass_ne : arrivalRate * singleStateTripMass μ σ ≠ 0 :=
+      mul_ne_zero (ne_of_gt harrival_pos) hmass_ne
+    have hscaledTime_ne : gn21ScaledStateTime μ arrivalRate σ ≠ 0 :=
+      ne_of_gt
+        (gn21ScaledStateTime_pos_of_nonneg μ arrivalRate σ
+          (le_of_lt harrival_pos) hσ_measurable hσ_subset)
+    exact
+      gn21ScaledStateEarning_eq_reward_mul_scaled_time_of_measuredStateRewardRate
+        μ arrivalRate rewardRate w σ hmass_ne harrivalMass_ne hscaledTime_ne
+        hreward
 
 /--
 Measured time-fraction algebra in Appendix-D scaled primitives:
@@ -43141,6 +43719,48 @@ structure GN21MeasuredPairNondegenerate
       gn21ExitWeightIntegral μJ arrivalJ switchJI switchIJ σJ *
         gn21ScaledStateTime μI arrivalI σI ≠ 0
 
+/--
+Regression guard for the fixed-response source boundary: no source package can
+require nondegeneracy for every measurable accepted left-state candidate,
+because the empty candidate has zero accepted-trip mass.
+-/
+theorem not_forall_left_candidate_gn21MeasuredPairNondegenerate
+    (μI μJ : Measure TripLength)
+    (arrivalI arrivalJ switchIJ switchJI : ℝ)
+    (σJ : TripPolicy) :
+    ¬ (∀ σI : TripPolicy,
+        σI ⊆ acceptAllPolicy →
+        MeasurableSet σI →
+          GN21MeasuredPairNondegenerate μI μJ arrivalI arrivalJ switchIJ
+            switchJI σI σJ) := by
+  intro hall
+  have hempty_subset : (∅ : TripPolicy) ⊆ acceptAllPolicy := by
+    intro τ hτ
+    cases hτ
+  have H := hall (∅ : TripPolicy) hempty_subset (by simp)
+  exact H.massI_ne (singleStateTripMass_empty μI)
+
+/--
+Right-state analogue of
+`not_forall_left_candidate_gn21MeasuredPairNondegenerate`: the empty candidate
+also rules out a universal right-candidate nondegeneracy premise.
+-/
+theorem not_forall_right_candidate_gn21MeasuredPairNondegenerate
+    (μI μJ : Measure TripLength)
+    (arrivalI arrivalJ switchIJ switchJI : ℝ)
+    (σI : TripPolicy) :
+    ¬ (∀ σJ : TripPolicy,
+        σJ ⊆ acceptAllPolicy →
+        MeasurableSet σJ →
+          GN21MeasuredPairNondegenerate μI μJ arrivalI arrivalJ switchIJ
+            switchJI σI σJ) := by
+  intro hall
+  have hempty_subset : (∅ : TripPolicy) ⊆ acceptAllPolicy := by
+    intro τ hτ
+    cases hτ
+  have H := hall (∅ : TripPolicy) hempty_subset (by simp)
+  exact H.massJ_ne (singleStateTripMass_empty μJ)
+
 /-- Pair nondegeneracy is invariant under a null change to the left policy. -/
 theorem GN21MeasuredPairNondegenerate.congr_left_policy_ae
     {μI μJ : Measure TripLength}
@@ -44198,6 +44818,162 @@ theorem gn21MeasuredDynamicRewardFunctional_apply
       gn21MeasuredDynamicReward (μ 0) (μ 1) (arrival 0) (arrival 1)
         switch12 switch21 (w 0) (w 1) (σ 0) (σ 1) := by
   rfl
+
+/--
+Cancellation-preserving Appendix-D `Q,T,W` dynamic reward.  This evaluates the
+aggregate formula directly, so a zero-mass accepted set has scaled earning
+zero while retaining its scaled waiting-time contribution.  On the positive
+mass domain it agrees with the displayed state-rate/time-fraction quotient.
+-/
+def gn21AggregateDynamicRewardFunctional
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (w : Fin 2 → PricingFunction) : DynamicReward :=
+  fun σ =>
+    gn21MeasuredAggregateRewardPrimitives
+      (μ 0) (μ 1) (arrival 0) (arrival 1)
+      switch12 switch21 (w 0) (w 1) (σ 0) (σ 1)
+
+/-- The aggregate dynamic-reward wrapper unfolds to the Appendix-D primitives. -/
+theorem gn21AggregateDynamicRewardFunctional_apply
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (w : Fin 2 → PricingFunction)
+    (σ : Fin 2 → TripPolicy) :
+    gn21AggregateDynamicRewardFunctional μ arrival switch12 switch21 w σ =
+      gn21MeasuredAggregateRewardPrimitives
+        (μ 0) (μ 1) (arrival 0) (arrival 1)
+        switch12 switch21 (w 0) (w 1) (σ 0) (σ 1) := by
+  rfl
+
+/--
+The direct Appendix-D aggregate functional agrees with the displayed measured
+quotient whenever both source state-rate denominators are nondegenerate.
+-/
+theorem gn21AggregateDynamicRewardFunctional_eq_measured_of_nondegenerate
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (w : Fin 2 → PricingFunction)
+    (σ : Fin 2 → TripPolicy)
+    (H :
+      GN21MeasuredPairNondegenerate
+        (μ 0) (μ 1) (arrival 0) (arrival 1)
+        switch12 switch21 (σ 0) (σ 1)) :
+    gn21AggregateDynamicRewardFunctional μ arrival switch12 switch21 w σ =
+      gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21 w σ := by
+  rw [gn21AggregateDynamicRewardFunctional,
+    gn21MeasuredDynamicRewardFunctional_apply,
+    paper_lemma1_measured_dynamic_reward_eq_aggregate_primitives_of_nondegenerate
+      (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+      (w 0) (w 1) (σ 0) (σ 1) H]
+
+/-- The aggregate functional is invariant under a null non-surge policy change. -/
+theorem gn21AggregateDynamicRewardFunctional_congr_left_policy_ae
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (w : Fin 2 → PricingFunction)
+    {ρ : Fin 2 → TripPolicy} {σ0 : TripPolicy}
+    (hae : policyAlmostEverywhereEq (μ 0) (ρ 0) σ0) :
+    gn21AggregateDynamicRewardFunctional μ arrival switch12 switch21 w ρ =
+      gn21AggregateDynamicRewardFunctional μ arrival switch12 switch21 w
+        (Function.update ρ 0 σ0) := by
+  simpa [gn21AggregateDynamicRewardFunctional, Function.update] using
+    gn21MeasuredAggregateRewardPrimitives_congr_left_policy_ae
+      (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+      (w 0) (w 1) (σJ := ρ 1) hae
+
+/-- The aggregate functional is invariant under a null surge policy change. -/
+theorem gn21AggregateDynamicRewardFunctional_congr_right_policy_ae
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (w : Fin 2 → PricingFunction)
+    {ρ : Fin 2 → TripPolicy} {σ1 : TripPolicy}
+    (hae : policyAlmostEverywhereEq (μ 1) (ρ 1) σ1) :
+    gn21AggregateDynamicRewardFunctional μ arrival switch12 switch21 w ρ =
+      gn21AggregateDynamicRewardFunctional μ arrival switch12 switch21 w
+        (Function.update ρ 1 σ1) := by
+  simpa [gn21AggregateDynamicRewardFunctional, Function.update] using
+    gn21MeasuredAggregateRewardPrimitives_congr_right_policy_ae
+      (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+      (w 0) (w 1) (σI := ρ 0) hae
+
+/--
+The concrete measured dynamic reward for GN21 Theorem 2 under multiplicative
+pricing in both states.  This is the source statement's reward functional; it
+keeps the theorem target away from arbitrary `DynamicReward` values.
+-/
+def gn21MeasuredMultiplicativeDynamicReward
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (m : Fin 2 → ℝ) : DynamicReward :=
+  gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
+    (fun i => multiplicativePricing (m i))
+
+/-- The multiplicative wrapper unfolds to the measured dynamic reward formula. -/
+theorem gn21MeasuredMultiplicativeDynamicReward_apply
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (m : Fin 2 → ℝ)
+    (σ : Fin 2 → TripPolicy) :
+    gn21MeasuredMultiplicativeDynamicReward μ arrival switch12 switch21 m σ =
+      gn21MeasuredDynamicReward (μ 0) (μ 1) (arrival 0) (arrival 1)
+        switch12 switch21
+        (multiplicativePricing (m 0)) (multiplicativePricing (m 1))
+        (σ 0) (σ 1) := by
+  rfl
+
+/--
+The cancellation-preserving Appendix-D aggregate reward for Theorem 2 under
+multiplicative pricing in both states.
+-/
+def gn21AggregateMultiplicativeDynamicReward
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (m : Fin 2 → ℝ) : DynamicReward :=
+  gn21AggregateDynamicRewardFunctional μ arrival switch12 switch21
+    (fun i => multiplicativePricing (m i))
+
+/-- The aggregate multiplicative wrapper unfolds to the Appendix-D primitives. -/
+theorem gn21AggregateMultiplicativeDynamicReward_apply
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (m : Fin 2 → ℝ)
+    (σ : Fin 2 → TripPolicy) :
+    gn21AggregateMultiplicativeDynamicReward μ arrival switch12 switch21 m σ =
+      gn21MeasuredAggregateRewardPrimitives
+        (μ 0) (μ 1) (arrival 0) (arrival 1)
+        switch12 switch21
+        (multiplicativePricing (m 0)) (multiplicativePricing (m 1))
+        (σ 0) (σ 1) := by
+  rfl
+
+/--
+The aggregate and quotient multiplicative rewards agree on the nondegenerate
+source domain.
+-/
+theorem gn21AggregateMultiplicativeDynamicReward_eq_measured_of_nondegenerate
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (m : Fin 2 → ℝ)
+    (σ : Fin 2 → TripPolicy)
+    (H :
+      GN21MeasuredPairNondegenerate
+        (μ 0) (μ 1) (arrival 0) (arrival 1)
+        switch12 switch21 (σ 0) (σ 1)) :
+    gn21AggregateMultiplicativeDynamicReward μ arrival switch12 switch21 m σ =
+      gn21MeasuredMultiplicativeDynamicReward μ arrival switch12 switch21 m σ :=
+  gn21AggregateDynamicRewardFunctional_eq_measured_of_nondegenerate
+    μ arrival switch12 switch21 (fun i => multiplicativePricing (m i)) σ H
 
 /-- The measured dynamic reward functional is invariant under a null non-surge policy change. -/
 theorem gn21MeasuredDynamicRewardFunctional_congr_left_policy_ae
@@ -48230,6 +49006,49 @@ theorem gn21MeasuredRightLemma6ScaleAtCurrent_pos
       hτ hQi_pos hTj_pos hTi_pos hden_swap
 
 /--
+Non-surge measured Lemma 6 analytic shape data for the structured-price
+one-threshold decreasing branch.
+-/
+def gn21MeasuredLeftLemma6ShapeData_strictlyDecreasing_of_structured
+    (μI μJ : Measure TripLength)
+    (arrivalI arrivalJ switchIJ switchJI : ℝ)
+    (m z Ri Rj t : ℝ)
+    (σI σJ : TripPolicy)
+    (hcoeff_pos :
+      0 <
+        (Rj - Ri) +
+          z *
+            (gn21ExitWeightIntegral μI arrivalI switchIJ switchJI σI /
+                gn21ScaledStateTime μI arrivalI σI +
+              gn21ExitWeightIntegral μJ arrivalJ switchJI switchIJ σJ /
+                gn21ScaledStateTime μJ arrivalJ σJ))
+    (hswitch_pos : 0 < switchIJ)
+    (hsum : 0 < switchIJ + switchJI)
+    (ht_pos : 0 < t)
+    (hzero :
+      gn21MeasuredLeftLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+          switchIJ switchJI
+          (ctmcStructuredSurgePrice m z switchIJ switchJI) σI σJ Ri Rj t =
+        0) :
+    Lemma5PositiveResponseShapeData
+      (gn21MeasuredLeftLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+        switchIJ switchJI
+        (ctmcStructuredSurgePrice m z switchIJ switchJI) σI σJ Ri Rj)
+      .strictlyDecreasing := by
+  simpa [gn21MeasuredLeftLemma6ResponseAtCurrent, ctmcStructuredSurgePrice,
+    structuredSurgePrice] using
+    gn21StructuredLemma6ResponseShapeData_strictlyDecreasing
+      m z
+      (gn21ExitWeightIntegral μI arrivalI switchIJ switchJI σI)
+      (gn21ExitWeightIntegral μJ arrivalJ switchJI switchIJ σJ)
+      (gn21ScaledStateTime μI arrivalI σI)
+      (gn21ScaledStateTime μJ arrivalJ σJ)
+      Ri Rj switchIJ switchJI t hcoeff_pos hswitch_pos hsum ht_pos
+      (by
+        simpa [gn21MeasuredLeftLemma6ResponseAtCurrent,
+          ctmcStructuredSurgePrice, structuredSurgePrice] using hzero)
+
+/--
 Non-surge measured Lemma 6 policy-form data for the structured-price
 one-threshold decreasing branch.
 -/
@@ -48258,18 +49077,53 @@ def gn21MeasuredLeftLemma6PolicyFormData_strictlyDecreasing_of_structured
       (gn21MeasuredLeftLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
         switchIJ switchJI
         (ctmcStructuredSurgePrice m z switchIJ switchJI) σI σJ Ri Rj)
-      .strictlyDecreasing := by
-  simpa [gn21MeasuredLeftLemma6ResponseAtCurrent, ctmcStructuredSurgePrice,
+      .strictlyDecreasing :=
+  Lemma5PositiveResponsePolicyFormData.of_shapeData
+    (gn21MeasuredLeftLemma6ShapeData_strictlyDecreasing_of_structured
+      μI μJ arrivalI arrivalJ switchIJ switchJI m z Ri Rj t σI σJ
+      hcoeff_pos hswitch_pos hsum ht_pos hzero)
+
+/--
+Surge measured Lemma 6 analytic shape data for the structured-price
+one-threshold increasing branch.
+-/
+def gn21MeasuredRightLemma6ShapeData_strictlyIncreasing_of_structured
+    (μI μJ : Measure TripLength)
+    (arrivalI arrivalJ switchIJ switchJI : ℝ)
+    (m z Ri Rj t : ℝ)
+    (σI σJ : TripPolicy)
+    (hcoeff_neg :
+        (Ri - Rj) +
+          z *
+            (gn21ExitWeightIntegral μJ arrivalJ switchJI switchIJ σJ /
+                gn21ScaledStateTime μJ arrivalJ σJ +
+              gn21ExitWeightIntegral μI arrivalI switchIJ switchJI σI /
+                gn21ScaledStateTime μI arrivalI σI) <
+        0)
+    (hswitch_pos : 0 < switchJI)
+    (hsum : 0 < switchJI + switchIJ)
+    (ht_pos : 0 < t)
+    (hzero :
+      gn21MeasuredRightLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+          switchIJ switchJI
+          (ctmcStructuredSurgePrice m z switchJI switchIJ) σI σJ Ri Rj t =
+        0) :
+    Lemma5PositiveResponseShapeData
+      (gn21MeasuredRightLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+        switchIJ switchJI
+        (ctmcStructuredSurgePrice m z switchJI switchIJ) σI σJ Ri Rj)
+      .strictlyIncreasing := by
+  simpa [gn21MeasuredRightLemma6ResponseAtCurrent, ctmcStructuredSurgePrice,
     structuredSurgePrice] using
-    gn21StructuredLemma6ResponsePolicyFormData_strictlyDecreasing
+    gn21StructuredLemma6ResponseShapeData_strictlyIncreasing
       m z
-      (gn21ExitWeightIntegral μI arrivalI switchIJ switchJI σI)
       (gn21ExitWeightIntegral μJ arrivalJ switchJI switchIJ σJ)
-      (gn21ScaledStateTime μI arrivalI σI)
+      (gn21ExitWeightIntegral μI arrivalI switchIJ switchJI σI)
       (gn21ScaledStateTime μJ arrivalJ σJ)
-      Ri Rj switchIJ switchJI t hcoeff_pos hswitch_pos hsum ht_pos
+      (gn21ScaledStateTime μI arrivalI σI)
+      Rj Ri switchJI switchIJ t hcoeff_neg hswitch_pos hsum ht_pos
       (by
-        simpa [gn21MeasuredLeftLemma6ResponseAtCurrent,
+        simpa [gn21MeasuredRightLemma6ResponseAtCurrent,
           ctmcStructuredSurgePrice, structuredSurgePrice] using hzero)
 
 /--
@@ -48301,19 +49155,64 @@ def gn21MeasuredRightLemma6PolicyFormData_strictlyIncreasing_of_structured
       (gn21MeasuredRightLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
         switchIJ switchJI
         (ctmcStructuredSurgePrice m z switchJI switchIJ) σI σJ Ri Rj)
-      .strictlyIncreasing := by
-  simpa [gn21MeasuredRightLemma6ResponseAtCurrent, ctmcStructuredSurgePrice,
+      .strictlyIncreasing :=
+  Lemma5PositiveResponsePolicyFormData.of_shapeData
+    (gn21MeasuredRightLemma6ShapeData_strictlyIncreasing_of_structured
+      μI μJ arrivalI arrivalJ switchIJ switchJI m z Ri Rj t σI σJ
+      hcoeff_neg hswitch_pos hsum ht_pos hzero)
+
+/--
+Non-surge measured structured decreasing analytic shape data from a sign
+bracket.  This uses continuity of the structured Lemma 6 response to choose
+the zero cutoff.
+-/
+noncomputable def gn21MeasuredLeftLemma6ShapeData_strictlyDecreasing_of_structured_bracket
+    (μI μJ : Measure TripLength)
+    (arrivalI arrivalJ switchIJ switchJI : ℝ)
+    (m z Ri Rj a b : ℝ)
+    (σI σJ : TripPolicy)
+    (hcoeff_pos :
+      0 <
+        (Rj - Ri) +
+          z *
+            (gn21ExitWeightIntegral μI arrivalI switchIJ switchJI σI /
+                gn21ScaledStateTime μI arrivalI σI +
+              gn21ExitWeightIntegral μJ arrivalJ switchJI switchIJ σJ /
+                gn21ScaledStateTime μJ arrivalJ σJ))
+    (hswitch_pos : 0 < switchIJ)
+    (hsum : 0 < switchIJ + switchJI)
+    (ha_pos : 0 < a)
+    (hab : a ≤ b)
+    (hleft :
+      0 ≤
+        gn21MeasuredLeftLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+          switchIJ switchJI
+          (ctmcStructuredSurgePrice m z switchIJ switchJI) σI σJ Ri Rj a)
+    (hright :
+      gn21MeasuredLeftLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+          switchIJ switchJI
+          (ctmcStructuredSurgePrice m z switchIJ switchJI) σI σJ Ri Rj b ≤
+        0) :
+    Lemma5PositiveResponseShapeData
+      (gn21MeasuredLeftLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+        switchIJ switchJI
+        (ctmcStructuredSurgePrice m z switchIJ switchJI) σI σJ Ri Rj)
+      .strictlyDecreasing := by
+  simpa [gn21MeasuredLeftLemma6ResponseAtCurrent, ctmcStructuredSurgePrice,
     structuredSurgePrice] using
-    gn21StructuredLemma6ResponsePolicyFormData_strictlyIncreasing
+    gn21StructuredLemma6ResponseShapeData_strictlyDecreasing_of_bracket
       m z
-      (gn21ExitWeightIntegral μJ arrivalJ switchJI switchIJ σJ)
       (gn21ExitWeightIntegral μI arrivalI switchIJ switchJI σI)
-      (gn21ScaledStateTime μJ arrivalJ σJ)
+      (gn21ExitWeightIntegral μJ arrivalJ switchJI switchIJ σJ)
       (gn21ScaledStateTime μI arrivalI σI)
-      Rj Ri switchJI switchIJ t hcoeff_neg hswitch_pos hsum ht_pos
+      (gn21ScaledStateTime μJ arrivalJ σJ)
+      Ri Rj switchIJ switchJI a b hcoeff_pos hswitch_pos hsum ha_pos hab
       (by
-        simpa [gn21MeasuredRightLemma6ResponseAtCurrent,
-          ctmcStructuredSurgePrice, structuredSurgePrice] using hzero)
+        simpa [gn21MeasuredLeftLemma6ResponseAtCurrent,
+          ctmcStructuredSurgePrice, structuredSurgePrice] using hleft)
+      (by
+        simpa [gn21MeasuredLeftLemma6ResponseAtCurrent,
+          ctmcStructuredSurgePrice, structuredSurgePrice] using hright)
 
 /--
 Non-surge measured structured decreasing branch from a sign bracket.  This
@@ -48350,21 +49249,63 @@ noncomputable def gn21MeasuredLeftLemma6PolicyFormData_strictlyDecreasing_of_str
       (gn21MeasuredLeftLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
         switchIJ switchJI
         (ctmcStructuredSurgePrice m z switchIJ switchJI) σI σJ Ri Rj)
-      .strictlyDecreasing := by
-  simpa [gn21MeasuredLeftLemma6ResponseAtCurrent, ctmcStructuredSurgePrice,
+      .strictlyDecreasing :=
+  Lemma5PositiveResponsePolicyFormData.of_shapeData
+    (gn21MeasuredLeftLemma6ShapeData_strictlyDecreasing_of_structured_bracket
+      μI μJ arrivalI arrivalJ switchIJ switchJI m z Ri Rj a b σI σJ
+      hcoeff_pos hswitch_pos hsum ha_pos hab hleft hright)
+
+/--
+Surge measured structured increasing analytic shape data from a sign bracket.
+This is the state-swapped counterpart of the non-surge decreasing bracket
+constructor.
+-/
+noncomputable def gn21MeasuredRightLemma6ShapeData_strictlyIncreasing_of_structured_bracket
+    (μI μJ : Measure TripLength)
+    (arrivalI arrivalJ switchIJ switchJI : ℝ)
+    (m z Ri Rj a b : ℝ)
+    (σI σJ : TripPolicy)
+    (hcoeff_neg :
+        (Ri - Rj) +
+          z *
+            (gn21ExitWeightIntegral μJ arrivalJ switchJI switchIJ σJ /
+                gn21ScaledStateTime μJ arrivalJ σJ +
+              gn21ExitWeightIntegral μI arrivalI switchIJ switchJI σI /
+                gn21ScaledStateTime μI arrivalI σI) <
+        0)
+    (hswitch_pos : 0 < switchJI)
+    (hsum : 0 < switchJI + switchIJ)
+    (ha_pos : 0 < a)
+    (hab : a ≤ b)
+    (hleft :
+      gn21MeasuredRightLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+          switchIJ switchJI
+          (ctmcStructuredSurgePrice m z switchJI switchIJ) σI σJ Ri Rj a ≤
+        0)
+    (hright :
+      0 ≤
+        gn21MeasuredRightLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+          switchIJ switchJI
+          (ctmcStructuredSurgePrice m z switchJI switchIJ) σI σJ Ri Rj b) :
+    Lemma5PositiveResponseShapeData
+      (gn21MeasuredRightLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+        switchIJ switchJI
+        (ctmcStructuredSurgePrice m z switchJI switchIJ) σI σJ Ri Rj)
+      .strictlyIncreasing := by
+  simpa [gn21MeasuredRightLemma6ResponseAtCurrent, ctmcStructuredSurgePrice,
     structuredSurgePrice] using
-    gn21StructuredLemma6ResponsePolicyFormData_strictlyDecreasing_of_bracket
+    gn21StructuredLemma6ResponseShapeData_strictlyIncreasing_of_bracket
       m z
-      (gn21ExitWeightIntegral μI arrivalI switchIJ switchJI σI)
       (gn21ExitWeightIntegral μJ arrivalJ switchJI switchIJ σJ)
-      (gn21ScaledStateTime μI arrivalI σI)
+      (gn21ExitWeightIntegral μI arrivalI switchIJ switchJI σI)
       (gn21ScaledStateTime μJ arrivalJ σJ)
-      Ri Rj switchIJ switchJI a b hcoeff_pos hswitch_pos hsum ha_pos hab
+      (gn21ScaledStateTime μI arrivalI σI)
+      Rj Ri switchJI switchIJ a b hcoeff_neg hswitch_pos hsum ha_pos hab
       (by
-        simpa [gn21MeasuredLeftLemma6ResponseAtCurrent,
+        simpa [gn21MeasuredRightLemma6ResponseAtCurrent,
           ctmcStructuredSurgePrice, structuredSurgePrice] using hleft)
       (by
-        simpa [gn21MeasuredLeftLemma6ResponseAtCurrent,
+        simpa [gn21MeasuredRightLemma6ResponseAtCurrent,
           ctmcStructuredSurgePrice, structuredSurgePrice] using hright)
 
 /--
@@ -48402,22 +49343,167 @@ noncomputable def gn21MeasuredRightLemma6PolicyFormData_strictlyIncreasing_of_st
       (gn21MeasuredRightLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
         switchIJ switchJI
         (ctmcStructuredSurgePrice m z switchJI switchIJ) σI σJ Ri Rj)
+      .strictlyIncreasing :=
+  Lemma5PositiveResponsePolicyFormData.of_shapeData
+    (gn21MeasuredRightLemma6ShapeData_strictlyIncreasing_of_structured_bracket
+      μI μJ arrivalI arrivalJ switchIJ switchJI m z Ri Rj a b σI σJ
+      hcoeff_neg hswitch_pos hsum ha_pos hab hleft hright)
+
+/--
+Non-surge measured multiplicative one-threshold shape data.  This is the
+`z = 0` specialization of the structured CTMC Lemma 6 route, with the source
+rate ordering `Ri < Rj` providing the decreasing response coefficient.
+-/
+def gn21MeasuredLeftLemma6ShapeData_strictlyDecreasing_of_multiplicative
+    (μI μJ : Measure TripLength)
+    (arrivalI arrivalJ switchIJ switchJI : ℝ)
+    (m Ri Rj t : ℝ)
+    (σI σJ : TripPolicy)
+    (hRi_lt_Rj : Ri < Rj)
+    (hswitch_pos : 0 < switchIJ)
+    (hsum : 0 < switchIJ + switchJI)
+    (ht_pos : 0 < t)
+    (hzero :
+      gn21MeasuredLeftLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+          switchIJ switchJI (multiplicativePricing m) σI σJ Ri Rj t =
+        0) :
+    Lemma5PositiveResponseShapeData
+      (gn21MeasuredLeftLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+        switchIJ switchJI (multiplicativePricing m) σI σJ Ri Rj)
+      .strictlyDecreasing := by
+  have hprice :
+      ctmcStructuredSurgePrice m 0 switchIJ switchJI =
+        multiplicativePricing m := by
+    funext τ
+    simp [ctmcStructuredSurgePrice, structuredSurgePrice, multiplicativePricing]
+  simpa [hprice] using
+    gn21MeasuredLeftLemma6ShapeData_strictlyDecreasing_of_structured
+      μI μJ arrivalI arrivalJ switchIJ switchJI m 0 Ri Rj t σI σJ
+      (by
+        simpa using sub_pos.mpr hRi_lt_Rj)
+      hswitch_pos hsum ht_pos
+      (by
+        simpa [hprice] using hzero)
+
+/--
+Surge measured multiplicative one-threshold shape data.  This is the
+`z = 0` specialization of the structured CTMC Lemma 6 route, with the source
+rate ordering `Ri < Rj` providing the increasing response coefficient.
+-/
+def gn21MeasuredRightLemma6ShapeData_strictlyIncreasing_of_multiplicative
+    (μI μJ : Measure TripLength)
+    (arrivalI arrivalJ switchIJ switchJI : ℝ)
+    (m Ri Rj t : ℝ)
+    (σI σJ : TripPolicy)
+    (hRi_lt_Rj : Ri < Rj)
+    (hswitch_pos : 0 < switchJI)
+    (hsum : 0 < switchJI + switchIJ)
+    (ht_pos : 0 < t)
+    (hzero :
+      gn21MeasuredRightLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+          switchIJ switchJI (multiplicativePricing m) σI σJ Ri Rj t =
+        0) :
+    Lemma5PositiveResponseShapeData
+      (gn21MeasuredRightLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+        switchIJ switchJI (multiplicativePricing m) σI σJ Ri Rj)
       .strictlyIncreasing := by
-  simpa [gn21MeasuredRightLemma6ResponseAtCurrent, ctmcStructuredSurgePrice,
-    structuredSurgePrice] using
-    gn21StructuredLemma6ResponsePolicyFormData_strictlyIncreasing_of_bracket
-      m z
-      (gn21ExitWeightIntegral μJ arrivalJ switchJI switchIJ σJ)
-      (gn21ExitWeightIntegral μI arrivalI switchIJ switchJI σI)
-      (gn21ScaledStateTime μJ arrivalJ σJ)
-      (gn21ScaledStateTime μI arrivalI σI)
-      Rj Ri switchJI switchIJ a b hcoeff_neg hswitch_pos hsum ha_pos hab
+  have hprice :
+      ctmcStructuredSurgePrice m 0 switchJI switchIJ =
+        multiplicativePricing m := by
+    funext τ
+    simp [ctmcStructuredSurgePrice, structuredSurgePrice, multiplicativePricing]
+  simpa [hprice] using
+    gn21MeasuredRightLemma6ShapeData_strictlyIncreasing_of_structured
+      μI μJ arrivalI arrivalJ switchIJ switchJI m 0 Ri Rj t σI σJ
       (by
-        simpa [gn21MeasuredRightLemma6ResponseAtCurrent,
-          ctmcStructuredSurgePrice, structuredSurgePrice] using hleft)
+        simpa using sub_neg.mpr hRi_lt_Rj)
+      hswitch_pos hsum ht_pos
       (by
-        simpa [gn21MeasuredRightLemma6ResponseAtCurrent,
-          ctmcStructuredSurgePrice, structuredSurgePrice] using hright)
+        simpa [hprice] using hzero)
+
+/--
+Non-surge measured multiplicative decreasing shape data when the source gives
+a positive-interval sign bracket instead of an explicit zero cutoff.
+-/
+noncomputable def gn21MeasuredLeftLemma6ShapeData_strictlyDecreasing_of_multiplicative_bracket
+    (μI μJ : Measure TripLength)
+    (arrivalI arrivalJ switchIJ switchJI : ℝ)
+    (m Ri Rj a b : ℝ)
+    (σI σJ : TripPolicy)
+    (hRi_lt_Rj : Ri < Rj)
+    (hswitch_pos : 0 < switchIJ)
+    (hsum : 0 < switchIJ + switchJI)
+    (ha_pos : 0 < a)
+    (hab : a ≤ b)
+    (hleft :
+      0 ≤
+        gn21MeasuredLeftLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+          switchIJ switchJI (multiplicativePricing m) σI σJ Ri Rj a)
+    (hright :
+      gn21MeasuredLeftLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+          switchIJ switchJI (multiplicativePricing m) σI σJ Ri Rj b ≤
+        0) :
+    Lemma5PositiveResponseShapeData
+      (gn21MeasuredLeftLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+        switchIJ switchJI (multiplicativePricing m) σI σJ Ri Rj)
+      .strictlyDecreasing := by
+  have hprice :
+      ctmcStructuredSurgePrice m 0 switchIJ switchJI =
+        multiplicativePricing m := by
+    funext τ
+    simp [ctmcStructuredSurgePrice, structuredSurgePrice, multiplicativePricing]
+  simpa [hprice] using
+    gn21MeasuredLeftLemma6ShapeData_strictlyDecreasing_of_structured_bracket
+      μI μJ arrivalI arrivalJ switchIJ switchJI m 0 Ri Rj a b σI σJ
+      (by
+        simpa using sub_pos.mpr hRi_lt_Rj)
+      hswitch_pos hsum ha_pos hab
+      (by
+        simpa [hprice] using hleft)
+      (by
+        simpa [hprice] using hright)
+
+/--
+Surge measured multiplicative increasing shape data when the source gives a
+negative-to-positive sign bracket instead of an explicit zero cutoff.
+-/
+noncomputable def gn21MeasuredRightLemma6ShapeData_strictlyIncreasing_of_multiplicative_bracket
+    (μI μJ : Measure TripLength)
+    (arrivalI arrivalJ switchIJ switchJI : ℝ)
+    (m Ri Rj a b : ℝ)
+    (σI σJ : TripPolicy)
+    (hRi_lt_Rj : Ri < Rj)
+    (hswitch_pos : 0 < switchJI)
+    (hsum : 0 < switchJI + switchIJ)
+    (ha_pos : 0 < a)
+    (hab : a ≤ b)
+    (hleft :
+      gn21MeasuredRightLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+          switchIJ switchJI (multiplicativePricing m) σI σJ Ri Rj a ≤
+        0)
+    (hright :
+      0 ≤
+        gn21MeasuredRightLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+          switchIJ switchJI (multiplicativePricing m) σI σJ Ri Rj b) :
+    Lemma5PositiveResponseShapeData
+      (gn21MeasuredRightLemma6ResponseAtCurrent μI μJ arrivalI arrivalJ
+        switchIJ switchJI (multiplicativePricing m) σI σJ Ri Rj)
+      .strictlyIncreasing := by
+  have hprice :
+      ctmcStructuredSurgePrice m 0 switchJI switchIJ =
+        multiplicativePricing m := by
+    funext τ
+    simp [ctmcStructuredSurgePrice, structuredSurgePrice, multiplicativePricing]
+  simpa [hprice] using
+    gn21MeasuredRightLemma6ShapeData_strictlyIncreasing_of_structured_bracket
+      μI μJ arrivalI arrivalJ switchIJ switchJI m 0 Ri Rj a b σI σJ
+      (by
+        simpa using sub_neg.mpr hRi_lt_Rj)
+      hswitch_pos hsum ha_pos hab
+      (by
+        simpa [hprice] using hleft)
+      (by
+        simpa [hprice] using hright)
 
 /-- Left measured response equals a positive scale times the normalized Lemma 6 response. -/
 theorem gn21MeasuredLeftMarginalResponse_eq_scale_mul_lemma6ResponseAtCurrent
@@ -48908,6 +49994,659 @@ theorem lemma5MarginalSetReward_optimal_of_gn21MeasuredDynamicRewardFunctional_o
       (hq_integrable (ρ 1) (hρ.1 1).1 (hρ.1 1).2)
       (hw_integrable (ρ 1) (hρ.1 1).1 (hρ.1 1).2)
       (htime_integrable (ρ 1) (hρ.1 1).1 (hρ.1 1).2)
+  rw [hscore_candidate, hscore_current] at hlinear
+  nlinarith [harrival_pos, hlinear]
+
+/--
+The cancellation-preserving Appendix-D aggregate functional turns dynamic
+optimality into the non-surge Lemma 5 marginal comparison without a
+positive-accepted-mass hypothesis.  Positive arrival and switch primitives
+make the aggregate denominators positive even at the source's empty-policy
+endpoint.
+-/
+theorem lemma5MarginalSetReward_optimal_of_gn21AggregateDynamicRewardFunctional_zero
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (w : Fin 2 → PricingFunction)
+    {ρ : Fin 2 → TripPolicy}
+    (hρ :
+      dynamicMeasurableOptimal
+        (gn21AggregateDynamicRewardFunctional μ arrival switch12 switch21 w) ρ)
+    (harrival0_pos : 0 < arrival 0)
+    (harrival1_pos : 0 < arrival 1)
+    (hswitch12_pos : 0 < switch12)
+    (hswitch21_pos : 0 < switch21)
+    (hq_integrable :
+      ∀ σ : TripPolicy,
+        σ ⊆ acceptAllPolicy →
+        MeasurableSet σ →
+          IntegrableOn
+            (fun τ : TripLength => gn21SwitchProb switch12 switch21 τ)
+            σ (μ 0))
+    (hw_integrable :
+      ∀ σ : TripPolicy,
+        σ ⊆ acceptAllPolicy →
+        MeasurableSet σ →
+          IntegrableOn (w 0) σ (μ 0))
+    (htime_integrable :
+      ∀ σ : TripPolicy,
+        σ ⊆ acceptAllPolicy →
+        MeasurableSet σ →
+          IntegrableOn (fun τ : TripLength => τ) σ (μ 0)) :
+    ∀ σ' : TripPolicy,
+      σ' ⊆ acceptAllPolicy →
+      MeasurableSet σ' →
+        lemma5MarginalSetReward (μ 0)
+            (gn21MeasuredLeftMarginalResponseAtCurrent (μ 0) (μ 1)
+              (arrival 0) (arrival 1) switch12 switch21 (w 0) (w 1)
+              (ρ 0) (ρ 1)) σ' ≤
+          lemma5MarginalSetReward (μ 0)
+            (gn21MeasuredLeftMarginalResponseAtCurrent (μ 0) (μ 1)
+              (arrival 0) (arrival 1) switch12 switch21 (w 0) (w 1)
+              (ρ 0) (ρ 1)) (ρ 0) := by
+  intro σ' hσ'_subset hσ'_measurable
+  have hupdate :
+      dynamicFeasibleMeasurablePolicy (Function.update ρ 0 σ') :=
+    dynamicFeasibleMeasurablePolicy_update hρ.1 0 σ'
+      hσ'_subset hσ'_measurable
+  have hdyn_state :
+      dynamicStateReward
+          (gn21AggregateDynamicRewardFunctional μ arrival switch12 switch21 w)
+          ρ 0 σ' ≤
+        dynamicStateReward
+          (gn21AggregateDynamicRewardFunctional μ arrival switch12 switch21 w)
+          ρ 0 (ρ 0) :=
+    dynamicStateReward_optimal_of_dynamicMeasurableOptimal
+      (gn21AggregateDynamicRewardFunctional μ arrival switch12 switch21 w)
+      hρ 0 hupdate
+  have hagg :
+      gn21MeasuredAggregateRewardPrimitives (μ 0) (μ 1) (arrival 0)
+          (arrival 1) switch12 switch21 (w 0) (w 1) σ' (ρ 1) ≤
+        gn21MeasuredAggregateRewardPrimitives (μ 0) (μ 1) (arrival 0)
+          (arrival 1) switch12 switch21 (w 0) (w 1) (ρ 0) (ρ 1) := by
+    simpa [dynamicStateReward, gn21AggregateDynamicRewardFunctional,
+      Function.update] using hdyn_state
+  have hswitch_sum_pos : 0 < switch12 + switch21 :=
+    add_pos hswitch12_pos hswitch21_pos
+  have hswitch_sum_pos_comm : 0 < switch21 + switch12 :=
+    add_pos hswitch21_pos hswitch12_pos
+  have hρ0_subset : ρ 0 ⊆ acceptAllPolicy := (hρ.1 0).1
+  have hρ0_measurable : MeasurableSet (ρ 0) := (hρ.1 0).2
+  have hρ1_subset : ρ 1 ⊆ acceptAllPolicy := (hρ.1 1).1
+  have hρ1_measurable : MeasurableSet (ρ 1) := (hρ.1 1).2
+  have hQi_pos :
+      0 < gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21
+        (ρ 0) :=
+    gn21ExitWeightIntegral_pos_of_switch_pos (μ 0) (arrival 0) switch12
+      switch21 (ρ 0) (le_of_lt harrival0_pos) hswitch12_pos
+      hswitch_sum_pos hρ0_measurable hρ0_subset
+  have hQj_pos :
+      0 < gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+        (ρ 1) :=
+    gn21ExitWeightIntegral_pos_of_switch_pos (μ 1) (arrival 1) switch21
+      switch12 (ρ 1) (le_of_lt harrival1_pos) hswitch21_pos
+      hswitch_sum_pos_comm hρ1_measurable hρ1_subset
+  have hTi_pos : 0 < gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0) :=
+    gn21ScaledStateTime_pos_of_nonneg (μ 0) (arrival 0) (ρ 0)
+      (le_of_lt harrival0_pos) hρ0_measurable hρ0_subset
+  have hTj_pos : 0 < gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) :=
+    gn21ScaledStateTime_pos_of_nonneg (μ 1) (arrival 1) (ρ 1)
+      (le_of_lt harrival1_pos) hρ1_measurable hρ1_subset
+  have hden_pos :
+      0 <
+        gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0) *
+            gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) +
+          gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+              (ρ 1) *
+            gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0) :=
+    gn21AggregateDenominator_pos_of_pos
+      (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0))
+      (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1))
+      (gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+      (gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+      hQi_pos hQj_pos hTi_pos hTj_pos
+  have hQi'_pos :
+      0 < gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 σ' :=
+    gn21ExitWeightIntegral_pos_of_switch_pos (μ 0) (arrival 0) switch12
+      switch21 σ' (le_of_lt harrival0_pos) hswitch12_pos
+      hswitch_sum_pos hσ'_measurable hσ'_subset
+  have hTi'_pos : 0 < gn21ScaledStateTime (μ 0) (arrival 0) σ' :=
+    gn21ScaledStateTime_pos_of_nonneg (μ 0) (arrival 0) σ'
+      (le_of_lt harrival0_pos) hσ'_measurable hσ'_subset
+  have hden'_pos :
+      0 <
+        gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 σ' *
+            gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) +
+          gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+              (ρ 1) *
+            gn21ScaledStateTime (μ 0) (arrival 0) σ' :=
+    gn21AggregateDenominator_pos_of_pos
+      (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 σ')
+      (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1))
+      (gn21ScaledStateTime (μ 0) (arrival 0) σ')
+      (gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+      hQi'_pos hQj_pos hTi'_pos hTj_pos
+  have hquot :
+      gn21AggregateDynamicReward
+          (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 σ')
+          (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1))
+          (gn21ScaledStateTime (μ 0) (arrival 0) σ')
+          (gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+          (gn21ScaledStateEarning (μ 0) (arrival 0) (w 0) σ')
+          (gn21ScaledStateEarning (μ 1) (arrival 1) (w 1) (ρ 1)) ≤
+        gn21AggregateDynamicReward
+          (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0))
+          (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1))
+          (gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+          (gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+          (gn21ScaledStateEarning (μ 0) (arrival 0) (w 0) (ρ 0))
+          (gn21ScaledStateEarning (μ 1) (arrival 1) (w 1) (ρ 1)) := by
+    simpa [gn21MeasuredAggregateRewardPrimitives] using hagg
+  have hlinear_raw :=
+    gn21AggregateDynamicReward_candidate_left_linear_score_le_current_of_le
+      (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0))
+      (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1))
+      (gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+      (gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+      (gn21ScaledStateEarning (μ 0) (arrival 0) (w 0) (ρ 0))
+      (gn21ScaledStateEarning (μ 1) (arrival 1) (w 1) (ρ 1))
+      (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 σ')
+      (gn21ScaledStateTime (μ 0) (arrival 0) σ')
+      (gn21ScaledStateEarning (μ 0) (arrival 0) (w 0) σ')
+      hden_pos hden'_pos hquot
+  have hlinear :
+      gn21MeasuredLeftLinearScoreAtCurrent (μ 0) (μ 1) (arrival 0)
+          (arrival 1) switch12 switch21 (w 0) (w 1) (ρ 0) (ρ 1) σ' ≤
+        gn21MeasuredLeftLinearScoreAtCurrent (μ 0) (μ 1) (arrival 0)
+          (arrival 1) switch12 switch21 (w 0) (w 1) (ρ 0) (ρ 1)
+          (ρ 0) := by
+    simpa [gn21MeasuredLeftLinearScoreAtCurrent, mul_comm, mul_left_comm,
+      mul_assoc] using hlinear_raw
+  have hscore_candidate :=
+    gn21MeasuredLeftLinearScore_eq_const_add_marginalSetReward
+      (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+      (w 0) (w 1) (ρ 0) (ρ 1) σ'
+      (hq_integrable σ' hσ'_subset hσ'_measurable)
+      (hw_integrable σ' hσ'_subset hσ'_measurable)
+      (htime_integrable σ' hσ'_subset hσ'_measurable)
+  have hscore_current :=
+    gn21MeasuredLeftLinearScore_eq_const_add_marginalSetReward
+      (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+      (w 0) (w 1) (ρ 0) (ρ 1) (ρ 0)
+      (hq_integrable (ρ 0) hρ0_subset hρ0_measurable)
+      (hw_integrable (ρ 0) hρ0_subset hρ0_measurable)
+      (htime_integrable (ρ 0) hρ0_subset hρ0_measurable)
+  rw [hscore_candidate, hscore_current] at hlinear
+  nlinarith [harrival0_pos, hlinear]
+
+/--
+The cancellation-preserving Appendix-D aggregate functional turns dynamic
+optimality into the surge Lemma 5 marginal comparison without a
+positive-accepted-mass hypothesis.  As on the non-surge side, positive
+arrival and switch primitives keep every aggregate denominator positive.
+-/
+theorem lemma5MarginalSetReward_optimal_of_gn21AggregateDynamicRewardFunctional_one
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (w : Fin 2 → PricingFunction)
+    {ρ : Fin 2 → TripPolicy}
+    (hρ :
+      dynamicMeasurableOptimal
+        (gn21AggregateDynamicRewardFunctional μ arrival switch12 switch21 w) ρ)
+    (harrival0_pos : 0 < arrival 0)
+    (harrival1_pos : 0 < arrival 1)
+    (hswitch12_pos : 0 < switch12)
+    (hswitch21_pos : 0 < switch21)
+    (hq_integrable :
+      ∀ σ : TripPolicy,
+        σ ⊆ acceptAllPolicy →
+        MeasurableSet σ →
+          IntegrableOn
+            (fun τ : TripLength => gn21SwitchProb switch21 switch12 τ)
+            σ (μ 1))
+    (hw_integrable :
+      ∀ σ : TripPolicy,
+        σ ⊆ acceptAllPolicy →
+        MeasurableSet σ →
+          IntegrableOn (w 1) σ (μ 1))
+    (htime_integrable :
+      ∀ σ : TripPolicy,
+        σ ⊆ acceptAllPolicy →
+        MeasurableSet σ →
+          IntegrableOn (fun τ : TripLength => τ) σ (μ 1)) :
+    ∀ σ' : TripPolicy,
+      σ' ⊆ acceptAllPolicy →
+      MeasurableSet σ' →
+        lemma5MarginalSetReward (μ 1)
+            (gn21MeasuredRightMarginalResponseAtCurrent (μ 0) (μ 1)
+              (arrival 0) (arrival 1) switch12 switch21 (w 0) (w 1)
+              (ρ 0) (ρ 1)) σ' ≤
+          lemma5MarginalSetReward (μ 1)
+            (gn21MeasuredRightMarginalResponseAtCurrent (μ 0) (μ 1)
+              (arrival 0) (arrival 1) switch12 switch21 (w 0) (w 1)
+              (ρ 0) (ρ 1)) (ρ 1) := by
+  intro σ' hσ'_subset hσ'_measurable
+  have hupdate :
+      dynamicFeasibleMeasurablePolicy (Function.update ρ 1 σ') :=
+    dynamicFeasibleMeasurablePolicy_update hρ.1 1 σ'
+      hσ'_subset hσ'_measurable
+  have hdyn_state :
+      dynamicStateReward
+          (gn21AggregateDynamicRewardFunctional μ arrival switch12 switch21 w)
+          ρ 1 σ' ≤
+        dynamicStateReward
+          (gn21AggregateDynamicRewardFunctional μ arrival switch12 switch21 w)
+          ρ 1 (ρ 1) :=
+    dynamicStateReward_optimal_of_dynamicMeasurableOptimal
+      (gn21AggregateDynamicRewardFunctional μ arrival switch12 switch21 w)
+      hρ 1 hupdate
+  have hagg :
+      gn21MeasuredAggregateRewardPrimitives (μ 0) (μ 1) (arrival 0)
+          (arrival 1) switch12 switch21 (w 0) (w 1) (ρ 0) σ' ≤
+        gn21MeasuredAggregateRewardPrimitives (μ 0) (μ 1) (arrival 0)
+          (arrival 1) switch12 switch21 (w 0) (w 1) (ρ 0) (ρ 1) := by
+    simpa [dynamicStateReward, gn21AggregateDynamicRewardFunctional,
+      Function.update] using hdyn_state
+  have hswitch_sum_pos : 0 < switch12 + switch21 :=
+    add_pos hswitch12_pos hswitch21_pos
+  have hswitch_sum_pos_comm : 0 < switch21 + switch12 :=
+    add_pos hswitch21_pos hswitch12_pos
+  have hρ0_subset : ρ 0 ⊆ acceptAllPolicy := (hρ.1 0).1
+  have hρ0_measurable : MeasurableSet (ρ 0) := (hρ.1 0).2
+  have hρ1_subset : ρ 1 ⊆ acceptAllPolicy := (hρ.1 1).1
+  have hρ1_measurable : MeasurableSet (ρ 1) := (hρ.1 1).2
+  have hQi_pos :
+      0 < gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21
+        (ρ 0) :=
+    gn21ExitWeightIntegral_pos_of_switch_pos (μ 0) (arrival 0) switch12
+      switch21 (ρ 0) (le_of_lt harrival0_pos) hswitch12_pos
+      hswitch_sum_pos hρ0_measurable hρ0_subset
+  have hQj_pos :
+      0 < gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+        (ρ 1) :=
+    gn21ExitWeightIntegral_pos_of_switch_pos (μ 1) (arrival 1) switch21
+      switch12 (ρ 1) (le_of_lt harrival1_pos) hswitch21_pos
+      hswitch_sum_pos_comm hρ1_measurable hρ1_subset
+  have hTi_pos : 0 < gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0) :=
+    gn21ScaledStateTime_pos_of_nonneg (μ 0) (arrival 0) (ρ 0)
+      (le_of_lt harrival0_pos) hρ0_measurable hρ0_subset
+  have hTj_pos : 0 < gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) :=
+    gn21ScaledStateTime_pos_of_nonneg (μ 1) (arrival 1) (ρ 1)
+      (le_of_lt harrival1_pos) hρ1_measurable hρ1_subset
+  have hden_pos :
+      0 <
+        gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0) *
+            gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) +
+          gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+              (ρ 1) *
+            gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0) :=
+    gn21AggregateDenominator_pos_of_pos
+      (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0))
+      (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1))
+      (gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+      (gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+      hQi_pos hQj_pos hTi_pos hTj_pos
+  have hQj'_pos :
+      0 < gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 σ' :=
+    gn21ExitWeightIntegral_pos_of_switch_pos (μ 1) (arrival 1) switch21
+      switch12 σ' (le_of_lt harrival1_pos) hswitch21_pos
+      hswitch_sum_pos_comm hσ'_measurable hσ'_subset
+  have hTj'_pos : 0 < gn21ScaledStateTime (μ 1) (arrival 1) σ' :=
+    gn21ScaledStateTime_pos_of_nonneg (μ 1) (arrival 1) σ'
+      (le_of_lt harrival1_pos) hσ'_measurable hσ'_subset
+  have hden'_pos :
+      0 <
+        gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0) *
+            gn21ScaledStateTime (μ 1) (arrival 1) σ' +
+          gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 σ' *
+            gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0) :=
+    gn21AggregateDenominator_pos_of_pos
+      (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0))
+      (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 σ')
+      (gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+      (gn21ScaledStateTime (μ 1) (arrival 1) σ')
+      hQi_pos hQj'_pos hTi_pos hTj'_pos
+  have hquot :
+      gn21AggregateDynamicReward
+          (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0))
+          (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 σ')
+          (gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+          (gn21ScaledStateTime (μ 1) (arrival 1) σ')
+          (gn21ScaledStateEarning (μ 0) (arrival 0) (w 0) (ρ 0))
+          (gn21ScaledStateEarning (μ 1) (arrival 1) (w 1) σ') ≤
+        gn21AggregateDynamicReward
+          (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0))
+          (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1))
+          (gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+          (gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+          (gn21ScaledStateEarning (μ 0) (arrival 0) (w 0) (ρ 0))
+          (gn21ScaledStateEarning (μ 1) (arrival 1) (w 1) (ρ 1)) := by
+    simpa [gn21MeasuredAggregateRewardPrimitives] using hagg
+  have hlinear_raw :=
+    gn21AggregateDynamicReward_candidate_right_linear_score_le_current_of_le
+      (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0))
+      (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1))
+      (gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+      (gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+      (gn21ScaledStateEarning (μ 0) (arrival 0) (w 0) (ρ 0))
+      (gn21ScaledStateEarning (μ 1) (arrival 1) (w 1) (ρ 1))
+      (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 σ')
+      (gn21ScaledStateTime (μ 1) (arrival 1) σ')
+      (gn21ScaledStateEarning (μ 1) (arrival 1) (w 1) σ')
+      hden_pos hden'_pos hquot
+  have hlinear :
+      gn21MeasuredRightLinearScoreAtCurrent (μ 0) (μ 1) (arrival 0)
+          (arrival 1) switch12 switch21 (w 0) (w 1) (ρ 0) (ρ 1) σ' ≤
+        gn21MeasuredRightLinearScoreAtCurrent (μ 0) (μ 1) (arrival 0)
+          (arrival 1) switch12 switch21 (w 0) (w 1) (ρ 0) (ρ 1)
+          (ρ 1) := by
+    simpa [gn21MeasuredRightLinearScoreAtCurrent, mul_comm, mul_left_comm,
+      mul_assoc] using hlinear_raw
+  have hscore_candidate :=
+    gn21MeasuredRightLinearScore_eq_const_add_marginalSetReward
+      (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+      (w 0) (w 1) (ρ 0) (ρ 1) σ'
+      (hq_integrable σ' hσ'_subset hσ'_measurable)
+      (hw_integrable σ' hσ'_subset hσ'_measurable)
+      (htime_integrable σ' hσ'_subset hσ'_measurable)
+  have hscore_current :=
+    gn21MeasuredRightLinearScore_eq_const_add_marginalSetReward
+      (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+      (w 0) (w 1) (ρ 0) (ρ 1) (ρ 1)
+      (hq_integrable (ρ 1) hρ1_subset hρ1_measurable)
+      (hw_integrable (ρ 1) hρ1_subset hρ1_measurable)
+      (htime_integrable (ρ 1) hρ1_subset hρ1_measurable)
+  rw [hscore_candidate, hscore_current] at hlinear
+  nlinarith [harrival1_pos, hlinear]
+
+/--
+Dynamic optimality gives the non-surge fixed-response comparison only for the
+positive-response candidate needed by Lemma 5.  This avoids assuming
+nondegeneracy for arbitrary zero-mass comparison policies.
+-/
+theorem lemma5MarginalSetReward_candidate_le_of_gn21MeasuredDynamicRewardFunctional_zero
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (w : Fin 2 → PricingFunction)
+    {ρ : Fin 2 → TripPolicy}
+    (candidate : TripPolicy)
+    (hρ :
+      dynamicMeasurableOptimal
+        (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21 w) ρ)
+    (harrival_pos : 0 < arrival 0)
+    (Hcurrent :
+      GN21MeasuredPairNondegenerate (μ 0) (μ 1) (arrival 0) (arrival 1)
+        switch12 switch21 (ρ 0) (ρ 1))
+    (Hcandidate :
+      GN21MeasuredPairNondegenerate (μ 0) (μ 1) (arrival 0) (arrival 1)
+        switch12 switch21 candidate (ρ 1))
+    (hden_pos :
+      0 <
+        gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0) *
+            gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) +
+          gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1) *
+            gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+    (hden_candidate_pos :
+      0 <
+        gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 candidate *
+            gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) +
+          gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+              (ρ 1) *
+            gn21ScaledStateTime (μ 0) (arrival 0) candidate)
+    (hcandidate_subset : candidate ⊆ acceptAllPolicy)
+    (hcandidate_measurable : MeasurableSet candidate)
+    (hq_integrable_candidate :
+      IntegrableOn
+        (fun τ : TripLength => gn21SwitchProb switch12 switch21 τ)
+        candidate (μ 0))
+    (hw_integrable_candidate : IntegrableOn (w 0) candidate (μ 0))
+    (htime_integrable_candidate :
+      IntegrableOn (fun τ : TripLength => τ) candidate (μ 0))
+    (hq_integrable_current :
+      IntegrableOn
+        (fun τ : TripLength => gn21SwitchProb switch12 switch21 τ)
+        (ρ 0) (μ 0))
+    (hw_integrable_current : IntegrableOn (w 0) (ρ 0) (μ 0))
+    (htime_integrable_current :
+      IntegrableOn (fun τ : TripLength => τ) (ρ 0) (μ 0)) :
+    lemma5MarginalSetReward (μ 0)
+        (gn21MeasuredLeftMarginalResponseAtCurrent (μ 0) (μ 1)
+          (arrival 0) (arrival 1) switch12 switch21 (w 0) (w 1)
+          (ρ 0) (ρ 1)) candidate ≤
+      lemma5MarginalSetReward (μ 0)
+        (gn21MeasuredLeftMarginalResponseAtCurrent (μ 0) (μ 1)
+          (arrival 0) (arrival 1) switch12 switch21 (w 0) (w 1)
+          (ρ 0) (ρ 1)) (ρ 0) := by
+  have hupdate :
+      dynamicFeasibleMeasurablePolicy (Function.update ρ 0 candidate) :=
+    dynamicFeasibleMeasurablePolicy_update hρ.1 0 candidate
+      hcandidate_subset hcandidate_measurable
+  have hdyn_state :
+      dynamicStateReward
+          (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21 w)
+          ρ 0 candidate ≤
+        dynamicStateReward
+          (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21 w)
+          ρ 0 (ρ 0) :=
+    dynamicStateReward_optimal_of_dynamicMeasurableOptimal
+      (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21 w)
+      hρ 0 hupdate
+  have hdyn :
+      gn21MeasuredDynamicReward (μ 0) (μ 1) (arrival 0) (arrival 1)
+          switch12 switch21 (w 0) (w 1) candidate (ρ 1) ≤
+        gn21MeasuredDynamicReward (μ 0) (μ 1) (arrival 0) (arrival 1)
+          switch12 switch21 (w 0) (w 1) (ρ 0) (ρ 1) := by
+    simpa [dynamicStateReward_gn21MeasuredDynamicRewardFunctional_zero]
+      using hdyn_state
+  have hagg :
+      gn21MeasuredAggregateRewardPrimitives (μ 0) (μ 1) (arrival 0)
+          (arrival 1) switch12 switch21 (w 0) (w 1) candidate (ρ 1) ≤
+        gn21MeasuredAggregateRewardPrimitives (μ 0) (μ 1) (arrival 0)
+          (arrival 1) switch12 switch21 (w 0) (w 1) (ρ 0) (ρ 1) := by
+    rw [paper_lemma1_measured_dynamic_reward_eq_aggregate_primitives_of_nondegenerate
+        (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+        (w 0) (w 1) candidate (ρ 1) Hcandidate,
+      paper_lemma1_measured_dynamic_reward_eq_aggregate_primitives_of_nondegenerate
+        (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+        (w 0) (w 1) (ρ 0) (ρ 1) Hcurrent] at hdyn
+    exact hdyn
+  have hquot :
+      gn21AggregateDynamicReward
+          (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21
+            candidate)
+          (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1))
+          (gn21ScaledStateTime (μ 0) (arrival 0) candidate)
+          (gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+          (gn21ScaledStateEarning (μ 0) (arrival 0) (w 0) candidate)
+          (gn21ScaledStateEarning (μ 1) (arrival 1) (w 1) (ρ 1)) ≤
+        gn21AggregateDynamicReward
+          (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0))
+          (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1))
+          (gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+          (gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+          (gn21ScaledStateEarning (μ 0) (arrival 0) (w 0) (ρ 0))
+          (gn21ScaledStateEarning (μ 1) (arrival 1) (w 1) (ρ 1)) := by
+    simpa [gn21MeasuredAggregateRewardPrimitives] using hagg
+  have hlinear_raw :=
+    gn21AggregateDynamicReward_candidate_left_linear_score_le_current_of_le
+      (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0))
+      (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1))
+      (gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+      (gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+      (gn21ScaledStateEarning (μ 0) (arrival 0) (w 0) (ρ 0))
+      (gn21ScaledStateEarning (μ 1) (arrival 1) (w 1) (ρ 1))
+      (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21
+        candidate)
+      (gn21ScaledStateTime (μ 0) (arrival 0) candidate)
+      (gn21ScaledStateEarning (μ 0) (arrival 0) (w 0) candidate)
+      hden_pos hden_candidate_pos hquot
+  have hlinear :
+      gn21MeasuredLeftLinearScoreAtCurrent (μ 0) (μ 1) (arrival 0)
+          (arrival 1) switch12 switch21 (w 0) (w 1) (ρ 0) (ρ 1)
+          candidate ≤
+        gn21MeasuredLeftLinearScoreAtCurrent (μ 0) (μ 1) (arrival 0)
+          (arrival 1) switch12 switch21 (w 0) (w 1) (ρ 0) (ρ 1)
+          (ρ 0) := by
+    simpa [gn21MeasuredLeftLinearScoreAtCurrent, mul_comm, mul_left_comm,
+      mul_assoc] using hlinear_raw
+  have hscore_candidate :=
+    gn21MeasuredLeftLinearScore_eq_const_add_marginalSetReward
+      (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+      (w 0) (w 1) (ρ 0) (ρ 1) candidate
+      hq_integrable_candidate hw_integrable_candidate
+      htime_integrable_candidate
+  have hscore_current :=
+    gn21MeasuredLeftLinearScore_eq_const_add_marginalSetReward
+      (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+      (w 0) (w 1) (ρ 0) (ρ 1) (ρ 0)
+      hq_integrable_current hw_integrable_current htime_integrable_current
+  rw [hscore_candidate, hscore_current] at hlinear
+  nlinarith [harrival_pos, hlinear]
+
+/--
+Surge-state counterpart of the candidate-only dynamic-optimality bridge.
+-/
+theorem lemma5MarginalSetReward_candidate_le_of_gn21MeasuredDynamicRewardFunctional_one
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (w : Fin 2 → PricingFunction)
+    {ρ : Fin 2 → TripPolicy}
+    (candidate : TripPolicy)
+    (hρ :
+      dynamicMeasurableOptimal
+        (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21 w) ρ)
+    (harrival_pos : 0 < arrival 1)
+    (Hcurrent :
+      GN21MeasuredPairNondegenerate (μ 0) (μ 1) (arrival 0) (arrival 1)
+        switch12 switch21 (ρ 0) (ρ 1))
+    (Hcandidate :
+      GN21MeasuredPairNondegenerate (μ 0) (μ 1) (arrival 0) (arrival 1)
+        switch12 switch21 (ρ 0) candidate)
+    (hden_pos :
+      0 <
+        gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0) *
+            gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) +
+          gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1) *
+            gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+    (hden_candidate_pos :
+      0 <
+        gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21
+            (ρ 0) *
+          gn21ScaledStateTime (μ 1) (arrival 1) candidate +
+        gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+            candidate *
+          gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+    (hcandidate_subset : candidate ⊆ acceptAllPolicy)
+    (hcandidate_measurable : MeasurableSet candidate)
+    (hq_integrable_candidate :
+      IntegrableOn
+        (fun τ : TripLength => gn21SwitchProb switch21 switch12 τ)
+        candidate (μ 1))
+    (hw_integrable_candidate : IntegrableOn (w 1) candidate (μ 1))
+    (htime_integrable_candidate :
+      IntegrableOn (fun τ : TripLength => τ) candidate (μ 1))
+    (hq_integrable_current :
+      IntegrableOn
+        (fun τ : TripLength => gn21SwitchProb switch21 switch12 τ)
+        (ρ 1) (μ 1))
+    (hw_integrable_current : IntegrableOn (w 1) (ρ 1) (μ 1))
+    (htime_integrable_current :
+      IntegrableOn (fun τ : TripLength => τ) (ρ 1) (μ 1)) :
+    lemma5MarginalSetReward (μ 1)
+        (gn21MeasuredRightMarginalResponseAtCurrent (μ 0) (μ 1)
+          (arrival 0) (arrival 1) switch12 switch21 (w 0) (w 1)
+          (ρ 0) (ρ 1)) candidate ≤
+      lemma5MarginalSetReward (μ 1)
+        (gn21MeasuredRightMarginalResponseAtCurrent (μ 0) (μ 1)
+          (arrival 0) (arrival 1) switch12 switch21 (w 0) (w 1)
+          (ρ 0) (ρ 1)) (ρ 1) := by
+  have hupdate :
+      dynamicFeasibleMeasurablePolicy (Function.update ρ 1 candidate) :=
+    dynamicFeasibleMeasurablePolicy_update hρ.1 1 candidate
+      hcandidate_subset hcandidate_measurable
+  have hdyn_state :
+      dynamicStateReward
+          (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21 w)
+          ρ 1 candidate ≤
+        dynamicStateReward
+          (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21 w)
+          ρ 1 (ρ 1) :=
+    dynamicStateReward_optimal_of_dynamicMeasurableOptimal
+      (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21 w)
+      hρ 1 hupdate
+  have hdyn :
+      gn21MeasuredDynamicReward (μ 0) (μ 1) (arrival 0) (arrival 1)
+          switch12 switch21 (w 0) (w 1) (ρ 0) candidate ≤
+        gn21MeasuredDynamicReward (μ 0) (μ 1) (arrival 0) (arrival 1)
+          switch12 switch21 (w 0) (w 1) (ρ 0) (ρ 1) := by
+    simpa [dynamicStateReward_gn21MeasuredDynamicRewardFunctional_one]
+      using hdyn_state
+  have hagg :
+      gn21MeasuredAggregateRewardPrimitives (μ 0) (μ 1) (arrival 0)
+          (arrival 1) switch12 switch21 (w 0) (w 1) (ρ 0) candidate ≤
+        gn21MeasuredAggregateRewardPrimitives (μ 0) (μ 1) (arrival 0)
+          (arrival 1) switch12 switch21 (w 0) (w 1) (ρ 0) (ρ 1) := by
+    rw [paper_lemma1_measured_dynamic_reward_eq_aggregate_primitives_of_nondegenerate
+        (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+        (w 0) (w 1) (ρ 0) candidate Hcandidate,
+      paper_lemma1_measured_dynamic_reward_eq_aggregate_primitives_of_nondegenerate
+        (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+        (w 0) (w 1) (ρ 0) (ρ 1) Hcurrent] at hdyn
+    exact hdyn
+  have hquot :
+      gn21AggregateDynamicReward
+          (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0))
+          (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+            candidate)
+          (gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+          (gn21ScaledStateTime (μ 1) (arrival 1) candidate)
+          (gn21ScaledStateEarning (μ 0) (arrival 0) (w 0) (ρ 0))
+          (gn21ScaledStateEarning (μ 1) (arrival 1) (w 1) candidate) ≤
+        gn21AggregateDynamicReward
+          (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0))
+          (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1))
+          (gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+          (gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+          (gn21ScaledStateEarning (μ 0) (arrival 0) (w 0) (ρ 0))
+          (gn21ScaledStateEarning (μ 1) (arrival 1) (w 1) (ρ 1)) := by
+    simpa [gn21MeasuredAggregateRewardPrimitives] using hagg
+  have hlinear_raw :=
+    gn21AggregateDynamicReward_candidate_right_linear_score_le_current_of_le
+      (gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0))
+      (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1))
+      (gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+      (gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+      (gn21ScaledStateEarning (μ 0) (arrival 0) (w 0) (ρ 0))
+      (gn21ScaledStateEarning (μ 1) (arrival 1) (w 1) (ρ 1))
+      (gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+        candidate)
+      (gn21ScaledStateTime (μ 1) (arrival 1) candidate)
+      (gn21ScaledStateEarning (μ 1) (arrival 1) (w 1) candidate)
+      hden_pos hden_candidate_pos hquot
+  have hlinear :
+      gn21MeasuredRightLinearScoreAtCurrent (μ 0) (μ 1) (arrival 0)
+          (arrival 1) switch12 switch21 (w 0) (w 1) (ρ 0) (ρ 1)
+          candidate ≤
+        gn21MeasuredRightLinearScoreAtCurrent (μ 0) (μ 1) (arrival 0)
+          (arrival 1) switch12 switch21 (w 0) (w 1) (ρ 0) (ρ 1)
+          (ρ 1) := by
+    simpa [gn21MeasuredRightLinearScoreAtCurrent, mul_comm, mul_left_comm,
+      mul_assoc] using hlinear_raw
+  have hscore_candidate :=
+    gn21MeasuredRightLinearScore_eq_const_add_marginalSetReward
+      (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+      (w 0) (w 1) (ρ 0) (ρ 1) candidate
+      hq_integrable_candidate hw_integrable_candidate
+      htime_integrable_candidate
+  have hscore_current :=
+    gn21MeasuredRightLinearScore_eq_const_add_marginalSetReward
+      (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+      (w 0) (w 1) (ρ 0) (ρ 1) (ρ 1)
+      hq_integrable_current hw_integrable_current htime_integrable_current
   rw [hscore_candidate, hscore_current] at hlinear
   nlinarith [harrival_pos, hlinear]
 
@@ -50396,6 +52135,26 @@ structure Lemma5FixedResponsePolicyFormFeasibleOptimalData
           lemma5MarginalSetReward μ response σ
 
 /--
+Candidate-only fixed-response Lemma 5 data.  The paper-facing a.e. policy-form
+endpoint only needs the positive-response candidate to weakly improve the
+current policy; full optimality over every measurable subset is stronger and,
+in the GN21 measured quotient route, can incorrectly force nondegeneracy of
+zero-mass comparison policies.
+-/
+structure Lemma5FixedResponsePolicyFormCandidateData
+    (μ : Measure TripLength) (response : TripLength → ℝ)
+    (shape : Lemma5DerivativeShape) (σ : TripPolicy) where
+  marker : Unit := ()
+  policy_form_data : Lemma5PositiveResponsePolicyFormData response shape
+  response_measurable : Measurable response
+  response_integrable_acceptAll :
+    IntegrableOn response acceptAllPolicy μ
+  candidate_le :
+    lemma5MarginalSetReward μ response
+        (lemma5PositiveResponsePolicy response) ≤
+      lemma5MarginalSetReward μ response σ
+
+/--
 Non-surge source adapter: dynamic optimality plus the normalized Lemma 6
 positive-response policy form produces the fixed-response Lemma 5 data for the
 measured marginal response.
@@ -50981,6 +52740,92 @@ def GN21MeasuredLeftFixedResponsePolicyFormSourceData.of_ctmc_structured_price
           switch12 switch21 σ
           (time_integrable σ hσ_subset hσ_measurable)
           (q_integrable σ hσ_subset hσ_measurable))
+    time_integrable
+
+/--
+Specialized non-surge constructor for the Theorem 2 multiplicative price
+family.  Multiplicative-price measurability and integrability are derived from
+trip-time regularity, so they are not separate source assumptions.
+-/
+def GN21MeasuredLeftFixedResponsePolicyFormSourceData.of_multiplicative_price
+    {μ : Fin 2 → Measure TripLength}
+    {arrival : Fin 2 → ℝ}
+    {switch12 switch21 : ℝ}
+    {m : Fin 2 → ℝ}
+    {ρ : Fin 2 → TripPolicy}
+    {shape : Lemma5DerivativeShape}
+    (Ri Rj : ℝ)
+    (base_policy_form_data :
+      Lemma5PositiveResponsePolicyFormData
+        (gn21MeasuredLeftLemma6ResponseAtCurrent (μ 0) (μ 1)
+          (arrival 0) (arrival 1) switch12 switch21
+          (multiplicativePricing (m 0)) (ρ 0) (ρ 1) Ri Rj) shape)
+    (hQj_pos :
+      0 < gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1))
+    (hTi_pos : 0 < gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+    (hTj_pos : 0 < gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+    (hden_pos :
+      0 <
+        gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0) *
+            gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) +
+          gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1) *
+            gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+    (hWi :
+      gn21ScaledStateEarning (μ 0) (arrival 0)
+          (multiplicativePricing (m 0)) (ρ 0) =
+        Ri * gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+    (hWj :
+      gn21ScaledStateEarning (μ 1) (arrival 1)
+          (multiplicativePricing (m 1)) (ρ 1) =
+        Rj * gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+    (arrival_pos : 0 < arrival 0)
+    (current_nondegenerate :
+      GN21MeasuredPairNondegenerate (μ 0) (μ 1) (arrival 0) (arrival 1)
+        switch12 switch21 (ρ 0) (ρ 1))
+    (candidate_nondegenerate :
+      ∀ σ : TripPolicy,
+        σ ⊆ acceptAllPolicy →
+        MeasurableSet σ →
+          GN21MeasuredPairNondegenerate (μ 0) (μ 1) (arrival 0) (arrival 1)
+            switch12 switch21 σ (ρ 1))
+    (candidate_den_pos :
+      ∀ σ : TripPolicy,
+        σ ⊆ acceptAllPolicy →
+        MeasurableSet σ →
+          0 <
+            gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 σ *
+                gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) +
+              gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+                  (ρ 1) *
+                gn21ScaledStateTime (μ 0) (arrival 0) σ)
+    (q_integrable :
+      ∀ σ : TripPolicy,
+        σ ⊆ acceptAllPolicy →
+        MeasurableSet σ →
+          IntegrableOn
+            (fun τ : TripLength => gn21SwitchProb switch12 switch21 τ)
+            σ (μ 0))
+    (time_integrable :
+      ∀ σ : TripPolicy,
+        σ ⊆ acceptAllPolicy →
+        MeasurableSet σ →
+          IntegrableOn (fun τ : TripLength => τ) σ (μ 0)) :
+    GN21MeasuredLeftFixedResponsePolicyFormSourceData μ arrival switch12
+      switch21 (fun i : Fin 2 => multiplicativePricing (m i)) ρ shape :=
+  GN21MeasuredLeftFixedResponsePolicyFormSourceData.of_regularity
+    (μ := μ) (arrival := arrival) (switch12 := switch12)
+    (switch21 := switch21)
+    (w := fun i : Fin 2 => multiplicativePricing (m i)) (ρ := ρ)
+    Ri Rj base_policy_form_data hQj_pos hTi_pos hTj_pos hden_pos hWi hWj
+    (by
+      simpa using (continuous_multiplicativePricing (m 0)).measurable)
+    arrival_pos current_nondegenerate candidate_nondegenerate
+    candidate_den_pos q_integrable
+    (by
+      intro σ hσ_subset hσ_measurable
+      simpa using
+        integrableOn_multiplicativePricing (μ 0) (m 0) σ
+          (time_integrable σ hσ_subset hσ_measurable))
     time_integrable
 
 /--
@@ -51728,6 +53573,92 @@ def GN21MeasuredRightFixedResponsePolicyFormSourceData.of_ctmc_structured_price
     time_integrable
 
 /--
+Specialized surge constructor for the Theorem 2 multiplicative price family.
+Multiplicative-price measurability and integrability are derived from
+trip-time regularity, so they are not separate source assumptions.
+-/
+def GN21MeasuredRightFixedResponsePolicyFormSourceData.of_multiplicative_price
+    {μ : Fin 2 → Measure TripLength}
+    {arrival : Fin 2 → ℝ}
+    {switch12 switch21 : ℝ}
+    {m : Fin 2 → ℝ}
+    {ρ : Fin 2 → TripPolicy}
+    {shape : Lemma5DerivativeShape}
+    (Ri Rj : ℝ)
+    (base_policy_form_data :
+      Lemma5PositiveResponsePolicyFormData
+        (gn21MeasuredRightLemma6ResponseAtCurrent (μ 0) (μ 1)
+          (arrival 0) (arrival 1) switch12 switch21
+          (multiplicativePricing (m 1)) (ρ 0) (ρ 1) Ri Rj) shape)
+    (hQi_pos :
+      0 < gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0))
+    (hTi_pos : 0 < gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+    (hTj_pos : 0 < gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+    (hden_pos :
+      0 <
+        gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 (ρ 0) *
+            gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) +
+          gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 (ρ 1) *
+            gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+    (hWi :
+      gn21ScaledStateEarning (μ 0) (arrival 0)
+          (multiplicativePricing (m 0)) (ρ 0) =
+        Ri * gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+    (hWj :
+      gn21ScaledStateEarning (μ 1) (arrival 1)
+          (multiplicativePricing (m 1)) (ρ 1) =
+        Rj * gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1))
+    (arrival_pos : 0 < arrival 1)
+    (current_nondegenerate :
+      GN21MeasuredPairNondegenerate (μ 0) (μ 1) (arrival 0) (arrival 1)
+        switch12 switch21 (ρ 0) (ρ 1))
+    (candidate_nondegenerate :
+      ∀ σ : TripPolicy,
+        σ ⊆ acceptAllPolicy →
+        MeasurableSet σ →
+          GN21MeasuredPairNondegenerate (μ 0) (μ 1) (arrival 0) (arrival 1)
+            switch12 switch21 (ρ 0) σ)
+    (candidate_den_pos :
+      ∀ σ : TripPolicy,
+        σ ⊆ acceptAllPolicy →
+        MeasurableSet σ →
+          0 <
+            gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21
+                (ρ 0) *
+              gn21ScaledStateTime (μ 1) (arrival 1) σ +
+            gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 σ *
+              gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0))
+    (q_integrable :
+      ∀ σ : TripPolicy,
+        σ ⊆ acceptAllPolicy →
+        MeasurableSet σ →
+          IntegrableOn
+            (fun τ : TripLength => gn21SwitchProb switch21 switch12 τ)
+            σ (μ 1))
+    (time_integrable :
+      ∀ σ : TripPolicy,
+        σ ⊆ acceptAllPolicy →
+        MeasurableSet σ →
+          IntegrableOn (fun τ : TripLength => τ) σ (μ 1)) :
+    GN21MeasuredRightFixedResponsePolicyFormSourceData μ arrival switch12
+      switch21 (fun i : Fin 2 => multiplicativePricing (m i)) ρ shape :=
+  GN21MeasuredRightFixedResponsePolicyFormSourceData.of_regularity
+    (μ := μ) (arrival := arrival) (switch12 := switch12)
+    (switch21 := switch21)
+    (w := fun i : Fin 2 => multiplicativePricing (m i)) (ρ := ρ)
+    Ri Rj base_policy_form_data hQi_pos hTi_pos hTj_pos hden_pos hWi hWj
+    (by
+      simpa using (continuous_multiplicativePricing (m 1)).measurable)
+    arrival_pos current_nondegenerate candidate_nondegenerate
+    candidate_den_pos q_integrable
+    (by
+      intro σ hσ_subset hσ_measurable
+      simpa using
+        integrableOn_multiplicativePricing (μ 1) (m 1) σ
+          (time_integrable σ hσ_subset hσ_measurable))
+    time_integrable
+
+/--
 Specialized surge source constructor for the positive branch obtained from
 Lemma 9 current-bounds positivity.  This packages the pointwise Lemma 9 kernel
 algebra, measured response scaling, and structured-price regularity into the
@@ -52079,6 +54010,545 @@ def GN21MeasuredRightFixedResponsePolicyFormSourceData.to_fixed_response
     D.response_measurable D.response_integrable_acceptAll D.arrival_pos
     D.current_nondegenerate D.candidate_nondegenerate D.candidate_den_pos
     D.q_integrable D.w_integrable D.time_integrable
+
+/--
+Non-surge source data for the multiplicative Theorem 2 fixed-response route.
+This specialized package leaves trip-time and switch-probability integrability
+visible, while deriving multiplicative payment regularity internally.
+-/
+structure GN21MeasuredLeftMultiplicativeFixedResponsePolicyFormSourceData
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (m : Fin 2 → ℝ)
+    (ρ : Fin 2 → TripPolicy)
+    (shape : Lemma5DerivativeShape) : Type where
+  base_policy_form_data :
+    Lemma5PositiveResponsePolicyFormData
+      (gn21MeasuredLeftLemma6ResponseAtCurrent (μ 0) (μ 1)
+        (arrival 0) (arrival 1) switch12 switch21
+        (multiplicativePricing (m 0)) (ρ 0) (ρ 1)
+        (gn21MeasuredStateRewardRate (μ 0) (arrival 0)
+          (multiplicativePricing (m 0)) (ρ 0))
+        (gn21MeasuredStateRewardRate (μ 1) (arrival 1)
+          (multiplicativePricing (m 1)) (ρ 1))) shape
+  current_massI_pos : 0 < singleStateTripMass (μ 0) (ρ 0)
+  current_massJ_pos : 0 < singleStateTripMass (μ 1) (ρ 1)
+  candidate_mass_pos :
+    0 <
+      singleStateTripMass (μ 0)
+        (lemma5PositiveResponsePolicy
+          (gn21MeasuredLeftMarginalResponseAtCurrent (μ 0) (μ 1)
+            (arrival 0) (arrival 1) switch12 switch21
+            (multiplicativePricing (m 0)) (multiplicativePricing (m 1))
+            (ρ 0) (ρ 1)))
+  time_integrable :
+    ∀ σ : TripPolicy,
+      σ ⊆ acceptAllPolicy →
+      MeasurableSet σ →
+        IntegrableOn (fun τ : TripLength => τ) σ (μ 0)
+
+/--
+Convert multiplicative non-surge source data to the candidate-only Lemma 5
+package needed for the a.e. policy-form endpoint.
+-/
+def GN21MeasuredLeftMultiplicativeFixedResponsePolicyFormSourceData.to_candidate_data
+    {μ : Fin 2 → Measure TripLength}
+    {arrival : Fin 2 → ℝ}
+    {switch12 switch21 : ℝ}
+    {m : Fin 2 → ℝ}
+    {ρ : Fin 2 → TripPolicy}
+    {shape : Lemma5DerivativeShape}
+    (harrival0_pos : 0 < arrival 0)
+    (harrival1_pos : 0 < arrival 1)
+    (hswitch12_pos : 0 < switch12)
+    (hswitch21_pos : 0 < switch21)
+    (D :
+      GN21MeasuredLeftMultiplicativeFixedResponsePolicyFormSourceData μ arrival
+        switch12 switch21 m ρ shape)
+    (hρ :
+      dynamicMeasurableOptimal
+        (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
+          (fun i : Fin 2 => multiplicativePricing (m i))) ρ) :
+    Lemma5FixedResponsePolicyFormCandidateData (μ 0)
+      (gn21MeasuredLeftMarginalResponseAtCurrent (μ 0) (μ 1)
+        (arrival 0) (arrival 1) switch12 switch21
+        (multiplicativePricing (m 0)) (multiplicativePricing (m 1))
+        (ρ 0) (ρ 1)) shape (ρ 0) :=
+  by
+    have hρ0_subset : ρ 0 ⊆ acceptAllPolicy := (hρ.1 0).1
+    have hρ0_measurable : MeasurableSet (ρ 0) := (hρ.1 0).2
+    have hρ1_subset : ρ 1 ⊆ acceptAllPolicy := (hρ.1 1).1
+    have hρ1_measurable : MeasurableSet (ρ 1) := (hρ.1 1).2
+    have hswitch_sum_pos : 0 < switch12 + switch21 := by
+      linarith [hswitch12_pos, hswitch21_pos]
+    have hswitch_sum_pos_comm : 0 < switch21 + switch12 := by
+      simpa [add_comm] using hswitch_sum_pos
+    let response : TripLength → ℝ :=
+      gn21MeasuredLeftMarginalResponseAtCurrent (μ 0) (μ 1)
+        (arrival 0) (arrival 1) switch12 switch21
+        (multiplicativePricing (m 0)) (multiplicativePricing (m 1))
+        (ρ 0) (ρ 1)
+    let candidate : TripPolicy := lemma5PositiveResponsePolicy response
+    have hTi_pos : 0 < gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0) :=
+      gn21ScaledStateTime_pos_of_nonneg (μ 0) (arrival 0) (ρ 0)
+        (le_of_lt harrival0_pos) hρ0_measurable hρ0_subset
+    have hTj_pos : 0 < gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) :=
+      gn21ScaledStateTime_pos_of_nonneg (μ 1) (arrival 1) (ρ 1)
+        (le_of_lt harrival1_pos) hρ1_measurable hρ1_subset
+    have hQi_pos :
+        0 < gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21
+          (ρ 0) :=
+      gn21ExitWeightIntegral_pos_of_switch_pos (μ 0) (arrival 0) switch12
+        switch21 (ρ 0) (le_of_lt harrival0_pos) hswitch12_pos
+        hswitch_sum_pos hρ0_measurable hρ0_subset
+    have hQj_pos :
+        0 < gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+          (ρ 1) :=
+      gn21ExitWeightIntegral_pos_of_switch_pos (μ 1) (arrival 1) switch21
+        switch12 (ρ 1) (le_of_lt harrival1_pos) hswitch21_pos
+        hswitch_sum_pos_comm hρ1_measurable hρ1_subset
+    have hden_pos :
+        0 <
+          gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21
+              (ρ 0) *
+              gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) +
+            gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+                (ρ 1) *
+              gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0) :=
+      add_pos_of_nonneg_of_pos
+        (mul_nonneg (le_of_lt hQi_pos) (le_of_lt hTj_pos))
+        (mul_pos hQj_pos hTi_pos)
+    have current_nondegenerate :
+        GN21MeasuredPairNondegenerate (μ 0) (μ 1) (arrival 0) (arrival 1)
+          switch12 switch21 (ρ 0) (ρ 1) :=
+      gn21MeasuredPairNondegenerate_of_positive_primitives
+        (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21 (ρ 0)
+        (ρ 1) D.current_massI_pos D.current_massJ_pos harrival0_pos
+        harrival1_pos hTi_pos hTj_pos hQi_pos hQj_pos
+    have hWi :
+        gn21ScaledStateEarning (μ 0) (arrival 0)
+            (multiplicativePricing (m 0)) (ρ 0) =
+          gn21MeasuredStateRewardRate (μ 0) (arrival 0)
+              (multiplicativePricing (m 0)) (ρ 0) *
+            gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0) :=
+      gn21ScaledStateEarning_eq_reward_mul_scaled_time_of_measuredStateRewardRate
+        (μ 0) (arrival 0)
+        (gn21MeasuredStateRewardRate (μ 0) (arrival 0)
+          (multiplicativePricing (m 0)) (ρ 0))
+        (multiplicativePricing (m 0)) (ρ 0)
+        current_nondegenerate.massI_ne current_nondegenerate.arrivalMassI_ne
+        current_nondegenerate.scaledTimeI_ne rfl
+    have hWj :
+        gn21ScaledStateEarning (μ 1) (arrival 1)
+            (multiplicativePricing (m 1)) (ρ 1) =
+          gn21MeasuredStateRewardRate (μ 1) (arrival 1)
+              (multiplicativePricing (m 1)) (ρ 1) *
+            gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) :=
+      gn21ScaledStateEarning_eq_reward_mul_scaled_time_of_measuredStateRewardRate
+        (μ 1) (arrival 1)
+        (gn21MeasuredStateRewardRate (μ 1) (arrival 1)
+          (multiplicativePricing (m 1)) (ρ 1))
+        (multiplicativePricing (m 1)) (ρ 1)
+        current_nondegenerate.massJ_ne current_nondegenerate.arrivalMassJ_ne
+        current_nondegenerate.scaledTimeJ_ne rfl
+    have hresponse_measurable : Measurable response := by
+      dsimp [response]
+      exact
+        measurable_gn21MeasuredLeftMarginalResponseAtCurrent
+          (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+          (multiplicativePricing (m 0)) (multiplicativePricing (m 1))
+          (ρ 0) (ρ 1) (continuous_multiplicativePricing (m 0)).measurable
+    have hcandidate_subset : candidate ⊆ acceptAllPolicy := by
+      dsimp [candidate]
+      exact lemma5PositiveResponsePolicy_subset_acceptAll response
+    have hcandidate_measurable : MeasurableSet candidate := by
+      dsimp [candidate]
+      exact measurableSet_lemma5PositiveResponsePolicy response hresponse_measurable
+    have hcandidate_time_pos :
+        0 < gn21ScaledStateTime (μ 0) (arrival 0) candidate :=
+      gn21ScaledStateTime_pos_of_nonneg (μ 0) (arrival 0) candidate
+        (le_of_lt harrival0_pos) hcandidate_measurable hcandidate_subset
+    have hcandidate_exit_pos :
+        0 <
+          gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21
+            candidate :=
+      gn21ExitWeightIntegral_pos_of_switch_pos (μ 0) (arrival 0) switch12
+        switch21 candidate (le_of_lt harrival0_pos) hswitch12_pos
+        hswitch_sum_pos hcandidate_measurable hcandidate_subset
+    have hcandidate_nondegenerate :
+        GN21MeasuredPairNondegenerate (μ 0) (μ 1) (arrival 0) (arrival 1)
+          switch12 switch21 candidate (ρ 1) :=
+      gn21MeasuredPairNondegenerate_of_positive_primitives
+        (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21 candidate
+        (ρ 1) D.candidate_mass_pos D.current_massJ_pos harrival0_pos
+        harrival1_pos hcandidate_time_pos hTj_pos hcandidate_exit_pos
+        hQj_pos
+    have hcandidate_den_pos :
+        0 <
+          gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21
+              candidate *
+              gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) +
+            gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+                (ρ 1) *
+              gn21ScaledStateTime (μ 0) (arrival 0) candidate :=
+      add_pos
+        (mul_pos hcandidate_exit_pos hTj_pos)
+        (mul_pos hQj_pos hcandidate_time_pos)
+    have hq_candidate :
+        IntegrableOn
+          (fun τ : TripLength => gn21SwitchProb switch12 switch21 τ)
+          candidate (μ 0) :=
+      integrableOn_gn21SwitchProb_of_time_integrable (μ 0) switch12
+        switch21 candidate (le_of_lt hswitch12_pos) hswitch_sum_pos
+        hcandidate_subset hcandidate_measurable
+        (D.time_integrable candidate hcandidate_subset hcandidate_measurable)
+    have hw_candidate :
+        IntegrableOn (multiplicativePricing (m 0)) candidate (μ 0) :=
+      integrableOn_multiplicativePricing (μ 0) (m 0) candidate
+        (D.time_integrable candidate hcandidate_subset hcandidate_measurable)
+    have htime_candidate :
+        IntegrableOn (fun τ : TripLength => τ) candidate (μ 0) :=
+      D.time_integrable candidate hcandidate_subset hcandidate_measurable
+    have hq_current :
+        IntegrableOn
+          (fun τ : TripLength => gn21SwitchProb switch12 switch21 τ)
+          (ρ 0) (μ 0) :=
+      integrableOn_gn21SwitchProb_of_time_integrable (μ 0) switch12
+        switch21 (ρ 0) (le_of_lt hswitch12_pos) hswitch_sum_pos hρ0_subset
+        hρ0_measurable (D.time_integrable (ρ 0) hρ0_subset hρ0_measurable)
+    have hw_current :
+        IntegrableOn (multiplicativePricing (m 0)) (ρ 0) (μ 0) :=
+      integrableOn_multiplicativePricing (μ 0) (m 0) (ρ 0)
+        (D.time_integrable (ρ 0) hρ0_subset hρ0_measurable)
+    have htime_current :
+        IntegrableOn (fun τ : TripLength => τ) (ρ 0) (μ 0) :=
+      D.time_integrable (ρ 0) hρ0_subset hρ0_measurable
+    have hq_acceptAll :
+        IntegrableOn
+          (fun τ : TripLength => gn21SwitchProb switch12 switch21 τ)
+          acceptAllPolicy (μ 0) :=
+      integrableOn_gn21SwitchProb_of_time_integrable (μ 0) switch12
+        switch21 acceptAllPolicy (le_of_lt hswitch12_pos) hswitch_sum_pos
+        (fun _ hτ => hτ) measurableSet_acceptAllPolicy
+        (D.time_integrable acceptAllPolicy (fun _ hτ => hτ)
+          measurableSet_acceptAllPolicy)
+    have hw_acceptAll :
+        IntegrableOn (multiplicativePricing (m 0)) acceptAllPolicy (μ 0) :=
+      integrableOn_multiplicativePricing (μ 0) (m 0) acceptAllPolicy
+        (D.time_integrable acceptAllPolicy (fun _ hτ => hτ)
+          measurableSet_acceptAllPolicy)
+    have htime_acceptAll :
+        IntegrableOn (fun τ : TripLength => τ) acceptAllPolicy (μ 0) :=
+      D.time_integrable acceptAllPolicy (fun _ hτ => hτ)
+        measurableSet_acceptAllPolicy
+    exact
+      { policy_form_data := by
+          simpa [response] using
+            gn21MeasuredLeftPositiveResponsePolicyFormData_of_scaled_lemma6Response
+              (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+              (multiplicativePricing (m 0)) (multiplicativePricing (m 1))
+              (ρ 0) (ρ 1)
+              (gn21MeasuredStateRewardRate (μ 0) (arrival 0)
+                (multiplicativePricing (m 0)) (ρ 0))
+              (gn21MeasuredStateRewardRate (μ 1) (arrival 1)
+                (multiplicativePricing (m 1)) (ρ 1))
+              D.base_policy_form_data hQj_pos hTi_pos hTj_pos hden_pos
+              hWi hWj
+        response_measurable := by
+          simpa [response] using hresponse_measurable
+        response_integrable_acceptAll := by
+          simpa [response] using
+            integrableOn_gn21MeasuredLeftMarginalResponseAtCurrent
+              (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+              (multiplicativePricing (m 0)) (multiplicativePricing (m 1))
+              (ρ 0) (ρ 1) acceptAllPolicy hq_acceptAll hw_acceptAll
+              htime_acceptAll
+        candidate_le := by
+          simpa [response, candidate] using
+            lemma5MarginalSetReward_candidate_le_of_gn21MeasuredDynamicRewardFunctional_zero
+              μ arrival switch12 switch21
+              (fun i : Fin 2 => multiplicativePricing (m i))
+              (lemma5PositiveResponsePolicy
+                (gn21MeasuredLeftMarginalResponseAtCurrent (μ 0) (μ 1)
+                  (arrival 0) (arrival 1) switch12 switch21
+                  (multiplicativePricing (m 0)) (multiplicativePricing (m 1))
+                  (ρ 0) (ρ 1)))
+              hρ harrival0_pos current_nondegenerate hcandidate_nondegenerate
+              hden_pos hcandidate_den_pos hcandidate_subset
+              hcandidate_measurable hq_candidate hw_candidate htime_candidate
+              hq_current hw_current htime_current }
+
+/--
+Surge source data for the multiplicative Theorem 2 fixed-response route.
+This specialized package leaves trip-time and switch-probability integrability
+visible, while deriving multiplicative payment regularity internally.
+-/
+structure GN21MeasuredRightMultiplicativeFixedResponsePolicyFormSourceData
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (m : Fin 2 → ℝ)
+    (ρ : Fin 2 → TripPolicy)
+    (shape : Lemma5DerivativeShape) : Type where
+  base_policy_form_data :
+    Lemma5PositiveResponsePolicyFormData
+      (gn21MeasuredRightLemma6ResponseAtCurrent (μ 0) (μ 1)
+        (arrival 0) (arrival 1) switch12 switch21
+        (multiplicativePricing (m 1)) (ρ 0) (ρ 1)
+        (gn21MeasuredStateRewardRate (μ 0) (arrival 0)
+          (multiplicativePricing (m 0)) (ρ 0))
+        (gn21MeasuredStateRewardRate (μ 1) (arrival 1)
+          (multiplicativePricing (m 1)) (ρ 1))) shape
+  current_massI_pos : 0 < singleStateTripMass (μ 0) (ρ 0)
+  current_massJ_pos : 0 < singleStateTripMass (μ 1) (ρ 1)
+  candidate_mass_pos :
+    0 <
+      singleStateTripMass (μ 1)
+        (lemma5PositiveResponsePolicy
+          (gn21MeasuredRightMarginalResponseAtCurrent (μ 0) (μ 1)
+            (arrival 0) (arrival 1) switch12 switch21
+            (multiplicativePricing (m 0)) (multiplicativePricing (m 1))
+            (ρ 0) (ρ 1)))
+  time_integrable :
+    ∀ σ : TripPolicy,
+      σ ⊆ acceptAllPolicy →
+      MeasurableSet σ →
+        IntegrableOn (fun τ : TripLength => τ) σ (μ 1)
+
+/--
+Convert multiplicative surge source data to the candidate-only Lemma 5 package
+needed for the a.e. policy-form endpoint.
+-/
+def GN21MeasuredRightMultiplicativeFixedResponsePolicyFormSourceData.to_candidate_data
+    {μ : Fin 2 → Measure TripLength}
+    {arrival : Fin 2 → ℝ}
+    {switch12 switch21 : ℝ}
+    {m : Fin 2 → ℝ}
+    {ρ : Fin 2 → TripPolicy}
+    {shape : Lemma5DerivativeShape}
+    (harrival0_pos : 0 < arrival 0)
+    (harrival1_pos : 0 < arrival 1)
+    (hswitch12_pos : 0 < switch12)
+    (hswitch21_pos : 0 < switch21)
+    (D :
+      GN21MeasuredRightMultiplicativeFixedResponsePolicyFormSourceData μ arrival
+        switch12 switch21 m ρ shape)
+    (hρ :
+      dynamicMeasurableOptimal
+        (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
+          (fun i : Fin 2 => multiplicativePricing (m i))) ρ) :
+    Lemma5FixedResponsePolicyFormCandidateData (μ 1)
+      (gn21MeasuredRightMarginalResponseAtCurrent (μ 0) (μ 1)
+        (arrival 0) (arrival 1) switch12 switch21
+        (multiplicativePricing (m 0)) (multiplicativePricing (m 1))
+        (ρ 0) (ρ 1)) shape (ρ 1) :=
+  by
+    have hρ0_subset : ρ 0 ⊆ acceptAllPolicy := (hρ.1 0).1
+    have hρ0_measurable : MeasurableSet (ρ 0) := (hρ.1 0).2
+    have hρ1_subset : ρ 1 ⊆ acceptAllPolicy := (hρ.1 1).1
+    have hρ1_measurable : MeasurableSet (ρ 1) := (hρ.1 1).2
+    have hswitch_sum_pos : 0 < switch12 + switch21 := by
+      linarith [hswitch12_pos, hswitch21_pos]
+    have hswitch_sum_pos_comm : 0 < switch21 + switch12 := by
+      simpa [add_comm] using hswitch_sum_pos
+    let response : TripLength → ℝ :=
+      gn21MeasuredRightMarginalResponseAtCurrent (μ 0) (μ 1)
+        (arrival 0) (arrival 1) switch12 switch21
+        (multiplicativePricing (m 0)) (multiplicativePricing (m 1))
+        (ρ 0) (ρ 1)
+    let candidate : TripPolicy := lemma5PositiveResponsePolicy response
+    have hTi_pos : 0 < gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0) :=
+      gn21ScaledStateTime_pos_of_nonneg (μ 0) (arrival 0) (ρ 0)
+        (le_of_lt harrival0_pos) hρ0_measurable hρ0_subset
+    have hTj_pos : 0 < gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) :=
+      gn21ScaledStateTime_pos_of_nonneg (μ 1) (arrival 1) (ρ 1)
+        (le_of_lt harrival1_pos) hρ1_measurable hρ1_subset
+    have hQi_pos :
+        0 < gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21
+          (ρ 0) :=
+      gn21ExitWeightIntegral_pos_of_switch_pos (μ 0) (arrival 0) switch12
+        switch21 (ρ 0) (le_of_lt harrival0_pos) hswitch12_pos
+        hswitch_sum_pos hρ0_measurable hρ0_subset
+    have hQj_pos :
+        0 < gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+          (ρ 1) :=
+      gn21ExitWeightIntegral_pos_of_switch_pos (μ 1) (arrival 1) switch21
+        switch12 (ρ 1) (le_of_lt harrival1_pos) hswitch21_pos
+        hswitch_sum_pos_comm hρ1_measurable hρ1_subset
+    have hden_pos :
+        0 <
+          gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21
+              (ρ 0) *
+              gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) +
+            gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+              (ρ 1) *
+              gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0) :=
+      add_pos_of_pos_of_nonneg
+        (mul_pos hQi_pos hTj_pos)
+        (mul_nonneg (le_of_lt hQj_pos) (le_of_lt hTi_pos))
+    have current_nondegenerate :
+        GN21MeasuredPairNondegenerate (μ 0) (μ 1) (arrival 0) (arrival 1)
+          switch12 switch21 (ρ 0) (ρ 1) :=
+      gn21MeasuredPairNondegenerate_of_positive_primitives
+        (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21 (ρ 0)
+        (ρ 1) D.current_massI_pos D.current_massJ_pos harrival0_pos
+        harrival1_pos hTi_pos hTj_pos hQi_pos hQj_pos
+    have hWi :
+        gn21ScaledStateEarning (μ 0) (arrival 0)
+            (multiplicativePricing (m 0)) (ρ 0) =
+          gn21MeasuredStateRewardRate (μ 0) (arrival 0)
+              (multiplicativePricing (m 0)) (ρ 0) *
+            gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0) :=
+      gn21ScaledStateEarning_eq_reward_mul_scaled_time_of_measuredStateRewardRate
+        (μ 0) (arrival 0)
+        (gn21MeasuredStateRewardRate (μ 0) (arrival 0)
+          (multiplicativePricing (m 0)) (ρ 0))
+        (multiplicativePricing (m 0)) (ρ 0)
+        current_nondegenerate.massI_ne current_nondegenerate.arrivalMassI_ne
+        current_nondegenerate.scaledTimeI_ne rfl
+    have hWj :
+        gn21ScaledStateEarning (μ 1) (arrival 1)
+            (multiplicativePricing (m 1)) (ρ 1) =
+          gn21MeasuredStateRewardRate (μ 1) (arrival 1)
+              (multiplicativePricing (m 1)) (ρ 1) *
+            gn21ScaledStateTime (μ 1) (arrival 1) (ρ 1) :=
+      gn21ScaledStateEarning_eq_reward_mul_scaled_time_of_measuredStateRewardRate
+        (μ 1) (arrival 1)
+        (gn21MeasuredStateRewardRate (μ 1) (arrival 1)
+          (multiplicativePricing (m 1)) (ρ 1))
+        (multiplicativePricing (m 1)) (ρ 1)
+        current_nondegenerate.massJ_ne current_nondegenerate.arrivalMassJ_ne
+        current_nondegenerate.scaledTimeJ_ne rfl
+    have hresponse_measurable : Measurable response := by
+      dsimp [response]
+      exact
+        measurable_gn21MeasuredRightMarginalResponseAtCurrent
+          (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+          (multiplicativePricing (m 0)) (multiplicativePricing (m 1))
+          (ρ 0) (ρ 1) (continuous_multiplicativePricing (m 1)).measurable
+    have hcandidate_subset : candidate ⊆ acceptAllPolicy := by
+      dsimp [candidate]
+      exact lemma5PositiveResponsePolicy_subset_acceptAll response
+    have hcandidate_measurable : MeasurableSet candidate := by
+      dsimp [candidate]
+      exact measurableSet_lemma5PositiveResponsePolicy response hresponse_measurable
+    have hcandidate_time_pos :
+        0 < gn21ScaledStateTime (μ 1) (arrival 1) candidate :=
+      gn21ScaledStateTime_pos_of_nonneg (μ 1) (arrival 1) candidate
+        (le_of_lt harrival1_pos) hcandidate_measurable hcandidate_subset
+    have hcandidate_exit_pos :
+        0 <
+          gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+            candidate :=
+      gn21ExitWeightIntegral_pos_of_switch_pos (μ 1) (arrival 1) switch21
+        switch12 candidate (le_of_lt harrival1_pos) hswitch21_pos
+        hswitch_sum_pos_comm hcandidate_measurable hcandidate_subset
+    have hcandidate_nondegenerate :
+        GN21MeasuredPairNondegenerate (μ 0) (μ 1) (arrival 0) (arrival 1)
+          switch12 switch21 (ρ 0) candidate :=
+      gn21MeasuredPairNondegenerate_of_positive_primitives
+        (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21 (ρ 0)
+        candidate D.current_massI_pos D.candidate_mass_pos harrival0_pos
+        harrival1_pos hTi_pos hcandidate_time_pos hQi_pos
+        hcandidate_exit_pos
+    have hcandidate_den_pos :
+        0 <
+          gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21
+              (ρ 0) *
+              gn21ScaledStateTime (μ 1) (arrival 1) candidate +
+            gn21ExitWeightIntegral (μ 1) (arrival 1) switch21 switch12
+                candidate *
+              gn21ScaledStateTime (μ 0) (arrival 0) (ρ 0) :=
+      add_pos
+        (mul_pos hQi_pos hcandidate_time_pos)
+        (mul_pos hcandidate_exit_pos hTi_pos)
+    have hq_candidate :
+        IntegrableOn
+          (fun τ : TripLength => gn21SwitchProb switch21 switch12 τ)
+          candidate (μ 1) :=
+      integrableOn_gn21SwitchProb_of_time_integrable (μ 1) switch21
+        switch12 candidate (le_of_lt hswitch21_pos)
+        hswitch_sum_pos_comm
+        hcandidate_subset hcandidate_measurable
+        (D.time_integrable candidate hcandidate_subset hcandidate_measurable)
+    have hw_candidate :
+        IntegrableOn (multiplicativePricing (m 1)) candidate (μ 1) :=
+      integrableOn_multiplicativePricing (μ 1) (m 1) candidate
+        (D.time_integrable candidate hcandidate_subset hcandidate_measurable)
+    have htime_candidate :
+        IntegrableOn (fun τ : TripLength => τ) candidate (μ 1) :=
+      D.time_integrable candidate hcandidate_subset hcandidate_measurable
+    have hq_current :
+        IntegrableOn
+          (fun τ : TripLength => gn21SwitchProb switch21 switch12 τ)
+          (ρ 1) (μ 1) :=
+      integrableOn_gn21SwitchProb_of_time_integrable (μ 1) switch21
+        switch12 (ρ 1) (le_of_lt hswitch21_pos)
+        hswitch_sum_pos_comm hρ1_subset
+        hρ1_measurable (D.time_integrable (ρ 1) hρ1_subset hρ1_measurable)
+    have hw_current :
+        IntegrableOn (multiplicativePricing (m 1)) (ρ 1) (μ 1) :=
+      integrableOn_multiplicativePricing (μ 1) (m 1) (ρ 1)
+        (D.time_integrable (ρ 1) hρ1_subset hρ1_measurable)
+    have htime_current :
+        IntegrableOn (fun τ : TripLength => τ) (ρ 1) (μ 1) :=
+      D.time_integrable (ρ 1) hρ1_subset hρ1_measurable
+    have hq_acceptAll :
+        IntegrableOn
+          (fun τ : TripLength => gn21SwitchProb switch21 switch12 τ)
+          acceptAllPolicy (μ 1) :=
+      integrableOn_gn21SwitchProb_of_time_integrable (μ 1) switch21
+        switch12 acceptAllPolicy (le_of_lt hswitch21_pos)
+        hswitch_sum_pos_comm (fun _ hτ => hτ)
+        measurableSet_acceptAllPolicy
+        (D.time_integrable acceptAllPolicy (fun _ hτ => hτ)
+          measurableSet_acceptAllPolicy)
+    have hw_acceptAll :
+        IntegrableOn (multiplicativePricing (m 1)) acceptAllPolicy (μ 1) :=
+      integrableOn_multiplicativePricing (μ 1) (m 1) acceptAllPolicy
+        (D.time_integrable acceptAllPolicy (fun _ hτ => hτ)
+          measurableSet_acceptAllPolicy)
+    have htime_acceptAll :
+        IntegrableOn (fun τ : TripLength => τ) acceptAllPolicy (μ 1) :=
+      D.time_integrable acceptAllPolicy (fun _ hτ => hτ)
+        measurableSet_acceptAllPolicy
+    exact
+      { policy_form_data := by
+          simpa [response] using
+            gn21MeasuredRightPositiveResponsePolicyFormData_of_scaled_lemma6Response
+              (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+              (multiplicativePricing (m 0)) (multiplicativePricing (m 1))
+              (ρ 0) (ρ 1)
+              (gn21MeasuredStateRewardRate (μ 0) (arrival 0)
+                (multiplicativePricing (m 0)) (ρ 0))
+              (gn21MeasuredStateRewardRate (μ 1) (arrival 1)
+                (multiplicativePricing (m 1)) (ρ 1))
+              D.base_policy_form_data hQi_pos hTi_pos hTj_pos hden_pos
+              hWi hWj
+        response_measurable := by
+          simpa [response] using hresponse_measurable
+        response_integrable_acceptAll := by
+          simpa [response] using
+            integrableOn_gn21MeasuredRightMarginalResponseAtCurrent
+              (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+              (multiplicativePricing (m 0)) (multiplicativePricing (m 1))
+              (ρ 0) (ρ 1) acceptAllPolicy hq_acceptAll hw_acceptAll
+              htime_acceptAll
+        candidate_le := by
+          simpa [response, candidate] using
+            lemma5MarginalSetReward_candidate_le_of_gn21MeasuredDynamicRewardFunctional_one
+              μ arrival switch12 switch21
+              (fun i : Fin 2 => multiplicativePricing (m i))
+              (lemma5PositiveResponsePolicy
+                (gn21MeasuredRightMarginalResponseAtCurrent (μ 0) (μ 1)
+                  (arrival 0) (arrival 1) switch12 switch21
+                  (multiplicativePricing (m 0)) (multiplicativePricing (m 1))
+                  (ρ 0) (ρ 1)))
+              hρ harrival1_pos current_nondegenerate hcandidate_nondegenerate
+              hden_pos hcandidate_den_pos hcandidate_subset
+              hcandidate_measurable hq_candidate hw_candidate htime_candidate
+              hq_current hw_current htime_current }
 
 /--
 Raw bracket-form source data for the non-surge decreasing fixed-response
@@ -52569,6 +55039,23 @@ def Lemma5FixedResponsePolicyFormFeasibleOptimalData.to_feasiblePolicyFormAlmost
     D.response_integrable_acceptAll hσ_measurable hσ_subset D.optimal
 
 /--
+The candidate-only fixed-response package is enough for the feasible a.e.
+Lemma 5 representative because the representative is the positive-response
+policy itself.
+-/
+def Lemma5FixedResponsePolicyFormCandidateData.to_feasiblePolicyFormAlmostEverywhere
+    {μ : Measure TripLength} [NoAtoms μ]
+    {response : TripLength → ℝ} {shape : Lemma5DerivativeShape}
+    {σ : TripPolicy}
+    (D : Lemma5FixedResponsePolicyFormCandidateData μ response shape σ)
+    (hσ_measurable : MeasurableSet σ)
+    (hσ_subset : σ ⊆ acceptAllPolicy) :
+    Lemma5FeasiblePolicyFormAlmostEverywhereData μ shape σ :=
+  D.policy_form_data.feasiblePolicyFormAlmostEverywhere_of_candidate_le
+    μ σ D.response_measurable D.response_integrable_acceptAll
+    hσ_measurable hσ_subset D.candidate_le
+
+/--
 Positive fixed-response policy-form data in both states instantiate the
 measurable positive-response marginal certificate used by the direct Theorem 4
 a.e. uniqueness route.
@@ -52716,6 +55203,205 @@ def Theorem4AllMeasurableGN21FixedResponsePolicyFormSourceData.to_fixed_response
           (arrival 0) (arrival 1) switch12 switch21 (w 0) (w 1)
           (ρ 0) (ρ 1),
         D.to_fixed_response hρ⟩
+
+/--
+Lemma 5 derivative-shape outcomes admissible for Theorem 2's multiplicative
+non-surge branch: accept-all or reject-long.  The affine-only middle-acceptance
+case allowed by the broader Theorem 4 boundary is deliberately excluded here.
+-/
+def theorem2MultiplicativeNonsurgeAllowedLemma5Shape :
+    Lemma5DerivativeShape → Prop
+  | .positive => True
+  | .strictlyIncreasing => False
+  | .strictlyDecreasing => True
+  | .strictlyQuasiConvex => False
+  | .strictlyQuasiConcave => False
+
+/--
+Lemma 5 derivative-shape outcomes admissible for Theorem 2's multiplicative
+surge branch: accept-all or reject-short.  The affine-only middle-rejection
+case allowed by the broader Theorem 4 boundary is deliberately excluded here.
+-/
+def theorem2MultiplicativeSurgeAllowedLemma5Shape :
+    Lemma5DerivativeShape → Prop
+  | .positive => True
+  | .strictlyIncreasing => True
+  | .strictlyDecreasing => False
+  | .strictlyQuasiConvex => False
+  | .strictlyQuasiConcave => False
+
+/-- The multiplicative non-surge branch is a valid Theorem 4 non-surge branch. -/
+theorem theorem2MultiplicativeNonsurgeAllowedLemma5Shape.to_theorem4
+    {shape : Lemma5DerivativeShape}
+    (hshape : theorem2MultiplicativeNonsurgeAllowedLemma5Shape shape) :
+    theorem4NonsurgeAllowedLemma5Shape shape := by
+  cases shape <;>
+    simp [theorem2MultiplicativeNonsurgeAllowedLemma5Shape,
+      theorem4NonsurgeAllowedLemma5Shape] at hshape ⊢
+
+/-- The multiplicative surge branch is a valid Theorem 4 surge branch. -/
+theorem theorem2MultiplicativeSurgeAllowedLemma5Shape.to_theorem4
+    {shape : Lemma5DerivativeShape}
+    (hshape : theorem2MultiplicativeSurgeAllowedLemma5Shape shape) :
+    theorem4SurgeAllowedLemma5Shape shape := by
+  cases shape <;>
+    simp [theorem2MultiplicativeSurgeAllowedLemma5Shape,
+      theorem4SurgeAllowedLemma5Shape] at hshape ⊢
+
+/-- Exact branch equality for the multiplicative non-surge Theorem 2 cases. -/
+theorem theorem2MultiplicativeNonsurgeAllowedLemma5Shape.branch
+    {shape : Lemma5DerivativeShape}
+    (hshape : theorem2MultiplicativeNonsurgeAllowedLemma5Shape shape) :
+    shape = .positive ∨ shape = .strictlyDecreasing := by
+  cases shape <;>
+    simp [theorem2MultiplicativeNonsurgeAllowedLemma5Shape] at hshape ⊢
+
+/-- Exact branch equality for the multiplicative surge Theorem 2 cases. -/
+theorem theorem2MultiplicativeSurgeAllowedLemma5Shape.branch
+    {shape : Lemma5DerivativeShape}
+    (hshape : theorem2MultiplicativeSurgeAllowedLemma5Shape shape) :
+    shape = .positive ∨ shape = .strictlyIncreasing := by
+  cases shape <;>
+    simp [theorem2MultiplicativeSurgeAllowedLemma5Shape] at hshape ⊢
+
+/--
+The analytic Lemma 5 shape data close the exact visible non-surge branch
+obligation used by Theorem 2's multiplicative paper-facing row.
+-/
+theorem Lemma5PositiveResponseShapeData.theorem2_multiplicative_nonsurge_branch
+    {response : TripLength → ℝ} {shape : Lemma5DerivativeShape}
+    (D : Lemma5PositiveResponseShapeData response shape)
+    (hshape : theorem2MultiplicativeNonsurgeAllowedLemma5Shape shape) :
+    (∀ τ : TripLength, 0 < τ → 0 < response τ) ∨
+      ∃ t : ℝ,
+        0 < t ∧ StrictAntiOn response (Set.Ioi 0) ∧ response t = 0 := by
+  cases D with
+  | positive hpositive =>
+      exact Or.inl hpositive
+  | strictlyIncreasing t ht_pos hmono hzero =>
+      cases hshape
+  | strictlyDecreasing t ht_pos hanti hzero =>
+      exact Or.inr ⟨t, ht_pos, hanti, hzero⟩
+  | strictlyQuasiConvex lo hi hlo_pos hlo_hi hqc hlo_zero hhi_zero
+      hleft_pos hright_pos =>
+      cases hshape
+  | strictlyQuasiConcave lo hi hlo_pos hlo_hi hqc hlo_zero hhi_zero
+      hleft_nonpos hright_nonpos =>
+      cases hshape
+
+/--
+The analytic Lemma 5 shape data close the exact visible surge branch
+obligation used by Theorem 2's multiplicative paper-facing row.
+-/
+theorem Lemma5PositiveResponseShapeData.theorem2_multiplicative_surge_branch
+    {response : TripLength → ℝ} {shape : Lemma5DerivativeShape}
+    (D : Lemma5PositiveResponseShapeData response shape)
+    (hshape : theorem2MultiplicativeSurgeAllowedLemma5Shape shape) :
+    (∀ τ : TripLength, 0 < τ → 0 < response τ) ∨
+      ∃ t : ℝ,
+        0 < t ∧ StrictMonoOn response (Set.Ioi 0) ∧ response t = 0 := by
+  cases D with
+  | positive hpositive =>
+      exact Or.inl hpositive
+  | strictlyIncreasing t ht_pos hmono hzero =>
+      exact Or.inr ⟨t, ht_pos, hmono, hzero⟩
+  | strictlyDecreasing t ht_pos hanti hzero =>
+      cases hshape
+  | strictlyQuasiConvex lo hi hlo_pos hlo_hi hqc hlo_zero hhi_zero
+      hleft_pos hright_pos =>
+      cases hshape
+  | strictlyQuasiConcave lo hi hlo_pos hlo_hi hqc hlo_zero hhi_zero
+      hleft_nonpos hright_nonpos =>
+      cases hshape
+
+/--
+All measurable optima satisfy the GN21 measured fixed-response source data in
+both states for multiplicative Theorem 2 prices.  Compared with the generic
+GN21 source package, this boundary derives payment measurability and payment
+integrability from `w_i(τ)=m_i τ` and trip-time integrability, and its branch
+domain is already the source's multiplicative shape domain rather than the
+broader affine Theorem 4 domain.
+-/
+structure Theorem4AllMeasurableGN21MultiplicativeFixedResponsePolicyFormSourceData
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (m : Fin 2 → ℝ) where
+  arrival0_pos : 0 < arrival 0
+  arrival1_pos : 0 < arrival 1
+  switch12_pos : 0 < switch12
+  switch21_pos : 0 < switch21
+  exists_optimal :
+    ∃ ρ : Fin 2 → TripPolicy,
+      dynamicMeasurableOptimal
+        (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
+          (fun i : Fin 2 => multiplicativePricing (m i)))
+        ρ
+  nonsurge :
+    ∀ ρ : Fin 2 → TripPolicy,
+      dynamicMeasurableOptimal
+        (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
+          (fun i : Fin 2 => multiplicativePricing (m i)))
+        ρ →
+      Σ shape :
+        {shape : Lemma5DerivativeShape //
+          theorem2MultiplicativeNonsurgeAllowedLemma5Shape shape},
+        GN21MeasuredLeftMultiplicativeFixedResponsePolicyFormSourceData μ
+          arrival switch12 switch21 m ρ shape.1
+  surge :
+    ∀ ρ : Fin 2 → TripPolicy,
+      dynamicMeasurableOptimal
+        (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
+          (fun i : Fin 2 => multiplicativePricing (m i)))
+        ρ →
+      Σ shape :
+        {shape : Lemma5DerivativeShape //
+          theorem2MultiplicativeSurgeAllowedLemma5Shape shape},
+        GN21MeasuredRightMultiplicativeFixedResponsePolicyFormSourceData μ
+          arrival switch12 switch21 m ρ shape.1
+
+/--
+Multiplicative GN21 measured source data produce the all-optima feasible-a.e.
+policy-form boundary consumed by Theorem 2.  The source boundary only proves
+the positive-response comparison against the candidate that Lemma 5 uses for
+the a.e. representative, avoiding the false requirement that every measurable
+candidate subset be nondegenerate.
+-/
+def Theorem4AllMeasurableGN21MultiplicativeFixedResponsePolicyFormSourceData.to_feasible_ae_policy_forms
+    {μ : Fin 2 → Measure TripLength}
+    [NoAtoms (μ 0)] [NoAtoms (μ 1)]
+    {arrival : Fin 2 → ℝ}
+    {switch12 switch21 : ℝ}
+    {m : Fin 2 → ℝ}
+    (C :
+      Theorem4AllMeasurableGN21MultiplicativeFixedResponsePolicyFormSourceData
+        μ arrival switch12 switch21 m) :
+    Theorem4AllMeasurableFeasibleAEPolicyFormData μ
+      (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
+        (fun i : Fin 2 => multiplicativePricing (m i))) where
+  exists_optimal := C.exists_optimal
+  nonsurge := by
+    intro ρ hρ
+    rcases C.nonsurge ρ hρ with ⟨shape, D⟩
+    let E :=
+      D.to_candidate_data C.arrival0_pos C.arrival1_pos
+        C.switch12_pos C.switch21_pos hρ
+    exact
+      ⟨⟨shape.1,
+          theorem2MultiplicativeNonsurgeAllowedLemma5Shape.to_theorem4
+            shape.2⟩,
+        E.to_feasiblePolicyFormAlmostEverywhere (hρ.1 0).2 (hρ.1 0).1⟩
+  surge := by
+    intro ρ hρ
+    rcases C.surge ρ hρ with ⟨shape, D⟩
+    let E :=
+      D.to_candidate_data C.arrival0_pos C.arrival1_pos
+        C.switch12_pos C.switch21_pos hρ
+    exact
+      ⟨⟨shape.1,
+          theorem2MultiplicativeSurgeAllowedLemma5Shape.to_theorem4
+            shape.2⟩,
+        E.to_feasiblePolicyFormAlmostEverywhere (hρ.1 1).2 (hρ.1 1).1⟩
 
 /--
 GN21 measured fixed-response source data in the positive Lemma 5 branch
@@ -63702,30 +66388,18 @@ theorem GN21RegularEndpointSharedSourceData.nonsurge_acceptAll_mass_pos
     {μ : Fin 2 → Measure TripLength}
     {arrival : Fin 2 → ℝ}
     {switch12 switch21 : ℝ}
-    (S : GN21RegularEndpointSharedSourceData μ arrival switch12 switch21)
-    (hmeasure_pos : 0 < μ 0 acceptAllPolicy) :
-    0 < singleStateTripMass (μ 0) acceptAllPolicy := by
-  have hfinite : μ 0 acceptAllPolicy ≠ ∞ := by
-    rw [S.nonsurge_support.hμ]
-    exact S.nonsurge_support.hfinite_acceptAll
-  exact
-    singleStateTripMass_pos_of_measure_ne_zero_ne_top (μ 0) acceptAllPolicy
-      (ne_of_gt hmeasure_pos) hfinite
+    (S : GN21RegularEndpointSharedSourceData μ arrival switch12 switch21) :
+    0 < singleStateTripMass (μ 0) acceptAllPolicy :=
+  S.nonsurge_support.singleStateTripMass_acceptAll_pos
 
 /-- Shared regular support gives positive surge accept-all mass. -/
 theorem GN21RegularEndpointSharedSourceData.surge_acceptAll_mass_pos
     {μ : Fin 2 → Measure TripLength}
     {arrival : Fin 2 → ℝ}
     {switch12 switch21 : ℝ}
-    (S : GN21RegularEndpointSharedSourceData μ arrival switch12 switch21)
-    (hmeasure_pos : 0 < μ 1 acceptAllPolicy) :
-    0 < singleStateTripMass (μ 1) acceptAllPolicy := by
-  have hfinite : μ 1 acceptAllPolicy ≠ ∞ := by
-    rw [S.surge_support.hμ]
-    exact S.surge_support.hfinite_acceptAll
-  exact
-    singleStateTripMass_pos_of_measure_ne_zero_ne_top (μ 1) acceptAllPolicy
-      (ne_of_gt hmeasure_pos) hfinite
+    (S : GN21RegularEndpointSharedSourceData μ arrival switch12 switch21) :
+    0 < singleStateTripMass (μ 1) acceptAllPolicy :=
+  S.surge_support.singleStateTripMass_acceptAll_pos
 
 /-- Shared regular support gives positive non-surge current mass for reject-long shapes. -/
 theorem GN21RegularEndpointSharedSourceData.nonsurge_rejectLong_current_mass_pos
@@ -64067,7 +66741,6 @@ theorem GN21RegularEndpointSharedSourceData.surge_current_mass_pos_of_allowed_po
     {ρ : Fin 2 → TripPolicy}
     (S : GN21RegularEndpointSharedSourceData μ arrival switch12 switch21)
     (hρ_feasible : dynamicFeasibleMeasurablePolicy ρ)
-    (hmeasure_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (hform :
       ∃ shape : Lemma5DerivativeShape,
         theorem4SurgeAllowedLemma5Shape shape ∧
@@ -64081,7 +66754,7 @@ theorem GN21RegularEndpointSharedSourceData.surge_current_mass_pos_of_allowed_po
         eq_acceptAllPolicy_of_subset_acceptAll_of_acceptsAll
           (hρ_feasible 1).1 hpolicy
       simpa [hpolicy_eq] using
-        S.surge_acceptAll_mass_pos hmeasure_acceptAll_pos
+        S.surge_acceptAll_mass_pos
   | strictlyIncreasing =>
       change ∃ t : ℝ, rejectsShortTrips t (ρ 1) at hpolicy
       rcases hpolicy with ⟨t, ht⟩
@@ -64109,7 +66782,6 @@ theorem GN21RegularEndpointSharedSourceData.nonsurge_current_mass_pos_of_allowed
     {ρ : Fin 2 → TripPolicy}
     (S : GN21RegularEndpointSharedSourceData μ arrival switch12 switch21)
     (hρ_feasible : dynamicFeasibleMeasurablePolicy ρ)
-    (hmeasure_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hrejectLong_pos :
       ∀ u : ℝ, rejectsLongTrips u (ρ 0) → 0 < u)
     (hacceptMiddle_bounds :
@@ -64127,7 +66799,7 @@ theorem GN21RegularEndpointSharedSourceData.nonsurge_current_mass_pos_of_allowed
         eq_acceptAllPolicy_of_subset_acceptAll_of_acceptsAll
           (hρ_feasible 0).1 hpolicy
       simpa [hpolicy_eq] using
-        S.nonsurge_acceptAll_mass_pos hmeasure_acceptAll_pos
+        S.nonsurge_acceptAll_mass_pos
   | strictlyIncreasing =>
       exact False.elim
         (by simpa [theorem4NonsurgeAllowedLemma5Shape] using hallowed)
@@ -64162,7 +66834,6 @@ theorem GN21RegularEndpointSharedSourceData.nonsurge_current_mass_pos_of_allowed
     {ρ : Fin 2 → TripPolicy}
     (S : GN21RegularEndpointSharedSourceData μ arrival switch12 switch21)
     (hρ_feasible : dynamicFeasibleMeasurablePolicy ρ)
-    (hmeasure_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hrejectLong_pos :
       ∀ u : ℝ, rejectsLongTrips u (ρ 0) → 0 < u)
     (hacceptMiddle_gap_of_pos :
@@ -64181,7 +66852,7 @@ theorem GN21RegularEndpointSharedSourceData.nonsurge_current_mass_pos_of_allowed
         eq_acceptAllPolicy_of_subset_acceptAll_of_acceptsAll
           (hρ_feasible 0).1 hpolicy
       simpa [hpolicy_eq] using
-        S.nonsurge_acceptAll_mass_pos hmeasure_acceptAll_pos
+        S.nonsurge_acceptAll_mass_pos
   | strictlyIncreasing =>
       exact False.elim
         (by simpa [theorem4NonsurgeAllowedLemma5Shape] using hallowed)
@@ -64221,7 +66892,6 @@ theorem GN21RegularEndpointSharedSourceData.surge_current_mass_pos_of_feasible_a
     {ρ : Fin 2 → TripPolicy}
     (S : GN21RegularEndpointSharedSourceData μ arrival switch12 switch21)
     (hρ_feasible : dynamicFeasibleMeasurablePolicy ρ)
-    (hmeasure_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (D :
       Σ shape : {shape : Lemma5DerivativeShape //
           theorem4SurgeAllowedLemma5Shape shape},
@@ -64242,7 +66912,7 @@ theorem GN21RegularEndpointSharedSourceData.surge_current_mass_pos_of_feasible_a
         eq_acceptAllPolicy_of_subset_acceptAll_of_acceptsAll
           D.policy_subset hpolicy_form
       simpa [hpolicy_eq] using
-        S.surge_acceptAll_mass_pos hmeasure_acceptAll_pos
+        S.surge_acceptAll_mass_pos
   | strictlyIncreasing =>
       have hpolicy_form := D.policy_form
       change ∃ t : ℝ, rejectsShortTrips t D.policy at hpolicy_form
@@ -64286,7 +66956,6 @@ theorem GN21RegularEndpointSharedSourceData.nonsurge_current_mass_pos_of_feasibl
     {ρ : Fin 2 → TripPolicy}
     (S : GN21RegularEndpointSharedSourceData μ arrival switch12 switch21)
     (hρ_feasible : dynamicFeasibleMeasurablePolicy ρ)
-    (hmeasure_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (D :
       Σ shape : {shape : Lemma5DerivativeShape //
           theorem4NonsurgeAllowedLemma5Shape shape},
@@ -64312,7 +66981,7 @@ theorem GN21RegularEndpointSharedSourceData.nonsurge_current_mass_pos_of_feasibl
         eq_acceptAllPolicy_of_subset_acceptAll_of_acceptsAll
           D.policy_subset hpolicy_form
       simpa [hpolicy_eq] using
-        S.nonsurge_acceptAll_mass_pos hmeasure_acceptAll_pos
+        S.nonsurge_acceptAll_mass_pos
   | strictlyIncreasing =>
       exact False.elim
         (by simpa [theorem4NonsurgeAllowedLemma5Shape] using hallowed)
@@ -64358,7 +67027,6 @@ theorem GN21RegularEndpointSharedSourceData.nonsurge_current_mass_pos_of_feasibl
     {ρ : Fin 2 → TripPolicy}
     (S : GN21RegularEndpointSharedSourceData μ arrival switch12 switch21)
     (hρ_feasible : dynamicFeasibleMeasurablePolicy ρ)
-    (hmeasure_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (D :
       Σ shape : {shape : Lemma5DerivativeShape //
           theorem4NonsurgeAllowedLemma5Shape shape},
@@ -64384,7 +67052,7 @@ theorem GN21RegularEndpointSharedSourceData.nonsurge_current_mass_pos_of_feasibl
         eq_acceptAllPolicy_of_subset_acceptAll_of_acceptsAll
           D.policy_subset hpolicy_form
       simpa [hpolicy_eq] using
-        S.nonsurge_acceptAll_mass_pos hmeasure_acceptAll_pos
+        S.nonsurge_acceptAll_mass_pos
   | strictlyIncreasing =>
       exact False.elim
         (by simpa [theorem4NonsurgeAllowedLemma5Shape] using hallowed)
@@ -72665,6 +75333,287 @@ def rejectsShortTripsAlmostEverywhere
       policyAlmostEverywhereEq μ σ σstar
 
 /--
+Source-faithful a.e. surge-state Theorem 2 shape, including the paper's
+`t = ∞` endpoint.  The endpoint is the empty accepted-trip policy.
+-/
+def rejectsShortTripsFiniteOrInfiniteCutoffAlmostEverywhere
+    (μ : Measure TripLength) (σ : TripPolicy) : Prop :=
+  ∃ σstar : TripPolicy,
+    ((∃ t : ℝ, rejectsShortTrips t σstar) ∨ σstar = ∅) ∧
+      policyAlmostEverywhereEq μ σ σstar
+
+/-- A finite short-trip cutoff is also an allowed finite-or-infinite cutoff. -/
+theorem rejectsShortTripsFiniteOrInfiniteCutoffAlmostEverywhere_of_finite
+    {μ : Measure TripLength} {σ : TripPolicy}
+    (hshape : rejectsShortTripsAlmostEverywhere μ σ) :
+    rejectsShortTripsFiniteOrInfiniteCutoffAlmostEverywhere μ σ := by
+  rcases hshape with ⟨σstar, hshort, hae⟩
+  exact ⟨σstar, Or.inl hshort, hae⟩
+
+/-- A zero-mass policy is a.e. equal to the empty policy under a finite measure. -/
+theorem policyAlmostEverywhereEq_empty_of_singleStateTripMass_eq_zero
+    (μ : Measure TripLength) [IsFiniteMeasure μ]
+    (σ : TripPolicy)
+    (hmass : singleStateTripMass μ σ = 0) :
+    policyAlmostEverywhereEq μ σ (∅ : TripPolicy) := by
+  unfold policyAlmostEverywhereEq
+  have hmeasure : μ σ = 0 :=
+    measure_zero_of_singleStateTripMass_eq_zero_of_ne_top hmass
+      (measure_ne_top μ σ)
+  simpa using hmeasure
+
+/--
+A zero-mass non-surge policy has the source's `t = 0` reject-long form up to
+null accepted-trip sets.
+-/
+theorem rejectsLongTripsFiniteOrInfiniteCutoffAlmostEverywhere_of_mass_zero
+    (μ : Measure TripLength) [IsFiniteMeasure μ]
+    (σ : TripPolicy)
+    (hmass : singleStateTripMass μ σ = 0) :
+    rejectsLongTripsFiniteOrInfiniteCutoffAlmostEverywhere μ σ := by
+  refine ⟨∅, Or.inl ⟨0, ?_⟩, ?_⟩
+  · intro τ hτ
+    simp [not_lt_of_ge (le_of_lt hτ)]
+  · exact policyAlmostEverywhereEq_empty_of_singleStateTripMass_eq_zero
+      μ σ hmass
+
+/--
+A zero-mass surge policy has the source's `t = ∞` reject-short form up to null
+accepted-trip sets.
+-/
+theorem rejectsShortTripsFiniteOrInfiniteCutoffAlmostEverywhere_of_mass_zero
+    (μ : Measure TripLength) [IsFiniteMeasure μ]
+    (σ : TripPolicy)
+    (hmass : singleStateTripMass μ σ = 0) :
+    rejectsShortTripsFiniteOrInfiniteCutoffAlmostEverywhere μ σ := by
+  exact
+    ⟨∅, Or.inr rfl,
+      policyAlmostEverywhereEq_empty_of_singleStateTripMass_eq_zero μ σ hmass⟩
+
+/--
+With positive multiplicative pay, positive non-surge arrival and switching
+rates, positive feasible non-surge mass, and integrable trip time, accepting
+all non-surge trips strictly improves on the all-empty dynamic policy.  This
+is the valid primitive nonoptimality fact at the fully empty boundary; it does
+not rule out the source's one-state zero-mass endpoints.
+-/
+theorem gn21AggregateMultiplicative_empty_lt_state0_acceptAll
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (m : Fin 2 → ℝ)
+    (hm0_pos : 0 < m 0)
+    (harrival0_pos : 0 < arrival 0)
+    (hswitch12_pos : 0 < switch12)
+    (hswitch21_pos : 0 < switch21)
+    (htime0_integrable_acceptAll :
+      IntegrableOn (fun τ : TripLength => τ) acceptAllPolicy (μ 0))
+    (hmass0_pos : 0 < singleStateTripMass (μ 0) acceptAllPolicy) :
+    gn21AggregateMultiplicativeDynamicReward μ arrival switch12 switch21 m
+        emptyDynamicPolicy <
+      gn21AggregateMultiplicativeDynamicReward μ arrival switch12 switch21 m
+        (Function.update emptyDynamicPolicy 0 acceptAllPolicy) := by
+  have htime0_nonneg :
+      0 ≤ singleStateTripTime (μ 0) acceptAllPolicy :=
+    singleStateTripTime_nonneg_of_subset_acceptAll (μ 0) acceptAllPolicy
+      measurableSet_acceptAllPolicy (fun _ hτ => hτ)
+  have htime0_ne : singleStateTripTime (μ 0) acceptAllPolicy ≠ 0 := by
+    intro htime0_zero
+    have hmass0_zero : singleStateTripMass (μ 0) acceptAllPolicy = 0 :=
+      singleStateTripMass_eq_zero_of_time_zero_subset_acceptAll
+        (μ 0) acceptAllPolicy measurableSet_acceptAllPolicy
+        (fun _ hτ => hτ) htime0_integrable_acceptAll htime0_zero
+    linarith
+  have htime0_pos : 0 < singleStateTripTime (μ 0) acceptAllPolicy :=
+    lt_of_le_of_ne htime0_nonneg (Ne.symm htime0_ne)
+  have hT0_pos :
+      0 < gn21ScaledStateTime (μ 0) (arrival 0) acceptAllPolicy :=
+    gn21ScaledStateTime_pos_of_nonneg (μ 0) (arrival 0) acceptAllPolicy
+      (le_of_lt harrival0_pos) measurableSet_acceptAllPolicy (fun _ hτ => hτ)
+  have hW0_pos :
+      0 < gn21ScaledStateEarning (μ 0) (arrival 0)
+        (multiplicativePricing (m 0)) acceptAllPolicy := by
+    rw [gn21ScaledStateEarning_multiplicativePricing]
+    unfold gn21ScaledStateTime
+    have hscaled_time_pos :
+        0 < 1 + arrival 0 * singleStateTripTime (μ 0) acceptAllPolicy - 1 := by
+      nlinarith [mul_pos harrival0_pos htime0_pos]
+    exact mul_pos hm0_pos hscaled_time_pos
+  have hupdate_zero :
+      Function.update emptyDynamicPolicy 0 acceptAllPolicy 0 = acceptAllPolicy := by
+    simp
+  have hupdate_one :
+      Function.update emptyDynamicPolicy 0 acceptAllPolicy 1 = (∅ : TripPolicy) := by
+    simp [emptyDynamicPolicy]
+  rw [gn21AggregateMultiplicativeDynamicReward_apply,
+    gn21AggregateMultiplicativeDynamicReward_apply, hupdate_zero, hupdate_one]
+  simp only [emptyDynamicPolicy]
+  unfold gn21MeasuredAggregateRewardPrimitives gn21AggregateDynamicReward
+  have hQ0_pos :
+      0 < gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21
+        acceptAllPolicy :=
+    gn21ExitWeightIntegral_pos_of_switch_pos (μ 0) (arrival 0) switch12 switch21
+      acceptAllPolicy (le_of_lt harrival0_pos) hswitch12_pos
+      (add_pos hswitch12_pos hswitch21_pos)
+      measurableSet_acceptAllPolicy (fun _ hτ => hτ)
+  have hden_pos :
+      0 < gn21ExitWeightIntegral (μ 0) (arrival 0) switch12 switch21
+          acceptAllPolicy +
+        switch21 * gn21ScaledStateTime (μ 0) (arrival 0) acceptAllPolicy := by
+    exact add_pos_of_pos_of_nonneg hQ0_pos
+      (mul_nonneg (le_of_lt hswitch21_pos) (le_of_lt hT0_pos))
+  have hnum_pos :
+      0 < switch21 *
+        gn21ScaledStateEarning (μ 0) (arrival 0)
+          (multiplicativePricing (m 0)) acceptAllPolicy :=
+    mul_pos hswitch21_pos hW0_pos
+  simpa [gn21ExitWeightIntegral_empty, gn21ScaledStateTime_empty,
+    gn21ScaledStateEarning_empty] using div_pos hnum_pos hden_pos
+
+/--
+Any policy with zero accepted mass in both states is nonoptimal under the same
+primitive conditions.  This is deliberately weaker than the legacy
+`dynamicHasZeroAcceptedMass` condition: a single zero-mass state remains a
+source-valid Theorem 2 cutoff endpoint.
+-/
+theorem not_dynamicMeasurableOptimal_gn21AggregateMultiplicative_of_allStateMass_zero
+    (μ : Fin 2 → Measure TripLength)
+    [IsFiniteMeasure (μ 0)] [IsFiniteMeasure (μ 1)]
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (m : Fin 2 → ℝ)
+    (hm0_pos : 0 < m 0)
+    (harrival0_pos : 0 < arrival 0)
+    (hswitch12_pos : 0 < switch12)
+    (hswitch21_pos : 0 < switch21)
+    (htime0_integrable_acceptAll :
+      IntegrableOn (fun τ : TripLength => τ) acceptAllPolicy (μ 0))
+    (hmass0_pos : 0 < singleStateTripMass (μ 0) acceptAllPolicy)
+    (σ : Fin 2 → TripPolicy)
+    (hmass_zero : ∀ i : Fin 2, singleStateTripMass (μ i) (σ i) = 0) :
+    ¬ dynamicMeasurableOptimal
+      (gn21AggregateMultiplicativeDynamicReward μ arrival switch12 switch21 m)
+      σ := by
+  intro hσ_optimal
+  have hae0 : policyAlmostEverywhereEq (μ 0) (σ 0) (∅ : TripPolicy) :=
+    policyAlmostEverywhereEq_empty_of_singleStateTripMass_eq_zero
+      (μ 0) (σ 0) (hmass_zero 0)
+  have hreward0 :
+      gn21AggregateMultiplicativeDynamicReward μ arrival switch12 switch21 m σ =
+        gn21AggregateMultiplicativeDynamicReward μ arrival switch12 switch21 m
+          (Function.update σ 0 ∅) := by
+    simpa [gn21AggregateMultiplicativeDynamicReward] using
+      gn21AggregateDynamicRewardFunctional_congr_left_policy_ae
+        μ arrival switch12 switch21
+        (fun i => multiplicativePricing (m i)) (ρ := σ) (σ0 := ∅) hae0
+  have hae1 :
+      policyAlmostEverywhereEq (μ 1) (Function.update σ 0 ∅ 1)
+        (∅ : TripPolicy) := by
+    simpa using
+      (policyAlmostEverywhereEq_empty_of_singleStateTripMass_eq_zero
+        (μ 1) (σ 1) (hmass_zero 1))
+  have hreward1 :
+      gn21AggregateMultiplicativeDynamicReward μ arrival switch12 switch21 m
+          (Function.update σ 0 ∅) =
+        gn21AggregateMultiplicativeDynamicReward μ arrival switch12 switch21 m
+          (Function.update (Function.update σ 0 ∅) 1 ∅) := by
+    simpa [gn21AggregateMultiplicativeDynamicReward] using
+      gn21AggregateDynamicRewardFunctional_congr_right_policy_ae
+        μ arrival switch12 switch21
+        (fun i => multiplicativePricing (m i))
+        (ρ := Function.update σ 0 ∅) (σ1 := ∅) hae1
+  have hupdates_empty :
+      Function.update (Function.update σ 0 ∅) 1 ∅ = emptyDynamicPolicy := by
+    funext i
+    fin_cases i <;> simp [emptyDynamicPolicy]
+  have hreward_empty :
+      gn21AggregateMultiplicativeDynamicReward μ arrival switch12 switch21 m σ =
+        gn21AggregateMultiplicativeDynamicReward μ arrival switch12 switch21 m
+          emptyDynamicPolicy := by
+    calc
+      gn21AggregateMultiplicativeDynamicReward μ arrival switch12 switch21 m σ =
+          gn21AggregateMultiplicativeDynamicReward μ arrival switch12 switch21 m
+            (Function.update σ 0 ∅) := hreward0
+      _ = gn21AggregateMultiplicativeDynamicReward μ arrival switch12 switch21 m
+            (Function.update (Function.update σ 0 ∅) 1 ∅) := hreward1
+      _ = gn21AggregateMultiplicativeDynamicReward μ arrival switch12 switch21 m
+            emptyDynamicPolicy := by rw [hupdates_empty]
+  have hcandidate_feasible :
+      dynamicFeasibleMeasurablePolicy
+        (Function.update emptyDynamicPolicy 0 acceptAllPolicy) :=
+    dynamicFeasibleMeasurablePolicy_update dynamicFeasibleMeasurablePolicy_empty
+      0 acceptAllPolicy (fun _ hτ => hτ) measurableSet_acceptAllPolicy
+  have hcandidate_le :=
+    hσ_optimal.2 (Function.update emptyDynamicPolicy 0 acceptAllPolicy)
+      hcandidate_feasible
+  have hstrict := gn21AggregateMultiplicative_empty_lt_state0_acceptAll
+    μ arrival switch12 switch21 m hm0_pos harrival0_pos hswitch12_pos hswitch21_pos
+    htime0_integrable_acceptAll hmass0_pos
+  rw [hreward_empty] at hcandidate_le
+  linarith
+
+/--
+Legacy quotient-target regression: if a feasible measurable policy is not in
+the finite-surge multiplicative a.e. shape class, then the unrestricted claim
+that all optima of an arbitrary `DynamicReward` have that legacy shape is
+false.  It does not refute the endpoint-aware aggregate target, whose surge
+shape admits the empty `t = ∞` policy.
+-/
+theorem not_all_constantDynamicReward_optima_have_multiplicative_ae_shape_of_feasible_nonshape
+    (μ : Fin 2 → Measure TripLength) (c : ℝ)
+    {σ : Fin 2 → TripPolicy}
+    (hσ : dynamicFeasibleMeasurablePolicy σ)
+    (hnot_shape :
+      ¬ (rejectsLongTripsFiniteOrInfiniteCutoffAlmostEverywhere (μ 0) (σ 0) ∧
+          rejectsShortTripsAlmostEverywhere (μ 1) (σ 1))) :
+    ¬ (∀ ρ : Fin 2 → TripPolicy,
+        dynamicMeasurableOptimal (constantDynamicReward c) ρ →
+          rejectsLongTripsFiniteOrInfiniteCutoffAlmostEverywhere (μ 0) (ρ 0) ∧
+            rejectsShortTripsAlmostEverywhere (μ 1) (ρ 1)) := by
+  intro hall
+  exact hnot_shape (hall σ (dynamicMeasurableOptimal_constantDynamicReward c hσ))
+
+/--
+The empty surge-state policy is not a.e. equivalent, under Lebesgue volume, to
+any short-trip rejection policy.  Every exact short-trip rejection policy
+contains an unbounded positive tail, which has nonzero volume.
+-/
+theorem not_rejectsShortTripsAlmostEverywhere_volume_empty :
+    ¬ rejectsShortTripsAlmostEverywhere volume (∅ : TripPolicy) := by
+  rintro ⟨σstar, ⟨t, hshort⟩, hae⟩
+  have hσstar_zero : volume σstar = 0 := by
+    simpa [policyAlmostEverywhereEq, Set.symmDiff_def] using hae
+  have htail_subset : gn21TailPolicy (max t 0) ⊆ σstar := by
+    intro τ hτ
+    have hτ_tail : max t 0 < τ := by
+      simpa [gn21TailPolicy] using hτ
+    have hτ_pos : 0 < τ := lt_of_le_of_lt (le_max_right t 0) hτ_tail
+    have ht_lt : t < τ := lt_of_le_of_lt (le_max_left t 0) hτ_tail
+    exact (hshort hτ_pos).2 ht_lt
+  exact volume_gn21TailPolicy_ne_zero (max t 0)
+    (measure_mono_null htail_subset hσstar_zero)
+
+/--
+Closed constant-reward regression for the legacy finite-surge shape claim:
+under a constant reward and Lebesgue volume in both states, the empty dynamic
+policy is feasible and optimal but is not a.e. a finite short-trip rejection
+policy.  The endpoint-aware aggregate target intentionally permits this surge
+component as `t = ∞`.
+-/
+theorem not_all_constantDynamicReward_optima_have_multiplicative_ae_shape_volume_empty
+    (c : ℝ) :
+    ¬ (∀ ρ : Fin 2 → TripPolicy,
+        dynamicMeasurableOptimal (constantDynamicReward c) ρ →
+          rejectsLongTripsFiniteOrInfiniteCutoffAlmostEverywhere volume (ρ 0) ∧
+            rejectsShortTripsAlmostEverywhere volume (ρ 1)) := by
+  refine
+    not_all_constantDynamicReward_optima_have_multiplicative_ae_shape_of_feasible_nonshape
+      (fun _ : Fin 2 => volume) c dynamicFeasibleMeasurablePolicy_empty ?_
+  intro hshape
+  exact not_rejectsShortTripsAlmostEverywhere_volume_empty
+    (by simpa [emptyDynamicPolicy] using hshape.2)
+
+/--
 The multiplicative/positive-affine non-surge Lemma 5 a.e. alternatives imply
 the source Theorem 2 a.e. reject-long-or-infinite shape.
 -/
@@ -72868,6 +75817,182 @@ theorem paper_theorem2_multiplicative_measurable_policy_shape_ae_of_certificate
   exact ⟨ρ, hρ, (hforms ρ hρ).1, (hforms ρ hρ).2⟩
 
 /--
+Endpoint-aware Theorem 2 policy-shape statement.  Unlike the legacy quotient
+target, its surge cutoff includes the source paper's `t = ∞` empty-policy
+endpoint.
+-/
+def GN21Theorem2EndpointAwarePolicyShapeStatement
+    (μ : Fin 2 → Measure TripLength) (R : DynamicReward) : Prop :=
+  (∃ ρ : Fin 2 → TripPolicy,
+    dynamicMeasurableOptimal R ρ ∧
+      rejectsLongTripsFiniteOrInfiniteCutoffAlmostEverywhere (μ 0) (ρ 0) ∧
+      rejectsShortTripsFiniteOrInfiniteCutoffAlmostEverywhere (μ 1) (ρ 1)) ∧
+    ∀ ρ : Fin 2 → TripPolicy, dynamicMeasurableOptimal R ρ →
+      rejectsLongTripsFiniteOrInfiniteCutoffAlmostEverywhere (μ 0) (ρ 0) ∧
+        rejectsShortTripsFiniteOrInfiniteCutoffAlmostEverywhere (μ 1) (ρ 1)
+
+/--
+The endpoint-aware Lemma 5 bridge.  A zero-mass state is handled directly by
+its finite/infinite cutoff endpoint; the marginal-response obligations are
+needed only for a state with positive accepted mass.
+-/
+theorem GN21Theorem2EndpointAwarePolicyShapeStatement.of_endpoint_marginal_obligations
+    (μ : Fin 2 → Measure TripLength)
+    [NoAtoms (μ 0)] [NoAtoms (μ 1)]
+    [IsFiniteMeasure (μ 0)] [IsFiniteMeasure (μ 1)]
+    (R : DynamicReward)
+    (exists_optimal :
+      ∃ ρ : Fin 2 → TripPolicy, dynamicMeasurableOptimal R ρ)
+    (nonsurge_data :
+      ∀ ρ : Fin 2 → TripPolicy,
+        ∀ hρ : dynamicMeasurableOptimal R ρ,
+        ∀ hmass : 0 < singleStateTripMass (μ 0) (ρ 0),
+          ∃ response : TripLength → ℝ,
+            ((∀ τ : TripLength, 0 < τ → 0 < response τ) ∨
+              ∃ t : ℝ, 0 < t ∧ StrictAntiOn response (Set.Ioi 0) ∧
+                response t = 0) ∧
+              Measurable response ∧
+              IntegrableOn response acceptAllPolicy (μ 0) ∧
+              ∀ σ : TripPolicy, σ ⊆ acceptAllPolicy → MeasurableSet σ →
+                lemma5MarginalSetReward (μ 0) response σ ≤
+                  lemma5MarginalSetReward (μ 0) response (ρ 0))
+    (surge_data :
+      ∀ ρ : Fin 2 → TripPolicy,
+        ∀ hρ : dynamicMeasurableOptimal R ρ,
+        ∀ hmass : 0 < singleStateTripMass (μ 1) (ρ 1),
+          ∃ response : TripLength → ℝ,
+            ((∀ τ : TripLength, 0 < τ → 0 < response τ) ∨
+              ∃ t : ℝ, 0 < t ∧ StrictMonoOn response (Set.Ioi 0) ∧
+                response t = 0) ∧
+              Measurable response ∧
+              IntegrableOn response acceptAllPolicy (μ 1) ∧
+              ∀ σ : TripPolicy, σ ⊆ acceptAllPolicy → MeasurableSet σ →
+                lemma5MarginalSetReward (μ 1) response σ ≤
+                  lemma5MarginalSetReward (μ 1) response (ρ 1)) :
+    GN21Theorem2EndpointAwarePolicyShapeStatement μ R := by
+  have hforms :
+      ∀ ρ : Fin 2 → TripPolicy, dynamicMeasurableOptimal R ρ →
+        rejectsLongTripsFiniteOrInfiniteCutoffAlmostEverywhere (μ 0) (ρ 0) ∧
+          rejectsShortTripsFiniteOrInfiniteCutoffAlmostEverywhere (μ 1) (ρ 1) := by
+    intro ρ hρ
+    constructor
+    · by_cases hmass_zero : singleStateTripMass (μ 0) (ρ 0) = 0
+      · exact
+          rejectsLongTripsFiniteOrInfiniteCutoffAlmostEverywhere_of_mass_zero
+            (μ 0) (ρ 0) hmass_zero
+      · have hmass_pos : 0 < singleStateTripMass (μ 0) (ρ 0) :=
+          lt_of_le_of_ne (singleStateTripMass_nonneg (μ 0) (ρ 0))
+            (Ne.symm hmass_zero)
+        rcases nonsurge_data ρ hρ hmass_pos with
+          ⟨response, hbranch, hmeasurable, hintegrable, hoptimal⟩
+        rcases hbranch with hpositive | hdecreasing
+        · have hform :=
+            paper_lemma5_fixed_response_feasible_policy_form_ae_of_positive_response_policy_form
+              (μ 0) response (ρ 0)
+              (Lemma5PositiveResponsePolicyFormData.positive response hpositive)
+              hmeasurable hintegrable (hρ.1 0).2 (hρ.1 0).1 hoptimal
+          exact
+            rejectsLongTripsFiniteOrInfiniteCutoffAlmostEverywhere_of_multiplicative_nonsurge_lemma5_formAE
+              (Or.inl rfl) hform.to_policyFormAlmostEverywhere
+        · rcases hdecreasing with ⟨t, ht_pos, hanti, hzero⟩
+          have hform :=
+            paper_lemma5_fixed_response_feasible_policy_form_ae_of_positive_response_policy_form
+              (μ 0) response (ρ 0)
+              (Lemma5PositiveResponsePolicyFormData.of_shapeData
+                (Lemma5PositiveResponseShapeData.strictlyDecreasing
+                  (response := response) t ht_pos hanti hzero))
+              hmeasurable hintegrable (hρ.1 0).2 (hρ.1 0).1 hoptimal
+          exact
+            rejectsLongTripsFiniteOrInfiniteCutoffAlmostEverywhere_of_multiplicative_nonsurge_lemma5_formAE
+              (Or.inr rfl) hform.to_policyFormAlmostEverywhere
+    · by_cases hmass_zero : singleStateTripMass (μ 1) (ρ 1) = 0
+      · exact
+          rejectsShortTripsFiniteOrInfiniteCutoffAlmostEverywhere_of_mass_zero
+            (μ 1) (ρ 1) hmass_zero
+      · have hmass_pos : 0 < singleStateTripMass (μ 1) (ρ 1) :=
+          lt_of_le_of_ne (singleStateTripMass_nonneg (μ 1) (ρ 1))
+            (Ne.symm hmass_zero)
+        rcases surge_data ρ hρ hmass_pos with
+          ⟨response, hbranch, hmeasurable, hintegrable, hoptimal⟩
+        rcases hbranch with hpositive | hincreasing
+        · have hform :=
+            paper_lemma5_fixed_response_feasible_policy_form_ae_of_positive_response_policy_form
+              (μ 1) response (ρ 1)
+              (Lemma5PositiveResponsePolicyFormData.positive response hpositive)
+              hmeasurable hintegrable (hρ.1 1).2 (hρ.1 1).1 hoptimal
+          exact
+            rejectsShortTripsFiniteOrInfiniteCutoffAlmostEverywhere_of_finite
+              (rejectsShortTripsAlmostEverywhere_of_multiplicative_surge_lemma5_formAE
+                (Or.inl rfl) hform.to_policyFormAlmostEverywhere)
+        · rcases hincreasing with ⟨t, ht_pos, hmono, hzero⟩
+          have hform :=
+            paper_lemma5_fixed_response_feasible_policy_form_ae_of_positive_response_policy_form
+              (μ 1) response (ρ 1)
+              (Lemma5PositiveResponsePolicyFormData.of_shapeData
+                (Lemma5PositiveResponseShapeData.strictlyIncreasing
+                  (response := response) t ht_pos hmono hzero))
+              hmeasurable hintegrable (hρ.1 1).2 (hρ.1 1).1 hoptimal
+          exact
+            rejectsShortTripsFiniteOrInfiniteCutoffAlmostEverywhere_of_finite
+              (rejectsShortTripsAlmostEverywhere_of_multiplicative_surge_lemma5_formAE
+                (Or.inr rfl) hform.to_policyFormAlmostEverywhere)
+  refine ⟨?_, hforms⟩
+  rcases exists_optimal with ⟨ρ, hρ⟩
+  exact ⟨ρ, hρ, (hforms ρ hρ).1, (hforms ρ hρ).2⟩
+
+/--
+The source-model Theorem 2 target uses the cancellation-preserving Appendix-D
+aggregate reward, including both finite and infinite cutoff endpoints.
+-/
+def GN21Theorem2AggregateMultiplicativePolicyShapeStatement
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (m : Fin 2 → ℝ) : Prop :=
+  GN21Theorem2EndpointAwarePolicyShapeStatement μ
+    (gn21AggregateMultiplicativeDynamicReward μ arrival switch12 switch21 m)
+
+/--
+Legacy quotient-domain GN21 Theorem 2 policy-shape statement.  It retains the
+displayed state-rate/time-fraction formula and therefore excludes the source
+zero-mass endpoints through separate nondegeneracy assumptions; the aggregate
+statement above is the canonical source-model target.
+-/
+def GN21Theorem2MeasuredMultiplicativePolicyShapeStatement
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (m : Fin 2 → ℝ) : Prop :=
+  (∃ ρ : Fin 2 → TripPolicy,
+    dynamicMeasurableOptimal
+      (gn21MeasuredMultiplicativeDynamicReward μ arrival switch12 switch21 m) ρ ∧
+      rejectsLongTripsFiniteOrInfiniteCutoffAlmostEverywhere (μ 0) (ρ 0) ∧
+      rejectsShortTripsAlmostEverywhere (μ 1) (ρ 1)) ∧
+    ∀ ρ : Fin 2 → TripPolicy,
+      dynamicMeasurableOptimal
+        (gn21MeasuredMultiplicativeDynamicReward μ arrival switch12 switch21 m) ρ →
+        rejectsLongTripsFiniteOrInfiniteCutoffAlmostEverywhere (μ 0) (ρ 0) ∧
+          rejectsShortTripsAlmostEverywhere (μ 1) (ρ 1)
+
+/--
+Certificate-to-statement bridge for the frozen multiplicative Theorem 2 target.
+The certificate is still conclusion-bearing; this theorem only fixes the exact
+paper-facing reward functional for subsequent proof work.
+-/
+theorem GN21Theorem2MeasuredMultiplicativePolicyShapeStatement.of_certificate
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (m : Fin 2 → ℝ)
+    (C :
+      MultiplicativeAEPolicyShapeCertificate μ
+        (gn21MeasuredMultiplicativeDynamicReward μ arrival switch12 switch21 m)) :
+    GN21Theorem2MeasuredMultiplicativePolicyShapeStatement
+      μ arrival switch12 switch21 m :=
+  paper_theorem2_multiplicative_measurable_policy_shape_ae_of_certificate
+    μ (gn21MeasuredMultiplicativeDynamicReward μ arrival switch12 switch21 m) C
+
+/--
 Theorem 2 a.e. policy-shape endpoint from feasible a.e. Lemma 5 form data and
 the multiplicative branch choices.
 -/
@@ -72893,6 +76018,68 @@ theorem paper_theorem2_multiplicative_measurable_policy_shape_ae_of_feasible_ae_
       μ R
       (MultiplicativeAEPolicyShapeCertificate.of_feasible_ae_policy_forms
         forms hnonsurge hsurge)
+
+/--
+The exact fixed-response source boundary implies the frozen measured
+multiplicative Theorem 2 statement.  This is the non-circular replacement for
+supplying `MultiplicativeAEPolicyShapeCertificate` directly at the paper row.
+-/
+theorem GN21Theorem2MeasuredMultiplicativePolicyShapeStatement.of_fixed_response_source_data
+    (μ : Fin 2 → Measure TripLength)
+    [NoAtoms (μ 0)] [NoAtoms (μ 1)]
+    (arrival : Fin 2 → ℝ)
+    (switch12 switch21 : ℝ)
+    (m : Fin 2 → ℝ)
+    (D :
+      Theorem4AllMeasurableGN21MultiplicativeFixedResponsePolicyFormSourceData
+        μ arrival switch12 switch21 m) :
+    GN21Theorem2MeasuredMultiplicativePolicyShapeStatement
+      μ arrival switch12 switch21 m := by
+  have hnonsurge :
+      ∀ ρ : Fin 2 → TripPolicy,
+        (hρ :
+          dynamicMeasurableOptimal
+            (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
+              (fun i => multiplicativePricing (m i))) ρ) →
+        let forms :
+          Theorem4AllMeasurableFeasibleAEPolicyFormData μ
+            (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
+              (fun i => multiplicativePricing (m i))) :=
+          D.to_feasible_ae_policy_forms
+        let F := forms.nonsurge ρ hρ
+        F.1.1 = .positive ∨ F.1.1 = .strictlyDecreasing := by
+    intro ρ hρ
+    rcases hsrc : D.nonsurge ρ hρ with ⟨shape, Dn⟩
+    dsimp [Theorem4AllMeasurableGN21MultiplicativeFixedResponsePolicyFormSourceData.to_feasible_ae_policy_forms]
+    simpa [hsrc] using
+      theorem2MultiplicativeNonsurgeAllowedLemma5Shape.branch shape.2
+  have hsurge :
+      ∀ ρ : Fin 2 → TripPolicy,
+        (hρ :
+          dynamicMeasurableOptimal
+            (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
+              (fun i => multiplicativePricing (m i))) ρ) →
+        let forms :
+          Theorem4AllMeasurableFeasibleAEPolicyFormData μ
+            (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
+              (fun i => multiplicativePricing (m i))) :=
+          D.to_feasible_ae_policy_forms
+        let F := forms.surge ρ hρ
+        F.1.1 = .positive ∨ F.1.1 = .strictlyIncreasing := by
+    intro ρ hρ
+    rcases hsrc : D.surge ρ hρ with ⟨shape, Ds⟩
+    dsimp [Theorem4AllMeasurableGN21MultiplicativeFixedResponsePolicyFormSourceData.to_feasible_ae_policy_forms]
+    simpa [hsrc] using
+      theorem2MultiplicativeSurgeAllowedLemma5Shape.branch shape.2
+  have hpaper :=
+    paper_theorem2_multiplicative_measurable_policy_shape_ae_of_feasible_ae_policy_forms
+      μ
+      (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
+        (fun i => multiplicativePricing (m i)))
+      D.to_feasible_ae_policy_forms
+      hnonsurge hsurge
+  simpa [GN21Theorem2MeasuredMultiplicativePolicyShapeStatement,
+    gn21MeasuredMultiplicativeDynamicReward] using hpaper
 
 /--
 Certificate for Theorem 3: structured prices exist and make accept-all uniquely
@@ -77988,7 +81175,6 @@ def GN21NonsurgeRejectLongTheorem3FixedTransferPositiveCutoffLocalData.of_other_
         μ arrival R1 R2 switch12 switch21 m z)
     (hρ_feasible : dynamicFeasibleMeasurablePolicy ρ)
     (hother_all : acceptsAllTrips (ρ 1))
-    (hmeasure_other_pos : 0 < μ 1 acceptAllPolicy)
     (hu : 0 < u) :
     GN21NonsurgeRejectLongTheorem3FixedTransferPositiveCutoffLocalData
       S m z R2 ρ u := by
@@ -78003,7 +81189,7 @@ def GN21NonsurgeRejectLongTheorem3FixedTransferPositiveCutoffLocalData.of_other_
   · simp [gn21AcceptAllScaledStateTime, gn21AcceptAllExitWeightIntegral,
       hother_eq]
   · rw [hother_eq]
-    exact S.surge_acceptAll_mass_pos hmeasure_other_pos
+    exact S.surge_acceptAll_mass_pos
   · simpa [gn21AcceptAllScaledStateTime, gn21AcceptAllExitWeightIntegral,
       hother_eq] using P.surge_accounting
 
@@ -78019,7 +81205,6 @@ def GN21NonsurgeAcceptMiddleTheorem3FixedTransferPositiveCutoffLocalData.of_othe
         μ arrival R1 R2 switch12 switch21 m z)
     (hρ_feasible : dynamicFeasibleMeasurablePolicy ρ)
     (hother_all : acceptsAllTrips (ρ 1))
-    (hmeasure_other_pos : 0 < μ 1 acceptAllPolicy)
     (hlo_pos : 0 < lo)
     (hlo_lt_hi : lo < hi)
     (hδ : 0 < δ)
@@ -78041,7 +81226,7 @@ def GN21NonsurgeAcceptMiddleTheorem3FixedTransferPositiveCutoffLocalData.of_othe
   · simp [gn21AcceptAllScaledStateTime, gn21AcceptAllExitWeightIntegral,
       hother_eq]
   · rw [hother_eq]
-    exact S.surge_acceptAll_mass_pos hmeasure_other_pos
+    exact S.surge_acceptAll_mass_pos
   · simpa [gn21AcceptAllScaledStateTime, gn21AcceptAllExitWeightIntegral,
       hother_eq] using P.surge_accounting
 
@@ -78057,7 +81242,6 @@ def GN21SurgeRejectShortTheorem3FixedTransferPositiveCutoffLocalData.of_other_ac
         μ arrival R1 R2 switch12 switch21 m z)
     (hρ_feasible : dynamicFeasibleMeasurablePolicy ρ)
     (hother_all : acceptsAllTrips (ρ 0))
-    (hmeasure_other_pos : 0 < μ 0 acceptAllPolicy)
     (tail_integrability :
       GN21TailProductIntegrabilityData S.surge_support.densityNN
         (gn21SwitchProb switch21 switch12)
@@ -78085,7 +81269,7 @@ def GN21SurgeRejectShortTheorem3FixedTransferPositiveCutoffLocalData.of_other_ac
   · simp [gn21AcceptAllScaledStateTime, gn21AcceptAllExitWeightIntegral,
       hother_eq]
   · rw [hother_eq]
-    exact S.nonsurge_acceptAll_mass_pos hmeasure_other_pos
+    exact S.nonsurge_acceptAll_mass_pos
   · simpa [gn21AcceptAllScaledStateTime, gn21AcceptAllExitWeightIntegral,
       hother_eq] using P.nonsurge_accounting
 
@@ -78101,7 +81285,6 @@ def GN21SurgeRejectMiddleLoTheorem3FixedTransferPositiveCutoffLocalData.of_other
         μ arrival R1 R2 switch12 switch21 m z)
     (hρ_feasible : dynamicFeasibleMeasurablePolicy ρ)
     (hother_all : acceptsAllTrips (ρ 0))
-    (hmeasure_other_pos : 0 < μ 0 acceptAllPolicy)
     (hlo_pos : 0 < lo)
     (hloδ_le_hi : lo + δ ≤ hi)
     (hδ : 0 < δ)
@@ -78129,7 +81312,7 @@ def GN21SurgeRejectMiddleLoTheorem3FixedTransferPositiveCutoffLocalData.of_other
   · simp [gn21AcceptAllScaledStateTime, gn21AcceptAllExitWeightIntegral,
       hother_eq]
   · rw [hother_eq]
-    exact S.nonsurge_acceptAll_mass_pos hmeasure_other_pos
+    exact S.nonsurge_acceptAll_mass_pos
   · simpa [gn21AcceptAllScaledStateTime, gn21AcceptAllExitWeightIntegral,
       hother_eq] using P.nonsurge_accounting
 
@@ -78145,7 +81328,6 @@ def GN21SurgeRejectMiddleHiTheorem3FixedTransferPositiveCutoffLocalData.of_other
         μ arrival R1 R2 switch12 switch21 m z)
     (hρ_feasible : dynamicFeasibleMeasurablePolicy ρ)
     (hother_all : acceptsAllTrips (ρ 0))
-    (hmeasure_other_pos : 0 < μ 0 acceptAllPolicy)
     (derivative_tail_integrability :
       GN21TailProductIntegrabilityData S.surge_support.densityNN
         (gn21SwitchProb switch21 switch12)
@@ -78180,7 +81362,7 @@ def GN21SurgeRejectMiddleHiTheorem3FixedTransferPositiveCutoffLocalData.of_other
   · simp [gn21AcceptAllScaledStateTime, gn21AcceptAllExitWeightIntegral,
       hother_eq]
   · rw [hother_eq]
-    exact S.nonsurge_acceptAll_mass_pos hmeasure_other_pos
+    exact S.nonsurge_acceptAll_mass_pos
   · simpa [gn21AcceptAllScaledStateTime, gn21AcceptAllExitWeightIntegral,
       hother_eq] using P.nonsurge_accounting
 
@@ -82580,8 +85762,6 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularPointwise
     (C :
       Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularPointwiseRewardRateNoMassLocalEndpointCertificate
         μ arrival R1 R2 switch12 switch21 m z)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
-    (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (allowed_policy_forms :
       Theorem4AllMeasurableAllowedPolicyFormsCertificate
         (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
@@ -82593,7 +85773,6 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularPointwise
     intro ρ hopt
     exact
       C.shared.nonsurge_current_mass_pos_of_allowed_policy_form hopt.1
-        hmeasure_nonsurge_acceptAll_pos
         (C.nonsurge_rejectLong_pos ρ hopt)
         (C.nonsurge_acceptMiddle_bounds ρ hopt)
         (allowed_policy_forms.only_policy_forms ρ hopt).1
@@ -82601,7 +85780,6 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularPointwise
     intro ρ hopt
     exact
       C.shared.surge_current_mass_pos_of_allowed_policy_form hopt.1
-        hmeasure_surge_acceptAll_pos
         (allowed_policy_forms.only_policy_forms ρ hopt).2
   nonsurge_reject_long_local := C.nonsurge_reject_long_local
   nonsurge_accept_middle_local := C.nonsurge_accept_middle_local
@@ -82917,7 +86095,6 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (Creplacement :
       Theorem4AllMeasurableOptimalShapeReplacementDerivationCertificate
@@ -82935,8 +86112,7 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
   let Lseparated := LbyPolicy.to_fixed_state_separated P.params Cforms
   let LnoMass := Lseparated.to_no_mass
   let Lmass :=
-    LnoMass.to_mass_separated
-      hmeasure_nonsurge_acceptAll_pos hmeasure_surge_acceptAll_pos Cforms
+    LnoMass.to_mass_separated Cforms
   let Lpointwise := Lmass.to_pointwise_reward_rate
   let Llocal := Lpointwise.to_positive_cutoff.to_local_endpoint
   Llocal.of_shape_replacements P hR1_pos hR1_lt_R2 hR2_pos
@@ -82959,7 +86135,6 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (Creplacement :
       Theorem4AllMeasurableOptimalShapeReplacementDerivationCertificate
@@ -82968,8 +86143,8 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
     Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularAllowedPolicyFormsCertificate
       μ arrival R1 R2 switch12 switch21 m z :=
   C.to_fixed_state_by_policy_form.to_fixed_transfer_allowed_policy_forms_of_shape_replacements
-    P hR1_pos hR1_lt_R2 hR2_pos hmeasure_nonsurge_acceptAll_pos
-    hmeasure_surge_acceptAll_pos Creplacement
+    P hR1_pos hR1_lt_R2 hR2_pos hmeasure_surge_acceptAll_pos
+    Creplacement
 
 /--
 Expand the Theorem 3 fixed-transfer source certificate to the existing regular
@@ -83817,7 +86992,6 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (Creplacement :
       Theorem4AllMeasurableOptimalShapeReplacementDerivationCertificate
@@ -83845,7 +87019,7 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
           P.params hopt.1 (Cforms.only_policy_forms ρ hopt).2
       let hmass_other_pos :=
         C.shared.surge_current_mass_pos_of_allowed_policy_form hopt.1
-          hmeasure_surge_acceptAll_pos (Cforms.only_policy_forms ρ hopt).2
+          (Cforms.only_policy_forms ρ hopt).2
       exact
         (((F.to_nonsurge_reject_long
           (C.nonsurge_rejectLong_pos ρ hopt u hshape)).with_mass
@@ -83857,7 +87031,7 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
           P.params hopt.1 (Cforms.only_policy_forms ρ hopt).2
       let hmass_other_pos :=
         C.shared.surge_current_mass_pos_of_allowed_policy_form hopt.1
-          hmeasure_surge_acceptAll_pos (Cforms.only_policy_forms ρ hopt).2
+          (Cforms.only_policy_forms ρ hopt).2
       let B := C.nonsurge_acceptMiddle_bounds ρ hopt lo hi hshape
       exact
         (((F.to_nonsurge_accept_middle B.1 B.2 B.1 le_rfl).with_mass
@@ -83869,7 +87043,6 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
           P.params hopt.1 (Cforms.only_policy_forms ρ hopt).1
       let hmass_other_pos :=
         C.shared.nonsurge_current_mass_pos_of_allowed_policy_form hopt.1
-          hmeasure_nonsurge_acceptAll_pos
           (C.nonsurge_rejectLong_pos ρ hopt)
           (C.nonsurge_acceptMiddle_bounds ρ hopt)
           (Cforms.only_policy_forms ρ hopt).1
@@ -83889,7 +87062,6 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
           P.params hopt.1 (Cforms.only_policy_forms ρ hopt).1
       let hmass_other_pos :=
         C.shared.nonsurge_current_mass_pos_of_allowed_policy_form hopt.1
-          hmeasure_nonsurge_acceptAll_pos
           (C.nonsurge_rejectLong_pos ρ hopt)
           (C.nonsurge_acceptMiddle_bounds ρ hopt)
           (Cforms.only_policy_forms ρ hopt).1
@@ -83980,7 +87152,6 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (Creplacement :
       Theorem4AllMeasurableOptimalShapeReplacementDerivationCertificate
@@ -84008,7 +87179,7 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
           P.params hopt.1 (Cforms.only_policy_forms ρ hopt).2
       let hmass_other_pos :=
         C.shared.surge_current_mass_pos_of_allowed_policy_form hopt.1
-          hmeasure_surge_acceptAll_pos (Cforms.only_policy_forms ρ hopt).2
+          (Cforms.only_policy_forms ρ hopt).2
       exact
         (((F.to_nonsurge_reject_long
           (C.nonsurge_rejectLong_pos ρ hopt hnot u hshape)).with_mass
@@ -84020,7 +87191,7 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
           P.params hopt.1 (Cforms.only_policy_forms ρ hopt).2
       let hmass_other_pos :=
         C.shared.surge_current_mass_pos_of_allowed_policy_form hopt.1
-          hmeasure_surge_acceptAll_pos (Cforms.only_policy_forms ρ hopt).2
+          (Cforms.only_policy_forms ρ hopt).2
       let B := C.nonsurge_acceptMiddle_bounds ρ hopt hnot lo hi hshape
       exact
         (((F.to_nonsurge_accept_middle B.1 B.2 B.1 le_rfl).with_mass
@@ -84032,7 +87203,6 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
           P.params hopt.1 (Cforms.only_policy_forms ρ hopt).1
       let hmass_other_pos :=
         C.shared.nonsurge_current_mass_pos_of_allowed_policy_form hopt.1
-          hmeasure_nonsurge_acceptAll_pos
           (fun u hshape =>
             C.nonsurge_rejectLong_pos ρ hopt
               (not_acceptsAllTrips_of_rejectsLongTrips_of_subset_acceptAll
@@ -84060,7 +87230,6 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
           P.params hopt.1 (Cforms.only_policy_forms ρ hopt).1
       let hmass_other_pos :=
         C.shared.nonsurge_current_mass_pos_of_allowed_policy_form hopt.1
-          hmeasure_nonsurge_acceptAll_pos
           (fun u hshape =>
             C.nonsurge_rejectLong_pos ρ hopt
               (not_acceptsAllTrips_of_rejectsLongTrips_of_subset_acceptAll
@@ -84292,7 +87461,6 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (Creplacement :
       Theorem4AllMeasurableOptimalShapeReplacementDerivationCertificate
@@ -84314,7 +87482,7 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
           P.params hopt.1 (Cforms.only_policy_forms ρ hopt).2
       let hmass_other_pos :=
         C.shared.surge_current_mass_pos_of_allowed_policy_form hopt.1
-          hmeasure_surge_acceptAll_pos (Cforms.only_policy_forms ρ hopt).2
+          (Cforms.only_policy_forms ρ hopt).2
       let D :=
         (((F.to_nonsurge_reject_long
           (C.nonsurge_rejectLong_pos ρ hopt u hshape)).with_mass
@@ -84355,7 +87523,7 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
           P.params hopt.1 (Cforms.only_policy_forms ρ hopt).2
       let hmass_other_pos :=
         C.shared.surge_current_mass_pos_of_allowed_policy_form hopt.1
-          hmeasure_surge_acceptAll_pos (Cforms.only_policy_forms ρ hopt).2
+          (Cforms.only_policy_forms ρ hopt).2
       let B := C.nonsurge_acceptMiddle_bounds ρ hopt lo hi hshape
       let D :=
         (((F.to_nonsurge_accept_middle B.1 B.2 B.1 le_rfl).with_mass
@@ -84396,7 +87564,6 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
           P.params hopt.1 (Cforms.only_policy_forms ρ hopt).1
       let hmass_other_pos :=
         C.shared.nonsurge_current_mass_pos_of_allowed_policy_form hopt.1
-          hmeasure_nonsurge_acceptAll_pos
           (C.nonsurge_rejectLong_pos ρ hopt)
           (C.nonsurge_acceptMiddle_bounds ρ hopt)
           (Cforms.only_policy_forms ρ hopt).1
@@ -84450,7 +87617,6 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
           P.params hopt.1 (Cforms.only_policy_forms ρ hopt).1
       let hmass_other_pos :=
         C.shared.nonsurge_current_mass_pos_of_allowed_policy_form hopt.1
-          hmeasure_nonsurge_acceptAll_pos
           (C.nonsurge_rejectLong_pos ρ hopt)
           (C.nonsurge_acceptMiddle_bounds ρ hopt)
           (Cforms.only_policy_forms ρ hopt).1
@@ -84575,7 +87741,6 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (_haccept :
       dynamicMeasurableOptimal
@@ -84589,8 +87754,8 @@ def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStat
     Theorem4MeasurableShapeReplacementStatewiseRejectedMassImprovementUnlessCertificate
       μ arrival m z switch12 switch21 :=
   (C.to_shape_replacement_rejected_mass_improvements_existence_of_shape_replacements
-    P hR1_pos hR1_lt_R2 hR2_pos hmeasure_nonsurge_acceptAll_pos
-    hmeasure_surge_acceptAll_pos Creplacement).to_accept_all_certificate
+    P hR1_pos hR1_lt_R2 hR2_pos hmeasure_surge_acceptAll_pos
+    Creplacement).to_accept_all_certificate
 
 /-- Common fixed-state equality data expand to the AE local endpoint route. -/
 def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularFixedStateEqDerivedTailMiddleRerouteLocalEndpointCertificate.to_ae_local_endpoint
@@ -91341,8 +94506,7 @@ theorem paper_theorem3_measured_structured_measurable_ic_prices_of_endpoint_theo
               m z hnonneg hparams
           exact
             (A.endpoint_theorem3_fixed_transfer_regular_pointwise_reward_rate_no_mass_selection
-              m z hnonneg hparams).to_mass_separated
-              A.hmeasure1_pos A.hmeasure2_pos Cforms }
+              m z hnonneg hparams).to_mass_separated Cforms }
 
 /--
 AE-unique version of the no-mass pointwise/reward-rate fixed-transfer route.
@@ -91386,8 +94550,7 @@ theorem paper_theorem3_measured_structured_measurable_ic_ae_unique_prices_of_end
               m z hnonneg hparams
           exact
             (A.endpoint_theorem3_fixed_transfer_regular_pointwise_reward_rate_no_mass_selection
-              m z hnonneg hparams).to_mass_separated
-              A.hmeasure1_pos A.hmeasure2_pos Cforms }
+              m z hnonneg hparams).to_mass_separated Cforms }
 
 /--
 Source-level assumptions for the fixed-state-separated fixed-transfer route
@@ -92224,7 +95387,7 @@ theorem paper_theorem3_measured_structured_measurable_ic_prices_of_endpoint_theo
               Creplacement.to_shape_replacements
           exact
             ⟨Creplacement,
-              L.to_mass_separated A.hmeasure1_pos A.hmeasure2_pos Cforms⟩ }
+              L.to_mass_separated Cforms⟩ }
 
 /--
 Source-level assumptions for the allowed-replacement fixed-transfer route with
@@ -92806,8 +95969,8 @@ theorem paper_theorem3_measured_structured_measurable_ic_prices_of_endpoint_theo
           theorem4MeasuredAggregateFeasibleStrictLocalImprovementCertificate_of_endpoint_current_bounds_selection_unless
             μ arrival m z switch12 switch21
             ((L.to_fixed_transfer_allowed_policy_forms_of_shape_replacements
-              P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-              A.hmeasure2_pos Creplacement).to_endpoint_current_bounds_selection_unless
+              P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos
+              Creplacement).to_endpoint_current_bounds_selection_unless
                 Creplacement))
 
 /--
@@ -93000,8 +96163,8 @@ theorem paper_theorem3_measured_structured_measurable_ic_ae_unique_prices_of_end
             Theorem3AcceptAllStructuredPositiveParameterData.of_evidence hparams
           exact
             L.to_fixed_transfer_allowed_policy_forms_of_shape_replacements
-              P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-              A.hmeasure2_pos CreplacementData.to_shape_replacements }
+              P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos
+              CreplacementData.to_shape_replacements }
 
 /--
 Common fixed-state equality version of the cutoff-bounds wrapper, routed
@@ -93230,8 +96393,8 @@ theorem paper_theorem3_measured_structured_measurable_ic_prices_of_endpoint_theo
           exact
             ⟨CreplacementData,
               L.to_fixed_transfer_middle_reroute_of_shape_replacements
-                P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-                A.hmeasure2_pos CreplacementData.to_shape_replacements⟩ }
+                P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos
+                CreplacementData.to_shape_replacements⟩ }
 
 /--
 The same by-policy-form middle-reroute source boundary, returning the paper's
@@ -93266,8 +96429,8 @@ theorem paper_theorem3_measured_structured_measurable_ic_ae_unique_prices_of_end
             Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularAllowedPolicyFormsMiddleRerouteCertificate
               μ arrival R1 R2 switch12 switch21 m z :=
           L.to_fixed_transfer_middle_reroute_of_shape_replacements
-            P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-            A.hmeasure2_pos CreplacementData.to_shape_replacements
+            P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos
+            CreplacementData.to_shape_replacements
         exact
           theorem4MeasuredAggregateFeasibleStrictLocalImprovementCertificate_of_shape_replacement_statewise_improvements_unless
             μ arrival m z switch12 switch21
@@ -93370,8 +96533,8 @@ theorem paper_theorem3_measured_structured_measurable_ic_prices_of_endpoint_theo
           exact
             ⟨CreplacementData,
               L.to_fixed_transfer_middle_reroute_of_shape_replacements
-                P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-                A.hmeasure2_pos CreplacementData.to_shape_replacements⟩ }
+                P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos
+                CreplacementData.to_shape_replacements⟩ }
 
 /--
 AE-unique version of the lighter branch-local by-policy-form middle-reroute
@@ -93406,8 +96569,8 @@ theorem paper_theorem3_measured_structured_measurable_ic_ae_unique_prices_of_end
             Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularAllowedPolicyFormsMiddleRerouteCertificate
               μ arrival R1 R2 switch12 switch21 m z :=
           L.to_fixed_transfer_middle_reroute_of_shape_replacements
-            P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-            A.hmeasure2_pos CreplacementData.to_shape_replacements
+            P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos
+            CreplacementData.to_shape_replacements
         exact
           theorem4MeasuredAggregateFeasibleStrictLocalImprovementCertificate_of_shape_replacement_statewise_improvements_unless
             μ arrival m z switch12 switch21
@@ -96188,7 +99351,6 @@ noncomputable def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRe
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (nonsurge_accept_all_or_reject_long :
       ∀ ρ : Fin 2 → TripPolicy,
@@ -96234,7 +99396,7 @@ noncomputable def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRe
           0 < singleStateTripMass (μ 1) (ρ 1) :=
         singleStateTripMass_pos_of_acceptsAllTrips_of_subset_acceptAll
           (μ 1) (hopt.1 1).1 hall
-          (C.shared.surge_acceptAll_mass_pos hmeasure_surge_acceptAll_pos)
+          C.shared.surge_acceptAll_mass_pos
       exact
         (F.to_nonsurge_reject_long_positive_cutoff hopt.1
           (C.nonsurge_rejectLong_pos ρ hopt u hshape)
@@ -96266,7 +99428,7 @@ noncomputable def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRe
           0 < singleStateTripMass (μ 0) (ρ 0) :=
         singleStateTripMass_pos_of_acceptsAllTrips_of_subset_acceptAll
           (μ 0) (hopt.1 0).1 hall
-          (C.shared.nonsurge_acceptAll_mass_pos hmeasure_nonsurge_acceptAll_pos)
+          C.shared.nonsurge_acceptAll_mass_pos
       let surgeTail :=
         (GN21SurgeTheorem3FixedTransferPositiveTailData.of_shared_acceptAll
           (m := m) (z := z) C.shared).to_uniform_tail
@@ -96631,7 +99793,6 @@ noncomputable def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRe
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (nonsurge_accept_all_or_reject_long :
       ∀ ρ : Fin 2 → TripPolicy,
@@ -96682,7 +99843,7 @@ noncomputable def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRe
           0 < singleStateTripMass (μ 1) (ρ 1) :=
         singleStateTripMass_pos_of_acceptsAllTrips_of_subset_acceptAll
           (μ 1) (hopt.1 1).1 hall
-          (C.shared.surge_acceptAll_mass_pos hmeasure_surge_acceptAll_pos)
+          C.shared.surge_acceptAll_mass_pos
       exact
         (F.to_nonsurge_reject_long_positive_cutoff hopt.1
           (C.nonsurge_rejectLong_pos ρ hopt u hshape)
@@ -96727,7 +99888,7 @@ noncomputable def Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRe
           0 < singleStateTripMass (μ 0) (ρ 0) :=
         singleStateTripMass_pos_of_acceptsAllTrips_of_subset_acceptAll
           (μ 0) (hopt.1 0).1 hall
-          (C.shared.nonsurge_acceptAll_mass_pos hmeasure_nonsurge_acceptAll_pos)
+          C.shared.nonsurge_acceptAll_mass_pos
       let surgeTail :=
         (GN21SurgeTheorem3FixedTransferPositiveTailData.of_shared_acceptAll
           (m := m) (z := z) C.shared).to_uniform_tail
@@ -96838,7 +99999,6 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (forms :
       Theorem4AllMeasurableFixedResponsePolicyFormData μ
@@ -96876,7 +100036,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
         P.params hρfixed.1 hsurge_form
     let hmass_other_pos :=
       C.shared.surge_current_mass_pos_of_allowed_policy_form hρfixed.1
-        hmeasure_surge_acceptAll_pos hsurge_form
+        hsurge_form
     have hshape_fixed : rejectsLongTrips u (ρfixed 0) := by
       simpa [ρfixed, Function.update] using hshape
     let D :=
@@ -96946,7 +100106,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
         P.params hρfixed.1 hsurge_form
     let hmass_other_pos :=
       C.shared.surge_current_mass_pos_of_allowed_policy_form hρfixed.1
-        hmeasure_surge_acceptAll_pos hsurge_form
+        hsurge_form
     have hshape_fixed : acceptsMiddleTrips lo hi (ρfixed 0) := by
       simpa [ρfixed, Function.update] using hshape
     by_cases hlo_pos : 0 < lo
@@ -97074,7 +100234,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
           hshapeD hlo_pos
     let hmass_other_pos :=
       C.shared.nonsurge_current_mass_pos_of_allowed_policy_form_middle_reroute
-        hρfixed.1 hmeasure_nonsurge_acceptAll_pos hrejectLong_pos
+        hρfixed.1 hrejectLong_pos
         hacceptMiddle_gap_of_pos hnonsurge_form
     let surgeTail :=
       (GN21SurgeTheorem3FixedTransferPositiveTailData.of_shared_acceptAll
@@ -97170,7 +100330,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
           hshapeD hlo_pos
     let hmass_other_pos :=
       C.shared.nonsurge_current_mass_pos_of_allowed_policy_form_middle_reroute
-        hρfixed.1 hmeasure_nonsurge_acceptAll_pos hrejectLong_pos
+        hρfixed.1 hrejectLong_pos
         hacceptMiddle_gap_of_pos hnonsurge_form
     let surgeTail :=
       (GN21SurgeTheorem3FixedTransferPositiveTailData.of_shared_acceptAll
@@ -97314,7 +100474,6 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (forms :
       Theorem4AllMeasurableFixedResponsePolicyFormData μ
@@ -97352,7 +100511,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
         P.params hρfixed.1 hsurge_form
     let hmass_other_pos :=
       C.shared.surge_current_mass_pos_of_allowed_policy_form hρfixed.1
-        hmeasure_surge_acceptAll_pos hsurge_form
+        hsurge_form
     have hshape_fixed : rejectsLongTrips u (ρfixed 0) := by
       simpa [ρfixed, Function.update] using hshape
     have hu : 0 < u :=
@@ -97395,7 +100554,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
         P.params hρfixed.1 hsurge_form
     let hmass_other_pos :=
       C.shared.surge_current_mass_pos_of_allowed_policy_form hρfixed.1
-        hmeasure_surge_acceptAll_pos hsurge_form
+        hsurge_form
     have hshape_fixed : acceptsMiddleTrips lo hi (ρfixed 0) := by
       simpa [ρfixed, Function.update] using hshape
     by_cases hlo_pos : 0 < lo
@@ -97469,7 +100628,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
           hshapeD hlo_pos
     let hmass_other_pos :=
       C.shared.nonsurge_current_mass_pos_of_allowed_policy_form_middle_reroute
-        hρfixed.1 hmeasure_nonsurge_acceptAll_pos hrejectLong_pos
+        hρfixed.1 hrejectLong_pos
         hacceptMiddle_gap_of_pos hnonsurge_form
     let surgeTail :=
       (GN21SurgeTheorem3FixedTransferPositiveTailData.of_shared_acceptAll
@@ -97537,7 +100696,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
           hshapeD hlo_pos
     let hmass_other_pos :=
       C.shared.nonsurge_current_mass_pos_of_allowed_policy_form_middle_reroute
-        hρfixed.1 hmeasure_nonsurge_acceptAll_pos hrejectLong_pos
+        hρfixed.1 hrejectLong_pos
         hacceptMiddle_gap_of_pos hnonsurge_form
     let surgeTail :=
       (GN21SurgeTheorem3FixedTransferPositiveTailData.of_shared_acceptAll
@@ -97622,7 +100781,6 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (forms :
       Theorem4AllMeasurableFixedResponsePolicyFormData μ
@@ -97640,7 +100798,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
     let Dsurge := forms.to_feasible_ae_policy_forms.surge ρ hρ
     let hmass_other_pos :=
       C.shared.surge_current_mass_pos_of_feasible_ae_policy_form hρ.1
-        hmeasure_surge_acceptAll_pos Dsurge
+        Dsurge
     let D :=
       (((F.to_nonsurge_reject_long
         (C.nonsurge_rejectLong_pos ρ hρ u hshape)).with_mass
@@ -97680,7 +100838,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
     let Dsurge := forms.to_feasible_ae_policy_forms.surge ρ hρ
     let hmass_other_pos :=
       C.shared.surge_current_mass_pos_of_feasible_ae_policy_form hρ.1
-        hmeasure_surge_acceptAll_pos Dsurge
+        Dsurge
     let B := C.nonsurge_acceptMiddle_bounds ρ hρ lo hi hshape
     let D :=
       (((F.to_nonsurge_accept_middle B.1 B.2 B.1 le_rfl).with_mass
@@ -97753,7 +100911,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
         (by simpa [ρrep, Function.update] using hshapeD)
     let hmass_other_pos :=
       C.shared.nonsurge_current_mass_pos_of_feasible_ae_policy_form hρ.1
-        hmeasure_nonsurge_acceptAll_pos Dnonsurge hrejectLong_pos
+        Dnonsurge hrejectLong_pos
         hacceptMiddle_bounds
     let surgeTail :=
       (GN21SurgeTheorem3FixedTransferPositiveTailData.of_shared_acceptAll
@@ -97837,7 +100995,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
         (by simpa [ρrep, Function.update] using hshapeD)
     let hmass_other_pos :=
       C.shared.nonsurge_current_mass_pos_of_feasible_ae_policy_form hρ.1
-        hmeasure_nonsurge_acceptAll_pos Dnonsurge hrejectLong_pos
+        Dnonsurge hrejectLong_pos
         hacceptMiddle_bounds
     let surgeTail :=
       (GN21SurgeTheorem3FixedTransferPositiveTailData.of_shared_acceptAll
@@ -97959,7 +101117,6 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (forms :
       Theorem4AllMeasurableFixedResponsePolicyFormData μ
@@ -97977,7 +101134,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
     let Dsurge := forms.to_feasible_ae_policy_forms.surge ρ hρ
     let hmass_other_pos :=
       C.shared.surge_current_mass_pos_of_feasible_ae_policy_form hρ.1
-        hmeasure_surge_acceptAll_pos Dsurge
+        Dsurge
     let D :=
       (((F.to_nonsurge_reject_long
         (C.nonsurge_rejectLong_pos ρ hρ u hshape)).with_mass
@@ -98017,7 +101174,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
     let Dsurge := forms.to_feasible_ae_policy_forms.surge ρ hρ
     let hmass_other_pos :=
       C.shared.surge_current_mass_pos_of_feasible_ae_policy_form hρ.1
-        hmeasure_surge_acceptAll_pos Dsurge
+        Dsurge
     by_cases hlo_pos : 0 < lo
     · have hlo_lt_hi :
           lo < hi :=
@@ -98130,7 +101287,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
         (by simpa [ρrep, Function.update] using hshapeD) hlo_pos
     let hmass_other_pos :=
       C.shared.nonsurge_current_mass_pos_of_feasible_ae_policy_form_middle_reroute hρ.1
-        hmeasure_nonsurge_acceptAll_pos Dnonsurge hrejectLong_pos
+        Dnonsurge hrejectLong_pos
         hacceptMiddle_gap_of_pos
     let surgeTail :=
       (GN21SurgeTheorem3FixedTransferPositiveTailData.of_shared_acceptAll
@@ -98214,7 +101371,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_
         (by simpa [ρrep, Function.update] using hshapeD) hlo_pos
     let hmass_other_pos :=
       C.shared.nonsurge_current_mass_pos_of_feasible_ae_policy_form_middle_reroute hρ.1
-        hmeasure_nonsurge_acceptAll_pos Dnonsurge hrejectLong_pos
+        Dnonsurge hrejectLong_pos
         hacceptMiddle_gap_of_pos
     let surgeTail :=
       (GN21SurgeTheorem3FixedTransferPositiveTailData.of_shared_acceptAll
@@ -98332,7 +101489,6 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceData.of_fixed_state_eq_
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (forms :
       Theorem4AllMeasurableFixedResponsePolicyFormData μ
@@ -98350,7 +101506,7 @@ def GN21Theorem3FixedResponsePolicyFormRejectedMassSourceData.of_fixed_state_eq_
       switch12 switch21 m z :=
   (GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_state_eq_middle_reroute
     μ arrival m z R1 R2 switch12 switch21 P hR1_pos hR1_lt_R2
-    hR2_pos hmeasure_nonsurge_acceptAll_pos hmeasure_surge_acceptAll_pos
+    hR2_pos hmeasure_surge_acceptAll_pos
     forms C).to_source_data
 
 /--
@@ -98855,8 +102011,8 @@ theorem paper_theorem3_measured_structured_measurable_ic_ae_unique_prices_of_fix
           exact
             GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_state_by_policy_form_middle_cutoff_reroute
               μ arrival m z R1 R2 switch12 switch21 P
-              A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-              A.hmeasure2_pos D.forms D.local_endpoint }
+              A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos
+              D.forms D.local_endpoint }
 
 /--
 IC-only projection of the sharp by-policy-form middle-cutoff route.
@@ -98919,8 +102075,8 @@ theorem paper_theorem3_measured_structured_measurable_ic_ae_unique_prices_of_fix
           exact
             GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_state_cross_by_policy_form_middle_cutoff_reroute
               μ arrival m z R1 R2 switch12 switch21 P
-              A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-              A.hmeasure2_pos D.forms D.local_endpoint }
+              A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos
+              D.forms D.local_endpoint }
 
 /--
 IC-only projection of the aggregate fixed-surge cross-ratio middle-cutoff
@@ -99299,8 +102455,8 @@ theorem paper_theorem3_measured_structured_measurable_ic_ae_unique_prices_of_fix
           exact
             GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_state_eq_middle_reroute
               μ arrival m z R1 R2 switch12 switch21 P
-              A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-              A.hmeasure2_pos D.forms D.local_endpoint }
+              A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos
+              D.forms D.local_endpoint }
 
 /--
 Ratio-source version of the existence-based fixed-response common fixed-state
@@ -100200,8 +103356,8 @@ theorem paper_theorem3_measured_structured_measurable_ic_ae_unique_prices_of_fix
           exact
             GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_state_eq_middle_cutoff_reroute
               μ arrival m z R1 R2 switch12 switch21 P
-              A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-              A.hmeasure2_pos D.forms D.local_endpoint }
+              A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos
+              D.forms D.local_endpoint }
 
 /--
 Ratio-source version of the fixed-response common fixed-state equality
@@ -106602,7 +109758,6 @@ noncomputable def GN21Theorem3ExtendedOneThresholdBranchFixedTransferSourceExist
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy) :
     Theorem4AllMeasurableOptimalAllowedReplacementData
         (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
@@ -106654,8 +109809,8 @@ by
   exact
     ⟨replacement,
       D.local_endpoint.to_exact_one_threshold_non_accept_all_selection_unless_of_extended_shapes
-        P hR1_pos hR1_lt_R2 hR2_pos hmeasure_nonsurge_acceptAll_pos
-        hmeasure_surge_acceptAll_pos D.nonsurge_accept_all_or_reject_long
+        P hR1_pos hR1_lt_R2 hR2_pos hmeasure_surge_acceptAll_pos
+        D.nonsurge_accept_all_or_reject_long
         D.surge_accept_all_or_reject_short⟩
 
 /--
@@ -106776,7 +109931,6 @@ noncomputable def GN21Theorem3FiniteOrInfiniteOneThresholdBranchFixedTransferSou
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy) :
     Theorem4AllMeasurableOptimalAllowedReplacementData
         (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
@@ -106784,8 +109938,7 @@ noncomputable def GN21Theorem3FiniteOrInfiniteOneThresholdBranchFixedTransferSou
       Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularExactOneThresholdNonAcceptAllSelectionUnlessCertificate
         μ arrival R1 R2 switch12 switch21 m z :=
   D.to_extended_source.to_exact_one_threshold_non_accept_all_selection_unless
-    P hR1_pos hR1_lt_R2 hR2_pos hmeasure_nonsurge_acceptAll_pos
-    hmeasure_surge_acceptAll_pos
+    P hR1_pos hR1_lt_R2 hR2_pos hmeasure_surge_acceptAll_pos
 
 /--
 Bracket-level source data in the paper's one-sided pointwise fixed-transfer
@@ -107439,8 +110592,7 @@ theorem paper_theorem3_measured_structured_measurable_ic_prices_of_extended_one_
             Theorem3AcceptAllStructuredPositiveParameterData.of_evidence hparams
           exact
             D.to_exact_one_threshold_non_accept_all_selection_unless
-              P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-              A.hmeasure2_pos }
+              P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos }
 
 /--
 AE-unique wrapper from extended exact-endpoint fixed-transfer source data.
@@ -107483,8 +110635,7 @@ theorem paper_theorem3_measured_structured_measurable_ic_ae_unique_prices_of_ext
             Theorem3AcceptAllStructuredPositiveParameterData.of_evidence hparams
           exact
             D.to_exact_one_threshold_non_accept_all_selection_unless
-              P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-              A.hmeasure2_pos }
+              P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos }
 
 /--
 Paper-facing source assumptions for the exact-endpoint fixed-transfer route in
@@ -108760,7 +111911,6 @@ noncomputable def GN21Theorem3ExtendedOneThresholdBranchSurgeCrossByPolicyFormFi
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy) :
     Theorem4AllMeasurableOptimalAllowedReplacementData
         (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
@@ -108812,8 +111962,8 @@ by
   exact
     ⟨replacement,
       D.local_endpoint.to_exact_one_threshold_non_accept_all_selection_unless_of_extended_shapes
-      P hR1_pos hR1_lt_R2 hR2_pos hmeasure_nonsurge_acceptAll_pos
-      hmeasure_surge_acceptAll_pos D.nonsurge_accept_all_or_reject_long
+      P hR1_pos hR1_lt_R2 hR2_pos hmeasure_surge_acceptAll_pos
+      D.nonsurge_accept_all_or_reject_long
       D.surge_accept_all_or_reject_short⟩
 
 /--
@@ -109454,7 +112604,6 @@ noncomputable def GN21Theorem3FiniteOrInfiniteOneThresholdBranchSurgeCrossByPoli
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy) :
     Theorem4AllMeasurableOptimalAllowedReplacementData
         (gn21MeasuredDynamicRewardFunctional μ arrival switch12 switch21
@@ -109462,8 +112611,7 @@ noncomputable def GN21Theorem3FiniteOrInfiniteOneThresholdBranchSurgeCrossByPoli
       Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularExactOneThresholdNonAcceptAllSelectionUnlessCertificate
         μ arrival R1 R2 switch12 switch21 m z :=
   D.to_extended_source.to_exact_one_threshold_non_accept_all_selection_unless
-    P hR1_pos hR1_lt_R2 hR2_pos hmeasure_nonsurge_acceptAll_pos
-    hmeasure_surge_acceptAll_pos
+    P hR1_pos hR1_lt_R2 hR2_pos hmeasure_surge_acceptAll_pos
 
 /--
 The broader by-policy-form exact branch package forgets to the aggregate-cross
@@ -110418,8 +113566,7 @@ theorem paper_theorem3_measured_structured_measurable_ic_prices_of_extended_one_
             Theorem3AcceptAllStructuredPositiveParameterData.of_evidence hparams
           exact
             D.to_exact_one_threshold_non_accept_all_selection_unless
-              P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-              A.hmeasure2_pos }
+              P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos }
 
 /--
 AE-unique wrapper from extended one-threshold branch aggregate-cross
@@ -110463,8 +113610,7 @@ theorem paper_theorem3_measured_structured_measurable_ic_ae_unique_prices_of_ext
             Theorem3AcceptAllStructuredPositiveParameterData.of_evidence hparams
           exact
             D.to_exact_one_threshold_non_accept_all_selection_unless
-              P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-              A.hmeasure2_pos }
+              P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos }
 
 /--
 Ratio-source version of the extended one-threshold aggregate-cross
@@ -111852,8 +114998,8 @@ theorem paper_theorem3_measured_structured_measurable_ic_ae_unique_prices_of_fix
           exact
             GN21Theorem3FixedResponsePolicyFormRejectedMassSourceData.of_fixed_state_eq_middle_reroute
               μ arrival m z R1 R2 switch12 switch21 P
-              A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-              A.hmeasure2_pos D.forms D.accept_all_optimal D.local_endpoint }
+              A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos
+              D.forms D.accept_all_optimal D.local_endpoint }
 
 /--
 Source data for the by-policy-form AE middle-reroute endpoint boundary.  This
@@ -111961,8 +115107,8 @@ theorem paper_theorem3_measured_structured_measurable_ic_ae_unique_prices_of_end
           theorem4MeasuredAggregateFeasibleRejectedMassStrictLocalImprovementCertificate_of_shape_replacement_statewise_rejected_mass_improvements_unless
             μ arrival m z switch12 switch21
             (D.local_endpoint.to_shape_replacement_rejected_mass_improvements_of_shape_replacements
-              P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-              A.hmeasure2_pos D.accept_all_optimal
+              P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos
+              D.accept_all_optimal
               D.replacement.to_shape_replacements))
 
 /--
@@ -112062,8 +115208,8 @@ theorem paper_theorem3_measured_structured_measurable_ic_ae_unique_prices_of_end
           theorem4MeasuredAggregateFeasibleRejectedMassStrictLocalImprovementCertificate_of_shape_replacement_statewise_rejected_mass_improvements_unless
             μ arrival m z switch12 switch21
             ((D.local_endpoint.to_shape_replacement_rejected_mass_improvements_existence_of_shape_replacements
-                P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-                A.hmeasure2_pos D.replacement.to_shape_replacements)
+                P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos
+                D.replacement.to_shape_replacements)
               |>.to_accept_all_certificate))
 
 /--
@@ -112111,8 +115257,8 @@ def Theorem3AcceptAllMeasurableEndpointTheorem3FixedTransferRegularAllowedReplac
         Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularAllowedPolicyFormsMiddleRerouteCertificate
           μ arrival R1 R2 switch12 switch21 m z :=
       L.to_fixed_transfer_middle_reroute_of_shape_replacements
-        P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-        A.hmeasure2_pos CreplacementData.to_shape_replacements
+        P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos
+        CreplacementData.to_shape_replacements
     have H :=
       paper_theorem4_measurable_accept_all_unique_optimal_of_endpoint_current_bounds_selection_unless_middle_reroute
         μ arrival m z switch12 switch21
@@ -113038,8 +116184,8 @@ def Theorem3AcceptAllMeasurableEndpointTheorem3FixedTransferRegularAllowedReplac
         Theorem4MeasurableEndpointCurrentBoundsTheorem3FixedTransferRegularAllowedPolicyFormsMiddleRerouteCertificate
           μ arrival R1 R2 switch12 switch21 m z :=
       LbyPolicy.to_fixed_transfer_middle_reroute_of_shape_replacements
-        P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure1_pos
-        A.hmeasure2_pos CreplacementData.to_shape_replacements
+        P A.hR1_pos A.hR1_lt_R2 A.hR2_pos A.hmeasure2_pos
+        CreplacementData.to_shape_replacements
     have H :=
       paper_theorem4_measurable_accept_all_unique_optimal_of_endpoint_current_bounds_selection_unless_middle_reroute
         μ arrival m z switch12 switch21

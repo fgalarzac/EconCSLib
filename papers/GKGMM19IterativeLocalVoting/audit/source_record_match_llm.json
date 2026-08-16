@@ -1,5 +1,5 @@
 {
-  "comment": "Semantic source-record provenance rejudge. Record/certificate/replay/process premises are not accepted by source-looking names alone. Digest refreshed after source-record helper update; classifications and reasons were preserved for currently expected judgment keys.",
+  "comment": "Semantic source-record provenance rejudge. Record/certificate/replay/process premises are not accepted by source-looking names alone. Digest refreshed after source-record helper update; classifications and reasons were preserved for currently expected judgment keys. Refreshed selected current v4 judgments after formula-data narrowing and JGR subtype/data audit hardening.",
   "items": {
     "C1ConvexSolutionSpaceSource.convex_solutionSpace": {
       "classification": "validated_source_assumption",
@@ -611,6 +611,665 @@
       "validator": "Codex source-record digest refresh",
       "validator_type": "agent"
     },
+    "GKGMM19IterativeLocalVoting.C1ConvexSolutionSpaceSource.convex_solutionSpace": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is the direct Lean representation of the convexity component of paper condition C1. It is intentionally treated as a source assumption. Full Theorem 3 source records consume this direct C1 source, and the old implication-shaped compatibility row has been removed from the paper-facing interface. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:413. Condition C1 states: \"The solution space X subset R^M is non-empty, bounded, closed, and convex.\"",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "572b1dba31a25545136fb2ce0fd6c4c77bba1766dc098ce404094b08f18f51e6"
+    },
+    "GKGMM19IterativeLocalVoting.DecomposableLinfLocalResponseBridge.decomposable": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is the decomposable-utilities source assumption from Proposition 2. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:546-558 and source.txt:566-568. Definition 3 defines decomposable utilities; Proposition 2 assumes utilities are decomposable.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.DecomposableMedianCarrier.coordinateMedianSet": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is the coordinatewise median-set object from the Proposition 2 source statement. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:558-564. The paper defines the set of medians on each dimension.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.DecomposableMedianCarrier.decomposable": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is the decomposable-utilities source assumption from Proposition 2. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:546-558 and source.txt:566-568. Definition 3 defines decomposable utilities; Proposition 2 assumes utilities are decomposable.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.DecomposableMedianCarrier.medianSet_formula": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is the Lean set-formula representation of the paper componentwise median target set. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:558-568. Proposition 2 identifies the target set as the componentwise medians of voters ideal points.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.DecomposableStructure.coordinateUtilitiesConcave": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Definition 3 defines decomposable utilities using coordinate utility functions, and the Proposition 2 setup uses the coordinatewise concavity/model condition. This validates only that source condition for Definition 3 rows.",
+      "source_location": "source.txt:550-554",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-11T00:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteCoordinateC3Carrier.source_c3": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is exactly the abstract C3 component stored on ILVEnvironment. It is a paper source assumption, not a theorem. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:417-418 and source.txt:2048-2053. C3 states that ideal points are drawn independently from a probability distribution with bounded measurable density h_X on M dimensions.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteCoordinateConvergenceSource.finite_coordinate_of_ilv_converges": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "The paper states Theorem 3 in finite-dimensional Euclidean notation. Because ILVEnvironment.convergesToPoint is an intentionally opaque source predicate, this field records the finite-coordinate reading of x_t -> x* needed by the analytic proof. It is source semantics, not a derived theorem from the opaque environment field. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:594-606 and source.txt:2224-2234. Theorem 3 states that if a trajectory {x_t} converges to x*, i.e. x_t -> x*, then x* is a directional equilibrium.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteCoordinateIdealDistributionData.baseMarginal": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This is the one-dimensional base marginal witness for the finite product-density reading of C3; it is carrier data, not a derived theorem. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:417-418 and source.txt:2049-2050. C3 states that each ideal point is drawn independently from a distribution with bounded measurable density; the appendix restates the bounded measurable density on M dimensions.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteCoordinateIdealDistributionData.baseNoAtoms": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "The coordinate-noncollision proof uses atomlessness of the finite-coordinate base measure as part of the bounded-density C3 carrier. This validates only the C3 model carrier, not an arbitrary environment convergence field.",
+      "source_location": "source.txt:417-418; source.txt:2048-2053",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "80adff68c69aedfed50a0633af72c963b10fa1ee1b2aced794d4c063d805b4e9"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteCoordinateIdealDistributionData.baseSigmaFinite": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Finite-coordinate C3 is the paper bounded-density model for ideal points. The sigma-finite base measure field is the measure-regularity component needed to express that bounded-density source assumption in Lean; it is not a convergence theorem.",
+      "source_location": "source.txt:417-418; source.txt:2048-2053",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "0e7000ec03b1f1cd02a57f178b93e326b39247f6e542b550d9177e870e7856b0"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteCoordinateIdealDistributionData.densityBound": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This is the nonnegative bound witness for the finite product-density reading of C3; the bounded-density proposition is audited separately. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:417-418 and source.txt:2049-2050. C3 states that each ideal point is drawn independently from a distribution with bounded measurable density; the appendix restates the bounded measurable density on M dimensions.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteCoordinateIdealDistributionData.hasBoundedDensity": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This is the direct finite-coordinate Lean statement of C3: ideal points are drawn from a distribution with bounded measurable density.",
+      "source_location": "source.txt:417-418; source.txt:2048-2053",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "9f1e2da2faabe70ac0de173e38261b7cccc1d6a5d6597efabb2dbb81e8142bea"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteCoordinateIdealDistributionData.idealMeasure": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This is the finite-coordinate ideal-point probability measure witness used to instantiate C3; it is data, not a theorem claim by itself. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:417-418 and source.txt:2049-2050. C3 states that each ideal point is drawn independently from a distribution with bounded measurable density; the appendix restates the bounded measurable density on M dimensions.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteModelBILVAlgorithm1SampledTraceSource.badEvent_measurable": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Technical measurability of the finite coordinate-equality bad event under the chosen source measurable structure; needed for the Lean `ae_map_iff` bridge. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:2112-2123 Lemma 3 bad event; technical Lean measurability side condition.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteModelBILVAlgorithm1SampledTraceSource.ideal_aemeasurable": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Measurability of the sampled ideal process is an explicit source-model measurability condition needed to transport marginal laws through `Measure.map`. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:2048-2053 C3 distributional assumption; technical Lean measurability side condition.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteModelBILVAlgorithm1SampledTraceSource.ideal_marginal_law": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "The selected voter ideal at each time has the C3 ideal marginal law, which is the distributional paper premise used by the bad-event argument. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:2048-2053 C3 bounded-density ideal distribution.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteModelBILVAlgorithm1SampledTraceSource.initial_feasible": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Algorithm 1 starts from a feasible initial point in the solution space. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:372-395 Algorithm 1 initialization/projection semantics.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteModelBILVAlgorithm1SampledTraceSource.probability": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "The sampled-voter construction is modeled on a probability space, matching the paper stochastic convergence setting. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:372-395 Algorithm 1 selected-voter process and convergence with probability one.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteModelBILVAlgorithm1SampledTraceSource.project": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Projection operator witness; its projection property is carried by `project_norm`. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteModelBILVAlgorithm1SampledTraceSource.project_norm": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Projection is the paper Algorithm 1 projection back to the feasible solution space in the selected norm. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:372-395 Algorithm 1 projection step.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteModelBILVAlgorithm1SampledTraceSource.projected_update": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Algorithm 1 projected update step from the raw local response to the next trajectory point. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:372-395 Algorithm 1 projection step.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteModelBILVAlgorithm1SampledTraceSource.rawPath": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Raw response path data; the raw update equation and projection step are audited separately. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteModelBILVAlgorithm1SampledTraceSource.raw_update_formula": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Paper Model B raw movement equation instantiated with the sign-correct finite Holder-dual gradient candidate before projection. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:436-452 Model B response and source.txt:2112-2123 Lemma 3 gradient argument.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteModelBILVAlgorithm1SampledTraceSource.voterPath": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Sampled selected-voter path data; distributional and update constraints are audited in separate fields. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:170-190. Algorithm 1 samples a voter at each iteration and uses the selected voter response to update the trajectory.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3ConcreteFieldContinuitySource.coordinate_continuity": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is the finite-coordinate coordinatewise continuity consequence used by the analytic proof from the paper assumption that G is uniformly continuous. Because the environment stores uniform continuity as an opaque source predicate, this row is validated as source semantics rather than derived from that opaque field. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:604 and source.txt:2232. Theorem 3 assumes G(x) is uniformly continuous.",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "f876de1ddace2217c54607a02bc9229c564b39ad8744eab10170a3281b802ecd"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3DirectionalFieldModel.directionalField_eq": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is part of the finite-coordinate source-semantics representation of Theorem 3 directional field formula, voter expectation, utility gradient, zero direction, or L2 norm interpretation. It is source/model semantics for the finite-coordinate theorem route, not an SSGM convergence boundary. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:596-604 and source.txt:2224-2232. Theorem 3 defines G(x) as E_v[grad f_v(x)/||grad f_v(x)||_2] and assumes L2 movement norm constraints.",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "2a919bd954a7da3e15d0df9f850f7fd009263d1476f0a9ca2a254af8b6cfc00c"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3DirectionalFieldModel.normDistance_l2_zero_eq": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is part of the finite-coordinate source-semantics representation of Theorem 3 directional field formula, voter expectation, utility gradient, zero direction, or L2 norm interpretation. It is source/model semantics for the finite-coordinate theorem route, not an SSGM convergence boundary. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:596-604 and source.txt:2224-2232. Theorem 3 defines G(x) as E_v[grad f_v(x)/||grad f_v(x)||_2] and assumes L2 movement norm constraints.",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "944de01c21b6a6ad3464b3527c67b1aeeb7debbabd17c176bdb3000062e33aa8"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3DirectionalFieldModel.scalarDirection_eq": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is part of the finite-coordinate source-semantics representation of Theorem 3 directional field formula, voter expectation, utility gradient, zero direction, or L2 norm interpretation. It is source/model semantics for the finite-coordinate theorem route, not an SSGM convergence boundary. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:596-604 and source.txt:2224-2232. Theorem 3 defines G(x) as E_v[grad f_v(x)/||grad f_v(x)||_2] and assumes L2 movement norm constraints.",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "d55f65edec62fdeac98673761426dac257dda954302d04d17b63c11c23e13e60"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3DirectionalFieldModel.utilityGradient": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is part of the finite-coordinate source-semantics representation of Theorem 3 directional field formula, voter expectation, utility gradient, zero direction, or L2 norm interpretation. It is source/model semantics for the finite-coordinate theorem route, not an SSGM convergence boundary. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:596-604 and source.txt:2224-2232. Theorem 3 defines G(x) as E_v[grad f_v(x)/||grad f_v(x)||_2] and assumes L2 movement norm constraints.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3DirectionalFieldModel.utilityGradient_eq": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is part of the finite-coordinate source-semantics representation of Theorem 3 directional field formula, voter expectation, utility gradient, zero direction, or L2 norm interpretation. It is source/model semantics for the finite-coordinate theorem route, not an SSGM convergence boundary. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:596-604 and source.txt:2224-2232. Theorem 3 defines G(x) as E_v[grad f_v(x)/||grad f_v(x)||_2] and assumes L2 movement norm constraints.",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "78ceb862439f72a58fb23071c21d3d41aaf05f84807be81d2aa09c3bf2c3a464"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3DirectionalFieldModel.voterExpectation_eq": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is part of the finite-coordinate source-semantics representation of Theorem 3 directional field formula, voter expectation, utility gradient, zero direction, or L2 norm interpretation. It is source/model semantics for the finite-coordinate theorem route, not an SSGM convergence boundary. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:596-604 and source.txt:2224-2232. Theorem 3 defines G(x) as E_v[grad f_v(x)/||grad f_v(x)||_2] and assumes L2 movement norm constraints.",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "ff2c776c41d08a9dc866fb127d147023d6d994a9846fc9a5e854f3f169d3c0db"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3DirectionalFieldModel.weight": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is part of the finite-coordinate source-semantics representation of Theorem 3 directional field formula, voter expectation, utility gradient, zero direction, or L2 norm interpretation. It is source/model semantics for the finite-coordinate theorem route, not an SSGM convergence boundary. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:596-604 and source.txt:2224-2232. Theorem 3 defines G(x) as E_v[grad f_v(x)/||grad f_v(x)||_2] and assumes L2 movement norm constraints.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3DirectionalFieldModel.weight_nonneg": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is part of the finite-coordinate source-semantics representation of Theorem 3 directional field formula, voter expectation, utility gradient, zero direction, or L2 norm interpretation. It is source/model semantics for the finite-coordinate theorem route, not an SSGM convergence boundary. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:596-604 and source.txt:2224-2232. Theorem 3 defines G(x) as E_v[grad f_v(x)/||grad f_v(x)||_2] and assumes L2 movement norm constraints.",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "0c6d6445395a4de64da7337a7ca343708ff612967777819ddf9d5e45d452d82a"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3DirectionalFieldModel.weight_sum": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is part of the finite-coordinate source-semantics representation of Theorem 3 directional field formula, voter expectation, utility gradient, zero direction, or L2 norm interpretation. It is source/model semantics for the finite-coordinate theorem route, not an SSGM convergence boundary. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:596-604 and source.txt:2224-2232. Theorem 3 defines G(x) as E_v[grad f_v(x)/||grad f_v(x)||_2] and assumes L2 movement norm constraints.",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "66b8134f14a93c17f197e6c9c60df996031dcb4791d509bc8151a2f4f82a6561"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3DirectionalFieldModel.zeroDirection_eq": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is part of the finite-coordinate source-semantics representation of Theorem 3 directional field formula, voter expectation, utility gradient, zero direction, or L2 norm interpretation. It is source/model semantics for the finite-coordinate theorem route, not an SSGM convergence boundary. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:596-604 and source.txt:2224-2232. Theorem 3 defines G(x) as E_v[grad f_v(x)/||grad f_v(x)||_2] and assumes L2 movement norm constraints.",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "b3b6a6b6fee63f10dcc6d3136b592059b9991860154ed4b7efa2de2ce2b556f9"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3GlobalProjectedAlgorithm1UpdateSource.normDistance": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is part of the split finite-coordinate reading of Algorithm 1 and Theorem 3: positive radius, L2 movement norm semantics, and projection onto X are source-model interpretations of the paper's algorithmic setup. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:186 describes projection onto X; source.txt:2232-2235 states L2 movement constraints and Model B for Theorem 3.",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "3c86f4501df460a88093903e4a1e789256afefde011060688bb20ff5fa93d359"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3GlobalProjectedAlgorithm1UpdateSource.project": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is witness data for the paper radius/projection operator in the split Algorithm 1 update source. Its mathematical properties are audited in the companion propositional fields. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:186 and source.txt:2232-2235.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3GlobalProjectedAlgorithm1UpdateSource.project_norm": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is part of the split finite-coordinate reading of Algorithm 1 and Theorem 3: positive radius, L2 movement norm semantics, and projection onto X are source-model interpretations of the paper's algorithmic setup. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:186 describes projection onto X; source.txt:2232-2235 states L2 movement constraints and Model B for Theorem 3.",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "0030b73c94fa55a0e7747452fe2c05677476bfe97a9c24cd6b8e6b68b28a017c"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3GlobalProjectedAlgorithm1UpdateSource.projected_update": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This is the direct finite-coordinate Algorithm 1 projected update equation for the global-tail Theorem 3 route: the selected Model B raw response is projected back to X to produce the next trajectory point. It is a source-model interpretation of Algorithm 1, not a derived theorem. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:186 describes Algorithm 1 as projecting the reported point onto X; source.txt:2232-2235 states Theorem 3 uses L2 movement constraints and Model B voters.",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "d74d2cfa9b41ff1b930954573af40266415b0164fa1c828cdd37c01cd55d19c1"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3GlobalProjectedAlgorithm1UpdateSource.r0": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is witness data for the paper radius/projection operator in the split Algorithm 1 update source. Its mathematical properties are audited in the companion propositional fields. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:186 and source.txt:2232-2235.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.FiniteTheorem3GlobalProjectedAlgorithm1UpdateSource.r0_pos": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is part of the split finite-coordinate reading of Algorithm 1 and Theorem 3: positive radius, L2 movement norm semantics, and projection onto X are source-model interpretations of the paper's algorithmic setup. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:186 describes projection onto X; source.txt:2232-2235 states L2 movement constraints and Model B for Theorem 3.",
+      "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+      "validated_at": "2026-07-11T16:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent",
+      "source_record_item_sha256": "5110ee7c2b27dfdfd3ae5680fbae0a8f2f5adff5005e4793840921c5b29e7470"
+    },
+    "GKGMM19IterativeLocalVoting.ILVUtilityFormulaData.ideal": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "The formula-data ideal map is a bare witness for the source notation x_v used in C2 and Definitions 1/2/3. It carries no equality, convergence, optimality, response, or theorem conclusion; the proposition-valued utility formulas remain audited separately.",
+      "source_location": "source.txt:413-418; source.txt:436-438; source.txt:484-506; source.txt:550-554",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-11T00:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.Theorem2SampledSourceSemantics.hNorm": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Finite-coordinate norm-distance interpretation used to read the paper finite-dimensional Lp formulas inside the abstract environment interface. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:400-410 and Appendix C.4 finite-dimensional notation.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.Theorem2SampledSourceSemantics.r0": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Positive radius witness for Algorithm 1; its mathematical constraint is carried by the separate `r0_pos` field. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.Theorem2SampledSourceSemantics.r0_pos": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Positive Algorithm 1 initial radius, matching the paper radius schedule premise needed for SSGM step sizes. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:372-384 Algorithm 1 radius schedule.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.badEvent_measurable": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Technical measurability of finite coordinate-equality bad events under the chosen source measurable structure. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:2112-2123 Lemma 3 bad event; technical Lean measurability side condition.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.biasPath": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Bias path witness for the sampled weighted-Euclidean update; stochastic assumptions are part of the SSGM boundary. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.coefficient_nonneg": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Weighted-Euclidean components use nonnegative normalized weights in the Proposition 1 source model. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:518-545 Definition 2/Proposition 1 weighted-Euclidean utility decomposition.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.componentIdeal": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Component ideal function witness; finite L2 component-distance and marginal-law constraints are audited separately. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.component_distance_eq_l2": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Each weighted component distance is represented as a finite L2 distance to the component ideal, matching the concrete component-distance reading used for Proposition 1. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:518-545 Definition 2 and Proposition 1 weighted-Euclidean construction.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.component_ideal_aemeasurable": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Measurability of sampled component ideals is an explicit source-model condition needed to transport marginal component laws through `Measure.map`. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:2048-2053 C3 distributional assumption; technical Lean measurability side condition.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.component_ideal_marginal_law": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Each sampled component ideal has the supplied bounded-density finite-coordinate marginal law, enabling the component bad-event argument. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:2048-2053 C3 bounded-density ideal distribution.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.initial_feasible": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Algorithm 1 starts from a feasible initial point in the solution space. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:372-395 Algorithm 1 initialization/projection semantics.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.noisePath": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Noise path witness for the sampled weighted-Euclidean update; stochastic assumptions are part of the SSGM boundary. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.probability": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "The Proposition 1 sampled selected-voter process is modeled on a probability space, matching the paper stochastic convergence setting. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:372-395 Algorithm 1 selected-voter process and convergence with probability one.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.project": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Projection operator witness; its projection property is carried by `project_norm`. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.project_norm": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Projection is the Algorithm 1 projection back to the feasible solution space in L2. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:372-395 Algorithm 1 projection step.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.r0_pos": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Positive Algorithm 1 initial radius for the weighted-Euclidean Proposition 1 route. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:372-384 Algorithm 1 radius schedule.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.rawPath": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Raw weighted update path witness; raw generation and projection equations are audited separately. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.raw_generation": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Raw weighted-Euclidean Algorithm 2/Proposition 1 generation equation before projection, with component gradient candidate, noise, and bias fields explicit. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:530-545 Proposition 1 weighted-Euclidean update/subgradient construction.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.raw_projected_update": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Algorithm projection step from the raw weighted-Euclidean update to the next L2 trajectory point. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:372-395 Algorithm 1 projection step and source.txt:530-545 Proposition 1 update construction.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanL2ConcreteComponentSampledTraceSource.selectedVoterPath": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Sampled selected-voter path data; distributional and update constraints are audited in separate fields. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:170-190. Algorithm 1 samples a voter at each iteration and uses the selected voter response to update the trajectory.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanSocialObjectiveFormulaSource.mem_socialOptimal_iff_societalUtility_isMaxOn": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "This field is the direct Lean set-formula representation of the paper social-optimal definition. Item-level v4 refresh for the live name-invariant signature key; semantic source evidence is unchanged from the v2 judgment.",
+      "source_location": "source.txt:420-422. The paper defines social optimal solutions as feasible argmax points of expected societal utility.",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-04T13:39:01Z",
+      "validator": "Codex source-record digest refresh",
+      "validator_type": "agent"
+    },
+    "GKGMM19IterativeLocalVoting.WeightedEuclideanStructure.weightsAndIdealsDistributionCondition": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v4-name-invariant-signature-closure",
+      "reason": "Definition 2 explicitly assumes the weighted-Euclidean weights and ideal points are drawn from a bounded-density joint distribution with W nonempty, bounded, closed, and convex. This validates only that source-model condition.",
+      "source_location": "source.txt:484-506",
+      "source_record_audit_sha256": "3d4f58a5e07da0a668ebd344cd114ebfecf2f6895558ed1f00f548db1a617295",
+      "validated_at": "2026-07-11T00:00:00Z",
+      "validator": "Codex semantic conclusion-provenance audit",
+      "validator_type": "agent"
+    },
     "Proposition1ConcreteComponentSampledSourceSemantics.weighted_l2_sampled_component_inputs": {
       "classification": "container_recursively_audited",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
@@ -1098,7 +1757,7 @@
       "validator": "Codex source-record digest refresh",
       "validator_type": "agent"
     },
-    "lemma3_coordinate_equality_bad_event_null_from_productMeasure.hbd : EconCSLib.Probability.HasBoundedDensity (Measure.pi (fun _ : Coord => ρ)) μ C": {
+    "lemma3_coordinate_equality_bad_event_null_from_productMeasure.hbd : EconCSLib.Probability.HasBoundedDensity (Measure.pi (fun _ : Coord => \u03c1)) \u03bc C": {
       "classification": "approved_external_boundary",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Documented partial-formalization boundary for this paper; the current theorem checks consequences conditional on this source-record/certificate field.",
@@ -1108,7 +1767,7 @@
       "validator": "Codex source-record digest refresh",
       "validator_type": "agent"
     },
-    "lemma3_coordinate_noncollision_ae_from_productMeasure.hbd : EconCSLib.Probability.HasBoundedDensity (Measure.pi (fun _ : Coord => ρ)) μ C": {
+    "lemma3_coordinate_noncollision_ae_from_productMeasure.hbd : EconCSLib.Probability.HasBoundedDensity (Measure.pi (fun _ : Coord => \u03c1)) \u03bc C": {
       "classification": "approved_external_boundary",
       "prompt_version": "source-record-v2-semantic-boundary-inputs",
       "reason": "Documented partial-formalization boundary for this paper; the current theorem checks consequences conditional on this source-record/certificate field.",
@@ -1120,10 +1779,10 @@
     }
   },
   "paper": "GKGMM19IterativeLocalVoting",
-  "prompt_version": "source-record-v2-semantic-boundary-inputs",
+  "prompt_version": "source-record-v4-name-invariant-signature-closure",
   "schema": 1,
-  "source_record_audit_sha256": "c2c2aff1ab987fb5adad50ea0aad37da21c6206a3a781b15def408e625999ab2",
-  "validated_at": "2026-07-04T13:39:01Z",
-  "validator": "Codex source-record digest refresh",
+  "source_record_audit_sha256": "60c518c599ea7eaa107fc3c97d315575c45be02013409b36970c3ad0b9cba81e",
+  "validated_at": "2026-07-11T16:00:00Z",
+  "validator": "Codex semantic conclusion-provenance audit",
   "validator_type": "agent"
 }

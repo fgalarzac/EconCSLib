@@ -291,5 +291,19 @@ def UtilitiesAgreeWithinTypes {m n K : ℕ}
     (W : RecommendationModel m n) (τ : UserTypeAssignment m K) : Prop :=
   ∀ u u', τ.toType u = τ.toType u' → W.utility u = W.utility u'
 
+/--
+The reverse source convention for a utility-row type partition: equal utility
+rows receive the same declared type. Together with `UtilitiesAgreeWithinTypes`,
+this says that declared types are exactly the utility-row equivalence classes.
+-/
+def UserTypeAssignment.UtilityRowsDetermineTypes {m n K : ℕ}
+    (W : RecommendationModel m n) (τ : UserTypeAssignment m K) : Prop :=
+  ∀ u u', W.utility u = W.utility u' → τ.toType u = τ.toType u'
+
+/-- The source definition of a policy symmetric across equal utility rows. -/
+def UtilityRowSymmetric {m n : ℕ}
+    (W : RecommendationModel m n) (ρ : Policy m n) : Prop :=
+  ∀ u u', W.utility u = W.utility u' → ρ u = ρ u'
+
 end RecommendationModel
 end GCG24UserItemFairness

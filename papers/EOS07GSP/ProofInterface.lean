@@ -20,6 +20,25 @@ noncomputable section
 
 /-! ## Position-Auction Definitions -/
 
+/-- Source-shaped Definition 4 predicate. Ranks are zero-based here, so the
+bidder at `rank + 1` compares her current total payoff with the payoff from
+exchanging positions with the bidder at `rank`. -/
+def sourceDefinition4LocallyEnvyFree
+    {Bidder Slot : Type*} [DecidableEq Bidder]
+    (E : PositionEnvironment Slot) (M : PositionMechanism Bidder Slot)
+    (values bids : Bidder → ℝ) (allocatedPositions : ℕ)
+    (bidderAtRank : ℕ → Bidder) (slotAtRank : ℕ → Slot) : Prop :=
+  M.IsNashEquilibrium E values bids ∧
+    (∀ rank : ℕ, rank < allocatedPositions →
+      (M bids).slotOf (bidderAtRank rank) = some (slotAtRank rank)) ∧
+    ∀ rank : ℕ, rank + 1 < allocatedPositions →
+      E.clickThroughRate (slotAtRank rank) *
+          (values (bidderAtRank (rank + 1)) -
+            (M bids).paymentPerClick (bidderAtRank rank)) ≤
+        E.clickThroughRate (slotAtRank (rank + 1)) *
+          (values (bidderAtRank (rank + 1)) -
+            (M bids).paymentPerClick (bidderAtRank (rank + 1)))
+
 /-- The paper's GSP truthfulness target for the concrete three-bidder/two-slot witness. -/
 abbrev gspDominantStrategyTruthful : Prop :=
   PositionMechanism.TruthfulDominantStrategy

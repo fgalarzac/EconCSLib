@@ -3,205 +3,1840 @@
   "paper": "DGD26AdmissionsPredictability",
   "title": "Capacity Constraints Make Admissions Processes Less Predictable",
   "source_url": "https://ojs.aaai.org/index.php/AAAI/article/view/41179; TeX/formula source: https://arxiv.org/abs/2601.11513",
-  "source_inventory_kind": "source_curated",
+  "source_artifact_path": "audit/source_archive_surface.tex",
+  "source_artifact_sha256": "e550e1a07d28f2b59bd55f1733964d0a5b7db85bdff60e3b20b788e3a842130d",
   "source_curated": true,
-  "source_inventory_policy": "Initial source-curated inventory from arXiv TeX source_tex/main.tex and source_tex/appendix.tex, with AAAI page as canonical publication metadata. Empirical private-data performance claims are tracked as descriptive/out-of-theorem-scope unless reduced to a formal choice-function proposition.",
-  "generated_at": "2026-06-30T00:00:00Z",
+  "source_inventory_kind": "source_curated",
+  "source_coverage_mode": "named_theoretical_statements",
+  "source_inventory_policy": "Source-first atomization of all 26 mathematical definitions/formulas/model objects and 39 named-result atoms in main.tex and appendix.tex. Four contextual procedures (score training, top-q inference, deferred acceptance outside the analysis, and the simulator) are tracked in audit prose but are not mathematical theorem atoms. Concrete named Proposition 2 claims remain in scope.",
+  "source_kind_policy": "Every source-labeled definition, formula, model object, lemma, theorem, corollary, and proposition is separately inventoried; no aggregate item may hide a missing conjunct or concrete named program claim.",
+  "source_location_policy": "Every atom cites checked-in TeX line anchors from the pinned arXiv source archive; semantic judgments use those spans rather than declaration names.",
+  "source_location_validated_at": "2026-07-18T00:00:00Z",
+  "source_location_validator": "Codex DGD26 source-first adversarial remediation",
+  "generated_at": "2026-07-19T02:30:00Z",
   "items": {
-    "definition_q_acceptance": {
-      "statement": "Definition: a choice function is q-acceptant when it chooses exactly min(q, |X|) applicants from every finite input set X.",
-      "source_location": "Main text Definition q-Acceptance / Appendix restatement",
-      "aliases": []
+    "definition_fixed_threshold_score_formula": {
+      "statement": "The fixed-threshold score classifier is f(x)=1{s(x)\u2265t}, with s:X\u2192[0,1] and a pool-independent threshold t.",
+      "aliases": [],
+      "source_kind": "formula",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:162-170",
+      "source_status": "exact",
+      "source_note": "The predictor and membership theorem expose the exact pool-independent threshold formula.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_fixed_threshold_formula_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-ML-FIXED-THRESHOLD-ROUTE-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 162,
+          "line_end": 170,
+          "quoted_text": "Training a machine learning model means selecting a $f$ from a set of possible models, i.e., a hypothesis class.\nGenerally, this is done by finding a model which achieves low error on available data (a train set).\nIt is typical to use continuous optimization algorithms to first train a continuous \\emph{score} function $s:\\mathcal X\\to [0,1]$ by minimizing the error. \nThen the classification model is defined as \n\\begin{align}\\label{eq:ml-independent}\n    f(x) = \\mathbf 1\\{s(x)\\geq t\\}\n\\end{align} based on a fixed threshold value $t$, often $t=0.5$. \nNotice that models of the form~\\eqref{eq:ml-independent} predict outcomes independently for each applicant.\nAt test time inference, they do not consider the overall applicant pool -- they implicitly model the training time pool, through its effect on the training labels.",
+          "quoted_text_sha256": "9d535f7cc3b50d8886289b5e15e2c4d8d8ca519549039b529f5e4e28df807f8c"
+        }
+      ]
     },
-    "definition_total_order_and_queue": {
-      "statement": "Definition/prose: a total order is transitive, asymmetric, and complete; a q-acceptant choice function is characterized by a total order when it chooses the top-q elements of each set.",
-      "source_location": "Main text Definition Total order and following queue prose",
-      "aliases": []
+    "definition_choice_function_model": {
+      "statement": "A finite choice function maps every finite applicant pool X to a feasible chosen subset C(X)\u2286X.",
+      "aliases": [],
+      "source_kind": "model",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:172-181",
+      "source_status": "exact",
+      "source_note": "The carrier and feasibility convention jointly expose the finite choice-function model.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_choice_function_model_definition_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 172,
+          "line_end": 181,
+          "quoted_text": "\\subsection{Choice Functions}\n\nMany admissions processes have capacity constraints (either perceived or actual). This fact gives rise to what we call \\textit{cohort-dependence}: an applicant's acceptance decision depends on not only their own characteristics, but also the number and characteristics of other applicants.\n\n\\textit{Choice functions} formalize admission decision processes and allow modeling such dependence. \nA choice function describes the behavior of ``choosing'' elements from a set of available options, and is commonly used in economic models. Formally, a choice function over the universe $\\calX$ is a function $\\choice: 2^\\calX \\to 2^\\calX$ that maps all subsets $X$ of $\\calX$ to the accepted set $\\choice(X)$, where $\\choice(X) \\subseteq X$. As our motivation focuses on real applicant datasets, we consider finite subsets. \n\nRecalling admissions data, the binary admissions label $y$ for student $x$ is 1 if $x \\in \\choice(X)$ and 0 otherwise.\nTo aid in our discussion, we will slightly abuse notation to relate pairs $(x_i,y_i)$ to the choice function $\\mathcal C(X)$ where $x_i\\in X$. \nDefine $\\mathcal C(X)_i$ as 1 if $x_i\\in \\mathcal C(X)$ and 0 otherwise; this allows us to write the label $y_i=\\mathcal C(X)_i$.",
+          "quoted_text_sha256": "cac9189691d18215ab2870f87ac70ab597190ff0a58ac938a7b012140646dd34"
+        }
+      ]
+    },
+    "definition_choice_label_formula": {
+      "statement": "For applicant x_i in pool X, the binary label is y_i=C(X)_i=1 exactly when x_i\u2208C(X), and is 0 otherwise.",
+      "aliases": [],
+      "source_kind": "formula",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:179-181",
+      "source_status": "exact",
+      "source_note": "The binary label is defined and proved equal to one exactly on C(X).",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_definition_choice_label",
+        "DGD26AdmissionsPredictability.PaperInterface.paper_choice_label_formula_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 179,
+          "line_end": 181,
+          "quoted_text": "Recalling admissions data, the binary admissions label $y$ for student $x$ is 1 if $x \\in \\choice(X)$ and 0 otherwise.\nTo aid in our discussion, we will slightly abuse notation to relate pairs $(x_i,y_i)$ to the choice function $\\mathcal C(X)$ where $x_i\\in X$. \nDefine $\\mathcal C(X)_i$ as 1 if $x_i\\in \\mathcal C(X)$ and 0 otherwise; this allows us to write the label $y_i=\\mathcal C(X)_i$.",
+          "quoted_text_sha256": "0dc852c5a72ada2405e22f616c6129b9065e10c23f9574e6f8fdb6b5dbd97d43"
+        }
+      ]
+    },
+    "definition_q_acceptance": {
+      "statement": "A choice function is q-acceptant when |C(X)|=min{q,|X|} for every finite input set X.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:186-189; audit/source_archive_surface.tex:478-481",
+      "source_status": "exact",
+      "source_note": "The paper-facing predicate has the same capacity equation and quantification.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_q_acceptance_definition_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 186,
+          "line_end": 189,
+          "quoted_text": "\\begin{restatable}[$q$-Acceptance]{definition}{qacceptance} \n\\label{def:q-acceptance}\nChoice function $\\choice$ is $q$-acceptant if $|\\choice(X)| = \\min\\{q, |X|\\}$ for all input sets $X$.\n\\end{restatable}",
+          "quoted_text_sha256": "586e02f161fa95b87296e95f561fbd23307bd36889d9b6854e4aecc92daf33b3"
+        },
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 478,
+          "line_end": 481,
+          "quoted_text": "\\qacceptance*\n\\textit{Intuition}: Capacity of $q$.\n\n\\substitutability*",
+          "quoted_text_sha256": "df0cc10bed11ffc1662d566ea704a34976400698072e2b9053dd26db9d40afe3"
+        }
+      ]
+    },
+    "definition_total_order": {
+      "statement": "A strict total order is asymmetric and transitive, and compares every distinct pair of applicants.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:193-195",
+      "source_status": "exact",
+      "source_note": "Lean uses the coherent distinct-pair reading; the printed unrestricted comparability wording is recorded as a note-only source correction.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_total_order_definition_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-TOTAL-ORDER-DISTINCT-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 193,
+          "line_end": 195,
+          "quoted_text": "\\begin{definition}[Total order] \\label{def:total_order}\n    A \\emph{total order} is a transitive, asymmetric, and complete binary relation $\\succ$ over elements of $\\calX$; that is, $x_1 \\succ x_2$ implies $x_2 \\not\\succ x_1$, $x_1 \\succ x_2$ and $x_2 \\succ x_3$ implies $x_1 \\succ x_3$, and all $x_1, x_2$ are comparable.\n\\end{definition}",
+          "quoted_text_sha256": "9039787c00a91ea8731bf1ef61945b12841c6fee92fdaa91f15861489f94e9cc"
+        }
+      ]
+    },
+    "definition_queue_top_q": {
+      "statement": "A queue sorts applicants by one strict total order and chooses the top q elements of every input pool.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:197-201",
+      "source_status": "exact",
+      "source_note": "The q-representative predicate exposes the same one-order top-q semantics.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_q_representativeness_definition_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 197,
+          "line_end": 201,
+          "quoted_text": "Total orders are frequently used in modeling choice mechanisms; they are often called \\textit{preference orderings} or \\textit{priority orders} in economic models. \nIntuitively, total orders induce a ranking over candidates and could result from, e.g., ordering applicants based on their GPA.\nWe will say that a $q$-acceptant choice function $\\mathcal C$ is \\textit{characterized by a total order} if there exists a total order $\\succ$ such that for any input $X$, the accepted applicants are the top-$q$ elements of $X$ ordered by $\\succ$.\nIn other words,  $x_1 \\succ x_2$ for all $x_1 \\in \\choice(X), x_2 \\not\\in\\choice(X)$. \nWe will refer to the process of sorting elements according to a total order $\\succ$ and selecting the top $q$ as a \\textit{queue}. ",
+          "quoted_text_sha256": "580dcef3317efef5c3252e8d1bc6a773d70edf8faf3247e7d4b144bf9812aab9"
+        }
+      ]
     },
     "definition_choice_distance": {
-      "statement": "Definition: r_C(X1,X2) is |X1 ∩ C(X2) \\ C(X1)| + |C(X1) \\ C(X2)| for X1 subset X2.",
-      "source_location": "Main text Definition Choice Distance",
-      "aliases": []
+      "statement": "For X\u2081\u2286X\u2082, choice distance is |(X\u2081\u2229C(X\u2082))\\C(X\u2081)|+|C(X\u2081)\\C(X\u2082)|.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:213-218",
+      "source_status": "exact",
+      "source_note": "The definition wrapper and displayed-formula theorem preserve both set-difference summands.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_definition_choice_distance",
+        "DGD26AdmissionsPredictability.PaperInterface.paper_choice_distance_formula"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 213,
+          "line_end": 218,
+          "quoted_text": "\\begin{restatable}[Choice Distance]{definition}{distance} \\label{def:distance}\nFor a choice function $\\choice$ and sets $X_1 \\subseteq X_2$, we define the choice distance as:\n\\begin{equation}\nr_\\choice(X_1, X_2) := |X_1 \\cap \\choice(X_2) \\setminus \\choice(X_1)| + |\\choice(X_1) \\setminus \\choice(X_2)|\n\\end{equation}\n\\end{restatable}",
+          "quoted_text_sha256": "87e4d40780b10bf96f3fed5adf5378af0d3ba0956484b71af575b92a336d2830"
+        }
+      ]
     },
     "definition_d_instability": {
-      "statement": "Definition: C is d-unstable when adding one applicant changes at most d existing decisions, measured by choice distance; tightly d-unstable means d-unstable but not (d-1)-unstable.",
-      "source_location": "Main text Definition d-Instability",
-      "aliases": []
+      "statement": "C is d-unstable when every one-applicant insertion changes at most d existing decisions under choice distance.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:222-225",
+      "source_status": "exact",
+      "source_note": "The Lean predicate has the same universal single-insertion bound.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_d_instability_definition_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 222,
+          "line_end": 225,
+          "quoted_text": "\\begin{restatable}[$d$-Instability]{definition}{defstability} \n\\label{def:d-instability}\nChoice function $\\choice$ is $d$-unstable if for all $X$, and $X' = X \\cup \\{x'\\}$, we have $r_\\choice(X, X') \\leq d$ for any nonnegative integer $d$. $\\choice$ is called tightly $d$-unstable if it is $d$-unstable but not $(d-1)$-unstable.\n\\end{restatable}",
+          "quoted_text_sha256": "d6c7c14d8553368b76048227ee9b14aefa77adf4d4e39184fa9e8526489d334b"
+        }
+      ]
     },
-    "definition_variability": {
-      "statement": "Definition: for a 1-unstable q-acceptant choice function, variability is max_X | union over x' of C(X) \\ C(X ∪ {x'}) |.",
-      "source_location": "Main text Definition Variability",
-      "aliases": []
+    "definition_tight_d_instability": {
+      "statement": "C is tightly d-unstable when it is d-unstable but not (d-1)-unstable.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:222-225",
+      "source_status": "exact",
+      "source_note": "The least-bound predicate is represented exactly; the later printed dk typo is separately noted.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_tight_d_instability_definition_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-TIGHT-DK-TYPO-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 222,
+          "line_end": 225,
+          "quoted_text": "\\begin{restatable}[$d$-Instability]{definition}{defstability} \n\\label{def:d-instability}\nChoice function $\\choice$ is $d$-unstable if for all $X$, and $X' = X \\cup \\{x'\\}$, we have $r_\\choice(X, X') \\leq d$ for any nonnegative integer $d$. $\\choice$ is called tightly $d$-unstable if it is $d$-unstable but not $(d-1)$-unstable.\n\\end{restatable}",
+          "quoted_text_sha256": "d6c7c14d8553368b76048227ee9b14aefa77adf4d4e39184fa9e8526489d334b"
+        }
+      ]
     },
-    "proposition_ml_representation": {
-      "statement": "Proposition: independent pointwise ML rules only represent 0-unstable choice functions; rank-threshold ML rules can represent 1-variable, 1-unstable choice functions and cannot represent instability or variability greater than one.",
-      "source_location": "Main text Proposition ML Representation",
-      "aliases": []
+    "definition_main_variability": {
+      "statement": "For a q-acceptant 1-unstable rule, variability is max_X |\u22c3_{x\u2032} C(X)\\C(X\u222a{x\u2032})|.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:235-243",
+      "source_status": "exact",
+      "source_note": "The borderline set plus at-most and exact predicates jointly expose the displayed maximum.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_definition_borderline_set",
+        "DGD26AdmissionsPredictability.PaperInterface.paper_variability_at_most_definition_statement",
+        "DGD26AdmissionsPredictability.PaperInterface.paper_variability_exactly_definition_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 235,
+          "line_end": 243,
+          "quoted_text": "We formalize\\footnote{For a more general definition of variability (beyond 1-unstable and $q$-acceptant), see \\Cref{sec:variability-appendix}.} this intuition with the following definition.\n\n\\begin{restatable}[Variability]{definition}{defvariability} \n\\label{def:variability}\nA $1$-unstable, $q$-acceptant choice function $\\choice$ has variability $m$ where\n\\begin{equation}\nm \\coloneqq \\max_{X\\subset \\calX} \\left|\\bigcup\\limits_{x'\\in\\calX} \\choice(X) \\setminus \\choice(X \\cup \\{x'\\})\\right|\n\\end{equation}\n\\end{restatable}",
+          "quoted_text_sha256": "95816ed1be86000313a5c7c75f6db6c9895dd64df9277fea08d4f77479e13dfc"
+        }
+      ]
+    },
+    "definition_ml_representation": {
+      "statement": "An ML model represents C when one predictor f gives f(x_i)=C(X)_i for every applicant pool X and every x_i\u2208X.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:248-251",
+      "source_status": "exact",
+      "source_note": "The representation predicate quantifies every pool and every offered applicant.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_ml_representation_definition_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-ML-FIXED-THRESHOLD-ROUTE-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 248,
+          "line_end": 251,
+          "quoted_text": "We first relate the concepts of instability and variability to the practice of machine learning.\nWe focus on the representation capabilities of ML models: when is it possible for an ML model to faithfully represent an admissions process?\nFormally, we say that an ML model can represent a choice function $\\mathcal C$ if there exists a function $f$ such that for all applicant sets $X$, $f(x_i) = \\mathcal C(X)_i$.\n{Note that by focusing on representation, our theory is distribution agnostic, and applies to settings where applicant distributions are affected considerations such as strategic behavior and matching algorithms.}",
+          "quoted_text_sha256": "0516cd2228a6bf78999265e7c0b269c52ef2a636d820318baae5f0ecd23bc3bf"
+        }
+      ]
+    },
+    "definition_rank_threshold_formula": {
+      "statement": "The cohort-dependent rank model is f(x;X)=1{s(x)\u2265t_q(X)}, where t_q(X) is the q-th score in X.",
+      "aliases": [],
+      "source_kind": "formula",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:253-259",
+      "source_status": "exact",
+      "source_note": "The top-q score predictor is proved equivalent on every pool to a pool-specific real threshold.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_rank_threshold_formula_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-ML-RANK-EMBEDDING-ROUTE-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 253,
+          "line_end": 259,
+          "quoted_text": "Before stating this result, consider a straightforward way to adapt a model~\\eqref{eq:ml-independent} to the capacity-constrained setting.\nGiven that the ML model is based on continuous scores, we can adjust the decisions to account for a known capacity constraint if we have available the set of all test-time applications.\nIn particular, we can rank the applicants by their scores and then select the top $q$.\nThis process results in decisions determined by a cohort dependent threshold $t_q(X)$ which is the score of the $q$th ranked applicant:\n\\begin{align}\\label{eq:ml-rank}\n    f(x; X) = \\mathbf 1\\{s(x) \\geq t_q(X)\\}.\n\\end{align}",
+          "quoted_text_sha256": "59f263dfc181e2809c784ccca88ab19a28b5cd9afa4539f5fefa818af046cd95"
+        }
+      ]
     },
     "definition_substitutability": {
-      "statement": "Definition: C is substitutable when X1 subset X2 implies X1 ∩ C(X2) subset C(X1).",
-      "source_location": "Main text Definition Substitutability / Appendix restatement",
-      "aliases": []
-    },
-    "theorem_instability": {
-      "statement": "Theorem: for a q-acceptant choice function, it cannot be 0-unstable under the nontrivial-universe condition, it is exactly 1-unstable iff substitutable, and tightly d-unstable examples exist for every 1 <= d <= 2q.",
-      "source_location": "Main text Theorem Instability and appendix proof",
-      "aliases": []
+      "statement": "C is substitutable when X\u2081\u2286X\u2082 implies X\u2081\u2229C(X\u2082)\u2286C(X\u2081).",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:273-276; audit/source_archive_surface.tex:480-482",
+      "source_status": "exact",
+      "source_note": "The paper-facing predicate is the same nested-set implication.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_substitutability_definition_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 273,
+          "line_end": 276,
+          "quoted_text": "\\begin{restatable}[Substitutability]{definition}{substitutability} \n\\label{def:substitutability}\nChoice function $\\choice$ is substitutable if $X_1 \\subseteq X_2$ implies $X_1 \\cap \\choice(X_2) \\subseteq \\choice(X_1)$.\n\\end{restatable}",
+          "quoted_text_sha256": "fc699ff017b69e447cb7dc9acf34e4eb1ced5ffba56bc638bc9070fae47fb4d7"
+        },
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 480,
+          "line_end": 482,
+          "quoted_text": "\n\\substitutability*\n\\textit{Intuition}: Students selected from a larger pool remain selected when the pool shrinks.    ",
+          "quoted_text_sha256": "59fa3d020999cd492a67b19ff54c0b0147ad83fb5af58c6bcd92dd346d1e31bf"
+        }
+      ]
     },
     "definition_sequential_composition": {
-      "statement": "Definition: C is a sequential composition of C_n,...,C_1 when it chooses from each stage's remaining set and unions the chosen sets.",
-      "source_location": "Main text Definition Sequential Composition / Appendix restatement",
-      "aliases": []
-    },
-    "theorem_variability": {
-      "statement": "Theorem: a q-acceptant 1-unstable choice function represented as a sequential composition of n total-order queues has variability m with 1 <= m <= n, and variability 1 iff it is characterized by a single total order.",
-      "source_location": "Main text Theorem Variability and appendix proof",
-      "aliases": []
-    },
-    "proposition_program_variability": {
-      "statement": "Proposition: the considered NYC program choice functions are 1-unstable, with tight variability equal to their number of queues: 1, 2, 3, and 6 for the listed program classes.",
-      "source_location": "Main text Proposition Program Variability",
-      "aliases": []
+      "statement": "Sequential composition runs each choice rule on applicants remaining after earlier stages and unions all stage choices.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:307-311; audit/source_archive_surface.tex:955-958",
+      "source_status": "exact",
+      "source_note": "The list recursion implements the same remaining-pool construction.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_definition_sequential_composition"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 307,
+          "line_end": 311,
+          "quoted_text": "\\begin{restatable}[Sequential Composition]{definition}{seqcomposition} \\label{def:seq-composition}\nA choice function $\\choice$ is a \\textit{sequential composition} of functions $\\choice_n, \\ldots, \\choice_1$ if:\n$$\\choice(X) = \\choice_1(X) \\cup \\choice_{2}(X_{2}) \\cup \\cdots \\cup \\choice_n(X_n)$$\nwhere $X_{i+1}= X_{i} \\setminus \\choice_{i}(X_{i})$ and $X_1 = X$.\n\\end{restatable}",
+          "quoted_text_sha256": "37c7aa789b9f7cfc162e3476b776359def98a30132cd2d7d8468e14d573b1b52"
+        },
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 955,
+          "line_end": 958,
+          "quoted_text": "\\subsubsection{Sequential Composition} \\label{sec:seq-proofs}\nA useful class of choice functions are choice functions that can be broken down or defined as a sequential composition of functions $\\choice_n, \\choice_{n-1}, ..., \\choice_1$; that is, \n$\\choice(X) = \\choice_n(X) \\cup \\choice_{n-1}(X_{n-1}) \\cup ... \\cup \\choice_1(X_1)$ where $X_i = X_{i+1} \\setminus\\choice_{i+1}(X_{i+1})$ and $X_n = X$. Sequential composition is particularly useful because it preserves a variety of useful properties. Sequences of $q_i$-acceptant functions are $q$-acceptant, because no duplicate elements are selected by multiple functions, and therefore preserves $q$-acceptance when each function in the sequence has capacity $q_i$ (i.e., $q = q_n + ... + q_1$.) \n\\seqcomposition*",
+          "quoted_text_sha256": "8d278c9d96645997ebe90f8e7e376cf970e554ed681e9a47c1c58d48f819f75d"
+        }
+      ]
     },
     "definition_monotonicity": {
-      "statement": "Definition: C is monotonic when X1 subset X2 implies C(X1) subset C(X2).",
-      "source_location": "Appendix Definition Monotonicity",
-      "aliases": []
+      "statement": "C is monotonic when X\u2081\u2286X\u2082 implies C(X\u2081)\u2286C(X\u2082).",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:484-487",
+      "source_status": "exact",
+      "source_note": "The Lean predicate is the same containment implication.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_monotonicity_definition_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 484,
+          "line_end": 487,
+          "quoted_text": "\\begin{restatable}[Monotonicity]{definition}{monotonicity} \n\\label{def:monotonicity}\nChoice function $\\choice$ is \\textit{monotonic} if $X_1 \\subseteq X_2$ implies $\\choice(X_1) \\subseteq \\choice(X_2)$.\n\\end{restatable}",
+          "quoted_text_sha256": "e3e1eb99b1023d4715869420a0dd04315a1ba8b172a22e7c696a01f81df6223f"
+        }
+      ]
     },
     "definition_consistency": {
-      "statement": "Definition: C is consistent when C(X2) subset X1 subset X2 implies C(X2) = C(X1).",
-      "source_location": "Appendix Definition Consistency",
-      "aliases": []
+      "statement": "C is consistent when C(X\u2082)\u2286X\u2081\u2286X\u2082 implies C(X\u2082)=C(X\u2081).",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:492-495",
+      "source_status": "exact",
+      "source_note": "The Lean predicate preserves both containments and the equality conclusion.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_consistency_definition_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 492,
+          "line_end": 495,
+          "quoted_text": "\\begin{restatable}[Consistency]{definition}{consistency} \n\\label{def:consistency}\nChoice function $\\choice$ is \\textit{consistent} if $\\choice(X_2) \\subseteq X_1 \\subseteq X_2$ implies $\\choice(X_2) = \\choice(X_1)$.\n\\end{restatable}",
+          "quoted_text_sha256": "861a04a463247e958150b0ce0b4958baeacf4abcec552c2295a99daa28ff569b"
+        }
+      ]
     },
     "definition_q_representativeness": {
-      "statement": "Definition: a q-acceptant choice function is q-representative when some strict total order makes C(X) the top q elements of X for all X.",
-      "source_location": "Appendix Definition q-representativeness",
-      "aliases": []
-    },
-    "lemma_monotonicity_q_acceptance_incompatible": {
-      "statement": "Lemma: if the universe has size greater than q and q >= 1, no choice function is both monotonic and q-acceptant.",
-      "source_location": "Appendix Lemma Incompatibility of Monotonicity and q-Acceptance",
-      "aliases": []
-    },
-    "lemma_unsubstitutable_single_add": {
-      "statement": "Lemma: if C is not substitutable, then some single added applicant x' causes a previously rejected existing applicant x* to become accepted.",
-      "source_location": "Appendix Lemma Non-Substitutable Functions",
-      "aliases": []
-    },
-    "lemma_substitutability_distance_term": {
-      "statement": "Lemma: C is substitutable iff |X1 ∩ C(X2) \\ C(X1)| = 0 for all X1 subset X2.",
-      "source_location": "Appendix Lemma Substitutability Term",
-      "aliases": []
-    },
-    "lemma_monotonicity_distance_term": {
-      "statement": "Lemma: C is monotonic iff |C(X1) \\ C(X2)| = 0 for all X1 subset X2.",
-      "source_location": "Appendix Lemma Monotonicity Term",
-      "aliases": []
-    },
-    "theorem_choice_distance_triangle": {
-      "statement": "Theorem: choice distance satisfies the triangle inequality for X1 subset X2 subset X3.",
-      "source_location": "Appendix Theorem Triangle Inequality",
-      "aliases": []
+      "statement": "C is q-representative when it is q-acceptant and one strict total order selects its top q applicants from every pool.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:500-507",
+      "source_status": "exact",
+      "source_note": "The predicate exposes one global strict order and top-q choice.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_q_representativeness_definition_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 500,
+          "line_end": 507,
+          "quoted_text": "\\begin{restatable}[$q$-representativeness]{definition}{qrepresentativeness} \n\\label{def:q-representative}\n$q$-acceptant choice function $\\choice$ is $q$-representative if there exists a strict total ordering $\\succ$ over all $x \\in \\calX$ and $\\choice(X)$ is the top $q$ elements of $X$ for all $X \\subseteq \\calX$.\n\\end{restatable}\n\n\\textit{Intuition}: Students are selected according to an exact ranking. \n\n\\textbf{Note:} We refer to this property in the main body as being ``characterized by a total order'', or a ``queue'', but this language --- and definition as a property in its own right --- is seen in, e.g., \\citet{echenique2015control}.",
+          "quoted_text_sha256": "d69f7989aa19b57253a7d886fdb265cc9052d002abbfea863e894ad9dc503eb6"
+        }
+      ]
     },
     "definition_zero_instability": {
-      "statement": "Definition: C is 0-unstable iff r_C(X1,X2)=0 for all X1 subset X2.",
-      "source_location": "Appendix Definition 0-Instability",
-      "aliases": []
-    },
-    "corollary_zero_distance": {
-      "statement": "Corollary: C is 0-unstable iff it is both substitutable and monotonic.",
-      "source_location": "Appendix Corollary Zero-Distance",
-      "aliases": []
+      "statement": "C is 0-unstable exactly when r_C(X\u2081,X\u2082)=0 for every X\u2081\u2286X\u2082.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:654-657",
+      "source_status": "exact",
+      "source_note": "The Lean zero-instability predicate has the same all-nested-pools scope.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_zero_instability_definition_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 654,
+          "line_end": 657,
+          "quoted_text": "\\begin{restatable}[$0$-Instability]{definition}{zerostability} \n\\label{def:zero-instability}\nChoice function $\\choice$ is 0-unstable if and only if $r_\\choice(X_1, X_2) = 0$ for all $X_1 \\subseteq X_2$.\n\\end{restatable}",
+          "quoted_text_sha256": "fe8c610f45d7963ac63c16a6441c5b400fb8fb5a4706e78443b90fa8a45aca4a"
+        }
+      ]
     },
     "definition_independence": {
-      "statement": "Definition: C is independent when every applicant is either always accepted whenever available or always rejected whenever available.",
-      "source_location": "Appendix Definition Independence",
-      "aliases": []
+      "statement": "C is independent when each applicant is either always chosen whenever available or never chosen whenever available.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:671-679",
+      "source_status": "exact",
+      "source_note": "The applicant-wise always-or-never behavior is represented exactly.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_independence_definition_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 671,
+          "line_end": 679,
+          "quoted_text": "\\begin{restatable}{definition}{Independence} \n\\label{def:independence}\n$\\choice$ is independent if for \n for all $x$,\neither $x \\in \\choice(X)$ \nor $x \\not\\in \\choice(X)$ for all $X$ where $x \\in X$. \n\\end{restatable}\n\nIn other words, any element is either always accepted, or always rejected, when available, irrespective of the other elements available in a set $S$.",
+          "quoted_text_sha256": "cd7e59d6183d3b4ee3e0a2745d13f47e535ad206d8176eacc822f8aa18e1ddce"
+        }
+      ]
     },
-    "theorem_independent_substitutable_monotonic": {
-      "statement": "Theorem: C is independent iff it is both substitutable and monotonic.",
-      "source_location": "Appendix Theorem Independent Rules are Substitutable and Monotonic",
-      "aliases": []
+    "definition_borderline_set": {
+      "statement": "V_C(X)=\u22c3_{x\u2032} C(X)\\C(X\u222a{x\u2032}) is the set of admits that some insertion can displace.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:826-830",
+      "source_status": "exact",
+      "source_note": "The finite union definition is exposed directly.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_definition_borderline_set"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 826,
+          "line_end": 830,
+          "quoted_text": "As per \\Cref{def:variability}, when appending a new element to the input set $X$, different applicants may become rejected: let the set of ``borderline admits'' $V_\\choice(X)$ be \n\\begin{equation}\nV_\\choice(X) = \\bigcup\\limits_{x'\\in\\calX} \\choice(X) \\setminus \\choice(X \\cup \\{x'\\})\n\\end{equation}\nwhich we shall call the ``borderline set'' for short. Notice that this is bounded by $q$, as $|\\choice(X)| = q$.",
+          "quoted_text_sha256": "7c8f46ee0d552129a4ed29346bd4ea83cdee9fe47a5ce2e6bf27ae9c37b9cc80"
+        }
+      ]
     },
-    "corollary_independent_zero_unstable": {
-      "statement": "Corollary: C is 0-unstable iff it is independent; therefore no q-acceptant C is 0-unstable under the nontrivial-universe condition.",
-      "source_location": "Appendix Corollary Only Independent Rules are 0-unstable",
-      "aliases": []
-    },
-    "theorem_substitutability_one_instability": {
-      "statement": "Theorem: any q-acceptant choice function is 1-unstable iff substitutable.",
-      "source_location": "Appendix Theorem Substitutability and 1-Instability are Equivalent Under Capacity Constraints",
-      "aliases": []
-    },
-    "theorem_substitutable_q_acceptant_consistent": {
-      "statement": "Theorem: any q-acceptant substitutable choice function is consistent.",
-      "source_location": "Appendix Theorem BoundedDistance",
-      "aliases": []
-    },
-    "lemma_calculating_instability": {
-      "statement": "Lemma: for q-acceptant C, X'=X∪{x'}, |X|>=q, and n=|C(X)\\C(X')|, r_C(X,X') = 2n - 1_{x' in C(X')}.",
-      "source_location": "Appendix Lemma Calculating Instability",
-      "aliases": []
-    },
-    "theorem_even_instability_inconsistency": {
-      "statement": "Theorem: for q-acceptant C, C is inconsistent iff there exist X and X'=X∪{x'} with positive even choice distance.",
-      "source_location": "Appendix Theorem Even Instability is Inconsistent",
-      "aliases": []
-    },
-    "corollary_no_consistent_even_instability": {
-      "statement": "Corollary: there is no q-acceptant consistent C that is tightly d-unstable for even d.",
-      "source_location": "Appendix Corollary No Consistent Tightly Even Instability",
-      "aliases": []
+    "definition_waitlisted_set": {
+      "statement": "A_C(X)=\u22c3_{x*\u2208X} C(X\\{x*})\\C(X) is the set of applicants admitted after some removal.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:832-836",
+      "source_status": "exact",
+      "source_note": "The removal-union definition is exposed directly.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_definition_waitlisted_set"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 832,
+          "line_end": 836,
+          "quoted_text": "Conversely, when removing an applicant from $X$, let the set of applicants that might be newly accepted be\n\\begin{equation}\nA_\\choice(X) = \\bigcup_{x^*\\in X} \\choice(X \\setminus \\{x^*\\}) \\setminus \\choice(X)\n\\end{equation}\nthe set of ``waitlisted rejections''; likewise, we shall call this the ``waitlisted set''. ",
+          "quoted_text_sha256": "a6443bcfcddc42edf8551bb4bc2627f3a56cf5515ebca5e61d207d6753718c90"
+        }
+      ]
     },
     "definition_general_variability": {
-      "statement": "Definition: general variability is the max of the largest borderline set V_C(X) and waitlisted set A_C(X).",
-      "source_location": "Appendix Definition Variability, General",
-      "aliases": []
+      "statement": "General variability is max{max_X |V_C(X)|, max_X |A_C(X)|}.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:838-842",
+      "source_status": "exact",
+      "source_note": "The at-most and exact predicates encode the maximum of insertion and removal variability.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_general_variability_at_most_definition_statement",
+        "DGD26AdmissionsPredictability.PaperInterface.paper_general_variability_exactly_definition_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 838,
+          "line_end": 842,
+          "quoted_text": "\\begin{definition}[Variability, General]\n\\label{def:variability-general}\nA choice function $\\choice$ has \\textit{variability} $m$ where:\n$$m := \\max\\left\\{\\max_{X\\subset \\calX} \\left|V_\\choice(X)\\right|, \\max_{X\\subset \\calX} \\left|A_\\choice(X)\\right| \\right\\}$$\n\\end{definition}",
+          "quoted_text_sha256": "6865844c9cc0c45e12405cef44316fe8785cc92fa029126e74df495cb5e4ca52"
+        }
+      ]
     },
-    "theorem_append_remove_variability": {
-      "statement": "Theorem: for q-acceptant 1-unstable C and universe size at least 2q, the maximum waitlisted-set size equals the maximum borderline-set size.",
-      "source_location": "Appendix Theorem append-remove-size",
-      "aliases": []
+    "definition_lap_model_objective": {
+      "statement": "A linear assignment problem chooses a maximum-real-weight applicant-slot matching with at most one edge incident to each applicant and slot.",
+      "aliases": [],
+      "source_kind": "model",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:1073-1084",
+      "source_status": "exact",
+      "source_note": "The finite matching constraints and maximum-sum objective are formalized over real weights.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_lap_model_definition_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-LAP-SEMANTIC-WORLD-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1073,
+          "line_end": 1084,
+          "quoted_text": "\\subsubsection{Linear Assignment Problems} \\label{sec:lap-proofs}\n\nWe highlight \\textit{linear assignment problems} as a generalization of sequential composition. \nThe linear sum assignment problem can be represented as a bipartite graph matching. \nOne one side of the graph are applicants, and on the other are available admissions slots.\nEdges connect these nodes according to how well suited each applicant is for each slot.\nThe admissions decision is made by selecting edges which have maximal sum, subject to the constraint that each applicant and each slot is selected only once.\n\nConsider all edges connecting to slot $s$; then for each element  $x_j \\in X$ there is a real number weight $w(x_j, s)$. Then sorting $x \\in \\calX$ by $w(x,s)$ creates a total ordering, which we call $\\succ_s$. Let slot $s'$ be \\textit{equivalent} to \nto slot $s$ if and only if $\\succ_{s'} = \\succ_{s}$. \nWe will assume for simplicity that weights are defined such that ties do not occur.\nLet assignment $A$ be the set of pairs $\\{(x_{s_1}, s_1), ..., (x_{s_q}, s_q)\\}$.",
+          "quoted_text_sha256": "1059f9c1981ec4a0b4f9794944db2efa087cf8e0fe4e8d2ec70fc16e5522f8d5"
+        }
+      ]
     },
-    "lemma_corrected_consistency_of_removable_sets": {
-      "statement": "Corrected lemma: if C is 1-unstable and q-acceptant and C(X1)=C(X2), then V_C(X1)=V_C(X2). The TeX source has the typo V_C(X1)=V_C(X1).",
-      "source_location": "Appendix Lemma Consistency of Removable Sets",
-      "aliases": []
+    "definition_lap_slot_order": {
+      "statement": "Each slot's real weights, assumed tie-free, induce a strict total order over applicants.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:1081-1083",
+      "source_status": "exact",
+      "source_note": "The strict slot preference is exactly the real-weight comparison.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_lap_slot_below_definition_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-LAP-SEMANTIC-WORLD-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1081,
+          "line_end": 1083,
+          "quoted_text": "Consider all edges connecting to slot $s$; then for each element  $x_j \\in X$ there is a real number weight $w(x_j, s)$. Then sorting $x \\in \\calX$ by $w(x,s)$ creates a total ordering, which we call $\\succ_s$. Let slot $s'$ be \\textit{equivalent} to \nto slot $s$ if and only if $\\succ_{s'} = \\succ_{s}$. \nWe will assume for simplicity that weights are defined such that ties do not occur.",
+          "quoted_text_sha256": "a87a25f60defd5826cc29a243054f7c94b53b8cb9665245c01a2251367b4951a"
+        }
+      ]
     },
-    "lemma_ranking_m": {
-      "statement": "Lemma: for q-acceptant 1-unstable C with variability 1, V_C(X)=A_C(X∪{x'}) when adding x' changes the chosen set.",
-      "source_location": "Appendix Lemma Ranking m",
-      "aliases": []
+    "definition_lap_slot_order_equivalence": {
+      "statement": "Two slots are equivalent exactly when they induce the same strict total order over all applicants.",
+      "aliases": [],
+      "source_kind": "definition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:1081-1083",
+      "source_status": "exact",
+      "source_note": "Slot-order equality is extensional and its quotient gives the canonical distinct-order count.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_lap_same_slot_order_definition_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-LAP-SEMANTIC-WORLD-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1081,
+          "line_end": 1083,
+          "quoted_text": "Consider all edges connecting to slot $s$; then for each element  $x_j \\in X$ there is a real number weight $w(x_j, s)$. Then sorting $x \\in \\calX$ by $w(x,s)$ creates a total ordering, which we call $\\succ_s$. Let slot $s'$ be \\textit{equivalent} to \nto slot $s$ if and only if $\\succ_{s'} = \\succ_{s}$. \nWe will assume for simplicity that weights are defined such that ties do not occur.",
+          "quoted_text_sha256": "a87a25f60defd5826cc29a243054f7c94b53b8cb9665245c01a2251367b4951a"
+        }
+      ]
     },
-    "theorem_q_representative_variability": {
-      "statement": "Theorem: C is q-representative iff it is q-acceptant and 1-unstable with variability 1.",
-      "source_location": "Appendix Theorem q-Representativeness and 1-Variability are Equivalent",
-      "aliases": []
+    "definition_lap_assignment_choice": {
+      "statement": "The assignment's incident applicants form C(X), and x_s denotes the applicant assigned to slot s.",
+      "aliases": [],
+      "source_kind": "model",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:1084-1089",
+      "source_status": "exact",
+      "source_note": "Assignment incidence and the induced chosen-applicant rule are exposed directly.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_lap_assignment_choice_formula_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-LAP-SEMANTIC-WORLD-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1084,
+          "line_end": 1089,
+          "quoted_text": "Let assignment $A$ be the set of pairs $\\{(x_{s_1}, s_1), ..., (x_{s_q}, s_q)\\}$.\n\n\\begin{restatable}{lemma}{LAP Ordering} \n\\label{lem:lap-ordering}\nLet $x_{s}$ denote the element of $\\choice(X)$ assigned to slot $s$. Then for all $x \\in X$, $x \\in \\choice(X)$ if $x \\succ_s x_s$, and $x_s \\succ_s x$ if $x \\not\\in \\choice(X)$.\n\\end{restatable}",
+          "quoted_text_sha256": "022bb0f6d7d027eb8215da396fa78b916946102d6b5eb3c7b9867077a3f164d8"
+        }
+      ]
     },
-    "theorem_sequential_composition_substitutable": {
-      "statement": "Theorem: sequential composition of substitutable choice functions is substitutable.",
-      "source_location": "Appendix Theorem Composition Preserves Substitutability",
-      "aliases": []
+    "result_independence_iff_zero_instability": {
+      "statement": "C is independent if and only if C is 0-unstable.",
+      "aliases": [],
+      "source_kind": "corollary",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:704-707",
+      "source_status": "exact",
+      "source_note": "The Lean theorem proves the source equivalence from feasibility.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_independent_zero_unstable_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_independent_zero_unstable_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 704,
+          "line_end": 707,
+          "quoted_text": "\\begin{restatable}{corollary}{Only Independent Rules are 0-unstable} \n\\label{thm:independent-zero-unstable}\n$\\choice$ is $0$-unstable if and only if it is independent, and therefore no $q$-acceptant $\\choice$ can be $0$-unstable.\n\\end{restatable}",
+          "quoted_text_sha256": "6a88aacd401138e1651b69eaf2284381dd635e4ccd84fdac6e9c00c6d8220515"
+        }
+      ]
     },
-    "theorem_additive_variability_bound": {
-      "statement": "Theorem: a sequential composition of q-acceptant 1-unstable functions with variabilities m1,...,mn has variability at most sum_i m_i.",
-      "source_location": "Appendix Theorem Additive Variability Bound",
-      "aliases": []
+    "result_no_qacceptant_zero_instability_corollary": {
+      "statement": "For q>0 and a universe containing more than q applicants, no feasible q-acceptant choice function is 0-unstable.",
+      "aliases": [],
+      "source_kind": "corollary",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:704-707",
+      "source_status": "exact",
+      "source_note": "Lean proves the mathematically valid nontrivial-domain correction; the omitted printed conditions are note-only.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_no_zero_instability_under_capacity_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_no_zero_instability_under_capacity_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-NOZERO-NONTRIVIAL-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 704,
+          "line_end": 707,
+          "quoted_text": "\\begin{restatable}{corollary}{Only Independent Rules are 0-unstable} \n\\label{thm:independent-zero-unstable}\n$\\choice$ is $0$-unstable if and only if it is independent, and therefore no $q$-acceptant $\\choice$ can be $0$-unstable.\n\\end{restatable}",
+          "quoted_text_sha256": "6a88aacd401138e1651b69eaf2284381dd635e4ccd84fdac6e9c00c6d8220515"
+        }
+      ]
     },
-    "lemma_lap_ordering": {
-      "statement": "Lemma: in a linear assignment problem, the applicant assigned to slot s is ordered above every rejected applicant by slot s's ordering.",
-      "source_location": "Appendix Lemma LAP Ordering",
-      "aliases": []
+    "result_no_consistent_tightly_even": {
+      "statement": "No q-acceptant consistent choice function is tightly d-unstable for positive even d.",
+      "aliases": [],
+      "source_kind": "corollary",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:796-801",
+      "source_status": "exact",
+      "source_note": "The direct theorem excludes tightly even instability for every positive even parameter; the printed dk is a note-only typo.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_no_consistent_positive_tightly_even_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_no_consistent_positive_tightly_even_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-TIGHT-DK-TYPO-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 796,
+          "line_end": 801,
+          "quoted_text": "\\begin{restatable}{corollary}{No Consistent Tightly Even Instability} \n\\label{cor:even-inconsistency}\nThere is no $q$-acceptant and consistent $\\choice$ that is tightly $dk$-unstable for even values of $d$.\n\\end{restatable}\n\nThis follows directly from \\Cref{thm:even-inconsistency}.",
+          "quoted_text_sha256": "a645002e5c858fcf72ae0d194befe46cc51fefc824b324fb40443c6aa0285f15"
+        }
+      ]
     },
-    "theorem_lap_instability": {
-      "statement": "Theorem: linear assignment problems are 1-unstable.",
-      "source_location": "Appendix Theorem Linear Assignment Instability",
-      "aliases": []
+    "result_zero_iff_substitutable_monotonic": {
+      "statement": "C is 0-unstable if and only if it is both substitutable and monotonic.",
+      "aliases": [],
+      "source_kind": "corollary",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:661-667",
+      "source_status": "exact",
+      "source_note": "One theorem row proves the complete iff.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_zero_distance_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_zero_distance_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 661,
+          "line_end": 667,
+          "quoted_text": "\\begin{restatable}{corollary}{Zero-Distance} \n\\label{thm:sub-mon-zero}\nChoice function $\\choice$ is 0-unstable if and only if it is both substitutable and monotonic.\n\\end{restatable}\n\n\nThis immediately follows from the two terms comprising $r_\\choice$ mapping onto substitutability and monotonicity.",
+          "quoted_text_sha256": "ded7f10bdad466c20ff07e0f3950815003312f78c035ebbb74dc52b35ed40ac6"
+        }
+      ]
     },
-    "theorem_lap_variability": {
-      "statement": "Theorem: the variability of a linear assignment problem is upper bounded by the number of distinct preference orderings induced by its slots.",
-      "source_location": "Appendix Theorem Linear Assignment Variability",
-      "aliases": []
+    "result_calculating_instability": {
+      "statement": "For a full-capacity pool and one fresh insertion, r_C equals twice the number displaced minus the indicator that the new applicant is chosen.",
+      "aliases": [],
+      "source_kind": "lemma",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:746-765",
+      "source_status": "exact",
+      "source_note": "The if-then-else Nat formula preserves both indicator cases.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_calculating_instability_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_calculating_instability_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 746,
+          "line_end": 765,
+          "quoted_text": "\\begin{restatable}[Calculating Instability]{lemma}{stablecalc} \n\\label{lem:unstable-calc}\nFor all $q$-acceptant $\\choice$, let $X' = X \\cup \\{x'\\}$ for $|X| \\geq q$ and $n = |\\choice(X) \\setminus \\choice(X')|$.  Then \n$r_\\choice(X, X') = 2n-\\mathbf{1}_{x'\\in\\choice(X')}$. \n\\end{restatable}\n\n\\begin{proof}\n\\textbf{Informal}\nIf input sets differ by one element, but the selected sets differ by $n$ elements, then it must be that $n$ previously accepted elements were rejected and there must be $n$ new accepted elements, at least $n-1$ must have been previously rejected, because the size of the accepted set is fixed. \n\n\\textbf{Formal}\nBy $q$-acceptance, $|\\choice(X)| = |\\choice(X')| = q$. Then $|\\choice(X) \\setminus \\choice(X')| = |\\choice(X') \\setminus \\choice(X)| = q-|\\choice(X) \\cap \\choice(X')|$. \nSecond, note that $\\choice(X') \\setminus \\choice(X) = (\\choice(X') \\cap X) \\setminus \\choice(X)$ if $x' \\not\\in \\choice(X')$, and otherwise $\\choice(X') \\setminus \\choice(X) = \\{x'\\} \\cup \\left((\\choice(X') \\cap X) \\setminus \\choice(X)\\right)$. \nPutting the previous statements together, we get two cases:\n\\begin{itemize}\n    \\item $x' \\not\\in \\choice(X')$: $|\\choice(X) \\setminus \\choice(X')| = |\\choice(X') \\setminus \\choice(X)| = |X \\cap \\choice(X') \\setminus \\choice(X)|$ \n    \\item $x' \\in \\choice(X')$: $|\\choice(X) \\setminus \\choice(X')| = |\\choice(X') \\setminus \\choice(X)| = |X \\cap \\choice(X') \\setminus \\choice(X)| + 1$ \n\\end{itemize}\nThen $r_\\choice(X, X') = |X \\cap \\choice(X') \\setminus \\choice(X)| + |\\choice(X) \\setminus \\choice(X')| = 2|X \\cap \\choice(X') \\setminus \\choice(X)| + \\mathbf{1}_{x'\\in\\choice(X')} = 2|\\choice(X) \\setminus \\choice(X')| - \\mathbf{1}_{x'\\in\\choice(X')}$\n\\end{proof}",
+          "quoted_text_sha256": "01a80f89df8dbafd1c0f3e71d61071e4fc72514ec9586d85c3a78f5d3f3212a1"
+        }
+      ]
+    },
+    "result_corrected_removable_sets": {
+      "statement": "If feasible q-acceptant 1-instability implies substitutability and C(X\u2081)=C(X\u2082), then V_C(X\u2081)=V_C(X\u2082).",
+      "aliases": [],
+      "source_kind": "lemma",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:885-896",
+      "source_status": "support",
+      "source_note": "The corrected equality is proved after deriving the visible substitutability premise from the source q-acceptance and 1-instability conditions.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_corrected_consistency_of_removable_sets_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_corrected_consistency_of_removable_sets_statement"
+      ],
+      "support_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_substitutability_one_instability_equivalence_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-REMOVABLE-SELF-EQUALITY-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 885,
+          "line_end": 896,
+          "quoted_text": "\\begin{restatable}[Consistency of Removable Sets]{lemma}{consistentremove}\n\\label{lem:consistent-remove}\nLet $\\choice$ be 1-unstable and q-acceptant with variability $m$. For any $X_1, X_2$, if $\\choice(X_1) = \\choice(X_2)$, then $V_\\choice(X_1) = V_\\choice(X_1)$.\n\\end{restatable}\n\n\\begin{proof}\nRecall from \\Cref{thm:sub-accept-consistent} that $\\choice$ must be consistent and so $\\choice(\\choice(X)) = \\choice(X)$ for any $X$. \n\nConsider any $x'$ associated with an element $x^*$ of $V_\\choice(X)$, such that $\\choice(X) \\setminus \\choice(X') = \\{x^*\\}$ (and even more precisely, by $q$-acceptant substitutability, that $\\choice(X') = \\{x'\\} \\cup \\choice(X) \\setminus \\{x^*\\}$ exactly). Note that $\\choice(X') \\subseteq \\choice(X) \\cup \\{x'\\} \\subseteq X'$, and therefore $\\choice(\\choice(X) \\cup \\{x'\\}) = \\choice(X')$ by consistency. This applies to all possible $x'$ (including when $x' \\in X$), and therefore, $V_\\choice(X) = V_\\choice(\\choice(X))$.\n\nAs this set equality is exact, apply this logic to some $X_2$ and see $V_\\choice(X_1) = V_\\choice(\\choice(X_1)) = V_\\choice(\\choice(X_2)) = V_\\choice(X_2)$.\n\\end{proof}",
+          "quoted_text_sha256": "96694ed58cbcfed3ba9a4d21be87944188f616e6bee4698a481c142becf3626c"
+        }
+      ]
+    },
+    "result_lap_higher_applicant_chosen": {
+      "statement": "If an applicant ranks strictly above the applicant assigned to a slot, the higher applicant is chosen.",
+      "aliases": [],
+      "source_kind": "lemma",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:1086-1095",
+      "source_status": "exact",
+      "source_note": "Objective optimality proves that every strictly higher offered applicant is assigned.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_lap_strictly_higher_slot_applicant_assigned_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_lap_strictly_higher_slot_applicant_assigned_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-LAP-SEMANTIC-WORLD-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1086,
+          "line_end": 1095,
+          "quoted_text": "\\begin{restatable}{lemma}{LAP Ordering} \n\\label{lem:lap-ordering}\nLet $x_{s}$ denote the element of $\\choice(X)$ assigned to slot $s$. Then for all $x \\in X$, $x \\in \\choice(X)$ if $x \\succ_s x_s$, and $x_s \\succ_s x$ if $x \\not\\in \\choice(X)$.\n\\end{restatable}\n\n\\textit{Intuition}: Linear assignment problems have a structure that resembles a combination of rankings, even though there is not a fixed sequential order.\n\n\\begin{proof}\nThis comes by the optimality of the assignment solution. For contradiction, say there is $x^* \\succ_s x_s$ where $x^* \\not\\in \\choice(X)$. Then $w(x^*, s) > w(x_s, s)$, and therefore $\\{x^*, s\\} \\cup A \\setminus \\{x_s, s\\}$ leads to a higher sum than $\\choice(X)$, contradicting the fact that $A$ is be optimal.\n\\end{proof}",
+          "quoted_text_sha256": "4b0c8a0cafa73c15f0df02db85decf0a20958cfe394d5b33bbb1974c8708245f"
+        }
+      ]
+    },
+    "result_lap_assigned_outranks_rejected": {
+      "statement": "The applicant assigned to each slot ranks strictly above every rejected applicant in that slot's order.",
+      "aliases": [],
+      "source_kind": "lemma",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:1086-1095",
+      "source_status": "exact",
+      "source_note": "No-ties real weights strengthen objective optimality to the source's strict assigned-versus-rejected order.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_lap_assigned_strictly_outranks_rejected_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_lap_assigned_strictly_outranks_rejected_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-LAP-SEMANTIC-WORLD-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1086,
+          "line_end": 1095,
+          "quoted_text": "\\begin{restatable}{lemma}{LAP Ordering} \n\\label{lem:lap-ordering}\nLet $x_{s}$ denote the element of $\\choice(X)$ assigned to slot $s$. Then for all $x \\in X$, $x \\in \\choice(X)$ if $x \\succ_s x_s$, and $x_s \\succ_s x$ if $x \\not\\in \\choice(X)$.\n\\end{restatable}\n\n\\textit{Intuition}: Linear assignment problems have a structure that resembles a combination of rankings, even though there is not a fixed sequential order.\n\n\\begin{proof}\nThis comes by the optimality of the assignment solution. For contradiction, say there is $x^* \\succ_s x_s$ where $x^* \\not\\in \\choice(X)$. Then $w(x^*, s) > w(x_s, s)$, and therefore $\\{x^*, s\\} \\cup A \\setminus \\{x_s, s\\}$ leads to a higher sum than $\\choice(X)$, contradicting the fact that $A$ is be optimal.\n\\end{proof}",
+          "quoted_text_sha256": "4b0c8a0cafa73c15f0df02db85decf0a20958cfe394d5b33bbb1974c8708245f"
+        }
+      ]
+    },
+    "result_monotonicity_distance_term": {
+      "statement": "C is monotonic iff |C(X\u2081)\\C(X\u2082)|=0 for every X\u2081\u2286X\u2082.",
+      "aliases": [],
+      "source_kind": "lemma",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:564-573",
+      "source_status": "exact",
+      "source_note": "The iff and cardinal-zero expression are direct.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_monotonicity_term_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_monotonicity_term_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 564,
+          "line_end": 573,
+          "quoted_text": "\\begin{restatable}[Monotonicity Term]{lemma}{mono-dist} \n\\label{lem:monotonicity-term}\nChoice function $\\choice$ is monotonic if and only if $|\\choice(X_1) \\setminus \\choice(X_2)| = 0$ for all $X_1 \\subseteq X_2$.\n\\end{restatable}\n\n\\textit{Intuition}:\nFor a monotonic choice function, previously accepted candidates are never rejected after the addition of more applicants. Thus labels cannot flip from positive to negative, which is what the second term counts.\n    \n\\begin{proof}\nUse the same set properties as per \\Cref{lem:substitutability-term},  $|\\choice(X_1) \\setminus \\choice(X_2)| = 0$ if and only if $\\choice(X_1) \\subseteq \\choice(X_2)$, which is the definition of monotonicity.",
+          "quoted_text_sha256": "40befc37393b1a5baf69caf988d687da0bdfafb21276aa8455f6861e6d0b7a42"
+        }
+      ]
+    },
+    "result_monotonicity_qacceptance_incompatibility": {
+      "statement": "When q\u22651 and the universe has more than q applicants, no feasible rule is both monotonic and q-acceptant.",
+      "aliases": [],
+      "source_kind": "lemma",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:517-529",
+      "source_status": "exact",
+      "source_note": "Lean proves the valid endpoint without relying on the source proof's unjustified disjoint-q-set construction.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_monotonicity_q_acceptance_incompatible_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_monotonicity_q_acceptance_incompatible_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-INCOMPATIBILITY-DISJOINT-SETS-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 517,
+          "line_end": 529,
+          "quoted_text": "\\begin{restatable}[Incompatibility of Monotonicity and $q$-Acceptance]{lemma}{incompatibility}\n\\label{thm:mono-accept-mutex}\nFor $|\\calX| > q \\geq 1$, no choice function can be both monotonic and $q$-acceptant.\n\\end{restatable}\n\n\\textit{Intuition}: %\nFor a choice function to be monotonic, it must never reject a previously accepted applicant as the applicant pool grows. This implies that the capacity must be unbounded, which contradicts the strict capacity limit imposed by $q$-acceptance.%\n\n\\begin{proof}\nConsider two different sets each of $q$ elements. If $\\choice$ is $q$-acceptant, every element must be chosen in each. Then consider their union. If $\\choice$ is monotonic, every element in their union would also be accepted, but that would contradict the $q$-acceptant capacity constraint. \n\nConsider two disjoint sets $X_1, X_2 \\subseteq \\calX$ with $|X_1| = |X_2| = q$. By $q$-acceptance, $\\choice(X_1) = X_1$ and $\\choice(X_2) = X_2$. By monotonicity, both $\\choice(X_1)$ and $\\choice(X_2)$ must be subsets of $\\choice(X_1 \\cup X_2)$. But then $|\\choice(X_1 \\cup X_2)| \\geq |X_1| + |X_2| = 2q > q$, violating $q$-acceptance.\n\\end{proof}",
+          "quoted_text_sha256": "b758682eb58fc6be162673b8a88591b6897695f6ac576dbc235ffb5f0434836d"
+        }
+      ]
+    },
+    "result_ranking_m_borderline_waitlisted": {
+      "statement": "For q-acceptant 1-unstable variability-one C, if insertion changes choice then V_C(X)=A_C(X\u222a{x\u2032}).",
+      "aliases": [],
+      "source_kind": "lemma",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:898-905",
+      "source_status": "exact",
+      "source_note": "The equality is proved for both undersized and full-capacity pools under exactly the changing-insertion hypotheses.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_acceptant_one_instability_variability_borderline_eq_waitlisted_after_changing_insert_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_acceptant_one_instability_variability_borderline_eq_waitlisted_after_changing_insert_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-RANKING-M-CARDINALITY-01",
+        "DGD26-RANKING-M-PAREN-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 898,
+          "line_end": 905,
+          "quoted_text": "\\begin{restatable}{lemma}{Ranking m} \n\\label{lem:a-v-equal}\nLet $q$-acceptant, $1$-unstable $\\choice$ have variability $1$. Then $V_\\choice(X) = A_\\choice(X \\cup \\{x'\\})$ when $\\choice(X \\cup \\{x'\\}) \\neq \\choice(X)$.\n\\end{restatable}\n\n\\begin{proof}\nIf $\\choice(X \\cup \\{x'\\}) \\neq \\choice(X)$, then $\\choice(X \\cup \\{x'\\}) = \\{x'\\} \\cup \\choice(X) \\setminus x^*$ where $V_\\choice(X) = \\{x^*\\}$ (by consistency, 1-instability, and the definition of variability). Then $X' \\setminus \\{x'\\}) = X$ and so $A_\\choice(X') = \\{x^*\\}$, completing the proof. \n\\end{proof}",
+          "quoted_text_sha256": "cb41c1d6596c5eb6af2a3d5bbf89453d6c941987b5b0ad447a4f01bc7c1ee1ec"
+        }
+      ]
+    },
+    "result_substitutability_distance_term": {
+      "statement": "C is substitutable iff |(X\u2081\u2229C(X\u2082))\\C(X\u2081)|=0 for every X\u2081\u2286X\u2082.",
+      "aliases": [],
+      "source_kind": "lemma",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:552-562",
+      "source_status": "exact",
+      "source_note": "The iff and first distance summand are direct.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_substitutability_term_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_substitutability_term_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 552,
+          "line_end": 562,
+          "quoted_text": "\\begin{restatable}[Substitutability Term]{lemma}{sub-dist} \n\\label{lem:substitutability-term}\nChoice function $\\choice$ is substitutable if and only if $|X_1 \\cap \\choice(X_2) \\setminus \\choice(X_1)| = 0$ for all $X_1 \\subseteq X_2$. \n\\end{restatable}\n\n\\textit{Intuition}:\nFor a substitutable choice function, previously rejected candidates are never accepted after the addition of more applicants. Thus labels cannot flip from negative to positive, which is what the first term counts.\n\n\\begin{proof}\nFor any sets $A, B$, $|A \\setminus B| = 0$ if and only if $A \\setminus B = \\emptyset$, and furthermore $A \\setminus B = \\emptyset$ if and only if $A \\subseteq B$. So $|X_1 \\cap \\choice(X_2) \\setminus \\choice(X_1)| = 0$ if and only if $X_1 \\cap \\choice(X_2) \\subseteq \\choice(X_1)$, which is the definition of substitutability.\n\\end{proof}",
+          "quoted_text_sha256": "75b18aa897411dd0aa9a2363f90bd176501858e4fb5505260f69865fbefbb6fd"
+        }
+      ]
+    },
+    "result_non_substitutable_single_add": {
+      "statement": "Failure of substitutability has a single-insertion witness that flips an existing applicant from rejected to chosen.",
+      "aliases": [],
+      "source_kind": "lemma",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:532-546",
+      "source_status": "exact",
+      "source_note": "The existential row exposes the pool, inserted applicant, flipped applicant, and all memberships.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_non_substitutable_single_add_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_non_substitutable_single_add_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 532,
+          "line_end": 546,
+          "quoted_text": "\\begin{restatable}{lemma}{unsubstitutable}\n\\label{lem:unsubstitutable}\nIf $\\choice$ is not substitutable, there exists some $x^*$, $x'$, $X$ and $X' = X \\cup \\{x'\\}$ where $x^* \\in X$ and $x^* \\in \\choice(X')$ but $x^* \\not\\in \\choice(X)$.\n\\end{restatable}\n\n\\textit{Intuition}:\nIf a choice function is not substitutable, then there is at least one situation where a decision ``flips'' from rejection to acceptance.\nWe argue that there has to be some single element $x'$ that causes this ``flip'' when added.\n\n\\begin{proof}\n$\\choice$ is not substitutable if there exists some  $x^*$ and $X_0 \\subseteq X_k$ where $x^* \\in X_0$ and $x^* \\in \\choice(X_k)$ but $x \\not\\in \\choice(X_0)$.\nLet $k$ be such that $k = |X_k \\setminus X_0|$.%\n\nWe want to show the existence of $x'$. To do this, we identify the ``closest'' sets where this occurs. For each $x \\in X_k \\setminus X_0$, add elements to $X_0$, constructing $X_0 \\subseteq X_1 \\subseteq ... \\subseteq X_j \\subseteq ... \\subseteq X_k$, where $X_1 = X_0 \\cup \\{x_1\\}$ and so on. Let $X_j$ be the first in this sequence of sets such that $x^* \\in \\choice(X_j)$ where $x^* \\in \\choice(X_j)$ but $x^* \\not\\in \\choice(X_{j-1})$. Then let $x' = x_j$, $X = X_{j-1}$, and $X' = X_j$. \n\\end{proof}",
+          "quoted_text_sha256": "ae416104322c49223227872748c006600dbdd80741098744607c503b83453d12"
+        }
+      ]
+    },
+    "result_ml_independent_only_zero": {
+      "statement": "Every fixed-threshold score model f(x)=1{s(x)\u2265t} that represents a choice rule can represent only a 0-unstable rule.",
+      "aliases": [],
+      "source_kind": "proposition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:261-265; audit/source_archive_surface.tex:1139-1148",
+      "source_status": "exact",
+      "source_note": "Representation by the displayed fixed-threshold predictor is shown to identify C with an independent rule and hence force zero instability.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_ml_fixed_threshold_representation_zero_unstable_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_ml_fixed_threshold_representation_zero_unstable_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-ML-FIXED-THRESHOLD-ROUTE-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 261,
+          "line_end": 265,
+          "quoted_text": "\\begin{restatable}[ML Representation]{proposition}{mlrepresentation} \n\\label{prop:ml-representation}\nA model of the form~\\eqref{eq:ml-independent} which makes independent predictions can only represent 0-unstable choice functions.\nA model of the form~\\eqref{eq:ml-rank} which ranks applicants can represent a 1-variable, 1-unstable choice function. No such model can represent a choice function with variability or instability greater than one.\n\\end{restatable}",
+          "quoted_text_sha256": "0e66945fa50babc19af475aed8ee4f78f49fcc0579b37853f6749a96e6f31487"
+        },
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1139,
+          "line_end": 1148,
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:ml-representation}} \\label{sec:ml-prop-proof}\n\nRecall \\Cref{prop:ml-representation}:\n\\mlrepresentation*\n\nFirst consider using an ML model to make decisions; then it can be seen as a choice function with various properties.\nThus we say that an ML model can represent a choice function with various properties if it can have those properties when viewed as a choice function. %\n\nThe first statement follows by noting that any rule of the form~\\eqref{eq:ml-independent} must either admit or reject an applicant regardless of the applicant pool, so it must be independent and hence $0$-unstable by \\Cref{thm:independent-zero-unstable}. %\nThe second and third statements follow by noting that scores in~\\eqref{eq:ml-rank} induce a total order by embedding applicants in $\\mathbb R$ and selecting accordingly. Therefore any rule of the form~\\eqref{eq:ml-rank} is $q$-representative (by definition) and hence has instability and variability exactly one (by \\Cref{thm:ranking-variability}), but no greater.",
+          "quoted_text_sha256": "e7fb01fdb41f32323eb4396f019d16b40b9ef2e5c409e475717059fd8f064873"
+        }
+      ]
+    },
+    "result_ml_rank_can_represent_one_one": {
+      "statement": "A rank-threshold score model can represent a 1-variable, 1-unstable choice function by embedding one total order in real scores.",
+      "aliases": [],
+      "source_kind": "proposition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:261-269; audit/source_archive_surface.tex:1139-1148",
+      "source_status": "exact",
+      "source_note": "A concrete injective real score on Fin(q+1) realizes tight instability one and exact variability one.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_ml_rank_threshold_can_represent_exact_one_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_ml_rank_threshold_can_represent_exact_one_statement"
+      ],
+      "support_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_ml_rank_threshold_one_instability_variability_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-ML-RANK-EMBEDDING-ROUTE-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 261,
+          "line_end": 269,
+          "quoted_text": "\\begin{restatable}[ML Representation]{proposition}{mlrepresentation} \n\\label{prop:ml-representation}\nA model of the form~\\eqref{eq:ml-independent} which makes independent predictions can only represent 0-unstable choice functions.\nA model of the form~\\eqref{eq:ml-rank} which ranks applicants can represent a 1-variable, 1-unstable choice function. No such model can represent a choice function with variability or instability greater than one.\n\\end{restatable}\n\nThis result shows that standard ML practice coherently applies to admissions data only in limited settings.\nThe intuition for this result hinges on the fact that all 1-unstable and 1-variable choice functions correspond to total preference orderings over applicants (formalized in Theorem~\\ref{thm:variability}).\nThen the proposition follows from noticing that total preference orderings correspond to  embedding applicants in  $\\mathbb{R}$  (by their scores).",
+          "quoted_text_sha256": "431acaaf8a67733f03e3efaca8aaac9780c268e6529a7389cb19a416c6ff0056"
+        },
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1139,
+          "line_end": 1148,
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:ml-representation}} \\label{sec:ml-prop-proof}\n\nRecall \\Cref{prop:ml-representation}:\n\\mlrepresentation*\n\nFirst consider using an ML model to make decisions; then it can be seen as a choice function with various properties.\nThus we say that an ML model can represent a choice function with various properties if it can have those properties when viewed as a choice function. %\n\nThe first statement follows by noting that any rule of the form~\\eqref{eq:ml-independent} must either admit or reject an applicant regardless of the applicant pool, so it must be independent and hence $0$-unstable by \\Cref{thm:independent-zero-unstable}. %\nThe second and third statements follow by noting that scores in~\\eqref{eq:ml-rank} induce a total order by embedding applicants in $\\mathbb R$ and selecting accordingly. Therefore any rule of the form~\\eqref{eq:ml-rank} is $q$-representative (by definition) and hence has instability and variability exactly one (by \\Cref{thm:ranking-variability}), but no greater.",
+          "quoted_text_sha256": "e7fb01fdb41f32323eb4396f019d16b40b9ef2e5c409e475717059fd8f064873"
+        }
+      ]
+    },
+    "result_ml_rank_cannot_instability_gt_one": {
+      "statement": "No rank-threshold score model can represent a choice function with instability greater than one.",
+      "aliases": [],
+      "source_kind": "proposition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:261-269; audit/source_archive_surface.tex:1139-1148",
+      "source_status": "exact",
+      "source_note": "Any feasible C represented by the displayed rank-threshold predictor is proved 1-unstable.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_ml_rank_threshold_representation_instability_bound_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_ml_rank_threshold_representation_instability_bound_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-ML-RANK-EMBEDDING-ROUTE-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 261,
+          "line_end": 269,
+          "quoted_text": "\\begin{restatable}[ML Representation]{proposition}{mlrepresentation} \n\\label{prop:ml-representation}\nA model of the form~\\eqref{eq:ml-independent} which makes independent predictions can only represent 0-unstable choice functions.\nA model of the form~\\eqref{eq:ml-rank} which ranks applicants can represent a 1-variable, 1-unstable choice function. No such model can represent a choice function with variability or instability greater than one.\n\\end{restatable}\n\nThis result shows that standard ML practice coherently applies to admissions data only in limited settings.\nThe intuition for this result hinges on the fact that all 1-unstable and 1-variable choice functions correspond to total preference orderings over applicants (formalized in Theorem~\\ref{thm:variability}).\nThen the proposition follows from noticing that total preference orderings correspond to  embedding applicants in  $\\mathbb{R}$  (by their scores).",
+          "quoted_text_sha256": "431acaaf8a67733f03e3efaca8aaac9780c268e6529a7389cb19a416c6ff0056"
+        },
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1139,
+          "line_end": 1148,
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:ml-representation}} \\label{sec:ml-prop-proof}\n\nRecall \\Cref{prop:ml-representation}:\n\\mlrepresentation*\n\nFirst consider using an ML model to make decisions; then it can be seen as a choice function with various properties.\nThus we say that an ML model can represent a choice function with various properties if it can have those properties when viewed as a choice function. %\n\nThe first statement follows by noting that any rule of the form~\\eqref{eq:ml-independent} must either admit or reject an applicant regardless of the applicant pool, so it must be independent and hence $0$-unstable by \\Cref{thm:independent-zero-unstable}. %\nThe second and third statements follow by noting that scores in~\\eqref{eq:ml-rank} induce a total order by embedding applicants in $\\mathbb R$ and selecting accordingly. Therefore any rule of the form~\\eqref{eq:ml-rank} is $q$-representative (by definition) and hence has instability and variability exactly one (by \\Cref{thm:ranking-variability}), but no greater.",
+          "quoted_text_sha256": "e7fb01fdb41f32323eb4396f019d16b40b9ef2e5c409e475717059fd8f064873"
+        }
+      ]
+    },
+    "result_ml_rank_cannot_variability_gt_one": {
+      "statement": "No rank-threshold score model can represent a choice function with variability greater than one.",
+      "aliases": [],
+      "source_kind": "proposition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:261-269; audit/source_archive_surface.tex:1139-1148",
+      "source_status": "exact",
+      "source_note": "Any feasible C represented by the displayed rank-threshold predictor is proved at most 1-variable.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_ml_rank_threshold_representation_variability_bound_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_ml_rank_threshold_representation_variability_bound_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-ML-RANK-EMBEDDING-ROUTE-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 261,
+          "line_end": 269,
+          "quoted_text": "\\begin{restatable}[ML Representation]{proposition}{mlrepresentation} \n\\label{prop:ml-representation}\nA model of the form~\\eqref{eq:ml-independent} which makes independent predictions can only represent 0-unstable choice functions.\nA model of the form~\\eqref{eq:ml-rank} which ranks applicants can represent a 1-variable, 1-unstable choice function. No such model can represent a choice function with variability or instability greater than one.\n\\end{restatable}\n\nThis result shows that standard ML practice coherently applies to admissions data only in limited settings.\nThe intuition for this result hinges on the fact that all 1-unstable and 1-variable choice functions correspond to total preference orderings over applicants (formalized in Theorem~\\ref{thm:variability}).\nThen the proposition follows from noticing that total preference orderings correspond to  embedding applicants in  $\\mathbb{R}$  (by their scores).",
+          "quoted_text_sha256": "431acaaf8a67733f03e3efaca8aaac9780c268e6529a7389cb19a416c6ff0056"
+        },
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1139,
+          "line_end": 1148,
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:ml-representation}} \\label{sec:ml-prop-proof}\n\nRecall \\Cref{prop:ml-representation}:\n\\mlrepresentation*\n\nFirst consider using an ML model to make decisions; then it can be seen as a choice function with various properties.\nThus we say that an ML model can represent a choice function with various properties if it can have those properties when viewed as a choice function. %\n\nThe first statement follows by noting that any rule of the form~\\eqref{eq:ml-independent} must either admit or reject an applicant regardless of the applicant pool, so it must be independent and hence $0$-unstable by \\Cref{thm:independent-zero-unstable}. %\nThe second and third statements follow by noting that scores in~\\eqref{eq:ml-rank} induce a total order by embedding applicants in $\\mathbb R$ and selecting accordingly. Therefore any rule of the form~\\eqref{eq:ml-rank} is $q$-representative (by definition) and hence has instability and variability exactly one (by \\Cref{thm:ranking-variability}), but no greater.",
+          "quoted_text_sha256": "e7fb01fdb41f32323eb4396f019d16b40b9ef2e5c409e475717059fd8f064873"
+        }
+      ]
+    },
+    "result_program_classes_one_instability": {
+      "statement": "All four NYC program choice-function classes considered in Proposition 2 are 1-unstable.",
+      "aliases": [],
+      "source_kind": "proposition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:347-358; audit/source_archive_surface.tex:1150-1158",
+      "source_status": "exact",
+      "source_note": "All four explicit queue-based program representatives are proved 1-unstable.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_program_classes_one_instability_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_program_classes_one_instability_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-PROGRAM-WITNESSES-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 347,
+          "line_end": 358,
+          "quoted_text": "\\begin{restatable}[]{proposition}{empiricalmethods} \n\\label{prop:program-variability}\nAll considered choice functions ({Ed. Opt}, {Screened/Open}, {Ed. Opt with DIA}, and {Screened/Open with DIA}) are $1$-unstable. Furthermore, their variability is (tightly) equal to their number of queues: \n\n\\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]\n    \\item Screened/Open programs are $1$-variable\n    \\item Screened/Open with DIA programs are $2$-variable\n    \\item Ed. Opt. programs are $3$-variable\n    \\item Ed. Opt with DIA programs are $6$-variable\n\\end{itemize}\n\n\\end{restatable}",
+          "quoted_text_sha256": "fa5aad8fd36c5d394fba9757f98e190d8ab7f8aaf6240f5a587fee4d987c47eb"
+        },
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1150,
+          "line_end": 1158,
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:program-variability}} \\label{sec:program-prop-proof}\n\nRecall \\Cref{prop:program-variability}:\n\\empiricalmethods*\n\nWe construct applicant sets to prove the variability of each empirical method we study, showing that the upper bound from \\Cref{thm:variability} based on the number of queues is tight.\n\nNote that both Screened and Open programs are explicitly a ranking, and therefore have variability $1$ by  \\Cref{thm:variability}. \nScreened and Open programs with DIA are upper-bounded by variability 2, as they are composed of two queues. It is easy to see that this upper bound is tight. Consider an applicant pool $X$ where the lowest-ranking students in the DIA queue is lower-ranked than the lowest-ranked student in the non-DIA queue. Then $A_\\choice(X)$ contains two elements -- adding a new DIA-qualified student might lead to rejecting the lowest-ranked student in the DIA queue, while a non-DIA student would lead to a change in the non-DIA queue. Similarly, in the three-queue Ed. Opt. case, the variability $3$ bound is tight, as there are applicant pools where adding a single high-, middle-, or low-category student would displace a different student in the corresponding queue. Likewise, the six queues in Ed. Opt. with DIA programs lead to six diffrent students who might be displaced depending on what category a new applicant falls into.",
+          "quoted_text_sha256": "6c2d6098e2b3c1400451a8e44ce5db10a6ec758755d2362c47a45ee8769c0c51"
+        }
+      ]
+    },
+    "result_screened_open_variability_one": {
+      "statement": "Screened/Open programs have exact variability 1.",
+      "aliases": [],
+      "source_kind": "proposition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:347-358; audit/source_archive_surface.tex:1150-1158",
+      "source_status": "exact",
+      "source_note": "The canonical one-queue program has a kernel-checked exact-one witness.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_screened_open_variability_one_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_screened_open_variability_one_statement"
+      ],
+      "support_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_q_representative_variability_exactly_one_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-PROGRAM-WITNESSES-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 347,
+          "line_end": 358,
+          "quoted_text": "\\begin{restatable}[]{proposition}{empiricalmethods} \n\\label{prop:program-variability}\nAll considered choice functions ({Ed. Opt}, {Screened/Open}, {Ed. Opt with DIA}, and {Screened/Open with DIA}) are $1$-unstable. Furthermore, their variability is (tightly) equal to their number of queues: \n\n\\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]\n    \\item Screened/Open programs are $1$-variable\n    \\item Screened/Open with DIA programs are $2$-variable\n    \\item Ed. Opt. programs are $3$-variable\n    \\item Ed. Opt with DIA programs are $6$-variable\n\\end{itemize}\n\n\\end{restatable}",
+          "quoted_text_sha256": "fa5aad8fd36c5d394fba9757f98e190d8ab7f8aaf6240f5a587fee4d987c47eb"
+        },
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1150,
+          "line_end": 1158,
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:program-variability}} \\label{sec:program-prop-proof}\n\nRecall \\Cref{prop:program-variability}:\n\\empiricalmethods*\n\nWe construct applicant sets to prove the variability of each empirical method we study, showing that the upper bound from \\Cref{thm:variability} based on the number of queues is tight.\n\nNote that both Screened and Open programs are explicitly a ranking, and therefore have variability $1$ by  \\Cref{thm:variability}. \nScreened and Open programs with DIA are upper-bounded by variability 2, as they are composed of two queues. It is easy to see that this upper bound is tight. Consider an applicant pool $X$ where the lowest-ranking students in the DIA queue is lower-ranked than the lowest-ranked student in the non-DIA queue. Then $A_\\choice(X)$ contains two elements -- adding a new DIA-qualified student might lead to rejecting the lowest-ranked student in the DIA queue, while a non-DIA student would lead to a change in the non-DIA queue. Similarly, in the three-queue Ed. Opt. case, the variability $3$ bound is tight, as there are applicant pools where adding a single high-, middle-, or low-category student would displace a different student in the corresponding queue. Likewise, the six queues in Ed. Opt. with DIA programs lead to six diffrent students who might be displaced depending on what category a new applicant falls into.",
+          "quoted_text_sha256": "6c2d6098e2b3c1400451a8e44ce5db10a6ec758755d2362c47a45ee8769c0c51"
+        }
+      ]
+    },
+    "result_screened_open_dia_variability_two": {
+      "statement": "Screened/Open with DIA programs have exact variability 2.",
+      "aliases": [],
+      "source_kind": "proposition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:347-358; audit/source_archive_surface.tex:1150-1158",
+      "source_status": "exact",
+      "source_note": "The canonical two-queue DIA program has a kernel-checked exact-two witness.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_screened_open_dia_variability_two_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_screened_open_dia_variability_two_statement"
+      ],
+      "support_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_sequential_q_representative_variability_bound_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-PROGRAM-WITNESSES-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 347,
+          "line_end": 358,
+          "quoted_text": "\\begin{restatable}[]{proposition}{empiricalmethods} \n\\label{prop:program-variability}\nAll considered choice functions ({Ed. Opt}, {Screened/Open}, {Ed. Opt with DIA}, and {Screened/Open with DIA}) are $1$-unstable. Furthermore, their variability is (tightly) equal to their number of queues: \n\n\\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]\n    \\item Screened/Open programs are $1$-variable\n    \\item Screened/Open with DIA programs are $2$-variable\n    \\item Ed. Opt. programs are $3$-variable\n    \\item Ed. Opt with DIA programs are $6$-variable\n\\end{itemize}\n\n\\end{restatable}",
+          "quoted_text_sha256": "fa5aad8fd36c5d394fba9757f98e190d8ab7f8aaf6240f5a587fee4d987c47eb"
+        },
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1150,
+          "line_end": 1158,
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:program-variability}} \\label{sec:program-prop-proof}\n\nRecall \\Cref{prop:program-variability}:\n\\empiricalmethods*\n\nWe construct applicant sets to prove the variability of each empirical method we study, showing that the upper bound from \\Cref{thm:variability} based on the number of queues is tight.\n\nNote that both Screened and Open programs are explicitly a ranking, and therefore have variability $1$ by  \\Cref{thm:variability}. \nScreened and Open programs with DIA are upper-bounded by variability 2, as they are composed of two queues. It is easy to see that this upper bound is tight. Consider an applicant pool $X$ where the lowest-ranking students in the DIA queue is lower-ranked than the lowest-ranked student in the non-DIA queue. Then $A_\\choice(X)$ contains two elements -- adding a new DIA-qualified student might lead to rejecting the lowest-ranked student in the DIA queue, while a non-DIA student would lead to a change in the non-DIA queue. Similarly, in the three-queue Ed. Opt. case, the variability $3$ bound is tight, as there are applicant pools where adding a single high-, middle-, or low-category student would displace a different student in the corresponding queue. Likewise, the six queues in Ed. Opt. with DIA programs lead to six diffrent students who might be displaced depending on what category a new applicant falls into.",
+          "quoted_text_sha256": "6c2d6098e2b3c1400451a8e44ce5db10a6ec758755d2362c47a45ee8769c0c51"
+        }
+      ]
+    },
+    "result_edopt_variability_three": {
+      "statement": "Educational Option programs have exact variability 3.",
+      "aliases": [],
+      "source_kind": "proposition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:347-358; audit/source_archive_surface.tex:1150-1158",
+      "source_status": "exact",
+      "source_note": "The canonical three-queue Educational Option program has a kernel-checked exact-three witness.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_educational_option_variability_three_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_educational_option_variability_three_statement"
+      ],
+      "support_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_sequential_q_representative_variability_bound_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-PROGRAM-WITNESSES-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 347,
+          "line_end": 358,
+          "quoted_text": "\\begin{restatable}[]{proposition}{empiricalmethods} \n\\label{prop:program-variability}\nAll considered choice functions ({Ed. Opt}, {Screened/Open}, {Ed. Opt with DIA}, and {Screened/Open with DIA}) are $1$-unstable. Furthermore, their variability is (tightly) equal to their number of queues: \n\n\\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]\n    \\item Screened/Open programs are $1$-variable\n    \\item Screened/Open with DIA programs are $2$-variable\n    \\item Ed. Opt. programs are $3$-variable\n    \\item Ed. Opt with DIA programs are $6$-variable\n\\end{itemize}\n\n\\end{restatable}",
+          "quoted_text_sha256": "fa5aad8fd36c5d394fba9757f98e190d8ab7f8aaf6240f5a587fee4d987c47eb"
+        },
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1150,
+          "line_end": 1158,
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:program-variability}} \\label{sec:program-prop-proof}\n\nRecall \\Cref{prop:program-variability}:\n\\empiricalmethods*\n\nWe construct applicant sets to prove the variability of each empirical method we study, showing that the upper bound from \\Cref{thm:variability} based on the number of queues is tight.\n\nNote that both Screened and Open programs are explicitly a ranking, and therefore have variability $1$ by  \\Cref{thm:variability}. \nScreened and Open programs with DIA are upper-bounded by variability 2, as they are composed of two queues. It is easy to see that this upper bound is tight. Consider an applicant pool $X$ where the lowest-ranking students in the DIA queue is lower-ranked than the lowest-ranked student in the non-DIA queue. Then $A_\\choice(X)$ contains two elements -- adding a new DIA-qualified student might lead to rejecting the lowest-ranked student in the DIA queue, while a non-DIA student would lead to a change in the non-DIA queue. Similarly, in the three-queue Ed. Opt. case, the variability $3$ bound is tight, as there are applicant pools where adding a single high-, middle-, or low-category student would displace a different student in the corresponding queue. Likewise, the six queues in Ed. Opt. with DIA programs lead to six diffrent students who might be displaced depending on what category a new applicant falls into.",
+          "quoted_text_sha256": "6c2d6098e2b3c1400451a8e44ce5db10a6ec758755d2362c47a45ee8769c0c51"
+        }
+      ]
+    },
+    "result_edopt_dia_variability_six": {
+      "statement": "Educational Option with DIA programs have exact variability 6.",
+      "aliases": [],
+      "source_kind": "proposition",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:347-358; audit/source_archive_surface.tex:1150-1158",
+      "source_status": "exact",
+      "source_note": "The canonical six-queue Educational Option with DIA program has a kernel-checked exact-six witness.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_educational_option_dia_variability_six_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_educational_option_dia_variability_six_statement"
+      ],
+      "support_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_sequential_q_representative_variability_bound_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-PROGRAM-WITNESSES-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 347,
+          "line_end": 358,
+          "quoted_text": "\\begin{restatable}[]{proposition}{empiricalmethods} \n\\label{prop:program-variability}\nAll considered choice functions ({Ed. Opt}, {Screened/Open}, {Ed. Opt with DIA}, and {Screened/Open with DIA}) are $1$-unstable. Furthermore, their variability is (tightly) equal to their number of queues: \n\n\\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]\n    \\item Screened/Open programs are $1$-variable\n    \\item Screened/Open with DIA programs are $2$-variable\n    \\item Ed. Opt. programs are $3$-variable\n    \\item Ed. Opt with DIA programs are $6$-variable\n\\end{itemize}\n\n\\end{restatable}",
+          "quoted_text_sha256": "fa5aad8fd36c5d394fba9757f98e190d8ab7f8aaf6240f5a587fee4d987c47eb"
+        },
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1150,
+          "line_end": 1158,
+          "quoted_text": "\\subsection{Proof of \\Cref{prop:program-variability}} \\label{sec:program-prop-proof}\n\nRecall \\Cref{prop:program-variability}:\n\\empiricalmethods*\n\nWe construct applicant sets to prove the variability of each empirical method we study, showing that the upper bound from \\Cref{thm:variability} based on the number of queues is tight.\n\nNote that both Screened and Open programs are explicitly a ranking, and therefore have variability $1$ by  \\Cref{thm:variability}. \nScreened and Open programs with DIA are upper-bounded by variability 2, as they are composed of two queues. It is easy to see that this upper bound is tight. Consider an applicant pool $X$ where the lowest-ranking students in the DIA queue is lower-ranked than the lowest-ranked student in the non-DIA queue. Then $A_\\choice(X)$ contains two elements -- adding a new DIA-qualified student might lead to rejecting the lowest-ranked student in the DIA queue, while a non-DIA student would lead to a change in the non-DIA queue. Similarly, in the three-queue Ed. Opt. case, the variability $3$ bound is tight, as there are applicant pools where adding a single high-, middle-, or low-category student would displace a different student in the corresponding queue. Likewise, the six queues in Ed. Opt. with DIA programs lead to six diffrent students who might be displaced depending on what category a new applicant falls into.",
+          "quoted_text_sha256": "6c2d6098e2b3c1400451a8e44ce5db10a6ec758755d2362c47a45ee8769c0c51"
+        }
+      ]
+    },
+    "result_additive_variability_bound": {
+      "statement": "A sequential composition of q-acceptant 1-unstable stages with variability bounds m_i has variability at most \u03a3_i m_i.",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:998-1003",
+      "source_status": "exact",
+      "source_note": "The stage lists, capacities, instability premises, and summed bound are all exposed.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_sequential_additive_variability_bound_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_sequential_additive_variability_bound_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 998,
+          "line_end": 1003,
+          "quoted_text": "\\begin{restatable}[Additive Variability Bound]{theorem}{addvar}\n\\label{thm:additive-variability}\nIf $\\choice$ is a sequential composition of $q$-acceptant, $1$-unstable functions with variabilities $m_1, \\ldots, m_n$, then $\\choice$ has variability at most $\\sum_{i=1}^n m_i$.\n\\end{restatable}\n\nNote that this is only an upper bound; we could trivially construct cases where this is not tight. For example, compose a $\\choice$ of two $q$-representative choice functions with the same underlying ordering. On the other hand, it is also easy to construct instances in which this upper bound is tight. Consider the composition of $m$ queues which each rank a student by a different subject area exam. Then the addition of a new student to the applicant pool could displace any of $m$ students, depending on the subject area.",
+          "quoted_text_sha256": "8cba959d7edde221b066bac7258427fa78907b170e71903a54bf08006534ddf7"
+        }
+      ]
+    },
+    "result_append_remove_max_equality": {
+      "statement": "For q-acceptant 1-unstable C in a universe of size at least 2q, the maximum waitlisted-set size equals the maximum borderline-set size.",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:850-879",
+      "source_status": "support",
+      "source_note": "The at-most and exact predicate equivalences collectively encode the maximum equality; the stray source token is note-only.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_append_remove_variability_at_most_equivalence_statement",
+        "DGD26AdmissionsPredictability.PaperInterface.paper_append_remove_variability_exact_equivalence_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_append_remove_variability_at_most_equivalence_statement",
+        "DGD26AdmissionsPredictability.PaperInterface.paper_append_remove_variability_exact_equivalence_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-APPEND-REMOVE-SLASH-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 850,
+          "line_end": 879,
+          "quoted_text": "\\begin{restatable}{theorem}{appendremove} \n\\label{thm:append-remove-size}\nFor $q$-acceptant, 1-unstable $\\choice$, and $|\\calX| \\geq 2q$, the maximum size of the waitlisted set is equal to the maximum size of the borderline set; that is, \n\\begin{equation}\n\\max_{X\\subset \\calX} \\left| V_\\choice(X)\\right| = \\max_{X\\subset \\calX} \\left| A_\\choice(X)\\right|\n\\end{equation}\n\\end{restatable}\n\nIn short, if there is a set $X$ with a waitlisted set of size $u$, there must be a set $X_0$ with a borderline set of size (at least) $u$, and vice versa. %\n\n\\begin{proof}\nTo prove equality, we will prove that 1) $\\max_{X\\subset \\calX} \\left| V_\\choice(X)\\right| \\geq \\max_{X\\subset \\calX} \\left| A_\\choice(X)\\right|$ and then that 2) $\\max_{X\\subset \\calX} \\left| V_\\choice(X)\\right| \\leq  \\max_{X\\subset \\calX} \\left| A_\\choice(X)\\right|$.\n\n\\textbf{Part 1).}\nTo prove the first statement, assume that there is some $X$ where the waitlisted set is of cardinality at least $u$, so $x^*_1, ..., x^*_u \\in A_\\choice(X)$.\n\nThen (recall that $\\choice$ is consistent) there are $X_1, ..., X_u \\subseteq X$ where $X_i = X \\setminus \\{x'_i\\}$ such that $\\choice(X_i) = x^*_i \\cup \\choice(X) \\setminus x'_i$ for $i \\in \\{1, ..., u\\}$. Then consider $X_0 = \\bigcap_{i=1}^u X_i = X \\setminus \\{x'_1, ..., x'_u\\}$, and $\\choice(X_0)$. It must be that $\\choice(X_0) = \\{x^*_1, ..., x^*_u\\} \\cup \\choice(X) \\setminus \\{x'_1, ..., x'_u\\}$ by substitutability. I claim that $\\{x^*_1, ..., x^*_u\\} \\subseteq V_\\choice(X_0)$, which means $|V_c(X_0)| \\geq u$, which would complete the proof.\n\nAssume for contradiction that this is untrue; $\\{x^*_1, ..., x^*_u\\} \\not\\subseteq V_\\choice(X_0)$. Then some $x^*_i$, say $x^*_u$ (without loss of generality), is not in $V_\\choice(X_0)$, which means that $x^*_u \\in \\choice(\\{x'_u\\} \\cup X_0)$.   \nConsider the makeup of $\\choice(\\{x'_u\\} \\cup X_0)$. Recall that $\\{x'_u\\} \\cup X_0 = \\bigcap_{i=1}^{u-1} X_i = X \\setminus \\{x'_1, ..., x'_{u-1}\\}$. Because of substitutability, as a subset of $X$, we have $\\left(\\choice(X) \\setminus \\{x'_1, ..., x'_{u-1}\\}\\right) \\subseteq \\{x'_u\\} \\cup X_0$. From substitutability, as a subset of from $X_1$ through $X_{u-1}$, $\\{x^*_2, ..., x^*_{u-1}\\}$ are likewise chosen. \nHowever, consider the size of $\\choice(\\{x'_u\\} \\cup X_0)$. $|\\choice(X) \\setminus \\{x'_1, ..., x'_{u-1}\\}|$ is of size $q-(u-1)$, because $x'_i \\in \\choice(X)$ for all $i$. We also know that $|\\{x^*_1, ..., x^*_{u-1}\\}| = u-1$, and as no  $x^*_i$ is in $\\choice(X)$ by definition, all of these elements are distinct. As $x^*_u$ remains by assumption, this adds up to $|\\choice(\\{x'_u\\} \\cup X_0)| = q+1$, which violates $q$-acceptance and completes the proof.\n\n\\textbf{Part 2).}\nThe proof for 2) is extremely similar to the former. Begin with $X_0$ with $V_\\choice(X_0) = \\{x^*_1, ..., x^*_m\\}$, with $x'_1, ..., x'_m$ such that $\\choice(X'_1) = \\{x'_1\\} \\cup \\choice(X_0) \\setminus \\{x^*_1\\}$. Let $X = \\bigcup_{i=1}^m /X'_i = X_0 \\cup \\{x'_1,...,x'_m\\}$ and $X_i = X \\setminus \\{x'_i\\}$. Note that $X_i = X'_1 \\cup ... X'_{i-1} \\cup X'_{i+1} \\cup ... \\cup X_m$. %\nBecause of $1$-instability, $|\\choice(X_0) \\setminus \\choice(X)| \\leq |X_0 \\setminus X| = m$. Because of substitutability, any $x \\in \\choice(X)$ is either in $\\choice(X_0)$ or not in $X_0$ and therefore in $\\{x'_1, ..., x'_m\\}$. \n\nI claim $\\choice(X) = \\{x'_1,...,x'_m\\} \\cup \\choice(X_0) \\setminus \\{x^*_1,..., x^*_m\\}$. Firstly, $x^*_i \\not\\in \\choice(X)$ because  $x^*_i \\not\\in \\choice(X'_i)$ and $X'_i \\subseteq X$, so that would be a substitutability violation. As $\\choice(X_0) \\setminus \\{x^*_1,..., x^*_m\\}$ has $q-m$ elements, the only possible elements to fill $\\choice(X)$ must be the $m$ elements of $\\{x'_1,...,x'_m\\}$. \n\nThe same argument holds for any $X_i$, but use $X_m$ without loss of generality for ease of notation; $X'_j \\subseteq X_m$ for $m \\neq j$, so $x^*_j \\not\\in\\choice(X_m)$ by substitutability. With $\\choice(X_0) \\setminus \\{x^*_1,..., x^*_{m-1}\\}$ being the only $q-m+1$ elements of $X_0$ that can be in $\\choice(X_m)$, the other $m-1$ elements must be $\\{x'_1,. .., x'_{m-1}\\}$. Then consider the definition of $A_\\choice(X)$ and see that $\\choice(X \\setminus x'_i) \\setminus \\choice(X) = \\{x^*_i\\}$ for any $i$, with each $x^*_i$ being unique.\n\\end{proof}",
+          "quoted_text_sha256": "a6ac169041db727639d9ed3cd2cef78742043e50b35b9e08a7999cef8a4c60da"
+        }
+      ]
+    },
+    "result_choice_distance_triangle": {
+      "statement": "For X\u2081\u2286X\u2082\u2286X\u2083, r_C(X\u2081,X\u2083)\u2264r_C(X\u2081,X\u2082)+r_C(X\u2082,X\u2083).",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:576-580",
+      "source_status": "exact",
+      "source_note": "The three pools, containments, inequality direction, and both summands match.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_choice_distance_triangle_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_choice_distance_triangle_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 576,
+          "line_end": 580,
+          "quoted_text": "\\begin{restatable}[Triangle Inequality]{theorem}{triangle} \n\\label{thm:triangle-ineq}\nFor any choice function $\\choice$ and sets $X_1 \\subseteq X_2 \\subseteq X_3$, $r_\\choice$ obeys the triangle inequality; \n$$r_\\choice(X_1, X_3) \\leq r_\\choice(X_1, X_2) + r_\\choice(X_2, X_3)$$\n\\end{restatable}",
+          "quoted_text_sha256": "02ffdc4dc8a1d64ca8f999f8780ea14085b6d1d65d9312f56e718e38bf2c80a2"
+        }
+      ]
+    },
+    "result_even_distance_iff_inconsistent": {
+      "statement": "For q-acceptant C, inconsistency is equivalent to the existence of a fresh insertion with positive even choice distance.",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:777-794",
+      "source_status": "exact",
+      "source_note": "One theorem proves both directions and derives fresh-applicant nonselection from positive even parity.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_even_distance_iff_inconsistent_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_even_distance_iff_inconsistent_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-EVEN-MEMBERSHIP-TYPO-01",
+        "DGD26-EVEN-PARITY-BRIDGE-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 777,
+          "line_end": 794,
+          "quoted_text": "\\begin{restatable}[Even Instability is Inconsistent]{theorem}{inconsistentstable} \n\\label{thm:even-inconsistency}\nFor any $q$-acceptant $\\choice$, $\\choice$ is inconsistent if and only if there exist $X, X' = X \\cup \\{x'\\}$ where $r_\\choice(X, X')$ is positive and even. \n\\end{restatable}\n\n\\textit{Intuition}: for $\\choice$ to have an even but nonzero choice distance $r_\\choice$, the indicator term in  \\Cref{lem:unstable-calc} must be zero; the added $x'$ is not selected. But that means $x'$ is a rejected element that still has an impact, which violates consistency.\n\\begin{proof}\n\\textbf{Informal}\nFirst, we prove that an even and positive value of $r_\\choice$ implies inconsistency. For $\\choice$ to have an even but nonzero choice distance $r_\\choice$, the indicator term in  \\Cref{lem:unstable-calc} must be zero; the added $x'$ is not selected. But that means $x'$ affects selection without actually being chosen, which violates consistency.\n\nNext, prove that consistency limits the values of $r_\\choice$. If $\\choice$ is not consistent, then there is some $X, X'$ where the new element $x'$ is not chosen (so the indicator term in \\Cref{lem:unstable-calc} is zero and $r_\\choice$ is even), but changes the chosen elements. This makes  $r_\\choice$ is positive under a fixed capacity constraint.\n\n\\textbf{Formal}\nConsider \\Cref{lem:unstable-calc}. See that for $r_\\choice \\neq 0$, $r_\\choice$ is odd if and only if $x' \\in \\choice(X')$ and even if and only if $x' \\not\\in \\choice(X')$. If $x' \\not\\in \\choice(X')$, then $\\choice(X') \\subseteq X$. %\nSo if $x' \\not\\in \\choice(X')$ but $n > 0$, $\\choice(X') \\subseteq X$ but $\\choice(X') \\neq \\choice(X)$, which proves inconsistency.\nSimilarly, if $\\choice$ is inconsistent, there is $\\choice(X') \\subseteq X$ but $\\choice(X') \\neq \\choice(X)$. %\nAs $\\choice(X') \\neq \\choice(X)$, $n > 0$, but for $\\choice(X') \\subseteq X$ to be true, $x' \\neq \\choice(X')$, and so $r_\\choice(X, X')$ is even. \n\\end{proof}",
+          "quoted_text_sha256": "80b42ff19ac087ad7779220ae21bdd2bda5b9bed2974d730ddce8cab7458e0ff"
+        }
+      ]
+    },
+    "result_independence_iff_substitutable_monotonic": {
+      "statement": "C is independent if and only if it is both substitutable and monotonic.",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:683-707",
+      "source_status": "exact",
+      "source_note": "The complete iff is proved under the explicit feasibility model condition.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_independent_substitutable_monotonic_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_independent_substitutable_monotonic_statement"
+      ],
+      "source_presentation_reconciliation": {
+        "schema": 1,
+        "relation": "conservative_text_span_core",
+        "presentation_kind": "theorem",
+        "presentation_label": "thm:independent-sub-mon",
+        "core_anchor": {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 683,
+          "line_end": 685,
+          "quoted_text": "\\begin{restatable}{theorem}{Independent Rules are Substitutable and Monotonic} \n\\label{thm:independent-sub-mon}\n$\\choice$ is independent if and only if it is both substitutable and monotonic.",
+          "quoted_text_sha256": "06eeb63fbff58cdd46f5fadbd606c0837d16abfc736acc5f64332eadeb0f4f6d"
+        },
+        "boundary_reason": "completed_statement_then_explanation",
+        "semantic_basis": "The core contains the complete restated theorem; the following intuition and proof material are not part of the displayed statement, and the later corollary is a distinct presentation.",
+        "validator": "DGD26 source-only named-result reconciliation",
+        "validated_at": "2026-08-16T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 683,
+          "line_end": 707,
+          "quoted_text": "\\begin{restatable}{theorem}{Independent Rules are Substitutable and Monotonic} \n\\label{thm:independent-sub-mon}\n$\\choice$ is independent if and only if it is both substitutable and monotonic.\n\\end{restatable}\n\n\\textit{Intuition}: The only way for adding applicants to neither hurt those already accepted or help those already rejected is to not affect them at all.\n\\begin{proof}\n    Assume $\\choice$ is independent.\n\n    \\textbf{Informal}\n    Consider how independence implies substitutability and monotonicity. Independence means any element is always accepted or always rejected regardless of applicant pool. Then any $x$ that is accepted in $X_1$ is still accepted in any subset of $X_1$, which satisfies the definition of substitutability, and is accepted in any superset of $X_1$, which satisfies monotonicity.\n\n    To prove that substitutability and monotonicity combine to form independence, consider the behavior they cover. Recall the intuition behind substitutability --- removing applicants does not lead to rejecting those accepted, and the intuition behind monotonicity --- adding applicants does not lead to rejecting those accepted. Given both properties, nothing can affect an acceptance decision at all. \n\n    \\textbf{Formal}\n    First, we assume independence and prove $0$-stablility.\n    Recall \\Cref{lem:substitutability-term}: $\\choice$ is substitutable if and only if $|X_1 \\cap \\choice(X_2) \\setminus \\choice(X_1)| = 0$ for all $X_1 \\subseteq X_2$. Then for any $x \\in X_1$, either $x \\in \\choice(X_1),\\choice(X_2)$ or $x \\not\\in \\choice(X_1),\\choice(X_2)$, so $X_1 \\cap \\choice(X_2) = \\choice(X_1)$. Then $|X_1 \\cap \\choice(X_2) \\setminus \\choice(X_1)| = 0$ and so $\\choice$ is substitutable. Similarly, recall \\Cref{lem:monotonicity-term}: $\\choice$ is monotonic if and only if $|\\choice(X_1) \\setminus \\choice(X_2)| = 0$ for all $X_1 \\subseteq X_2$. Any element $x \\in \\choice(X_1)$ is in $X_2$ because $\\choice(X_1) \\subseteq X_1 \\subseteq X_2$. By definition of independence, $x \\in \\choice(X)$ for all $X$ where $x \\in X$, so if $x \\in \\choice(X_1)$, $x \\in \\choice(X_2)$, so $\\choice(X_1) \\subseteq \\choice(X_2)$.\n\n    To prove that substitutability and monotonicity together imply independence, consider any $x \\in X$. If $x \\in \\choice(X)$, we can show that $x \\in \\choice(X')$ for any $X'$ where $x \\in X'$. By monotonicity, $x \\in \\choice(X' \\cup X)$, and so by substitutability, $x \\in \\choice(X')$. If $x \\not\\in \\choice(X)$, we can prove $x \\not\\in \\choice(X')$ for any $X'$. If we assumed for contradiction that $x \\in \\choice(X')$, then the same argument as above proves $x \\in \\choice(X)$, leading to contradiction.\n\\end{proof}\n\n\\begin{restatable}{corollary}{Only Independent Rules are 0-unstable} \n\\label{thm:independent-zero-unstable}\n$\\choice$ is $0$-unstable if and only if it is independent, and therefore no $q$-acceptant $\\choice$ can be $0$-unstable.\n\\end{restatable}",
+          "quoted_text_sha256": "ae099b91fb11022b8d47fefc96a1b2fedebedccb21f3a1f91c12086ae8dd2d20"
+        }
+      ]
+    },
+    "result_theorem1_no_zero": {
+      "statement": "For q>0 with more than q possible applicants, a feasible q-acceptant choice function cannot be 0-unstable.",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:280-289",
+      "source_status": "support",
+      "source_note": "The corrected nontrivial-domain theorem row supplies the first Theorem 1 clause; the source omission is note-only.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_no_zero_instability_under_capacity_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_no_zero_instability_under_capacity_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-NOZERO-NONTRIVIAL-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 280,
+          "line_end": 289,
+          "quoted_text": "\\begin{restatable}{theorem}{thminstability}\n\\label{thm:instability}\nA $q$-acceptant choice function \n\\begin{enumerate}\n    \\item cannot be $0$-unstable,\n    \\item  is exactly $1$-unstable if and only if it is substitutable,\n    \\item can be tightly $d$-unstable for every $1\\leq d \\leq 2q$.\n\\end{enumerate}\n\n\\end{restatable}%",
+          "quoted_text_sha256": "aefd67fe726b343b06eafe63ce6bb1984d82712b2d8feb73dc080b01f126d0d6"
+        }
+      ]
+    },
+    "result_theorem1_substitutability_iff_one": {
+      "statement": "A feasible q-acceptant choice function is 1-unstable if and only if it is substitutable.",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:280-289",
+      "source_status": "exact",
+      "source_note": "One row proves the full iff under the paper choice-function model.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_substitutability_one_instability_equivalence_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_substitutability_one_instability_equivalence_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 280,
+          "line_end": 289,
+          "quoted_text": "\\begin{restatable}{theorem}{thminstability}\n\\label{thm:instability}\nA $q$-acceptant choice function \n\\begin{enumerate}\n    \\item cannot be $0$-unstable,\n    \\item  is exactly $1$-unstable if and only if it is substitutable,\n    \\item can be tightly $d$-unstable for every $1\\leq d \\leq 2q$.\n\\end{enumerate}\n\n\\end{restatable}%",
+          "quoted_text_sha256": "aefd67fe726b343b06eafe63ce6bb1984d82712b2d8feb73dc080b01f126d0d6"
+        }
+      ]
+    },
+    "result_theorem1_tight_all_d": {
+      "statement": "For every integer d with 1\u2264d\u22642q, some feasible q-acceptant choice function is tightly d-unstable.",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:280-289; audit/source_archive_surface.tex:806-817",
+      "source_status": "support",
+      "source_note": "The universal upper bound and parameterized even/odd construction families collectively cover every d in the range.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_q_acceptant_two_q_instability_bound_statement",
+        "DGD26AdmissionsPredictability.PaperInterface.paper_padded_even_tight_instability_family_statement",
+        "DGD26AdmissionsPredictability.PaperInterface.paper_padded_odd_tight_instability_family_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_q_acceptant_two_q_instability_bound_statement",
+        "DGD26AdmissionsPredictability.PaperInterface.paper_padded_even_tight_instability_family_statement",
+        "DGD26AdmissionsPredictability.PaperInterface.paper_padded_odd_tight_instability_family_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 280,
+          "line_end": 289,
+          "quoted_text": "\\begin{restatable}{theorem}{thminstability}\n\\label{thm:instability}\nA $q$-acceptant choice function \n\\begin{enumerate}\n    \\item cannot be $0$-unstable,\n    \\item  is exactly $1$-unstable if and only if it is substitutable,\n    \\item can be tightly $d$-unstable for every $1\\leq d \\leq 2q$.\n\\end{enumerate}\n\n\\end{restatable}%",
+          "quoted_text_sha256": "aefd67fe726b343b06eafe63ce6bb1984d82712b2d8feb73dc080b01f126d0d6"
+        },
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 806,
+          "line_end": 817,
+          "quoted_text": "\\subsection{Proof of \\Cref{thm:instability}} \\label{sec:instability-proof}\n\nRecall \\Cref{thm:instability}:\n\\thminstability*\n\nPutting things together, the first statement of \\Cref{thm:instability} comes from \\Cref{thm:independent-zero-unstable} and the second from \\Cref{thm:sub-unstable-equiv}. The third \nhas roots in \\Cref{lem:unstable-calc}, which allows us to calculate instability.\n\nRigorously, we can generate a $d$-unstable $\\choice$ for any $1 < d \\leq 2q$. Take any $1$-unstable, $q$-acceptant $\\choice$ induced by a total order $\\succ$ (i.e, is a ranking). Let $n$ be $\\frac{d}{2}$, rounded down. Then let $X^* = \\{x^*_1, ..., x^*_n\\}$ be the $n$ \\textit{minimal} elements of $\\succ$ (or any $n$ elements that are not among the $n$ maximal elements, if there exist any.) Then modify $\\choice$ such that if $X^* \\subseteq X$ for any input $X$, $X^* \\subseteq \\choice(X)$. Then $\\choice$ is tightly $2n-1$-unstable. To make $\\choice$ $2n$-unstable, let there be some $x'$ such that if $X^* \\subseteq X$ but $x' \\in X$ as well, then \\textit{no} element of $X^*$ is in $\\choice(X)$. %\n\nThe intuition for the construction is that $X^*$ forms a highly desirable team, even though each element is not individually desirable, nor are partial subsets of $X^*$.\nIn the inconsistent case (even instability) $x'$ represents a candidate whose mere presence negates the value of $X^*$ as a team, even when not accepted. ",
+          "quoted_text_sha256": "d8f87ffab72fd8faf2c8ae7f3da224de66e6725926d43f26096bbc8052d625b5"
+        }
+      ]
+    },
+    "result_lap_one_instability": {
+      "statement": "Every linear assignment choice rule in the source real-weight, tie-free model is 1-unstable.",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:1097-1109",
+      "source_status": "exact",
+      "source_note": "A well-posed real-weight maximum-assignment problem canonically induces a 1-unstable choice rule.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_lap_assignment_one_instability_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_lap_assignment_one_instability_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-LAP-SELF-CARDINALITY-01",
+        "DGD26-LAP-SEMANTIC-WORLD-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1097,
+          "line_end": 1109,
+          "quoted_text": "\\begin{restatable}[Linear Assignment Instability]{theorem}{LAPstable} \n\\label{thm:lap-unstable}\nLinear assignment problems are 1-unstable.\n\\end{restatable}\n\n\\textit{Intuition}: The ranking-like structure of linear assignment slots maintains substitutability, because each slot maintains a  preference ordering over elements that is independent of the cohort.\n\n\\begin{proof}\nRecall that for $q$-acceptant functions, substitutability and 1-instability are equivalent by \\Cref{thm:sub-unstable-equiv}.\n\nThe proof is by contradiction; assume $\\choice$ is not substitutable. As per \\Cref{lem:unsubstitutable}, there exists $\\choice(X), \\choice(X')$ where some $x^* \\in X$ is not in $\\choice(X)$ but $x^* \\in \\choice(X')$.\nBy \\Cref{lem:lap-ordering}, $\\choice(X) = \\{x_{s_1}, ..., x_{s_q}\\}$ tells us we have $x_{s_i} \\succ_{s_i} x^*$ for all $i \\in \\{1, ..., q\\}$. For $x^*$ to be in $\\choice(X')$, $x_{s_i}$ must also be in $\\choice(X')$, meaning that $\\choice(X) \\subseteq \\choice(X')$. However, as $x^* \\in \\choice(X')$, $|\\choice(X')| > |\\choice(X')|$, which violates $q$-acceptance, leading to contradiction.\n\\end{proof}",
+          "quoted_text_sha256": "0f2e3e7e1f6323c4e066fd44052c8355e0306de4ba05d9c0943836064714a08d"
+        }
+      ]
+    },
+    "result_lap_distinct_order_variability": {
+      "statement": "LAP variability is at most the number of distinct total orders induced by its slots.",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:1111-1129",
+      "source_status": "exact",
+      "source_note": "The canonical real-weight LAP choice has variability bounded by the quotient count of exact slot-order classes.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_lap_assignment_slot_order_class_variability_of_unique_global_optima_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_lap_assignment_slot_order_class_variability_of_unique_global_optima_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-LAP-REPEATED-INDEX-01",
+        "DGD26-LAP-SEMANTIC-WORLD-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1111,
+          "line_end": 1129,
+          "quoted_text": "\\begin{restatable}[Linear Assignment Variability]{theorem}{LAPvariable} \n\\label{thm:lap-variability}\nThe variability of a linear assignment problem is upper bounded by the number of distinct preference orderings induced by its slots. \n\\end{restatable}\n\n\\textit{Intuition}: \nThe proof follows from the observation that, if slot $s$ ranks some other element $x$ in the chosen set higher than the element $x_s$ currently assigned to $s$, $x$ cannot be in the variable set. Then, if $k$ slots (say, slots $s_1, ..., s_k$, with assigned elements $x_{s_1}, ..., x_{s_k}$) induce the same preference ordering over elements, then only the minimal element in $\\{x_{s_1}, ..., x_{s_k}\\}$ according to that preference ordering can be in $V_\\choice(X)$.\n\n\\begin{proof}\nWe want to show that variability is upper bounded by the number of unique orderings. Recall that the variable set $V_\\choice(X) \\subseteq \\choice(X)$ is at most cardinality $q$.\n\nI claim that for any $X$ and $\\choice(X)$, $x_{s_i}$ is not in $V_\\choice(X)$ if $x_{s_i} \\succ_{s_j} x_{s_j}$ for any $j \\neq i$. \nTo be precise, if $x_{s_i} \\in \\choice(X)$, and $x_{s_i} \\succ_{s_j} x_{s_j}$ for some $j \\neq i$, then $x_{s_i} \\in \\choice(X')$ for any $X' = X \\cup \\{x'\\}$. \n\nThe proof of this claim is by contradiction: assume there exists $\\choice(X), \\choice(X')$ where some $x_{s_i} \\succ_{s_j} x_{s_j}$ but $x_{s_i} \\not\\in \\choice(X')$. Firstly, because of the 1-instability proven in \\Cref{thm:lap-unstable}, $|\\choice(X) \\setminus \\choice(X')| = 1$, which means by assumption, $\\choice(X) \\setminus \\choice(X') = \\{x_{s_i}\\}$, which further implies $x_{s_j} \\in \\choice(X')$. However,  \\Cref{lem:lap-ordering} then applies to $x_{s_j}$, where $x_{s_i} \\succ_{s_j} x_{s_j}$ implies $x_{s_i} \\in \\choice(X')$, leading to contradiction.\n\nSecondly, note that if $s_i, s_j$ induce the same total ordering, then either $x_{s_i} \\succ_{s_j} x_{s_j}$ or $x_{s_j} \\succ_{s_i} x_{s_i}$ (and the same for $\\succ_{s_i}$) for any $\\choice(X)$, as a property of any total ordering. Then one of either $x_{s_j}$ or $x_{s_j}$ are not in $V_\\choice(X)$. It is intuitive to see that this generalizes: if $s_1, ... s_j$ all induce the same ordering $\\succ_{s_j}$, there is exactly one minimal element in $x_{s_1}, ..., x_{s_j}$, because any finite subset of a totally ordered set is well-ordered. \nSay that $x_{s_j}$ is the minimal element, w.l.o.g.; then none of $x_{s_1}, ..., x_{s_{j-1}}$ are in $V_\\choice(X)$. More generally, let there be $m$ unique orderings, which we notate $\\succ_1,..., \\succ_m$. Let $k \\in \\{1,..., m\\}$ and let there be $c_k$ slots that induce $\\succ_k$. Then we have \ndefined sets of size $c_k-1$ elements that cannot be in $V_\\choice(X)$. Then $|V_\\choice(X)| \\leq m$, and therefore the overall variability is at most $m$. ",
+          "quoted_text_sha256": "316f102f1d4d1bcc73bdde64c1e072118be201c16803838c718b7f07f5d893c3"
+        }
+      ]
+    },
+    "result_qrepresentative_forward": {
+      "statement": "A q-representative rule is q-acceptant, 1-unstable, and has exact variability 1.",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:910-923",
+      "source_status": "exact",
+      "source_note": "Positive nontrivial capacity derives the source's exact-one conclusion without a displacement certificate premise.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_q_representative_forward_exact_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_q_representative_forward_exact_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-QREP-DISPLACEMENT-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 910,
+          "line_end": 923,
+          "quoted_text": "\\begin{restatable}[$q$-Representativeness and $1$-Variability are Equivalent]{theorem}{rankingvariability} \n\\label{thm:ranking-variability}\n$\\choice$ is $q$-representative if and only if it is $q$-acceptant and $1$-unstable with variability $1$.\n\\end{restatable}\n\\begin{proof}\nWe prove this in two parts: first, that $q$-representativeness implies $1$-variability, and then the converse.\n\n\\paragraph{Direction 1} %\nNote that $q$-representativeness implies $q$-acceptance by definition. \n\nNext, we prove that $q$-representativeness implies $1$-instability. Assume for contradiction that some $q$-representative $\\choice$ is not substitutable (and therefore not $1$-unstable). Then there exists (by \\Cref{lem:unsubstitutable}) some $x^*$, $x'$, $X$ and $X' = X \\cup \\{x'\\}$ where $x^* \\in X$ and $x^* \\in \\choice(X')$ but $x^* \\not\\in \\choice(X)$. By $q$-acceptance, there must be at least one $x$ in $\\choice(X)$ that is not in $\\choice(X')$ (which must take the place of $x^*$). However, $\\choice(X')$ implies that $x^* \\succ x$, while $\\choice(X)$ implies that $x \\succ x^*$ --- violating asymmetry and leading us to contradiction.\n\nLastly, proving that $q$-representative $\\choice$ leads to $m=1$ is relatively intuitive. For any $X$, $\\choice(X)$ are the $q$ highest-ranked elements of $X$. Denote $X = \\{x_1, x_2, ..., x_k\\}$ where $|X| = k$ and $x_1 \\succ x_2 \\succ ...\\succ x_k$. Then $\\choice(X) = \\{x_1, ..., x_{q^*}\\}$ where $q^* = \\min\\{q, k\\}$. \nAssume for contradiction that there is a $q$-representative $\\choice$ with variability $m > 1$. Then there exists some $X$ where $|V_\\choice(X)| > 1$; say that $\\{x^*_a, x^*_b\\} \\subseteq V_\\choice(X)$. Then there exists some $x'_a$ where $\\choice(X) \\setminus \\choice(X \\cup x'_a) = \\{x^*_a\\}$ and similar $x'_b$ for $x^*_b$. The first implies $x^*_b$ is ranked above $x^*_a$, but the second implies the opposite. Then choices cannot be made according to a static ranking and $\\choice$ is not $q$-representative, completing the proof by contradiction. %",
+          "quoted_text_sha256": "cdcbbcc28179da1cba99b0c46a66af8ce3aa046b3755545d3d9c2fdd2cc8cf07"
+        }
+      ]
+    },
+    "result_qrepresentative_converse": {
+      "statement": "A feasible q-acceptant 1-unstable rule with exact variability 1 is q-representative.",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:910-950",
+      "source_status": "exact",
+      "source_note": "The source hypotheses, including exact variability one, directly derive one-order representativeness.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_q_representative_converse_exact_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_q_representative_converse_exact_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-THEOREM2-LOWER-QUEUE-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 910,
+          "line_end": 950,
+          "quoted_text": "\\begin{restatable}[$q$-Representativeness and $1$-Variability are Equivalent]{theorem}{rankingvariability} \n\\label{thm:ranking-variability}\n$\\choice$ is $q$-representative if and only if it is $q$-acceptant and $1$-unstable with variability $1$.\n\\end{restatable}\n\\begin{proof}\nWe prove this in two parts: first, that $q$-representativeness implies $1$-variability, and then the converse.\n\n\\paragraph{Direction 1} %\nNote that $q$-representativeness implies $q$-acceptance by definition. \n\nNext, we prove that $q$-representativeness implies $1$-instability. Assume for contradiction that some $q$-representative $\\choice$ is not substitutable (and therefore not $1$-unstable). Then there exists (by \\Cref{lem:unsubstitutable}) some $x^*$, $x'$, $X$ and $X' = X \\cup \\{x'\\}$ where $x^* \\in X$ and $x^* \\in \\choice(X')$ but $x^* \\not\\in \\choice(X)$. By $q$-acceptance, there must be at least one $x$ in $\\choice(X)$ that is not in $\\choice(X')$ (which must take the place of $x^*$). However, $\\choice(X')$ implies that $x^* \\succ x$, while $\\choice(X)$ implies that $x \\succ x^*$ --- violating asymmetry and leading us to contradiction.\n\nLastly, proving that $q$-representative $\\choice$ leads to $m=1$ is relatively intuitive. For any $X$, $\\choice(X)$ are the $q$ highest-ranked elements of $X$. Denote $X = \\{x_1, x_2, ..., x_k\\}$ where $|X| = k$ and $x_1 \\succ x_2 \\succ ...\\succ x_k$. Then $\\choice(X) = \\{x_1, ..., x_{q^*}\\}$ where $q^* = \\min\\{q, k\\}$. \nAssume for contradiction that there is a $q$-representative $\\choice$ with variability $m > 1$. Then there exists some $X$ where $|V_\\choice(X)| > 1$; say that $\\{x^*_a, x^*_b\\} \\subseteq V_\\choice(X)$. Then there exists some $x'_a$ where $\\choice(X) \\setminus \\choice(X \\cup x'_a) = \\{x^*_a\\}$ and similar $x'_b$ for $x^*_b$. The first implies $x^*_b$ is ranked above $x^*_a$, but the second implies the opposite. Then choices cannot be made according to a static ranking and $\\choice$ is not $q$-representative, completing the proof by contradiction. %\n\n\\paragraph{Direction 2}\nAssume $q$-acceptance, variability 1, and instability 1. Now we prove $\\choice$ is $q$-representative. To be precise, I take this to mean that $\\choice$ is indistinguishable from some $q$-representative $\\choice$; $\\choice$ could be represented by some total ordering over elements of $X$. We show this strict total ordering constructively.\n\nDefine $\\succ$ such that, if $x_a \\in \\choice(X)$ but $x_b \\not\\in\\choice(X)$ for any $x_a, x_b \\in X$, $x_a \\succ x_b$. Note that this implies that the existence of some set $A$ where $x_a \\in \\choice(A)$ and $A_\\choice(A) = \\{x_b\\}$ by consistency (e.g. $A = \\choice(X) \\cup \\{x_b\\}$). This also implies $A'$ where $x_a, x_b \\in \\choice(A')$, $V_\\choice(A') = \\{x_b\\}$, where $A' = A \\setminus \\{x\\}$ for any $x \\neq x_a, x_b$. \n\nThen, we need to prove this relation is asymmetric, transitive, and completeness (or rather, is indistinguishable from a complete relation when examining the induced choice function).\n\n\\paragraph{Asymmetry} \nFirst, we show asymmetry. Assume for contradiction that $a \\succ b$ and $b \\succ a$. Then there exists $X_a$ where $a, b \\in X_a$, $a \\in \\choice(X_a)$ and $b \\not\\in \\choice(X_a)$, and a similar $X_b$ where $a \\not\\in \\choice(X_b)$ and so on.\n\nLet $X_a = \\choice(X_a) \\cup \\{b\\}$ (we can construct such out of any $X_a$, by consistency), where $A_\\choice(X_a) = \\{b\\}$, and denote $\\choice(X_a) = \\{x^a_1, ..., x^a_{q-1}, a\\}$. Construct $X_b$ similarly. Further, let $X'_a = X_a \\setminus \\{x^a_1\\}$, and note that $V_\\choice(X_a') = \\{b\\}$.\n\nThen from here, we add the elements of $X_b$ to $X_a'$, constructing $X_1, X_2,$ and so forth. \n\nLet $X_0 = X_a'$ and sequentially construct a series of $X_t$. Add $x^b_t$ to $X_{t-1}$. If $x_b \\not\\in \\choice(X_{t-1} \\cup \\{x^b_t\\})$, then let $X_t = X_{t-1} \\cup \\{x^b_t\\}$, and $V_\\choice(X_t) = \\{b\\}$ by \\Cref{lem:consistent-remove}. If $x^b_t \\in \\choice(X_{t-1} \\cup \\{x^b_t\\})$, then $b \\not\\in \\choice(X_{t-1} \\cup \\{x^b_t\\})$ and $A_\\choice(X_{t-1} \\cup \\{x^b_t\\}) = \\{b\\}$ (by \\Cref{lem:a-v-equal}). Then let $X_t = \\{x^b_t\\} \\cup X_a' \\setminus x^a_i$ where $x^a_{i-1} \\not\\in X_{t-1}$ but $x^a_i \\in X_{t-1}$, and $V_\\choice(X_t) = \\{b\\}$ (again, by \\Cref{lem:a-v-equal}). Note that $a \\in \\choice(X_t)$, $b \\in X_t$, and specifically $b \\in V_\\choice(X_t)$, for all $t \\in \\{0,..., q-2\\}$.\n\nThen $X_{q-2}$ will contain $x^b_1,...x^b_{q-2}$. Let $X^* = X_{q-2} \\cup \\{x^b_{q-1}\\}$. Note that adding $x^b_{q-1}$ to $X_{q-2}$ makes $X^* \\supseteq X_b$. Then, if $a \\in \\choice(X^*)$, substitutability is violated, as $a \\not\\in \\choice(X_b)$. If $x^b_{q-1} \\not\\in \\choice(X^*)$, then $\\choice(X_{q-2}) = \\choice(X^*)$ by consistency, and $a \\in \\choice(X_{q-2})$. If instead $x^b_{q-1} \\in \\choice(X^*)$, recall that $V_\\choice(X_{q-2}) = \\{b\\}$, so $a \\not\\in V_\\choice(X_{q-2})$, and $a$ remains in $\\choice(X^*)$. Therefore, either possibility leads to contradiction, proving that $\\succ$ is asymmetric.\n\n\\paragraph{Transitivity}\nSay that $a \\succ b$ and $b \\succ c$ and we want to prove $a \\succ c$. If $a \\succ b$, there exists some $X$ where $a, b \\in X$, $a \\in \\choice(X)$, and $b \\not\\in \\choice(X)$. Let $X$ be $\\choice(X) \\cup \\{b\\}$, where $a \\in \\choice(X), b \\not\\in\\choice(X)$ by consistency. Then consider $X \\cup \\{c\\}$. By asymmetry, $c \\not\\succ b$, so $c \\not\\in \\choice(X\\cup \\{c\\})$. By consistency, then, $\\choice(X\\cup \\{c\\}) = \\choice(X)$, so $a \\in \\choice(X\\cup \\{c\\})$ and $a \\succ c$, completing the proof.\n\n\\paragraph{(Almost)-Completeness}\nSee that this relation must exist for all but $q$ elements --- and any arbitrary linear extension thereof generates the same choice function behavior.\n\nFor any $a, b$, let there be some $X_0$ where $a, b \\not\\in \\choice(X_0)$. Then remove elements of $\\choice(X_t)$ in a sequence $X_0, ..., X_t$ until $A_\\choice(X_t) = \\{a\\}$ or $\\{b\\}$. This must happen for some value of $t$ because when $|X_t| = q+1$, at least one of $a$ or $b$ are in $\\choice(X)$, and due to $1$-instability, both $a$ and $b$ cannot be added to $\\choice(X_t)$ at once. The only exception is if there is no such $X_0$ where $a, b \\not\\in \\choice(X_0)$, which can only be true if $a$ is such that $a \\in \\choice(X)$ for all $X$ (and similarly for $b$). (If $a \\not\\in \\choice(X)$ for some $X$, then substitutability implies $a \\not\\in \\choice(X \\cup \\{b\\})$). However, there can only be $q$ such elements (by $q$-acceptance). Note that any linear extension of this partial order will produce the same choice function behavior; that is, any constructed total ordering that otherwise aligns with $\\succ$ will produce the same choice behavior, and thus, $\\choice$ can be represented by any such strict total ordering.\n\\end{proof}",
+          "quoted_text_sha256": "b67cca09e0dc8326ede92ac208baf6982be985fea45cbe39d3657960a0d277ff"
+        }
+      ]
+    },
+    "result_sequential_preserves_substitutability": {
+      "statement": "Sequential composition of feasible substitutable choice functions is substitutable.",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:962-996",
+      "source_status": "exact",
+      "source_note": "The list theorem proves the same closure property.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_sequential_composition_substitutable_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_sequential_composition_substitutable_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 962,
+          "line_end": 996,
+          "quoted_text": "\\paragraph{Sequentially Composed Substitutable Functions Are Substitutable}\nSimilarly, we show sequential compositions of substitutable functions are also substitutable.\n\\begin{restatable}[Composition Preserves Substitutability]{theorem}{seqsub}\n\\label{thm:composition-substitutable}\nSequential composition of substitutable functions yields a substitutable function.\n\\end{restatable}\n\n\\textit{Intuition}:\n``Appending'' a substitutable choice function $\\choice_2$ before another substitutable function $\\choice_1$ affects the inputs to $\\choice_1$ in a structured way.\n\\begin{proof}\n    Proof by induction.\n    In the base case, for $n = 1$, $\\choice(X) = \\choice_1(X)$, and as $\\choice_1$ is given to be substitutable, $\\choice$ is as well.\n\n    For the inductive step, show that $\\choice^{n+1}$ is substitutable when comprised of $\\choice_{n+1}, \\choice_n, ..., \\choice_1$, assuming that $\\choice^n$ comprised of $\\choice_n,...,\\choice_1$ is substitutable. \n\n    The definition of substitutability is that $X \\subseteq X'$ implies $\\choice(X') \\cap X \\subseteq \\choice(X)$. So we need to show $\\choice^{n+1}(X') \\cap X \\subseteq \\choice^{n+1}(X)$. \n    \n    First, note that $\\choice^{n+1}(X) = \\choice_{n+1}(X) \\cup \\choice^n(X \\setminus \\choice_{n+1}(X))$. \n    Let $S = X \\setminus \\choice_{n+1}(X)$ and $S' = X' \\setminus \\choice_{n+1}(X')$. As $S \\subseteq X'$, we only need to show that no elements of $S$ are elements of $\\choice_{n+1}(X')$. As $\\choice_{n+1}$ is substitutable, $\\choice_{n+1}(X') \\cap X = \\choice_{n+1}(X)$. So, any element of $X$ that is in $\\choice_{n+1}(X') $ must be in $\\choice_{n+1}(X)$, and therefore cannot be in $S = X \\setminus \\choice_{n+1}(X)$. Therefore, $S \\subseteq S'$.\n\n    Now, we can apply the induction hypothesis, so we assume $\\choice^n$ is substitutable to get \n\n    \\begin{align*}\n        \\choice^n(S') \\cap S & \\subseteq \\choice^n(S) && \\text{induction hypothesis} \\\\\n        \\choice^n(S') \\cap \\left(X \\setminus \\choice_{n+1}(X)\\right) & \\subseteq \\choice^n(S) &&  \\text{substitute out $S$}\\\\      \\left(\\choice^n(S') \\cap X\\right) \\setminus \\left(\\choice^n(S') \\cap  \\choice_{n+1}(X)\\right) & \\subseteq \\choice^n(S) && \\text{intersection commutes}\\\\  \n        \\choice_{n+1}(X) \\cup \\left[\\left(\\choice^n(S') \\cap X\\right) \\setminus \\left(\\choice^n(S') \\cap  \\choice_{n+1}(X)\\right)\\right] & \\subseteq \\choice_{n+1}(X) \\cup \\choice^n(S) && \\text{add $\\choice_{n+1}(X)$} \\\\ \\intertext{Note that $\\choice_{n+1}(X) \\supseteq\\left(\\choice^n(S') \\cap  \\choice_{n+1}(X)\\right)$, so the set difference can be simplified out:}\n        \\choice_{n+1}(X) \\cup \\left(\\choice^n(S') \\cap X\\right) & \\subseteq \\choice_{n+1}(X) \\cup \\choice^n(S) && \\text{equivalent} \\\\ \\intertext{Note that for any sets $A,B,C$, $(A \\cup B) \\cap C = (A \\cap C)\\cup (B \\cap C) \\subseteq A \\cup (B \\cap C)$, so: \n        }\n        \\left(\\choice_{n+1}(X) \\cup \\choice^n(S') \\right) \\cap X & \\subseteq \\choice_{n+1}(X) \\cup \\choice^n(S) && \\text{} \\\\\n        \\left(\\choice_{n+1}(X) \\cup \\choice^n(X' \\setminus \\choice_{n+1}(X')) \\right) \\cap X & \\subseteq \\choice_{n+1}(X) \\cup \\choice^n(X \\setminus \\choice_{n+1}(X)) &&  \\text{substitute out $S$, $S'$}  \\\\\n        \\choice^{n+1}(X') \\cap X & \\subseteq \\choice^{n+1}(X) &&  \\text{definition of $\\choice^{n+1}$}    \n    \\end{align*}\n\n    Which is the definition of substitutability, completing the proof.\n\\end{proof}",
+          "quoted_text_sha256": "e06ce87abdddcfdbf77199624410e4731506fffe61e05a684ff129c55599ece5"
+        }
+      ]
+    },
+    "result_qacceptant_substitutable_iff_one": {
+      "statement": "A feasible q-acceptant choice function is 1-unstable if and only if it is substitutable.",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:715-733",
+      "source_status": "exact",
+      "source_note": "One equivalence row exposes both directions under the paper choice-function convention.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_substitutability_one_instability_equivalence_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_substitutability_one_instability_equivalence_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 715,
+          "line_end": 733,
+          "quoted_text": "\\begin{restatable}[Substitutability and 1-Instability are Equivalent Under Capacity Constraints]{theorem}{subequiv}\n\\label{thm:sub-unstable-equiv}\nAny $q$-acceptant choice function is $1$-unstable if and only if it is substitutable.\n\\end{restatable}\n\n\\begin{proof}\n\\textbf{Informal}\nIntuitively, $q$-acceptance means that every acceptance decision that becomes a rejection must also be paired with a new acceptance to keep the size of the accepted set the same. Substitutability implies that adding elements cannot cause new acceptances from rejections, so the only possible newly accepted element is the newly added one.  \n\nRecall that the first term of $r_\\choice$ is always zero only for substitutable $\\choice$. So, we only need to show $|\\choice(X) \\setminus \\choice(X')| \\leq 1$ if and only if $\\choice$ is substitutable. %\nFirst, we show that $\\choice$ being substitutable is \\textit{sufficient} for $1$-instability. If $\\choice$ is substitutable, then all elements in $\\choice(X')$ except for $x'$ must be in $\\choice(X)$. By $q$-acceptance, $|\\choice(X')| = |\\choice(X)| = q$ (the $|X| < q$ case is trivial), so $\\choice(X)$ can have at most one element not in $\\choice(X')$, making $\\choice$ 1-unstable. \n\nSecond, we show that substitutability is \\textit{necessary} for $1$-instability. If $\\choice$ is not substitutable, there is some $X \\subseteq X'$ and $x^* \\in X$ such that $x^* \\notin \\choice(X)$ but $x^* \\in \\choice(X')$ (by \\Cref{lem:unsubstitutable}). This creates one change. By $q$-acceptance, this forces another candidate out of $\\choice(X')$, creating at least a second change, violating 1-instability.\n\nTogether, these show that under $q$-acceptance, substitutability is necessary and sufficient for $1$-instability, completing the proof.\n\\end{proof}\n\n\n\\begin{restatable}{theorem}{BoundedDistance} ",
+          "quoted_text_sha256": "20880b26e76d6900c8d0c1aa65277a46848c53900d2d64a271585402fdf336c5"
+        }
+      ]
+    },
+    "result_qacceptant_substitutable_consistent": {
+      "statement": "Every q-acceptant substitutable choice function is consistent.",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:733-745",
+      "source_status": "exact",
+      "source_note": "The Lean row proves the source consistency implication directly.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_q_acceptant_substitutable_consistent_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_q_acceptant_substitutable_consistent_statement"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 733,
+          "line_end": 745,
+          "quoted_text": "\\begin{restatable}{theorem}{BoundedDistance} \n\\label{thm:sub-accept-consistent}\nAny $q$-acceptant, substitutable $\\choice$ is consistent.\n\\end{restatable}\n\n\\begin{proof}\nConsider $X_1, X_2$ where $\\choice(X_2) \\subseteq X_1 \\subseteq X_2$ for substitutable, $q-$acceptant $\\choice$. Substitutability guarantees that if $x \\in \\choice(X_2)$ and $x \\in X_1$, $x \\in \\choice(X_1)$. By construction, this applies to all $x \\in \\choice(X_2)$, because $\\choice(X_2) \\subseteq X_1$; therefore, $\\choice(X_2) \\subseteq \\choice(X_1)$. As $|\\choice(X_2)| = |\\choice(X_1)|$, and $\\choice(X_1),\\choice(X_2)$ are finite sets, this means that $\\choice(X_2) = \\choice(X_1)$, which is the definition of consistency.\n\\end{proof}\n\n\\subsection{\\textit{d}-Instability} \\label{sec:d-unstable-appendix}\n\n\\subsubsection{Proof of \\Cref{lem:unstable-calc}} \\label{sec:calc-proof}\n",
+          "quoted_text_sha256": "77c9a85367d8d0362e5bb0c6813e5f1827a77aa569862d3bce072fd5e6e89234"
+        }
+      ]
+    },
+    "result_theorem2_variability_range": {
+      "statement": "A q-acceptant 1-unstable sequential composition of n total-order queues has variability m satisfying 1\u2264m\u2264n.",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:315-322; audit/source_archive_surface.tex:1132-1137",
+      "source_status": "exact",
+      "source_note": "The realized maximum supplies m and nondegenerate capacity proves 1\u2264m\u2264n.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_sequential_q_representative_variability_range_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_sequential_q_representative_variability_range_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-THEOREM2-LOWER-QUEUE-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 315,
+          "line_end": 322,
+          "quoted_text": "\\begin{restatable}{theorem}{thmvariability} \n\\label{thm:variability}\nConsider a $q$-acceptant, 1-unstable choice function $\\mathcal C$ which\ncan be represented as the sequential composition of $n$ choice functions, each characterized by a total order.\nThen $\\mathcal C$ has a variability  $m$, where $1 \\leq m \\leq n$. Furthermore, $\\mathcal C$ has variability $1$ if and only if it can be characterized by a single total order, $n=1$.\n\\end{restatable}\nIn the appendix, we discuss when this upper bound is tight. We also extend this result to choice functions which are not explicitly defined as a fixed sequential composition, such as linear assignment problems.\n\\Cref{thm:lap-variability} addresses the context-dependent sequential queues which result from such optimization based admissions. ",
+          "quoted_text_sha256": "f19d5e25e6de937fc6c75c4c62872dedee27db0ca2b1939703ebddb4736c7102"
+        },
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1132,
+          "line_end": 1137,
+          "quoted_text": "\\subsection{Proof of \\Cref{thm:variability}} \\label{sec:variability-proof}\n\nRecall \\Cref{thm:variability}:\n\\thmvariability*\n\nWe see that the second claim comes exactly from \\Cref{thm:ranking-variability}, and that combining it with \\Cref{thm:additive-variability} directly gives us the first claim.",
+          "quoted_text_sha256": "d0ad4122d550f6b19088cc6f2530ab234133e96607186c54904652f5b273a98e"
+        }
+      ]
+    },
+    "result_theorem2_one_iff_single_order": {
+      "statement": "Under the intended minimal queue representation, variability is 1 if and only if the choice rule is characterized by one total order.",
+      "aliases": [],
+      "source_kind": "theorem",
+      "source_kind_validated_at": "2026-07-18T00:00:00Z",
+      "source_kind_validator": "Codex DGD26 source-first adversarial remediation",
+      "source_location": "audit/source_archive_surface.tex:315-323; audit/source_archive_surface.tex:1132-1137",
+      "source_status": "exact",
+      "source_note": "Exact variability one is proved equivalent to characterization by a single total order.",
+      "lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_variability_one_iff_single_order_statement"
+      ],
+      "proof_lean_declarations": [
+        "DGD26AdmissionsPredictability.PaperInterface.paper_variability_one_iff_single_order_statement"
+      ],
+      "source_defect_ids": [
+        "DGD26-THEOREM2-LOWER-QUEUE-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 315,
+          "line_end": 323,
+          "quoted_text": "\\begin{restatable}{theorem}{thmvariability} \n\\label{thm:variability}\nConsider a $q$-acceptant, 1-unstable choice function $\\mathcal C$ which\ncan be represented as the sequential composition of $n$ choice functions, each characterized by a total order.\nThen $\\mathcal C$ has a variability  $m$, where $1 \\leq m \\leq n$. Furthermore, $\\mathcal C$ has variability $1$ if and only if it can be characterized by a single total order, $n=1$.\n\\end{restatable}\nIn the appendix, we discuss when this upper bound is tight. We also extend this result to choice functions which are not explicitly defined as a fixed sequential composition, such as linear assignment problems.\n\\Cref{thm:lap-variability} addresses the context-dependent sequential queues which result from such optimization based admissions. \nImportantly, Theorem~\\ref{thm:variability} means that a choice function can be faithfully represented by a machine learning model if and \\emph{only if} it is characterized by a total ordering over $\\calX$.",
+          "quoted_text_sha256": "53deb96019d16bd5b39bae14723378a3c71d5fa33f0e22cc2f68082a0caa9804"
+        },
+        {
+          "path": "audit/source_archive_surface.tex",
+          "line_start": 1132,
+          "line_end": 1137,
+          "quoted_text": "\\subsection{Proof of \\Cref{thm:variability}} \\label{sec:variability-proof}\n\nRecall \\Cref{thm:variability}:\n\\thmvariability*\n\nWe see that the second claim comes exactly from \\Cref{thm:ranking-variability}, and that combining it with \\Cref{thm:additive-variability} directly gives us the first claim.",
+          "quoted_text_sha256": "d0ad4122d550f6b19088cc6f2530ab234133e96607186c54904652f5b273a98e"
+        }
+      ]
     }
-  }
+  },
+  "source_archive_surface": {
+    "schema": 1,
+    "generator": "archive-members-normalized-text-v1",
+    "archive": {
+      "path": "source_tex/arxiv_source.tar",
+      "sha256": "0d57324d02fc64c4c6b627c71c71cbbf93610b7f0b4b2138da1b436bb9234434"
+    },
+    "members": [
+      {
+        "path": "main.tex",
+        "sha256": "932048d9f72269fae6dcfa65ee20ce2069d7a4f83eb0abfb9a2d682a9cb9e64b"
+      },
+      {
+        "path": "appendix.tex",
+        "sha256": "480956c395b72f7f3114ed01b0f4b26729b0ffbc8bad52ec5dfb18e23cd4cb2f"
+      }
+    ]
+  },
+  "source_anchor_evidence_required": true
 }

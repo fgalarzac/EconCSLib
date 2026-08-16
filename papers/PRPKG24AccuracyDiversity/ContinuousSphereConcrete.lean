@@ -16,7 +16,7 @@ distance-kernel invariance, and transitivity into an opaque certificate.
 
 namespace PRPKG24AccuracyDiversity
 
-open MeasureTheory
+open Filter MeasureTheory
 open scoped Pointwise
 
 namespace Proposition4Sphere
@@ -26,6 +26,20 @@ abbrev UnitSphere (E : Type*) [NormedAddCommGroup E] :=
   {x : E // x ∈ Metric.sphere (0 : E) 1}
 
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+
+/-- A noncomputable unit-sphere point, constructed from nontriviality. -/
+noncomputable def defaultUnitSpherePoint
+    (E : Type*) [NormedAddCommGroup E] [InnerProductSpace ℝ E] [Nontrivial E] :
+    UnitSphere E := by
+  classical
+  let x : E := Classical.choose (exists_ne (0 : E))
+  have hx : x ≠ 0 := Classical.choose_spec (exists_ne (0 : E))
+  refine ⟨(‖x‖)⁻¹ • x, ?_⟩
+  rw [Metric.mem_sphere, dist_zero_right, norm_smul]
+  have hnorm_pos : 0 < ‖x‖ := norm_pos_iff.mpr hx
+  have hnorm_ne : ‖x‖ ≠ 0 := ne_of_gt hnorm_pos
+  rw [norm_inv, Real.norm_of_nonneg (norm_nonneg x)]
+  exact inv_mul_cancel₀ hnorm_ne
 
 /-- A real linear isometry restricts to an action on the unit sphere. -/
 def linearIsometrySphereAction (g : E ≃ₗᵢ[ℝ] E) :
@@ -704,6 +718,37 @@ noncomputable def logRadialDistanceProfileSupValue
     (alpha : MeasureTheory.ProbabilityMeasure (UnitSphere E)) : ℝ :=
   sSup (Set.range (logRadialDistanceProfilePayoff (E := E) p alpha))
 
+/--
+Equation (25): normalized Haar-sphere symmetry makes the user integral of the
+radial log kernel independent of the item.  The source writes the corresponding
+unnormalized surface integral as a constant `C`; this normalized form divides
+that constant by the sphere's surface mass.
+-/
+theorem logRadialDistanceKernel_sphereVolumeUniform_integral_eq_anchor
+    [MeasurableSpace E] [BorelSpace E]
+    [FiniteDimensional ℝ E] [Nontrivial E]
+    (p : ℝ → ℝ) (anchor x : UnitSphere E) :
+    (∫ u, logRadialDistanceKernel p x u
+        ∂sphereUniformMeasure (MeasureTheory.volume : MeasureTheory.Measure E)) =
+      ∫ u, logRadialDistanceKernel p anchor u
+        ∂sphereUniformMeasure (MeasureTheory.volume : MeasureTheory.Measure E) := by
+  exact
+    EconCSLib.Probability.integral_kernel_eq_anchor_of_transitive_diagonal_invariance
+      (sphereUniformMeasure (MeasureTheory.volume : MeasureTheory.Measure E))
+      (fun g : E ≃ₗᵢ[ℝ] E => linearIsometrySphereAction g)
+      (fun g : E ≃ₗᵢ[ℝ] E => linearIsometrySphereAction g)
+      (logRadialDistanceKernel (E := E) p) anchor
+      (fun g =>
+        sphereUniformMeasure_measurePreserving_linearIsometrySphereAction
+          (MeasureTheory.volume : MeasureTheory.Measure E) g
+          g.measurePreserving)
+      (fun g => linearIsometrySphereAction_measurableEmbedding g)
+      (by
+        intro g y u
+        exact logRadialDistanceKernel_diagonal_invariant p g y u)
+      (linearIsometrySphereAction_transitive anchor)
+      x
+
 /-- Continuous real-valued functions on compact spaces are integrable against probability measures. -/
 theorem continuous_integrable_of_probability_compact
     {X : Type*} [TopologicalSpace X] [MeasurableSpace X]
@@ -714,6 +759,103 @@ theorem continuous_integrable_of_probability_compact
     MeasureTheory.Integrable f μ := by
   exact hf.integrable_of_hasCompactSupport
     (HasCompactSupport.of_compactSpace f)
+
+/--
+Equations (21)--(22): Fubini swaps the normalized user average of the profile
+payoff with the item-profile integral.  Continuity on the compact product
+sphere supplies the product integrability that is implicit in the paper.
+-/
+theorem logRadialDistanceProfilePayoff_sphereVolume_average_swap
+    [MeasurableSpace E] [BorelSpace E]
+    [OpensMeasurableSpace (UnitSphere E)]
+    [FiniteDimensional ℝ E] [Nontrivial E]
+    (p : ℝ → ℝ)
+    (alpha : MeasureTheory.ProbabilityMeasure (UnitSphere E))
+    (hp : Continuous p)
+    (hp_pos : ∀ r : ℝ, r ∈ Set.Icc (0 : ℝ) 2 → 0 < p r) :
+    (∫ u, logRadialDistanceProfilePayoff (E := E) p alpha u
+        ∂sphereUniformMeasure (MeasureTheory.volume : MeasureTheory.Measure E)) =
+      ∫ x, (∫ u, logRadialDistanceKernel p x u
+          ∂sphereUniformMeasure (MeasureTheory.volume : MeasureTheory.Measure E))
+        ∂(alpha : MeasureTheory.Measure (UnitSphere E)) := by
+  haveI :
+      MeasureTheory.IsProbabilityMeasure
+        (sphereUniformMeasure
+          (MeasureTheory.volume : MeasureTheory.Measure E)) :=
+    sphereUniformMeasure_isProbabilityMeasure
+      (MeasureTheory.volume : MeasureTheory.Measure E)
+  have hkernel :
+      Continuous
+        (Function.uncurry
+          (fun u : UnitSphere E =>
+            fun x : UnitSphere E => logRadialDistanceKernel p x u)) :=
+    logRadialDistanceKernel_continuous_of_continuous_positive
+      (E := E) p hp hp_pos
+  have hkernel_swap :
+      Continuous
+        (Function.uncurry (logRadialDistanceKernel (E := E) p)) := by
+    simpa [Function.uncurry] using
+      hkernel.comp (continuous_snd.prodMk continuous_fst)
+  have hkernel_integrable :
+      MeasureTheory.Integrable
+        (Function.uncurry (logRadialDistanceKernel (E := E) p))
+        ((alpha : MeasureTheory.Measure (UnitSphere E)).prod
+          (sphereUniformMeasure
+            (MeasureTheory.volume : MeasureTheory.Measure E))) :=
+    continuous_integrable_of_probability_compact
+      (μ := (alpha : MeasureTheory.Measure (UnitSphere E)).prod
+        (sphereUniformMeasure
+          (MeasureTheory.volume : MeasureTheory.Measure E)))
+      hkernel_swap
+  have hswap :=
+    MeasureTheory.integral_integral_swap
+      (μ := (alpha : MeasureTheory.Measure (UnitSphere E)))
+      (ν := sphereUniformMeasure
+        (MeasureTheory.volume : MeasureTheory.Measure E))
+      (f := logRadialDistanceKernel (E := E) p)
+      hkernel_integrable
+  simpa [logRadialDistanceProfilePayoff] using hswap.symm
+
+/--
+Equations (23)--(24): after the Fubini swap, sphere symmetry makes the inner
+integral constant and the probability profile integrates that constant to
+itself.
+-/
+theorem logRadialDistanceProfilePayoff_sphereVolume_average_eq_anchorIntegral
+    [MeasurableSpace E] [BorelSpace E]
+    [OpensMeasurableSpace (UnitSphere E)]
+    [FiniteDimensional ℝ E] [Nontrivial E]
+    (p : ℝ → ℝ) (anchor : UnitSphere E)
+    (alpha : MeasureTheory.ProbabilityMeasure (UnitSphere E))
+    (hp : Continuous p)
+    (hp_pos : ∀ r : ℝ, r ∈ Set.Icc (0 : ℝ) 2 → 0 < p r) :
+    (∫ u, logRadialDistanceProfilePayoff (E := E) p alpha u
+        ∂sphereUniformMeasure (MeasureTheory.volume : MeasureTheory.Measure E)) =
+      ∫ u, logRadialDistanceKernel p anchor u
+        ∂sphereUniformMeasure (MeasureTheory.volume : MeasureTheory.Measure E) := by
+  calc
+    (∫ u, logRadialDistanceProfilePayoff (E := E) p alpha u
+        ∂sphereUniformMeasure (MeasureTheory.volume : MeasureTheory.Measure E)) =
+        ∫ x, (∫ u, logRadialDistanceKernel p x u
+            ∂sphereUniformMeasure
+              (MeasureTheory.volume : MeasureTheory.Measure E))
+          ∂(alpha : MeasureTheory.Measure (UnitSphere E)) :=
+      logRadialDistanceProfilePayoff_sphereVolume_average_swap
+        (E := E) p alpha hp hp_pos
+    _ = ∫ _x : UnitSphere E,
+          (∫ u, logRadialDistanceKernel p anchor u
+            ∂sphereUniformMeasure
+              (MeasureTheory.volume : MeasureTheory.Measure E))
+          ∂(alpha : MeasureTheory.Measure (UnitSphere E)) := by
+      apply integral_congr_ae
+      filter_upwards with x
+      exact
+        logRadialDistanceKernel_sphereVolumeUniform_integral_eq_anchor
+          (E := E) p anchor x
+    _ = ∫ u, logRadialDistanceKernel p anchor u
+          ∂sphereUniformMeasure
+            (MeasureTheory.volume : MeasureTheory.Measure E) := by
+      simp
 
 theorem logRadialDistanceProfilePayoff_continuous_of_kernel_continuous
     [MeasurableSpace E] [BorelSpace E]
@@ -780,6 +922,169 @@ theorem logRadialDistanceProfileSupValue_eq_of_exists_max
           rcases hy with ⟨u, rfl⟩
           exact hmax u⟩
         (Set.mem_range_self u0)
+
+/--
+Equation (26), normalized-measure form: the uniform profile gives every user
+the same payoff, namely the normalized anchor integral.  In the source's
+unnormalized notation this value is `C / m(S^d)`.
+-/
+theorem logRadialDistanceProfilePayoff_sphereVolumeUniform_eq_anchorIntegral
+    [MeasurableSpace E] [BorelSpace E]
+    [FiniteDimensional ℝ E] [Nontrivial E]
+    (p : ℝ → ℝ) (anchor u : UnitSphere E) :
+    logRadialDistanceProfilePayoff (E := E) p
+        (sphereVolumeUniformProbabilityMeasure (E := E)) u =
+      ∫ x, logRadialDistanceKernel p anchor x
+        ∂sphereUniformMeasure (MeasureTheory.volume : MeasureTheory.Measure E) := by
+  change
+    (∫ x, logRadialDistanceKernel p x u
+        ∂sphereUniformMeasure (MeasureTheory.volume : MeasureTheory.Measure E)) =
+      ∫ x, logRadialDistanceKernel p anchor x
+        ∂sphereUniformMeasure (MeasureTheory.volume : MeasureTheory.Measure E)
+  calc
+    (∫ x, logRadialDistanceKernel p x u
+        ∂sphereUniformMeasure (MeasureTheory.volume : MeasureTheory.Measure E)) =
+        ∫ x, logRadialDistanceKernel p u x
+          ∂sphereUniformMeasure
+            (MeasureTheory.volume : MeasureTheory.Measure E) := by
+      apply integral_congr_ae
+      filter_upwards with x
+      exact logRadialDistanceKernel_swap p x u
+    _ = ∫ x, logRadialDistanceKernel p anchor x
+          ∂sphereUniformMeasure
+            (MeasureTheory.volume : MeasureTheory.Measure E) :=
+      logRadialDistanceKernel_sphereVolumeUniform_integral_eq_anchor
+        (E := E) p anchor u
+
+/--
+Equation (26), objective form: since the uniform-profile payoff is constant,
+its user supremum is the same normalized anchor integral.
+-/
+theorem logRadialDistanceProfileSupValue_sphereVolumeUniform_eq_anchorIntegral
+    [MeasurableSpace E] [BorelSpace E]
+    [FiniteDimensional ℝ E] [Nontrivial E]
+    (p : ℝ → ℝ) (anchor : UnitSphere E) :
+    logRadialDistanceProfileSupValue (E := E) p
+        (sphereVolumeUniformProbabilityMeasure (E := E)) =
+      ∫ x, logRadialDistanceKernel p anchor x
+        ∂sphereUniformMeasure (MeasureTheory.volume : MeasureTheory.Measure E) := by
+  calc
+    logRadialDistanceProfileSupValue (E := E) p
+        (sphereVolumeUniformProbabilityMeasure (E := E)) =
+        logRadialDistanceProfilePayoff (E := E) p
+          (sphereVolumeUniformProbabilityMeasure (E := E)) anchor := by
+      apply logRadialDistanceProfileSupValue_eq_of_exists_max
+      intro u
+      rw [logRadialDistanceProfilePayoff_sphereVolumeUniform_eq_anchorIntegral
+          (E := E) p anchor u,
+        logRadialDistanceProfilePayoff_sphereVolumeUniform_eq_anchorIntegral
+          (E := E) p anchor anchor]
+    _ = ∫ x, logRadialDistanceKernel p anchor x
+          ∂sphereUniformMeasure
+            (MeasureTheory.volume : MeasureTheory.Measure E) :=
+      logRadialDistanceProfilePayoff_sphereVolumeUniform_eq_anchorIntegral
+        (E := E) p anchor anchor
+
+/--
+Equations (17) and (20): the normalized logarithm of the relaxed finite-`n`
+failure integral converges to the user supremum of `rho`.  Lean retains the
+source preference probability measure in every finite-`n` integral; its full
+support and payoff continuity are exactly what make the positive-Laplace
+limit equal to the pointwise supremum.
+-/
+theorem logRadialDistanceProfile_failureIntegral_normalizedLog_tendsto_supValue
+    [MeasurableSpace E] [BorelSpace E]
+    [OpensMeasurableSpace (UnitSphere E)]
+    [FiniteDimensional ℝ E] [Nontrivial E]
+    (preferenceMeasure : MeasureTheory.Measure (UnitSphere E))
+    [MeasureTheory.IsProbabilityMeasure preferenceMeasure]
+    (p : ℝ → ℝ)
+    (alpha : MeasureTheory.ProbabilityMeasure (UnitSphere E))
+    (hopen : MeasureTheory.Measure.IsOpenPosMeasure preferenceMeasure)
+    (hp : Continuous p)
+    (hp_pos : ∀ r : ℝ, r ∈ Set.Icc (0 : ℝ) 2 → 0 < p r) :
+    Tendsto
+      (fun n : ℕ =>
+        (n : ℝ)⁻¹ * Real.log
+          (∫ u, Real.exp
+              ((n : ℝ) *
+                logRadialDistanceProfilePayoff (E := E) p alpha u)
+            ∂preferenceMeasure))
+      atTop
+      (nhds (logRadialDistanceProfileSupValue (E := E) p alpha)) := by
+  have hkernel :
+      Continuous
+        (Function.uncurry
+          (fun u : UnitSphere E =>
+            fun x : UnitSphere E => logRadialDistanceKernel p x u)) :=
+    logRadialDistanceKernel_continuous_of_continuous_positive
+      (E := E) p hp hp_pos
+  have hpayoff_cont :
+      ∀ beta : MeasureTheory.ProbabilityMeasure (UnitSphere E),
+        Continuous (logRadialDistanceProfilePayoff (E := E) p beta) :=
+    fun beta =>
+      logRadialDistanceProfilePayoff_continuous_of_kernel_continuous
+        (E := E) p beta hkernel
+  let anchor : UnitSphere E := defaultUnitSpherePoint E
+  let x0 :
+      MeasureTheory.ProbabilityMeasure (UnitSphere E) → UnitSphere E :=
+    fun beta =>
+      Classical.choose
+        (logRadialDistanceProfilePayoff_exists_max
+          (E := E) p anchor beta (hpayoff_cont beta))
+  have hmax_choose :
+      ∀ beta : MeasureTheory.ProbabilityMeasure (UnitSphere E),
+        ∀ u : UnitSphere E,
+          logRadialDistanceProfilePayoff (E := E) p beta u ≤
+            logRadialDistanceProfilePayoff (E := E) p beta (x0 beta) := by
+    intro beta
+    exact
+      Classical.choose_spec
+        (logRadialDistanceProfilePayoff_exists_max
+          (E := E) p anchor beta (hpayoff_cont beta))
+  have hsSup_eq :
+      ∀ beta : MeasureTheory.ProbabilityMeasure (UnitSphere E),
+        logRadialDistanceProfileSupValue (E := E) p beta =
+          logRadialDistanceProfilePayoff (E := E) p beta (x0 beta) := by
+    intro beta
+    exact
+      logRadialDistanceProfileSupValue_eq_of_exists_max
+        (E := E) p beta (hmax_choose beta)
+  have hF_int :
+      ∀ beta : MeasureTheory.ProbabilityMeasure (UnitSphere E), ∀ n : ℕ,
+        MeasureTheory.Integrable
+          (fun u : UnitSphere E =>
+            Real.exp
+              ((n : ℝ) *
+                logRadialDistanceProfilePayoff (E := E) p beta u))
+          preferenceMeasure := by
+    intro beta n
+    exact
+      continuous_integrable_of_probability_compact
+        (μ := preferenceMeasure)
+        (Real.continuous_exp.comp
+          (continuous_const.mul (hpayoff_cont beta)))
+  have hcert :=
+    Proposition4AveragingCertificate.positive_laplace_rate_of_attained_pointwise_max_unitWeight
+      (fun _ : MeasureTheory.ProbabilityMeasure (UnitSphere E) =>
+        preferenceMeasure)
+      (logRadialDistanceProfileSupValue (E := E) p)
+      (logRadialDistanceProfilePayoff (E := E) p)
+      (fun _ => inferInstance)
+      (fun _ => hopen)
+      hF_int x0
+      (by
+        intro beta u
+        exact (hmax_choose beta u).trans_eq (hsSup_eq beta).symm)
+      (by
+        intro beta
+        exact (hsSup_eq beta).symm)
+      (fun beta => (hpayoff_cont beta).continuousAt)
+      alpha
+  have hrate := hcert.has_rate
+  rw [EconCSLib.Probability.HasExponentialRate] at hrate
+  have hrate_neg := hrate.neg
+  simpa [EconCSLib.Probability.logDecay] using hrate_neg
 
 /--
 Concrete Proposition 4 endpoint where the profile objective is the actual

@@ -75,6 +75,31 @@ theorem integral_id_pos_of_ae_nonneg_of_measure_Ici_pos_of_ae_bounds
     μ h_nonneg h_int ha_pos hmass
 
 /--
+A real random variable supported a.e. on a bounded interval has integrable
+absolute value under a finite measure.
+-/
+theorem integrable_abs_of_ae_mem_Icc
+    (μ : Measure ℝ) [IsFiniteMeasure μ] {vMin vMax : ℝ}
+    (h_support : ∀ᵐ v ∂μ, v ∈ Set.Icc vMin vMax) :
+    Integrable (fun v : ℝ => |v|) μ := by
+  refine Integrable.of_mem_Icc 0 (max |vMin| |vMax|) (by fun_prop) ?_
+  filter_upwards [h_support] with v hv
+  constructor
+  · exact abs_nonneg v
+  · have h_upper : v ≤ max |vMin| |vMax| :=
+      le_trans hv.2 (le_trans (le_abs_self vMax) (le_max_right _ _))
+    have h_lower : -(max |vMin| |vMax|) ≤ v := by
+      have hBvMin : |vMin| ≤ max |vMin| |vMax| := le_max_left _ _
+      have hnegB : -(max |vMin| |vMax|) ≤ -|vMin| :=
+        neg_le_neg hBvMin
+      have hnegabs : -|vMin| ≤ vMin := by
+        have h : -vMin ≤ |vMin| := by
+          simpa using le_abs_self (-vMin)
+        linarith
+      exact le_trans (le_trans hnegB hnegabs) hv.1
+    exact (abs_le.mpr ⟨h_lower, h_upper⟩)
+
+/--
 Positive one-dimensional mass gives positive mass to the corresponding finite
 product rectangle.
 -/
@@ -598,11 +623,457 @@ theorem upperTailMass_eq_one_sub_cdf
     probReal_compl_eq_one_sub (μ := μ) (s := Iic x) measurableSet_Iic
   simpa [upperTailMass, ProbabilityTheory.cdf_eq_real μ x, compl_Iic] using hcompl
 
+/-- The upper tail of a real probability law vanishes at `+∞`. -/
+theorem upperTailMass_tendsto_zero_atTop
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] :
+    Tendsto (upperTailMass μ) atTop (nhds 0) := by
+  have hcdf :
+      Tendsto
+        (fun x : ℝ => (1 : ℝ) - ProbabilityTheory.cdf μ x)
+        atTop (nhds (1 - 1)) :=
+    tendsto_const_nhds.sub (ProbabilityTheory.tendsto_cdf_atTop μ)
+  refine Tendsto.congr' ?_ (by simpa using hcdf)
+  filter_upwards with x
+  rw [upperTailMass_eq_one_sub_cdf μ x]
+
+/-- The upper tail of a real probability law tends to one at `-∞`. -/
+theorem upperTailMass_tendsto_one_atBot
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] :
+    Tendsto (upperTailMass μ) atBot (nhds 1) := by
+  have hcdf :
+      Tendsto
+        (fun x : ℝ => (1 : ℝ) - ProbabilityTheory.cdf μ x)
+        atBot (nhds (1 - 0)) :=
+    tendsto_const_nhds.sub (ProbabilityTheory.tendsto_cdf_atBot μ)
+  refine Tendsto.congr' ?_ (by simpa using hcdf)
+  filter_upwards with x
+  rw [upperTailMass_eq_one_sub_cdf μ x]
+
+/-- Eventually the upper tail of a real probability law is strictly below one. -/
+theorem eventually_upperTailMass_lt_one_atTop
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] :
+    ∀ᶠ x : ℝ in atTop, upperTailMass μ x < 1 := by
+  exact
+    (upperTailMass_tendsto_zero_atTop μ)
+      (isOpen_Iio.mem_nhds (show (0 : ℝ) < 1 by norm_num))
+
+/--
+If upper-tail probabilities along a sequence are eventually bounded by a
+real-valued error term tending to zero, and the distribution has eventually
+positive upper tail, then the sequence tends to `+∞`.
+-/
+theorem tendsto_atTop_of_upperTailMass_le_tendsto_zero
+    (μ : Measure ℝ) [IsFiniteMeasure μ] {x bound : ℕ → ℝ}
+    (hpositive : ∀ᶠ y : ℝ in atTop, 0 < upperTailMass μ y)
+    (hbound_zero : Tendsto bound atTop (nhds 0))
+    (hx : ∀ᶠ n : ℕ in atTop, upperTailMass μ (x n) ≤ bound n) :
+    Tendsto x atTop atTop := by
+  rw [tendsto_atTop]
+  intro B
+  rcases Filter.eventually_atTop.1 hpositive with ⟨Bpos, hBpos⟩
+  let y : ℝ := max B Bpos
+  have hB_le_y : B ≤ y := by
+    dsimp [y]
+    exact le_max_left _ _
+  have hy_pos : 0 < upperTailMass μ y := by
+    exact hBpos y (by
+      dsimp [y]
+      exact le_max_right _ _)
+  have hbound_lt :
+      ∀ᶠ n : ℕ in atTop, bound n < upperTailMass μ y :=
+    hbound_zero (isOpen_Iio.mem_nhds hy_pos)
+  filter_upwards [hx, hbound_lt] with n hxn hboundn
+  have hy_lt_x : y < x n := by
+    by_contra hnot
+    have hxy : x n ≤ y := le_of_not_gt hnot
+    have htail_le : upperTailMass μ y ≤ upperTailMass μ (x n) :=
+      upperTailMass_antitone μ hxy
+    linarith
+  exact le_trans hB_le_y (le_of_lt hy_lt_x)
+
+/-- Eventually the upper tail of a real probability law is above `1 - ε` at `-∞`. -/
+theorem eventually_one_sub_lt_upperTailMass_atBot
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] {ε : ℝ} (hε : 0 < ε) :
+    ∀ᶠ x : ℝ in atBot, 1 - ε < upperTailMass μ x := by
+  have hmem : (1 : ℝ) ∈ Set.Ioi (1 - ε) := by
+    simp
+    linarith
+  exact
+    (upperTailMass_tendsto_one_atBot μ)
+      (isOpen_Ioi.mem_nhds hmem)
+
 theorem lowerCDFMass_add_upperTailMass_eq_one
     (μ : Measure ℝ) [IsProbabilityMeasure μ] (x : ℝ) :
     lowerCDFMass μ x + upperTailMass μ x = 1 := by
   rw [lowerCDFMass_eq_cdf, upperTailMass_eq_one_sub_cdf]
   ring
+
+/--
+If lower CDF mass is `0` at one endpoint and `1` at another, monotonicity
+forces the endpoints to be strictly ordered.
+-/
+theorem lowerCDFMass_endpoint_values_lt
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] {xMin xMax : ℝ}
+    (hleft : lowerCDFMass μ xMin = 0)
+    (hright : lowerCDFMass μ xMax = 1) :
+    xMin < xMax := by
+  by_contra hnot
+  have hle : xMax ≤ xMin := le_of_not_gt hnot
+  have hmono :
+      lowerCDFMass μ xMax ≤ lowerCDFMass μ xMin :=
+    lowerCDFMass_mono μ hle
+  rw [hleft, hright] at hmono
+  norm_num at hmono
+
+/--
+If a CDF mass is strictly increasing on a closed support interval and takes
+endpoint values `0` and `1`, then every interior point has CDF mass in
+`(0,1)`.
+-/
+theorem lowerCDFMass_mem_Ioo_of_strictMonoOn_Icc_endpoint_values
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] {xMin xMax x : ℝ}
+    (hcdf_strict : StrictMonoOn (lowerCDFMass μ) (Set.Icc xMin xMax))
+    (hleft : lowerCDFMass μ xMin = 0)
+    (hright : lowerCDFMass μ xMax = 1)
+    (hx : x ∈ Set.Ioo xMin xMax) :
+    lowerCDFMass μ x ∈ Set.Ioo (0 : ℝ) 1 := by
+  have hxMin_mem : xMin ∈ Set.Icc xMin xMax := by
+    constructor
+    · rfl
+    · exact hx.1.le.trans hx.2.le
+  have hx_mem : x ∈ Set.Icc xMin xMax := ⟨hx.1.le, hx.2.le⟩
+  have hxMax_mem : xMax ∈ Set.Icc xMin xMax := by
+    constructor
+    · exact hx.1.le.trans hx.2.le
+    · rfl
+  constructor
+  · have hlt := hcdf_strict hxMin_mem hx_mem hx.1
+    simpa [hleft] using hlt
+  · have hlt := hcdf_strict hx_mem hxMax_mem hx.2
+    simpa [hright] using hlt
+
+/--
+If a CDF is strictly increasing on its closed support interval and takes
+endpoint values `0` and `1`, then any point strictly to the right of an
+interior support point has strictly larger lower-CDF mass.
+
+The right point may lie beyond the support endpoint: monotonicity and the
+right endpoint value still force its CDF mass to be at least `1`, while the
+interior point has CDF mass strictly below `1`.
+-/
+theorem lowerCDFMass_lt_of_left_mem_Ioo_of_lt
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] {xMin xMax x y : ℝ}
+    (hcdf_strict : StrictMonoOn (lowerCDFMass μ) (Set.Icc xMin xMax))
+    (hleft : lowerCDFMass μ xMin = 0)
+    (hright : lowerCDFMass μ xMax = 1)
+    (hx : x ∈ Set.Ioo xMin xMax)
+    (hxy : x < y) :
+    lowerCDFMass μ x < lowerCDFMass μ y := by
+  by_cases hy_lt : y < xMax
+  · have hx_mem : x ∈ Set.Icc xMin xMax := ⟨hx.1.le, hx.2.le⟩
+    have hy_mem : y ∈ Set.Icc xMin xMax :=
+      ⟨(hx.1.trans hxy).le, hy_lt.le⟩
+    exact hcdf_strict hx_mem hy_mem hxy
+  · have hx_lt_one :
+        lowerCDFMass μ x < 1 :=
+      (lowerCDFMass_mem_Ioo_of_strictMonoOn_Icc_endpoint_values
+        μ hcdf_strict hleft hright hx).2
+    have hone_le_y : 1 ≤ lowerCDFMass μ y := by
+      have hmono := lowerCDFMass_mono μ
+      have hxMax_le_y : xMax ≤ y := le_of_not_gt hy_lt
+      have hle := hmono hxMax_le_y
+      simpa [hright] using hle
+    exact hx_lt_one.trans_le hone_le_y
+
+theorem measureReal_Iio_eq_cdf_leftLim
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] (x : ℝ) :
+    μ.real (Iio x) = Function.leftLim (ProbabilityTheory.cdf μ) x := by
+  have hmeasure :=
+    (ProbabilityTheory.cdf μ).measure_Iio
+      (ProbabilityTheory.tendsto_cdf_atBot μ) x
+  have hmeasure' :
+      μ (Iio x) =
+        ENNReal.ofReal
+          (Function.leftLim (ProbabilityTheory.cdf μ) x) := by
+    simpa [ProbabilityTheory.measure_cdf μ] using hmeasure
+  have hleft_nonneg :
+      0 ≤ Function.leftLim (ProbabilityTheory.cdf μ) x := by
+    have hx : x - 1 < x := by linarith
+    exact
+      (ProbabilityTheory.cdf_nonneg μ (x - 1)).trans
+        ((ProbabilityTheory.monotone_cdf μ).le_leftLim hx)
+  rw [measureReal_def, hmeasure',
+    ENNReal.toReal_ofReal hleft_nonneg]
+
+/--
+Quantile-style lower-tail bracket for a real probability measure.
+
+For any interior target CDF mass `q`, some threshold has open-left mass at
+most `q` and closed-left mass at least `q`.  Equivalently, `q` lies in the
+jump of the CDF at that threshold.
+-/
+theorem exists_measureReal_Iio_Iic_bracket
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] {q : ℝ}
+    (hq_pos : 0 < q) (hq_lt_one : q < 1) :
+    ∃ x : ℝ, μ.real (Iio x) ≤ q ∧ q ≤ μ.real (Iic x) := by
+  classical
+  let F : ℝ → ℝ := ProbabilityTheory.cdf μ
+  let S : Set ℝ := {x | q ≤ F x}
+  have hS_nonempty : S.Nonempty := by
+    have htop :
+        ∀ᶠ x in atTop, q < F x :=
+      (ProbabilityTheory.tendsto_cdf_atTop μ).eventually
+        (eventually_gt_nhds hq_lt_one)
+    rcases htop.exists with ⟨x, hx⟩
+    exact ⟨x, le_of_lt hx⟩
+  have hS_bddBelow : BddBelow S := by
+    have hbot :
+        ∀ᶠ x in atBot, F x < q :=
+      (ProbabilityTheory.tendsto_cdf_atBot μ).eventually
+        (eventually_lt_nhds hq_pos)
+    rcases eventually_atBot.1 hbot with ⟨b, hb⟩
+    refine ⟨b, ?_⟩
+    intro x hxS
+    by_contra hbx
+    have hxb : x ≤ b := le_of_lt (lt_of_not_ge hbx)
+    exact not_lt_of_ge hxS (hb x hxb)
+  let c : ℝ := sInf S
+  have hleft :
+      Function.leftLim F c ≤ q := by
+    have hevent :
+        ∀ᶠ y in 𝓝[<] c, F y ≤ q := by
+      filter_upwards [self_mem_nhdsWithin] with y hy
+      have hy_not_mem : y ∉ S :=
+        notMem_of_lt_csInf hy hS_bddBelow
+      exact le_of_lt (lt_of_not_ge hy_not_mem)
+    exact le_of_tendsto
+      ((ProbabilityTheory.monotone_cdf μ).tendsto_leftLim c) hevent
+  have hright :
+      q ≤ F c := by
+    by_contra hnot
+    have hFc_lt : F c < q := lt_of_not_ge hnot
+    have hright_tend :
+        Tendsto F (𝓝[>] c) (𝓝 (F c)) :=
+      ((ProbabilityTheory.cdf μ).right_continuous c).mono
+        Ioi_subset_Ici_self
+    have hsmall :
+        ∀ᶠ y in 𝓝[>] c, F y < q :=
+      hright_tend.eventually (eventually_lt_nhds hFc_lt)
+    rcases (hsmall.and self_mem_nhdsWithin).exists with
+      ⟨y, hyF, hcy⟩
+    rcases (csInf_lt_iff hS_bddBelow hS_nonempty).1 hcy with
+      ⟨d, hdS, hdy⟩
+    have hFd_le_Fy : F d ≤ F y :=
+      ProbabilityTheory.monotone_cdf μ (le_of_lt hdy)
+    exact not_lt_of_ge hdS (lt_of_le_of_lt hFd_le_Fy hyF)
+  refine ⟨c, ?_, ?_⟩
+  · rw [measureReal_Iio_eq_cdf_leftLim μ c]
+    simpa [F] using hleft
+  · simpa [F, ProbabilityTheory.cdf_eq_real μ c] using hright
+
+/--
+Lower-tail bracket with a supplied left endpoint carrying no open-left mass.
+
+The endpoint handles `q = 0`, which need not be realized by a finite threshold
+for distributions with unbounded lower support.
+-/
+theorem exists_measureReal_Iio_Iic_bracket_of_left_endpoint
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] (lower : ℝ) {q : ℝ}
+    (hlower : μ.real (Iio lower) = 0)
+    (hq_nonneg : 0 ≤ q) (hq_lt_one : q < 1) :
+    ∃ x : ℝ, μ.real (Iio x) ≤ q ∧ q ≤ μ.real (Iic x) := by
+  by_cases hq_zero : q = 0
+  · refine ⟨lower, ?_, ?_⟩
+    · linarith
+    · rw [hq_zero]
+      simp
+  · have hq_pos : 0 < q := lt_of_le_of_ne hq_nonneg (Ne.symm hq_zero)
+    exact exists_measureReal_Iio_Iic_bracket μ hq_pos hq_lt_one
+
+/--
+Upper-tail bracket for a probability measure and an interior tail target.
+
+The selected threshold has strict upper-tail mass at most `target` and closed
+upper-tail mass at least `target`.
+-/
+theorem exists_upperTailMass_Ici_bracket
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] {target : ℝ}
+    (htarget_pos : 0 < target) (htarget_lt_one : target < 1) :
+    ∃ x : ℝ, upperTailMass μ x ≤ target ∧
+      target ≤ μ.real (Ici x) := by
+  let q : ℝ := 1 - target
+  have hq_pos : 0 < q := by dsimp [q]; linarith
+  have hq_lt_one : q < 1 := by dsimp [q]; linarith
+  rcases exists_measureReal_Iio_Iic_bracket μ hq_pos hq_lt_one with
+    ⟨x, hIio_le, hq_le_Iic⟩
+  refine ⟨x, ?_, ?_⟩
+  · rw [upperTailMass_eq_one_sub_cdf, ProbabilityTheory.cdf_eq_real μ x]
+    dsimp [q] at hq_le_Iic
+    linarith
+  · have hcompl :
+        μ.real (Ici x) = 1 - μ.real (Iio x) := by
+      have h :=
+        probReal_compl_eq_one_sub (μ := μ) (s := Iio x)
+          measurableSet_Iio
+      simpa [compl_Iio] using h
+    rw [hcompl]
+    dsimp [q] at hIio_le
+    linarith
+
+/--
+Upper-tail bracket for a finite real measure and a strict interior target.
+
+The selected threshold has strict upper-tail mass at most `target` and closed
+upper-tail mass at least `target`.  The strict interior hypothesis is necessary
+without bounded support: endpoint targets may require thresholds at infinity.
+-/
+theorem exists_upperTailMass_Ici_bracket_finite
+    (μ : Measure ℝ) [IsFiniteMeasure μ] {target : ℝ}
+    (htarget_pos : 0 < target)
+    (htarget_lt_total : target < μ.real (univ : Set ℝ)) :
+    ∃ x : ℝ, upperTailMass μ x ≤ target ∧
+      target ≤ μ.real (Ici x) := by
+  classical
+  have hμ_ne_zero : μ ≠ 0 := by
+    intro hzero
+    rw [hzero] at htarget_lt_total
+    simp at htarget_lt_total
+    linarith
+  haveI : NeZero μ := ⟨hμ_ne_zero⟩
+  let ν : Measure ℝ := (μ (univ : Set ℝ))⁻¹ • μ
+  haveI : IsProbabilityMeasure ν := by
+    dsimp [ν]
+    infer_instance
+  have htotal_pos : 0 < μ.real (univ : Set ℝ) :=
+    measureReal_univ_pos (μ := μ)
+  have htotal_ne : μ.real (univ : Set ℝ) ≠ 0 := htotal_pos.ne'
+  let q : ℝ := target / μ.real (univ : Set ℝ)
+  have hq_pos : 0 < q := by
+    dsimp [q]
+    exact div_pos htarget_pos htotal_pos
+  have hq_lt_one : q < 1 := by
+    have hdiv :
+        target / μ.real (univ : Set ℝ) <
+          μ.real (univ : Set ℝ) / μ.real (univ : Set ℝ) :=
+      div_lt_div_of_pos_right htarget_lt_total htotal_pos
+    simpa [q, htotal_ne] using hdiv
+  rcases exists_upperTailMass_Ici_bracket ν hq_pos hq_lt_one with
+    ⟨x, htail, hclosed⟩
+  have hscale :
+      ((μ (univ : Set ℝ))⁻¹).toReal =
+        (μ.real (univ : Set ℝ))⁻¹ := by
+    simp [Measure.real]
+  have htail_scaled :
+      (μ.real (univ : Set ℝ))⁻¹ * upperTailMass μ x ≤ q := by
+    simpa [ν, upperTailMass, hscale] using htail
+  have hclosed_scaled :
+      q ≤ (μ.real (univ : Set ℝ))⁻¹ * μ.real (Ici x) := by
+    simpa [ν, hscale] using hclosed
+  have htail_mul :=
+    mul_le_mul_of_nonneg_right htail_scaled htotal_pos.le
+  have hclosed_mul :=
+    mul_le_mul_of_nonneg_right hclosed_scaled htotal_pos.le
+  have hq_mul :
+      q * μ.real (univ : Set ℝ) = target := by
+    dsimp [q]
+    field_simp [htotal_ne]
+  have htail_left :
+      ((μ.real (univ : Set ℝ))⁻¹ * upperTailMass μ x) *
+          μ.real (univ : Set ℝ) =
+        upperTailMass μ x := by
+    field_simp [htotal_ne]
+  have hclosed_right :
+      ((μ.real (univ : Set ℝ))⁻¹ * μ.real (Ici x)) *
+          μ.real (univ : Set ℝ) =
+        μ.real (Ici x) := by
+    field_simp [htotal_ne]
+  refine ⟨x, ?_, ?_⟩
+  · linarith
+  · linarith
+
+/-- Real thresholds with formal endpoints. -/
+inductive RealThreshold where
+  | negInf : RealThreshold
+  | finite : ℝ → RealThreshold
+  | posInf : RealThreshold
+  deriving DecidableEq
+
+namespace RealThreshold
+
+/-- Strict upper-tail mass above a finite or formal endpoint threshold. -/
+def strictUpperTailMass (θ : RealThreshold) (μ : Measure ℝ) : ℝ :=
+  match θ with
+  | negInf => μ.real (univ : Set ℝ)
+  | finite t => upperTailMass μ t
+  | posInf => 0
+
+/-- Closed upper-tail mass at a finite or formal endpoint threshold. -/
+def closedUpperTailMass (θ : RealThreshold) (μ : Measure ℝ) : ℝ :=
+  match θ with
+  | negInf => μ.real (univ : Set ℝ)
+  | finite t => μ.real (Ici t)
+  | posInf => 0
+
+end RealThreshold
+
+/--
+Upper-tail bracket for a finite real measure, using formal endpoint thresholds.
+
+This is the source-style threshold convention for papers that permit
+thresholds in `ℝ ∪ {-∞, ∞}`: every target between zero and total mass is
+bracketed by the strict and closed upper-tail masses of some threshold.
+-/
+theorem exists_realThreshold_upperTailMass_bracket_finite
+    (μ : Measure ℝ) [IsFiniteMeasure μ] {target : ℝ}
+    (htarget_nonneg : 0 ≤ target)
+    (htarget_le_total : target ≤ μ.real (univ : Set ℝ)) :
+    ∃ θ : RealThreshold,
+      θ.strictUpperTailMass μ ≤ target ∧
+        target ≤ θ.closedUpperTailMass μ := by
+  by_cases htarget_zero : target = 0
+  · refine ⟨RealThreshold.posInf, ?_, ?_⟩
+    · simp [RealThreshold.strictUpperTailMass, htarget_zero]
+    · simp [RealThreshold.closedUpperTailMass, htarget_zero]
+  by_cases htarget_total : target = μ.real (univ : Set ℝ)
+  · refine ⟨RealThreshold.negInf, ?_, ?_⟩
+    · simp [RealThreshold.strictUpperTailMass, htarget_total]
+    · simp [RealThreshold.closedUpperTailMass, htarget_total]
+  have htarget_pos : 0 < target :=
+    lt_of_le_of_ne htarget_nonneg (Ne.symm htarget_zero)
+  have htarget_lt_total : target < μ.real (univ : Set ℝ) :=
+    lt_of_le_of_ne htarget_le_total htarget_total
+  rcases exists_upperTailMass_Ici_bracket_finite
+      μ htarget_pos htarget_lt_total with
+    ⟨t, hstrict, hclosed⟩
+  exact ⟨RealThreshold.finite t, hstrict, hclosed⟩
+
+/--
+Upper-tail bracket with a supplied lower endpoint whose open-left mass is zero.
+
+This version also handles the maximal tail target `target = 1`, by choosing
+the lower endpoint.
+-/
+theorem exists_upperTailMass_Ici_bracket_of_left_endpoint
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] (lower : ℝ) {target : ℝ}
+    (hlower : μ.real (Iio lower) = 0)
+    (htarget_pos : 0 < target) (htarget_le_one : target ≤ 1) :
+    ∃ x : ℝ, upperTailMass μ x ≤ target ∧
+      target ≤ μ.real (Ici x) := by
+  by_cases htarget_one : target = 1
+  · refine ⟨lower, ?_, ?_⟩
+    · rw [htarget_one]
+      exact upperTailMass_le_one μ lower
+    · have hcompl :
+          μ.real (Ici lower) = 1 - μ.real (Iio lower) := by
+        have h :=
+          probReal_compl_eq_one_sub (μ := μ) (s := Iio lower)
+            measurableSet_Iio
+        simpa [compl_Iio] using h
+      rw [hcompl, hlower, htarget_one]
+      norm_num
+  · have htarget_lt_one : target < 1 :=
+      lt_of_le_of_ne htarget_le_one htarget_one
+    exact exists_upperTailMass_Ici_bracket μ htarget_pos htarget_lt_one
 
 /-- Real-valued mass of `(a, b]`. -/
 def intervalOCMass (μ : Measure ℝ) (a b : ℝ) : ℝ :=
@@ -911,6 +1382,174 @@ structure UpperTailThresholdCertificate
     (μ : Measure ℝ) (capacity threshold : ℝ) : Prop where
   tail_eq_capacity : upperTailMass μ threshold = capacity
 
+/--
+The distribution puts positive mass on every one-sided interval around a
+reference point.
+
+This is the one-dimensional source-support condition used by cutoff arguments:
+moving the cutoff slightly left or right changes the upper-tail mass strictly.
+-/
+structure TwoSidedPositiveIntervalMass
+    (μ : Measure ℝ) (x : ℝ) : Prop where
+  left_pos : ∀ ε : ℝ, 0 < ε → 0 < μ (Ioc (x - ε) x)
+  right_pos : ∀ ε : ℝ, 0 < ε → 0 < μ (Ioc x (x + ε))
+
+/--
+Strict interior CDF growth plus the source interval-mass formula implies
+positive mass on every one-sided interval around an interior point.
+-/
+theorem twoSidedPositiveIntervalMass_of_strictCDFOn
+    {μ : Measure ℝ} {valueCDF : ℝ → ℝ} {vMin vMax x : ℝ}
+    (hx : x ∈ Set.Ioo vMin vMax)
+    (hstrict : StrictMonoOn valueCDF (Set.Ioo vMin vMax))
+    (hmeasure :
+      ∀ a b : ℝ,
+        a ∈ Set.Ioo vMin vMax → b ∈ Set.Ioo vMin vMax → a < b →
+          μ.real (Set.Ioo a b) = valueCDF b - valueCDF a) :
+    TwoSidedPositiveIntervalMass μ x := by
+  refine ⟨?_, ?_⟩
+  · intro ε hε
+    let y : ℝ := max (x - ε) ((vMin + x) / 2)
+    have hmid_left : vMin < (vMin + x) / 2 := by linarith [hx.1]
+    have hmid_lt_x : (vMin + x) / 2 < x := by linarith [hx.1]
+    have hxy : y < x := by
+      dsimp [y]
+      exact max_lt (by linarith) hmid_lt_x
+    have hyvMin : vMin < y := by
+      dsimp [y]
+      exact lt_of_lt_of_le hmid_left (le_max_right _ _)
+    have hymem : y ∈ Set.Ioo vMin vMax :=
+      ⟨hyvMin, lt_trans hxy hx.2⟩
+    have hreal_pos : 0 < μ.real (Set.Ioo y x) := by
+      rw [hmeasure y x hymem hx hxy]
+      exact sub_pos.mpr (hstrict hymem hx hxy)
+    have hmass_pos : 0 < μ (Set.Ioo y x) :=
+      (ENNReal.toReal_pos_iff.mp hreal_pos).1
+    exact lt_of_lt_of_le hmass_pos (measure_mono (by
+      intro z hz
+      exact
+        ⟨lt_of_le_of_lt (le_max_left (x - ε) ((vMin + x) / 2)) hz.1,
+          le_of_lt hz.2⟩))
+  · intro ε hε
+    let y : ℝ := min (x + ε) ((x + vMax) / 2)
+    have hx_lt_mid : x < (x + vMax) / 2 := by linarith [hx.2]
+    have hmid_right : (x + vMax) / 2 < vMax := by linarith [hx.2]
+    have hxy : x < y := by
+      dsimp [y]
+      exact lt_min (by linarith) hx_lt_mid
+    have hyvMax : y < vMax := by
+      dsimp [y]
+      exact lt_of_le_of_lt (min_le_right _ _) hmid_right
+    have hymem : y ∈ Set.Ioo vMin vMax :=
+      ⟨lt_trans hx.1 hxy, hyvMax⟩
+    have hreal_pos : 0 < μ.real (Set.Ioo x y) := by
+      rw [hmeasure x y hx hymem hxy]
+      exact sub_pos.mpr (hstrict hx hymem hxy)
+    have hmass_pos : 0 < μ (Set.Ioo x y) :=
+      (ENNReal.toReal_pos_iff.mp hreal_pos).1
+    exact lt_of_lt_of_le hmass_pos (measure_mono (by
+      intro z hz
+      exact
+        ⟨hz.1,
+          le_trans (le_of_lt hz.2) (min_le_left (x + ε) ((x + vMax) / 2))⟩))
+
+/--
+Strict interior CDF growth plus the source interval-mass formula implies that
+removing one point from any nonempty interior open interval still leaves
+positive real mass.
+-/
+theorem measureReal_Ioo_diff_singleton_pos_of_strictCDFOn
+    {μ : Measure ℝ} [IsFiniteMeasure μ] {valueCDF : ℝ → ℝ}
+    {vMin vMax a b x : ℝ}
+    (ha : a ∈ Set.Ioo vMin vMax)
+    (hb : b ∈ Set.Ioo vMin vMax)
+    (hab : a < b)
+    (hstrict : StrictMonoOn valueCDF (Set.Ioo vMin vMax))
+    (hmeasure :
+      ∀ u w : ℝ,
+        u ∈ Set.Ioo vMin vMax → w ∈ Set.Ioo vMin vMax → u < w →
+          μ.real (Set.Ioo u w) = valueCDF w - valueCDF u) :
+    0 < μ.real (Set.Ioo a b \ ({x} : Set ℝ)) := by
+  by_cases hxa : x ≤ a
+  · have hinterval_pos : 0 < μ.real (Set.Ioo a b) := by
+      rw [hmeasure a b ha hb hab]
+      exact sub_pos.mpr (hstrict ha hb hab)
+    have hsub : Set.Ioo a b ⊆ Set.Ioo a b \ ({x} : Set ℝ) := by
+      intro z hz
+      have hxz : x < z := lt_of_le_of_lt hxa hz.1
+      exact ⟨hz, by simpa using ne_of_gt hxz⟩
+    exact lt_of_lt_of_le hinterval_pos
+      (measureReal_mono (μ := μ) hsub (measure_ne_top μ _))
+  · have hax : a < x := lt_of_not_ge hxa
+    by_cases hbx : b ≤ x
+    · have hinterval_pos : 0 < μ.real (Set.Ioo a b) := by
+        rw [hmeasure a b ha hb hab]
+        exact sub_pos.mpr (hstrict ha hb hab)
+      have hsub : Set.Ioo a b ⊆ Set.Ioo a b \ ({x} : Set ℝ) := by
+        intro z hz
+        have hzx : z < x := lt_of_lt_of_le hz.2 hbx
+        exact ⟨hz, by simpa using ne_of_lt hzx⟩
+      exact lt_of_lt_of_le hinterval_pos
+        (measureReal_mono (μ := μ) hsub (measure_ne_top μ _))
+    · have hxb : x < b := lt_of_not_ge hbx
+      let y : ℝ := (a + x) / 2
+      have hay : a < y := by
+        dsimp [y]
+        linarith
+      have hyx : y < x := by
+        dsimp [y]
+        linarith
+      have hyb : y < b := lt_trans hyx hxb
+      have hy : y ∈ Set.Ioo vMin vMax :=
+        ⟨lt_trans ha.1 hay, lt_trans hyb hb.2⟩
+      have hsubinterval_pos : 0 < μ.real (Set.Ioo a y) := by
+        rw [hmeasure a y ha hy hay]
+        exact sub_pos.mpr (hstrict ha hy hay)
+      have hsub : Set.Ioo a y ⊆ Set.Ioo a b \ ({x} : Set ℝ) := by
+        intro z hz
+        have hzx : z < x := lt_trans hz.2 hyx
+        exact ⟨⟨hz.1, lt_trans hz.2 hyb⟩, by simpa using ne_of_lt hzx⟩
+      exact lt_of_lt_of_le hsubinterval_pos
+        (measureReal_mono (μ := μ) hsub (measure_ne_top μ _))
+
+theorem upperTailMass_lt_upperTailMass_of_Ioc_pos
+    (μ : Measure ℝ) [IsFiniteMeasure μ] {a b : ℝ}
+    (hab : a < b) (hpos : 0 < μ (Ioc a b)) :
+    upperTailMass μ b < upperTailMass μ a := by
+  have hdisj : Disjoint (Ioc a b) (Ioi b) := by
+    rw [Set.disjoint_left]
+    intro x hx_interval hx_tail
+    exact (not_lt_of_ge hx_interval.2) hx_tail
+  have hunion : Ioc a b ∪ Ioi b = Ioi a := by
+    ext x
+    constructor
+    · intro hx
+      rcases hx with hx | hx
+      · exact hx.1
+      · exact lt_trans hab hx
+    · intro hx
+      by_cases hxb : x ≤ b
+      · exact Or.inl ⟨hx, hxb⟩
+      · exact Or.inr (lt_of_not_ge hxb)
+  have hmeasure_union :
+      μ (Ioc a b ∪ Ioi b) = μ (Ioc a b) + μ (Ioi b) :=
+    measure_union (μ := μ) hdisj measurableSet_Ioi
+  have htail_lt :
+      μ (Ioi b) < μ (Ioi a) := by
+    have hlt_add :
+        μ (Ioi b) + 0 < μ (Ioi b) + μ (Ioc a b) :=
+      ENNReal.add_lt_add_left (measure_ne_top μ (Ioi b)) hpos
+    calc
+      μ (Ioi b) = μ (Ioi b) + 0 := by simp
+      _ < μ (Ioi b) + μ (Ioc a b) := hlt_add
+      _ = μ (Ioc a b) + μ (Ioi b) := by rw [add_comm]
+      _ = μ (Ioc a b ∪ Ioi b) := hmeasure_union.symm
+      _ = μ (Ioi a) := by rw [hunion]
+  exact
+    (ENNReal.toReal_lt_toReal
+      (measure_ne_top μ (Ioi b)) (measure_ne_top μ (Ioi a))).2
+      htail_lt
+
 namespace UpperTailThresholdCertificate
 
 variable {μ : Measure ℝ} {capacity threshold : ℝ}
@@ -943,7 +1582,331 @@ theorem capacity_antitone_threshold [IsFiniteMeasure μ]
   rw [← C₁.tail_eq_capacity, ← C₂.tail_eq_capacity]
   exact upperTailMass_antitone μ hthreshold
 
+theorem strict_right_tail_of_positive_interval [IsFiniteMeasure μ]
+    (C : UpperTailThresholdCertificate μ capacity threshold)
+    (H : TwoSidedPositiveIntervalMass μ threshold) :
+    ∀ ε : ℝ, 0 < ε →
+      upperTailMass μ (threshold + ε / 2) < capacity := by
+  intro ε hε
+  have hhalf_pos : 0 < ε / 2 := by positivity
+  have htail :
+      upperTailMass μ (threshold + ε / 2) <
+        upperTailMass μ threshold :=
+    upperTailMass_lt_upperTailMass_of_Ioc_pos
+      μ (by linarith) (H.right_pos (ε / 2) hhalf_pos)
+  simpa [C.tail_eq_capacity] using htail
+
+theorem strict_left_tail_of_positive_interval [IsFiniteMeasure μ]
+    (C : UpperTailThresholdCertificate μ capacity threshold)
+    (H : TwoSidedPositiveIntervalMass μ threshold) :
+    ∀ ε : ℝ, 0 < ε →
+      capacity < upperTailMass μ (threshold - ε / 2) := by
+  intro ε hε
+  have hhalf_pos : 0 < ε / 2 := by positivity
+  have htail :
+      upperTailMass μ threshold <
+        upperTailMass μ (threshold - ε / 2) :=
+    upperTailMass_lt_upperTailMass_of_Ioc_pos
+      μ (by linarith) (H.left_pos (ε / 2) hhalf_pos)
+  simpa [C.tail_eq_capacity] using htail
+
+theorem strict_tail_separation_of_positive_interval [IsFiniteMeasure μ]
+    (C : UpperTailThresholdCertificate μ capacity threshold)
+    (H : TwoSidedPositiveIntervalMass μ threshold) :
+    (∀ ε : ℝ, 0 < ε →
+      upperTailMass μ (threshold + ε / 2) < capacity) ∧
+    (∀ ε : ℝ, 0 < ε →
+      capacity < upperTailMass μ (threshold - ε / 2)) :=
+  ⟨C.strict_right_tail_of_positive_interval H,
+    C.strict_left_tail_of_positive_interval H⟩
+
 end UpperTailThresholdCertificate
+
+/--
+Strict upper-tail separation identifies threshold order.
+
+If the upper-tail mass at `y` is strictly below `q`, while the upper-tail mass
+at `x` is strictly above `q`, then `x` must lie strictly below `y`.
+-/
+theorem lt_of_upperTailMass_lt_of_lt_upperTailMass
+    (μ : Measure ℝ) [IsFiniteMeasure μ] {x y q : ℝ}
+    (hy : upperTailMass μ y < q)
+    (hx : q < upperTailMass μ x) :
+    x < y := by
+  by_contra hnot
+  have hyx : y ≤ x := le_of_not_gt hnot
+  have htail_le : upperTailMass μ x ≤ upperTailMass μ y :=
+    upperTailMass_antitone μ hyx
+  linarith
+
+/--
+Strict fixed-side and non-strict moving-side upper-tail separation identifies
+threshold order.
+-/
+theorem lt_of_upperTailMass_lt_of_le_upperTailMass
+    (μ : Measure ℝ) [IsFiniteMeasure μ] {x y q : ℝ}
+    (hy : upperTailMass μ y < q)
+    (hx : q ≤ upperTailMass μ x) :
+    x < y := by
+  by_contra hnot
+  have hyx : y ≤ x := le_of_not_gt hnot
+  have htail_le : upperTailMass μ x ≤ upperTailMass μ y :=
+    upperTailMass_antitone μ hyx
+  linarith
+
+/--
+The dual upper-tail separation form: if the upper-tail mass at `x` is
+strictly below `q`, while the upper-tail mass at `y` is strictly above `q`,
+then `y < x`.
+-/
+theorem lt_of_lt_upperTailMass_of_upperTailMass_lt
+    (μ : Measure ℝ) [IsFiniteMeasure μ] {x y q : ℝ}
+    (hx : upperTailMass μ x < q)
+    (hy : q < upperTailMass μ y) :
+    y < x :=
+  lt_of_upperTailMass_lt_of_lt_upperTailMass μ hx hy
+
+/--
+Dual non-strict moving-side upper-tail separation form.
+-/
+theorem lt_of_lt_upperTailMass_of_upperTailMass_le
+    (μ : Measure ℝ) [IsFiniteMeasure μ] {x y q : ℝ}
+    (hx : upperTailMass μ x ≤ q)
+    (hy : q < upperTailMass μ y) :
+    y < x := by
+  by_contra hnot
+  have hxy : x ≤ y := le_of_not_gt hnot
+  have htail_le : upperTailMass μ y ≤ upperTailMass μ x :=
+    upperTailMass_antitone μ hxy
+  linarith
+
+/--
+Eventual upper-tail lower brackets give eventual upper location bounds.
+-/
+theorem eventually_lt_of_eventually_lt_upperTailMass
+    (μ : Measure ℝ) [IsFiniteMeasure μ] {x : ℕ → ℝ} {y q : ℝ}
+    (hy : upperTailMass μ y < q)
+    (hx : ∀ᶠ n : ℕ in atTop, q < upperTailMass μ (x n)) :
+    ∀ᶠ n : ℕ in atTop, x n < y := by
+  filter_upwards [hx] with n hn
+  exact lt_of_upperTailMass_lt_of_lt_upperTailMass μ hy hn
+
+/--
+Eventual non-strict upper-tail lower brackets give eventual upper location
+bounds.
+-/
+theorem eventually_lt_of_eventually_le_upperTailMass
+    (μ : Measure ℝ) [IsFiniteMeasure μ] {x : ℕ → ℝ} {y q : ℝ}
+    (hy : upperTailMass μ y < q)
+    (hx : ∀ᶠ n : ℕ in atTop, q ≤ upperTailMass μ (x n)) :
+    ∀ᶠ n : ℕ in atTop, x n < y := by
+  filter_upwards [hx] with n hn
+  exact lt_of_upperTailMass_lt_of_le_upperTailMass μ hy hn
+
+/--
+Eventual upper-tail upper brackets give eventual lower location bounds.
+-/
+theorem eventually_lt_of_eventually_upperTailMass_lt
+    (μ : Measure ℝ) [IsFiniteMeasure μ] {x : ℕ → ℝ} {y q : ℝ}
+    (hx : ∀ᶠ n : ℕ in atTop, upperTailMass μ (x n) < q)
+    (hy : q < upperTailMass μ y) :
+    ∀ᶠ n : ℕ in atTop, y < x n := by
+  filter_upwards [hx] with n hn
+  exact lt_of_lt_upperTailMass_of_upperTailMass_lt μ hn hy
+
+/--
+Eventual non-strict upper-tail upper brackets give eventual lower location
+bounds.
+-/
+theorem eventually_lt_of_eventually_upperTailMass_le
+    (μ : Measure ℝ) [IsFiniteMeasure μ] {x : ℕ → ℝ} {y q : ℝ}
+    (hx : ∀ᶠ n : ℕ in atTop, upperTailMass μ (x n) ≤ q)
+    (hy : q < upperTailMass μ y) :
+    ∀ᶠ n : ℕ in atTop, y < x n := by
+  filter_upwards [hx] with n hn
+  exact lt_of_lt_upperTailMass_of_upperTailMass_le μ hn hy
+
+/--
+Shifted upper-tail brackets imply convergence of the underlying threshold.
+
+This is the reusable quantile-stability step used in source proofs where a
+market-clearing integral split proves upper-tail mass lower bounds at
+`threshold n - ε / 2` and upper-tail mass upper bounds at
+`threshold n + ε / 2`.
+-/
+theorem tendsto_of_eventual_shifted_upperTailMass_brackets
+    (μ : Measure ℝ) [IsFiniteMeasure μ] {threshold : ℕ → ℝ} {vS : ℝ}
+    (hupper :
+      ∀ ε : ℝ, 0 < ε →
+        ∃ q : ℝ,
+          upperTailMass μ (vS + ε / 2) < q ∧
+            ∀ᶠ n : ℕ in atTop,
+              q < upperTailMass μ (threshold n - ε / 2))
+    (hlower :
+      ∀ ε : ℝ, 0 < ε →
+        ∃ q : ℝ,
+          (∀ᶠ n : ℕ in atTop,
+            upperTailMass μ (threshold n + ε / 2) < q) ∧
+            q < upperTailMass μ (vS - ε / 2)) :
+    Tendsto threshold atTop (nhds vS) := by
+  refine Metric.tendsto_atTop.2 ?_
+  intro ε hε
+  rcases hupper ε hε with ⟨qUpper, hright_tail, hthreshold_tail_lower⟩
+  rcases hlower ε hε with ⟨qLower, hthreshold_tail_upper, hleft_tail⟩
+  have hupper_event :
+      ∀ᶠ n : ℕ in atTop, threshold n < vS + ε := by
+    have hloc :
+        ∀ᶠ n : ℕ in atTop,
+          threshold n - ε / 2 < vS + ε / 2 :=
+      eventually_lt_of_eventually_lt_upperTailMass
+        μ hright_tail hthreshold_tail_lower
+    filter_upwards [hloc] with n hn
+    linarith
+  have hlower_event :
+      ∀ᶠ n : ℕ in atTop, vS - ε < threshold n := by
+    have hloc :
+        ∀ᶠ n : ℕ in atTop,
+          vS - ε / 2 < threshold n + ε / 2 :=
+      eventually_lt_of_eventually_upperTailMass_lt
+        μ hthreshold_tail_upper hleft_tail
+    filter_upwards [hloc] with n hn
+    linarith
+  have hclose :
+      ∀ᶠ n : ℕ in atTop, dist (threshold n) vS < ε := by
+    filter_upwards [hupper_event, hlower_event] with n hn_upper hn_lower
+    rw [Real.dist_eq, abs_lt]
+    constructor <;> linarith
+  exact Filter.eventually_atTop.1 hclose
+
+/--
+Non-strict moving-side variant of
+`tendsto_of_eventual_shifted_upperTailMass_brackets`.
+
+The fixed `vS`-side comparisons remain strict; the eventual threshold-side
+tail inequalities may be non-strict.
+-/
+theorem tendsto_of_eventual_shifted_upperTailMass_brackets_le
+    (μ : Measure ℝ) [IsFiniteMeasure μ] {threshold : ℕ → ℝ} {vS : ℝ}
+    (hupper :
+      ∀ ε : ℝ, 0 < ε →
+        ∃ q : ℝ,
+          upperTailMass μ (vS + ε / 2) < q ∧
+            ∀ᶠ n : ℕ in atTop,
+              q ≤ upperTailMass μ (threshold n - ε / 2))
+    (hlower :
+      ∀ ε : ℝ, 0 < ε →
+        ∃ q : ℝ,
+          (∀ᶠ n : ℕ in atTop,
+            upperTailMass μ (threshold n + ε / 2) ≤ q) ∧
+            q < upperTailMass μ (vS - ε / 2)) :
+    Tendsto threshold atTop (nhds vS) := by
+  refine Metric.tendsto_atTop.2 ?_
+  intro ε hε
+  let ε' : ℝ := ε / 2
+  have hε' : 0 < ε' := by dsimp [ε']; positivity
+  rcases hupper ε' hε' with ⟨qUpper, hright_tail, hthreshold_tail_lower⟩
+  rcases hlower ε' hε' with ⟨qLower, hthreshold_tail_upper, hleft_tail⟩
+  have hupper_event :
+      ∀ᶠ n : ℕ in atTop, threshold n < vS + ε := by
+    have hloc :
+        ∀ᶠ n : ℕ in atTop,
+          threshold n - ε' / 2 < vS + ε' / 2 :=
+      eventually_lt_of_eventually_le_upperTailMass
+        μ hright_tail hthreshold_tail_lower
+    filter_upwards [hloc] with n hn
+    dsimp [ε'] at hn ⊢
+    linarith
+  have hlower_event :
+      ∀ᶠ n : ℕ in atTop, vS - ε < threshold n := by
+    have hloc :
+        ∀ᶠ n : ℕ in atTop,
+          vS - ε' / 2 < threshold n + ε' / 2 :=
+      eventually_lt_of_eventually_upperTailMass_le
+        μ hthreshold_tail_upper hleft_tail
+    filter_upwards [hloc] with n hn
+    dsimp [ε'] at hn ⊢
+    linarith
+  have hclose :
+      ∀ᶠ n : ℕ in atTop, dist (threshold n) vS < ε := by
+    filter_upwards [hupper_event, hlower_event] with n hn_upper hn_lower
+    rw [Real.dist_eq, abs_lt]
+    constructor <;> linarith
+  exact Filter.eventually_atTop.1 hclose
+
+/--
+If `T < S`, an epsilon can be chosen so that
+`T < (S - ε) / (1 - ε)`.
+
+This is the elementary algebra behind upper-tail lower brackets obtained from
+`S < (1 - A) * ε + A` in market-clearing split arguments.
+-/
+theorem exists_epsilon_sub_div_one_sub_between_of_lt
+    {T S : ℝ} (hT_nonneg : 0 ≤ T) (hT_le_one : T ≤ 1)
+    (hT_lt_S : T < S) :
+    ∃ ε : ℝ, 0 < ε ∧ ε < 1 ∧ T < (S - ε) / (1 - ε) := by
+  let gap : ℝ := S - T
+  have hgap_pos : 0 < gap := by
+    dsimp [gap]
+    linarith
+  let ε : ℝ := min (gap / 2) (1 / 2)
+  have hε_pos : 0 < ε := by
+    dsimp [ε]
+    positivity
+  have hε_lt_gap : ε < gap := by
+    dsimp [ε]
+    have hmin_le : min (gap / 2) (1 / 2 : ℝ) ≤ gap / 2 :=
+      min_le_left _ _
+    nlinarith
+  have hε_lt_one : ε < 1 := by
+    dsimp [ε]
+    have hmin_le : min (gap / 2) (1 / 2 : ℝ) ≤ 1 / 2 :=
+      min_le_right _ _
+    nlinarith
+  have hden_pos : 0 < 1 - ε := by linarith
+  refine ⟨ε, hε_pos, hε_lt_one, ?_⟩
+  rw [lt_div_iff₀ hden_pos]
+  have hfactor_le : 1 - T ≤ 1 := by linarith
+  have hmul_le : ε * (1 - T) ≤ ε * 1 :=
+    mul_le_mul_of_nonneg_left hfactor_le hε_pos.le
+  have hmain : ε * (1 - T) < S - T := by
+    simpa [gap] using lt_of_le_of_lt (by simpa using hmul_le) hε_lt_gap
+  nlinarith
+
+/--
+If `S < T`, an epsilon can be chosen so that `S / (1 - ε) < T`.
+
+This is the elementary algebra behind upper-tail upper brackets obtained from
+`(1 - ε) * A < S` in market-clearing split arguments.
+-/
+theorem exists_epsilon_div_one_sub_between_of_lt
+    {S T : ℝ} (hT_le_one : T ≤ 1) (hS_lt_T : S < T) :
+    ∃ ε : ℝ, 0 < ε ∧ ε < 1 ∧ S / (1 - ε) < T := by
+  let gap : ℝ := T - S
+  have hgap_pos : 0 < gap := by
+    dsimp [gap]
+    linarith
+  let ε : ℝ := min (gap / 2) (1 / 2)
+  have hε_pos : 0 < ε := by
+    dsimp [ε]
+    positivity
+  have hε_lt_gap : ε < gap := by
+    dsimp [ε]
+    have hmin_le : min (gap / 2) (1 / 2 : ℝ) ≤ gap / 2 :=
+      min_le_left _ _
+    nlinarith
+  have hε_lt_one : ε < 1 := by
+    dsimp [ε]
+    have hmin_le : min (gap / 2) (1 / 2 : ℝ) ≤ 1 / 2 :=
+      min_le_right _ _
+    nlinarith
+  have hden_pos : 0 < 1 - ε := by linarith
+  refine ⟨ε, hε_pos, hε_lt_one, ?_⟩
+  rw [div_lt_iff₀ hden_pos]
+  have hmul_le : ε * T ≤ ε * 1 :=
+    mul_le_mul_of_nonneg_left hT_le_one hε_pos.le
+  have hmain : ε * T < T - S := by
+    simpa [gap] using lt_of_le_of_lt (by simpa using hmul_le) hε_lt_gap
+  nlinarith
 
 /-- Product of a two-valued coordinate weight over a finite type. -/
 theorem prod_ite_mem_eq_pow_mul_pow {ι : Type*}

@@ -2,11 +2,11 @@
   "judgment": "passes",
   "paper": "KR21Monoculture",
   "prompt_version": "review-surface-v2-semantic-paper-facing",
-  "reason": "Semantic review-surface pass: the 49 reviewed rows are paper-facing definitions, theorem endpoints, or explicitly documented source-note/corrected-source rows. Certificate and boundary helper declarations are listed as auxiliary in status.json and are not used as final paper-status rows.",
-  "review_rows": 49,
-  "review_surface_sha256": "6a8c7d46e26f784fdfab5bfac6816fe339147aeff007ab0ee51af86dfe5f2b94",
+  "reason": "The current 114-row surface contains 57 source-map endpoint declarations and 57 transparent paired propositions. The newly literal Gumbel zero-effect and corrected Theorem 3 clauses remain paper-facing because they expose source model/law/conclusion content; proof-routing wrappers and other helpers remain auxiliary and receive no source-result credit. This was checked against current source-map contracts and elaborated signatures, not declaration names.",
+  "review_rows": 114,
+  "review_surface_sha256": "66214282fa86bae6269ec5901a2ea03fd264b544485f26096f2a9a46e716a1b7",
   "schema": 1,
-  "validated_at": "2026-07-01T19:57:11Z",
-  "validator": "codex-gpt-5",
-  "validator_type": "model"
+  "validated_at": "2026-07-29T04:08:00Z",
+  "validator": "KR21 narrow current review-surface revalidation",
+  "validator_type": "manual_semantic_v10"
 }

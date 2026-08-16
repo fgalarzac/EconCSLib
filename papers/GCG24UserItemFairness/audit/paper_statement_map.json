@@ -1,396 +1,2099 @@
 {
-  "generated_at": "2026-06-29T20:39:31Z",
+  "generated_at": "2026-07-27T00:00:00Z",
+  "source_artifact_path": "GCG24UserItemFairness.txt",
+  "source_artifact_sha256": "7a0981ed1c26b7e69886e093b37d24b7778a645fe205c301ee14928ddd9c81ea",
   "items": {
     "assumption_positive_recommendation_utilities": {
       "aliases": [
         "assumption_positive_recommendation_utilities"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:116-120; GCG24UserItemFairness.txt:368-372",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nThe source model uses strictly positive recommendation utilities. This covers\nProposition 2's symmetric model and Theorem 3's two opposing-type models."
+      "statement": "-\nThe source model uses strictly positive recommendation utilities. This covers\nProposition 2's symmetric model and Theorem 3's two opposing-type models.",
+      "source_kind": "assumption",
+      "lean_declarations": [
+        "assumption_positive_recommendation_utilities"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 116,
+          "line_end": 120,
+          "quoted_text": "Users, items, and utilities. There is a finite population of m users and n items. Let wij > 0 be\nthe utility of recommending item j to user i; this could represent a click-through rate or purchase\nprobability. We suppose that user-item utilities are symmetric: each of the user i and item j receives\nutility wij from being recommended item j.\nLet \u2206n\u22121 denote the simplex in Rn . The platform\u2019s task is to choose a recommendation policy",
+          "quoted_text_sha256": "7cb70c8b6daab7464b1694dcdcab459310df384133065516c601276bcea5d124"
+        },
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 368,
+          "line_end": 372,
+          "quoted_text": "can be captured by a single parameter. Consider the following utility matrix structure. Let v1 >\nv2 > ... > vn > 0. Suppose that there are two user types: a user i either has utility wij = vj or\nwij = vn\u2212j+1 , and say that user i is of type 1 or 2 respectively. In words, the two types have opposite\npreferences, but the preferences can otherwise be generic and be for any number of items. Now, the\ndirect solution by symmetry for the example no longer directly holds \u2013 the items in the middle, not",
+          "quoted_text_sha256": "9357348e874a9a57fdbf57e645c815a43bd466319d58316c0436b2aec21a4f6c"
+        }
+      ]
     },
     "assumption_theorem3_first_half_alpha_domain": {
       "aliases": [
         "assumption_theorem3_first_half_alpha_domain"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:378-398",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nTheorem 3 first-half domain: `alpha` moves toward the balanced population from\nbelow."
+      "statement": "-\nTheorem 3 first-half domain: `alpha` moves toward the balanced population from\nbelow.",
+      "source_kind": "assumption",
+      "lean_declarations": [
+        "GCG24UserItemFairness.assumption_theorem3_first_half_alpha_domain"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 378,
+          "line_end": 398,
+          "quoted_text": "fairness as,\n\u2217\n\u2217\nUmin\n(\u03b1) \u2212 Umin\n(\u03b3 = 1, \u03b1)\nF\n\u03c0U\n.\n|I (\u03b1) :=\n\u2217\nUmin (\u03b1)\nF\nGiven this structure, Theorem 3 states that the price of fairness \u03c0U\n|I (\u03b1) increases in the homogeneity\nof the users \u2013 heterogeneous user populations are less affected by incorporating item fairness\nconstraints.\nF\nTheorem 3. \u03c0U\n|I (\u03b1) is decreasing in \u03b1 for 0 < \u03b1 \u2264 1/2, and increasing in \u03b1 for 1/2 \u2264 \u03b1 < 1.\nProof sketch for Theorem 3. We show that when in a population with two opposing types as described",
+          "quoted_text_sha256": "0ca5add4504d36daa69df4135a0b5b4e91495af5d3595c0a4fb4c44c67dd75c1"
+        }
+      ]
     },
     "assumption_theorem3_opposing_type_model": {
       "aliases": [
         "assumption_theorem3_opposing_type_model"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:368-398; GCG24UserItemFairness.txt:2080-2085",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nTheorem 3 compares two instances of the opposing two-type source model with\nthe same positive, strictly decreasing value vector."
+      "statement": "-\nTheorem 3 compares two instances of the opposing two-type source model with\nthe same positive, strictly decreasing value vector.",
+      "source_kind": "assumption",
+      "lean_declarations": [
+        "GCG24UserItemFairness.assumption_theorem3_opposing_type_model"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 368,
+          "line_end": 398,
+          "quoted_text": "can be captured by a single parameter. Consider the following utility matrix structure. Let v1 >\nv2 > ... > vn > 0. Suppose that there are two user types: a user i either has utility wij = vj or\nwij = vn\u2212j+1 , and say that user i is of type 1 or 2 respectively. In words, the two types have opposite\npreferences, but the preferences can otherwise be generic and be for any number of items. Now, the\ndirect solution by symmetry for the example no longer directly holds \u2013 the items in the middle, not\nnecessarily preferred by either user type, may be binding in terms of item fairness constraints.\nLet \u03b1 be the proportion of type 1 users in the population, out of a fixed population of m users.\nParameter \u03b1 thus controls the population heterogeneity; if \u03b1 is near 0 or 1, the population is highly\nhomogeneous, dominated by users of the same type. If \u03b1 = 21 , the population is split evenly between\nthe two types and is highly heterogeneous. Since we parametrize w by \u03b1, we may write the price of\nfairness as,\n\u2217\n\u2217\nUmin\n(\u03b1) \u2212 Umin\n(\u03b3 = 1, \u03b1)\nF\n\u03c0U\n.\n|I (\u03b1) :=\n\u2217\nUmin (\u03b1)\nF\nGiven this structure, Theorem 3 states that the price of fairness \u03c0U\n|I (\u03b1) increases in the homogeneity\nof the users \u2013 heterogeneous user populations are less affected by incorporating item fairness\nconstraints.\nF\nTheorem 3. \u03c0U\n|I (\u03b1) is decreasing in \u03b1 for 0 < \u03b1 \u2264 1/2, and increasing in \u03b1 for 1/2 \u2264 \u03b1 < 1.\nProof sketch for Theorem 3. We show that when in a population with two opposing types as described",
+          "quoted_text_sha256": "ca11cdc4b0babe7a0c69384e53320e77852fcdc4ebb573f22e5317620284778d"
+        },
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 2080,
+          "line_end": 2085,
+          "quoted_text": "Recall Theorem 3 and its setting. We let v1 > v2 > ... > vn and suppose that there are two user\ntypes. A user i either has value wij = vj for all j or wij = vn\u2212j+1 for all j, corresponding to types\n1 and 2 respectively. That is, the two types have opposite preferences. We let \u03b1 be the proportion of\ntype 1 users in the population, out of a fixed population of m users.\nF\nTheorem 3. \u03c0U",
+          "quoted_text_sha256": "7548681f93f8a3ed27098161084a0262ca518111b61b407ffe0a557490e16935"
+        }
+      ]
     },
     "assumption_theorem3_second_half_alpha_domain": {
       "aliases": [
         "assumption_theorem3_second_half_alpha_domain"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:378-398",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nTheorem 3 second-half domain: `alpha` moves away from the balanced population\nabove `1 / 2`."
+      "statement": "-\nTheorem 3 second-half domain: `alpha` moves away from the balanced population\nabove `1 / 2`.",
+      "source_kind": "assumption",
+      "lean_declarations": [
+        "GCG24UserItemFairness.assumption_theorem3_second_half_alpha_domain"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 378,
+          "line_end": 398,
+          "quoted_text": "fairness as,\n\u2217\n\u2217\nUmin\n(\u03b1) \u2212 Umin\n(\u03b3 = 1, \u03b1)\nF\n\u03c0U\n.\n|I (\u03b1) :=\n\u2217\nUmin (\u03b1)\nF\nGiven this structure, Theorem 3 states that the price of fairness \u03c0U\n|I (\u03b1) increases in the homogeneity\nof the users \u2013 heterogeneous user populations are less affected by incorporating item fairness\nconstraints.\nF\nTheorem 3. \u03c0U\n|I (\u03b1) is decreasing in \u03b1 for 0 < \u03b1 \u2264 1/2, and increasing in \u03b1 for 1/2 \u2264 \u03b1 < 1.\nProof sketch for Theorem 3. We show that when in a population with two opposing types as described",
+          "quoted_text_sha256": "0ca5add4504d36daa69df4135a0b5b4e91495af5d3595c0a4fb4c44c67dd75c1"
+        }
+      ]
     },
     "assumption_theorem4_at_least_three_items": {
       "aliases": [
         "assumption_theorem4_at_least_three_items"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:456-470; GCG24UserItemFairness.txt:3413-3425",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nThe Theorem 4 construction uses at least three items."
+      "statement": "-\nThe Theorem 4 construction uses at least three items.",
+      "source_kind": "assumption",
+      "lean_declarations": [
+        "assumption_theorem4_at_least_three_items"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 456,
+          "line_end": 470,
+          "quoted_text": "\fTheorem 4. If \u03b2 > n1 and w and w\u0302 are as described above, then fairness constraints can arbitrarily\nworsen the price of misestimation.\n\u2022 The price of misestimation without fairness constraints is low: for all {vj }, there is a\n\u2217\nrecommendation policy \u03c1\u0302 that solves the misestimated problem Umin\n(0, w\u0302) so that\nM\n\u03c0U\n(0, w, w\u0302) \u2264\n\n1\n.\n2\n\n\u2022 The price of misestimation with fairness constraints can be arbitrarily large: \u2200\u03f5, there exists",
+          "quoted_text_sha256": "5f744b2dce3904ee03c142eff558fa1592912c8c8c49ab39e016bb7d2bbe22c5"
+        },
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3413,
+          "line_end": 3425,
+          "quoted_text": "Lemma 14. Problem 11 has a unique optimal solution.\nWe can now describe what this solution (x, z) looks like.\nLemma 15. Let (x, z) be the optimal solution to Problem 12, and let t be the pivot element of (x, z);\nsuppose that t \u0338= n+1\n2 . Define\nX 1\nLt :=\n.\nq\nj<t j\nThen\n\u03bb=\n\uf8f1",
+          "quoted_text_sha256": "13c25f3aa13956a1c1a773f4ae7b08f7f8e94b11ceb6ec98ef47c55a1edeca2c"
+        }
+      ]
     },
     "assumption_theorem4_cold_start_type_wiring": {
       "aliases": [
         "assumption_theorem4_cold_start_type_wiring"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:444-455; GCG24UserItemFairness.txt:498-502",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nTheorem 4's cold-start row is the estimated third type, whose true type is one\nof the two opposing source rows."
+      "statement": "-\nTheorem 4's cold-start row is the estimated third type, whose true type is one\nof the two opposing source rows.",
+      "source_kind": "assumption",
+      "lean_declarations": [
+        "assumption_theorem4_cold_start_type_wiring"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 444,
+          "line_end": 455,
+          "quoted_text": "Section 4, suppose that there are 2 types of users, with opposing preferences (i.e., with values\nv1 , v2 ..., vn and vn , vn\u22121 , ..., v1 , respectively) \u2013 and the platform has correctly estimated these\npreferences. However, now, these two types only make up a proportion \u03b2 of the population each.\nNow, we suppose that there is a fraction 1 \u2212 \u03b2 of the user population who are \u201cnew\u201d users. We assume\nthat these users are drawn from the same distribution as the remaining users, but the platform does\nnot know their preferences. It thus constructs a prior by averaging over the known users\u2019 preferences\nv +v\n\u2013 (mis)estimating the users\u2019 utility for each item j as j n\u2212j+1\n.\n2\n6\n",
+          "quoted_text_sha256": "84e56f10564ca1fd6f94d29dbcce86b03330a83452a5c16f32d995b3cf4fb339"
+        },
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 498,
+          "line_end": 502,
+          "quoted_text": "The idea follows the above intuition: without item fairness constraints and assuming cold start users\nfollow the same distribution as existing users, the platform\u2019s price of misestimation is low because\nthe platform treats cold start users as the average of the existing population. Fairness constraints,\nhowever, can make this cost arbitrarily high, as in expectation cold start users relatively enjoy items\nother users do not. Such effects suggest that a more careful treatment of uncertainty and fairness",
+          "quoted_text_sha256": "8949c9f69b68c630b8750e939425262104af6389538e8b2e24b36b484af20e2f"
+        }
+      ]
     },
     "assumption_theorem4_displayed_reduced_models": {
       "aliases": [
         "assumption_theorem4_displayed_reduced_models"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:444-456; GCG24UserItemFairness.txt:3368-3403; GCG24UserItemFairness.txt:3884-3924",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nTheorem 4 fixes the true two-type model and the three-type estimated model\nthrough the displayed reduced matrices."
+      "statement": "-\nTheorem 4 fixes the true two-type model and the three-type estimated model\nthrough the displayed reduced matrices.",
+      "source_kind": "assumption",
+      "source_status": "corrected_source_statement",
+      "source_defect_ids": [
+        "GCG24-T4-POPULATION-MASS-01"
+      ],
+      "lean_declarations": [
+        "GCG24UserItemFairness.assumption_theorem4_displayed_reduced_models"
+      ],
+      "source_note": "The main-text setup says that each known opposing group has mass beta, then prints new-user mass 1 - beta. Those three masses do not sum to one. The Appendix E item equation uses the intended normalized weights beta, beta, 1 - 2 beta. Lean formalizes exactly those weights (Misestimation.lean:187-197). This is a localized arithmetic source typo, not an added formalization assumption.",
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 444,
+          "line_end": 456,
+          "quoted_text": "Section 4, suppose that there are 2 types of users, with opposing preferences (i.e., with values\nv1 , v2 ..., vn and vn , vn\u22121 , ..., v1 , respectively) \u2013 and the platform has correctly estimated these\npreferences. However, now, these two types only make up a proportion \u03b2 of the population each.\nNow, we suppose that there is a fraction 1 \u2212 \u03b2 of the user population who are \u201cnew\u201d users. We assume\nthat these users are drawn from the same distribution as the remaining users, but the platform does\nnot know their preferences. It thus constructs a prior by averaging over the known users\u2019 preferences\nv +v\n\u2013 (mis)estimating the users\u2019 utility for each item j as j n\u2212j+1\n.\n2\n6\n\n\fTheorem 4. If \u03b2 > n1 and w and w\u0302 are as described above, then fairness constraints can arbitrarily",
+          "quoted_text_sha256": "607336bd87febd4716a37d5b80c0c6c2d1e99deb25fa134ee267659f8372e0b5"
+        },
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3368,
+          "line_end": 3403,
+          "quoted_text": "Item fairness constraints with misestimation. First, notice that in the misestimated value matrix\nw\u0302 there are three distinct user value types, and thus we can identify Ssymm with \u22063n\u22121 and a policy\n\u03c1 \u2208 Ssymm with vectors x, y, z, where x is the recommendation policy for users with value w\u0302ij = vj ,\ny is the recommendation policy for users with value w\u0302ij = vn\u2212j+1 , and z is the recommendation\npolicy for the mis-estimated users.\nLet\n\nS \u2032 = {x, y, z \u2208 Ssymm : xj = yn\u2212j+1 , zj = zn\u2212j+1 for all j}.\nSince y is completely determined by x, we can identify S \u2032 with \u22062n\u22121 and can identify x, y, z \u2208 S \u2032\nsimply by x, z.\n\u2217\nLemma 12. If a policy \u03c1 = (x, y, z) \u2208 Ssymm solves Umin (\u03c1) = Umin\n(1), then there is some policy\n\u2217\n\u03c1\u2032 = x\u2032 , z \u2032 \u2208 S \u2032 that solves Umin (\u03c1\u2032 ) = Umin\n(1).\n\nApplying the framework in Proposition 1 to this proof with S = S \u2032 and using w\u0302 as the user and item\nvalues, we reduce the problem to finding\n\u03d5 = arg\n\nmax\n\nx,z\u2208\u22062n\u22121 ,\u03bb\n\n\u03bb\n(11)\n\nsubject to Ij (x, z) = \u03bb\n\n\u2200j,\n\nand showing that this \u03d5 is unique.\nFirst, we use an analogue of the sparsity result Proposition 2 to show that the optimal x, z has the\nfollowing sparse structure.\nLemma 13. Let x, z be an optimal basic feasible solution to the linear program Problem 11. There",
+          "quoted_text_sha256": "5a0cc3077f11c6e73b775bb00de22124254ffe7ced0f276edcb5f783da0f5826"
+        },
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3884,
+          "line_end": 3924,
+          "quoted_text": "In terms of x, z,\nv +vn\u2212j+1\nzj\n2\nvj +vn\u2212j+1\n\u03b2vj + \u03b2vn\u2212j+1 + (1 \u2212 2\u03b2)\n2\nv +v\n\u03b2vj xj + \u03b2vn\u2212j+1 xn\u2212j+1 + (1 \u2212 2\u03b2) j n\u2212j+1\nzj\n2\n=\nvj +vn\u2212j+1\n2\n\nIj (x, z) =\n\n\u03b2vj xj + \u03b2vn\u2212j+1 xn\u2212j+1 + (1 \u2212 2\u03b2) j\n\n\u0012\n= 2\u03b2\n\nvj\nvn\u2212j+1\nxj +\nxn\u2212j+1\nvj + vn\u2212j+1\nvj + vn\u2212j+1\n\n41\n\n\u0013\n+ (1 \u2212 2\u03b2)zj\n\n\fv\n\nj\n. Note that qj does not depend on \u03b2, and qj is decreasing in j. Then\nLet qj = vj +vn\u2212j+1\n\nIj (x, y, z) = 2\u03b2 (qj xj + (1 \u2212 qj )yj ) + (1 \u2212 2\u03b2)zj .",
+          "quoted_text_sha256": "5eb9ba465a9f5164f5f56225cc7cfb81c11ab2269d3137ee9de20517e9665cce"
+        }
+      ]
     },
     "assumption_theorem4_estimated_model_reduction": {
       "aliases": [
         "assumption_theorem4_estimated_model_reduction"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:444-455; GCG24UserItemFairness.txt:3368-3385",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nThe Theorem 4 estimated model is represented by the three-type reduction\nwitness."
+      "statement": "-\nThe Theorem 4 estimated model is the displayed three-type symmetric source\nmodel.",
+      "source_kind": "assumption",
+      "lean_declarations": [
+        "assumption_theorem4_estimated_model_reduction"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 444,
+          "line_end": 455,
+          "quoted_text": "Section 4, suppose that there are 2 types of users, with opposing preferences (i.e., with values\nv1 , v2 ..., vn and vn , vn\u22121 , ..., v1 , respectively) \u2013 and the platform has correctly estimated these\npreferences. However, now, these two types only make up a proportion \u03b2 of the population each.\nNow, we suppose that there is a fraction 1 \u2212 \u03b2 of the user population who are \u201cnew\u201d users. We assume\nthat these users are drawn from the same distribution as the remaining users, but the platform does\nnot know their preferences. It thus constructs a prior by averaging over the known users\u2019 preferences\nv +v\n\u2013 (mis)estimating the users\u2019 utility for each item j as j n\u2212j+1\n.\n2\n6\n",
+          "quoted_text_sha256": "84e56f10564ca1fd6f94d29dbcce86b03330a83452a5c16f32d995b3cf4fb339"
+        },
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3368,
+          "line_end": 3385,
+          "quoted_text": "Item fairness constraints with misestimation. First, notice that in the misestimated value matrix\nw\u0302 there are three distinct user value types, and thus we can identify Ssymm with \u22063n\u22121 and a policy\n\u03c1 \u2208 Ssymm with vectors x, y, z, where x is the recommendation policy for users with value w\u0302ij = vj ,\ny is the recommendation policy for users with value w\u0302ij = vn\u2212j+1 , and z is the recommendation\npolicy for the mis-estimated users.\nLet\n\nS \u2032 = {x, y, z \u2208 Ssymm : xj = yn\u2212j+1 , zj = zn\u2212j+1 for all j}.\nSince y is completely determined by x, we can identify S \u2032 with \u22062n\u22121 and can identify x, y, z \u2208 S \u2032\nsimply by x, z.\n\u2217\nLemma 12. If a policy \u03c1 = (x, y, z) \u2208 Ssymm solves Umin (\u03c1) = Umin\n(1), then there is some policy\n\u2217\n\u03c1\u2032 = x\u2032 , z \u2032 \u2208 S \u2032 that solves Umin (\u03c1\u2032 ) = Umin\n(1).\n\nApplying the framework in Proposition 1 to this proof with S = S \u2032 and using w\u0302 as the user and item",
+          "quoted_text_sha256": "a2685413f12885b1933edc8b57406723cdeaa4c585e21bf227de04d2c56b0dba"
+        }
+      ]
     },
     "assumption_theorem4_parameter_domain": {
       "aliases": [
         "assumption_theorem4_parameter_domain"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:456-470; GCG24UserItemFairness.txt:3340-3354",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nTheorem 4 parameter domain for the arbitrary-large misestimation conclusion."
+      "statement": "-\nTheorem 4 parameter domain for the arbitrary-large misestimation conclusion.",
+      "source_kind": "assumption",
+      "lean_declarations": [
+        "assumption_theorem4_parameter_domain"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 456,
+          "line_end": 470,
+          "quoted_text": "\fTheorem 4. If \u03b2 > n1 and w and w\u0302 are as described above, then fairness constraints can arbitrarily\nworsen the price of misestimation.\n\u2022 The price of misestimation without fairness constraints is low: for all {vj }, there is a\n\u2217\nrecommendation policy \u03c1\u0302 that solves the misestimated problem Umin\n(0, w\u0302) so that\nM\n\u03c0U\n(0, w, w\u0302) \u2264\n\n1\n.\n2\n\n\u2022 The price of misestimation with fairness constraints can be arbitrarily large: \u2200\u03f5, there exists",
+          "quoted_text_sha256": "5f744b2dce3904ee03c142eff558fa1592912c8c8c49ab39e016bb7d2bbe22c5"
+        },
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3340,
+          "line_end": 3354,
+          "quoted_text": "Recall Theorem 4.\nTheorem 4. If \u03b2 > n1 and w and w\u0302 are as described above, then fairness constraints can arbitrarily\nworsen the price of misestimation.\n\u2022 The price of misestimation without fairness constraints is low: for all {vj }, there is a\n\u2217\nrecommendation policy \u03c1\u0302 that solves the misestimated problem Umin\n(0, w\u0302) so that\n1\nM\n\u03c0U\n(0, w, w\u0302) \u2264 .\n2\n37\n\n\f\u2022 The price of misestimation with fairness constraints can be arbitrarily large: \u2200\u03f5, there exists",
+          "quoted_text_sha256": "ea990b73837e3432f82035fa8ad6793df9f89349812afa1a8b019b75134ef59b"
+        }
+      ]
+    },
+    "assumption_theorem4_universal_value_vector": {
+      "aliases": [
+        "assumption_theorem4_universal_value_vector"
+      ],
+      "source_location": "GCG24UserItemFairness.txt:368-372; GCG24UserItemFairness.txt:456-470",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "-\nThe universal first bullet of Theorem 4 ranges over the positive, strictly decreasing value vectors of the opposing-preferences model.",
+      "source_kind": "assumption",
+      "lean_declarations": [
+        "GCG24UserItemFairness.assumption_theorem4_universal_value_vector"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 368,
+          "line_end": 372,
+          "quoted_text": "can be captured by a single parameter. Consider the following utility matrix structure. Let v1 >\nv2 > ... > vn > 0. Suppose that there are two user types: a user i either has utility wij = vj or\nwij = vn\u2212j+1 , and say that user i is of type 1 or 2 respectively. In words, the two types have opposite\npreferences, but the preferences can otherwise be generic and be for any number of items. Now, the\ndirect solution by symmetry for the example no longer directly holds \u2013 the items in the middle, not",
+          "quoted_text_sha256": "9357348e874a9a57fdbf57e645c815a43bd466319d58316c0436b2aec21a4f6c"
+        },
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 456,
+          "line_end": 470,
+          "quoted_text": "\fTheorem 4. If \u03b2 > n1 and w and w\u0302 are as described above, then fairness constraints can arbitrarily\nworsen the price of misestimation.\n\u2022 The price of misestimation without fairness constraints is low: for all {vj }, there is a\n\u2217\nrecommendation policy \u03c1\u0302 that solves the misestimated problem Umin\n(0, w\u0302) so that\nM\n\u03c0U\n(0, w, w\u0302) \u2264\n\n1\n.\n2\n\n\u2022 The price of misestimation with fairness constraints can be arbitrarily large: \u2200\u03f5, there exists",
+          "quoted_text_sha256": "5f744b2dce3904ee03c142eff558fa1592912c8c8c49ab39e016bb7d2bbe22c5"
+        }
+      ]
     },
     "assumption_theorem4_true_model_reduction": {
       "aliases": [
         "assumption_theorem4_true_model_reduction"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:444-455; GCG24UserItemFairness.txt:3368-3385",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nThe Theorem 4 true model is represented by the two-type reduction witness."
+      "statement": "-\nThe Theorem 4 true model is the displayed two-type symmetric source model.",
+      "source_kind": "assumption",
+      "lean_declarations": [
+        "assumption_theorem4_true_model_reduction"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 444,
+          "line_end": 455,
+          "quoted_text": "Section 4, suppose that there are 2 types of users, with opposing preferences (i.e., with values\nv1 , v2 ..., vn and vn , vn\u22121 , ..., v1 , respectively) \u2013 and the platform has correctly estimated these\npreferences. However, now, these two types only make up a proportion \u03b2 of the population each.\nNow, we suppose that there is a fraction 1 \u2212 \u03b2 of the user population who are \u201cnew\u201d users. We assume\nthat these users are drawn from the same distribution as the remaining users, but the platform does\nnot know their preferences. It thus constructs a prior by averaging over the known users\u2019 preferences\nv +v\n\u2013 (mis)estimating the users\u2019 utility for each item j as j n\u2212j+1\n.\n2\n6\n",
+          "quoted_text_sha256": "84e56f10564ca1fd6f94d29dbcce86b03330a83452a5c16f32d995b3cf4fb339"
+        },
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3368,
+          "line_end": 3385,
+          "quoted_text": "Item fairness constraints with misestimation. First, notice that in the misestimated value matrix\nw\u0302 there are three distinct user value types, and thus we can identify Ssymm with \u22063n\u22121 and a policy\n\u03c1 \u2208 Ssymm with vectors x, y, z, where x is the recommendation policy for users with value w\u0302ij = vj ,\ny is the recommendation policy for users with value w\u0302ij = vn\u2212j+1 , and z is the recommendation\npolicy for the mis-estimated users.\nLet\n\nS \u2032 = {x, y, z \u2208 Ssymm : xj = yn\u2212j+1 , zj = zn\u2212j+1 for all j}.\nSince y is completely determined by x, we can identify S \u2032 with \u22062n\u22121 and can identify x, y, z \u2208 S \u2032\nsimply by x, z.\n\u2217\nLemma 12. If a policy \u03c1 = (x, y, z) \u2208 Ssymm solves Umin (\u03c1) = Umin\n(1), then there is some policy\n\u2217\n\u03c1\u2032 = x\u2032 , z \u2032 \u2208 S \u2032 that solves Umin (\u03c1\u2032 ) = Umin\n(1).\n\nApplying the framework in Proposition 1 to this proof with S = S \u2032 and using w\u0302 as the user and item",
+          "quoted_text_sha256": "a2685413f12885b1933edc8b57406723cdeaa4c585e21bf227de04d2c56b0dba"
+        }
+      ]
     },
     "itemFairness": {
       "aliases": [
-        "itemFairness"
+        "GCG24UserItemFairness.PaperInterface.itemFairness"
       ],
-      "source_location": "direct source text",
+      "source_location": "GCG24UserItemFairness.txt:149-150",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nItem fairness objective for a recommendation policy."
+      "statement": "-\nItem fairness objective for a recommendation policy.",
+      "source_kind": "definition",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.itemFairness"
+      ],
+      "source_prose_definition_reconciliation": {
+        "schema": 2,
+        "relation": "source_item_represents_prose_definition",
+        "presentation_sha256": "9388de0796a90a4b576afd73477a555b830095f42800eb91186e5801a3b60ce1",
+        "source_item_statement_sha256": "33293e96310e105bd6fec0014c6be2201cbc87adf916a6ba8eb2c1160af9c035",
+        "judgment": "semantically_equivalent",
+        "semantic_basis": "The source clause identifies item fairness as the minimum normalized item utility, which is the same objective stated in this map row.",
+        "validator": "Independent GCG24 prose-definition semantic-equivalence review",
+        "validator_type": "agent",
+        "validated_at": "2026-08-14T12:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 149,
+          "line_end": 150,
+          "quoted_text": "Given a recommendation policy \u03c1, user fairness is quantified as the minimum normalized user utility\nUmin (\u03c1, w) = mini Ui (\u03c1, w), and item fairness analogously as Imin (\u03c1, w) = minj Ij (\u03c1, w).",
+          "quoted_text_sha256": "b24a05728065e60e25ae545cc9fcd3ff1c711dd5435293cdcdd07e08b2243802"
+        }
+      ]
     },
     "itemNormalizer": {
       "aliases": [
         "itemNormalizer"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:134-145",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "- Item normalizer `sum_i w_ij`."
+      "statement": "- Item normalizer `sum_i w_ij`.",
+      "source_kind": "formula",
+      "lean_declarations": [
+        "itemNormalizer"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 134,
+          "line_end": 145,
+          "quoted_text": "recommendation policy \u03c1, let Ui (\u03c1, w) be user i\u2019s utility from \u03c1, normalized by the utility maxj wij\nthey would receive from being recommended their best match. Let Ij (\u03c1, w)Pbe item j\u2019s utility from\n\u03c1, normalized by the utility j receives if it is recommended to every user, i wij . The normalized\nutilities are:\nP\nP\nj \u03c1ij wij\ni \u03c1ij wij\nUi (\u03c1, w) =\n, Ij (\u03c1, w) = P\n.\nmaxj wij",
+          "quoted_text_sha256": "72982747ce53c6a4473b4b060349e3d4ff9231c03c14dab35e7a7bc8d6d43f22"
+        }
+      ]
+    },
+    "model_proposition2_equality_defined_type_partition": {
+      "aliases": [
+        "assumption_proposition2_utility_rows_determine_types"
+      ],
+      "claim_bearing": false,
+      "lean_declarations": [
+        "GCG24UserItemFairness.assumption_proposition2_utility_rows_determine_types"
+      ],
+      "source_kind": "model",
+      "source_location": "GCG24UserItemFairness.txt:312-316; GCG24UserItemFairness.txt:1889-1890",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/cf836efd32fd53493e02d26670f04d46-Paper-Conference.pdf",
+      "statement": "For the Proposition 2 type partition, if two users have equal complete utility rows, then they have the same declared type.",
+      "source_note": "Audit-only source-model row for the equality-defined Proposition 2 type partition. It records only equality of complete utility rows implying equality of declared types; it is not a Proposition 2 conclusion or ordinary named-result coverage target. The converse direction is represented by the base symmetric-data model.",
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 312,
+          "line_end": 316,
+          "quoted_text": "symmetric structure. Suppose users come in K types, where a user of type k shares a utility vector.\nThen, consider Ssymm = {ρ : ρi = ρi′ if wi = wi′ } ⊆ ∆m\nn−1 , the set of policies where users of the\nsame type are given the same recommendation probabilities. Note that, in the extreme case, each user\nis their own type. Furthermore, let ρk denote the recommendation policy for type k, for ρ ∈ Ssymm .",
+          "quoted_text_sha256": "cf99e02ab115875335576b2a2c2a9524e5f015fb7d8f622de77e20989847711c"
+        },
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 1889,
+          "line_end": 1890,
+          "quoted_text": "We first define a piece of convenient notation: if two users i, i′ share the same utility vector wi = wi′ ,\nwe say that they have the same type τ (i) = τ (i′ ). If τ (i) = τ (i′ ) := τ , we write wij = wi′ j := wτ j",
+          "quoted_text_sha256": "4ab5aeee8bc954f8bfab657bca3d224a4508f09b45e73284a9c4f7da2f451d54"
+        }
+      ]
     },
     "normalizedItemUtility": {
       "aliases": [
         "normalizedItemUtility"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:134-145",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "- Normalized item utility `I_j(rho)`."
+      "statement": "- Normalized item utility `I_j(rho)`.",
+      "source_kind": "formula",
+      "lean_declarations": [
+        "normalizedItemUtility"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 134,
+          "line_end": 145,
+          "quoted_text": "recommendation policy \u03c1, let Ui (\u03c1, w) be user i\u2019s utility from \u03c1, normalized by the utility maxj wij\nthey would receive from being recommended their best match. Let Ij (\u03c1, w)Pbe item j\u2019s utility from\n\u03c1, normalized by the utility j receives if it is recommended to every user, i wij . The normalized\nutilities are:\nP\nP\nj \u03c1ij wij\ni \u03c1ij wij\nUi (\u03c1, w) =\n, Ij (\u03c1, w) = P\n.\nmaxj wij",
+          "quoted_text_sha256": "72982747ce53c6a4473b4b060349e3d4ff9231c03c14dab35e7a7bc8d6d43f22"
+        }
+      ]
     },
     "normalizedUserUtility": {
       "aliases": [
         "normalizedUserUtility"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:134-145",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "- Normalized user utility `U_i(rho)`."
+      "statement": "- Normalized user utility `U_i(rho)`.",
+      "source_kind": "formula",
+      "lean_declarations": [
+        "normalizedUserUtility"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 134,
+          "line_end": 145,
+          "quoted_text": "recommendation policy \u03c1, let Ui (\u03c1, w) be user i\u2019s utility from \u03c1, normalized by the utility maxj wij\nthey would receive from being recommended their best match. Let Ij (\u03c1, w)Pbe item j\u2019s utility from\n\u03c1, normalized by the utility j receives if it is recommended to every user, i wij . The normalized\nutilities are:\nP\nP\nj \u03c1ij wij\ni \u03c1ij wij\nUi (\u03c1, w) =\n, Ij (\u03c1, w) = P\n.\nmaxj wij",
+          "quoted_text_sha256": "72982747ce53c6a4473b4b060349e3d4ff9231c03c14dab35e7a7bc8d6d43f22"
+        }
+      ]
     },
     "priceOfFairness": {
       "aliases": [
-        "priceOfFairness"
+        "GCG24UserItemFairness.PaperInterface.priceOfFairness"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:174-199",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "- Price of maximal item fairness."
+      "statement": "- Price of maximal item fairness.",
+      "source_kind": "definition",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.priceOfFairness"
+      ],
+      "source_prose_definition_reconciliation": {
+        "schema": 2,
+        "relation": "source_item_represents_prose_definition",
+        "presentation_sha256": "c598045a191eb538cc6d2c073014dc4170904c5b0c5a8986b6f2c65c79d8c8b5",
+        "source_item_statement_sha256": "a6ae8d25f4aaea36d7fbc47ad6841fcbc63c9093eb6b5d392ab7dd3b9ebef5f0",
+        "judgment": "semantically_equivalent",
+        "semantic_basis": "The source defines price of fairness as the loss from imposing maximal item fairness; this map row records that gamma = 1 specialization.",
+        "validator": "Independent GCG24 prose-definition semantic-equivalence review",
+        "validator_type": "agent",
+        "validated_at": "2026-08-14T12:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 174,
+          "line_end": 199,
+          "quoted_text": "Research questions: price of fairness and misestimation. We can now define the price of item\nF\nfairness on user fairness \u03c0U\n|I (\u201cprice of fairness\u201d) as the decrease in user fairness with maximal item\nfairness constraints:\n\u2217\n\u2217\nUmin\n(w) \u2212 Umin\n(\u03b3 = 1, w)\nF\n\u03c0U\n.\n|I (w) :=\n\u2217 (w)\nUmin\nF\nWe ask how \u03c0U\n|I changes with the utility matrix w. We note that while this question (in terms\nof solutions to Problem (1)) can be simply stated, as we detail in Section 3, finding a closed\n\u2217\nform expression for Umin\n(1, w) \u2013 the optimal minimum normalized user utility given item fairness\nconstraints \u2013 in terms of w is theoretically challenging.\n\nSimilarly, we investigate the price of misestimation. Let w\u0302ij denote the platform\u2019s estimate of the",
+          "quoted_text_sha256": "d1f6452e588494ace604720c89d9d9a87c830ae7b99b62e9ce899f834913a6d4"
+        }
+      ]
     },
     "priceOfFairnessAt": {
       "aliases": [
         "priceOfFairnessAt"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:172-199",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "- Price of fairness at item-fairness level `gamma`."
+      "statement": "Formalizer helper: gamma-indexed interpolation of the source's gamma = 1 price-of-fairness definition.",
+      "source_kind": "definition",
+      "source_status": "support_only",
+      "source_note": "The source defines price of fairness only at gamma = 1. This Lean helper extends the gamma-indexed optimization notation to arbitrary item-fairness levels for downstream derivations; it is not a direct source definition or source-result target.",
+      "support_lean_declarations": [
+        "priceOfFairnessAt"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 172,
+          "line_end": 199,
+          "quoted_text": "i.e., we maximize the minimum normalized user utility, subject to the minimum normalized item\nutility being at least a fraction \u03b3 of the optimal item fair solution.\nResearch questions: price of fairness and misestimation. We can now define the price of item\nF\nfairness on user fairness \u03c0U\n|I (\u201cprice of fairness\u201d) as the decrease in user fairness with maximal item\nfairness constraints:\n\u2217\n\u2217\nUmin\n(w) \u2212 Umin\n(\u03b3 = 1, w)\nF\n\u03c0U\n.\n|I (w) :=\n\u2217 (w)\nUmin\nF\nWe ask how \u03c0U\n|I changes with the utility matrix w. We note that while this question (in terms\nof solutions to Problem (1)) can be simply stated, as we detail in Section 3, finding a closed\n\u2217\nform expression for Umin\n(1, w) \u2013 the optimal minimum normalized user utility given item fairness\nconstraints \u2013 in terms of w is theoretically challenging.\n\nSimilarly, we investigate the price of misestimation. Let w\u0302ij denote the platform\u2019s estimate of the",
+          "quoted_text_sha256": "13b9e696f545eaa2de4c50ef716c7bfb4182a100fc213400ed5cf45fcbca9c47"
+        }
+      ]
     },
     "priceOfMisestimation": {
       "aliases": [
-        "priceOfMisestimation"
+        "GCG24UserItemFairness.PaperInterface.priceOfMisestimation"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:199-220",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "- Price of misestimation for a policy selected on an estimated utility matrix."
+      "statement": "- Price of misestimation for a policy selected on an estimated utility matrix.",
+      "source_kind": "definition",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.priceOfMisestimation"
+      ],
+      "source_prose_definition_reconciliation": {
+        "schema": 2,
+        "relation": "source_item_represents_prose_definition",
+        "presentation_sha256": "16ca6997217a242c564f92e7783183425dcd9e887a2c3622a68086c8af8145ae",
+        "source_item_statement_sha256": "8018e297ec11e0e5d0c068b9fbce6b8a1d9c983bb99d93ce20e00cab949035ac",
+        "judgment": "semantically_equivalent",
+        "semantic_basis": "The source first supplies a policy that attains the estimated Problem 1 optimum, then defines the true user-fairness loss ratio for that supplied optimizer; this route records that condition without selecting among tied estimated optima.",
+        "validator": "Independent GCG24 prose-definition semantic-equivalence review",
+        "validator_type": "agent",
+        "validated_at": "2026-08-14T12:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 199,
+          "line_end": 220,
+          "quoted_text": "Similarly, we investigate the price of misestimation. Let w\u0302ij denote the platform\u2019s estimate of the\nutility of recommending i to j; let \u03c1\u0302(\u03b3) be a policy that solves the optimization problem above with\n3\n\n\f\u2217\nmisestimated utilities, that is, \u03c1\u0302(\u03b3) attains Umin\n(\u03b3, w\u0302).1 Then we define the price of misestimation\nM\non user utility (\u201cprice of misestimation\u201d) \u03c0U as\nM\n(\u03b3, w, w\u0302) :=\n\u03c0U\n\n\u2217\nUmin\n(\u03b3, w) \u2212 Umin (\u03c1\u0302(\u03b3), w)\n,\n\u2217 (\u03b3, w)\nUmin\n\nthat is, the decrease in true user fairness due to optimizing with estimated utilities. In particular, in\nSection 5 we will examine whether item fairness exacerbates the price of misestimation by comparing",
+          "quoted_text_sha256": "dcc41620c5c8deb44378409cbd9fdafc2f5a92a5765f6b3d920aa446b4fed093"
+        }
+      ]
+    },
+    "problem11BasicFeasible": {
+      "aliases": [
+        "GCG24UserItemFairness.PaperInterface.problem11BasicFeasible"
+      ],
+      "source_location": "GCG24UserItemFairness.txt:3401-3412",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "- Problem 11 basic feasible solution: an extreme point of the mirror-restricted equality-feasible polytope in the paper's x, z, lambda coordinates.",
+      "source_kind": "predicate_vocabulary",
+      "source_note": "The source uses the standard LP term \"basic feasible solution\" for Problem 11. The Lean definition gives its representation-independent finite-LP meaning as an extreme point of the actual mirror-restricted equality-feasible set: x and z are probability vectors, z is mirror symmetric, and every item value equals lambda. It deliberately does not reuse the weaker support-count consequence or an active basis for a different full three-row LP.",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.problem11BasicFeasible"
+      ],
+      "source_standard_term_interpretation": {
+        "schema": 1,
+        "relation": "source_uses_standard_term_without_source_definition",
+        "source_term": "basic feasible solution",
+        "source_provided_definition": false,
+        "source_term_use_anchor": {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3401,
+          "line_end": 3412,
+          "quoted_text": "First, we use an analogue of the sparsity result Proposition 2 to show that the optimal x, z has the\nfollowing sparse structure.\nLemma 13. Let x, z be an optimal basic feasible solution to the linear program Problem 11. There\n\u2032\n\u2032\n\u2032\n\u2032\n\u2032\nis some j \u2264 n+1\n2 such that for all j > j, xj = 0 and for all j < j, zj = zn\u2212j +1 = 0. Let the\npivot index t denote the minimum such j.\nThis sparse structure implies uniqueness.",
+          "quoted_text_sha256": "5bd47bd676c784bf2ac724341ace686c53a504df59d2a1fef41e1b3d28fe2c77"
+        },
+        "source_item_statement_sha256": "584ecff0979b0b98ce789aeb84f175697b4bb1049e1df98f552948e7969585b6",
+        "standard_interpretation": "For the displayed finite equality-form linear program, a basic feasible solution is represented by an extreme point of its equality-and-nonnegativity feasible polyhedron.",
+        "judgment": "standard_interpretation_matches_source_use",
+        "semantic_basis": "Lemma 13 uses the established linear-programming term but supplies no source definition. The Lean predicate records its standard extreme-point meaning for the exact reduced Problem 11 feasible polytope, rather than a support-count surrogate or a basis for a different formulation.",
+        "validator": "Independent GCG24 standard-term semantic review",
+        "validator_type": "agent",
+        "validated_at": "2026-08-15T14:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3401,
+          "line_end": 3412,
+          "quoted_text": "First, we use an analogue of the sparsity result Proposition 2 to show that the optimal x, z has the\nfollowing sparse structure.\nLemma 13. Let x, z be an optimal basic feasible solution to the linear program Problem 11. There\n\u2032\n\u2032\n\u2032\n\u2032\n\u2032\nis some j \u2264 n+1\n2 such that for all j > j, xj = 0 and for all j < j, zj = zn\u2212j +1 = 0. Let the\npivot index t denote the minimum such j.\nThis sparse structure implies uniqueness.",
+          "quoted_text_sha256": "5bd47bd676c784bf2ac724341ace686c53a504df59d2a1fef41e1b3d28fe2c77"
+        }
+      ]
+    },
+    "problem11EqualityFeasibleSet": {
+      "aliases": [
+        "GCG24UserItemFairness.PaperInterface.problem11EqualityFeasibleSet"
+      ],
+      "source_location": "GCG24UserItemFairness.txt:3375-3400",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "- Problem 11 feasible set: mirror-restricted policy coordinates x and z are probability vectors, z is symmetric, and each item expression I_j(x, z) equals lambda.",
+      "source_kind": "definition",
+      "source_note": "This is the literal reduced x,z,lambda formulation after the source identifies S' with the two probability vectors x and z. The known-type mirror row is determined by x and is not represented as an additional free row.",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.problem11EqualityFeasibleSet"
+      ],
+      "source_prose_definition_reconciliation": {
+        "schema": 2,
+        "relation": "source_item_represents_prose_definition",
+        "presentation_sha256": "c9b7cc63122e207079548b4a53090beb8c8c738b86997cd317bb6b3ae3576874",
+        "source_item_statement_sha256": "74bc08cf7c453ca8e413fa89544a91f98d281ff480d4853042a3dc7d2417a553",
+        "judgment": "semantically_equivalent",
+        "semantic_basis": "The source defines the mirror-restricted set S' and immediately writes Problem 11 in its x,z,lambda coordinates. This row is precisely that equality-feasible coordinate set: probability vectors x and z, mirror symmetry of z, and equal item values lambda.",
+        "validator": "Independent GCG24 prose-definition semantic-equivalence review",
+        "validator_type": "agent",
+        "validated_at": "2026-08-15T13:39:04Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3375,
+          "line_end": 3400,
+          "quoted_text": "S \u2032 = {x, y, z \u2208 Ssymm : xj = yn\u2212j+1 , zj = zn\u2212j+1 for all j}.\nSince y is completely determined by x, we can identify S \u2032 with \u22062n\u22121 and can identify x, y, z \u2208 S \u2032\nsimply by x, z.\n\u2217\nLemma 12. If a policy \u03c1 = (x, y, z) \u2208 Ssymm solves Umin (\u03c1) = Umin\n(1), then there is some policy\n\u2217\n\u03c1\u2032 = x\u2032 , z \u2032 \u2208 S \u2032 that solves Umin (\u03c1\u2032 ) = Umin\n(1).\n\nApplying the framework in Proposition 1 to this proof with S = S \u2032 and using w\u0302 as the user and item\nvalues, we reduce the problem to finding\n\u03d5 = arg\n\nmax\n\nx,z\u2208\u22062n\u22121 ,\u03bb\n\n\u03bb\n(11)\n\nsubject to Ij (x, z) = \u03bb\n\n\u2200j,\n\nand showing that this \u03d5 is unique.",
+          "quoted_text_sha256": "12d03c98c5b180661bc6d2707d460da3e25b463044c62f337d120797c9328b94"
+        }
+      ]
     },
     "proposition1_symmetric_lp_reduction": {
       "aliases": [
         "proposition1_symmetric_lp_reduction"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
-      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nProposition 1: symmetric LP reduction.  Type-symmetric original optima are\nrepresented by reduced type-level policies."
+      "source_location": "GCG24UserItemFairness.txt:292-316",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/cf836efd32fd53493e02d26670f04d46-Paper-Conference.pdf",
+      "statement": "Proposition 1. Let S be a set of recommendation policies described by finitely many linear constraints. If an optimal Problem-(2) policy rho* belongs to S and is the unique maximal-item-fairness-feasible policy in S, then rho* is recovered as the unique policy optimizer of the equality-form linear program L obtained by adding S to the constraints I_j(rho) = lambda for every item.",
+      "source_kind": "proposition",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.proposition1_symmetric_lp_reduction"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 292,
+          "line_end": 316,
+          "quoted_text": "Proposition 1. Suppose that for a set of recommendation policies S \u2286 \u2206m\nn\u22121 ,\n(i) S can be described by a finite set of linear constraints\n(ii) There exists an optimal solution \u03c1\u2217 to Problem (2) such that \u03c1\u2217 \u2208 S\n(iii) \u03c1\u2217 is the unique feasible solution to Problem (2) in S\n\u2217\nMultiple policies \u03c1\u0302 may optimize Umin\n(\u03b3, w\u0302), and different policies \u03c1\u0302 may have different values of\nUmin (\u03c1\u0302, w). In our experimental results, we use the policy \u03c1\u0302 found by the convex optimization solver.\n1\n\n4\n\n\fThen, finding an optimal solution \u03c1\u2217 to Problem (2) can be reduced to solving a linear program L.\nWith Proposition 1, the key technical challenges become: (a) given utility matrix w, finding S\nsatisfying the above conditions; (b) given S and w, finding a closed-form expression for \u03c1\u2217 ; (c) given\n\u2217\na closed form for \u03c1\u2217 in terms of w, reasoning about the properties of item fair solution Umin\n(1, w).\nTo do this, for our main results, we construct S as a set of recommendations with a particular\nsymmetric structure. Suppose users come in K types, where a user of type k shares a utility vector.\nThen, consider Ssymm = {\u03c1 : \u03c1i = \u03c1i\u2032 if wi = wi\u2032 } \u2286 \u2206m\nn\u22121 , the set of policies where users of the\nsame type are given the same recommendation probabilities. Note that, in the extreme case, each user\nis their own type. Furthermore, let \u03c1k denote the recommendation policy for type k, for \u03c1 \u2208 Ssymm .",
+          "quoted_text_sha256": "dfb025f4fe84dd7e21b5adde7916719ff5586ac52a55ee6f6254591c35c52c60"
+        }
+      ]
     },
     "proposition2_symmetric_optimum_exists": {
       "aliases": [
         "proposition2_symmetric_optimum_exists"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
-      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nProposition 2: under positive utilities, a type-symmetric optimal policy exists\nfor the maximal item-fairness problem."
+      "source_location": "GCG24UserItemFairness.txt:312-338; GCG24UserItemFairness.txt:1873-1890",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/cf836efd32fd53493e02d26670f04d46-Paper-Conference.pdf",
+      "statement": "Proposition 2. The source policy set S_symm = {rho : rho_i = rho_i' whenever w_i = w_i'} satisfies Proposition 1 conditions (i) and (ii). Under the source's equality-defined type convention, if a type-level policy is a basic feasible solution of L, at most n + K - 1 type-item coordinates are positive; if it is also optimal, at most K - 1 items are recommended with positive probability to more than one type.",
+      "source_kind": "proposition",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.proposition2_symmetric_optimum_exists"
+      ],
+      "source_note": "The direct Lean route is source-facing: S_symm is symmetry under equality of utility rows, not an arbitrary type-label-symmetric set. The source supplies the equality-defined type convention in both directions: a type shares one utility vector in the main text (lines 312-316), and Appendix C explicitly gives equal utility rows the same type while re-expanding S_symm as the utility-row equality constraints (lines 1873-1890). The visible Lean premise hRowsDetermineTypes formalizes that source convention; it is not an invented additional assumption. The declared-label-only result is retained only as a helper.",
+      "semantic_context_requirements": [
+        {
+          "kind": "equality_defined_partition",
+          "source_location": "GCG24UserItemFairness.txt:312-316; GCG24UserItemFairness.txt:1889-1890",
+          "explanation": "The source defines declared user types exactly by equality of complete utility rows.",
+          "source_anchor_evidence": [
+            {
+              "path": "GCG24UserItemFairness.txt",
+              "line_start": 312,
+              "line_end": 316,
+              "quoted_text": "symmetric structure. Suppose users come in K types, where a user of type k shares a utility vector.\nThen, consider Ssymm = {\u03c1 : \u03c1i = \u03c1i\u2032 if wi = wi\u2032 } \u2286 \u2206m\nn\u22121 , the set of policies where users of the\nsame type are given the same recommendation probabilities. Note that, in the extreme case, each user\nis their own type. Furthermore, let \u03c1k denote the recommendation policy for type k, for \u03c1 \u2208 Ssymm .",
+              "quoted_text_sha256": "cf99e02ab115875335576b2a2c2a9524e5f015fb7d8f622de77e20989847711c"
+            },
+            {
+              "path": "GCG24UserItemFairness.txt",
+              "line_start": 1889,
+              "line_end": 1890,
+              "quoted_text": "We first define a piece of convenient notation: if two users i, i\u2032 share the same utility vector wi = wi\u2032 ,\nwe say that they have the same type \u03c4 (i) = \u03c4 (i\u2032 ). If \u03c4 (i) = \u03c4 (i\u2032 ) := \u03c4 , we write wij = wi\u2032 j := w\u03c4 j",
+              "quoted_text_sha256": "4ab5aeee8bc954f8bfab657bca3d224a4508f09b45e73284a9c4f7da2f451d54"
+            }
+          ],
+          "equality_partition_contract": {
+            "schema": 1,
+            "relation": "feature_equality_iff_class_equality",
+            "feature_description": "complete user utility rows",
+            "class_description": "declared user types",
+            "required_directions": [
+              "feature_equality_implies_class_equality",
+              "class_equality_implies_feature_equality"
+            ]
+          }
+        }
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 312,
+          "line_end": 338,
+          "quoted_text": "symmetric structure. Suppose users come in K types, where a user of type k shares a utility vector.\nThen, consider Ssymm = {\u03c1 : \u03c1i = \u03c1i\u2032 if wi = wi\u2032 } \u2286 \u2206m\nn\u22121 , the set of policies where users of the\nsame type are given the same recommendation probabilities. Note that, in the extreme case, each user\nis their own type. Furthermore, let \u03c1k denote the recommendation policy for type k, for \u03c1 \u2208 Ssymm .\nProposition 2. Ssymm satisfies conditions (i) and (ii) in Proposition 1. Furthermore, solutions\n\u03c1 \u2208 Ssymm to Problem (2) have a sparse structure:\n\u2022 If \u03c1 is a basic feasible solution to the linear program L in Proposition 1, then there are at\nmost n + K \u2212 1 type-item pairs (k, j) such that \u03c1kj > 0 (out of nK possible pairs).\n\u2022 If \u03c1 is also optimal, then there are at most K \u2212 1 items that are ever recommended to more\nthan one type of user, i.e., where \u03c1kj , \u03c1k\u2032 j > 0 for k \u0338= k \u2032 .\nFor our main results, we will leverage the sparsity structure in Proposition 2 to show, with further\nrestrictions on utility matrix w, that Ssymm also satisfies (iii). We will then derive closed-form\nexpressions for that solution, and show how it changes as a function of w.\nThe sparsity structure in Proposition 2 is also interesting in its own right. Without item fairness\nconstraints, solutions will be highly sparse: each user will be recommended their most preferred item\ndeterministically; each other item will have a recommendation probability of zero. Once we add item\nfairness constraints, solutions do not necessarily remain sparse. However, Proposition 2 shows that\nsparse solutions still arise under item fairness constraints in settings with symmetric solutions.\n\n4\n\nUser preference diversity and fairness tradeoffs\n\nWe now use the theoretical framework developed in the above section to understand the effect of the\nstructure of user utilities on the price of fairness. In particular, we identify \u201cfree fairness,\u201d i.e., the\nprice of fairness is low, when preferences are sufficiently diverse.",
+          "quoted_text_sha256": "be5681a19b24b81f1b594d38b1b6a5c821e84bfd048c3fe0276fb3b00a1b48f2"
+        },
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 1873,
+          "line_end": 1890,
+          "quoted_text": "Proof. We will first prove that Ssymm satisfies conditions (i) and (ii), and then show sparsity.\nPart 1. Recall that for fixed w,\n\\\n\nSsymm = {\u03c1 : \u03c1i = \u03c1i\u2032 if wi = wi\u2032 } =\n\n{\u03c1 : \u03c1i = \u03c1i\u2032 }\n\ni,i\u2032 :wi =wi\u2032\n\nwhich is a finite set of linear constraints, so condition (i) holds.\nNow, we show condition (ii), that always there is some \u03d5\u2217 \u2208 Ssymm that is an optimal solution to\nProblem 1. Let \u03c1 be an arbitrary optimal solution to Problem 1. Then \u03c1 is also feasible: Imin (\u03c1) =\n\u2217\nImin\n.\nWe first define a piece of convenient notation: if two users i, i\u2032 share the same utility vector wi = wi\u2032 ,\nwe say that they have the same type \u03c4 (i) = \u03c4 (i\u2032 ). If \u03c4 (i) = \u03c4 (i\u2032 ) := \u03c4 , we write wij = wi\u2032 j := w\u03c4 j",
+          "quoted_text_sha256": "74344211bbcef207f3766f7e83f16142d8b12275ecfe927e72af54c9c2b10cc0"
+        }
+      ]
     },
     "rawItemUtility": {
       "aliases": [
         "rawItemUtility"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:126-132",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "- Raw item utility `sum_i w_ij rho_ij`."
+      "statement": "- Raw item utility `sum_i w_ij rho_ij`.",
+      "source_kind": "formula",
+      "lean_declarations": [
+        "rawItemUtility"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 126,
+          "line_end": 132,
+          "quoted_text": "utility from\nP\nP\nP\nusing the platform is j \u03c1ij wij ; item j\u2019s expected utility is i \u03c1ij wij , where j \u03c1ij = 1 for each\nuser i.\nFairness desiderata. We suppose that the platform uses as a benchmark, for each user or item,",
+          "quoted_text_sha256": "897cd812eaf731a5d94041d0fe5eebd5ba2ab3908f3a71f08aee9b68ec27ccee"
+        }
+      ]
     },
     "rawUserUtility": {
       "aliases": [
         "rawUserUtility"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:126-132",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "- Raw user utility `sum_j w_ij rho_ij`."
+      "statement": "- Raw user utility `sum_j w_ij rho_ij`.",
+      "source_kind": "formula",
+      "lean_declarations": [
+        "rawUserUtility"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 126,
+          "line_end": 132,
+          "quoted_text": "utility from\nP\nP\nP\nusing the platform is j \u03c1ij wij ; item j\u2019s expected utility is i \u03c1ij wij , where j \u03c1ij = 1 for each\nuser i.\nFairness desiderata. We suppose that the platform uses as a benchmark, for each user or item,",
+          "quoted_text_sha256": "897cd812eaf731a5d94041d0fe5eebd5ba2ab3908f3a71f08aee9b68ec27ccee"
+        }
+      ]
     },
     "recommendationUtility": {
       "aliases": [
         "recommendationUtility"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:116-120",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "- Recommendation utility matrix `w_{ij}` for users and items."
+      "statement": "- Recommendation utility matrix `w_{ij}` for users and items.",
+      "source_kind": "model",
+      "lean_declarations": [
+        "recommendationUtility"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 116,
+          "line_end": 120,
+          "quoted_text": "Users, items, and utilities. There is a finite population of m users and n items. Let wij > 0 be\nthe utility of recommending item j to user i; this could represent a click-through rate or purchase\nprobability. We suppose that user-item utilities are symmetric: each of the user i and item j receives\nutility wij from being recommended item j.\nLet \u2206n\u22121 denote the simplex in Rn . The platform\u2019s task is to choose a recommendation policy",
+          "quoted_text_sha256": "7cb70c8b6daab7464b1694dcdcab459310df384133065516c601276bcea5d124"
+        }
+      ]
     },
     "solvesProblemOne": {
       "aliases": [
-        "solvesProblemOne"
+        "GCG24UserItemFairness.PaperInterface.solvesProblemOne",
+        "GCG24UserItemFairness.PaperInterface.solvesProblemOne_iff"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:152-174",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "- Problem 1: a policy maximizes user fairness subject to item-fairness level `gamma`."
+      "statement": "- Problem 1: a policy maximizes user fairness subject to item-fairness level `gamma`.",
+      "source_kind": "definition",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.solvesProblemOne_iff"
+      ],
+      "source_prose_definition_reconciliation": {
+        "schema": 2,
+        "relation": "source_item_represents_prose_definition",
+        "presentation_sha256": "c7978a458115bdfb89fb39bae965c49db2122169d1b1097408e4d582ad1342b4",
+        "source_item_statement_sha256": "bad163b2e34dc1d773a153f09f9bff413193ae963cf09a51da6ea4133412fc96",
+        "judgment": "semantically_equivalent",
+        "semantic_basis": "The source predicate expands to feasibility plus attainment of the gamma-constrained user-fairness optimum subject to the stated item-fairness lower bound; the reviewed iff exposes exactly that condition.",
+        "validator": "Independent GCG24 prose-definition semantic-equivalence review",
+        "validator_type": "agent",
+        "validated_at": "2026-08-14T12:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 152,
+          "line_end": 174,
+          "quoted_text": "fairness desiderata as follows. At the extremes, the platform could choose a maximally fair solution\n\u2217\nfor one side, ignoring the other. Denote the optimal user fair utility as Umin\n(w) := max\u03c1 Umin (\u03c1, w)\n(achieved by giving each user their favorite item deterministically), and the optimal item fair utility\n\u2217\nas Imin\n(w) := max\u03c1 Imin (\u03c1, w).\nFinally, we cast the two-sided fair optimization \u2013 for the optimal \u03b3-constrained user fair solution \u2013 as\n\u2217\nUmin\n(\u03b3, w) = max Umin (\u03c1, w)\n\u03c1\n\n(1)\n\n\u2217\nsubject to Imin (\u03c1, w) \u2265 \u03b3Imin\n(w),\n\ni.e., we maximize the minimum normalized user utility, subject to the minimum normalized item\nutility being at least a fraction \u03b3 of the optimal item fair solution.\nResearch questions: price of fairness and misestimation. We can now define the price of item",
+          "quoted_text_sha256": "617e1da22a2efaee5a4a2a40a707811082c885e1471d3b2a3ffda4ff31ee1639"
+        }
+      ]
     },
     "source_appendix_c_lemma1_item_fairness_positive": {
       "aliases": [
         "appendix_c_lemma1_item_fairness_positive"
       ],
-      "source_location": "Appendix C, Lemma 1",
+      "source_location": "GCG24UserItemFairness.txt:1742-1745",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix C, Lemma 1: the optimal item-fairness value is positive."
-    },
-    "source_appendix_c_lemma2_item_fairness_lp_value": {
-      "aliases": [
-        "appendix_c_lemma2_item_fairness_lp_value"
+      "statement": "Appendix C, Lemma 1: the optimal item-fairness value is positive.",
+      "source_kind": "lemma",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_c_lemma1_item_fairness_positive"
       ],
-      "source_location": "Appendix C, Lemma 2",
-      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix C, Lemma 2: item-fairness LP value characterization."
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 1742,
+          "line_end": 1745,
+          "quoted_text": "Lemma 1. Since wij > 0 for all j, Imin\n> 0.\n\u2217\n= max\u03c1 Imin (\u03c1) > 0.",
+          "quoted_text_sha256": "a8f0276c9aabefed734a94003390c07fed9f2b7bf9b7c4d3ef0088a2888b36f4"
+        }
+      ]
     },
     "source_appendix_d_lemma10_midpoint_candidate": {
-      "aliases": [
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:3071-3078",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix D, Lemma 10: for alpha <= 1/2, the pivot t(alpha) of the unique Problem 6 optimizer is at most the midpoint (n + 1) / 2.",
+      "source_kind": "lemma",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_d_lemma10_active_optimizer_pivot_at_or_before_midpoint"
+      ],
+      "support_lean_declarations": [
         "appendix_d_lemma10_midpoint_candidate"
       ],
-      "source_location": "Appendix D, Lemma 10",
-      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix D, Lemma 10: midpoint candidate construction."
+      "source_note": "The direct theorem derives the midpoint bound for the active pivot of an arbitrary optimal Problem 6 policy; the earlier arithmetic component remains auxiliary support.",
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3071,
+          "line_end": 3078,
+          "quoted_text": "Lemma 10. If \u03b1 \u2264 1/2, then t(\u03b1) \u2264 (n + 1)/2.\nNow, for 1 \u2264 t \u2264 n, define A(t) = {\u03b1 : t(\u03b1) = t}. Since t(\u03b1) is weakly increasing in \u03b1 by Lemma\n7, A(t) is an interval in (0, 1), and [A(1), A(2), ..., A(n)] forms a consecutive partition of (0, 1). We\n\u2217\nwill now show that Imin\n(\u03b1) is increasing on each of the first \u230a(n + 1)/2\u230b intervals, which by Lemma\n10 contain all \u03b1 \u2208 (0, 1/2].\n\u2217",
+          "quoted_text_sha256": "9adfe4ce87a6c5c8a0778ab9aa288ca7cac75db5984e86f43184f0068d9f336f"
+        }
+      ]
     },
     "source_appendix_d_lemma11_denominator_monotonicity": {
-      "aliases": [
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:3079-3100",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix D, Lemma 11: optimal item fairness is increasing on each selected-pivot interval A(t) with t at or before the midpoint.",
+      "source_kind": "lemma",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_d_lemma11_optimal_item_fairness_mono_on_active_pivot_interval"
+      ],
+      "support_lean_declarations": [
         "appendix_d_lemma11_denominator_monotonicity"
       ],
-      "source_location": "Appendix D, Lemma 11",
-      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix D, Lemma 11: fixed-pivot denominator monotonicity."
+      "source_note": "The direct theorem proves item-fairness monotonicity for two optimal policies sharing the source active pivot; the denominator lemma remains auxiliary support.",
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3079,
+          "line_end": 3100,
+          "quoted_text": "Lemma 11. Imin\n(\u03b1) is increasing on A(t) for t \u2264 (n + 1)/2.\n\u2217\nFinally, we show that this implies Imin\n(\u03b1) is increasing on 0 < \u03b1 \u2264 1/2. Notice that Ij (x, y, \u03b1)\nis continuous in \u03b1 for each fixed x, y, so Imin (x, y, \u03b1) = minj Ij (x, y, \u03b1) is continuous in \u03b1 for\n\u2217\neach fixed x, y. Recall that Imin\n(\u03b1) = maxx,y\u2208\u2206n\u22121 Imin (x, y, \u03b1). As the supremum of a set of\n\u2217\ncontinuous functions on a compact set must itself be continuous , this means that Imin\n(\u03b1) must be\n\u2217\ncontinuous in \u03b1, since \u2206n\u22121 \u00d7 \u2206n\u22121 is compact. Since Imin (\u03b1) is continuousSand is increasing on\n\u2217\neach interval {A(t)}t\u2264(n+1)/2 by Lemma 11, Imin\n(\u03b1) must be increasing on t\u2264(n+1)/2 A(t). By\nS\n\u2217\nLemma 10, t\u2264(n+1)/2 A(t) \u2283 (0, 1/2]. So Imin (\u03b1) is increasing on (0, 1/2].\n\nNow, we show Lemmas 10 and 11.",
+          "quoted_text_sha256": "18fd4034bc8d665b457cd75eaecd366339ff27102d430fac8402198665dfd96f"
+        }
+      ]
     },
     "source_appendix_d_lemma3_unconstrained_baseline": {
       "aliases": [
         "appendix_d_lemma3_unconstrained_baseline"
       ],
-      "source_location": "Appendix D, Lemma 3",
+      "source_location": "GCG24UserItemFairness.txt:2098-2182",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix D, Lemma 3: unconstrained user-fairness baseline."
+      "statement": "Appendix D, Lemma 3: unconstrained user-fairness baseline.",
+      "source_kind": "lemma",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_d_lemma3_unconstrained_baseline"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 2098,
+          "line_end": 2182,
+          "quoted_text": "Lemma 3. For all 0 < \u03b1 < 1, Umin\n(\u03b1) = 1.\n\u2217\n\u2217\nF\n(Umin \u2212Umin (1,\u03b1))/U \u2217\nBy Lemma 3, Umin\n(\u03b1) := Umin\nis constant in \u03b1, so \u03c0U\nmin and it is\n|I (\u03b1) =\n\u2217\nenough to show Umin (1, \u03b1) increases in \u03b1.\n\u2217\n\n\u2217\n\nRecall the definition of Ssymm :\n{\u03c1 : \u03c1i = \u03c1i\u2032 if wi = wi\u2032 }.\nBy Proposition 2, we know that Ssymm is a satisfies conditions (i) and (ii) on S for Proposition 1.\nThus by Proposition 1, it is sufficient to find \u03d5 such that\n\u03d5 \u2208 arg\n\nmax\n\n\u03c1\u2208S\u2229\u2206m\nn\u22121 ,\u03bb\n\n\u03bb\n\nsubject to Ij (\u03c1) = \u03bb\n\n\u2200j,\n\nand show that this \u03d5 is unique, where the linear program is derived from the proof of Proposition 1.\nSince each user in our population only has one of two possible value vectors, wi = (v1 , ..., vn )\nor wi = (vn , ...., v1 ), we can identify Ssymm with \u22062n\u22121 , and identify \u03c1 \u2208 Ssymm with a pair x, y.\nExpanding the expression for Ij (\u03c1) and making explicit the dependence on \u03b1, we see that\nP\ni \u03c1ij wij (\u03b1)\nIj (\u03c1, \u03b1) = P\nwij (\u03b1)\nP i\nP\ni:\u03c4 (i)=1 \u03c1ij vj +\ni:\u03c4 (i)=2 \u03c1ij vn\u2212j+1\nP\nP\n=\ni:\u03c4 (i)=1 vj +\ni:\u03c4 (i)=2 vn\u2212j+1\nm\u03b1xj vj + m(1 \u2212 \u03b1)yj vn\u2212j+1\nm\u03b1vj + m(1 \u2212 \u03b1)vn\u2212j+1\n= qj (\u03b1)xj + (1 \u2212 qj (\u03b1))yj\n\n=\n\nwhere\nqj (\u03b1) :=\n\n\u03b1vj\n.\n\u03b1vj + (1 \u2212 \u03b1)vn\u2212j+1\n\nNote that for all j and 0 < \u03b1 < 1, we have 0 < qj , 1 \u2212 qj < 1. We can thus simplify\n\u03d5 = arg\n\nmax\n\nx,y\u2208\u22062n\u22121 ,\u03bb\n\n\u03bb\n(6)\n\nsubject to qj (\u03b1)xj + (1 \u2212 qj (\u03b1))yj = \u03bb\n\n\u2200j,\n\nFirst, we will show uniqueness and find a closed form to Problem 6 in Lemmas 4 and 5. Then, we\n\u2217\nwill use this closed forms to show that Umin\n(1, \u03b1) is increasing for \u03b1 < 1/2. By symmetry, this\n\u2217\nimplies that Umin\n(1, \u03b1) must be decreasing for \u03b1 > 1/2 and we will be done.",
+          "quoted_text_sha256": "dde9be1627679007794046b464b97f92cd73bf2e53f13ca347bcf16f4ed8e641"
+        }
+      ]
     },
     "source_appendix_d_lemma4_problem6_structure": {
-      "aliases": [
-        "appendix_d_lemma4_problem6_structure"
-      ],
-      "source_location": "Appendix D, Lemma 4",
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:2183-2188",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix D, Lemma 4: Problem 6 sparse-support structure."
+      "statement": "Appendix D, Lemma 4: Problem 6 has a unique solution (x, y, lambda), with a threshold t such that x_j = 0 above t and y_j = 0 below t.",
+      "source_kind": "lemma",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_d_lemma4_problem6_unique_sparse_solution"
+      ],
+      "source_note": "The direct theorem proves uniqueness and the two-sided threshold support pattern for every optimal Problem 6 policy.",
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 2183,
+          "line_end": 2188,
+          "quoted_text": "Lemma 4. Problem 6 has a unique solution (x, y, \u03bb). Moreover, the solution is sparse: there is some\n1 \u2264 t \u2264 n such that for j > t, xj = 0, and for j < t, yj = 0.\nThus, to solve our original problem (Problem 1) we merely need to evaluate the user fairness Umin of\nx, y solving Problem 6 and show that this is increasing. We will do this in the remainder of the proof.\nFor each \u03b1, let x, y be the solution to the corresponding Problem 6, and define7\nt(\u03b1) := max{j : xj (\u03b1) > 0}.",
+          "quoted_text_sha256": "aa5b0436aaa817655a3082c5d46756f8e23bc031ab6416991bf1d624b03247d9"
+        }
+      ]
     },
     "source_appendix_d_lemma5_problem6_closed_form": {
-      "aliases": [
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:2190-2256",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix D, Lemma 5: at the active pivot t(alpha), the unique Problem 6 solution has the displayed lambda, x_j, and y_j closed forms.",
+      "source_kind": "lemma",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_d_lemma5_problem6_active_optimizer_closed_form"
+      ],
+      "support_lean_declarations": [
         "appendix_d_lemma5_problem6_closed_form"
       ],
-      "source_location": "Appendix D, Lemma 5",
-      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix D, Lemma 5: Problem 6 closed-form value."
+      "source_note": "The direct theorem derives the displayed lambda, x, and y formulas for the active pivot of an arbitrary optimal Problem 6 policy; the coordinate identity remains auxiliary support.",
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 2190,
+          "line_end": 2256,
+          "quoted_text": "Lemma 5. Let 0 < \u03b1 < 1, t := t(\u03b1). Define\nX 1\nLt =\n,\nq\nj<t j\n\nRt =\n\n7\n\n1\n.\n1 \u2212 qj\nj>t\n\nX\n\nWhile there is a single optimal solution x, y to Problem 6 for each \u03b1, there may be two t that satisfy Lemma\n4. In particular, this occurs when for each j, xj = 0 or yj = 0. By contrast, t(\u03b1) is unique.\n\n28\n\n\fThen\n\n1\n,\n1 + qt Lt + (1 \u2212 qt )Rt\n\n\u2217\nImin\n=\n\nand\n\n\uf8f1 I\u2217\nmin\n\uf8f4\nj<t\n\uf8f2 qj ,\nLt\nxj = 1 \u2212 1+q L +(1\u2212q\n, j=t,\nt t\nt )Rt\n\uf8f4\n\uf8f3\n0,\nj>t\n\n\uf8f1\n\uf8f4\n\uf8f20,\nRt\n,\nyj = 1 \u2212 1+qt Lt +(1\u2212q\nt )Rt\n\u2217\n\uf8f4\n\uf8f3 Imin ,\n1\u2212qj\n\nj<t\nj=t.\nj>t\n\nNote that for t \u0338= t(\u03b1), x, y above may not be valid probability vectors.",
+          "quoted_text_sha256": "8dd76abdcb21c7c4359a160d1cef1b9336b9459ebb68a93cf544170398106ca7"
+        }
+      ]
     },
     "source_appendix_d_lemma6_mirror_inverse_gap": {
-      "aliases": [
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:2257-2313",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix D, Lemma 6: for 0 < alpha < 1/2, type-1 users have weakly larger utility than type-2 users under the optimal recommendation policy.",
+      "source_kind": "lemma",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_d_lemma6_optimal_policy_type_utility_order"
+      ],
+      "support_lean_declarations": [
         "appendix_d_lemma6_mirror_inverse_gap"
       ],
-      "source_location": "Appendix D, Lemma 6",
-      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix D, Lemma 6: mirror inverse-gap algebra."
+      "source_note": "The direct theorem proves the source user-type utility ordering for an arbitrary optimal policy; the inverse-gap identity remains auxiliary support.",
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 2257,
+          "line_end": 2313,
+          "quoted_text": "Lemma 6. For 0 < \u03b1 < 1/2, if \u03c1\u2217 is the optimal recommendation policy, then Ui (\u03c1\u2217 , \u03b1) \u2265\nUi\u2032 (\u03c1\u2217 , \u03b1) for \u03c4 (i) = 1, \u03c4 (i\u2032 ) = 2.\n\u2217\nBy Lemma 6, Umin\n(\u03b1) = Ui (\u03b1) for i with \u03c4 (i) = 2. Then\n\u2217\nUmin\n(1, \u03b1) = Ui (\u03b1)\nn\nX\n1\nyj vn\u2212j+1\nmaxj vj j=1\n\uf8eb\n\uf8f6\nX\n1\n\uf8edyt(\u03b1) vn\u2212t(\u03b1)+1 +\nyj vn\u2212j+1 \uf8f8\n=\nmaxj vj\nj>t(\u03b1)\n\uf8eb\uf8eb\n\uf8f6\n\uf8f6\nX I \u2217 (\u03b1)\nX I \u2217 (\u03b1)\n1\nmin\nmin\n\uf8ed\uf8ed1 \u2212\n\uf8f8 vn\u2212t(\u03b1)+1 +\n=\nvn\u2212j+1 \uf8f8\nmaxj vj\n1 \u2212 qj (\u03b1)\n1 \u2212 qj (\u03b1)\nj>t(\u03b1)\nj>t(\u03b1)\n\uf8eb\n\uf8f6\nX I \u2217 (\u03b1)\n1\nmin\n\uf8edvn\u2212t(\u03b1)+1 +\n=\n(vn\u2212j+1 \u2212 vn\u2212t(\u03b1)+1 )\uf8f8\nmaxj vj\n1 \u2212 qj (\u03b1)\n\n=\n\nj>t(\u03b1)\n\n\u2217\nThe following results will enable us to conclude that Umin\n(1, \u03b1) is increasing for \u03b1 < 1/2.",
+          "quoted_text_sha256": "ccd924ceba3cc9f9100ce9e84ba9d7ef30b7358e9085bd009ebf01e3ca382c1c"
+        }
+      ]
     },
     "source_appendix_d_lemma7_pivot_monotonicity": {
-      "aliases": [
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:2315-2316",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix D, Lemma 7: the pivot t(alpha) of the unique Problem 6 optimizer is weakly increasing in alpha.",
+      "source_kind": "lemma",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_d_lemma7_active_optimizer_pivot_monotonicity"
+      ],
+      "support_lean_declarations": [
         "appendix_d_lemma7_pivot_monotonicity"
       ],
-      "source_location": "Appendix D, Lemma 7",
-      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix D, Lemma 7: pivot monotonicity."
+      "source_note": "The direct theorem proves weak pivot monotonicity for arbitrary optimal Problem 6 policies at ordered population weights; the interval lemma remains auxiliary support.",
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 2315,
+          "line_end": 2316,
+          "quoted_text": "Lemma 7. t(\u03b1) is weakly increasing.\n\u2217",
+          "quoted_text_sha256": "3d7b92068f949f2186c62c8884d4eee9e3dc88ed3b0ab17cf5c9f1e71a294283"
+        }
+      ]
     },
     "source_appendix_d_lemma8_selected_pivot_stitching": {
       "aliases": [
         "appendix_d_lemma8_selected_pivot_stitching"
       ],
-      "source_location": "Appendix D, Lemma 8",
+      "source_location": "GCG24UserItemFairness.txt:2317-2318",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix D, Lemma 8: selected-pivot interval stitching."
+      "statement": "Appendix D, Lemma 8: optimal item fairness I_min^*(alpha) is increasing on 0 < alpha <= 1/2.",
+      "source_kind": "lemma",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_d_lemma8_selected_pivot_stitching"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 2317,
+          "line_end": 2318,
+          "quoted_text": "Lemma 8. Imin\n(\u03b1) is increasing for \u03b1 \u2264 1/2.",
+          "quoted_text_sha256": "d2eb6ee0dabe793d17205910a7a4163fa293ace758574dd4b68b1da3d39cda5e"
+        }
+      ]
     },
     "source_appendix_d_lemma9_pair_share_algebra": {
       "aliases": [
         "appendix_d_lemma9_pair_share_algebra"
       ],
-      "source_location": "Appendix D, Lemma 9",
+      "source_location": "GCG24UserItemFairness.txt:2320-2339",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix D, Lemma 9: the q_j / pair-share algebra."
+      "statement": "Appendix D, Lemma 9: q_j(alpha) strictly increases in alpha and strictly decreases in the item index j.",
+      "source_kind": "lemma",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_d_lemma9_pair_share_algebra"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 2320,
+          "line_end": 2339,
+          "quoted_text": "Lemma 9. qj (\u03b1) strictly increases as \u03b1 increases and strictly decreases as j increases.\n\u2217\nSince t(\u03b1) is increasing and vj decreases in j, vn\u2212t(\u03b1)+1 is increasing in \u03b1. Also, Imin\n(\u03b1) is\nI\u2217\n\n(\u03b1)\n\nmin\nincreasing for \u03b1 < 1/2, and qj (\u03b1) is increasing, so 1\u2212q\nis increasing. For j > t(\u03b1), vn\u2212j+1 \u2212\nj (\u03b1)\n\u2217\nvn\u2212t(\u03b1)+1 > 0. Thus, Umin (1, \u03b1) is increasing.\n\nD.2\n\nSupporting lemma proofs\n\nWe will first prove Lemma 9, as it is a simple result that we will use extensively.",
+          "quoted_text_sha256": "13819bbf9d7ef37eaa280b13b482a47091ab919d73a8d1786f5c699086432402"
+        }
+      ]
     },
     "source_appendix_e_lemma12_symmetrized_policy": {
       "aliases": [
         "appendix_e_lemma12_symmetrized_policy"
       ],
-      "source_location": "Appendix E, Lemma 12",
+      "source_location": "GCG24UserItemFairness.txt:3379-3402",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix E, Lemma 12: symmetrized estimated policy optimality."
+      "statement": "Appendix E, Lemma 12: symmetrized estimated policy optimality.",
+      "source_kind": "lemma",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_e_lemma12_symmetrized_policy"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3379,
+          "line_end": 3402,
+          "quoted_text": "Lemma 12. If a policy \u03c1 = (x, y, z) \u2208 Ssymm solves Umin (\u03c1) = Umin\n(1), then there is some policy\n\u2217\n\u03c1\u2032 = x\u2032 , z \u2032 \u2208 S \u2032 that solves Umin (\u03c1\u2032 ) = Umin\n(1).\n\nApplying the framework in Proposition 1 to this proof with S = S \u2032 and using w\u0302 as the user and item\nvalues, we reduce the problem to finding\n\u03d5 = arg\n\nmax\n\nx,z\u2208\u22062n\u22121 ,\u03bb\n\n\u03bb\n(11)\n\nsubject to Ij (x, z) = \u03bb\n\n\u2200j,\n\nand showing that this \u03d5 is unique.\nFirst, we use an analogue of the sparsity result Proposition 2 to show that the optimal x, z has the\nfollowing sparse structure.",
+          "quoted_text_sha256": "a7c9bafa673873a2db6adfb2fb3751662f4f507ebe18ae1c953113b7fba4a5d4"
+        }
+      ]
     },
     "source_appendix_e_lemma13_pivot_support": {
-      "aliases": [
-        "appendix_e_lemma13_pivot_support"
-      ],
-      "source_location": "Appendix E, Lemma 13",
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:3403-3412",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix E, Lemma 13: Problem 11 pivot-support shape."
+      "statement": "Appendix E, Lemma 13: every optimal basic feasible Problem 11 solution has a midpoint-or-earlier pivot t with x_j = 0 above t and z_j = z_rev(j) = 0 below t.",
+      "source_kind": "lemma",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_e_lemma13_every_optimal_basic_solution_has_pivot_support"
+      ],
+      "source_note": "Problem 11 is the mirror-restricted equality LP: x_j = y_rev(j), z_j = z_rev(j), with x and z probability vectors and every item value equal to lambda. The direct row retains the source's literal equality-LP comparison premise and `problem11BasicFeasible`, the exact reduced-LP extreme-point formulation of its basic-feasible condition. Lean proves internally that literal equality-LP optimality implies the slack/epigraph optimality used by the support derivation, via a closed primal-dual equality witness and finite dual upper bound. The proof is stronger than the source restriction: it derives the pivot shape for every equality-program optimum, rather than consuming a support-count proxy. Its pivot satisfies both source support clauses and is least among indices satisfying them.",
+      "semantic_context_requirements": [
+        {
+          "kind": "mirror_restricted_problem11_lp",
+          "source_location": "GCG24UserItemFairness.txt:3375-3400",
+          "explanation": "Problem 11 is the mirror-restricted equality LP in x and z: the known-type mirror row is determined by x, the cold-start row is mirror symmetric, x and z are probability vectors, and every item value equals lambda. The source-model review must assess this reduced LP rather than a full three-type active-basis encoding.",
+          "source_anchor_evidence": [
+            {
+              "path": "GCG24UserItemFairness.txt",
+              "line_start": 3375,
+              "line_end": 3400,
+              "quoted_text": "S \u2032 = {x, y, z \u2208 Ssymm : xj = yn\u2212j+1 , zj = zn\u2212j+1 for all j}.\nSince y is completely determined by x, we can identify S \u2032 with \u22062n\u22121 and can identify x, y, z \u2208 S \u2032\nsimply by x, z.\n\u2217\nLemma 12. If a policy \u03c1 = (x, y, z) \u2208 Ssymm solves Umin (\u03c1) = Umin\n(1), then there is some policy\n\u2217\n\u03c1\u2032 = x\u2032 , z \u2032 \u2208 S \u2032 that solves Umin (\u03c1\u2032 ) = Umin\n(1).\n\nApplying the framework in Proposition 1 to this proof with S = S \u2032 and using w\u0302 as the user and item\nvalues, we reduce the problem to finding\n\u03d5 = arg\n\nmax\n\nx,z\u2208\u22062n\u22121 ,\u03bb\n\n\u03bb\n(11)\n\nsubject to Ij (x, z) = \u03bb\n\n\u2200j,\n\nand showing that this \u03d5 is unique.",
+              "quoted_text_sha256": "12d03c98c5b180661bc6d2707d460da3e25b463044c62f337d120797c9328b94"
+            }
+          ]
+        },
+        {
+          "kind": "post_lemma17_reduced_basic_feasible_lp",
+          "source_location": "GCG24UserItemFairness.txt:3845-3883",
+          "explanation": "The source's later basic-feasible discussion is for the one-sided LP obtained after Lemma 17, with 2h + 1 variables and h + 2 constraints. It must not be silently identified with a full three-type equality-LP active basis when reviewing Lemma 13.",
+          "source_anchor_evidence": [
+            {
+              "path": "GCG24UserItemFairness.txt",
+              "line_start": 3845,
+              "line_end": 3883,
+              "quoted_text": "Lemma 17. Let (x, z) be an optimal solution to Problem 11. For j > n+1\n2 , xj = 0.\nIn particular, if we let h = \u230a n+1\n2 \u230b indicate the index halfway through the set of items, this means that\nwe can simplify the problem above to\narg x max\n,...,x ,\n1\n\n\u03bb\n\nh\n\nz1 ,...,zh ,\n\u03bb\n\nsubject to Ij (x, z) = \u03bb, 1 \u2264 j \u2264 h\nX\nX\nX\nxj =\nzj +\nzn\u2212j+1 = 1\nj\u2264h\n\nj\u2264h\n\n(12)\n\nh<j\u2264n\n\nxj , zj \u2265 0.\nNow this is a linear program with 2h + 1 variables and h + 2 constraints, so by an argument analogous\nto Problem 12, we find that every basic feasible solution x1:h , z1:h must share h \u2212 1 zeros. This means\nthat there is a single index t such that xt > 0, zt > 0; if there were more than one, by the pigeonhole\nprinciple there must be some t\u2032 \u2264 h such that xt\u2032 = zt\u2032 = xn\u2212t\u2032 +1 = 0, and It\u2032 (x, z) = 0. Then\n\u2217\nImin (x, z) = 0; however, by Lemma 1, Imin (x, z) = Imin\n> 0, so we have a contradiction.",
+              "quoted_text_sha256": "f1caf7805d0269e7680b10fdddafe1cc453b21a294867b44866fe80072ccb6dd"
+            }
+          ]
+        }
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3403,
+          "line_end": 3412,
+          "quoted_text": "Lemma 13. Let x, z be an optimal basic feasible solution to the linear program Problem 11. There\n\u2032\n\u2032\n\u2032\n\u2032\n\u2032\nis some j \u2264 n+1\n2 such that for all j > j, xj = 0 and for all j < j, zj = zn\u2212j +1 = 0. Let the\npivot index t denote the minimum such j.\nThis sparse structure implies uniqueness.",
+          "quoted_text_sha256": "f58776994becece00c0c5134d9d644a8edd0a82c0b61d4083fab7a807d8416b9"
+        }
+      ]
     },
     "source_appendix_e_lemma14_uniqueness": {
-      "aliases": [
-        "appendix_e_lemma14_uniqueness"
-      ],
-      "source_location": "Appendix E, Lemma 14",
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:3413-3414",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix E, Lemma 14: Problem 11 uniqueness/equality-form policy shape."
+      "statement": "Appendix E, Lemma 14: Problem 11 has a unique optimal solution.",
+      "source_kind": "lemma",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_e_lemma14_problem11_has_unique_optimal_solution"
+      ],
+      "source_note": "The direct theorem constructs an optimal Problem 11 policy and proves that every globally optimal epigraph solution equals it.",
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3413,
+          "line_end": 3414,
+          "quoted_text": "Lemma 14. Problem 11 has a unique optimal solution.\nWe can now describe what this solution (x, z) looks like.",
+          "quoted_text_sha256": "03179fa640eaba3c2532e2ffdc6ba1f288827f3c9e4f6a84f74f9021f4574569"
+        }
+      ]
     },
     "source_appendix_e_lemma15_closed_formula": {
-      "aliases": [
-        "appendix_e_lemma15_closed_formula"
-      ],
-      "source_location": "Appendix E, Lemma 15",
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:3415-3472",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix E, Lemma 15: Problem 11 closed-form lambda formula."
+      "statement": "Appendix E, Lemma 15 (archival printed statement): for the unique optimal Problem 12 solution, the displayed noncenter lambda, x, and z formulas hold; at the center pivot it prints z_t = 1 and lambda = (2 beta q_t + (1 - 2 beta)) / (1 + q_t L_t).",
+      "source_kind": "lemma",
+      "source_status": "corrected_source_statement",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_e_lemma15_optimal_solution_full_closed_form"
+      ],
+      "source_note": "The direct theorem proves the approved corrected target. The archival printed center formula remains visible, is not claimed equivalent, and is linked to its checked counterexample through the fidelity ledger.",
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3415,
+          "line_end": 3472,
+          "quoted_text": "Lemma 15. Let (x, z) be the optimal solution to Problem 12, and let t be the pivot element of (x, z);\nsuppose that t \u0338= n+1\n2 . Define\nX 1\nLt :=\n.\nq\nj<t j\nThen\n\u03bb=\n\uf8f1\n\uf8f4\n\uf8f20,\u0010\n\nzj = 12\n\uf8f4\n\uf8f3\n\n2\u03b2qt + 1/2(1 \u2212 2\u03b2)\n,\n1 + qt Lt + 1/2(n \u2212 2t)\nj<t\n\n\u03bb\n1 \u2212 (n \u2212 2t) 1\u22122\u03b2\n\n\u0011\n\n,\n\n\u03bb\n1\u22122\u03b2 ,\n\nj \u2208 {t, n \u2212 t + 1} .\nt<j <n\u2212t+1\n\nFinally,\n\uf8f1\n\u03bb\n\uf8f4\n\uf8f2 2\u03b2qj ,\n\u03bb\nxj = 1 \u2212 2\u03b2\nLt ,\n\uf8f4\n\uf8f30,\n38\n\nj<t\nj=t.\nj>t\n\n\fIf t = n+1\n2 , then x remains the same, but zt = 1 and\n2\u03b2qt + (1 \u2212 2\u03b2)\n\u03bb=\n.\n1 + qt Lt",
+          "quoted_text_sha256": "ac33c7417bcf6e34a0112bbc885f37f853f587dd33c1ed3a6482632b729ec2d1"
+        }
+      ],
+      "coverage_status": "corrected_source_statement",
+      "source_defect_ids": [
+        "GCG24-E15-CENTER-MIRROR-01"
+      ],
+      "corrected_target": {
+        "schema": 1,
+        "statement": "Appendix E, Lemma 15 corrected target: for the equality-form LP solved in the lemma, the printed noncenter lambda, x, and z coordinate formulas hold; at the center pivot z_t = 1 and lambda = 1 / (1 + L_t).",
+        "governing_defect_ids": [
+          "GCG24-E15-CENTER-MIRROR-01"
+        ],
+        "archival_equivalence_claimed": false,
+        "archival_source_locator": "GCG24UserItemFairness.txt:3415-3472",
+        "archival_source_quote_sha256": "ac33c7417bcf6e34a0112bbc885f37f853f587dd33c1ed3a6482632b729ec2d1",
+        "approval": {
+          "kind": "explicit_user_instruction",
+          "recorded_at": "2026-07-27",
+          "reference": "Repository user approved the Appendix E Lemma 15 typo correction in docs/APPROVED_CORRECTED_TARGET_E15_2026-07-27.md.",
+          "target_statement_sha256": "88775f9669f6d11c615fffc5b98110ead5d379cfd4a42a74142243699e7ed32f",
+          "artifact_path": "docs/APPROVED_CORRECTED_TARGET_E15_2026-07-27.md",
+          "artifact_sha256": "53474ba55f606683b52eb41676071c099ecabee52f305053933821dcc30508db"
+        },
+        "corrected_target_sha256": "a1df7c45a95fe649afaee10e8a78f83cc9897705a7ea493330730e591c00466f"
+      }
+    },
+    "source_appendix_e_lemma15_printed_center_formula": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:3899-3924; GCG24UserItemFairness.txt:4290-4332",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix E, Lemma 15 printed center-pivot formula: lambda = (2 beta q_t + (1 - 2 beta)) / (1 + q_t L_t).",
+      "source_kind": "formula",
+      "source_status": "quarantined_source_defect",
+      "source_defect_ids": [
+        "GCG24-E15-CENTER-MIRROR-01"
+      ],
+      "support_lean_declarations": [
+        "appendix_e_lemma15_printed_center_value_counterexample"
+      ],
+      "source_note": "The printed center derivation omits the mirrored known-type contribution present in the Problem 11 item equation. This false formula receives checked counterexample support only and no direct proof credit.",
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3899,
+          "line_end": 3924,
+          "quoted_text": "Ij (x, z) =\n\n\u03b2vj xj + \u03b2vn\u2212j+1 xn\u2212j+1 + (1 \u2212 2\u03b2) j\n\n\u0012\n= 2\u03b2\n\nvj\nvn\u2212j+1\nxj +\nxn\u2212j+1\nvj + vn\u2212j+1\nvj + vn\u2212j+1\n\n41\n\n\u0013\n+ (1 \u2212 2\u03b2)zj\n\n\fv\n\nj\n. Note that qj does not depend on \u03b2, and qj is decreasing in j. Then\nLet qj = vj +vn\u2212j+1\n\nIj (x, y, z) = 2\u03b2 (qj xj + (1 \u2212 qj )yj ) + (1 \u2212 2\u03b2)zj .",
+          "quoted_text_sha256": "c513f21b21884291e5765c07a2e7d7753e3c31875f1cb7206815e4ae9643d256"
+        },
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 4290,
+          "line_end": 4332,
+          "quoted_text": "If t = n+1\n2 , then x remains the same, but zt = 1 and\n\u03bb=\n\n2\u03b2qt + (1 \u2212 2\u03b2)\n.\n1 + qt Lt\n\n\u03bb\n. Moreover,\nProof. For all j < t, \u03bb = 2\u03b2qj xj , so xj = 2\u03b2q\nj\n\nxt = 1 \u2212\n\nX\nj<t\n\nxj = 1 \u2212\n\nX \u03bb\n\u03bb\n=1\u2212\nLt .\n2\u03b2q\n2\u03b2\nj\nj<t\n\nSuppose that n is odd and that t = h = n+1\n2 . Then zt = zh must be 1 since for all j < h zj = 0.\nMoreover,\n\u0012\n\u0013\n\u03bb\n\u03bb = 2\u03b2qt xt + (1 \u2212 2\u03b2)zt = 2\u03b2qt 1 \u2212\nLt + (1 \u2212 2\u03b2)\n2\u03b2\nso, rearranging,\n2\u03b2qt + (1 \u2212 2\u03b2)\n\u03bb=\n.\n1 + qt Lt",
+          "quoted_text_sha256": "67d5ef55ef14ebed188afa7105d5969e7b1d4ba6ddef7797df12d40346244f58"
+        }
+      ]
+    },
+    "audit_appendix_e_lemma15_printed_center_counterexample": {
+      "aliases": [
+        "appendix_e_lemma15_printed_center_value_counterexample"
+      ],
+      "source_location": "GCG24UserItemFairness.txt:3899-3924; GCG24UserItemFairness.txt:4290-4332",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Checked Appendix E Lemma 15 defect witness: n = 3, beta = 2/5, q_t = 1/2, and L_t = 4/3 satisfy the source parameter range, but the corrected full-equation center value 1 / (1 + L_t) differs from the printed center formula.",
+      "source_kind": "claim",
+      "source_status": "added_audit_row",
+      "lean_declarations": [
+        "appendix_e_lemma15_printed_center_value_counterexample"
+      ],
+      "source_note": "This checked arithmetic row supports the source-defect quarantine; it does not prove the false printed equation.",
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3899,
+          "line_end": 3924,
+          "quoted_text": "Ij (x, z) =\n\n\u03b2vj xj + \u03b2vn\u2212j+1 xn\u2212j+1 + (1 \u2212 2\u03b2) j\n\n\u0012\n= 2\u03b2\n\nvj\nvn\u2212j+1\nxj +\nxn\u2212j+1\nvj + vn\u2212j+1\nvj + vn\u2212j+1\n\n41\n\n\u0013\n+ (1 \u2212 2\u03b2)zj\n\n\fv\n\nj\n. Note that qj does not depend on \u03b2, and qj is decreasing in j. Then\nLet qj = vj +vn\u2212j+1\n\nIj (x, y, z) = 2\u03b2 (qj xj + (1 \u2212 qj )yj ) + (1 \u2212 2\u03b2)zj .",
+          "quoted_text_sha256": "c513f21b21884291e5765c07a2e7d7753e3c31875f1cb7206815e4ae9643d256"
+        },
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 4290,
+          "line_end": 4332,
+          "quoted_text": "If t = n+1\n2 , then x remains the same, but zt = 1 and\n\u03bb=\n\n2\u03b2qt + (1 \u2212 2\u03b2)\n.\n1 + qt Lt\n\n\u03bb\n. Moreover,\nProof. For all j < t, \u03bb = 2\u03b2qj xj , so xj = 2\u03b2q\nj\n\nxt = 1 \u2212\n\nX\nj<t\n\nxj = 1 \u2212\n\nX \u03bb\n\u03bb\n=1\u2212\nLt .\n2\u03b2q\n2\u03b2\nj\nj<t\n\nSuppose that n is odd and that t = h = n+1\n2 . Then zt = zh must be 1 since for all j < h zj = 0.\nMoreover,\n\u0012\n\u0013\n\u03bb\n\u03bb = 2\u03b2qt xt + (1 \u2212 2\u03b2)zt = 2\u03b2qt 1 \u2212\nLt + (1 \u2212 2\u03b2)\n2\u03b2\nso, rearranging,\n2\u03b2qt + (1 \u2212 2\u03b2)\n\u03bb=\n.\n1 + qt Lt",
+          "quoted_text_sha256": "67d5ef55ef14ebed188afa7105d5969e7b1d4ba6ddef7797df12d40346244f58"
+        }
+      ]
     },
     "source_appendix_e_lemma16_midpoint_order_algebra": {
       "aliases": [
         "appendix_e_lemma16_midpoint_order_algebra"
       ],
-      "source_location": "Appendix E, Lemma 16",
+      "source_location": "GCG24UserItemFairness.txt:3713-3735",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix E, Lemma 16: midpoint order algebra for pair shares."
+      "statement": "Appendix E, Lemma 16: q_j(1/2) is above, below, or equal to 1/2 according as j is before, after, or at the item midpoint.",
+      "source_kind": "lemma",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_e_lemma16_midpoint_order_algebra"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3713,
+          "line_end": 3735,
+          "quoted_text": "Lemma 16. If j < n+1\n2 , then qj > 1/2; if j > 2 , then qj < 1/2. If j = 2 , qj = 1/2.\n\nProof. If j < n+1\n2 , then vj > vn\u2212j+1 and\nqj =\n\nvj\n1\n1\n1\n= ;\n=\nvn\u2212j+1 >\nvj + vn\u2212j+1\n1+1\n2\n1 + vj\n\nif j < n+1\n2 , then vj < vn\u2212j+1 and a symmetric argument holds.\nIf j = n+1\n2 , then vj = vn\u2212j+1 and thus qj = 1/2.",
+          "quoted_text_sha256": "f7bf3d7ddc402f0ae4e95af199178bcf5ad8bef065e6b57b29baf04707b7230c"
+        }
+      ]
     },
     "source_appendix_e_lemma17_no_right_half_support": {
-      "aliases": [
-        "appendix_e_lemma17_no_right_half_support"
-      ],
-      "source_location": "Appendix E, Lemma 17",
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:3845-3925",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Appendix E, Lemma 17: no right-half known-type support in Problem 11."
+      "statement": "Appendix E, Lemma 17: for every optimal Problem 11 solution, x_j = 0 for items j after the midpoint.",
+      "source_kind": "lemma",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_e_lemma17_every_optimal_solution_has_no_right_half_support"
+      ],
+      "source_note": "The direct theorem proves the right-half support exclusion for every globally optimal Problem 11 policy, without assuming basic feasibility.",
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3845,
+          "line_end": 3925,
+          "quoted_text": "Lemma 17. Let (x, z) be an optimal solution to Problem 11. For j > n+1\n2 , xj = 0.\nIn particular, if we let h = \u230a n+1\n2 \u230b indicate the index halfway through the set of items, this means that\nwe can simplify the problem above to\narg x max\n,...,x ,\n1\n\n\u03bb\n\nh\n\nz1 ,...,zh ,\n\u03bb\n\nsubject to Ij (x, z) = \u03bb, 1 \u2264 j \u2264 h\nX\nX\nX\nxj =\nzj +\nzn\u2212j+1 = 1\nj\u2264h\n\nj\u2264h\n\n(12)\n\nh<j\u2264n\n\nxj , zj \u2265 0.\nNow this is a linear program with 2h + 1 variables and h + 2 constraints, so by an argument analogous\nto Problem 12, we find that every basic feasible solution x1:h , z1:h must share h \u2212 1 zeros. This means\nthat there is a single index t such that xt > 0, zt > 0; if there were more than one, by the pigeonhole\nprinciple there must be some t\u2032 \u2264 h such that xt\u2032 = zt\u2032 = xn\u2212t\u2032 +1 = 0, and It\u2032 (x, z) = 0. Then\n\u2217\nImin (x, z) = 0; however, by Lemma 1, Imin (x, z) = Imin\n> 0, so we have a contradiction.\nIn terms of x, z,\nv +vn\u2212j+1\nzj\n2\nvj +vn\u2212j+1\n\u03b2vj + \u03b2vn\u2212j+1 + (1 \u2212 2\u03b2)\n2\nv +v\n\u03b2vj xj + \u03b2vn\u2212j+1 xn\u2212j+1 + (1 \u2212 2\u03b2) j n\u2212j+1\nzj\n2\n=\nvj +vn\u2212j+1\n2\n\nIj (x, z) =\n\n\u03b2vj xj + \u03b2vn\u2212j+1 xn\u2212j+1 + (1 \u2212 2\u03b2) j\n\n\u0012\n= 2\u03b2\n\nvj\nvn\u2212j+1\nxj +\nxn\u2212j+1\nvj + vn\u2212j+1\nvj + vn\u2212j+1\n\n41\n\n\u0013\n+ (1 \u2212 2\u03b2)zj\n\n\fv\n\nj\n. Note that qj does not depend on \u03b2, and qj is decreasing in j. Then\nLet qj = vj +vn\u2212j+1\n\nIj (x, y, z) = 2\u03b2 (qj xj + (1 \u2212 qj )yj ) + (1 \u2212 2\u03b2)zj .\nPart 2. Moreover, the set of j such that xj = 0 is contiguous; similarly for zj .",
+          "quoted_text_sha256": "343ecfdb192df189855a018b3eacd5cd557f6b09481adb10eed9c32ce7ba7aae"
+        }
+      ]
     },
     "source_example1_diverse_item_fairness": {
-      "aliases": [
-        "example1_diverse_favorite_policy_item_fairness"
-      ],
-      "source_location": "Example 1",
+      "source_location": "GCG24UserItemFairness.txt:339-343",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Example 1, diverse-preferences toy instance: the same favorite-item policy equalizes item utility at the displayed 10/11 normalized value."
+      "statement": "Example 1, diverse-preferences toy instance: giving every user a favorite item simultaneously maximizes item fairness together with the other stated user/item objectives.",
+      "source_kind": "example",
+      "coverage_status": "user_approved_scope_exclusion",
+      "claim_bearing": true,
+      "user_approved_scope_exclusion": {
+        "schema": 1,
+        "approval_kind": "explicit_user_instruction",
+        "approval_reference": "User instruction on 2026-08-15: normal formalization coverage is limited to named theoretical statements and definitions; unnumbered numerical examples remain source-audited but outside the proof target.",
+        "approved_at": "2026-08-15",
+        "reason": "The source presents this as an unnumbered illustrative example, and the user explicitly excluded that category from the required named-theory formalization while retaining the mathematical claim for audit visibility.",
+        "source_locator": "GCG24UserItemFairness.txt:339-343",
+        "source_evidence": "The pinned passage introduces Example 1 as intuition and states a general favorite-item optimality assertion for an arbitrary even user population and free epsilon.",
+        "source_anchor_quote_sha256": "cd373e3d7ebeb0e739e8e237d4b93e213ebc3d99ce0a8e715dcbc50e2a1f8b82"
+      },
+      "source_note": "The local 2x2 Lean calculation is retained only as an illustrative auxiliary result. It does not establish this general source assertion and receives no source-claim proof credit.",
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 339,
+          "line_end": 343,
+          "quoted_text": "Example 1. For intuition as to why user diversity affects the price of fairness, consider the following\nexample. Suppose we have n = 2 items and m users; half the users have utility \u03f5 for the first item\nand 1 \u2212 \u03f5 for the second item, and the other half has utility 1 \u2212 \u03f5 for the first item and \u03f5 for the second.\nThen, the recommender can simply give each user their favorite item (the user optimal solution), and\nthis solution simultaneously maximizes user and item fairness as well as total user and item utility.",
+          "quoted_text_sha256": "cd373e3d7ebeb0e739e8e237d4b93e213ebc3d99ce0a8e715dcbc50e2a1f8b82"
+        }
+      ]
     },
     "source_example1_diverse_user_fairness": {
-      "aliases": [
-        "example1_diverse_favorite_policy_user_fairness"
-      ],
-      "source_location": "Example 1",
+      "source_location": "GCG24UserItemFairness.txt:339-343",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Example 1, diverse-preferences toy instance: recommending each user her favorite item gives maximal normalized user fairness."
+      "statement": "Example 1, diverse-preferences toy instance: giving every user a favorite item simultaneously maximizes user fairness together with the other stated user/item objectives.",
+      "source_kind": "example",
+      "coverage_status": "user_approved_scope_exclusion",
+      "claim_bearing": true,
+      "user_approved_scope_exclusion": {
+        "schema": 1,
+        "approval_kind": "explicit_user_instruction",
+        "approval_reference": "User instruction on 2026-08-15: normal formalization coverage is limited to named theoretical statements and definitions; unnumbered numerical examples remain source-audited but outside the proof target.",
+        "approved_at": "2026-08-15",
+        "reason": "The source presents this as an unnumbered illustrative example, and the user explicitly excluded that category from the required named-theory formalization while retaining the mathematical claim for audit visibility.",
+        "source_locator": "GCG24UserItemFairness.txt:339-343",
+        "source_evidence": "The pinned passage introduces Example 1 as intuition and states a general favorite-item optimality assertion for an arbitrary even user population and free epsilon.",
+        "source_anchor_quote_sha256": "cd373e3d7ebeb0e739e8e237d4b93e213ebc3d99ce0a8e715dcbc50e2a1f8b82"
+      },
+      "source_note": "The local 2x2 Lean calculation is retained only as an illustrative auxiliary result. It does not establish this general source assertion and receives no source-claim proof credit.",
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 339,
+          "line_end": 343,
+          "quoted_text": "Example 1. For intuition as to why user diversity affects the price of fairness, consider the following\nexample. Suppose we have n = 2 items and m users; half the users have utility \u03f5 for the first item\nand 1 \u2212 \u03f5 for the second item, and the other half has utility 1 \u2212 \u03f5 for the first item and \u03f5 for the second.\nThen, the recommender can simply give each user their favorite item (the user optimal solution), and\nthis solution simultaneously maximizes user and item fairness as well as total user and item utility.",
+          "quoted_text_sha256": "cd373e3d7ebeb0e739e8e237d4b93e213ebc3d99ce0a8e715dcbc50e2a1f8b82"
+        }
+      ]
     },
     "source_example1_homogeneous_tradeoff": {
-      "aliases": [
-        "example1_homogeneous_tradeoff_bound"
-      ],
-      "source_location": "Example 1",
+      "source_location": "GCG24UserItemFairness.txt:344-364",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "Example 1, homogeneous-preferences algebra: the displayed bounds imply the linear normalized user/item fairness tradeoff Umin + Imin <= 1 + epsilon."
+      "statement": "Example 1, homogeneous-preferences algebra: the displayed bounds imply the linear normalized user/item fairness tradeoff Umin + Imin <= 1 + epsilon.",
+      "source_kind": "example",
+      "coverage_status": "user_approved_scope_exclusion",
+      "claim_bearing": true,
+      "user_approved_scope_exclusion": {
+        "schema": 1,
+        "approval_kind": "explicit_user_instruction",
+        "approval_reference": "User instruction on 2026-08-15: normal formalization coverage is limited to named theoretical statements and definitions; unnumbered numerical examples remain source-audited but outside the proof target.",
+        "approved_at": "2026-08-15",
+        "reason": "The source presents this as an unnumbered illustrative example, and the user explicitly excluded that category from the required named-theory formalization while retaining the mathematical claim for audit visibility.",
+        "source_locator": "GCG24UserItemFairness.txt:344-364",
+        "source_evidence": "The pinned passage gives a homogeneous-preference calculation and its displayed tradeoff inequality as an illustrative example rather than a named theorem or lemma.",
+        "source_anchor_quote_sha256": "b199a50a808b42a1edc030724ac27d727beb7cb2e5834a80b9c0cc8127b149fc"
+      },
+      "source_note": "The local algebraic helper is retained only as an illustrative auxiliary result and receives no source-claim proof credit in the normal named-theory closeout.",
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 344,
+          "line_end": 364,
+          "quoted_text": "On the other hand, suppose all users have the same preferences: each user has utility 1 \u2212 \u03f5 for the first\nitem and utility \u03f5 for the second item, for \u03f5 > 0 that is small. Then, any recommendation probability\ngiven to the second item comes at a cost to users who receive that item instead of the first item;\nhowever, (normalized) item fairness would require that the second item receives \u03f5 as much utility as\nthe first item. Below, we show that this results in a tradeoff even between linear normalized user and\nitem utilities, where we account for the fact that the second item is on average less preferred by users.\nSince all users have the same preferences for items, using Proposition 2 it is sufficient to consider\nthem receiving the same recommendation probabilities \u03c11 for the first item and \u03c12 = 1 \u2212 \u03c11 for the\nsecond. Bounding minimum item utility Imin by the utility of the second item, we have\nP\n\u03c12 \u03f5\nImin \u2264 I2 (\u03c1) = i\n= \u03c12 \u225c 1 \u2212 \u03c11 .\nm\u03f5\nFor a given recommendation probability \u03c11 , the minimum normalized user utility is\nUmin = (1 \u2212 \u03f5)\u03c11 + \u03f5\u03c12 = \u03f5 + (1 \u2212 2\u03f5)\u03c11 \u2264 \u03c11 + \u03f5.\nRearranging, we get that\nUmin \u2212 \u03f5 \u2264 \u03c11 \u2264 1 \u2212 Imin =\u21d2 Umin + Imin \u2264 1 + \u03f5.\nThus the minimum normalized user utility and the minimum normalized item utility essentially follow\na negative linear relationship \u2013 guaranteeing the second item even \u03f5 as much utility as the first item\nresults in a linear cost to users. \u25a1",
+          "quoted_text_sha256": "b199a50a808b42a1edc030724ac27d727beb7cb2e5834a80b9c0cc8127b149fc"
+        }
+      ]
     },
     "theorem3_price_decreases_first_half": {
       "aliases": [
         "theorem3_price_decreases_first_half"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:396-397",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nTheorem 3, first half: in the opposing two-type model, increasing `alpha`\ntoward `1 / 2` weakly decreases the price of fairness."
+      "statement": "-\nTheorem 3, first half: in the opposing two-type model, increasing `alpha`\ntoward `1 / 2` weakly decreases the price of fairness.",
+      "source_kind": "theorem",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.theorem3_price_decreases_first_half"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 396,
+          "line_end": 397,
+          "quoted_text": "Theorem 3. \u03c0U\n|I (\u03b1) is decreasing in \u03b1 for 0 < \u03b1 \u2264 1/2, and increasing in \u03b1 for 1/2 \u2264 \u03b1 < 1.",
+          "quoted_text_sha256": "796806b12893b3a494691cd7a6987b7b32038aaff8e97cb829c9e7a72c19409e"
+        }
+      ]
     },
     "theorem3_price_increases_second_half": {
       "aliases": [
         "theorem3_price_increases_second_half"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:396-397",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nTheorem 3, second half: in the opposing two-type model, increasing `alpha`\naway from `1 / 2` weakly increases the price of fairness."
+      "statement": "-\nTheorem 3, second half: in the opposing two-type model, increasing `alpha`\naway from `1 / 2` weakly increases the price of fairness.",
+      "source_kind": "theorem",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.theorem3_price_increases_second_half"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 396,
+          "line_end": 397,
+          "quoted_text": "Theorem 3. \u03c0U\n|I (\u03b1) is decreasing in \u03b1 for 0 < \u03b1 \u2264 1/2, and increasing in \u03b1 for 1/2 \u2264 \u03b1 < 1.",
+          "quoted_text_sha256": "796806b12893b3a494691cd7a6987b7b32038aaff8e97cb829c9e7a72c19409e"
+        }
+      ]
     },
     "theorem4_misestimation_tradeoff_typeOne": {
       "aliases": [
         "theorem4_misestimation_tradeoff_typeOne"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:456-476",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "- Theorem 4 final tradeoff for the second opposing true type."
+      "statement": "-\nTheorem 4's high-item-fairness construction for a cold-start user whose true row is the second opposing type: for each positive `eps`, the displayed value-vector witness has an estimated optimum with misestimation price above `1 - eps`.",
+      "source_kind": "theorem",
+      "source_note": "This row realizes the second, existential Theorem 4 bullet for the second possible true cold-start row. The universal no-fairness bullet is separately mapped to theorem4_misestimation_without_fairness_universal.",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.theorem4_misestimation_tradeoff_typeOne"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 456,
+          "line_end": 476,
+          "quoted_text": "\fTheorem 4. If \u03b2 > n1 and w and w\u0302 are as described above, then fairness constraints can arbitrarily\nworsen the price of misestimation.\n\u2022 The price of misestimation without fairness constraints is low: for all {vj }, there is a\n\u2217\nrecommendation policy \u03c1\u0302 that solves the misestimated problem Umin\n(0, w\u0302) so that\nM\n\u03c0U\n(0, w, w\u0302) \u2264\n\n1\n.\n2\n\n\u2022 The price of misestimation with fairness constraints can be arbitrarily large: \u2200\u03f5, there exists\n\u2217\n{vj } and a recommendation policy \u03c1\u0302 that solves the problem Umin\n(1, w\u0302) such that\nM\n\u03c0U\n(1, w, w\u0302) > 1 \u2212 \u03f5.",
+          "quoted_text_sha256": "2d8a3d2c085053ff20cbf7d1fa71e9a53bfdd4ac09c84c19b19d7ec7c3a5a072"
+        }
+      ]
     },
     "theorem4_misestimation_tradeoff_typeZero": {
       "aliases": [
         "theorem4_misestimation_tradeoff_typeZero"
       ],
-      "source_location": "paper-facing review target; exact source location to be refined",
+      "source_location": "GCG24UserItemFairness.txt:456-476",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nTheorem 4 final tradeoff, cold-start user whose true row is the first opposing\ntype: without fairness the misestimation price is at most `1/2`, while with\nmaximal item fairness some estimated optimum has misestimation price above\n`1 - eps`."
+      "statement": "-\nTheorem 4's high-item-fairness construction for a cold-start user whose true row is the first opposing type: for each positive `eps`, the displayed value-vector witness has an estimated optimum with misestimation price above `1 - eps`.",
+      "source_kind": "theorem",
+      "source_note": "This row realizes the second, existential Theorem 4 bullet for the first possible true cold-start row. The universal no-fairness bullet is separately mapped to theorem4_misestimation_without_fairness_universal.",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.theorem4_misestimation_tradeoff_typeZero"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 456,
+          "line_end": 476,
+          "quoted_text": "\fTheorem 4. If \u03b2 > n1 and w and w\u0302 are as described above, then fairness constraints can arbitrarily\nworsen the price of misestimation.\n\u2022 The price of misestimation without fairness constraints is low: for all {vj }, there is a\n\u2217\nrecommendation policy \u03c1\u0302 that solves the misestimated problem Umin\n(0, w\u0302) so that\nM\n\u03c0U\n(0, w, w\u0302) \u2264\n\n1\n.\n2\n\n\u2022 The price of misestimation with fairness constraints can be arbitrarily large: \u2200\u03f5, there exists\n\u2217\n{vj } and a recommendation policy \u03c1\u0302 that solves the problem Umin\n(1, w\u0302) such that\nM\n\u03c0U\n(1, w, w\u0302) > 1 \u2212 \u03f5.",
+          "quoted_text_sha256": "2d8a3d2c085053ff20cbf7d1fa71e9a53bfdd4ac09c84c19b19d7ec7c3a5a072"
+        }
+      ]
+    },
+    "theorem4_misestimation_without_fairness_universal": {
+      "aliases": [
+        "theorem4_misestimation_without_fairness_universal"
+      ],
+      "source_location": "GCG24UserItemFairness.txt:456-476",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "-\nTheorem 4 first bullet: for every admissible positive, strictly decreasing value vector, the displayed no-item-fairness estimated optimum has misestimation price at most `1 / 2`.",
+      "source_kind": "theorem",
+      "source_note": "The source quantifies universally over the value vector in its no-fairness bullet. This row preserves that quantifier explicitly and uses the corrected normalized estimated masses beta, beta, and 1 - 2 beta recorded in GCG24-T4-POPULATION-MASS-01.",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.theorem4_misestimation_without_fairness_universal"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 456,
+          "line_end": 476,
+          "quoted_text": "\fTheorem 4. If \u03b2 > n1 and w and w\u0302 are as described above, then fairness constraints can arbitrarily\nworsen the price of misestimation.\n\u2022 The price of misestimation without fairness constraints is low: for all {vj }, there is a\n\u2217\nrecommendation policy \u03c1\u0302 that solves the misestimated problem Umin\n(0, w\u0302) so that\nM\n\u03c0U\n(0, w, w\u0302) \u2264\n\n1\n.\n2\n\n\u2022 The price of misestimation with fairness constraints can be arbitrarily large: \u2200\u03f5, there exists\n\u2217\n{vj } and a recommendation policy \u03c1\u0302 that solves the problem Umin\n(1, w\u0302) such that\nM\n\u03c0U\n(1, w, w\u0302) > 1 \u2212 \u03f5.",
+          "quoted_text_sha256": "2d8a3d2c085053ff20cbf7d1fa71e9a53bfdd4ac09c84c19b19d7ec7c3a5a072"
+        }
+      ]
     },
     "userFairness": {
       "aliases": [
-        "userFairness"
+        "GCG24UserItemFairness.PaperInterface.userFairness"
       ],
-      "source_location": "direct source text",
+      "source_location": "GCG24UserItemFairness.txt:149-150",
       "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-      "statement": "-\nUser fairness objective for a recommendation policy."
+      "statement": "-\nUser fairness objective for a recommendation policy.",
+      "source_kind": "definition",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.userFairness"
+      ],
+      "source_prose_definition_reconciliation": {
+        "schema": 2,
+        "relation": "source_item_represents_prose_definition",
+        "presentation_sha256": "c58bfb7a76abc8bd4dac2f9164cce8e21b162cdf9e26dd6534d176c3d6983d7e",
+        "source_item_statement_sha256": "8d00cff82ed9a713b0db59d36d23510cf6d2dc11ae14ff1ca95601768bd87cf8",
+        "judgment": "semantically_equivalent",
+        "semantic_basis": "The source clause identifies user fairness as the minimum normalized user utility, which is the same objective stated in this map row.",
+        "validator": "Independent GCG24 prose-definition semantic-equivalence review",
+        "validator_type": "agent",
+        "validated_at": "2026-08-14T12:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 149,
+          "line_end": 150,
+          "quoted_text": "Given a recommendation policy \u03c1, user fairness is quantified as the minimum normalized user utility\nUmin (\u03c1, w) = mini Ui (\u03c1, w), and item fairness analogously as Imin (\u03c1, w) = minj Ij (\u03c1, w).",
+          "quoted_text_sha256": "b24a05728065e60e25ae545cc9fcd3ff1c711dd5435293cdcdd07e08b2243802"
+        }
+      ]
+    },
+    "appendix_c_lemma2_item_fairness_equality_lp_solution_set": {
+      "aliases": [
+        "appendix_c_lemma2_item_fairness_lp_value"
+      ],
+      "source_location": "GCG24UserItemFairness.txt:1759-1800",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix C, Lemma 2: under the positive utility model, a policy solves the original max-min item-fairness problem exactly when it is the policy component of an optimizer of the equality-form LP imposing I_j(rho) = ell for every item.",
+      "source_kind": "lemma",
+      "lean_declarations": [
+        "GCG24UserItemFairness.PaperInterface.appendix_c_lemma2_item_fairness_equality_lp_solution_set"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 1759,
+          "line_end": 1800,
+          "quoted_text": "Lemma 2. Let F denote the feasible set of Problem 1,\nF \u225c arg max\nImin (\u03c1) \u225c arg max\nmin Ij (\u03c1).\nm\nm\n\u03c1\u2208\u2206n\u22121\n\n\u03c1\u2208\u2206n\u22121\n\nThen F is the solution set of the linear program\nF = arg max\nm\n\n\u03c1\u2208\u2206n\u22121 ,\u03bb\n\nj\n\n(3)\n\n\u03bb\n(4)\n\nsubject to Ij (\u03c1) = \u03bb\n\n\u2200j.\n\nNow, condition (iii) on S implies that there is a unique \u03c1\u2217 in S \u2229 F. Thus\n\u03c1\u2217 = F \u2229 S = arg\nmax\n\u03bb\nm\n\u03c1\u2208\u2206n\u22121 \u2229S,\u03bb\n\n.\n(5)\nsubject to Ij (\u03c1) = \u03bb \u2200j,\nWe can add S as a constraint in Problem 4 because we know that there is at least one solution to\nProblem 4 in S \u2013 namely, \u03c1\u2217 \u2013 so this additional constraint will not change the optimal objective\nvalue, but will constrain the set of optimal solutions to be in S, as desired.\nBy condition (ii), \u03c1\u2217 is an optimal solution for Problem 1; by condition (i), S can be described by a\nfinite set of linear constraints, and thus Problem 5 is a linear program; call this L.",
+          "quoted_text_sha256": "7b0e76693e0049284b545cd64b012f87812d0506bce518464245f6ddacba554b"
+        }
+      ],
+      "source_note": "This is the full optimizer-set iff stated by the source. The former LP-value equality theorem is retained only as auxiliary support."
+    },
+    "proposition1_symmetric_lp_reduction_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:1751-1756",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/cf836efd32fd53493e02d26670f04d46-Paper-Conference.pdf",
+      "statement": "Appendix C repeats Proposition 1 before its proof.",
+      "source_kind": "proposition",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "proposition1_symmetric_lp_reduction",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 1751,
+          "line_end": 1756,
+          "quoted_text": "\fProposition 1. Suppose that for a set of recommendation policies S \u2286 \u2206m\nn\u22121 ,\n(i) S can be described by a finite set of linear constraints\n(ii) There exists an optimal solution \u03c1\u2217 to Problem (2) such that \u03c1\u2217 \u2208 S\n(iii) \u03c1\u2217 is the unique feasible solution to Problem (2) in S\nThen, finding an optimal solution \u03c1\u2217 to Problem (2) can be reduced to solving a linear program L.",
+          "quoted_text_sha256": "7df0890b9c77056a1bd16a6c47d81be0b814b86b45bf2810b7b6dca0a45ad956"
+        }
+      ]
+    },
+    "proposition2_symmetric_optimum_exists_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:1867-1872",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/cf836efd32fd53493e02d26670f04d46-Paper-Conference.pdf",
+      "statement": "Appendix C repeats Proposition 2 before its proof.",
+      "source_kind": "proposition",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "proposition2_symmetric_optimum_exists",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 1867,
+          "line_end": 1872,
+          "quoted_text": "Proposition 2. Ssymm satisfies conditions (i) and (ii) in Proposition 1. Furthermore, solutions\n\u03c1 \u2208 Ssymm to Problem (2) have a sparse structure:\n\u2022 If \u03c1 is a basic feasible solution to the linear program L in Proposition 1, then there are at\nmost n + K \u2212 1 type-item pairs (k, j) such that \u03c1kj > 0 (out of nK possible pairs).\n\u2022 If \u03c1 is also optimal, then there are at most K \u2212 1 items that are ever recommended to more\nthan one type of user, i.e., where \u03c1kj , \u03c1k\u2032 j > 0 for k \u0338= k \u2032 .",
+          "quoted_text_sha256": "a67ce15ae74f1c94ca482e6658d13b95d4b971c31dd1d0c56808063474dfd3f9"
+        }
+      ]
+    },
+    "theorem3_price_decreases_first_half_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:2085-2089",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix D repeats the first Theorem 3 conclusion before its proof.",
+      "source_kind": "theorem",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "theorem3_price_decreases_first_half",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 2085,
+          "line_end": 2089,
+          "quoted_text": "Theorem 3. \u03c0U\n|I (\u03b1) is decreasing in \u03b1 for 0 < \u03b1 \u2264 1/2, and increasing in \u03b1 for 1/2 \u2264 \u03b1 < 1.\nD.1\n\nMain proof",
+          "quoted_text_sha256": "82dacbcf5cbc2954789c4baa153678c21d4c598bfea483bd3fd0c4963abfa0ab"
+        }
+      ]
+    },
+    "theorem3_price_increases_second_half_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:2085-2089",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix D repeats the second Theorem 3 conclusion before its proof.",
+      "source_kind": "theorem",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "theorem3_price_increases_second_half",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 2085,
+          "line_end": 2089,
+          "quoted_text": "Theorem 3. \u03c0U\n|I (\u03b1) is decreasing in \u03b1 for 0 < \u03b1 \u2264 1/2, and increasing in \u03b1 for 1/2 \u2264 \u03b1 < 1.\nD.1\n\nMain proof",
+          "quoted_text_sha256": "82dacbcf5cbc2954789c4baa153678c21d4c598bfea483bd3fd0c4963abfa0ab"
+        }
+      ]
+    },
+    "theorem4_misestimation_tradeoff_typeZero_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:3341-3364",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix E repeats the first Theorem 4 conclusion before its proof.",
+      "source_kind": "theorem",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "theorem4_misestimation_tradeoff_typeZero",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3341,
+          "line_end": 3364,
+          "quoted_text": "Theorem 4. If \u03b2 > n1 and w and w\u0302 are as described above, then fairness constraints can arbitrarily\nworsen the price of misestimation.\n\u2022 The price of misestimation without fairness constraints is low: for all {vj }, there is a\n\u2217\nrecommendation policy \u03c1\u0302 that solves the misestimated problem Umin\n(0, w\u0302) so that\n1\nM\n\u03c0U\n(0, w, w\u0302) \u2264 .\n2\n37\n\n\f\u2022 The price of misestimation with fairness constraints can be arbitrarily large: \u2200\u03f5, there exists\n\u2217\n{vj } and a recommendation policy \u03c1\u0302 that solves the problem Umin\n(1, w\u0302) such that\nM\n\u03c0U\n(1, w, w\u0302) > 1 \u2212 \u03f5.\n\nE.1\n\nMain proof",
+          "quoted_text_sha256": "3d5639a27dfe42c17c7752daad3d1b0ee6c33db36e6238c5917de43757960bbc"
+        }
+      ]
+    },
+    "theorem4_misestimation_tradeoff_typeOne_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:3341-3364",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix E repeats the second Theorem 4 conclusion before its proof.",
+      "source_kind": "theorem",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "theorem4_misestimation_tradeoff_typeOne",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3341,
+          "line_end": 3364,
+          "quoted_text": "Theorem 4. If \u03b2 > n1 and w and w\u0302 are as described above, then fairness constraints can arbitrarily\nworsen the price of misestimation.\n\u2022 The price of misestimation without fairness constraints is low: for all {vj }, there is a\n\u2217\nrecommendation policy \u03c1\u0302 that solves the misestimated problem Umin\n(0, w\u0302) so that\n1\nM\n\u03c0U\n(0, w, w\u0302) \u2264 .\n2\n37\n\n\f\u2022 The price of misestimation with fairness constraints can be arbitrarily large: \u2200\u03f5, there exists\n\u2217\n{vj } and a recommendation policy \u03c1\u0302 that solves the problem Umin\n(1, w\u0302) such that\nM\n\u03c0U\n(1, w, w\u0302) > 1 \u2212 \u03f5.\n\nE.1\n\nMain proof",
+          "quoted_text_sha256": "3d5639a27dfe42c17c7752daad3d1b0ee6c33db36e6238c5917de43757960bbc"
+        }
+      ]
+    },
+    "appendix_c_lemma2_item_fairness_equality_lp_solution_set_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:1802-1827",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix C repeats Lemma 2 before its proof.",
+      "source_kind": "lemma",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "appendix_c_lemma2_item_fairness_equality_lp_solution_set",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 1802,
+          "line_end": 1827,
+          "quoted_text": "Lemma 2. Let F denote the feasible set of Problem 1,\nF \u225c arg max\nImin (\u03c1) \u225c arg max\nmin Ij (\u03c1).\nm\nm\n\u03c1\u2208\u2206n\u22121\n\n\u03c1\u2208\u2206n\u22121\n\nThen F is the solution set of the linear program\nF = arg max\nm\n\n\u03c1\u2208\u2206n\u22121 ,\u03bb\n\nj\n\n(3)\n\n\u03bb\n\nsubject to Ij (\u03c1) = \u03bb\n\n(4)\n\u2200j.",
+          "quoted_text_sha256": "57e2592256341175e70bc66a87b71f1e5126e91ac3f2ab903943c191735b4089"
+        }
+      ]
+    },
+    "source_appendix_d_lemma3_unconstrained_baseline_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:2381-2382",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix D repeats Lemma 3 before its proof.",
+      "source_kind": "lemma",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "source_appendix_d_lemma3_unconstrained_baseline",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 2381,
+          "line_end": 2382,
+          "quoted_text": "Lemma 3. For all 0 < \u03b1 < 1, Umin\n(\u03b1) = 1.",
+          "quoted_text_sha256": "18953eecd7f3109b3aec75df8c73a98a4fbf29bd628950b66c2a9bf7540ad73f"
+        }
+      ]
+    },
+    "source_appendix_d_lemma4_problem6_structure_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:2417-2418",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix D repeats Lemma 4 before its proof.",
+      "source_kind": "lemma",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "source_appendix_d_lemma4_problem6_structure",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 2417,
+          "line_end": 2418,
+          "quoted_text": "Lemma 4. Problem 6 has a unique solution (x, y, \u03bb). Moreover, the solution is sparse: there is some\n1 \u2264 t \u2264 n such that for j > t, xj = 0, and for j < t, yj = 0.",
+          "quoted_text_sha256": "8f1afeabb911f3e35d88dd681283192ab13e19f7f373eaf520ccac8ab2c0999d"
+        }
+      ]
+    },
+    "source_appendix_d_lemma5_problem6_closed_form_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:2641-2701",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix D repeats Lemma 5 before its proof.",
+      "source_kind": "lemma",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "source_appendix_d_lemma5_problem6_closed_form",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 2641,
+          "line_end": 2701,
+          "quoted_text": "Lemma 5. Let 0 < \u03b1 < 1, t := t(\u03b1). Define\nX 1\nLt =\n,\nq\nj<t j\nThen\n\u2217\nImin\n=\n\nand\n\nRt =\n\n1\n.\n1 \u2212 qj\nj>t\n\nX\n\n1\n,\n1 + qt Lt + (1 \u2212 qt )Rt\n\n\uf8f1 I\u2217\nmin\n\uf8f4\nj<t\n\uf8f2 qj ,\nLt\nxj = 1 \u2212 1+q L +(1\u2212q\n,\nj=t,\nt t\nt )Rt\n\uf8f4\n\uf8f3\n0,\nj>t\n\n\uf8f1\n\uf8f4\n\uf8f20,\nRt\n,\nyj = 1 \u2212 1+qt Lt +(1\u2212q\nt )Rt\n\u2217\n\uf8f4\nI\n\uf8f3 min ,\n1\u2212qj\n\nj<t\nj=t.\nj>t\n\nP\nP",
+          "quoted_text_sha256": "ceba5880afdf55dd66fbd3cd4cae96008f256d41241052829f546a5ec2da05f0"
+        }
+      ]
+    },
+    "source_appendix_d_lemma6_mirror_inverse_gap_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:2828-2829",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix D repeats Lemma 6 before its proof.",
+      "source_kind": "lemma",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "source_appendix_d_lemma6_mirror_inverse_gap",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 2828,
+          "line_end": 2829,
+          "quoted_text": "Lemma 6. For 0 < \u03b1 < 1/2, if \u03c1\u2217 is the optimal recommendation policy, then Ui (\u03c1\u2217 , \u03b1) \u2265\nUi\u2032 (\u03c1\u2217 , \u03b1) for \u03c4 (i) = 1, \u03c4 (i\u2032 ) = 2.",
+          "quoted_text_sha256": "d7e9e511fb3244a94ed7862c9775d38c6db13b4c1ec9f46b9cb17062db82acb8"
+        }
+      ]
+    },
+    "source_appendix_d_lemma7_pivot_monotonicity_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:2963-2963",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix D repeats Lemma 7 before its proof.",
+      "source_kind": "lemma",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "source_appendix_d_lemma7_pivot_monotonicity",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 2963,
+          "line_end": 2963,
+          "quoted_text": "Lemma 7. t(\u03b1) is weakly increasing.",
+          "quoted_text_sha256": "4ba4e15e000976b0034990423d4d86ad6025a44c5e53e63889015039e7589844"
+        }
+      ]
+    },
+    "source_appendix_d_lemma8_selected_pivot_stitching_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:3066-3067",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix D repeats Lemma 8 before its proof.",
+      "source_kind": "lemma",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "source_appendix_d_lemma8_selected_pivot_stitching",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3066,
+          "line_end": 3067,
+          "quoted_text": "Lemma 8. Imin\n(\u03b1) is increasing for \u03b1 \u2264 1/2.",
+          "quoted_text_sha256": "d2eb6ee0dabe793d17205910a7a4163fa293ace758574dd4b68b1da3d39cda5e"
+        }
+      ]
+    },
+    "source_appendix_d_lemma9_pair_share_algebra_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:2340-2340",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix D repeats Lemma 9 before its proof.",
+      "source_kind": "lemma",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "source_appendix_d_lemma9_pair_share_algebra",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 2340,
+          "line_end": 2340,
+          "quoted_text": "Lemma 9. qj (\u03b1) strictly increases as \u03b1 increases and strictly decreases as j increases.",
+          "quoted_text_sha256": "e2eed3da1ecfc9ab0f0d9760ee67496b0987b1a8b17da5311e2cca6c02430f3f"
+        }
+      ]
+    },
+    "source_appendix_d_lemma10_midpoint_candidate_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:3101-3101",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix D repeats Lemma 10 before its proof.",
+      "source_kind": "lemma",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "source_appendix_d_lemma10_midpoint_candidate",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3101,
+          "line_end": 3101,
+          "quoted_text": "Lemma 10. If \u03b1 \u2264 1/2, then t(\u03b1) \u2264 (n + 1)/2.",
+          "quoted_text_sha256": "e338852a43311d8d33004b19b54433d8d15f8c0794a2420841dd4e310f71a4d0"
+        }
+      ]
+    },
+    "source_appendix_d_lemma11_denominator_monotonicity_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:3151-3152",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix D repeats Lemma 11 before its proof.",
+      "source_kind": "lemma",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "source_appendix_d_lemma11_denominator_monotonicity",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3151,
+          "line_end": 3152,
+          "quoted_text": "Lemma 11. Imin\n(\u03b1) is increasing on A(t) for t \u2264 (n + 1)/2.",
+          "quoted_text_sha256": "6d24a405771e567d90abfb092ceabf29e55e21718035d167a248444cacbfc350"
+        }
+      ]
+    },
+    "source_appendix_e_lemma12_symmetrized_policy_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:3739-3747",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix E repeats Lemma 12 before its proof.",
+      "source_kind": "lemma",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "source_appendix_e_lemma12_symmetrized_policy",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3739,
+          "line_end": 3747,
+          "quoted_text": "Lemma 12. If a policy \u03c1 = (x, y, z) \u2208 Ssymm solves Umin (\u03c1) = Umin\n(1), then there is some policy\n\u2032\n\u2032 \u2032\n\u2032\n\u2032\n\u2217\n\u03c1 = x , z \u2208 S that solves Umin (\u03c1 ) = Umin (1).\n\u2217",
+          "quoted_text_sha256": "2da9ed3cc8d32ff88a1ef35730a083b23f1c6122670e382c9828f1231ffc2396"
+        }
+      ]
+    },
+    "source_appendix_e_lemma13_pivot_support_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:3833-3841",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix E repeats Lemma 13 before its proof.",
+      "source_kind": "lemma",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "source_appendix_e_lemma13_pivot_support",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3833,
+          "line_end": 3841,
+          "quoted_text": "Lemma 13. Let x, z be an optimal basic feasible solution to the linear program Problem 11. There\n\u2032\n\u2032\n\u2032\n\u2032\n\u2032\nis some j \u2264 n+1\n2 such that for all j > j, xj = 0 and for all j < j, zj = zn\u2212j +1 = 0. Let the\npivot index t denote the minimum such j.",
+          "quoted_text_sha256": "86f8233c51a90660be263b6b0b300cae866da68e96b8def31dd910c926be489d"
+        }
+      ]
+    },
+    "source_appendix_e_lemma14_uniqueness_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:4153-4153",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix E repeats Lemma 14 before its proof.",
+      "source_kind": "lemma",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "source_appendix_e_lemma14_uniqueness",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 4153,
+          "line_end": 4153,
+          "quoted_text": "Lemma 14. Problem 11 has a unique optimal solution.",
+          "quoted_text_sha256": "6cf5b6d37261dad32215d4926ad1f790ebcb4eae8b0f9e924c251625e451462e"
+        }
+      ]
+    },
+    "source_appendix_e_lemma15_closed_formula_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:4239-4404",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix E repeats Lemma 15 before its proof; its archival center display is governed by the approved corrected target.",
+      "source_kind": "lemma",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "source_appendix_e_lemma15_closed_formula",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 4239,
+          "line_end": 4404,
+          "quoted_text": "Lemma 15. Let (x, z) be the optimal solution to Problem 12, and let t be the pivot element of (x, z);\nsuppose that t \u0338= n+1\n2 . Define\nX 1\nLt :=\n.\nq\nj<t j\nThen\n\u03bb=\n\uf8f1\n\uf8f4\n\uf8f20,\u0010\n\nzj = 12\n\uf8f4\n\uf8f3\n\n2\u03b2qt + 1/2(1 \u2212 2\u03b2)\n,\n1 + qt Lt + 1/2(n \u2212 2t)\nj<t\n\n\u03bb\n1 \u2212 (n \u2212 2t) 1\u22122\u03b2\n\n\u0011\n\n,\n\n\u03bb\n1\u22122\u03b2 ,\n\nj \u2208 {t, n \u2212 t + 1} .\nt<j <n\u2212t+1\n\nFinally,\n\uf8f1\n\u03bb\n\uf8f4\n\uf8f2 2\u03b2qj ,\n\u03bb\nxj = 1 \u2212 2\u03b2\nLt ,\n\uf8f4\n\uf8f30,\n\nj<t\nj=t.\nj>t\n\nIf t = n+1\n2 , then x remains the same, but zt = 1 and\n\u03bb=\n\n2\u03b2qt + (1 \u2212 2\u03b2)\n.\n1 + qt Lt\n\n\u03bb\n. Moreover,\nProof. For all j < t, \u03bb = 2\u03b2qj xj , so xj = 2\u03b2q\nj\n\nxt = 1 \u2212\n\nX\nj<t\n\nxj = 1 \u2212\n\nX \u03bb\n\u03bb\n=1\u2212\nLt .\n2\u03b2q\n2\u03b2\nj\nj<t\n\nSuppose that n is odd and that t = h = n+1\n2 . Then zt = zh must be 1 since for all j < h zj = 0.\nMoreover,\n\u0012\n\u0013\n\u03bb\n\u03bb = 2\u03b2qt xt + (1 \u2212 2\u03b2)zt = 2\u03b2qt 1 \u2212\nLt + (1 \u2212 2\u03b2)\n2\u03b2\nso, rearranging,\n2\u03b2qt + (1 \u2212 2\u03b2)\n\u03bb=\n.\n1 + qt Lt\nP\nP\n\u03bb\nOtherwise, t < j \u2264 h, \u03bb = (1 \u2212 2\u03b2)zj , so zj = 1\u22122\u03b2\n. Then since j\u2264h zj + h<j\u2264n zn\u2212j+1 = 1,\n\uf8eb\n\uf8f6\nX\nX\nX\nX\n1\uf8ed\n1\u2212\nzj \u2212\nzj \u2212\nzn\u2212j+1 \u2212\nzn\u2212j+1 \uf8f8\nzt =\n2\nj<t\nj>n\u2212t+1\nt<j\u2264h\nh<j<n\u2212t+1\n\uf8eb\n\uf8f6\nX\nX\n1\n= \uf8ed1 \u2212\nzj \u2212\nzn\u2212j+1 \uf8f8\n(zj = 0 for j < t)\n2\nt<j\u2264h\nh<j<n\u2212t+1\n\u0012\n\u0013\n1\n\u03bb\n=\n1 \u2212 (n \u2212 2t)\n.\n2\n1 \u2212 2\u03b2\n45\n\n\fMoreover,\n\u0012\n\u03bb = 2\u03b2qt xt + (1 \u2212 2\u03b2)zt = 2\u03b2qt\n\n\u03bb\n1\u2212\nLt\n2\u03b2\n\n\u0013\n\n1\n+ (1 \u2212 2\u03b2)\n2\n\n\u0012\n1 \u2212 (n \u2212 2t)\n\nRearranging,\n\u03bb(1 + qt Lt + 1/2(n \u2212 2t)) = 2\u03b2qt + 1/2(1 \u2212 2\u03b2),\nso\n\u03bb=\n\n2\u03b2qt + 1/2(1 \u2212 2\u03b2)\n.\n1 + qt Lt + 1/2(n \u2212 2t)",
+          "quoted_text_sha256": "adf4d2257ee2800ed25115ad5dfc5b5c002916b5ad12905e549df1ca2493817d"
+        }
+      ]
+    },
+    "source_appendix_e_lemma17_no_right_half_support_proof_presentation": {
+      "aliases": [],
+      "source_location": "GCG24UserItemFairness.txt:4108-4110",
+      "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
+      "statement": "Appendix E repeats Lemma 17 before its proof.",
+      "source_kind": "lemma",
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "source_appendix_e_lemma17_no_right_half_support",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The pinned presentation repeats the same visible numbered result component, its displayed hypotheses, and its terminal conclusion before or within the corresponding proof. This source-only comparison uses the printed mathematical content, not a map key or Lean declaration name.",
+        "validator": "Codex GCG24 source-only named-result reconciliation",
+        "validated_at": "2026-07-27T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 4108,
+          "line_end": 4110,
+          "quoted_text": "Lemma 17. Let (x, z) be an optimal solution to Problem 11. For j > n+1\n2 , xj = 0.\n\u2032",
+          "quoted_text_sha256": "8716c434f4918f2954573dae8cc1dd5f8c74f071afd1820fab192da0818a8d6a"
+        }
+      ]
     }
   },
   "paper": "GCG24UserItemFairness",
   "schema": 1,
   "source_curated": true,
-  "source_inventory_kind": "source_curated",
-  "source_inventory_policy": "Source-curated inventory refreshed for complete source-to-dashboard coverage. Main-text definitions/examples/remarks/propositions and appendix theorems are represented by dashboard rows; GCG appendix lemmas are split into review-legible lemma-family rows.",
+  "source_inventory_kind": "source_curated_atomic_inventory",
+  "source_inventory_policy": "Normal closeout scope is the complete source-only inventory of visible named theoretical statements (theorems, propositions, and lemmas) in the byte-pinned canonical text. Examples, captions, figures, standalone formulas, and explanatory prose remain retained only for an explicit deep all-prose audit. Map keys and Lean declarations are navigation only.",
   "source_url": "https://openreview.net/pdf?id=ZOZjMs3JTs; https://arxiv.org/pdf/2412.04466",
-  "title": "User-item fairness tradeoffs in recommendations"
+  "title": "User-item fairness tradeoffs in recommendations",
+  "generated_from": "GCG24 source-presentation v10 receipt migration",
+  "source_anchor_evidence_required": true,
+  "source_coverage_mode": "named_theoretical_statements",
+  "source_kind_policy": "Selection and duplicate reconciliation are determined by visible source presentation, exact canonical source spans, and byte-pinned quotations. A multipart theorem may have separate source-component rows for distinct advertised conclusions, but repeated appendix presentations are source-only aliases and cannot own Lean routes.",
+  "source_location_policy": "Canonical named-result rows use exact source presentation spans. Shared model assumptions remain separately byte-pinned context entries, so surrounding prose cannot certify a conclusion.",
+  "source_named_result_inventory_review": {
+    "schema": 1,
+    "complete": true,
+    "validator": "Codex GCG24 source-only named-result reconciliation",
+    "validated_at": "2026-08-15T14:00:00Z",
+    "method": "Parsed the canonical source text without consulting source-map keys, Lean declarations, or theorem names. Reconciled each of the visible 40 named presentations and each source-provided normal-scope definition by exact byte-pinned anchor; the standard LP term used in Lemma 13 is recorded separately as a source use without a source-provided definition. Conditional Roman subparts under an explicit Suppose/Then proposition remain antecedents of that one source proposition.",
+    "source_artifact_sha256": "7a0981ed1c26b7e69886e093b37d24b7778a645fe205c301ee14928ddd9c81ea",
+    "discovered_named_result_sha256": "94cd2afd33108268c51306ce0cf5fe24813a9964bdec145f3eb8b816f6fb578e",
+    "prose_definition_presentations": [
+      {
+        "schema": 1,
+        "presentation_kind": "definition",
+        "defined_entity_kind": "object",
+        "defined_object": "user fairness",
+        "definitional_clause": "Given a recommendation policy \u03c1, user fairness is quantified as the minimum normalized user utility",
+        "scope_disposition": "normal_named_theory_definition",
+        "source_anchor": {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 149,
+          "line_end": 149,
+          "quoted_text": "Given a recommendation policy \u03c1, user fairness is quantified as the minimum normalized user utility",
+          "quoted_text_sha256": "828da69e5d02ee3f31a06eacc8af135efb9c262c29350c8ea974d629793b0997"
+        }
+      },
+      {
+        "schema": 1,
+        "presentation_kind": "definition",
+        "defined_entity_kind": "object",
+        "defined_object": "item fairness",
+        "definitional_clause": "Umin (\u03c1, w) = mini Ui (\u03c1, w), and item fairness analogously as Imin (\u03c1, w) = minj Ij (\u03c1, w).",
+        "scope_disposition": "normal_named_theory_definition",
+        "source_anchor": {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 150,
+          "line_end": 150,
+          "quoted_text": "Umin (\u03c1, w) = mini Ui (\u03c1, w), and item fairness analogously as Imin (\u03c1, w) = minj Ij (\u03c1, w).",
+          "quoted_text_sha256": "94e6a9c0f97560c42b90cdcef3f98fa6fa9189a86b2d3eb33faf77afc9929474"
+        }
+      },
+      {
+        "schema": 1,
+        "presentation_kind": "definition",
+        "defined_entity_kind": "object",
+        "defined_object": "two-sided fair optimization",
+        "definitional_clause": "Finally, we cast the two-sided fair optimization \u2013 for the optimal \u03b3-constrained user fair solution \u2013 as",
+        "scope_disposition": "normal_named_theory_definition",
+        "source_anchor": {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 160,
+          "line_end": 160,
+          "quoted_text": "Finally, we cast the two-sided fair optimization \u2013 for the optimal \u03b3-constrained user fair solution \u2013 as",
+          "quoted_text_sha256": "31f45e074344c8188f061e8ff7e7044033d8aaca483d9e28b9b1ae6fc40ff45e"
+        }
+      },
+      {
+        "schema": 1,
+        "presentation_kind": "definition",
+        "defined_entity_kind": "object",
+        "defined_object": "price of fairness",
+        "definitional_clause": "Research questions: price of fairness and misestimation. We can now define the price of item F fairness on user fairness \u03c0U |I (\u201cprice of fairness\u201d) as the decrease in user fairness with maximal item fairness constraints:",
+        "scope_disposition": "normal_named_theory_definition",
+        "source_anchor": {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 174,
+          "line_end": 178,
+          "quoted_text": "Research questions: price of fairness and misestimation. We can now define the price of item\nF\nfairness on user fairness \u03c0U\n|I (\u201cprice of fairness\u201d) as the decrease in user fairness with maximal item\nfairness constraints:",
+          "quoted_text_sha256": "fd31340a02ebb7c256716162c1d47d401b14e58dfd759cf425ccc27b16da07ab"
+        }
+      },
+      {
+        "schema": 1,
+        "presentation_kind": "definition",
+        "defined_entity_kind": "object",
+        "defined_object": "price of misestimation",
+        "definitional_clause": "misestimated utilities, that is, \u03c1\u0302(\u03b3) attains Umin (\u03b3, w\u0302).1 Then we define the price of misestimation M on user utility (\u201cprice of misestimation\u201d) \u03c0U as",
+        "scope_disposition": "normal_named_theory_definition",
+        "source_anchor": {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 204,
+          "line_end": 207,
+          "quoted_text": "misestimated utilities, that is, \u03c1\u0302(\u03b3) attains Umin\n(\u03b3, w\u0302).1 Then we define the price of misestimation\nM\non user utility (\u201cprice of misestimation\u201d) \u03c0U as",
+          "quoted_text_sha256": "a6023a9325bc4aa2186550b0da0f78151e24168af885d27e06ba3491d4e27bed"
+        }
+      },
+      {
+        "schema": 1,
+        "presentation_kind": "definition",
+        "defined_entity_kind": "object",
+        "defined_object": "S \u2032",
+        "definitional_clause": "S \u2032 = {x, y, z \u2208 Ssymm : xj = yn\u2212j+1 , zj = zn\u2212j+1 for all j}.",
+        "scope_disposition": "normal_named_theory_definition",
+        "source_anchor": {
+          "path": "GCG24UserItemFairness.txt",
+          "line_start": 3375,
+          "line_end": 3400,
+          "quoted_text": "S \u2032 = {x, y, z \u2208 Ssymm : xj = yn\u2212j+1 , zj = zn\u2212j+1 for all j}.\nSince y is completely determined by x, we can identify S \u2032 with \u22062n\u22121 and can identify x, y, z \u2208 S \u2032\nsimply by x, z.\n\u2217\nLemma 12. If a policy \u03c1 = (x, y, z) \u2208 Ssymm solves Umin (\u03c1) = Umin\n(1), then there is some policy\n\u2217\n\u03c1\u2032 = x\u2032 , z \u2032 \u2208 S \u2032 that solves Umin (\u03c1\u2032 ) = Umin\n(1).\n\nApplying the framework in Proposition 1 to this proof with S = S \u2032 and using w\u0302 as the user and item\nvalues, we reduce the problem to finding\n\u03d5 = arg\n\nmax\n\nx,z\u2208\u22062n\u22121 ,\u03bb\n\n\u03bb\n(11)\n\nsubject to Ij (x, z) = \u03bb\n\n\u2200j,\n\nand showing that this \u03d5 is unique.",
+          "quoted_text_sha256": "12d03c98c5b180661bc6d2707d460da3e25b463044c62f337d120797c9328b94"
+        }
+      }
+    ],
+    "discovered_prose_definition_sha256": "9584f2d4566271441f76edb7cc71ad506a9bd249434e887c7b5eb003ea8ac1b4"
+  }
 }

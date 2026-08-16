@@ -62,10 +62,11 @@ maintainer explicitly asks for a public-safe PR.
   version. Regenerate private aggregate status/site files in the private
   checkout after copying.
 - Private to public: do this only for an explicitly requested public-safe
-  release or contribution. Start from current public `main` on a branch or fork,
-  then copy only allowlisted paths. Use exact paths, not broad `papers/` or
-  `skills/` copies. Regenerate public aggregate status/site files in the public
-  checkout.
+  release or contribution. Start from current public `main` in a separate clean
+  public clone on a `release/` branch, then copy only allowlisted paths. Never
+  push, merge, filter, or cherry-pick private `HEAD` into public. Use exact
+  paths, not broad `papers/` or `skills/` copies. Regenerate public aggregate
+  status/site files in the public checkout.
 - If both repos changed the same generated artifact, prefer the artifact whose
   inputs are newest and whose validation was run in the checkout that will
   publish it. Do not decide by filename alone.
@@ -88,7 +89,9 @@ For public-safe paths, prefer the latest semantically valid artifact:
   timestamp is not enough.
 - Source records (`audit/source_record_audit.json`,
   `audit/paper_statement_map.json`): use the version generated from the current
-  Lean/source inventory. Regenerate when in doubt.
+  Lean/source inventory. Validate the exact item identities first; regenerate
+  only rows whose current source/map/Lean semantic surface fails that check, not
+  merely because the destination checkout is cold or a timestamp differs.
 - Paper-local status metadata: human-review totals should count the curated
   source-facing review rows, not every proof helper or API declaration exposed
   during implementation. Prefer explicit `review_surface.include_names`,
@@ -99,6 +102,10 @@ For public-safe paths, prefer the latest semantically valid artifact:
   `papers/catalog.json` `publication_overrides`. Do not erase paper-local
   `source_version` provenance such as source archives, TeX/formula sources, or
   internal source-version notes just to clean a rendered table.
+  `publication_overrides` is academic display metadata only. It never selects a
+  paper for repository export. Every paper status must explicitly declare
+  `repository_visibility: public` or `private_only`, and all public-release
+  selectors must fail closed when that field is absent or unknown.
 - Public website/status notes should be sparse. For fully formalized papers,
   leave `human_summary` / public-note fields empty by default unless there is a
   real public-facing reason to explain a caveat, remaining boundary, unusual
@@ -122,12 +129,11 @@ For public-safe paths, prefer the latest semantically valid artifact:
   audience-relevant capability summaries rather than internal implementation
   inventories.
 - Aggregate files (`papers/status.json`, `papers/human_status.json`,
-  `docs/PAPER_STATUS.md`, and `site/index.html`): never copy across the
-  public/private boundary. Regenerate them in the destination checkout.
-  `README.md` files are human-owned prose; do not copy, regenerate, migrate, or
-  edit any README unless the user gives express README-edit permission in the
-  current task. If README regeneration is explicitly requested, use
-  `scripts/sync_paper_status.py --sync-readmes --readme-edit-permission`.
+  `docs/PAPER_STATUS.md`, `site/index.html`, and per-paper generated
+  `README.md` entrypoints): never copy across the public/private boundary.
+  Regenerate them in the destination checkout. The root `README.md` is
+  hand-written prose; do not copy, regenerate, or edit it unless the user gives
+  specific root-README instructions.
 
 ## Source Artifacts
 
@@ -138,18 +144,34 @@ source URL and, if needed, describe a local ignored cache. Planning, handoff,
 audit, and citation-provenance notes written by the project may be tracked when
 they do not reproduce source-paper text.
 
+A public candidate is therefore a **structural** validation environment for
+licensed source evidence. It must retain the canonical source path/provenance
+and digest plus the paper's final closure receipt, but it must not contain the
+underlying source bytes. Missing bytes there mean that the candidate cannot
+independently recompute source excerpts; they do not make a private source
+review, receipt, or audit stale. Treat that condition as a non-certifying
+structural warning. Reissue a source review only after a private, byte-checked
+material change to the source, source map, Lean interface/proof closure, or
+governing protocol—not to fill an intentionally private public checkout.
+
 ## Cache Discipline
 
 Do not trust a warm checkout for public validation. Ignored
 `.review_traces/paper_interface_cache.json` files can make
 `review_dashboard.py --statement-check` pass locally while a fresh CI checkout
-fails. Before treating sidecars as current:
+fails. This is destination-checkout cache validation, not a normal frozen-paper
+closeout sequence. Before treating copied sidecars as current:
 
-1. Run `python3 scripts/review_dashboard.py --paper <paper> --refresh-cache`
-   in the checkout being validated.
-2. Regenerate tracked LLM sidecars from that current review surface if row
-   names, Lean statement digests, source statement digests, prompt versions, or
-   source-record audit digests changed.
+1. Compare the tracked item identities first. If the destination needs a
+   dashboard manifest to validate a changed or cache-missing row, run
+   `python3 scripts/review_dashboard.py --paper <paper> --refresh-cache` once
+   in that checkout. Do not refresh merely because this checklist is being read.
+   For a source-present frozen paper closeout, use
+   `closeout_reuse_plan.py` instead and execute only its scheduled action.
+2. Regenerate tracked LLM sidecars from that current review surface only if a
+   configured row's semantic identity, Lean/source statement digest, prompt
+   version, or source-record audit digest changed. Row names are navigation,
+   not a regeneration condition.
 3. Verify from a fresh or cache-free checkout when preparing a public PR that
    touches review sidecars.
 4. If local and CI disagree, trust the fresh checkout/CI and inspect ignored
@@ -163,9 +185,23 @@ fails. Before treating sidecars as current:
 2. Build a path-level diff by category: shared library, scripts, skills,
    public paper folder, private-only paper folder, DAG/report PDFs, LLM
    sidecars, source caches, and generated aggregate surfaces.
-3. For each path, record the chosen direction and reason:
-   `public newer`, `private newer`, `destination regenerated`,
-   `private-only`, `source-cache private`, or `public-safe PR`.
+3. For each path, record the chosen direction and reason in a release-specific
+   exact-file allowlist. Directory entries are forbidden. Copied blobs must
+   cite an exact private source commit and
+   byte-match that path at that commit; public-base deletions and the four
+   destination-generated aggregate files use explicit non-copy provenance. A
+   reviewed in-place edit to an existing public-base file uses
+   `public_base_edit`, with exact SHA256 digests for both the public-base and
+   candidate blobs; it cannot authorize an addition, deletion, rename, or Git
+   mode/type change. The reviewer approval's allowlist SHA256 transitively pins
+   both blob digests. A reviewed public-only file that is absent from the public
+   base uses `public_base_addition`, pins the exact candidate blob SHA256, and
+   is accepted only as a Git addition. If byte-identical content at the same
+   path and Git mode exists in any reviewed private source commit, the guard
+   requires `private_blob` instead; a genuinely public-specific rendering at a
+   shared pathname still requires independent review. Record the release decision as `public newer`, `private
+   newer`, `destination regenerated`, `private-only`, `source-cache private`,
+   or `public-safe PR`.
 4. Copy with an explicit path list or `rsync --files-from`, never a broad
    repository-wide copy.
 5. Regenerate aggregate status in the destination checkout.
@@ -176,16 +212,33 @@ fails. Before treating sidecars as current:
 7. Run leakage checks before public commits:
    `git diff --name-only` plus searches for private paper IDs, raw source
    caches, `.review_traces`, `.txt` source extracts, and private planning paths.
-8. Commit with explicit pathspecs. For public changes, prepare a PR; do not
-   assume direct push access.
+8. Commit the complete public export as one squashed commit whose sole parent
+   is the exact fetched public base. Use explicit pathspecs; do not merge or
+   stack private commits, because intermediate history is also published. For
+   public changes, prepare a PR; do not assume direct push access.
+9. After the candidate commit is fixed, a human reviewer creates
+   `~/.config/econcslib/public-release-approval.json` outside both repositories.
+   It pins the exact candidate and public-base commits, allowlist and guard
+   SHA256 values, and sorted private source commits. This path is fixed in the
+   guard and cannot be overridden by CLI. Its containing directory/file modes
+   are `0700`/`0600`; symlinks and group/world-writable approval paths fail.
+10. From the clean committed public candidate, invoke the canonical private
+   guard:
+   `python3 <private-repo>/scripts/public_release_candidate_guard.py --repo "$PWD"
+   --allowlist <reviewed-allowlist.json>`. Do not execute a guard from the
+   candidate itself. Do not proceed while it reports a visibility,
+   trust-anchor, ancestry, provenance, forbidden-path, or Lean
+   dependency-closure error. The guard fixes public and private refs/remotes,
+   authenticates its containing private checkout, requires canonical fetch and
+   push URLs, and rejects shared Git common/object stores.
 
 ## What Not To Do
 
 - Do not raw-merge private `main` into public `main`.
 - Do not copy `papers/status.json`, `papers/human_status.json`,
-  `docs/PAPER_STATUS.md`, or `site/index.html` across repos. README files are
-  human-owned prose; agents should edit or copy them only after express
-  README-edit permission in the current task.
+  `docs/PAPER_STATUS.md`, root `README.md`, or `site/index.html` across repos.
+  The root `README.md` is human-owned prose; agents should edit it only after
+  explicit root-README instructions.
 - Do not copy `.review_traces` caches, local source PDFs/text, or unpacked
   source archives into public by default.
 - Do not keep stale LLM sidecars because a warm local checkout passes.

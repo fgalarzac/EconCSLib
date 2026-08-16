@@ -1,67 +1,96 @@
 {
-  "comment": "Regenerated context-free Lean-to-TeX drafts for semantic statement rejudge; every visible binder/hypothesis remains part of the translated surface.",
+  "comment": "Fresh context-free translations of the five transparent specification/proof pairs on the current ten-row review surface.",
   "items": {
-    "applicantOptimalStableMarriage": {
-      "lean_statement_sha256": "59583c25c51eb4243c998c0a9b4d40f44791e57b96021283ef7b8fd4a6135a4b",
+    "literalApplicantOptimalCollegeAssignment_iff_source_definition": {
+      "lean_statement_sha256": "ac1bffa65eccdc203e36adde1c7299ca3eda63a1b6106c716de1722695a9d963",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "A matching $\\mu$ is applicant-optimal stable if it is stable and, for every stable matching $\\mu'$, every applicant/man weakly prefers their match under $\\mu$ to their match under $\\mu'$.",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "tex_statement": "For arbitrary applicant and college types, a natural quota for every college, real-valued applicant and college score functions, and a many-to-one assignment mu, the proposition literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec for those data holds.",
+      "translated_at": "2026-08-04T11:30:00Z",
+      "translator": "Codex GS62 context-free statement translator 2026-08-04",
+      "validator_type": "agent"
     },
-    "college_admissions_stable_assignment_exists": {
-      "lean_statement_sha256": "c19cf30c007d6862fba9c3bd685f218f050e623466ba70bca09be18c6532efbc",
+    "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec": {
+      "lean_statement_sha256": "cdcf93618df04d5db4ce015eb3e829f013bbb96487b33514bc1eeb6ee0b3368b",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "For finite applicant and college sets with decidable equality, any college quotas and applicant/college utilities admit an assignment $\\mu$ that is stable for the many-to-one college-admissions problem.",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "completeMarriage": {
-      "lean_statement_sha256": "62bbc58547ae1a6d8b80a95aa79f249bade4d89426550970f66f52b744b9600a",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "An assignment $\\mu$ is complete if every man is matched to some woman and every woman is matched to some man.",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "stableMarriage": {
-      "lean_statement_sha256": "f736bdbd24995f3c33307d859f6d4eb84bd875212d02d1a92df9fb465e4cb5f7",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "An assignment $\\mu$ is stable for utilities $v_m,v_w$ if every man and every woman weakly prefers their assigned match to being unmatched, and there is no pair $(m,w)$ such that $m$ strictly prefers $w$ to $\\mu(m)$ and $w$ strictly prefers $m$ to $\\mu(w)$.",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "strictMarriageDomain": {
-      "lean_statement_sha256": "94efe8a728756d6287527085774ea3cbd9e9fc26d657c3526eb3e55cb4ef4e98",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "For sets of men $M$ and women $W$ with utilities $v_m:M\\to W\\to\\mathbb{R}$ and $v_w:W\\to M\\to\\mathbb{R}$, the strict marriage domain is the condition that men's preferences are strict, women's preferences are strict, and every man-woman pair is acceptable.",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "tex_statement": "For arbitrary applicant and college types, a natural quota for every college, real-valued applicant and college score functions, and a many-to-one assignment mu, define literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec to be the equivalence between literal applicant optimality of mu and the conjunction that mu respects the quotas, mu has no literal replacement-pair instability, and for every quota-feasible literally stable assignment nu and every applicant a, the value to a of nu.app_match(a) is at most the value to a of mu.app_match(a).",
+      "translated_at": "2026-08-04T11:30:00Z",
+      "translator": "Codex GS62 context-free statement translator 2026-08-04",
+      "validator_type": "agent"
     },
     "theorem1_stable_marriage_exists": {
-      "lean_statement_sha256": "ce3d336470ae01f4b5a91bc296a35b9314215fa458fb3b10e42032f9b35a87df",
+      "lean_statement_sha256": "11e7cff26bfb004e9a9d43820a19af4a907fae1af42437ac9355442e396dc3ef",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "For a finite indexed set $A$ with decidable equality, if utilities $v_m,v_w:A\\to A\\to\\mathbb{R}$ satisfy the strict marriage domain, then there exists an assignment $\\mu$ from $A$ to $A$ that is stable and complete; equal cardinality is represented by using the same finite index type for both sides.",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "tex_statement": "The closed proposition theorem1_stable_marriage_existsSpec holds; after its transparent expansion, this says that for finite types M and W with decidable equality and real-valued score functions v_M : M -> W -> R and v_W : W -> M -> R, equal cardinalities and strict profiles in which every cross-side pair is acceptable imply the existence of a complete two-sided assignment with no mutually improving pair.",
+      "translated_at": "2026-08-04T11:30:00Z",
+      "translator": "Codex GS62 context-free statement translator 2026-08-04",
+      "validator_type": "agent"
+    },
+    "theorem1_stable_marriage_existsSpec": {
+      "lean_statement_sha256": "923021504669f0888692eca04672d0b28d18e33ae2f68ecb742ed0d6467896c5",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "For finite types M and W with decidable equality and real-valued score functions v_M : M -> W -> R and v_W : W -> M -> R, define theorem1_stable_marriage_existsSpec to mean: if M and W have equal cardinality and the two score profiles are strict with every cross-side pair acceptable, then there exists a two-sided assignment mu that is complete and has no pair m,w who both strictly prefer one another to their assigned partners.",
+      "translated_at": "2026-08-04T11:30:00Z",
+      "translator": "Codex GS62 context-free statement translator 2026-08-04",
+      "validator_type": "agent"
     },
     "theorem2_applicant_optimality": {
-      "lean_statement_sha256": "9d18504fa2b48e4234a56c501b2cb6beef3d5a971b0f59f36234111460eede55",
+      "lean_statement_sha256": "bea4103a7d7aa3d2a06dff692bb438530e517a1f0d40375ef57a0fedc847faa8",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "For a finite indexed set $A$ with decidable equality, if applicant and college utilities $v_a,v_c:A\\to A\\to\\mathbb{R}$ satisfy the strict marriage domain, then deferred acceptance produces a complete matching that is applicant-optimal among stable matchings; equal cardinality is represented by using the same finite index type for both sides.",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "tex_statement": "The closed proposition theorem2_applicant_optimalitySpec holds; after its transparent expansion, this says that for finite applicant and college types with decidable equality, natural college quotas, real-valued applicant and college score functions, and a strict college-admissions domain hdomain, there exists s : SourceWaitingListState satisfying SourceReachable(quota,val_applicant,val_college,hdomain.2.1,s) and no SourceActive applicant, and every state s satisfying those same conditions has applicantOptimalCollegeAssignment for sourceAssignmentView(quota,val_college,hdomain.2.1,s).",
+      "translated_at": "2026-08-04T11:30:00Z",
+      "translator": "Codex GS62 context-free statement translator 2026-08-04",
+      "validator_type": "agent"
+    },
+    "theorem2_applicant_optimalitySpec": {
+      "lean_statement_sha256": "f4da45d9fdf837fd27ef130d18af5765da2a5280d9b940bf982b2e355309d3a5",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "For finite applicant and college types with decidable equality, natural college quotas, and real-valued applicant and college score functions, define theorem2_applicant_optimalitySpec to mean that for every strict college-admissions domain proof hdomain: first, there exists s of type SourceWaitingListState such that SourceReachable(quota,val_applicant,val_college,hdomain.2.1,s) and no applicant a satisfies SourceActive(quota,val_applicant,val_college,hdomain.2.1,s,a); and second, for every SourceWaitingListState s, those same reachability and inactivity conditions imply applicantOptimalCollegeAssignment(quota,val_applicant,val_college, sourceAssignmentView(quota,val_college,hdomain.2.1,s)).",
+      "translated_at": "2026-08-04T11:30:00Z",
+      "translator": "Codex GS62 context-free statement translator 2026-08-04",
+      "validator_type": "agent"
+    },
+    "unstableCollegeAssignment_iff_source_definition": {
+      "lean_statement_sha256": "de8a40bdf1bebf07ff4be64aad840caebe937980abd84c55eb1ab415851276b0",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "For arbitrary applicant and college types, real-valued applicant and college score functions, and a consistent many-to-one assignment mu, the proposition unstableCollegeAssignment_iff_source_definitionSpec for those data holds.",
+      "translated_at": "2026-08-04T11:30:00Z",
+      "translator": "Codex GS62 context-free statement translator 2026-08-04",
+      "validator_type": "agent"
+    },
+    "unstableCollegeAssignment_iff_source_definitionSpec": {
+      "lean_statement_sha256": "ae8569989ffc643e380b75ca507cc025af6c4a75f856057d19690b27eb3c5196",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "For arbitrary applicant and college types, real-valued applicant and college score functions, and a consistent many-to-one assignment mu, define the proposition unstableCollegeAssignment_iff_source_definitionSpec to be the equivalence between unstableCollegeAssignment of mu and replacementPairCollegeInstability of mu, with the same two score functions.",
+      "translated_at": "2026-08-04T11:30:00Z",
+      "translator": "Codex GS62 context-free statement translator 2026-08-04",
+      "validator_type": "agent"
+    },
+    "unstableMarriage_iff_source_definition": {
+      "lean_statement_sha256": "c9a9bf8c38e29cc4c7adb2a328de7cf3784c6399e30cda2f36f681496656f4f4",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "For arbitrary types M and W, real-valued score functions v_M : M -> W -> R and v_W : W -> M -> R, and a two-sided assignment mu, the proposition unstableMarriage_iff_source_definitionSpec(v_M,v_W,mu) holds.",
+      "translated_at": "2026-08-04T11:30:00Z",
+      "translator": "Codex GS62 context-free statement translator 2026-08-04",
+      "validator_type": "agent"
+    },
+    "unstableMarriage_iff_source_definitionSpec": {
+      "lean_statement_sha256": "6e49c7d65d150fbb020fc8951cce20dfad2e5ee6c91acfa30f62da4c0dbededa",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "For arbitrary types M and W, real-valued score functions v_M : M -> W -> R and v_W : W -> M -> R, and a two-sided assignment mu, define the proposition unstableMarriage_iff_source_definitionSpec(v_M,v_W,mu) to be the equivalence between unstableMarriage(v_M,v_W,mu) and the existence of m : M and w : W such that valM(v_M,m,mu.m_match(m)) < v_M(m,w) and valW(v_W,w,mu.w_match(w)) < v_W(w,m).",
+      "translated_at": "2026-08-04T11:30:00Z",
+      "translator": "Codex GS62 context-free statement translator 2026-08-04",
+      "validator_type": "agent"
     }
   },
   "paper": "GS62CollegeAdmissions",
+  "prompt_summary": [
+    "Translate each declaration from the Lean statement alone, without paper context.",
+    "Preserve every visible carrier, instance, function, premise, named predicate application, implication or equivalence direction, runner application, and conclusion.",
+    "Do not replace a visible predicate or runner with a source label or proof-route summary."
+  ],
   "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
   "schema": 1,
-  "translated_at": "2026-06-29T18:08:26Z",
-  "translator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  "translated_at": "2026-08-04T11:30:00Z",
+  "translator": "Codex GS62 context-free statement translator 2026-08-04",
+  "translator_type": "agent"
 }

@@ -1,132 +1,1091 @@
 {
-  "comment": "Semantic source-record provenance rejudge. Record/certificate/replay/process premises are not accepted by source-looking names alone. Digest refreshed after source-record helper update; classifications and reasons were preserved for currently expected judgment keys. Digest refreshed after current public audit; classifications and reasons were preserved for current expected judgment keys and stale extras were pruned.",
+  "comment": "Ordinary current responses for every generated v10 group not supplied by an authenticated semantic-reuse overlay. Each response was manually bound to the current complete semantic descriptor and current raw item pins.",
   "items": {
-    "HomogeneousPoissonCountingProcessByLaw.count": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
-      "validated_at": "2026-07-04T15:48:57Z",
-      "validator": "Codex source-record digest refresh",
-      "validator_type": "agent"
+    "EconCSLib.Probability.PoissonProcess.ForwardHomogeneousPoissonCountingProcessByLaw.count": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "This is the latent counting-path witness; its measurable, zero, monotone, independent-increment, and Poisson-law facts are separately audited.",
+      "source_location": "source.txt:1660-1698",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
     },
-    "HomogeneousPoissonCountingProcessByLaw.count_mono_ae": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
-      "validated_at": "2026-07-04T15:48:57Z",
-      "validator": "Codex source-record digest refresh",
-      "validator_type": "agent"
+    "EconCSLib.Probability.PoissonProcess.ForwardHomogeneousPoissonCountingProcessByLaw.rate": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "This is the primitive latent incident-rate parameter; positivity and the Poisson increment law are audited separately.",
+      "source_location": "source.txt:1660-1698",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
     },
-    "HomogeneousPoissonCountingProcessByLaw.count_zero_ae": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
-      "validated_at": "2026-07-04T15:48:57Z",
-      "validator": "Codex source-record digest refresh",
-      "validator_type": "agent"
+    "EconCSLib.Probability.PoissonProcess.ObservationWindow.endTime": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "This is the observation endpoint datum; ordering and likelihood conditions are audited separately.",
+      "source_location": "source.txt:1839-1868",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
     },
-    "HomogeneousPoissonCountingProcessByLaw.hasIndepIncrements": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
-      "validated_at": "2026-07-04T15:48:57Z",
-      "validator": "Codex source-record digest refresh",
-      "validator_type": "agent"
+    "EconCSLib.Probability.PoissonProcess.ObservationWindow.startTime": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "This is the observation-start datum; ordering and likelihood conditions are audited separately.",
+      "source_location": "source.txt:1839-1868",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
     },
-    "HomogeneousPoissonCountingProcessByLaw.increment_hasLaw": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
-      "validated_at": "2026-07-04T15:48:57Z",
-      "validator": "Codex source-record digest refresh",
-      "validator_type": "agent"
+    "EconCSLib.Probability.PoissonProcess.ObservationWindow.start_le_end": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "The source likelihood is evaluated on an observed interval with ordered endpoints.",
+      "source_location": "source.txt:1839-1868",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
     },
-    "HomogeneousPoissonCountingProcessByLaw.rate": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
-      "validated_at": "2026-07-04T15:48:57Z",
-      "validator": "Codex source-record digest refresh",
-      "validator_type": "agent"
+    "EconCSLib.Probability.PoissonProcess.OrderedFiniteJumpTimeline.endpoint_mono": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "The report times are represented as an ordered finite history before the endpoint policy is evaluated.",
+      "source_location": "source.txt:1839-1868",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
     },
-    "HomogeneousPoissonCountingProcessByLaw.rate_pos": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
-      "validated_at": "2026-07-04T15:48:57Z",
-      "validator": "Codex source-record digest refresh",
-      "validator_type": "agent"
+    "EconCSLib.Probability.PoissonProcess.OrderedFiniteJumpTimeline.last_le_end": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "The final listed report lies in the observed window in the source event defining Equation (8).",
+      "source_location": "source.txt:1839-1868",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
     },
-    "Theorem2ConditionFunctions.endDensity": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
-      "validated_at": "2026-07-04T15:48:57Z",
-      "validator": "Codex source-record digest refresh",
-      "validator_type": "agent"
+    "LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess.detectionProbability": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "This is the eventual-report mark probability; its equality to the source duration-mixture integral and its probability bounds are separately audited.",
+      "source_location": "source.txt:1660-1698",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
     },
-    "Theorem2ConditionFunctions.startDensity": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
-      "validated_at": "2026-07-04T15:48:57Z",
-      "validator": "Codex source-record digest refresh",
-      "validator_type": "agent"
+    "LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess.observedCount": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "This is the marked observed counting-path witness; its path and joint-law properties are separately audited.",
+      "source_location": "source.txt:1660-1770",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
     },
-    "Theorem2ConditionFunctions.survivalIntegral": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Leaf field of the approved compact homogeneous-Poisson/stopping/Condition-kernel certificate boundary for this public partial checkpoint.",
-      "source_location": "Liu-Bhandaram-Garg 2024, Theorem 2, Conditions 1/2, and Eq. (33)/(34) preprocessing; concrete process construction remains the documented library boundary.",
-      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
-      "validated_at": "2026-07-04T15:48:57Z",
-      "validator": "Codex source-record digest refresh",
-      "validator_type": "agent"
+    "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel.incidentRate": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "This is the latent incident-rate witness, distinct from the derived observed reporting rate.",
+      "source_location": "source.txt:1660-1698",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
     },
-    "theorem1_likelihood_decomposition_from_poisson_increment_laws.H : HomogeneousPoissonCountingProcessByLaw Ω P": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Documented partial-formalization boundary for this paper; the current theorem checks consequences conditional on this source-record/certificate field.",
-      "source_location": "status.json main_caveat / paper-local validation report",
-      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
-      "validated_at": "2026-07-04T15:48:57Z",
-      "validator": "Codex source-record digest refresh",
-      "validator_type": "agent"
+    "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel.reportingRate": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "This is the report-arrival rate witness used in the duration-mixture retention probability.",
+      "source_location": "source.txt:1660-1698",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
     },
-    "theorem1_likelihood_product_decomposition_from_poisson_increment_laws.H : HomogeneousPoissonCountingProcessByLaw Ω P": {
-      "classification": "approved_external_boundary",
-      "prompt_version": "source-record-v2-semantic-boundary-inputs",
-      "reason": "Documented partial-formalization boundary for this paper; the current theorem checks consequences conditional on this source-record/certificate field.",
-      "source_location": "status.json main_caveat / paper-local validation report",
-      "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
-      "validated_at": "2026-07-04T15:48:57Z",
-      "validator": "Codex source-record digest refresh",
-      "validator_type": "agent"
+    "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel.interarrivalPath_hasLaw": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "This is the primitive homogeneous-Poisson interarrival law used by the source proof's memorylessness and no-arrival calculation, not the selected-start conclusion.",
+      "source_location": "source.txt:1839-1840; source.txt:1960-1969",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_target_disposition": "literal_source_match",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel.rate": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "This is the source Poisson intensity witness. Its positivity and complete path law are audited as separate proposition-bearing fields.",
+      "source_location": "source.txt:1839-1840; source.txt:1873-1875",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel.rate_pos": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "The source invokes a homogeneous Poisson process with rate lambda and identifies the next-jump law as exponential with that positive rate.",
+      "source_location": "source.txt:1839-1840; source.txt:1873-1875; source.txt:1958-1969",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_target_disposition": "literal_source_match",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "LBG24SpatialUnderreporting.Theorem2ConditionOneSelection.firstReportTime": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "This is the first-report random-variable witness. Its measurability, relation to the start, and path representation are audited separately.",
+      "source_location": "source.txt:1839-1841; source.txt:1843-1847",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "LBG24SpatialUnderreporting.Theorem2ConditionOneSelection.firstReport_le_start": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "Condition 1 explicitly defines S on the interval beginning at the first report time T1.",
+      "source_location": "source.txt:1843-1847",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_target_disposition": "literal_source_match",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "LBG24SpatialUnderreporting.Theorem2ConditionOneSelection.startTime": {
+      "classification": "nonpropositional_witness_data",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "This is the source-selected start S witness. The source condition is carried by its separately audited kernel law, support, and conditional-independence fields.",
+      "source_location": "source.txt:1843-1847",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "appendix_theorem2_eq8_causal_stopping_source_model.D : LBG24SpatialUnderreporting.AppendixTheorem2CausalStoppingSourceModel.EndpointDensityPresentation M": {
+      "classification": "container_recursively_audited",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "The explicit endpoint-density presentation is a conclusion-bearing container. Its density, measurability, and endpoint-response fields are separately direct-routed and reviewed; the container itself is not source-convention credit.",
+      "source_location": "source.txt:1839-1868; source.txt:2437-2467",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "059f725dcedb5ee9c4b1781bac218d6f6b664d16209500df4f461a25d00b1e63",
+      "source_record_item_sha256s": [
+        {
+          "kind": "record_conclusion_input",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "059f725dcedb5ee9c4b1781bac218d6f6b664d16209500df4f461a25d00b1e63"
+        }
+      ],
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "appendix_theorem2_eq8_causal_stopping_source_model.M : AppendixTheorem2CausalStoppingSourceModel T.count": {
+      "classification": "container_recursively_audited",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "The causal endpoint-policy container exposes only selected-start and visible-history kernel primitives. Its Markov, support, and measurability fields are separately audited; the Eq. (8) factorization is derived by Lean.",
+      "source_location": "source.txt:1839-1868; source.txt:2437-2467",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "ca229031a419e0ff0e5cb67709f7f9a16c8de7216636282217d6443097421569",
+      "source_record_item_sha256s": [
+        {
+          "kind": "record_conclusion_input",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "ca229031a419e0ff0e5cb67709f7f9a16c8de7216636282217d6443097421569"
+        }
+      ],
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "appendix_theorem2_eq8_causal_stopping_source_model.T : OrderedFiniteJumpTimeline": {
+      "classification": "container_recursively_audited",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "The timeline is the finite observed report-history container. Its window ordering and endpoint constraints are separately audited recursive fields, so it supplies no factorization conclusion by name.",
+      "source_location": "source.txt:1858-1868",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "8ee46ba9e8f70fab99f42068088853374c885e3774b701de9ff0c05ac79691b8",
+      "source_record_item_sha256s": [
+        {
+          "kind": "record_conclusion_input",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "8ee46ba9e8f70fab99f42068088853374c885e3774b701de9ff0c05ac79691b8"
+        }
+      ],
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "appendix_theorem2_eq8_causal_stopping_source_model.exposure_pos : 0 < T.window.exposure": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "Equation (8) is a nondegenerate observation-window likelihood; the scalar factor is only used on the positive-exposure branch.",
+      "semantic_association_sha256": "d22b413f2f010a3b74d04566c52bfaa92404486ac5a6202d68ac86312d51cea5",
+      "source_location": "source.txt:1839-1868",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "fb64441ca97dac83b6f8d075ad3c62c6f001c0efeb0069f0161d795cd76bf74a",
+      "source_record_item_sha256s": [
+        {
+          "kind": "semantic_proposition_premise",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "fb64441ca97dac83b6f8d075ad3c62c6f001c0efeb0069f0161d795cd76bf74a"
+        }
+      ],
+      "source_target_disposition": "literal_source_match",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "appendix_theorem2_eq8_causal_stopping_source_model.rate_pos : 0 < rate": {
+      "classification": "validated_source_assumption",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "The source Poisson-process likelihood is parameterized by a positive incident rate.",
+      "semantic_association_sha256": "d22b413f2f010a3b74d04566c52bfaa92404486ac5a6202d68ac86312d51cea5",
+      "source_location": "source.txt:1839-1868",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "d6c7aac32a1b37cca132734bbbf66de3b0dedbdcd508a9fb1cb522ae0b51ecc1",
+      "source_record_item_sha256s": [
+        {
+          "kind": "semantic_proposition_premise",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "d6c7aac32a1b37cca132734bbbf66de3b0dedbdcd508a9fb1cb522ae0b51ecc1"
+        }
+      ],
+      "source_target_disposition": "literal_source_match",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "assumption_lemma2_condition_one_selection.instance_1 : MeasurableSpace \u03a9": {
+      "classification": "approved_source_convention",
+      "model_convention_ids": [
+        "LBG24-CONDITION1-KERNEL-CONDITIONING-01"
+      ],
+      "model_convention_sha256_by_id": {
+        "LBG24-CONDITION1-KERNEL-CONDITIONING-01": "619ff11b01c7841abe37953fb2e1382f1fa4b4ea46cebe5b7485abce11f73557"
+      },
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "The source conditional-density notation is represented by a measurable sample space and a regular conditional kernel.",
+      "semantic_association_sha256": "f0d89d7de15879b6fb2a2d5b99848bf01957f799ad670e0f1ec7269aade74c48",
+      "source_location": "source.txt:1843-1847; source.txt:1870-1875",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "f046e691fa33ba589f8e73cdfd9db5cdefd77022e8f4facc4bac8faadc858405",
+      "source_record_item_sha256s": [
+        {
+          "kind": "semantic_unknown_nondata_premise",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "f046e691fa33ba589f8e73cdfd9db5cdefd77022e8f4facc4bac8faadc858405"
+        }
+      ],
+      "source_target_disposition": "approved_source_convention",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "assumption_lemma2_condition_one_selection.instance_2 : StandardBorelSpace \u03a9": {
+      "classification": "approved_source_convention",
+      "model_convention_ids": [
+        "LBG24-CONDITION1-KERNEL-CONDITIONING-01"
+      ],
+      "model_convention_sha256_by_id": {
+        "LBG24-CONDITION1-KERNEL-CONDITIONING-01": "619ff11b01c7841abe37953fb2e1382f1fa4b4ea46cebe5b7485abce11f73557"
+      },
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "Standard-Borel regularity is the explicit formal convention supporting the source's continuously-valued conditional law.",
+      "semantic_association_sha256": "f0d89d7de15879b6fb2a2d5b99848bf01957f799ad670e0f1ec7269aade74c48",
+      "source_location": "source.txt:1843-1847; source.txt:1870-1875",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "6624cc6796bcac657ef626df73e5c67b3c69846aa4a8859d4e60d888bfd2c4b4",
+      "source_record_item_sha256s": [
+        {
+          "kind": "semantic_unknown_nondata_premise",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "6624cc6796bcac657ef626df73e5c67b3c69846aa4a8859d4e60d888bfd2c4b4"
+        }
+      ],
+      "source_target_disposition": "approved_source_convention",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "assumption_lemma2_condition_one_selection.instance_3 : IsProbabilityMeasure P": {
+      "classification": "approved_source_convention",
+      "model_convention_ids": [
+        "LBG24-CONDITION1-KERNEL-CONDITIONING-01"
+      ],
+      "model_convention_sha256_by_id": {
+        "LBG24-CONDITION1-KERNEL-CONDITIONING-01": "619ff11b01c7841abe37953fb2e1382f1fa4b4ea46cebe5b7485abce11f73557"
+      },
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "The source conditions and Poisson-process construction are probabilistic statements, represented under a probability measure.",
+      "semantic_association_sha256": "f0d89d7de15879b6fb2a2d5b99848bf01957f799ad670e0f1ec7269aade74c48",
+      "source_location": "source.txt:1843-1847; source.txt:1870-1875",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "c912fe6a095adc4369a7a617d619f13f39137281480658702f6d6e68851b5695",
+      "source_record_item_sha256s": [
+        {
+          "kind": "semantic_unknown_nondata_premise",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "c912fe6a095adc4369a7a617d619f13f39137281480658702f6d6e68851b5695"
+        }
+      ],
+      "source_target_disposition": "approved_source_convention",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "assumption_lemma2_condition_one_selection.instance_4 : MeasurableSpace Tail": {
+      "classification": "approved_source_convention",
+      "model_convention_ids": [
+        "LBG24-CONDITION1-KERNEL-CONDITIONING-01"
+      ],
+      "model_convention_sha256_by_id": {
+        "LBG24-CONDITION1-KERNEL-CONDITIONING-01": "619ff11b01c7841abe37953fb2e1382f1fa4b4ea46cebe5b7485abce11f73557"
+      },
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "The post-first-report tail is an explicit measurable component of the source conditional-independence condition.",
+      "semantic_association_sha256": "f0d89d7de15879b6fb2a2d5b99848bf01957f799ad670e0f1ec7269aade74c48",
+      "source_location": "source.txt:1843-1847; source.txt:1870-1875",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "4719e93c67ebed66bade5b037f0f20345c9f69f9f731c7462dc4f823d5bde69b",
+      "source_record_item_sha256s": [
+        {
+          "kind": "semantic_unknown_nondata_premise",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "4719e93c67ebed66bade5b037f0f20345c9f69f9f731c7462dc4f823d5bde69b"
+        }
+      ],
+      "source_target_disposition": "approved_source_convention",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "assumption_lemma2_forward_source_model.instance_1 : MeasurableSpace \u03a9": {
+      "classification": "approved_formalization_regularity",
+      "configured_assumption_formalization_regularity_id": "LBG24-FORMALIZATION-REGULARITY-INSTANCE_1",
+      "configured_assumption_formalization_regularity_sha256": "faea77ed40b0ffa29909ae51fcbd83b4ad5db68fab5d3ee379232212d7bfd454",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "Additional formalization regularity for the measurable probability carrier. It is structurally bound to this exact source-model input, not a literal source assertion or direct theorem/conclusion/source-model credit.",
+      "source_location": "source.txt:1843-1847",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T19:00:00Z",
+      "validator": "codex-gpt-5-lbg24-configured-formalization-regularity-rebind"
+    },
+    "assumption_lemma2_forward_source_model.instance_2 : StandardBorelSpace \u03a9": {
+      "classification": "approved_formalization_regularity",
+      "configured_assumption_formalization_regularity_id": "LBG24-FORMALIZATION-REGULARITY-INSTANCE_2",
+      "configured_assumption_formalization_regularity_sha256": "3f66a8c37036e89c7958ebb4409c6528ea0dd5f47ed112a817027c28f2eab004",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "Additional formalization regularity for the regular conditional-kernel representation. It is structurally bound to this exact source-model input, not a literal source assertion or direct theorem/conclusion/source-model credit.",
+      "source_location": "source.txt:1843-1847",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T19:00:00Z",
+      "validator": "codex-gpt-5-lbg24-configured-formalization-regularity-rebind"
+    },
+    "assumption_lemma2_forward_source_model.instance_3 : IsProbabilityMeasure P": {
+      "classification": "approved_formalization_regularity",
+      "configured_assumption_formalization_regularity_id": "LBG24-FORMALIZATION-REGULARITY-INSTANCE_3",
+      "configured_assumption_formalization_regularity_sha256": "cbe6ce3481a1f2568747aa48c8a92581d00aa865cf525a4dff68203fe91502d9",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "Additional formalization regularity for the one joint probability experiment. It is structurally bound to this exact source-model input, not a literal source assertion or direct theorem/conclusion/source-model credit.",
+      "source_location": "source.txt:228-230",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T19:00:00Z",
+      "validator": "codex-gpt-5-lbg24-configured-formalization-regularity-rebind"
+    },
+    "lemma2_forward_selected_start_exponential_tail.M : Lemma2ForwardSourceModel \u03a9 P": {
+      "classification": "container_recursively_audited",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "The direct Lemma 2 source-model record is a conclusion-bearing container. Its Poisson-path, Condition 1, and representation fields are individually reviewed; the record does not itself supply the exponential-tail conclusion.",
+      "source_location": "source.txt:1843-1847; source.txt:1873-1875; source.txt:1958-1969",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "1c5b35000c0d8e680aeb8bc14b15ca1cddeec2467964bb60ee155f8465338b87",
+      "source_record_item_sha256s": [
+        {
+          "kind": "record_conclusion_input",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "1c5b35000c0d8e680aeb8bc14b15ca1cddeec2467964bb60ee155f8465338b87"
+        }
+      ],
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "lemma2_forward_selected_start_exponential_tail.instance_1 : MeasurableSpace \u03a9": {
+      "classification": "approved_source_convention",
+      "model_convention_ids": [
+        "LBG24-CONDITION1-KERNEL-CONDITIONING-01"
+      ],
+      "model_convention_sha256_by_id": {
+        "LBG24-CONDITION1-KERNEL-CONDITIONING-01": "619ff11b01c7841abe37953fb2e1382f1fa4b4ea46cebe5b7485abce11f73557"
+      },
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "A measurable sample carrier is the routine formal realization of the source conditional Poisson experiment.",
+      "semantic_association_sha256": "88199bd070e5c67fbbadc9dc59e4d65922513e9d6c4603615dc489137d91c60f",
+      "source_location": "source.txt:1843-1847; source.txt:1873-1875",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "8f593a099fc820ab06dfbca400e95556f2297be74cf05087ac38ecc07eb78f0b",
+      "source_record_item_sha256s": [
+        {
+          "kind": "semantic_unknown_nondata_premise",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "8f593a099fc820ab06dfbca400e95556f2297be74cf05087ac38ecc07eb78f0b"
+        }
+      ],
+      "source_target_disposition": "approved_source_convention",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "lemma2_forward_selected_start_exponential_tail.instance_2 : StandardBorelSpace \u03a9": {
+      "classification": "approved_source_convention",
+      "model_convention_ids": [
+        "LBG24-CONDITION1-KERNEL-CONDITIONING-01"
+      ],
+      "model_convention_sha256_by_id": {
+        "LBG24-CONDITION1-KERNEL-CONDITIONING-01": "619ff11b01c7841abe37953fb2e1382f1fa4b4ea46cebe5b7485abce11f73557"
+      },
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "Standard-Borel regularity is the explicit convention that permits the source's continuously conditioned g law to be represented by a regular conditional kernel.",
+      "semantic_association_sha256": "88199bd070e5c67fbbadc9dc59e4d65922513e9d6c4603615dc489137d91c60f",
+      "source_location": "source.txt:1843-1847; source.txt:1870-1875",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "676cde0616d8235744cd8836c6883c663eee9bdbeab6b765a7f7c699ce463a09",
+      "source_record_item_sha256s": [
+        {
+          "kind": "semantic_unknown_nondata_premise",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "676cde0616d8235744cd8836c6883c663eee9bdbeab6b765a7f7c699ce463a09"
+        }
+      ],
+      "source_target_disposition": "approved_source_convention",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "lemma2_forward_selected_start_exponential_tail.instance_3 : IsProbabilityMeasure P": {
+      "classification": "approved_source_convention",
+      "model_convention_ids": [
+        "LBG24-CONDITION1-KERNEL-CONDITIONING-01"
+      ],
+      "model_convention_sha256_by_id": {
+        "LBG24-CONDITION1-KERNEL-CONDITIONING-01": "619ff11b01c7841abe37953fb2e1382f1fa4b4ea46cebe5b7485abce11f73557"
+      },
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "The source Lemma 2 is a probability-law statement; Lean states it under the probability measure governing the Poisson path and selection randomness.",
+      "semantic_association_sha256": "88199bd070e5c67fbbadc9dc59e4d65922513e9d6c4603615dc489137d91c60f",
+      "source_location": "source.txt:1839-1847; source.txt:1873-1875",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "fcb66a7320efe4c07a21ba1febe9c1240c014ce4b4307b08c015e9edda09f102",
+      "source_record_item_sha256s": [
+        {
+          "kind": "semantic_unknown_nondata_premise",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "fcb66a7320efe4c07a21ba1febe9c1240c014ce4b4307b08c015e9edda09f102"
+        }
+      ],
+      "source_target_disposition": "approved_source_convention",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "semantic-model::appendix_theorem2_eq8_causal_stopping_source_model": {
+      "classification": "semantic_model_review",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "Semantic comparison of the source Equation (8) likelihood factorization with the live-history causal stopping model and its explicit density branch.",
+      "semantic_model_dimensions": {
+        "carrier_and_domain": {
+          "cardinality_boundary_analysis": {
+            "boundary_cases_checked": "At count = 0 the report prefix is empty but Fin (count + 1) still supplies the unique initial endpoint-response branch; no last report is fabricated.",
+            "lean_boundary_evidence": "SourceTheoremModels.lean indexes endpointResponse by Fin (count + 1), and CausalStoppingEndpointTrace.lean constructs the terminal endpoint without assuming count > 0.",
+            "lean_cardinality_domain": "Lean uses count : \u2115, a prefix Fin count, and endpoint-response indices Fin (count + 1).",
+            "source_cardinality_domain": "The source likelihood allows any finite number m of observed reports, including m = 0.",
+            "strictness_witness_or_reason": "No strict report-count lower bound is required because the endpoint policy has an initial branch for the empty history.",
+            "verdict": "no_strictness_or_interior_requirement"
+          },
+          "lean_bridge": "CausalStoppingEndpointTrace.lean constructs one endpoint trace; SourceTheoremModels.lean uses that live-history policy in conditionalLikelihood_factorizes_eq8.",
+          "lean_evidence": "AppendixTheorem2CausalStoppingSourceModel.endpointResponse is indexed by Fin (count + 1), and CausalStoppingEndpointTrace realizes one terminal endpoint from the selected visible history.",
+          "model_convention_ids": [
+            "LBG24-EQ8-CAUSAL-STOPPING-SEMANTICS-01"
+          ],
+          "model_convention_sha256_by_id": {
+            "LBG24-EQ8-CAUSAL-STOPPING-SEMANTICS-01": "0cca2c6fca9859524bc8ecb8a99fa19d4d6af07cb8596032b06cfe29d0a63827"
+          },
+          "semantic_association_sha256": "d22b413f2f010a3b74d04566c52bfaa92404486ac5a6202d68ac86312d51cea5",
+          "semantic_comparison": "The source has a finite ordered list of observed reports and one terminal endpoint. Lean represents the report prefix by Fin count coordinates and the endpoint response by a kernel from each visible prefix; it does not posit a globally resampled counterfactual endpoint family.",
+          "source_locator": "source.txt:1839-1868; source.txt:2437-2467",
+          "source_target_disposition": "approved_source_convention",
+          "verdict": "matches_approved_source_convention"
+        },
+        "conditioning_and_calibration_semantics": {
+          "lean_evidence": "The terminal theorem has no conditional-probability ratio or calibration predicate.",
+          "semantic_association_sha256": "d22b413f2f010a3b74d04566c52bfaa92404486ac5a6202d68ac86312d51cea5",
+          "semantic_comparison": "The target is a likelihood factorization, not a calibration identity on null fibers; conditioning is represented inside the audited endpoint kernel convention.",
+          "source_locator": "source.txt:1839-1868",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "expanded_binders_and_domain": {
+          "lean_evidence": "PaperInterface.lean appendix_theorem2_eq8_causal_stopping_source_model invokes conditionalLikelihood_factorizes_eq8 from the causal source model rather than accepting the residual factor as an assumption.",
+          "model_convention_ids": [
+            "LBG24-EQ8-CAUSAL-STOPPING-SEMANTICS-01",
+            "LBG24-EQ8-ENDPOINT-REFERENCE-MEASURE-01"
+          ],
+          "model_convention_sha256_by_id": {
+            "LBG24-EQ8-CAUSAL-STOPPING-SEMANTICS-01": "0cca2c6fca9859524bc8ecb8a99fa19d4d6af07cb8596032b06cfe29d0a63827",
+            "LBG24-EQ8-ENDPOINT-REFERENCE-MEASURE-01": "d46332bfd1ff82b63a711c0f7cd36113bce77808aeadea9f19dbc0c939a94ce7"
+          },
+          "semantic_association_sha256": "d22b413f2f010a3b74d04566c52bfaa92404486ac5a6202d68ac86312d51cea5",
+          "semantic_comparison": "The source factorizes the likelihood of a finite report history and endpoint into a Poisson count term and a rate-free selected-start/endpoint term. Lean quantifies an ordered finite timeline, a positive rate, a causal endpoint-kernel model, and an explicit density presentation for exactly the scalar h_m branch.",
+          "source_locator": "source.txt:285-323; source.txt:1839-1868; source.txt:2437-2467",
+          "source_target_disposition": "approved_source_convention",
+          "verdict": "matches_approved_source_convention"
+        },
+        "expectation_definedness": {
+          "lean_evidence": "conditionalLikelihood_factorizes_eq8 is a scalar factorization and contains no expectation operator.",
+          "semantic_association_sha256": "d22b413f2f010a3b74d04566c52bfaa92404486ac5a6202d68ac86312d51cea5",
+          "semantic_comparison": "Equation (8) is a density/likelihood product, not an expectation or integral conclusion.",
+          "source_locator": "source.txt:1839-1868",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "extended_rate_codomain": {
+          "lean_bridge": "SourceTheoremModels.lean proves the Equation (8) scalar factorization from the extended nonnegative kernel presentation without replacing the endpoint policy by a universal Lebesgue density.",
+          "lean_evidence": "EndpointDensityPresentation.endpointResponse_eq_withDensity is the explicit density branch, while the primary endpointResponse remains an atom-safe Kernel.",
+          "model_convention_ids": [
+            "LBG24-EQ8-ENDPOINT-REFERENCE-MEASURE-01"
+          ],
+          "model_convention_sha256_by_id": {
+            "LBG24-EQ8-ENDPOINT-REFERENCE-MEASURE-01": "d46332bfd1ff82b63a711c0f7cd36113bce77808aeadea9f19dbc0c939a94ce7"
+          },
+          "semantic_association_sha256": "d22b413f2f010a3b74d04566c52bfaa92404486ac5a6202d68ac86312d51cea5",
+          "semantic_comparison": "The source writes h_m as a density but an endpoint policy can have atomic branches. Lean therefore uses \u211d\u22650\u221e kernel mass/density values internally and checks the real scalar likelihood only through the explicit absolutely-continuous density presentation; no infinite-rate conclusion is claimed.",
+          "source_locator": "source.txt:1839-1868; source.txt:2437-2467",
+          "source_target_disposition": "approved_source_convention",
+          "verdict": "matches_approved_source_convention"
+        },
+        "joint_law_and_state_evolution": {
+          "distribution_parameterization_analysis": {
+            "family_coupling_evidence": "AppendixTheorem2CausalStoppingSourceModel uses one shared base law for selectedStartLikelihood and endpointResponse across rates; the factorization theorem isolates rate only in the Poisson term.",
+            "family_coupling_scope": "For every Poisson rate, the same rate-free selected-start and endpoint policy family is used; it is one shared causal policy rather than a separate rate-indexed endpoint law.",
+            "law_equivalence_evidence": "conditionalLikelihood_factorizes_eq8 proves equality of the scalar likelihood with the Poisson PMF times the rate-independent residual on the density branch.",
+            "lean_parameterization": "Lean uses rate : \u211d for the Poisson factor and endpoint kernels/densities valued in \u211d\u22650\u221e for the conditional endpoint law.",
+            "lean_scale_or_variance": "The Lean rate scale is rate in the Poisson PMF; endpoint kernel mass/density uses extended nonnegative values rather than a new variance parameter.",
+            "lean_semantic_bridge": "SourceTheoremModels.lean and CausalStoppingEndpointTrace.lean provide the checked kernel-to-density and live-history bridges.",
+            "outcome_preservation_evidence": "The checked equality preserves the same report count, exposure, selected start, visible prefix, and endpoint density event from the source display.",
+            "parameter_translation": "Source \u03bb = Lean rate, source exposure T = Lean T.window.exposure, and source h_m(e) = the supplied endpointDensity branch whose kernel equality is checked.",
+            "source_parameterization": "The source uses a Poisson incident rate \u03bb and a rate-free endpoint density h_m(e) conditional on the visible report history.",
+            "source_scale_or_variance": "The source scale is the Poisson rate \u03bb; the endpoint factor is explicitly rate free and has no variance or standard-deviation normalization.",
+            "verdict": "proved_outcome_equivalence_after_translation"
+          },
+          "lean_bridge": "CausalStoppingEndpointTrace.lean supplies the single-endpoint live-history construction used by SourceTheoremModels.lean.",
+          "lean_evidence": "conditionalLikelihood_factorizes_eq8 identifies the Poisson count likelihood with rate times exposure and the selected-start and endpoint-density residual independent of the rate.",
+          "model_convention_ids": [
+            "LBG24-EQ8-CAUSAL-STOPPING-SEMANTICS-01",
+            "LBG24-EQ8-ENDPOINT-REFERENCE-MEASURE-01"
+          ],
+          "model_convention_sha256_by_id": {
+            "LBG24-EQ8-CAUSAL-STOPPING-SEMANTICS-01": "0cca2c6fca9859524bc8ecb8a99fa19d4d6af07cb8596032b06cfe29d0a63827",
+            "LBG24-EQ8-ENDPOINT-REFERENCE-MEASURE-01": "d46332bfd1ff82b63a711c0f7cd36113bce77808aeadea9f19dbc0c939a94ce7"
+          },
+          "semantic_association_sha256": "d22b413f2f010a3b74d04566c52bfaa92404486ac5a6202d68ac86312d51cea5",
+          "semantic_comparison": "The source stopping rule observes a live Poisson report history and then makes one rate-free endpoint response. Lean models the same staged experiment: a selected-start likelihood, prefix-indexed endpoint kernels, and one terminal trace, then proves the Poisson PMF times rate-free residual factorization.",
+          "source_locator": "source.txt:285-323; source.txt:1839-1868; source.txt:2437-2467",
+          "source_target_disposition": "approved_source_convention",
+          "transformed_law_analysis": {
+            "law_normalization_or_pushforward_evidence": "Each endpoint response is an IsMarkovKernel and the density branch is checked as a kernel-with-density equality, so the conditional endpoint law remains normalized.",
+            "lean_operation": "Lean retains the finite arrival prefix in its observed order and draws one endpoint response from the kernel indexed by that prefix.",
+            "lean_semantic_bridge": "CausalStoppingEndpointTrace.lean proves the single live-history endpoint construction, and conditionalLikelihood_factorizes_eq8 applies its rate-free residual.",
+            "outcome_equivariance_or_no_relabeling_evidence": "The count, ordered report prefix, and terminal endpoint are the same source outcomes throughout the factorization; no canonicalization changes them.",
+            "parameter_domain_and_endpoints": "count may be zero or positive, report times are ordered in the observation window, and the endpoint response has nonnegative remaining time.",
+            "source_operation": "The source conditions on the actual report prefix observed before one endpoint; it does not sort reports, relabel gaps, or redraw a separate endpoint for each counterfactual prefix.",
+            "verdict": "no_transform_or_canonicalization"
+          },
+          "verdict": "matches_approved_source_convention"
+        },
+        "null_cell_totalization_and_partition_scope": {
+          "lean_evidence": "The factorization uses a Markov kernel and density presentation, not a finite conditional probability table.",
+          "semantic_association_sha256": "d22b413f2f010a3b74d04566c52bfaa92404486ac5a6202d68ac86312d51cea5",
+          "semantic_comparison": "No finite partition or zero-mass conditional-cell convention is part of the displayed likelihood.",
+          "source_locator": "source.txt:1839-1868",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "probability_support_endpoints": {
+          "lean_bridge": "SourceTheoremModels.lean separates atom-safe endpoint-kernel semantics from the scalar density presentation used in Equation (8).",
+          "lean_evidence": "The causal model fields require IsMarkovKernel, support outside negative remaining time equal to zero, and EndpointDensityPresentation.endpointResponse_eq_withDensity for the density branch.",
+          "model_convention_ids": [
+            "LBG24-EQ8-CAUSAL-STOPPING-SEMANTICS-01",
+            "LBG24-EQ8-ENDPOINT-REFERENCE-MEASURE-01"
+          ],
+          "model_convention_sha256_by_id": {
+            "LBG24-EQ8-CAUSAL-STOPPING-SEMANTICS-01": "0cca2c6fca9859524bc8ecb8a99fa19d4d6af07cb8596032b06cfe29d0a63827",
+            "LBG24-EQ8-ENDPOINT-REFERENCE-MEASURE-01": "d46332bfd1ff82b63a711c0f7cd36113bce77808aeadea9f19dbc0c939a94ce7"
+          },
+          "semantic_association_sha256": "d22b413f2f010a3b74d04566c52bfaa92404486ac5a6202d68ac86312d51cea5",
+          "semantic_comparison": "The source endpoint occurs after the visible report prefix and may be random or capped. Lean makes the primary endpoint object a Markov kernel with nonnegative remaining-time support; the h_m density is supplied only on an explicitly absolutely-continuous branch.",
+          "source_locator": "source.txt:1839-1868; source.txt:2437-2467",
+          "source_target_disposition": "approved_source_convention",
+          "verdict": "matches_approved_source_convention"
+        }
+      },
+      "source_location": "source.txt:1839-1868; source.txt:2437-2467",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "a737b9b73d070dd5adcddbccb59a04be3dadb2e174bf7af5d012ce2accd1b2ef",
+      "source_record_item_sha256s": [
+        {
+          "kind": "semantic_model_comparison",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "a737b9b73d070dd5adcddbccb59a04be3dadb2e174bf7af5d012ce2accd1b2ef"
+        }
+      ],
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "semantic-model::assumption_lemma2_condition_one_selection": {
+      "classification": "semantic_model_review",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "Semantic comparison of source Condition 1 with the explicit regular-conditional start-kernel representation used by the Lemma 2 source model.",
+      "semantic_model_dimensions": {
+        "carrier_and_domain": {
+          "lean_bridge": "Assumptions.lean packages the source condition as one regular conditional kernel with support after the first report and tail-independence fields.",
+          "lean_evidence": "The condition record exposes firstReport, selectedStart, and tail with their measurability fields and a kernel from first-report values to starts.",
+          "model_convention_ids": [
+            "LBG24-CONDITION1-KERNEL-CONDITIONING-01"
+          ],
+          "model_convention_sha256_by_id": {
+            "LBG24-CONDITION1-KERNEL-CONDITIONING-01": "619ff11b01c7841abe37953fb2e1382f1fa4b4ea46cebe5b7485abce11f73557"
+          },
+          "semantic_association_sha256": "f0d89d7de15879b6fb2a2d5b99848bf01957f799ad670e0f1ec7269aade74c48",
+          "semantic_comparison": "The source variables are a first report time, selected start time, and a post-first-report path. Lean keeps them as maps from one sample carrier together with a separate measurable Tail carrier, rather than treating a point conditional probability as a scalar.",
+          "source_locator": "source.txt:1843-1847; source.txt:1870-1875",
+          "source_target_disposition": "approved_source_convention",
+          "verdict": "matches_approved_source_convention"
+        },
+        "conditioning_and_calibration_semantics": {
+          "lean_evidence": "The record has a conditional kernel premise but no calibration ratio or totalized conditional table.",
+          "semantic_association_sha256": "f0d89d7de15879b6fb2a2d5b99848bf01957f799ad670e0f1ec7269aade74c48",
+          "semantic_comparison": "The conditioning semantics are captured in the audited joint-law kernel dimension; the theorem is not a calibration identity with a separate null-cell convention.",
+          "source_locator": "source.txt:1843-1847",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "expanded_binders_and_domain": {
+          "lean_evidence": "Assumptions.lean exposes assumption_lemma2_condition_one_selection as Theorem2ConditionOneSelectionSourceModel; its fields retain the measurable maps, kernel, support, conditional law, and tail independence.",
+          "model_convention_ids": [
+            "LBG24-CONDITION1-KERNEL-CONDITIONING-01"
+          ],
+          "model_convention_sha256_by_id": {
+            "LBG24-CONDITION1-KERNEL-CONDITIONING-01": "619ff11b01c7841abe37953fb2e1382f1fa4b4ea46cebe5b7485abce11f73557"
+          },
+          "semantic_association_sha256": "f0d89d7de15879b6fb2a2d5b99848bf01957f799ad670e0f1ec7269aade74c48",
+          "semantic_comparison": "Condition 1 conditions the selected start on the continuously valued first report and declares independence from the post-first-report tail. Lean quantifies a standard-Borel sample space, a tail carrier, measurable first-report/start/tail maps, and a rate-free Markov conditional start kernel.",
+          "source_locator": "source.txt:1843-1847; source.txt:1870-1875",
+          "source_target_disposition": "approved_source_convention",
+          "verdict": "matches_approved_source_convention"
+        },
+        "expectation_definedness": {
+          "lean_evidence": "The condition record contains no expectation or integral conclusion.",
+          "semantic_association_sha256": "f0d89d7de15879b6fb2a2d5b99848bf01957f799ad670e0f1ec7269aade74c48",
+          "semantic_comparison": "Condition 1 states conditional-law and independence premises, not an expectation identity.",
+          "source_locator": "source.txt:1843-1847",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "extended_rate_codomain": {
+          "lean_evidence": "The source-model record has no extended-real optimization or rate codomain result.",
+          "semantic_association_sha256": "f0d89d7de15879b6fb2a2d5b99848bf01957f799ad670e0f1ec7269aade74c48",
+          "semantic_comparison": "Condition 1's g(s) is rate free and the condition has no extended-real rate objective.",
+          "source_locator": "source.txt:1843-1847",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "joint_law_and_state_evolution": {
+          "distribution_parameterization_analysis": {
+            "family_coupling_evidence": "The record contains one kernel-valued field shared across the conditioned first-report domain, not a collection of unrelated parameter laws.",
+            "family_coupling_scope": "There is no cross-parameter family; one shared conditional kernel governs all first-report inputs within the model instance.",
+            "law_equivalence_evidence": "The checked representation records the same conditional-law premise; no separate distributional equality is claimed beyond that kernel law.",
+            "lean_parameterization": "Lean uses a Markov kernel indexed by the realized first-report value and no scalar family parameter.",
+            "lean_scale_or_variance": "There is no Lean scale, rate, variance, or precision parameter for this conditional kernel.",
+            "lean_semantic_bridge": "Assumptions.lean exposes the kernel and conditional-tail-independence source premises used by the Lemma 2 model.",
+            "outcome_preservation_evidence": "The first-report, selected-start, and tail outcomes are preserved without a transformation.",
+            "parameter_translation": "No parameterized law or scale translation applies: the source rate-free conditional law is represented by the same kernel premise.",
+            "source_parameterization": "Condition 1 specifies a rate-free conditional start law rather than a named parametric density family.",
+            "source_scale_or_variance": "There is no source scale, rate, variance, or precision parameter in the Condition 1 conditional kernel.",
+            "verdict": "no_parameterized_law_or_scale"
+          },
+          "lean_bridge": "Assumptions.lean is the direct source-model representation; the downstream Lemma 2 construction consumes this one-kernel condition.",
+          "lean_evidence": "Theorem2ConditionOneSelectionSourceModel carries the conditional-law and conditional-tail-independence fields used by the Lemma 2 forward-model derivation.",
+          "model_convention_ids": [
+            "LBG24-CONDITION1-KERNEL-CONDITIONING-01"
+          ],
+          "model_convention_sha256_by_id": {
+            "LBG24-CONDITION1-KERNEL-CONDITIONING-01": "619ff11b01c7841abe37953fb2e1382f1fa4b4ea46cebe5b7485abce11f73557"
+          },
+          "semantic_association_sha256": "f0d89d7de15879b6fb2a2d5b99848bf01957f799ad670e0f1ec7269aade74c48",
+          "semantic_comparison": "The source says that, conditional on the first report, the selected-start law is independent of the future tail and that its g(s) factor is rate independent. Lean states this as one conditional start kernel and a tail-independence law, without changing the sample path or introducing a resampled start.",
+          "source_locator": "source.txt:1843-1847; source.txt:1870-1875",
+          "source_target_disposition": "approved_source_convention",
+          "transformed_law_analysis": {
+            "law_normalization_or_pushforward_evidence": "The start object is an IsMarkovKernel, so its conditional law is normalized for every first-report input.",
+            "lean_operation": "Lean uses one Markov kernel for the selected start given the first-report value and records the conditional independence from the supplied tail map.",
+            "lean_semantic_bridge": "Assumptions.lean keeps the conditional-law and tail-independence fields together in the Condition 1 source-model record.",
+            "outcome_equivariance_or_no_relabeling_evidence": "The selected start, first report, and tail remain the same source random variables; Lean does not sort or replace them with independent copies.",
+            "parameter_domain_and_endpoints": "First-report and selected-start values are real times; the kernel support starts at the first report and no finite-cardinality endpoint is introduced.",
+            "source_operation": "The source conditions the selected start on the realized first report and keeps the post-first-report tail as the same future-path variable.",
+            "verdict": "no_transform_or_canonicalization"
+          },
+          "verdict": "matches_approved_source_convention"
+        },
+        "null_cell_totalization_and_partition_scope": {
+          "lean_evidence": "There is no finite partition or totalized conditional-probability table in the condition record.",
+          "semantic_association_sha256": "f0d89d7de15879b6fb2a2d5b99848bf01957f799ad670e0f1ec7269aade74c48",
+          "semantic_comparison": "The representation uses a regular conditional kernel rather than a finite partition with zero-mass cells.",
+          "source_locator": "source.txt:1843-1847",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "probability_support_endpoints": {
+          "lean_evidence": "The reviewed condition has a start kernel and support-after-first-report field, but no terminal endpoint-density result.",
+          "semantic_association_sha256": "f0d89d7de15879b6fb2a2d5b99848bf01957f799ad670e0f1ec7269aade74c48",
+          "semantic_comparison": "Condition 1 is a conditional start-selection premise; it does not state an endpoint-support or boundary-mass conclusion.",
+          "source_locator": "source.txt:1843-1847",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        }
+      },
+      "source_location": "source.txt:1843-1847; source.txt:1870-1875",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "628b699f23566ab4a21aec099e9477774cdf73f664a504f2c79348b0e70d3d74",
+      "source_record_item_sha256s": [
+        {
+          "kind": "semantic_model_comparison",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "628b699f23566ab4a21aec099e9477774cdf73f664a504f2c79348b0e70d3d74"
+        }
+      ],
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "semantic-model::assumption_lemma2_forward_source_model": {
+      "classification": "semantic_model_review",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "Semantic review of the direct auxiliary forward Poisson source-model record used downstream of Condition 1. It is not archival source-statement credit.",
+      "semantic_model_dimensions": {
+        "carrier_and_domain": {
+          "lean_bridge": "The direct record provides the source-antecedent forward process; it is not a wrapper around a paper conclusion.",
+          "lean_evidence": "Lemma2ForwardSourceModel carries a forward homogeneous Poisson process on the measurable carrier and probability measure.",
+          "semantic_comparison": "The direct forward model uses the same measurable sample carrier and nonnegative-time counting-process domain as the source Poisson process.",
+          "source_locator": "source.txt:1873-1875",
+          "verdict": "matches_source_model"
+        },
+        "conditioning_and_calibration_semantics": {
+          "lean_evidence": "The direct record has no conditional-probability denominator or calibration predicate.",
+          "semantic_comparison": "The forward source model is unconditional and carries no calibration or conditional-probability claim.",
+          "source_locator": "source.txt:1873-1875",
+          "verdict": "not_applicable"
+        },
+        "expanded_binders_and_domain": {
+          "lean_evidence": "Assumptions.lean exposes Lemma2ForwardSourceModel as the direct forward-model record used with the Condition 1 source premise.",
+          "semantic_comparison": "The interface supplies a measurable probability space and a forward homogeneous Poisson process model, matching the forward process invoked in the source Lemma 2 derivation.",
+          "source_locator": "source.txt:1873-1875",
+          "verdict": "matches_source_model"
+        },
+        "expectation_definedness": {
+          "lean_evidence": "No expectation or integral conclusion appears in the direct record surface.",
+          "semantic_comparison": "The auxiliary model is a process-law antecedent, not an expectation identity.",
+          "source_locator": "source.txt:1873-1875",
+          "verdict": "not_applicable"
+        },
+        "extended_rate_codomain": {
+          "lean_evidence": "The rate field has real type and a positive-real premise.",
+          "semantic_comparison": "The Poisson intensity is a finite positive real, not an extended-real rate objective.",
+          "source_locator": "source.txt:1873-1875",
+          "verdict": "not_applicable"
+        },
+        "joint_law_and_state_evolution": {
+          "distribution_parameterization_analysis": {
+            "family_coupling_evidence": "The record has one rate field as a shared base law across all increment_hasLaw instances, with no cross-parameter family.",
+            "family_coupling_scope": "For one model instance, one shared homogeneous rate governs every interval; no cross-parameter family is claimed.",
+            "law_equivalence_evidence": "The increment_hasLaw field is a stated equality of the increment distribution with the Poisson measure using rate times elapsed time.",
+            "lean_parameterization": "Lean uses the record field rate together with a Poisson increment measure at rate times elapsed time.",
+            "lean_scale_or_variance": "The Lean scale is the positive Poisson rate; no separate variance or precision parameter occurs.",
+            "lean_semantic_bridge": "Lemma2ForwardSourceModel provides the direct rate-and-law fields consumed by the Lemma 2 source-model interface.",
+            "outcome_preservation_evidence": "The source count and increment outcomes are preserved without a change of variable.",
+            "parameter_translation": "Source \u03bb = Lean rate, and source interval length t-s multiplies the same Lean rate in the Poisson parameter.",
+            "source_parameterization": "The source forward process is parameterized by one homogeneous Poisson incident rate \u03bb.",
+            "source_scale_or_variance": "The source scale is the Poisson rate \u03bb; no variance or standard-deviation parameter is introduced.",
+            "verdict": "definitionally_same_parameterization"
+          },
+          "lean_bridge": "The direct source-model record is consumed as an antecedent by the Lemma 2 development and does not assert its target conclusion.",
+          "lean_evidence": "The forward homogeneous process fields carry measurable counts, zero and monotone path facts, independent increments, and Poisson increment laws.",
+          "semantic_comparison": "The direct forward model retains the source Poisson independent-increment and increment-law structure as primitive fields for the Lemma 2 argument.",
+          "source_locator": "source.txt:1873-1875",
+          "transformed_law_analysis": {
+            "law_normalization_or_pushforward_evidence": "The primitive increment_hasLaw field states the normalized Poisson measure for every ordered time interval.",
+            "lean_operation": "Lean retains the original count path and its increments on the same nonnegative-time domain.",
+            "lean_semantic_bridge": "The direct forward-process record is the audited source-model antecedent used by the Lemma 2 interface.",
+            "outcome_equivariance_or_no_relabeling_evidence": "The count and increment outcomes are unchanged from the source forward process.",
+            "parameter_domain_and_endpoints": "Times are nonnegative with s <= t for increment laws; zero-time and zero-count cases remain included.",
+            "source_operation": "The source uses the forward Poisson process directly; it does not sort, relabel, truncate, or push it through a different outcome map.",
+            "verdict": "no_transform_or_canonicalization"
+          },
+          "verdict": "matches_source_model"
+        },
+        "null_cell_totalization_and_partition_scope": {
+          "lean_evidence": "The record contains process-law fields only.",
+          "semantic_comparison": "No finite partition or zero-mass conditional-cell convention occurs in the forward process model.",
+          "source_locator": "source.txt:1873-1875",
+          "verdict": "not_applicable"
+        },
+        "probability_support_endpoints": {
+          "lean_evidence": "The direct forward source model contains a count process and law fields, not an endpoint kernel.",
+          "semantic_comparison": "This auxiliary process model has no endpoint-density or stopping-support conclusion.",
+          "source_locator": "source.txt:1873-1875",
+          "verdict": "not_applicable"
+        }
+      },
+      "source_location": "source.txt:1843-1847; source.txt:1873-1877",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "semantic-model::assumption_theorem2_condition_density_source_model": {
+      "classification": "semantic_model_review",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "Semantic comparison of source Condition 2 with the endpoint-density source-model condition used by the Equation (8) theorem.",
+      "semantic_model_dimensions": {
+        "carrier_and_domain": {
+          "lean_evidence": "This assumption alias has no separate finite or generic carrier transformation.",
+          "semantic_association_sha256": "93ab4d3cd3b7b62e0f9116563b6099b44ec1a40254ee810fe46888eab23435a1",
+          "semantic_comparison": "No additional carrier-domain change occurs beyond the history and endpoint carrier already audited in the Equation (8) model.",
+          "source_locator": "source.txt:1848-1856",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "conditioning_and_calibration_semantics": {
+          "lean_evidence": "No calibration predicate or conditional-probability denominator appears in the alias surface.",
+          "semantic_association_sha256": "93ab4d3cd3b7b62e0f9116563b6099b44ec1a40254ee810fe46888eab23435a1",
+          "semantic_comparison": "The condition is represented by an endpoint kernel/density convention, not a calibration statement with a totalized conditional ratio.",
+          "source_locator": "source.txt:1848-1856",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "expanded_binders_and_domain": {
+          "lean_evidence": "Assumptions.lean aliases Theorem2ConditionDensitySourceModel, and SourceTheoremModels.lean separates the kernel law from EndpointDensityPresentation.",
+          "model_convention_ids": [
+            "LBG24-EQ8-ENDPOINT-REFERENCE-MEASURE-01"
+          ],
+          "model_convention_sha256_by_id": {
+            "LBG24-EQ8-ENDPOINT-REFERENCE-MEASURE-01": "d46332bfd1ff82b63a711c0f7cd36113bce77808aeadea9f19dbc0c939a94ce7"
+          },
+          "semantic_association_sha256": "93ab4d3cd3b7b62e0f9116563b6099b44ec1a40254ee810fe46888eab23435a1",
+          "semantic_comparison": "Condition 2 describes an endpoint density h_m conditional on report history, rate independent given the history, with endpoint selection conditionally independent of selected start. Lean exposes the endpoint-kernel model and its explicit density presentation on the same history carrier.",
+          "source_locator": "source.txt:1848-1856; source.txt:2437-2467",
+          "source_target_disposition": "approved_source_convention",
+          "verdict": "matches_approved_source_convention"
+        },
+        "expectation_definedness": {
+          "lean_evidence": "The alias contains no expectation or integral conclusion.",
+          "semantic_association_sha256": "93ab4d3cd3b7b62e0f9116563b6099b44ec1a40254ee810fe46888eab23435a1",
+          "semantic_comparison": "Condition 2 is a density and independence premise, not an expectation result.",
+          "source_locator": "source.txt:1848-1856",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "extended_rate_codomain": {
+          "lean_evidence": "The alias exposes no extended-real rate codomain.",
+          "semantic_association_sha256": "93ab4d3cd3b7b62e0f9116563b6099b44ec1a40254ee810fe46888eab23435a1",
+          "semantic_comparison": "The source's rate-independence premise is not an extended-real rate objective.",
+          "source_locator": "source.txt:1848-1856",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "joint_law_and_state_evolution": {
+          "lean_evidence": "The alias does not itself prove a process evolution or transform a probability law.",
+          "semantic_association_sha256": "93ab4d3cd3b7b62e0f9116563b6099b44ec1a40254ee810fe46888eab23435a1",
+          "semantic_comparison": "The actual joint endpoint-law comparison is performed by the Equation (8) semantic row; this row only exposes the source condition alias.",
+          "source_locator": "source.txt:1848-1856",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "null_cell_totalization_and_partition_scope": {
+          "lean_evidence": "The endpoint kernel presentation has no finite-cell table.",
+          "semantic_association_sha256": "93ab4d3cd3b7b62e0f9116563b6099b44ec1a40254ee810fe46888eab23435a1",
+          "semantic_comparison": "No finite conditioning partition or zero-mass-cell rule is asserted by Condition 2.",
+          "source_locator": "source.txt:1848-1856",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "probability_support_endpoints": {
+          "lean_evidence": "The reviewed alias does not introduce a separate endpoint-support conclusion.",
+          "semantic_association_sha256": "93ab4d3cd3b7b62e0f9116563b6099b44ec1a40254ee810fe46888eab23435a1",
+          "semantic_comparison": "Endpoint support is audited in the Equation (8) causal endpoint model; Condition 2 itself supplies the density/independence premise.",
+          "source_locator": "source.txt:1848-1856",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        }
+      },
+      "source_location": "source.txt:1848-1871",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "6a3f1f9b0268491303c2973840a470d6a8f3a03d37a37b249bb008e1d78b7a2e",
+      "source_record_item_sha256s": [
+        {
+          "kind": "semantic_model_comparison",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "6a3f1f9b0268491303c2973840a470d6a8f3a03d37a37b249bb008e1d78b7a2e"
+        }
+      ],
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
+    },
+    "semantic-model::lemma2_forward_selected_start_exponential_tail": {
+      "classification": "semantic_model_review",
+      "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "reason": "Semantic comparison of the source Lemma 2 selected-start waiting-time claim with the primitive iid interarrival path, the kernelized Condition 1 selection rule, and the Lean-derived exponential no-report tail.",
+      "semantic_model_dimensions": {
+        "carrier_and_domain": {
+          "lean_bridge": "ConditionOneTail.lean formalizes the conditional kernel and SourceTheoremModels.lean transports the iid path law through interarrivalPath to the constructed forward Poisson process.",
+          "lean_evidence": "Theorem2ConditionOneSelection has measurable T1 and S maps, a Markov start kernel, and support S >= T1; Lemma2ForwardSourceModel.process is built on the same \u03a9 and P as the path witness.",
+          "model_convention_ids": [
+            "LBG24-CONDITION1-KERNEL-CONDITIONING-01"
+          ],
+          "model_convention_sha256_by_id": {
+            "LBG24-CONDITION1-KERNEL-CONDITIONING-01": "619ff11b01c7841abe37953fb2e1382f1fa4b4ea46cebe5b7485abce11f73557"
+          },
+          "semantic_association_sha256": "88199bd070e5c67fbbadc9dc59e4d65922513e9d6c4603615dc489137d91c60f",
+          "semantic_comparison": "The source conditions on continuously valued T1 and S. Lean uses a standard-Borel probability carrier and a regular conditional kernel, with nonnegative-real report/start times and a nonnegative horizon; it does not impose a finite-population restriction or select a different process carrier.",
+          "source_locator": "source.txt:1843-1847; source.txt:1873-1875; source.txt:1880-1969",
+          "source_target_disposition": "approved_source_convention",
+          "verdict": "matches_approved_source_convention"
+        },
+        "conditioning_and_calibration_semantics": {
+          "lean_evidence": "The displayed result evaluates a condExpKernel event almost everywhere and contains no calibration predicate or denominator.",
+          "semantic_association_sha256": "88199bd070e5c67fbbadc9dc59e4d65922513e9d6c4603615dc489137d91c60f",
+          "semantic_comparison": "The reviewed result is a conditional waiting-time law, not a calibration score or totalized conditional-probability ratio. Its regular conditional-kernel interpretation is already stated in the audited Condition 1 model.",
+          "source_locator": "source.txt:1873-1875; source.txt:1880-1969",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "expanded_binders_and_domain": {
+          "lean_evidence": "Assumptions.lean defines Lemma2ForwardSourceModel only from the path law, selection record, and coordinate identifications; PaperInterface.lean invokes its derived conditional_no_report_given_firstReport theorem.",
+          "model_convention_ids": [
+            "LBG24-CONDITION1-KERNEL-CONDITIONING-01"
+          ],
+          "model_convention_sha256_by_id": {
+            "LBG24-CONDITION1-KERNEL-CONDITIONING-01": "619ff11b01c7841abe37953fb2e1382f1fa4b4ea46cebe5b7485abce11f73557"
+          },
+          "semantic_association_sha256": "88199bd070e5c67fbbadc9dc59e4d65922513e9d6c4603615dc489137d91c60f",
+          "semantic_comparison": "The source states a positive-rate Poisson process, a Condition 1 selected start after T1, and the next-jump waiting law. Lean quantifies a probability carrier, a source model containing exactly the iid exponential interarrival path plus the Condition 1 selection primitives, and a nonnegative horizon.",
+          "source_locator": "source.txt:1839-1847; source.txt:1873-1875; source.txt:1880-1969",
+          "source_target_disposition": "approved_source_convention",
+          "verdict": "matches_approved_source_convention"
+        },
+        "expectation_definedness": {
+          "lean_evidence": "The terminal result is equality of a conditional kernel event mass and an exponential measure event mass.",
+          "semantic_association_sha256": "88199bd070e5c67fbbadc9dc59e4d65922513e9d6c4603615dc489137d91c60f",
+          "semantic_comparison": "Lemma 2 concludes a probability/tail identity, not an expectation or integral statement.",
+          "source_locator": "source.txt:1873-1875; source.txt:1880-1969",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "extended_rate_codomain": {
+          "lean_evidence": "M.rate has Real type with rate_pos, and the target has no WithTop or extended-real rate conclusion.",
+          "semantic_association_sha256": "88199bd070e5c67fbbadc9dc59e4d65922513e9d6c4603615dc489137d91c60f",
+          "semantic_comparison": "The source uses a finite positive Poisson/exponential rate, not an extended-real optimization or asymptotic rate quantity.",
+          "source_locator": "source.txt:1839-1840; source.txt:1873-1875",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "joint_law_and_state_evolution": {
+          "distribution_parameterization_analysis": {
+            "family_coupling_evidence": "The selection record has no rate argument and the primitive process construction uses one M.rate across every increment; no separate latent path is substituted for another parameter.",
+            "family_coupling_scope": "For one fixed rate the source and Lean use one shared path law; the lemma makes no cross-parameter coupling claim, while the selected-start kernel is explicitly rate free when a family is considered.",
+            "law_equivalence_evidence": "The checked measure-preserving transport and noArrivalProb_eq_exponential_tail prove equality of the source and Lean exponential survival probabilities for the same rate and horizon.",
+            "lean_parameterization": "Lean uses M.rate for exponentialInterarrivalMeasure and Exponential.Model.mk M.rate M.rate_pos for the displayed tail measure.",
+            "lean_scale_or_variance": "The Lean exponential convention is rate M.rate, with the corresponding inverse-rate time scale and no separate variance or precision parameter.",
+            "lean_semantic_bridge": "Lemma2ForwardSourceModel.process, ae_postStart_zero_iff_canonicalTailNoArrival, and conditional_no_report_given_firstReport supply the checked source-to-Lean law and outcome bridges.",
+            "outcome_preservation_evidence": "The checked a.e. count-zero equivalence preserves the source next-jump-after-S event rather than changing it to a different path functional.",
+            "parameter_translation": "Source lambda = Lean M.rate; source epsilon = Lean u coerced to Real; both survival expressions use exp(-(rate * horizon)).",
+            "source_parameterization": "The source uses homogeneous Poisson rate lambda and concludes an exponential waiting time with rate lambda.",
+            "source_scale_or_variance": "The source exponential convention is rate lambda, with survival exp(-lambda epsilon) and hence mean scale 1/lambda.",
+            "verdict": "definitionally_same_parameterization"
+          },
+          "lean_bridge": "SourceTheoremModels.lean proves the same-carrier conditional no-report bridge and PaperInterface.lean applies it to the displayed event.",
+          "lean_evidence": "Lemma2ForwardSourceModel.process pulls the canonical iid exponential process back through the measure-preserving path map; postFirstReportTail_conditional_law and conditional_no_report_given_firstReport prove the fresh-tail and selected-start statements.",
+          "model_convention_ids": [
+            "LBG24-CONDITION1-KERNEL-CONDITIONING-01"
+          ],
+          "model_convention_sha256_by_id": {
+            "LBG24-CONDITION1-KERNEL-CONDITIONING-01": "619ff11b01c7841abe37953fb2e1382f1fa4b4ea46cebe5b7485abce11f73557"
+          },
+          "semantic_association_sha256": "88199bd070e5c67fbbadc9dc59e4d65922513e9d6c4603615dc489137d91c60f",
+          "semantic_comparison": "The source uses one Poisson path: conditional on T1, S is selected independently of the post-T1 path, then the next-jump event is evaluated on that same path. Lean uses one interarrivalPath on \u03a9, identifies postFirstReportTail with its tail after the first coordinate, and derives the forward count process and selected-start no-report law rather than accepting an independently resampled process.",
+          "source_locator": "source.txt:1839-1847; source.txt:1873-1875; source.txt:1958-1969",
+          "source_target_disposition": "approved_source_convention",
+          "transformed_law_analysis": {
+            "law_normalization_or_pushforward_evidence": "interarrivalPath_hasLaw yields a measure-preserving map to exponentialInterarrivalMeasure, and process transports the canonical normalized forward Poisson increment law back to P.",
+            "lean_operation": "Lean represents that future by futureInterarrival 1 on the same iid path and represents the event by the forward interval count after startTime.",
+            "lean_semantic_bridge": "postFirstReportTail_conditional_law and conditional_no_report_given_firstReport are checked theorems from the path law and Condition 1 record.",
+            "outcome_equivariance_or_no_relabeling_evidence": "The deterministic tail shift deletes the already identified first interarrival coordinate only; ae_postStart_zero_iff_canonicalTailNoArrival proves that the Lean count-zero event is the same selected-start no-arrival outcome.",
+            "parameter_domain_and_endpoints": "The rate is positive, source epsilon is positive in the displayed proof, and Lean uses u >= 0 with the u = 0 survival endpoint checked separately.",
+            "source_operation": "The source takes the post-T1 future of one Poisson jump-time path and evaluates whether its next jump is more than epsilon after the selected start.",
+            "verdict": "canonicalization_checked"
+          },
+          "verdict": "matches_approved_source_convention"
+        },
+        "null_cell_totalization_and_partition_scope": {
+          "lean_evidence": "The terminal theorem is an almost-everywhere statement over condExpKernel and has no partition table or zero-denominator branch.",
+          "semantic_association_sha256": "88199bd070e5c67fbbadc9dc59e4d65922513e9d6c4603615dc489137d91c60f",
+          "semantic_comparison": "The result does not assert a finite or countable partition formula. The Condition 1 convention uses an almost-everywhere regular conditional kernel rather than assigning a value to every null fiber.",
+          "source_locator": "source.txt:1843-1847; source.txt:1873-1875",
+          "source_target_disposition": "literal_source_match",
+          "verdict": "not_applicable"
+        },
+        "probability_support_endpoints": {
+          "lean_bridge": "Lemma2ForwardSourceModel.conditional_no_report_given_firstReport derives the conditional event law, then noArrivalProb_eq_exponential_tail identifies the exponential survival probability including the zero horizon.",
+          "lean_evidence": "The target event is forwardPostStopIntervalCount process startTime u = 0 and the right side is Exponential.Model.mk rate rate_pos measured on Ioi u.",
+          "model_convention_ids": [
+            "LBG24-CONDITION1-KERNEL-CONDITIONING-01"
+          ],
+          "model_convention_sha256_by_id": {
+            "LBG24-CONDITION1-KERNEL-CONDITIONING-01": "619ff11b01c7841abe37953fb2e1382f1fa4b4ea46cebe5b7485abce11f73557"
+          },
+          "semantic_association_sha256": "88199bd070e5c67fbbadc9dc59e4d65922513e9d6c4603615dc489137d91c60f",
+          "semantic_comparison": "The source conclusion is the exponential survival law for the next jump after S. Lean asks for the no-arrival event on every u >= 0; u = 0 is the explicit exponential-tail endpoint with probability one, while the source proof writes its calculation for epsilon > 0.",
+          "source_locator": "source.txt:1873-1875; source.txt:1880-1884; source.txt:1950-1969",
+          "source_target_disposition": "approved_source_convention",
+          "verdict": "matches_approved_source_convention"
+        }
+      },
+      "source_location": "source.txt:1839-1847; source.txt:1873-1875; source.txt:1958-1969",
+      "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+      "source_record_item_digest_schema": 5,
+      "source_record_item_sha256": "15dcbe593bc2835abb4411d97ad14bdf3778be34ea5a7549aa5c3fa2f9a49d89",
+      "source_record_item_sha256s": [
+        {
+          "kind": "semantic_model_comparison",
+          "source_record_item_digest_schema": 5,
+          "source_record_item_sha256": "15dcbe593bc2835abb4411d97ad14bdf3778be34ea5a7549aa5c3fa2f9a49d89"
+        }
+      ],
+      "validated_at": "2026-07-28T14:30:00Z",
+      "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
     }
   },
+  "manual_current_complement": {
+    "completed_template_review_scope": "all_current_generated_groups_without_authenticated_overlay",
+    "current_source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+    "generated_judgment_keys_sha256": "547fea12ec9e1d35451010869fc6226c9688f7336f2b4af26cdbe4b57669f68e",
+    "generated_judgment_surface_sha256": "246431b2d8a790649abe3025ca509f3219f3cd65d735464629c49d9b02934c8c",
+    "output_sidecar_path": "audit/source_record_match_llm.json",
+    "policy_version": "source-record-v10-manual-current-complement-v1",
+    "schema": 1,
+    "template_reviewer": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation",
+    "template_validated_at": "2026-07-28T14:30:00Z"
+  },
   "paper": "LBG24SpatialUnderreporting",
-  "prompt_version": "source-record-v2-semantic-boundary-inputs",
+  "prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
   "schema": 1,
-  "source_record_audit_sha256": "7ca09d6e97ffacd2d40440917c38ecd8bc3eb2e6c9e4c480e3682968fbbda643",
-  "validated_at": "2026-07-04T15:48:57Z",
-  "validator": "Codex source-record digest refresh",
-  "validator_type": "agent"
+  "source_record_audit_sha256": "c596a1e4a1618e25d775fbed26c54b8b00ee7b458a8894e773f801870f113d51",
+  "validated_at": "2026-07-28T14:30:00Z",
+  "validator": "codex-gpt-5-lbg24-c596-observed-window-current-semantic-revalidation"
 }

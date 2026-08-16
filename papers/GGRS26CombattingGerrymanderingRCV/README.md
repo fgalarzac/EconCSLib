@@ -5,7 +5,7 @@
 |---|---|
 | Final status | Formalized |
 | Paper reference | [Combatting Gerrymandering with Ranked Choice Voting: an Experimental Analysis of Multi-member Districts in the United States](https://doi.org/10.1287/opre.2024.1167) by Nikhil Garg; Wes Gurnee; David Rothschild; David Shmoys; Operations Research, 2026, DOI 10.1287/opre.2024.1167. |
-| Lines of Code | 9,398 |
+| Lines of Code | 15,892 |
 
 ## Key Links
 

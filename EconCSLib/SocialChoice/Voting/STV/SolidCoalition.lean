@@ -1,4 +1,5 @@
 import EconCSLib.SocialChoice.Voting.STV.Quota
+import EconCSLib.SocialChoice.Voting.STV.Structures
 import Mathlib.Algebra.BigOperators.Ring.Finset
 import Mathlib.Algebra.Order.BigOperators.Group.Finset
 import Mathlib.Tactic.Linarith
@@ -2616,6 +2617,130 @@ structure FractionalSTVIndexedExecutableTrace {Voter Candidate : Type*}
               (trace.steps.get i).beforeActive focused
   activeReplay : trace.replaysFrom initialActive terminalActive
 
+/--
+A replay in which every step removes an active focused candidate removes
+exactly one candidate per step.
+-/
+theorem STVTrace.terminalActive_card_add_steps_length_eq_startActive_card_of_replayStepsFrom_removesFocusedCandidate
+    {Candidate : Type*} [DecidableEq Candidate]
+    {steps : List (STVStep Candidate)}
+    {startActive terminalActive : Finset Candidate}
+    (hreplay : replayStepsFrom steps startActive terminalActive)
+    (hremove : ∀ step, step ∈ steps → step.removesFocusedCandidate)
+    (hfocus_active : ∀ step, step ∈ steps →
+      ∃ focused, step.focus = some focused ∧ focused ∈ step.beforeActive) :
+    terminalActive.card + steps.length = startActive.card := by
+  induction steps generalizing startActive with
+  | nil =>
+      simp only [replayStepsFrom] at hreplay
+      simpa [hreplay]
+  | cons step rest ih =>
+      simp only [replayStepsFrom] at hreplay
+      rcases hreplay with ⟨hbefore, hrest⟩
+      rcases hfocus_active step (by simp) with ⟨focused, hfocus, hactive⟩
+      rcases hremove step (by simp) with ⟨removed, hremoved, hafter⟩
+      have hremoved_eq : removed = focused :=
+        Option.some.inj (hremoved.symm.trans hfocus)
+      subst removed
+      have hstep_card : step.afterActive.card + 1 = step.beforeActive.card := by
+        rw [hafter]
+        exact Finset.card_erase_add_one hactive
+      have hrest_card :
+          terminalActive.card + rest.length = step.afterActive.card :=
+        ih hrest
+          (fun step' hstep' => hremove step' (by simp [hstep']))
+          (fun step' hstep' => hfocus_active step' (by simp [hstep']))
+      have hbefore_card : step.beforeActive.card = startActive.card :=
+        congrArg Finset.card hbefore
+      calc
+        terminalActive.card + (step :: rest).length =
+            (terminalActive.card + rest.length) + 1 := by
+              simp [Nat.add_assoc]
+        _ = step.afterActive.card + 1 := by rw [hrest_card]
+        _ = step.beforeActive.card := hstep_card
+        _ = startActive.card := hbefore_card
+
+/--
+An indexed executable fractional-STV trace has one active-candidate removal
+per recorded step, so its terminal and initial active-set cardinalities differ
+by exactly its trace length.
+-/
+theorem FractionalSTVIndexedExecutableTrace.terminalActive_card_add_steps_length_eq_initialActive_card
+    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]
+    {trace : STVTrace Candidate} {voters : Finset Voter}
+    {ballots : Voter → Ballot Candidate} {quota : ℝ}
+    {initialActive terminalActive : Finset Candidate}
+    {initialWeight : Voter → ℝ}
+    (run : FractionalSTVIndexedExecutableTrace trace voters ballots quota
+      initialActive terminalActive initialWeight) :
+    terminalActive.card + trace.steps.length = initialActive.card := by
+  apply
+    STVTrace.terminalActive_card_add_steps_length_eq_startActive_card_of_replayStepsFrom_removesFocusedCandidate
+      run.activeReplay
+  · intro step hstep
+    rcases List.getElem_of_mem hstep with ⟨n, hn, hget⟩
+    subst hget
+    exact run.step_removes ⟨n, hn⟩
+  · intro step hstep
+    rcases List.getElem_of_mem hstep with ⟨n, hn, hget⟩
+    subst hget
+    exact run.step_focus_active ⟨n, hn⟩
+
+/--
+If each trace step is an election or elimination, then every step contributes
+one round-outcome label.
+-/
+theorem STVTrace.roundOutcomeSequence_length_eq_steps_length_of_kind_allowed
+    {Candidate : Type*} (steps : List (STVStep Candidate))
+    (hkind : ∀ i : Fin steps.length,
+      (steps.get i).kind = StepKind.elect ∨
+        (steps.get i).kind = StepKind.eliminate) :
+    (({ steps := steps } : STVTrace Candidate).roundOutcomeSequence).length =
+      steps.length := by
+  induction steps with
+  | nil =>
+      simp [roundOutcomeSequence]
+  | cons step rest ih =>
+      have hhead : step.kind = StepKind.elect ∨
+          step.kind = StepKind.eliminate := by
+        simpa using hkind ⟨0, by simp⟩
+      have htail : ∀ i : Fin rest.length,
+          (rest.get i).kind = StepKind.elect ∨
+            (rest.get i).kind = StepKind.eliminate := by
+        intro i
+        simpa using hkind
+          ⟨i.1 + 1, by simpa using Nat.succ_lt_succ i.2⟩
+      have htail_length := ih htail
+      cases hhead with
+      | inl helect =>
+          have hround : STVStep.roundOutcome? step = some RoundOutcome.win := by
+            simp [STVStep.roundOutcome?, helect]
+          have htail_length' :
+              (rest.filterMap STVStep.roundOutcome?).length = rest.length := by
+            simpa [STVTrace.roundOutcomeSequence] using htail_length
+          calc
+            (({ steps := step :: rest } : STVTrace Candidate).roundOutcomeSequence).length =
+                (RoundOutcome.win :: rest.filterMap STVStep.roundOutcome?).length := by
+                  simp only [STVTrace.roundOutcomeSequence]
+                  rw [List.filterMap_cons_some hround]
+            _ = (rest.filterMap STVStep.roundOutcome?).length + 1 := by simp
+            _ = rest.length + 1 := by rw [htail_length']
+            _ = (step :: rest).length := by simp
+      | inr heliminate =>
+          have hround : STVStep.roundOutcome? step = some RoundOutcome.lose := by
+            simp [STVStep.roundOutcome?, heliminate]
+          have htail_length' :
+              (rest.filterMap STVStep.roundOutcome?).length = rest.length := by
+            simpa [STVTrace.roundOutcomeSequence] using htail_length
+          calc
+            (({ steps := step :: rest } : STVTrace Candidate).roundOutcomeSequence).length =
+                (RoundOutcome.lose :: rest.filterMap STVStep.roundOutcome?).length := by
+                  simp only [STVTrace.roundOutcomeSequence]
+                  rw [List.filterMap_cons_some hround]
+            _ = (rest.filterMap STVStep.roundOutcome?).length + 1 := by simp
+            _ = rest.length + 1 := by rw [htail_length']
+            _ = (step :: rest).length := by simp
+
 /-- Candidate-level trace generated by the executable fractional STV simulator. -/
 noncomputable def fractionalSTVGeneratedTrace {Voter Candidate : Type*}
     [DecidableEq Voter] [DecidableEq Candidate]
@@ -2824,6 +2949,215 @@ theorem fractionalSTVChoiceRunTerminalActive_eq_empty_of_total
         simp only [hfocused, if_true]
         simpa [fractionalSTVChoiceRunTerminalActive,
           fractionalSTVGeneratedTerminalActive, hfocused, step] using hih
+
+/--
+Every generated round of a deterministic fractional-STV choice run uses the
+choice rule on that round's concrete active set and fractional tally.  The
+tally is computed from the actual prefix of transfer updates, rather than from
+an externally supplied round certificate.
+-/
+theorem fractionalSTVChoiceRun_get_choose_eq_focus
+    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]
+    (choice : FractionalSTVChoiceRule Candidate)
+    (voters : Finset Voter) (ballots : Voter → Ballot Candidate)
+    (quota : ℝ) :
+    ∀ (rounds : ℕ) (active : Finset Candidate) (initialWeight : Voter → ℝ)
+      (i : Fin
+        (fractionalSTVGeneratedSteps voters ballots quota
+          (fractionalSTVChoiceRunFocuses choice voters ballots quota rounds
+            active initialWeight) active initialWeight).length),
+      choice.choose
+          ((fractionalSTVGeneratedSteps voters ballots quota
+            (fractionalSTVChoiceRunFocuses choice voters ballots quota rounds
+              active initialWeight) active initialWeight).get i).beforeActive
+          (fractionalActiveTally voters ballots
+            (fractionalSTVWeightAfterSteps voters ballots quota
+              ((fractionalSTVGeneratedSteps voters ballots quota
+                (fractionalSTVChoiceRunFocuses choice voters ballots quota
+                  rounds active initialWeight) active initialWeight).take i.1)
+              initialWeight)
+            ((fractionalSTVGeneratedSteps voters ballots quota
+              (fractionalSTVChoiceRunFocuses choice voters ballots quota rounds
+                active initialWeight) active initialWeight).get i).beforeActive) =
+        ((fractionalSTVGeneratedSteps voters ballots quota
+          (fractionalSTVChoiceRunFocuses choice voters ballots quota rounds
+            active initialWeight) active initialWeight).get i).focus := by
+  intro rounds
+  induction rounds with
+  | zero =>
+      intro active initialWeight i
+      simp [fractionalSTVChoiceRunFocuses, fractionalSTVGeneratedSteps] at i
+      exact Fin.elim0 i
+  | succ rounds ih =>
+      intro active initialWeight i
+      cases hchoose :
+          choice.choose active
+            (fractionalActiveTally voters ballots initialWeight active) with
+      | none =>
+          simp [fractionalSTVChoiceRunFocuses, fractionalSTVGeneratedSteps,
+            hchoose] at i
+          exact Fin.elim0 i
+      | some focused =>
+          have hfocused : focused ∈ active := choice.choose_mem hchoose
+          let step :=
+            fractionalSTVStepFromFocus voters ballots quota active initialWeight
+              focused
+          cases i with
+          | mk n hn =>
+              cases n with
+              | zero =>
+                  simpa [fractionalSTVChoiceRunFocuses,
+                    fractionalSTVGeneratedSteps, fractionalSTVWeightAfterSteps,
+                    hchoose, hfocused, step] using hchoose
+              | succ n =>
+                  have hn_tail :
+                      n <
+                        (fractionalSTVGeneratedSteps voters ballots quota
+                          (fractionalSTVChoiceRunFocuses choice voters ballots
+                            quota rounds step.afterActive
+                            (fractionalSTVNextWeight voters ballots quota step
+                              initialWeight))
+                          step.afterActive
+                          (fractionalSTVNextWeight voters ballots quota step
+                            initialWeight)).length := by
+                    have hn_succ :
+                        n.succ <
+                          (fractionalSTVGeneratedSteps voters ballots quota
+                            (fractionalSTVChoiceRunFocuses choice voters ballots
+                              quota rounds step.afterActive
+                              (fractionalSTVNextWeight voters ballots quota step
+                                initialWeight))
+                            step.afterActive
+                            (fractionalSTVNextWeight voters ballots quota step
+                              initialWeight)).length.succ := by
+                      simpa [fractionalSTVChoiceRunFocuses,
+                        fractionalSTVGeneratedSteps, hchoose, hfocused, step]
+                        using hn
+                    exact Nat.succ_lt_succ_iff.mp hn_succ
+                  have htail :=
+                    ih step.afterActive
+                      (fractionalSTVNextWeight voters ballots quota step
+                        initialWeight)
+                      ⟨n, hn_tail⟩
+                  simpa [fractionalSTVChoiceRunFocuses,
+                    fractionalSTVGeneratedSteps, fractionalSTVWeightAfterSteps,
+                    hchoose, hfocused, step] using htail
+
+/--
+Trace-facing form of `fractionalSTVChoiceRun_get_choose_eq_focus`: every
+indexed step focus is exactly the result of the choice rule applied to its
+actual fractional-STV round state.
+-/
+theorem fractionalSTVChoiceRunTrace_get_focus_eq_choose
+    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]
+    (choice : FractionalSTVChoiceRule Candidate)
+    (voters : Finset Voter) (ballots : Voter → Ballot Candidate)
+    (quota : ℝ) (rounds : ℕ) (initialActive : Finset Candidate)
+    (initialWeight : Voter → ℝ)
+    (i : Fin
+      (fractionalSTVChoiceRunTrace choice voters ballots quota rounds
+        initialActive initialWeight).steps.length) :
+    ((fractionalSTVChoiceRunTrace choice voters ballots quota rounds
+      initialActive initialWeight).steps.get i).focus =
+      choice.choose
+        ((fractionalSTVChoiceRunTrace choice voters ballots quota rounds
+          initialActive initialWeight).steps.get i).beforeActive
+        (fractionalActiveTally voters ballots
+          (fractionalSTVWeightAfterSteps voters ballots quota
+            ((fractionalSTVChoiceRunTrace choice voters ballots quota rounds
+              initialActive initialWeight).steps.take i.1) initialWeight)
+          ((fractionalSTVChoiceRunTrace choice voters ballots quota rounds
+            initialActive initialWeight).steps.get i).beforeActive) := by
+  simpa [fractionalSTVChoiceRunTrace, fractionalSTVGeneratedTrace] using
+    (fractionalSTVChoiceRun_get_choose_eq_focus choice voters ballots quota
+      rounds initialActive initialWeight i).symm
+
+/--
+Every focus emitted by a deterministic choice run produces one concrete STV
+step: a returned candidate is active by `choose_mem`, so the generated-step
+fold cannot truncate that focus sequence.
+-/
+theorem fractionalSTVChoiceRun_generatedSteps_length_eq_focuses_length
+    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]
+    (choice : FractionalSTVChoiceRule Candidate)
+    (voters : Finset Voter) (ballots : Voter → Ballot Candidate)
+    (quota : ℝ) :
+    ∀ (rounds : ℕ) (active : Finset Candidate) (initialWeight : Voter → ℝ),
+      (fractionalSTVGeneratedSteps voters ballots quota
+        (fractionalSTVChoiceRunFocuses choice voters ballots quota rounds
+          active initialWeight) active initialWeight).length =
+        (fractionalSTVChoiceRunFocuses choice voters ballots quota rounds
+          active initialWeight).length := by
+  intro rounds
+  induction rounds with
+  | zero =>
+      intro active initialWeight
+      simp [fractionalSTVChoiceRunFocuses, fractionalSTVGeneratedSteps]
+  | succ rounds ih =>
+      intro active initialWeight
+      cases hchoose :
+          choice.choose active
+            (fractionalActiveTally voters ballots initialWeight active) with
+      | none =>
+          simp [fractionalSTVChoiceRunFocuses, fractionalSTVGeneratedSteps,
+            hchoose]
+      | some focused =>
+          have hfocused : focused ∈ active := choice.choose_mem hchoose
+          let step :=
+            fractionalSTVStepFromFocus voters ballots quota active initialWeight
+              focused
+          have htail :=
+            ih step.afterActive
+              (fractionalSTVNextWeight voters ballots quota step initialWeight)
+          simpa [fractionalSTVChoiceRunFocuses,
+            fractionalSTVGeneratedSteps, hchoose, hfocused, step] using
+            congrArg Nat.succ htail
+
+/--
+Trace-facing form of `fractionalSTVChoiceRun_generatedSteps_length_eq_focuses_length`.
+-/
+theorem fractionalSTVChoiceRunTrace_steps_length_eq_focuses_length
+    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]
+    (choice : FractionalSTVChoiceRule Candidate)
+    (voters : Finset Voter) (ballots : Voter → Ballot Candidate)
+    (quota : ℝ) (rounds : ℕ) (initialActive : Finset Candidate)
+    (initialWeight : Voter → ℝ) :
+    (fractionalSTVChoiceRunTrace choice voters ballots quota rounds
+      initialActive initialWeight).steps.length =
+      (fractionalSTVChoiceRunFocuses choice voters ballots quota rounds
+        initialActive initialWeight).length := by
+  simpa [fractionalSTVChoiceRunTrace, fractionalSTVGeneratedTrace] using
+    fractionalSTVChoiceRun_generatedSteps_length_eq_focuses_length choice
+      voters ballots quota rounds initialActive initialWeight
+
+/--
+Every deterministic choice-run step is an election or elimination, so the
+trace's round-outcome sequence has one entry for each emitted focus.
+-/
+theorem fractionalSTVChoiceRunTrace_roundOutcomeSequence_length_eq_focuses_length
+    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]
+    (choice : FractionalSTVChoiceRule Candidate)
+    (voters : Finset Voter) (ballots : Voter → Ballot Candidate)
+    (quota : ℝ) (rounds : ℕ) (initialActive : Finset Candidate)
+    (initialWeight : Voter → ℝ) :
+    (fractionalSTVChoiceRunTrace choice voters ballots quota rounds
+      initialActive initialWeight).roundOutcomeSequence.length =
+      (fractionalSTVChoiceRunFocuses choice voters ballots quota rounds
+        initialActive initialWeight).length := by
+  calc
+    (fractionalSTVChoiceRunTrace choice voters ballots quota rounds
+      initialActive initialWeight).roundOutcomeSequence.length =
+        (fractionalSTVChoiceRunTrace choice voters ballots quota rounds
+          initialActive initialWeight).steps.length := by
+      apply STVTrace.roundOutcomeSequence_length_eq_steps_length_of_kind_allowed
+      simpa [fractionalSTVChoiceRunTrace, fractionalSTVGeneratedTrace] using
+        fractionalSTVGeneratedSteps_get_kind_allowed voters ballots quota
+          (fractionalSTVChoiceRunFocuses choice voters ballots quota rounds
+            initialActive initialWeight) initialActive initialWeight
+    _ = (fractionalSTVChoiceRunFocuses choice voters ballots quota rounds
+          initialActive initialWeight).length :=
+      fractionalSTVChoiceRunTrace_steps_length_eq_focuses_length choice voters
+        ballots quota rounds initialActive initialWeight
 
 /--
 Round-indexed real-valued tally generated by the executable fractional STV

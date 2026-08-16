@@ -224,6 +224,30 @@ noncomputable def finiteAvailableWeight {α : Type*} [Fintype α] [DecidableEq �
     (baseWeight : α → ℝ) (forbidden : Finset α) : ℝ :=
   ∑ a : α, if a ∈ forbidden then 0 else baseWeight a
 
+/-- Available mass is invariant under relabeling weights and forbidden atoms. -/
+theorem finiteAvailableWeight_congr_equiv
+    {α β : Type*} [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
+    (sourceWeight : α → ℝ) (targetWeight : β → ℝ)
+    (forbidden : Finset α) (targetForbidden : Finset β)
+    (e : α ≃ β)
+    (hweight : ∀ a, targetWeight (e a) = sourceWeight a)
+    (hmem : ∀ a, e a ∈ targetForbidden ↔ a ∈ forbidden) :
+    finiteAvailableWeight targetWeight targetForbidden =
+      finiteAvailableWeight sourceWeight forbidden := by
+  classical
+  calc
+    finiteAvailableWeight targetWeight targetForbidden =
+        ∑ b : β, if b ∈ targetForbidden then 0 else targetWeight b := rfl
+    _ = ∑ a : α, if e a ∈ targetForbidden then 0 else targetWeight (e a) := by
+          simpa using
+            (Equiv.sum_comp e
+              (fun b : β => if b ∈ targetForbidden then 0 else targetWeight b)).symm
+    _ = ∑ a : α, if a ∈ forbidden then 0 else sourceWeight a := by
+          refine Finset.sum_congr rfl ?_
+          intro a _ha
+          by_cases ha : a ∈ forbidden <;> simp [ha, hmem a, hweight a]
+    _ = finiteAvailableWeight sourceWeight forbidden := rfl
+
 /-- Scaling all base weights scales the available mass by the same factor. -/
 theorem finiteAvailableWeight_const_mul
     {α : Type*} [Fintype α] [DecidableEq α]
@@ -277,6 +301,101 @@ theorem finiteWeightedPMFExcluding_apply_toReal_of_mem
     (finiteWeightedPMFExcluding
       baseWeight forbidden hbase_nonneg havailable_pos a).toReal = 0 := by
   simp [finiteWeightedPMFExcluding, ha]
+
+/--
+Event probabilities under a finite weighted PMF with exclusions are normalized
+available event weights.
+-/
+theorem finiteWeightedPMFExcluding_pmfProb_event_eq_sum_div
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (baseWeight : α → ℝ) (forbidden : Finset α)
+    (hbase_nonneg : ∀ a, 0 ≤ baseWeight a)
+    (havailable_pos : 0 < finiteAvailableWeight baseWeight forbidden)
+    (event : α → Prop) [DecidablePred event] :
+    pmfProb
+        (finiteWeightedPMFExcluding
+          baseWeight forbidden hbase_nonneg havailable_pos)
+        event =
+      (∑ a : α,
+        (if a ∈ forbidden then 0 else baseWeight a) *
+          (if event a then 1 else 0)) /
+        finiteAvailableWeight baseWeight forbidden := by
+  classical
+  unfold pmfProb finiteWeightedPMFExcluding
+  rw [finiteWeightedPMF_pmfExp_eq_sum_div]
+  simp only [mul_ite, mul_one, mul_zero]
+  calc
+    (∑ x : α,
+        if event x then
+          (if x ∈ forbidden then 0 else baseWeight x) /
+            ∑ b : α, if b ∈ forbidden then 0 else baseWeight b
+        else 0)
+        =
+      ∑ x : α,
+        (if event x then if x ∈ forbidden then 0 else baseWeight x else 0) /
+          ∑ b : α, if b ∈ forbidden then 0 else baseWeight b := by
+          refine Finset.sum_congr rfl ?_
+          intro x _
+          by_cases hx : event x <;> simp [hx]
+    _ =
+      (∑ x : α, if event x then if x ∈ forbidden then 0 else baseWeight x else 0) /
+        ∑ b : α, if b ∈ forbidden then 0 else baseWeight b := by
+          rw [Finset.sum_div]
+    _ =
+      (∑ x : α, if event x then if x ∈ forbidden then 0 else baseWeight x else 0) /
+        finiteAvailableWeight baseWeight forbidden := by
+          simp [finiteAvailableWeight]
+
+/--
+To upper-bound an event probability under a finite weighted PMF with
+exclusions, it is enough to upper-bound the event's available weight as a
+fraction of the total available weight.
+-/
+theorem finiteWeightedPMFExcluding_pmfProb_event_le_of_weight_sum_le
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (baseWeight : α → ℝ) (forbidden : Finset α)
+    (hbase_nonneg : ∀ a, 0 ≤ baseWeight a)
+    (havailable_pos : 0 < finiteAvailableWeight baseWeight forbidden)
+    (event : α → Prop) [DecidablePred event] {c : ℝ}
+    (hweight_le :
+      (∑ a : α,
+        (if a ∈ forbidden then 0 else baseWeight a) *
+          (if event a then 1 else 0)) ≤
+        c * finiteAvailableWeight baseWeight forbidden) :
+    pmfProb
+        (finiteWeightedPMFExcluding
+          baseWeight forbidden hbase_nonneg havailable_pos)
+        event ≤ c := by
+  rw [finiteWeightedPMFExcluding_pmfProb_event_eq_sum_div
+    baseWeight forbidden hbase_nonneg havailable_pos event]
+  rw [div_le_iff₀ havailable_pos]
+  simpa [mul_comm, mul_left_comm, mul_assoc] using hweight_le
+
+/--
+To lower-bound an event probability under a finite weighted PMF with
+exclusions, it is enough to lower-bound the event's available weight as a
+fraction of the total available weight.
+-/
+theorem finiteWeightedPMFExcluding_pmfProb_event_ge_of_weight_sum_ge
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (baseWeight : α → ℝ) (forbidden : Finset α)
+    (hbase_nonneg : ∀ a, 0 ≤ baseWeight a)
+    (havailable_pos : 0 < finiteAvailableWeight baseWeight forbidden)
+    (event : α → Prop) [DecidablePred event] {c : ℝ}
+    (hweight_ge :
+      c * finiteAvailableWeight baseWeight forbidden ≤
+        (∑ a : α,
+          (if a ∈ forbidden then 0 else baseWeight a) *
+            (if event a then 1 else 0))) :
+    c ≤
+      pmfProb
+        (finiteWeightedPMFExcluding
+          baseWeight forbidden hbase_nonneg havailable_pos)
+        event := by
+  rw [finiteWeightedPMFExcluding_pmfProb_event_eq_sum_div
+    baseWeight forbidden hbase_nonneg havailable_pos event]
+  rw [le_div_iff₀ havailable_pos]
+  simpa [mul_comm, mul_left_comm, mul_assoc] using hweight_ge
 
 theorem finiteAvailableWeight_eq_subtype_sum
     {α : Type*} [Fintype α] [DecidableEq α]
@@ -375,6 +494,32 @@ theorem finiteWeightedPMFAvailable_apply_toReal
   rw [finiteWeightedPMF_apply_toReal]
   rw [← finiteAvailableWeight_eq_subtype_sum baseWeight forbidden]
 
+/-- Available weighted atom probabilities are invariant under relabeling. -/
+theorem finiteWeightedPMFAvailable_apply_toReal_congr_equiv
+    {α β : Type*} [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
+    (sourceWeight : α → ℝ) (targetWeight : β → ℝ)
+    (forbidden : Finset α) (targetForbidden : Finset β)
+    (source_nonneg : ∀ a, 0 ≤ sourceWeight a)
+    (target_nonneg : ∀ b, 0 ≤ targetWeight b)
+    (source_available : 0 < finiteAvailableWeight sourceWeight forbidden)
+    (target_available : 0 < finiteAvailableWeight targetWeight targetForbidden)
+    (e : α ≃ β)
+    (hweight : ∀ a, targetWeight (e a) = sourceWeight a)
+    (hmem : ∀ a, e a ∈ targetForbidden ↔ a ∈ forbidden)
+    (a : {a // a ∉ forbidden}) :
+    (finiteWeightedPMFAvailable
+        targetWeight targetForbidden target_nonneg target_available
+        ⟨e a.1, by
+          intro htarget
+          exact a.2 ((hmem a.1).1 htarget)⟩).toReal =
+      (finiteWeightedPMFAvailable
+        sourceWeight forbidden source_nonneg source_available a).toReal := by
+  rw [finiteWeightedPMFAvailable_apply_toReal]
+  rw [finiteWeightedPMFAvailable_apply_toReal]
+  rw [hweight a.1]
+  rw [finiteAvailableWeight_congr_equiv
+    sourceWeight targetWeight forbidden targetForbidden e hweight hmem]
+
 /-- Split total mass into forbidden and available mass. -/
 theorem finiteAvailableWeight_add_forbidden_sum
     {α : Type*} [Fintype α] [DecidableEq α]
@@ -401,6 +546,92 @@ theorem finiteAvailableWeight_add_forbidden_sum
           refine Finset.sum_congr rfl ?_
           intro a _
           by_cases ha : a ∈ forbidden <;> simp [ha]
+
+/--
+Deleting atoms that all lie inside an event cannot increase that event's
+available-mass fraction.  This is the weighted finite-set algebra behind
+without-replacement "miss probability does not rise after prior misses" steps.
+-/
+theorem finiteAvailableWeight_indicator_le_fraction_after_forbidden
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (baseWeight : α → ℝ) (event : α → Prop) [DecidablePred event]
+    (forbidden : Finset α) {c : ℝ}
+    (hbase_nonneg : ∀ a, 0 ≤ baseWeight a)
+    (hc_le_one : c ≤ 1)
+    (hforbidden_event : ∀ a, a ∈ forbidden → event a)
+    (hevent_total_le :
+      (∑ a : α, if event a then baseWeight a else 0) ≤
+        c * ∑ a : α, baseWeight a) :
+    finiteAvailableWeight (fun a => if event a then baseWeight a else 0)
+        forbidden ≤
+      c * finiteAvailableWeight baseWeight forbidden := by
+  classical
+  let eventWeight : α → ℝ := fun a => if event a then baseWeight a else 0
+  let prevMass : ℝ := ∑ a ∈ forbidden, baseWeight a
+  have hprev_nonneg : 0 ≤ prevMass := by
+    dsimp [prevMass]
+    exact Finset.sum_nonneg (by intro a _ha; exact hbase_nonneg a)
+  have hforbidden_sum :
+      ∑ a ∈ forbidden, eventWeight a = prevMass := by
+    dsimp [eventWeight, prevMass]
+    refine Finset.sum_congr rfl ?_
+    intro a ha
+    simp [hforbidden_event a ha]
+  have hsplit_event :=
+    finiteAvailableWeight_add_forbidden_sum eventWeight forbidden
+  have hsplit_base :=
+    finiteAvailableWeight_add_forbidden_sum baseWeight forbidden
+  have hevent_total_le' :
+      (∑ a : α, eventWeight a) ≤ c * ∑ a : α, baseWeight a := by
+    simpa [eventWeight] using hevent_total_le
+  have hcprev : c * prevMass ≤ prevMass := by
+    simpa using mul_le_mul_of_nonneg_right hc_le_one hprev_nonneg
+  have hsplit_event' :
+      finiteAvailableWeight eventWeight forbidden + prevMass =
+        ∑ a : α, eventWeight a := by
+    simpa [hforbidden_sum] using hsplit_event
+  have hsplit_base' :
+      finiteAvailableWeight baseWeight forbidden + prevMass =
+        ∑ a : α, baseWeight a := by
+    simpa [prevMass] using hsplit_base
+  change finiteAvailableWeight eventWeight forbidden ≤
+    c * finiteAvailableWeight baseWeight forbidden
+  have hevent_bound :
+      finiteAvailableWeight eventWeight forbidden + prevMass ≤
+        c * finiteAvailableWeight baseWeight forbidden + c * prevMass := by
+    calc
+      finiteAvailableWeight eventWeight forbidden + prevMass
+          = ∑ a : α, eventWeight a := hsplit_event'
+      _ ≤ c * ∑ a : α, baseWeight a := hevent_total_le'
+      _ = c * (finiteAvailableWeight baseWeight forbidden + prevMass) := by
+          rw [hsplit_base']
+      _ = c * finiteAvailableWeight baseWeight forbidden + c * prevMass := by
+          ring
+  linarith
+
+/--
+If an event has at least a `(1 - c)` share of total finite weight, then its
+complement has at most a `c` share of total finite weight.
+-/
+theorem finiteWeight_compl_le_fraction_of_event_ge
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (baseWeight : α → ℝ) (event : α → Prop) [DecidablePred event]
+    (c : ℝ)
+    (hevent_ge :
+      (1 - c) * (∑ a : α, baseWeight a) ≤
+        ∑ a : α, if event a then baseWeight a else 0) :
+    (∑ a : α, if ¬ event a then baseWeight a else 0) ≤
+      c * ∑ a : α, baseWeight a := by
+  classical
+  have hsplit :
+      (∑ a : α, if event a then baseWeight a else 0) +
+        (∑ a : α, if ¬ event a then baseWeight a else 0) =
+          ∑ a : α, baseWeight a := by
+    rw [← Finset.sum_add_distrib]
+    refine Finset.sum_congr rfl ?_
+    intro a _
+    by_cases ha : event a <;> simp [ha]
+  linarith
 
 /--
 Adding one newly forbidden atom subtracts that atom's weight from the available

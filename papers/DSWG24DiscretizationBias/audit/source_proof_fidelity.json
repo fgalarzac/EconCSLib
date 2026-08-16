@@ -1,0 +1,73 @@
+{
+  "schema": 2,
+  "paper": "DSWG24DiscretizationBias",
+  "source_artifact_path": ".audit_source/DSWG24DiscretizationBias.txt",
+  "source_artifact_sha256": "2370832850d19fc3e0b74c5471316b099bcab9f958c268ffcd9de9d38ef55295",
+  "source_artifact_provisioning": {
+    "audit_path": "/tmp/econcs_source_text/DSWG24DiscretizationBias.txt",
+    "line_count": 2379,
+    "tracked_older_extraction_path": "DSWG24DiscretizationBias.txt",
+    "tracked_older_extraction_sha256": "ab554d513936d2b898b72f87e2f70674ce12737065b04591a5a00c371a6fb5cf",
+    "note": "The exact audit extraction is canonical for these judgments and is provisioned at the paper-local .audit_source path. The older tracked extraction remains unchanged."
+  },
+  "review_status": "defects_recorded",
+  "reviewed_proof_scopes": [
+    {
+      "source_locator": "Theorem 1 and Appendix B.1; .audit_source/DSWG24DiscretizationBias.txt:642-673 and 1291-1327",
+      "semantic_scope": "No-information, perfect-classifier, calibrated argmax-bias, tightness, and the prior/aggregate-posterior reference alternatives.",
+      "outcome": "defect_recorded"
+    },
+    {
+      "source_locator": "Theorem 2 and Appendix B.1; .audit_source/DSWG24DiscretizationBias.txt:744-786 and 1566-1692",
+      "semantic_scope": "Joint-rule existence, Bayes argmax accuracy, independent-rule Pareto uniqueness, weighted-objective necessity, and the dataset-dependent P_N^q reference family.",
+      "outcome": "defect_recorded"
+    },
+    {
+      "source_locator": "Main definitions and Equations (1)-(3); .audit_source/DSWG24DiscretizationBias.txt:155-283 and 590-633",
+      "semantic_scope": "Accuracy, bias, fidelity, aggregate posterior, tie-broken argmax, threshold, Thompson sampling, independent rules, Bayes q*, and expected objectives.",
+      "outcome": "no_defect"
+    },
+    {
+      "source_locator": "Appendix B.1 proof equations; .audit_source/DSWG24DiscretizationBias.txt:1291-1692",
+      "semantic_scope": "Numbered proof equations (4)-(33), source regions S_a through S_e, transformation accounting, tower-property calculation, and the one-row switch argument.",
+      "outcome": "no_defect"
+    }
+  ],
+  "defects": [
+    {
+      "id": "DSWG24-T1II-SUPPORT-01",
+      "source_locator": "Theorem 1(ii) and its proof; .audit_source/DSWG24DiscretizationBias.txt:662-666 and 1294-1327",
+      "source_claim": "For a perfect classifier under the joint data law, the posterior is one-hot at the realized true class and argmax bias is zero for either the prior or aggregate-posterior reference.",
+      "defect_kind": "quantifier_or_uniformity",
+      "affected_source_locators": [
+        "Theorem 1(ii), .audit_source/DSWG24DiscretizationBias.txt:662-666",
+        "Appendix B.1 proof of Theorem 1(ii), .audit_source/DSWG24DiscretizationBias.txt:1305-1327"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "This was an incomplete historical Lean wrapper, not an error in the source paper. The exact support-sensitive premise now proves both reference alternatives, so the repaired route is a note-only formalization repair and does not warrant a paper caveat.",
+      "repair_obligation": "Prove prior- and aggregate-reference zero bias from perfectClassifierOnSupport, using equality only on positive-probability joint atoms rather than all product pairs.",
+      "acceptance_condition": "Lean checks both reference alternatives from the support-sensitive one-hot posterior condition on a nondegenerate multiclass joint law, with no all-product-pairs truth premise.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "PaperInterface.theorem1iiPriorReferenceZeroBiasSpec and theorem1iiAggregateReferenceZeroBiasSpec are proved exactly by their corresponding *_on_support_spec theorems, via finite positive-mass atom identities. The older all-product-pairs theorem remains support only."
+    },
+    {
+      "id": "DSWG24-T2III-PNQ-01",
+      "source_locator": "Theorem 2(iii) and its proof; .audit_source/DSWG24DiscretizationBias.txt:744-763 and 1651-1692",
+      "source_claim": "The non-trivial reference is a dataset-dependent map p^q from observed datasets to the label simplex, and for each selected dataset only its tie-broken aggregate-max class must receive reference mass at least 1/N. The Appendix B.1 switch proof implies that, for 0 <= gamma < 1, a weighted-objective-maximizing independent rule must agree with argmax almost surely.",
+      "defect_kind": "quantifier_or_uniformity",
+      "affected_source_locators": [
+        "Definition of P_N^q, .audit_source/DSWG24DiscretizationBias.txt:744-755",
+        "Theorem 2(iii), .audit_source/DSWG24DiscretizationBias.txt:756-763",
+        "Appendix B.1 switch proof, .audit_source/DSWG24DiscretizationBias.txt:1651-1692"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The historical Lean wrapper was incomplete, and the main-text phrase 'unless gamma=1 and D agrees' is overbroad if read as making gamma=1 necessary even for an agreeing rule. The Appendix proof supplies the valid necessity clause: positive disagreement yields a strict samplewise accuracy-and-fidelity improvement. Lean now carries that exact clause through the dataset-dependent P_N^q positive-mass iid expectation lift for Pareto and every weighted objective with 0 <= gamma < 1, including the finite realized-randomness specialization. This is a formalized source-wording note, not a caveat to the proved mathematical result.",
+      "repair_obligation": "Lift the per-dataset sourcePNq switch bridges through the positive-probability sampled-dataset event for deterministic and randomized independent rules, with expected fidelity evaluated at prefAt sample.",
+      "acceptance_condition": "Lean proves the source's Pareto endpoint and the Appendix-supported weighted-objective necessity endpoint for 0 <= gamma < 1 with expectedFidelityAt, assuming only referenceSimplexAt and the selected aggregate-max 1/N bound for each dataset, and without an all-label lower bound or fixed reference.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "PaperInterface.theorem2iiiParetoOptimalAgreesArgmaxSpec and theorem2iiiWeightedObjectiveMaximizerAgreesArgmaxSpec are proved by their corresponding *_spec theorems. The weighted contract states exactly 0 <= gamma < 1 implies almost-sure argmax agreement for a maximizer; it does not assert the overbroad converse that gamma=1 is necessary for an already agreeing rule. The proof derives the aggregate fixed-order argmax on the selected iid sample, changes the policy only at that positive-mass sample, evaluates fidelity at prefAt sample, and theorem2iii_source_randomized_augmented_endpoints supplies the finite randomized-rule realization."
+    }
+  ]
+}

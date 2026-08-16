@@ -413,6 +413,46 @@ theorem nextActive_filter_eq_some_iff_of_split {Candidate : Type*}
     simp [hkeep, hcandidate]
 
 /--
+If a filtered ballot keeps at least one listed active candidate, then the
+filtered ballot has some first active candidate.
+-/
+theorem exists_nextActive_filter_eq_some_of_exists_mem_active_keep
+    {Candidate : Type*} [DecidableEq Candidate]
+    {order : Ballot Candidate} {active : Finset Candidate}
+    {keep : Candidate → Prop} [DecidablePred keep]
+    (h : ∃ candidate,
+      candidate ∈ order ∧ keep candidate ∧ candidate ∈ active) :
+    ∃ first, nextActive (order.filter keep) active = some first := by
+  induction order with
+  | nil =>
+      rcases h with ⟨candidate, hmem, _hkeep, _hactive⟩
+      simp at hmem
+  | cons head rest ih =>
+      by_cases hkeep_head : keep head
+      · by_cases hactive_head : head ∈ active
+        · exact ⟨head, by simp [hkeep_head, hactive_head]⟩
+        · have hrest :
+              ∃ candidate,
+                candidate ∈ rest ∧ keep candidate ∧ candidate ∈ active := by
+            rcases h with ⟨candidate, hmem, hkeep, hactive⟩
+            rcases List.mem_cons.mp hmem with hcandidate | hcandidate
+            · subst candidate
+              exact False.elim (hactive_head hactive)
+            · exact ⟨candidate, hcandidate, hkeep, hactive⟩
+          rcases ih hrest with ⟨first, hfirst⟩
+          exact ⟨first, by simp [hkeep_head, hactive_head, hfirst]⟩
+      · have hrest :
+            ∃ candidate,
+              candidate ∈ rest ∧ keep candidate ∧ candidate ∈ active := by
+          rcases h with ⟨candidate, hmem, hkeep, hactive⟩
+          rcases List.mem_cons.mp hmem with hcandidate | hcandidate
+          · subst candidate
+            exact False.elim (hkeep_head hkeep)
+          · exact ⟨candidate, hcandidate, hkeep, hactive⟩
+        rcases ih hrest with ⟨first, hfirst⟩
+        exact ⟨first, by simp [hkeep_head, hfirst]⟩
+
+/--
 If two ballots preserve the prefix through a candidate that is still active,
 then they have the same first active candidate.
 -/

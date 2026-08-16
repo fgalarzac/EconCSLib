@@ -439,9 +439,108 @@ theorem expected_human_against_pureCenter_lt_pureCenter_payoff {n : ℕ}
 
 /--
 The strict pure-center payoff gap is stable under finite atomwise perturbations
-of the algorithmic ranking law.  This is the finite bridge used to reduce RUM
-asymptotic first dominance to a concrete concentration statement for the
-ranking law.
+of the algorithmic ranking law.  This generic form takes the limiting strict
+gap as a proved premise, so concrete source routes can discharge it without
+being forced through a particular positive-mass ranking witness.
+-/
+theorem exists_atomwise_radius_first_dominance_near_pureCenter_of_pure_gap {n : ℕ}
+    (muH : PMF (Ranking n)) (rho : Ranking n) (value : Candidate n -> ℝ)
+    (hpure :
+      expectedFirstMoverUtility muH value +
+          expectedSecondMoverIndependent muH (PMF.pure rho) value <
+        expectedFirstMoverUtility (PMF.pure rho) value +
+          expectedSecondMoverShared (PMF.pure rho) value) :
+    ∃ delta : ℝ, 0 < delta ∧
+      ∀ muA : PMF (Ranking n),
+        (∀ pi : Ranking n,
+          |(muA pi).toReal - ((PMF.pure rho : PMF (Ranking n)) pi).toReal| < delta) ->
+          expectedFirstMoverUtility muH value +
+              expectedSecondMoverIndependent muH muA value <
+            expectedFirstMoverUtility muA value +
+              expectedSecondMoverShared muA value := by
+  classical
+  let mu0 : PMF (Ranking n) := PMF.pure rho
+  let G0 : ℝ :=
+    expectedFirstMoverUtility muH value +
+      expectedSecondMoverIndependent muH mu0 value
+  let F0 : ℝ :=
+    expectedFirstMoverUtility mu0 value +
+      expectedSecondMoverShared mu0 value
+  have hpure' : G0 < F0 := by
+    simpa [G0, F0, mu0] using hpure
+  let gap : ℝ := F0 - G0
+  have hgap_pos : 0 < gap := sub_pos.mpr hpure'
+  let epsilon : ℝ := gap / 4
+  have hepsilon : 0 < epsilon := by
+    dsimp [epsilon]
+    positivity
+  rcases exists_atomwise_radius_pmfExp_close mu0
+      (fun sigma : Ranking n =>
+        expectedBestAfterRemoval muH value (firstChoice sigma)) hepsilon with
+    ⟨deltaInd, hdeltaInd_pos, hdeltaInd⟩
+  rcases exists_atomwise_radius_pmfExp_close mu0
+      (fun pi : Ranking n => value (firstChoice pi)) hepsilon with
+    ⟨deltaFirst, hdeltaFirst_pos, hdeltaFirst⟩
+  rcases exists_atomwise_radius_pmfExp_close mu0
+      (fun pi : Ranking n => value (secondChoice pi)) hepsilon with
+    ⟨deltaShared, hdeltaShared_pos, hdeltaShared⟩
+  refine ⟨min deltaInd (min deltaFirst deltaShared),
+    lt_min hdeltaInd_pos (lt_min hdeltaFirst_pos hdeltaShared_pos), ?_⟩
+  intro muA hclose
+  have hclose_ind :
+      ∀ pi : Ranking n, |(muA pi).toReal - (mu0 pi).toReal| < deltaInd := by
+    intro pi
+    exact lt_of_lt_of_le (hclose pi) (min_le_left deltaInd (min deltaFirst deltaShared))
+  have hclose_first :
+      ∀ pi : Ranking n, |(muA pi).toReal - (mu0 pi).toReal| < deltaFirst := by
+    intro pi
+    exact lt_of_lt_of_le (hclose pi)
+      (le_trans (min_le_right deltaInd (min deltaFirst deltaShared))
+        (min_le_left deltaFirst deltaShared))
+  have hclose_shared :
+      ∀ pi : Ranking n, |(muA pi).toReal - (mu0 pi).toReal| < deltaShared := by
+    intro pi
+    exact lt_of_lt_of_le (hclose pi)
+      (le_trans (min_le_right deltaInd (min deltaFirst deltaShared))
+        (min_le_right deltaFirst deltaShared))
+  have hind :
+      |expectedSecondMoverIndependent muH muA value -
+          expectedSecondMoverIndependent muH mu0 value| < epsilon := by
+    simpa [expectedSecondMoverIndependent_eq_expect_bestAfterRemoval] using
+      hdeltaInd muA hclose_ind
+  have hfirst :
+      |expectedFirstMoverUtility muA value -
+          expectedFirstMoverUtility mu0 value| < epsilon := by
+    simpa [expectedFirstMoverUtility] using hdeltaFirst muA hclose_first
+  have hshared :
+      |expectedSecondMoverShared muA value -
+          expectedSecondMoverShared mu0 value| < epsilon := by
+    simpa [expectedSecondMoverShared] using hdeltaShared muA hclose_shared
+  have hG :
+      expectedFirstMoverUtility muH value +
+          expectedSecondMoverIndependent muH muA value < G0 + epsilon := by
+    have hind_upper := (abs_lt.mp hind).2
+    dsimp [G0]
+    linarith
+  have hF :
+      F0 - 2 * epsilon <
+        expectedFirstMoverUtility muA value +
+          expectedSecondMoverShared muA value := by
+    have hfirst_lower := (abs_lt.mp hfirst).1
+    have hshared_lower := (abs_lt.mp hshared).1
+    dsimp [F0]
+    linarith
+  have hsep : G0 + epsilon < F0 - 2 * epsilon := by
+    have hthree : 3 * epsilon < gap := by
+      dsimp [epsilon]
+      nlinarith [hgap_pos]
+    dsimp [gap] at hthree
+    linarith
+  exact lt_trans hG (lt_trans hsep hF)
+
+/--
+The special positive-mass witness form of the finite stability bridge.  This
+remains useful for concrete models that establish a swapped-top-two atom.
 -/
 theorem exists_atomwise_radius_first_dominance_near_pureCenter {n : ℕ}
     (μH : PMF (Ranking n)) (ρ : Ranking n) (value : Candidate n → ℝ)

@@ -1,171 +1,311 @@
 {
   "schema": 1,
   "id": "GJ18InformativeRatingSystems",
+  "repository_visibility": "public",
   "title": "Designing Informative Rating Systems: Evidence from an Online Labor Market",
   "authors": "Nikhil Garg, Ramesh Johari",
-  "source_version": "arXiv 1810.13028 TeX/PDF cache; publication citation: Manufacturing & Service Operations Management 23(3):589-605, published online 2020 (issue 2021)",
+  "source_version": "Author-approved corrected finite-chain model recorded 2026-07-24; archival baseline: arXiv 1810.13028 TeX/PDF cache; publication citation: Manufacturing & Service Operations Management 23(3):589-605, published online 2020 (issue 2021)",
   "build_target": "lake build GJ18InformativeRatingSystems",
   "status": "formalized",
-  "main_caveat": "",
+  "main_caveat": "Formalized for the author-approved corrected finite-chain model, not asserted identical to the pinned archival TeX. The corrected model makes the type-count, positive match-rate, iid state-law, endpoint-tail, and extended-rate clauses explicit; the report records each archival delta.",
   "human_summary": "",
+  "formalization_scope": {
+    "kind": "author_approved_corrected_model",
+    "scope_id": "GJ18-corrected-model-2026-07-24",
+    "scope_role": "whole_paper_closeout",
+    "whole_paper_closeout_claimed": true,
+    "approval": {
+      "kind": "repository-user-author-approval",
+      "recorded_at": "2026-07-24",
+      "statement": "Treat the explicit corrected finite-chain iid model and support-safe extended-rate theorem as the governing GJ18 formalization target; record all added conditions and archival deltas in the report.",
+      "artifact_path": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
+      "artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9"
+    },
+    "base_archive": {
+      "path": "source.tar.gz",
+      "sha256": "b5378ae6f1ada1674d9f07dd4c1405655a9109e89a9977debab1b89d599f19de"
+    },
+    "model_spec_declaration": "GJ18InformativeRatingSystems.ClarifiedSourceModel",
+    "target_result_declarations": [
+      "GJ18InformativeRatingSystems.PaperInterface.author_confirmed_clarified_model_theorem1_state_rate",
+      "GJ18InformativeRatingSystems.PaperInterface.author_approved_corrected_model_theorem1_finite_real_rate"
+    ],
+    "correction_ids": [
+      "GJ18-CORR-SELLER-CARRIER-2026-07-24",
+      "GJ18-CORR-MATCH-RATES-2026-07-24",
+      "GJ18-CORR-AGGREGATE-INDEX-2026-07-24",
+      "GJ18-CORR-RATING-CARRIER-2026-07-24",
+      "GJ18-CORR-IID-STATE-LAW-2026-07-24",
+      "GJ18-CORR-ADJACENT-INDEX-2026-07-24",
+      "GJ18-CORR-EXTENDED-RATE-2026-07-24",
+      "GJ18-CORR-APPENDIX-DISCRETE-PROOF-2026-07-24"
+    ],
+    "archival_equivalence_claimed": false,
+    "semantic_contract": {
+      "path": "audit/corrected_model_semantic_contract.json",
+      "sha256": "625879cb5f36d43e4aca27dc0a857025eae8927de8971ec8498e3b092a2358dd"
+    }
+  },
+  "governing_corrections": [
+    {
+      "id": "GJ18-CORR-SELLER-CARRIER-2026-07-24",
+      "clause": "The finite ordered seller carrier has M >= 2 types and an explicit uniform prior.",
+      "source_anchor": "adjectivesmodel.tex:22-24,85-90,111-125",
+      "relation": "Makes the denominator and adjacent-pair domain explicit.",
+      "model_evidence": "ClarifiedSourceModel.at_least_two_seller_types; ClarifiedSourceModel.type_prior_uniform",
+      "does_not_claim_archive_derivation": true
+    },
+    {
+      "id": "GJ18-CORR-MATCH-RATES-2026-07-24",
+      "clause": "For every seller type theta, 0 < g(theta) <= 1 and n_k(theta)=floor(k g(theta)).",
+      "source_anchor": "adjectivesmodel.tex:26-29",
+      "relation": "Makes the diverging-sample and at-most-one-match conditions explicit.",
+      "model_evidence": "ClarifiedSourceModel.match_rate_bounds",
+      "does_not_claim_archive_derivation": true
+    },
+    {
+      "id": "GJ18-CORR-AGGREGATE-INDEX-2026-07-24",
+      "clause": "The aggregate averages exactly n_k(theta) rating observations.",
+      "source_anchor": "adjectivesmodel.tex:54-59",
+      "relation": "Corrects the displayed off-by-one sum endpoint.",
+      "model_evidence": "PaperInterface.source_definition_aggregate_score_formula",
+      "does_not_claim_archive_derivation": true
+    },
+    {
+      "id": "GJ18-CORR-RATING-CARRIER-2026-07-24",
+      "clause": "There are at least two rating levels; cross-type strict upper tails apply only above the bottom cutoff; no terminal full-support condition is imposed.",
+      "source_anchor": "adjectivesmodel.tex:32-51",
+      "relation": "Repairs vacuous and impossible endpoint cases without weakening the ranking conclusion.",
+      "model_evidence": "ClarifiedSourceModel.nontrivial_rating_scale; FiniteOrdinalSourceModel.quality_tails_strictly_increase_above_bottom",
+      "does_not_claim_archive_derivation": true
+    },
+    {
+      "id": "GJ18-CORR-IID-STATE-LAW-2026-07-24",
+      "clause": "Ratings are conditionally iid by seller type and independent across seller histories; the horizon state is the induced finite product law.",
+      "source_anchor": "adjectivesmodel.tex:40,67-73",
+      "relation": "Replaces the archive recurrence as the governing state-evolution clause.",
+      "model_evidence": "ClarifiedSourceModel.conditional_iid_ratings_and_independent_seller_histories",
+      "does_not_claim_archive_derivation": true
+    },
+    {
+      "id": "GJ18-CORR-ADJACENT-INDEX-2026-07-24",
+      "clause": "The adjacent-pair minimum ranges over 0 <= i <= M-2.",
+      "source_anchor": "adjectivesmodel.tex:111-125; appendix_theory.tex:77-95",
+      "relation": "Corrects an endpoint that can name theta_M.",
+      "model_evidence": "finiteChainAdjacentIndex; ClarifiedSourceModel.correctedTheorem1Rate",
+      "does_not_claim_archive_derivation": true
+    },
+    {
+      "id": "GJ18-CORR-EXTENDED-RATE-2026-07-24",
+      "clause": "The Legendre and threshold infimum use extended-real arithmetic; the final rate is separately proved finite.",
+      "source_anchor": "adjectivesmodel.tex:111-125; appendix_theory.tex:7-8,44-53",
+      "relation": "Corrects the rate codomain for infeasible thresholds.",
+      "model_evidence": "PaperInterface.source_definition_extended_rate_function_formula; PaperInterface.author_approved_corrected_model_theorem1_finite_real_rate",
+      "does_not_claim_archive_derivation": true
+    },
+    {
+      "id": "GJ18-CORR-APPENDIX-DISCRETE-PROOF-2026-07-24",
+      "clause": "The weak-inversion and 1-P_k rates are proved directly for finite iid product laws with the required fixed-constant comparison.",
+      "source_anchor": "appendix_theory.tex:7-69",
+      "relation": "Replaces the unsupported continuum-integral transfer.",
+      "model_evidence": "PaperInterface.source_appendix_problessthan_score_gap_rate_iid_completion; PaperInterface.source_appendix_pk_ld_complement_rate_iid_completion",
+      "does_not_claim_archive_derivation": true
+    }
+  ],
   "review_entrypoint": "papers/GJ18InformativeRatingSystems/FINAL_VALIDATION_REPORT.md",
   "human_review": {
     "reviewed_rows": 0,
-    "total_rows": 15,
-    "stale_rows": 0,
+    "total_rows": 9,
+    "stale_rows": 9,
     "mismatch_rows": 0,
-    "source": "paper-local status.json review_surface; human entries come from dashboard logs"
+    "surface": "normal_source_presentations_v1",
+    "source": "The human paper-review surface is the three active named mathematical results in the pinned TeX plus six explicit source-condition rows. The broader 21-row interface and historical archive-sidecar judgments remain agent/audit evidence; no independent current human review is recorded."
   },
   "paper_interface": {
     "path": "papers/GJ18InformativeRatingSystems/PaperInterface.lean",
-    "line_count": 17,
-    "declaration_rows": 0,
-    "review_rows": 7,
+    "line_count": 559,
+    "declaration_rows": 24,
+    "review_rows": 21,
     "oversized": false,
-    "maintainability_issue": null,
-    "audit_surface_path": "papers/GJ18InformativeRatingSystems/AuditInterface.lean"
+    "maintainability_issue": null
+  },
+  "source_inventory": {
+    "path": "papers/GJ18InformativeRatingSystems/audit/paper_statement_map.json",
+    "map_sha256": "c907143fb63f5a4f02b20ebd36b70abea97b6c44f3d8b5d508aa89c30fd91e13",
+    "source_artifact_path": "papers/GJ18InformativeRatingSystems/sources/arxiv.tex",
+    "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
+    "item_count": 21,
+    "normal_named_theory_items": 3,
+    "normal_definition_items": 0,
+    "normal_named_result_items": 3,
+    "deep_audit_items": 0,
+    "support_only_items": 18
   },
   "artifacts": {
     "readme": "papers/GJ18InformativeRatingSystems/README.md",
     "paper_interface": "papers/GJ18InformativeRatingSystems/PaperInterface.lean",
+    "source_model_bridge": "papers/GJ18InformativeRatingSystems/SourceModelBridge.lean",
+    "source_state_completion": "papers/GJ18InformativeRatingSystems/SourceStateCompletion.lean",
+    "source_rate_positivity": "papers/GJ18InformativeRatingSystems/SourceRatePositivity.lean",
+    "clarified_source_model": "papers/GJ18InformativeRatingSystems/ClarifiedSourceModel.lean",
+    "governing_corrected_model": "papers/GJ18InformativeRatingSystems/docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
+    "corrected_model_semantic_contract": "papers/GJ18InformativeRatingSystems/audit/corrected_model_semantic_contract.json",
     "final_validation_report": "papers/GJ18InformativeRatingSystems/FINAL_VALIDATION_REPORT.md",
     "dependency_dag_tex": "papers/GJ18InformativeRatingSystems/docs/DependencyDAG.tex",
     "dependency_dag_pdf": "papers/GJ18InformativeRatingSystems/docs/DependencyDAG.pdf",
     "source_archive": "papers/GJ18InformativeRatingSystems/source.tar.gz",
+    "source_text": "papers/GJ18InformativeRatingSystems/sources/arxiv.tex",
     "assumptions": "papers/GJ18InformativeRatingSystems/Assumptions.lean",
-    "audit_interface": "papers/GJ18InformativeRatingSystems/AuditInterface.lean"
+    "audit_interface": "papers/GJ18InformativeRatingSystems/AuditInterface.lean",
+    "source_proof_fidelity": "papers/GJ18InformativeRatingSystems/audit/source_proof_fidelity.json"
   },
   "review_surface": {
-    "source_file": "papers/GJ18InformativeRatingSystems/AuditInterface.lean",
+    "source_file": "papers/GJ18InformativeRatingSystems/PaperInterface.lean",
     "assumption_source_file": "papers/GJ18InformativeRatingSystems/Assumptions.lean",
-    "llm_assumption_review": "papers/GJ18InformativeRatingSystems/audit/assumption_match_llm.json",
+    "llm_assumption_review": {
+      "assumption_judgment_file": "papers/GJ18InformativeRatingSystems/audit/assumption_match_llm.json",
+      "policy": "Every visible theorem premise represented in Assumptions.lean must be judged as an exact archival or author-approved corrected-model condition rather than proof debt; premise rows do not receive independent source-theorem credit."
+    },
+    "llm_statement_review": {
+      "lean_to_tex_file": "papers/GJ18InformativeRatingSystems/audit/lean_to_tex_llm.json",
+      "match_judgment_file": "papers/GJ18InformativeRatingSystems/audit/statement_match_llm.json",
+      "review_surface_audit_file": "papers/GJ18InformativeRatingSystems/audit/review_surface_llm.json",
+      "paper_coverage_audit_file": "papers/GJ18InformativeRatingSystems/audit/paper_coverage_llm.json",
+      "defect_support_judgment_file": "papers/GJ18InformativeRatingSystems/audit/defect_support_match_llm.json",
+      "assumption_judgment_file": "papers/GJ18InformativeRatingSystems/audit/assumption_match_llm.json",
+      "surface_audit_threshold": 30,
+      "surface_warning_threshold": 120,
+      "require_explicit_source_routes": true,
+      "policy": "Use complete binder-name-independent Lean signature atoms and source obligations. A v10 match requires equivalent quantification, premises, finite/discrete and probability semantics, semantic world, and full conclusion arity. Author-approved corrected targets must remain explicitly distinguished from their archival statements.",
+      "required_prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping"
+    },
+    "llm_paper_coverage_review": {
+      "paper_coverage_audit_file": "papers/GJ18InformativeRatingSystems/audit/paper_coverage_llm.json",
+      "defect_support_judgment_file": "papers/GJ18InformativeRatingSystems/audit/defect_support_match_llm.json",
+      "policy": "Use the source-presentation-first normal inventory: only the three active named mathematical results in the pinned TeX receive ordinary coverage credit. Corrected targets retain the archival delta and approval record; formulas, diagnostics, and unnumbered convergence prose remain support or deep-audit material.",
+      "required_prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins"
+    },
+    "llm_source_record_review": {
+      "source_record_audit_file": "papers/GJ18InformativeRatingSystems/audit/source_record_audit.json",
+      "source_record_judgment_file": "papers/GJ18InformativeRatingSystems/audit/source_record_match_llm.json",
+      "policy": "Classify every boundary-shaped input and recursive record field by expanded semantic content. Bare carrier or model data are witness data; proposition-valued fields need exact archival or correction evidence or a Lean derivation. Do not infer a source model from record, field, theorem, or function names.",
+      "required_prompt_version": "source-record-v10-semantic-conclusion-boundary-contract"
+    },
     "assumption_policy": "strict",
     "assumption_names": [
-      "assumption_positive_match_rates",
-      "assumption_positive_integer_sample_rates",
-      "assumption_nonpositive_common_dual_parameters",
-      "assumption_pairwise_threshold_minimizer",
-      "assumption_two_sided_score_witnesses",
-      "assumption_monotone_rating_scores",
-      "assumption_full_finite_ordinal_rating_support",
-      "assumption_score_range_and_strict_span"
+      "source_match_schedule_coherence",
+      "source_rating_scores_in_unit_interval",
+      "source_strictly_increasing_rating_scores",
+      "source_strict_ordinal_cumulative_tail_decrease_at_displayed_cutoffs",
+      "source_strict_ordinal_quality_tail_increase_above_bottom",
+      "assumption_positive_match_rates"
     ],
     "include_names": [
-      "definition_log_mgf_formula",
-      "definition_rate_function_formula",
-      "lemmaC_pk_complement_source_threshold_rate_from_logMGF_derivatives",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_joint_floor_rating_law",
-      "theorem1_finite_chain_adjacent_threshold_rate_top_min_eq_displayed_objective_min_of_logMGF_derivatives",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_rating_tail_dominance_and_full_support",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_threshold_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds_of_extended_min_eq"
+      "source_definition_floor_sample_count_formula",
+      "source_definition_aggregate_score_formula",
+      "source_definition_pairwise_objective_formula",
+      "source_definition_uniform_ranking_objective_formula",
+      "source_definition_uniform_ranking_normalization",
+      "source_iid_completion_pairwise_objective_bridge",
+      "source_iid_completion_weak_inversion_bridge",
+      "source_iid_completion_uniform_ranking_objective_bridge",
+      "author_confirmed_clarified_uniform_type_prior",
+      "author_confirmed_clarified_iid_state_law",
+      "source_definition_log_mgf_formula",
+      "source_definition_rate_function_formula",
+      "source_definition_extended_rate_function_formula",
+      "source_fidelity_diagnostic_unrestricted_real_pairwise_rate_mismatch",
+      "source_appendix_problessthan_score_gap_rate_iid_completion",
+      "source_appendix_pk_ld_complement_rate_iid_completion",
+      "source_pairwise_objective_tendsto_one_iid_completion",
+      "source_uniform_ranking_objective_tendsto_one_iid_completion",
+      "source_theorem1_informative_rating_system_rate_iid_completion",
+      "author_confirmed_clarified_model_theorem1_state_rate",
+      "author_approved_corrected_model_theorem1_finite_real_rate"
     ],
     "slices": [
       {
-        "id": "source-definitions",
-        "title": "Source definitions",
+        "id": "source-state-definitions",
+        "title": "Literal source-state formulas",
         "names": [
-          "definition_log_mgf_formula",
-          "definition_rate_function_formula"
+          "source_definition_floor_sample_count_formula",
+          "source_definition_aggregate_score_formula",
+          "source_definition_pairwise_objective_formula",
+          "source_definition_uniform_ranking_objective_formula",
+          "source_definition_uniform_ranking_normalization"
         ]
       },
       {
-        "id": "appendix-c",
-        "title": "Appendix C named large-deviation results",
+        "id": "iid-completion",
+        "title": "Explicit iid completion bridges",
         "names": [
-          "lemmaC_pk_complement_source_threshold_rate_from_logMGF_derivatives"
+          "source_iid_completion_pairwise_objective_bridge",
+          "source_iid_completion_weak_inversion_bridge",
+          "source_iid_completion_uniform_ranking_objective_bridge"
         ]
       },
       {
-        "id": "theorem1",
-        "title": "Theorem 1 source-facing endpoints",
+        "id": "author-confirmed-clarification",
+        "title": "Author-confirmed model additions",
         "names": [
-          "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_joint_floor_rating_law",
-          "theorem1_finite_chain_adjacent_threshold_rate_top_min_eq_displayed_objective_min_of_logMGF_derivatives",
-          "theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_rating_tail_dominance_and_full_support",
-          "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_threshold_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds_of_extended_min_eq"
+          "author_confirmed_clarified_uniform_type_prior",
+          "author_confirmed_clarified_iid_state_law",
+          "author_confirmed_clarified_model_theorem1_state_rate",
+          "author_approved_corrected_model_theorem1_finite_real_rate"
+        ]
+      },
+      {
+        "id": "rate-definitions",
+        "title": "Rate definitions and codomain correction",
+        "names": [
+          "source_definition_log_mgf_formula",
+          "source_definition_rate_function_formula",
+          "source_definition_extended_rate_function_formula",
+          "source_fidelity_diagnostic_unrestricted_real_pairwise_rate_mismatch"
+        ]
+      },
+      {
+        "id": "appendix-rates",
+        "title": "Corrected Appendix rate results",
+        "names": [
+          "source_appendix_problessthan_score_gap_rate_iid_completion",
+          "source_appendix_pk_ld_complement_rate_iid_completion"
+        ]
+      },
+      {
+        "id": "convergence-and-theorem1",
+        "title": "Convergence and corrected Theorem 1",
+        "names": [
+          "source_pairwise_objective_tendsto_one_iid_completion",
+          "source_uniform_ranking_objective_tendsto_one_iid_completion",
+          "source_theorem1_informative_rating_system_rate_iid_completion"
         ]
       }
     ],
     "human_source_file": "papers/GJ18InformativeRatingSystems/PaperInterface.lean",
     "auxiliary_names": [
-      "lemmaC_equal_sample_pairwise_error_rate_from_cramer",
-      "lemmaC_equal_sample_pairwise_gap_mean_formula",
-      "lemmaC_equal_sample_pairwise_mgf_product_formula",
-      "lemmaC_floor_pk_complement_error_eq_one_sub_pk_objective",
-      "lemmaC_floor_pk_complement_error_probability_sandwich_left_tail",
-      "lemmaC_floor_pk_complement_error_rate_from_left_tail",
-      "lemmaC_floor_pk_complement_error_rate_from_shifted_cramer_minimizer",
-      "lemmaC_floor_score_gap_rate_from_logMGF_derivative_minimizer",
-      "lemmaC_floor_score_gap_rate_from_logMGF_derivative_minimizer_of_pos_neg_atoms",
-      "lemmaC_floor_score_gap_rate_from_logMGF_derivative_minimizer_of_straddling_support",
-      "lemmaC_floor_score_gap_rate_from_logMGF_derivative_threshold_minimizer_of_straddling_support",
-      "lemmaC_floor_score_gap_rate_from_logMGF_derivatives_of_straddling_support",
-      "lemmaC_floor_score_gap_rate_from_shifted_cramer_minimizer",
-      "lemmaC_integer_rate_block_chernoff_le_source_threshold_rate",
-      "lemmaC_integer_rate_block_error_probability_eq_two_population_probability",
-      "lemmaC_integer_rate_block_error_rate_from_cramer",
-      "lemmaC_integer_rate_block_error_rate_from_stationary_tilt",
-      "lemmaC_integer_rate_block_log_mgf_formula",
-      "lemmaC_integer_rate_block_mgf_product_formula",
-      "lemmaC_integer_rate_block_source_threshold_rate_from_common_derivatives",
-      "lemmaC_integer_rate_block_source_threshold_rate_from_cramer",
-      "lemmaC_integer_rate_block_source_threshold_rate_from_logMGF_derivatives",
-      "lemmaC_integer_rate_block_source_threshold_rate_from_stationary_tilt",
-      "lemmaC_integer_rate_two_population_source_threshold_rate_from_logMGF_derivatives",
-      "lemmaC_pairwise_threshold_rate_formula",
-      "lemmaC_pairwise_threshold_rate_top_attained_of_common_logMGF_derivatives",
-      "lemmaC_pairwise_threshold_rate_top_eq_displayed_objective_of_common_logMGF_derivatives",
-      "lemmaC_pk_complement_error_eq_one_sub_pk_objective",
-      "lemmaC_pk_complement_error_probability_sandwich_left_tail",
-      "lemmaC_pk_complement_error_rate_from_left_tail",
-      "lemmaC_pk_error_rate_from_pairwise_const_sandwich",
-      "lemmaC_two_population_integer_rate_chernoff_upper_certificate",
-      "lemmaC_two_population_sample_chernoff_upper_bound",
-      "lemmaC_two_population_sample_mgf_product_formula",
-      "paperLogMGF",
-      "paperRateFunction",
-      "source_floor_sample_count_div_tendsto_sampleRate",
-      "source_floor_sample_count_eq_mul_of_nat_sampleRate",
-      "theorem1PairwiseThresholdRateRegularity",
-      "theorem1PairwiseThresholdRateTopLdpCertificate",
-      "theorem1PairwiseThresholdRateTopLdpCertificate_of_regularity",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_adjacent_objective_rate_from_logMGF_derivatives_and_score_bounds",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_objective_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_interval_adjacent_threshold_rate_dominance",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_interval_floor_leftTail_event_bounds",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_joint_floor_rating_law_logMGF_derivatives",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_joint_floor_rating_law_threshold_eq",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_joint_floor_rating_marginals",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_joint_score_marginals",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_pairwise_threshold_rate_regularity",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_threshold_rate_eq_and_score_bounds",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_rate_from_adjacent_logMGF_derivative_threshold_minimizers_of_straddling_support",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_rate_from_interval_adjacent_threshold_rate_dominance",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_expected_score_gap_and_common_extreme_support",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_pairwise_threshold_rate_regularity",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_pairwise_top_ldp_certificates",
-      "theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_rating_tail_dominance_and_common_extreme_support",
-      "theorem1_finite_pk_complement_ranking_error_exact_rate_from_adjacent_logMGF_derivatives",
-      "theorem1_finite_pk_complement_ranking_error_exact_rate_from_adjacent_source_rates",
-      "theorem1_finite_ranking_error_exact_rate_from_adjacent_pair_min",
-      "theorem1_finite_ranking_error_exact_rate_from_min_pair_certificate",
-      "theorem1_finite_ranking_error_upper_bound_from_pair_certificates",
-      "theorem1_floor_pk_complement_error_eq_one_sub_weighted_objective",
-      "theorem1_floor_pk_complement_ranking_error_exact_rate_from_adjacent_leftTail_source_rates",
-      "theorem1_floor_pk_complement_ranking_error_exact_rate_from_adjacent_source_rates",
-      "theorem1_floor_weighted_objective_eq_integer_rate_objective_of_nat_sampleRates",
-      "theorem1_floor_weighted_objective_oneSub_exact_rate_from_adjacent_leftTail_source_rates",
-      "theorem1_floor_weighted_objective_oneSub_exact_rate_from_adjacent_logMGF_derivative_minimizers",
-      "theorem1_floor_weighted_objective_oneSub_exact_rate_from_adjacent_logMGF_derivative_minimizers_of_pos_neg_atoms",
-      "theorem1_floor_weighted_objective_oneSub_exact_rate_from_adjacent_logMGF_derivative_threshold_minimizers_of_straddling_support",
-      "theorem1_floor_weighted_objective_oneSub_exact_rate_from_adjacent_logMGF_derivatives_of_straddling_support",
-      "theorem1_floor_weighted_objective_oneSub_exact_rate_from_adjacent_shifted_cramer_minimizers",
-      "theorem1_floor_weighted_objective_oneSub_exact_rate_from_min_logMGF_derivative_minimizers_of_pos_neg_atoms",
-      "theorem1_floor_weighted_objective_oneSub_exact_rate_from_nat_sampleRates_adjacent_logMGF_derivatives",
-      "theorem1_integer_rate_pk_complement_error_eq_one_sub_weighted_objective",
-      "theorem1_integer_rate_weighted_objective_oneSub_exact_rate_from_adjacent_logMGF_derivatives",
-      "theorem1_uniform_floor_objective_oneSub_exact_rate_from_min_logMGF_derivative_minimizers_of_pos_neg_atoms"
-    ]
+      "sourcePaperLogMGF",
+      "sourcePaperRateFunction",
+      "sourcePaperRateFunctionTop"
+    ],
+    "paper_coverage_required": true,
+    "semantic_model_review": {
+      "schema": 2,
+      "required_dimensions": [
+        "expanded_binders_and_domain",
+        "carrier_and_domain",
+        "probability_support_endpoints",
+        "joint_law_and_state_evolution",
+        "conditioning_and_calibration_semantics",
+        "expectation_definedness",
+        "null_cell_totalization_and_partition_scope",
+        "extended_rate_codomain"
+      ],
+      "policy": "Review every expanded paper-facing model surface semantically against the pinned TeX and author-approved correction. Record not-applicable only after inspecting the carrier, probability, conditioning, expectation, partition, and rate semantics; names are routing only. Detected endpoint, state-law, conditioning, and extended-rate shapes require a checked bridge."
+    },
+    "source_proof_fidelity_review": {
+      "ledger_file": "papers/GJ18InformativeRatingSystems/audit/source_proof_fidelity.json",
+      "policy": "Use schema 2. The author-approved corrected model is the target; the archival recurrence and unrestricted Real display remain recorded deltas, never derivations of the corrected iid or extended-rate result. Deep observations receive no normal proof credit, and a weaker Lean conclusion or caller-supplied premise is never exact named-result evidence."
+    }
   }
 }

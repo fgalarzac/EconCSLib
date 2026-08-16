@@ -1532,6 +1532,37 @@ theorem standardGaussianHazard_continuous :
     (continuous_const.sub standardGaussianCDF_continuous)
     (fun z => (standardGaussianTail_pos z).ne')
 
+/-- The standard Gaussian hazard is differentiable on the whole real line. -/
+theorem standardGaussianHazard_differentiable :
+    Differentiable ℝ standardGaussianHazard := by
+  have hident : standardGaussianHazard = gaussianMillsHazard := by
+    funext z
+    exact standardGaussianHazard_eq_millsHazard z
+  rw [hident]
+  intro z
+  exact (gaussianMillsHazard_hasDerivAt z).differentiableAt
+
+/-- The standard Gaussian hazard has derivative norm at most one. -/
+theorem standardGaussianHazard_nnnorm_deriv_le_one (z : ℝ) :
+    ‖deriv standardGaussianHazard z‖₊ ≤ 1 := by
+  have hident : standardGaussianHazard = gaussianMillsHazard := by
+    funext x
+    exact standardGaussianHazard_eq_millsHazard x
+  rw [hident]
+  obtain ⟨d, hd, hd_lt_one⟩ := gaussianMillsHazard_deriv_lt_one z
+  have hderiv : deriv gaussianMillsHazard z = d := hd.deriv
+  have hd_pos : 0 < d := by
+    rw [← hderiv, (gaussianMillsHazard_hasDerivAt z).deriv]
+    exact gaussianMillsHazard_deriv_pos z
+  rw [← NNReal.coe_le_coe, coe_nnnorm, hderiv]
+  exact abs_le.2 ⟨(neg_one_lt_zero.trans hd_pos).le, le_of_lt hd_lt_one⟩
+
+/-- The standard Gaussian hazard is globally one-Lipschitz. -/
+theorem standardGaussianHazard_lipschitzWith_one :
+    LipschitzWith 1 standardGaussianHazard := by
+  apply lipschitzWith_of_nnnorm_deriv_le standardGaussianHazard_differentiable
+  exact standardGaussianHazard_nnnorm_deriv_le_one
+
 /--
 For a fixed Gaussian location-scale law, the concrete lower-tail conditional
 mean is continuous in the finite threshold.

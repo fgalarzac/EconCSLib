@@ -1,4 +1,4 @@
-import Roth82StableMatching.MainTheorems
+import Roth82StableMatching.PaperInterface
 
 /-!
 # Post-Paper Audit: Roth 1982 Stable Matching
@@ -6,14 +6,109 @@ import Roth82StableMatching.MainTheorems
 This ledger exposes source-numbered final endpoints for the post-verification
 audit. For the compact human-facing statement surface, read
 `PaperInterface.lean`. Each declaration here is intentionally a thin alias to
-the paper-facing theorem proved in `MainTheorems.lean`, so the source inventory
-can be checked from one importable file without duplicating proof scripts.
+the paper-facing theorem proved in `MainTheorems.lean`.
+
+The endpoints include the strict marriage theorems, source-stage algorithm
+refinements, responsive arbitrary-quota extension, dummy-agent completion,
+indexed serial procedure, and the Section 6 numerical witness.
 -/
 
 namespace Roth82StableMatching
 open EconCSLib.Matching
 
 namespace PostPaperAudit
+
+/-! ## Source-model and procedure completion endpoints -/
+
+/-- Audit endpoint for the source's men-proposing batched-stage procedure. -/
+theorem audit_roth82_batched_da_refines_outcome
+    {M W : Type*} [Fintype M] [Fintype W] [DecidableEq M] [DecidableEq W]
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (hcard : Fintype.card M = Fintype.card W)
+    (hdomain : PaperInterface.strictMarriageDomain val_m val_w) :
+    PaperInterface.sourceBatchedMenDeferredAcceptance val_m val_w =
+      PaperInterface.menDeferredAcceptance val_m val_w :=
+  PaperInterface.sourceBatchedMenDeferredAcceptance_refines
+    val_m val_w hcard hdomain
+
+/-- Audit endpoint for the source's women-proposing batched-stage procedure. -/
+theorem audit_roth82_women_batched_da_refines_outcome
+    {M W : Type*} [Fintype M] [Fintype W] [DecidableEq M] [DecidableEq W]
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (hcard : Fintype.card M = Fintype.card W)
+    (hdomain : PaperInterface.strictMarriageDomain val_m val_w) :
+    PaperInterface.sourceBatchedWomenDeferredAcceptance val_m val_w =
+      PaperInterface.womenDeferredAcceptance val_m val_w :=
+  PaperInterface.sourceBatchedWomenDeferredAcceptance_refines
+    val_m val_w hcard hdomain
+
+/-- Audit endpoint for Roth's arbitrary-quota extension of Theorems 1 and 2. -/
+theorem audit_roth82_general_quota_stable_and_both_side_optimal
+    {Applicants Colleges : Type*}
+    [Fintype Applicants] [Fintype Colleges]
+    [DecidableEq Applicants] [DecidableEq Colleges]
+    (quota : Colleges → ℕ)
+    (val_applicant : Applicants → Colleges → ℝ)
+    (val_college : Colleges → Applicants → ℝ)
+    (hdomain : PaperInterface.strictQuotaDomain val_applicant val_college) :
+    PaperInterface.stableQuotaAssignment quota val_applicant val_college
+        (PaperInterface.quotaBatchedDeferredAcceptance
+          quota val_applicant val_college hdomain) ∧
+      PaperInterface.applicantOptimalQuotaAssignment quota val_applicant val_college
+        (PaperInterface.quotaBatchedDeferredAcceptance
+          quota val_applicant val_college hdomain) ∧
+      ∃! mu : PaperInterface.quotaAssignment Applicants Colleges,
+        GS62CollegeAdmissions.ManyToOneOptimality.gs_college_optimal_college_assignment
+            quota val_applicant val_college hdomain.1.2 mu ∧
+          GS62CollegeAdmissions.ManyToOneOptimality.gs_responsive_college_optimal_assignment
+            quota val_applicant val_college mu :=
+  PaperInterface.generalQuota_stable_and_both_side_optimal
+    quota val_applicant val_college hdomain
+
+/-- Audit endpoint for the optional-outcome/dummy-agent representation. -/
+theorem audit_roth82_dummy_agents_complete_optional_assignment
+    {M W : Type*} [Fintype M] [Fintype W] (mu : Assignment M W) :
+    Fintype.card (M ⊕ W) = Fintype.card (W ⊕ M) ∧
+      ((∀ x, ∃ y, (paper_dummy_completion mu).m_match x = some y) ∧
+        ∀ y, ∃ x, (paper_dummy_completion mu).w_match y = some x) ∧
+      (∀ m w,
+        (paper_dummy_completion mu).m_match (Sum.inl m) = some (Sum.inl w) ↔
+          mu.m_match m = some w) ∧
+      (∀ m,
+        (paper_dummy_completion mu).m_match (Sum.inl m) = some (Sum.inr m) ↔
+          mu.m_match m = none) ∧
+      ∀ w,
+        (paper_dummy_completion mu).w_match (Sum.inl w) = some (Sum.inr w) ↔
+          mu.w_match w = none :=
+  PaperInterface.dummyAgents_complete_optional_assignment mu
+
+/-- Audit endpoint for the indexed top-remaining serial-dictatorship step. -/
+theorem audit_roth82_serial_choice_best_remaining {n : ℕ}
+    (val_m : Fin n → Fin n → ℝ) (i : Fin n) (w : Fin n)
+    (hw : w ∈ PaperInterface.serialRemainingWomen val_m i) :
+    val_m i w ≤ val_m i (PaperInterface.serialChoice val_m i) :=
+  PaperInterface.serialChoice_best_remaining val_m i w hw
+
+/-- Audit endpoint for the exact Section 6 beneficial-bystander example. -/
+theorem audit_roth82_section6_beneficial_bystander_example :
+    PaperInterface.sourceBatchedMenDeferredAcceptance theorem3MenProfile
+        theorem3WomenProfilePrime = theorem3OutcomeY ∧
+      PaperInterface.sourceBatchedMenDeferredAcceptance
+        paper_roth82_section6_reported_men theorem3WomenProfilePrime =
+          theorem3OutcomeX ∧
+      paper_matching_valM theorem3MenProfile 1
+          (theorem3OutcomeY.m_match 1) =
+        paper_matching_valM theorem3MenProfile 1
+          (theorem3OutcomeX.m_match 1) ∧
+      paper_matching_valM theorem3MenProfile 0
+          (theorem3OutcomeY.m_match 0) <
+        paper_matching_valM theorem3MenProfile 0
+          (theorem3OutcomeX.m_match 0) ∧
+      paper_matching_valM theorem3MenProfile 2
+          (theorem3OutcomeY.m_match 2) <
+        paper_matching_valM theorem3MenProfile 2
+          (theorem3OutcomeX.m_match 2) :=
+  PaperInterface.section6_beneficial_bystander_example
 
 /-- Audit endpoint for Roth Theorem 1: existence of a stable outcome. -/
 theorem audit_roth82_theorem1_stable_outcome_exists

@@ -1,337 +1,94 @@
-# Final Validation Report: Test-optional Policies
-
-Updated: 2026-07-03
+# Final Validation Report: LG21 Test-Optional Policies
+Updated: 2026-08-16
 
 ## 1. Human Verdict
-Formalized. The report covers all named definitions and results in Sections
-2--4, with Gaussian tail facts supplied by the shared mathlib-backed library.
-No counterexample to a named theorem is reported; continuous cutoff and tie
-cases are handled as source-law or almost-everywhere statements. No human
-dashboard sign-off has been recorded.
+
+Formalized. The selected definitions and results through Theorem 4.4 are
+covered under explicit equilibrium semantics. Theorem 3.2 uses the approved
+corrected target stated in Section 10. Independent human review has not yet
+been recorded.
 
 ## 2. Closeout Status
+
 - Completion status: formalized.
-- One-sentence recap: The named Sections 2-4 test-optional definitions and results are formalized, with Gaussian tail facts supplied by shared library lemmas.
-- Lean footprint: 125,744 paper-local Lean LOC; `PaperInterface.lean` is 77 lines; 23 human-review declarations are exposed.
-- Audit summary: source coverage has 23 covered; statement LLM-as-judge has 23 matches; Lean-to-TeX has 16 row translations; assumption provenance has 7 paper_condition; source-record classification sidecar is not tracked; source-record audit reports 23 review rows, 0 boundary inputs, 0 recursion failures; review-surface audit passes over 23 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Normal scope: named definitions, Theorems 3.1--3.2, Lemma 4.1,
+  Propositions 4.2--4.3, Definition 6, and Theorem 4.4.
+- Simulations, figures, numerical examples, and non-theorem prose are outside
+  this mathematical scope.
 
 ## 3. Source and Scope
-### Source Version
 
-- Paper: *Test-optional Policies: Overcoming Strategic Behavior and
-  Informational Gaps*
-- Authors: Zhi Liu and Nikhil Garg
-- Version formalized: arXiv:2107.08922 / EAAMO 2021 version
-- Local source text cache: `source.txt` when regenerated locally; omitted from
-  the public repository.
-
-Sections 1 and 5 are introduction/discussion material and contain no named
-theorem or definition target. The formalized source surface covers the named
-model definitions and results in Sections 2--4.
-
-### Source Surface
-
-Human reviewers should start from:
-
-- `PaperInterface.lean`: compact 16-row statement surface.
-- `SOURCE_AUDIT.md`: source-order map from the paper text to each interface
-  row, including local source-cache line numbers and audit endpoints.
-- `PostPaperAudit.lean`: broader importable ledger for proof-route variants
-  and diagnostics.
-
-The compact interface covers exactly these paper-facing items:
-
-| Paper item | Interface coverage |
-| --- | --- |
-| Definition 1, equilibrium | source action, feasibility, best response, and consistency |
-| Definition 2, latent-skill fairness | equality of estimate laws conditional on latent skill and observed features |
-| Definition 3, observable fairness | equality of estimate laws conditional on observed features |
-| Definition 4, demographic fairness | equality of estimate laws by access status |
-| Definition 5, test blankness | test score has no estimate relevance |
-| Theorem 3.1 | optional-reporting and report-required strategic-withholding branches |
-| Theorem 3.2 | optional-reporting and report-required fairness-impossibility/no-relevance branches |
-| Lemma 4.1 | observed access makes the Bayesian access-side policy strategy-proof |
-| Proposition 4.2 | Bayesian optimal access-side estimates are not latent-skill fair |
-| Proposition 4.3 | full Bayesian optimal policy is not observable or demographic fair |
-| Definition 6 | resampling policy |
-| Theorem 4.4 | resampling policy is strategy-proof, observable fair, and demographic fair |
-
-The dashboard source-statement map used for statement translation is:
-
-- `definition1_source_equilibrium`: A source equilibrium consists of feasible
-  access decisions, best-response utility maximization among feasible actions
-  in every student information state, and estimation consistency.
-- `definition2_latent_skill_fair`: A policy surface is latent-skill fair when,
-  in every equilibrium, applicants with the same latent skill and base group
-  receive the same estimate law whether or not they have access.
-- `definition3_observable_fair`: A policy surface is observably fair when, in
-  every equilibrium and base group, the access and no-access observable estimate
-  laws are equal.
-- `definition4_demographic_fair`: A policy surface is demographically fair
-  when, in every equilibrium, the demographic access and no-access estimate laws
-  are equal.
-- `definition5_test_blank`: A policy surface is test-blank when, in every
-  equilibrium, base group, and test value, the base-only estimate equals the
-  full-feature estimate.
-- `theorem3_1_optional_reporting`: In the hidden-access optional-reporting
-  source model, when access fractions are below one, every source equilibrium
-  has strategic withholding: everyone takes the test, some base-score pair is
-  not reported, reporting is cutoff-shaped within each base group, and the
-  base-mixed Gaussian posterior-law surface is not latent-skill fair, not
-  observable fair, and not demographic fair.
-- `theorem3_1_report_required`: In the hidden-access report-required source
-  model with positive slopes and access fractions below one, every source
-  equilibrium has strategic withholding: some base-skill pair does not take the
-  test, taking is cutoff-shaped within each base group, and the base-mixed
-  affine-skill posterior-law surface is not latent-skill fair, not observable
-  fair, and not demographic fair.
-- `theorem3_2_optional_reporting_fairness_impossibility`: In the
-  optional-reporting source model, under source-equilibrium, threshold-reporting,
-  and the no-reporter-to-test-blank normalization, latent-skill fairness or
-  observable fairness of the event-share binary-mixture surface implies
-  test-blankness.
-- `theorem3_2_optional_reporting_no_test_relevance`: Under the same
-  optional-reporting hypotheses, if the event-share binary-mixture surface is
-  latent-skill fair or observable fair, then there is no base/test triple where
-  the base-only and full-feature estimates differ.
-- `theorem3_2_report_required_fairness_impossibility`: In the report-required
-  source model, under source-equilibrium, threshold-taking, and the
-  no-taker-to-test-blank normalization, latent-skill fairness or observable
-  fairness of the event-share binary-mixture surface implies test-blankness.
-- `theorem3_2_report_required_no_test_relevance`: Under the same report-required
-  hypotheses, if the event-share binary-mixture surface is latent-skill fair or
-  observable fair, then there is no base/test triple where the base-only and
-  full-feature estimates differ.
-- `lemma4_1_observed_access_strategy_proofness`: With observed access and a
-  positive test scale, the fully specified optional-reporting and
-  report-required source equilibria choose take-and-report in every student
-  information state, giving the strategy-proofness step.
-- `proposition4_2_bayesian_access_estimates_not_latent_skill_fair`: For the fully specified
-  observed-access source equilibria, any positive-slope base-indexed one-test
-  posterior-law surface chooses take-and-report in every information state and
-  is not latent-skill fair.
-- `proposition4_3_bayesian_optimal_not_observable_or_demographic_fair`: For the fully specified
-  observed-access source equilibria, any base-mixed extra-signal posterior-law
-  surface with positive extra-noise variance chooses take-and-report in every
-  information state and is not observable fair or demographic fair.
-- `definition6_resampling_policy`: The resampling policy uses the resampling
-  experiment's conditional signal-given-base kernel.
-- `theorem4_4_resampling_policy`: For every resampling experiment, the
-  fully specified observed-access source equilibria choose take-and-report in
-  every information state, and the access-estimate and resampling-estimate
-  kernels are observable fair and demographic fair with respect to the base
-  profile.
-
-The report intentionally does not list every helper declaration. Those details
-belong in `PostPaperAudit.lean`.
+The source is [Test-optional Policies: Overcoming Strategic Behavior and
+Informational Gaps](https://arxiv.org/pdf/2107.08922). The reviewed scope is
+the paper's named definitions, Theorems 3.1--3.2, Lemma 4.1, Propositions
+4.2--4.3, Definition 6, and Theorem 4.4.
 
 ## 4. Researcher Summary of Checked Results
-- The formalization checks the named definitions and results in Sections 2-4 of the test-optional policies paper.
-- Strategic behavior, admissions-threshold, and informational-gap claims are represented through paper-facing theorem wrappers.
-- Gaussian tail facts are supplied by the shared mathlib-backed library, not by paper-local assumptions.
+
+- Definition 1 separates test-taking from score reporting and specifies best
+  responses and Bayesian-optimal estimates on attained positive-mass branches.
+- Definitions 2--5 give the latent-skill, observable, demographic, and
+  test-blankness properties of the output laws.
+- Theorem 3.1 establishes the optional-reporting and report-required disclosure
+  patterns and the three fairness failures.
+- Theorem 3.2 gives the approved corrected target: deterministic output after
+  a reported score, a common output on the no-report or no-take branch, and
+  almost-everywhere test blankness under the stated fairness condition.
+- Lemma 4.1 and Propositions 4.2--4.3 establish equilibrium behavior and
+  unfairness for the three requirement protocols.
+- Definition 6 and Theorem 4.4 give the resampling policy and its observable
+  and demographic fairness.
 
 ## 5. Remaining Boundaries and Gaps
-None for the named Sections 2-4 theorem surface.
 
-## 6. Additional Assumptions Beyond Paper
 None.
 
+## 6. Additional Assumptions Beyond Paper
+
+The model makes two equilibrium conventions explicit: local recalibration for
+Theorem 3.1 and positive-mass active-branch selection in Section 4. Null
+branches are treated only up to measure zero; no off-path posterior is chosen.
+These are operational readings of the source's equilibrium model, rather than
+additional substantive premises.
+
 ## 7. Proof-Strategy Deviations
-None. The compact paper-facing premise surface is a report/audit organization choice; it does not change the paper's proof route or theorem statements.
+
+Theorem 3.1 states local recalibration explicitly and Section 4 states the
+positive-mass active-branch rule explicitly. Gaussian conditional laws are used
+only through almost-everywhere conclusions, so arbitrary null-fiber values do
+not affect the results.
 
 ## 8. Proof Tricks Worth Reusing
-- Keep the paper-facing interface compact, and move proof-route variants into
-  the audit ledger. This made the final review surface small enough to compare
-  against the source paper directly.
-- Use a.e. equilibrium for continuous cutoff models when the paper proof only
-  needs best response off measure-zero tie boundaries.
-- Package fairness impossibility as a source-model certificate: prove the
-  unraveling/no-relevance implication once, then instantiate it for optional
-  reporting and report-required regimes.
-- Maintain finite event-share and continuous-law routes in parallel when the
-  source proof moves between finite support witnesses and Gaussian law
-  arguments.
 
-## 9. Mathematical Typos or Other Fixes Suggested in the Source Paper
-None found.
+- Separate attained positive-mass branches from arbitrary versions of
+  conditional laws on null events.
+- Keep the pre-score-taking decision distinct from the post-score-reporting
+  decision.
+- Analyze deviations using the information observed by the school rather than
+  an unobserved latent-skill partition.
 
-## 10. Paper Issues or Caveats
-No counterexample to a named theorem is reported. Continuous cutoff and tie cases are handled as source-law or almost-everywhere statements.
+## 9. Generalizations, Conjectures, and Extensions
 
-## 11. Detailed Formalization Evidence
-### What Happened
+The positive-mass active-branch framework may be useful for other disclosure
+models. Extending the posterior calculations beyond Gaussian signals would be
+a separate result.
 
-The Section 3 proof was the hard part. The final route follows the paper's
-strategic-withholding and unraveling arguments, but makes the implicit cases
-explicit:
+## 10. Source Clarifications and Exact Readings
 
-- In Theorem 3.1, optional reporting and report-required policies are handled
-  separately, matching the paper's two bullet points. The formalization uses
-  source-shaped Gaussian and affine payoff models to prove the threshold and
-  unfairness conclusions.
-- In Theorem 3.2, fairness implies either a positive reporter/taker event share
-  that unravels by a profitable deviation, or a zero-event branch where the
-  policy is already test-blank/no-test-relevant. This is the formal version of
-  the paper's unraveling proof.
-- For continuous threshold models, pointwise equilibrium at the exact cutoff is
-  too strong. The repaired route uses a.e. equilibrium under the realized source
-  law, which matches the paper's intended treatment of measure-zero tie points.
+The source anchors, clarified readings, and result-level effects are recorded
+in [Source Clarifications](docs/SOURCE_CLARIFICATIONS.md).
 
-The observed-access section is more direct:
+- The Theorem 3.1 no-report mixture uses below-cutoff mass, rather than the
+  printed reporting mass.
+- The Theorem 3.1 cutoff-existence route uses proved Gaussian lower-tail
+  continuity, denominator positivity, and endpoint signs; pointwise finiteness
+  alone does not justify continuity of the parameterized improper integral.
+- The Theorem 3.2 component uses deterministic reported-score output and an
+  arbitrary common no-report or no-take output. Its final `demographic`
+  reference is read as `observable`, consistently with the theorem's argument.
+- Lemma 4.1 uses the affine inverse posterior threshold.
+- Proposition 4.3 uses the unconditional precision comparison.
 
-- Lemma 4.1 closes the strategy-proofness step for the observed-access source
-  model.
-- Propositions 4.2 and 4.3 close the informational-gap unfairness results using
-  the shared Gaussian posterior infrastructure.
-- Definition 6 and Theorem 4.4 close via a finite conditional-resampling
-  kernel: access and no-access estimate laws are pushforwards of the same
-  conditional test-score law, so observable fairness holds by construction and
-  demographic fairness follows by mixing.
+## 11. Paper Issues or Caveats
 
-## 12. Paper Assumption Provenance
-Every non-derived compact paper-facing premise is routed through
-`LG21TestOptionalPolicies/Assumptions.lean` and checked by
-`assumption_match_llm.json`. LG21 has many source-model helper declarations in
-`PostPaperAudit.lean`; those implementation-only variants are not part of the
-public assumption ledger unless reached by a dashboard row. The repository
-audit still follows aliases into `ProofInterface.lean`, so the compact surface
-cannot hide theorem hypotheses behind an abbrev.
-
-| Lean assumption/condition group | Judgment | Source role |
-| --- | --- | --- |
-| `assumption_section3_access_fraction_domain` | paper condition / derived | Interior cohort access fractions give `0 <= C < 1`. |
-| `assumption_section3_source_equilibrium_instances` | paper condition | Section 3 optional-reporting and report-required source equilibria. |
-| `assumption_source_model_event_and_consistency_predicates` | paper condition | Reporting/taking event predicates and estimation-consistency components from the source model. |
-| `assumption_section3_threshold_decision_shapes` | paper condition | Threshold-shaped reporting/taking rules stated and proved in Section 3. |
-| `assumption_section3_zero_positive_event_blank_branch` | derived | Zero-positive reporter/taker branches collapse to the test-blank/no-relevance branch. |
-| `assumption_positive_gaussian_domain_conditions` | paper condition / derived | Positive Gaussian scales, variances, and posterior-slope conditions. |
-| `assumption_observed_access_source_equilibria` | paper condition | Observed-access optional-reporting and report-required source equilibria used by Lemma 4.1 and downstream rows. |
-
-## 13. Displayed Formula Provenance
-Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
-
-## 14. Library Lift Pass
-### Library Pass
-
-The post-verification proof scan produced one small library extraction:
-
-- `measure_pos_of_subset`
-- `ae_property_contradicts_positive_failure_mass`
-
-Both now live in `EconCSLib.Foundations.Probability.MeasureInequalities`, and
-LG21 keeps only thin paper-local wrappers around them.
-
-Other reusable infrastructure was already in the shared library and was reused
-rather than duplicated:
-
-- a.e. choice equilibrium:
-  `EconCSLib.Foundations.Optimization.ChoiceEquilibriumAE`;
-- finite event shares, binary mixtures, and blank-on-zero normalization:
-  `EconCSLib.Foundations.Probability.FiniteMixture`;
-- conditional resampling kernels:
-  `EconCSLib.Foundations.Probability.Admissions`;
-- Gaussian posterior and tail facts:
-  `EconCSLib.Foundations.Probability.Gaussian`, `GaussianMathlib`, and
-  `GaussianDerivatives`.
-
-Deferred candidate: the paper-local tagged point/Gaussian/finite-mixture law
-wrappers may deserve a generic Gaussian-mixture law module if another
-standardized-testing paper needs the same constructors. They remain local for
-now because their current shape is tuned to LG21's source-law bookkeeping.
-
-## 15. DAG Audit
-`DependencyDAG.tex` is source-facing and follows the shared template styles:
-
-- model/definition layers use `dag_model`;
-- supporting lemma/library nodes use `dag_lemma`;
-- paper-facing theorems, propositions, and final results use `dag_result`.
-
-The final spacing pass widened the lanes, increased vertical separation, and
-routed the model-to-fairness dependency vertically so arrows do not cross node
-labels. `latexmk -pdf DependencyDAG.tex` rebuilt `DependencyDAG.pdf`, and PNG
-inspection found no node-label or arrow-through-text overlap. The DAG covers
-the source-result clusters recorded in the source inventory: Definitions 1/6,
-Lemma 4.1, Propositions 4.2/4.3, and Theorems 3.1/3.2/4.4.
-
-## 16. Validation Checks
-
-<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
-### LLM-as-Judge Results
-- Source coverage (`audit/paper_coverage_llm.json`): 23 covered.
-- Statement match (`audit/statement_match_llm.json`): 23 matches.
-- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 16 row translations generated from Lean statements.
-- Assumption provenance (`audit/assumption_match_llm.json`): 7 paper_condition.
-- Source-record classification: no source-record classification sidecar tracked for this paper.
-- Source-record structural audit (`audit/source_record_audit.json`): 23 review rows, 0 boundary inputs, 0 recursion failures.
-- Review-surface audit (`audit/review_surface_llm.json`): passes over 23 review rows.
-- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
-- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
-<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
-
-### Verification Checks
-
-Passed:
-
-- `lake build LG21TestOptionalPolicies`
-- `python3 scripts/review_dashboard.py --paper LG21TestOptionalPolicies --statement-check`
-- `python3 scripts/review_dashboard.py --paper LG21TestOptionalPolicies --assumption-check`
-- `python3 scripts/sync_paper_status.py --check`
-
-Expected human-review precheck warning:
-
-- `python3 scripts/review_dashboard.py --paper LG21TestOptionalPolicies --precheck`
-  reports 23 unreviewed dashboard items because human review remains external.
-
-### Statement Translation Audit
-
-Audit date: 2026-06-29.
-Scope: current dashboard surface from `PaperInterface.lean`; the generated
-LLM-as-judge block above is sourced from the tracked sidecars.
-
-Summary: statement match has 23 matches; Lean-to-TeX has 16 row translations; assumption provenance has 7 paper_condition.
-No separate stale manual validator table is maintained in this report.
-
-## 17. Paper Definitions Checked
-<!-- lean-derived-definitions:start -->
-### Lean-Derived Dashboard Definitions
-
-| Paper-facing item | Lean declaration | Source-facing statement |
-| --- | --- | --- |
-| abbrev definition1_source_equilibrium | `definition1_source_equilibrium` | A source equilibrium consists of feasible access decisions, best-response utility maximization among feasible actions in every student information state, and estimation consistency. |
-| abbrev definition2_latent_skill_fair | `definition2_latent_skill_fair` | A policy surface is latent-skill fair when, in every equilibrium, applicants with the same latent skill and base group receive the same estimate law whether or not they have access. |
-| abbrev definition3_observable_fair | `definition3_observable_fair` | A policy surface is observably fair when, in every equilibrium and base group, the access and no-access observable estimate laws are equal. |
-| abbrev definition4_demographic_fair | `definition4_demographic_fair` | A policy surface is demographically fair when, in every equilibrium, the demographic access and no-access estimate laws are equal. |
-| abbrev definition5_test_blank | `definition5_test_blank` | A policy surface is test-blank when, in every equilibrium, base group, and test value, the base-only estimate equals the full-feature estimate. |
-| abbrev theorem3_1_optional_reporting | `theorem3_1_optional_reporting` | In the hidden-access optional-reporting source model, when access fractions are below one, every source equilibrium has strategic withholding: everyone takes the test, some base-score pair is not reported, reporting is cutoff-shaped with... |
-| abbrev theorem3_1_report_required | `theorem3_1_report_required` | In the hidden-access report-required source model with positive slopes and access fractions below one, every source equilibrium has strategic withholding: some base-skill pair does not take the test, taking is cutoff-shaped within each b... |
-| abbrev theorem3_2_optional_reporting_fairness_impossibility | `theorem3_2_optional_reporting_fairness_impossibility` | In the optional-reporting source model, under source-equilibrium, threshold-reporting, and the no-reporter-to-test-blank normalization, latent-skill fairness or observable fairness of the event-share binary-mixture surface implies test-b... |
-| abbrev theorem3_2_optional_reporting_no_test_relevance | `theorem3_2_optional_reporting_no_test_relevance` | Under the same optional-reporting hypotheses, if the event-share binary-mixture surface is latent-skill fair or observable fair, then there is no base/test triple where the base-only and full-feature estimates differ. |
-| abbrev theorem3_2_report_required_fairness_impossibility | `theorem3_2_report_required_fairness_impossibility` | In the report-required source model, under source-equilibrium, threshold-taking, and the no-taker-to-test-blank normalization, latent-skill fairness or observable fairness of the event-share binary-mixture surface implies test-blankness. |
-| abbrev theorem3_2_report_required_no_test_relevance | `theorem3_2_report_required_no_test_relevance` | Under the same report-required hypotheses, if the event-share binary-mixture surface is latent-skill fair or observable fair, then there is no base/test triple where the base-only and full-feature estimates differ. |
-| abbrev lemma4_1_observed_access_strategy_proofness | `lemma4_1_observed_access_strategy_proofness` | With observed access and a positive test scale, the fully specified optional-reporting and report-required source equilibria choose take-and-report in every student information state, giving the strategy-proofness step. |
-| abbrev proposition4_2_bayesian_access_estimates_not_latent_skill_fair | `proposition4_2_bayesian_access_estimates_not_latent_skill_fair` | For the fully specified observed-access source equilibria, any positive-slope base-indexed one-test posterior-law surface chooses take-and-report in every information state and is not latent-skill fair. |
-| abbrev proposition4_3_bayesian_optimal_not_observable_or_demographic_fair | `proposition4_3_bayesian_optimal_not_observable_or_demographic_fair` | For the fully specified observed-access source equilibria, any base-mixed extra-signal posterior-law surface with positive extra-noise variance chooses take-and-report in every information state and is not observable fair or demographic... |
-| abbrev definition6_resampling_policy | `definition6_resampling_policy` | The resampling policy uses the resampling experiment's conditional signal-given-base kernel. |
-| abbrev theorem4_4_resampling_policy | `theorem4_4_resampling_policy` | For every resampling experiment, the fully specified observed-access source equilibria choose take-and-report in every information state, and the access-estimate and resampling-estimate kernels are observable fair and demographic fair wi... |
-<!-- lean-derived-definitions:end -->
-
-## 18. Named Theorem Statements Checked
-<!-- lean-derived-statements:start -->
-### Lean-Derived Dashboard Named Statements
-
-None exposed in the current dashboard surface.
-<!-- lean-derived-statements:end -->
-
-## 19. Paper-Facing Statement Validator Ledger
-Current source: `audit/statement_match_llm.json`, refreshed 2026-06-29, plus assumption provenance in `audit/assumption_match_llm.json`.
-
-| Validator surface | Result |
-| --- | --- |
-| Statement match | 23 matches. |
-| Lean-to-TeX drafts | 16 row translations generated from Lean statements. |
-| Assumption provenance | 7 paper_condition. |
-| Source coverage | 23 covered. |
-
-The full row-level validator ledger is tracked in the JSON sidecars. Human
-dashboard reviews and model/agent statement checks are separate provenance lanes;
-this report does not change the human-only `human_review.reviewed_rows` counter.
+None.

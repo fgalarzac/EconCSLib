@@ -1,4 +1,4 @@
-import EconCSLib.Foundations.Probability.FiniteExpectation
+import EconCSLib.Foundations.Probability.Conditional
 
 open scoped BigOperators
 
@@ -494,6 +494,62 @@ theorem pmfProb_pmfProd_and_eq_mul_pmfProb {α β : Type*}
   unfold pmfProb
   rw [pmfExp_pmfProd_eq_pairExp]
   exact pmfPairExp_indicator_and_eq_mul_pmfProb μ ν p q
+
+/--
+Under an independent product PMF, conditioning on a positive product event
+`p(first) ∧ q(second)` leaves first-coordinate conditional probabilities equal
+to the conditional probability under the first marginal given `p`.
+-/
+theorem pmfConditionalProb_pmfProd_fst_eq
+    {α β : Type*} [Fintype α] [DecidableEq α]
+    [Fintype β] [DecidableEq β]
+    (μ : PMF α) (ν : PMF β)
+    (p event : α → Prop) (q : β → Prop)
+    [DecidablePred p] [DecidablePred event] [DecidablePred q]
+    (hp_pos : 0 < pmfProb μ p)
+    (hq_pos : 0 < pmfProb ν q) :
+    pmfConditionalProb (pmfProd μ ν)
+        (fun x : α × β => p x.1 ∧ q x.2)
+        (fun x : α × β => event x.1) =
+      pmfConditionalProb μ p event := by
+  classical
+  have hcondition_pos :
+      0 <
+        pmfProb (pmfProd μ ν)
+          (fun x : α × β => p x.1 ∧ q x.2) := by
+    rw [pmfProb_pmfProd_and_eq_mul_pmfProb μ ν p q]
+    exact mul_pos hp_pos hq_pos
+  rw [pmfConditionalProb_eq_inter_div_of_pos
+    (pmfProd μ ν)
+    (fun x : α × β => p x.1 ∧ q x.2)
+    (fun x : α × β => event x.1)
+    hcondition_pos]
+  rw [pmfConditionalProb_eq_inter_div_of_pos μ p event hp_pos]
+  have hnum :
+      pmfProb (pmfProd μ ν)
+          (fun x : α × β =>
+            (p x.1 ∧ q x.2) ∧ event x.1) =
+        pmfProb μ (fun a => p a ∧ event a) * pmfProb ν q := by
+    calc
+      pmfProb (pmfProd μ ν)
+          (fun x : α × β =>
+            (p x.1 ∧ q x.2) ∧ event x.1)
+          =
+        pmfProb (pmfProd μ ν)
+          (fun x : α × β => (p x.1 ∧ event x.1) ∧ q x.2) := by
+          refine pmfProb_congr _ ?_
+          intro x
+          tauto
+      _ = pmfProb μ (fun a => p a ∧ event a) * pmfProb ν q := by
+          rw [pmfProb_pmfProd_and_eq_mul_pmfProb
+            μ ν (fun a => p a ∧ event a) q]
+  have hden :
+      pmfProb (pmfProd μ ν)
+          (fun x : α × β => p x.1 ∧ q x.2) =
+        pmfProb μ p * pmfProb ν q :=
+    pmfProb_pmfProd_and_eq_mul_pmfProb μ ν p q
+  rw [hnum, hden]
+  field_simp [hp_pos.ne', hq_pos.ne']
 
 /-- Under an independent product PMF, a first-coordinate event has its marginal probability. -/
 theorem pmfProb_pmfProd_fst_eq {α β : Type*}

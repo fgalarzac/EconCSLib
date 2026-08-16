@@ -5,7 +5,7 @@
 |---|---|
 | Final status | Formalized |
 | Paper reference | [Addressing Discretization-Induced Bias in Demographic Prediction](https://arxiv.org/pdf/2405.16762) by Evan Dong, Aaron Schein, Yixin Wang, and Nikhil Garg; PNAS Nexus, 2025. |
-| Lines of Code | 26,133 |
+| Lines of Code | 27,355 |
 
 ## Key Links
 

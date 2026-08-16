@@ -17,11 +17,104 @@ structure DAState (M W : Type*) where
   m_proposals : M → Finset W
   consistent : ∀ m w, m_match m = some w ↔ w_match w = some m
 
+theorem DAState.ext {M W : Type*} {s t : DAState M W}
+    (hm : ∀ m, s.m_match m = t.m_match m)
+    (hw : ∀ w, s.w_match w = t.w_match w)
+    (hp : ∀ m, s.m_proposals m = t.m_proposals m) :
+    s = t := by
+  cases s with
+  | mk sm sw sp sc =>
+      cases t with
+      | mk tm tw tp tc =>
+          have hsm : sm = tm := funext hm
+          have hsw : sw = tw := funext hw
+          have hsp : sp = tp := funext hp
+          subst hsm
+          subst hsw
+          subst hsp
+          simp
+
+/-- Relabel the proposer side of a DA state. -/
+def DAState.relabelMen {M M' W : Type*} (e : M ≃ M')
+    (s : DAState M W) : DAState M' W where
+  m_match m' := s.m_match (e.symm m')
+  w_match w := Option.map e (s.w_match w)
+  m_proposals m' := s.m_proposals (e.symm m')
+  consistent m' w := by
+    constructor
+    · intro hmatch
+      have hw : s.w_match w = some (e.symm m') :=
+        (s.consistent (e.symm m') w).1 hmatch
+      simp [hw]
+    · intro hmatch
+      cases hw : s.w_match w with
+      | none =>
+          simp [hw] at hmatch
+      | some m =>
+          have hem : e m = m' := by
+            simpa [hw] using hmatch
+          have hm : m = e.symm m' := by
+            rw [← hem]
+            simp
+          exact (s.consistent (e.symm m') w).2 (by simpa [hw, hm])
+
+@[simp] theorem DAState.relabelMen_m_match {M M' W : Type*}
+    (e : M ≃ M') (s : DAState M W) (m' : M') :
+    (s.relabelMen e).m_match m' = s.m_match (e.symm m') := rfl
+
+@[simp] theorem DAState.relabelMen_w_match {M M' W : Type*}
+    (e : M ≃ M') (s : DAState M W) (w : W) :
+    (s.relabelMen e).w_match w = Option.map e (s.w_match w) := rfl
+
+@[simp] theorem DAState.relabelMen_m_proposals {M M' W : Type*}
+    (e : M ≃ M') (s : DAState M W) (m' : M') :
+    (s.relabelMen e).m_proposals m' = s.m_proposals (e.symm m') := rfl
+
+@[simp] theorem DAState.relabelMen_w_match_apply {M M' W : Type*}
+    (e : M ≃ M') (s : DAState M W) (w : W) (m : M) :
+    (s.relabelMen e).w_match w = some (e m) ↔ s.w_match w = some m := by
+  cases h : s.w_match w with
+  | none =>
+      constructor
+      · intro hm
+        simp [h] at hm
+      · intro hm
+        exact False.elim (by simpa [h] using hm)
+  | some m0 =>
+      constructor
+      · intro hm
+        have heq : e m0 = e m := by
+          simpa [h] using hm
+        simpa [h, e.injective heq]
+      · intro hm
+        have : m0 = m := Option.some.inj (by simpa [h] using hm)
+        simp [h, this]
+
+@[simp] theorem DAState.relabelMen_symm_relabelMen {M M' W : Type*}
+    (e : M ≃ M') (s : DAState M W) :
+    (s.relabelMen e).relabelMen e.symm = s := by
+  cases s with
+  | mk m_match w_match m_proposals consistent =>
+      simp [DAState.relabelMen]
+
+@[simp] theorem DAState.relabelMen_relabelMen_symm {M M' W : Type*}
+    (e : M ≃ M') (s : DAState M' W) :
+    (s.relabelMen e.symm).relabelMen e = s := by
+  cases s with
+  | mk m_match w_match m_proposals consistent =>
+      simp [DAState.relabelMen]
+
 def initialDAState (M W : Type*) [Fintype W] : DAState M W where
   m_match _ := none
   w_match _ := none
   m_proposals _ := Finset.univ
   consistent m w := by simp
+
+@[simp] theorem DAState.relabelMen_initial {M M' W : Type*} [Fintype W]
+    (e : M ≃ M') :
+    (initialDAState M W).relabelMen e = initialDAState M' W := by
+  cases e
+  rfl
 
 /--
 Divorce woman `w0` from her current holder, leaving all proposal histories
@@ -77,6 +170,19 @@ def BestRemainingWoman (val_m : M → W → ℝ) (s : DAState M W) (m : M) (w : 
   w ∈ s.m_proposals m ∧ 0 ≤ val_m m w ∧
   ∀ w' ∈ s.m_proposals m, 0 ≤ val_m m w' → val_m m w' ≤ val_m m w
 
+theorem IsActiveMan_relabelMen_iff {M M' W : Type*}
+    (val_m : M → W → ℝ) (e : M ≃ M') (s : DAState M W) (m' : M') :
+    IsActiveMan (fun m' w => val_m (e.symm m') w) (s.relabelMen e) m' ↔
+      IsActiveMan val_m s (e.symm m') := by
+  simp [IsActiveMan]
+
+theorem BestRemainingWoman_relabelMen_iff {M M' W : Type*}
+    (val_m : M → W → ℝ) (e : M ≃ M') (s : DAState M W) (m' : M') (w : W) :
+    BestRemainingWoman (fun m' w => val_m (e.symm m') w)
+        (s.relabelMen e) m' w ↔
+      BestRemainingWoman val_m s (e.symm m') w := by
+  simp [BestRemainingWoman]
+
 /-- Remove the proposal opportunity `m -> w` from a DA state's proposal sets. -/
 def removeProposal (s : DAState M W) (m : M) (w : W) : M → Finset W :=
   fun m' => if m' = m then s.m_proposals m \ {w} else s.m_proposals m'
@@ -96,6 +202,27 @@ lemma mem_removeProposal_iff (s : DAState M W) (m m' : M) (w w' : W) :
   · subst m'
     simp
   · simp [removeProposal, hm]
+
+theorem removeProposal_relabelMen_apply {M M' W : Type*}
+    [DecidableEq M'] [DecidableEq M] [DecidableEq W]
+    (e : M ≃ M') (s : DAState M W) (m' x : M') (w : W) :
+    removeProposal (s.relabelMen e) m' w x =
+      removeProposal s (e.symm m') w (e.symm x) := by
+  by_cases hx : x = m'
+  · subst x
+    simp [removeProposal]
+  · have hsymm : e.symm x ≠ e.symm m' := by
+      intro h
+      exact hx (e.symm.injective h)
+    simp [removeProposal, hx, hsymm]
+
+theorem removeProposal_relabelMen {M M' W : Type*}
+    [DecidableEq M'] [DecidableEq M] [DecidableEq W]
+    (e : M ≃ M') (s : DAState M W) (m' : M') (w : W) :
+    removeProposal (s.relabelMen e) m' w =
+      fun x => removeProposal s (e.symm m') w (e.symm x) := by
+  funext x
+  exact removeProposal_relabelMen_apply e s m' x w
 
 lemma not_mem_of_not_mem_removeProposal (s : DAState M W) {m m' : M} {w w' : W}
     (hnot : w' ∉ removeProposal s m w m') :
@@ -218,6 +345,126 @@ def daStepChosenAccepts (val_m : M → W → ℝ) (val_w : W → M → ℝ)
   | some m' => val_w w m' < val_w w m
 
 /--
+One scheduled DA step for a named proposer.  If `m` is active, he proposes to
+one of his best remaining acceptable women and the usual accept/reject update is
+performed.  If `m` is inactive, the state is unchanged.
+-/
+noncomputable def daStepByMan (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (s : DAState M W) (m : M) : DAState M W :=
+  have _ : Decidable (IsActiveMan val_m s m) := Classical.propDecidable _
+  if hact : IsActiveMan val_m s m then
+    let w_exists := exists_best_woman val_m s m hact
+    let w := Classical.choose w_exists
+    let new_proposals := removeProposal s m w
+    let m_current := s.w_match w
+    let accepts :=
+      match m_current with
+      | none => 0 ≤ val_w w m
+      | some m' => val_w w m' < val_w w m
+    have _ : Decidable accepts := Classical.propDecidable _
+    if hacc : accepts then
+      let new_w_match := Function.update s.w_match w (some m)
+      let new_m_match := fun m'' =>
+        if m'' = m then some w
+        else if m_current = some m'' then none
+        else s.m_match m''
+      { m_match := new_m_match
+        w_match := new_w_match
+        m_proposals := new_proposals
+        consistent := by
+          simpa [new_m_match, new_w_match, m_current] using
+            acceptMatch_consistent s hact.1 }
+    else
+      { s with m_proposals := new_proposals }
+  else
+    s
+
+/-- Run scheduled DA steps from a start state. -/
+noncomputable def daStateAfterSchedule (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (start : DAState M W) (schedule : List M) : DAState M W :=
+  schedule.foldl (fun s m => daStepByMan val_m val_w s m) start
+
+@[simp] theorem daStateAfterSchedule_nil
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ) (start : DAState M W) :
+    daStateAfterSchedule val_m val_w start [] = start := rfl
+
+@[simp] theorem daStateAfterSchedule_cons
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (start : DAState M W) (m : M) (schedule : List M) :
+    daStateAfterSchedule val_m val_w start (m :: schedule) =
+      daStateAfterSchedule val_m val_w
+        (daStepByMan val_m val_w start m) schedule := rfl
+
+@[simp] theorem daStateAfterSchedule_append
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (start : DAState M W) (schedule₁ schedule₂ : List M) :
+    daStateAfterSchedule val_m val_w start (schedule₁ ++ schedule₂) =
+      daStateAfterSchedule val_m val_w
+        (daStateAfterSchedule val_m val_w start schedule₁) schedule₂ := by
+  simp [daStateAfterSchedule, List.foldl_append]
+
+/-- The woman selected by a scheduled step for an active named proposer. -/
+noncomputable def daStepByManChosenWoman
+    (val_m : M → W → ℝ) (s : DAState M W) (m : M)
+    (hact : IsActiveMan val_m s m) : W :=
+  Classical.choose (exists_best_woman val_m s m hact)
+
+/-- Whether woman `w` accepts a proposal from man `m` in state `s`. -/
+def daWomanAcceptsProposal
+    (val_w : W → M → ℝ) (s : DAState M W) (m : M) (w : W) : Prop :=
+  match s.w_match w with
+  | none => 0 ≤ val_w w m
+  | some m' => val_w w m' < val_w w m
+
+theorem daWomanAcceptsProposal_relabelMen_iff {M M' W : Type*}
+    (val_w : W → M → ℝ) (e : M ≃ M') (s : DAState M W) (m' : M') (w : W) :
+    daWomanAcceptsProposal (fun w m' => val_w w (e.symm m'))
+        (s.relabelMen e) m' w ↔
+      daWomanAcceptsProposal val_w s (e.symm m') w := by
+  cases h : s.w_match w with
+  | none =>
+      simp [daWomanAcceptsProposal, h]
+  | some m =>
+      simp [daWomanAcceptsProposal, h]
+
+/-- The accept predicate used by a scheduled step for an active named proposer. -/
+def daStepByManAccepts
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (s : DAState M W) (m : M) (hact : IsActiveMan val_m s m) : Prop :=
+  let w := daStepByManChosenWoman val_m s m hact
+  match s.w_match w with
+  | none => 0 ≤ val_w w m
+  | some m' => val_w w m' < val_w w m
+
+theorem daStepByManAccepts_eq_daWomanAcceptsProposal
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (s : DAState M W) (m : M) (hact : IsActiveMan val_m s m) :
+    daStepByManAccepts val_m val_w s m hact =
+      daWomanAcceptsProposal val_w s m
+        (daStepByManChosenWoman val_m s m hact) := rfl
+
+theorem daStepByMan_chosen_eq_daStep
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (s : DAState M W) (hactive : ∃ m, IsActiveMan val_m s m) :
+    daStepByMan val_m val_w s (daStepChosenMan val_m s hactive) =
+      daStep val_m val_w s := by
+  classical
+  change daStepByMan val_m val_w s (Classical.choose hactive) =
+    daStep val_m val_w s
+  have hact : IsActiveMan val_m s (Classical.choose hactive) :=
+    Classical.choose_spec hactive
+  let w_exists :=
+    exists_best_woman val_m s (Classical.choose hactive) hact
+  let w := Classical.choose w_exists
+  let accepts : Prop :=
+    match s.w_match w with
+    | none => 0 ≤ val_w w (Classical.choose hactive)
+    | some m' => val_w w m' < val_w w (Classical.choose hactive)
+  by_cases hacc : accepts
+  · simp [daStepByMan, daStep, hactive, hact, w_exists, w, accepts, hacc]
+  · simp [daStepByMan, daStep, hactive, hact, w_exists, w, accepts, hacc]
+
+/--
 If two woman-side profiles make the same accept/reject decision for the chosen
 proposal in a fixed active state, then the DA step is the same under both
 profiles.
@@ -278,6 +525,499 @@ theorem daStep_w_match_chosen_of_accepts
     (by
       simp [daStep, hactive, m, hact, w_exists, w, accepts, hacc'])
 
+/--
+In an active DA step, the proposal-history field is exactly the old proposal
+history with the chosen proposal removed.  This field is independent of the
+accept/reject branch.
+-/
+theorem daStep_m_proposals_eq_removeProposal_of_active
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ) (s : DAState M W)
+    (hactive : ∃ m, IsActiveMan val_m s m) :
+    (daStep val_m val_w s).m_proposals =
+      removeProposal s
+        (daStepChosenMan val_m s hactive)
+        (daStepChosenWoman val_m s hactive) := by
+  classical
+  let m := Classical.choose hactive
+  let hact : IsActiveMan val_m s m := Classical.choose_spec hactive
+  let w_exists := exists_best_woman val_m s m hact
+  let w := Classical.choose w_exists
+  let accepts : Prop :=
+    match s.w_match w with
+    | none => 0 ≤ val_w w m
+    | some m' => val_w w m' < val_w w m
+  by_cases hacc : accepts
+  · simp [daStep, daStepChosenMan, daStepChosenWoman, hactive,
+      m, hact, w_exists, w, accepts, hacc]
+  · simp [daStep, daStepChosenMan, daStepChosenWoman, hactive,
+      m, hact, w_exists, w, accepts, hacc]
+
+/--
+In an active scheduled DA step, the proposal-history field removes exactly the
+named proposer's chosen proposal.  This field is independent of the
+accept/reject branch.
+-/
+theorem daStepByMan_m_proposals_eq_removeProposal_of_active
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (s : DAState M W) (m : M) (hact : IsActiveMan val_m s m) :
+    (daStepByMan val_m val_w s m).m_proposals =
+      removeProposal s m (daStepByManChosenWoman val_m s m hact) := by
+  classical
+  let w_exists := exists_best_woman val_m s m hact
+  let w := Classical.choose w_exists
+  let accepts : Prop :=
+    match s.w_match w with
+    | none => 0 ≤ val_w w m
+    | some m' => val_w w m' < val_w w m
+  by_cases hacc : accepts
+  · simp [daStepByMan, hact, daStepByManChosenWoman, w_exists, w, accepts, hacc]
+  · simp [daStepByMan, hact, daStepByManChosenWoman, w_exists, w, accepts, hacc]
+
+theorem daStepByMan_m_proposals_relabelMen_of_chosenWoman {M M' W : Type*}
+    [Fintype M] [Fintype M'] [Fintype W]
+    [DecidableEq M] [DecidableEq M'] [DecidableEq W]
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (e : M ≃ M') (s : DAState M W) (m' : M')
+    (hact : IsActiveMan val_m s (e.symm m'))
+    (hchosen :
+      daStepByManChosenWoman (fun m' w => val_m (e.symm m') w)
+          (DAState.relabelMen e s) m'
+          ((IsActiveMan_relabelMen_iff val_m e s m').2 hact) =
+        daStepByManChosenWoman val_m s (e.symm m') hact) :
+    (daStepByMan (fun m' w => val_m (e.symm m') w)
+        (fun w m' => val_w w (e.symm m')) (DAState.relabelMen e s) m').m_proposals =
+      (DAState.relabelMen e (daStepByMan val_m val_w s (e.symm m'))).m_proposals := by
+  classical
+  have hactRel : IsActiveMan (fun m' w => val_m (e.symm m') w)
+      (DAState.relabelMen e s) m' := (IsActiveMan_relabelMen_iff val_m e s m').2 hact
+  funext x
+  rw [daStepByMan_m_proposals_eq_removeProposal_of_active
+    (fun m' w => val_m (e.symm m') w)
+    (fun w m' => val_w w (e.symm m')) (DAState.relabelMen e s) m' hactRel]
+  change removeProposal (DAState.relabelMen e s) m'
+      (daStepByManChosenWoman (fun m' w => val_m (e.symm m') w)
+        (DAState.relabelMen e s) m' hactRel) x =
+    (daStepByMan val_m val_w s (e.symm m')).m_proposals (e.symm x)
+  rw [daStepByMan_m_proposals_eq_removeProposal_of_active val_m val_w s (e.symm m') hact]
+  rw [hchosen]
+  exact removeProposal_relabelMen_apply e s m' x
+    (daStepByManChosenWoman val_m s (e.symm m') hact)
+
+/-- If the chosen proposal is accepted, the chosen man holds the chosen woman
+after the DA step. -/
+theorem daStep_m_match_chosen_of_accepts
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ) (s : DAState M W)
+    (hactive : ∃ m, IsActiveMan val_m s m)
+    (hacc : daStepChosenAccepts val_m val_w s hactive) :
+    (daStep val_m val_w s).m_match (daStepChosenMan val_m s hactive) =
+      some (daStepChosenWoman val_m s hactive) := by
+  classical
+  let m := Classical.choose hactive
+  let hact : IsActiveMan val_m s m := Classical.choose_spec hactive
+  let w_exists := exists_best_woman val_m s m hact
+  let w := Classical.choose w_exists
+  let accepts : Prop :=
+    match s.w_match w with
+    | none => 0 ≤ val_w w m
+    | some m' => val_w w m' < val_w w m
+  have hacc' : accepts := by
+    simpa [daStepChosenAccepts, daStepChosenMan, daStepChosenWoman, m, hact,
+      w_exists, w, accepts] using hacc
+  simpa [daStepChosenMan, daStepChosenWoman, m, hact, w_exists, w] using
+    (by
+      simp [daStep, hactive, m, hact, w_exists, w, accepts, hacc'])
+
+/-- If the chosen proposal is accepted, the woman-match field is the update
+that assigns the chosen woman to the chosen man. -/
+theorem daStep_w_match_eq_update_of_accepts
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ) (s : DAState M W)
+    (hactive : ∃ m, IsActiveMan val_m s m)
+    (hacc : daStepChosenAccepts val_m val_w s hactive) :
+    (daStep val_m val_w s).w_match =
+      Function.update s.w_match
+        (daStepChosenWoman val_m s hactive)
+        (some (daStepChosenMan val_m s hactive)) := by
+  classical
+  let m := Classical.choose hactive
+  let hact : IsActiveMan val_m s m := Classical.choose_spec hactive
+  let w_exists := exists_best_woman val_m s m hact
+  let w := Classical.choose w_exists
+  let accepts : Prop :=
+    match s.w_match w with
+    | none => 0 ≤ val_w w m
+    | some m' => val_w w m' < val_w w m
+  have hacc' : accepts := by
+    simpa [daStepChosenAccepts, daStepChosenMan, daStepChosenWoman, m, hact,
+      w_exists, w, accepts] using hacc
+  simp [daStep, daStepChosenMan, daStepChosenWoman, hactive,
+    m, hact, w_exists, w, accepts, hacc']
+
+/-- If the chosen proposal is accepted, the man-match field is the source
+implementation's corresponding update. -/
+theorem daStep_m_match_eq_update_of_accepts
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ) (s : DAState M W)
+    (hactive : ∃ m, IsActiveMan val_m s m)
+    (hacc : daStepChosenAccepts val_m val_w s hactive) :
+    (daStep val_m val_w s).m_match =
+      fun m'' =>
+        if m'' = daStepChosenMan val_m s hactive then
+          some (daStepChosenWoman val_m s hactive)
+        else if s.w_match (daStepChosenWoman val_m s hactive) = some m'' then
+          none
+        else
+          s.m_match m'' := by
+  classical
+  let m := Classical.choose hactive
+  let hact : IsActiveMan val_m s m := Classical.choose_spec hactive
+  let w_exists := exists_best_woman val_m s m hact
+  let w := Classical.choose w_exists
+  let accepts : Prop :=
+    match s.w_match w with
+    | none => 0 ≤ val_w w m
+    | some m' => val_w w m' < val_w w m
+  have hacc' : accepts := by
+    simpa [daStepChosenAccepts, daStepChosenMan, daStepChosenWoman, m, hact,
+      w_exists, w, accepts] using hacc
+  have hm_eq : m = daStepChosenMan val_m s hactive := by
+    rfl
+  have hw_eq : w = daStepChosenWoman val_m s hactive := by
+    rfl
+  funext m''
+  have hraw :
+      (daStep val_m val_w s).m_match m'' =
+        (if m'' = m then some w
+        else if s.w_match w = some m'' then none
+        else s.m_match m'') := by
+    simp [daStep, hactive, m, hact, w_exists, w, accepts, hacc']
+  rw [hraw, hm_eq, hw_eq]
+
+/-- If a scheduled proposal is accepted, the woman-match field is updated. -/
+theorem daStepByMan_w_match_eq_update_of_accepts
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (s : DAState M W) (m : M) (hact : IsActiveMan val_m s m)
+    (hacc : daStepByManAccepts val_m val_w s m hact) :
+    (daStepByMan val_m val_w s m).w_match =
+      Function.update s.w_match
+        (daStepByManChosenWoman val_m s m hact) (some m) := by
+  classical
+  let w_exists := exists_best_woman val_m s m hact
+  let w := Classical.choose w_exists
+  let accepts : Prop :=
+    match s.w_match w with
+    | none => 0 ≤ val_w w m
+    | some m' => val_w w m' < val_w w m
+  have hacc' : accepts := by
+    simpa [daStepByManAccepts, daStepByManChosenWoman, w_exists, w, accepts]
+      using hacc
+  simp [daStepByMan, daStepByManChosenWoman, hact, w_exists, w, accepts, hacc']
+
+/-- If a scheduled proposal is accepted, the man-match field is updated. -/
+theorem daStepByMan_m_match_eq_update_of_accepts
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (s : DAState M W) (m : M) (hact : IsActiveMan val_m s m)
+    (hacc : daStepByManAccepts val_m val_w s m hact) :
+    (daStepByMan val_m val_w s m).m_match =
+      fun m'' =>
+        if m'' = m then
+          some (daStepByManChosenWoman val_m s m hact)
+        else if s.w_match (daStepByManChosenWoman val_m s m hact) = some m'' then
+          none
+        else
+          s.m_match m'' := by
+  classical
+  let w_exists := exists_best_woman val_m s m hact
+  let w := Classical.choose w_exists
+  let accepts : Prop :=
+    match s.w_match w with
+    | none => 0 ≤ val_w w m
+    | some m' => val_w w m' < val_w w m
+  have hacc' : accepts := by
+    simpa [daStepByManAccepts, daStepByManChosenWoman, w_exists, w, accepts]
+      using hacc
+  have hw_eq : w = daStepByManChosenWoman val_m s m hact := by
+    rfl
+  funext m''
+  have hraw :
+      (daStepByMan val_m val_w s m).m_match m'' =
+        (if m'' = m then some w
+        else if s.w_match w = some m'' then none
+        else s.m_match m'') := by
+    simp [daStepByMan, hact, w_exists, w, accepts, hacc']
+  rw [hraw, hw_eq]
+
+/-- If the chosen proposal is rejected, the woman-match field is unchanged. -/
+theorem daStep_w_match_eq_self_of_not_accepts
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ) (s : DAState M W)
+    (hactive : ∃ m, IsActiveMan val_m s m)
+    (hacc : ¬ daStepChosenAccepts val_m val_w s hactive) :
+    (daStep val_m val_w s).w_match = s.w_match := by
+  classical
+  let m := Classical.choose hactive
+  let hact : IsActiveMan val_m s m := Classical.choose_spec hactive
+  let w_exists := exists_best_woman val_m s m hact
+  let w := Classical.choose w_exists
+  let accepts : Prop :=
+    match s.w_match w with
+    | none => 0 ≤ val_w w m
+    | some m' => val_w w m' < val_w w m
+  have hacc' : ¬ accepts := by
+    simpa [daStepChosenAccepts, daStepChosenMan, daStepChosenWoman, m, hact,
+      w_exists, w, accepts] using hacc
+  simp [daStep, daStepChosenMan, daStepChosenWoman, hactive,
+    m, hact, w_exists, w, accepts, hacc']
+
+/-- If a scheduled proposal is rejected, the woman-match field is unchanged. -/
+theorem daStepByMan_w_match_eq_self_of_not_accepts
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (s : DAState M W) (m : M) (hact : IsActiveMan val_m s m)
+    (hacc : ¬ daStepByManAccepts val_m val_w s m hact) :
+    (daStepByMan val_m val_w s m).w_match = s.w_match := by
+  classical
+  let w_exists := exists_best_woman val_m s m hact
+  let w := Classical.choose w_exists
+  let accepts : Prop :=
+    match s.w_match w with
+    | none => 0 ≤ val_w w m
+    | some m' => val_w w m' < val_w w m
+  have hacc' : ¬ accepts := by
+    simpa [daStepByManAccepts, daStepByManChosenWoman, w_exists, w, accepts]
+      using hacc
+  simp [daStepByMan, daStepByManChosenWoman, hact, w_exists, w, accepts, hacc']
+
+theorem daStepByMan_w_match_relabelMen_of_chosenWoman {M M' W : Type*}
+    [Fintype M] [Fintype M'] [Fintype W]
+    [DecidableEq M] [DecidableEq M'] [DecidableEq W]
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (e : M ≃ M') (s : DAState M W) (m' : M')
+    (hact : IsActiveMan val_m s (e.symm m'))
+    (hchosen :
+      daStepByManChosenWoman (fun m' w => val_m (e.symm m') w)
+          (DAState.relabelMen e s) m'
+          ((IsActiveMan_relabelMen_iff val_m e s m').2 hact) =
+        daStepByManChosenWoman val_m s (e.symm m') hact) :
+    (daStepByMan (fun m' w => val_m (e.symm m') w)
+        (fun w m' => val_w w (e.symm m')) (DAState.relabelMen e s) m').w_match =
+      (DAState.relabelMen e (daStepByMan val_m val_w s (e.symm m'))).w_match := by
+  classical
+  have hactRel : IsActiveMan (fun m' w => val_m (e.symm m') w)
+      (DAState.relabelMen e s) m' := (IsActiveMan_relabelMen_iff val_m e s m').2 hact
+  have hchosenRel :
+      daStepByManChosenWoman (fun m' w => val_m (e.symm m') w)
+        (DAState.relabelMen e s) m' hactRel =
+      daStepByManChosenWoman val_m s (e.symm m') hact := by
+    simpa [hactRel] using hchosen
+  have hacciff :
+      daStepByManAccepts (fun m' w => val_m (e.symm m') w)
+          (fun w m' => val_w w (e.symm m'))
+          (DAState.relabelMen e s) m' hactRel ↔
+        daStepByManAccepts val_m val_w s (e.symm m') hact := by
+    rw [daStepByManAccepts_eq_daWomanAcceptsProposal
+      (fun m' w => val_m (e.symm m') w)
+      (fun w m' => val_w w (e.symm m')) (DAState.relabelMen e s) m' hactRel]
+    rw [daStepByManAccepts_eq_daWomanAcceptsProposal val_m val_w s (e.symm m') hact]
+    rw [hchosenRel]
+    exact daWomanAcceptsProposal_relabelMen_iff val_w e s m'
+      (daStepByManChosenWoman val_m s (e.symm m') hact)
+  by_cases hacc : daStepByManAccepts val_m val_w s (e.symm m') hact
+  · have haccRel :
+        daStepByManAccepts (fun m' w => val_m (e.symm m') w)
+          (fun w m' => val_w w (e.symm m'))
+          (DAState.relabelMen e s) m' hactRel := hacciff.2 hacc
+    rw [daStepByMan_w_match_eq_update_of_accepts
+      (fun m' w => val_m (e.symm m') w)
+      (fun w m' => val_w w (e.symm m'))
+      (DAState.relabelMen e s) m' hactRel haccRel]
+    funext y
+    change Function.update (DAState.relabelMen e s).w_match
+        (daStepByManChosenWoman (fun m' w => val_m (e.symm m') w)
+          (DAState.relabelMen e s) m' hactRel) (some m') y =
+      Option.map e ((daStepByMan val_m val_w s (e.symm m')).w_match y)
+    rw [daStepByMan_w_match_eq_update_of_accepts val_m val_w s (e.symm m') hact hacc]
+    by_cases hy : y = daStepByManChosenWoman val_m s (e.symm m') hact
+    · subst y
+      simp [Function.update, hchosenRel]
+    · have hyRel :
+        daStepByManChosenWoman (fun m' w => val_m (e.symm m') w)
+          (DAState.relabelMen e s) m' hactRel ≠ y := by
+          intro h
+          apply hy
+          rw [← hchosenRel]
+          exact h.symm
+      have hyRelSymm :
+        y ≠ daStepByManChosenWoman (fun m' w => val_m (e.symm m') w)
+          (DAState.relabelMen e s) m' hactRel := by
+          intro h
+          exact hyRel h.symm
+      simp [Function.update, hy, hyRelSymm]
+  · have haccRel :
+        ¬ daStepByManAccepts (fun m' w => val_m (e.symm m') w)
+          (fun w m' => val_w w (e.symm m'))
+          (DAState.relabelMen e s) m' hactRel := fun h => hacc (hacciff.1 h)
+    rw [daStepByMan_w_match_eq_self_of_not_accepts
+      (fun m' w => val_m (e.symm m') w)
+      (fun w m' => val_w w (e.symm m'))
+      (DAState.relabelMen e s) m' hactRel haccRel]
+    funext y
+    change (DAState.relabelMen e s).w_match y =
+      Option.map e ((daStepByMan val_m val_w s (e.symm m')).w_match y)
+    rw [daStepByMan_w_match_eq_self_of_not_accepts val_m val_w s (e.symm m') hact hacc]
+    rfl
+
+/-- If the chosen proposal is rejected, the man-match field is unchanged. -/
+theorem daStep_m_match_eq_self_of_not_accepts
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ) (s : DAState M W)
+    (hactive : ∃ m, IsActiveMan val_m s m)
+    (hacc : ¬ daStepChosenAccepts val_m val_w s hactive) :
+    (daStep val_m val_w s).m_match = s.m_match := by
+  classical
+  let m := Classical.choose hactive
+  let hact : IsActiveMan val_m s m := Classical.choose_spec hactive
+  let w_exists := exists_best_woman val_m s m hact
+  let w := Classical.choose w_exists
+  let accepts : Prop :=
+    match s.w_match w with
+    | none => 0 ≤ val_w w m
+    | some m' => val_w w m' < val_w w m
+  have hacc' : ¬ accepts := by
+    simpa [daStepChosenAccepts, daStepChosenMan, daStepChosenWoman, m, hact,
+      w_exists, w, accepts] using hacc
+  simp [daStep, daStepChosenMan, daStepChosenWoman, hactive,
+    m, hact, w_exists, w, accepts, hacc']
+
+/-- If a scheduled proposal is rejected, the man-match field is unchanged. -/
+theorem daStepByMan_m_match_eq_self_of_not_accepts
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (s : DAState M W) (m : M) (hact : IsActiveMan val_m s m)
+    (hacc : ¬ daStepByManAccepts val_m val_w s m hact) :
+    (daStepByMan val_m val_w s m).m_match = s.m_match := by
+  classical
+  let w_exists := exists_best_woman val_m s m hact
+  let w := Classical.choose w_exists
+  let accepts : Prop :=
+    match s.w_match w with
+    | none => 0 ≤ val_w w m
+    | some m' => val_w w m' < val_w w m
+  have hacc' : ¬ accepts := by
+    simpa [daStepByManAccepts, daStepByManChosenWoman, w_exists, w, accepts]
+      using hacc
+  simp [daStepByMan, daStepByManChosenWoman, hact, w_exists, w, accepts, hacc']
+
+theorem daStepByMan_m_match_relabelMen_of_chosenWoman {M M' W : Type*}
+    [Fintype M] [Fintype M'] [Fintype W]
+    [DecidableEq M] [DecidableEq M'] [DecidableEq W]
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (e : M ≃ M') (s : DAState M W) (m' : M')
+    (hact : IsActiveMan val_m s (e.symm m'))
+    (hchosen :
+      daStepByManChosenWoman (fun m' w => val_m (e.symm m') w)
+          (DAState.relabelMen e s) m'
+          ((IsActiveMan_relabelMen_iff val_m e s m').2 hact) =
+        daStepByManChosenWoman val_m s (e.symm m') hact) :
+    (daStepByMan (fun m' w => val_m (e.symm m') w)
+        (fun w m' => val_w w (e.symm m')) (DAState.relabelMen e s) m').m_match =
+      (DAState.relabelMen e (daStepByMan val_m val_w s (e.symm m'))).m_match := by
+  classical
+  have hactRel : IsActiveMan (fun m' w => val_m (e.symm m') w)
+      (DAState.relabelMen e s) m' := (IsActiveMan_relabelMen_iff val_m e s m').2 hact
+  have hchosenRel :
+      daStepByManChosenWoman (fun m' w => val_m (e.symm m') w)
+        (DAState.relabelMen e s) m' hactRel =
+      daStepByManChosenWoman val_m s (e.symm m') hact := by
+    simpa [hactRel] using hchosen
+  have hacciff :
+      daStepByManAccepts (fun m' w => val_m (e.symm m') w)
+          (fun w m' => val_w w (e.symm m'))
+          (DAState.relabelMen e s) m' hactRel ↔
+        daStepByManAccepts val_m val_w s (e.symm m') hact := by
+    rw [daStepByManAccepts_eq_daWomanAcceptsProposal
+      (fun m' w => val_m (e.symm m') w)
+      (fun w m' => val_w w (e.symm m')) (DAState.relabelMen e s) m' hactRel]
+    rw [daStepByManAccepts_eq_daWomanAcceptsProposal val_m val_w s (e.symm m') hact]
+    rw [hchosenRel]
+    exact daWomanAcceptsProposal_relabelMen_iff val_w e s m'
+      (daStepByManChosenWoman val_m s (e.symm m') hact)
+  by_cases hacc : daStepByManAccepts val_m val_w s (e.symm m') hact
+  · have haccRel :
+        daStepByManAccepts (fun m' w => val_m (e.symm m') w)
+          (fun w m' => val_w w (e.symm m'))
+          (DAState.relabelMen e s) m' hactRel := hacciff.2 hacc
+    rw [daStepByMan_m_match_eq_update_of_accepts
+      (fun m' w => val_m (e.symm m') w)
+      (fun w m' => val_w w (e.symm m'))
+      (DAState.relabelMen e s) m' hactRel haccRel]
+    rw [hchosenRel]
+    funext x
+    change (if x = m' then
+        some (daStepByManChosenWoman val_m s (e.symm m') hact)
+      else if (DAState.relabelMen e s).w_match
+          (daStepByManChosenWoman val_m s (e.symm m') hact) = some x then none
+      else (DAState.relabelMen e s).m_match x) =
+      (daStepByMan val_m val_w s (e.symm m')).m_match (e.symm x)
+    rw [daStepByMan_m_match_eq_update_of_accepts val_m val_w s (e.symm m') hact hacc]
+    by_cases hx : x = m'
+    · subst x
+      simp
+    · have hxSymm : e.symm x ≠ e.symm m' := by
+        intro h
+        exact hx (e.symm.injective h)
+      let w := daStepByManChosenWoman val_m s (e.symm m') hact
+      have hwRelIff :
+          (DAState.relabelMen e s).w_match w = some x ↔
+            s.w_match w = some (e.symm x) := by
+        simpa using (DAState.relabelMen_w_match_apply e s w (e.symm x))
+      by_cases hcur : s.w_match w = some (e.symm x)
+      · have hcurRel : (DAState.relabelMen e s).w_match w = some x := hwRelIff.2 hcur
+        simp [hx, hxSymm, w, hcur, hcurRel]
+      · have hcurRelMap : ¬ ∃ a, s.w_match w = some a ∧ e a = x := by
+          rintro ⟨a, ha, he⟩
+          apply hcur
+          have haeq : a = e.symm x := by
+            rw [← he]
+            simp
+          simpa [haeq] using ha
+        simp [hx, hxSymm, w, hcur, hcurRelMap, DAState.relabelMen]
+  · have haccRel :
+        ¬ daStepByManAccepts (fun m' w => val_m (e.symm m') w)
+          (fun w m' => val_w w (e.symm m'))
+          (DAState.relabelMen e s) m' hactRel := fun h => hacc (hacciff.1 h)
+    rw [daStepByMan_m_match_eq_self_of_not_accepts
+      (fun m' w => val_m (e.symm m') w)
+      (fun w m' => val_w w (e.symm m'))
+      (DAState.relabelMen e s) m' hactRel haccRel]
+    funext x
+    change (DAState.relabelMen e s).m_match x =
+      (daStepByMan val_m val_w s (e.symm m')).m_match (e.symm x)
+    rw [daStepByMan_m_match_eq_self_of_not_accepts val_m val_w s (e.symm m') hact hacc]
+    rfl
+
+theorem daStepByMan_relabelMen_of_chosenWoman {M M' W : Type*}
+    [Fintype M] [Fintype M'] [Fintype W]
+    [DecidableEq M] [DecidableEq M'] [DecidableEq W]
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (e : M ≃ M') (s : DAState M W) (m' : M')
+    (hact : IsActiveMan val_m s (e.symm m'))
+    (hchosen :
+      daStepByManChosenWoman (fun m' w => val_m (e.symm m') w)
+          (DAState.relabelMen e s) m'
+          ((IsActiveMan_relabelMen_iff val_m e s m').2 hact) =
+        daStepByManChosenWoman val_m s (e.symm m') hact) :
+    daStepByMan (fun m' w => val_m (e.symm m') w)
+        (fun w m' => val_w w (e.symm m')) (DAState.relabelMen e s) m' =
+      DAState.relabelMen e (daStepByMan val_m val_w s (e.symm m')) := by
+  apply DAState.ext
+  · intro x
+    exact congrFun
+      (daStepByMan_m_match_relabelMen_of_chosenWoman
+        val_m val_w e s m' hact hchosen) x
+  · intro w
+    exact congrFun
+      (daStepByMan_w_match_relabelMen_of_chosenWoman
+        val_m val_w e s m' hact hchosen) w
+  · intro x
+    exact congrFun
+      (daStepByMan_m_proposals_relabelMen_of_chosenWoman
+        val_m val_w e s m' hact hchosen) x
+
 set_option linter.unusedSimpArgs true
 
 -- DA algorithm fold
@@ -314,6 +1054,18 @@ noncomputable def daStateAfterStepsFrom
   unfold daStateAfterStepsFrom
   rw [List.range_succ, List.foldl_append]
   simp
+
+@[simp] theorem daStateAfterStepsFrom_succ_start
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (start : DAState M W) (steps : ℕ) :
+    daStateAfterStepsFrom val_m val_w start (steps + 1) =
+      daStateAfterStepsFrom val_m val_w
+        (daStep val_m val_w start) steps := by
+  induction steps with
+  | zero =>
+      simp
+  | succ steps ih =>
+      rw [daStateAfterStepsFrom_succ, ih, daStateAfterStepsFrom_succ]
 
 theorem daStateAfterSteps_eq_daStateAfterStepsFrom_initial
     (val_m : M → W → ℝ) (val_w : W → M → ℝ) (steps : ℕ) :
@@ -432,6 +1184,68 @@ theorem daStateAfterSteps_eq_self_add_of_not_active
         daStep_eq_self_of_not_active val_m val_w
           (daStateAfterSteps val_m val_w steps) hnot]
 
+theorem daStateAfterStepsFrom_eq_self_add_of_not_active
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (start : DAState M W) (steps extra : ℕ)
+    (hnot : ¬ ∃ m, IsActiveMan val_m
+      (daStateAfterStepsFrom val_m val_w start steps) m) :
+    daStateAfterStepsFrom val_m val_w start (steps + extra) =
+      daStateAfterStepsFrom val_m val_w start steps := by
+  induction extra with
+  | zero =>
+      simp
+  | succ extra ih =>
+      rw [Nat.add_succ, daStateAfterStepsFrom_succ, ih,
+        daStep_eq_self_of_not_active val_m val_w
+          (daStateAfterStepsFrom val_m val_w start steps) hnot]
+
+/--
+The schedule of proposers selected by the canonical folded DA implementation
+from an arbitrary prefix.  If the current prefix is inactive, the schedule
+stops early because all later folded DA steps are identities.
+-/
+noncomputable def daChosenManScheduleFrom
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (start : DAState M W) : ℕ → List M
+  | 0 => []
+  | steps + 1 =>
+      by
+      classical
+      exact
+      if hactive : ∃ m, IsActiveMan val_m start m then
+        daStepChosenMan val_m start hactive ::
+          daChosenManScheduleFrom val_m val_w
+            (daStep val_m val_w start) steps
+      else
+        []
+
+/--
+Running the chosen-proposer schedule from a prefix reproduces the canonical
+folded DA prefix from the same state.
+-/
+theorem daStateAfterSchedule_daChosenManScheduleFrom_eq_daStateAfterStepsFrom
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (start : DAState M W) (steps : ℕ) :
+    daStateAfterSchedule val_m val_w start
+        (daChosenManScheduleFrom val_m val_w start steps) =
+      daStateAfterStepsFrom val_m val_w start steps := by
+  induction steps generalizing start with
+  | zero =>
+      simp [daChosenManScheduleFrom]
+  | succ steps ih =>
+      by_cases hactive : ∃ m, IsActiveMan val_m start m
+      · rw [daStateAfterStepsFrom_succ_start]
+        simpa [daChosenManScheduleFrom, hactive, daStateAfterSchedule_cons,
+          daStepByMan_chosen_eq_daStep val_m val_w start hactive]
+          using ih (daStep val_m val_w start)
+      · have hself :
+          daStateAfterStepsFrom val_m val_w start (steps + 1) = start := by
+            simpa using
+              daStateAfterStepsFrom_eq_self_add_of_not_active
+                val_m val_w start 0 (steps + 1)
+                (by simpa using hactive)
+        simpa [daChosenManScheduleFrom, hactive] using hself.symm
+
 theorem deferredAcceptanceState_eq_daStateAfterSteps_of_not_active
     (val_m : M → W → ℝ) (val_w : W → M → ℝ) (steps : ℕ)
     (hle : steps ≤ Fintype.card M * Fintype.card W)
@@ -528,6 +1342,38 @@ theorem m_proposals_daStateAfterSteps_subset_of_le
   simpa [hadd] using
     m_proposals_daStateAfterSteps_subset_add val_m val_w steps (later - steps) m
 
+/-- Proposal opportunities are monotone decreasing along arbitrary-start DA prefixes. -/
+theorem m_proposals_daStateAfterStepsFrom_subset_add
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (start : DAState M W) (steps extra : ℕ) (m : M) :
+    (daStateAfterStepsFrom val_m val_w start (steps + extra)).m_proposals m ⊆
+      (daStateAfterStepsFrom val_m val_w start steps).m_proposals m := by
+  induction extra with
+  | zero =>
+      intro w hw
+      simpa using hw
+  | succ extra ih =>
+      intro w hw
+      have hstep :
+          w ∈ (daStateAfterStepsFrom val_m val_w start
+              (steps + extra)).m_proposals m := by
+        exact m_proposals_daStep_subset val_m val_w
+          (daStateAfterStepsFrom val_m val_w start (steps + extra)) m
+          (by
+            simpa only [Nat.add_succ, daStateAfterStepsFrom_succ] using hw)
+      exact ih hstep
+
+/-- Later arbitrary-start DA prefixes have proposal sets contained in earlier prefixes. -/
+theorem m_proposals_daStateAfterStepsFrom_subset_of_le
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (start : DAState M W) {steps later : ℕ} (hle : steps ≤ later) (m : M) :
+    (daStateAfterStepsFrom val_m val_w start later).m_proposals m ⊆
+      (daStateAfterStepsFrom val_m val_w start steps).m_proposals m := by
+  have hadd : steps + (later - steps) = later := Nat.add_sub_of_le hle
+  simpa [hadd] using
+    m_proposals_daStateAfterStepsFrom_subset_add
+      val_m val_w start steps (later - steps) m
+
 /-- If a proposal opportunity is gone at a prefix, it remains gone at later prefixes. -/
 theorem not_mem_daStateAfterSteps_of_not_mem_of_le
     (val_m : M → W → ℝ) (val_w : W → M → ℝ)
@@ -537,6 +1383,18 @@ theorem not_mem_daStateAfterSteps_of_not_mem_of_le
   intro hmem
   exact hnot
     (m_proposals_daStateAfterSteps_subset_of_le val_m val_w hle m hmem)
+
+/-- If a proposal opportunity is gone at an arbitrary-start prefix, it remains gone later. -/
+theorem not_mem_daStateAfterStepsFrom_of_not_mem_of_le
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (start : DAState M W) {steps later : ℕ} (hle : steps ≤ later)
+    {m : M} {w : W}
+    (hnot : w ∉ (daStateAfterStepsFrom val_m val_w start steps).m_proposals m) :
+    w ∉ (daStateAfterStepsFrom val_m val_w start later).m_proposals m := by
+  intro hmem
+  exact hnot
+    (m_proposals_daStateAfterStepsFrom_subset_of_le
+      val_m val_w start hle m hmem)
 
 /-- The final DA state has no more proposal opportunities than any earlier prefix. -/
 theorem m_proposals_deferredAcceptanceState_subset_after_steps
@@ -699,6 +1557,44 @@ theorem m_match_ne_daStateAfterSteps_of_not_mem_of_ne_of_le
             daStep val_m val_w
               (daStateAfterSteps val_m val_w (steps + extra)) := by
         rw [← Nat.add_assoc, daStateAfterSteps_succ]
+      simpa [hs] using hnext
+
+/--
+Arbitrary-start version: if a proposal opportunity is gone at a prefix and the
+man is not then holding that woman, no later prefix from the same start can
+match them.
+-/
+theorem m_match_ne_daStateAfterStepsFrom_of_not_mem_of_ne_of_le
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (start : DAState M W) {steps later : ℕ} (hle : steps ≤ later)
+    {m : M} {w : W}
+    (hnot : w ∉ (daStateAfterStepsFrom val_m val_w start steps).m_proposals m)
+    (hne : (daStateAfterStepsFrom val_m val_w start steps).m_match m ≠
+      some w) :
+    (daStateAfterStepsFrom val_m val_w start later).m_match m ≠ some w := by
+  have hadd : steps + (later - steps) = later := Nat.add_sub_of_le hle
+  suffices
+      (daStateAfterStepsFrom val_m val_w start
+          (steps + (later - steps))).m_match m ≠ some w by
+    simpa [hadd] using this
+  induction later - steps with
+  | zero =>
+      simpa using hne
+  | succ extra ih =>
+      have hnotCur :
+          w ∉ (daStateAfterStepsFrom val_m val_w start
+              (steps + extra)).m_proposals m := by
+        exact not_mem_daStateAfterStepsFrom_of_not_mem_of_le val_m val_w
+          start (Nat.le_add_right steps extra) hnot
+      have hnext :=
+        m_match_ne_of_not_mem_proposal_daStep val_m val_w
+          (daStateAfterStepsFrom val_m val_w start (steps + extra))
+          hnotCur ih
+      have hs :
+          daStateAfterStepsFrom val_m val_w start (steps + (extra + 1)) =
+            daStep val_m val_w
+              (daStateAfterStepsFrom val_m val_w start (steps + extra)) := by
+        rw [← Nat.add_assoc, daStateAfterStepsFrom_succ]
       simpa [hs] using hnext
 
 /--
@@ -1073,6 +1969,67 @@ lemma remainingProposalCount_daStep_add_one_of_active
   · simpa [m, hact, w_exists, w, accepts, hacc, remainingProposalCount] using hremove
   · simpa [m, hact, w_exists, w, accepts, hacc, remainingProposalCount] using hremove
 
+/-- An active scheduled DA step consumes exactly one proposal opportunity. -/
+lemma remainingProposalCount_daStepByMan_add_one_of_active
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (s : DAState M W) (m : M)
+    (hact : IsActiveMan val_m s m) :
+    remainingProposalCount (daStepByMan val_m val_w s m) + 1 =
+      remainingProposalCount s := by
+  classical
+  unfold daStepByMan
+  rw [dif_pos hact]
+  let w_exists := exists_best_woman val_m s m hact
+  let w := Classical.choose w_exists
+  have hwbest : BestRemainingWoman val_m s m w := by
+    simpa [w, w_exists] using Classical.choose_spec w_exists
+  have hremove := remainingProposalCount_removeProposal_add_one
+    (s := s) (m := m) (w := w) hwbest.1
+  let accepts : Prop :=
+    match s.w_match w with
+    | none => 0 ≤ val_w w m
+    | some m' => val_w w m' < val_w w m
+  by_cases hacc : accepts
+  · simpa [w_exists, w, accepts, hacc, remainingProposalCount] using hremove
+  · simpa [w_exists, w, accepts, hacc, remainingProposalCount] using hremove
+
+/-- A scheduled DA step never increases the remaining proposal count. -/
+lemma remainingProposalCount_daStepByMan_le
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (s : DAState M W) (m : M) :
+    remainingProposalCount (daStepByMan val_m val_w s m) ≤
+      remainingProposalCount s := by
+  by_cases hact : IsActiveMan val_m s m
+  · have hcount :=
+      remainingProposalCount_daStepByMan_add_one_of_active
+        val_m val_w s m hact
+    omega
+  · simp [daStepByMan, hact]
+
+lemma foldl_daStepByMan_remainingProposalCount_le
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (schedule : List M) (s : DAState M W) :
+    remainingProposalCount
+        (schedule.foldl (fun s m => daStepByMan val_m val_w s m) s) ≤
+      remainingProposalCount s := by
+  induction schedule generalizing s with
+  | nil =>
+      simp
+  | cons m schedule ih =>
+      rw [List.foldl_cons]
+      exact le_trans (ih (daStepByMan val_m val_w s m))
+        (remainingProposalCount_daStepByMan_le val_m val_w s m)
+
+theorem daStateAfterSchedule_remainingProposalCount_le
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (start : DAState M W) (schedule : List M) :
+    remainingProposalCount
+        (daStateAfterSchedule val_m val_w start schedule) ≤
+      remainingProposalCount start := by
+  unfold daStateAfterSchedule
+  exact foldl_daStepByMan_remainingProposalCount_le
+    val_m val_w schedule start
+
 /-- Once no man is active, any further list of DA steps leaves the state unchanged. -/
 lemma foldl_daStep_eq_self_of_not_active
     (val_m : M → W → ℝ) (val_w : W → M → ℝ)
@@ -1125,6 +2082,18 @@ theorem no_active_daStateAfterStepsFrom_of_remainingProposalCount_le
   unfold daStateAfterStepsFrom
   exact no_active_after_steps_of_count_le_length
     val_m val_w (List.range steps) start (by simpa using hcount)
+
+theorem no_active_daStateAfterSchedule_daChosenManScheduleFrom_of_remainingProposalCount_le
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (start : DAState M W) {steps : ℕ}
+    (hcount : remainingProposalCount start ≤ steps) :
+    ¬ ∃ m, IsActiveMan val_m
+      (daStateAfterSchedule val_m val_w start
+        (daChosenManScheduleFrom val_m val_w start steps)) m := by
+  rw [daStateAfterSchedule_daChosenManScheduleFrom_eq_daStateAfterStepsFrom]
+  exact
+    no_active_daStateAfterStepsFrom_of_remainingProposalCount_le
+      val_m val_w start hcount
 
 theorem no_active_daStateAfterStepsFrom_card_mul
     (val_m : M → W → ℝ) (val_w : W → M → ℝ)
@@ -1468,6 +2437,54 @@ lemma acceptStep_preserves_invariants
       exfalso
       exact hnotMatchedNew (by simp)
   · exact manProposalOrder_removeProposal val_m s hwbest hproposalOrder
+
+theorem daStepByMan_preserves_invariants
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (s : DAState M W) (m : M)
+    (hinv : DAInvariants val_m val_w s) :
+    DAInvariants val_m val_w (daStepByMan val_m val_w s m) := by
+  classical
+  unfold daStepByMan
+  by_cases hact : IsActiveMan val_m s m
+  · rw [dif_pos hact]
+    let w_exists := exists_best_woman val_m s m hact
+    let w := Classical.choose w_exists
+    have hwbest : BestRemainingWoman val_m s m w := by
+      simpa [w, w_exists] using Classical.choose_spec w_exists
+    let accepts : Prop :=
+      match s.w_match w with
+      | none => 0 ≤ val_w w m
+      | some m' => val_w w m' < val_w w m
+    by_cases hacc : accepts
+    · simpa [w_exists, w, accepts, hacc] using
+        acceptStep_preserves_invariants val_m val_w s hact hwbest hacc hinv
+    · simpa [w_exists, w, accepts, hacc] using
+        rejectStep_preserves_invariants val_m val_w s hact hwbest hacc hinv
+  · simpa [hact] using hinv
+
+lemma foldl_daStepByMan_preserves_invariants
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (schedule : List M) (s : DAState M W)
+    (hinv : DAInvariants val_m val_w s) :
+    DAInvariants val_m val_w
+      (schedule.foldl (fun s m => daStepByMan val_m val_w s m) s) := by
+  induction schedule generalizing s with
+  | nil =>
+      simpa using hinv
+  | cons m schedule ih =>
+      simp [List.foldl_cons]
+      exact ih (daStepByMan val_m val_w s m)
+        (daStepByMan_preserves_invariants val_m val_w s m hinv)
+
+theorem daStateAfterSchedule_satisfies_invariants
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (start : DAState M W) (schedule : List M)
+    (hinvStart : DAInvariants val_m val_w start) :
+    DAInvariants val_m val_w
+      (daStateAfterSchedule val_m val_w start schedule) := by
+  unfold daStateAfterSchedule
+  exact foldl_daStepByMan_preserves_invariants
+    val_m val_w schedule start hinvStart
 
 lemma rejectStep_preserves_invariantsExceptWoman
     (val_m : M → W → ℝ) (val_w : W → M → ℝ)
@@ -1970,6 +2987,99 @@ theorem da_produces_stable_matching (val_m : M → W → ℝ) (val_w : W → M �
 def MenStrictPreferenceProfile (val_m : M → W → ℝ) : Prop :=
   ∀ m w w', val_m m w = val_m m w' → w = w'
 
+/-- No woman is exactly tied with a man's outside option. -/
+def MenNoOutsideTie (val_m : M → W → ℝ) : Prop :=
+  ∀ m w, val_m m w ≠ 0
+
+/--
+Men have strict preferences on the acceptable region.  This supports
+incomplete-list markets where multiple unacceptable alternatives may tie.
+-/
+def MenAcceptableStrictPreferenceProfile (val_m : M → W → ℝ) : Prop :=
+  ∀ m w w', 0 ≤ val_m m w → 0 ≤ val_m m w' →
+    val_m m w = val_m m w' → w = w'
+
+theorem BestRemainingWoman_eq_of_acceptablyStrict
+    (val_m : M → W → ℝ) (s : DAState M W) (m : M) {w₁ w₂ : W}
+    (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
+    (hbest₁ : BestRemainingWoman val_m s m w₁)
+    (hbest₂ : BestRemainingWoman val_m s m w₂) :
+    w₁ = w₂ := by
+  have hle₂₁ : val_m m w₂ ≤ val_m m w₁ :=
+    hbest₁.2.2 w₂ hbest₂.1 hbest₂.2.1
+  have hle₁₂ : val_m m w₁ ≤ val_m m w₂ :=
+    hbest₂.2.2 w₁ hbest₁.1 hbest₁.2.1
+  exact hstrictM m w₁ w₂ hbest₁.2.1 hbest₂.2.1
+    (le_antisymm hle₁₂ hle₂₁)
+
+theorem daStepByManChosenWoman_relabelMen_eq_of_acceptablyStrict {M' : Type*}
+    [Fintype M'] [DecidableEq M']
+    (val_m : M → W → ℝ) (e : M ≃ M') (s : DAState M W) (m' : M')
+    (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
+    (hact : IsActiveMan val_m s (e.symm m')) :
+    daStepByManChosenWoman (fun m' w => val_m (e.symm m') w)
+        (DAState.relabelMen e s) m'
+        ((IsActiveMan_relabelMen_iff val_m e s m').2 hact) =
+      daStepByManChosenWoman val_m s (e.symm m') hact := by
+  classical
+  let hactRel : IsActiveMan (fun m' w => val_m (e.symm m') w)
+      (DAState.relabelMen e s) m' := (IsActiveMan_relabelMen_iff val_m e s m').2 hact
+  have hbestRel :
+      BestRemainingWoman (fun m' w => val_m (e.symm m') w)
+        (DAState.relabelMen e s) m'
+        (daStepByManChosenWoman (fun m' w => val_m (e.symm m') w)
+          (DAState.relabelMen e s) m' hactRel) :=
+    Classical.choose_spec (exists_best_woman
+      (fun m' w => val_m (e.symm m') w)
+      (DAState.relabelMen e s) m' hactRel)
+  have hbestRelOrig :
+      BestRemainingWoman val_m s (e.symm m')
+        (daStepByManChosenWoman (fun m' w => val_m (e.symm m') w)
+          (DAState.relabelMen e s) m' hactRel) :=
+    (BestRemainingWoman_relabelMen_iff val_m e s m' _).1 hbestRel
+  have hbestOrig :
+      BestRemainingWoman val_m s (e.symm m')
+        (daStepByManChosenWoman val_m s (e.symm m') hact) :=
+    Classical.choose_spec (exists_best_woman val_m s (e.symm m') hact)
+  exact BestRemainingWoman_eq_of_acceptablyStrict val_m s (e.symm m')
+    hstrictM hbestRelOrig hbestOrig
+
+theorem daStepByMan_relabelMen_of_acceptablyStrict {M' : Type*}
+    [Fintype M'] [DecidableEq M']
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (e : M ≃ M') (s : DAState M W) (m' : M')
+    (hstrictM : MenAcceptableStrictPreferenceProfile val_m) :
+    daStepByMan (fun m' w => val_m (e.symm m') w)
+        (fun w m' => val_w w (e.symm m')) (DAState.relabelMen e s) m' =
+      DAState.relabelMen e (daStepByMan val_m val_w s (e.symm m')) := by
+  by_cases hact : IsActiveMan val_m s (e.symm m')
+  · exact daStepByMan_relabelMen_of_chosenWoman val_m val_w e s m' hact
+      (daStepByManChosenWoman_relabelMen_eq_of_acceptablyStrict
+        val_m e s m' hstrictM hact)
+  · have hnotRel :
+        ¬ IsActiveMan (fun m' w => val_m (e.symm m') w)
+          (DAState.relabelMen e s) m' :=
+      fun h => hact ((IsActiveMan_relabelMen_iff val_m e s m').1 h)
+    simp [daStepByMan, hact, hnotRel]
+
+theorem daStateAfterSchedule_relabelMen_of_acceptablyStrict {M' : Type*}
+    [Fintype M'] [DecidableEq M']
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (e : M ≃ M') (start : DAState M W) (schedule : List M')
+    (hstrictM : MenAcceptableStrictPreferenceProfile val_m) :
+    daStateAfterSchedule (fun m' w => val_m (e.symm m') w)
+        (fun w m' => val_w w (e.symm m'))
+        (DAState.relabelMen e start) schedule =
+      DAState.relabelMen e
+        (daStateAfterSchedule val_m val_w start (schedule.map e.symm)) := by
+  induction schedule generalizing start with
+  | nil =>
+      simp
+  | cons m' rest ih =>
+      simp [daStateAfterSchedule_cons]
+      rw [daStepByMan_relabelMen_of_acceptablyStrict val_m val_w e start m' hstrictM]
+      exact ih (daStepByMan val_m val_w start (e.symm m'))
+
 /-- Women have strict preferences over men. -/
 def WomenStrictPreferenceProfile (val_w : W → M → ℝ) : Prop :=
   ∀ w m m', val_w w m = val_w w m' → m = m'
@@ -2339,9 +3449,386 @@ theorem deferredAcceptanceState_satisfies_rejected_pair_impossible
     (initialDAState_satisfies_invariants val_m val_w)
     (initialDAState_satisfies_rejected_pair_impossible val_m val_w)
 
+/--
+If `w` is the best acceptable remaining woman, every strictly better woman has
+already been removed.  Unlike `better_than_best_not_remaining`, this form does
+not require all pairs to be acceptable.
+-/
+lemma better_than_best_not_remaining_of_best
+    (val_m : M → W → ℝ) (s : DAState M W) {m : M} {w : W}
+    (hwbest : BestRemainingWoman val_m s m w) :
+    ∀ w', val_m m w < val_m m w' → w' ∉ s.m_proposals m := by
+  intro w' hbetter hmem
+  have hnonneg : 0 ≤ val_m m w' :=
+    le_trans hwbest.2.1 (le_of_lt hbetter)
+  have hle := hwbest.2.2 w' hmem hnonneg
+  linarith
+
+/--
+No-outside-tie variant of the local rejected-pair exclusion.  The proposed
+woman `w` only needs to be weakly acceptable to proposer `a`; no outside tie
+turns that into the strict preference over being unmatched needed for blocking.
+-/
+lemma stable_matching_excludes_rejected_pair_no_outside_tie
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (s : DAState M W) (mu : Assignment M W)
+    (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
+    (hnozero : MenNoOutsideTie val_m)
+    (hrejected : DARejectedPairImpossibleInvariant val_m val_w s)
+    (hstable : IsStable val_m val_w mu)
+    {a r : M} {w : W}
+    (hne : a ≠ r)
+    (hw_nonneg : 0 ≤ val_m a w)
+    (hbetterRemoved : ∀ w', val_m a w < val_m a w' → w' ∉ s.m_proposals a)
+    (hnotCurrentBetter : ∀ w', val_m a w < val_m a w' → s.m_match a ≠ some w')
+    (hwomanPref : val_w w r < val_w w a) :
+    mu.m_match r ≠ some w := by
+  intro hrw
+  have hw_mu : mu.w_match w = some r := (mu.consistent_m r w).1 hrw
+  have hmanPref : valM val_m a (mu.m_match a) < val_m a w := by
+    cases ha_mu : mu.m_match a with
+    | none =>
+        have hpos : 0 < val_m a w :=
+          lt_of_le_of_ne hw_nonneg (hnozero a w).symm
+        simpa [valM, ha_mu] using hpos
+    | some wmu =>
+        have hne_wmu : wmu ≠ w := by
+          intro heq
+          have hw_a : mu.w_match w = some a := by
+            simpa [heq] using (mu.consistent_m a wmu).1 ha_mu
+          have : some a = some r := by
+            rw [← hw_a, hw_mu]
+          exact hne (Option.some.inj this)
+        by_cases hle : val_m a wmu ≤ val_m a w
+        · have hneq : val_m a wmu ≠ val_m a w := by
+            intro heq
+            have hwmu_nonneg : 0 ≤ val_m a wmu := by
+              simpa [valM, ha_mu] using hstable.1 a
+            exact hne_wmu (hstrictM a wmu w hwmu_nonneg hw_nonneg heq)
+          exact lt_of_le_of_ne hle hneq
+        · have hbetter : val_m a w < val_m a wmu := lt_of_not_ge hle
+          exact False.elim
+            (hrejected mu hstable a wmu
+              (hbetterRemoved wmu hbetter)
+              (hnotCurrentBetter wmu hbetter)
+              ha_mu)
+  have hwomanPref' : valW val_w w (mu.w_match w) < val_w w a := by
+    simpa [valW, hw_mu] using hwomanPref
+  exact hstable.2.2 a w hmanPref hwomanPref'
+
+lemma rejectStep_preserves_rejected_pair_impossible_no_outside_tie
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (s : DAState M W) {m : M} {w : W}
+    (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
+    (hstrictW : WomenStrictPreferenceProfile val_w)
+    (hnozero : MenNoOutsideTie val_m)
+    (hact : IsActiveMan val_m s m)
+    (hwbest : BestRemainingWoman val_m s m w)
+    (hreject :
+      ¬ match s.w_match w with
+        | none => 0 ≤ val_w w m
+        | some m' => val_w w m' < val_w w m)
+    (hinv : DAInvariants val_m val_w s)
+    (hrejected : DARejectedPairImpossibleInvariant val_m val_w s) :
+    DARejectedPairImpossibleInvariant val_m val_w
+      { s with m_proposals := removeProposal s m w } := by
+  rcases hinv with ⟨hmanIR, _hwomanIR, hmatchedProposed, _hwomanReject,
+    hproposalOrder⟩
+  intro mu hstable m0 w0 hnotNew hnotMatchNew
+  rcases not_mem_of_not_mem_removeProposal s hnotNew with hnotOld | ⟨hm0, hw0⟩
+  · exact hrejected mu hstable m0 w0 hnotOld hnotMatchNew
+  · subst m0
+    subst w0
+    cases hcur : s.w_match w with
+    | none =>
+        intro hmu
+        have hw_mu : mu.w_match w = some m := (mu.consistent_m m w).1 hmu
+        have hwIR := hstable.2.1 w
+        have hnotNonneg : ¬ 0 ≤ val_w w m := by
+          simpa [hcur] using hreject
+        have hnonneg : 0 ≤ val_w w m := by
+          simpa [valW, hw_mu] using hwIR
+        exact hnotNonneg hnonneg
+    | some a =>
+        have ha_match : s.m_match a = some w := (s.consistent a w).2 hcur
+        have hne : a ≠ m := by
+          intro h
+          subst a
+          rw [hact.1] at ha_match
+          cases ha_match
+        have hle : val_w w m ≤ val_w w a := by
+          have hnotlt : ¬ val_w w a < val_w w m := by
+            simpa [hcur] using hreject
+          exact le_of_not_gt hnotlt
+        have hwomanPref : val_w w m < val_w w a := by
+          have hneq : val_w w m ≠ val_w w a := by
+            intro heq
+            exact hne ((hstrictW w m a heq).symm)
+          exact lt_of_le_of_ne hle hneq
+        refine stable_matching_excludes_rejected_pair_no_outside_tie
+          val_m val_w s mu hstrictM hnozero hrejected hstable hne
+          (hmanIR a w ha_match) ?_ ?_ hwomanPref
+        · intro w' hbetter hmem
+          have hnotCurrent : w ∉ s.m_proposals a :=
+            hmatchedProposed a w ha_match
+          have hnonneg : 0 ≤ val_m a w' := by
+            have hcurIR : 0 ≤ val_m a w := hmanIR a w ha_match
+            linarith
+          have hle' := hproposalOrder a w w' hnotCurrent hmem hnonneg
+          linarith
+        · intro w' hbetter hmatch
+          rw [ha_match] at hmatch
+          injection hmatch with hw'
+          subst w'
+          linarith
+
+lemma acceptStep_preserves_rejected_pair_impossible_no_outside_tie
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (s : DAState M W) {m : M} {w : W}
+    (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
+    (hnozero : MenNoOutsideTie val_m)
+    (hact : IsActiveMan val_m s m)
+    (hwbest : BestRemainingWoman val_m s m w)
+    (haccept :
+      match s.w_match w with
+      | none => 0 ≤ val_w w m
+      | some m' => val_w w m' < val_w w m)
+    (hrejected : DARejectedPairImpossibleInvariant val_m val_w s) :
+    DARejectedPairImpossibleInvariant val_m val_w
+      { m_match := fun m'' =>
+          if m'' = m then some w
+          else if s.w_match w = some m'' then none
+          else s.m_match m''
+        w_match := Function.update s.w_match w (some m)
+        m_proposals := removeProposal s m w
+        consistent := by
+          simpa using acceptMatch_consistent s hact.1 } := by
+  intro mu hstable m0 w0 hnotNew hnotMatchNew
+  rcases not_mem_of_not_mem_removeProposal s hnotNew with hnotOld | ⟨hm0, hw0⟩
+  · by_cases holdMatch : s.m_match m0 = some w0
+    · have hm0_ne_m : m0 ≠ m := by
+        intro hm0
+        subst m0
+        rw [hact.1] at holdMatch
+        cases holdMatch
+      by_cases hcur0 : s.w_match w = some m0
+      · have holdW : s.m_match m0 = some w := (s.consistent m0 w).2 hcur0
+        have hw0_eq : w0 = w := Option.some.inj (holdMatch.symm.trans holdW)
+        subst w0
+        have hne : m ≠ m0 := fun h => hm0_ne_m h.symm
+        have hwomanPref : val_w w m0 < val_w w m := by
+          simpa [hcur0] using haccept
+        exact stable_matching_excludes_rejected_pair_no_outside_tie
+          val_m val_w s mu hstrictM hnozero hrejected hstable hne
+          hwbest.2.1
+          (better_than_best_not_remaining_of_best val_m s hwbest)
+          (by
+            intro w' _ hmatch
+            rw [hact.1] at hmatch
+            cases hmatch)
+          hwomanPref
+      · exact False.elim (hnotMatchNew (by simpa [hm0_ne_m, hcur0] using holdMatch))
+    · exact hrejected mu hstable m0 w0 hnotOld holdMatch
+  · subst m0
+    subst w0
+    exact False.elim (hnotMatchNew (by simp))
+
+theorem daStep_preserves_rejected_pair_impossible_no_outside_tie
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
+    (hstrictW : WomenStrictPreferenceProfile val_w)
+    (hnozero : MenNoOutsideTie val_m) :
+    ∀ s, DAInvariants val_m val_w s →
+      DARejectedPairImpossibleInvariant val_m val_w s →
+        DARejectedPairImpossibleInvariant val_m val_w
+          (daStep val_m val_w s) := by
+  intro s hinv hrejected
+  classical
+  by_cases hactive : ∃ m, IsActiveMan val_m s m
+  · unfold daStep
+    rw [dif_pos hactive]
+    let m := Classical.choose hactive
+    have hact : IsActiveMan val_m s m := by
+      simpa [m] using Classical.choose_spec hactive
+    let w_exists := exists_best_woman val_m s m hact
+    let w := Classical.choose w_exists
+    have hwbest : BestRemainingWoman val_m s m w := by
+      simpa [w, w_exists] using Classical.choose_spec w_exists
+    let accepts : Prop :=
+      match s.w_match w with
+      | none => 0 ≤ val_w w m
+      | some m' => val_w w m' < val_w w m
+    by_cases hacc : accepts
+    · simpa [m, hact, w_exists, w, accepts, hacc] using
+        acceptStep_preserves_rejected_pair_impossible_no_outside_tie
+          val_m val_w s hstrictM hnozero hact hwbest hacc hrejected
+    · simpa [m, hact, w_exists, w, accepts, hacc] using
+        rejectStep_preserves_rejected_pair_impossible_no_outside_tie
+          val_m val_w s hstrictM hstrictW hnozero hact hwbest hacc hinv
+          hrejected
+  · simpa [daStep, hactive] using hrejected
+
+theorem daStepByMan_preserves_rejected_pair_impossible_no_outside_tie
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
+    (hstrictW : WomenStrictPreferenceProfile val_w)
+    (hnozero : MenNoOutsideTie val_m) :
+    ∀ s m, DAInvariants val_m val_w s →
+      DARejectedPairImpossibleInvariant val_m val_w s →
+        DARejectedPairImpossibleInvariant val_m val_w
+          (daStepByMan val_m val_w s m) := by
+  intro s m hinv hrejected
+  classical
+  unfold daStepByMan
+  by_cases hact : IsActiveMan val_m s m
+  · rw [dif_pos hact]
+    let w_exists := exists_best_woman val_m s m hact
+    let w := Classical.choose w_exists
+    have hwbest : BestRemainingWoman val_m s m w := by
+      simpa [w, w_exists] using Classical.choose_spec w_exists
+    let accepts : Prop :=
+      match s.w_match w with
+      | none => 0 ≤ val_w w m
+      | some m' => val_w w m' < val_w w m
+    by_cases hacc : accepts
+    · simpa [w_exists, w, accepts, hacc] using
+        acceptStep_preserves_rejected_pair_impossible_no_outside_tie
+          val_m val_w s hstrictM hnozero hact hwbest hacc hrejected
+    · simpa [w_exists, w, accepts, hacc] using
+        rejectStep_preserves_rejected_pair_impossible_no_outside_tie
+          val_m val_w s hstrictM hstrictW hnozero hact hwbest hacc hinv
+          hrejected
+  · simpa [hact] using hrejected
+
+lemma foldl_daStep_preserves_rejected_pair_impossible_no_outside_tie
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (steps : List ℕ) (s : DAState M W)
+    (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
+    (hstrictW : WomenStrictPreferenceProfile val_w)
+    (hnozero : MenNoOutsideTie val_m)
+    (hinv : DAInvariants val_m val_w s)
+    (hrejected : DARejectedPairImpossibleInvariant val_m val_w s) :
+    DARejectedPairImpossibleInvariant val_m val_w
+      (steps.foldl (fun s _ => daStep val_m val_w s) s) := by
+  induction steps generalizing s with
+  | nil =>
+      simpa using hrejected
+  | cons _ steps ih =>
+      rw [List.foldl_cons]
+      exact ih (daStep val_m val_w s)
+        (daStep_preserves_invariants_certificate val_m val_w s hinv)
+        (daStep_preserves_rejected_pair_impossible_no_outside_tie val_m val_w
+          hstrictM hstrictW hnozero s hinv hrejected)
+
+lemma foldl_daStepByMan_preserves_rejected_pair_impossible_no_outside_tie
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (schedule : List M) (s : DAState M W)
+    (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
+    (hstrictW : WomenStrictPreferenceProfile val_w)
+    (hnozero : MenNoOutsideTie val_m)
+    (hinv : DAInvariants val_m val_w s)
+    (hrejected : DARejectedPairImpossibleInvariant val_m val_w s) :
+    DARejectedPairImpossibleInvariant val_m val_w
+      (schedule.foldl (fun s m => daStepByMan val_m val_w s m) s) := by
+  induction schedule generalizing s with
+  | nil =>
+      simpa using hrejected
+  | cons m schedule ih =>
+      rw [List.foldl_cons]
+      exact ih (daStepByMan val_m val_w s m)
+        (daStepByMan_preserves_invariants val_m val_w s m hinv)
+        (daStepByMan_preserves_rejected_pair_impossible_no_outside_tie
+          val_m val_w hstrictM hstrictW hnozero s m hinv hrejected)
+
+theorem daStateAfterSchedule_satisfies_rejected_pair_impossible_no_outside_tie
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (start : DAState M W) (schedule : List M)
+    (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
+    (hstrictW : WomenStrictPreferenceProfile val_w)
+    (hnozero : MenNoOutsideTie val_m)
+    (hinvStart : DAInvariants val_m val_w start)
+    (hrejectedStart : DARejectedPairImpossibleInvariant val_m val_w start) :
+    DARejectedPairImpossibleInvariant val_m val_w
+      (daStateAfterSchedule val_m val_w start schedule) := by
+  unfold daStateAfterSchedule
+  exact foldl_daStepByMan_preserves_rejected_pair_impossible_no_outside_tie
+    val_m val_w schedule start hstrictM hstrictW hnozero hinvStart
+    hrejectedStart
+
+theorem deferredAcceptanceState_satisfies_rejected_pair_impossible_no_outside_tie
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
+    (hstrictW : WomenStrictPreferenceProfile val_w)
+    (hnozero : MenNoOutsideTie val_m) :
+    DARejectedPairImpossibleInvariant val_m val_w
+      (deferredAcceptanceState val_m val_w) := by
+  unfold deferredAcceptanceState
+  exact foldl_daStep_preserves_rejected_pair_impossible_no_outside_tie
+    val_m val_w
+    (List.range (Fintype.card M * Fintype.card W))
+    (initialDAState M W)
+    hstrictM hstrictW hnozero
+    (initialDAState_satisfies_invariants val_m val_w)
+    (initialDAState_satisfies_rejected_pair_impossible val_m val_w)
+
 def DaIsMenOptimalCertificate (val_m : M → W → ℝ) (val_w : W → M → ℝ) : Prop :=
   ∀ mu', IsStable val_m val_w mu' →
     ∀ m, valM val_m m (mu'.m_match m) ≤ valM val_m m ((deferredAcceptance val_m val_w).m_match m)
+
+/--
+Any terminal DA state satisfying the standard invariants and the rejected-pair
+certificate is men-optimal among stable matchings.  This is the schedule-free
+core of proposer optimality; `deferredAcceptanceState` is only one way to
+produce such a terminal state.
+-/
+theorem daState_is_men_optimal_of_rejected_pair_impossible
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ) (s : DAState M W)
+    (hinv : DAInvariants val_m val_w s)
+    (hterm : ¬ ∃ m, IsActiveMan val_m s m)
+    (hrejected : DARejectedPairImpossibleInvariant val_m val_w s) :
+    ∀ mu', IsStable val_m val_w mu' →
+      ∀ m, valM val_m m (mu'.m_match m) ≤ valM val_m m (s.m_match m) := by
+  intro mu hstable m
+  rcases hinv with ⟨hmanIR, _hwomanIR, hmatchedProposed, _hwomanReject,
+    hproposalOrder⟩
+  by_contra hnot
+  have hgt :
+      valM val_m m (s.m_match m) < valM val_m m (mu.m_match m) :=
+    lt_of_not_ge hnot
+  cases hmu : mu.m_match m with
+  | none =>
+      have hfinalIR : 0 ≤ valM val_m m (s.m_match m) := by
+        cases hfinal : s.m_match m with
+        | none =>
+            simp [valM]
+        | some w =>
+            simpa [valM, hfinal] using hmanIR m w hfinal
+      simp [valM, hmu] at hgt
+      simp [valM] at hfinalIR
+      linarith
+  | some w =>
+      have hnotFinal : s.m_match m ≠ some w := by
+        intro hfinal
+        simp [valM, hmu, hfinal] at hgt
+      have hnotRemaining : w ∉ s.m_proposals m := by
+        intro hremaining
+        cases hfinal : s.m_match m with
+        | none =>
+            have hpositive : 0 < val_m m w := by
+              simpa [valM, hmu, hfinal] using hgt
+            exact hterm ⟨m, hfinal, ⟨w, hremaining, le_of_lt hpositive⟩⟩
+        | some wcur =>
+            have hnotCurrentRemaining : wcur ∉ s.m_proposals m :=
+              hmatchedProposed m wcur hfinal
+            have hbetter : val_m m wcur < val_m m w := by
+              simpa [valM, hmu, hfinal] using hgt
+            have hnonneg : 0 ≤ val_m m w := by
+              have hcurIR : 0 ≤ val_m m wcur := hmanIR m wcur hfinal
+              linarith
+            have hle := hproposalOrder m wcur w hnotCurrentRemaining
+              hremaining hnonneg
+            linarith
+      exact hrejected mu hstable m w hnotRemaining hnotFinal hmu
 
 theorem da_is_men_optimal_of_rejected_pair_impossible
     (val_m : M → W → ℝ) (val_w : W → M → ℝ)
@@ -2354,52 +3841,10 @@ theorem da_is_men_optimal_of_rejected_pair_impossible
   intro mu hstable m
   change valM val_m m (mu.m_match m) ≤
     valM val_m m ((deferredAcceptanceState val_m val_w).m_match m)
-  unfold DAStateInvariantCertificate at hstate
-  unfold DATerminationCertificate at hterm
-  rcases hstate with ⟨hmanIR, _hwomanIR, hmatchedProposed, _hwomanReject,
-    hproposalOrder⟩
-  by_contra hnot
-  have hgt :
-      valM val_m m ((deferredAcceptanceState val_m val_w).m_match m) <
-        valM val_m m (mu.m_match m) := lt_of_not_ge hnot
-  cases hmu : mu.m_match m with
-  | none =>
-      have hfinalIR :
-          0 ≤ valM val_m m ((deferredAcceptanceState val_m val_w).m_match m) := by
-        cases hfinal : (deferredAcceptanceState val_m val_w).m_match m with
-        | none =>
-            simp [valM]
-        | some w =>
-            simpa [valM, hfinal] using hmanIR m w hfinal
-      simp [valM, hmu] at hgt
-      simp [valM] at hfinalIR
-      linarith
-  | some w =>
-      have hnotFinal :
-          (deferredAcceptanceState val_m val_w).m_match m ≠ some w := by
-        intro hfinal
-        simp [valM, hmu, hfinal] at hgt
-      have hnotRemaining :
-          w ∉ (deferredAcceptanceState val_m val_w).m_proposals m := by
-        intro hremaining
-        cases hfinal : (deferredAcceptanceState val_m val_w).m_match m with
-        | none =>
-            have hpositive : 0 < val_m m w := by
-              simpa [valM, hmu, hfinal] using hgt
-            exact hterm ⟨m, hfinal, ⟨w, hremaining, le_of_lt hpositive⟩⟩
-        | some wcur =>
-            have hnotCurrentRemaining :
-                wcur ∉ (deferredAcceptanceState val_m val_w).m_proposals m :=
-              hmatchedProposed m wcur hfinal
-            have hbetter : val_m m wcur < val_m m w := by
-              simpa [valM, hmu, hfinal] using hgt
-            have hnonneg : 0 ≤ val_m m w := by
-              have hcurIR : 0 ≤ val_m m wcur := hmanIR m wcur hfinal
-              linarith
-            have hle := hproposalOrder m wcur w hnotCurrentRemaining
-              hremaining hnonneg
-            linarith
-      exact hrejected mu hstable m w hnotRemaining hnotFinal hmu
+  exact
+    daState_is_men_optimal_of_rejected_pair_impossible val_m val_w
+      (deferredAcceptanceState val_m val_w)
+      hstate hterm hrejected mu hstable m
 
 theorem da_is_men_optimal_of_strict_preferences
     (val_m : M → W → ℝ) (val_w : W → M → ℝ)
@@ -2420,6 +3865,23 @@ def IsMenOptimalStable
   IsStable val_m val_w mu ∧
     ∀ nu, IsStable val_m val_w nu →
       ∀ m, valM val_m m (nu.m_match m) ≤ valM val_m m (mu.m_match m)
+
+/--
+A terminal DA state with the standard invariants and rejected-pair certificate
+is itself a men-optimal stable matching.
+-/
+theorem daState_assignment_is_men_optimal_stable_of_rejected_pair_impossible
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ) (s : DAState M W)
+    (hinv : DAInvariants val_m val_w s)
+    (hterm : ¬ ∃ m, IsActiveMan val_m s m)
+    (hrejected : DARejectedPairImpossibleInvariant val_m val_w s) :
+    IsMenOptimalStable val_m val_w
+      ⟨s.m_match, s.w_match, s.consistent⟩ := by
+  refine ⟨?_, ?_⟩
+  · exact stable_of_invariants_and_terminated val_m val_w s hinv hterm
+  · exact
+      daState_is_men_optimal_of_rejected_pair_impossible
+        val_m val_w s hinv hterm hrejected
 
 /--
 Two complete matchings with the same man-side values are equal when men's
@@ -2443,6 +3905,85 @@ theorem assignment_eq_of_complete_same_man_values_of_strict
   have hw : wmu = wnu := hstrictM m wmu wnu hval
   simpa [hmu, hnu, hw]
 
+/--
+Two matchings with the same man-side values are equal when men are strict over
+women and no woman is tied with the outside option.  This is the incomplete-list
+replacement for the complete-market uniqueness lemma.
+-/
+theorem assignment_eq_of_same_man_values_of_strict_no_outside_tie
+    (val_m : M → W → ℝ) {mu nu : Assignment M W}
+    (hstrictM : MenStrictPreferenceProfile val_m)
+    (hnozero : MenNoOutsideTie val_m)
+    (hvalue : ∀ m, valM val_m m (mu.m_match m) =
+      valM val_m m (nu.m_match m)) :
+    mu = nu := by
+  classical
+  apply Assignment.ext_of_m_match
+  intro m
+  cases hmu : mu.m_match m with
+  | none =>
+      cases hnu : nu.m_match m with
+      | none =>
+          rfl
+      | some wnu =>
+          have hval : (0 : ℝ) = val_m m wnu := by
+            simpa [valM, hmu, hnu] using hvalue m
+          exact False.elim (hnozero m wnu hval.symm)
+  | some wmu =>
+      cases hnu : nu.m_match m with
+      | none =>
+          have hval : val_m m wmu = (0 : ℝ) := by
+            simpa [valM, hmu, hnu] using hvalue m
+          exact False.elim (hnozero m wmu hval)
+      | some wnu =>
+          have hval : val_m m wmu = val_m m wnu := by
+            simpa [valM, hmu, hnu] using hvalue m
+          have hw : wmu = wnu := hstrictM m wmu wnu hval
+          simpa [hmu, hnu, hw]
+
+/--
+Two stable matchings with the same man-side values are equal when men are
+strict over acceptable women and no woman is tied with the outside option.
+-/
+theorem assignment_eq_of_same_man_values_of_acceptably_strict_no_outside_tie
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    {mu nu : Assignment M W}
+    (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
+    (hnozero : MenNoOutsideTie val_m)
+    (hmuStable : IsStable val_m val_w mu)
+    (hnuStable : IsStable val_m val_w nu)
+    (hvalue : ∀ m, valM val_m m (mu.m_match m) =
+      valM val_m m (nu.m_match m)) :
+    mu = nu := by
+  classical
+  apply Assignment.ext_of_m_match
+  intro m
+  cases hmu : mu.m_match m with
+  | none =>
+      cases hnu : nu.m_match m with
+      | none =>
+          rfl
+      | some wnu =>
+          have hval : (0 : ℝ) = val_m m wnu := by
+            simpa [valM, hmu, hnu] using hvalue m
+          exact False.elim (hnozero m wnu hval.symm)
+  | some wmu =>
+      cases hnu : nu.m_match m with
+      | none =>
+          have hval : val_m m wmu = (0 : ℝ) := by
+            simpa [valM, hmu, hnu] using hvalue m
+          exact False.elim (hnozero m wmu hval)
+      | some wnu =>
+          have hval : val_m m wmu = val_m m wnu := by
+            simpa [valM, hmu, hnu] using hvalue m
+          have hwmu_nonneg : 0 ≤ val_m m wmu := by
+            simpa [valM, hmu] using hmuStable.1 m
+          have hwnu_nonneg : 0 ≤ val_m m wnu := by
+            simpa [valM, hnu] using hnuStable.1 m
+          have hw : wmu = wnu :=
+            hstrictM m wmu wnu hwmu_nonneg hwnu_nonneg hval
+          simpa [hmu, hnu, hw]
+
 /-- The men-optimal stable matching is unique among complete stable matchings. -/
 theorem men_optimal_stable_matching_unique_of_complete
     (val_m : M → W → ℝ) (val_w : W → M → ℝ)
@@ -2455,6 +3996,40 @@ theorem men_optimal_stable_matching_unique_of_complete
     mu = nu := by
   refine assignment_eq_of_complete_same_man_values_of_strict
     val_m hstrictM hmuComplete hnuComplete ?_
+  intro m
+  exact le_antisymm (hnu.2 mu hmu.1 m) (hmu.2 nu hnu.1 m)
+
+/--
+The men-optimal stable matching is unique for incomplete lists when men's
+values are strict over women and none ties the outside option.
+-/
+theorem men_optimal_stable_matching_unique_of_no_outside_tie
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    {mu nu : Assignment M W}
+    (hstrictM : MenStrictPreferenceProfile val_m)
+    (hnozero : MenNoOutsideTie val_m)
+    (hmu : IsMenOptimalStable val_m val_w mu)
+    (hnu : IsMenOptimalStable val_m val_w nu) :
+    mu = nu := by
+  refine assignment_eq_of_same_man_values_of_strict_no_outside_tie
+    val_m hstrictM hnozero ?_
+  intro m
+  exact le_antisymm (hnu.2 mu hmu.1 m) (hmu.2 nu hnu.1 m)
+
+/--
+The men-optimal stable matching is unique for incomplete lists when men's
+acceptable values are strict and none ties the outside option.
+-/
+theorem men_optimal_stable_matching_unique_of_acceptably_strict_no_outside_tie
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ)
+    {mu nu : Assignment M W}
+    (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
+    (hnozero : MenNoOutsideTie val_m)
+    (hmu : IsMenOptimalStable val_m val_w mu)
+    (hnu : IsMenOptimalStable val_m val_w nu) :
+    mu = nu := by
+  refine assignment_eq_of_same_man_values_of_acceptably_strict_no_outside_tie
+    val_m val_w hstrictM hnozero hmu.1 hnu.1 ?_
   intro m
   exact le_antisymm (hnu.2 mu hmu.1 m) (hmu.2 nu hnu.1 m)
 
@@ -2478,6 +4053,107 @@ theorem men_optimal_stable_matching_unique_of_card_eq_all_pairs_acceptable
       val_m val_w mu hcard hacceptable hmu.1).1
     (stable_complete_of_card_eq_all_pairs_acceptable
       val_m val_w nu hcard hacceptable hnu.1).1
+
+/--
+Schedule-independence bridge for complete strict markets: any terminal DA state
+with the standard invariants and rejected-pair certificate gives the same
+matching as the repository's folded `deferredAcceptance` implementation.
+-/
+theorem daState_assignment_eq_deferredAcceptance_of_rejected_pair_impossible
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ) (s : DAState M W)
+    (hcard : Fintype.card M = Fintype.card W)
+    (hstrictM : MenStrictPreferenceProfile val_m)
+    (hstrictW : WomenStrictPreferenceProfile val_w)
+    (hacceptable : AllPairsAcceptable val_m val_w)
+    (hinv : DAInvariants val_m val_w s)
+    (hterm : ¬ ∃ m, IsActiveMan val_m s m)
+    (hrejected : DARejectedPairImpossibleInvariant val_m val_w s) :
+    ⟨s.m_match, s.w_match, s.consistent⟩ =
+      deferredAcceptance val_m val_w := by
+  have hstate :
+      IsMenOptimalStable val_m val_w
+        ⟨s.m_match, s.w_match, s.consistent⟩ :=
+    daState_assignment_is_men_optimal_stable_of_rejected_pair_impossible
+      val_m val_w s hinv hterm hrejected
+  have hda : IsMenOptimalStable val_m val_w
+      (deferredAcceptance val_m val_w) := by
+    exact
+      ⟨da_produces_stable_matching val_m val_w,
+        da_is_men_optimal_of_strict_preferences
+          val_m val_w hstrictM hstrictW hacceptable⟩
+  exact
+    men_optimal_stable_matching_unique_of_card_eq_all_pairs_acceptable
+      val_m val_w hcard hstrictM hacceptable hstate hda
+
+/--
+Schedule-independence bridge for incomplete strict markets with no outside
+ties. Compared with the complete-market bridge, this theorem takes the
+rejected-pair certificate for the repository DA state as an explicit input,
+making the uniqueness step usable before that certificate is generalized away
+from all-acceptable markets.
+-/
+theorem daState_assignment_eq_deferredAcceptance_of_rejected_pair_impossible_no_outside_tie
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ) (s : DAState M W)
+    (hstrictM : MenStrictPreferenceProfile val_m)
+    (hnozero : MenNoOutsideTie val_m)
+    (hinv : DAInvariants val_m val_w s)
+    (hterm : ¬ ∃ m, IsActiveMan val_m s m)
+    (hrejected : DARejectedPairImpossibleInvariant val_m val_w s)
+    (hdaRejected : DARejectedPairImpossibleInvariant val_m val_w
+      (deferredAcceptanceState val_m val_w)) :
+    ⟨s.m_match, s.w_match, s.consistent⟩ =
+      deferredAcceptance val_m val_w := by
+  have hstate :
+      IsMenOptimalStable val_m val_w
+        ⟨s.m_match, s.w_match, s.consistent⟩ :=
+    daState_assignment_is_men_optimal_stable_of_rejected_pair_impossible
+      val_m val_w s hinv hterm hrejected
+  have hda : IsMenOptimalStable val_m val_w
+      (deferredAcceptance val_m val_w) := by
+    refine ⟨da_produces_stable_matching val_m val_w, ?_⟩
+    exact
+      daState_is_men_optimal_of_rejected_pair_impossible val_m val_w
+        (deferredAcceptanceState val_m val_w)
+        (deferredAcceptanceState_satisfies_invariants_closed val_m val_w)
+        (deferredAcceptanceState_terminated val_m val_w)
+        hdaRejected
+  exact
+    men_optimal_stable_matching_unique_of_no_outside_tie
+      val_m val_w hstrictM hnozero hstate hda
+
+/--
+Schedule-independence bridge for incomplete markets with acceptable-region
+strict men values and no outside ties.  This is the source-shaped version for
+truncated preference lists.
+-/
+theorem daState_assignment_eq_deferredAcceptance_of_rejected_pair_impossible_acceptably_strict_no_outside_tie
+    (val_m : M → W → ℝ) (val_w : W → M → ℝ) (s : DAState M W)
+    (hstrictM : MenAcceptableStrictPreferenceProfile val_m)
+    (hnozero : MenNoOutsideTie val_m)
+    (hinv : DAInvariants val_m val_w s)
+    (hterm : ¬ ∃ m, IsActiveMan val_m s m)
+    (hrejected : DARejectedPairImpossibleInvariant val_m val_w s)
+    (hdaRejected : DARejectedPairImpossibleInvariant val_m val_w
+      (deferredAcceptanceState val_m val_w)) :
+    ⟨s.m_match, s.w_match, s.consistent⟩ =
+      deferredAcceptance val_m val_w := by
+  have hstate :
+      IsMenOptimalStable val_m val_w
+        ⟨s.m_match, s.w_match, s.consistent⟩ :=
+    daState_assignment_is_men_optimal_stable_of_rejected_pair_impossible
+      val_m val_w s hinv hterm hrejected
+  have hda : IsMenOptimalStable val_m val_w
+      (deferredAcceptance val_m val_w) := by
+    refine ⟨da_produces_stable_matching val_m val_w, ?_⟩
+    exact
+      daState_is_men_optimal_of_rejected_pair_impossible val_m val_w
+        (deferredAcceptanceState val_m val_w)
+        (deferredAcceptanceState_satisfies_invariants_closed val_m val_w)
+        (deferredAcceptanceState_terminated val_m val_w)
+        hdaRejected
+  exact
+    men_optimal_stable_matching_unique_of_acceptably_strict_no_outside_tie
+      val_m val_w hstrictM hnozero hstate hda
 
 /--
 On an equal-size all-acceptable strict marriage market, the men-proposing DA

@@ -1,0 +1,109 @@
+{
+  "schema": 2,
+  "paper": "GS62CollegeAdmissions",
+  "source_artifact_path": "source.txt",
+  "source_artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
+  "review_status": "defects_recorded",
+  "reviewed_proof_scopes": [
+    {
+      "source_locator": "source.txt:37-97",
+      "semantic_scope": "The Section 2 finite strict college-admissions domain, unacceptable alternatives, quotas, the displayed replacement-pair definition of instability, and the displayed applicant-optimality definition over stable assignments.",
+      "outcome": "no_defect"
+    },
+    {
+      "source_locator": "source.txt:115-191",
+      "semantic_scope": "The finite equal-size complete marriage domain, the prose blocking-pair definition of an unstable set of marriages, and Theorem 1's stable-marriage existence conclusion.",
+      "outcome": "no_defect"
+    },
+    {
+      "source_locator": "source.txt:193-225",
+      "semantic_scope": "Theorem 1's batched proposer procedure, finite termination argument, complete terminal matching, and rejection-based proof that the terminal marriage has no mutually preferable unmatched pair.",
+      "outcome": "no_defect"
+    },
+    {
+      "source_locator": "source.txt:251-274",
+      "semantic_scope": "The arbitrary-quota college procedure: mutually eligible applications in applicant preference order, simultaneous new applications by rejected applicants, exact top-q waiting-list updates, finite termination, and stability of the terminal waiting lists.",
+      "outcome": "no_defect"
+    },
+    {
+      "source_locator": "source.txt:276-298",
+      "semantic_scope": "Theorem 2's comparison of the applicant-proposing procedure with every stable assignment and the induction showing that a rejected applicant-college pair cannot occur in any stable assignment.",
+      "outcome": "defect_recorded"
+    }
+  ],
+  "model_conventions": [
+    {
+      "id": "GS62-STRICT-LIST-NUMERIC-EXTENSION-01",
+      "source_locator": "source.txt:37-58; source.txt:121-127",
+      "classification": "source_supported_representation_convention",
+      "formal_meaning": "Lean represents each finite strict preference list by a nonzero injective real-valued score with zero as the outside option. In the complete marriage model every opposite-side participant is acceptable and receives a positive score. In the college model a positive score means listed and acceptable, while omitted alternatives receive arbitrary distinct negative scores solely to make the numerical function total.",
+      "why_needed": "The source uses finite ordered lists, including incomplete lists in the college model, whereas the reusable matching API takes total real-valued functions. The sign convention preserves acceptability and the score order preserves every listed ranking; making the arbitrary order among omitted negative alternatives explicit prevents that Lean-only totalization from being mistaken for additional source preference data.",
+      "checked_scope": "Theorem 1 uses the positive complete-list encoding. The displayed college definitions and Theorem 2 use the incomplete-list encoding with zero as unmatched. The direct Section 4 runner filters to mutually positive pairs before choosing an application, and completed stability excludes assignment to a negative pair, so no paper-facing conclusion assigns source meaning to the relative order among omitted alternatives."
+    },
+    {
+      "id": "GS62-MUTUAL-APPLICATION-ELIGIBILITY-01",
+      "source_locator": "source.txt:37-58; source.txt:251-263",
+      "classification": "source_text_model_convention",
+      "formal_meaning": "An applicant-college pair is eligible for the Section 4 procedure exactly when the applicant lists the college as acceptable and the college has not eliminated the applicant as unacceptable. In the numerical representation this is the pairwise conjunction of a positive applicant score and a positive college score.",
+      "why_needed": "The source separately permits applicants to omit colleges they would never attend and forbids applications to colleges that would never admit the applicant. This is a filter on each possible application, not a global assumption that every college acceptable to an applicant must accept that applicant. Recording the pairwise rule prevents the earlier global implication from being smuggled into Theorem 2.",
+      "checked_scope": "The exact waiting-list state exposes only mutually eligible untried colleges to an active applicant. Every new application satisfies the two-sided sign test, and the terminal stability and applicant-optimality results require only the strict-list domain; they have no global applicant-positive-implies-college-positive premise."
+    }
+  ],
+  "checked_proof_steps": [
+    {
+      "id": "GS62-LITERAL-DEFINITIONS-01",
+      "source_locator": "source.txt:76-97",
+      "source_step": "Define college-assignment instability by a currently assigned applicant replacing another currently assigned applicant at a mutually preferred college, and define applicant optimality by weak comparison with every stable assignment.",
+      "checked_conclusion": "Lean separately unfolds the displayed replacement-pair predicate and the displayed applicant-optimality predicate, with quota feasibility explicit in the comparison domain. Neither definition silently receives individual rationality, a vacant-seat block, or an unmatched-applicant block.",
+      "scope": "This checks the two printed definitions literally. The completed standard-stability predicate needed by the general Section 4 and Theorem 2 route is kept distinct and is governed by GS62-LITERAL-STABILITY-COMPLETION-01."
+    },
+    {
+      "id": "GS62-THEOREM1-STABLE-EXISTENCE-01",
+      "source_locator": "source.txt:121-130; source.txt:191-225",
+      "source_step": "Run proposer-side deferred acceptance on two finite equally sized communities with complete strict preferences, then use the fact that a rejected proposal was displaced by a more preferred proposal to rule out a blocking pair at termination.",
+      "checked_conclusion": "For distinct finite side types of equal cardinality, every complete strict preference profile has a complete assignment with no man-woman pair who both strictly prefer one another to their assigned mates.",
+      "scope": "The theorem exposes equal cardinality and the complete strict domain in its type. It does not obtain the result from a same-carrier specialization or from the spelling of a stability predicate."
+    },
+    {
+      "id": "GS62-SECTION4-DIRECT-TOPQ-RUNNER-01",
+      "source_locator": "source.txt:251-263",
+      "source_step": "In each batch, every unmatched applicant with an untried mutually eligible college applies to the best such college, and each college retains exactly its top quota-many applicants from its previous waiting list together with that batch's new applicants.",
+      "checked_conclusion": "The direct state records cumulative applications, proves that each round's waiting list equals top-q of old holders union new applicants, preserves disjoint waiting lists and best-first application history, and strictly decreases the finite set of eligible untried pairs whenever an applicant remains active.",
+      "scope": "This repairs a prior formalization-only audit finding. The earlier cloned-seat sequential stage runner had not been shown to realize the source's within-batch top-q state evolution and could allow a displaced applicant to reapply in a later stage. The published Section 4 algorithm is not classified as defective: source-facing credit now uses the direct exact runner, while cloned-seat machinery is auxiliary comparison support only."
+    },
+    {
+      "id": "GS62-SECTION4-TERMINAL-STABILITY-01",
+      "source_locator": "source.txt:251-274",
+      "source_step": "Terminate when every applicant is either held on one waiting list or has exhausted every willing and permitted application, and admit exactly the terminal waiting lists.",
+      "checked_conclusion": "The finite untried-pair measure proves termination. At the terminal state the induced assignment is consistent, respects every quota, assigns only mutually acceptable pairs, and has no applicant-college block through either a vacancy or replacement of a lower-ranked assignee.",
+      "scope": "This proves the Section 4 runner's completed-standard stability directly from its state invariants and terminal condition. Standard stability then implies the separately preserved literal no-replacement condition."
+    },
+    {
+      "id": "GS62-THEOREM2-REJECTION-OPTIMALITY-01",
+      "source_locator": "source.txt:280-298",
+      "source_step": "Induct over applications and rejections to show that whenever a college rejects an applicant, no completed-standard stable assignment can match that applicant to that college; use this rejection invariant to compare the terminal assignment with an arbitrary stable assignment.",
+      "checked_conclusion": "Every rejected applicant-college pair is impossible in every completed-standard stable assignment, and every applicant weakly prefers the exact terminal waiting-list assignment to that applicant's match in every other completed-standard stable assignment.",
+      "scope": "The argument starts from the finite strict-list market and the direct source runner, derives the rejection invariant internally, and accepts no possible-college certificate, stable comparison outcome, or optimality conclusion from the caller. Equality with the reusable applicant-proposing assignment is proved afterward from the independently established applicant-optimal stable characterizations."
+    }
+  ],
+  "defects": [
+    {
+      "id": "GS62-LITERAL-STABILITY-COMPLETION-01",
+      "source_locator": "source.txt:76-97; source.txt:251-282",
+      "source_claim": "The paper first defines an unstable college assignment only through a replacement pair involving two currently assigned applicants, but Section 4 calls its arbitrary-quota waiting-list outcome stable and Theorem 2 compares that outcome with every stable assignment.",
+      "defect_kind": "model_semantics",
+      "affected_source_locators": [
+        "source.txt:76-97",
+        "source.txt:251-282",
+        "source.txt:284-298"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The isolated page-10 predicate omits individual rationality, vacancy blocks, and blocks by an unmatched applicant, so it is too weak as the comparison class for the general arbitrary-quota proof. This is a local implicit-completion issue rather than a change to the advertised deferred-acceptance result: the source proof uses the ordinary completed blocking-pair semantics, and Lean proves that exact completed theorem while retaining the literal displayed definition separately. The paper therefore remains plain formalized, with a note rather than a caveat.",
+      "repair_obligation": "Formalize the displayed replacement-pair definition literally; distinguish it from feasible, individually rational many-to-one stability with both vacancy and replacement blocks; exhibit that the literal predicate alone is insufficient on an unmatched-applicant boundary; and prove the Section 4 runner stable and applicant-optimal against the completed comparison class without assuming the two predicates are generally equivalent.",
+      "acceptance_condition": "Lean proves the literal definition and a strict-domain boundary assignment that is literal-stable but not completed-standard stable, proves completed stability implies the literal condition, and proves the exact top-q waiting-list output is completed-standard stable and weakly applicant-dominates every completed-standard stable assignment.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "SourceStability.lean gives separate literal and completed predicates, proves the one-way implication, and checks a one-college one-seat two-applicant strict-domain witness that the literal predicate accepts although the unmatched higher-ranked applicant blocks. ExactCollegeBatchedProcedure.lean derives quota feasibility, two-sided individual rationality, absence of vacancy/replacement blocks, the rejection-impossibility invariant, and applicant optimality for the direct top-q terminal assignment. PaperInterface.lean exposes the two literal definition Specs and the completed Theorem 2 Spec separately, so no predicate name or hidden equivalence supplies the repair."
+    }
+  ]
+}

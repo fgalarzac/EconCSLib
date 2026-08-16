@@ -1,5 +1,9 @@
 import GJ19OptimalBinaryRatingSystems.Theorem32Appendix
 import GJ19OptimalBinaryRatingSystems.AppendixB
+import GJ19OptimalBinaryRatingSystems.SourceDefinitions
+import GJ19OptimalBinaryRatingSystems.ExperimentTheorems
+import GJ19OptimalBinaryRatingSystems.ComparativeStatics
+import GJ19OptimalBinaryRatingSystems.SourceTheorem31
 import GJ19OptimalBinaryRatingSystems.Assumptions
 
 /-!
@@ -12510,6 +12514,113 @@ theorem paper_corollaryC4_equispaced_optimal_subsequence_exists_canonical_unifor
         betaLimit atTop (Set.Icc (0 : ℝ) 1) :=
   GJ19OptimalBinaryRatingSystems.corollaryC4_equispaced_optimal_subsequence_exists_canonical_uniform_optimal_equispaced_floor_selector
     C
+
+/-! ## Source-model and reopened-audit endpoints -/
+
+/-- Main-paper source model: the normalized unit quality continuum. -/
+abbrev paper_sourceQualityDomain := sourceQualityDomain
+
+/-- Main-paper source assumptions on the nondecreasing matching function. -/
+abbrev paper_SourceMatchingFunction := SourceMatchingFunction
+
+/-- Main-paper floor match count `n_k(θ) = floor(k g(θ))`. -/
+abbrev paper_sourceMatchingCount := sourceMatchingCount
+
+/-- Main-paper empirical fraction of positive binary ratings. -/
+abbrev paper_sourceEmpiricalReputationScore := sourceEmpiricalReputationScore
+
+/-- Main-paper state measure on quality and empirical reputation. -/
+abbrev paper_SourceSystemState := SourceSystemState
+
+/-- Appendix B.1 active set for the transition from time `k` to `k+1`. -/
+abbrev paper_sourceAppendixBActiveSet := sourceAppendixBActiveSet
+
+/-- Appendix B.1 corrected atomic two-branch transition kernel. -/
+abbrev paper_sourceAppendixBTransitionKernel := sourceAppendixBTransitionKernel
+
+/-- Appendix B.1 corrected state-update equation on quality-score rectangles. -/
+abbrev paper_sourceAppendixBStateUpdateMass := sourceAppendixBStateUpdateMass
+
+/-- Section 4 finite probability distribution over available questions. -/
+abbrev paper_SourceQuestionDistribution := @SourceQuestionDistribution
+
+/-- Section 4 induced response `betaTilde(θ) = sum_y psi(θ,y) H(y)`. -/
+abbrev paper_sourceInducedBinaryResponse := @sourceInducedBinaryResponse
+
+/-- Section 4 equation-(5) finite representative-item `L1` objective. -/
+abbrev paper_sourceQuestionDesignL1Objective := @sourceQuestionDesignL1Objective
+
+/-- Section 4 probability-constrained minimizer predicate for equation (5). -/
+abbrev paper_SourceQuestionDesignSolution := @SourceQuestionDesignSolution
+
+/-- Appendix B.5 literal random-question/binary-response experiment records. -/
+abbrev paper_SourceRandomQuestionExperiment := SourceRandomQuestionExperiment
+
+/-- Appendix B.5 empirical conditional positive-response frequency. -/
+abbrev paper_sourceExperimentEmpiricalQuestionResponse :=
+  @sourceExperimentEmpiricalQuestionResponse
+
+/--
+Theorem 3.1 source cell-rate identity: the displayed `g_i` infimum is the
+matching function at the lower endpoint of an ordered cell.
+-/
+abbrev paper_sourceCellMatchingRate_eq_lower_cutpoint :=
+  @sourceCellMatchingRate_eq_lower_cutpoint
+
+/--
+Theorem 3.1 source assembly for a selected value-maximizing discretization:
+the cell rates, endpoint optimizer, and exact `Wbar_k` rate certificate are
+derived from primitive `g` and the source model.
+-/
+abbrev paper_theorem31_source_matching_function_weighted_value_argmax_certificate :=
+  @theorem31_source_matching_function_weighted_value_argmax_certificate
+
+/--
+Theorem 3.1 full lexicographic source assembly under the explicit minor
+unique-`S*` convention that resolves otherwise unspecified first-stage ties.
+-/
+abbrev paper_theorem31_source_matching_function_weighted_unique_value_argmax_lexicographic_certificate :=
+  @theorem31_source_matching_function_weighted_unique_value_argmax_lexicographic_certificate
+
+/-- Appendix B.3 Lemma B.1 two-optimizer matching-rate comparative statics. -/
+abbrev paper_lemmaB1_matching_rate_shift := @lemmaB1_matching_rate_shift
+
+/--
+Lemma B.2 SLLN from the literal random-question experiment: positive question
+mass yields consistent conditional response frequencies for every fixed
+finite item-question coordinate.
+-/
+abbrev paper_lemmaB2_knownTypeExperiment_ae_question_response_of_iid :=
+  @lemmaB2_knownTypeExperiment_ae_question_response_of_iid
+
+/--
+Corrected Lemma B.3: random-question response learning and empirical ranking
+hold jointly under explicit strict aggregate-score identifiability.
+-/
+abbrev paper_lemmaB3_unknownTypeExperiment_ae_random_question_response_and_rank_of_iid :=
+  @lemmaB3_unknownTypeExperiment_ae_random_question_response_and_rank_of_iid
+
+/--
+Lemma C.6 for general positive nondecreasing matching rates, with the last
+width comparison derived rather than assumed.
+-/
+abbrev paper_lemmaC6_monotone_matching_penultimate_level_bound :=
+  @BinaryEndpointLevelVector_monotone_equalized_last_low_ge_one_sub_inv
+
+/--
+Theorem 3.2's literal ideal-real weighted nested-bisection output: both the
+direct inner rate tests and the outer source classifier are independent of the
+optimum.
+-/
+abbrev paper_theorem32WeightedNestedBisectionOutput :=
+  @theorem32WeightedNestedBisectionOutput
+
+/--
+Theorem 3.2 rate-loss and runtime certificate for the literal direct-rate
+runner with the finite source grid and dyadic depth constructed internally.
+-/
+abbrev paper_theorem32WeightedNestedBisectionOutput_loss_and_runtime :=
+  @theorem32WeightedNestedBisectionOutput_exists_source_depth_of_eps_pos
 
 end
 

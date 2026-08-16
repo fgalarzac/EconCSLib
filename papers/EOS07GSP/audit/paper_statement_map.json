@@ -2,28 +2,96 @@
   "schema": 1,
   "paper": "EOS07GSP",
   "title": "Internet Advertising and the Generalized Second-Price Auction",
-  "generated_at": "2026-07-01T11:55:33Z",
+  "generated_at": "2026-07-18T00:00:00Z",
   "source_inventory_kind": "source_text_curated",
   "source_curated": true,
-  "source_inventory_policy": "Curated from the local NBER source text cache. Main source targets are the main-text first-price/GSP examples, Remarks 1--3, Definition 4, Lemmas 5--6, Theorem 7, Theorem 8 proof-step claims, and the bundled Theorem 8 ex-post payoff-game endpoint. Finite source-event and belief-source-extensive rows are proof-support rows rather than separate source statements.",
+  "source_coverage_mode": "named_theoretical_statements",
+  "source_anchor_evidence_required": true,
+  "source_named_result_inventory_review": {
+    "schema": 1,
+    "complete": true,
+    "validator": "Codex EOS07 source-only named-result reconciliation",
+    "method": "Independent source-only extraction from the pinned EOS07GSP.txt reconciled Definition 4, Lemmas 5-6, and Theorems 7-8 to current byte-pinned source anchors. The direct source presentations, rather than map keys or Lean declarations, determine ordinary named-theory coverage.",
+    "validated_at": "2026-08-16T00:00:00Z",
+    "source_artifact_sha256": "9094a9c8cd917b728cf872b7741a4de9b5636c5cdadd08b7bfcc4b7c64df9cbc",
+    "discovered_named_result_sha256": "ae56736f9ae4e9d3ef70ae674bd85ccf0db208991573a25188d8b52a996351fa",
+    "prose_definition_presentations": [
+      {
+        "schema": 1,
+        "presentation_kind": "definition",
+        "defined_entity_kind": "object",
+        "defined_object": "assignment game A",
+        "definitional_clause": "The value of an advertiser-position pair (i, k) is equal to αk si . We call this assignment game A.",
+        "scope_disposition": "normal_named_theory_definition",
+        "source_anchor": {
+          "path": "EOS07GSP.txt",
+          "line_start": 459,
+          "line_end": 462,
+          "quoted_text": "Our environment maps naturally into the most basic assignment model, studied first by Shapley\nand Shubik (1972). We view each position as an agent who is looking for a match with an advertiser.\nThe value of an advertiser-position pair (i, k) is equal to αk si . We call this assignment game A.\nThe advertiser makes its payment pik for the position, and the advertiser is left with αk si − pik .",
+          "quoted_text_sha256": "67e7346150942d80f6e4057d4141f2483f47268f96259530e0b0b50fe6392012"
+        }
+      }
+    ],
+    "discovered_prose_definition_sha256": "4a30086e72da850141b26fde342d1492bcb3277b5ea664b0a21eb7f9d5553fce"
+  },
+  "source_inventory_policy": "Curated from the pinned NBER source text. Mathematical targets are the main-text first-price/GSP examples, Remarks 1--3, Definition 4, Lemmas 5--6, Theorem 7, Theorem 8 proof-step claims, and Theorem 8's continuous full-history legal-history ex-post PBE, effective uniqueness, and VCG-equivalent outcome. Narrative history and empirical market-size facts are contextual rather than theorem atoms.",
   "source_url": "https://www.nber.org/papers/w11765",
+  "source_artifact_path": "EOS07GSP.txt",
+  "source_artifact_sha256": "9094a9c8cd917b728cf872b7741a4de9b5636c5cdadd08b7bfcc4b7c64df9cbc",
   "items": {
     "definition4_locally_envy_free": {
       "statement": "Definition 4 defines a locally envy-free equilibrium of the static GSP game as an equilibrium in which no player can improve by exchanging bids with the player ranked one position above; formally, for each allocated adjacent position the adjacent no-envy inequality holds.",
       "source_text_file": "EOS07GSP.txt",
-      "source_location": "EOS07GSP.txt:442-446",
+      "source_location": "EOS07GSP.txt:443-464",
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "definition4_locally_envy_free"
+      ],
+      "lean_declarations": [
+        "EOS07GSP.PaperInterface.definition4_locally_envy_free"
+      ],
+      "source_kind": "definition",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 443,
+          "line_end": 464,
+          "quoted_text": "Definition 4 An equilibrium of the static game induced by GSP is locally envy-free if a player\ncannot improve his payoff by exchanging bids with the player ranked one position above him. More\nformally, in a locally envy-free equilibrium, for any i \u2264 min{N, K}, we have \u03b1i sg(i) \u2212 p(i) \u2265\n\u03b1i\u22121 sg(i) \u2212 p(i\u22121) .\nOf course, it is possible that in the dynamic game bids change over time, depending on the\nplayer\u2019s strategies and information structure. However, as long as the restrictions are satisfied, if\nthe dynamic game ever converges to a static vector of bids, that static equilibrium should correspond\nto a \u201clocally envy-free\u201d equilibrium of the static game \u0393 induced by the GSP. Consequently, we\nview a locally envy-free equilibrium \u0393 as a prediction regarding a rest point at which the vector of\nbids stabilizes. In this section, we study the set of locally envy-free equilibria.\nWe first show that the set of locally envy-free equilibria maps naturally to a set of stable\nassignments in a corresponding two-sided matching market. The idea that auctions and two-sided\nmatching models are closely related is not new: it goes back to Crawford and Knoer (1981), Kelso\nand Crawford (1982), Leonard (1983), and Demange, Gale, and Sotomayor (1986), and has been\nstudied in detail in a recent paper by Hatfield and Milgrom (2005). Note, however, that in our case\nthe non-standard auction is very different from those in the above papers.\nOur environment maps naturally into the most basic assignment model, studied first by Shapley\nand Shubik (1972). We view each position as an agent who is looking for a match with an advertiser.\nThe value of an advertiser-position pair (i, k) is equal to \u03b1k si . We call this assignment game A.\nThe advertiser makes its payment pik for the position, and the advertiser is left with \u03b1k si \u2212 pik .\nThe following pair of lemmas shows that there is a natural mapping from the set of locally envy-free\nequilibria of GSP to the set of stable assignments. All proofs are in the Appendix.",
+          "quoted_text_sha256": "9e4f7a948d49ab2a188679001cedd1d93ab606318330b4b60debc4b5b1ee4511"
+        }
       ]
     },
     "stable_assignment": {
-      "statement": "The paper maps GSP outcomes to the Shapley-Shubik assignment game, where advertiser-position pair values are alpha_k s_i and stability means no profitable advertiser-position rematch.",
+      "statement": "The paper defines assignment game A by viewing each position as an agent seeking a match with an advertiser, assigning each advertiser-position pair (i, k) the value alpha_k s_i, and charging the advertiser p_ik for its position.",
       "source_text_file": "EOS07GSP.txt",
-      "source_location": "EOS07GSP.txt:453-464",
+      "source_location": "EOS07GSP.txt:459-462",
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "stable_assignment"
+      ],
+      "lean_declarations": [
+        "EOS07GSP.PaperInterface.stable_assignment"
+      ],
+      "source_kind": "definition",
+      "source_prose_definition_reconciliation": {
+        "schema": 2,
+        "relation": "source_item_represents_prose_definition",
+        "presentation_sha256": "4cbb64bf2846be8eb705bfd749f05bf22f0e2ef06bd18ede898d4761101a4deb",
+        "source_item_statement_sha256": "a1df6e1f9448cf8d38d5ac07459aa32bbe6110f56749eb5e80e1d43bc5193d36",
+        "judgment": "semantically_equivalent",
+        "semantic_basis": "The source clause defines assignment game A by the same position-agent, advertiser-match, pair-value, and payment ingredients stated in the mapped definition.",
+        "validator": "Codex EOS07 prose-definition semantic reviewer",
+        "validator_type": "agent",
+        "validated_at": "2026-08-16T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 459,
+          "line_end": 462,
+          "quoted_text": "Our environment maps naturally into the most basic assignment model, studied first by Shapley\nand Shubik (1972). We view each position as an agent who is looking for a match with an advertiser.\nThe value of an advertiser-position pair (i, k) is equal to \u03b1k si . We call this assignment game A.\nThe advertiser makes its payment pik for the position, and the advertiser is left with \u03b1k si \u2212 pik .",
+          "quoted_text_sha256": "67e7346150942d80f6e4057d4141f2483f47268f96259530e0b0b50fe6392012"
+        }
       ]
     },
     "first_price_running_example_profitable_revision_chain": {
@@ -33,6 +101,19 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "first_price_running_example_profitable_revision_chain"
+      ],
+      "lean_declarations": [
+        "first_price_running_example_profitable_revision_chain"
+      ],
+      "source_kind": "example",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 239,
+          "line_end": 248,
+          "quoted_text": "Example. Suppose there are two slots on a page and three bidders. An ad in the first slot\nreceives 200 clicks per hour, while the second slot gets 100. Bidders 1, 2, and 3 have values per\nclick of $10, $4, and $2, respectively. Suppose bidder 2 bids $2.01, to guarantee that he gets a slot.\nThen bidder 1 will not want to bid more than $2.02\u2014he does not need to pay more than that to\nget the top spot. But then bidder 2 will want to revise his bid to $2.03 to get the top spot, bidder\n1 will in turn raise his bid to $2.04, and so on. Clearly, there is no pure strategy equilibrium in the\none-shot version of the game, and so if bidders best respond to each other, they will want to revise\ntheir bids as often as possible. Figure 1 shows an example of this behavior on Overture.\n2.2.3\n",
+          "quoted_text_sha256": "d966df681130afc5f83d9826928b0057bee40a48a10c4eaadeb9f84ae0de64ef"
+        }
       ]
     },
     "remark1_gsp_payments_weakly_dominate_vcg": {
@@ -42,6 +123,19 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "remark1_gsp_payments_weakly_dominate_vcg"
+      ],
+      "lean_declarations": [
+        "remark1_gsp_payments_weakly_dominate_vcg"
+      ],
+      "source_kind": "remark",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 372,
+          "line_end": 386,
+          "quoted_text": "Remark 1 If all advertisers were to bid the same amounts under the two mechanisms, then each\nadvertiser\u2019s payment would be at least as large under GSP as under VCG.\n10\nIn actual sponsored search auctions at Google and Yahoo!, advertisers can also choose to place \u201cbroad match\u201d\nbids that match searches that include a keyword along with additional search terms.\n11\nThe actual practice at Overture is to show equal bids according to the order in which the bidders placed their\nbids.\n12\nAlthough we normalize the reserve price to zero, search engines charge the last bidder a non-zero reserve price.\n\n8\n\n\fThis is easy to show by induction on advertisers\u2019 payments, starting with the last advertiser\nwho gets assigned a position. For i = min{K, N }, p(i) = pV,(i) = \u03b1i b(i+1) . For any i < min{K, N },",
+          "quoted_text_sha256": "9b4e6babc4c0917a7bf4b6bb5d679578cc1bcb9725b35935d6fd1398443e4325"
+        }
       ]
     },
     "remark2_vcg_truthful": {
@@ -51,6 +145,19 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "remark2_vcg_truthful"
+      ],
+      "lean_declarations": [
+        "remark2_vcg_truthful"
+      ],
+      "source_kind": "remark",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 388,
+          "line_end": 389,
+          "quoted_text": "Remark 2 Truth-telling is a dominant strategy under VCG.\nThis is a well-known property of the VCG mechanism.",
+          "quoted_text_sha256": "519bd65854c3fec75be816e1cb169b7fb161bd0f38b4460e68b45c91e1fa6dbd"
+        }
       ]
     },
     "remark3_gsp_not_truthful": {
@@ -60,6 +167,19 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "remark3_gsp_not_truthful"
+      ],
+      "lean_declarations": [
+        "remark3_gsp_not_truthful"
+      ],
+      "source_kind": "remark",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 390,
+          "line_end": 401,
+          "quoted_text": "Remark 3 Truth-telling is not a dominant strategy under GSP.\nFor instance, consider a slight modification of the example from Section 2. There are still\nthree bidders, with values per click of $10, $4, and $2, and two positions. However, the clickthrough rates of these positions are now almost the same: the first position receives 200 clicks per\nhour, and the second one gets 199. If all players bid truthfully, then bidder 1\u2019s payoff is equal to\n($10 \u2212 $4) \u2217 200 = $1200. If, instead, he shades his bid and bids only $3 per click, he will get the\nsecond position, and his payoff will be equal to ($10 \u2212 $2) \u2217 199 = $1592 > $1200.\n\n4\n\nStatic GSP and Locally Envy-Free Equilibria13\n\nAdvertisers bidding on Yahoo! and Google can change their bids very frequently. We therefore",
+          "quoted_text_sha256": "965c10bd55b2185bfc2edbf21d754bd957a8ed116f132085a5aa91c14254272e"
+        }
       ]
     },
     "running_example_truthful_gsp_nash": {
@@ -69,6 +189,19 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "running_example_truthful_gsp_nash"
+      ],
+      "lean_declarations": [
+        "running_example_truthful_gsp_nash"
+      ],
+      "source_kind": "example",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 239,
+          "line_end": 278,
+          "quoted_text": "Example. Suppose there are two slots on a page and three bidders. An ad in the first slot\nreceives 200 clicks per hour, while the second slot gets 100. Bidders 1, 2, and 3 have values per\nclick of $10, $4, and $2, respectively. Suppose bidder 2 bids $2.01, to guarantee that he gets a slot.\nThen bidder 1 will not want to bid more than $2.02\u2014he does not need to pay more than that to\nget the top spot. But then bidder 2 will want to revise his bid to $2.03 to get the top spot, bidder\n1 will in turn raise his bid to $2.04, and so on. Clearly, there is no pure strategy equilibrium in the\none-shot version of the game, and so if bidders best respond to each other, they will want to revise\ntheir bids as often as possible. Figure 1 shows an example of this behavior on Overture.\n2.2.3\n\nGeneralized Second-Price Auctions\n\nUnder the generalized first-price auction, the bidder who could react to its competitors\u2019 moves\nfastest had a substantial advantage. The mechanism therefore encouraged inefficient investments\nin gaming the system. It also created volatile prices that in turn caused allocative inefficiencies.\nGoogle addressed these problems when it introduced its own pay-per-click system, AdWords Select,\nin February 2002. Google also recognized that a bidder in position i will never want to pay more\nthan one bid increment above the bid of the advertiser in position (i + 1), and Google adopted\nthis principle in its newly-designed generalized second price auction mechanism. In the simplest\nGSP auction, an advertiser in position i pays a price per click equal to the bid of an advertiser in\nposition (i + 1) plus a minimum increment (typically $0.01). This second-price structure makes the\nmarket more user friendly and less susceptible to gaming.\nRecognizing these advantages, Yahoo!/Overture also switched to GSP. Let us describe the\nversion of GSP that it implemented.5 Every advertiser submits a bid. Advertisers are arranged\non the page in descending order of their bids. The advertiser in the first position pays a price per\nclick that equals the bid of the second advertiser plus an increment; the second advertiser pays the\nprice offered by the third advertiser plus an increment; and so forth.6\nExample (continued). Let us now consider the payments in the environment of the previous\nexample under GSP mechanism. If all advertisers bid truthfully, then bids are $10, $4, $2. Payments\nin GSP will be $4 and $2.7 Truth-telling is indeed an equilibrium in this example, because no bidder\ncan benefit by changing his bid. Note that total payments of bidders one and two are $800 and\n$200, respectively.\n5\n\nWe focus on Overture\u2019s implementation, because Google\u2019s system is somewhat more complex. However, it is\nstraightforward to generalize our analysis to Google\u2019s mechanism.\n6\nFor this version of GSP to be efficient, it is necessary that the number of clicks received by an advertisement in\na given position depends on the ad\u2019s position and not on the advertiser\u2019s identity. Recognizing that this assumption\nmay not hold if some ads attract more clicks than others, Google adjusts effective bids based on ads\u2019 click-through",
+          "quoted_text_sha256": "72d15a69a3bc28ff75f8134752c7cb79b024b53846d82cf52bfb3d75dd075cd7"
+        }
       ]
     },
     "running_example_truthful_gsp_revenue_comparison": {
@@ -78,6 +211,19 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "running_example_truthful_gsp_revenue_comparison"
+      ],
+      "lean_declarations": [
+        "running_example_truthful_gsp_revenue_comparison"
+      ],
+      "source_kind": "example",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 266,
+          "line_end": 315,
+          "quoted_text": "Example (continued). Let us now consider the payments in the environment of the previous\nexample under GSP mechanism. If all advertisers bid truthfully, then bids are $10, $4, $2. Payments\nin GSP will be $4 and $2.7 Truth-telling is indeed an equilibrium in this example, because no bidder\ncan benefit by changing his bid. Note that total payments of bidders one and two are $800 and\n$200, respectively.\n5\n\nWe focus on Overture\u2019s implementation, because Google\u2019s system is somewhat more complex. However, it is\nstraightforward to generalize our analysis to Google\u2019s mechanism.\n6\nFor this version of GSP to be efficient, it is necessary that the number of clicks received by an advertisement in\na given position depends on the ad\u2019s position and not on the advertiser\u2019s identity. Recognizing that this assumption\nmay not hold if some ads attract more clicks than others, Google adjusts effective bids based on ads\u2019 click-through\nrates. But under the assumption that all ads have the same click-through rates conditional on position, Google\u2019s\nand Yahoo!\u2019s versions of GSP are identical. With modification for Google\u2019s adjustment procedure, our results for the\nYahoo! version of GSP also hold for Google adjusted GSP.\n7\nFor convenience, we neglect the $0.01 minimum increments.\n\n6\n\n\f2.3\n\nGeneralized Second-Price and VCG Auctions\n\nGSP looks similar to the Vickrey-Clarke-Groves mechanism, because both mechanisms set each\nagent\u2019s payments only based on the allocation and bids of other players, not based on that agent\u2019s\nown bid. In fact, Google\u2019s advertising materials explicitly refer to Vickrey and state that Google\u2019s\n\u201cunique auction model uses Nobel Prize-winning economic theory to eliminate ... that feeling that\nyou\u2019ve paid too much\u201d.8 But GSP is not VCG. In particular, unlike the VCG auction, GSP does\nnot have an equilibrium in dominant strategies, and truth-telling is generally not an equilibrium\nstrategy in GSP. (See the example in Remark 3.) With only one slot, VCG and GSP would be\nidentical. With several slots, the mechanisms are different: while GSP essentially charges bidder i\nthe bid of bidder i + 1, VCG charges bidder i the externality that he imposes on others, i.e., the\ndecrease in the value of clicks received by other bidders because of i\u2019s presence.\nExample (continued). Let us compute VCG payments for the example considered above.\nThe second bidder\u2019s payment is $200, as before. However, the payment of the first advertiser is now\n$600: $200 for the externality that he imposes on bidder 3 (by forcing him out of position 2) and\n$400 for the externality that he imposes on bidder 2 (by moving him from position 1 to position\n2 and thus causing him to lose (200 \u2212 100) = 100 clicks per hour). Note that in this example,\nrevenues under VCG are lower than under GSP. As we will show later, if advertisers were to bid\ntheir true values under both mechanisms, revenues would always be higher under GSP.\n\n2.4\n\nAssessing the Market\u2019s Development\n\nThe chronology above suggests three major stages in the development of the sponsored search\nadvertising market. First, ads were sold manually, slowly, in large batches, and on a cost-perimpression basis. Second, Overture implemented keyword-targeted per-click sales and began to\nstreamline advertisement sales with some self-serve bidding interfaces, but with a highly unstable",
+          "quoted_text_sha256": "00fc01760f9d2be847e7754a711b0f3e6c76213df10048dc9ca0c52a85562e2e"
+        }
       ]
     },
     "lemma5_locally_envy_free_stable": {
@@ -87,24 +233,87 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "lemma5_locally_envy_free_stable"
+      ],
+      "lean_declarations": [
+        "EOS07GSP.PaperInterface.lemma5_locally_envy_free_stable"
+      ],
+      "source_kind": "lemma",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 463,
+          "line_end": 466,
+          "quoted_text": "The following pair of lemmas shows that there is a natural mapping from the set of locally envy-free\nequilibria of GSP to the set of stable assignments. All proofs are in the Appendix.\nLemma 5 The outcome of any locally envy-free equilibrium of auction \u0393 is a stable assignment.\nLemma 6 If the number of bidders is greater than the number of available positions, then any",
+          "quoted_text_sha256": "dbe9eb17bd96e2763352fa3d510114c5a61cb6b57ff2cfae24c04a0fcd37fc07"
+        },
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 655,
+          "line_end": 683,
+          "quoted_text": "Proof of Lemma 5\nBy definition, in any locally envy-free equilibrium outcome, no player can profitably re-match with\nthe position assigned to the player right above him. Also, no player (a) can profitably re-match\nwith a position assigned to a player below him (b)\u2014if such a profitable re-matching existed, player\na would find it profitable to slightly undercut player b in game \u0393 and get b\u2019s position and payment.\nBut this would contradict the assumption that we are in equilibrium.22\nHence, we only need to show that no player can profitably re-match with the position assigned\nto a player more than one spot above him. First, note that in any locally envy-free equilibrium,\nthe resulting matching must be assortative, i.e., for any i, the player assigned to position i has a\nhigher per-click valuation than the player assigned to position i + 1, and therefore, player 1 must\nbe assigned to the top position, player 2\u2014to the second-highest position, and so on.\nIndeed, let si and si+1 denote the values of players assigned to positions i and i+1. Equilibrium\nrestrictions imply that \u03b1i si \u2212 pi \u2265 \u03b1i+1 si \u2212 pi+1 (nobody wants to move one position down),\nand local envy-freeness implies that \u03b1i+1 si+1 \u2212 pi+1 \u2265 \u03b1i si+1 \u2212 pi (nobody wants to move one\nposition up). Manipulating the above inequalities yields \u03b1i si \u2212 \u03b1i si+1 + \u03b1i+1 si+1 \u2265 \u03b1i+1 si , thus\n(\u03b1i \u2212 \u03b1i+1 )si \u2265 (\u03b1i \u2212 \u03b1i+1 )si+1 . Since \u03b1i > \u03b1i+1 , we have si \u2265 si+1 , and hence the locally envy-free\nequilibrium outcome must be an assortative match.\nNow, let us show that no player can profitably re-match with the position assigned to a player\nmore than one spot above him. Suppose bidder k is considering re-matching with position m < k\u22121.\nSince the equilibrium is locally envy-free, we have\n\u03b1k sk \u2212 pk \u2265 \u03b1k\u22121 sk \u2212 pk\u22121\n\u03b1k\u22121 sk\u22121 \u2212 pk\u22121 \u2265 \u03b1k\u22122 sk\u22121 \u2212 pk\u22122\n..\n.\n\u03b1m+1 sm+1 \u2212 pm+1 \u2265 \u03b1m sm+1 \u2212 pm .\nSince \u03b1j > \u03b1j+1 for any j, and sj > sk for any j < k, the above inequalities remain valid after\nreplacing sj with sk . Doing that, then adding all inequalities up, and canceling out the redundant\nelements, we get \u03b1k sk \u2212 pk \u2265 \u03b1m sk \u2212 pm . But that implies that advertiser k cannot re-match\nprofitably with position m, and we are done.",
+          "quoted_text_sha256": "6c01e808056d76f113b05e8ea82b194a81e92e41fda4646719b539fccbafe285"
+        }
       ]
     },
-    "lemma6_tiebreak_ranked_gsp_stable_assignment_locally_envy_free": {
+  "lemma6_tiebreak_ranked_gsp_stable_assignment_locally_envy_free": {
       "statement": "Lemma 6 states that, when the number of bidders exceeds the number of positions, any stable assignment is an outcome of a locally envy-free GSP equilibrium; the appendix constructs bids from assignment payments.",
       "source_text_file": "EOS07GSP.txt",
-      "source_location": "EOS07GSP.txt:466-467 and EOS07GSP.txt:685-714",
+      "source_location": "EOS07GSP.txt:466-480 and EOS07GSP.txt:685-714",
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "lemma6_tiebreak_ranked_gsp_stable_assignment_locally_envy_free"
+      ],
+      "lean_declarations": [
+        "EOS07GSP.PaperInterface.lemma6_tiebreak_ranked_gsp_stable_assignment_locally_envy_free"
+      ],
+    "proof_lean_declarations": [
+      "EOS07GSP.PaperInterface.lemma6_tiebreak_ranked_gsp_stable_assignment_locally_envy_free"
+      ],
+      "source_kind": "lemma",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 466,
+          "line_end": 480,
+          "quoted_text": "Lemma 6 If the number of bidders is greater than the number of available positions, then any\nstable assignment is an outcome of a locally envy-free equilibrium of auction \u0393.\n10\n\n\fWe will now construct a particular locally envy-free equilibrium of game \u0393. This equilibrium\nhas two important properties. First, in this equilibrium bidders\u2019 payments coincide with their\npayments in the dominant- strategy equilibrium of VCG. Second, this equilibrium is the worst\nlocally envy-free equilibrium for the search engine, and it is the best locally envy-free equilibrium\nfor the bidders. Consequently, the revenues of a search engine are (weakly) higher in any locally\nenvy-free equilibrium of GSP than in the dominant-strategy equilibrium of VCG.\nConsider the following strategy profile B \u2217 . For each advertiser i \u2208 {2, . . . , min{N, K}}, bid b\u2217i\nV,(i\u22121)\n\nis equal to p \u03b1i\u22121 , where pV,(j) is the payment of bidder j in the dominant-strategy equilibrium of\nVCG. Bid b\u22171 is equal to s1 .16",
+          "quoted_text_sha256": "6d505f1d0233c19c4754fb4d9466b9f2ba1907023b825478e97d36d8eb75fe04"
+        },
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 685,
+          "line_end": 714,
+          "quoted_text": "Proof of Lemma 6\nTake a stable assignment. By a result of Shapley and Shubik (1972), this assignment must be\nefficient, and hence assortative, and so we can talk about advertiser i being matched with position\n22\n\nThis argument relies on the fact that in equilibrium, no two (or more) players bid the same amount, which is\nstraightforward to prove: since all players\u2019 per-click values are different, and all ties are broken randomly with equal\nprobabilities, at least one of such players would find it profitable to bid slightly higher or slightly lower.\n\n15\n\n\fi, with associated payment pi .\nLet us construct a locally envy-free equilibrium with the corresponding outcome. Let b1 = s1\nand bi = \u03b1pi\u22121\nfor i > 1. Let us show that this set of strategies is a locally envy-free equilibrium.\ni\u22121\n\nFirst, note that for any i, bi > bi+1 (because otherwise we would have, for some i, \u03b1pi\u22121\n\u2264 \u03b1pii \u21d2\ni\u22121\n\nsi \u2212 \u03b1pi\u22121\n\u2265 si \u2212 \u03b1pii \u21d2 \u03b1i\u22121 (si \u2212 pi\u22121 ) > \u03b1i (si \u2212 pi ), which would imply that player i could rei\u22121\nmatch profitably). Therefore, position allocations and payments resulting from this strategy profile\nwill coincide with those in the original stable assignment. To see that this strategy profile is an\nequilibrium, note that deviating and moving to a different position in this strategy profile is at\nmost as profitable for any player as re-matching with the corresponding position in the assignment\ngame. To see that this equilibrium is locally envy-free, note that the payoff from swapping with\nthe bidder above is exactly equal to the payoff from re-matching with that player\u2019s position in the\nassignment game.",
+          "quoted_text_sha256": "5072a4822e25dca8cf0cae378e5482c8c8bd9b408867aac5afc23954492c7d2d"
+        }
       ]
     },
     "theorem7_ranked_gsp_bstar_mechanism_realizes_bstar_outcome": {
       "statement": "Theorem 7 constructs the B* profile, proves bid order is preserved, and shows each bidder position and payment coincide with VCG in the constructed equilibrium.",
       "source_text_file": "EOS07GSP.txt",
-      "source_location": "EOS07GSP.txt:470-483 and EOS07GSP.txt:716-777",
+      "source_location": "EOS07GSP.txt:481-511 and EOS07GSP.txt:716-777",
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "theorem7_ranked_gsp_bstar_mechanism_realizes_bstar_outcome"
+      ],
+      "lean_declarations": [
+        "EOS07GSP.PaperInterface.theorem7_ranked_gsp_bstar_mechanism_realizes_bstar_outcome"
+      ],
+      "source_kind": "theorem",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 481,
+          "line_end": 511,
+          "quoted_text": "Theorem 7 Strategy profile B \u2217 is a locally envy-free equilibrium of game \u0393. In this equilibrium,\neach bidder\u2019s position and payment is equal to those in the dominant-strategy equilibrium of the\ngame induced by VCG. In any other locally envy-free equilibrium of game \u0393, the total revenue of\nthe seller is at least as high as in B \u2217 .\nTo prove Theorem 7, we first note that payments under strategy profile B \u2217 coincide with VCG\npayments and check that B \u2217 is indeed a locally-envy free equilibrium. This follows from the fact\nthat, by construction, each bidder is indifferent between remaining in his positions and swapping\nwith the bidder one position above him. Next, from Lemma 5 we know that every locally envy-free\nequilibrium corresponds to a stable assignment. Combining this with the fact17 that in any stable\nassignment the payments of bidders must be at least as high as VCG payments completes the proof.\n\n5\n\nMain Result: GSP and the Generalized English Auction\n\nIn this section we introduce the generalized English auction that corresponds to the generalized\nsecond price auction. The generalized English auction is a useful metaphor for predicting the\nbehavior of advertisers in GSP auctions in a dynamic environment. In the model analyzed in the\nprevious section, we assume that bidders have converged to a long-run steady state, have learned\neach other\u2019s values, and no longer have incentives to change their bids. But how do they converge\nto such a situation?\nIn this section we show that, in fact, there are simple strategies that can quickly lead to such\nan outcome: each advertiser starts bidding at zero and keeps increasing his bid as long as he finds\nit profitable to do so. This simple myopic procedure leads to an equilibrium outcome in which\nbidders have no incentives to change their bids. Remarkably, the outcome is the same as the worst\n(for the search engine) locally-envy free equilibrium of the static GSP: all players get VCG payoffs.\nWe model this procedure through an analogue of the standard English auction. The generalized\nEnglish Auction entails a clock showing the current price (that continuously increases over time).\nA player\u2019s bid is the price on the clock at the time when he drops out. The auction is over when\nThis bid does not affect any bidder\u2019s payment and can be set equal to any value greater than b\u22172 .\nLeonard (1983) states this fact for general assignment problems. For completeness, we include a short independent",
+          "quoted_text_sha256": "9de5dd1342b01e7d2b0cdbf71552b238da00e4e9c2488b83d0e41f8231462ff0"
+        },
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 716,
+          "line_end": 777,
+          "quoted_text": "Proof of Theorem 7\nFirst, we need to check that the order of the bids is preserved, i.e., b\u2217i > b\u2217i+1 for any i < min{N, K}.\nFor i \u2265 2, this is equivalent to\n\npV,(i\u22121)\npV,(i)\n>\n\u03b1i\u22121\n\u03b1i\nm\n(\u03b1i\u22121 \u2212 \u03b1i )si + pV,(i)\npV,(i)\n>\n\u03b1i\u22121\n\u03b1i\nm\n\u03b1i (\u03b1i\u22121 \u2212 \u03b1i )si > (\u03b1i\u22121 \u2212 \u03b1i )pV,(i)\nm\n\u03b1i si > pV,(i) .\n\nFor i = 1, b\u2217i > b\u2217i+1 is equivalent to\ns1 >\n\npV,(1)\n\u03b11\n\nm\n\u03b11 s1 > pV,(1) .\n\nTo see that for any i, \u03b1i si > pV,(i) , note first that in the game induced by VCG, each player can\nguarantee himself the payoff of at least zero (by bidding zero), and hence in any equilibrium his\n16\n\n\fpayoff from clicks is at least as high as his payment. To prove that the inequality is strict, note\nthat if player i\u2019s value per click were slightly lower, e.g., si \u2212 \u2206 instead of si , \u2206 < si \u2212 si+1 , then\nhis payment in the truth-telling equilibrium would still be the same (because it does not depend on\nhis own bid, given the allocation of positions), and so pV,(i) \u2264 \u03b1i (si \u2212 \u2206) < \u03b1i si . Thus, for any i,\nb\u2217i > b\u2217i+1 , and therefore each bidder\u2019s position is the same as in the truthful equilibrium of VCG.\nTherefore, by construction, payments are also the same.\nNext, to see that no bidder i can benefit by bidding less than b\u2217i , suppose that he bids an amount\nb0 < b\u2217i that puts him in position i0 > i. Then, by construction, his payment will be equal to the\namount that he would need to pay to be in position i0 under VCG, provided that other players bid\ntruthfully. But truthful bidding is an equilibrium under VCG, and so such deviation cannot be\nprofitable there\u2014hence, it cannot be profitable in strategy profile B \u2217 of game \u0393 either.\nTo see that no bidder i can benefit by bidding more than b\u2217i , suppose that he bids an amount\nb0 > b\u2217i that puts him in position i0 < i. Then the net payoff from this deviation is equal to\nPi\u22121 V,(j)\nPi\u22121\n\u2212\n(\u03b1i0 \u2212\u03b1i )si \u2212(\u03b1i0 b\u2217i0 \u2212\u03b1i bi+1 ) < (\u03b1i0 \u2212\u03b1i )si \u2212(\u03b1i0 b\u2217i0 +1 \u2212\u03b1i bi+1 ) = j=i\n0 (\u03b1j \u2212\u03b1j+1 )si \u2212\nj=i0 (p\nPi\u22121\nPi\u22121\nV,(j+1)\np\n) = j=i0 (\u03b1j \u2212 \u03b1j+1 )si \u2212 j=i0 (\u03b1j \u2212 \u03b1j+1 )sj+1 . But since si \u2264 sj+1 for any j < i, the last\nexpression is less than or equal to zero, and hence the deviation is not profitable.\nTo check that this equilibrium is locally envy-free, note that if bidder i swapped his bids with\nbidder i\u22121, his payoff would change by (\u03b1i\u22121 \u2212\u03b1i )si \u2212(\u03b1i\u22121 b\u2217i \u2212\u03b1i bi+1 ) = (\u03b1i\u22121 \u2212\u03b1i )si \u2212(pV,(i\u22121) \u2212\npV,(i) ) = (\u03b1i\u22121 \u2212 \u03b1i )si \u2212 (pV,(i\u22121) \u2212 pV,(i) ) = (\u03b1i\u22121 \u2212 \u03b1i )si \u2212 (\u03b1i\u22121 \u2212 \u03b1i )si = 0. In other words, each\nbidder is indifferent between his actual payoff and his payoff after swapping bids with the bidder",
+          "quoted_text_sha256": "a3d4a1a856d7b6b125dfd2f3537468a62a75d9d36ed476af4a4b94ada21be564"
+        }
       ]
     },
     "theorem7_bstar_payment_identity": {
@@ -114,15 +323,58 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "theorem7_bstar_payment_identity"
+      ],
+      "proof_lean_declarations": [
+        "theorem7_bstar_payment_identity"
+      ],
+      "source_kind": "theorem",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 470,
+          "line_end": 483,
+          "quoted_text": "\fWe will now construct a particular locally envy-free equilibrium of game \u0393. This equilibrium\nhas two important properties. First, in this equilibrium bidders\u2019 payments coincide with their\npayments in the dominant- strategy equilibrium of VCG. Second, this equilibrium is the worst\nlocally envy-free equilibrium for the search engine, and it is the best locally envy-free equilibrium\nfor the bidders. Consequently, the revenues of a search engine are (weakly) higher in any locally\nenvy-free equilibrium of GSP than in the dominant-strategy equilibrium of VCG.\nConsider the following strategy profile B \u2217 . For each advertiser i \u2208 {2, . . . , min{N, K}}, bid b\u2217i\nV,(i\u22121)\n\nis equal to p \u03b1i\u22121 , where pV,(j) is the payment of bidder j in the dominant-strategy equilibrium of\nVCG. Bid b\u22171 is equal to s1 .16\nTheorem 7 Strategy profile B \u2217 is a locally envy-free equilibrium of game \u0393. In this equilibrium,\neach bidder\u2019s position and payment is equal to those in the dominant-strategy equilibrium of the\ngame induced by VCG. In any other locally envy-free equilibrium of game \u0393, the total revenue of",
+          "quoted_text_sha256": "eee4da98a8df4e62a68a0ed939623e3a81f73dd3ddabf47d8cee7ba50b22edb0"
+        },
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 716,
+          "line_end": 777,
+          "quoted_text": "Proof of Theorem 7\nFirst, we need to check that the order of the bids is preserved, i.e., b\u2217i > b\u2217i+1 for any i < min{N, K}.\nFor i \u2265 2, this is equivalent to\n\npV,(i\u22121)\npV,(i)\n>\n\u03b1i\u22121\n\u03b1i\nm\n(\u03b1i\u22121 \u2212 \u03b1i )si + pV,(i)\npV,(i)\n>\n\u03b1i\u22121\n\u03b1i\nm\n\u03b1i (\u03b1i\u22121 \u2212 \u03b1i )si > (\u03b1i\u22121 \u2212 \u03b1i )pV,(i)\nm\n\u03b1i si > pV,(i) .\n\nFor i = 1, b\u2217i > b\u2217i+1 is equivalent to\ns1 >\n\npV,(1)\n\u03b11\n\nm\n\u03b11 s1 > pV,(1) .\n\nTo see that for any i, \u03b1i si > pV,(i) , note first that in the game induced by VCG, each player can\nguarantee himself the payoff of at least zero (by bidding zero), and hence in any equilibrium his\n16\n\n\fpayoff from clicks is at least as high as his payment. To prove that the inequality is strict, note\nthat if player i\u2019s value per click were slightly lower, e.g., si \u2212 \u2206 instead of si , \u2206 < si \u2212 si+1 , then\nhis payment in the truth-telling equilibrium would still be the same (because it does not depend on\nhis own bid, given the allocation of positions), and so pV,(i) \u2264 \u03b1i (si \u2212 \u2206) < \u03b1i si . Thus, for any i,\nb\u2217i > b\u2217i+1 , and therefore each bidder\u2019s position is the same as in the truthful equilibrium of VCG.\nTherefore, by construction, payments are also the same.\nNext, to see that no bidder i can benefit by bidding less than b\u2217i , suppose that he bids an amount\nb0 < b\u2217i that puts him in position i0 > i. Then, by construction, his payment will be equal to the\namount that he would need to pay to be in position i0 under VCG, provided that other players bid\ntruthfully. But truthful bidding is an equilibrium under VCG, and so such deviation cannot be\nprofitable there\u2014hence, it cannot be profitable in strategy profile B \u2217 of game \u0393 either.\nTo see that no bidder i can benefit by bidding more than b\u2217i , suppose that he bids an amount\nb0 > b\u2217i that puts him in position i0 < i. Then the net payoff from this deviation is equal to\nPi\u22121 V,(j)\nPi\u22121\n\u2212\n(\u03b1i0 \u2212\u03b1i )si \u2212(\u03b1i0 b\u2217i0 \u2212\u03b1i bi+1 ) < (\u03b1i0 \u2212\u03b1i )si \u2212(\u03b1i0 b\u2217i0 +1 \u2212\u03b1i bi+1 ) = j=i\n0 (\u03b1j \u2212\u03b1j+1 )si \u2212\nj=i0 (p\nPi\u22121\nPi\u22121\nV,(j+1)\np\n) = j=i0 (\u03b1j \u2212 \u03b1j+1 )si \u2212 j=i0 (\u03b1j \u2212 \u03b1j+1 )sj+1 . But since si \u2264 sj+1 for any j < i, the last\nexpression is less than or equal to zero, and hence the deviation is not profitable.\nTo check that this equilibrium is locally envy-free, note that if bidder i swapped his bids with\nbidder i\u22121, his payoff would change by (\u03b1i\u22121 \u2212\u03b1i )si \u2212(\u03b1i\u22121 b\u2217i \u2212\u03b1i bi+1 ) = (\u03b1i\u22121 \u2212\u03b1i )si \u2212(pV,(i\u22121) \u2212\npV,(i) ) = (\u03b1i\u22121 \u2212 \u03b1i )si \u2212 (pV,(i\u22121) \u2212 pV,(i) ) = (\u03b1i\u22121 \u2212 \u03b1i )si \u2212 (\u03b1i\u22121 \u2212 \u03b1i )si = 0. In other words, each\nbidder is indifferent between his actual payoff and his payoff after swapping bids with the bidder",
+          "quoted_text_sha256": "a3d4a1a856d7b6b125dfd2f3537468a62a75d9d36ed476af4a4b94ada21be564"
+        }
       ]
     },
-    "theorem7_bstar_locally_envy_free": {
+  "theorem7_bstar_locally_envy_free": {
       "statement": "Theorem 7 states that the B* strategy profile is locally envy-free; the proof checks that each bidder is indifferent between remaining in position and swapping with the bidder one position above.",
       "source_text_file": "EOS07GSP.txt",
       "source_location": "EOS07GSP.txt:481-488 and EOS07GSP.txt:774-778",
       "source_url": "https://www.nber.org/papers/w11765",
-      "aliases": [
-        "theorem7_bstar_locally_envy_free"
+    "aliases": [
+      "theorem7_bstar_locally_envy_free"
+    ],
+    "lean_declarations": [
+      "EOS07GSP.PaperInterface.theorem7_bstar_locally_envy_free"
+    ],
+    "proof_lean_declarations": [
+      "EOS07GSP.PaperInterface.theorem7_bstar_locally_envy_free"
+      ],
+      "source_kind": "theorem",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 481,
+          "line_end": 488,
+          "quoted_text": "Theorem 7 Strategy profile B \u2217 is a locally envy-free equilibrium of game \u0393. In this equilibrium,\neach bidder\u2019s position and payment is equal to those in the dominant-strategy equilibrium of the\ngame induced by VCG. In any other locally envy-free equilibrium of game \u0393, the total revenue of\nthe seller is at least as high as in B \u2217 .\nTo prove Theorem 7, we first note that payments under strategy profile B \u2217 coincide with VCG\npayments and check that B \u2217 is indeed a locally-envy free equilibrium. This follows from the fact\nthat, by construction, each bidder is indifferent between remaining in his positions and swapping\nwith the bidder one position above him. Next, from Lemma 5 we know that every locally envy-free",
+          "quoted_text_sha256": "aad49a7fe2559010479fdc43464dbf5438753158c9300f35d4a97100d45b8058"
+        },
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 774,
+          "line_end": 778,
+          "quoted_text": "To check that this equilibrium is locally envy-free, note that if bidder i swapped his bids with\nbidder i\u22121, his payoff would change by (\u03b1i\u22121 \u2212\u03b1i )si \u2212(\u03b1i\u22121 b\u2217i \u2212\u03b1i bi+1 ) = (\u03b1i\u22121 \u2212\u03b1i )si \u2212(pV,(i\u22121) \u2212\npV,(i) ) = (\u03b1i\u22121 \u2212 \u03b1i )si \u2212 (pV,(i\u22121) \u2212 pV,(i) ) = (\u03b1i\u22121 \u2212 \u03b1i )si \u2212 (\u03b1i\u22121 \u2212 \u03b1i )si = 0. In other words, each\nbidder is indifferent between his actual payoff and his payoff after swapping bids with the bidder\nabove, and hence the equilibrium is locally envy-free.",
+          "quoted_text_sha256": "c4bff58af0c6875115f2c42244dadc86d900df8d2e2441767ebba216faecf7ec"
+        }
       ]
     },
     "theorem7_no_positive_transfer_conclusion": {
@@ -132,6 +384,26 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "theorem7_no_positive_transfer_conclusion"
+      ],
+      "lean_declarations": [
+        "EOS07GSP.PaperInterface.theorem7_no_positive_transfer_conclusion"
+      ],
+      "source_kind": "theorem",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 481,
+          "line_end": 490,
+          "quoted_text": "Theorem 7 Strategy profile B \u2217 is a locally envy-free equilibrium of game \u0393. In this equilibrium,\neach bidder\u2019s position and payment is equal to those in the dominant-strategy equilibrium of the\ngame induced by VCG. In any other locally envy-free equilibrium of game \u0393, the total revenue of\nthe seller is at least as high as in B \u2217 .\nTo prove Theorem 7, we first note that payments under strategy profile B \u2217 coincide with VCG\npayments and check that B \u2217 is indeed a locally-envy free equilibrium. This follows from the fact\nthat, by construction, each bidder is indifferent between remaining in his positions and swapping\nwith the bidder one position above him. Next, from Lemma 5 we know that every locally envy-free\nequilibrium corresponds to a stable assignment. Combining this with the fact17 that in any stable\nassignment the payments of bidders must be at least as high as VCG payments completes the proof.",
+          "quoted_text_sha256": "6868bad0017e05ccd7d70be175a500a070166b9ee6a0612dd20bf1e7a2871d60"
+        },
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 780,
+          "line_end": 796,
+          "quoted_text": "locally envy-free equilibrium for the search engine. A standard result of matching theory states\nthat there exists an assignment that is the best stable assignment for all advertisers, and the worst\nstable assignment for all positions. A stable assignment is characterized by a vector of payments\np = (p1 , . . . , pK ). Let pV = (pV1 , . . . , pVK ) be the set of dominant-strategy VCG payments, i.e., the\nset of payments in equilibrium B \u2217 of game \u0393.\nIn any stable assignment, pK must be at least as high as \u03b1K sK\u22121 , since otherwise advertiser\nK \u2212 1 would find it profitable to match with position K. On the other hand, pVK = \u03b1K sK\u22121 , and\nhence in the buyer-optimal stable assignment, pK = pVK .\nNext, in any stable assignment, it must be the case that pK\u22121 \u2212 pK \u2265 (\u03b1K\u22121 \u2212 \u03b1K )sK \u2014\notherwise, advertiser K would find it profitable to re-match with position K \u2212 1. Hence, pK\u22121 \u2265\n(\u03b1K\u22121 \u2212\u03b1K )sK +pK \u2265 (\u03b1K\u22121 \u2212\u03b1K )sK +pVK = pVK\u22121 , and so in the buyer-optimal stable assignment,\npK\u22121 = pVK\u22121 .\nProceeding by induction, we get pk = pVk for any k \u2264 K in the buyer-optimal (and therefore\nseller-pessimal) stable assignment, and so in any locally envy-free equilibrium of game \u0393, the total\nP\nV\nrevenue of the seller is at least as high as K",
+          "quoted_text_sha256": "ddadeed79be928d46e245fd0685135c89e1638faaf230551908dc764eac948f8"
+        }
       ]
     },
     "theorem7_strict_tiebreak_gsp_comparison_conclusion": {
@@ -141,6 +413,26 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "theorem7_strict_tiebreak_gsp_comparison_conclusion"
+      ],
+      "lean_declarations": [
+        "EOS07GSP.PaperInterface.theorem7_strict_tiebreak_gsp_comparison_conclusion"
+      ],
+      "source_kind": "theorem",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 481,
+          "line_end": 490,
+          "quoted_text": "Theorem 7 Strategy profile B \u2217 is a locally envy-free equilibrium of game \u0393. In this equilibrium,\neach bidder\u2019s position and payment is equal to those in the dominant-strategy equilibrium of the\ngame induced by VCG. In any other locally envy-free equilibrium of game \u0393, the total revenue of\nthe seller is at least as high as in B \u2217 .\nTo prove Theorem 7, we first note that payments under strategy profile B \u2217 coincide with VCG\npayments and check that B \u2217 is indeed a locally-envy free equilibrium. This follows from the fact\nthat, by construction, each bidder is indifferent between remaining in his positions and swapping\nwith the bidder one position above him. Next, from Lemma 5 we know that every locally envy-free\nequilibrium corresponds to a stable assignment. Combining this with the fact17 that in any stable\nassignment the payments of bidders must be at least as high as VCG payments completes the proof.",
+          "quoted_text_sha256": "6868bad0017e05ccd7d70be175a500a070166b9ee6a0612dd20bf1e7a2871d60"
+        },
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 780,
+          "line_end": 796,
+          "quoted_text": "locally envy-free equilibrium for the search engine. A standard result of matching theory states\nthat there exists an assignment that is the best stable assignment for all advertisers, and the worst\nstable assignment for all positions. A stable assignment is characterized by a vector of payments\np = (p1 , . . . , pK ). Let pV = (pV1 , . . . , pVK ) be the set of dominant-strategy VCG payments, i.e., the\nset of payments in equilibrium B \u2217 of game \u0393.\nIn any stable assignment, pK must be at least as high as \u03b1K sK\u22121 , since otherwise advertiser\nK \u2212 1 would find it profitable to match with position K. On the other hand, pVK = \u03b1K sK\u22121 , and\nhence in the buyer-optimal stable assignment, pK = pVK .\nNext, in any stable assignment, it must be the case that pK\u22121 \u2212 pK \u2265 (\u03b1K\u22121 \u2212 \u03b1K )sK \u2014\notherwise, advertiser K would find it profitable to re-match with position K \u2212 1. Hence, pK\u22121 \u2265\n(\u03b1K\u22121 \u2212\u03b1K )sK +pK \u2265 (\u03b1K\u22121 \u2212\u03b1K )sK +pVK = pVK\u22121 , and so in the buyer-optimal stable assignment,\npK\u22121 = pVK\u22121 .\nProceeding by induction, we get pk = pVk for any k \u2264 K in the buyer-optimal (and therefore\nseller-pessimal) stable assignment, and so in any locally envy-free equilibrium of game \u0393, the total\nP\nV\nrevenue of the seller is at least as high as K",
+          "quoted_text_sha256": "ddadeed79be928d46e245fd0685135c89e1638faaf230551908dc764eac948f8"
+        }
       ]
     },
     "theorem8_dropout_formula_eq_bstar_threshold": {
@@ -150,6 +442,26 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "theorem8_dropout_formula_eq_bstar_threshold"
+      ],
+      "lean_declarations": [
+        "theorem8_dropout_formula_eq_bstar_threshold"
+      ],
+      "source_kind": "formula",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 539,
+          "line_end": 546,
+          "quoted_text": "Theorem 8 In the unique perfect Bayesian equilibrium of the generalized English auction with\nk\nstrategies continuous in si , an advertiser with value si drops out at price pi (k, h, si ) = si \u2212 \u03b1\u03b1k\u22121\n(si \u2212\n\nbk+1 ). In this equilibrium, each advertiser\u2019s resulting position and payoff are the same as in the\ndominant-strategy equilibrium of the game induced by VCG. This equilibrium is ex post: the strategy\nof each bidder is a best response to other bidders\u2019 strategies regardless of their realized values.",
+          "quoted_text_sha256": "3b4b98abb95f48e67ad398ff938c0b496781b290391f3343436295fdd8d49d8c"
+        },
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 801,
+          "line_end": 823,
+          "quoted_text": "\fProof of Theorem 8\nFirst, note that in equilibrium, for any player i, any history h, and any number of remaining players\nk, the drop-out price pi (k, h, si ) tends to infinity as si tends to infinity. (Otherwise there would\nexist a player for whom it was optimal to deviate from his strategy and stay longer, for a sufficiently\nhigh value s.) Next, take any equilibrium of the generalized English auction. Note that if in this\nequilibrium pi (k, h, si ) > pi (k, h, s0i ) for some k, h, i, and types si < s0i , then it has to be the\ncase that both types si and s0i are indifferent between dropping out at pi (k, h, si ) and pi (k, h, s0i ).\n(Otherwise one of them would be able to increase his payoff by mimicking the other.) Consequently,\nwe can \u201cswap\u201d such players\u2019 strategies, and therefore there exists an \u201cobservationally equivalent\u201d\nequilibrium in which strategies are nondecreasing in types; also, they are still continuous in own\nvalues. Consider this equilibrium profile of strategies pi (k, h, si ).\nLet q(k, bk+1 , s) be such a price that a player with value s is indifferent between getting position\nk at price bk+1 and position k \u2212 1 at price q(k, bk+1 , s). That is,\n\u03b1k\u22121 (s \u2212 q(k, bk+1 , s)) = \u03b1k (s \u2212 bk+1 )\nm\nq(k, bk+1 , s) = s \u2212\n\n\u03b1k\n(s \u2212 bk+1 ).\n\u03b1k\u22121\n\nSlightly abusing notation, let q(k, h, s) = q(k, bk+1 , s), where bk+1 is the last bid at which a player\ndropped out in history h. (This player received position k + 1. If history h is empty, we set",
+          "quoted_text_sha256": "242e8b63e46403e70d844cb426f5d388b73bd027dfd0f737818e671e3debef57"
+        }
       ]
     },
     "theorem8_q_step2_waiting_before_q_review": {
@@ -159,6 +471,19 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "theorem8_q_step2_waiting_before_q_review"
+      ],
+      "proof_lean_declarations": [
+        "theorem8_q_step2_waiting_before_q_review"
+      ],
+      "source_kind": "theorem",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 923,
+          "line_end": 933,
+          "quoted_text": "\u03b1l (s1 \u2212 bl+2 )\u2014contradiction.\n\nStep 2. In Step 1, we have shown that pmax (k, h, s) \u2261 maxi pi (k, h, s) cannot be greater than\nq(k, h, s), and therefore for any player i and type s \u2265 smin , pi (k, h, s) \u2264 q(k, h, s). Take some value\ns > smin and player i. Suppose pi (k, h, s) < q(k, h, s). Take some other player j. From Step 1,\nwe have pj (k, h, smin ) \u2264 q(k, h, smin ) < q(k, h, s), and therefore if player i waited until q(k, h, s)\ninstead of dropping out at pi (k, h, s), the probability that someone dropped out in between would\nbe positive, and hence the payoff would be strictly greater (by the definition of function q(), player\ni with value s strictly prefers being in position k \u2212 1 or higher at any price less than q(k, h, s) to\nbeing in position k at price bk+1 ), which is impossible in equilibrium. Hence, pi (k, h, s) = q(k, h, s)\nfor all s > smin . By continuity, we also have pi (k, h, smin ) = q(k, h, smin ).",
+          "quoted_text_sha256": "396db948666b8aced6e0d56bc63e21a1054c7b4ac76fefa176f329917e66a35a"
+        }
       ]
     },
     "theorem8_q_step1_dropping_after_q_review": {
@@ -168,6 +493,19 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "theorem8_q_step1_dropping_after_q_review"
+      ],
+      "proof_lean_declarations": [
+        "theorem8_q_step1_dropping_after_q_review"
+      ],
+      "source_kind": "theorem",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 833,
+          "line_end": 924,
+          "quoted_text": "Without loss of generality, we can assume that there is a positive mass of types of other players\ndropping out at or before pi (k, h, s0 ).23\nStep 1(a). Suppose first that there is a positive mass of types of other players dropping out\nat pi (k, h, s0 ) = pmax (k, h, s). That implies that with positive probability, player i of type s0 will\nremain in the subgame following the drop-out of some other player at pi (k, h, s0 ) (since ties are\nbroken randomly). Let us show that in this subgame, player i of type s0 will be the first player to\n23\n\nOtherwise, we have \u2200j 6= i, pj (k, h, s0 ) \u2264 pi (k, h, s) \u2264 pmax (k, h, s) = pi (k, h, s0 ) \u21d2 \u2200j 6= i, pj (k, h, s0 ) =\npi (k, h, s0 ) and \u2200s0 > s0 , pj (k, h, s0 ) > pi (k, h, s0 ). But we also have pi (k, h, s0 ) = pmax (k, h, s) > q(k, h, s) \u2265\nq(k, h, s0 ), and so for some s0 > s0 we have pmax (k, h, s0 ) > q(k, h, s0 ) and pmax (k, h, s0 ) > pmax (k, h, s). We\ncan then consider s00 in place of s0 , where s00 is the smallest type, and i0 is the corresponding player, such that\npi0 (k, h, s00 ) = pmax (k, h, s0 ). There is a positive mass of types of other players dropping out before pi0 (k, h, s00 ).\n\n18\n\n\fdrop out with probability 1. Suppose that is not the case, and let l < k \u2212 1 be the smallest number\nsuch that he gets position l with positive probability.\nConsider any continuation of history h, hl+2 , such that the last player to drop out in that history\ngets position l+2 and drops out at price bl+2 , player i of type s0 is one of the remaining l+1 players,\nthere is a positive probability that player i gets position l in the continuation subgame following\nhistory hl+2 , and there is zero probability that player i gets position m for any m < l. Note\nthat s0 \u2265 bl+2 \u2014otherwise it would have been optimal for player i to drop out earlier. Consider\npi (l + 1, hl+2 , s0 ). There must be a positive mass of types of other players who drop out no\nlater than pi (l + 1, hl+2 , s0 ). Take the highest such type, s0 , and the corresponding player j.\nIt has to be the case that s0 > s0 \u2265 bl+2 . It also has to be the case that q(l + 1, hl+2 , s0 ) is\nless than or equal to pi (l + 1, hl+2 , s0 ). (Otherwise player j with value s0 would be playing a\nstrategy weakly dominated by dropping out at q(l + 1, hl+2 , s0 ), with a positive probability of\nearning strictly less than he would have earned if he waited until that price level.) Therefore,\npi (l + 1, hl+2 , s0 ) \u2265 q(l + 1, hl+2 , s0 ) > q(l + 1, hl+2 , s0 ) \u2265 bl+2 . Let us show that it would be\nstrictly better for player i with type s0 to drop out at q(l + 1, hl+2 , s0 ) instead of waiting until\npi (l + 1, hl+2 , s0 ). Indeed, if nobody else drops out in between, or someone drops out before\nq(l + 1, hl+2 , s0 ), these strategies would result in identical payoffs. Otherwise payoffs are different,\nand this happens with positive probability. Under the former strategy, player i earns\n\u03b1l+1 (s0 \u2212 bl+2 ).\nUnder the latter strategy, he earns\n\u03b1l (s0 \u2212 bl+1 ),\nwhere bl+1 is the price at which somebody else dropped out. (The probability of getting a spot\nm < l is zero by construction.) With probability 1, bl+1 \u2265 q(l + 1, hl+2 , s0 ), and with positive\nprobability bl+1 > q(l + 1, hl+2 , s0 ), so the expected payoff from waiting until pi (l + 1, hl+2 , s0 ) is\nstrictly less than the expected payoff from dropping out at q(l + 1, hl+2 , s0 ): E[\u03b1l (s0 \u2212 bl+1 )] <\n\u03b1l (s0 \u2212 q(l + 1, hl+2 , s0 )) = \u03b1l (s0 \u2212 (s0 \u2212\n\n\u03b1l+1\n\u03b1l (s0 \u2212 bl+2 ))) = \u03b1l+1 (s0 \u2212 bl+2 ).\n\nTherefore, in the subgame following the drop-out of some other player at pi (k, h, s0 ), player i\nof type s0 gets position k \u2212 1 with probability 1, and therefore his payoff is \u03b1k\u22121 (s0 \u2212 pi (k, h, s0 )).\nNow suppose player i dropped out at a price pi (k, h, s0 ) \u2212 \u000f instead of waiting until pi (k, h, s0 ).\nIf somebody else drops out before pi (k, h, s0 ) \u2212 \u000f or after pi (k, h, s0 ), or drops out at pi (k, h, s0 )\nbut player i is chosen to drop out first, then these two strategies result in identical payoffs. The\nprobability that somebody drops out in the interval (pi (k, h, s0 ) \u2212 \u000f, pi (k, h, s0 )) goes to zero as \u000f\ngoes to zero, and the possible difference in the payoffs is finite, so the difference in payoffs due\nto this contingency goes to zero as \u000f goes to zero. Finally, there is a positive probability that\nsomebody else drops out at pi (k, h, s0 ) and is chosen to drop out first. If player i drops out before\nthat, at pi (k, h, s0 ) \u2212 \u000f, his payoff is \u03b1k (s0 \u2212 bk+1 ). If he waits until pi (k, h, s0 ), we know that in the\nsubsequent subgame his payoff is \u03b1k\u22121 (s0 \u2212 pi (k, h, s0 )) < \u03b1k\u22121 (s0 \u2212 q(k, h, s0 )) = \u03b1k (s0 \u2212 bk+1 ).\n\n19\n\n\fTherefore, for a sufficiently small \u000f, it is strictly better for player i with value s0 to drop out at\npi (k, h, s0 ) \u2212 \u000f instead of waiting until pi (k, h, s0 ), which contradicts the assumption that {pj (\u00b7, \u00b7, \u00b7)}\nis an equilibrium.\nStep 1(b). Now suppose there is mass zero of types of other players dropping out at pi (k, h, s0 ) =\npmax (k, h, s), but there is a positive mass dropping out before pi (k, h, s0 ). Consider a sequence of\nsmall positive numbers (\u000fn ) converging to 0 as n \u2192 \u221e and sequences (\u03c0n1 ), (\u03c0n2 ), . . . , (\u03c0nk\u22121 ), where\n\u03c0nl is the probability that player i with value s0 will end up in position l if another player drops\nout at price (pi (k, h, s0 ) \u2212 \u000fn ). Let B = \u03b11 s0 , i.e., the maximum payoff that a player with value s0\ncan possibly get in the auction. Now, if (\u03c0nk\u22121 ) converges to 1 and (\u03c0nl ) converges to zero for all\nl < k \u2212 1, then, by an argument similar to the one at the end of Step 1(a), it is better for player\ni of type s0 to drop out at some time pi (k, h, s0 ) \u2212 \u000f.24 If (\u03c0nk\u22121 ) does not converge to 1, take the\nhighest l for which (\u03c0nl ) does not converge to zero, and take a subsequence of \u000fn along which (\u03c0nl )\nconverges to some positive number \u03c1. Let s1 be the value such that for a random draw of types of\nremaining players other than i, conditional on each draw being greater than s0 , the probability that\nQ\n1\u2212F (s )\nat least one type is less than s1 is equal to \u03c12 (i.e., j6=i 1\u2212Fjj (s01 ) = 1 \u2212 \u03c12 ). Clearly, s1 > s0 . Take a\nsmall \u000fn , and consider a subgame following some continuation of history h, hl+2 , where the (l + 2)nd\nplayer drops out at bl+2 , l + 1 players, including player i, remain, and player i gets position l with\nprobability close to \u03c1 (and any position higher than l with probability close to zero). Consider\npi (l + 1, hl+2 , s0 ). There must exist a player, j, such that pj (l + 1, hl+2 , s1 ) \u2264 pi (l + 1, hl+2 , s0 ).\n(Otherwise, the probability of player i surviving until position l is less than or close to \u03c12 , and thus\ncannot be close to \u03c1.) But then, by an argument similar to the one in Step 1(a), in this subgame\nit is strictly better for player i to drop out slightly earlier than pi (l + 1, hl+2 , s0 ): Conditional on\nsomebody else dropping out in between, the benefit is close to zero (the probability of getting a\nposition better than l times the highest possible benefit B), while the cost is close to a positive\nnumber (the payoff from being in position l + 1 at price bl+2 vs. the payoff from being in position\nl at price at least s1 \u2212\n\n\u03b1l+1\n\u03b1l (s1 \u2212 bl+2 )\u2014contradiction.\n",
+          "quoted_text_sha256": "d575e8699672ed167f238dca0a51bfb273933bf38ca302c2939a9d04ff2db177"
+        }
       ]
     },
     "theorem8_q_mem_interval_review": {
@@ -177,6 +515,19 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "theorem8_q_mem_interval_review"
+      ],
+      "lean_declarations": [
+        "theorem8_q_mem_interval_review"
+      ],
+      "source_kind": "formula",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 801,
+          "line_end": 823,
+          "quoted_text": "\fProof of Theorem 8\nFirst, note that in equilibrium, for any player i, any history h, and any number of remaining players\nk, the drop-out price pi (k, h, si ) tends to infinity as si tends to infinity. (Otherwise there would\nexist a player for whom it was optimal to deviate from his strategy and stay longer, for a sufficiently\nhigh value s.) Next, take any equilibrium of the generalized English auction. Note that if in this\nequilibrium pi (k, h, si ) > pi (k, h, s0i ) for some k, h, i, and types si < s0i , then it has to be the\ncase that both types si and s0i are indifferent between dropping out at pi (k, h, si ) and pi (k, h, s0i ).\n(Otherwise one of them would be able to increase his payoff by mimicking the other.) Consequently,\nwe can \u201cswap\u201d such players\u2019 strategies, and therefore there exists an \u201cobservationally equivalent\u201d\nequilibrium in which strategies are nondecreasing in types; also, they are still continuous in own\nvalues. Consider this equilibrium profile of strategies pi (k, h, si ).\nLet q(k, bk+1 , s) be such a price that a player with value s is indifferent between getting position\nk at price bk+1 and position k \u2212 1 at price q(k, bk+1 , s). That is,\n\u03b1k\u22121 (s \u2212 q(k, bk+1 , s)) = \u03b1k (s \u2212 bk+1 )\nm\nq(k, bk+1 , s) = s \u2212\n\n\u03b1k\n(s \u2212 bk+1 ).\n\u03b1k\u22121\n\nSlightly abusing notation, let q(k, h, s) = q(k, bk+1 , s), where bk+1 is the last bid at which a player\ndropped out in history h. (This player received position k + 1. If history h is empty, we set",
+          "quoted_text_sha256": "242e8b63e46403e70d844cb426f5d388b73bd027dfd0f737818e671e3debef57"
+        }
       ]
     },
     "theorem8_q_strict_mem_interval_review": {
@@ -186,6 +537,26 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "theorem8_q_strict_mem_interval_review"
+      ],
+      "lean_declarations": [
+        "theorem8_q_strict_mem_interval_review"
+      ],
+      "source_kind": "formula",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 801,
+          "line_end": 823,
+          "quoted_text": "\fProof of Theorem 8\nFirst, note that in equilibrium, for any player i, any history h, and any number of remaining players\nk, the drop-out price pi (k, h, si ) tends to infinity as si tends to infinity. (Otherwise there would\nexist a player for whom it was optimal to deviate from his strategy and stay longer, for a sufficiently\nhigh value s.) Next, take any equilibrium of the generalized English auction. Note that if in this\nequilibrium pi (k, h, si ) > pi (k, h, s0i ) for some k, h, i, and types si < s0i , then it has to be the\ncase that both types si and s0i are indifferent between dropping out at pi (k, h, si ) and pi (k, h, s0i ).\n(Otherwise one of them would be able to increase his payoff by mimicking the other.) Consequently,\nwe can \u201cswap\u201d such players\u2019 strategies, and therefore there exists an \u201cobservationally equivalent\u201d\nequilibrium in which strategies are nondecreasing in types; also, they are still continuous in own\nvalues. Consider this equilibrium profile of strategies pi (k, h, si ).\nLet q(k, bk+1 , s) be such a price that a player with value s is indifferent between getting position\nk at price bk+1 and position k \u2212 1 at price q(k, bk+1 , s). That is,\n\u03b1k\u22121 (s \u2212 q(k, bk+1 , s)) = \u03b1k (s \u2212 bk+1 )\nm\nq(k, bk+1 , s) = s \u2212\n\n\u03b1k\n(s \u2212 bk+1 ).\n\u03b1k\u22121\n\nSlightly abusing notation, let q(k, h, s) = q(k, bk+1 , s), where bk+1 is the last bid at which a player\ndropped out in history h. (This player received position k + 1. If history h is empty, we set",
+          "quoted_text_sha256": "242e8b63e46403e70d844cb426f5d388b73bd027dfd0f737818e671e3debef57"
+        },
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 344,
+          "line_end": 349,
+          "quoted_text": "ad was placed in position i is \u03b1i . The value per click to bidder k is sk . Bidders are risk-neutral,\nand bidder k\u2019s payoff from being in position i is equal to \u03b1i sk minus his payments to the search\nengine. Note that these assumptions imply that the number of times a particular position is clicked\ndoes not depend on the ads in this and other positions, and also that an advertiser\u2019s value per click\ndoes not depend on the position in which its ad is displayed. Without loss of generality, positions\nare labeled in a descending order: for any j and k such that j < k, we have \u03b1j > \u03b1k .",
+          "quoted_text_sha256": "effba48b03b392ba50c38f7cd14497027412871448d90ca44bf9865ada88be27"
+        }
       ]
     },
     "theorem8_q_continuous_value_review": {
@@ -195,6 +566,26 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "theorem8_q_continuous_value_review"
+      ],
+      "proof_lean_declarations": [
+        "theorem8_q_continuous_value_review"
+      ],
+      "source_kind": "theorem",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 528,
+          "line_end": 546,
+          "quoted_text": "K 6= N + 1 require only minor modifications in the proof.) Click-through rates \u03b1n are commonly\nknown, with \u03b1N +1 \u2261 0. Bidders\u2019 per-click valuations si are drawn from a continuous distribution\nF (\u00b7) on [0; +\u221e) with a continuous density function f (\u00b7) that is positive everywhere on (0, +\u221e).\nEach advertiser knows his valuation and the distribution of other advertisers\u2019 valuations.\nThe strategy of an advertiser assigns the choice of dropping out or not for any history of the\ngame, given that the advertiser has not previously dropped out. In other words, the strategy can be\nrepresented as a function pi (k, h, si ), where si is the value per click of bidder i, pi is the price at which\nhe drops out, k is the number of bidders remaining (including bidder i), and h = (bk+1 , . . . , bK ) is\nthe history of prices at which bidders K, K \u2212 1, . . . , k + 1 have dropped out. (As a result, the\nprice that bidder i would have to pay per click if he dropped out next is equal to bk+1 , unless the\nhistory is empty, in which case we say that bk+1 \u2261 0.)\nTheorem 8 In the unique perfect Bayesian equilibrium of the generalized English auction with\nk\nstrategies continuous in si , an advertiser with value si drops out at price pi (k, h, si ) = si \u2212 \u03b1\u03b1k\u22121\n(si \u2212\n\nbk+1 ). In this equilibrium, each advertiser\u2019s resulting position and payoff are the same as in the\ndominant-strategy equilibrium of the game induced by VCG. This equilibrium is ex post: the strategy\nof each bidder is a best response to other bidders\u2019 strategies regardless of their realized values.",
+          "quoted_text_sha256": "ef4affac2cd9a20b79b38306ef98446112e85da2ebeeae0518e3ed0312efbef3"
+        },
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 801,
+          "line_end": 823,
+          "quoted_text": "\fProof of Theorem 8\nFirst, note that in equilibrium, for any player i, any history h, and any number of remaining players\nk, the drop-out price pi (k, h, si ) tends to infinity as si tends to infinity. (Otherwise there would\nexist a player for whom it was optimal to deviate from his strategy and stay longer, for a sufficiently\nhigh value s.) Next, take any equilibrium of the generalized English auction. Note that if in this\nequilibrium pi (k, h, si ) > pi (k, h, s0i ) for some k, h, i, and types si < s0i , then it has to be the\ncase that both types si and s0i are indifferent between dropping out at pi (k, h, si ) and pi (k, h, s0i ).\n(Otherwise one of them would be able to increase his payoff by mimicking the other.) Consequently,\nwe can \u201cswap\u201d such players\u2019 strategies, and therefore there exists an \u201cobservationally equivalent\u201d\nequilibrium in which strategies are nondecreasing in types; also, they are still continuous in own\nvalues. Consider this equilibrium profile of strategies pi (k, h, si ).\nLet q(k, bk+1 , s) be such a price that a player with value s is indifferent between getting position\nk at price bk+1 and position k \u2212 1 at price q(k, bk+1 , s). That is,\n\u03b1k\u22121 (s \u2212 q(k, bk+1 , s)) = \u03b1k (s \u2212 bk+1 )\nm\nq(k, bk+1 , s) = s \u2212\n\n\u03b1k\n(s \u2212 bk+1 ).\n\u03b1k\u22121\n\nSlightly abusing notation, let q(k, h, s) = q(k, bk+1 , s), where bk+1 is the last bid at which a player\ndropped out in history h. (This player received position k + 1. If history h is empty, we set",
+          "quoted_text_sha256": "242e8b63e46403e70d844cb426f5d388b73bd027dfd0f737818e671e3debef57"
+        }
       ]
     },
     "theorem8_continuous_source_local_best_response_support_unique_review": {
@@ -204,6 +595,26 @@
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
         "theorem8_continuous_source_local_best_response_support_unique_review"
+      ],
+      "lean_declarations": [
+        "EOS07GSP.PaperInterface.theorem8_continuous_source_local_best_response_support_unique_review"
+      ],
+      "source_kind": "theorem",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 539,
+          "line_end": 571,
+          "quoted_text": "Theorem 8 In the unique perfect Bayesian equilibrium of the generalized English auction with\nk\nstrategies continuous in si , an advertiser with value si drops out at price pi (k, h, si ) = si \u2212 \u03b1\u03b1k\u22121\n(si \u2212\n\nbk+1 ). In this equilibrium, each advertiser\u2019s resulting position and payoff are the same as in the\ndominant-strategy equilibrium of the game induced by VCG. This equilibrium is ex post: the strategy\nof each bidder is a best response to other bidders\u2019 strategies regardless of their realized values.\nThe intuition of the proof is as follows. First, with k players remaining and the next highest\nbid equal to bk+1 , it is a dominated strategy for a player with value s to drop out before price p\nreaches the level at which he is indifferent between getting position k and paying bk+1 per click and\ngetting position k \u2212 1 and paying p per click. Next, if for some set of types it is not optimal to drop\nout at this \u201cborderline\u201d price level, we can consider the lowest such type, and then once the clock\nreaches this price level, a player of this type will know that he has the lowest per-click value of the\n18\n\nIf several players drop out simultaneously, one of them is chosen randomly. Whenever a player drops out, the\nclock is stopped, and other players are also allowed to drop out; again, if several ones want to drop out, one is chosen\nrandomly. If several players end up dropping at the same price, the first one to drop out is placed in the lowest\nposition of the still available ones, the next one\u2014to the position right above that, and so on.\n19\nWithout this restriction, multiple equilibria exist, even in the simplest English auction with two bidders and\none object. For example, suppose there is one object for sale and two bidders with independent private values for\nthis object distributed exponentially on [0, \u221e). Consider the following pair of strategies. If a bidder\u2019s value is in\nthe interval [0, 1] or in the interval [2, \u221e), he drops out when the clock reaches his value. If bidder 1\u2019s value is in\nthe interval (1, 2), he drops out at 1, and if bidder 2\u2019s value is in the interval (1, 2), he drops out at 2. This pair of\nstrategies, together with appropriate beliefs, forms a perfect Bayesian equilibrium.\n\n12\n\n\fremaining players. But then he will also know that the other remaining players will only drop out\nat price levels at which he will find it unprofitable to compete with them for the higher positions.\nThe result of Theorem 8 resembles the classic result on the equivalence of the English auction",
+          "quoted_text_sha256": "08279eabd653073a1d1d2eec1c722379fa69a10307312f25927dd0c8ec24231e"
+        },
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 801,
+          "line_end": 933,
+          "quoted_text": "\fProof of Theorem 8\nFirst, note that in equilibrium, for any player i, any history h, and any number of remaining players\nk, the drop-out price pi (k, h, si ) tends to infinity as si tends to infinity. (Otherwise there would\nexist a player for whom it was optimal to deviate from his strategy and stay longer, for a sufficiently\nhigh value s.) Next, take any equilibrium of the generalized English auction. Note that if in this\nequilibrium pi (k, h, si ) > pi (k, h, s0i ) for some k, h, i, and types si < s0i , then it has to be the\ncase that both types si and s0i are indifferent between dropping out at pi (k, h, si ) and pi (k, h, s0i ).\n(Otherwise one of them would be able to increase his payoff by mimicking the other.) Consequently,\nwe can \u201cswap\u201d such players\u2019 strategies, and therefore there exists an \u201cobservationally equivalent\u201d\nequilibrium in which strategies are nondecreasing in types; also, they are still continuous in own\nvalues. Consider this equilibrium profile of strategies pi (k, h, si ).\nLet q(k, bk+1 , s) be such a price that a player with value s is indifferent between getting position\nk at price bk+1 and position k \u2212 1 at price q(k, bk+1 , s). That is,\n\u03b1k\u22121 (s \u2212 q(k, bk+1 , s)) = \u03b1k (s \u2212 bk+1 )\nm\nq(k, bk+1 , s) = s \u2212\n\n\u03b1k\n(s \u2212 bk+1 ).\n\u03b1k\u22121\n\nSlightly abusing notation, let q(k, h, s) = q(k, bk+1 , s), where bk+1 is the last bid at which a player\ndropped out in history h. (This player received position k + 1. If history h is empty, we set\nbk+1 = 0.) We will now show that for any i, k, h, and si , pi (k, h, si ) = q(k, h, si ).\nSuppose that is not the case, and take the largest k for which there exist such history h (with\nthe last player dropping out at bk+1 ), player i, and type si (surviving with positive probability on\nthe equilibrium path) that pi (k, h, si ) 6= q(k, h, si ). Since by assumption, all strategies up to this\nstage were pi (\u00b7, \u00b7, \u00b7) = q(\u00b7, \u00b7, \u00b7), we know that there exists a value smin \u2265 bk+1 , such that all players\nwith values less than smin have dropped out, and all players with values greater than smin are still\nin the auction.\nStep 1. Suppose for some type s \u2265 smin , pmax (k, h, s) \u2261 maxi pi (k, h, s) > q(k, h, s). Let s0\nbe the smallest type, and let i be the corresponding player, such that pi (k, h, s0 ) = pmax (k, h, s).\nWithout loss of generality, we can assume that there is a positive mass of types of other players\ndropping out at or before pi (k, h, s0 ).23\nStep 1(a). Suppose first that there is a positive mass of types of other players dropping out\nat pi (k, h, s0 ) = pmax (k, h, s). That implies that with positive probability, player i of type s0 will\nremain in the subgame following the drop-out of some other player at pi (k, h, s0 ) (since ties are\nbroken randomly). Let us show that in this subgame, player i of type s0 will be the first player to\n23\n\nOtherwise, we have \u2200j 6= i, pj (k, h, s0 ) \u2264 pi (k, h, s) \u2264 pmax (k, h, s) = pi (k, h, s0 ) \u21d2 \u2200j 6= i, pj (k, h, s0 ) =\npi (k, h, s0 ) and \u2200s0 > s0 , pj (k, h, s0 ) > pi (k, h, s0 ). But we also have pi (k, h, s0 ) = pmax (k, h, s) > q(k, h, s) \u2265\nq(k, h, s0 ), and so for some s0 > s0 we have pmax (k, h, s0 ) > q(k, h, s0 ) and pmax (k, h, s0 ) > pmax (k, h, s). We\ncan then consider s00 in place of s0 , where s00 is the smallest type, and i0 is the corresponding player, such that\npi0 (k, h, s00 ) = pmax (k, h, s0 ). There is a positive mass of types of other players dropping out before pi0 (k, h, s00 ).\n\n18\n\n\fdrop out with probability 1. Suppose that is not the case, and let l < k \u2212 1 be the smallest number\nsuch that he gets position l with positive probability.\nConsider any continuation of history h, hl+2 , such that the last player to drop out in that history\ngets position l+2 and drops out at price bl+2 , player i of type s0 is one of the remaining l+1 players,\nthere is a positive probability that player i gets position l in the continuation subgame following\nhistory hl+2 , and there is zero probability that player i gets position m for any m < l. Note\nthat s0 \u2265 bl+2 \u2014otherwise it would have been optimal for player i to drop out earlier. Consider\npi (l + 1, hl+2 , s0 ). There must be a positive mass of types of other players who drop out no\nlater than pi (l + 1, hl+2 , s0 ). Take the highest such type, s0 , and the corresponding player j.\nIt has to be the case that s0 > s0 \u2265 bl+2 . It also has to be the case that q(l + 1, hl+2 , s0 ) is\nless than or equal to pi (l + 1, hl+2 , s0 ). (Otherwise player j with value s0 would be playing a\nstrategy weakly dominated by dropping out at q(l + 1, hl+2 , s0 ), with a positive probability of\nearning strictly less than he would have earned if he waited until that price level.) Therefore,\npi (l + 1, hl+2 , s0 ) \u2265 q(l + 1, hl+2 , s0 ) > q(l + 1, hl+2 , s0 ) \u2265 bl+2 . Let us show that it would be\nstrictly better for player i with type s0 to drop out at q(l + 1, hl+2 , s0 ) instead of waiting until\npi (l + 1, hl+2 , s0 ). Indeed, if nobody else drops out in between, or someone drops out before\nq(l + 1, hl+2 , s0 ), these strategies would result in identical payoffs. Otherwise payoffs are different,\nand this happens with positive probability. Under the former strategy, player i earns\n\u03b1l+1 (s0 \u2212 bl+2 ).\nUnder the latter strategy, he earns\n\u03b1l (s0 \u2212 bl+1 ),\nwhere bl+1 is the price at which somebody else dropped out. (The probability of getting a spot\nm < l is zero by construction.) With probability 1, bl+1 \u2265 q(l + 1, hl+2 , s0 ), and with positive\nprobability bl+1 > q(l + 1, hl+2 , s0 ), so the expected payoff from waiting until pi (l + 1, hl+2 , s0 ) is\nstrictly less than the expected payoff from dropping out at q(l + 1, hl+2 , s0 ): E[\u03b1l (s0 \u2212 bl+1 )] <\n\u03b1l (s0 \u2212 q(l + 1, hl+2 , s0 )) = \u03b1l (s0 \u2212 (s0 \u2212\n\n\u03b1l+1\n\u03b1l (s0 \u2212 bl+2 ))) = \u03b1l+1 (s0 \u2212 bl+2 ).\n\nTherefore, in the subgame following the drop-out of some other player at pi (k, h, s0 ), player i\nof type s0 gets position k \u2212 1 with probability 1, and therefore his payoff is \u03b1k\u22121 (s0 \u2212 pi (k, h, s0 )).\nNow suppose player i dropped out at a price pi (k, h, s0 ) \u2212 \u000f instead of waiting until pi (k, h, s0 ).\nIf somebody else drops out before pi (k, h, s0 ) \u2212 \u000f or after pi (k, h, s0 ), or drops out at pi (k, h, s0 )\nbut player i is chosen to drop out first, then these two strategies result in identical payoffs. The\nprobability that somebody drops out in the interval (pi (k, h, s0 ) \u2212 \u000f, pi (k, h, s0 )) goes to zero as \u000f\ngoes to zero, and the possible difference in the payoffs is finite, so the difference in payoffs due\nto this contingency goes to zero as \u000f goes to zero. Finally, there is a positive probability that\nsomebody else drops out at pi (k, h, s0 ) and is chosen to drop out first. If player i drops out before\nthat, at pi (k, h, s0 ) \u2212 \u000f, his payoff is \u03b1k (s0 \u2212 bk+1 ). If he waits until pi (k, h, s0 ), we know that in the\nsubsequent subgame his payoff is \u03b1k\u22121 (s0 \u2212 pi (k, h, s0 )) < \u03b1k\u22121 (s0 \u2212 q(k, h, s0 )) = \u03b1k (s0 \u2212 bk+1 ).\n\n19\n\n\fTherefore, for a sufficiently small \u000f, it is strictly better for player i with value s0 to drop out at\npi (k, h, s0 ) \u2212 \u000f instead of waiting until pi (k, h, s0 ), which contradicts the assumption that {pj (\u00b7, \u00b7, \u00b7)}\nis an equilibrium.\nStep 1(b). Now suppose there is mass zero of types of other players dropping out at pi (k, h, s0 ) =\npmax (k, h, s), but there is a positive mass dropping out before pi (k, h, s0 ). Consider a sequence of\nsmall positive numbers (\u000fn ) converging to 0 as n \u2192 \u221e and sequences (\u03c0n1 ), (\u03c0n2 ), . . . , (\u03c0nk\u22121 ), where\n\u03c0nl is the probability that player i with value s0 will end up in position l if another player drops\nout at price (pi (k, h, s0 ) \u2212 \u000fn ). Let B = \u03b11 s0 , i.e., the maximum payoff that a player with value s0\ncan possibly get in the auction. Now, if (\u03c0nk\u22121 ) converges to 1 and (\u03c0nl ) converges to zero for all\nl < k \u2212 1, then, by an argument similar to the one at the end of Step 1(a), it is better for player\ni of type s0 to drop out at some time pi (k, h, s0 ) \u2212 \u000f.24 If (\u03c0nk\u22121 ) does not converge to 1, take the\nhighest l for which (\u03c0nl ) does not converge to zero, and take a subsequence of \u000fn along which (\u03c0nl )\nconverges to some positive number \u03c1. Let s1 be the value such that for a random draw of types of\nremaining players other than i, conditional on each draw being greater than s0 , the probability that\nQ\n1\u2212F (s )\nat least one type is less than s1 is equal to \u03c12 (i.e., j6=i 1\u2212Fjj (s01 ) = 1 \u2212 \u03c12 ). Clearly, s1 > s0 . Take a\nsmall \u000fn , and consider a subgame following some continuation of history h, hl+2 , where the (l + 2)nd\nplayer drops out at bl+2 , l + 1 players, including player i, remain, and player i gets position l with\nprobability close to \u03c1 (and any position higher than l with probability close to zero). Consider\npi (l + 1, hl+2 , s0 ). There must exist a player, j, such that pj (l + 1, hl+2 , s1 ) \u2264 pi (l + 1, hl+2 , s0 ).\n(Otherwise, the probability of player i surviving until position l is less than or close to \u03c12 , and thus\ncannot be close to \u03c1.) But then, by an argument similar to the one in Step 1(a), in this subgame\nit is strictly better for player i to drop out slightly earlier than pi (l + 1, hl+2 , s0 ): Conditional on\nsomebody else dropping out in between, the benefit is close to zero (the probability of getting a\nposition better than l times the highest possible benefit B), while the cost is close to a positive\nnumber (the payoff from being in position l + 1 at price bl+2 vs. the payoff from being in position\nl at price at least s1 \u2212\n\n\u03b1l+1\n\u03b1l (s1 \u2212 bl+2 )\u2014contradiction.\n\nStep 2. In Step 1, we have shown that pmax (k, h, s) \u2261 maxi pi (k, h, s) cannot be greater than\nq(k, h, s), and therefore for any player i and type s \u2265 smin , pi (k, h, s) \u2264 q(k, h, s). Take some value\ns > smin and player i. Suppose pi (k, h, s) < q(k, h, s). Take some other player j. From Step 1,\nwe have pj (k, h, smin ) \u2264 q(k, h, smin ) < q(k, h, s), and therefore if player i waited until q(k, h, s)\ninstead of dropping out at pi (k, h, s), the probability that someone dropped out in between would\nbe positive, and hence the payoff would be strictly greater (by the definition of function q(), player\ni with value s strictly prefers being in position k \u2212 1 or higher at any price less than q(k, h, s) to\nbeing in position k at price bk+1 ), which is impossible in equilibrium. Hence, pi (k, h, s) = q(k, h, s)\nfor all s > smin . By continuity, we also have pi (k, h, smin ) = q(k, h, smin ).",
+          "quoted_text_sha256": "4498a29e6b54ee1bee5c5e5391c5c957ef9a7bf88568fe2bb5f90a1a947bb62d"
+        }
       ]
     },
     "theorem8_strict_values_ex_post_local_deviation": {
@@ -212,7 +623,27 @@
       "source_location": "EOS07GSP.txt:528-546 and EOS07GSP.txt:578-583",
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
-        "theorem8_strict_values_ex_post_local_deviation"
+        "theorem8_continuous_full_history_bayes_ex_post_review"
+      ],
+      "lean_declarations": [
+        "EOS07GSP.PaperInterface.theorem8_continuous_full_history_bayes_ex_post_review"
+      ],
+      "source_kind": "theorem",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 528,
+          "line_end": 546,
+          "quoted_text": "K 6= N + 1 require only minor modifications in the proof.) Click-through rates \u03b1n are commonly\nknown, with \u03b1N +1 \u2261 0. Bidders\u2019 per-click valuations si are drawn from a continuous distribution\nF (\u00b7) on [0; +\u221e) with a continuous density function f (\u00b7) that is positive everywhere on (0, +\u221e).\nEach advertiser knows his valuation and the distribution of other advertisers\u2019 valuations.\nThe strategy of an advertiser assigns the choice of dropping out or not for any history of the\ngame, given that the advertiser has not previously dropped out. In other words, the strategy can be\nrepresented as a function pi (k, h, si ), where si is the value per click of bidder i, pi is the price at which\nhe drops out, k is the number of bidders remaining (including bidder i), and h = (bk+1 , . . . , bK ) is\nthe history of prices at which bidders K, K \u2212 1, . . . , k + 1 have dropped out. (As a result, the\nprice that bidder i would have to pay per click if he dropped out next is equal to bk+1 , unless the\nhistory is empty, in which case we say that bk+1 \u2261 0.)\nTheorem 8 In the unique perfect Bayesian equilibrium of the generalized English auction with\nk\nstrategies continuous in si , an advertiser with value si drops out at price pi (k, h, si ) = si \u2212 \u03b1\u03b1k\u22121\n(si \u2212\n\nbk+1 ). In this equilibrium, each advertiser\u2019s resulting position and payoff are the same as in the\ndominant-strategy equilibrium of the game induced by VCG. This equilibrium is ex post: the strategy\nof each bidder is a best response to other bidders\u2019 strategies regardless of their realized values.",
+          "quoted_text_sha256": "ef4affac2cd9a20b79b38306ef98446112e85da2ebeeae0518e3ed0312efbef3"
+        },
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 578,
+          "line_end": 583,
+          "quoted_text": "The equilibrium described in Theorem 8 is an ex post equilibrium. As long as all bidders other\nthan bidder i follow the equilibrium strategy described in Theorem 8, it is a best response for bidder\ni to follow his equilibrium strategy, for any realization of other bidders\u2019 values. Thus, the outcome\nimplemented by this mechanism depends only on the realization of bidders\u2019 values and does not\ndepend on bidders\u2019 beliefs about each others\u2019 types.\nObviously, any dominant strategy solvable game has an ex post equilibrium. However, the",
+          "quoted_text_sha256": "e0eec0763e91c4329ad5372abae3418a4e51fbf766bfa658c68a63c5c4007a85"
+        }
       ]
     },
     "theorem8_continuous_generalized_english_payoff_game_strict_values_main_conclusion_review": {
@@ -221,7 +652,27 @@
       "source_location": "EOS07GSP.txt:528-590 and EOS07GSP.txt:800-940",
       "source_url": "https://www.nber.org/papers/w11765",
       "aliases": [
-        "theorem8_continuous_generalized_english_payoff_game_strict_values_main_conclusion_review"
+        "theorem8_continuous_full_history_bayes_ex_post_review"
+      ],
+      "lean_declarations": [
+        "EOS07GSP.PaperInterface.theorem8_continuous_full_history_bayes_ex_post_review"
+      ],
+      "source_kind": "theorem",
+      "source_anchor_evidence": [
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 528,
+          "line_end": 590,
+          "quoted_text": "K 6= N + 1 require only minor modifications in the proof.) Click-through rates \u03b1n are commonly\nknown, with \u03b1N +1 \u2261 0. Bidders\u2019 per-click valuations si are drawn from a continuous distribution\nF (\u00b7) on [0; +\u221e) with a continuous density function f (\u00b7) that is positive everywhere on (0, +\u221e).\nEach advertiser knows his valuation and the distribution of other advertisers\u2019 valuations.\nThe strategy of an advertiser assigns the choice of dropping out or not for any history of the\ngame, given that the advertiser has not previously dropped out. In other words, the strategy can be\nrepresented as a function pi (k, h, si ), where si is the value per click of bidder i, pi is the price at which\nhe drops out, k is the number of bidders remaining (including bidder i), and h = (bk+1 , . . . , bK ) is\nthe history of prices at which bidders K, K \u2212 1, . . . , k + 1 have dropped out. (As a result, the\nprice that bidder i would have to pay per click if he dropped out next is equal to bk+1 , unless the\nhistory is empty, in which case we say that bk+1 \u2261 0.)\nTheorem 8 In the unique perfect Bayesian equilibrium of the generalized English auction with\nk\nstrategies continuous in si , an advertiser with value si drops out at price pi (k, h, si ) = si \u2212 \u03b1\u03b1k\u22121\n(si \u2212\n\nbk+1 ). In this equilibrium, each advertiser\u2019s resulting position and payoff are the same as in the\ndominant-strategy equilibrium of the game induced by VCG. This equilibrium is ex post: the strategy\nof each bidder is a best response to other bidders\u2019 strategies regardless of their realized values.\nThe intuition of the proof is as follows. First, with k players remaining and the next highest\nbid equal to bk+1 , it is a dominated strategy for a player with value s to drop out before price p\nreaches the level at which he is indifferent between getting position k and paying bk+1 per click and\ngetting position k \u2212 1 and paying p per click. Next, if for some set of types it is not optimal to drop\nout at this \u201cborderline\u201d price level, we can consider the lowest such type, and then once the clock\nreaches this price level, a player of this type will know that he has the lowest per-click value of the\n18\n\nIf several players drop out simultaneously, one of them is chosen randomly. Whenever a player drops out, the\nclock is stopped, and other players are also allowed to drop out; again, if several ones want to drop out, one is chosen\nrandomly. If several players end up dropping at the same price, the first one to drop out is placed in the lowest\nposition of the still available ones, the next one\u2014to the position right above that, and so on.\n19\nWithout this restriction, multiple equilibria exist, even in the simplest English auction with two bidders and\none object. For example, suppose there is one object for sale and two bidders with independent private values for\nthis object distributed exponentially on [0, \u221e). Consider the following pair of strategies. If a bidder\u2019s value is in\nthe interval [0, 1] or in the interval [2, \u221e), he drops out when the clock reaches his value. If bidder 1\u2019s value is in\nthe interval (1, 2), he drops out at 1, and if bidder 2\u2019s value is in the interval (1, 2), he drops out at 2. This pair of\nstrategies, together with appropriate beliefs, forms a perfect Bayesian equilibrium.\n\n12\n\n\fremaining players. But then he will also know that the other remaining players will only drop out\nat price levels at which he will find it unprofitable to compete with them for the higher positions.\nThe result of Theorem 8 resembles the classic result on the equivalence of the English auction\nand the second price sealed-bid auction under private values (Vickrey, 1961). Note, however, that\nthe intuition is very different: Vickrey\u2019s result follows simply from the existence of equilibria in\ndominant strategies, whereas in our case such strategies do not exist, and bids do depend on other\nplayer\u2019s bids. Also, our result is very different from the revenue equivalence theorem: payoffs in the\ngeneralized English auction coincide with VCG payments for all realizations of values, not only in\nexpectation; bidders can be asymmetric; distributions of valuations need not be commonly known.\nThe equilibrium described in Theorem 8 is an ex post equilibrium. As long as all bidders other\nthan bidder i follow the equilibrium strategy described in Theorem 8, it is a best response for bidder\ni to follow his equilibrium strategy, for any realization of other bidders\u2019 values. Thus, the outcome\nimplemented by this mechanism depends only on the realization of bidders\u2019 values and does not\ndepend on bidders\u2019 beliefs about each others\u2019 types.\nObviously, any dominant strategy solvable game has an ex post equilibrium. However, the\ngeneralized English auction is not dominant strategy solvable. This combination of properties is\nquite striking: the equilibrium is unique and efficient, the strategy of each bidder does not depend\non the distribution of other bidders\u2019 values, yet bidders do not have dominant strategies.20,21 The\ngeneralized English auction is a particularly interesting example, because it can be viewed as a\nmodel of a mechanism that has \u201cemerged in the wild.\u201d\n\n6",
+          "quoted_text_sha256": "13296e085f7ff1bf13c4e209baee9420f640205948477328a15e17595a390d9e"
+        },
+        {
+          "path": "EOS07GSP.txt",
+          "line_start": 800,
+          "line_end": 940,
+          "quoted_text": "\n\fProof of Theorem 8\nFirst, note that in equilibrium, for any player i, any history h, and any number of remaining players\nk, the drop-out price pi (k, h, si ) tends to infinity as si tends to infinity. (Otherwise there would\nexist a player for whom it was optimal to deviate from his strategy and stay longer, for a sufficiently\nhigh value s.) Next, take any equilibrium of the generalized English auction. Note that if in this\nequilibrium pi (k, h, si ) > pi (k, h, s0i ) for some k, h, i, and types si < s0i , then it has to be the\ncase that both types si and s0i are indifferent between dropping out at pi (k, h, si ) and pi (k, h, s0i ).\n(Otherwise one of them would be able to increase his payoff by mimicking the other.) Consequently,\nwe can \u201cswap\u201d such players\u2019 strategies, and therefore there exists an \u201cobservationally equivalent\u201d\nequilibrium in which strategies are nondecreasing in types; also, they are still continuous in own\nvalues. Consider this equilibrium profile of strategies pi (k, h, si ).\nLet q(k, bk+1 , s) be such a price that a player with value s is indifferent between getting position\nk at price bk+1 and position k \u2212 1 at price q(k, bk+1 , s). That is,\n\u03b1k\u22121 (s \u2212 q(k, bk+1 , s)) = \u03b1k (s \u2212 bk+1 )\nm\nq(k, bk+1 , s) = s \u2212\n\n\u03b1k\n(s \u2212 bk+1 ).\n\u03b1k\u22121\n\nSlightly abusing notation, let q(k, h, s) = q(k, bk+1 , s), where bk+1 is the last bid at which a player\ndropped out in history h. (This player received position k + 1. If history h is empty, we set\nbk+1 = 0.) We will now show that for any i, k, h, and si , pi (k, h, si ) = q(k, h, si ).\nSuppose that is not the case, and take the largest k for which there exist such history h (with\nthe last player dropping out at bk+1 ), player i, and type si (surviving with positive probability on\nthe equilibrium path) that pi (k, h, si ) 6= q(k, h, si ). Since by assumption, all strategies up to this\nstage were pi (\u00b7, \u00b7, \u00b7) = q(\u00b7, \u00b7, \u00b7), we know that there exists a value smin \u2265 bk+1 , such that all players\nwith values less than smin have dropped out, and all players with values greater than smin are still\nin the auction.\nStep 1. Suppose for some type s \u2265 smin , pmax (k, h, s) \u2261 maxi pi (k, h, s) > q(k, h, s). Let s0\nbe the smallest type, and let i be the corresponding player, such that pi (k, h, s0 ) = pmax (k, h, s).\nWithout loss of generality, we can assume that there is a positive mass of types of other players\ndropping out at or before pi (k, h, s0 ).23\nStep 1(a). Suppose first that there is a positive mass of types of other players dropping out\nat pi (k, h, s0 ) = pmax (k, h, s). That implies that with positive probability, player i of type s0 will\nremain in the subgame following the drop-out of some other player at pi (k, h, s0 ) (since ties are\nbroken randomly). Let us show that in this subgame, player i of type s0 will be the first player to\n23\n\nOtherwise, we have \u2200j 6= i, pj (k, h, s0 ) \u2264 pi (k, h, s) \u2264 pmax (k, h, s) = pi (k, h, s0 ) \u21d2 \u2200j 6= i, pj (k, h, s0 ) =\npi (k, h, s0 ) and \u2200s0 > s0 , pj (k, h, s0 ) > pi (k, h, s0 ). But we also have pi (k, h, s0 ) = pmax (k, h, s) > q(k, h, s) \u2265\nq(k, h, s0 ), and so for some s0 > s0 we have pmax (k, h, s0 ) > q(k, h, s0 ) and pmax (k, h, s0 ) > pmax (k, h, s). We\ncan then consider s00 in place of s0 , where s00 is the smallest type, and i0 is the corresponding player, such that\npi0 (k, h, s00 ) = pmax (k, h, s0 ). There is a positive mass of types of other players dropping out before pi0 (k, h, s00 ).\n\n18\n\n\fdrop out with probability 1. Suppose that is not the case, and let l < k \u2212 1 be the smallest number\nsuch that he gets position l with positive probability.\nConsider any continuation of history h, hl+2 , such that the last player to drop out in that history\ngets position l+2 and drops out at price bl+2 , player i of type s0 is one of the remaining l+1 players,\nthere is a positive probability that player i gets position l in the continuation subgame following\nhistory hl+2 , and there is zero probability that player i gets position m for any m < l. Note\nthat s0 \u2265 bl+2 \u2014otherwise it would have been optimal for player i to drop out earlier. Consider\npi (l + 1, hl+2 , s0 ). There must be a positive mass of types of other players who drop out no\nlater than pi (l + 1, hl+2 , s0 ). Take the highest such type, s0 , and the corresponding player j.\nIt has to be the case that s0 > s0 \u2265 bl+2 . It also has to be the case that q(l + 1, hl+2 , s0 ) is\nless than or equal to pi (l + 1, hl+2 , s0 ). (Otherwise player j with value s0 would be playing a\nstrategy weakly dominated by dropping out at q(l + 1, hl+2 , s0 ), with a positive probability of\nearning strictly less than he would have earned if he waited until that price level.) Therefore,\npi (l + 1, hl+2 , s0 ) \u2265 q(l + 1, hl+2 , s0 ) > q(l + 1, hl+2 , s0 ) \u2265 bl+2 . Let us show that it would be\nstrictly better for player i with type s0 to drop out at q(l + 1, hl+2 , s0 ) instead of waiting until\npi (l + 1, hl+2 , s0 ). Indeed, if nobody else drops out in between, or someone drops out before\nq(l + 1, hl+2 , s0 ), these strategies would result in identical payoffs. Otherwise payoffs are different,\nand this happens with positive probability. Under the former strategy, player i earns\n\u03b1l+1 (s0 \u2212 bl+2 ).\nUnder the latter strategy, he earns\n\u03b1l (s0 \u2212 bl+1 ),\nwhere bl+1 is the price at which somebody else dropped out. (The probability of getting a spot\nm < l is zero by construction.) With probability 1, bl+1 \u2265 q(l + 1, hl+2 , s0 ), and with positive\nprobability bl+1 > q(l + 1, hl+2 , s0 ), so the expected payoff from waiting until pi (l + 1, hl+2 , s0 ) is\nstrictly less than the expected payoff from dropping out at q(l + 1, hl+2 , s0 ): E[\u03b1l (s0 \u2212 bl+1 )] <\n\u03b1l (s0 \u2212 q(l + 1, hl+2 , s0 )) = \u03b1l (s0 \u2212 (s0 \u2212\n\n\u03b1l+1\n\u03b1l (s0 \u2212 bl+2 ))) = \u03b1l+1 (s0 \u2212 bl+2 ).\n\nTherefore, in the subgame following the drop-out of some other player at pi (k, h, s0 ), player i\nof type s0 gets position k \u2212 1 with probability 1, and therefore his payoff is \u03b1k\u22121 (s0 \u2212 pi (k, h, s0 )).\nNow suppose player i dropped out at a price pi (k, h, s0 ) \u2212 \u000f instead of waiting until pi (k, h, s0 ).\nIf somebody else drops out before pi (k, h, s0 ) \u2212 \u000f or after pi (k, h, s0 ), or drops out at pi (k, h, s0 )\nbut player i is chosen to drop out first, then these two strategies result in identical payoffs. The\nprobability that somebody drops out in the interval (pi (k, h, s0 ) \u2212 \u000f, pi (k, h, s0 )) goes to zero as \u000f\ngoes to zero, and the possible difference in the payoffs is finite, so the difference in payoffs due\nto this contingency goes to zero as \u000f goes to zero. Finally, there is a positive probability that\nsomebody else drops out at pi (k, h, s0 ) and is chosen to drop out first. If player i drops out before\nthat, at pi (k, h, s0 ) \u2212 \u000f, his payoff is \u03b1k (s0 \u2212 bk+1 ). If he waits until pi (k, h, s0 ), we know that in the\nsubsequent subgame his payoff is \u03b1k\u22121 (s0 \u2212 pi (k, h, s0 )) < \u03b1k\u22121 (s0 \u2212 q(k, h, s0 )) = \u03b1k (s0 \u2212 bk+1 ).\n\n19\n\n\fTherefore, for a sufficiently small \u000f, it is strictly better for player i with value s0 to drop out at\npi (k, h, s0 ) \u2212 \u000f instead of waiting until pi (k, h, s0 ), which contradicts the assumption that {pj (\u00b7, \u00b7, \u00b7)}\nis an equilibrium.\nStep 1(b). Now suppose there is mass zero of types of other players dropping out at pi (k, h, s0 ) =\npmax (k, h, s), but there is a positive mass dropping out before pi (k, h, s0 ). Consider a sequence of\nsmall positive numbers (\u000fn ) converging to 0 as n \u2192 \u221e and sequences (\u03c0n1 ), (\u03c0n2 ), . . . , (\u03c0nk\u22121 ), where\n\u03c0nl is the probability that player i with value s0 will end up in position l if another player drops\nout at price (pi (k, h, s0 ) \u2212 \u000fn ). Let B = \u03b11 s0 , i.e., the maximum payoff that a player with value s0\ncan possibly get in the auction. Now, if (\u03c0nk\u22121 ) converges to 1 and (\u03c0nl ) converges to zero for all\nl < k \u2212 1, then, by an argument similar to the one at the end of Step 1(a), it is better for player\ni of type s0 to drop out at some time pi (k, h, s0 ) \u2212 \u000f.24 If (\u03c0nk\u22121 ) does not converge to 1, take the\nhighest l for which (\u03c0nl ) does not converge to zero, and take a subsequence of \u000fn along which (\u03c0nl )\nconverges to some positive number \u03c1. Let s1 be the value such that for a random draw of types of\nremaining players other than i, conditional on each draw being greater than s0 , the probability that\nQ\n1\u2212F (s )\nat least one type is less than s1 is equal to \u03c12 (i.e., j6=i 1\u2212Fjj (s01 ) = 1 \u2212 \u03c12 ). Clearly, s1 > s0 . Take a\nsmall \u000fn , and consider a subgame following some continuation of history h, hl+2 , where the (l + 2)nd\nplayer drops out at bl+2 , l + 1 players, including player i, remain, and player i gets position l with\nprobability close to \u03c1 (and any position higher than l with probability close to zero). Consider\npi (l + 1, hl+2 , s0 ). There must exist a player, j, such that pj (l + 1, hl+2 , s1 ) \u2264 pi (l + 1, hl+2 , s0 ).\n(Otherwise, the probability of player i surviving until position l is less than or close to \u03c12 , and thus\ncannot be close to \u03c1.) But then, by an argument similar to the one in Step 1(a), in this subgame\nit is strictly better for player i to drop out slightly earlier than pi (l + 1, hl+2 , s0 ): Conditional on\nsomebody else dropping out in between, the benefit is close to zero (the probability of getting a\nposition better than l times the highest possible benefit B), while the cost is close to a positive\nnumber (the payoff from being in position l + 1 at price bl+2 vs. the payoff from being in position\nl at price at least s1 \u2212\n\n\u03b1l+1\n\u03b1l (s1 \u2212 bl+2 )\u2014contradiction.\n\nStep 2. In Step 1, we have shown that pmax (k, h, s) \u2261 maxi pi (k, h, s) cannot be greater than\nq(k, h, s), and therefore for any player i and type s \u2265 smin , pi (k, h, s) \u2264 q(k, h, s). Take some value\ns > smin and player i. Suppose pi (k, h, s) < q(k, h, s). Take some other player j. From Step 1,\nwe have pj (k, h, smin ) \u2264 q(k, h, smin ) < q(k, h, s), and therefore if player i waited until q(k, h, s)\ninstead of dropping out at pi (k, h, s), the probability that someone dropped out in between would\nbe positive, and hence the payoff would be strictly greater (by the definition of function q(), player\ni with value s strictly prefers being in position k \u2212 1 or higher at any price less than q(k, h, s) to\nbeing in position k at price bk+1 ), which is impossible in equilibrium. Hence, pi (k, h, s) = q(k, h, s)\nfor all s > smin . By continuity, we also have pi (k, h, smin ) = q(k, h, smin ).\n\n24\n\nIf some other player drops out between pi (k, h, s0 ) \u2212 \u000f and pi (k, h, s0 ), the benefit of staying longer tends to zero\n(it is at most B(1 \u2212 \u03c0 k\u22121 )), while the cost converges to a positive number (the difference between getting position k\nat price bk+1 and position k \u2212 1 at price pi (k, h, s0 )).\n",
+          "quoted_text_sha256": "9a4067a4792efeebe71905d2fe89fdd4f3a2664669d7ee7b7119caaea2af593f"
+        }
       ]
     }
   }

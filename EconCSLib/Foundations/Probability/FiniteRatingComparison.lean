@@ -5,6 +5,7 @@ import EconCSLib.Foundations.Probability.IIDLargeDeviations
 import EconCSLib.Foundations.Probability.FiniteRankingEvents
 import EconCSLib.Foundations.Probability.IntegralLargeDeviations
 import EconCSLib.Foundations.Probability.LargeDeviations
+import Mathlib.Analysis.Calculus.DerivativeTest
 import Mathlib.Logic.Equiv.Fin.Basic
 
 /-!
@@ -17,7 +18,7 @@ floor-count bridges, and finite pairwise LDP certificate constructors.
 -/
 
 open scoped BigOperators
-open Filter
+open Filter SignType
 
 namespace EconCSLib
 namespace Probability
@@ -134,6 +135,79 @@ theorem ratingLawStraddlesThreshold_of_logMGF_hasDerivAt_of_score_bounds
     ⟨rHigh, hmass_high, ha_lt_high⟩⟩
 
 /--
+Support-aware version of
+`ratingLawStraddlesThreshold_of_logMGF_hasDerivAt_of_score_bounds`.
+Displayed rating labels with zero probability need not lie between the chosen
+positive-mass extrema. This is the appropriate bridge when a source specifies
+ordinal tail behavior only on its displayed support.
+-/
+theorem ratingLawStraddlesThreshold_of_logMGF_hasDerivAt_of_support_score_bounds
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (θ : Seller)
+    {a z0 : ℝ}
+    (hderiv : HasDerivAt (fun z : ℝ => M.logMGF θ z) a z0)
+    {rLow rHigh : Rating}
+    (hmass_low : 0 < (M.typeLaw θ rLow).toReal)
+    (hmass_high : 0 < (M.typeLaw θ rHigh).toReal)
+    (hscore_low_le :
+      ∀ r : Rating, 0 < (M.typeLaw θ r).toReal → M.score rLow ≤ M.score r)
+    (hscore_le_high :
+      ∀ r : Rating, 0 < (M.typeLaw θ r).toReal → M.score r ≤ M.score rHigh)
+    (hscore_lt : M.score rLow < M.score rHigh) :
+    ratingLawStraddlesThreshold M θ a := by
+  have hderiv_finite :
+      HasDerivAt
+        (fun z : ℝ => finiteLogMGF (M.typeLaw θ) M.score z) a z0 := by
+    simpa [FiniteRatingLDPModel.logMGF] using hderiv
+  have hderiv_formula := finiteLogMGF_hasDerivAt (M.typeLaw θ) M.score z0
+  have ha_formula :
+      ((∑ r : Rating,
+          (M.typeLaw θ r).toReal *
+            (M.score r * Real.exp (z0 * M.score r))) /
+        finiteMGF (M.typeLaw θ) M.score z0) = a :=
+    hderiv_formula.unique hderiv_finite
+  have ha_tilt :
+      a =
+        EconCSLib.pmfExp
+          (finiteExponentialTilt (M.typeLaw θ) M.score z0) M.score := by
+    rw [pmfExp_finiteExponentialTilt_eq]
+    exact ha_formula.symm
+  have htilt_low :
+      0 <
+        (finiteExponentialTilt (M.typeLaw θ) M.score z0 rLow).toReal :=
+    (finiteExponentialTilt_apply_toReal_pos_iff
+      (M.typeLaw θ) M.score z0 rLow).2 hmass_low
+  have htilt_high :
+      0 <
+        (finiteExponentialTilt (M.typeLaw θ) M.score z0 rHigh).toReal :=
+    (finiteExponentialTilt_apply_toReal_pos_iff
+      (M.typeLaw θ) M.score z0 rHigh).2 hmass_high
+  have hlow_lt_a : M.score rLow < a := by
+    rw [ha_tilt]
+    exact
+      EconCSLib.cutoff_lt_pmfExp_of_support_ge_exists_gt
+        (finiteExponentialTilt (M.typeLaw θ) M.score z0)
+        M.score (M.score rLow)
+        (fun r hmass =>
+          hscore_low_le r
+            ((finiteExponentialTilt_apply_toReal_pos_iff
+              (M.typeLaw θ) M.score z0 r).1 hmass))
+        ⟨rHigh, htilt_high, hscore_lt⟩
+  have ha_lt_high : a < M.score rHigh := by
+    rw [ha_tilt]
+    exact
+      EconCSLib.pmfExp_lt_of_support_forall_le_exists_lt
+        (finiteExponentialTilt (M.typeLaw θ) M.score z0)
+        M.score (M.score rHigh)
+        (fun r hmass =>
+          hscore_le_high r
+            ((finiteExponentialTilt_apply_toReal_pos_iff
+              (M.typeLaw θ) M.score z0 r).1 hmass))
+        ⟨rLow, htilt_low, hscore_lt⟩
+  exact ⟨⟨rLow, hmass_low, hlow_lt_a⟩,
+    ⟨rHigh, hmass_high, ha_lt_high⟩⟩
+
+/--
 Appendix pairwise threshold rate for comparing two seller types.  This is the
 right-hand side of Lemma C.1 / Lemma C.2 before the analytic LDP certificate is
 supplied.
@@ -143,6 +217,60 @@ def pairwiseSellerThresholdRate {Seller Rating : Type*} [Fintype Rating]
     (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
     (hi lo : Seller) : ℝ :=
   M.pairwiseThresholdRate sampleRate hi lo
+
+/--
+The unrestricted real-valued pairwise infimum is a legacy wrapper, not the
+finite-support large-deviation exponent. If the score carrier has a global
+lower bound, evaluating below that bound makes both real Legendre wrappers
+take their `Real.sSup` default value zero. The support-safe `WithTop` rate is
+required for the mathematically intended formula.
+-/
+theorem pairwiseSellerThresholdRate_eq_zero_of_score_lower_bound
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) (b : ℝ)
+    (hhi : 0 ≤ sampleRate hi) (hlo : 0 ≤ sampleRate lo)
+    (hlower : ∀ r : Rating, b ≤ M.score r) :
+    pairwiseSellerThresholdRate M sampleRate hi lo = 0 := by
+  let a : ℝ := b - 1
+  have ha : a < b := by
+    dsimp [a]
+    linarith
+  have hhi_rate : M.rateFunction hi a = 0 := by
+    exact finiteRateFunction_eq_zero_of_lt_score_lower_bound
+      (M.typeLaw hi) M.score a b ha hlower
+  have hlo_rate : M.rateFunction lo a = 0 := by
+    exact finiteRateFunction_eq_zero_of_lt_score_lower_bound
+      (M.typeLaw lo) M.score a b ha hlower
+  have hobj : M.pairwiseRateObjective sampleRate hi lo a = 0 := by
+    simp [FiniteRatingLDPModel.pairwiseRateObjective, hhi_rate, hlo_rate]
+  have hobj_nonneg : ∀ c : ℝ,
+      0 ≤ M.pairwiseRateObjective sampleRate hi lo c := by
+    intro c
+    unfold FiniteRatingLDPModel.pairwiseRateObjective
+    exact add_nonneg
+      (mul_nonneg hhi (finiteRateFunction_nonneg_or_default
+        (M.typeLaw hi) M.score c))
+      (mul_nonneg hlo (finiteRateFunction_nonneg_or_default
+        (M.typeLaw lo) M.score c))
+  unfold pairwiseSellerThresholdRate FiniteRatingLDPModel.pairwiseThresholdRate
+  apply le_antisymm
+  · calc
+      sInf (Set.range fun c : ℝ =>
+          M.pairwiseRateObjective sampleRate hi lo c) ≤
+        M.pairwiseRateObjective sampleRate hi lo a := by
+          apply csInf_le
+          · refine ⟨0, ?_⟩
+            intro y hy
+            rcases hy with ⟨c, rfl⟩
+            exact hobj_nonneg c
+          · exact ⟨a, rfl⟩
+      _ = 0 := hobj
+  · apply le_csInf
+    · exact ⟨M.pairwiseRateObjective sampleRate hi lo a, ⟨a, rfl⟩⟩
+    · intro y hy
+      rcases hy with ⟨c, rfl⟩
+      exact hobj_nonneg c
 
 /--
 Pairwise regularity package for the threshold-rate step. It records exactly the
@@ -424,6 +552,130 @@ theorem exists_nonpos_finiteTiltedScoreMean_le_bottom_add
       finiteTiltedScoreMean_sub_const μ score (score rLow) z
   linarith
 
+/--
+Support-aware bottom-tilt approximation. Labels outside the PMF support do not
+affect a finite exponential tilt, so only positive-mass labels need lie above
+the selected bottom score.
+-/
+theorem exists_nonpos_finiteTiltedScoreMean_le_bottom_add_of_support_score_bounds
+    {Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (μ : PMF Rating) (score : Rating → ℝ) (rLow : Rating)
+    (hmassLow : 0 < (μ rLow).toReal)
+    (hscore_low_le :
+      ∀ r : Rating, 0 < (μ r).toReal → score rLow ≤ score r)
+    {ε : ℝ} (hε : 0 < ε) :
+    ∃ z : ℝ, z ≤ 0 ∧
+      finiteTiltedScoreMean μ score z ≤ score rLow + ε := by
+  classical
+  let shift : Rating → ℝ := fun r => score r - score rLow
+  let tail : ℝ → ℝ :=
+    fun z =>
+      ∑ r : Rating,
+        (μ r).toReal * (shift r * Real.exp (z * shift r))
+  have htail_tendsto : Filter.Tendsto tail Filter.atBot (nhds 0) := by
+    have hsum :
+        Filter.Tendsto
+          (fun z : ℝ =>
+            ∑ r : Rating,
+              (μ r).toReal * (shift r * Real.exp (z * shift r)))
+          Filter.atBot (nhds (∑ _r : Rating, (0 : ℝ))) := by
+      refine tendsto_finset_sum (Finset.univ : Finset Rating) ?_
+      intro r _hr
+      show Filter.Tendsto
+        (fun z : ℝ =>
+          (μ r).toReal * (shift r * Real.exp (z * shift r)))
+        Filter.atBot (nhds 0)
+      by_cases hmass_zero : (μ r).toReal = 0
+      · have hterm_zero :
+            (fun z : ℝ =>
+              (μ r).toReal * (shift r * Real.exp (z * shift r))) =
+                fun _ : ℝ => 0 := by
+              funext z
+              simp [hmass_zero]
+        rw [hterm_zero]
+        exact
+          (tendsto_const_nhds (x := (0 : ℝ)) :
+            Filter.Tendsto (fun _ : ℝ => (0 : ℝ))
+              Filter.atBot (nhds 0))
+      · have hmass_pos : 0 < (μ r).toReal :=
+          lt_of_le_of_ne ENNReal.toReal_nonneg (Ne.symm hmass_zero)
+        have hshift_nonneg : 0 ≤ shift r := by
+          dsimp [shift]
+          exact sub_nonneg.mpr (hscore_low_le r hmass_pos)
+        by_cases hzero : shift r = 0
+        · have hterm_zero :
+              (fun z : ℝ =>
+                (μ r).toReal * (shift r * Real.exp (z * shift r))) =
+                  fun _ : ℝ => 0 := by
+                funext z
+                simp [hzero]
+          rw [hterm_zero]
+          exact
+            (tendsto_const_nhds (x := (0 : ℝ)) :
+              Filter.Tendsto (fun _ : ℝ => (0 : ℝ))
+                Filter.atBot (nhds 0))
+        · have hshift_pos : 0 < shift r :=
+            lt_of_le_of_ne hshift_nonneg (Ne.symm hzero)
+          have harg :
+              Filter.Tendsto (fun z : ℝ => z * shift r)
+                Filter.atBot Filter.atBot :=
+            Filter.tendsto_id.atBot_mul_const hshift_pos
+          have hexp :
+              Filter.Tendsto (fun z : ℝ => Real.exp (z * shift r))
+                Filter.atBot (nhds 0) :=
+            Real.tendsto_exp_atBot.comp harg
+          have hterm :=
+            hexp.const_mul ((μ r).toReal * shift r)
+          simpa [mul_assoc, mul_comm, mul_left_comm] using hterm
+    simpa [tail] using hsum
+  have hεmass : 0 < ε * (μ rLow).toReal :=
+    mul_pos hε hmassLow
+  have htail_small :
+      ∀ᶠ z in Filter.atBot, tail z < ε * (μ rLow).toReal :=
+    htail_tendsto.eventually_lt_const hεmass
+  have hz_nonpos_event :
+      Filter.Eventually (fun z : ℝ => z ≤ 0) Filter.atBot :=
+    Filter.eventually_le_atBot (0 : ℝ)
+  rcases (htail_small.and hz_nonpos_event).exists with
+    ⟨z, htail_z, hz_nonpos⟩
+  refine ⟨z, hz_nonpos, ?_⟩
+  have htail_nonneg : 0 ≤ tail z := by
+    dsimp [tail]
+    refine Finset.sum_nonneg ?_
+    intro r _hr
+    by_cases hmass_zero : (μ r).toReal = 0
+    · simp [hmass_zero]
+    · have hmass_pos : 0 < (μ r).toReal :=
+        lt_of_le_of_ne ENNReal.toReal_nonneg (Ne.symm hmass_zero)
+      have hshift_nonneg : 0 ≤ shift r := by
+        dsimp [shift]
+        exact sub_nonneg.mpr (hscore_low_le r hmass_pos)
+      exact mul_nonneg ENNReal.toReal_nonneg
+        (mul_nonneg hshift_nonneg (Real.exp_pos _).le)
+  have hshift_mean_bound :
+      finiteTiltedScoreMean μ shift z ≤ tail z / (μ rLow).toReal := by
+    have hrepr :
+        finiteTiltedScoreMean μ shift z =
+          tail z / finiteMGF μ shift z := by
+      rw [finiteTiltedScoreMean, pmfExp_finiteExponentialTilt_eq]
+    have hden_lower :
+        (μ rLow).toReal ≤ finiteMGF μ shift z := by
+      have hatom := finiteMGF_ge_atom μ shift z rLow
+      simpa [shift] using hatom
+    rw [hrepr]
+    exact div_le_div_of_nonneg_left htail_nonneg hmassLow hden_lower
+  have htail_div_lt : tail z / (μ rLow).toReal < ε := by
+    rw [div_lt_iff₀ hmassLow]
+    simpa [mul_comm] using htail_z
+  have hshift_lt : finiteTiltedScoreMean μ shift z < ε :=
+    lt_of_le_of_lt hshift_mean_bound htail_div_lt
+  have hshift_eq :
+      finiteTiltedScoreMean μ shift z =
+        finiteTiltedScoreMean μ score z - score rLow := by
+    simpa [shift] using
+      finiteTiltedScoreMean_sub_const μ score (score rLow) z
+  linarith
+
 /-- Tilting the negated score at `z` is the same as tilting the original score at `-z`. -/
 theorem finiteTiltedScoreMean_neg_score
     {Rating : Type*} [Fintype Rating] [DecidableEq Rating]
@@ -472,6 +724,32 @@ theorem exists_nonneg_top_sub_le_finiteTiltedScoreMean
         (by
           intro r
           exact neg_le_neg (hscore_le_high r))
+        hε with
+    ⟨z, hz_nonpos, hz_mean⟩
+  refine ⟨-z, neg_nonneg.mpr hz_nonpos, ?_⟩
+  have hneg :=
+    finiteTiltedScoreMean_neg_score μ score z
+  linarith
+
+/--
+Support-aware top-tilt approximation. Labels outside the PMF support do not
+constrain the selected positive-mass top score.
+-/
+theorem exists_nonneg_top_sub_le_finiteTiltedScoreMean_of_support_score_bounds
+    {Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (μ : PMF Rating) (score : Rating → ℝ) (rHigh : Rating)
+    (hmassHigh : 0 < (μ rHigh).toReal)
+    (hscore_le_high :
+      ∀ r : Rating, 0 < (μ r).toReal → score r ≤ score rHigh)
+    {ε : ℝ} (hε : 0 < ε) :
+    ∃ z : ℝ, 0 ≤ z ∧
+      score rHigh - ε ≤ finiteTiltedScoreMean μ score z := by
+  rcases
+      exists_nonpos_finiteTiltedScoreMean_le_bottom_add_of_support_score_bounds
+        μ (fun r : Rating => -score r) rHigh hmassHigh
+        (by
+          intro r hmass
+          exact neg_le_neg (hscore_le_high r hmass))
         hε with
     ⟨z, hz_nonpos, hz_mean⟩
   refine ⟨-z, neg_nonneg.mpr hz_nonpos, ?_⟩
@@ -622,6 +900,123 @@ theorem pairwiseDualLogMGF_hasDerivAt_zero_at_zero
   convert hsum_dual using 1
   field_simp [ne_of_gt hgHi, ne_of_gt hgLo]
   ring
+
+/--
+A positive derivative at a zero gives a nearby negative input with negative
+value. This one-sided form is the local dual-descent step used to prove that a
+strict mean gap has a strictly positive threshold exponent.
+-/
+theorem exists_neg_value_of_hasDerivAt_zero_pos
+    {f : ℝ → ℝ} {d : ℝ}
+    (hderiv : HasDerivAt f d 0) (hd : 0 < d) (hzero : f 0 = 0) :
+    ∃ z : ℝ, z < 0 ∧ f z < 0 := by
+  have hderiv_pos : 0 < deriv f 0 := by
+    rw [hderiv.deriv]
+    exact hd
+  have hsign := eventually_nhdsWithin_sign_eq_of_deriv_pos hderiv_pos hzero
+  rcases (Metric.eventually_nhds_iff.mp hsign) with ⟨eps, heps, hlocal⟩
+  refine ⟨-eps / 2, by linarith, ?_⟩
+  have hdist : dist (-eps / 2) (0 : ℝ) < eps := by
+    rw [Real.dist_eq]
+    simp only [sub_zero]
+    rw [abs_of_nonpos] <;> linarith
+  have hsign_eq := hlocal hdist
+  have hsign_neg : sign (f (-eps / 2)) = -1 := by
+    rw [hsign_eq]
+    apply sign_neg
+    linarith
+  exact sign_eq_neg_one_iff.mp hsign_neg
+
+/--
+Every real common dual supplies a lower bound on the support-safe pairwise
+threshold exponent. The linear threshold terms cancel between the two finite
+Legendre evaluations, leaving the negative pairwise dual log-MGF.
+-/
+theorem neg_pairwiseDualLogMGF_le_pairwiseThresholdRateTop
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) (hgHi : 0 < sampleRate hi) (hgLo : 0 < sampleRate lo)
+    (z : ℝ) :
+    (-pairwiseDualLogMGF M sampleRate hi lo z : WithTop ℝ) ≤
+      pairwiseSellerThresholdRateTop M sampleRate hi lo := by
+  let zHi : ℝ := z * (sampleRate hi)⁻¹
+  let zLo : ℝ := -(z * (sampleRate lo)⁻¹)
+  unfold pairwiseSellerThresholdRateTop
+  unfold FiniteRatingLDPModel.pairwiseThresholdRateTop
+  refine le_csInf ?_ ?_
+  · exact Set.range_nonempty (fun a : ℝ =>
+      M.pairwiseRateObjectiveTop sampleRate hi lo a)
+  · intro x hx
+    rcases hx with ⟨a, rfl⟩
+    have hhi_ge :
+        withTopRealScale (sampleRate hi)
+            (finiteLegendreValue (M.typeLaw hi) M.score a zHi : WithTop ℝ) ≤
+          withTopRealScale (sampleRate hi) (M.rateFunctionTop hi a) :=
+      withTopRealScale_mono_of_nonneg hgHi.le
+        (finiteRateFunctionTop_ge_eval (M.typeLaw hi) M.score a zHi)
+    have hlo_ge :
+        withTopRealScale (sampleRate lo)
+            (finiteLegendreValue (M.typeLaw lo) M.score a zLo : WithTop ℝ) ≤
+          withTopRealScale (sampleRate lo) (M.rateFunctionTop lo a) :=
+      withTopRealScale_mono_of_nonneg hgLo.le
+        (finiteRateFunctionTop_ge_eval (M.typeLaw lo) M.score a zLo)
+    have hscale :
+        withTopRealScale (sampleRate hi)
+            (finiteLegendreValue (M.typeLaw hi) M.score a zHi : WithTop ℝ) +
+          withTopRealScale (sampleRate lo)
+            (finiteLegendreValue (M.typeLaw lo) M.score a zLo : WithTop ℝ) ≤
+          M.pairwiseRateObjectiveTop sampleRate hi lo a := by
+      simpa [FiniteRatingLDPModel.pairwiseRateObjectiveTop] using
+        add_le_add hhi_ge hlo_ge
+    have hidentity_real :
+        -pairwiseDualLogMGF M sampleRate hi lo z =
+          sampleRate hi * finiteLegendreValue (M.typeLaw hi) M.score a zHi +
+            sampleRate lo * finiteLegendreValue (M.typeLaw lo) M.score a zLo := by
+      have hhi_ne : sampleRate hi ≠ 0 := ne_of_gt hgHi
+      have hlo_ne : sampleRate lo ≠ 0 := ne_of_gt hgLo
+      dsimp [pairwiseDualLogMGF, finiteLegendreValue,
+        FiniteRatingLDPModel.logMGF, zHi, zLo]
+      field_simp [hhi_ne, hlo_ne]
+      ring
+    have hidentity :
+        (-pairwiseDualLogMGF M sampleRate hi lo z : WithTop ℝ) =
+          withTopRealScale (sampleRate hi)
+            (finiteLegendreValue (M.typeLaw hi) M.score a zHi : WithTop ℝ) +
+          withTopRealScale (sampleRate lo)
+            (finiteLegendreValue (M.typeLaw lo) M.score a zLo : WithTop ℝ) := by
+      simpa [withTopRealScale] using
+        congrArg (fun x : ℝ => (x : WithTop ℝ)) hidentity_real
+    rw [hidentity]
+    exact hscale
+
+/--
+Strict expected-score separation and positive sample rates make the
+support-safe pairwise threshold exponent strictly positive. No terminal-label
+full-support hypothesis is used: finite Fenchel duality supplies the bound at
+a locally descending common dual.
+-/
+theorem pairwiseSellerThresholdRateTop_pos_of_expected_score_gap
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) (hgHi : 0 < sampleRate hi) (hgLo : 0 < sampleRate lo)
+    (hmean :
+      EconCSLib.pmfExp (M.typeLaw lo) M.score <
+        EconCSLib.pmfExp (M.typeLaw hi) M.score) :
+    (0 : WithTop ℝ) < pairwiseSellerThresholdRateTop M sampleRate hi lo := by
+  have hderiv :=
+    pairwiseDualLogMGF_hasDerivAt_zero_at_zero M sampleRate hi lo hgHi hgLo
+  have hderiv_pos :
+      0 < EconCSLib.pmfExp (M.typeLaw hi) M.score -
+        EconCSLib.pmfExp (M.typeLaw lo) M.score := sub_pos.mpr hmean
+  have hzero : pairwiseDualLogMGF M sampleRate hi lo 0 = 0 := by
+    simp [pairwiseDualLogMGF, FiniteRatingLDPModel.logMGF, finiteLogMGF_zero]
+  obtain ⟨z, _hz, hdual_neg⟩ :=
+    exists_neg_value_of_hasDerivAt_zero_pos hderiv hderiv_pos hzero
+  have hlower :=
+    neg_pairwiseDualLogMGF_le_pairwiseThresholdRateTop
+      M sampleRate hi lo hgHi hgLo z
+  apply lt_of_lt_of_le ?_ hlower
+  exact_mod_cast neg_pos.mpr hdual_neg
 
 /--
 Derivative formula for the real-rate pairwise Chernoff log-MGF.  At dual
@@ -905,6 +1300,117 @@ theorem exists_nonpos_pairwiseDualLogMGF_stationary_of_expected_score_gap_and_co
         M sampleRate hi lo hgHi hgLo rLow rHigh
         hmassHiLow hmassHiHigh hmassLoLow hmassLoHigh
         hscore_low_le hscore_le_high hscore_low_lt_high with
+    ⟨zCross, hzCross, hcross⟩
+  exact
+    exists_nonpos_pairwiseDualLogMGF_stationary_of_expected_score_gap_and_tilted_crossing
+      M sampleRate hi lo hgHi hgLo hmean_gap hzCross hcross
+
+/--
+Support-aware extreme-point crossing for a pairwise tilted score gap. The high
+law only needs a positive-mass support minimum and the low law only needs a
+positive-mass support maximum; zero-mass displayed labels are irrelevant.
+-/
+theorem exists_nonpos_pairwiseTiltedScoreMeanGap_nonpos_of_support_extrema
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller)
+    (hgHi : 0 < sampleRate hi) (hgLo : 0 < sampleRate lo)
+    (rHiLow rLoHigh : Rating)
+    (hmassHiLow : 0 < (M.typeLaw hi rHiLow).toReal)
+    (hmassLoHigh : 0 < (M.typeLaw lo rLoHigh).toReal)
+    (hscore_hi_low_le :
+      ∀ r : Rating, 0 < (M.typeLaw hi r).toReal → M.score rHiLow ≤ M.score r)
+    (hscore_lo_le_high :
+      ∀ r : Rating, 0 < (M.typeLaw lo r).toReal → M.score r ≤ M.score rLoHigh)
+    (hscore_low_lt_high : M.score rHiLow < M.score rLoHigh) :
+    ∃ z : ℝ, z ≤ 0 ∧
+      pairwiseTiltedScoreMeanGap M sampleRate hi lo z ≤ 0 := by
+  let ε : ℝ := (M.score rLoHigh - M.score rHiLow) / 3
+  have hε_pos : 0 < ε := by
+    dsimp [ε]
+    linarith
+  rcases
+      exists_nonpos_finiteTiltedScoreMean_le_bottom_add_of_support_score_bounds
+        (M.typeLaw hi) M.score rHiLow hmassHiLow hscore_hi_low_le hε_pos with
+    ⟨zHi, hzHi_nonpos, hHi_mean⟩
+  rcases
+      exists_nonneg_top_sub_le_finiteTiltedScoreMean_of_support_score_bounds
+        (M.typeLaw lo) M.score rLoHigh hmassLoHigh hscore_lo_le_high hε_pos with
+    ⟨zLo, hzLo_nonneg, hLo_mean⟩
+  let z : ℝ := min (sampleRate hi * zHi) (-(sampleRate lo * zLo))
+  have hz_le_hi : z ≤ sampleRate hi * zHi := by
+    dsimp [z]
+    exact min_le_left _ _
+  have hz_le_lo : z ≤ -(sampleRate lo * zLo) := by
+    dsimp [z]
+    exact min_le_right _ _
+  have hz_nonpos : z ≤ 0 := by
+    have hhi_nonpos : sampleRate hi * zHi ≤ 0 :=
+      mul_nonpos_of_nonneg_of_nonpos hgHi.le hzHi_nonpos
+    exact hz_le_hi.trans hhi_nonpos
+  have hhi_arg_le : z * (sampleRate hi)⁻¹ ≤ zHi := by
+    have hmul :=
+      mul_le_mul_of_nonneg_right hz_le_hi (inv_nonneg.mpr hgHi.le)
+    have hcancel :
+        (sampleRate hi * zHi) * (sampleRate hi)⁻¹ = zHi := by
+      field_simp [ne_of_gt hgHi]
+    simpa [hcancel, mul_assoc] using hmul
+  have hlo_arg_ge : zLo ≤ -(z * (sampleRate lo)⁻¹) := by
+    have hmul :=
+      mul_le_mul_of_nonneg_right hz_le_lo (inv_nonneg.mpr hgLo.le)
+    have hcancel :
+        (-(sampleRate lo * zLo)) * (sampleRate lo)⁻¹ = -zLo := by
+      field_simp [ne_of_gt hgLo]
+    have hz_scaled : z * (sampleRate lo)⁻¹ ≤ -zLo := by
+      simpa [hcancel, mul_assoc] using hmul
+    linarith
+  have hHi_arg_mean :
+      finiteTiltedScoreMean (M.typeLaw hi) M.score
+          (z * (sampleRate hi)⁻¹) ≤ M.score rHiLow + ε := by
+    exact
+      (finiteTiltedScoreMean_mono (M.typeLaw hi) M.score hhi_arg_le).trans
+        hHi_mean
+  have hLo_arg_mean :
+      M.score rLoHigh - ε ≤
+        finiteTiltedScoreMean (M.typeLaw lo) M.score
+          (-(z * (sampleRate lo)⁻¹)) := by
+    exact hLo_mean.trans
+      (finiteTiltedScoreMean_mono (M.typeLaw lo) M.score hlo_arg_ge)
+  refine ⟨z, hz_nonpos, ?_⟩
+  dsimp [pairwiseTiltedScoreMeanGap]
+  have hε_gap : 2 * ε ≤ M.score rLoHigh - M.score rHiLow := by
+    dsimp [ε]
+    linarith
+  linarith
+
+/--
+Expected-score ordering plus support-aware extrema gives a nonpositive
+stationary pairwise dual without requiring mass on every displayed label.
+-/
+theorem exists_nonpos_pairwiseDualLogMGF_stationary_of_expected_score_gap_and_support_extrema
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller)
+    (hgHi : 0 < sampleRate hi) (hgLo : 0 < sampleRate lo)
+    (hmean_gap :
+      EconCSLib.pmfExp (M.typeLaw lo) M.score ≤
+        EconCSLib.pmfExp (M.typeLaw hi) M.score)
+    (rHiLow rLoHigh : Rating)
+    (hmassHiLow : 0 < (M.typeLaw hi rHiLow).toReal)
+    (hmassLoHigh : 0 < (M.typeLaw lo rLoHigh).toReal)
+    (hscore_hi_low_le :
+      ∀ r : Rating, 0 < (M.typeLaw hi r).toReal → M.score rHiLow ≤ M.score r)
+    (hscore_lo_le_high :
+      ∀ r : Rating, 0 < (M.typeLaw lo r).toReal → M.score r ≤ M.score rLoHigh)
+    (hscore_low_lt_high : M.score rHiLow < M.score rLoHigh) :
+    ∃ z : ℝ, z ≤ 0 ∧
+      HasDerivAt
+        (fun t : ℝ => pairwiseDualLogMGF M sampleRate hi lo t) 0 z := by
+  rcases
+      exists_nonpos_pairwiseTiltedScoreMeanGap_nonpos_of_support_extrema
+        M sampleRate hi lo hgHi hgLo rHiLow rLoHigh
+        hmassHiLow hmassLoHigh hscore_hi_low_le hscore_lo_le_high
+        hscore_low_lt_high with
     ⟨zCross, hzCross, hcross⟩
   exact
     exists_nonpos_pairwiseDualLogMGF_stationary_of_expected_score_gap_and_tilted_crossing
@@ -2210,6 +2716,361 @@ theorem twoSampleFloorScoreGapLeftTail_exponentialRateCertificate_of_lo_scores_z
   · refine Cfloor.has_rate.congr' ?_
     filter_upwards [heq] with k hk
     simp [logDecay, hk]
+
+/--
+Subtracting the same score baseline from both seller samples leaves their
+average-score comparison unchanged when both samples use their actual inverse
+sample counts.  Positivity of the counts is needed only to cancel those
+normalizing factors.
+-/
+theorem twoSampleScoreGapSum_score_sub_const_eq
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) {nHi nLo : ℕ}
+    (cHi cLo b : ℝ)
+    (sample : (Fin nHi → Rating) × (Fin nLo → Rating))
+    (hnHi : 0 < nHi) (hnLo : 0 < nLo)
+    (hcHi : cHi = ((nHi : ℝ)⁻¹))
+    (hcLo : cLo = ((nLo : ℝ)⁻¹)) :
+    twoSampleScoreGapSum
+      { typeLaw := M.typeLaw
+        score := fun r => M.score r - b }
+      cHi cLo sample =
+      twoSampleScoreGapSum M cHi cLo sample := by
+  have hnHi_real : (nHi : ℝ) ≠ 0 := by
+    exact_mod_cast Nat.ne_of_gt hnHi
+  have hnLo_real : (nLo : ℝ) ≠ 0 := by
+    exact_mod_cast Nat.ne_of_gt hnLo
+  rw [hcHi, hcLo]
+  simp only [twoSampleScoreGapSum, finiteIidScoreSum]
+  rw [Finset.sum_sub_distrib, Finset.sum_sub_distrib]
+  simp only [Finset.sum_const, nsmul_eq_mul]
+  simp [Finset.card_univ]
+  field_simp [hnHi_real, hnLo_real]
+  ring
+
+/--
+The left-tail comparison event is invariant under a common score baseline
+when both samples use their actual inverse sample counts.
+-/
+theorem twoSampleScoreGapLeftTailProb_score_sub_const_eq
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (hi lo : Seller)
+    (nHi nLo : ℕ) (b : ℝ)
+    (hnHi : 0 < nHi) (hnLo : 0 < nLo) :
+    twoSampleScoreGapLeftTailProb
+      { typeLaw := M.typeLaw
+        score := fun r => M.score r - b }
+      hi lo nHi nLo ((nHi : ℝ)⁻¹) ((nLo : ℝ)⁻¹) =
+      twoSampleScoreGapLeftTailProb M hi lo nHi nLo
+        ((nHi : ℝ)⁻¹) ((nLo : ℝ)⁻¹) := by
+  let shifted : FiniteRatingLDPModel Seller Rating :=
+    { typeLaw := M.typeLaw
+      score := fun r => M.score r - b }
+  have hlaw :
+      twoSampleRatingLaw shifted hi lo nHi nLo =
+        twoSampleRatingLaw M hi lo nHi nLo := by
+    rfl
+  change
+    twoSampleScoreGapLeftTailProb shifted hi lo nHi nLo
+      ((nHi : ℝ)⁻¹) ((nLo : ℝ)⁻¹) = _
+  unfold twoSampleScoreGapLeftTailProb
+  rw [hlaw]
+  apply EconCSLib.pmfProb_congr
+  intro sample
+  rw [twoSampleScoreGapSum_score_sub_const_eq M
+    ((nHi : ℝ)⁻¹) ((nLo : ℝ)⁻¹) b
+    sample hnHi hnLo rfl rfl]
+
+/--
+Floor-count exact-rate certificate at an arbitrary common lower score.  The
+low law is concentrated at that lower score; the high law may have arbitrary
+finite support above it.  This is a boundary result, so it deliberately makes
+no claim about a finite stationary dual witness.
+-/
+theorem twoSampleFloorScoreGapLeftTail_exponentialRateCertificate_of_lo_scores_at_min
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) (b : ℝ)
+    (hgHi : 0 < sampleRate hi) (hgLo : 0 < sampleRate lo)
+    (hscore_lower : ∀ r : Rating, b ≤ M.score r)
+    {pMin : ℝ}
+    (hhi_min_prob :
+      EconCSLib.pmfProb (M.typeLaw hi) (fun r => M.score r = b) = pMin)
+    (hpMin_pos : 0 < pMin)
+    (hlo_min_prob :
+      EconCSLib.pmfProb (M.typeLaw lo) (fun r => M.score r = b) = 1) :
+    ExponentialRateCertificate
+      (twoSampleFloorScoreGapLeftTailProb M sampleRate hi lo)
+      (sampleRate hi * (-Real.log pMin)) := by
+  let shifted : FiniteRatingLDPModel Seller Rating :=
+    { typeLaw := M.typeLaw
+      score := fun r => M.score r - b }
+  have hhi_support_nonneg :
+      ∀ r, 0 < (shifted.typeLaw hi r).toReal → 0 ≤ shifted.score r := by
+    intro r _hmass
+    exact sub_nonneg.mpr (hscore_lower r)
+  have hlo_score_nonneg : ∀ r : Rating, 0 ≤ shifted.score r := by
+    intro r
+    exact sub_nonneg.mpr (hscore_lower r)
+  have hhi_zero_prob :
+      EconCSLib.pmfProb (shifted.typeLaw hi) (fun r => shifted.score r = 0) =
+        pMin := by
+    simpa [shifted, sub_eq_zero] using hhi_min_prob
+  have hlo_zero_prob :
+      EconCSLib.pmfProb (shifted.typeLaw lo) (fun r => shifted.score r = 0) =
+        1 := by
+    simpa [shifted, sub_eq_zero] using hlo_min_prob
+  have Cshift :
+      ExponentialRateCertificate
+        (twoSampleFloorScoreGapLeftTailProb shifted sampleRate hi lo)
+        (sampleRate hi * (-Real.log pMin)) :=
+    twoSampleFloorScoreGapLeftTail_exponentialRateCertificate_of_lo_scores_zero
+      shifted sampleRate hi lo hgHi hhi_support_nonneg hlo_score_nonneg
+      hhi_zero_prob hpMin_pos hlo_zero_prob
+  have hfloor_hi_atTop :
+      Tendsto (fun k : ℕ => floorSampleCount sampleRate hi k)
+        atTop atTop := by
+    simpa [floorSampleCount] using
+      EconCSLib.Math.tendsto_nat_floor_mul_const_atTop hgHi
+  have hfloor_lo_atTop :
+      Tendsto (fun k : ℕ => floorSampleCount sampleRate lo k)
+        atTop atTop := by
+    simpa [floorSampleCount] using
+      EconCSLib.Math.tendsto_nat_floor_mul_const_atTop hgLo
+  have hnHi_pos_event :
+      ∀ᶠ k : ℕ in atTop, 0 < floorSampleCount sampleRate hi k :=
+    hfloor_hi_atTop.eventually (eventually_gt_atTop 0)
+  have hnLo_pos_event :
+      ∀ᶠ k : ℕ in atTop, 0 < floorSampleCount sampleRate lo k :=
+    hfloor_lo_atTop.eventually (eventually_gt_atTop 0)
+  have heq :
+      ∀ᶠ k : ℕ in atTop,
+        twoSampleFloorScoreGapLeftTailProb shifted sampleRate hi lo k =
+          twoSampleFloorScoreGapLeftTailProb M sampleRate hi lo k := by
+    filter_upwards [hnHi_pos_event, hnLo_pos_event] with k hnHi hnLo
+    exact twoSampleScoreGapLeftTailProb_score_sub_const_eq
+      M hi lo (floorSampleCount sampleRate hi k)
+      (floorSampleCount sampleRate lo k) b hnHi hnLo
+  refine
+    { eventually_pos := ?_
+      has_rate := ?_ }
+  · filter_upwards [Cshift.eventually_pos, heq] with k hpos hk
+    simpa [hk] using hpos
+  · refine Cshift.has_rate.congr' ?_
+    filter_upwards [heq] with k hk
+    simp [logDecay, hk]
+
+/--
+At a common lower score where the low law is concentrated, the pairwise
+threshold rate is exactly the high lower-endpoint rate.  This is the extended
+Legendre boundary computation corresponding to
+`twoSampleFloorScoreGapLeftTail_exponentialRateCertificate_of_lo_scores_at_min`.
+-/
+theorem pairwiseSellerThresholdRateTop_eq_coe_of_lo_scores_at_min
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) (b : ℝ)
+    (hgHi : 0 < sampleRate hi) (hgLo : 0 < sampleRate lo)
+    (hscore_lower : ∀ r : Rating, b ≤ M.score r)
+    (hlo_support_at_min :
+      ∀ r, 0 < (M.typeLaw lo r).toReal → M.score r = b)
+    {pMin : ℝ}
+    (hhi_min_prob :
+      EconCSLib.pmfProb (M.typeLaw hi) (fun r => M.score r = b) = pMin)
+    (hpMin_pos : 0 < pMin) :
+    pairwiseSellerThresholdRateTop M sampleRate hi lo =
+      (sampleRate hi * (-Real.log pMin) : WithTop ℝ) := by
+  have hhi_rate :
+      M.rateFunctionTop hi b = (-Real.log pMin : WithTop ℝ) := by
+    exact finiteRateFunctionTop_eq_neg_log_pmfProb_score_eq_of_support_lower_bound
+      (M.typeLaw hi) M.score b
+      (fun r _hmass => hscore_lower r) hhi_min_prob hpMin_pos
+  have hlo_rate_b : M.rateFunctionTop lo b = 0 := by
+    exact finiteRateFunctionTop_eq_zero_of_support_score_eq_const
+      (M.typeLaw lo) M.score b hlo_support_at_min
+  have hlo_rate_off : ∀ a : ℝ, a ≠ b → M.rateFunctionTop lo a = ⊤ := by
+    intro a hab
+    exact finiteRateFunctionTop_eq_top_of_support_score_eq_const_of_ne
+      (M.typeLaw lo) M.score b a hlo_support_at_min hab
+  have hobj_b :
+      pairwiseRateObjectiveTop M sampleRate hi lo b =
+        (sampleRate hi * (-Real.log pMin) : WithTop ℝ) := by
+    have hhi_rate' :
+        M.rateFunctionTop hi b = ((-Real.log pMin : ℝ) : WithTop ℝ) := by
+      simpa using hhi_rate
+    have hscale :
+        withTopRealScale (sampleRate hi)
+          ((-Real.log pMin : ℝ) : WithTop ℝ) =
+          ((sampleRate hi * (-Real.log pMin) : ℝ) : WithTop ℝ) := by
+      rfl
+    unfold pairwiseRateObjectiveTop
+      FiniteRatingLDPModel.pairwiseRateObjectiveTop
+    rw [hhi_rate', hlo_rate_b, hscale]
+    simp [withTopRealScale]
+    have hreal :
+        -(sampleRate hi * Real.log pMin) =
+          sampleRate hi * (-Real.log pMin) := by
+      ring
+    exact_mod_cast hreal
+  have hmin : ∀ a : ℝ,
+      pairwiseRateObjectiveTop M sampleRate hi lo b ≤
+        pairwiseRateObjectiveTop M sampleRate hi lo a := by
+    intro a
+    by_cases hab : a = b
+    · subst a
+      exact le_rfl
+    · simp only [pairwiseRateObjectiveTop,
+        FiniteRatingLDPModel.pairwiseRateObjectiveTop]
+      rw [hlo_rate_off a hab]
+      simp [withTopRealScale]
+  have hthreshold :
+      pairwiseRateObjectiveTop M sampleRate hi lo b =
+        pairwiseSellerThresholdRateTop M sampleRate hi lo :=
+    pairwiseSellerThresholdRateTop_eq_of_pairwiseRateObjectiveTop_minimizer
+      M sampleRate hi lo b hgHi.le hgLo.le hmin
+  exact hthreshold.symm.trans hobj_b
+
+/--
+If every displayed rating is one of a designated bottom or top label and the
+top label has zero mass, then the score-bottom event has probability one.
+This formulation is deliberately carrier- and score-agnostic: only the
+two-level semantic partition and the zero-mass boundary are used.
+-/
+theorem pmfProb_score_eq_bottom_eq_one_of_binary_support_and_top_zero
+    {Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (μ : PMF Rating) (score : Rating → ℝ) (rBottom rTop : Rating)
+    (hrating : ∀ r : Rating, r = rBottom ∨ r = rTop)
+    (htop_zero : (μ rTop).toReal = 0) :
+    EconCSLib.pmfProb μ (fun r => score r = score rBottom) = 1 := by
+  classical
+  unfold EconCSLib.pmfProb EconCSLib.pmfExp
+  calc
+    ∑ r : Rating,
+        (μ r).toReal * (if score r = score rBottom then (1 : ℝ) else 0)
+      = ∑ r : Rating, (μ r).toReal := by
+          refine Finset.sum_congr rfl ?_
+          intro r _hr
+          rcases hrating r with rfl | rfl
+          · simp
+          · simp [htop_zero]
+    _ = 1 := EconCSLib.pmfToRealSum μ
+
+/--
+Exact floor-count left-tail rate for a two-level boundary pair.  The low
+seller has no mass at the top displayed rating and the high seller has mass at
+the bottom.  These semantic conditions are sufficient to derive the
+degenerate-low boundary rather than assuming a stationary dual or full
+displayed support.  Positive high-top mass is needed only for the separate
+strict-positivity conclusion below.
+-/
+theorem twoSampleFloorScoreGapLeftTail_exponentialRateCertificate_of_binary_bottom_top_boundary
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) (rBottom rTop : Rating)
+    (hgHi : 0 < sampleRate hi) (hgLo : 0 < sampleRate lo)
+    (hrating : ∀ r : Rating, r = rBottom ∨ r = rTop)
+    (hscore_lt : M.score rBottom < M.score rTop)
+    (hhi_bottom : 0 < (M.typeLaw hi rBottom).toReal)
+    (hlo_top_zero : (M.typeLaw lo rTop).toReal = 0) :
+    ExponentialRateCertificate
+      (twoSampleFloorScoreGapLeftTailProb M sampleRate hi lo)
+      (sampleRate hi *
+        (-Real.log (EconCSLib.pmfProb (M.typeLaw hi)
+          (fun r => M.score r = M.score rBottom)))) := by
+  let pBottom : ℝ := EconCSLib.pmfProb (M.typeLaw hi)
+    (fun r => M.score r = M.score rBottom)
+  have hscore_lower : ∀ r : Rating, M.score rBottom ≤ M.score r := by
+    intro r
+    rcases hrating r with rfl | rfl
+    · exact le_rfl
+    · exact hscore_lt.le
+  have hpBottom_pos : 0 < pBottom := by
+    dsimp [pBottom]
+    exact EconCSLib.pmfProb_pos_of_mass (M.typeLaw hi)
+      (fun r => M.score r = M.score rBottom) rBottom rfl hhi_bottom
+  have hlo_bottom_prob :
+      EconCSLib.pmfProb (M.typeLaw lo)
+        (fun r => M.score r = M.score rBottom) = 1 := by
+    exact pmfProb_score_eq_bottom_eq_one_of_binary_support_and_top_zero
+      (M.typeLaw lo) M.score rBottom rTop hrating hlo_top_zero
+  exact
+    twoSampleFloorScoreGapLeftTail_exponentialRateCertificate_of_lo_scores_at_min
+      M sampleRate hi lo (M.score rBottom) hgHi hgLo hscore_lower rfl
+      hpBottom_pos hlo_bottom_prob
+
+/--
+The extended pairwise threshold rate at the same two-level boundary is the
+finite high lower-endpoint rate.  It is an equality in `WithTop` because the
+off-bottom low rate is genuinely infinite, not an omitted finite-dual case.
+-/
+theorem pairwiseSellerThresholdRateTop_eq_binary_bottom_top_boundary
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi lo : Seller) (rBottom rTop : Rating)
+    (hgHi : 0 < sampleRate hi) (hgLo : 0 < sampleRate lo)
+    (hrating : ∀ r : Rating, r = rBottom ∨ r = rTop)
+    (hscore_lt : M.score rBottom < M.score rTop)
+    (hhi_bottom : 0 < (M.typeLaw hi rBottom).toReal)
+    (hlo_top_zero : (M.typeLaw lo rTop).toReal = 0) :
+    pairwiseSellerThresholdRateTop M sampleRate hi lo =
+      (sampleRate hi *
+        (-Real.log (EconCSLib.pmfProb (M.typeLaw hi)
+          (fun r => M.score r = M.score rBottom))): WithTop ℝ) := by
+  let pBottom : ℝ := EconCSLib.pmfProb (M.typeLaw hi)
+    (fun r => M.score r = M.score rBottom)
+  have hscore_lower : ∀ r : Rating, M.score rBottom ≤ M.score r := by
+    intro r
+    rcases hrating r with rfl | rfl
+    · exact le_rfl
+    · exact hscore_lt.le
+  have hpBottom_pos : 0 < pBottom := by
+    dsimp [pBottom]
+    exact EconCSLib.pmfProb_pos_of_mass (M.typeLaw hi)
+      (fun r => M.score r = M.score rBottom) rBottom rfl hhi_bottom
+  have hlo_support_at_bottom :
+      ∀ r, 0 < (M.typeLaw lo r).toReal →
+        M.score r = M.score rBottom := by
+    intro r hr
+    rcases hrating r with rfl | rfl
+    · rfl
+    · exfalso
+      rw [hlo_top_zero] at hr
+      exact lt_irrefl 0 hr
+  exact pairwiseSellerThresholdRateTop_eq_coe_of_lo_scores_at_min
+    M sampleRate hi lo (M.score rBottom) hgHi hgLo hscore_lower
+    hlo_support_at_bottom rfl hpBottom_pos
+
+/--
+The binary boundary rate is strictly positive when the high seller has
+positive mass at both strictly ordered score levels.  This is the missing
+positivity needed to turn the source's `P_k / W_k -> 1` claim into a genuine
+exponential convergence statement.
+-/
+theorem binaryBottomTopBoundaryRate_pos
+    {Seller Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (hi : Seller) (rBottom rTop : Rating)
+    (hgHi : 0 < sampleRate hi)
+    (hscore_lt : M.score rBottom < M.score rTop)
+    (hhi_bottom : 0 < (M.typeLaw hi rBottom).toReal)
+    (hhi_top : 0 < (M.typeLaw hi rTop).toReal) :
+    0 < sampleRate hi *
+        (-Real.log (EconCSLib.pmfProb (M.typeLaw hi)
+          (fun r => M.score r = M.score rBottom))) := by
+  have hpBottom_pos :
+      0 < EconCSLib.pmfProb (M.typeLaw hi)
+        (fun r => M.score r = M.score rBottom) := by
+    exact EconCSLib.pmfProb_pos_of_mass (M.typeLaw hi)
+      (fun r => M.score r = M.score rBottom) rBottom rfl hhi_bottom
+  have hpBottom_lt_one :
+      EconCSLib.pmfProb (M.typeLaw hi)
+        (fun r => M.score r = M.score rBottom) < 1 := by
+    apply EconCSLib.pmfProb_lt_one_of_mass_not (M.typeLaw hi)
+      (fun r => M.score r = M.score rBottom) rTop
+    · exact ne_of_gt hscore_lt
+    · exact hhi_top
+  exact mul_pos hgHi
+    (neg_pos.mpr (Real.log_neg hpBottom_pos hpBottom_lt_one))
 
 /--
 Floor-count exact-rate certificate for a degenerate high type: when high-type
@@ -4569,6 +5430,116 @@ def PairwiseThresholdRateTopLdpCertificate.of_expected_score_gap_and_common_extr
       z hz hdual_stationary rLow rHigh
       hmass_low_hi hmass_high_hi hmass_low_lo hmass_high_lo
       hscore_low_le hscore_le_high hscore_lt
+
+/--
+Support-aware pairwise LDP certificate from expected-score ordering and
+per-law positive-mass extrema. Unlike the common-extreme convenience route,
+this does not require every displayed rating label to have positive mass.
+-/
+def PairwiseThresholdRateTopLdpCertificate.of_expected_score_gap_and_support_extrema
+    {Seller Rating Pair : Type*} [Fintype Rating] [DecidableEq Rating]
+    (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller → ℝ)
+    (pairHi pairLo : Pair → Seller)
+    (hpositive_hi : ∀ p : Pair, 0 < sampleRate (pairHi p))
+    (hpositive_lo : ∀ p : Pair, 0 < sampleRate (pairLo p))
+    (hmean_gap :
+      ∀ p : Pair,
+        EconCSLib.pmfExp (M.typeLaw (pairLo p)) M.score ≤
+          EconCSLib.pmfExp (M.typeLaw (pairHi p)) M.score)
+    (rHiLow rHiHigh rLoLow rLoHigh : Pair → Rating)
+    (hmass_hi_low :
+      ∀ p : Pair, 0 < (M.typeLaw (pairHi p) (rHiLow p)).toReal)
+    (hmass_hi_high :
+      ∀ p : Pair, 0 < (M.typeLaw (pairHi p) (rHiHigh p)).toReal)
+    (hmass_lo_low :
+      ∀ p : Pair, 0 < (M.typeLaw (pairLo p) (rLoLow p)).toReal)
+    (hmass_lo_high :
+      ∀ p : Pair, 0 < (M.typeLaw (pairLo p) (rLoHigh p)).toReal)
+    (hscore_hi_low_le :
+      ∀ p : Pair, ∀ r : Rating,
+        0 < (M.typeLaw (pairHi p) r).toReal →
+          M.score (rHiLow p) ≤ M.score r)
+    (hscore_hi_le_high :
+      ∀ p : Pair, ∀ r : Rating,
+        0 < (M.typeLaw (pairHi p) r).toReal →
+          M.score r ≤ M.score (rHiHigh p))
+    (hscore_lo_low_le :
+      ∀ p : Pair, ∀ r : Rating,
+        0 < (M.typeLaw (pairLo p) r).toReal →
+          M.score (rLoLow p) ≤ M.score r)
+    (hscore_lo_le_high :
+      ∀ p : Pair, ∀ r : Rating,
+        0 < (M.typeLaw (pairLo p) r).toReal →
+          M.score r ≤ M.score (rLoHigh p))
+    (hscore_hi_span :
+      ∀ p : Pair, M.score (rHiLow p) < M.score (rHiHigh p))
+    (hscore_lo_span :
+      ∀ p : Pair, M.score (rLoLow p) < M.score (rLoHigh p))
+    (hscore_cross :
+      ∀ p : Pair, M.score (rHiLow p) < M.score (rLoHigh p)) :
+    PairwiseThresholdRateTopLdpCertificate M sampleRate pairHi pairLo := by
+  classical
+  let hstationary :
+      ∀ p : Pair, ∃ z : ℝ, z ≤ 0 ∧
+        HasDerivAt
+          (fun t : ℝ =>
+            pairwiseDualLogMGF M sampleRate (pairHi p) (pairLo p) t)
+          0 z :=
+    fun p =>
+      exists_nonpos_pairwiseDualLogMGF_stationary_of_expected_score_gap_and_support_extrema
+        M sampleRate (pairHi p) (pairLo p)
+        (hpositive_hi p) (hpositive_lo p) (hmean_gap p)
+        (rHiLow p) (rLoHigh p)
+        (hmass_hi_low p) (hmass_lo_high p)
+        (hscore_hi_low_le p) (hscore_lo_le_high p)
+        (hscore_cross p)
+  let z : Pair → ℝ := fun p => Classical.choose (hstationary p)
+  have hz : ∀ p : Pair, z p ≤ 0 :=
+    fun p => (Classical.choose_spec (hstationary p)).1
+  have hdual_stationary :
+      ∀ p : Pair,
+        HasDerivAt
+          (fun t : ℝ =>
+            pairwiseDualLogMGF M sampleRate (pairHi p) (pairLo p) t)
+          0 (z p) :=
+    fun p => (Classical.choose_spec (hstationary p)).2
+  let hcommon :
+      ∀ p : Pair, ∃ a : ℝ,
+        HasDerivAt (fun t : ℝ => M.logMGF (pairHi p) t) a
+          (z p * (sampleRate (pairHi p))⁻¹) ∧
+        HasDerivAt (fun t : ℝ => M.logMGF (pairLo p) t) a
+          (-(z p * (sampleRate (pairLo p))⁻¹)) :=
+    fun p =>
+      exists_common_logMGF_derivatives_of_pairwiseDualLogMGF_hasDerivAt_zero
+        M sampleRate (pairHi p) (pairLo p)
+        (hpositive_hi p) (hpositive_lo p) (hdual_stationary p)
+  let a : Pair → ℝ := fun p => Classical.choose (hcommon p)
+  have hderiv_hi :
+      ∀ p : Pair,
+        HasDerivAt (fun t : ℝ => M.logMGF (pairHi p) t) (a p)
+          (z p * (sampleRate (pairHi p))⁻¹) :=
+    fun p => (Classical.choose_spec (hcommon p)).1
+  have hderiv_lo :
+      ∀ p : Pair,
+        HasDerivAt (fun t : ℝ => M.logMGF (pairLo p) t) (a p)
+          (-(z p * (sampleRate (pairLo p))⁻¹)) :=
+    fun p => (Classical.choose_spec (hcommon p)).2
+  exact
+    PairwiseThresholdRateTopLdpCertificate.of_common_logMGF_derivatives_of_straddling_support
+      M sampleRate pairHi pairLo hpositive_hi hpositive_lo a z hz
+      hderiv_hi hderiv_lo
+      (fun p =>
+        ratingLawStraddlesThreshold_of_logMGF_hasDerivAt_of_support_score_bounds
+          M (pairHi p) (hderiv_hi p)
+          (hmass_hi_low p) (hmass_hi_high p)
+          (hscore_hi_low_le p) (hscore_hi_le_high p)
+          (hscore_hi_span p))
+      (fun p =>
+        ratingLawStraddlesThreshold_of_logMGF_hasDerivAt_of_support_score_bounds
+          M (pairLo p) (hderiv_lo p)
+          (hmass_lo_low p) (hmass_lo_high p)
+          (hscore_lo_low_le p) (hscore_lo_le_high p)
+          (hscore_lo_span p))
 
 /--
 Threshold-rate specialization of the arbitrary-real floor-count pairwise

@@ -1,12 +1,12 @@
 {
-  "judgment": "passes",
+  "schema": 1,
   "paper": "GJ19OptimalBinaryRatingSystems",
   "prompt_version": "review-surface-v2-semantic-paper-facing",
-  "reason": "Semantic review-surface pass: the dashboard favors source-visible, LLM-legible paper claims over compactness; named definitions, examples, remarks, propositions, theorems, corollaries, and main-text lemmas are exposed as review rows rather than hidden as support-only declarations.",
-  "review_rows": 55,
-  "review_surface_sha256": "5c76f85c3bab90fbc548930c242014433f1195337ea7c9775b653c01872c2c01",
-  "schema": 1,
-  "validated_at": "2026-06-29T21:25:00Z",
-  "validator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  "judgment": "passes",
+  "reason": "Agent semantic review: all 61 configured rows state source model objects, named paper results, corrected source proof steps, or the literal Algorithm 1 output/runtime theorem. No row is merely an implementation helper or raw witness.",
+  "review_rows": 61,
+  "review_surface_sha256": "a7499485a6eb8f75b79e398fc01388faf970d4936e365e9530a16c64d9a5cadd",
+  "validated_at": "2026-07-19T13:05:00Z",
+  "validator": "Codex GJ19 full-formalization source-coverage closeout 2026-07-19",
+  "validator_type": "agent"
 }

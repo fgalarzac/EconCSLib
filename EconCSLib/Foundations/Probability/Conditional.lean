@@ -371,6 +371,134 @@ theorem pmfConditionalProb_eq_inter_div_of_pos
   rw [pmfIndicatorExp_event_eq_inter_prob]
 
 /--
+Uniform conditional probability bound for a finite fiber with at most one
+favorable point.  This is the algebraic deferred-decisions step: if the
+conditioning event has `fiberCard` points and the target event has at most one
+point inside it, then the conditional probability is at most `1 / fiberCard`.
+-/
+theorem pmfConditionalProb_uniformPMF_le_inv_of_condition_eventSet_card_le_one
+    {α : Type*} [Fintype α] [DecidableEq α] [Nonempty α]
+    (condition event : α → Prop) [DecidablePred condition]
+    [DecidablePred event] {fiberCard : ℕ}
+    (conditionSet eventSet : Finset α)
+    (hcondition_mem : ∀ a, a ∈ conditionSet ↔ condition a)
+    (hevent_mem : ∀ a, a ∈ eventSet ↔ condition a ∧ event a)
+    (hfiber_pos : 0 < fiberCard)
+    (hcondition_card : conditionSet.card = fiberCard)
+    (hevent_card : eventSet.card ≤ 1) :
+    pmfConditionalProb (uniformPMF α) condition event ≤
+      ((fiberCard : ℝ)⁻¹) := by
+  classical
+  have hcondition_prob :
+      pmfProb (uniformPMF α) condition =
+        (conditionSet.card : ℝ) / (Fintype.card α : ℝ) := by
+    calc
+      pmfProb (uniformPMF α) condition =
+          pmfProb (uniformPMF α) (fun a => a ∈ conditionSet) := by
+            exact pmfProb_congr (uniformPMF α) (by
+              intro a
+              constructor
+              · intro ha
+                exact (hcondition_mem a).2 ha
+              · intro ha
+                exact (hcondition_mem a).1 ha)
+      _ = (conditionSet.card : ℝ) / (Fintype.card α : ℝ) := by
+            exact pmfProb_uniformPMF_finset conditionSet
+  have hcondition_pos : 0 < pmfProb (uniformPMF α) condition := by
+    rw [hcondition_prob, hcondition_card]
+    exact div_pos
+      (by exact_mod_cast hfiber_pos)
+      (by exact_mod_cast (Fintype.card_pos_iff.mpr ‹Nonempty α›))
+  have hevent_prob :
+      pmfProb (uniformPMF α) (fun a => condition a ∧ event a) =
+        (eventSet.card : ℝ) / (Fintype.card α : ℝ) := by
+    calc
+      pmfProb (uniformPMF α) (fun a => condition a ∧ event a) =
+          pmfProb (uniformPMF α) (fun a => a ∈ eventSet) := by
+            exact pmfProb_congr (uniformPMF α) (by
+              intro a
+              constructor
+              · intro ha
+                exact (hevent_mem a).2 ha
+              · intro ha
+                exact (hevent_mem a).1 ha)
+      _ = (eventSet.card : ℝ) / (Fintype.card α : ℝ) := by
+            exact pmfProb_uniformPMF_finset eventSet
+  have hevent_card_real : (eventSet.card : ℝ) ≤ 1 := by
+    exact_mod_cast hevent_card
+  have hfiber_pos_real : 0 < (fiberCard : ℝ) := by
+    exact_mod_cast hfiber_pos
+  have hcard_alpha_pos : 0 < (Fintype.card α : ℝ) := by
+    exact_mod_cast (Fintype.card_pos_iff.mpr ‹Nonempty α›)
+  rw [pmfConditionalProb_eq_inter_div_of_pos
+    (uniformPMF α) condition event hcondition_pos]
+  rw [hevent_prob, hcondition_prob, hcondition_card]
+  calc
+    ((eventSet.card : ℝ) / (Fintype.card α : ℝ)) /
+        ((fiberCard : ℝ) / (Fintype.card α : ℝ)) =
+        (eventSet.card : ℝ) / (fiberCard : ℝ) := by
+          field_simp [hcard_alpha_pos.ne', hfiber_pos_real.ne']
+    _ ≤ 1 / (fiberCard : ℝ) :=
+          div_le_div_of_nonneg_right hevent_card_real
+            (le_of_lt hfiber_pos_real)
+    _ = ((fiberCard : ℝ)⁻¹) := by rw [one_div]
+
+/--
+Uniform conditional probability bound for a finite fiber with at most one
+favorable point, stated with canonical filtered finite sets.
+-/
+theorem pmfConditionalProb_uniformPMF_le_inv_of_condition_card_event_card_le_one
+    {α : Type*} [Fintype α] [DecidableEq α] [Nonempty α]
+    (condition event : α → Prop) [DecidablePred condition]
+    [DecidablePred event] {fiberCard : ℕ}
+    (hfiber_pos : 0 < fiberCard)
+    (hcondition_card :
+      ((Finset.univ : Finset α).filter condition).card = fiberCard)
+    (hevent_card :
+      ((Finset.univ : Finset α).filter
+        (fun a => condition a ∧ event a)).card ≤ 1) :
+    pmfConditionalProb (uniformPMF α) condition event ≤
+      ((fiberCard : ℝ)⁻¹) := by
+  classical
+  let conditionSet : Finset α :=
+    (Finset.univ : Finset α).filter condition
+  let eventSet : Finset α :=
+    (Finset.univ : Finset α).filter fun a => condition a ∧ event a
+  have hcondition_prob :
+      pmfProb (uniformPMF α) condition =
+        (conditionSet.card : ℝ) / (Fintype.card α : ℝ) := by
+    simpa [conditionSet] using
+      (pmfProb_uniformPMF_finset (α := α) conditionSet)
+  have hcondition_pos : 0 < pmfProb (uniformPMF α) condition := by
+    rw [hcondition_prob, hcondition_card]
+    exact div_pos
+      (by exact_mod_cast hfiber_pos)
+      (by exact_mod_cast (Fintype.card_pos_iff.mpr ‹Nonempty α›))
+  have hevent_prob :
+      pmfProb (uniformPMF α) (fun a => condition a ∧ event a) =
+        (eventSet.card : ℝ) / (Fintype.card α : ℝ) := by
+    simpa [eventSet] using
+      (pmfProb_uniformPMF_finset (α := α) eventSet)
+  have hevent_card_real : (eventSet.card : ℝ) ≤ 1 := by
+    exact_mod_cast hevent_card
+  have hfiber_pos_real : 0 < (fiberCard : ℝ) := by
+    exact_mod_cast hfiber_pos
+  have hcard_alpha_pos : 0 < (Fintype.card α : ℝ) := by
+    exact_mod_cast (Fintype.card_pos_iff.mpr ‹Nonempty α›)
+  rw [pmfConditionalProb_eq_inter_div_of_pos
+    (uniformPMF α) condition event hcondition_pos]
+  rw [hevent_prob, hcondition_prob, hcondition_card]
+  calc
+    ((eventSet.card : ℝ) / (Fintype.card α : ℝ)) /
+        ((fiberCard : ℝ) / (Fintype.card α : ℝ)) =
+        (eventSet.card : ℝ) / (fiberCard : ℝ) := by
+          field_simp [hcard_alpha_pos.ne', hfiber_pos_real.ne']
+    _ ≤ 1 / (fiberCard : ℝ) :=
+          div_le_div_of_nonneg_right hevent_card_real
+            (le_of_lt hfiber_pos_real)
+    _ = ((fiberCard : ℝ)⁻¹) := by rw [one_div]
+
+/--
 If every fiber of a finite map inside a conditioning event has the same
 positive cardinality, then the conditional pushforward of the uniform law is
 the uniform law on the codomain, stated as equality of event probabilities.
@@ -645,6 +773,33 @@ theorem pmfConditionalProb_congr
   unfold pmfConditionalProb pmfConditionalExp
   simp [hprob, hind]
 
+/--
+Conditional probability is monotone in the target event, relative to the
+conditioning event.
+-/
+theorem pmfConditionalProb_le_of_imp_of_condition
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (p q r : α → Prop)
+    [DecidablePred p] [DecidablePred q] [DecidablePred r]
+    (himp : ∀ a, p a → q a → r a) :
+    pmfConditionalProb μ p q ≤ pmfConditionalProb μ p r := by
+  classical
+  by_cases hp_pos : 0 < pmfProb μ p
+  · rw [pmfConditionalProb_eq_inter_div_of_pos μ p q hp_pos]
+    rw [pmfConditionalProb_eq_inter_div_of_pos μ p r hp_pos]
+    exact div_le_div_of_nonneg_right
+      (pmfProb_le_of_imp μ
+        (fun a => p a ∧ q a) (fun a => p a ∧ r a)
+        (by intro a ha; exact ⟨ha.1, himp a ha.1 ha.2⟩))
+      (le_of_lt hp_pos)
+  · have hp_zero : pmfProb μ p = 0 := by
+      exact le_antisymm (le_of_not_gt hp_pos) (pmfProb_nonneg μ p)
+    unfold pmfConditionalProb
+    rw [pmfConditionalExp_of_prob_zero μ p
+      (fun a => if q a then (1 : ℝ) else 0) hp_zero]
+    rw [pmfConditionalExp_of_prob_zero μ p
+      (fun a => if r a then (1 : ℝ) else 0) hp_zero]
+
 /-- Conditional probability complement rule on a positive-probability event. -/
 theorem pmfConditionalProb_compl_eq_one_sub_of_pos
     {α : Type*} [Fintype α] [DecidableEq α]
@@ -661,6 +816,33 @@ theorem pmfConditionalProb_compl_eq_one_sub_of_pos
     linarith
   rw [hdiff]
   field_simp [hp_pos.ne']
+
+/--
+Finite conditional-probability chain rule:
+`Pr[q and r | p] = Pr[r | p and q] * Pr[q | p]`, when both conditioning
+events have positive probability.
+-/
+theorem pmfConditionalProb_inter_eq_mul_conditionalProb_of_pos
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (p q r : α → Prop)
+    [DecidablePred p] [DecidablePred q] [DecidablePred r]
+    (hp_pos : 0 < pmfProb μ p)
+    (hpq_pos : 0 < pmfProb μ (fun a => p a ∧ q a)) :
+    pmfConditionalProb μ p (fun a => q a ∧ r a) =
+      pmfConditionalProb μ (fun a => p a ∧ q a) r *
+        pmfConditionalProb μ p q := by
+  classical
+  rw [pmfConditionalProb_eq_inter_div_of_pos
+    μ p (fun a => q a ∧ r a) hp_pos]
+  rw [pmfConditionalProb_eq_inter_div_of_pos
+    μ (fun a => p a ∧ q a) r hpq_pos]
+  rw [pmfConditionalProb_eq_inter_div_of_pos μ p q hp_pos]
+  have hnum :
+      pmfProb μ (fun a => p a ∧ (q a ∧ r a)) =
+        pmfProb μ (fun a => (p a ∧ q a) ∧ r a) := by
+    exact pmfProb_congr μ (by intro a; tauto)
+  rw [hnum]
+  field_simp [hp_pos.ne', hpq_pos.ne']
 
 /--
 Conditional expectation of a two-valued random variable on a positive
@@ -801,6 +983,93 @@ theorem pmfProb_ge_pow_of_nested_conditionalProb_ge
                 pmfProb μ (fun ω => event k ω) := hmul
           _ = pmfProb μ (fun ω => event (k + 1) ω) := hprod.symm
 
+/-- Conditional probabilities are nonnegative. -/
+theorem pmfConditionalProb_nonneg
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (μ : PMF α) (p q : α → Prop) [DecidablePred p] [DecidablePred q] :
+    0 ≤ pmfConditionalProb μ p q := by
+  exact
+    pmfConditionalExp_nonneg_of_nonneg μ p
+      (fun a => if q a then (1 : ℝ) else 0)
+      (by intro a _hp; by_cases hq : q a <;> simp [hq])
+
+/--
+Finite product upper bound for a nested sequence of events.  If `event 0`
+always holds and every conditional transition `event r -> event (r+1)` has
+probability at most `base`, then `event k` has probability at most
+`base ^ k`.
+-/
+theorem pmfProb_le_pow_of_nested_conditionalProb_le
+    {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
+    (μ : PMF Ω) (event : ℕ → Ω → Prop)
+    [∀ r, DecidablePred fun ω => event r ω]
+    (k : ℕ) {base : ℝ}
+    (hbase_nonneg : 0 ≤ base)
+    (hzero : ∀ ω, event 0 ω)
+    (hnested : ∀ r, r < k → ∀ ω, event (r + 1) ω → event r ω)
+    (hcond : ∀ r, r < k →
+      pmfConditionalProb μ
+        (fun ω => event r ω) (fun ω => event (r + 1) ω) ≤ base) :
+    pmfProb μ (fun ω => event k ω) ≤ base ^ k := by
+  classical
+  induction k with
+  | zero =>
+      have hprob0 : pmfProb μ (fun ω => event 0 ω) = 1 :=
+        pmfProb_eq_one_of_forall μ (fun ω => event 0 ω) hzero
+      simp [hprob0]
+  | succ k ih =>
+      have hprev_le :
+          pmfProb μ (fun ω => event k ω) ≤ base ^ k :=
+        ih
+          (by
+            intro r hr
+            exact hnested r (Nat.lt_trans hr (Nat.lt_succ_self k)))
+          (by
+            intro r hr
+            exact hcond r (Nat.lt_trans hr (Nat.lt_succ_self k)))
+      by_cases hprev_zero : pmfProb μ (fun ω => event k ω) = 0
+      · have hle_zero :
+            pmfProb μ (fun ω => event (k + 1) ω) ≤ 0 := by
+          have hsubset :
+              pmfProb μ (fun ω => event (k + 1) ω) ≤
+                pmfProb μ (fun ω => event k ω) :=
+            pmfProb_le_of_imp μ
+              (fun ω => event (k + 1) ω) (fun ω => event k ω)
+              (hnested k (Nat.lt_succ_self k))
+          simpa [hprev_zero] using hsubset
+        exact le_trans hle_zero (pow_nonneg hbase_nonneg (k + 1))
+      · have hprev_pos : 0 < pmfProb μ (fun ω => event k ω) :=
+          lt_of_le_of_ne (pmfProb_nonneg μ (fun ω => event k ω))
+            (by simpa [eq_comm] using hprev_zero)
+        have hstep :
+            pmfConditionalProb μ
+              (fun ω => event k ω) (fun ω => event (k + 1) ω) ≤ base :=
+          hcond k (Nat.lt_succ_self k)
+        have hmul :
+            pmfConditionalProb μ
+                (fun ω => event k ω) (fun ω => event (k + 1) ω) *
+                pmfProb μ (fun ω => event k ω) ≤
+              base * base ^ k :=
+          mul_le_mul hstep hprev_le
+            (pmfProb_nonneg μ (fun ω => event k ω)) hbase_nonneg
+        have hprod :
+            pmfProb μ (fun ω => event (k + 1) ω) =
+              pmfConditionalProb μ
+                (fun ω => event k ω) (fun ω => event (k + 1) ω) *
+                pmfProb μ (fun ω => event k ω) :=
+          pmfProb_eq_mul_conditionalProb_of_imp μ
+            (fun ω => event k ω) (fun ω => event (k + 1) ω)
+            (hnested k (Nat.lt_succ_self k)) hprev_pos
+        calc
+          pmfProb μ (fun ω => event (k + 1) ω)
+              = pmfConditionalProb μ
+                  (fun ω => event k ω) (fun ω => event (k + 1) ω) *
+                  pmfProb μ (fun ω => event k ω) := hprod
+          _ ≤ base * base ^ k := hmul
+          _ = base ^ (k + 1) := by
+            rw [pow_succ]
+            ring
+
 /-- Split a finite PMF event according to a finite state map. -/
 theorem pmfProb_eq_sum_state_inter
     {Ω σ : Type*} [Fintype Ω] [DecidableEq Ω] [Fintype σ] [DecidableEq σ]
@@ -825,6 +1094,78 @@ theorem pmfProb_eq_sum_state_inter
           rw [Finset.sum_comm]
 
 /--
+Finite law of total probability over the fibers of a state map, written as an
+expectation of statewise conditional probabilities.  Zero-probability fibers
+contribute zero mass, so no support restriction is needed.
+-/
+theorem pmfProb_eq_pmfExp_state_conditionalProb
+    {Ω σ : Type*} [Fintype Ω] [DecidableEq Ω] [Fintype σ] [DecidableEq σ]
+    (μ : PMF Ω) (q : Ω → Prop) [DecidablePred q] (state : Ω → σ) :
+    pmfProb μ q =
+      pmfExp μ
+        (fun ω => pmfConditionalProb μ (fun ω' => state ω' = state ω) q) := by
+  classical
+  let c : σ → ℝ := fun s =>
+    pmfConditionalProb μ (fun ω => state ω = s) q
+  have hfiber : ∀ s : σ,
+      pmfProb μ (fun ω => q ω ∧ state ω = s) =
+        c s * pmfProb μ (fun ω => state ω = s) := by
+    intro s
+    by_cases hpos : 0 < pmfProb μ (fun ω => state ω = s)
+    · have hc :=
+        pmfConditionalProb_eq_inter_div_of_pos
+          μ (fun ω => state ω = s) q hpos
+      have hcomm :
+          pmfProb μ (fun ω => q ω ∧ state ω = s) =
+            pmfProb μ (fun ω => state ω = s ∧ q ω) := by
+        exact pmfProb_congr μ (by
+          intro ω
+          constructor
+          · intro hω
+            exact ⟨hω.2, hω.1⟩
+          · intro hω
+            exact ⟨hω.2, hω.1⟩)
+      rw [hcomm]
+      dsimp [c]
+      rw [hc]
+      field_simp [hpos.ne']
+    · have hzero : pmfProb μ (fun ω => state ω = s) = 0 := by
+        exact le_antisymm (le_of_not_gt hpos)
+          (pmfProb_nonneg μ (fun ω => state ω = s))
+      have hleft_zero :
+          pmfProb μ (fun ω => q ω ∧ state ω = s) = 0 := by
+        have hle :
+            pmfProb μ (fun ω => q ω ∧ state ω = s) ≤
+              pmfProb μ (fun ω => state ω = s) :=
+          pmfProb_le_of_imp μ
+            (fun ω => q ω ∧ state ω = s)
+            (fun ω => state ω = s)
+            (by intro ω hω; exact hω.2)
+        exact le_antisymm (by simpa [hzero] using hle)
+          (pmfProb_nonneg μ (fun ω => q ω ∧ state ω = s))
+      rw [hleft_zero, hzero]
+      ring
+  calc
+    pmfProb μ q =
+        ∑ s : σ, pmfProb μ (fun ω => q ω ∧ state ω = s) := by
+          rw [pmfProb_eq_sum_state_inter μ q state]
+    _ = ∑ s : σ, c s * pmfProb μ (fun ω => state ω = s) := by
+          refine Finset.sum_congr rfl ?_
+          intro s _
+          exact hfiber s
+    _ = ∑ s : σ, (pmfProb μ (fun ω => state ω = s)) * c s := by
+          refine Finset.sum_congr rfl ?_
+          intro s _
+          ring
+    _ = pmfExp (μ.map state) c := by
+          unfold pmfExp
+          refine Finset.sum_congr rfl ?_
+          intro s _
+          rw [pmf_map_apply_toReal_eq_pmfProb_preimage]
+    _ = pmfExp μ (fun ω => c (state ω)) := by
+          rw [pmfExp_map]
+
+/--
 Conditional-mixture upper bound.  If a finite state map refines a conditioning
 event and the conditional probability of `q` is at most `c` on every positive
 refined state, then the coarser conditional probability is also at most `c`.
@@ -833,7 +1174,6 @@ theorem pmfConditionalProb_le_of_state_refinement
     {Ω σ : Type*} [Fintype Ω] [DecidableEq Ω] [Fintype σ] [DecidableEq σ]
     (μ : PMF Ω) (p q : Ω → Prop) [DecidablePred p] [DecidablePred q]
     (state : Ω → σ) {c : ℝ}
-    (hc_nonneg : 0 ≤ c)
     (hp_pos : 0 < pmfProb μ p)
     (hstate : ∀ s : σ,
       0 < pmfProb μ (fun ω => p ω ∧ state ω = s) →
@@ -865,7 +1205,7 @@ theorem pmfConditionalProb_le_of_state_refinement
         exact le_antisymm (by simpa [hstate_zero] using hle)
           (pmfProb_nonneg μ (fun ω => (p ω ∧ state ω = s) ∧ q ω))
       rw [hleft_zero, hstate_zero]
-      simpa using hc_nonneg
+      simp
   have hinter_bound :
       pmfProb μ (fun ω => p ω ∧ q ω) ≤ c * pmfProb μ p := by
     calc
@@ -885,6 +1225,88 @@ theorem pmfConditionalProb_le_of_state_refinement
             rw [← pmfProb_eq_sum_state_inter μ p state]
   rw [pmfConditionalProb_eq_inter_div_of_pos μ p q hp_pos]
   rwa [div_le_iff₀ hp_pos]
+
+/--
+Conditional-mixture lower bound.  If a finite state map refines a conditioning
+event and the conditional probability of `q` is at least `c` on every positive
+refined state, then the coarser conditional probability is also at least `c`.
+-/
+theorem pmfConditionalProb_ge_of_state_refinement
+    {Ω σ : Type*} [Fintype Ω] [DecidableEq Ω] [Fintype σ] [DecidableEq σ]
+    (μ : PMF Ω) (p q : Ω → Prop) [DecidablePred p] [DecidablePred q]
+    (state : Ω → σ) {c : ℝ}
+    (hp_pos : 0 < pmfProb μ p)
+    (hstate : ∀ s : σ,
+      0 < pmfProb μ (fun ω => p ω ∧ state ω = s) →
+        c ≤ pmfConditionalProb μ (fun ω => p ω ∧ state ω = s) q) :
+    c ≤ pmfConditionalProb μ p q := by
+  classical
+  have hstate_bound : ∀ s : σ,
+      c * pmfProb μ (fun ω => p ω ∧ state ω = s) ≤
+        pmfProb μ (fun ω => (p ω ∧ state ω = s) ∧ q ω) := by
+    intro s
+    by_cases hpos : 0 < pmfProb μ (fun ω => p ω ∧ state ω = s)
+    · have h := hstate s hpos
+      rw [pmfConditionalProb_eq_inter_div_of_pos
+        μ (fun ω => p ω ∧ state ω = s) q hpos] at h
+      rwa [le_div_iff₀ hpos] at h
+    · have hstate_zero :
+          pmfProb μ (fun ω => p ω ∧ state ω = s) = 0 := by
+        exact le_antisymm (le_of_not_gt hpos)
+          (pmfProb_nonneg μ (fun ω => p ω ∧ state ω = s))
+      rw [hstate_zero]
+      simpa using
+        pmfProb_nonneg μ (fun ω => (p ω ∧ state ω = s) ∧ q ω)
+  have hinter_bound :
+      c * pmfProb μ p ≤ pmfProb μ (fun ω => p ω ∧ q ω) := by
+    calc
+      c * pmfProb μ p
+          = c * ∑ s : σ,
+              pmfProb μ (fun ω => p ω ∧ state ω = s) := by
+            rw [← pmfProb_eq_sum_state_inter μ p state]
+      _ = ∑ s : σ,
+            c * pmfProb μ (fun ω => p ω ∧ state ω = s) := by
+            rw [Finset.mul_sum]
+      _ ≤ ∑ s : σ,
+            pmfProb μ (fun ω => (p ω ∧ state ω = s) ∧ q ω) := by
+            refine Finset.sum_le_sum ?_
+            intro s _
+            exact hstate_bound s
+      _ = pmfProb μ (fun ω => p ω ∧ q ω) := by
+            rw [pmfProb_eq_sum_state_inter μ (fun ω => p ω ∧ q ω) state]
+            refine Finset.sum_congr rfl ?_
+            intro s _
+            apply pmfProb_congr
+            intro ω
+            simp [and_assoc, and_left_comm, and_comm]
+  rw [pmfConditionalProb_eq_inter_div_of_pos μ p q hp_pos]
+  rwa [le_div_iff₀ hp_pos]
+
+/--
+Conditional-mixture upper bound without a separate positive-probability
+hypothesis for the coarse conditioning event.  When that event has zero
+probability, the conditional probability is the default value `0`.
+-/
+theorem pmfConditionalProb_le_of_state_refinement_or_zero
+    {Ω σ : Type*} [Fintype Ω] [DecidableEq Ω] [Fintype σ] [DecidableEq σ]
+    (μ : PMF Ω) (p q : Ω → Prop) [DecidablePred p] [DecidablePred q]
+    (state : Ω → σ) {c : ℝ}
+    (hc_nonneg : 0 ≤ c)
+    (hstate : ∀ s : σ,
+      0 < pmfProb μ (fun ω => p ω ∧ state ω = s) →
+        pmfConditionalProb μ (fun ω => p ω ∧ state ω = s) q ≤ c) :
+    pmfConditionalProb μ p q ≤ c := by
+  classical
+  by_cases hp_pos : 0 < pmfProb μ p
+  · exact
+      pmfConditionalProb_le_of_state_refinement
+        μ p q state hp_pos hstate
+  · have hp_zero : pmfProb μ p = 0 := by
+      exact le_antisymm (le_of_not_gt hp_pos) (pmfProb_nonneg μ p)
+    unfold pmfConditionalProb
+    rw [pmfConditionalExp_of_prob_zero μ p
+      (fun a => if q a then (1 : ℝ) else 0) hp_zero]
+    exact hc_nonneg
 
 /--
 Conditional-mixture equality.  If a finite state map refines a conditioning
@@ -948,6 +1370,94 @@ theorem pmfConditionalProb_eq_of_state_refinement
   rw [pmfConditionalProb_eq_inter_div_of_pos μ p q hp_pos]
   rw [hinter_eq]
   field_simp [hp_pos.ne']
+
+/--
+If the conditional distribution of a finite state map is a PMF `ρ`, then every
+event determined by that state has conditional probability equal to its
+probability under `ρ`.
+-/
+theorem pmfConditionalProb_state_event_eq_pmfProb_of_conditional_atom_eq
+    {Ω σ : Type*} [Fintype Ω] [DecidableEq Ω] [Fintype σ] [DecidableEq σ]
+    (μ : PMF Ω) (p : Ω → Prop) [DecidablePred p]
+    (state : Ω → σ) (ρ : PMF σ)
+    (target : σ → Prop) [DecidablePred target]
+    (hp_pos : 0 < pmfProb μ p)
+    (hstate : ∀ s : σ,
+      pmfConditionalProb μ p (fun ω => state ω = s) = (ρ s).toReal) :
+    pmfConditionalProb μ p (fun ω => target (state ω)) =
+      pmfProb ρ target := by
+  classical
+  have hstate_ratio : ∀ s : σ,
+      pmfProb μ (fun ω => p ω ∧ state ω = s) / pmfProb μ p =
+        (ρ s).toReal := by
+    intro s
+    have hs := hstate s
+    rw [pmfConditionalProb_eq_inter_div_of_pos
+      μ p (fun ω => state ω = s) hp_pos] at hs
+    exact hs
+  have hnum :
+      pmfProb μ (fun ω => p ω ∧ target (state ω)) =
+        ∑ s : σ,
+          if target s then
+            pmfProb μ (fun ω => p ω ∧ state ω = s)
+          else 0 := by
+    calc
+      pmfProb μ (fun ω => p ω ∧ target (state ω))
+          = ∑ s : σ,
+              pmfProb μ
+                (fun ω => (p ω ∧ target (state ω)) ∧ state ω = s) := by
+            rw [pmfProb_eq_sum_state_inter μ
+              (fun ω => p ω ∧ target (state ω)) state]
+      _ = ∑ s : σ,
+            if target s then
+              pmfProb μ (fun ω => p ω ∧ state ω = s)
+            else 0 := by
+            refine Finset.sum_congr rfl ?_
+            intro s _
+            by_cases hs : target s
+            · rw [if_pos hs]
+              exact pmfProb_congr μ (by
+                intro ω
+                constructor
+                · intro hω
+                  exact ⟨hω.1.1, hω.2⟩
+                · intro hω
+                  exact ⟨⟨hω.1, by simpa [hω.2] using hs⟩, hω.2⟩)
+            · rw [if_neg hs]
+              rw [pmfProb_congr μ
+                (p := fun ω => (p ω ∧ target (state ω)) ∧ state ω = s)
+                (q := fun _ => False) (by
+                intro ω
+                constructor
+                · intro hω
+                  exact (hs (by simpa [hω.2] using hω.1.2)).elim
+                · intro hω
+                  cases hω)]
+              simp [pmfProb, pmfExp]
+  calc
+    pmfConditionalProb μ p (fun ω => target (state ω))
+        = pmfProb μ (fun ω => p ω ∧ target (state ω)) /
+            pmfProb μ p := by
+          rw [pmfConditionalProb_eq_inter_div_of_pos
+            μ p (fun ω => target (state ω)) hp_pos]
+    _ = (∑ s : σ,
+          if target s then
+            pmfProb μ (fun ω => p ω ∧ state ω = s)
+          else 0) / pmfProb μ p := by
+          rw [hnum]
+    _ = ∑ s : σ,
+          (if target s then
+            pmfProb μ (fun ω => p ω ∧ state ω = s)
+          else 0) / pmfProb μ p := by
+          rw [Finset.sum_div]
+    _ = ∑ s : σ, if target s then (ρ s).toReal else 0 := by
+          refine Finset.sum_congr rfl ?_
+          intro s _
+          by_cases hs : target s
+          · simp [hs, hstate_ratio s]
+          · simp [hs]
+    _ = pmfProb ρ target := by
+          simp [pmfProb, pmfExp]
 
 /--
 Conditional negative dependence implies the pairwise negative-correlation

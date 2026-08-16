@@ -6,104 +6,109 @@
 \begin{tikzpicture}[
   x=1cm,
   y=1cm,
-  every node/.append style={outer sep=4pt}
+  every node/.append style={outer sep=4pt},
+  source_premise/.style={
+    dag_conditional,
+    draw=blue!70!black,
+    fill=blue!10
+  }
 ]
 
 \dagPaperMetadata
-  {Quantifying Spatial Under-reporting Disparities}
+  {Quantifying Spatial Under-reporting Disparities in Resident Crowdsourcing}
   {Liu, Bhandaram, Garg}
   {Nature Computational Science}
   {2024}
   {arXiv:2204.08620 v4 / DOI 10.1038/s43588-023-00572-6}
 
 \dagPaperLegendRightOfMetadata{
-\node[dag_result, dag_template_legend] (legRes) at (0,0) {formalized\\result};
-\node[dag_lemma, dag_template_legend] (legLem) at (4.2,0) {formalized\\lemma};
-\node[dag_model, dag_template_legend] (legDef) at (8.4,0) {formalized\\definition};
-\node[dag_conditional, dag_template_legend] (legCond) at (12.6,0) {conditional\\boundary};
-\node[dag_partial, dag_template_legend] (legPart) at (0,-2.6) {partial\\paper};
-\node[dag_unformalized, dag_template_legend] (legOpen) at (4.2,-2.6) {remaining\\library work};
+\node[dag_result, dag_template_legend] (legRes) at (0,0) {Lean-checked\\result};
+\node[source_premise, dag_template_legend] (legModel) at (3.35,0) {Source-model\\premise};
 }
-\daglegend{(legRes)(legLem)(legDef)(legCond)(legPart)(legOpen)}{Legend}
+\daglegend{(legRes)(legModel)}{Legend}
 
 \begin{dagPaperBody}
 
-\node[dag_model] (CountLaw) at (0,0) {
-  \textbf{Poisson count law} \\
-  count paths, independent increments, PMF consequences
+\node[source_premise] (ReportingModel) at (0,0) {
+  \textbf{Incident/reporting model} \\
+  latent homogeneous Poisson incidents; \\
+  independent reporting and duration law
 };
 
-\node[dag_result] (PMF) at (6.7,0) {
+\node[source_premise] (ForwardModel) at (6.5,0) {
+  \textbf{Forward Poisson + Condition 1} \\
+  homogeneous report path and selected start \\
+  independent of the post-first-report future
+};
+
+\node[dag_result] (PMF) at (13,0) {
   \textbf{Eq. (2)} \\
-  Poisson count PMF
+  Poisson count PMF \\
+  $p(M\mid\lambda(e-s))$
 };
 
-\node[dag_lemma] (Lemma1) at (13.4,0) {
+\node[source_premise] (PalmEndpoint) at (19.5,0) {
+  \textbf{Conditions 1--2, made joint} \\
+  stationary/Palm tagged report source and \\
+  normalized causal endpoint densities
+};
+
+\node[dag_result] (Lemma1) at (0,-3.5) {
   \textbf{Lemma 1} \\
-  detection probability, thinning count law, LLN route
+  homogeneous and nonhomogeneous \\
+  detection integrals; \\
+  observed Poisson process at the thinned rate
 };
 
-\node[dag_result] (Prop1) at (13.4,-3.2) {
-  \textbf{Proposition 1} \\
-  reporting-rate non-identifiability collisions
+\node[dag_result] (Lemma2) at (6.5,-3.5) {
+  \textbf{Lemma 2} \\
+  wait from the selected start to the next report \\
+  has the exponential tail at rate $\lambda$
 };
 
-\node[dag_lemma] (Lemma2) at (0,-3.2) {
-  \textbf{Appendix Lemma 2} \\
-  exponential no-arrival / waiting-time tail
-};
-
-\node[dag_model] (StoppingWindows) at (0,-6.4) {
-  \textbf{Min-censored observation windows} \\
-  min-censored windows and pathwise observation windows
-};
-
-\node[dag_conditional] (PrimitiveWrapper) at (6.7,-3.2) {
-  \textbf{Compact source certificate} \\
-  homogeneous count law + fixed $g(s),h_m(e)$ kernels
-};
-
-\node[dag_result] (CaseAlg) at (6.7,-6.4) {
-  \textbf{Appendix B.2 algebra} \\
-  zero/one/multi cases, interarrival kernels, corrected residual
-};
-
-\node[dag_conditional] (Thm1) at (13.4,-6.4) {
+\node[dag_result] (Theorem) at (16.25,-3.5) {
   \textbf{Theorem 1 / Appendix Theorem 2} \\
-  likelihood and finite-product PMF decomposition from the certificate
+  $L_\lambda=F\,p(M\mid\lambda(e-s))$; \\
+  first gap $t_{m+1}-s$, residual $M!/(e-s)^M$
 };
 
-\node[dag_result] (MLE) at (0,-9.6) {
+\node[dag_result] (Prop1) at (0,-7) {
+  \textbf{Proposition 1} \\
+  distinct reporting rates have positive \\
+  compensating latent rates and the same observed rate
+};
+
+\node[dag_result] (NYC) at (6.5,-7) {
+  \textbf{NYC Eq. (33)} \\
+  raw minimum endpoint formula; \\
+  stopping-time/no-future property
+};
+
+\node[dag_result] (MLE) at (13,-7) {
   \textbf{Eq. (3)} \\
-  product likelihood, score equation, global MLE
+  count/exposure quotient and global MLE, \\
+  including the zero-count boundary
 };
 
-\node[dag_result] (RegZI) at (13.4,-9.6) {
-  \textbf{Eq. (5)--(7)} \\
-  Poisson regression and zero-inflated likelihoods
+\node[dag_result] (Chicago) at (19.5,-7) {
+  \textbf{Chicago Eq. (34)} \\
+  raw minimum of 100-day, closed-time, \\
+  and retrieval-time endpoints
 };
 
-\node[dag_unformalized] (Future) at (6.7,-10.9) {
-  \textbf{Remaining library work} \\
-  derive the compact certificate from a concrete continuous-time \\
-  homogeneous Poisson process and adapted/stopping endpoints
+\node[dag_result] (Regression) at (13,-10.5) {
+  \textbf{Eqs. (5)--(7)} \\
+  regression log link, proportional likelihood, \\
+  and both zero-inflated count branches
 };
 
-\draw[dag_arrow] (CountLaw) -- (PMF);
-\draw[dag_arrow] (PMF) -- (Lemma1);
+\draw[dag_arrow] (ReportingModel) -- (Lemma1);
 \draw[dag_arrow] (Lemma1) -- (Prop1);
-\draw[dag_arrow] (PMF) -- (Lemma2);
-\draw[dag_arrow] (CountLaw) -- (PrimitiveWrapper);
-\draw[dag_arrow] (Lemma2) -- (PrimitiveWrapper);
-\draw[dag_arrow] (StoppingWindows) -- (Thm1);
-\draw[dag_arrow] (PrimitiveWrapper) -- (CaseAlg);
-\draw[dag_arrow] (CaseAlg) -- (Thm1);
-\draw[dag_arrow] (PMF) -- (MLE);
-\draw[dag_arrow] (Thm1) -- (MLE);
-\draw[dag_arrow] (Thm1) -- (RegZI);
-\draw[dag_arrow] (PMF) -- (RegZI);
-\draw[dag_dashed_arrow] (Future) -- (PrimitiveWrapper);
-\draw[dag_dashed_arrow] (Future) -- (StoppingWindows);
+\draw[dag_arrow] (ForwardModel) -- (Lemma2);
+\draw[dag_arrow] (PMF) -- (Theorem);
+\draw[dag_arrow] (PalmEndpoint) -- (Theorem);
+\draw[dag_arrow] (Theorem) -- (MLE);
+\draw[dag_arrow] (MLE) -- (Regression);
 
 \end{dagPaperBody}
 \end{tikzpicture}

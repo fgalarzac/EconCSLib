@@ -9,11 +9,12 @@ import Mathlib.Data.Fintype.BigOperators
 import Mathlib.MeasureTheory.Integral.Bochner.Basic
 import Mathlib.MeasureTheory.Integral.Layercake
 import Mathlib.MeasureTheory.Integral.Pi
+import Mathlib.Probability.Moments.Variance
 import Mathlib.Topology.MetricSpace.Basic
 import Mathlib.Tactic
 
-open Filter Topology
-open scoped BigOperators
+open Filter Topology MeasureTheory
+open scoped BigOperators ProbabilityTheory
 
 namespace EconCSLib
 namespace Probability
@@ -1288,6 +1289,382 @@ theorem upperOrderStatistic_lt_iff_rank_lt_iidSuccessCount_Ioi
       omega
     exact lt_of_not_ge hnle
 
+/-- The top rank in a nonempty finite sample. -/
+noncomputable def topSampleRank {n : ℕ} [NeZero n] : Fin n :=
+  ⟨0, Nat.pos_iff_ne_zero.mpr (NeZero.ne n)⟩
+
+/--
+Some coordinate of a finite sample exceeds `x` iff the count of coordinates
+exceeding `x` is positive.
+-/
+theorem exists_lt_iff_iidSuccessCount_pos {n : ℕ}
+    (sample : Fin n → ℝ) (x : ℝ) :
+    (∃ i : Fin n, x < sample i) ↔
+      0 < iidSuccessCount (Set.Ioi x) sample := by
+  classical
+  constructor
+  · rintro ⟨i, hi⟩
+    rw [iidSuccessCount]
+    exact Finset.card_pos.mpr
+      ⟨i, (mem_iidSuccessIndexSet (Set.Ioi x) sample i).2 hi⟩
+  · intro h
+    rw [iidSuccessCount] at h
+    rcases Finset.card_pos.mp h with ⟨i, hi⟩
+    exact ⟨i, (mem_iidSuccessIndexSet (Set.Ioi x) sample i).1 hi⟩
+
+/--
+Some coordinate of a nonempty finite sample exceeds `x` iff the largest order
+statistic exceeds `x`.
+-/
+theorem exists_lt_iff_topOrderStatistic_gt {n : ℕ} [NeZero n]
+    (sample : Fin n → ℝ) (x : ℝ) :
+    (∃ i : Fin n, x < sample i) ↔
+      x < upperOrderStatistic sample (topSampleRank (n := n)) := by
+  rw [exists_lt_iff_iidSuccessCount_pos]
+  rw [upperOrderStatistic_lt_iff_rank_lt_iidSuccessCount_Ioi]
+  simp [topSampleRank]
+
+/-- Real-valued probability that the top order statistic crosses `x`. -/
+noncomputable def topOrderCrossingProbability {n : ℕ} [NeZero n]
+    (μ : Measure (Fin n → ℝ)) (x : ℝ) : ℝ :=
+  μ.real {noise : Fin n → ℝ |
+    x < upperOrderStatistic noise (topSampleRank (n := n))}
+
+/-- Real-valued probability that the top order statistic deviates from `center`. -/
+noncomputable def topOrderDeviationProbability {n : ℕ} [NeZero n]
+    (μ : Measure (Fin n → ℝ)) (center ε : ℝ) : ℝ :=
+  μ.real {noise : Fin n → ℝ |
+    ε < |upperOrderStatistic noise (topSampleRank (n := n)) - center|}
+
+theorem topOrderCrossingSet_measurable {n : ℕ} [NeZero n]
+    (x : ℝ) :
+    MeasurableSet {noise : Fin n → ℝ |
+      x < upperOrderStatistic noise (topSampleRank (n := n))} :=
+  measurableSet_lt measurable_const
+    (upperOrderStatistic_measurable (topSampleRank (n := n)))
+
+theorem topOrderDeviationSet_measurable {n : ℕ} [NeZero n]
+    (center ε : ℝ) :
+    MeasurableSet {noise : Fin n → ℝ |
+      ε < |upperOrderStatistic noise (topSampleRank (n := n)) - center|} := by
+  have hmeas :
+      Measurable
+        (fun noise : Fin n → ℝ =>
+          upperOrderStatistic noise (topSampleRank (n := n)) - center) :=
+    (upperOrderStatistic_measurable (topSampleRank (n := n))).sub measurable_const
+  exact measurableSet_lt measurable_const
+    (continuous_abs.measurable.comp hmeas)
+
+/--
+For iid real samples, the top-order crossing probability is the source CDF
+formula `1 - F(x)^n`.
+-/
+theorem topOrderCrossingProbability_iidProduct_eq_one_sub_lowerCDFMass_pow
+    {n : ℕ} [NeZero n]
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] (x : ℝ) :
+    topOrderCrossingProbability (Measure.pi (fun _ : Fin n => μ)) x =
+      1 - (lowerCDFMass μ x) ^ n := by
+  let productMeasure : Measure (Fin n → ℝ) := Measure.pi (fun _ : Fin n => μ)
+  haveI : IsProbabilityMeasure productMeasure := by
+    dsimp [productMeasure]
+    infer_instance
+  let crossingSet : Set (Fin n → ℝ) :=
+    {sample : Fin n → ℝ | x < upperOrderStatistic sample (topSampleRank (n := n))}
+  let zeroSet : Set (Fin n → ℝ) :=
+    {sample : Fin n → ℝ | iidSuccessCount (Set.Ioi x) sample = 0}
+  have hcompl : crossingSetᶜ = zeroSet := by
+    ext sample
+    simp [crossingSet, zeroSet,
+      upperOrderStatistic_lt_iff_rank_lt_iidSuccessCount_Ioi,
+      topSampleRank]
+  have hcross_meas : MeasurableSet crossingSet := by
+    simpa [crossingSet] using topOrderCrossingSet_measurable (n := n) x
+  have hcompl_real :
+      productMeasure.real zeroSet = 1 - productMeasure.real crossingSet := by
+    rw [← hcompl]
+    exact probReal_compl_eq_one_sub (μ := productMeasure) hcross_meas
+  have hzero :
+      productMeasure.real zeroSet =
+        (lowerCDFMass μ x) ^ n := by
+    have hbinom :=
+      iidProductMeasure_successCount_eq_real
+        (μ := μ) (s := Set.Ioi x) measurableSet_Ioi (j := 0)
+        (n := n)
+    have hsum := lowerCDFMass_add_upperTailMass_eq_one μ x
+    calc
+      productMeasure.real zeroSet =
+          (Nat.choose n 0 : ℝ) *
+            (μ.real (Set.Ioi x)) ^ 0 *
+            (1 - μ.real (Set.Ioi x)) ^ (n - 0) := by
+            simpa [productMeasure, zeroSet] using hbinom
+      _ = (lowerCDFMass μ x) ^ n := by
+            have htail : μ.real (Set.Ioi x) = upperTailMass μ x := rfl
+            have hrewrite : 1 - μ.real (Set.Ioi x) = lowerCDFMass μ x := by
+              rw [htail]
+              linarith
+            simp [hrewrite]
+  have htop :
+      topOrderCrossingProbability (Measure.pi (fun _ : Fin n => μ)) x =
+        productMeasure.real crossingSet := rfl
+  rw [htop]
+  linarith
+
+/--
+For iid samples, if the lower-tail mass at a threshold is strictly below one,
+then the probability that the sample maximum does not cross that threshold
+vanishes as the sample size grows.
+-/
+theorem one_sub_topOrderCrossingProbability_iidProduct_tendsto_zero_of_lowerCDFMass_lt_one
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] {x : ℝ}
+    (hlt : lowerCDFMass μ x < 1) :
+    Tendsto
+      (fun n : ℕ =>
+        1 -
+          topOrderCrossingProbability
+            (Measure.pi (fun _ : Fin (n + 1) => μ)) x)
+      atTop (nhds 0) := by
+  have hpow :
+      Tendsto
+        (fun n : ℕ => (lowerCDFMass μ x) ^ (n + 1))
+        atTop (nhds 0) :=
+    (tendsto_pow_atTop_nhds_zero_of_lt_one
+      (lowerCDFMass_nonneg μ x) hlt).comp (tendsto_add_atTop_nat 1)
+  refine Tendsto.congr' ?_ hpow
+  filter_upwards with n
+  have hcross :=
+    topOrderCrossingProbability_iidProduct_eq_one_sub_lowerCDFMass_pow
+      (n := n + 1) μ x
+  rw [hcross]
+  ring
+
+/--
+For iid samples, if the lower-tail mass at a threshold is strictly below one,
+then the sample maximum eventually crosses that threshold with probability
+tending to one.
+-/
+theorem topOrderCrossingProbability_iidProduct_tendsto_one_of_lowerCDFMass_lt_one
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] {x : ℝ}
+    (hlt : lowerCDFMass μ x < 1) :
+    Tendsto
+      (fun n : ℕ =>
+        topOrderCrossingProbability
+          (Measure.pi (fun _ : Fin (n + 1) => μ)) x)
+      atTop (nhds 1) := by
+  have hfail :=
+    one_sub_topOrderCrossingProbability_iidProduct_tendsto_zero_of_lowerCDFMass_lt_one
+      μ hlt
+  have hsub :
+      Tendsto
+        (fun n : ℕ =>
+          1 -
+            (1 -
+              topOrderCrossingProbability
+                (Measure.pi (fun _ : Fin (n + 1) => μ)) x))
+        atTop (nhds (1 - 0)) :=
+    tendsto_const_nhds.sub hfail
+  simpa using hsub
+
+/--
+Endpoint form: if every threshold strictly below the upper endpoint has CDF
+mass below one, then the iid maximum crosses any fixed sub-endpoint threshold
+with probability tending to one.
+-/
+theorem topOrderCrossingProbability_iidProduct_tendsto_one_of_lt_endpoint
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] {x M : ℝ}
+    (hcdf_lt_top : ∀ y : ℝ, y < M → lowerCDFMass μ y < 1)
+    (hx : x < M) :
+    Tendsto
+      (fun n : ℕ =>
+        topOrderCrossingProbability
+          (Measure.pi (fun _ : Fin (n + 1) => μ)) x)
+      atTop (nhds 1) :=
+  topOrderCrossingProbability_iidProduct_tendsto_one_of_lowerCDFMass_lt_one
+    μ (hcdf_lt_top x hx)
+
+theorem topOrderCrossingProbability_le_deviationProbability_of_center_add_le
+    {n : ℕ} [NeZero n]
+    (μ : Measure (Fin n → ℝ)) [IsFiniteMeasure μ]
+    {x center ε : ℝ} (hsep : center + ε ≤ x) :
+    topOrderCrossingProbability μ x ≤
+      topOrderDeviationProbability μ center ε := by
+  unfold topOrderCrossingProbability topOrderDeviationProbability
+  exact measureReal_mono
+    (μ := μ)
+    (by
+      intro noise hcross
+      change x < upperOrderStatistic noise (topSampleRank (n := n)) at hcross
+      have hdev :
+          ε < upperOrderStatistic noise (topSampleRank (n := n)) - center := by
+        linarith
+      exact lt_of_lt_of_le hdev (le_abs_self _))
+    (measure_ne_top μ _)
+
+theorem one_sub_topOrderCrossingProbability_le_deviationProbability_of_lt_center_sub
+    {n : ℕ} [NeZero n]
+    (μ : Measure (Fin n → ℝ)) [IsProbabilityMeasure μ]
+    {x center ε : ℝ} (hε : 0 < ε) (hsep : x < center - ε) :
+    1 - topOrderCrossingProbability μ x ≤
+      topOrderDeviationProbability μ center ε := by
+  let crossingSet : Set (Fin n → ℝ) :=
+    {noise : Fin n → ℝ |
+      x < upperOrderStatistic noise (topSampleRank (n := n))}
+  let deviationSet : Set (Fin n → ℝ) :=
+    {noise : Fin n → ℝ |
+      ε < |upperOrderStatistic noise (topSampleRank (n := n)) - center|}
+  have hcross_meas : MeasurableSet crossingSet := by
+    simpa [crossingSet] using topOrderCrossingSet_measurable (n := n) x
+  have hcompl_subset : crossingSetᶜ ⊆ deviationSet := by
+    intro noise hnoise
+    simp [crossingSet, deviationSet] at hnoise ⊢
+    have hle :
+        upperOrderStatistic noise (topSampleRank (n := n)) ≤ x :=
+      hnoise
+    let gap : ℝ :=
+      upperOrderStatistic noise (topSampleRank (n := n)) - center
+    have hgap_lt_neg : gap < -ε := by
+      dsimp [gap]
+      linarith
+    have hgap_neg : gap < 0 := by linarith
+    have habs : |gap| = -gap := abs_of_neg hgap_neg
+    change ε < |gap|
+    rw [habs]
+    linarith
+  have hcompl_real :
+      μ.real crossingSetᶜ = 1 - μ.real crossingSet :=
+    probReal_compl_eq_one_sub (μ := μ) hcross_meas
+  calc
+    1 - topOrderCrossingProbability μ x
+        = μ.real crossingSetᶜ := by
+            rw [hcompl_real]
+            rfl
+    _ ≤ μ.real deviationSet :=
+        measureReal_mono (μ := μ) hcompl_subset (measure_ne_top μ _)
+    _ = topOrderDeviationProbability μ center ε := rfl
+
+/--
+Sequence form of the maximum-order-statistic deviation probability.  The
+sample size is `n + 1` to keep the finite sample nonempty without threading
+`NeZero n` through asymptotic statements.
+-/
+noncomputable def topOrderDeviationProbabilitySeq
+    (sampleLaw : ∀ n : ℕ, Measure (Fin (n + 1) → ℝ))
+    (center : ℕ → ℝ) (ε : ℝ) (n : ℕ) : ℝ :=
+  topOrderDeviationProbability (sampleLaw n) (center n) ε
+
+/--
+Reusable maximum-concentration interface: the top order statistic of a
+nonempty finite sample concentrates around the supplied center sequence.
+-/
+def TopOrderDeviationConcentrating
+    (sampleLaw : ∀ n : ℕ, Measure (Fin (n + 1) → ℝ))
+    (center : ℕ → ℝ) : Prop :=
+  ∀ ε : ℝ, 0 < ε →
+    Tendsto (topOrderDeviationProbabilitySeq sampleLaw center ε) atTop (nhds 0)
+
+/--
+Chebyshev-style bridge to maximum-order concentration.  If the deviation
+probability at radius `ε` is eventually bounded by a variance bound divided by
+`ε^2`, and that variance bound tends to zero, then the top order statistic
+concentrates around the supplied center.
+-/
+theorem TopOrderDeviationConcentrating.of_chebyshev_bound
+    {sampleLaw : ∀ n : ℕ, Measure (Fin (n + 1) → ℝ)}
+    {center varianceBound : ℕ → ℝ}
+    (hvariance_zero : Tendsto varianceBound atTop (nhds 0))
+    (hchebyshev :
+      ∀ ε : ℝ, 0 < ε →
+        ∀ᶠ n : ℕ in atTop,
+          topOrderDeviationProbability (sampleLaw n) (center n) ε ≤
+            varianceBound n / ε ^ 2) :
+    TopOrderDeviationConcentrating sampleLaw center := by
+  intro ε hε
+  have hscaled :
+      Tendsto (fun n : ℕ => varianceBound n / ε ^ 2) atTop (nhds 0) := by
+    simpa [div_eq_mul_inv] using
+      hvariance_zero.mul_const ((ε ^ 2)⁻¹)
+  refine tendsto_of_tendsto_of_tendsto_of_le_of_le'
+    tendsto_const_nhds hscaled ?_ ?_
+  · filter_upwards with n
+    exact measureReal_nonneg
+  · exact hchebyshev ε hε
+
+theorem TopOrderDeviationConcentrating.eventually_deviation_lt
+    {sampleLaw : ∀ n : ℕ, Measure (Fin (n + 1) → ℝ)}
+    {center : ℕ → ℝ}
+    (hconc : TopOrderDeviationConcentrating sampleLaw center)
+    {ε η : ℝ} (hε : 0 < ε) (hη : 0 < η) :
+    ∀ᶠ n : ℕ in atTop,
+      topOrderDeviationProbability (sampleLaw n) (center n) ε < η :=
+  hconc ε hε (isOpen_Iio.mem_nhds hη)
+
+/--
+If a threshold is eventually at least `ε` above the concentration center, the
+top-order crossing probability tends to zero.
+-/
+theorem topOrderCrossingProbability_tendsto_zero_of_eventually_center_add_le
+    {sampleLaw : ∀ n : ℕ, Measure (Fin (n + 1) → ℝ)}
+    {center threshold : ℕ → ℝ}
+    (hfinite : ∀ n, IsFiniteMeasure (sampleLaw n))
+    (hconc : TopOrderDeviationConcentrating sampleLaw center)
+    {ε : ℝ} (hε : 0 < ε)
+    (hsep : ∀ᶠ n : ℕ in atTop, center n + ε ≤ threshold n) :
+    Tendsto
+      (fun n : ℕ =>
+        topOrderCrossingProbability (sampleLaw n) (threshold n))
+      atTop (nhds 0) := by
+  have hdev_zero :
+      Tendsto
+        (fun n : ℕ =>
+          topOrderDeviationProbability (sampleLaw n) (center n) ε)
+        atTop (nhds 0) :=
+    hconc ε hε
+  refine tendsto_of_tendsto_of_tendsto_of_le_of_le'
+    tendsto_const_nhds hdev_zero ?_ ?_
+  · filter_upwards with n
+    exact measureReal_nonneg
+  · filter_upwards [hsep] with n hn
+    haveI : IsFiniteMeasure (sampleLaw n) := hfinite n
+    exact topOrderCrossingProbability_le_deviationProbability_of_center_add_le
+      (sampleLaw n) hn
+
+/--
+If a threshold is eventually at least `ε` below the concentration center, the
+failure probability `1 - Pr[max > threshold]` tends to zero.
+-/
+theorem one_sub_topOrderCrossingProbability_tendsto_zero_of_eventually_lt_center_sub
+    {sampleLaw : ∀ n : ℕ, Measure (Fin (n + 1) → ℝ)}
+    {center threshold : ℕ → ℝ}
+    (hprob : ∀ n, IsProbabilityMeasure (sampleLaw n))
+    (hconc : TopOrderDeviationConcentrating sampleLaw center)
+    {ε : ℝ} (hε : 0 < ε)
+    (hsep : ∀ᶠ n : ℕ in atTop, threshold n < center n - ε) :
+    Tendsto
+      (fun n : ℕ =>
+        1 - topOrderCrossingProbability (sampleLaw n) (threshold n))
+      atTop (nhds 0) := by
+  have hdev_zero :
+      Tendsto
+        (fun n : ℕ =>
+          topOrderDeviationProbability (sampleLaw n) (center n) ε)
+        atTop (nhds 0) :=
+    hconc ε hε
+  refine tendsto_of_tendsto_of_tendsto_of_le_of_le'
+    tendsto_const_nhds hdev_zero ?_ ?_
+  · filter_upwards with n
+    haveI : IsProbabilityMeasure (sampleLaw n) := hprob n
+    have hle_one :
+        topOrderCrossingProbability (sampleLaw n) (threshold n) ≤ 1 := by
+      simpa [topOrderCrossingProbability] using
+        measureReal_le_one (μ := sampleLaw n)
+          (s := {noise : Fin (n + 1) → ℝ |
+            threshold n < upperOrderStatistic noise (topSampleRank (n := n + 1))})
+    linarith
+  · filter_upwards [hsep] with n hn
+    haveI : IsProbabilityMeasure (sampleLaw n) := hprob n
+    exact
+      one_sub_topOrderCrossingProbability_le_deviationProbability_of_lt_center_sub
+        (sampleLaw n) hε hn
+
 /-- Reflect a finite sample around an upper endpoint `M`. -/
 def reflectedSample (M : ℝ) {n : ℕ} (sample : Fin n → ℝ) : Fin n → ℝ :=
   fun i => M - sample i
@@ -2097,6 +2474,124 @@ def expectedAscendingOrderStatistic {n : ℕ}
 def expectedUpperOrderStatistic {n : ℕ}
     (μ : MeasureTheory.Measure (Fin n → ℝ)) (rankFromTop : Fin n) : ℝ :=
   ∫ sample, upperOrderStatistic sample rankFromTop ∂μ
+
+/-- Expected maximum/top order statistic under a nonempty finite-sample law. -/
+def expectedTopOrderStatistic {n : ℕ} [NeZero n]
+    (μ : MeasureTheory.Measure (Fin n → ℝ)) : ℝ :=
+  expectedUpperOrderStatistic μ (topSampleRank (n := n))
+
+/--
+Expected maximum/top order statistic for a sequence of nonempty finite-sample
+laws indexed by `n`, with sample size `n + 1`.
+-/
+def expectedTopOrderStatisticSeq
+    (sampleLaw : ∀ n : ℕ, MeasureTheory.Measure (Fin (n + 1) → ℝ))
+    (n : ℕ) : ℝ :=
+  expectedTopOrderStatistic (sampleLaw n)
+
+/--
+Chebyshev bound for the top order statistic around its own expectation,
+bridging variance calculations for maximum order statistics to
+deviation-probability interfaces used by matching-market concentration
+arguments.
+-/
+theorem topOrderDeviationProbability_le_variance_div_sq
+    {n : ℕ} [NeZero n]
+    (μ : MeasureTheory.Measure (Fin n → ℝ)) [MeasureTheory.IsFiniteMeasure μ]
+    (hmem :
+      MeasureTheory.MemLp
+        (fun sample : Fin n → ℝ =>
+          upperOrderStatistic sample (topSampleRank (n := n))) 2 μ)
+    {ε : ℝ} (hε : 0 < ε) :
+    topOrderDeviationProbability μ (expectedTopOrderStatistic μ) ε ≤
+      ProbabilityTheory.variance
+        (fun sample : Fin n → ℝ =>
+          upperOrderStatistic sample (topSampleRank (n := n))) μ / ε ^ 2 := by
+  let X : (Fin n → ℝ) → ℝ :=
+    fun sample => upperOrderStatistic sample (topSampleRank (n := n))
+  have hvariance_nonneg :
+      0 ≤ ProbabilityTheory.variance X μ / ε ^ 2 := by
+    exact div_nonneg
+      (ProbabilityTheory.variance_nonneg X μ)
+      (sq_nonneg ε)
+  have hchebyshev_enn :
+      μ {sample : Fin n → ℝ | ε ≤ |X sample - μ[X]|} ≤
+        ENNReal.ofReal (ProbabilityTheory.variance X μ / ε ^ 2) :=
+    ProbabilityTheory.meas_ge_le_variance_div_sq
+      (μ := μ) (X := X) hmem hε
+  have hchebyshev_real :
+      μ.real {sample : Fin n → ℝ | ε ≤ |X sample - μ[X]|} ≤
+        ProbabilityTheory.variance X μ / ε ^ 2 :=
+    (ENNReal.le_ofReal_iff_toReal_le
+      (measure_ne_top μ {sample : Fin n → ℝ | ε ≤ |X sample - μ[X]|})
+      hvariance_nonneg).1 hchebyshev_enn
+  have hsubset :
+      {sample : Fin n → ℝ |
+        ε < |X sample - expectedTopOrderStatistic μ|} ⊆
+      {sample : Fin n → ℝ | ε ≤ |X sample - μ[X]|} := by
+    intro sample hsample
+    exact le_of_lt (by
+      simpa [X, expectedTopOrderStatistic, expectedUpperOrderStatistic]
+        using hsample)
+  calc
+    topOrderDeviationProbability μ (expectedTopOrderStatistic μ) ε
+        = μ.real
+            {sample : Fin n → ℝ |
+              ε < |X sample - expectedTopOrderStatistic μ|} := by
+            rfl
+    _ ≤ μ.real {sample : Fin n → ℝ | ε ≤ |X sample - μ[X]|} :=
+        measureReal_mono (μ := μ) hsubset (measure_ne_top μ _)
+    _ ≤ ProbabilityTheory.variance X μ / ε ^ 2 :=
+        hchebyshev_real
+
+/--
+Variance-bound route to top-order-statistic concentration.  The finite-measure
+and `L²` hypotheses are explicit so downstream paper files can expose the
+source variance premise instead of a raw Chebyshev inequality.
+-/
+theorem TopOrderDeviationConcentrating.of_variance_bound
+    {sampleLaw : ∀ n : ℕ, MeasureTheory.Measure (Fin (n + 1) → ℝ)}
+    {varianceBound : ℕ → ℝ}
+    (hfinite : ∀ n : ℕ, MeasureTheory.IsFiniteMeasure (sampleLaw n))
+    (hvariance_zero : Tendsto varianceBound atTop (nhds 0))
+    (hmem :
+      ∀ᶠ n : ℕ in atTop,
+        MeasureTheory.MemLp
+          (fun sample : Fin (n + 1) → ℝ =>
+            upperOrderStatistic sample (topSampleRank (n := n + 1))) 2
+          (sampleLaw n))
+    (hvariance_bound :
+      ∀ᶠ n : ℕ in atTop,
+        ProbabilityTheory.variance
+          (fun sample : Fin (n + 1) → ℝ =>
+            upperOrderStatistic sample (topSampleRank (n := n + 1)))
+          (sampleLaw n) ≤ varianceBound n) :
+    TopOrderDeviationConcentrating sampleLaw
+      (expectedTopOrderStatisticSeq sampleLaw) := by
+  refine TopOrderDeviationConcentrating.of_chebyshev_bound
+    hvariance_zero ?_
+  intro ε hε
+  filter_upwards [hmem, hvariance_bound] with n hnmem hnvariance
+  letI : MeasureTheory.IsFiniteMeasure (sampleLaw n) := hfinite n
+  have hdeviation :
+      topOrderDeviationProbability
+          (sampleLaw n)
+          (expectedTopOrderStatisticSeq sampleLaw n) ε ≤
+        ProbabilityTheory.variance
+          (fun sample : Fin (n + 1) → ℝ =>
+            upperOrderStatistic sample (topSampleRank (n := n + 1)))
+          (sampleLaw n) / ε ^ 2 := by
+    simpa [expectedTopOrderStatisticSeq] using
+      topOrderDeviationProbability_le_variance_div_sq
+        (μ := sampleLaw n) hnmem hε
+  have hdivide :
+      ProbabilityTheory.variance
+          (fun sample : Fin (n + 1) → ℝ =>
+            upperOrderStatistic sample (topSampleRank (n := n + 1)))
+          (sampleLaw n) / ε ^ 2 ≤
+        varianceBound n / ε ^ 2 :=
+    div_le_div_of_nonneg_right hnvariance (sq_nonneg ε)
+  exact hdeviation.trans hdivide
 
 /--
 Layer-cake form for a nonnegative integrable upper order statistic.

@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "paper": "GGRS26CombattingGerrymanderingRCV",
-  "prompt_version": "assumption-provenance-v2-exact-premise-source",
-  "validator": "",
-  "validator_type": "",
-  "validated_at": "",
+  "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
+  "validator": "codex-gpt-5.5-source-first-v3-audit",
+  "validator_type": "agent",
+  "validated_at": "2026-07-18T00:00:00Z",
   "comment": "Validate every assumption declaration and every exact audit-premise against source text or a Lean derivation.",
   "prompt_summary": [
     "For each Assumptions.lean declaration, decide whether it is an explicit paper/model assumption, a source theorem condition, a documented caveat, a partial-formalization boundary, not a paper assumption, or uncertain.",

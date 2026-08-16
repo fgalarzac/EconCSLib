@@ -1,21 +1,37 @@
 #!/usr/bin/env python3
 """Keep generators away from the hand-written root README.
 
-Human edits to README.md are allowed directly. This module intentionally does
-not inspect README prose. It only blocks generator output maps that would write
-the root README; agent-facing documentation still requires express user
-instructions in the current task before an LLM edits any README file.
+Human edits to README.md are allowed directly. This policy only blocks generated
+README outputs and generated-block markers; agent-facing documentation still
+requires explicit user instructions before an LLM edits the root README.
 """
 
 from __future__ import annotations
 
 import argparse
+import os
+import sys
 from pathlib import Path
 from typing import Iterable
 
 
-ROOT = Path(__file__).resolve().parents[1]
+_ROOT_PARSER = argparse.ArgumentParser(add_help=False)
+_ROOT_PARSER.add_argument("--repo", type=Path)
+_ROOT_ARGS, _ROOT_UNKNOWN = _ROOT_PARSER.parse_known_args(sys.argv[1:])
+ROOT = (
+    _ROOT_ARGS.repo.resolve()
+    if _ROOT_ARGS.repo is not None
+    else Path(
+        os.environ.get("ECONCSLIB_REPO_ROOT", Path(__file__).resolve().parents[1])
+    ).resolve()
+)
 ROOT_README = ROOT / "README.md"
+
+GENERATED_MARKERS = (
+    "<!-- BEGIN GENERATED",
+    "<!-- END GENERATED",
+)
+
 
 def root_relative(path: Path) -> str:
     try:
@@ -25,13 +41,20 @@ def root_relative(path: Path) -> str:
 
 
 def validate_root_readme() -> list[str]:
-    """Return policy violations for the non-content README policy.
+    """Return policy violations for generated root README edits."""
 
-    Kept for backward compatibility with older CI commands. Human README edits
-    should not make CLI checks fail, so content validation is deliberately empty.
-    """
+    messages: list[str] = []
+    if not ROOT_README.exists():
+        return [f"{root_relative(ROOT_README)} is missing"]
 
-    return []
+    text = ROOT_README.read_text(encoding="utf-8")
+    for marker in GENERATED_MARKERS:
+        if marker in text:
+            messages.append(
+                f"{root_relative(ROOT_README)} contains generated-output marker `{marker}`"
+            )
+
+    return messages
 
 
 def assert_root_readme_policy() -> None:
@@ -59,11 +82,20 @@ def assert_no_root_readme_outputs(paths: Iterable[Path]) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
+        "--repo",
+        type=Path,
+        default=ROOT,
+        help="repository checkout to validate (default: this script's repository)",
+    )
+    parser.add_argument(
         "--write-lock",
         action="store_true",
         help="deprecated no-op; human README edits no longer require a hash lock",
     )
     args = parser.parse_args()
+
+    if args.repo.resolve() != ROOT:
+        parser.error("--repo must be resolved during process bootstrap")
 
     if args.write_lock:
         print("root README hash locks are no longer used; nothing to write")
@@ -75,7 +107,7 @@ def main() -> int:
         for message in messages:
             print(f"- {message}")
         return 1
-    print("root README policy passed; README prose was not inspected")
+    print("root README policy passed")
     return 0
 
 

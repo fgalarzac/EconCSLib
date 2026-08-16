@@ -1,12 +1,12 @@
 {
-  "judgment": "passes",
+  "schema": 1,
   "paper": "GN21DriverSurgePricing",
   "prompt_version": "review-surface-v2-semantic-paper-facing",
-  "reason": "Semantic review-surface pass: source-visible review targets are exposed as paper-facing rows, with helper-only implementation details kept outside the dashboard unless needed for source coverage.",
-  "review_rows": 36,
-  "review_surface_sha256": "f995f6cf1362e86b189a2c3e239cc2d697c3a34d523bd327c1f4efcc186ca9dc",
-  "schema": 1,
-  "validated_at": "2026-06-29T20:39:31Z",
-  "validator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  "validated_at": "2026-07-16T21:24:48Z",
+  "validator": "Codex GN21 corrected-statement surface audit",
+  "validator_type": "agent",
+  "judgment": "passes",
+  "review_rows": 32,
+  "review_surface_sha256": "6d950824908698957761053e8b9429f1e51e961b9584289bc1625a4d4383c4fb",
+  "reason": "All configured GN21 rows are paper-facing source results, displayed formulas, named source definitions, or explicit source-domain assumptions. Full variational Lemma 5 and corrected Theorem 4 rows are now present with audited visible-premise repairs; their older component theorems remain outside the source-result surface."
 }

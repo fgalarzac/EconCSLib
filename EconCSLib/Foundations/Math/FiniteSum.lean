@@ -252,6 +252,79 @@ theorem prod_ite_mem_eq_pow_mul_pow {α : Type*}
           simp [hfilter, hfilter_not_card]
 
 /--
+Finite-product comparison for "at least one success" probabilities.
+
+If each high-value failure probability divided by the corresponding low-value
+failure probability is bounded below by a pointwise ratio floor, and the
+product of those floors is at least `globalFloor`, then the difference between
+the two at-least-one-success probabilities is at most `1 - globalFloor`.
+
+This is the deterministic algebra behind product-measure amplification
+arguments, separated from any independence or distribution-specific facts.
+-/
+theorem product_failure_difference_le_of_pointwise_ratio_floor
+    {α : Type*} (s : Finset α) (qLow qHigh ratioFloor : α → ℝ)
+    {globalFloor : ℝ}
+    (hprod_floor : globalFloor ≤ ∏ i ∈ s, ratioFloor i)
+    (hratio_nonneg : ∀ i ∈ s, 0 ≤ ratioFloor i)
+    (hratio :
+      ∀ i ∈ s,
+        ratioFloor i ≤ (1 - qHigh i) / (1 - qLow i))
+    (hlow_failure_pos : ∀ i ∈ s, 0 < 1 - qLow i)
+    (hlow_failure_le_one : ∀ i ∈ s, 1 - qLow i ≤ 1)
+    (hglobal_le_one : globalFloor ≤ 1) :
+    (∏ i ∈ s, (1 - qLow i)) - (∏ i ∈ s, (1 - qHigh i)) ≤
+      1 - globalFloor := by
+  classical
+  let lowProd : ℝ := ∏ i ∈ s, (1 - qLow i)
+  let highProd : ℝ := ∏ i ∈ s, (1 - qHigh i)
+  let ratioProd : ℝ := ∏ i ∈ s, (1 - qHigh i) / (1 - qLow i)
+  have hlow_nonneg : ∀ i ∈ s, 0 ≤ 1 - qLow i :=
+    fun i hi => (hlow_failure_pos i hi).le
+  have hlowProd_pos : 0 < lowProd := by
+    dsimp [lowProd]
+    exact Finset.prod_pos hlow_failure_pos
+  have hlowProd_le_one : lowProd ≤ 1 := by
+    dsimp [lowProd]
+    exact Finset.prod_le_one hlow_nonneg hlow_failure_le_one
+  have hfloor_le_ratioProd : globalFloor ≤ ratioProd := by
+    calc
+      globalFloor ≤ ∏ i ∈ s, ratioFloor i := hprod_floor
+      _ ≤ ratioProd := by
+        dsimp [ratioProd]
+        exact Finset.prod_le_prod hratio_nonneg hratio
+  have hratioProd_eq : ratioProd = highProd / lowProd := by
+    dsimp [ratioProd, highProd, lowProd]
+    exact Finset.prod_div_distrib (s := s)
+      (f := fun i => 1 - qHigh i) (g := fun i => 1 - qLow i)
+  have hfloor_le_div : globalFloor ≤ highProd / lowProd := by
+    simpa [hratioProd_eq] using hfloor_le_ratioProd
+  have hmul : globalFloor * lowProd ≤ highProd := by
+    have h :=
+      mul_le_mul_of_nonneg_right hfloor_le_div hlowProd_pos.le
+    have hcancel :
+        highProd / lowProd * lowProd = highProd := by
+      exact div_mul_cancel₀ highProd (ne_of_gt hlowProd_pos)
+    simpa [hcancel] using h
+  have hdiff :
+      lowProd - highProd ≤ lowProd - globalFloor * lowProd :=
+    sub_le_sub_left hmul lowProd
+  have hfactor :
+      lowProd - globalFloor * lowProd =
+        (1 - globalFloor) * lowProd := by
+    ring
+  have hscale :
+      (1 - globalFloor) * lowProd ≤ 1 - globalFloor := by
+    exact mul_le_of_le_one_right (sub_nonneg.mpr hglobal_le_one)
+      hlowProd_le_one
+  calc
+    (∏ i ∈ s, (1 - qLow i)) - (∏ i ∈ s, (1 - qHigh i))
+        = lowProd - highProd := by rfl
+    _ ≤ lowProd - globalFloor * lowProd := hdiff
+    _ = (1 - globalFloor) * lowProd := hfactor
+    _ ≤ 1 - globalFloor := hscale
+
+/--
 Regroup a finite double sum into ordered off-diagonal pairs, using an
 injective key to decide which orientation of each pair is canonical.
 -/

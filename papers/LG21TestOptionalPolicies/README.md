@@ -4,8 +4,9 @@
 | Field | Value |
 |---|---|
 | Final status | Formalized |
+| Scope note | Author-approved corrected model; the pinned archive is not asserted equivalent |
 | Paper reference | [Test-optional Policies: Overcoming Strategic Behavior and Informational Gaps](https://arxiv.org/pdf/2107.08922) by Zhi Liu and Nikhil Garg; EAAMO, 2021. |
-| Lines of Code | 125,744 |
+| Lines of Code | 212,419 |
 
 ## Key Links
 

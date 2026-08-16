@@ -1,0 +1,520 @@
+{
+  "schema": 2,
+  "paper": "KR21Monoculture",
+  "source_artifact_path": "sources/2101.05853.txt",
+  "source_artifact_sha256": "aed647e81248dd53a36395cbaef93a343a9b6a8a525da05f3dcd06662384fb23",
+  "review_status": "defects_recorded",
+  "reviewed_proof_scopes": [
+    {
+      "source_locator": "sources/2101.05853.txt:133-470",
+      "semantic_scope": "Definitions 1-3, the outer candidate-value distribution D, payoff identities (1)-(6), and the full continuity and intermediate-value proof of Theorem 1.",
+      "outcome": "no_defect"
+    },
+    {
+      "source_locator": "sources/2101.05853.txt:493-688",
+      "semantic_scope": "RUM and Mallows models, Theorems 2-4, Plackett-Luce formula and zero-effect result, simulation-efficiency assertion, quantitative Gaussian and k>2 examples, and the source-declared open multi-firm observation.",
+      "outcome": "defect_recorded"
+    },
+    {
+      "source_locator": "sources/2101.05853.txt:782-951",
+      "semantic_scope": "Theorem 5's differentiability, asymptotic-optimality, and removal-monotonicity claims and proof, including equation (A.1).",
+      "outcome": "defect_recorded"
+    },
+    {
+      "source_locator": "sources/2101.05853.txt:953-1105",
+      "semantic_scope": "Both three-candidate RUM counterexamples in Appendix B and formulas (B.1)-(B.2).",
+      "outcome": "no_defect"
+    },
+    {
+      "source_locator": "sources/2101.05853.txt:1111-1800",
+      "semantic_scope": "Appendix C equations (C.1)-(C.4), Definition 4, Theorem 6, Lemmas 1-3, Theorem 7, and every density-swap and derivative step used by the Laplace route.",
+      "outcome": "defect_recorded"
+    },
+    {
+      "source_locator": "sources/2101.05853.txt:1801-2160",
+      "semantic_scope": "Theorem 8's Gaussian conditional-ratio proof, formulas (C.5)-(C.10), and the cited Mills-ratio inequality.",
+      "outcome": "defect_recorded"
+    },
+    {
+      "source_locator": "sources/2101.05853.txt:2166-3180",
+      "semantic_scope": "Theorem 9, equation (D.1), Theorem 3's Mallows proof and equations (E.1)-(E.3), Lemmas 4-8 and formulas (F.1)-(F.2), and the proof of Theorem 4.",
+      "outcome": "defect_recorded"
+    }
+  ],
+  "model_conventions": [
+    {
+      "id": "KR21-OUTER-D-RANK-LABEL-01",
+      "source_locator": "sources/2101.05853.txt:133-138; sources/2101.05853.txt:190-198",
+      "classification": "source_model_convention",
+      "formal_meaning": "The source's standing x1 > ... > xn convention is represented by one fixed ranking center and almost-everywhere StrictlyOrderedBy center support for the outer value law D; Mallows draws use that fixed center and do not sort or relabel each realized profile.",
+      "why_needed": "The source introduces D after fixing the value order and says candidate values but not their identities may be deterministic. The Lean theorem must state whether D is rank-labelled or whether it performs a separate profile-dependent sorting operation.",
+      "checked_scope": "MallowsOuterSource.lean and MallowsOuterConditionalSource.lean prove the fixed-center source-order model directly. No arbitrary identity-labelled-D sorting reduction is used or counted as source evidence."
+    },
+    {
+      "id": "KR21-TWO-FIRM-UNIFORM-ORDER-01",
+      "source_locator": "sources/2101.05853.txt:176-182; sources/2101.05853.txt:303-324",
+      "classification": "user_approved_source_model_convention",
+      "formal_meaning": "The two labelled firms are each first with probability one half, independently of candidate values, ranking draws, and strategy randomization. Thus a labelled firm's ex-ante payoff is the arithmetic mean of its first-mover payoff and the payoff obtained when the other firm moves first.",
+      "why_needed": "The source says only that the two firms hire 'in a random order.' Equations (4) and (5), and the Lean game semantics, use an unweighted sum or division by two, which is valid only for a uniform arrival order. Treating that weight as implied by the word random would smuggle a material model choice into the source result.",
+      "checked_scope": "PaperInterface.source_two_firm_selection_game_semantics makes the one-half payoff identity literal for every strategy profile. Equations (4) and (5) use exactly that identity; no claim is made that the archival prose explicitly specified a uniform distribution.",
+      "approval": {
+        "approval_kind": "explicit_user_instruction",
+        "approval_reference": "User instruction on 2026-07-25: assume whatever convention makes the result true, provided it is visible rather than smuggled into a statement.",
+        "approved_at": "2026-07-25",
+        "conditions": [
+          "exactly two labelled firms",
+          "each firm is first with probability one half",
+          "arrival order is independent of values, rankings, and strategy randomization"
+        ]
+      }
+    },
+    {
+      "id": "KR21-TWO-FIRM-CANDIDATE-DOMAIN-01",
+      "source_locator": "sources/2101.05853.txt:176-182",
+      "classification": "source_model_convention",
+      "formal_meaning": "The paper's selection model has two firms each hire one candidate from a common pool, and its stated next-available-candidate branch requires at least two distinct candidates. Lean represents exactly this source domain as Candidate n = Fin (n + 2): every instance has N >= 2 candidates and n = 0 is the N = 2 boundary.",
+      "why_needed": "The source uses n as its candidate-count notation but does not separately print a lower-bound formula beside every later lemma. Treating Candidate n as an arbitrary finite carrier would hide whether the formalization omitted the N = 1 case or changed the two-hire model's domain.",
+      "checked_scope": "PaperInterface.source_model_two_firm_candidate_domain proves 2 <= Fintype.card (Candidate n) from the explicit cardinality bridge, and source_model_candidates_values_and_ranking_law includes that lower bound in its direct source-model conclusion. The Lemma 2 source core is credited only on this two-firm N >= 2 domain; it does not silently claim a standalone N = 1 extension."
+    },
+    {
+      "id": "KR21-OUTER-D-FIRST-MOMENT-01",
+      "source_locator": "sources/2101.05853.txt:190-198; sources/2101.05853.txt:210-246; sources/2101.05853.txt:590-591",
+      "classification": "documented_additional_assumption",
+      "formal_meaning": "Every coordinate of the outer candidate-value distribution D is integrable. This is a visible premise of the fixed-order outer-D Mallows Theorem 3 and Theorem 1 rows.",
+      "why_needed": "The source states strict real-valued expected-utility and welfare comparisons but does not explicitly state finite first moments. Lean requires them to define the outer payoff integrals and the actual joint conditional expectation without totalized-integral artifacts.",
+      "checked_scope": "The finite-first-moment premise derives the outer and raw-joint payoff integrability used by the conditional Definition 2 bridge. It is not hidden in a helper theorem and has not been silently attributed to the archival source statement."
+    },
+    {
+      "id": "KR21-DEFINITION2-POSITIVE-CONDITIONING-01",
+      "source_locator": "sources/2101.05853.txt:210-216",
+      "classification": "documented_additional_assumption",
+      "formal_meaning": "For every positive accuracy, two iid rankings have strictly positive probability of disagreeing on their top candidate before the Definition 2 conditional expectation is interpreted.",
+      "why_needed": "The source writes a conditional expectation on the top-disagreement event without separately asserting that the conditioning event is non-null. Lean totalizes a zero-probability conditional expectation, so treating the printed expression as an ordinary real inequality without this condition would silently choose a convention rather than formalize its standard well-posed interpretation.",
+      "checked_scope": "LiteralDefinition1Theorem1Bridge.lean and PaperInterface.theorem1_from_literal_source_conditions make the event mass visible and use the checked conditional-gain equivalence to obtain the utility-side Definition 2 premise. Concrete outer Mallows and RUM routes derive their actual joint event mass from their source laws and regularity; this convention is not hidden in a theorem-assumption package."
+    },
+    {
+      "id": "KR21-RUM-UNIT-VARIANCE-NORMALIZATION-01",
+      "source_locator": "sources/2101.05853.txt:493-504",
+      "classification": "documented_additional_assumption",
+      "formal_meaning": "For a scalar iid innovation law E with finite strictly positive variance, Lean sets sigma = sqrt(Var[E]), pushes E forward by epsilon -> epsilon/sigma, and proves the explicit normalized iid product law has independent unit-variance coordinates. It proves theta' = theta/sigma preserves epsilon/theta score rankings and the induced finite ranking PMF exactly.",
+      "why_needed": "The paper declares unit variance without loss of generality. That normalization is harmless only after a law-preserving positive-scale reparameterization is proved; global W1,1 regularity alone permits infinite variance.",
+      "checked_scope": "RUMSourceVarianceNormalization.lean proves sourceRUM_iidFinitePositiveVariance_normalization from MemLp id 2 E and 0 < Var[E]. Its theorem type includes the normalized product law's iIndepFun conclusion, finite L2 scalar law, coordinatewise unit variance, and exact raw-versus-normalized ranking-PMF transport. PaperInterface.section31_iidFinitePositiveVariance_normalization keeps both finite-second-moment and positive-variance premises visible. Source-normalized Laplace and the literal Gumbel specialization remain separate model instances; no generic conclusion is inferred from their declaration names."
+    },
+    {
+      "id": "KR21-RUM-TIE-CONVENTION-01",
+      "source_locator": "sources/2101.05853.txt:493-504",
+      "classification": "explicit_formalization_convention",
+      "formal_meaning": "When perturbed scores tie, the generic RUM uses the deterministic finite-carrier order selected by Tuple.sort through rankByScore. Raw and variance-normalized RUMs use the same totalization; the normalization theorem proves equality of their score-induced ranking laws, not an unstated almost-sure tie exclusion.",
+      "why_needed": "The source defines rankings by ordering noisy scores but does not state a tie convention. The generic finite-second-moment normalization route applies to laws with atoms, so ties cannot be discarded as null events. Lean must choose a total rule before a ranking PMF is defined.",
+      "checked_scope": "Score.lean:33-38 gives the total score ranking; MainTheorems.lean:1961-1980 pushes scores through it; UnitVarianceNormalization.lean:51-124 proves exact score/ranking equality under positive scale, including ties; and PaperInterface.section31_iidFinitePositiveVariance_normalization exposes the generic normalization. Named continuous Gumbel routes separately prove their no-tie/strict-race facts where those facts are used; this convention does not pretend that the source specified a tie rule.",
+      "approval": {
+        "approval_kind": "explicit_user_instruction",
+        "approval_reference": "User instruction on 2026-07-25: assume whatever convention makes the result true, provided it is visible rather than smuggled into a statement.",
+        "approved_at": "2026-07-25",
+        "conditions": [
+          "one deterministic total ranking rule for equal scores",
+          "the same rule is used before and after the positive-scale normalization",
+          "continuous named-model routes retain their separately proved no-tie facts"
+        ]
+      }
+    },
+    {
+      "id": "KR21-GUMBEL-UNIT-VARIANCE-SPECIAL-VALUE-01",
+      "source_locator": "sources/2101.05853.txt:493-504; sources/2101.05853.txt:530-540",
+      "classification": "documented_additional_assumption",
+      "formal_meaning": "For the literal Gumbel innovation epsilon = location - (sqrt(6)/pi) * log T with T distributed as unit-rate exponential, the source-facing endpoint takes the explicit analytic premise Var[-log T] = pi^2/6. From that premise it proves that the actual finite iid product law has unit-variance coordinates and that scores value_i + epsilon_i/theta induce Plackett--Luce at inverse temperature theta/(sqrt(6)/pi).",
+      "why_needed": "The source first imposes a unit-variance noise convention and later invokes a Gumbel RUM, but it does not provide a parameterized distribution or derive the Gamma special value that verifies the displayed exponential construction has that variance. Lean must not infer the identity from the word Gumbel or from a definition name.",
+      "checked_scope": "UnitVarianceGumbelSource.lean constructs the iid product measure, proves equality to the exponential-arrival construction, and exposes the special value as the only non-definitional analytic premise of the unit-variance endpoint. PaperInterface.section31_literalUnitVarianceGumbel_source_model keeps that premise in its type. This specializes one Gumbel law only; it neither proves the generic RUM variance-normalization bridge nor restores the source's same-parameter Plackett--Luce formula."
+    },
+    {
+      "id": "KR21-THEOREM2-OUTER-D-REGULARITY-01",
+      "source_locator": "sources/2101.05853.txt:210-246; sources/2101.05853.txt:505-521",
+      "classification": "documented_additional_assumption",
+      "formal_meaning": "For the actual outer-value plus conditionally-iid-ranking Definition 2 experiment, the source's D is represented with almost-everywhere strict value order, measurable finite ranking atoms, and integrable raw payoff variables; Definition 3 retains its two displayed payoff-integrability premises.",
+      "why_needed": "Theorem 2 says 'any candidate distribution D' but its Definitions 2 and 3 compare real-valued expectations and Definition 2 conditions on a joint event. The source does not state the kernel measurability or finite-first-moment conditions needed to avoid totalized-integral or zero-conditioning artifacts.",
+      "checked_scope": "The legacy Gaussian and source-normalized Laplace Definition 2/3 rows expose the literal joint regularity or exact payoff-integrability hypotheses. The newer direct outer-D Theorem 1 conclusion endpoints derive ranking-atom measurability and every required payoff integrability from coordinatewise first moments, while retaining a.e. fixed source order visibly. Positive disagreement mass is derived from strict pointwise preference, not supplied as an opaque source-model field."
+    },
+    {
+      "id": "KR21-EQ6-ALL-PROFILE-REGULARITY-01",
+      "source_locator": "sources/2101.05853.txt:133-159; sources/2101.05853.txt:190-198; sources/2101.05853.txt:325-359",
+      "classification": "documented_additional_assumption",
+      "formal_meaning": "The direct Equation (6) endpoint asks for atomwise continuity, differentiability, and convergence to the fixed true ranking for every Lean ValueProfile. The source's rank-labelled outer-D model only uses profiles in its ordered support, so this is an explicit total-family extension off that support rather than an assertion that arbitrary identity-labelled profiles are source instances.",
+      "why_needed": "The current outer integration and continuity lemmas are stated with pointwise atom regularity, while the source fixes x1 > ... > xn before introducing D. Replacing that source-domain condition by unmentioned arbitrary-profile regularity would be a hidden strengthening unless it is stated and tracked.",
+      "checked_scope": "PaperInterface.equation6_outer_payoff_indifference_from_source_conditions exposes the three universal regularity premises in its theorem type. The D-dependent order, atom measurability, and raw payoff integrability remain separately recorded by KR21-OUTER-D-RANK-LABEL-01, KR21-OUTER-D-FIRST-MOMENT-01, KR21-DEFINITION2-POSITIVE-CONDITIONING-01, and KR21-THEOREM2-OUTER-D-REGULARITY-01. A future refinement may replace the total-family inputs with adequately proved almost-everywhere ordered-domain versions; no such reduction is claimed here."
+    },
+    {
+      "id": "KR21-K3-TIE-BREAKING-01",
+      "source_locator": "sources/2101.05853.txt:613-625",
+      "classification": "explicit_formalization_convention",
+      "formal_meaning": "The raw four-candidate value model uses the finite-index tie break built into `sourceTrueRankOfValues` so realized true rank and candidate-identity selection are total functions on every value vector.",
+      "why_needed": "The source describes iid continuous Uniform values and a ranking by realized value but leaves equal-value behavior implicit; a total Lean model must choose behavior on that event before defining the conditional ranking experiment.",
+      "checked_scope": "The complete K=3 raw-source dominance and welfare certificate is proved for this deterministic extension. Continuous iid Uniform values make ties a null-event convention; convention-invariance itself is not used as a hidden premise. The source passage is a non-named computational illustration and is therefore auxiliary evidence rather than a required theorem target."
+    },
+    {
+      "id": "KR21-APPENDIX-C-LEMMA3-IID-RUM-01",
+      "source_locator": "sources/2101.05853.txt:1111-1166; sources/2101.05853.txt:1366-1464",
+      "classification": "user_approved_source_model_convention",
+      "formal_meaning": "Appendix C's phrase 'iid noise distribution with density f' is represented by a measurable, pointwise nonnegative scalar density whose ENNReal lift integrates to one, with the product law constructed from that density. Lemmas 2 and 3 use the same innovation coordinates at two positive accuracies through the source contraction r'_i = x_i + (r_i - x_i) theta_H/theta_A; this is a proof coupling of the two marginal source score laws, not a caller-supplied transition premise. The source's strict four-point ordering condition, rank-labelled strict value order x_1 > ... > x_{n+2}, and positive accuracy domain are visible premises. `Candidate n = Fin (n + 2)` is the source-label carrier translation.",
+      "why_needed": "The Lemma 2 and Lemma 3 headlines mention only a RUM family or well-ordered noise, while their proofs use the preceding iid density score construction and the concrete contraction. The prose and Definition 4 also do not spell out Lean's measurability, normalization, nonnegativity, finite-carrier encoding, or the equality convention at identical accuracies. Treating an arbitrary named law, an arbitrary ranking PMF, or a preproved transition comparison as the source model would hide those semantics.",
+      "checked_scope": "AppendixCGeneralLemma2.lean proves the finite same-realization contraction and bottom-event inclusion for an arbitrary probability innovation vector. PaperInterface.lemma2_source_arbitraryFinite_iid_bottom_first_probability_semantic_complete then fixes that checked support theorem to the source's scalar iid density product, source last candidate, and two score-pushforward laws; the arbitrary joint-law endpoint is not credited as the source model. AppendixCGeneralLemma3.lean constructs the finite iid density-swap route for the every-non-top Lemma 3 delta bound. No ranking-law equality, event-inclusion, transition-mass, or delta certificate appears as a caller premise. The weak equality case thetaA = thetaH is a proved equal-law extension; the source strict comparison remains included.",
+      "approval": {
+        "approval_kind": "explicit_user_instruction",
+        "approval_reference": "User instruction on 2026-07-25: assume whatever convention makes the result true, provided it is visible rather than smuggled into a statement.",
+        "approved_at": "2026-07-25",
+        "conditions": [
+          "iid scalar density is measurable, nonnegative, and normalized",
+          "source Definition 4 strict four-point ordering",
+          "strict rank-labelled source values",
+          "positive accuracy with the source strict-order case and a separately proved equality extension",
+          "finite carrier represented as Candidate n = Fin (n + 2)"
+        ]
+      }
+    },
+    {
+      "id": "KR21-APPENDIX-C-PAIRWISE-ORDER-SCALE-01",
+      "source_locator": "sources/2101.05853.txt:1467-1494; sources/2101.05853.txt:1801-1845",
+      "classification": "documented_additional_assumption",
+      "formal_meaning": "Theorem 7 and Theorem 8 are reviewed on the pairwise domain x_i > x_j with a positive score scale sigma > 0. The Laplace proof states the mean order immediately after its displayed theorem; the Gaussian proof sets delta = x_i - x_j and proves strict positivity only for delta > 0, while its scale reduction requires positive scale. The direct Lean endpoints state both conditions explicitly.",
+      "why_needed": "The theorem headlines display unrestricted x_i, x_j, and sigma even though equality x_i = x_j gives a symmetric conditional probability of one half and derivative zero, and a nonpositive scale does not support the stated standard-deviation or positive-scale transport. Leaving the domain only in a proof paragraph would make a strict source-facing conclusion look unconditional.",
+      "checked_scope": "PaperInterface.theorem7_source_semantic_complete and PaperInterface.theorem8_source_semantic_complete take hsigma : 0 < sigma and hx : xj < xi, then prove the literal iid score-law conditional derivative statements. The extra domain conditions are source-context clarifications, not a weakening beyond the proof's actual argument.",
+      "approval": {
+        "approval_kind": "explicit_user_instruction",
+        "approval_reference": "User instruction on 2026-07-25: record source-compatible implicit regularity conditions visibly rather than smuggling them into statements.",
+        "approved_at": "2026-07-25",
+        "conditions": [
+          "x_i > x_j for the strict pairwise conclusion",
+          "positive score scale sigma > 0"
+        ]
+      }
+    },
+    {
+      "id": "KR21-THEOREM4-SEQUENTIAL-INFORMATION-01",
+      "source_locator": "sources/2101.05853.txt:638-658; sources/2101.05853.txt:2982-3180",
+      "classification": "user_approved_source_model_convention",
+      "formal_meaning": "Theorem 4 is represented as an ex-ante sequential best-response result at each feasible remaining candidate set. A fixed rank-labelled Mallows center orders the outer value profiles almost everywhere; each firm receives a fresh independent ranking after the previous hires; no payoff is defined after candidate exhaustion; and no posterior update from observed prior hires is supplied or inferred.",
+      "why_needed": "The source says that a later firm chooses given earlier choices, but it does not specify an information filtration, posterior kernel, or an observation model for prior hires. It also writes a length-k strategy sequence without defining a selection payoff after no candidates remain. Calling an ex-ante independent-draw theorem a posterior sequential equilibrium would add semantics absent from the source.",
+      "checked_scope": "MallowsTheorem4OuterSource.lean defines `AllHumanOptimal` only for feasible pre-exhaustion histories and `HumanUniqueAtAllNonterminalHistories` only when at least two candidates remain. Its endpoints `source_theorem4_mallows_outer_allHumanOptimal` and `source_theorem4_mallows_outer_humanUnique` prove the source phi comparison with coordinatewise D-integrability and fixed-center almost-everywhere order visible in their types. PaperInterface exposes those exact endpoints, not the older fixed-value sequential wrapper.",
+      "approval": {
+        "approval_kind": "explicit_user_instruction",
+        "approval_reference": "User instruction on 2026-07-25: assume the minimal source-compatible convention that makes the result true.",
+        "approved_at": "2026-07-25",
+        "conditions": [
+          "fixed rank-labelled Mallows center",
+          "coordinatewise finite first moments under D",
+          "independent fresh rankings and ex-ante comparison at each feasible remaining set",
+          "no posterior kernel inferred after previous hires",
+          "no payoff after candidate exhaustion"
+        ]
+      }
+    },
+    {
+      "id": "KR21-APPENDIX-C8-C9-NORMALIZED-COORDINATES-01",
+      "source_locator": "sources/2101.05853.txt:1801-1914; sources/2101.05853.txt:1951-2050",
+      "classification": "source_model_convention",
+      "formal_meaning": "The corrected C.8/C.9 target is interpreted in the source's normalized Gaussian coordinates sigma=1/sqrt(2), t=a-x_i, and delta=x_i-x_j>0. Its H_delta is exactly the source C.6 expression in those coordinates, not an independently chosen reduced function.",
+      "why_needed": "The source makes the normalization and substitutions before the C.6--C.10 calculation. Omitting them from the audited target would make the checked derivative look like a theorem about arbitrary symbols while leaving the source parameterization unreviewed.",
+      "checked_scope": "PaperInterface.equationC8_C9_corrected_gaussian_target states the full C.6 derivative and both strict positivity factors under delta>0. Its source map records the coordinate convention and the false printed C.8/C.9 algebra separately; neither a support declaration nor a declaration name supplies corrected-target credit."
+    },
+    {
+      "id": "KR21-APPENDIX-D1-PHI-NORMALIZATION-01",
+      "source_locator": "sources/2101.05853.txt:2166-2182; sources/2101.05853.txt:2252-2282",
+      "classification": "source_model_convention",
+      "formal_meaning": "The source Mallows law has theta=phi-1 and normalized mass proportional to phi^(-Kendall-tau distance), so the checked q parameter is phi^-1. A remaining set consists of candidates not in the excluded source set S, and top choice is normalized within that nonempty set.",
+      "why_needed": "The printed D.1 display reverses its likelihood-ratio direction. A repaired strict comparison must expose the actual source parameter and normalization rather than treating q, phi, or unnormalized fibre weights as interchangeable by declaration name.",
+      "checked_scope": "PaperInterface.equationD1_corrected_source_phi_likelihood_ratio_three_candidates exposes phi>1, q=phi^-1, a common center, normalized best-in-set probabilities, and the three-candidate nonempty-remaining-set domain. Equation (8)'s direct source-law endpoint and the strict finite MLR theorem provide checked semantic bridges; no arbitrary-universe or archival D.1 conclusion is inferred."
+    }
+  ],
+  "defects": [
+    {
+      "id": "KR21-THEOREM5-DIFFERENTIABILITY-01",
+      "source_locator": "sources/2101.05853.txt:784-817",
+      "source_claim": "Theorem 5 says that differentiability and full positive support of the noise density imply differentiability in theta of every scaled-noise ranking probability. Its proof concludes that an integral over a fixed ranking region is differentiable merely because its product integrand is pointwise differentiable.",
+      "defect_kind": "logical_dependency",
+      "affected_source_locators": [
+        "sources/2101.05853.txt:139-159",
+        "sources/2101.05853.txt:493-504",
+        "sources/2101.05853.txt:784-817"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The printed hypotheses do not imply the advertised differentiability endpoint. The paired smooth-bump construction in docs/THEOREM5_SMOOTH_DENSITY_COUNTEREXAMPLE_2026-07-24.tex gives a C-infinity, everywhere-positive, finite-then-unit-variance density whose two-candidate ranking atom has an infinite one-sided derivative at a positive accuracy. The archival theorem remains false, but Lean now proves the complete explicitly corrected W^{1,1} source-model endpoint, including the source's arbitrary-removed-subset quantifier, so this defect is no longer an open proof obligation for that corrected statement.",
+      "repair_obligation": "Do not try to prove the original theorem. The accepted corrected-model condition is a globally absolutely continuous density with integrable a.e. derivative (equivalently f in W^{1,1}(R), together with the source normalization and full-support conditions). Prove the corrected endpoint by rewriting rank(x + epsilon/theta) as rank(theta*x + epsilon) and using L1 translation differentiability, not by putting a domination or conclusion certificate in the theorem interface.",
+      "acceptance_condition": "A reviewed corrected-model theorem states global density absolute continuity and integrable derivative explicitly, derives HasDerivAt or DifferentiableAt for every positive-accuracy ranking atom through a score-space L1 translation/product-density argument, and does not accept caller-supplied domination or differentiability evidence. The archival source theorem remains recorded as false.",
+      "resolution": "corrected_source_statement",
+  "resolution_evidence": "docs/THEOREM5_SMOOTH_DENSITY_COUNTEREXAMPLE_2026-07-24.tex gives the explicit paired-spike counterexample and reduction to a two-candidate ranking atom. W11ArbitraryFiniteCells.lean proves the finite iid product law, normalization, coordinatewise score pushforward, literal ranking-cell transport, and differentiability for every finite carrier. Definition1AsymptoticTendsto.lean preserves the existing eventual adjacent-misorder bound through the finite union bound and proves the actual atomwise high-accuracy limit to the pure true ranking. Together with the finite-set contraction proof, every nonempty remaining set is weakly improved and the full set is strictly improved. PaperInterface exposes appendixA_theorem5_arbitraryFinite_corrected_W11_sourceFaithful_definition1. None of this is evidence for the false archival claim."
+    },
+    {
+      "id": "KR21-LAPLACE-STRICT-01",
+      "source_locator": "sources/2101.05853.txt:1158-1166; sources/2101.05853.txt:1293-1329",
+      "source_claim": "Definition 4 requires a strict four-point product inequality for every a>b and c>d, and Lemma 1 says Laplace noise satisfies that global strict condition.",
+      "defect_kind": "inequality_direction",
+      "affected_source_locators": [
+        "sources/2101.05853.txt:1158-1166",
+        "sources/2101.05853.txt:1293-1329"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The printed global strict Laplace lemma is false for separated intervals, but it is an intermediate analytic claim rather than a changed advertised endpoint. Lean proves the correct global weak inequality, the exact strict overlap case, a formal non-strictness counterexample, and the downstream Laplace Definition 2, Definition 3, and Theorem 2 routes without assuming the false statement. Under the current taxonomy this is a minor corrected source statement, not a caveat.",
+      "repair_obligation": "Replace global strict Laplace well-ordering by global weak well-ordering, record strictness on the overlap region, and reprove every downstream Laplace result without treating the local overlap condition as a hidden global hypothesis.",
+      "acceptance_condition": "Lean refutes the printed global strict predicate, proves global weak and exact local strict forms, and proves the downstream Laplace endpoints without any unproved global-strict premise.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "PaperInterface exposes lemma1_laplacian_not_strictlyWellOrdered, lemma1_laplacian_weaklyWellOrdered, and lemma1_laplacian_strictlyWellOrdered_of_overlap. The concrete Laplace Theorem 6, Definition 2, and Theorem 2 routes are proved through weak density comparisons plus separate strict support and monotonicity arguments."
+    },
+    {
+      "id": "KR21-LAPLACE-SOURCE-NORMALIZATION-01",
+      "source_locator": "sources/2101.05853.txt:493-504; sources/2101.05853.txt:505-521; papers/KR21Monoculture/RUM.lean:942-950",
+      "source_claim": "The source fixes unit-variance Laplace base noise and ranks x_i + epsilon_i/theta, so its score noise has standard deviation 1/theta. The canonical Lean Laplace ranking law takes a rate lambda, whose density lambda/2*exp(-lambda*abs(x-mu)) has standard deviation sqrt(2)/lambda.",
+      "defect_kind": "normalization_or_scaling",
+      "affected_source_locators": [
+        "sources/2101.05853.txt:493-504",
+        "sources/2101.05853.txt:505-521"
+      ],
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The former source-facing interface passed theta directly as a Laplace rate, giving standard deviation sqrt(2)/theta rather than the source's 1/theta. This was a formalization parameter-translation error, not a defect in the source Theorem 2 statement. The repaired source family uses rate sqrt(2)*theta and preserves positivity and strict accuracy order by proved algebra.",
+      "repair_obligation": "Define the source-normalized Laplace family with rate sqrt(2)*theta, prove its positive-rate and order transport, and route all source-facing Definition 2/3 outer claims through that family. Do not call a positive reparameterization source literal without an explicit equality of the relevant score laws.",
+      "acceptance_condition": "Every source-facing Laplace Theorem 2 row uses the source-normalized family; the rate conversion is visible in a Lean definition, its base law is proved to have variance one, and its positivity/order facts are proved rather than added as assumptions.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "LaplaceUnitVariance.lean proves that the literal centered rate-sqrt(2) base law has mean zero, second moment one, finite second moment, and variance one. LaplaceSourceNormalization.lean then defines sourceUnitVarianceLaplaceRate theta = sqrt(2)*theta and proves source-normalized fixed-profile, outer Definition 2/3, and actual outer joint conditional Definition 2 endpoints. PaperInterface's source-facing Laplace route uses sourceUnitVarianceLaplaceThreeCandidateDistributionalFamily; the replaced canonical wrapper was in Theorem2OuterConditionalSource.lean:43-59."
+    },
+    {
+      "id": "KR21-PLACKETT-LUCE-SCALE-01",
+      "source_locator": "sources/2101.05853.txt:497-500; sources/2101.05853.txt:530-548",
+      "source_claim": "The RUM discussion first assumes unit-variance noise, then says a Gumbel RUM produces the Plackett-Luce formula with weights exp(theta*x_i). For scores x_i + epsilon_i/theta, a scale-1 Gumbel gives those weights, but its variance is pi^2/6; a unit-variance Gumbel gives weights exp((pi/sqrt(6))*theta*x_i).",
+      "defect_kind": "normalization_or_scaling",
+      "affected_source_locators": [
+        "sources/2101.05853.txt:497-500",
+        "sources/2101.05853.txt:530-548"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The printed same-parameter Gumbel-to-Plackett--Luce identification is not justified under the preceding unit-variance convention. Lean proves the corrected location-and-scale-parametric law at inverse temperature theta/s and the scale-invariant zero-effect and weak best-available conclusions for every fixed s > 0. It also constructs the literal iid Gumbel law at s = sqrt(6)/pi and conditionally proves its unit variance from the visible premise Var(-log T) = pi^2/6. That premise is a documented additional analytic assumption, while the corrected law is theta/(sqrt(6)/pi), not the source's printed same-parameter formula.",
+      "repair_obligation": "Record the archival formula as a corrected source statement: for literal iid innovations location + (-s log T), scores x_i + epsilon_i/theta induce Plackett--Luce at inverse temperature theta/s. Keep every positive scale and common location explicit. The literal unit-variance specialization must expose the Gamma special-value identity in its theorem type until it is independently proved. Do not infer unit variance from a declaration name or silently relabel theta to obtain the archival same-parameter formula.",
+      "acceptance_condition": "One reviewed source-facing theorem must explicitly state the iid exponential product arrival law, the almost-sure positive logarithm domain, the coordinatewise common-location positive-scale noise and score formulas, the resulting pushed-forward iid innovation law, and the theta/s Plackett--Luce ranking law. It must separately derive the actual outer conditional zero-gain conclusion and two-firm weak-dominance conclusion for that same scale-parametric model. The literal unit-variance specialization may be exposed only with the explicit variance identity as an argument and must conclude theta/(sqrt(6)/pi). Any claim about the archival unit-variance/same-theta formula remains prohibited absent both a numerical variance proof and a source-valid parameter translation.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "PositiveScaleGumbelTransport.lean proves commonLocationPositiveScaleGumbelNoise_law, commonLocationPositiveScaleGumbelRUMRankingPMF_eq_positiveScale, commonLocationPositiveScaleGumbelRUMRankingPMF_eq_plackettLuce, commonLocationPositiveScaleGumbelRUM_source_jointConditionalGain_zero, and commonLocationPositiveScaleGumbel_best_available_weakly_dominates, including deterministic tie-breaking under a common location shift. The sole corrected-target endpoint section31_corrected_gumbel_plackett_luce_target explicitly includes the finite iid exponential product law, almost-sure arrival positivity, literal noise/score equations, pushed-forward iid innovation law, unconditional theta/s Plackett--Luce conclusion, and only then the conditional unit-variance specialization. UnitVarianceGumbelSource.lean constructs the literal iid product noise law, proves its equality to the exponential-arrival construction, and conditionally derives coordinatewise unit variance plus the corrected ranking law. GumbelVarianceTransport.lean reduces that premise to a Gamma second-derivative identity, but no theorem treats that unresolved special value as established."
+    },
+    {
+      "id": "KR21-THEOREM3-CARDINALITY-01",
+      "source_locator": "sources/2101.05853.txt:590-591; sources/2101.05853.txt:2444-2451; sources/2101.05853.txt:2513-2515",
+      "source_claim": "Theorem 3 asserts the strict Definition 2 and Definition 3 Mallows conclusions for every candidate distribution without a lower candidate-cardinality bound. Its Appendix E strictness step requires a pair of true ranks other than the first and last.",
+      "defect_kind": "quantifier_or_uniformity",
+      "affected_source_locators": [
+        "sources/2101.05853.txt:590-591",
+        "sources/2101.05853.txt:2444-2451",
+        "sources/2101.05853.txt:2513-2515"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "With exactly two candidates, iid reranking gain is antisymmetric under swapping the two draws and therefore has expectation zero, while a nondegenerate Mallows law has positive top-disagreement probability. The archival universal strict conclusion is consequently false at N=2. Lean proves the corrected N >= 3 source-order outer-D theorem, including the actual conditional event, with coordinatewise finite first moments visible as a documented additional regularity; the remaining issue is a source correction, not an unproved corrected statement.",
+      "repair_obligation": "State the strict Theorem 3 result with at least three source candidates and retain its fixed rank-labelled order, Mallows-accuracy, and finite-first-moment conditions. Do not hide the cardinality bound or integrability in a helper index, and do not replace the source rank-labelled model with an unproved profile-sorting reduction.",
+      "acceptance_condition": "The review surface proves a source-shaped N=2 counterexample with positive disagreement and zero conditional gain, and separately proves the corrected N >= 3 fixed-order outer-D Definition 2 conditional event, Definition 3, and one-witness Theorem 1 endpoint. Every outer and joint expectation must have derived integrability, and the first-moment regularity must remain visible in the interface and ledger.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "MallowsTwoCandidateCounterexample.lean proves expectedRerankingGain_eq_zero_twoCandidates and a concrete q=1/2 Mallows instance with positive disagreement and zero conditional gain. MallowsOuterSource.lean proves the fixed-order outer-D payoffs and one-witness theorem; MallowsOuterConditionalSource.lean proves atom measurability, joint integrability, positive disagreement mass, and the literal conditional pi_1 - pi_2 semantics. PaperInterface exposes theorem3_twoCandidate_source_counterexample, definition2_joint_disagreement_integrand_eq_source_gap, theorem3_mallows_fixed_order_outer_source, and theorem1_mallows_fixed_order_outer_source."
+    },
+    {
+      "id": "KR21-SIMULATION-EFFICIENCY-01",
+      "source_locator": "sources/2101.05853.txt:549-554",
+      "source_claim": "The paper says that whether an RUM satisfies Definitions 2 and 3 can be tested efficiently by simulation, after describing repeated draws of candidate values and noisy rankings.",
+      "defect_kind": "other",
+      "affected_source_locators": [
+        "sources/2101.05853.txt:210-246",
+        "sources/2101.05853.txt:493-504",
+        "sources/2101.05853.txt:549-554"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The source-visible universal efficiency assertion remains underspecified: it gives no sampling oracle, input or bit model, parameter domain, confidence target, boundedness or tail condition, strict margin, or uniformity argument. The user explicitly excluded this separate assertion from the KR21 theorem-formalization scope while retaining it in the source audit. This is a scope disposition, not a claim that the source made no mathematical assertion.",
+      "repair_obligation": "State the target conditions and source sampling access model. For a finite parameter grid, assume IID measurable bounded scores and a positive margin and prove a confidence/sample-complexity bound. For a full domain, add a compact/covered domain and a checked modulus such as Lipschitz continuity with a grid-margin certificate; specify how Definition 1 is tested or exclude it from the advertised procedure.",
+      "acceptance_condition": "A source-facing interface must prove the fixed-parameter and finite-grid results from explicit sampling hypotheses and must not describe them as a universal test. A full repair additionally proves an explicit source-oracle runtime and sample-complexity theorem over a stated parameter domain, including every condition required for Definitions 1--3.",
+      "resolution": "user_approved_scope_exclusion",
+      "resolution_evidence": "SimulationSourceProcedure.lean and PaperInterface prove the exact Definition 2 conditional-sign bridge, almost-sure eventual acceptance at one fixed positive-mean IID score, simultaneous eventual acceptance on a finite grid, a finite-grid union Hoeffding bound, and a separate Lipschitz/grid-margin domain certificate. Those restricted results remain evidence of what is checked; the source's universal efficiency assertion is excluded only under the recorded user scope decision.",
+      "user_approved_scope_exclusion": {
+        "schema": 1,
+        "approval_kind": "explicit_user_instruction",
+        "approval_reference": "User instruction on 2026-07-25: the simulation-efficiency claim is not required for formalization; close KR21 after recording the scope decision.",
+        "approved_at": "2026-07-25",
+        "reason": "The user explicitly excluded the source-visible universal simulation-efficiency assertion from the required KR21 theorem-formalization target while retaining it as an audited source statement.",
+        "source_locator": "sources/2101.05853.txt:549-554",
+        "source_evidence": "The pinned paragraph asserts efficient simulation testing based on sampling the two distributions but omits the algorithmic access model and uniform complexity conditions needed for a literal theorem.",
+        "source_anchor_quote_sha256": "75ad856851371795d5d1fa453d376d7de2a14b7512e0a2b7c70e1083700d450d"
+      }
+    },
+    {
+      "id": "KR21-FINITE-SUPPORT-WEAKENING-01",
+      "source_locator": "sources/2101.05853.txt:501-504",
+      "source_claim": "The paper says that for finite-support distributions many results can be generalized by relaxing strict inequalities in Definition 1 and Theorem 1 to weak inequalities.",
+      "defect_kind": "domain_or_endpoint",
+      "affected_source_locators": [
+        "sources/2101.05853.txt:210-246",
+        "sources/2101.05853.txt:501-504",
+        "sources/2101.05853.txt:961-974"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The finite-support remark remains an underspecified source-visible mathematical assertion: it does not identify the affected results, noise model, tie rule, parameter domain, altered clauses, or conclusion. Literal strict-to-weak replacement is false for ordinary finite-support scaled RUMs. The user explicitly excluded this separate assertion from the KR21 theorem-formalization scope while preserving the obstruction and source record.",
+      "repair_obligation": "Specify an exact finite-support theorem: noise law, tie convention, parameter domain, which Definition 1 regularity clauses are retained or replaced, how null conditioning is handled, and the precise weak/strict Theorem 1 conclusion. Do not count a prose reference to 'many results' as an endpoint.",
+      "acceptance_condition": "Either a source revision gives a determinate theorem that Lean proves, or the map retains this row as open with a source-grounded counterexample to naive weak substitution. Any future weak-core theorem must retain the continuity, crossing, non-null-conditioning, and strict welfare hypotheses it actually uses.",
+      "resolution": "user_approved_scope_exclusion",
+      "resolution_evidence": "docs/FINITE_SUPPORT_WEAKENING_SCOPE_NOTE_2026-07-25.tex proves the finite deterministic-plateau obstruction and gives a Rademacher two-candidate discontinuity witness. It also records the narrow abstract weak core that remains valid only after retaining continuity, crossing, and strict Definitions 2--3. This evidence explains the scope decision; it is not presented as a proof of the archival vague remark.",
+      "user_approved_scope_exclusion": {
+        "schema": 1,
+        "approval_kind": "explicit_user_instruction",
+        "approval_reference": "User instruction on 2026-07-25: item 5 is not required; close KR21 as formalized after recording the source correction and exclusions.",
+        "approved_at": "2026-07-25",
+        "reason": "The user explicitly excluded the source-visible, underspecified finite-support weakening remark from the required KR21 theorem-formalization target while retaining it as an audited mathematical assertion.",
+        "source_locator": "sources/2101.05853.txt:501-504",
+        "source_evidence": "The pinned source span says that many results can be generalized by weakening strict inequalities, but it does not give an exact finite-support theorem or conditioning convention.",
+        "source_anchor_quote_sha256": "3913a898b9a192eb4d4c400e99519020b51c7dd6c81cd1dfbc5d9ddbf331d09d"
+      }
+    },
+    {
+      "id": "KR21-THEOREM2-DEFINITION1-PACKAGE-01",
+      "source_locator": "sources/2101.05853.txt:493-521",
+      "source_claim": "Theorem 2 says that three-candidate Gaussian and Laplacian RUM families satisfy the conditions of Theorem 1. The preceding RUM discussion says positive full support suffices for Definition 1, although Theorem 5's printed sufficient condition also requires a differentiable density.",
+      "defect_kind": "logical_dependency",
+      "affected_source_locators": [
+        "sources/2101.05853.txt:493-521",
+        "sources/2101.05853.txt:782-817",
+        "sources/2101.05853.txt:1111-1190"
+      ],
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The fixed source-ordered three-candidate Definition 1 package is now proved for both named laws. Gaussian uses the literal iid N(0,1) product law, and Laplace uses a literal iid centered rate-sqrt(2) law whose variance-one calibration is proved before the source rate sqrt(2)*theta transport. Both law identifications are explicit product-measure transports with a proved a.e. no-tie reconciliation. The Laplace density kink still prevents using the source's printed pointwise differentiable-density premise, but the corrected global W^{1,1} proof establishes the same named-law conclusion without adding a caller assumption. This resolves the proof-path defect only; the separate outer-D scope boundary remains open.",
+      "repair_obligation": "Completed: prove direct all-fields Definition 1 endpoints for the named Gaussian and source-normalized Laplace laws, with literal iid source-noise measure transports and a verified unit-variance Laplace calibration. Preserve the distinction between the corrected W^{1,1} route and the false printed pointwise-differentiability applicability claim.",
+      "acceptance_condition": "Satisfied: fresh direct source elaboration checks expose a proposition-valued endpoint for each named source family with all-atom continuity and differentiability, true-ranking Tendsto, every nonempty remaining-set weak monotonicity, and strict full-set improvement. The Laplace endpoint is backed by a kernel-checked variance-one base-law theorem and exact PMF transport; no Definition 1 field is supplied as a certificate.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "GaussianTheorem2Definition1Transport.lean proves theorem2GaussianScaledNoiseFamily_dist_eq_gaussianThreeCandidateRankingLaw and gaussianThreeCandidateAccuracyFamily_sourceDefinition1 through explicit iid product-law transport and a.e. no-tie equivalence. LaplaceUnitVariance.lean proves sourceUnitVarianceLaplaceBaseNoise_variance_one; LaplaceTheorem2Definition1Transport.lean proves sourceUnitVarianceLaplaceScaledNoiseFamily_dist_eq_namedLaw and sourceUnitVarianceLaplaceThreeCandidatePointFamily_sourceDefinition1 through the corrected W^{1,1} route plus explicit product-law transport. PaperInterface exposes the Gaussian and Laplace transport/all-fields endpoints. Each final transport module was direct source-elaborated successfully; the outer-D interpretation is closed under the visibly accepted KR21-THEOREM2-OUTER-D-REGULARITY-01 convention."
+    },
+    {
+      "id": "KR21-GAUSSIAN-LEMMA1-DIRECTION-01",
+      "source_locator": "sources/2101.05853.txt:1158-1166; sources/2101.05853.txt:1293-1306",
+      "source_claim": "Definition 4 requires f(a-c) f(b-d) > f(a-d) f(b-c) for a>b and c>d, and Lemma 1 says Gaussian noise has that property. The displayed Gaussian calculation instead ends with the reverse strict inequality.",
+      "defect_kind": "inequality_direction",
+      "affected_source_locators": [
+        "sources/2101.05853.txt:1158-1166",
+        "sources/2101.05853.txt:1293-1306"
+      ],
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The named Gaussian well-ordering statement is true, but the printed proof computes the sign in the wrong direction. Lean proves the intended strict four-point inequality directly and does not use the reversed displayed conclusion.",
+      "repair_obligation": "Derive the Gaussian log-density cross difference in the Definition 4 direction from (a-b)(c-d)>0, preserving the source's strict domain inequalities.",
+      "acceptance_condition": "A direct Gaussian endpoint proves Definition 4's strict product inequality for every a>b and c>d without importing the reversed source calculation as a premise.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "PaperInterface.lemma1_gaussian_strictlyWellOrdered proves the strict definition directly; Appendix C and Theorem 6 routes consume the checked strict predicate rather than the malformed displayed calculation."
+    },
+    {
+      "id": "KR21-APPENDIX-C1-STRICT-BRIDGE-01",
+      "source_locator": "sources/2101.05853.txt:1111-1147",
+      "source_claim": "After C.1, the source says that a nonnegative derivative for every cutoff together with strict positivity for some cutoff suffices to conclude the strict C.1 inequality for every finite cutoff from the limit at infinity.",
+      "defect_kind": "logical_dependency",
+      "affected_source_locators": [
+        "sources/2101.05853.txt:1111-1147",
+        "sources/2101.05853.txt:1466-1800",
+        "sources/2101.05853.txt:1801-2160"
+      ],
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "A nondecreasing function with one positive derivative need not lie strictly below its limiting value after every finite cutoff. The strict C.1 endpoints for the two named laws are independently proved from their source score laws, so the invalid generic inference is not used as a hidden bridge.",
+      "repair_obligation": "For each claimed law, prove a strict increase after every finite cutoff or otherwise prove the strict conditional-versus-unconditional C.1 inequality directly; do not derive universal strictness from an isolated derivative witness.",
+      "acceptance_condition": "The review surface exposes literal strict C.1 events for source-normalized Laplace and standard Gaussian scores and derives them without a generic derivative-to-limit shortcut.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "AppendixCSourcePairwise.lean proves the product-law/event bridge and the literal strict C.1 inequalities. PaperInterface.equationC1_laplace_source_pairwise_conditional_lt_unconditional and equationC1_gaussian_source_pairwise_conditional_lt_unconditional expose them directly; the all-cutoff derivative rows are supporting analytic facts only."
+    },
+    {
+      "id": "KR21-APPENDIX-C8-C9-ALGEBRA-01",
+      "source_locator": "sources/2101.05853.txt:1801-2050",
+      "source_claim": "Theorem 8 rewrites the full C.6 expression, differentiates it in C.8, and then says the displayed C.8 derivative factors through the printed prefactor to give the C.9 bracket g(t) delta sqrt(pi) + 1/g(t+delta) - 1 > 0.",
+      "defect_kind": "algebra_or_sign",
+      "affected_source_locators": [
+        "sources/2101.05853.txt:1801-1914",
+        "sources/2101.05853.txt:1951-1985",
+        "sources/2101.05853.txt:1985-2050"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The literal C.8 derivative is checked, but the printed factor has the wrong B/exponential terms and does not yield the displayed C.9 formula. The repaired factorization and parenthesized bracket prove the same Gaussian monotonicity endpoint without silently accepting an algebraically different formula.",
+      "repair_obligation": "Work in the source's explicit sigma=1/sqrt(2), t=a-x_i, delta=x_i-x_j>0 coordinate convention. Use the checked C.8 factor 2*A*B^2*exp((t+delta)^2) over the squared denominator, and state the repaired C.9 bracket as g(t) * (delta*sqrt(pi) + 1/g(t+delta)) - 1 > 0 with the multiplication and parentheses explicit.",
+      "acceptance_condition": "The paper-facing surface states the derivative of the full source C.6 expression, its checked C.8 factorization, and the corrected parenthesized C.9 bracket in one complete corrected-target endpoint; support rows may separately prove its components but cannot carry target credit. It must not mark the printed prefactor or unparenthesized C.9 formula as covered.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "PaperInterface.equationC8_C9_corrected_gaussian_target is the sole repaired direct endpoint. In the source's sigma=1/sqrt(2), t=a-x_i, delta=x_i-x_j>0 coordinates, it proves HasDerivAt for the full C.6 expression with the checked C.8 factor times the parenthesized C.9 bracket, and proves both factors strictly positive. AppendixCFormulaSurface.lean proves the literal C.8 derivative, corrected factorization, corrected bracket, and C.10 bound. The printed prefactor and unparenthesized C.9 display receive no coverage credit."
+    },
+    {
+      "id": "KR21-APPENDIX-D1-MLR-01",
+      "source_locator": "sources/2101.05853.txt:2166-2434",
+      "source_claim": "The source Mallows mass is proportional to phi^(-distance), and D.1 then prints a reverse likelihood-ratio cross inequality after the preceding text asserts that the relevant first-choice probability ratio has positive derivative in phi.",
+      "defect_kind": "inequality_direction",
+      "affected_source_locators": [
+        "sources/2101.05853.txt:2166-2182",
+        "sources/2101.05853.txt:2252-2282",
+        "sources/2101.05853.txt:2315-2434"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The printed D.1 direction is false in a concrete two-candidate instance and conflicts with the direction asserted immediately before it. The independently proved literal Definition 1 endpoint for Theorem 9 does not rely on this defective likelihood-ratio argument; the checked corrected finite three-candidate MLR statement is exposed separately and is not overgeneralized.",
+      "repair_obligation": "Keep the source convention theta=phi-1, phi>1, q=phi^-1, and normalized phi^(-Kendall-tau) mass explicit; reverse D.1 to the direction compatible with the derivative calculation, and prove each intended remaining-set MLR statement from normalized Mallows fibre weights rather than treating unnormalized positive weights as fixed.",
+      "acceptance_condition": "Lean refutes the printed denominator-cleared D.1 relation on the two-candidate source shape and proves the strict normalized q=phi inverse relation on the checked three-candidate remaining-set shape. No arbitrary-universe MLR strengthening may be credited unless it is separately proved.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "PaperInterface.equationD1_corrected_source_phi_likelihood_ratio_three_candidates is the sole repaired direct endpoint. It makes phi>1, theta=phi-1/q=phi^-1, the common center, the Candidate 1 three-candidate restriction, nonempty remaining sets, center-rank order, and the normalized strict cross-product visible. PaperInterface.equation8_source_concrete_mallows_probability independently exposes the normalized phi^(-Kendall-tau) source law; sourceMallowsSpec_q_eq_inv and mallowsBestInSetProbabilityMLR_three_candidates_strict supply the checked bridge. It does not credit printed D.1 or arbitrary n."
+    },
+    {
+      "id": "KR21-APPENDIX-E3-SIGN-01",
+      "source_locator": "sources/2101.05853.txt:2474-2515",
+      "source_claim": "In the E.3 simplification, the line expanding the swapped top-choice term ends with a negative phi^{-(|i-j|+1)} Pr[tau_1=x_i] contribution, while the algebra from the preceding parenthesis requires a positive contribution and the following displayed inequality uses the positive sign.",
+      "defect_kind": "algebra_or_sign",
+      "affected_source_locators": [
+        "sources/2101.05853.txt:2474-2515"
+      ],
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The E.3 target is a valid product comparison, but its printed intermediate expansion has a sign typo. Lean proves the literal conditional and denominator-cleared product relations using the corrected finite algebra rather than accepting the erroneous line.",
+      "repair_obligation": "Expand the swapped first-choice complement with the positive final product term, then derive the stated cross-product inequality from the normalized finite Mallows bracket.",
+      "acceptance_condition": "The reviewed interface contains direct E.2 conditional-event factorization and E.3 cross-product factorization endpoints, and the proof does not use the negative-sign expansion.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "AppendixEFormulaShapes.lean proves the exact E.1, E.2, and E.3 shapes and their normalized finite-product factorizations. PaperInterface.equationE2_mallows_conditional_top_two_factorization and equationE3_mallows_cross_product_factorization expose the source-level identities."
+    },
+    {
+      "id": "KR21-LEMMA4-STRICTNESS-01",
+      "source_locator": "sources/2101.05853.txt:2703-2850",
+      "source_claim": "Lemma 4 assumes only that p_i/q_i is decreasing and concludes a strict weighted-average inequality for every strictly increasing outcome sequence.",
+      "defect_kind": "logical_dependency",
+      "affected_source_locators": [
+        "sources/2101.05853.txt:2703-2850",
+        "sources/2101.05853.txt:2315-2434"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "Non-strict likelihood-ratio monotonicity permits p=q, where the claimed strict conclusion is false. Lean makes the needed positive cross-ratio witness visible; this is a minor source clarification rather than a hidden strengthened conclusion.",
+      "repair_obligation": "Add a strict likelihood-ratio or positive cross-difference witness at some ordered pair, and derive strict weighted-average comparison only from that visible strictness premise together with the source normalization and positive masses.",
+      "acceptance_condition": "The paper-facing Lemma 4 endpoint retains the strict increasing outcomes, normalized weights, monotone ratio hypothesis, and an explicit positive cross-ratio witness; no strict conclusion is derived from p=q-compatible assumptions alone.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "PaperInterface.lemma4_weighted_average_lt_of_cross_ratio exposes hcross_pos : exists i j, i<j and 0 < p_i*q_j-p_j*q_i. The finite Mallows downstream proof supplies strictness from its checked concrete source law rather than relying on the printed non-strict hypothesis alone."
+    },
+    {
+      "id": "KR21-MULTIFIRM-KGT2-COMPUTATION-01",
+      "source_locator": "sources/2101.05853.txt:617-625",
+      "source_claim": "The k>2 Braess paragraph reports a fixed Uniform/Mallows numerical instance and says the conclusion is found via computation, rather than stating a named theorem with an analytic proof or executable specification.",
+      "defect_kind": "other",
+      "affected_source_locators": [
+        "sources/2101.05853.txt:608-625"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The source-visible computed conclusion remains catalogued, but the user expressly excluded non-named numerical/computational results from KR21's required theorem target. The existing finite three-firm Lean certificate is retained as auxiliary evidence and is not used to claim coverage of the reported calculation.",
+      "repair_obligation": "A future inclusion must specify the exact candidate-value law, Mallows parameters, equilibrium/tie semantics, arithmetic accuracy model, and a reproducible proof or verified computation of the stated welfare comparison.",
+      "acceptance_condition": "The map records this as a user-approved scope exclusion with byte-pinned source text; no auxiliary three-firm declaration is treated as direct coverage for the source's reported numeric instance.",
+      "resolution": "user_approved_scope_exclusion",
+      "resolution_evidence": "The user instructed that non-named computational results such as numerical examples are out of scope for this formalization pass. The previous three-firm construction remains auxiliary only and does not certify the pinned source computation.",
+      "user_approved_scope_exclusion": {
+        "schema": 1,
+        "approval_kind": "explicit_user_instruction",
+        "approval_reference": "User instruction on 2026-07-25: numerical examples not presented as named statements are outside the KR21 formalization target; retain them in the source audit rather than treating them as covered.",
+        "approved_at": "2026-07-25",
+        "reason": "The source passage is a non-named computational result and the user explicitly excluded that category from required theorem formalization.",
+        "source_locator": "sources/2101.05853.txt:617-625",
+        "source_evidence": "The pinned paragraph introduces the k>2 conclusion as a result of computational experiments and reports the displayed instance by numerical utilities.",
+        "source_anchor_quote_sha256": "0cbd46de1490054dcc6f82138c4348a4053145c978d885ecc497f0d306ef409d"
+      }
+    }
+  ]
+}

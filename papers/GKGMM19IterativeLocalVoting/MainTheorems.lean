@@ -950,6 +950,26 @@ theorem ilvRadius_tendsto_zero (r0 : ℝ) :
     Filter.Tendsto (ilvRadius r0) Filter.atTop (nhds 0) := by
   simpa [ilvRadius] using tendsto_const_div_atTop_nhds_zero_nat r0
 
+theorem ilvRadius_eventually_le_of_pos (r0 : ℝ) {δ : ℝ} (hδ : 0 < δ) :
+    ∃ T : ℕ, ∀ t : ℕ, T ≤ t → ilvRadius r0 (t + 1) ≤ δ := by
+  have heventually :
+      ∀ᶠ n in Filter.atTop, ilvRadius r0 n < δ :=
+    (ilvRadius_tendsto_zero r0).eventually (Iio_mem_nhds hδ)
+  rcases Filter.eventually_atTop.1 heventually with ⟨T, hT⟩
+  refine ⟨T, ?_⟩
+  intro t ht
+  exact le_of_lt (hT (t + 1) (le_trans ht (Nat.le_succ t)))
+
+theorem ilvTailRadius_eventually_le_of_pos
+    (r0 : ℝ) (N : ℕ) {δ : ℝ} (hδ : 0 < δ) :
+    ∃ T : ℕ, ∀ t : ℕ, T ≤ t → ilvTailRadius r0 N t ≤ δ := by
+  rcases ilvRadius_eventually_le_of_pos r0 hδ with ⟨T, hT⟩
+  refine ⟨T, ?_⟩
+  intro t ht
+  have hTN : T ≤ t + N := le_trans ht (Nat.le_add_right t N)
+  simpa [ilvTailRadius, Nat.add_assoc, Nat.add_comm, Nat.add_left_comm] using
+    hT (t + N) hTN
+
 /--
 The squared paper step sizes are summable after shifting to the source's
 positive time indices.
@@ -5080,6 +5100,117 @@ theorem finiteDot_modelB_response_increment_abs_le_l2_mul_radius
   exact finiteDot_increment_abs_le_l2_mul_stepBound a center response
     (modelBFiniteResponseAt_l2_within_radius hr hresponse)
 
+theorem finiteDot_response_increment_abs_le_l2_mul_radius_of_stepBound
+    {Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    (a center response : Coord → ℝ) {r : ℝ}
+    (hstep : finiteCoordinateDistance SourceNorm.l2 response center ≤ r) :
+    |finiteDot a (fun i => response i - center i)| ≤
+      finiteCoordinateNorm SourceNorm.l2 a * r := by
+  exact finiteDot_increment_abs_le_l2_mul_stepBound a center response hstep
+
+theorem finiteDot_centered_response_increment_mem_Icc_of_stepBound
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    (weight : Voter → ℝ)
+    (hweight_nonneg : ∀ voter, 0 ≤ weight voter)
+    (hweight_sum : (∑ voter : Voter, weight voter) ≤ 1)
+    (a center : Coord → ℝ) {r : ℝ}
+    (hr : 0 ≤ r)
+    (response : Voter → Coord → ℝ)
+    (hstep :
+      ∀ voter : Voter,
+        finiteCoordinateDistance SourceNorm.l2 (response voter) center ≤ r)
+    (selected : Voter) :
+    finiteDot a (fun i => response selected i - center i) -
+        (∑ voter : Voter,
+          weight voter * finiteDot a (fun i => response voter i - center i)) ∈
+      Set.Icc (-(2 * (finiteCoordinateNorm SourceNorm.l2 a * r)))
+        (2 * (finiteCoordinateNorm SourceNorm.l2 a * r)) := by
+  let value : Voter → ℝ :=
+    fun voter => finiteDot a (fun i => response voter i - center i)
+  have hB :
+      0 ≤ finiteCoordinateNorm SourceNorm.l2 a * r := by
+    exact mul_nonneg (finiteCoordinateNorm_l2_nonneg a) hr
+  have hvalue :
+      ∀ voter : Voter,
+        |value voter| ≤ finiteCoordinateNorm SourceNorm.l2 a * r := by
+    intro voter
+    exact
+      finiteDot_response_increment_abs_le_l2_mul_radius_of_stepBound
+        a center (response voter) (hstep voter)
+  simpa [value] using
+    (EconCSLib.FiniteSum.weighted_centered_value_mem_Icc_of_abs_le_bound
+      weight value hweight_nonneg hweight_sum hvalue hB selected)
+
+theorem finiteDot_centered_response_increment_abs_le_of_stepBound
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    (weight : Voter → ℝ)
+    (hweight_nonneg : ∀ voter, 0 ≤ weight voter)
+    (hweight_sum : (∑ voter : Voter, weight voter) ≤ 1)
+    (a center : Coord → ℝ) {r : ℝ}
+    (hr : 0 ≤ r)
+    (response : Voter → Coord → ℝ)
+    (hstep :
+      ∀ voter : Voter,
+        finiteCoordinateDistance SourceNorm.l2 (response voter) center ≤ r)
+    (selected : Voter) :
+    |finiteDot a (fun i => response selected i - center i) -
+        (∑ voter : Voter,
+          weight voter * finiteDot a (fun i => response voter i - center i))| ≤
+      2 * (finiteCoordinateNorm SourceNorm.l2 a * r) := by
+  exact abs_le.mpr
+    (finiteDot_centered_response_increment_mem_Icc_of_stepBound
+      weight hweight_nonneg hweight_sum a center hr response hstep selected)
+
+theorem finiteDot_centered_response_increment_mem_Icc_sequence_of_stepBound
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    (weight : Voter → ℝ)
+    (hweight_nonneg : ∀ voter, 0 ≤ weight voter)
+    (hweight_sum : (∑ voter : Voter, weight voter) ≤ 1)
+    (a : Coord → ℝ)
+    (center : ℕ → Coord → ℝ)
+    (radius : ℕ → ℝ)
+    (hradius_nonneg : ∀ t : ℕ, 0 ≤ radius t)
+    (response : ℕ → Voter → Coord → ℝ)
+    (sampledVoter : ℕ → Voter)
+    (hstep :
+      ∀ t voter,
+        finiteCoordinateDistance SourceNorm.l2 (response t voter) (center t) ≤
+          radius t)
+    (t : ℕ) :
+    finiteDot a (fun i => response t (sampledVoter t) i - center t i) -
+        (∑ voter : Voter,
+          weight voter * finiteDot a (fun i => response t voter i - center t i)) ∈
+      Set.Icc (-(2 * (finiteCoordinateNorm SourceNorm.l2 a * radius t)))
+        (2 * (finiteCoordinateNorm SourceNorm.l2 a * radius t)) := by
+  exact finiteDot_centered_response_increment_mem_Icc_of_stepBound
+    weight hweight_nonneg hweight_sum a (center t) (hradius_nonneg t)
+    (response t) (hstep t) (sampledVoter t)
+
+theorem finiteDot_centered_response_increment_abs_le_sequence_of_stepBound
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    (weight : Voter → ℝ)
+    (hweight_nonneg : ∀ voter, 0 ≤ weight voter)
+    (hweight_sum : (∑ voter : Voter, weight voter) ≤ 1)
+    (a : Coord → ℝ)
+    (center : ℕ → Coord → ℝ)
+    (radius : ℕ → ℝ)
+    (hradius_nonneg : ∀ t : ℕ, 0 ≤ radius t)
+    (response : ℕ → Voter → Coord → ℝ)
+    (sampledVoter : ℕ → Voter)
+    (hstep :
+      ∀ t voter,
+        finiteCoordinateDistance SourceNorm.l2 (response t voter) (center t) ≤
+          radius t)
+    (t : ℕ) :
+    |finiteDot a (fun i => response t (sampledVoter t) i - center t i) -
+        (∑ voter : Voter,
+          weight voter * finiteDot a (fun i => response t voter i - center t i))| ≤
+      2 * (finiteCoordinateNorm SourceNorm.l2 a * radius t) := by
+  exact abs_le.mpr
+    (finiteDot_centered_response_increment_mem_Icc_sequence_of_stepBound
+      weight hweight_nonneg hweight_sum a center radius hradius_nonneg
+      response sampledVoter hstep t)
+
 theorem finiteDot_modelB_centered_response_increment_mem_Icc
     {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
     (weight : Voter → ℝ)
@@ -5660,6 +5791,64 @@ theorem finiteTheorem3DirectionalField_expected_finiteDot_modelB_response_increm
           intro i _hi
           ring
 
+theorem finiteTheorem3DirectionalField_expected_finiteDot_modelBNormalizedDirection
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    (weight : Voter → ℝ)
+    (utilityGradient : Voter → (Coord → ℝ) → Coord → ℝ)
+    (x : Coord → ℝ) (a : Coord → ℝ) :
+    (∑ voter : Voter,
+      weight voter *
+        finiteDot a
+          (modelBFiniteNormalizedDirection SourceNorm.l2
+            (utilityGradient voter x))) =
+      finiteDot a
+        (finiteTheorem3DirectionalField weight utilityGradient x) := by
+  unfold finiteDot
+  calc
+    (∑ voter : Voter,
+      weight voter *
+        ∑ i : Coord,
+          a i *
+            modelBFiniteNormalizedDirection SourceNorm.l2
+              (utilityGradient voter x) i)
+        =
+          ∑ voter : Voter,
+            ∑ i : Coord,
+              weight voter *
+                (a i *
+                  modelBFiniteNormalizedDirection SourceNorm.l2
+                    (utilityGradient voter x) i) := by
+          apply Finset.sum_congr rfl
+          intro voter _hvoter
+          rw [Finset.mul_sum]
+    _ =
+        ∑ i : Coord,
+          ∑ voter : Voter,
+            weight voter *
+              (a i *
+                modelBFiniteNormalizedDirection SourceNorm.l2
+                  (utilityGradient voter x) i) := by
+          rw [Finset.sum_comm]
+    _ =
+        ∑ i : Coord,
+          a i *
+            ∑ voter : Voter,
+              weight voter *
+                modelBFiniteNormalizedDirection SourceNorm.l2
+                  (utilityGradient voter x) i := by
+          apply Finset.sum_congr rfl
+          intro i _hi
+          rw [Finset.mul_sum]
+          apply Finset.sum_congr rfl
+          intro voter _hvoter
+          ring
+    _ =
+        ∑ i : Coord,
+          a i * finiteTheorem3DirectionalField weight utilityGradient x i := by
+          apply Finset.sum_congr rfl
+          intro i _hi
+          rw [finiteTheorem3DirectionalField_coord_eq_modelBNormalizedExpectation]
+
 /--
 Finite-sum version of the finite-dot expected raw Model B increment identity.
 This is the scalar accumulated expectation term needed by finite-dot
@@ -6051,6 +6240,15 @@ theorem finiteDot_self_eq_l2Sq
     finiteDot x x = EconCSLib.FiniteDimensionalNorms.l2Sq x := by
   simp [finiteDot, EconCSLib.FiniteDimensionalNorms.l2Sq, pow_two]
 
+theorem finiteDot_self_eq_finiteCoordinateNorm_l2_sq
+    {Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    (x : Coord → ℝ) :
+    finiteDot x x = finiteCoordinateNorm SourceNorm.l2 x ^ 2 := by
+  rw [finiteDot_self_eq_l2Sq, finiteCoordinateNorm_l2,
+    EconCSLib.FiniteDimensionalNorms.l2]
+  exact (Real.sq_sqrt
+    (EconCSLib.FiniteDimensionalNorms.normL2Sq_nonneg x)).symm
+
 theorem finiteDot_self_nonneg
     {Coord : Type*} [Fintype Coord] (x : Coord → ℝ) :
     0 ≤ finiteDot x x := by
@@ -6109,6 +6307,1082 @@ theorem exists_coord_ne_zero_of_ne_zero
   apply hx
   funext i
   exact not_not.mp (not_exists.mp h i)
+
+theorem finiteDot_modelBFiniteNormalizedDirection_eq_inv_mul
+    {Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    (gradient direction : Coord → ℝ) :
+    finiteDot (modelBFiniteNormalizedDirection SourceNorm.l2 gradient)
+        direction =
+      (finiteCoordinateNorm SourceNorm.l2 gradient)⁻¹ *
+        finiteDot gradient direction := by
+  unfold finiteDot modelBFiniteNormalizedDirection
+  rw [Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro i _hi
+  rw [div_eq_mul_inv]
+  ring
+
+theorem finiteDot_gradient_normalizedDirection_eq_norm
+    {Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    {gradient : Coord → ℝ}
+    (hgradient : gradient ≠ fun _ => 0) :
+    finiteDot gradient
+        (modelBFiniteNormalizedDirection SourceNorm.l2 gradient) =
+      finiteCoordinateNorm SourceNorm.l2 gradient := by
+  have hpos : 0 < finiteCoordinateNorm SourceNorm.l2 gradient :=
+    finiteCoordinateNorm_l2_pos_of_exists_ne_zero
+      (exists_coord_ne_zero_of_ne_zero hgradient)
+  have hsq :
+      finiteCoordinateNorm SourceNorm.l2 gradient ^ 2 =
+        EconCSLib.FiniteDimensionalNorms.l2Sq gradient := by
+    rw [finiteCoordinateNorm_l2, EconCSLib.FiniteDimensionalNorms.l2]
+    exact Real.sq_sqrt
+      (EconCSLib.FiniteDimensionalNorms.normL2Sq_nonneg gradient)
+  calc
+    finiteDot gradient
+        (modelBFiniteNormalizedDirection SourceNorm.l2 gradient)
+        =
+          (finiteCoordinateNorm SourceNorm.l2 gradient)⁻¹ *
+            finiteDot gradient gradient := by
+          unfold finiteDot modelBFiniteNormalizedDirection
+          rw [Finset.mul_sum]
+          apply Finset.sum_congr rfl
+          intro i _hi
+          rw [div_eq_mul_inv]
+          ring
+    _ =
+          (finiteCoordinateNorm SourceNorm.l2 gradient)⁻¹ *
+            (finiteCoordinateNorm SourceNorm.l2 gradient ^ 2) := by
+          rw [finiteDot_self_eq_l2Sq, hsq]
+    _ = finiteCoordinateNorm SourceNorm.l2 gradient := by
+          field_simp [hpos.ne']
+
+theorem modelBFiniteNormalizedDirection_l2_norm_eq_one_of_ne_zero
+    {Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    {gradient : Coord → ℝ}
+    (hgradient : gradient ≠ fun _ => 0) :
+    finiteCoordinateNorm SourceNorm.l2
+        (modelBFiniteNormalizedDirection SourceNorm.l2 gradient) = 1 := by
+  have hpos : 0 < finiteCoordinateNorm SourceNorm.l2 gradient :=
+    finiteCoordinateNorm_l2_pos_of_exists_ne_zero
+      (exists_coord_ne_zero_of_ne_zero hgradient)
+  have hdir :
+      modelBFiniteNormalizedDirection SourceNorm.l2 gradient =
+        fun i => (finiteCoordinateNorm SourceNorm.l2 gradient)⁻¹ *
+          gradient i := by
+    funext i
+    simp [modelBFiniteNormalizedDirection, div_eq_mul_inv, mul_comm]
+  rw [hdir, finiteCoordinateNorm_l2_smul, abs_of_pos (inv_pos.mpr hpos)]
+  field_simp [hpos.ne']
+
+theorem finiteDot_l2Sq_sub_radius_normalized_le_of_progress
+    {Coord : Type*} [Fintype Coord]
+    (direction displacement : Coord → ℝ) {r β : ℝ}
+    (hr : 0 ≤ r)
+    (hstep_sq : finiteDot displacement displacement ≤ r ^ 2)
+    (hdirection_sq : finiteDot direction direction ≤ 1)
+    (hprogress :
+      (1 - β) * r ≤ finiteDot direction displacement) :
+    finiteDot (fun i => displacement i - r * direction i)
+        (fun i => displacement i - r * direction i) ≤
+      2 * β * r ^ 2 := by
+  have hquad :
+      finiteDot (fun i => displacement i - r * direction i)
+          (fun i => displacement i - r * direction i) =
+        finiteDot displacement displacement -
+          2 * r * finiteDot direction displacement +
+          r ^ 2 * finiteDot direction direction := by
+    unfold finiteDot
+    calc
+      ∑ i : Coord,
+          (displacement i - r * direction i) *
+            (displacement i - r * direction i)
+          =
+        ∑ i : Coord,
+          (displacement i * displacement i -
+            2 * r * (direction i * displacement i) +
+            r ^ 2 * (direction i * direction i)) := by
+          apply Finset.sum_congr rfl
+          intro i _hi
+          ring
+      _ =
+        (∑ i : Coord, displacement i * displacement i) -
+          (∑ i : Coord, 2 * r * (direction i * displacement i)) +
+          (∑ i : Coord, r ^ 2 * (direction i * direction i)) := by
+          rw [Finset.sum_add_distrib, Finset.sum_sub_distrib]
+      _ =
+        (∑ i : Coord, displacement i * displacement i) -
+          2 * r * (∑ i : Coord, direction i * displacement i) +
+          r ^ 2 * (∑ i : Coord, direction i * direction i) := by
+          rw [Finset.mul_sum, Finset.mul_sum]
+  have hprogress_scaled :
+      2 * r * ((1 - β) * r) ≤
+        2 * r * finiteDot direction displacement := by
+    exact mul_le_mul_of_nonneg_left hprogress (by nlinarith)
+  have hdirection_scaled :
+      r ^ 2 * finiteDot direction direction ≤ r ^ 2 * 1 := by
+    exact mul_le_mul_of_nonneg_left hdirection_sq (sq_nonneg r)
+  rw [hquad]
+  nlinarith
+
+theorem finiteDot_abs_le_l2_mul_of_self_le_sq
+    {Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    (a e : Coord → ℝ) {B : ℝ}
+    (hB : 0 ≤ B)
+    (he : finiteDot e e ≤ B ^ 2) :
+    |finiteDot a e| ≤ finiteCoordinateNorm SourceNorm.l2 a * B := by
+  have hnorme : finiteCoordinateNorm SourceNorm.l2 e ≤ B := by
+    have hs :
+        EconCSLib.FiniteDimensionalNorms.l2Sq e ≤ B ^ 2 := by
+      simpa [finiteDot_self_eq_l2Sq] using he
+    have hsqrt :
+        Real.sqrt (EconCSLib.FiniteDimensionalNorms.l2Sq e) ≤
+          Real.sqrt (B ^ 2) :=
+      Real.sqrt_le_sqrt hs
+    calc
+      finiteCoordinateNorm SourceNorm.l2 e
+          = Real.sqrt (EconCSLib.FiniteDimensionalNorms.l2Sq e) := by
+            rfl
+      _ ≤ Real.sqrt (B ^ 2) := hsqrt
+      _ = B := by
+            rw [Real.sqrt_sq_eq_abs, abs_of_nonneg hB]
+  exact
+    (finiteDot_abs_le_l2_mul_l2 a e).trans
+      (mul_le_mul_of_nonneg_left hnorme
+        (finiteCoordinateNorm_l2_nonneg a))
+
+theorem finiteDot_fixedDirection_lower_of_normalizedProgress
+    {Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    (a direction displacement : Coord → ℝ) {r β κ : ℝ}
+    (hr : 0 ≤ r)
+    (hstep_sq : finiteDot displacement displacement ≤ r ^ 2)
+    (hdirection_sq : finiteDot direction direction ≤ 1)
+    (hprogress :
+      (1 - β) * r ≤ finiteDot direction displacement)
+    (hκ : 0 ≤ κ)
+    (hβκ : 2 * β ≤ κ ^ 2) :
+    r * finiteDot a direction -
+        finiteCoordinateNorm SourceNorm.l2 a * (κ * r) ≤
+      finiteDot a displacement := by
+  let err : Coord → ℝ := fun i => displacement i - r * direction i
+  have herr_sq :
+      finiteDot err err ≤ 2 * β * r ^ 2 := by
+    simpa [err] using
+      finiteDot_l2Sq_sub_radius_normalized_le_of_progress
+        direction displacement hr hstep_sq hdirection_sq hprogress
+  have hBnonneg : 0 ≤ κ * r := mul_nonneg hκ hr
+  have hBsq : 2 * β * r ^ 2 ≤ (κ * r) ^ 2 := by
+    nlinarith [hβκ, sq_nonneg r]
+  have herr_bound :
+      |finiteDot a err| ≤
+        finiteCoordinateNorm SourceNorm.l2 a * (κ * r) :=
+    finiteDot_abs_le_l2_mul_of_self_le_sq a err hBnonneg
+      (le_trans herr_sq hBsq)
+  have herr_lower :
+      -(finiteCoordinateNorm SourceNorm.l2 a * (κ * r)) ≤
+        finiteDot a err :=
+    (abs_le.mp herr_bound).1
+  have hdecomp :
+      r * finiteDot a direction + finiteDot a err =
+        finiteDot a displacement := by
+    unfold finiteDot err
+    calc
+      r * (∑ i : Coord, a i * direction i) +
+          ∑ i : Coord, a i * (displacement i - r * direction i)
+          =
+        (∑ i : Coord, r * (a i * direction i)) +
+          ∑ i : Coord, a i * (displacement i - r * direction i) := by
+          rw [Finset.mul_sum]
+      _ =
+        ∑ i : Coord,
+          (r * (a i * direction i) +
+            a i * (displacement i - r * direction i)) := by
+          rw [Finset.sum_add_distrib]
+      _ = ∑ i : Coord, a i * displacement i := by
+          apply Finset.sum_congr rfl
+          intro i _hi
+          ring
+  linarith
+
+/--
+Finite first-order expansion of a voter utility around a center, with the
+paper's concrete `L2` finite-coordinate distance as the error scale.
+
+This is the exact differentiability condition needed for the Model A analogue
+of Theorem 3: the utility is locally its gradient linearization up to
+`o(||y - x||₂)`.
+-/
+def FiniteModelAFirstOrderExpansionAt
+    {Voter Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    (E : ILVEnvironment Voter (Coord → ℝ))
+    (gradient : Voter → (Coord → ℝ) → Coord → ℝ)
+    (voter : Voter) (center : Coord → ℝ) : Prop :=
+  ∀ ε : ℝ, 0 < ε →
+    ∃ δ : ℝ, 0 < δ ∧
+      ∀ y : Coord → ℝ,
+        finiteCoordinateDistance SourceNorm.l2 y center ≤ δ →
+          |E.utility voter y - E.utility voter center -
+              finiteDot (gradient voter center)
+                (fun i => y i - center i)| ≤
+            ε * finiteCoordinateDistance SourceNorm.l2 y center
+
+/--
+Feasibility of the comparison point used in the Model A first-order argument:
+the local query set contains the boundary point obtained by moving from the
+current center in the selected voter's normalized-gradient direction.
+
+In full finite-coordinate space this is automatic.  In constrained spaces this
+is the exact source-side condition needed for the Taylor comparison.
+-/
+def ModelANormalizedGradientStepFeasibleAt
+    {Voter Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    (E : ILVEnvironment Voter (Coord → ℝ))
+    (gradient : Voter → (Coord → ℝ) → Coord → ℝ)
+    (voter : Voter) (center : Coord → ℝ) (r : ℝ) : Prop :=
+  (fun i =>
+    center i + r *
+      modelBFiniteNormalizedDirection SourceNorm.l2
+        (gradient voter center) i) ∈
+    LocalNeighborhood E SourceNorm.l2 center r
+
+/--
+Local Model A maximization has positive first-order progress in the selected
+voter's normalized-gradient direction.  This is the formal version of the
+Taylor-expansion step in the post-Theorem-3 conjecture: compare the exact Model
+A maximizer with the boundary point reached by the normalized gradient.
+-/
+theorem modelAResponseAt_finiteDot_normalizedGradient_progress_of_firstOrder_candidate_mem
+    {Voter Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (hNorm : UsesFiniteCoordinateNormDistance E)
+    {gradient : Voter → (Coord → ℝ) → Coord → ℝ}
+    {voter : Voter} {center response : Coord → ℝ} {r η : ℝ}
+    (hcandidate_mem :
+      ModelANormalizedGradientStepFeasibleAt E gradient voter center r)
+    (hFirstOrder :
+      FiniteModelAFirstOrderExpansionAt E gradient voter center)
+    (hgradient : gradient voter center ≠ fun _ => 0)
+    (heta_pos : 0 < η)
+    (hr_pos : 0 < r)
+    (hr_small :
+      r ≤ Classical.choose
+        (hFirstOrder
+          (η * finiteCoordinateNorm SourceNorm.l2 (gradient voter center))
+          (mul_pos heta_pos
+            (finiteCoordinateNorm_l2_pos_of_exists_ne_zero
+              (exists_coord_ne_zero_of_ne_zero hgradient)))))
+    (hresponse :
+      ModelAResponseAt E SourceNorm.l2 center r voter response) :
+    (1 - 2 * η) * r ≤
+      finiteDot
+        (modelBFiniteNormalizedDirection SourceNorm.l2
+          (gradient voter center))
+        (fun i => response i - center i) := by
+  let g : Coord → ℝ := gradient voter center
+  let n : Coord → ℝ := modelBFiniteNormalizedDirection SourceNorm.l2 g
+  let candidate : Coord → ℝ := fun i => center i + r * n i
+  have hgpos : 0 < finiteCoordinateNorm SourceNorm.l2 g :=
+    finiteCoordinateNorm_l2_pos_of_exists_ne_zero
+      (exists_coord_ne_zero_of_ne_zero hgradient)
+  let ε : ℝ := η * finiteCoordinateNorm SourceNorm.l2 g
+  have hεpos : 0 < ε := mul_pos heta_pos hgpos
+  let δ : ℝ := Classical.choose (hFirstOrder ε hεpos)
+  have hδ : 0 < δ ∧
+      ∀ y : Coord → ℝ,
+        finiteCoordinateDistance SourceNorm.l2 y center ≤ δ →
+          |E.utility voter y - E.utility voter center -
+              finiteDot g (fun i => y i - center i)| ≤
+            ε * finiteCoordinateDistance SourceNorm.l2 y center :=
+    Classical.choose_spec (hFirstOrder ε hεpos)
+  have hr_nonneg : 0 ≤ r := le_of_lt hr_pos
+  have hresp_dist_r :
+      finiteCoordinateDistance SourceNorm.l2 response center ≤ r := by
+    have hdistE : E.normDistance SourceNorm.l2 response center ≤ r :=
+      hresponse.1.2
+    simpa [hNorm SourceNorm.l2 response center] using hdistE
+  have hresp_dist_δ :
+      finiteCoordinateDistance SourceNorm.l2 response center ≤ δ :=
+    le_trans hresp_dist_r hr_small
+  have hcandidate_response :
+      ModelBFiniteResponseAt SourceNorm.l2 center r g candidate := by
+    rfl
+  have hcandidate_dist_r :
+      finiteCoordinateDistance SourceNorm.l2 candidate center ≤ r :=
+    modelBFiniteResponseAt_l2_within_radius hr_nonneg hcandidate_response
+  have hcandidate_dist_δ :
+      finiteCoordinateDistance SourceNorm.l2 candidate center ≤ δ :=
+    le_trans hcandidate_dist_r hr_small
+  have hcandidate_mem_local :
+      candidate ∈ LocalNeighborhood E SourceNorm.l2 center r := by
+    simpa [ModelANormalizedGradientStepFeasibleAt, candidate, n, g] using
+      hcandidate_mem
+  have hmax : E.utility voter candidate ≤ E.utility voter response :=
+    hresponse.2 candidate hcandidate_mem_local
+  have hresp_fo := (hδ.2 response hresp_dist_δ)
+  have hcandidate_fo := (hδ.2 candidate hcandidate_dist_δ)
+  have hresp_upper :
+      E.utility voter response ≤
+        E.utility voter center +
+          finiteDot g (fun i => response i - center i) + ε * r := by
+    have hle_abs :
+        E.utility voter response - E.utility voter center -
+            finiteDot g (fun i => response i - center i) ≤
+          ε * finiteCoordinateDistance SourceNorm.l2 response center :=
+      (abs_le.mp hresp_fo).2
+    have hε_nonneg : 0 ≤ ε := le_of_lt hεpos
+    have hdist_scaled :
+        ε * finiteCoordinateDistance SourceNorm.l2 response center ≤ ε * r :=
+      mul_le_mul_of_nonneg_left hresp_dist_r hε_nonneg
+    linarith
+  have hcandidate_lower :
+      E.utility voter center +
+          finiteDot g (fun i => candidate i - center i) - ε * r ≤
+        E.utility voter candidate := by
+    have hle_abs :
+        -(ε * finiteCoordinateDistance SourceNorm.l2 candidate center) ≤
+          E.utility voter candidate - E.utility voter center -
+            finiteDot g (fun i => candidate i - center i) :=
+      (abs_le.mp hcandidate_fo).1
+    have hε_nonneg : 0 ≤ ε := le_of_lt hεpos
+    have hdist_scaled :
+        ε * finiteCoordinateDistance SourceNorm.l2 candidate center ≤ ε * r :=
+      mul_le_mul_of_nonneg_left hcandidate_dist_r hε_nonneg
+    linarith
+  have hdot_candidate :
+      finiteDot g (fun i => candidate i - center i) =
+        r * finiteCoordinateNorm SourceNorm.l2 g := by
+    have hdiff :
+        (fun i => candidate i - center i) = fun i => r * n i := by
+      funext i
+      simp [candidate, n]
+    rw [hdiff]
+    calc
+      finiteDot g (fun i => r * n i)
+          = ∑ i : Coord, r * (g i * n i) := by
+            simp [finiteDot, mul_left_comm]
+      _ = r * finiteDot g n := by
+            simp [finiteDot, Finset.mul_sum]
+      _ = r * finiteCoordinateNorm SourceNorm.l2 g := by
+            rw [finiteDot_gradient_normalizedDirection_eq_norm hgradient]
+  have hdot_lower :
+      r * finiteCoordinateNorm SourceNorm.l2 g - 2 * ε * r ≤
+        finiteDot g (fun i => response i - center i) := by
+    linarith
+  have hnorm_dot :
+      finiteDot n (fun i => response i - center i) =
+        (finiteCoordinateNorm SourceNorm.l2 g)⁻¹ *
+          finiteDot g (fun i => response i - center i) := by
+    simpa [n, g] using
+      finiteDot_modelBFiniteNormalizedDirection_eq_inv_mul
+        g (fun i => response i - center i)
+  have hscaled :
+      (finiteCoordinateNorm SourceNorm.l2 g) *
+        ((1 - 2 * η) * r) ≤
+      finiteDot g (fun i => response i - center i) := by
+    dsimp [ε] at hdot_lower
+    nlinarith [hdot_lower]
+  have hdiv :
+      (1 - 2 * η) * r ≤
+        (finiteCoordinateNorm SourceNorm.l2 g)⁻¹ *
+          finiteDot g (fun i => response i - center i) := by
+    rw [← div_eq_inv_mul]
+    have hscaled' :
+        ((1 - 2 * η) * r) *
+            finiteCoordinateNorm SourceNorm.l2 g ≤
+          finiteDot g (fun i => response i - center i) := by
+      nlinarith [hscaled]
+    exact (le_div_iff₀ hgpos).2 hscaled'
+  change (1 - 2 * η) * r ≤
+    finiteDot n (fun i => response i - center i)
+  rw [hnorm_dot]
+  exact hdiv
+
+theorem modelAResponseAt_finiteDot_normalizedGradient_progress_of_firstOrder
+    {Voter Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (hNorm : UsesFiniteCoordinateNormDistance E)
+    {gradient : Voter → (Coord → ℝ) → Coord → ℝ}
+    {voter : Voter} {center response : Coord → ℝ} {r η : ℝ}
+    (hUniv : E.solutionSpace = (Set.univ : Set (Coord → ℝ)))
+    (hFirstOrder :
+      FiniteModelAFirstOrderExpansionAt E gradient voter center)
+    (hgradient : gradient voter center ≠ fun _ => 0)
+    (heta_pos : 0 < η)
+    (hr_pos : 0 < r)
+    (hr_small :
+      r ≤ Classical.choose
+        (hFirstOrder
+          (η * finiteCoordinateNorm SourceNorm.l2 (gradient voter center))
+          (mul_pos heta_pos
+            (finiteCoordinateNorm_l2_pos_of_exists_ne_zero
+              (exists_coord_ne_zero_of_ne_zero hgradient)))))
+    (hresponse :
+      ModelAResponseAt E SourceNorm.l2 center r voter response) :
+    (1 - 2 * η) * r ≤
+      finiteDot
+        (modelBFiniteNormalizedDirection SourceNorm.l2
+          (gradient voter center))
+        (fun i => response i - center i) := by
+  let candidate : Coord → ℝ :=
+    fun i =>
+      center i + r *
+        modelBFiniteNormalizedDirection SourceNorm.l2
+          (gradient voter center) i
+  have hcandidate_response :
+      ModelBFiniteResponseAt SourceNorm.l2 center r
+        (gradient voter center) candidate := by
+    rfl
+  have hcandidate_dist_r :
+      finiteCoordinateDistance SourceNorm.l2 candidate center ≤ r :=
+    modelBFiniteResponseAt_l2_within_radius
+      (le_of_lt hr_pos) hcandidate_response
+  have hcandidate_mem :
+      ModelANormalizedGradientStepFeasibleAt E gradient voter center r := by
+    refine ⟨?_, ?_⟩
+    · rw [hUniv]
+      exact Set.mem_univ _
+    · simpa [ModelANormalizedGradientStepFeasibleAt, candidate,
+        hNorm SourceNorm.l2 candidate center] using hcandidate_dist_r
+  exact
+    modelAResponseAt_finiteDot_normalizedGradient_progress_of_firstOrder_candidate_mem
+      hNorm hcandidate_mem hFirstOrder hgradient heta_pos hr_pos hr_small
+      hresponse
+
+/--
+Weighted expected version of the Model A local Taylor comparison.  If every
+voter utility has the same first-order error tolerance at the current center
+and every selected local maximizer is a Model A response, then the weighted
+expected progress in each selected voter's own normalized-gradient direction is
+at least `(1 - 2η) r`.
+-/
+theorem modelAResponseAt_weighted_expected_own_normalizedGradient_progress_of_firstOrder
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (hNorm : UsesFiniteCoordinateNormDistance E)
+    {weight : Voter → ℝ}
+    (hweight_nonneg : ∀ voter, 0 ≤ weight voter)
+    (hweight_sum : (∑ voter : Voter, weight voter) = 1)
+    {gradient : Voter → (Coord → ℝ) → Coord → ℝ}
+    {center : Coord → ℝ} {response : Voter → Coord → ℝ} {r η : ℝ}
+    (hUniv : E.solutionSpace = (Set.univ : Set (Coord → ℝ)))
+    (hFirstOrder :
+      ∀ voter : Voter,
+        FiniteModelAFirstOrderExpansionAt E gradient voter center)
+    (hgradient :
+      ∀ voter : Voter, gradient voter center ≠ fun _ => 0)
+    (heta_pos : 0 < η)
+    (hr_pos : 0 < r)
+    (hr_small :
+      ∀ voter : Voter,
+        r ≤ Classical.choose
+          (hFirstOrder voter
+            (η * finiteCoordinateNorm SourceNorm.l2
+              (gradient voter center))
+            (mul_pos heta_pos
+              (finiteCoordinateNorm_l2_pos_of_exists_ne_zero
+                (exists_coord_ne_zero_of_ne_zero
+                  (hgradient voter))))))
+    (hresponse :
+      ∀ voter : Voter,
+        ModelAResponseAt E SourceNorm.l2 center r voter
+          (response voter)) :
+    (1 - 2 * η) * r ≤
+      ∑ voter : Voter,
+        weight voter *
+          finiteDot
+            (modelBFiniteNormalizedDirection SourceNorm.l2
+              (gradient voter center))
+            (fun i => response voter i - center i) := by
+  let lower : ℝ := (1 - 2 * η) * r
+  have hpoint :
+      ∀ voter : Voter,
+        lower ≤
+          finiteDot
+            (modelBFiniteNormalizedDirection SourceNorm.l2
+              (gradient voter center))
+            (fun i => response voter i - center i) := by
+    intro voter
+    dsimp [lower]
+    exact
+      modelAResponseAt_finiteDot_normalizedGradient_progress_of_firstOrder
+        hNorm hUniv (hFirstOrder voter) (hgradient voter) heta_pos hr_pos
+        (hr_small voter) (hresponse voter)
+  have hweighted :
+      ∑ voter : Voter, weight voter * lower ≤
+        ∑ voter : Voter,
+          weight voter *
+            finiteDot
+              (modelBFiniteNormalizedDirection SourceNorm.l2
+                (gradient voter center))
+              (fun i => response voter i - center i) := by
+    exact Finset.sum_le_sum fun voter _hvoter =>
+      mul_le_mul_of_nonneg_left (hpoint voter) (hweight_nonneg voter)
+  calc
+    lower = (∑ voter : Voter, weight voter) * lower := by
+      rw [hweight_sum]
+      ring
+    _ = ∑ voter : Voter, weight voter * lower := by
+      rw [Finset.sum_mul]
+    _ ≤
+        ∑ voter : Voter,
+          weight voter *
+            finiteDot
+              (modelBFiniteNormalizedDirection SourceNorm.l2
+                (gradient voter center))
+              (fun i => response voter i - center i) := hweighted
+
+/--
+Fixed-direction lower bound for one Model A local maximizer.  The local
+first-order comparison says the response has almost full projection on the
+selected voter's normalized-gradient direction; the squared-closeness algebra
+then converts this to progress against any fixed finite-dot direction `a`, up
+to a tunable `κ r` error.
+-/
+theorem modelAResponseAt_finiteDot_fixedDirection_lower_of_firstOrder
+    {Voter Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (hNorm : UsesFiniteCoordinateNormDistance E)
+    {gradient : Voter → (Coord → ℝ) → Coord → ℝ}
+    {voter : Voter} {center response a : Coord → ℝ} {r η κ : ℝ}
+    (hUniv : E.solutionSpace = (Set.univ : Set (Coord → ℝ)))
+    (hFirstOrder :
+      FiniteModelAFirstOrderExpansionAt E gradient voter center)
+    (hgradient : gradient voter center ≠ fun _ => 0)
+    (heta_pos : 0 < η)
+    (hκ : 0 ≤ κ)
+    (hηκ : 4 * η ≤ κ ^ 2)
+    (hr_pos : 0 < r)
+    (hr_small :
+      r ≤ Classical.choose
+        (hFirstOrder
+          (η * finiteCoordinateNorm SourceNorm.l2 (gradient voter center))
+          (mul_pos heta_pos
+            (finiteCoordinateNorm_l2_pos_of_exists_ne_zero
+              (exists_coord_ne_zero_of_ne_zero hgradient)))))
+    (hresponse :
+      ModelAResponseAt E SourceNorm.l2 center r voter response) :
+    r *
+        finiteDot a
+          (modelBFiniteNormalizedDirection SourceNorm.l2
+            (gradient voter center)) -
+        finiteCoordinateNorm SourceNorm.l2 a * (κ * r) ≤
+      finiteDot a (fun i => response i - center i) := by
+  let n : Coord → ℝ :=
+    modelBFiniteNormalizedDirection SourceNorm.l2 (gradient voter center)
+  let d : Coord → ℝ := fun i => response i - center i
+  have hr_nonneg : 0 ≤ r := le_of_lt hr_pos
+  have hprogress :
+      (1 - 2 * η) * r ≤ finiteDot n d := by
+    simpa [n, d] using
+      modelAResponseAt_finiteDot_normalizedGradient_progress_of_firstOrder
+        hNorm hUniv hFirstOrder hgradient heta_pos hr_pos hr_small hresponse
+  have hresp_dist_r :
+      finiteCoordinateDistance SourceNorm.l2 response center ≤ r := by
+    have hdistE : E.normDistance SourceNorm.l2 response center ≤ r :=
+      hresponse.1.2
+    simpa [hNorm SourceNorm.l2 response center] using hdistE
+  have hnormd :
+      finiteCoordinateNorm SourceNorm.l2 d ≤ r := by
+    simpa [d, finiteCoordinateDistance] using hresp_dist_r
+  have hstep_sq : finiteDot d d ≤ r ^ 2 := by
+    rw [finiteDot_self_eq_finiteCoordinateNorm_l2_sq]
+    exact
+      (sq_le_sq₀ (finiteCoordinateNorm_l2_nonneg d) hr_nonneg).mpr hnormd
+  have hn_sq : finiteDot n n ≤ 1 := by
+    rw [finiteDot_self_eq_finiteCoordinateNorm_l2_sq]
+    have hn_norm :
+        finiteCoordinateNorm SourceNorm.l2 n = 1 := by
+      simpa [n] using
+        modelBFiniteNormalizedDirection_l2_norm_eq_one_of_ne_zero
+          (gradient := gradient voter center) hgradient
+    rw [hn_norm]
+    norm_num
+  have hβκ : 2 * (2 * η) ≤ κ ^ 2 := by
+    nlinarith
+  simpa [n, d] using
+    finiteDot_fixedDirection_lower_of_normalizedProgress
+      a n d hr_nonneg hstep_sq hn_sq hprogress hκ hβκ
+
+/--
+Fixed-direction lower bound for one Model A local maximizer under the exact
+comparison-point feasibility condition.  This is the constrained-space version
+of `modelAResponseAt_finiteDot_fixedDirection_lower_of_firstOrder`.
+-/
+theorem modelAResponseAt_finiteDot_fixedDirection_lower_of_firstOrder_candidate_mem
+    {Voter Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (hNorm : UsesFiniteCoordinateNormDistance E)
+    {gradient : Voter → (Coord → ℝ) → Coord → ℝ}
+    {voter : Voter} {center response a : Coord → ℝ} {r η κ : ℝ}
+    (hcandidate_mem :
+      ModelANormalizedGradientStepFeasibleAt E gradient voter center r)
+    (hFirstOrder :
+      FiniteModelAFirstOrderExpansionAt E gradient voter center)
+    (hgradient : gradient voter center ≠ fun _ => 0)
+    (heta_pos : 0 < η)
+    (hκ : 0 ≤ κ)
+    (hηκ : 4 * η ≤ κ ^ 2)
+    (hr_pos : 0 < r)
+    (hr_small :
+      r ≤ Classical.choose
+        (hFirstOrder
+          (η * finiteCoordinateNorm SourceNorm.l2 (gradient voter center))
+          (mul_pos heta_pos
+            (finiteCoordinateNorm_l2_pos_of_exists_ne_zero
+              (exists_coord_ne_zero_of_ne_zero hgradient)))))
+    (hresponse :
+      ModelAResponseAt E SourceNorm.l2 center r voter response) :
+    r *
+        finiteDot a
+          (modelBFiniteNormalizedDirection SourceNorm.l2
+            (gradient voter center)) -
+        finiteCoordinateNorm SourceNorm.l2 a * (κ * r) ≤
+      finiteDot a (fun i => response i - center i) := by
+  let n : Coord → ℝ :=
+    modelBFiniteNormalizedDirection SourceNorm.l2 (gradient voter center)
+  let d : Coord → ℝ := fun i => response i - center i
+  have hr_nonneg : 0 ≤ r := le_of_lt hr_pos
+  have hprogress :
+      (1 - 2 * η) * r ≤ finiteDot n d := by
+    simpa [n, d] using
+      modelAResponseAt_finiteDot_normalizedGradient_progress_of_firstOrder_candidate_mem
+        hNorm hcandidate_mem hFirstOrder hgradient heta_pos hr_pos hr_small
+        hresponse
+  have hresp_dist_r :
+      finiteCoordinateDistance SourceNorm.l2 response center ≤ r := by
+    have hdistE : E.normDistance SourceNorm.l2 response center ≤ r :=
+      hresponse.1.2
+    simpa [hNorm SourceNorm.l2 response center] using hdistE
+  have hnormd :
+      finiteCoordinateNorm SourceNorm.l2 d ≤ r := by
+    simpa [d, finiteCoordinateDistance] using hresp_dist_r
+  have hstep_sq : finiteDot d d ≤ r ^ 2 := by
+    rw [finiteDot_self_eq_finiteCoordinateNorm_l2_sq]
+    exact
+      (sq_le_sq₀ (finiteCoordinateNorm_l2_nonneg d) hr_nonneg).mpr hnormd
+  have hn_sq : finiteDot n n ≤ 1 := by
+    rw [finiteDot_self_eq_finiteCoordinateNorm_l2_sq]
+    have hn_norm :
+        finiteCoordinateNorm SourceNorm.l2 n = 1 := by
+      simpa [n] using
+        modelBFiniteNormalizedDirection_l2_norm_eq_one_of_ne_zero
+          (gradient := gradient voter center) hgradient
+    rw [hn_norm]
+    norm_num
+  have hβκ : 2 * (2 * η) ≤ κ ^ 2 := by
+    nlinarith
+  simpa [n, d] using
+    finiteDot_fixedDirection_lower_of_normalizedProgress
+      a n d hr_nonneg hstep_sq hn_sq hprogress hκ hβκ
+
+/--
+Weighted fixed-direction lower bound for Model A local maximizers.  This is the
+finite-voter uniformization bridge for the conjectural Theorem 3 analogue:
+after choosing `κ` so that `κ²` dominates the first-order error parameter, the
+weighted expected Model A raw finite-dot progress is bounded below by the
+paper's normalized-gradient field, with an explicit `κ r` error.
+-/
+theorem modelAResponseAt_weighted_expected_fixedDirection_lower_of_firstOrder
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (hNorm : UsesFiniteCoordinateNormDistance E)
+    {weight : Voter → ℝ}
+    (hweight_nonneg : ∀ voter, 0 ≤ weight voter)
+    (hweight_sum : (∑ voter : Voter, weight voter) = 1)
+    {gradient : Voter → (Coord → ℝ) → Coord → ℝ}
+    {center : Coord → ℝ} {response : Voter → Coord → ℝ}
+    {a : Coord → ℝ} {r η κ : ℝ}
+    (hUniv : E.solutionSpace = (Set.univ : Set (Coord → ℝ)))
+    (hFirstOrder :
+      ∀ voter : Voter,
+        FiniteModelAFirstOrderExpansionAt E gradient voter center)
+    (hgradient :
+      ∀ voter : Voter, gradient voter center ≠ fun _ => 0)
+    (heta_pos : 0 < η)
+    (hκ : 0 ≤ κ)
+    (hηκ : 4 * η ≤ κ ^ 2)
+    (hr_pos : 0 < r)
+    (hr_small :
+      ∀ voter : Voter,
+        r ≤ Classical.choose
+          (hFirstOrder voter
+            (η * finiteCoordinateNorm SourceNorm.l2
+              (gradient voter center))
+            (mul_pos heta_pos
+              (finiteCoordinateNorm_l2_pos_of_exists_ne_zero
+                (exists_coord_ne_zero_of_ne_zero
+                  (hgradient voter))))))
+    (hresponse :
+      ∀ voter : Voter,
+        ModelAResponseAt E SourceNorm.l2 center r voter
+          (response voter)) :
+    r *
+        finiteDot a
+          (finiteTheorem3DirectionalField weight gradient center) -
+        finiteCoordinateNorm SourceNorm.l2 a * (κ * r) ≤
+      ∑ voter : Voter,
+        weight voter *
+          finiteDot a (fun i => response voter i - center i) := by
+  let C : ℝ := finiteCoordinateNorm SourceNorm.l2 a * (κ * r)
+  let ownDot : Voter → ℝ := fun voter =>
+    finiteDot a
+      (modelBFiniteNormalizedDirection SourceNorm.l2
+        (gradient voter center))
+  let responseDot : Voter → ℝ := fun voter =>
+    finiteDot a (fun i => response voter i - center i)
+  have hpoint :
+      ∀ voter : Voter, r * ownDot voter - C ≤ responseDot voter := by
+    intro voter
+    dsimp [ownDot, responseDot, C]
+    exact
+      modelAResponseAt_finiteDot_fixedDirection_lower_of_firstOrder
+        hNorm hUniv (hFirstOrder voter) (hgradient voter) heta_pos hκ hηκ
+        hr_pos (hr_small voter) (hresponse voter)
+  have hweighted :
+      ∑ voter : Voter, weight voter * (r * ownDot voter - C) ≤
+        ∑ voter : Voter, weight voter * responseDot voter := by
+    exact Finset.sum_le_sum fun voter _hvoter =>
+      mul_le_mul_of_nonneg_left (hpoint voter) (hweight_nonneg voter)
+  have hown :
+      (∑ voter : Voter, weight voter * ownDot voter) =
+        finiteDot a (finiteTheorem3DirectionalField weight gradient center) := by
+    simpa [ownDot] using
+      finiteTheorem3DirectionalField_expected_finiteDot_modelBNormalizedDirection
+        weight gradient center a
+  have hleft :
+      (∑ voter : Voter, weight voter * (r * ownDot voter - C)) =
+        r * finiteDot a (finiteTheorem3DirectionalField weight gradient center) -
+          C := by
+    calc
+      (∑ voter : Voter, weight voter * (r * ownDot voter - C))
+          =
+        (∑ voter : Voter, weight voter * (r * ownDot voter)) -
+          ∑ voter : Voter, weight voter * C := by
+          rw [← Finset.sum_sub_distrib]
+          apply Finset.sum_congr rfl
+          intro voter _hvoter
+          ring
+      _ =
+        r * (∑ voter : Voter, weight voter * ownDot voter) -
+          C * (∑ voter : Voter, weight voter) := by
+          congr 1
+          · calc
+              (∑ voter : Voter, weight voter * (r * ownDot voter))
+                  =
+                ∑ voter : Voter, r * (weight voter * ownDot voter) := by
+                  apply Finset.sum_congr rfl
+                  intro voter _hvoter
+                  ring
+              _ = r * (∑ voter : Voter, weight voter * ownDot voter) := by
+                  rw [Finset.mul_sum]
+          · calc
+              (∑ voter : Voter, weight voter * C)
+                  =
+                ∑ voter : Voter, C * weight voter := by
+                  apply Finset.sum_congr rfl
+                  intro voter _hvoter
+                  ring
+              _ = C * (∑ voter : Voter, weight voter) := by
+                  rw [Finset.mul_sum]
+      _ =
+        r * finiteDot a (finiteTheorem3DirectionalField weight gradient center) -
+          C := by
+          rw [hown, hweight_sum]
+          ring
+  calc
+    r * finiteDot a (finiteTheorem3DirectionalField weight gradient center) -
+        finiteCoordinateNorm SourceNorm.l2 a * (κ * r)
+        =
+          ∑ voter : Voter, weight voter * (r * ownDot voter - C) := by
+          exact hleft.symm
+    _ ≤ ∑ voter : Voter, weight voter * responseDot voter := hweighted
+    _ =
+        ∑ voter : Voter,
+          weight voter *
+            finiteDot a (fun i => response voter i - center i) := by
+          rfl
+
+/--
+Weighted fixed-direction lower bound under per-voter normalized-gradient
+comparison feasibility.  This replaces the full-space hypothesis by exactly
+the feasible comparison points used in the Model A Taylor argument.
+-/
+theorem modelAResponseAt_weighted_expected_fixedDirection_lower_of_firstOrder_candidate_mem
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (hNorm : UsesFiniteCoordinateNormDistance E)
+    {weight : Voter → ℝ}
+    (hweight_nonneg : ∀ voter, 0 ≤ weight voter)
+    (hweight_sum : (∑ voter : Voter, weight voter) = 1)
+    {gradient : Voter → (Coord → ℝ) → Coord → ℝ}
+    {center : Coord → ℝ} {response : Voter → Coord → ℝ}
+    {a : Coord → ℝ} {r η κ : ℝ}
+    (hcandidate_mem :
+      ∀ voter : Voter,
+        ModelANormalizedGradientStepFeasibleAt E gradient voter center r)
+    (hFirstOrder :
+      ∀ voter : Voter,
+        FiniteModelAFirstOrderExpansionAt E gradient voter center)
+    (hgradient :
+      ∀ voter : Voter, gradient voter center ≠ fun _ => 0)
+    (heta_pos : 0 < η)
+    (hκ : 0 ≤ κ)
+    (hηκ : 4 * η ≤ κ ^ 2)
+    (hr_pos : 0 < r)
+    (hr_small :
+      ∀ voter : Voter,
+        r ≤ Classical.choose
+          (hFirstOrder voter
+            (η * finiteCoordinateNorm SourceNorm.l2
+              (gradient voter center))
+            (mul_pos heta_pos
+              (finiteCoordinateNorm_l2_pos_of_exists_ne_zero
+                (exists_coord_ne_zero_of_ne_zero
+                  (hgradient voter))))))
+    (hresponse :
+      ∀ voter : Voter,
+        ModelAResponseAt E SourceNorm.l2 center r voter
+          (response voter)) :
+    r *
+        finiteDot a
+          (finiteTheorem3DirectionalField weight gradient center) -
+        finiteCoordinateNorm SourceNorm.l2 a * (κ * r) ≤
+      ∑ voter : Voter,
+        weight voter *
+          finiteDot a (fun i => response voter i - center i) := by
+  let C : ℝ := finiteCoordinateNorm SourceNorm.l2 a * (κ * r)
+  let ownDot : Voter → ℝ := fun voter =>
+    finiteDot a
+      (modelBFiniteNormalizedDirection SourceNorm.l2
+        (gradient voter center))
+  let responseDot : Voter → ℝ := fun voter =>
+    finiteDot a (fun i => response voter i - center i)
+  have hpoint :
+      ∀ voter : Voter, r * ownDot voter - C ≤ responseDot voter := by
+    intro voter
+    dsimp [ownDot, responseDot, C]
+    exact
+      modelAResponseAt_finiteDot_fixedDirection_lower_of_firstOrder_candidate_mem
+        hNorm (hcandidate_mem voter) (hFirstOrder voter) (hgradient voter)
+        heta_pos hκ hηκ hr_pos (hr_small voter) (hresponse voter)
+  have hweighted :
+      ∑ voter : Voter, weight voter * (r * ownDot voter - C) ≤
+        ∑ voter : Voter, weight voter * responseDot voter := by
+    exact Finset.sum_le_sum fun voter _hvoter =>
+      mul_le_mul_of_nonneg_left (hpoint voter) (hweight_nonneg voter)
+  have hown :
+      (∑ voter : Voter, weight voter * ownDot voter) =
+        finiteDot a (finiteTheorem3DirectionalField weight gradient center) := by
+    simpa [ownDot] using
+      finiteTheorem3DirectionalField_expected_finiteDot_modelBNormalizedDirection
+        weight gradient center a
+  have hleft :
+      (∑ voter : Voter, weight voter * (r * ownDot voter - C)) =
+        r * finiteDot a (finiteTheorem3DirectionalField weight gradient center) -
+          C := by
+    calc
+      (∑ voter : Voter, weight voter * (r * ownDot voter - C))
+          =
+        (∑ voter : Voter, weight voter * (r * ownDot voter)) -
+          ∑ voter : Voter, weight voter * C := by
+          rw [← Finset.sum_sub_distrib]
+          apply Finset.sum_congr rfl
+          intro voter _hvoter
+          ring
+      _ =
+        r * (∑ voter : Voter, weight voter * ownDot voter) -
+          C * (∑ voter : Voter, weight voter) := by
+          congr 1
+          · calc
+              (∑ voter : Voter, weight voter * (r * ownDot voter))
+                  =
+                ∑ voter : Voter, r * (weight voter * ownDot voter) := by
+                  apply Finset.sum_congr rfl
+                  intro voter _hvoter
+                  ring
+              _ = r * (∑ voter : Voter, weight voter * ownDot voter) := by
+                  rw [Finset.mul_sum]
+          · calc
+              (∑ voter : Voter, weight voter * C)
+                  =
+                ∑ voter : Voter, C * weight voter := by
+                  apply Finset.sum_congr rfl
+                  intro voter _hvoter
+                  ring
+              _ = C * (∑ voter : Voter, weight voter) := by
+                  rw [Finset.mul_sum]
+      _ =
+        r * finiteDot a (finiteTheorem3DirectionalField weight gradient center) -
+          C := by
+          rw [hown, hweight_sum]
+          ring
+  calc
+    r * finiteDot a (finiteTheorem3DirectionalField weight gradient center) -
+        finiteCoordinateNorm SourceNorm.l2 a * (κ * r)
+        =
+          ∑ voter : Voter, weight voter * (r * ownDot voter - C) := by
+          exact hleft.symm
+    _ ≤ ∑ voter : Voter, weight voter * responseDot voter := hweighted
+    _ =
+        ∑ voter : Voter,
+          weight voter *
+            finiteDot a (fun i => response voter i - center i) := by
+          rfl
+
+/--
+Drift-ready Model A finite-voter bridge.  Once the limiting direction `a`
+has positive dot product at the current field value and the first-order
+alignment error is chosen smaller than half of that drift, the weighted
+expected Model A raw response has positive scalar progress.
+-/
+theorem modelAResponseAt_weighted_expected_fixedDirection_drift_lower_of_firstOrder
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (hNorm : UsesFiniteCoordinateNormDistance E)
+    {weight : Voter → ℝ}
+    (hweight_nonneg : ∀ voter, 0 ≤ weight voter)
+    (hweight_sum : (∑ voter : Voter, weight voter) = 1)
+    {gradient : Voter → (Coord → ℝ) → Coord → ℝ}
+    {center : Coord → ℝ} {response : Voter → Coord → ℝ}
+    {a : Coord → ℝ} {r η κ c : ℝ}
+    (hUniv : E.solutionSpace = (Set.univ : Set (Coord → ℝ)))
+    (hFirstOrder :
+      ∀ voter : Voter,
+        FiniteModelAFirstOrderExpansionAt E gradient voter center)
+    (hgradient :
+      ∀ voter : Voter, gradient voter center ≠ fun _ => 0)
+    (heta_pos : 0 < η)
+    (hκ : 0 ≤ κ)
+    (hηκ : 4 * η ≤ κ ^ 2)
+    (hr_pos : 0 < r)
+    (hdrift :
+      c ≤ finiteDot a (finiteTheorem3DirectionalField weight gradient center))
+    (hκsmall : finiteCoordinateNorm SourceNorm.l2 a * κ ≤ c / 2)
+    (hr_small :
+      ∀ voter : Voter,
+        r ≤ Classical.choose
+          (hFirstOrder voter
+            (η * finiteCoordinateNorm SourceNorm.l2
+              (gradient voter center))
+            (mul_pos heta_pos
+              (finiteCoordinateNorm_l2_pos_of_exists_ne_zero
+                (exists_coord_ne_zero_of_ne_zero
+                  (hgradient voter))))))
+    (hresponse :
+      ∀ voter : Voter,
+        ModelAResponseAt E SourceNorm.l2 center r voter
+          (response voter)) :
+    (c / 2) * r ≤
+      ∑ voter : Voter,
+        weight voter *
+          finiteDot a (fun i => response voter i - center i) := by
+  have hbridge :=
+    modelAResponseAt_weighted_expected_fixedDirection_lower_of_firstOrder
+      hNorm hweight_nonneg hweight_sum hUniv hFirstOrder hgradient heta_pos
+      hκ hηκ hr_pos hr_small hresponse (a := a)
+  have htarget :
+      (c / 2) * r ≤
+        r * finiteDot a
+            (finiteTheorem3DirectionalField weight gradient center) -
+          finiteCoordinateNorm SourceNorm.l2 a * (κ * r) := by
+    nlinarith [hdrift, hκsmall, le_of_lt hr_pos]
+  exact le_trans htarget hbridge
+
+/--
+Drift-ready Model A bridge under per-voter normalized-gradient comparison
+feasibility, replacing the full-space hypothesis in the finite-voter step.
+-/
+theorem modelAResponseAt_weighted_expected_fixedDirection_drift_lower_of_firstOrder_candidate_mem
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (hNorm : UsesFiniteCoordinateNormDistance E)
+    {weight : Voter → ℝ}
+    (hweight_nonneg : ∀ voter, 0 ≤ weight voter)
+    (hweight_sum : (∑ voter : Voter, weight voter) = 1)
+    {gradient : Voter → (Coord → ℝ) → Coord → ℝ}
+    {center : Coord → ℝ} {response : Voter → Coord → ℝ}
+    {a : Coord → ℝ} {r η κ c : ℝ}
+    (hcandidate_mem :
+      ∀ voter : Voter,
+        ModelANormalizedGradientStepFeasibleAt E gradient voter center r)
+    (hFirstOrder :
+      ∀ voter : Voter,
+        FiniteModelAFirstOrderExpansionAt E gradient voter center)
+    (hgradient :
+      ∀ voter : Voter, gradient voter center ≠ fun _ => 0)
+    (heta_pos : 0 < η)
+    (hκ : 0 ≤ κ)
+    (hηκ : 4 * η ≤ κ ^ 2)
+    (hr_pos : 0 < r)
+    (hdrift :
+      c ≤ finiteDot a (finiteTheorem3DirectionalField weight gradient center))
+    (hκsmall : finiteCoordinateNorm SourceNorm.l2 a * κ ≤ c / 2)
+    (hr_small :
+      ∀ voter : Voter,
+        r ≤ Classical.choose
+          (hFirstOrder voter
+            (η * finiteCoordinateNorm SourceNorm.l2
+              (gradient voter center))
+            (mul_pos heta_pos
+              (finiteCoordinateNorm_l2_pos_of_exists_ne_zero
+                (exists_coord_ne_zero_of_ne_zero
+                  (hgradient voter))))))
+    (hresponse :
+      ∀ voter : Voter,
+        ModelAResponseAt E SourceNorm.l2 center r voter
+          (response voter)) :
+    (c / 2) * r ≤
+      ∑ voter : Voter,
+        weight voter *
+          finiteDot a (fun i => response voter i - center i) := by
+  have hbridge :=
+    modelAResponseAt_weighted_expected_fixedDirection_lower_of_firstOrder_candidate_mem
+      hNorm hweight_nonneg hweight_sum hcandidate_mem hFirstOrder hgradient
+      heta_pos hκ hηκ hr_pos hr_small hresponse (a := a)
+  have htarget :
+      (c / 2) * r ≤
+        r * finiteDot a
+            (finiteTheorem3DirectionalField weight gradient center) -
+          finiteCoordinateNorm SourceNorm.l2 a * (κ * r) := by
+    nlinarith [hdrift, hκsmall, le_of_lt hr_pos]
+  exact le_trans htarget hbridge
+
+/--
+Parameter choice for the Model A first-order alignment argument.  Any positive
+tail drift `c` admits positive `η` and nonnegative `κ` with
+`4η <= κ²` and `||a||₂ κ <= c/2`, exactly the numeric side conditions consumed
+by `modelAResponseAt_weighted_expected_fixedDirection_drift_lower_of_firstOrder`.
+-/
+theorem exists_modelA_firstOrder_alignment_parameters
+    {Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    (a : Coord → ℝ) {c : ℝ} (hc : 0 < c) :
+    ∃ η κ : ℝ,
+      0 < η ∧ 0 ≤ κ ∧ 4 * η ≤ κ ^ 2 ∧
+        finiteCoordinateNorm SourceNorm.l2 a * κ ≤ c / 2 := by
+  let A : ℝ := finiteCoordinateNorm SourceNorm.l2 a
+  let κ : ℝ := c / (2 * (A + 1))
+  let η : ℝ := κ ^ 2 / 4
+  have hA_nonneg : 0 ≤ A := by
+    dsimp [A]
+    exact finiteCoordinateNorm_l2_nonneg a
+  have hden_pos : 0 < 2 * (A + 1) := by
+    nlinarith
+  have hκ_pos : 0 < κ := by
+    dsimp [κ]
+    exact div_pos hc hden_pos
+  have hη_pos : 0 < η := by
+    dsimp [η]
+    exact div_pos (sq_pos_of_ne_zero (ne_of_gt hκ_pos)) (by norm_num)
+  refine ⟨η, κ, hη_pos, le_of_lt hκ_pos, ?_, ?_⟩
+  · dsimp [η]
+    nlinarith
+  · have hdiv :
+        A * c / (2 * (A + 1)) ≤ c / 2 := by
+      refine (div_le_iff₀ hden_pos).2 ?_
+      nlinarith [mul_le_mul_of_nonneg_right
+        (show A ≤ A + 1 by nlinarith) (le_of_lt hc)]
+    dsimp [κ, A]
+    simpa [mul_div_assoc] using hdiv
 
 theorem finiteDot_self_pos_of_ne_zero
     {Coord : Type*} [Fintype Coord]
@@ -6546,6 +7820,20 @@ theorem finiteCoordinateDistance_l2_tendsto_zero_of_coordinatewise
   simpa [finiteCoordinateDistance, finiteCoordinateNorm,
     EconCSLib.FiniteDimensionalNorms.l2] using hsqrt
 
+theorem finiteCoordinateILVTrajectory_l2Distance_tendsto_zero_model
+    {Voter Coord : Type*} [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    {model : VoterResponseModel} {xstar : Coord → ℝ}
+    (hconv :
+      FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+        model xstar) :
+    Filter.Tendsto
+      (fun n : ℕ =>
+        finiteCoordinateDistance SourceNorm.l2
+          (E.trajectory SourceNorm.l2 model n) xstar)
+      Filter.atTop (nhds 0) := by
+  exact finiteCoordinateDistance_l2_tendsto_zero_of_coordinatewise hconv
+
 theorem finiteCoordinateILVTrajectory_l2Distance_tendsto_zero
     {Voter Coord : Type*} [Fintype Coord] [Nonempty Coord]
     {E : ILVEnvironment Voter (Coord → ℝ)} {xstar : Coord → ℝ}
@@ -6557,7 +7845,22 @@ theorem finiteCoordinateILVTrajectory_l2Distance_tendsto_zero
         finiteCoordinateDistance SourceNorm.l2
           (E.trajectory SourceNorm.l2 VoterResponseModel.modelB n) xstar)
       Filter.atTop (nhds 0) := by
-  exact finiteCoordinateDistance_l2_tendsto_zero_of_coordinatewise hconv
+  exact finiteCoordinateILVTrajectory_l2Distance_tendsto_zero_model hconv
+
+theorem theorem3FiniteFieldProjection_tendsto_model
+    {Voter Coord : Type*} [Fintype Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    {model : VoterResponseModel} {xstar : Coord → ℝ}
+    (hconv :
+      FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+        model xstar) :
+    Filter.Tendsto
+      (fun n : ℕ =>
+        theorem3FiniteFieldProjection E xstar
+          (E.trajectory SourceNorm.l2 model n))
+      Filter.atTop (nhds (theorem3FiniteFieldProjection E xstar xstar)) := by
+  exact finiteDot_tendsto_of_coordinatewise
+    (E.directionalField xstar) hconv
 
 theorem theorem3FiniteFieldProjection_tendsto
     {Voter Coord : Type*} [Fintype Coord]
@@ -6570,8 +7873,28 @@ theorem theorem3FiniteFieldProjection_tendsto
         theorem3FiniteFieldProjection E xstar
           (E.trajectory SourceNorm.l2 VoterResponseModel.modelB n))
       Filter.atTop (nhds (theorem3FiniteFieldProjection E xstar xstar)) := by
-  exact finiteDot_tendsto_of_coordinatewise
-    (E.directionalField xstar) hconv
+  exact theorem3FiniteFieldProjection_tendsto_model hconv
+
+theorem theorem3FiniteFieldProjection_tendsto_model_nat_add
+    {Voter Coord : Type*} [Fintype Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    {model : VoterResponseModel} {xstar : Coord → ℝ}
+    (hconv :
+      FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2 model xstar)
+    (N : ℕ) :
+    Filter.Tendsto
+      (fun n : ℕ =>
+        theorem3FiniteFieldProjection E xstar
+          (E.trajectory SourceNorm.l2 model (n + N)))
+      Filter.atTop (nhds (theorem3FiniteFieldProjection E xstar xstar)) := by
+  have hshift :
+      Filter.Tendsto (fun n : ℕ => n + N) Filter.atTop Filter.atTop := by
+    refine Filter.tendsto_atTop.2 ?_
+    intro a
+    exact Filter.eventually_atTop.2
+      ⟨a, fun n hn => le_trans hn (Nat.le_add_right n N)⟩
+  exact (theorem3FiniteFieldProjection_tendsto_model hconv).comp
+    hshift
 
 theorem theorem3FiniteFieldProjection_tendsto_nat_add
     {Voter Coord : Type*} [Fintype Coord]
@@ -6585,14 +7908,7 @@ theorem theorem3FiniteFieldProjection_tendsto_nat_add
         theorem3FiniteFieldProjection E xstar
           (E.trajectory SourceNorm.l2 VoterResponseModel.modelB (n + N)))
       Filter.atTop (nhds (theorem3FiniteFieldProjection E xstar xstar)) := by
-  have hshift :
-      Filter.Tendsto (fun n : ℕ => n + N) Filter.atTop Filter.atTop := by
-    refine Filter.tendsto_atTop.2 ?_
-    intro a
-    exact Filter.eventually_atTop.2
-      ⟨a, fun n hn => le_trans hn (Nat.le_add_right n N)⟩
-  exact (theorem3FiniteFieldProjection_tendsto hconv).comp
-    hshift
+  exact theorem3FiniteFieldProjection_tendsto_model_nat_add hconv N
 
 /--
 Finite-coordinate analytic drift semantics for Theorem 3.  Compared with the
@@ -6732,9 +8048,39 @@ structure FiniteTheorem3PaperRadiusProgressSemantics
                       theorem3FiniteFieldProjection E xstar
                           (E.trajectory SourceNorm.l2
                           VoterResponseModel.modelB (t + 1)) -
-                        theorem3FiniteFieldProjection E xstar
+                      theorem3FiniteFieldProjection E xstar
                           (E.trajectory SourceNorm.l2
                             VoterResponseModel.modelB t)
+
+/--
+Model A paper-radius progress semantics for the conjectural analogue of
+Theorem 3.  The conclusion is identical to the Model B progress interface, but
+the trajectory and response hypothesis are Model A.  Separate local lemmas
+derive the needed one-step drift from first-order Model A maximization
+hypotheses.
+-/
+structure FiniteTheorem3ModelAPaperRadiusProgressSemantics
+    {Voter Coord : Type*} [Fintype Coord]
+    (E : ILVEnvironment Voter (Coord → ℝ)) where
+  r0 : ℝ
+  r0_pos : 0 < r0
+  one_step_projection_progress :
+    ∀ {xstar : Coord → ℝ},
+      ConditionsC123 E →
+        E.directionalFieldUniformlyContinuous →
+          E.respondsAccordingTo VoterResponseModel.modelA →
+            FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+              VoterResponseModel.modelA xstar →
+              E.directionalField xstar ≠ E.zeroDirection →
+                ∃ c, 0 < c ∧
+                  ∀ t : ℕ,
+                    c * ilvRadius r0 (t + 1) ≤
+                      theorem3FiniteFieldProjection E xstar
+                          (E.trajectory SourceNorm.l2
+                            VoterResponseModel.modelA (t + 1)) -
+                        theorem3FiniteFieldProjection E xstar
+                          (E.trajectory SourceNorm.l2
+                            VoterResponseModel.modelA t)
 
 /--
 Concrete finite-coordinate paper-radius progress semantics for Theorem 3.
@@ -6831,6 +8177,36 @@ structure FiniteTheorem3ConcretePaperRadiusEventualEscapeSemantics
                       theorem3ConcreteFiniteFieldProjection M xstar
                         (E.trajectory SourceNorm.l2
                           VoterResponseModel.modelB (n + N))
+
+/--
+Eventual concrete finite-coordinate paper-radius escape semantics for the
+corrected Model A analogue of Theorem 3.  This is the same deterministic
+divergence target as the Model B route, with the trajectory and response
+hypotheses switched to `modelA`.
+-/
+structure FiniteTheorem3ModelAConcretePaperRadiusEventualEscapeSemantics
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (M : FiniteTheorem3DirectionalFieldModel E) where
+  r0 : ℝ
+  r0_pos : 0 < r0
+  eventual_accumulated_projection_escape :
+    ∀ {xstar : Coord → ℝ},
+      ConditionsC123 E →
+        E.directionalFieldUniformlyContinuous →
+          E.respondsAccordingTo VoterResponseModel.modelA →
+            FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+              VoterResponseModel.modelA xstar →
+              (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar ≠
+                fun _ => (0 : ℝ)) →
+                ∃ N c baseValue, 0 < c ∧
+                  ∀ n : ℕ,
+                    baseValue +
+                        c * (∑ t ∈ Finset.range n,
+                          ilvRadius r0 (t + 1)) ≤
+                      theorem3ConcreteFiniteFieldProjection M xstar
+                        (E.trajectory SourceNorm.l2
+                          VoterResponseModel.modelA (n + N))
 
 /--
 Concrete finite-coordinate neighborhood-escape semantics for Theorem 3.  This is
@@ -7460,6 +8836,232 @@ structure FiniteTheorem3ConcreteFiniteDotEventualHoeffdingShellSemantics
                           theorem3ConcreteFiniteFieldProjection M xstar
                         (E.trajectory SourceNorm.l2
                           VoterResponseModel.modelB (n + N))
+
+/--
+Model A finite-dot eventual Hoeffding shell for the corrected post-Theorem-3
+analogue.  It has the same scalar shape as the Model B shell, but every
+trajectory and response hypothesis is `modelA`.  The first-order Model A
+analysis can be used to prove the fluctuation-control field below once the
+source trace has been instantiated.
+-/
+structure FiniteTheorem3ModelAConcreteFiniteDotEventualHoeffdingShellSemantics
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (M : FiniteTheorem3DirectionalFieldModel E) where
+  r0 : ℝ
+  r0_pos : 0 < r0
+  eventual_finiteDot_drift :
+    ∀ {xstar : Coord → ℝ},
+      ConditionsC123 E →
+        E.directionalFieldUniformlyContinuous →
+          E.respondsAccordingTo VoterResponseModel.modelA →
+            FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+              VoterResponseModel.modelA xstar →
+              (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar ≠
+                fun _ => (0 : ℝ)) →
+                ∃ N c, 0 < c ∧
+                  ∀ n : ℕ,
+                    c ≤
+                      finiteDot
+                        (finiteTheorem3DirectionalField M.weight
+                          M.utilityGradient xstar)
+                        (finiteTheorem3DirectionalField M.weight
+                          M.utilityGradient
+                          (E.trajectory SourceNorm.l2
+                            VoterResponseModel.modelA (n + N)))
+  finiteDot_fluctuation_eventual_control :
+    ∀ {xstar : Coord → ℝ} {N : ℕ} {c : ℝ},
+      ConditionsC123 E →
+        E.directionalFieldUniformlyContinuous →
+          E.respondsAccordingTo VoterResponseModel.modelA →
+            FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+              VoterResponseModel.modelA xstar →
+              (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar ≠
+                fun _ => (0 : ℝ)) →
+                0 < c →
+                  (∀ n : ℕ,
+                    c ≤
+                      finiteDot
+                        (finiteTheorem3DirectionalField M.weight
+                          M.utilityGradient xstar)
+                        (finiteTheorem3DirectionalField M.weight
+                          M.utilityGradient
+                          (E.trajectory SourceNorm.l2
+                            VoterResponseModel.modelA (n + N)))) →
+                    ∃ fluctuationBound : ℝ, ∃ T : ℕ,
+                      ∀ n : ℕ, T ≤ n →
+                        (∑ t ∈ Finset.range n,
+                            ilvRadius r0 (t + 1) *
+                              finiteDot
+                                (finiteTheorem3DirectionalField M.weight
+                                  M.utilityGradient xstar)
+                                (finiteTheorem3DirectionalField M.weight
+                                  M.utilityGradient
+                                  (E.trajectory SourceNorm.l2
+                                    VoterResponseModel.modelA (t + N)))) -
+                            fluctuationBound ≤
+                          theorem3ConcreteFiniteFieldProjection M xstar
+                            (E.trajectory SourceNorm.l2
+                              VoterResponseModel.modelA (n + N))
+
+/--
+Model A finite-dot Hoeffding shell with analytic drift derived in Lean.  This is
+the corrected analogue of the Model B `FiniteDotHoeffdingShellSemantics`: source
+work only has to supply the eventual fluctuation comparison, while Lean derives
+the positive scalar drift from convergence and continuity of the normalized
+field.
+-/
+structure FiniteTheorem3ModelAConcreteFiniteDotHoeffdingShellSemantics
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (M : FiniteTheorem3DirectionalFieldModel E) where
+  r0 : ℝ
+  r0_pos : 0 < r0
+  coordinate_continuity :
+    E.directionalFieldUniformlyContinuous →
+      ∀ xstar i ε, 0 < ε →
+        ∃ δ, 0 < δ ∧
+          ∀ x : Coord → ℝ,
+            finiteCoordinateDistance SourceNorm.l2 x xstar < δ →
+              |finiteTheorem3DirectionalField M.weight M.utilityGradient x i -
+                finiteTheorem3DirectionalField M.weight M.utilityGradient
+                  xstar i| < ε
+  finiteDot_fluctuation_eventual_control :
+    ∀ {xstar : Coord → ℝ} {N : ℕ} {c : ℝ},
+      ConditionsC123 E →
+        E.directionalFieldUniformlyContinuous →
+          E.respondsAccordingTo VoterResponseModel.modelA →
+            FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+              VoterResponseModel.modelA xstar →
+              (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar ≠
+                fun _ => (0 : ℝ)) →
+                0 < c →
+                  (∀ n : ℕ,
+                    c ≤
+                      finiteDot
+                        (finiteTheorem3DirectionalField M.weight
+                          M.utilityGradient xstar)
+                        (finiteTheorem3DirectionalField M.weight
+                          M.utilityGradient
+                          (E.trajectory SourceNorm.l2
+                            VoterResponseModel.modelA (n + N)))) →
+                    ∃ fluctuationBound : ℝ, ∃ T : ℕ,
+                      ∀ n : ℕ, T ≤ n →
+                        (∑ t ∈ Finset.range n,
+                            ilvRadius r0 (t + 1) *
+                              finiteDot
+                                (finiteTheorem3DirectionalField M.weight
+                                  M.utilityGradient xstar)
+                                (finiteTheorem3DirectionalField M.weight
+                                  M.utilityGradient
+                                  (E.trajectory SourceNorm.l2
+                                    VoterResponseModel.modelA (t + N)))) -
+                            fluctuationBound ≤
+                          theorem3ConcreteFiniteFieldProjection M xstar
+                            (E.trajectory SourceNorm.l2
+                              VoterResponseModel.modelA (n + N))
+
+/--
+Model A harmonic Hoeffding shell for the corrected first-order analogue of
+Theorem 3.  Model A does not have the exact Model B identity
+`E[Δx_t] = r_t G(x_t)`.  The first-order proof only needs the weaker, source
+faithful consequence: once `<G(x*), G(x_t)> >= c` on a tail, the realized scalar
+projection eventually dominates `(c/2) * sum r_t` up to a finite fluctuation
+constant.
+-/
+structure FiniteTheorem3ModelAConcreteHarmonicEventualHoeffdingShellSemantics
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (M : FiniteTheorem3DirectionalFieldModel E) where
+  r0 : ℝ
+  r0_pos : 0 < r0
+  coordinate_continuity :
+    E.directionalFieldUniformlyContinuous →
+      ∀ xstar i ε, 0 < ε →
+        ∃ δ, 0 < δ ∧
+          ∀ x : Coord → ℝ,
+            finiteCoordinateDistance SourceNorm.l2 x xstar < δ →
+              |finiteTheorem3DirectionalField M.weight M.utilityGradient x i -
+                finiteTheorem3DirectionalField M.weight M.utilityGradient
+                  xstar i| < ε
+  harmonic_fluctuation_eventual_control :
+    ∀ {xstar : Coord → ℝ} {N : ℕ} {c : ℝ},
+      ConditionsC123 E →
+        E.directionalFieldUniformlyContinuous →
+          E.respondsAccordingTo VoterResponseModel.modelA →
+            FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+              VoterResponseModel.modelA xstar →
+              (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar ≠
+                fun _ => (0 : ℝ)) →
+                0 < c →
+                  (∀ n : ℕ,
+                    c ≤
+                      finiteDot
+                        (finiteTheorem3DirectionalField M.weight
+                          M.utilityGradient xstar)
+                        (finiteTheorem3DirectionalField M.weight
+                          M.utilityGradient
+                          (E.trajectory SourceNorm.l2
+                            VoterResponseModel.modelA (n + N)))) →
+                    ∃ fluctuationBound : ℝ, ∃ T : ℕ,
+                      ∀ n : ℕ, T ≤ n →
+                        (c / 2) *
+                            (∑ t ∈ Finset.range n,
+                              ilvRadius r0 (t + 1)) -
+                            fluctuationBound ≤
+                          theorem3ConcreteFiniteFieldProjection M xstar
+                            (E.trajectory SourceNorm.l2
+                              VoterResponseModel.modelA (n + N))
+
+/--
+Global-tail Model A harmonic Hoeffding shell.  This is the source-faithful
+version for Algorithm 2: after shifting to a tail beginning at `N`, the step
+size remains the original `r0 / (t + N + 1)` rather than resetting to
+`r0 / (t + 1)`.
+-/
+structure FiniteTheorem3ModelAConcreteGlobalHarmonicEventualHoeffdingShellSemantics
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (M : FiniteTheorem3DirectionalFieldModel E) where
+  r0 : ℝ
+  r0_pos : 0 < r0
+  coordinate_continuity :
+    E.directionalFieldUniformlyContinuous →
+      ∀ xstar i ε, 0 < ε →
+        ∃ δ, 0 < δ ∧
+          ∀ x : Coord → ℝ,
+            finiteCoordinateDistance SourceNorm.l2 x xstar < δ →
+              |finiteTheorem3DirectionalField M.weight M.utilityGradient x i -
+                finiteTheorem3DirectionalField M.weight M.utilityGradient
+                  xstar i| < ε
+  global_harmonic_fluctuation_eventual_control :
+    ∀ {xstar : Coord → ℝ} {N : ℕ} {c : ℝ},
+      ConditionsC123 E →
+        E.directionalFieldUniformlyContinuous →
+          E.respondsAccordingTo VoterResponseModel.modelA →
+            FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+              VoterResponseModel.modelA xstar →
+              (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar ≠
+                fun _ => (0 : ℝ)) →
+                0 < c →
+                  (∀ n : ℕ,
+                    c ≤
+                      finiteDot
+                        (finiteTheorem3DirectionalField M.weight
+                          M.utilityGradient xstar)
+                        (finiteTheorem3DirectionalField M.weight
+                          M.utilityGradient
+                          (E.trajectory SourceNorm.l2
+                            VoterResponseModel.modelA (n + N)))) →
+                    ∃ fluctuationBound : ℝ, ∃ T : ℕ,
+                      ∀ n : ℕ, T ≤ n →
+                        (c / 2) *
+                            (∑ t ∈ Finset.range n,
+                              ilvTailRadius r0 N t) -
+                            fluctuationBound ≤
+                          theorem3ConcreteFiniteFieldProjection M xstar
+                            (E.trajectory SourceNorm.l2
+                              VoterResponseModel.modelA (n + N))
 
 /--
 Finite-dot Hoeffding shell with analytic drift derived in Lean.  Compared with
@@ -8372,7 +9974,42 @@ theorem finiteTheorem3DirectionalField_eventual_coordinate_drift_of_converges
 /--
 Coordinatewise convergence of the concrete finite Theorem 3 field along a
 convergent trajectory, using the proof-facing coordinate-continuity interface.
+This model-parameterized form is used by the Model A analogue and the original
+Model B theorem route.
 -/
+theorem finiteTheorem3DirectionalField_coordinate_tendsto_of_converges_model
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (M : FiniteTheorem3DirectionalFieldModel E)
+    (hcont : FiniteTheorem3DirectionalFieldCoordinateContinuity M)
+    {model : VoterResponseModel}
+    {xstar : Coord → ℝ}
+    (hConverges :
+      FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+        model xstar)
+    (i : Coord) :
+    Filter.Tendsto
+      (fun n : ℕ =>
+        finiteTheorem3DirectionalField M.weight M.utilityGradient
+          (E.trajectory SourceNorm.l2 model n) i)
+      Filter.atTop
+      (nhds
+        (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar i)) := by
+  rw [Metric.tendsto_nhds]
+  intro ε hε
+  rcases hcont xstar i ε hε with ⟨δ, hδpos, hδ⟩
+  have hdist_tendsto :=
+    finiteCoordinateILVTrajectory_l2Distance_tendsto_zero_model hConverges
+  have heventually_close :
+      ∀ᶠ n in Filter.atTop,
+        finiteCoordinateDistance SourceNorm.l2
+          (E.trajectory SourceNorm.l2 model n)
+          xstar < δ :=
+    hdist_tendsto.eventually (eventually_lt_nhds hδpos)
+  filter_upwards [heventually_close] with n hn
+  simpa [Real.dist_eq] using
+    hδ (E.trajectory SourceNorm.l2 model n) hn
+
 theorem finiteTheorem3DirectionalField_coordinate_tendsto_of_converges
     {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
     {E : ILVEnvironment Voter (Coord → ℝ)}
@@ -8390,25 +10027,42 @@ theorem finiteTheorem3DirectionalField_coordinate_tendsto_of_converges
       Filter.atTop
       (nhds
         (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar i)) := by
-  rw [Metric.tendsto_nhds]
-  intro ε hε
-  rcases hcont xstar i ε hε with ⟨δ, hδpos, hδ⟩
-  have hdist_tendsto :=
-    finiteCoordinateILVTrajectory_l2Distance_tendsto_zero hConverges
-  have heventually_close :
-      ∀ᶠ n in Filter.atTop,
-        finiteCoordinateDistance SourceNorm.l2
-          (E.trajectory SourceNorm.l2 VoterResponseModel.modelB n)
-          xstar < δ :=
-    hdist_tendsto.eventually (eventually_lt_nhds hδpos)
-  filter_upwards [heventually_close] with n hn
-  simpa [Real.dist_eq] using
-    hδ (E.trajectory SourceNorm.l2 VoterResponseModel.modelB n) hn
+  exact
+    finiteTheorem3DirectionalField_coordinate_tendsto_of_converges_model
+      M hcont hConverges i
 
 /--
 Finite-dot convergence of the concrete Theorem 3 field along a convergent
 trajectory.
 -/
+theorem finiteTheorem3DirectionalField_finiteDot_tendsto_of_converges_model
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (M : FiniteTheorem3DirectionalFieldModel E)
+    (hcont : FiniteTheorem3DirectionalFieldCoordinateContinuity M)
+    {model : VoterResponseModel}
+    {xstar : Coord → ℝ}
+    (hConverges :
+      FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+        model xstar) :
+    Filter.Tendsto
+      (fun n : ℕ =>
+        finiteDot
+          (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar)
+          (finiteTheorem3DirectionalField M.weight M.utilityGradient
+            (E.trajectory SourceNorm.l2 model n)))
+      Filter.atTop
+      (nhds
+        (finiteDot
+          (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar)
+          (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar))) := by
+  exact
+    finiteDot_tendsto_of_coordinatewise
+      (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar)
+      (fun i =>
+        finiteTheorem3DirectionalField_coordinate_tendsto_of_converges_model
+          M hcont hConverges i)
+
 theorem finiteTheorem3DirectionalField_finiteDot_tendsto_of_converges
     {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
     {E : ILVEnvironment Voter (Coord → ℝ)}
@@ -8430,25 +10084,23 @@ theorem finiteTheorem3DirectionalField_finiteDot_tendsto_of_converges
           (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar)
           (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar))) := by
   exact
-    finiteDot_tendsto_of_coordinatewise
-      (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar)
-      (fun i =>
-        finiteTheorem3DirectionalField_coordinate_tendsto_of_converges
-          M hcont hConverges i)
+    finiteTheorem3DirectionalField_finiteDot_tendsto_of_converges_model
+      M hcont hConverges
 
 /--
 Finite-dot version of the local positive-drift step: near a nonzero limiting
 field, the scalar product `<G(x*), G(x_t)>` is eventually uniformly positive.
 -/
-theorem finiteTheorem3DirectionalField_eventual_finiteDot_drift_of_converges
+theorem finiteTheorem3DirectionalField_eventual_finiteDot_drift_of_converges_model
     {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
     {E : ILVEnvironment Voter (Coord → ℝ)}
     (M : FiniteTheorem3DirectionalFieldModel E)
     (hcont : FiniteTheorem3DirectionalFieldCoordinateContinuity M)
+    {model : VoterResponseModel}
     {xstar : Coord → ℝ}
     (hConverges :
       FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
-        VoterResponseModel.modelB xstar)
+        model xstar)
     (hne :
       finiteTheorem3DirectionalField M.weight M.utilityGradient xstar ≠
         fun _ => (0 : ℝ)) :
@@ -8458,7 +10110,7 @@ theorem finiteTheorem3DirectionalField_eventual_finiteDot_drift_of_converges
           finiteDot
             (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar)
             (finiteTheorem3DirectionalField M.weight M.utilityGradient
-              (E.trajectory SourceNorm.l2 VoterResponseModel.modelB (n + N))) := by
+              (E.trajectory SourceNorm.l2 model (n + N))) := by
   let a : Coord → ℝ :=
     finiteTheorem3DirectionalField M.weight M.utilityGradient xstar
   let L : ℝ := finiteDot a a
@@ -8479,22 +10131,45 @@ theorem finiteTheorem3DirectionalField_eventual_finiteDot_drift_of_converges
         (fun n : ℕ =>
           finiteDot a
             (finiteTheorem3DirectionalField M.weight M.utilityGradient
-              (E.trajectory SourceNorm.l2 VoterResponseModel.modelB n)))
+              (E.trajectory SourceNorm.l2 model n)))
         Filter.atTop (nhds L) := by
     simpa [a, L] using
-      finiteTheorem3DirectionalField_finiteDot_tendsto_of_converges
+      finiteTheorem3DirectionalField_finiteDot_tendsto_of_converges_model
         M hcont hConverges
   have heventually_pos :
       ∀ᶠ n in Filter.atTop,
         c <
           finiteDot a
             (finiteTheorem3DirectionalField M.weight M.utilityGradient
-              (E.trajectory SourceNorm.l2 VoterResponseModel.modelB n)) :=
+              (E.trajectory SourceNorm.l2 model n)) :=
     hdot_tendsto.eventually (Ioi_mem_nhds hc_lt_L)
   rcases Filter.eventually_atTop.1 heventually_pos with ⟨N, hN⟩
   refine ⟨N, c, hc, ?_⟩
   intro n
   exact le_of_lt (hN (n + N) (Nat.le_add_left N n))
+
+theorem finiteTheorem3DirectionalField_eventual_finiteDot_drift_of_converges
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (M : FiniteTheorem3DirectionalFieldModel E)
+    (hcont : FiniteTheorem3DirectionalFieldCoordinateContinuity M)
+    {xstar : Coord → ℝ}
+    (hConverges :
+      FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+        VoterResponseModel.modelB xstar)
+    (hne :
+      finiteTheorem3DirectionalField M.weight M.utilityGradient xstar ≠
+        fun _ => (0 : ℝ)) :
+    ∃ N c, 0 < c ∧
+      ∀ n : ℕ,
+        c ≤
+          finiteDot
+            (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar)
+            (finiteTheorem3DirectionalField M.weight M.utilityGradient
+              (E.trajectory SourceNorm.l2 VoterResponseModel.modelB (n + N))) := by
+  exact
+    finiteTheorem3DirectionalField_eventual_finiteDot_drift_of_converges_model
+      M hcont hConverges hne
 
 /--
 Pathwise projected-trace certificate with the original global Algorithm 1
@@ -10754,6 +12429,168 @@ noncomputable def
       D)
 
 noncomputable def
+    FiniteTheorem3ModelAConcreteFiniteDotHoeffdingShellSemantics.toEventualHoeffdingShellSemantics
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    {M : FiniteTheorem3DirectionalFieldModel E}
+    (D : FiniteTheorem3ModelAConcreteFiniteDotHoeffdingShellSemantics M) :
+    FiniteTheorem3ModelAConcreteFiniteDotEventualHoeffdingShellSemantics M where
+  r0 := D.r0
+  r0_pos := D.r0_pos
+  eventual_finiteDot_drift := by
+    intro xstar hC hContinuous hResponse hConverges hneConcrete
+    exact
+      finiteTheorem3DirectionalField_eventual_finiteDot_drift_of_converges_model
+        M (D.coordinate_continuity hContinuous) hConverges hneConcrete
+  finiteDot_fluctuation_eventual_control :=
+    D.finiteDot_fluctuation_eventual_control
+
+noncomputable def
+    FiniteTheorem3ModelAConcreteFiniteDotEventualHoeffdingShellSemantics.toPaperRadiusEventualEscapeSemantics
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    {M : FiniteTheorem3DirectionalFieldModel E}
+    (D : FiniteTheorem3ModelAConcreteFiniteDotEventualHoeffdingShellSemantics M) :
+    FiniteTheorem3ModelAConcretePaperRadiusEventualEscapeSemantics M where
+  r0 := D.r0
+  r0_pos := D.r0_pos
+  eventual_accumulated_projection_escape := by
+    intro xstar hC hContinuous hResponse hConverges hneConcrete
+    rcases D.eventual_finiteDot_drift
+        hC hContinuous hResponse hConverges hneConcrete with
+      ⟨N, c, hc, hdrift⟩
+    rcases D.finiteDot_fluctuation_eventual_control
+        (xstar := xstar) (N := N) (c := c)
+        hC hContinuous hResponse hConverges hneConcrete hc hdrift with
+      ⟨fluctuationBound, T, hfluctuation⟩
+    refine ⟨N + T, c, -fluctuationBound, hc, ?_⟩
+    intro n
+    let a : Coord → ℝ :=
+      finiteTheorem3DirectionalField M.weight M.utilityGradient xstar
+    let trajectory : ℕ → Coord → ℝ :=
+      fun t => E.trajectory SourceNorm.l2 VoterResponseModel.modelA t
+    let expected : ℕ → ℝ :=
+      fun m =>
+        ∑ t ∈ Finset.range m,
+          ilvRadius D.r0 (t + 1) *
+            finiteDot a
+              (finiteTheorem3DirectionalField M.weight M.utilityGradient
+                (trajectory (t + N)))
+    have hfluctuation_tail := hfluctuation (n + T) (Nat.le_add_left T n)
+    have hlower_expected :
+        c * (∑ t ∈ Finset.range (n + T), ilvRadius D.r0 (t + 1)) ≤
+          expected (n + T) := by
+      simpa [expected, trajectory, a] using
+        finiteDot_expected_sum_lower_bound_of_drift_sequence
+          (r0 := D.r0) (c := c)
+          (b := fun t =>
+            finiteDot a
+              (finiteTheorem3DirectionalField M.weight M.utilityGradient
+                (trajectory (t + N))))
+          D.r0_pos hdrift (n + T)
+    have hsum_mono :
+        (∑ t ∈ Finset.range n, ilvRadius D.r0 (t + 1)) ≤
+          ∑ t ∈ Finset.range (n + T), ilvRadius D.r0 (t + 1) :=
+      ilvRadius_sum_range_mono_add D.r0_pos n T
+    have hscaled_mono :
+        c * (∑ t ∈ Finset.range n, ilvRadius D.r0 (t + 1)) ≤
+          c * (∑ t ∈ Finset.range (n + T), ilvRadius D.r0 (t + 1)) := by
+      exact mul_le_mul_of_nonneg_left hsum_mono (le_of_lt hc)
+    have htarget_tail :
+        -fluctuationBound +
+            c * (∑ t ∈ Finset.range n, ilvRadius D.r0 (t + 1)) ≤
+          theorem3ConcreteFiniteFieldProjection M xstar
+            (trajectory ((n + T) + N)) := by
+      calc
+        -fluctuationBound +
+            c * (∑ t ∈ Finset.range n, ilvRadius D.r0 (t + 1))
+            ≤
+              -fluctuationBound +
+                c * (∑ t ∈ Finset.range (n + T),
+                  ilvRadius D.r0 (t + 1)) := by
+              linarith
+        _ ≤ -fluctuationBound + expected (n + T) := by
+              linarith
+        _ = expected (n + T) - fluctuationBound := by
+              ring
+        _ ≤ theorem3ConcreteFiniteFieldProjection M xstar
+              (trajectory ((n + T) + N)) := by
+              simpa [expected, trajectory, a] using hfluctuation_tail
+    simpa [trajectory, Nat.add_assoc, Nat.add_comm, Nat.add_left_comm] using
+      htarget_tail
+
+noncomputable def
+    FiniteTheorem3ModelAConcreteFiniteDotHoeffdingShellSemantics.toPaperRadiusEventualEscapeSemantics
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    {M : FiniteTheorem3DirectionalFieldModel E}
+    (D : FiniteTheorem3ModelAConcreteFiniteDotHoeffdingShellSemantics M) :
+    FiniteTheorem3ModelAConcretePaperRadiusEventualEscapeSemantics M :=
+  FiniteTheorem3ModelAConcreteFiniteDotEventualHoeffdingShellSemantics.toPaperRadiusEventualEscapeSemantics
+    (FiniteTheorem3ModelAConcreteFiniteDotHoeffdingShellSemantics.toEventualHoeffdingShellSemantics
+      D)
+
+noncomputable def
+    FiniteTheorem3ModelAConcreteHarmonicEventualHoeffdingShellSemantics.toPaperRadiusEventualEscapeSemantics
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    {M : FiniteTheorem3DirectionalFieldModel E}
+    (D :
+      FiniteTheorem3ModelAConcreteHarmonicEventualHoeffdingShellSemantics M) :
+    FiniteTheorem3ModelAConcretePaperRadiusEventualEscapeSemantics M where
+  r0 := D.r0
+  r0_pos := D.r0_pos
+  eventual_accumulated_projection_escape := by
+    intro xstar hC hContinuous hResponse hConverges hneConcrete
+    rcases
+        finiteTheorem3DirectionalField_eventual_finiteDot_drift_of_converges_model
+          M (D.coordinate_continuity hContinuous) hConverges hneConcrete with
+      ⟨N, c, hc, hdrift⟩
+    rcases D.harmonic_fluctuation_eventual_control
+        (xstar := xstar) (N := N) (c := c)
+        hC hContinuous hResponse hConverges hneConcrete hc hdrift with
+      ⟨fluctuationBound, T, hfluctuation⟩
+    refine ⟨N + T, c / 2, -fluctuationBound, by linarith, ?_⟩
+    intro n
+    have hfluctuation_tail := hfluctuation (n + T) (Nat.le_add_left T n)
+    have hsum_mono :
+        (∑ t ∈ Finset.range n, ilvRadius D.r0 (t + 1)) ≤
+          ∑ t ∈ Finset.range (n + T), ilvRadius D.r0 (t + 1) :=
+      ilvRadius_sum_range_mono_add D.r0_pos n T
+    have hscaled_mono :
+        (c / 2) * (∑ t ∈ Finset.range n, ilvRadius D.r0 (t + 1)) ≤
+          (c / 2) * (∑ t ∈ Finset.range (n + T),
+            ilvRadius D.r0 (t + 1)) := by
+      exact mul_le_mul_of_nonneg_left hsum_mono (by linarith)
+    have htarget_tail :
+        -fluctuationBound +
+            (c / 2) *
+              (∑ t ∈ Finset.range n, ilvRadius D.r0 (t + 1)) ≤
+          theorem3ConcreteFiniteFieldProjection M xstar
+            (E.trajectory SourceNorm.l2 VoterResponseModel.modelA
+              ((n + T) + N)) := by
+      calc
+        -fluctuationBound +
+            (c / 2) *
+              (∑ t ∈ Finset.range n, ilvRadius D.r0 (t + 1))
+            ≤
+              -fluctuationBound +
+                (c / 2) *
+                  (∑ t ∈ Finset.range (n + T),
+                    ilvRadius D.r0 (t + 1)) := by
+              linarith
+        _ =
+            (c / 2) *
+              (∑ t ∈ Finset.range (n + T),
+                ilvRadius D.r0 (t + 1)) -
+                fluctuationBound := by
+              ring
+        _ ≤ theorem3ConcreteFiniteFieldProjection M xstar
+              (E.trajectory SourceNorm.l2 VoterResponseModel.modelA
+                ((n + T) + N)) := hfluctuation_tail
+    simpa [Nat.add_assoc, Nat.add_comm, Nat.add_left_comm] using htarget_tail
+
+noncomputable def
     FiniteTheorem3ConcreteCoordinateDriftEscapeSemantics.toPaperNeighborhoodEscapeSemantics
     {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
     {E : ILVEnvironment Voter (Coord → ℝ)}
@@ -11026,6 +12863,58 @@ theorem theorem3_finite_directionalEquilibrium_of_paperRadiusProgress
     hlower
     (theorem3FiniteFieldProjection_tendsto hConverges)
 
+/--
+Model A analogue of the finite-coordinate paper-radius endpoint: once the
+Model A trace supplies the same positive scalar progress along any nonzero
+limiting field direction, convergence forces the limit to be a directional
+equilibrium.
+-/
+theorem theorem3_modelA_finite_directionalEquilibrium_of_paperRadiusProgress
+    {Voter Coord : Type*} [Fintype Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (D : FiniteTheorem3ModelAPaperRadiusProgressSemantics E)
+    (hC : ConditionsC123 E)
+    (hContinuous : E.directionalFieldUniformlyContinuous)
+    (hResponse : E.respondsAccordingTo VoterResponseModel.modelA)
+    {xstar : Coord → ℝ}
+    (hConverges :
+      FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+        VoterResponseModel.modelA xstar) :
+    IsDirectionalEquilibrium E xstar := by
+  unfold IsDirectionalEquilibrium
+  by_contra hne
+  rcases D.one_step_projection_progress
+      hC hContinuous hResponse hConverges hne with
+    ⟨c, hc, hstep⟩
+  have hlower :
+      ∀ n : ℕ,
+        theorem3FiniteFieldProjection E xstar
+            (E.trajectory SourceNorm.l2 VoterResponseModel.modelA 0) +
+            c * (∑ t ∈ Finset.range n, ilvRadius D.r0 (t + 1)) ≤
+          theorem3FiniteFieldProjection E xstar
+            (E.trajectory SourceNorm.l2 VoterResponseModel.modelA n) := by
+    intro n
+    exact
+      scalar_accumulated_drift_lower_bound_of_one_step
+        (s := fun n =>
+          theorem3FiniteFieldProjection E xstar
+            (E.trajectory SourceNorm.l2 VoterResponseModel.modelA n))
+        (radiusTail := fun t => ilvRadius D.r0 (t + 1))
+        (c := c) hstep n
+  exact scalar_convergence_contradiction_of_accumulated_drift
+    (s := fun n =>
+      theorem3FiniteFieldProjection E xstar
+        (E.trajectory SourceNorm.l2 VoterResponseModel.modelA n))
+    (limit := theorem3FiniteFieldProjection E xstar xstar)
+    (base := theorem3FiniteFieldProjection E xstar
+      (E.trajectory SourceNorm.l2 VoterResponseModel.modelA 0))
+    (c := c)
+    (radiusTail := fun t => ilvRadius D.r0 (t + 1))
+    hc
+    (ilvRadius_sum_tendsto_atTop D.r0_pos)
+    hlower
+    (theorem3FiniteFieldProjection_tendsto_model hConverges)
+
 theorem theorem3_finite_directionalEquilibrium_of_concretePaperRadiusEventualEscape
     {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
     {E : ILVEnvironment Voter (Coord → ℝ)}
@@ -11078,6 +12967,64 @@ theorem theorem3_finite_directionalEquilibrium_of_concretePaperRadiusEventualEsc
     hlower
     (theorem3FiniteFieldProjection_tendsto_nat_add hConverges N)
 
+/--
+Corrected Model A analogue of the concrete paper-radius eventual-escape
+endpoint.  Once the Model A trace has the same eventual scalar escape property
+as the Model B proof, convergence forces the normalized-gradient field at the
+limit to vanish.
+-/
+theorem theorem3_modelA_finite_directionalEquilibrium_of_concretePaperRadiusEventualEscape
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (M : FiniteTheorem3DirectionalFieldModel E)
+    (D : FiniteTheorem3ModelAConcretePaperRadiusEventualEscapeSemantics M)
+    (hC : ConditionsC123 E)
+    (hContinuous : E.directionalFieldUniformlyContinuous)
+    (hResponse : E.respondsAccordingTo VoterResponseModel.modelA)
+    {xstar : Coord → ℝ}
+    (hConverges :
+      FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+        VoterResponseModel.modelA xstar) :
+    IsDirectionalEquilibrium E xstar := by
+  unfold IsDirectionalEquilibrium
+  by_contra hne
+  have hneConcrete :
+      (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar ≠
+        fun _ => (0 : ℝ)) := by
+    intro hzero
+    apply hne
+    calc
+      E.directionalField xstar =
+          finiteTheorem3DirectionalField M.weight M.utilityGradient xstar := by
+            rw [M.directionalField_eq]
+      _ = (fun _ => 0) := hzero
+      _ = E.zeroDirection := by
+            rw [M.zeroDirection_eq]
+  rcases D.eventual_accumulated_projection_escape
+      hC hContinuous hResponse hConverges hneConcrete with
+    ⟨N, c, baseValue, hc, hlowerConcrete⟩
+  have hlower :
+      ∀ n : ℕ,
+        baseValue +
+            c * (∑ t ∈ Finset.range n, ilvRadius D.r0 (t + 1)) ≤
+          theorem3FiniteFieldProjection E xstar
+            (E.trajectory SourceNorm.l2 VoterResponseModel.modelA (n + N)) := by
+    intro n
+    simpa [theorem3ConcreteFiniteFieldProjection_eq M] using
+      hlowerConcrete n
+  exact scalar_convergence_contradiction_of_accumulated_drift
+    (s := fun n =>
+      theorem3FiniteFieldProjection E xstar
+        (E.trajectory SourceNorm.l2 VoterResponseModel.modelA (n + N)))
+    (limit := theorem3FiniteFieldProjection E xstar xstar)
+    (base := baseValue)
+    (c := c)
+    (radiusTail := fun t => ilvRadius D.r0 (t + 1))
+    hc
+    (ilvRadius_sum_tendsto_atTop D.r0_pos)
+    hlower
+    (theorem3FiniteFieldProjection_tendsto_model_nat_add hConverges N)
+
 theorem theorem3_finite_directionalEquilibrium_of_concreteFiniteDotEventualHoeffdingShell
     {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
     {E : ILVEnvironment Voter (Coord → ℝ)}
@@ -11097,6 +13044,31 @@ theorem theorem3_finite_directionalEquilibrium_of_concreteFiniteDotEventualHoeff
       D)
     hC hContinuous hResponse hConverges
 
+/--
+Corrected Model A analogue of the finite-dot eventual Hoeffding endpoint.  This
+is the theorem-level target for the post-Theorem-3 conjecture after adding the
+necessary first-order/non-flat-tail assumptions to prove the Model A shell.
+-/
+theorem theorem3_modelA_finite_directionalEquilibrium_of_concreteFiniteDotEventualHoeffdingShell
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (M : FiniteTheorem3DirectionalFieldModel E)
+    (D : FiniteTheorem3ModelAConcreteFiniteDotEventualHoeffdingShellSemantics M)
+    (hC : ConditionsC123 E)
+    (hContinuous : E.directionalFieldUniformlyContinuous)
+    (hResponse : E.respondsAccordingTo VoterResponseModel.modelA)
+    {xstar : Coord → ℝ}
+    (hConverges :
+      FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+        VoterResponseModel.modelA xstar) :
+    IsDirectionalEquilibrium E xstar := by
+  exact
+    theorem3_modelA_finite_directionalEquilibrium_of_concretePaperRadiusEventualEscape
+      M
+      (FiniteTheorem3ModelAConcreteFiniteDotEventualHoeffdingShellSemantics.toPaperRadiusEventualEscapeSemantics
+        D)
+      hC hContinuous hResponse hConverges
+
 theorem theorem3_finite_directionalEquilibrium_of_concreteFiniteDotHoeffdingShell
     {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
     {E : ILVEnvironment Voter (Coord → ℝ)}
@@ -11115,6 +13087,187 @@ theorem theorem3_finite_directionalEquilibrium_of_concreteFiniteDotHoeffdingShel
     (FiniteTheorem3ConcreteFiniteDotHoeffdingShellSemantics.toPaperRadiusEventualEscapeSemantics
       D)
     hC hContinuous hResponse hConverges
+
+theorem theorem3_modelA_finite_directionalEquilibrium_of_concreteFiniteDotHoeffdingShell
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (M : FiniteTheorem3DirectionalFieldModel E)
+    (D : FiniteTheorem3ModelAConcreteFiniteDotHoeffdingShellSemantics M)
+    (hC : ConditionsC123 E)
+    (hContinuous : E.directionalFieldUniformlyContinuous)
+    (hResponse : E.respondsAccordingTo VoterResponseModel.modelA)
+    {xstar : Coord → ℝ}
+    (hConverges :
+      FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+        VoterResponseModel.modelA xstar) :
+    IsDirectionalEquilibrium E xstar := by
+  exact
+    theorem3_modelA_finite_directionalEquilibrium_of_concretePaperRadiusEventualEscape
+      M
+    (FiniteTheorem3ModelAConcreteFiniteDotHoeffdingShellSemantics.toPaperRadiusEventualEscapeSemantics
+        D)
+      hC hContinuous hResponse hConverges
+
+theorem theorem3_modelA_finite_directionalEquilibrium_of_concreteHarmonicEventualHoeffdingShell
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (M : FiniteTheorem3DirectionalFieldModel E)
+    (D :
+      FiniteTheorem3ModelAConcreteHarmonicEventualHoeffdingShellSemantics M)
+    (hC : ConditionsC123 E)
+    (hContinuous : E.directionalFieldUniformlyContinuous)
+    (hResponse : E.respondsAccordingTo VoterResponseModel.modelA)
+    {xstar : Coord → ℝ}
+    (hConverges :
+      FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+        VoterResponseModel.modelA xstar) :
+    IsDirectionalEquilibrium E xstar := by
+  exact
+    theorem3_modelA_finite_directionalEquilibrium_of_concretePaperRadiusEventualEscape
+      M
+      (FiniteTheorem3ModelAConcreteHarmonicEventualHoeffdingShellSemantics.toPaperRadiusEventualEscapeSemantics
+        D)
+      hC hContinuous hResponse hConverges
+
+/--
+Corrected Model A endpoint with the original global Algorithm 2 tail radius.
+This is stronger than the reset-tail harmonic shell: the stochastic tail after
+time `N` uses `ilvTailRadius r0 N t = r0 / (t + N + 1)`.
+-/
+theorem theorem3_modelA_finite_directionalEquilibrium_of_concreteGlobalHarmonicEventualHoeffdingShell
+    {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]
+    {E : ILVEnvironment Voter (Coord → ℝ)}
+    (M : FiniteTheorem3DirectionalFieldModel E)
+    (D :
+      FiniteTheorem3ModelAConcreteGlobalHarmonicEventualHoeffdingShellSemantics M)
+    (hC : ConditionsC123 E)
+    (hContinuous : E.directionalFieldUniformlyContinuous)
+    (hResponse : E.respondsAccordingTo VoterResponseModel.modelA)
+    {xstar : Coord → ℝ}
+    (hConverges :
+      FiniteCoordinateILVTrajectoryConvergesTo E SourceNorm.l2
+        VoterResponseModel.modelA xstar) :
+    IsDirectionalEquilibrium E xstar := by
+  unfold IsDirectionalEquilibrium
+  by_contra hne
+  have hneConcrete :
+      (finiteTheorem3DirectionalField M.weight M.utilityGradient xstar ≠
+        fun _ => (0 : ℝ)) := by
+    intro hzero
+    apply hne
+    calc
+      E.directionalField xstar =
+          finiteTheorem3DirectionalField M.weight M.utilityGradient xstar := by
+            rw [M.directionalField_eq]
+      _ = (fun _ => 0) := hzero
+      _ = E.zeroDirection := by
+            rw [M.zeroDirection_eq]
+  rcases
+      finiteTheorem3DirectionalField_eventual_finiteDot_drift_of_converges_model
+        M (D.coordinate_continuity hContinuous) hConverges hneConcrete with
+    ⟨N, c, hc, hdrift⟩
+  rcases D.global_harmonic_fluctuation_eventual_control
+      (xstar := xstar) (N := N) (c := c)
+      hC hContinuous hResponse hConverges hneConcrete hc hdrift with
+    ⟨fluctuationBound, T, hfluctuation⟩
+  let d : ℝ := c / 2
+  have hd : 0 < d := by
+    dsimp [d]
+    linarith
+  have htail_lower :
+      ∀ n : ℕ,
+        (∑ t ∈ Finset.range n, ilvTailRadius D.r0 (N + T) t) ≤
+          ∑ t ∈ Finset.range (n + T), ilvTailRadius D.r0 N t := by
+    intro n
+    have hprefix_nonneg :
+        0 ≤ ∑ t ∈ Finset.range T, ilvTailRadius D.r0 N t := by
+      exact Finset.sum_nonneg fun t _ht =>
+        ilvTailRadius_nonneg (le_of_lt D.r0_pos) N t
+    have htail_eq :
+        (∑ t ∈ Finset.range n, ilvTailRadius D.r0 (N + T) t) =
+          ∑ t ∈ Finset.range n, ilvTailRadius D.r0 N (T + t) := by
+      apply Finset.sum_congr rfl
+      intro t _ht
+      simp [ilvTailRadius, Nat.add_assoc, Nat.add_comm, Nat.add_left_comm]
+    calc
+      (∑ t ∈ Finset.range n, ilvTailRadius D.r0 (N + T) t)
+          =
+            ∑ t ∈ Finset.range n, ilvTailRadius D.r0 N (T + t) :=
+            htail_eq
+      _ ≤
+            (∑ t ∈ Finset.range T, ilvTailRadius D.r0 N t) +
+              ∑ t ∈ Finset.range n, ilvTailRadius D.r0 N (T + t) := by
+            linarith
+      _ =
+            ∑ t ∈ Finset.range (T + n), ilvTailRadius D.r0 N t := by
+            rw [Finset.sum_range_add]
+      _ =
+            ∑ t ∈ Finset.range (n + T), ilvTailRadius D.r0 N t := by
+            rw [Nat.add_comm]
+  have hlower :
+      ∀ n : ℕ,
+        -fluctuationBound +
+            d * (∑ t ∈ Finset.range n, ilvTailRadius D.r0 (N + T) t) ≤
+          theorem3ConcreteFiniteFieldProjection M xstar
+            (E.trajectory SourceNorm.l2 VoterResponseModel.modelA
+              (n + (N + T))) := by
+    intro n
+    let m : ℕ := n + T
+    have hm_ge_T : T ≤ m := by
+      dsimp [m]
+      exact Nat.le_add_left T n
+    have hfluctuation_m := hfluctuation m hm_ge_T
+    have hscaled_tail :
+        d * (∑ t ∈ Finset.range n, ilvTailRadius D.r0 (N + T) t) ≤
+          d * (∑ t ∈ Finset.range m, ilvTailRadius D.r0 N t) := by
+      have htail := htail_lower n
+      simpa [d, m] using mul_le_mul_of_nonneg_left htail (le_of_lt hd)
+    have htarget :
+        -fluctuationBound +
+            d * (∑ t ∈ Finset.range n, ilvTailRadius D.r0 (N + T) t) ≤
+          theorem3ConcreteFiniteFieldProjection M xstar
+            (E.trajectory SourceNorm.l2 VoterResponseModel.modelA (m + N)) := by
+      calc
+        -fluctuationBound +
+            d * (∑ t ∈ Finset.range n, ilvTailRadius D.r0 (N + T) t)
+            ≤
+              -fluctuationBound +
+                d * (∑ t ∈ Finset.range m, ilvTailRadius D.r0 N t) := by
+              linarith
+        _ =
+            d * (∑ t ∈ Finset.range m, ilvTailRadius D.r0 N t) -
+              fluctuationBound := by
+              ring
+        _ ≤ theorem3ConcreteFiniteFieldProjection M xstar
+              (E.trajectory SourceNorm.l2 VoterResponseModel.modelA (m + N)) := by
+              simpa [d] using hfluctuation_m
+    simpa [m, Nat.add_assoc, Nat.add_comm, Nat.add_left_comm] using htarget
+  have hproj_tendsto :
+      Filter.Tendsto
+        (fun n : ℕ =>
+          theorem3ConcreteFiniteFieldProjection M xstar
+            (E.trajectory SourceNorm.l2 VoterResponseModel.modelA
+              (n + (N + T))))
+        Filter.atTop
+        (nhds (theorem3ConcreteFiniteFieldProjection M xstar xstar)) := by
+    simpa [theorem3ConcreteFiniteFieldProjection_eq M,
+      Nat.add_assoc, Nat.add_comm, Nat.add_left_comm] using
+      theorem3FiniteFieldProjection_tendsto_model_nat_add
+        (E := E) (xstar := xstar) hConverges (N + T)
+  exact
+    scalar_convergence_contradiction_of_accumulated_drift
+      (s := fun n =>
+        theorem3ConcreteFiniteFieldProjection M xstar
+          (E.trajectory SourceNorm.l2 VoterResponseModel.modelA
+            (n + (N + T))))
+      (limit := theorem3ConcreteFiniteFieldProjection M xstar xstar)
+      (base := -fluctuationBound)
+      (c := d)
+      (radiusTail := fun t => ilvTailRadius D.r0 (N + T) t)
+      hd
+      (ilvTailRadius_sum_tendsto_atTop D.r0_pos (N + T))
+      hlower
+      hproj_tendsto
 
 theorem theorem3_finite_directionalEquilibrium_of_concreteFiniteDotSampledRawHoeffding
     {Voter Coord : Type*} [Fintype Voter] [Fintype Coord] [Nonempty Coord]

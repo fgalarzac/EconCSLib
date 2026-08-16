@@ -23,18 +23,13 @@ abbrev assumption_affine_single_state_parameter_domain
 
 /-- Single-state reward/threshold domain for Theorem 1's nontrivial payout branch. -/
 -- audit-premise: hrate_nonneg : ∀ tau : TripLength, 0 < tau → 0 ≤ w tau / tau
--- audit-premise: hrate_nonneg : ∀ τ : TripLength, 0 < τ → 0 ≤ w τ / τ
 -- audit-premise: hfinite_acceptAll : mu acceptAllPolicy ≠ ⊤
--- audit-premise: hfinite_acceptAll : μ acceptAllPolicy ≠ ⊤
 -- audit-premise: hpositive_payout_mass : 0 < mu {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ}
--- audit-premise: hpositive_payout_mass : 0 < μ {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ}
 abbrev assumption_single_state_defined_reward_domain
-    (mu μ : Measure TripLength) (w : PricingFunction) : Prop :=
+    (mu : Measure TripLength) (w : PricingFunction) : Prop :=
   (∀ tau : TripLength, 0 < tau → 0 ≤ w tau / tau) ∧
-    (∀ τ : TripLength, 0 < τ → 0 ≤ w τ / τ) ∧
-      mu acceptAllPolicy ≠ ⊤ ∧ μ acceptAllPolicy ≠ ⊤ ∧
-        0 < mu {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ} ∧
-          0 < μ {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ}
+    mu acceptAllPolicy ≠ ⊤ ∧
+      0 < mu {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ}
 
 /-- Dynamic time-fraction denominators are nonzero. -/
 -- audit-premise: hi : arrivalI * singleStateTripMass μI σI + switchIJ ≠ 0
@@ -47,21 +42,33 @@ abbrev assumption_dynamic_time_fraction_denominators
 
 /-- Switch-rate parameters are in the positive/nonnegative CTMC domain. -/
 -- audit-premise: hlambdaIJ : 0 < lambdaIJ
--- audit-premise: hlambdaIJ : 0 ≤ lambdaIJ
--- audit-premise: hsum : 0 < lambdaIJ + lambdaJI
--- audit-premise: hsum : lambdaIJ + lambdaJI ≠ 0
+-- audit-premise: hlambdaJI : 0 < lambdaJI
 abbrev assumption_switch_rate_domain (lambdaIJ lambdaJI : ℝ) : Prop :=
-  0 < lambdaIJ ∧ 0 ≤ lambdaIJ ∧
-    0 < lambdaIJ + lambdaJI ∧ lambdaIJ + lambdaJI ≠ 0
+  0 < lambdaIJ ∧ 0 < lambdaJI
 
 /-- Lemma 5 fixed-response policy form uses measurable responses and optimal policies. -/
+-- audit-premise: hsigma_subset : sigma ⊆ acceptAllPolicy
+-- audit-premise: hsigma_measurable : MeasurableSet sigma
+-- audit-premise: hsigma_open : IsOpen sigma
 -- audit-premise: hresponse_measurable : Measurable response
 -- audit-premise: hoptimal : ∀ sigma' : TripPolicy, sigma' ⊆ acceptAllPolicy → MeasurableSet sigma' → lemma5MarginalSetReward mu response sigma' ≤ lemma5MarginalSetReward mu response sigma
 abbrev assumption_fixed_response_policy_form_conditions
     (mu : Measure TripLength) (response : TripLength → ℝ) (sigma : TripPolicy) : Prop :=
-  Measurable response ∧
-    ∀ sigma' : TripPolicy, sigma' ⊆ acceptAllPolicy → MeasurableSet sigma' →
-      lemma5MarginalSetReward mu response sigma' ≤ lemma5MarginalSetReward mu response sigma
+  sigma ⊆ acceptAllPolicy ∧ MeasurableSet sigma ∧ IsOpen sigma ∧
+    Measurable response ∧
+      ∀ sigma' : TripPolicy, sigma' ⊆ acceptAllPolicy → MeasurableSet sigma' →
+        lemma5MarginalSetReward mu response sigma' ≤ lemma5MarginalSetReward mu response sigma
+
+/--
+Appendix D works with policies modulo the trip-length law.  This is the
+source's explicit ``all policy equalities are up to measure 0'' convention,
+not a conclusion supplied by an optimizer package.
+-/
+-- audit-premise: hpolicy_ae : ∀ {left right : TripPolicy}, policyAlmostEverywhereEq mu left right → Rhat left = Rhat right
+abbrev assumption_policy_equalities_modulo_null_sets
+    (mu : Measure TripLength) (Rhat : SingleStateReward) : Prop :=
+  ∀ {left right : TripPolicy},
+    policyAlmostEverywhereEq mu left right → Rhat left = Rhat right
 
 /-- Lemma 6 endpoint derivative formula domain. -/
 -- audit-premise: harrival_pos : 0 < arrivalRate
@@ -88,18 +95,14 @@ abbrev assumption_upper_endpoint_derivative_domain
 
 /-- Lemma 7/8 affine additive response domains. -/
 -- audit-premise: hm_pos : 0 < m
--- audit-premise: ha_pos : 0 < a
--- audit-premise: ha_neg : a < 0
--- audit-premise: hdelta_ji_nonpos : Rj - Ri ≤ 0
--- audit-premise: hdelta_ji_nonneg : 0 ≤ Rj - Ri
 -- audit-premise: hstate_weight_pos : 0 < Qi / Ti + Qj / Tj
 -- audit-premise: hTi : Ti ≠ 0
 -- audit-premise: hTj : Tj ≠ 0
+-- audit-premise: hbranch : (0 < a ∧ Rj - Ri ≤ 0) ∨ (a < 0 ∧ 0 ≤ Rj - Ri)
 abbrev assumption_affine_response_shape_domains
     (m a Ri Rj Qi Ti Qj Tj : ℝ) : Prop :=
-  0 < m ∧ 0 < a ∧ a < 0 ∧
-    Rj - Ri ≤ 0 ∧ 0 ≤ Rj - Ri ∧
-      0 < Qi / Ti + Qj / Tj ∧ Ti ≠ 0 ∧ Tj ≠ 0
+  0 < m ∧ 0 < Qi / Ti + Qj / Tj ∧ Ti ≠ 0 ∧ Tj ≠ 0 ∧
+    ((0 < a ∧ Rj - Ri ≤ 0) ∨ (a < 0 ∧ 0 ≤ Rj - Ri))
 
 /-- Lemma 9 surge-state derivative source-data formulas and bounds. -/
 -- audit-premise: hbounds_bar : lemma9StructuredBounds ratio T1 Q1 Tbar2 Qbar2 switch21
@@ -156,18 +159,18 @@ abbrev assumption_nonsurge_derivative_source_bounds
 -- audit-premise: hR1_lt_R2 : R1 < R2
 -- audit-premise: hR2_pos : 0 < R2
 -- audit-premise: hrho_lt_one : rho < 1
--- audit-premise: harrival1_pos : 0 < arrival 0
--- audit-premise: harrival2_pos : 0 < arrival 1
+-- audit-premise: harrival0_pos : 0 < arrival0
+-- audit-premise: harrival1_pos : 0 < arrival1
 -- audit-premise: hswitch12_pos : 0 < switch12
 -- audit-premise: hswitch21_pos : 0 < switch21
--- audit-premise: hmeasure1_pos : 0 < mu 0 acceptAllPolicy
--- audit-premise: hmeasure2_pos : 0 < mu 1 acceptAllPolicy
+-- audit-premise: hmeasure0_pos : 0 < mu0 acceptAllPolicy
+-- audit-premise: hmeasure1_pos : 0 < mu1 acceptAllPolicy
 abbrev assumption_theorem3_source_data_domain
-    (mu : Fin 2 → Measure TripLength) (arrival : Fin 2 → ℝ)
-    (rho R1 R2 switch12 switch21 : ℝ) : Prop :=
+    (mu0 mu1 : Measure TripLength) (arrival0 arrival1 rho R1 R2 switch12 switch21 : ℝ) :
+    Prop :=
   R1 = rho * R2 ∧ 0 < R1 ∧ R1 < R2 ∧ 0 < R2 ∧ rho < 1 ∧
-    0 < arrival 0 ∧ 0 < arrival 1 ∧
+    0 < arrival0 ∧ 0 < arrival1 ∧
       0 < switch12 ∧ 0 < switch21 ∧
-        0 < mu 0 acceptAllPolicy ∧ 0 < mu 1 acceptAllPolicy
+        0 < mu0 acceptAllPolicy ∧ 0 < mu1 acceptAllPolicy
 
 end GN21DriverSurgePricing

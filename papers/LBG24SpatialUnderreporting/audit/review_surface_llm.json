@@ -1,12 +1,12 @@
 {
-  "judgment": "passes",
+  "schema": 1,
   "paper": "LBG24SpatialUnderreporting",
   "prompt_version": "review-surface-v2-semantic-paper-facing",
-  "reason": "Semantic review-surface pass: current dashboard rows are paper-facing definitions, assumptions, theorem endpoints, or explicitly documented partial/source-version boundaries; helper-only rows remain outside the compact dashboard surface.",
-  "review_rows": 25,
-  "review_surface_sha256": "a680c5d2f6a099f41da1740b1d1e657e4cbf3ffb855f9dccf70f36a225a632f6",
-  "schema": 1,
-  "validated_at": "2026-06-29T18:08:26Z",
-  "validator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  "validator": "codex-gpt-5-lbg24-review-surface-v2-closeout",
+  "validator_type": "agent",
+  "validated_at": "2026-07-18T23:50:00Z",
+  "judgment": "passes",
+  "review_rows": 30,
+  "review_surface_sha256": "eca0a32cdac7b3f272ba616687249a736d7d85edf3d5d63f9ebe644996759d77",
+  "reason": "All 30 frozen rows are exact source formulas, source-model conditions, or direct theorem endpoints. The observed-window row exposes its zero/one/multi data shape, and the Lemma 1 and Proposition 1 rows expose mathematical conclusions without marked-process certificate packages or opaque aggregate aliases."
 }

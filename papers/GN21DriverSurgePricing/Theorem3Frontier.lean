@@ -124,7 +124,6 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_light_ae_feasi
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (D :
       GN21Theorem3LightAEFeasibleCanonicalEndpointData
@@ -141,7 +140,7 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_light_ae_feasi
           dynamicAcceptAllAlmostEverywhere μ ρ :=
     paper_theorem4_measurable_accept_all_ae_unique_optimal_of_middle_reroute_light_ae_eq_source_existence
       μ arrival m z R1 R2 switch12 switch21 P hR1_pos hR1_lt_R2 hR2_pos
-      hmeasure_nonsurge_acceptAll_pos hmeasure_surge_acceptAll_pos
+      hmeasure_surge_acceptAll_pos
       (GN21Theorem3MiddleRerouteLightAEEqSourceExistenceData.of_feasible_policy_canonical_dominance
         D.canonical D.local_endpoint)
 
@@ -2918,6 +2917,284 @@ theorem theorem3_positive_mass_measurable_ic_of_small_surge_mass_affine_fixed_lo
         arrival_nonsurge_ratio_numerator_bound :=
           A.arrival_nonsurge_ratio_numerator_bound
         current_fixed_lower_cross := A.current_fixed_lower_cross }
+
+/--
+If the moving-state accept-all gap is at most its raw switch rate, then every
+positive fixed-state primitive has a strictly negative Lemma 9 lower
+numerator.
+-/
+theorem lemma9StructuredLowerNumerator_neg_of_gap_le_switch
+    (T1 Q1 T2 Q2 switch21 : ℝ)
+    (hT1_nonneg : 0 ≤ T1)
+    (hQ1_pos : 0 < Q1)
+    (hgap_le_switch : switch21 * T2 - Q2 ≤ switch21) :
+    lemma9StructuredLowerNumerator T1 Q1 T2 Q2 switch21 < 0 := by
+  have hTgap_le :
+      T1 * (switch21 * T2 - Q2) ≤ T1 * switch21 :=
+    mul_le_mul_of_nonneg_left hgap_le_switch hT1_nonneg
+  unfold lemma9StructuredLowerNumerator
+  linarith
+
+/--
+The corresponding Lemma 9 lower endpoint is strictly negative under the
+standard positive-denominator primitive signs.  This is the policy-uniform
+scalar step needed to choose one surge price rather than a new ratio for each
+current non-surge policy.
+-/
+theorem lemma9StructuredLower_neg_of_gap_le_switch
+    (T1 Q1 T2 Q2 switch21 : ℝ)
+    (hT1_nonneg : 0 ≤ T1)
+    (hQ1_pos : 0 < Q1)
+    (hswitch21_pos : 0 < switch21)
+    (hgap_nonneg : 0 ≤ switch21 * T2 - Q2)
+    (hgap_le_switch : switch21 * T2 - Q2 ≤ switch21) :
+    lemma9StructuredLower T1 Q1 T2 Q2 switch21 < 0 := by
+  have hnum_neg :=
+    lemma9StructuredLowerNumerator_neg_of_gap_le_switch
+      T1 Q1 T2 Q2 switch21 hT1_nonneg hQ1_pos hgap_le_switch
+  have hB_pos : 0 < Q1 + T1 * switch21 := by
+    exact add_pos_of_pos_of_nonneg hQ1_pos
+      (mul_nonneg hT1_nonneg (le_of_lt hswitch21_pos))
+  have hden_pos :
+      0 < lemma9StructuredLowerDenominator T1 Q1 T2 Q2 switch21 := by
+    unfold lemma9StructuredLowerDenominator
+    exact add_pos_of_nonneg_of_pos
+      (mul_nonneg (le_of_lt hQ1_pos) hgap_nonneg)
+      (mul_pos hswitch21_pos hB_pos)
+  unfold lemma9StructuredLower
+  exact div_neg_of_neg_of_pos hnum_neg hden_pos
+
+/--
+Source-shaped Theorem 3 assumptions for the verified small-surge-gap subcase.
+Unlike the older reward-rate-data interface, this package contains no
+policy-dependent reward-rate equation or Lemma 9 conclusion.  The final field
+is a primitive accept-all CTMC gap bound; Lean derives the required Lemma 9
+lower inequality uniformly for every feasible positive-mass policy.
+
+The unrestricted source theorem still requires a proof that one fixed surge
+intercept lies in all policy-dependent Lemma 9 intervals.  Per-policy interval
+nonemptiness alone does not discharge that uniform-intersection obligation.
+-/
+structure Theorem3AcceptAllStructuredPositiveMassFeasibleSequentialSmallSurgeGapDataAssumptions
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (rho R1 R2 switch12 switch21 : ℝ) where
+  hR1_eq : R1 = rho * R2
+  hR2_pos : 0 < R2
+  hC_lt_rho :
+    theorem3FeasibilityThresholdC
+        (gn21AcceptAllScaledStateTime (μ 0) (arrival 0))
+        (gn21AcceptAllScaledStateTime (μ 1) (arrival 1))
+        (gn21AcceptAllExitWeightIntegral (μ 0) (arrival 0) switch12 switch21)
+        (gn21AcceptAllExitWeightIntegral (μ 1) (arrival 1) switch21 switch12)
+        switch12 < rho
+  hrho_lt_one : rho < 1
+  harrival1_pos : 0 < arrival 0
+  harrival2_pos : 0 < arrival 1
+  hswitch12_pos : 0 < switch12
+  hswitch21_pos : 0 < switch21
+  htime1_integrable :
+    IntegrableOn (fun τ : TripLength => τ) acceptAllPolicy (μ 0)
+  htime2_integrable :
+    IntegrableOn (fun τ : TripLength => τ) acceptAllPolicy (μ 1)
+  hq1_integrable :
+    IntegrableOn
+      (fun τ : TripLength => gn21SwitchProb switch12 switch21 τ)
+      acceptAllPolicy (μ 0)
+  hq2_integrable :
+    IntegrableOn
+      (fun τ : TripLength => gn21SwitchProb switch21 switch12 τ)
+      acceptAllPolicy (μ 1)
+  hmass1_eq_one : singleStateTripMass (μ 0) acceptAllPolicy = 1
+  hmass2_eq_one : singleStateTripMass (μ 1) acceptAllPolicy = 1
+  arrival_nonsurge_ratio_numerator_bound :
+    (arrival 0) *
+        (rho * gn21AcceptAllScaledStateTime (μ 0) (arrival 0) -
+          (gn21AcceptAllScaledStateTime (μ 0) (arrival 0) - 1)) ≤
+      gn21AcceptAllExitWeightIntegral (μ 0) (arrival 0) switch12 switch21 -
+        switch12
+  surge_acceptAll_gap_le_switch :
+    switch21 * gn21AcceptAllScaledStateTime (μ 1) (arrival 1) -
+        gn21AcceptAllExitWeightIntegral (μ 1) (arrival 1) switch21 switch12 ≤
+      switch21
+
+/--
+The paper's ratio condition does not, by scalar algebra alone, imply the
+nonsurge reward-envelope inequality used by the verified mass-affine route.
+This checked counterexample prevents that independent obligation from being
+silently reconstructed as a consequence of `C < rho`.
+-/
+theorem theorem3_ratio_condition_does_not_imply_arrival_nonsurge_envelope :
+    theorem3FeasibilityThresholdC
+        (2 : ℝ) 2 ((3 : ℝ) / 2) ((3 : ℝ) / 2) 1 < (3 : ℝ) / 4 ∧
+      ¬ ((2 : ℝ) *
+          (((3 : ℝ) / 4) * 2 - (2 - 1)) ≤
+        (3 : ℝ) / 2 - 1) := by
+  norm_num [theorem3FeasibilityThresholdC, theorem3FeasibilityNumerator,
+    theorem3FeasibilityDenominator]
+
+/--
+The per-policy feasibility calculation in source Lemma 9 does not by itself
+produce one ratio usable for every fixed non-surge policy.  Here both scalar
+intervals are nonempty, while their intersection is empty.  The example also
+satisfies the Theorem 3 displayed `C < R1 / R2 < 1` scalar condition, so that
+condition cannot justify the source proof's quantifier exchange.
+
+This is an audit counterexample to the inference from
+`forall policy, exists ratio` to `exists ratio, forall policy`; it is not a
+counterexample to the paper's full CTMC price-existence statement.
+-/
+theorem theorem3_per_policy_lemma9_intervals_do_not_yield_uniform_ratio :
+    theorem3FeasibilityThresholdC (20 : ℝ) 10 2 2 1 < (19 : ℝ) / 20 ∧
+      (19 : ℝ) / 20 < 1 ∧
+      (∃ ratio : ℝ, lemma9StructuredBounds ratio 1 1 10 2 1) ∧
+      (∃ ratio : ℝ, lemma9StructuredBounds ratio 20 2 10 2 1) ∧
+      ¬ ∃ ratio : ℝ,
+        lemma9StructuredBounds ratio 1 1 10 2 1 ∧
+          lemma9StructuredBounds ratio 20 2 10 2 1 := by
+  constructor
+  · norm_num [theorem3FeasibilityThresholdC, theorem3FeasibilityNumerator,
+      theorem3FeasibilityDenominator]
+  constructor
+  · norm_num
+  constructor
+  · refine ⟨1, ?_⟩
+    norm_num [lemma9StructuredBounds, lemma9StructuredLower,
+      lemma9StructuredLowerNumerator, lemma9StructuredLowerDenominator,
+      lemma9StructuredUpper, lemma9StructuredUpperNumerator,
+      lemma9StructuredUpperDenominator]
+  constructor
+  · refine ⟨4, ?_⟩
+    norm_num [lemma9StructuredBounds, lemma9StructuredLower,
+      lemma9StructuredLowerNumerator, lemma9StructuredLowerDenominator,
+      lemma9StructuredUpper, lemma9StructuredUpperNumerator,
+      lemma9StructuredUpperDenominator]
+  rintro ⟨ratio, hsmall, hlarge⟩
+  norm_num [lemma9StructuredBounds, lemma9StructuredLower,
+    lemma9StructuredLowerNumerator, lemma9StructuredLowerDenominator,
+    lemma9StructuredUpper, lemma9StructuredUpperNumerator,
+    lemma9StructuredUpperDenominator] at hsmall hlarge
+  linarith
+
+/--
+Theorem 3 on the explicit small-surge-gap domain.  The construction derives
+the current-policy Lemma 9 lower bound from measured CTMC primitives and then
+uses the verified policy-uniform upper slack route to construct one structured
+price pair that is measurable incentive compatible on the positive-mass
+source domain.
+-/
+theorem theorem3_positive_mass_measurable_ic_of_small_surge_gap
+    (μ : Fin 2 → Measure TripLength)
+    (arrival : Fin 2 → ℝ)
+    (rho R1 R2 switch12 switch21 : ℝ)
+    (A :
+      Theorem3AcceptAllStructuredPositiveMassFeasibleSequentialSmallSurgeGapDataAssumptions
+        μ arrival rho R1 R2 switch12 switch21) :
+    theorem3MeasuredStructuredPositiveMassMeasurableICConclusion
+      μ arrival R1 R2 switch12 switch21 := by
+  let z0 :=
+    theorem3NonsurgeZRatio rho
+      (gn21AcceptAllScaledStateTime (μ 0) (arrival 0))
+      (gn21AcceptAllExitWeightIntegral (μ 0) (arrival 0) switch12 switch21)
+      switch12 * R2
+  let Rmax := if z0 ≤ 0 then R2 else max R2 ((arrival 0) * z0)
+  have hmass1_pos : 0 < singleStateTripMass (μ 0) acceptAllPolicy := by
+    rw [A.hmass1_eq_one]
+    norm_num
+  have hmass2_pos : 0 < singleStateTripMass (μ 1) acceptAllPolicy := by
+    rw [A.hmass2_eq_one]
+    norm_num
+  have hmeasure1_pos : 0 < (μ 0) acceptAllPolicy :=
+    measure_pos_of_singleStateTripMass_pos
+      (μ 0) acceptAllPolicy hmass1_pos
+  have hmeasure2_pos : 0 < (μ 1) acceptAllPolicy :=
+    measure_pos_of_singleStateTripMass_pos
+      (μ 1) acceptAllPolicy hmass2_pos
+  rcases theorem3_acceptAll_ratio_source_scalar_consequences
+      (μ 0) (μ 1) (arrival 0) (arrival 1) switch12 switch21
+      rho R1 R2 A.hR1_eq A.hR2_pos A.hC_lt_rho A.hrho_lt_one
+      A.harrival1_pos A.harrival2_pos A.hswitch12_pos A.hswitch21_pos
+      A.htime1_integrable A.hq1_integrable hmeasure1_pos with
+    ⟨_, hR1_pos, hR1_lt_R2⟩
+  rcases theorem3_acceptAll_measured_primitives_scalar_conditions_positive_primitives
+      μ arrival switch12 switch21 A.harrival1_pos A.harrival2_pos
+      A.hswitch12_pos A.hswitch21_pos A.htime1_integrable
+      A.htime2_integrable A.hq1_integrable A.hq2_integrable
+      hmeasure1_pos hmeasure2_pos with
+    ⟨_, _, _, _, _, _, hswitch21_lt_Q2⟩
+  have hsum12 : 0 < switch12 + switch21 := by
+    linarith [A.hswitch12_pos, A.hswitch21_pos]
+  have hRmax_envelope :
+      (z0 ≤ 0 ∧ Rmax = R2) ∨
+        (0 ≤ z0 ∧ Rmax = max R2 ((arrival 0) * z0)) := by
+    by_cases hz0_nonpos : z0 ≤ 0
+    · left
+      exact ⟨hz0_nonpos, by simp [Rmax, hz0_nonpos]⟩
+    · right
+      have hz0_nonneg : 0 ≤ z0 := le_of_lt (lt_of_not_ge hz0_nonpos)
+      exact ⟨hz0_nonneg, by simp [Rmax, hz0_nonpos]⟩
+  have hfinite1_acceptAll : (μ 0) acceptAllPolicy ≠ ⊤ :=
+    singleStateTripMass_ne_top_of_eq_one A.hmass1_eq_one
+  exact
+    paper_theorem3_measured_structured_positive_mass_measurable_ic_prices_of_small_surge_mass_affine_current_lower_final_sign_arrival_bound_data_assumptions
+      μ arrival rho R1 R2 switch12 switch21
+      { Rmax := Rmax
+        hR1_eq := A.hR1_eq
+        hR1_pos := hR1_pos
+        hR1_lt_R2 := hR1_lt_R2
+        hR2_pos := A.hR2_pos
+        hC_lt_rho := A.hC_lt_rho
+        hrho_lt_one := A.hrho_lt_one
+        harrival1_pos := A.harrival1_pos
+        harrival2_pos := A.harrival2_pos
+        hswitch12_pos := A.hswitch12_pos
+        hswitch21_pos := A.hswitch21_pos
+        htime1_integrable := A.htime1_integrable
+        htime2_integrable := A.htime2_integrable
+        hq1_integrable := A.hq1_integrable
+        hq2_integrable := A.hq2_integrable
+        hmass1_pos := hmass1_pos
+        hmass2_pos := hmass2_pos
+        hmass1_eq_one := A.hmass1_eq_one
+        hfinite1_acceptAll := hfinite1_acceptAll
+        Rmax_envelope := by simpa [z0] using hRmax_envelope
+        arrival_nonsurge_ratio_numerator_bound :=
+          A.arrival_nonsurge_ratio_numerator_bound
+        current_lower_left_nonpos := by
+          intro policy hpolicy
+          have hQcurrent_pos :
+              0 < gn21ExitWeightIntegral (μ 0) (arrival 0)
+                switch12 switch21 (policy 0) :=
+            gn21ExitWeightIntegral_pos_of_switch_pos
+              (μ 0) (arrival 0) switch12 switch21 (policy 0)
+              (le_of_lt A.harrival1_pos) A.hswitch12_pos hsum12
+              (hpolicy.1 0).2 (hpolicy.1 0).1
+          have hnum_neg :=
+            lemma9StructuredLowerNumerator_neg_of_gap_le_switch
+              (gn21ScaledStateTime (μ 0) (arrival 0) (policy 0))
+              (gn21ExitWeightIntegral (μ 0) (arrival 0)
+                switch12 switch21 (policy 0))
+              (gn21AcceptAllScaledStateTime (μ 1) (arrival 1))
+              (gn21AcceptAllExitWeightIntegral (μ 1) (arrival 1)
+                switch21 switch12)
+              switch21
+              (le_of_lt <|
+                gn21ScaledStateTime_pos_of_nonneg
+                  (μ 0) (arrival 0) (policy 0)
+                  (le_of_lt A.harrival1_pos) (hpolicy.1 0).2
+                  (hpolicy.1 0).1)
+              hQcurrent_pos
+              A.surge_acceptAll_gap_le_switch
+          have hupper_den_pos :
+              0 < lemma9StructuredUpperDenominator
+                (gn21ExitWeightIntegral (μ 0) (arrival 0)
+                  switch12 switch21 (policy 0))
+                (gn21AcceptAllExitWeightIntegral (μ 1) (arrival 1)
+                  switch21 switch12)
+                switch21 := by
+            unfold lemma9StructuredUpperDenominator
+            exact mul_pos hQcurrent_pos (sub_pos.mpr hswitch21_lt_Q2)
+          exact le_of_lt (mul_neg_of_neg_of_pos hnum_neg hupper_den_pos) }
 
 /--
 Theorem 3 positive-mass measurable IC on the source-shaped small-surge route.

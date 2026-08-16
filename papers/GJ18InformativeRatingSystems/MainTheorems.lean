@@ -1818,6 +1818,76 @@ theorem finiteChainUniformFloorPkObjective_oneSub_hasExtendedExponentialRate_of_
       hscore_low_le hscore_le_high hscore_lt)
 
 /--
+Finite-chain extended-rate endpoint from expected-score ordering and per-law
+positive-mass extrema. This is the source-faithful route when a displayed top
+rating can have zero probability for some seller types.
+-/
+theorem finiteChainUniformFloorPkObjective_oneSub_hasExtendedExponentialRate_of_joint_floor_rating_law_min_threshold_rate_top_of_expected_score_gap_and_support_extrema
+    {n : ℕ} {Rating : Type*} [Fintype Rating] [DecidableEq Rating]
+    [DecidableEq (finiteChainOrderedPair n)]
+    [Nonempty (finiteChainAdjacentIndex n)]
+    (M : FiniteRatingLDPModel (Fin n) Rating) (sampleRate : Fin n → ℝ)
+    (hpositive_sample : ∀ θ : Fin n, 0 < sampleRate θ)
+    (hmean_gap :
+      ∀ p : finiteChainOrderedPair n,
+        EconCSLib.pmfExp (M.typeLaw (finiteChainOrderedPairLo p)) M.score ≤
+          EconCSLib.pmfExp (M.typeLaw (finiteChainOrderedPairHi p)) M.score)
+    (rHiLow rHiHigh rLoLow rLoHigh : finiteChainOrderedPair n → Rating)
+    (hmass_hi_low :
+      ∀ p : finiteChainOrderedPair n,
+        0 < (M.typeLaw (finiteChainOrderedPairHi p) (rHiLow p)).toReal)
+    (hmass_hi_high :
+      ∀ p : finiteChainOrderedPair n,
+        0 < (M.typeLaw (finiteChainOrderedPairHi p) (rHiHigh p)).toReal)
+    (hmass_lo_low :
+      ∀ p : finiteChainOrderedPair n,
+        0 < (M.typeLaw (finiteChainOrderedPairLo p) (rLoLow p)).toReal)
+    (hmass_lo_high :
+      ∀ p : finiteChainOrderedPair n,
+        0 < (M.typeLaw (finiteChainOrderedPairLo p) (rLoHigh p)).toReal)
+    (hscore_hi_low_le :
+      ∀ p : finiteChainOrderedPair n, ∀ r : Rating,
+        0 < (M.typeLaw (finiteChainOrderedPairHi p) r).toReal →
+          M.score (rHiLow p) ≤ M.score r)
+    (hscore_hi_le_high :
+      ∀ p : finiteChainOrderedPair n, ∀ r : Rating,
+        0 < (M.typeLaw (finiteChainOrderedPairHi p) r).toReal →
+          M.score r ≤ M.score (rHiHigh p))
+    (hscore_lo_low_le :
+      ∀ p : finiteChainOrderedPair n, ∀ r : Rating,
+        0 < (M.typeLaw (finiteChainOrderedPairLo p) r).toReal →
+          M.score (rLoLow p) ≤ M.score r)
+    (hscore_lo_le_high :
+      ∀ p : finiteChainOrderedPair n, ∀ r : Rating,
+        0 < (M.typeLaw (finiteChainOrderedPairLo p) r).toReal →
+          M.score r ≤ M.score (rLoHigh p))
+    (hscore_hi_span :
+      ∀ p : finiteChainOrderedPair n,
+        M.score (rHiLow p) < M.score (rHiHigh p))
+    (hscore_lo_span :
+      ∀ p : finiteChainOrderedPair n,
+        M.score (rLoLow p) < M.score (rLoHigh p))
+    (hscore_cross :
+      ∀ p : finiteChainOrderedPair n,
+        M.score (rHiLow p) < M.score (rLoHigh p)) :
+    HasExtendedExponentialRate
+      (fun k : ℕ =>
+        1 - finiteUniformFloorPkObjective M sampleRate
+          finiteChainOrderedPairHi finiteChainOrderedPairLo k)
+      (minFiniteChainAdjacentThresholdRateTop M sampleRate) :=
+  finiteChainUniformFloorPkObjective_oneSub_hasExtendedExponentialRate_of_joint_floor_rating_law_min_threshold_rate_top_of_pairwise_ldp_certificates
+    M sampleRate
+    (PairwiseThresholdRateTopLdpCertificate.of_expected_score_gap_and_support_extrema
+      M sampleRate finiteChainOrderedPairHi finiteChainOrderedPairLo
+      (fun p => hpositive_sample (finiteChainOrderedPairHi p))
+      (fun p => hpositive_sample (finiteChainOrderedPairLo p))
+      hmean_gap rHiLow rHiHigh rLoLow rLoHigh
+      hmass_hi_low hmass_hi_high hmass_lo_low hmass_lo_high
+      hscore_hi_low_le hscore_hi_le_high
+      hscore_lo_low_le hscore_lo_le_high
+      hscore_hi_span hscore_lo_span hscore_cross)
+
+/--
 Source-shaped finite-chain Theorem 1 endpoint from ordinal upper-tail
 dominance.  This packages the paper's monotone finite rating-scale primitive:
 if higher source types have weakly larger upper-tail rating probabilities and

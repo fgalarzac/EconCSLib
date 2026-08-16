@@ -1,227 +1,251 @@
 {
-  "comment": "Regenerated context-free Lean-to-TeX drafts for semantic statement rejudge; every visible binder/hypothesis remains part of the translated surface.",
-  "items": {
-    "corollary1": {
-      "lean_statement_sha256": "51c54958867f0920d7db1ea169b1dbfacdcc2390cb6bc4b6bb55bff9d1cbe179",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} [NeZero T] (likelihood : ItemType T \\to \u211d) (gamma : \u211d), 0 \\le gamma \\to (\\forall (t : ItemType T), 0 < likelihood t) \\to \\exists M, \\forall (seq : OptimalAllocationSequence fun x  =>  M) (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds (likelihood t ^ gamma / \\sum i, likelihood i ^ gamma))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "corollary3": {
-      "lean_statement_sha256": "c6c98c8798b556b717108191529e0852ca909ac871e8017064686d2f2dfec6bc",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} [NeZero T] (B : BernoulliSatisfactionModel T), (\\forall (t : ItemType T), 0 < successProb t) \\to (\\forall (t : ItemType T), successProb t < 1) \\to (\\forall (t : ItemType T), 0 < likelihood t) \\to (\\forall (i j : ItemType T), successProb i = successProb j) \\to AsymptoticHomogeneity (fun x  =>  toConsumptionModel) (uniformProfile T)",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "definition1": {
-      "lean_statement_sha256": "865001d12d82cdfde9b393f2c1d8ca0135abf3fc222fc3f990a2635755d8dc38",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} (a : CountAllocation T) (likelihood : ItemType T \\to \u211d) (gamma : \u211d), \\sum_i likelihood_i^\\gamma \\ne 0 \\to \\forall best, (\\forall t, likelihood_t \\le likelihood_best) \\to (((gammaLikelihoodProfile likelihood gamma).Exact a \\iff \\forall t, representation_a(t) = likelihood_t^\\gamma / \\sum_i likelihood_i^\\gamma) \\land ((infiniteLikelihoodProfile likelihood best).Exact a \\iff representation_a(best)=1 \\land \\forall t, t \\ne best \\to representation_a(t)=0))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "definition2": {
-      "lean_statement_sha256": "cdacb495006cf55f959eae2e1bec29a1fe72af4d1f2f91d8009dc338b453b4d1",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} (seq : AllocationSequence T) (likelihood : ItemType T \\to \u211d) (gamma : \u211d), \\sum i, likelihood i ^ gamma \\ne 0 \\to (ConvergesToProfile (gammaLikelihoodProfile likelihood gamma) \\iff \\forall (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds (likelihood t ^ gamma / \\sum i, likelihood i ^ gamma)))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "definition3_expectedTopSum_formula": {
-      "lean_statement_sha256": "45f03220b99d3a06dcd3a47af166a66fe4281ce1b766448dfe916930bc5daa3c",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall (T : \u2115) (mu : \u2115 \\to \u2115 \\to \u211d) (k : \u2115) (t : ItemType T) (a : \u2115), (definition3 T mu).expectedTopSum k t a = \\sum i \\in range (min k a), mu (a - i) a",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "example1": {
-      "lean_statement_sha256": "217a0fe4c89b2a8afb1c82864f44f6cb753b5c50d63646b9d6cdef2c7daf7c02",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {p1 p2 lambda : \u211d}, 0 < p1 \\to 0 < p2 \\to 0 < lambda \\to p1 + p2 = 1 \\to \\forall (seq : OptimalAllocationSequence fun x  =>  (exponentialTopOneHarmonicOracle 2 lambda).toConsumptionModel (example1GenreLikelihood p1 p2) 1), Tendsto (fun N  =>  (allocation N).representation 0) atTop (nhds p1) \\land Tendsto (fun N  =>  (allocation N).representation 1) atTop (nhds p2)",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "lemma1_tail_formula": {
-      "lean_statement_sha256": "e7f21fd13d5466e51493a1003e910412fb330b6b3b93b76eea6529dfdaca117c",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {beta c M L : \u211d} {k : \u2115} (baseMeasure : Measure \u211d) [IsProbabilityMeasure baseMeasure], (\\forall\u1d50 (y : \u211d) \u2202baseMeasure, L \\le y \\land y \\le M) \\to 0 < beta \\to 0 < c \\to (\\forall {\\epsilon : \u211d}, 0 < \\epsilon \\to \\forall\u1da0 (x : \u211d) in nhdsWithin 0 (Ioi 0), (1 - \\epsilon) * (c / beta) * x ^ beta \\le real (Ici (M - x)) \\land real (Ici (M - x)) \\le (1 + \\epsilon) * (c / beta) * x ^ beta) \\to 0 < k \\to 0 < M - L \\to AsymptoticEquivalent (fun q  =>  orderStatisticTopKSumFromMean (expectedOrderStatisticMeanSeq fun a  =>  pi fun x  =>  baseMeasure) k (q + 1) - orderStatisticTopKSumFromMean (expectedOrderStatisticMeanSeq fun a  =>  pi fun x  =>  baseMeasure) k q) fun q  =>  (\\sum p, boundedLemmaD2LimitCoeff beta c \u2191snd) / beta * boundedPowerMarginalScale beta q",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "lemmaD1": {
-      "lean_statement_sha256": "f26c59f45d70ea16127275fc35685bf47a9288d0c9dedc2d4cdfd9b85ded47e8",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} {Mseq : \u2115 \\to ConsumptionModel T} {G : GammaHomogeneityProfile T} (seq : OptimalAllocationSequence Mseq) (finiteObj : \u2115 \\to CountAllocation T \\to \u211d) (limitObj : (ItemType T \\to \u211d) \\to \u211d) (candidate : \u2115 \\to CountAllocation T), targetShare \\in stdSimplex \u211d (ItemType T) \\to ContinuousOn limitObj (stdSimplex \u211d (ItemType T)) \\to (\\forall x \\in stdSimplex \u211d (ItemType T), x \\ne targetShare \\to limitObj x < limitObj targetShare) \\to (\\forall\u1da0 (N : \u2115) in atTop, \\forall (b : CountAllocation T), FeasibleAtTotal N b \\to finiteObj N b \\le finiteObj N (allocation N)) \\to (\\forall\u1da0 (N : \u2115) in atTop, FeasibleAtTotal N (candidate N)) \\to (\\forall (\\delta : \u211d), 0 < \\delta \\to \\forall\u1da0 (N : \u2115) in atTop, limitObj targetShare - \\delta \\le finiteObj N (candidate N)) \\to (\\forall (\\delta : \u211d), 0 < \\delta \\to \\forall\u1da0 (N : \u2115) in atTop, \\forall (a : CountAllocation T), FeasibleAtTotal N a \\to finiteObj N a \\le (limitObj fun t  =>  representation t) + \\delta) \\to ConvergesToProfile G",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "lemmaD2_formula": {
-      "lean_statement_sha256": "d34a51321fde537a01ce22e00ff4aa95f95d85e5148c037d6612c2782190d4d3",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "Under the bounded-tail CDF power sandwich with exponent beta and constant c, positive top-k count, monotonicity, measurability, [0,1]-range, and bounded-support saturation of the reflected CDF G, the Lemma D.2 top-k loss integral is asymptotically equivalent to the summed exact gamma coefficient times boundedTailScale beta.",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "lemmaD3_formula": {
-      "lean_statement_sha256": "efabcbdecd4560204a22e4e1c99c7336dbfa4487960d6e17807451b2bca063d7",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} [NeZero T] (likelihood : ItemType T \\to \u211d) (lambda : \u211d) (k : \u2115), 0 < lambda \\to 0 < k \\to (\\forall (t : ItemType T), 0 < likelihood t) \\to \\forall (seq : OptimalAllocationSequence fun x  =>  (exponentialTopKOrderStatisticOracle T lambda k).toConsumptionModel likelihood k) (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds (likelihood t ^ 1 / \\sum i, likelihood i ^ 1))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "lemmaD4_formula": {
-      "lean_statement_sha256": "5bec300e97f346dce8f546c08f79e9b9f97085ad0058075fbddb8bb57f23c4d9",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} [NeZero T] (likelihood : ItemType T \\to \u211d) {k : \u2115} {alpha : \u211d}, 1 < alpha \\to 0 < k \\to (\\forall (t : ItemType T), 0 < likelihood t) \\to \\forall (seq : OptimalAllocationSequence fun x  =>  paretoIidOrderStatisticConsumptionModel likelihood k alpha) (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds (likelihood t ^ (alpha / (alpha - 1)) / \\sum i, likelihood i ^ (alpha / (alpha - 1))))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "lemmaD5": {
-      "lean_statement_sha256": "40c9aaf5c033cf5f34b2d63c176049d58743d4ef3659e341e3a1f2e1a4790d84",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} (likelihood : ItemType T \\to \u211d) (N k : \u2115), 0 < N \\to \\forall (a : CountAllocation T), (uniformTopKConsumptionModel likelihood k).IsOptimalAtTotal N a \\to \\sum i, \u221a(likelihood i) \\ne 0 \\to (\\forall (t : ItemType T), |\u2191(count t) - \u2191N * proposition2SqrtShare likelihood t| \\le \u2191(card (ItemType T)) + 1) \\to (proposition2SqrtProfile likelihood).Approx a ((\u2191(card (ItemType T)) + 1) / \u2191N)",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "proposition2": {
-      "lean_statement_sha256": "75632ad3bcbccfe46d093dde2fe5bd5452f7ce00eca50556a03720fb987a82e6",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} [inst : NeZero T] (likelihood : ItemType T \\to \u211d) (kseq : \u2115 \\to \u2115), (\\forall (t : ItemType T), 0 < likelihood t) \\to (\\forall (N : \u2115), 0 < N \\to 0 < kseq N) \\to (\\forall (N : \u2115), 0 < N \\to \u2191(kseq N) + 1 \\le \u2191N * uniformSqrtMinShare likelihood - \u2191T) \\to \\forall (seq : OptimalAllocationSequence fun N  =>  uniformTopKConsumptionModel likelihood (kseq N)), ConvergesToProfile (proposition2SqrtProfile likelihood)",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "proposition4": {
-      "lean_statement_sha256": "4262fef8839493b3d32c9b42a5a8524fe1752fced19f6644f57d61aae7989e28",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "For a finite-dimensional nontrivial real inner-product space E, any full-support preference probability measure on the unit sphere, and any continuous radial function p positive on the unit-sphere distance range [0,2], the normalized sphere-volume uniform probability profile minimizes the Laplace-defined supremum objective among all probability-measure item profiles.",
-      "translated_at": "2026-06-29T21:50:58Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "proposition5_identity": {
-      "lean_statement_sha256": "b81277b36eefeffd9a0712c4f950d8e186a6864603ee80ba80e825503c6bac97",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall (k a : \u2115), orderStatisticTopKSumFromMean uniformAscendingOrderStatisticMean k a = uniformTopKValue k a",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem1_i_formula": {
-      "lean_statement_sha256": "153a35fd7a7f6d2dca4bab36ddecd390a173443c5e0797ce0f59c91afbc6ae47",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} [NeZero T] {\\Omega : Type u_1} [inst : Fintype \\Omega] [inst_1 : DecidableEq \\Omega] (itemLaw : PMF \\Omega) (value : \\Omega \\to \u211d) {xTop xSecond : \u211d} (likelihood : ItemType T \\to \u211d) (k : \u2115) (seq : OptimalAllocationSequence fun x  =>  theorem1CommonTopKModel (finiteDiscreteIidTopKExpected \\Omega itemLaw k value) likelihood k), 0 < k \\to 0 < xTop \\to 0 \\le xSecond \\to xSecond \\le xTop \\to xSecond < xTop \\to (\\forall (\\omega : \\Omega), value \\omega \\le xTop) \\to (\\forall (\\omega : \\Omega), value \\omega = xTop \\lor value \\omega \\le xSecond) \\to (0 < pmfProb itemLaw fun \\omega  =>  value \\omega = xTop) \\to (0 < pmfProb itemLaw fun \\omega  =>  \\lnotvalue \\omega = xTop) \\to (\\forall (t : ItemType T), 0 < likelihood t) \\to \\forall (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds (1 / \u2191T))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem1_ii_formula": {
-      "lean_statement_sha256": "ff6d69dd18d79002e8e6a97a6030f8143d715f706c27fed5cdd8a73d5bc39653",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} [NeZero T] {beta c M L : \u211d} {k : \u2115} (baseMeasure : Measure \u211d) [IsProbabilityMeasure baseMeasure], (\\forall\u1d50 (y : \u211d) \u2202baseMeasure, L \\le y \\land y \\le M) \\to (\\forall\u1d50 (y : \u211d) \u2202baseMeasure, 0 \\le y) \\to 0 < M \\to 0 < beta \\to 0 < c \\to \\forall (g : \u211d \\to \u211d), (\\forall\u1da0 (x : \u211d) in nhdsWithin 0 (Ioi 0), IntegrableOn g (Ioo 0 x) volume) \\to (\\forall\u1da0 (x : \u211d) in nhdsWithin 0 (Ioi 0), real (Ici (M - x)) = \\int (u : \u211d) in Ioo 0 x, g u) \\to Tendsto (fun u  =>  g u / (c * u ^ (beta - 1))) (nhdsWithin 0 (Ioi 0)) (nhds 1) \\to \\forall (likelihood : ItemType T \\to \u211d), (\\forall (t : ItemType T), 0 < likelihood t) \\to 0 < k \\to 0 < M - L \\to \\forall (seq : OptimalAllocationSequence fun x  =>  boundedIidOrderStatisticConsumptionModel likelihood k baseMeasure) (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds (likelihood t ^ (beta / (beta + 1)) / \\sum i, likelihood i ^ (beta / (beta + 1))))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem1_iii_formula": {
-      "lean_statement_sha256": "e167d5ab903670258e692c523a99fa6aad71dcea71eccc7dce4010061ddd9f29",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} [NeZero T] (likelihood : ItemType T \\to \u211d) (lambda : \u211d) (k : \u2115), 0 < lambda \\to 0 < k \\to (\\forall (t : ItemType T), 0 < likelihood t) \\to \\forall (seq : OptimalAllocationSequence fun x  =>  (exponentialTopKOrderStatisticOracle T lambda k).toConsumptionModel likelihood k) (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds (likelihood t ^ 1 / \\sum i, likelihood i ^ 1))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem1_iv_formula": {
-      "lean_statement_sha256": "53834808f267c4482009052d4462c5041eff2f377280aea3f0f3221d8c7ba178",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} [NeZero T] (likelihood : ItemType T \\to \u211d) {k : \u2115} {alpha : \u211d}, 1 < alpha \\to 0 < k \\to (\\forall (t : ItemType T), 0 < likelihood t) \\to \\forall (seq : OptimalAllocationSequence fun x  =>  paretoIidOrderStatisticConsumptionModel likelihood k alpha) (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds (likelihood t ^ (alpha / (alpha - 1)) / \\sum i, likelihood i ^ (alpha / (alpha - 1))))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem1_v_common_mean": {
-      "lean_statement_sha256": "ebd240f3fc8b303c943ee8f82d878be2bb437eeca9217bb1c0ce18866651a806",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} (likelihood : ItemType T \\to \u211d) (mean : \u211d) (N : \u2115) (best : ItemType T), 0 \\le mean \\to (\\forall (t : ItemType T), likelihood t \\le likelihood best) \\to (linearized likelihood fun x  =>  mean).IsOptimalAtTotal N (allOnTypeAllocation N best)",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem1_v_unique_common_mean": {
-      "lean_statement_sha256": "6ce92b2707e1d8d4e930ebf8a00f6767e8aaa84def5358bacf595c51f7b0c7c9",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} (likelihood : ItemType T \\to \u211d) (mean : \u211d) (N : \u2115) (best : ItemType T), 0 < mean \\to (\\forall (t : ItemType T), t \\ne best \\to likelihood t < likelihood best) \\to \\forall (a : CountAllocation T), (linearized likelihood fun x  =>  mean).IsOptimalAtTotal N a \\to \\forall (t : ItemType T), t \\ne best \\to count t = 0",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem2_i_formula": {
-      "lean_statement_sha256": "99d5ff8e9a21ed9ec8e934ea50c273c119e07647519093b74511f8b867b1a3e0",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} [NeZero T] (likelihood : ItemType T \\to \u211d) (alpha c d : \u211d), 0 \\le alpha \\to alpha < 1 \\to 0 < c \\to 0 \\le d \\to decayingBernoulliSuccess c d alpha 0 < 1 \\to (\\forall (t : ItemType T), 0 < likelihood t) \\to \\forall (seq : OptimalAllocationSequence fun x  =>  decayingBernoulliTopOneConsumptionModel likelihood c d alpha) (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds (1 / \u2191T))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem2_ii_formula": {
-      "lean_statement_sha256": "b98031059bfe79dda7ca7877310694babac72bab0cf6e48dcb65355051207982",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} [NeZero T] (likelihood : ItemType T \\to \u211d) (c d : \u211d), 0 < c \\to 0 \\le d \\to decayingBernoulliSuccess c d 1 0 < 1 \\to (\\forall (t : ItemType T), 0 < likelihood t) \\to \\forall (seq : OptimalAllocationSequence fun x  =>  decayingBernoulliTopOneConsumptionModel likelihood c d 1) (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds (likelihood t ^ (1 / (1 + c)) / \\sum i, likelihood i ^ (1 / (1 + c))))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem2_iii_formula": {
-      "lean_statement_sha256": "fddbd1bff633b8d5733ce97ba9cbf2de1275ab7efe9a8e21f53f52d7765dbb37",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} [NeZero T] (likelihood : ItemType T \\to \u211d) (alpha c d : \u211d), 1 < alpha \\to 0 < c \\to 0 \\le d \\to decayingBernoulliSuccess c d alpha 0 < 1 \\to (\\forall (t : ItemType T), 0 < likelihood t) \\to \\forall (seq : OptimalAllocationSequence fun x  =>  decayingBernoulliTopOneConsumptionModel likelihood c d alpha) (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds (likelihood t ^ (1 / alpha) / \\sum i, likelihood i ^ (1 / alpha)))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem2_iv_alpha_zero_condition": {
-      "lean_statement_sha256": "fe4b1099431482287b1b0c6594e93bfd6d9b1b4c2a6e3238e42b7173c9b921aa",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} (likelihood : ItemType T \\to \u211d) (c d : \u211d) (N : \u2115) (best : ItemType T), 0 \\le c \\to (\\forall (t : ItemType T), likelihood t \\le likelihood best) \\to (decayingBernoulliAllConsumedConsumptionModel likelihood c d 0).IsOptimalAtTotal N (allOnTypeAllocation N best)",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem2_iv_positive_alpha": {
-      "lean_statement_sha256": "dc74fcef9cff80fa66ac76d6f010fa7bb9a28a851569a440e54830a5fa29f7aa",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} [NeZero T] (likelihood : ItemType T \\to \u211d) (alpha c d : \u211d), 0 < alpha \\to 0 < c \\to 0 \\le d \\to (\\forall (t : ItemType T), 0 < likelihood t) \\to \\forall (seq : OptimalAllocationSequence fun x  =>  decayingBernoulliAllConsumedConsumptionModel likelihood c d alpha) (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds (likelihood t ^ (1 / alpha) / \\sum i, likelihood i ^ (1 / alpha)))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem3_formula": {
-      "lean_statement_sha256": "52a0d2726a57158444792f5c0555d79d4a5b3791a12fce1dece9fa339252d4de",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {T : \u2115} [NeZero T] (B : BernoulliSatisfactionModel T), (\\forall (t : ItemType T), 0 < successProb t) \\to (\\forall (t : ItemType T), successProb t < 1) \\to (\\forall (t : ItemType T), 0 < likelihood t) \\to \\forall (seq : OptimalAllocationSequence fun x  =>  toConsumptionModel) (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds (theorem3LogShareWeight B t / \\sum i, theorem3LogShareWeight B i))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    }
-  },
+  "schema": 1,
   "paper": "PRPKG24AccuracyDiversity",
   "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-  "schema": 1,
-  "translated_at": "2026-06-29T18:08:26Z",
-  "translator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+  "translator_type": "agent",
+  "translated_at": "2026-07-28T03:27:50Z",
+  "comment": "Regenerated from the current elaborated PaperInterface cache after the exact-identity route rebind; these are context-free translations of the current 30 non-assumption rows.",
+  "items": {
+    "definition1_source_preference_law": {
+      "lean_statement_sha256": "ac809fd271a48c317078f2d8a0c76870844563c8c10caf8aa6237096d6fe0387",
+      "tex_statement": "\\forall {T : \u2115} (a : CountAllocation T) (preferenceLaw : SourcePreferenceLaw T) (gamma : \u211d), \\sum i, (preferenceLaw i).toReal ^ gamma \\ne 0 \\to \\forall (best : ItemType T) (hbest : \\forall (t : ItemType T), (preferenceLaw t).toReal \\le (preferenceLaw best).toReal), ((gammaLikelihoodProfile (fun t  =>  (preferenceLaw t).toReal) gamma).Exact a \\iff \\forall (t : ItemType T), representation t = (preferenceLaw t).toReal ^ gamma / \\sum i, (preferenceLaw i).toReal ^ gamma) \\land ((infiniteLikelihoodProfile (fun t  =>  (preferenceLaw t).toReal) best hbest).Exact a \\iff representation best = 1 \\land \\forall (t : ItemType T), t \\ne best \\to representation t = 0)",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "definition2_source_preference_law": {
+      "lean_statement_sha256": "5f2d62993a78bfe248911e48b2fb65d5a9b92d1db1d5023b009a8e86fd94c50a",
+      "tex_statement": "\\forall {T : \u2115} (seq : AllocationSequence T) (preferenceLaw : SourcePreferenceLaw T) (gamma : \u211d), \\sum i, (preferenceLaw i).toReal ^ gamma \\ne 0 \\to (ConvergesToProfile (gammaLikelihoodProfile (fun t  =>  (preferenceLaw t).toReal) gamma) \\iff \\forall (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds ((preferenceLaw t).toReal ^ gamma / \\sum i, (preferenceLaw i).toReal ^ gamma)))",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "definition3_iid_order_statistic_mean_formula": {
+      "lean_statement_sha256": "e44e25e7eb04907d55253b77b22a03b9382b0771b63e386e331541ab752eb11b",
+      "tex_statement": "\\forall (D : Measure \u211d) (i a : \u2115), definition3IidOrderStatisticMean D i a = expectedOrderStatisticMeanSeq (fun b  =>  pi fun x  =>  D) i a",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "definition3_iid_order_statistic_topk_identity": {
+      "lean_statement_sha256": "b3c370205ab27e70a32044bb7aad379ed6efd4d9b077fdb1de313e85dc49ce29",
+      "tex_statement": "\\forall (D : Measure \u211d) [IsProbabilityMeasure D], Integrable (fun x  =>  x) D \\to \\forall (k a : \u2115), orderStatisticTopKSumFromMean (definition3IidOrderStatisticMean D) k a = expectedSampleTopKSum (definition3IidSampleMeasure D a) k",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "equation3_sourcePreferenceLaw_pmfExp": {
+      "lean_statement_sha256": "25aec523033a5f67d293703678b6264a3e404d5e820c56752355c1f6a7d06087",
+      "tex_statement": "\\forall {T : \u2115} (M : ConsumptionModel T) (a : CountAllocation T) (preferenceLaw : SourcePreferenceLaw T), RealizesSourcePreferenceLaw preferenceLaw \\to objective a = pmfExp preferenceLaw fun t  =>  valueOfCount t (count t)",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "theorem1_i_formula": {
+      "lean_statement_sha256": "041375ec79c547349afa02f8a3ee6ebeae1836bb8cb7b65c3fd996b44c09f0f1",
+      "tex_statement": "Parameters: \u2115; Type u_1; Fintype \u03a9; DecidableEq \u03a9; PMF \u03a9; \u03a9 \u2192 \u211d; \u211d; \u211d; PRPKG24AccuracyDiversity.ItemType T \u2192 \u211d; \u2115; PRPKG24AccuracyDiversity.OptimalAllocationSequence fun x =>\n  PRPKG24AccuracyDiversity.PaperInterface.theorem1CommonTopKModel\n    (PRPKG24AccuracyDiversity.finiteDiscreteIidTopKExpected \u03a9 itemLaw k value) likelihood k; PRPKG24AccuracyDiversity.ItemType T; Set \u211d. Assume: NeZero T; 0 < k; 0 < xTop; 0 \u2264 xSecond; xSecond \u2264 xTop; xSecond < xTop; \u2200 (\u03c9 : \u03a9), value \u03c9 \u2264 xTop; \u2200 (\u03c9 : \u03a9), value \u03c9 = xTop \u2228 value \u03c9 \u2264 xSecond; 0 < EconCSLib.pmfProb itemLaw fun \u03c9 => value \u03c9 = xTop; 0 < EconCSLib.pmfProb itemLaw fun \u03c9 => \u00acvalue \u03c9 = xTop; \u2200 (t : PRPKG24AccuracyDiversity.ItemType T), 0 < likelihood t; U \u2208 nhds (1 / \u2191T). Conclusion or defined value: U \u2208 Filter.map (fun N => (seq.allocation N).representation t) Filter.atTop.",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "theorem1_ii_formula": {
+      "lean_statement_sha256": "86cfbedab428bdd5e2354ef0760962d15cd701125b0be65203c4e874bfcb1721",
+      "tex_statement": "Parameters: \u2115; \u211d; \u211d; \u211d; \u211d; \u2115; MeasureTheory.Measure \u211d; \u211d \u2192 \u211d; PRPKG24AccuracyDiversity.ItemType T \u2192 \u211d; PRPKG24AccuracyDiversity.OptimalAllocationSequence fun x =>\n  PRPKG24AccuracyDiversity.boundedIidOrderStatisticConsumptionModel likelihood k baseMeasure; PRPKG24AccuracyDiversity.ItemType T; Set \u211d. Assume: NeZero T; MeasureTheory.IsProbabilityMeasure baseMeasure; \u2200\u1d50 (y : \u211d) \u2202baseMeasure, L \u2264 y \u2227 y \u2264 M; \u2200\u1d50 (y : \u211d) \u2202baseMeasure, 0 \u2264 y; 0 < M; 0 < beta; 0 < c; \u2200\u1da0 (x : \u211d) in nhdsWithin 0 (Set.Ioi 0), MeasureTheory.IntegrableOn g (Set.Ioo 0 x) MeasureTheory.volume; \u2200\u1da0 (x : \u211d) in nhdsWithin 0 (Set.Ioi 0), baseMeasure.real (Set.Ici (M - x)) = \u222b (u : \u211d) in Set.Ioo 0 x, g u; Filter.Tendsto (fun u => g u / (c * u ^ (beta - 1))) (nhdsWithin 0 (Set.Ioi 0)) (nhds 1); \u2200 (t : PRPKG24AccuracyDiversity.ItemType T), 0 < likelihood t; 0 < k; 0 < M - L; U \u2208 nhds (likelihood t ^ (beta / (beta + 1)) / \u2211 i, likelihood i ^ (beta / (beta + 1))). Conclusion or defined value: U \u2208 Filter.map (fun N => (seq.allocation N).representation t) Filter.atTop.",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "theorem1_iii_formula": {
+      "lean_statement_sha256": "c097197d85252b669ff6635e890fbc95601a8f842d0c007abf217b000f3bdac9",
+      "tex_statement": "Parameters: \u2115; PRPKG24AccuracyDiversity.ItemType T \u2192 \u211d; \u211d; \u2115; PRPKG24AccuracyDiversity.OptimalAllocationSequence fun x =>\n  (PRPKG24AccuracyDiversity.exponentialTopKOrderStatisticOracle T lambda k).toConsumptionModel likelihood k; PRPKG24AccuracyDiversity.ItemType T; Set \u211d. Assume: NeZero T; 0 < lambda; 0 < k; \u2200 (t : PRPKG24AccuracyDiversity.ItemType T), 0 < likelihood t; U \u2208 nhds (likelihood t ^ 1 / \u2211 i, likelihood i ^ 1). Conclusion or defined value: U \u2208 Filter.map (fun N => (seq.allocation N).representation t) Filter.atTop.",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "theorem1_iv_formula": {
+      "lean_statement_sha256": "573365f3865813d42db18ba4303fd3e584c842c504bae7b52e6721bdcbe46d99",
+      "tex_statement": "Parameters: \u2115; PRPKG24AccuracyDiversity.ItemType T \u2192 \u211d; \u2115; \u211d; PRPKG24AccuracyDiversity.OptimalAllocationSequence fun x =>\n  PRPKG24AccuracyDiversity.paretoIidOrderStatisticConsumptionModel likelihood k alpha; PRPKG24AccuracyDiversity.ItemType T; Set \u211d. Assume: NeZero T; 1 < alpha; 0 < k; \u2200 (t : PRPKG24AccuracyDiversity.ItemType T), 0 < likelihood t; U \u2208 nhds (likelihood t ^ (alpha / (alpha - 1)) / \u2211 i, likelihood i ^ (alpha / (alpha - 1))). Conclusion or defined value: U \u2208 Filter.map (fun N => (seq.allocation N).representation t) Filter.atTop.",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "theorem1_v_selected_maximizer_conclusion": {
+      "lean_statement_sha256": "f6921fcd9b7f44436add5910ff0cc401a15446edc864e1e8b23f16dca669d6ef",
+      "tex_statement": "\\forall {T : \u2115} (preferenceLaw : SourcePreferenceLaw T) (D : Measure \u211d) [IsProbabilityMeasure D], Integrable (fun x  =>  x) D \\to 0 \\le \\int (x : \u211d), x \u2202D \\to \\forall (N : \u2115) (best : ItemType T), (\\forall (t : ItemType T), (preferenceLaw t).toReal \\le (preferenceLaw best).toReal) \\to (iidAllConsumedSourceModel preferenceLaw D).IsOptimalAtTotal N (allOnTypeAllocation N best)",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "corollary1": {
+      "lean_statement_sha256": "96f17caa19eabe31c5f4eeaf817b6a3b505eb0764bb4b8b237ac97ba3abf3b00",
+      "tex_statement": "Parameters: \u2115; PRPKG24AccuracyDiversity.ItemType T \u2192 \u211d; \u211d. Assume: NeZero T; 0 \u2264 gamma; \u2200 (t : PRPKG24AccuracyDiversity.ItemType T), 0 < likelihood t. Conclusion or defined value: \u2203 M,\n  \u2200 (seq : PRPKG24AccuracyDiversity.OptimalAllocationSequence fun x => M) (t : PRPKG24AccuracyDiversity.ItemType T),\n    Filter.Tendsto (fun N => (seq.allocation N).representation t) Filter.atTop\n      (nhds (likelihood t ^ gamma / \u2211 i, likelihood i ^ gamma)).",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "theorem2_i_corrected_pmf_source_model_endpoint": {
+      "lean_statement_sha256": "659352665de20d71a88fbb07413e477a553474f9ef081f8ddb07d8f75dd97bfe",
+      "tex_statement": "\\forall {T : \u2115} [NeZero T] (preferenceLaw : SourcePreferenceLaw T) (alpha c d : \u211d) (halpha_nonneg : 0 \\le alpha), alpha < 1 \\to \\forall (hc_pos : 0 < c) (hd_nonneg : 0 \\le d) (hfirst_lt_one : decayingBernoulliSuccess c d alpha 0 < 1), (\\forall (t : ItemType T), 0 < (preferenceLaw t).toReal) \\to \\forall (seq : OptimalAllocationSequence fun x  =>  decayingBernoulliTopOneConsumptionModel (fun t  =>  (preferenceLaw t).toReal) c d alpha), (\\forall (a : CountAllocation T), (decayingBernoulliTopOneConsumptionModel (fun t  =>  (preferenceLaw t).toReal) c d alpha).objective a = pmfExp preferenceLaw fun t  =>  pmfExp (decayingBernoulliFiniteLaw c d alpha (count t) \u22ef hd_nonneg halpha_nonneg \u22ef) rankBernoulliFiniteTopOneSampleValue) \\land \\forall (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds (1 / \u2191T))",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "theorem2_ii_corrected_pmf_source_model_endpoint": {
+      "lean_statement_sha256": "8c25e35388d2c1cf7fa28ea9b34a66ced52235dbeddde986f4e1764a8bf3683c",
+      "tex_statement": "\\forall {T : \u2115} [NeZero T] (preferenceLaw : SourcePreferenceLaw T) (c d : \u211d) (hc_pos : 0 < c) (hd_nonneg : 0 \\le d) (hfirst_lt_one : decayingBernoulliSuccess c d 1 0 < 1), (\\forall (t : ItemType T), 0 < (preferenceLaw t).toReal) \\to \\forall (seq : OptimalAllocationSequence fun x  =>  decayingBernoulliTopOneConsumptionModel (fun t  =>  (preferenceLaw t).toReal) c d 1), (\\forall (a : CountAllocation T), (decayingBernoulliTopOneConsumptionModel (fun t  =>  (preferenceLaw t).toReal) c d 1).objective a = pmfExp preferenceLaw fun t  =>  pmfExp (decayingBernoulliFiniteLaw c d 1 (count t) \u22ef hd_nonneg \u22ef \u22ef) rankBernoulliFiniteTopOneSampleValue) \\land \\forall (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds ((preferenceLaw t).toReal ^ (1 / (1 + c)) / \\sum i, (preferenceLaw i).toReal ^ (1 / (1 + c))))",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "theorem2_iii_corrected_pmf_source_model_endpoint": {
+      "lean_statement_sha256": "67324f218341e891e56d20518fcc41666b163754c2925bb9f26194297395f66c",
+      "tex_statement": "\\forall {T : \u2115} [NeZero T] (preferenceLaw : SourcePreferenceLaw T) (alpha c d : \u211d) (halpha_gt_one : 1 < alpha) (hc_pos : 0 < c) (hd_nonneg : 0 \\le d) (hfirst_lt_one : decayingBernoulliSuccess c d alpha 0 < 1), (\\forall (t : ItemType T), 0 < (preferenceLaw t).toReal) \\to \\forall (seq : OptimalAllocationSequence fun x  =>  decayingBernoulliTopOneConsumptionModel (fun t  =>  (preferenceLaw t).toReal) c d alpha), (\\forall (a : CountAllocation T), (decayingBernoulliTopOneConsumptionModel (fun t  =>  (preferenceLaw t).toReal) c d alpha).objective a = pmfExp preferenceLaw fun t  =>  pmfExp (decayingBernoulliFiniteLaw c d alpha (count t) \u22ef hd_nonneg \u22ef \u22ef) rankBernoulliFiniteTopOneSampleValue) \\land \\forall (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds ((preferenceLaw t).toReal ^ (1 / alpha) / \\sum i, (preferenceLaw i).toReal ^ (1 / alpha)))",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "theorem2_iv_corrected_pmf_source_model_endpoint": {
+      "lean_statement_sha256": "b271ddd50ad54cf4608d03fbf42f1434bb5bbcab2b8dec2f959e37b640920512",
+      "tex_statement": "\\forall {T : \u2115} [NeZero T] (preferenceLaw : SourcePreferenceLaw T) (alpha c d : \u211d) (halpha_nonneg : 0 \\le alpha) (hc_nonneg : 0 \\le c) (hd_nonneg : 0 \\le d) (hfirst_le_one : decayingBernoulliSuccess c d alpha 0 \\le 1), (\\forall (t : ItemType T), 0 < (preferenceLaw t).toReal) \\to (0 < alpha \\to \\forall (hc_pos : 0 < c) (seq : OptimalAllocationSequence fun x  =>  decayingBernoulliAllConsumedConsumptionModel (fun t  =>  (preferenceLaw t).toReal) c d alpha), (\\forall (a : CountAllocation T), (decayingBernoulliAllConsumedConsumptionModel (fun t  =>  (preferenceLaw t).toReal) c d alpha).objective a = pmfExp preferenceLaw fun t  =>  pmfExp (decayingBernoulliFiniteLaw c d alpha (count t) \u22ef hd_nonneg halpha_nonneg hfirst_le_one) rankBernoulliFiniteAllConsumedSampleValue) \\land \\forall (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds ((preferenceLaw t).toReal ^ (1 / alpha) / \\sum i, (preferenceLaw i).toReal ^ (1 / alpha)))) \\land (alpha = 0 \\to \\forall (N : \u2115) (best : ItemType T), (\\forall (t : ItemType T), (preferenceLaw t).toReal \\le (preferenceLaw best).toReal) \\to (\\forall (a : CountAllocation T), (decayingBernoulliAllConsumedConsumptionModel (fun t  =>  (preferenceLaw t).toReal) c d alpha).objective a = pmfExp preferenceLaw fun t  =>  pmfExp (decayingBernoulliFiniteLaw c d alpha (count t) hc_nonneg hd_nonneg halpha_nonneg hfirst_le_one) rankBernoulliFiniteAllConsumedSampleValue) \\land (decayingBernoulliAllConsumedConsumptionModel (fun t  =>  (preferenceLaw t).toReal) c d alpha).IsOptimalAtTotal N (allOnTypeAllocation N best))",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "theorem3_log_share_conclusion": {
+      "lean_statement_sha256": "94786295c0f4f2017e2fe42ca38fea7c6672477d7a8d8225b83abd7f98634beb",
+      "tex_statement": "\\forall {T : \u2115} [NeZero T] (B : BernoulliSatisfactionModel T) (preferenceLaw : SourcePreferenceLaw T), (\\forall (t : ItemType T), likelihood t = (preferenceLaw t).toReal) \\to (\\forall (t : ItemType T), 0 < successProb t) \\to (\\forall (t : ItemType T), successProb t < 1) \\to (\\forall (t : ItemType T), 0 < (preferenceLaw t).toReal) \\to \\forall (seq : OptimalAllocationSequence fun x  =>  toConsumptionModel) (t : ItemType T), Tendsto (fun N  =>  (allocation N).representation t) atTop (nhds (theorem3LogShareWeight B t / \\sum i, theorem3LogShareWeight B i))",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "theorem3_all_consumed_argmax_conclusion": {
+      "lean_statement_sha256": "335a52e32cfd15827d8e5902139d6038a05d04d8d3688269b7353e431d3bb69f",
+      "tex_statement": "\\forall {T : \u2115} (B : BernoulliSatisfactionModel T) (preferenceLaw : SourcePreferenceLaw T), (\\forall (t : ItemType T), likelihood t = (preferenceLaw t).toReal) \\to assumption_bernoulli_success_probability_range B \\to \\forall (N : \u2115) (best : ItemType T), (\\forall (t : ItemType T), likelihood t * successProb t \\le likelihood best * successProb best) \\to (bernoulliAllConsumedModel B).IsOptimalAtTotal N (allOnTypeAllocation N best)",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "corollary3_iid_bernoulli_conclusion": {
+      "lean_statement_sha256": "875c2b1749bc8f9d2368ee65b25a0a00f81c0dd1eb17cd59aaf25898e453f201",
+      "tex_statement": "\\forall {T : \u2115} [NeZero T] (B : BernoulliSatisfactionModel T) (preferenceLaw : SourcePreferenceLaw T), (\\forall (t : ItemType T), likelihood t = (preferenceLaw t).toReal) \\to (\\forall (t : ItemType T), 0 < successProb t) \\to (\\forall (t : ItemType T), successProb t < 1) \\to (\\forall (t : ItemType T), 0 < (preferenceLaw t).toReal) \\to (\\forall (i j : ItemType T), successProb i = successProb j) \\to AsymptoticHomogeneity (fun x  =>  toConsumptionModel) (uniformProfile T)",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "proposition2_corrected_finite_and_sequence_source": {
+      "lean_statement_sha256": "b24a335b2d8e5c40a5afda3cc75b27f1e397981f20d467ecb51fd5d1cf256d87",
+      "tex_statement": "\\forall {T : \u2115} [inst : NeZero T] (likelihood : ItemType T \\to \u211d) (kseq : \u2115 \\to \u2115), (\\forall (t : ItemType T), 0 < likelihood t) \\to (\\forall (N : \u2115), 0 < N \\to 0 < kseq N) \\to (\\forall (N : \u2115), 0 < N \\to \u2191(kseq N) + 1 \\le \u2191N * uniformSqrtMinShare likelihood - \u2191T) \\to \\forall (seq : OptimalAllocationSequence fun N  =>  uniformTopKConsumptionModel likelihood (kseq N)), (\\forall (N : \u2115), 0 < N \\to \\forall (a : CountAllocation T), (uniformTopKConsumptionModel likelihood (kseq N)).IsOptimalAtTotal N a \\to (proposition2SqrtProfile likelihood).Approx a ((2 * \u2191(card (ItemType T)) + 1) / \u2191N)) \\land ConvergesToProfile (proposition2SqrtProfile likelihood)",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "proposition4": {
+      "lean_statement_sha256": "5100c6054d893486da3b877e017eea9b083b48ab1329b918020a3590f90ca04c",
+      "tex_statement": "Parameters: Type u_1; NormedAddCommGroup E; InnerProductSpace \u211d E; MeasurableSpace E; MeasureTheory.Measure (PRPKG24AccuracyDiversity.Proposition4Sphere.UnitSphere E); \u211d \u2192 \u211d; MeasureTheory.ProbabilityMeasure (PRPKG24AccuracyDiversity.Proposition4Sphere.UnitSphere E). Assume: BorelSpace E; OpensMeasurableSpace (PRPKG24AccuracyDiversity.Proposition4Sphere.UnitSphere E); FiniteDimensional \u211d E; Nontrivial E; MeasureTheory.IsProbabilityMeasure preferenceMeasure; preferenceMeasure.IsOpenPosMeasure; Continuous p; \u2203 r \u2208 Set.Icc 0 2, \u2203 s \u2208 Set.Icc 0 2, p r \u2260 p s; \u2200 r \u2208 Set.Icc 0 2, 0 < p r \u2227 p r \u2264 1. Conclusion or defined value: PRPKG24AccuracyDiversity.Proposition4Sphere.logRadialDistanceProfileSupValue p\n    PRPKG24AccuracyDiversity.Proposition4Sphere.sphereVolumeUniformProbabilityMeasure \u2264\n  PRPKG24AccuracyDiversity.Proposition4Sphere.logRadialDistanceProfileSupValue p alpha.",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "proposition5_iid_topk_identity": {
+      "lean_statement_sha256": "cd2b3477f5fe3ab944ad2904cd1cb73057251fc70ad1bd97366f1ee6f05c0856",
+      "tex_statement": "\\forall (D : Measure \u211d) [IsProbabilityMeasure D], Integrable (fun x  =>  x) D \\to \\forall (k a : \u2115), orderStatisticTopKSumFromMean (definition3IidOrderStatisticMean D) k a = expectedSampleTopKSum (definition3IidSampleMeasure D a) k",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "lemmaD1_i_corrected_uniform_optimizer_shares_source": {
+      "lean_statement_sha256": "afecb6c21588cb00b1c75e3da87739fb2edd4c5ad76ba03ca13628a7f67c1c23",
+      "tex_statement": "\\forall {m : \u2115} [NeZero m] {A B sigma : \u211d} {h : \u2115 \\to \u211d} (p : ItemType m \\to \u211d) (seq : OptimalSequence (fun x  =>  p) fun x x_1  =>  h), (\\forall (i : ItemType m), 0 < p i) \\to Monotone h \\to B < 0 \\to 0 < sigma \\to (\\forall\u1da0 (n : \u2115) in atTop, 0 < saturationGap A h n) \\to Tendsto (fun n  =>  log (saturationGap A h n) / (B * \u2191n ^ sigma)) atTop (nhds 1) \\to ConvergesToProfile fun x  =>  1 / \u2191m",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "lemmaD1_ii_corrected_powerTail_optimizer_shares_source": {
+      "lean_statement_sha256": "02621f8d5ab46b6c193a7d5217a3f6c1ccee98e11652ffd7bbec91ce7f178cc6",
+      "tex_statement": "\\forall {m : \u2115} [NeZero m] {A B sigma : \u211d} {h : \u2115 \\to \u211d} (p : ItemType m \\to \u211d) (seq : OptimalSequence (fun x  =>  p) fun x x_1  =>  h), (\\forall (i : ItemType m), 0 < p i) \\to Monotone h \\to 0 < B \\to sigma < 0 \\to Tendsto (fun n  =>  saturationGap A h n / (B * \u2191n ^ sigma)) atTop (nhds 1) \\to ConvergesToProfile (targetShare p sigma)",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "lemmaD1_iii_corrected_probability_optimizer_shares_source": {
+      "lean_statement_sha256": "cacf0bce6b2b438f1b92c07c525d1d3b69aa814355828d4d56d7e4d75630063b",
+      "tex_statement": "\\forall {m : \u2115} [NeZero m] {B C : \u211d} {h : \u2115 \\to \u211d} (p : ItemType m \\to \u211d) (seq : OptimalSequence (fun x  =>  p) fun x x_1  =>  h), (\\forall (i : ItemType m), 0 < p i) \\to \\sum i, p i = 1 \\to Monotone h \\to StrictDiscreteConcave h \\to 0 < B \\to Tendsto (logRemainder h B C) atTop (nhds 0) \\to ConvergesToProfile p",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "lemmaD1_iv_corrected_powerTail_optimizer_shares_source": {
+      "lean_statement_sha256": "5795ca1f0f26a273ff5a106b63ef9ebcb4c4493bc39106e24de96875addc45a0",
+      "tex_statement": "\\forall {m : \u2115} [inst : NeZero m] {B sigma : \u211d} {h : \u2115 \\to \u211d} (p : Fin m \\to \u211d) (seq : OptimalSequence (fun x  =>  p) fun x x_1  =>  h), (\\forall (i : Fin m), 0 < p i) \\to 0 < B \\to 0 < sigma \\to sigma < 1 \\to StrictDiscreteConcave h \\to Tendsto (powerTailQuotient h B sigma) atTop (nhds 1) \\to ConvergesToProfile (targetShare p sigma)",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "lemmaD2_bounded_fixed_rank_integral_asymptotic_of_pdf_source": {
+      "lean_statement_sha256": "19778c0b05c5bae17d8b25591cd9291863a417a4cbd3b65504c5a1b7ed2b3cf8",
+      "tex_statement": "\\forall {beta c M L : \u211d} {j : \u2115} (baseMeasure : Measure \u211d) [IsProbabilityMeasure baseMeasure], (\\forall\u1d50 (y : \u211d) \u2202baseMeasure, L \\le y \\land y \\le M) \\to 0 < M - L \\to \\forall (f : \u211d \\to \u211d), (baseMeasure = withDensity fun y  =>  ofReal (f y)) \\to (\\forall (y : \u211d), 0 \\le f y) \\to Measurable f \\to Integrable f volume \\to 0 < beta \\to 0 < c \\to Tendsto (fun u  =>  f (M - u) / (c * u ^ (beta - 1))) (nhdsWithin 0 (Ioi 0)) (nhds 1) \\to AsymptoticEquivalent (boundedLemmaD2IntegralTerm (reflectedCDFMass baseMeasure M) j) fun a  =>  boundedLemmaD2LimitCoeff beta c j * boundedTailScale beta a",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "lemma1_bounded_topk_loss_asymptotic_of_pdf_source": {
+      "lean_statement_sha256": "f6534e81fb46229c4ea77111487ed0142c14cf527f088ad6f8d7a56cb977b883",
+      "tex_statement": "\\forall {beta c M L : \u211d} {k : \u2115} (baseMeasure : Measure \u211d) [IsProbabilityMeasure baseMeasure], (\\forall\u1d50 (y : \u211d) \u2202baseMeasure, L \\le y \\land y \\le M) \\to 0 < M - L \\to \\forall (f : \u211d \\to \u211d), (baseMeasure = withDensity fun y  =>  ofReal (f y)) \\to (\\forall (y : \u211d), 0 \\le f y) \\to Measurable f \\to Integrable f volume \\to 0 < beta \\to 0 < c \\to Tendsto (fun u  =>  f (M - u) / (c * u ^ (beta - 1))) (nhdsWithin 0 (Ioi 0)) (nhds 1) \\to 0 < k \\to AsymptoticEquivalent (fun a  =>  \u2191k * M - orderStatisticTopKSumFromMean (expectedOrderStatisticMeanSeq fun a  =>  pi fun x  =>  baseMeasure) k a) fun a  =>  (\\sum q, boundedLemmaD2LimitCoeff beta c \u2191snd) * boundedTailScale beta a",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "lemmaD3_corrected_exponential_fixed_rank_source": {
+      "lean_statement_sha256": "4df6a7784a78fa94d608b7d32dd44b3b866ca938cb2c5d25f662f8fa92e96c7f",
+      "tex_statement": "\\forall (lambda : \u211d) (hlambda_pos : 0 < lambda) (r : \u2115), (\\forall (q : \u2115), r < q \\to expectedOrderStatisticMeanSeq (fun a  =>  (exponentialDistributionModel lambda hlambda_pos).iidProductMeasure a) (q - r) q = 1 / lambda * (harmonicReal q - harmonicReal r)) \\land Tendsto (fun q  =>  expectedOrderStatisticMeanSeq (fun a  =>  (exponentialDistributionModel lambda hlambda_pos).iidProductMeasure a) (q - r) q - 1 / lambda * log \u2191q) atTop (nhds (1 / lambda * (eulerMascheroniConstant - harmonicReal r))) \\land \\forall\u1da0 (q : \u2115) in atTop, expectedOrderStatisticMeanSeq (fun a  =>  (exponentialDistributionModel lambda hlambda_pos).iidProductMeasure a) (q + 2 - r) (q + 2) - expectedOrderStatisticMeanSeq (fun a  =>  (exponentialDistributionModel lambda hlambda_pos).iidProductMeasure a) (q + 1 - r) (q + 1) < expectedOrderStatisticMeanSeq (fun a  =>  (exponentialDistributionModel lambda hlambda_pos).iidProductMeasure a) (q + 1 - r) (q + 1) - expectedOrderStatisticMeanSeq (fun a  =>  (exponentialDistributionModel lambda hlambda_pos).iidProductMeasure a) (q - r) q",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "lemmaD4_corrected_pareto_fixed_rank_source": {
+      "lean_statement_sha256": "ffc4e277b0afa5cc303b774f11970c1ab2f6c0cd67d39c245a1920a6153e0611",
+      "tex_statement": "\\forall {alpha : \u211d}, 1 < alpha \\to \\forall (r : \u2115), (AsymptoticEquivalent (fun q  =>  expectedOrderStatisticMeanSeq (paretoIidSampleMeasure alpha) (q - r) q) fun q  =>  paretoRankValueCoeff alpha r * \u2191q ^ (1 / alpha)) \\land \\forall\u1da0 (q : \u2115) in atTop, expectedOrderStatisticMeanSeq (paretoIidSampleMeasure alpha) (q + 2 - r) (q + 2) - expectedOrderStatisticMeanSeq (paretoIidSampleMeasure alpha) (q + 1 - r) (q + 1) < expectedOrderStatisticMeanSeq (paretoIidSampleMeasure alpha) (q + 1 - r) (q + 1) - expectedOrderStatisticMeanSeq (paretoIidSampleMeasure alpha) (q - r) q",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    },
+    "lemmaD5": {
+      "lean_statement_sha256": "a6b2d3bfa3c18d4205a23f4ac4a544e00b19e0ba3518be39eda571c0d6964f25",
+      "tex_statement": "Parameters: a finite type \u03ba; coordinate functions g : \u03ba \u2192 \u211d \u2192 \u211d; a natural total N; a real vector x : \u03ba \u2192 \u211d; and a natural vector a : \u03ba \u2192 \u2115. Assume: each g_i is strictly concave on [0,\u221e); every x_i is nonnegative; \u2211_i x_i = N; x maximizes \u2211_i g_i(z_i) over all nonnegative real vectors z with total N; \u2211_i a_i = N; and a maximizes \u2211_i g_i(b_i) over all natural vectors b with total N. Conclusion: for every t : \u03ba, \u230ax_t\u230b < a_t + |\u03ba| and a_t < \u230ax_t\u230b + |\u03ba|.",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translated_at": "2026-07-28T03:27:50Z",
+      "translator": "Codex PRPKG24 exact semantic sidecar rebind 2026-07-28",
+      "validator_type": "agent"
+    }
+  }
 }

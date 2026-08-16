@@ -21,24 +21,24 @@
 \node[dag_result, text width=4.0cm] (Thm1i) at (1.6,-2.7)
   {\textbf{Theorem 1(i)}\\no-information argmax bias formula};
 \node[dag_result, text width=4.0cm] (Thm1ii) at (7,-2.7)
-  {\textbf{Theorem 1(ii)}\\perfect classifiers have zero bias};
+  {\textbf{Theorem 1(ii)}\\perfect classifier has zero prior and aggregate-reference bias};
 \node[dag_result, text width=4.0cm] (Thm1iii) at (12.4,-2.7)
   {\textbf{Theorem 1(iii)}\\argmax bias is bounded by MAE, tightly};
 
 \node[dag_model, text width=5.4cm] (Objective) at (7,-6.2)
-  {\textbf{Theorem 2 Setup}\\Bayes row identity and $O_N^\gamma$};
+  {\textbf{Theorem 2 Setup}\\Equations (1)--(3), Bayes identity, and dataset-indexed $P_N^q$};
 
 \node[dag_result, text width=4.0cm] (Thm2i) at (1.6,-8.9)
   {\textbf{Theorem 2(i)}\\joint rule optimizes $O_N^\gamma$};
 \node[dag_result, text width=4.0cm] (Thm2ii) at (7,-8.9)
   {\textbf{Theorem 2(ii)}\\argmax maximizes expected accuracy};
 \node[dag_result, text width=4.0cm] (Thm2iii) at (12.4,-8.9)
-  {\textbf{Theorem 2(iii)}\\argmax is the only Pareto-optimal independent rule};
+  {\textbf{Theorem 2(iii)}\\exact $P_N^q$ expected-policy necessity endpoints};
 
 \begin{scope}[on background layer]
-\node[draw=green!55!black, fill=green!4, rounded corners, inner sep=0.35cm,
+\node[draw=orange!70!black, fill=orange!5, rounded corners, inner sep=0.35cm,
   fit=(Thm1i)(Thm1ii)(Thm1iii)] (Thm1Group) {};
-\node[draw=green!55!black, fill=green!4, rounded corners, inner sep=0.35cm,
+\node[draw=orange!70!black, fill=orange!5, rounded corners, inner sep=0.35cm,
   fit=(Thm2i)(Thm2ii)(Thm2iii)] (Thm2Group) {};
 \end{scope}
 
@@ -58,9 +58,10 @@
 \draw[dag_arrow] (Objective.south) -- (Thm2iii.north);
 
 \node[dag_template_note, text width=14.2cm] (AuditNote) at (7,-12.1)
-  {\textbf{Audit note.} Cached source text has only Theorem 1 and Theorem 2 as named results.
-  Proof-route deviations and optional future strengthening are documented in the validation report;
-  the green theorem boxes are closed paper-facing endpoints.};
+  {\textbf{Audit note.} Plain formalized status, with no caveat. Lean closes Theorem 1(ii) from
+  positive joint support and lifts Theorem 2(iii) through the dataset-dependent $P_N^q$ reference.
+  The source phrase ``unless $\gamma=1$'' is recorded as overbroad wording; the Appendix-supported
+  and formalized clause is that a maximizer with $0\leq\gamma<1$ agrees with argmax almost surely.};
 
 \end{scope}
 \end{dagPaperBody}

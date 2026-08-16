@@ -1,0 +1,447 @@
+{
+  "boundary": "tracked-formalization-engine-production-sources-v1",
+  "revisions": [
+    {
+      "engine_tree_sha256": "eab10d81bc3749ad3f9d75a2f896bf7a7eb5c1d43828b22c71646279bbd81a6f",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Prospective engine-revision guard adoption; existing paper evidence is not rewritten or reopened.",
+      "relation_to_previous": "bootstrap",
+      "sequence": 1,
+      "verification": [
+        "exact candidate production-source inventory (77 files)",
+        "canonical structured review-protocol projection parity"
+      ]
+    },
+    {
+      "engine_tree_sha256": "d25298450b230694e45f7648d417aa3f5aba1b078f6a24a64718d6ffdad36af9",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "eab10d81bc3749ad3f9d75a2f896bf7a7eb5c1d43828b22c71646279bbd81a6f",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Add a trusted, paper-scoped contributor workflow without reopening existing paper evidence.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 2,
+      "verification": [
+        "focused contributor, CI, target-registration, aggregate-projection, and engine-guard suites",
+        "Ruff, Python compile, YAML parse, exact diff checks, and Lean import-graph smokes"
+      ]
+    },
+    {
+      "engine_tree_sha256": "8cac092ae0158a7a152c679a9aa781aa7a6a2be8349de8d65e84e6c9c1846219",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "d25298450b230694e45f7648d417aa3f5aba1b078f6a24a64718d6ffdad36af9",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Register review-compatible closeout reuse, Lean-graph dependency handling, and evidence-integrity repairs without changing the formalization review obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 3,
+      "verification": [
+        "2,486-test integration run completed with no production assertion failures; the five test-only stale API calls it identified were repaired and pass focused reruns.",
+        "Focused evidence, conclusion-provenance, semantic-rebind, auxiliary-routing, source-digest, selected-revalidation, and manifest-recovery regression suites pass.",
+        "Ruff, Python byte-compilation, exact diff checks, LG24 paper build, Probability root build, and canonical LG24 evidence-integrity checks pass."
+      ]
+    },
+    {
+      "engine_tree_sha256": "3e4ea55572dc3305e54cbb720fb03fffee96553dc8b19f9ff5df67c1d4da89df",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "8cac092ae0158a7a152c679a9aa781aa7a6a2be8349de8d65e84e6c9c1846219",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Register review-compatible public-release preflight, complete-tree artifact hygiene, and trusted tooling pinning without changing formalization review obligations or reopening paper evidence.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 4,
+      "verification": [
+        "103 focused public-release guard, artifact-policy, and isolated-contributor tests pass.",
+        "Ruff, Python byte-compilation, and exact diff checks pass."
+      ]
+    },
+    {
+      "engine_tree_sha256": "295ef7ba5d5687673d0de50b130e7a9dbcc06daaa9d4ae8fd2bacf3bd91a47ea",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "3e4ea55572dc3305e54cbb720fb03fffee96553dc8b19f9ff5df67c1d4da89df",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Make source-record identity failures actionable and stage fresh Lean overlays in the ignored worktree build area with hard-linked unchanged artifacts to avoid shared tmpfs quota failures and repeated staging cost.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 5,
+      "verification": [
+        "Focused identity-only, source-record fingerprint, and worktree-local staging-root/hardlink regression tests pass; Ruff and Python compilation pass."
+      ]
+    },
+    {
+      "engine_tree_sha256": "267090d1a2bc9950e0e43ddcebee20fe7c448805472d6ea332a028065307f5f6",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "295ef7ba5d5687673d0de50b130e7a9dbcc06daaa9d4ae8fd2bacf3bd91a47ea",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Register review-compatible closeout ordering, structural evidence replay, current semantic rebind, and contributor-entrypoint repairs without changing source-fidelity review obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 6,
+      "verification": [
+        "337 focused engine, closeout planner, source-record, semantic-rebind, contributor, runner, protocol, and scaffold regressions pass.",
+        "Python byte-compilation and exact diff checks pass; no paper audit or Lean build is claimed by this engine transition."
+      ]
+    },
+    {
+      "engine_tree_sha256": "dea4f337dc21f8c0d81acf77a1b082ec8c675bc9c33c8b74ac6c52912d1b21a3",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "267090d1a2bc9950e0e43ddcebee20fe7c448805472d6ea332a028065307f5f6",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Expose stale raw identity, align replay preflight with evidence gate, and make raw-reissue recovery lock-aware without changing semantic obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 7,
+      "verification": [
+        "Focused source-record identity, planner replay, raw lock recovery, and full closeout-planner regression tests passed."
+      ]
+    },
+    {
+      "engine_tree_sha256": "89e860a395bad216f3260256fffa4668ad3e27e6e6e49dc45cacad1be4059ed3",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "dea4f337dc21f8c0d81acf77a1b082ec8c675bc9c33c8b74ac6c52912d1b21a3",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Serialize closeout raw-reissue recovery and defer busy authenticated overlays without changing formalization review obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 8,
+      "verification": [
+        "141 focused closeout-reuse, semantic-rebind, authenticated-overlay, and manual-complement regression tests pass.",
+        "Python byte-compilation, targeted Ruff checks, and exact diff checks pass; no paper audit or Lean build is claimed by this engine transition."
+      ]
+    },
+    {
+      "engine_tree_sha256": "1d462c0f9cdbe0ffa1ad1096da2264499425c2079c786d93a6bbd39fd695e6af",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "89e860a395bad216f3260256fffa4668ad3e27e6e6e49dc45cacad1be4059ed3",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Align deterministic closeout preflight with strict document and evidence gates, classify receipt-publication recovery structurally, and normalize ignored resume-cache coordinates without changing formalization review obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 9,
+      "verification": [
+        "171 focused closeout document, planner, raw identity, manifest-resume, contribution, strict closeout, and corrected-scope regressions pass.",
+        "Ruff, Python byte-compilation, exact diff checks, and a live PRPKG24 semantic-only raw-preflight route pass; fresh-raw producer identity is unchanged."
+      ]
+    },
+    {
+      "engine_tree_sha256": "ef3333bd15f6edee9a397e9e32d686b0d5bc66865298148aab0f6df2902e8785",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "1d462c0f9cdbe0ffa1ad1096da2264499425c2079c786d93a6bbd39fd695e6af",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Separate optional v11 migration scheduling from legacy-v10 semantic evidence, share only exact in-process successful compact revalidation receipts, and expose source-record scan phase diagnostics.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 10,
+      "verification": [
+        "Focused protocol, transition, trust-ledger, engine-revision, manifest-revalidation, and source-record-lock tests pass.",
+        "Ruff, Python compilation, protocol validation, and diff checks pass."
+      ]
+    },
+    {
+      "engine_tree_sha256": "5de5d2e77b65a3db118a6ec23854d7a8c794e0014320b0701f9a7507b8d7b84b",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "ef3333bd15f6edee9a397e9e32d686b0d5bc66865298148aab0f6df2902e8785",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Expose exact persisted-root revalidation batch progress through the existing source-record lease without changing audit evidence or source obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 11,
+      "verification": [
+        "Focused prior-manifest-reuse and source-record-lock tests pass; Ruff, Python compilation, and diff checks pass."
+      ]
+    },
+    {
+      "engine_tree_sha256": "64ebad5266ab3b99b69bfec5d9edf13b3b331da63ded180a0f7fc2f8af949543",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "5de5d2e77b65a3db118a6ec23854d7a8c794e0014320b0701f9a7507b8d7b84b",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Enforce a registered engine wave and lease-bound durable raw-reissue operations without changing semantic audit obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 12,
+      "verification": [
+        "Focused closeout planner, engine-wave, source-record-lock, and receipt-neutrality regression suites pass.",
+        "Ruff, Python byte-compilation, exact diff checks, and raw-producer identity comparison pass; no paper audit or Lean build is claimed."
+      ]
+    },
+    {
+      "engine_tree_sha256": "512ef524fef6b275e53770533aacd48712a7248f8c6bd7a2858df621417ad066",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "64ebad5266ab3b99b69bfec5d9edf13b3b331da63ded180a0f7fc2f8af949543",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Harden raw-reissue recovery, lease-time input checks, and exact wave identity without changing semantic audit obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 13,
+      "verification": [
+        "Focused closeout planner, engine-wave, source-record-audit, and receipt-neutrality regression suites pass.",
+        "Ruff, Python byte-compilation, exact diff checks, and raw-producer identity comparison pass; no paper audit or Lean build is claimed."
+      ]
+    },
+    {
+      "engine_tree_sha256": "758087fb392ddd79e2dc5564c1dc19d6c7405b26777902ec17c3cc503a9b4ac8",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "512ef524fef6b275e53770533aacd48712a7248f8c6bd7a2858df621417ad066",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Repair transparent-Spec source-position comparison with Lean-owned definition-value telescopes while retaining the paired theorem terminal conclusion, full manifest, and proof closure as the semantic authority.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 14,
+      "verification": [
+        "Focused transparent-Spec parser, positional-route, result-path terminal, producer-identity, and Lean manifest regressions pass.",
+        "PRPKG24 PaperInterface compile, Python byte-compilation, and exact diff checks pass; non-opt-in producer identities remain byte-compatible only for the audited predecessor pair."
+      ]
+    },
+    {
+      "engine_tree_sha256": "bb11272b5aa22a6ec75ba866bbeed260c910572de07ff7833ae967df8b7b2360",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "758087fb392ddd79e2dc5564c1dc19d6c7405b26777902ec17c3cc503a9b4ac8",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Classify byte-pinned Lean import-closure source drift as a structured stale source identity so the closeout planner can require one fresh raw receipt.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 15,
+      "verification": [
+        "Focused fast source-record identity and closeout-planner stale-routing regressions pass.",
+        "Ruff, Python byte-compilation, and exact diff checks pass; this transition changes no paper evidence or source-model obligation."
+      ]
+    },
+    {
+      "engine_tree_sha256": "cfa504fd80a4535e12b09f7ffdaba4fd8b7f4d9bf5c6f3189673c587cf80a2da",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "bb11272b5aa22a6ec75ba866bbeed260c910572de07ff7833ae967df8b7b2360",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Register fail-closed standard-term provenance and exact raw-to-dashboard manifest reuse without changing existing formalization review obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 16,
+      "verification": [
+        "Focused source-coverage, standard-term, raw manifest resume, source-record, closeout planner, contribution, and receipt-neutrality regression suites pass.",
+        "Ruff, Python byte-compilation, and exact diff checks pass; the standard-term route is opt-in and existing paper evidence is not rewritten or reopened."
+      ]
+    },
+    {
+      "engine_tree_sha256": "6f3de81c771ce9874e31111a5ded0aa4745c7c10f1eb2e09c44b88f368bcd7ef",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "cfa504fd80a4535e12b09f7ffdaba4fd8b7f4d9bf5c6f3189673c587cf80a2da",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Repair source-vocabulary direct-route provenance with separately authenticated broad-binding and one-route selectors, preserve historic non-feature raw reuse, report semantic rebind debt accurately, and remove duplicate closeout cache and failure-path work without changing review obligations.",
+      "relation_to_previous": "review_compatible",
+      "raw_producer_compatibility": {
+        "invariant": "same-nonproducer-source-record-fingerprint-v1",
+        "predecessor_raw_producer_code_identity_sets": [
+          [
+            {
+              "path": "scripts/lean_signature_manifest_helper.lean",
+              "sha256": "0798da76480e5103dcadecf84bf0e61a7ee1f6e51977314b417f5a966e0c8c1f",
+              "status": "present"
+            },
+            {
+              "path": "skills/econcs-formalizer/scripts/source_record_audit.py#fresh-raw-generation",
+              "sha256": "9996f93ee6b954f1bdf3446a35f219ab6a034aa5295475e3e37451b93411afca",
+              "status": "present"
+            }
+          ],
+          [
+            {
+              "path": "scripts/lean_signature_manifest_helper.lean",
+              "sha256": "08e88deac62b6b3f2f240290693e288515a9119ea2632efe326a1d25daa11dbb",
+              "status": "present"
+            },
+            {
+              "path": "skills/econcs-formalizer/scripts/source_record_audit.py#fresh-raw-generation",
+              "sha256": "398d6f98764733ef54dd5c7494af956634480bfc74367031ce955c5219148179",
+              "status": "present"
+            }
+          ]
+        ],
+        "schema": 1,
+        "successor_raw_producer_code_identities": [
+          {
+            "path": "scripts/lean_signature_manifest_helper.lean",
+            "sha256": "08e88deac62b6b3f2f240290693e288515a9119ea2632efe326a1d25daa11dbb",
+            "status": "present"
+          },
+          {
+            "path": "skills/econcs-formalizer/scripts/source_record_audit.py#fresh-raw-generation",
+            "sha256": "2e02be9615ffc72352f593f653af46d93d0fc60988d023c5e385b30ac26244d0",
+            "status": "present"
+          }
+        ]
+      },
+      "sequence": 17,
+      "verification": [
+        "Focused source-record association, vocabulary-selection, target-disposition, semantic-rebind, planner-cache, and closeout-worker regressions pass.",
+        "Ruff, Python byte-compilation, exact diff checks, and raw-producer feature-identity compatibility checks pass."
+      ]
+    },
+    {
+      "engine_tree_sha256": "04cebfb5da3586bd4a777b120e0563aab33ea03c5b3ea2dfb8500359e3fec508",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "6f3de81c771ce9874e31111a5ded0aa4745c7c10f1eb2e09c44b88f368bcd7ef",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Harden strict source-record evidence runtimes: factory-issued opaque identity contexts, transaction-bound manual-complement materialization, and fail-closed canonical direct/package/top-level module identity.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 18,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_direct_cli_module_identity scripts.tests.test_audit_evidence_identity_runtime scripts.tests.test_audit_evidence_run_context scripts.tests.test_source_record_authenticated_overlay_union scripts.tests.test_source_record_semantic_rebind scripts.tests.test_source_record_component_projection scripts.tests.test_source_record_manual_complement (143 passed)",
+        "ruff check and python3 -m py_compile on changed production audit scripts and focused tests",
+        "GCG24UserItemFairness evidence-integrity gate: 0 errors; governance warnings only"
+      ]
+    },
+    {
+      "engine_tree_sha256": "459db9812eb7ed2df0dca6778ed1cc5963d274e775b4e1145342f4ee28cfad1d",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "04cebfb5da3586bd4a777b120e0563aab33ea03c5b3ea2dfb8500359e3fec508",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Register the historical manifest recovery and validated manifest-store payload bridge so the current closeout runtime remains explicitly attested without reopening paper evidence.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 19,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_authenticated_manifest_store scripts.tests.test_historical_manifest_store_recovery",
+        "python3 -m py_compile scripts/authenticated_manifest_store.py scripts/historical_manifest_store_recovery.py"
+      ]
+    },
+    {
+      "engine_tree_sha256": "871b698b7114b3eea6c8a80421af0f25f64a844c28703f08ed79531008e14394",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "459db9812eb7ed2df0dca6778ed1cc5963d274e775b4e1145342f4ee28cfad1d",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "The dashboard declaration parser now distinguishes declaration assignments from inner Lean let bindings and binds resume records to exact source-file bytes; this is a fail-closed cache-correctness repair with no change to the review protocol.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 20,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_manifest_resume_cache scripts.tests.test_review_dashboard_surface_selection",
+        "python3 -m py_compile scripts/review_dashboard.py"
+      ]
+    },
+    {
+      "engine_tree_sha256": "bf243aca2ebf1e28f1024b82402c3d775d7bc965ee18be3ae32c38558fce33dc",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "871b698b7114b3eea6c8a80421af0f25f64a844c28703f08ed79531008e14394",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Restore declared Python 3.10 support for TOML-reading release, status, contribution, target-registration, and audit entrypoints without changing formalization review obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 21,
+      "verification": [
+        "203 focused contribution, public-release guard, status projection, CI workflow, target-registration, TOML compatibility, and project-config tests pass.",
+        "Actionlint, Python byte-compilation, exact diff checks, the live contribution doctor, the isolated missing-parser diagnostic, and the live aggregate-only status check pass."
+      ]
+    },
+    {
+      "engine_tree_sha256": "89958827bf67075bd08949c10112b2b8d259ad0bc27486ac9ea89a15e442f43f",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "bf243aca2ebf1e28f1024b82402c3d775d7bc965ee18be3ae32c38558fce33dc",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Restore Python 3.10 parsing for elaborated Type-witness judgment keys while preserving their null-delimited identities and all formalization review obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 22,
+      "verification": [
+        "Python 3.10 grammar and null-delimited elaborated-witness identity regressions pass.",
+        "Python 3.10 byte-compilation, source-record CLI startup, GS62 identity-only execution, and focused Type-valued certificate result regressions pass."
+      ]
+    },
+    {
+      "engine_tree_sha256": "1198a3b56e9108db9a4255c29541a7783f6885486be5f79c7505816a5fa4d37c",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "89958827bf67075bd08949c10112b2b8d259ad0bc27486ac9ea89a15e442f43f",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Permit retained partial papers to keep their legacy AuditInterface review routes while preserving canonical PaperInterface enforcement for every closeout status.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 23,
+      "verification": [
+        "Partial-route positive and formalized-route negative regressions pass.",
+        "The complete sync-paper-status test module and live aggregate status check pass."
+      ]
+    },
+    {
+      "engine_tree_sha256": "66ae682c292f60ced0eb22ac96f1dc4d98bf26584fe0945d36659fbfb6df7ce0",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "1198a3b56e9108db9a4255c29541a7783f6885486be5f79c7505816a5fa4d37c",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Preserve explicit AuditInterface navigation for grandfathered partial-paper routes while keeping every closeout-status review surface canonical.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 24,
+      "verification": [
+        "Partial-paper README routing and formalized-route rejection regressions pass.",
+        "The complete sync-paper-status test module and live aggregate status check pass."
+      ]
+    },
+    {
+      "engine_tree_sha256": "aa0a421e3d0d75fc3ceea91a76c307d01be94ae558bec32a4e7e1bf20b1a3ea0",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "66ae682c292f60ced0eb22ac96f1dc4d98bf26584fe0945d36659fbfb6df7ce0",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Preserve public structural source-byte omission and optional review destinations without weakening provenance validation.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 25,
+      "verification": [
+        "focused public-release guard regressions",
+        "source-atom structural-checkout regressions",
+        "Python 3.10 CLI smoke"
+      ]
+    },
+    {
+      "engine_tree_sha256": "20a463fb474bdd06bbdb490e4aa0e43a0b4da40bf667f4b0036099bb66a0b724",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "aa0a421e3d0d75fc3ceea91a76c307d01be94ae558bec32a4e7e1bf20b1a3ea0",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Keep public structural audits non-certifying when pinned source bytes are omitted, including scope-exclusion evidence, without weakening strict source review.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 26,
+      "verification": [
+        "60 focused Python 3.10 structural-source and quote-binding regressions pass",
+        "KR21 public-candidate structural smoke removes only 11 missing-byte errors",
+        "strict-mode missing-source failures and malformed-evidence regressions pass"
+      ]
+    },
+    {
+      "engine_tree_sha256": "b0b537d9ef44f54ca312964cf72544b7b9239323c6b974033ebfc18cbb2019f2",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "20a463fb474bdd06bbdb490e4aa0e43a0b4da40bf667f4b0036099bb66a0b724",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Keep trusted public status regeneration isolated while making private sibling imports explicit and candidate-shadow resistant.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 27,
+      "verification": [
+        "45 Python 3.10 public-release guard regressions pass",
+        "exact synthetic public candidate preflight reaches only the eight known artifact-policy blockers"
+      ]
+    },
+    {
+      "engine_tree_sha256": "b878cada93be667eb1925d91d0d331f2c9871cf36c315ae4ab5d09d9d3b2dbd7",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "b0b537d9ef44f54ca312964cf72544b7b9239323c6b974033ebfc18cbb2019f2",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Added canonical final-closure receipts, archive-derived private source surfaces, direct source-row review compatibility, and structural public-source validation that cannot stale private evidence.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 28,
+      "verification": [
+        "Focused audit, receipt, archive-surface, release-guard, status-sync, and structural-missing-source regression tests passed."
+      ]
+    },
+    {
+      "engine_tree_sha256": "8f427630d94925d96660dfe32653c3d20cfd1f50ed5d5382e5086b5eda0111c4",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "b878cada93be667eb1925d91d0d331f2c9871cf36c315ae4ab5d09d9d3b2dbd7",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Recognize only Lean-generated leading implicit Type/Sort parameters omitted from a declaration-local source presentation, while preserving fail-closed checks for every instance, assumption, and implicit value parameter.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 29,
+      "verification": [
+        "Focused source-record parser, result-path, and binder-sort regression covers a leading autoImplicit carrier prefix.",
+        "The DSWG24 exact Lean signature smoke binds its seven written inputs to manifest atoms b/2 through b/8."
+      ]
+    },
+    {
+      "engine_tree_sha256": "71f9559f41ccc8b6bb451b57ef678c9c227eef4a2b2a3d71db41dfe3dda9be81",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "8f427630d94925d96660dfe32653c3d20cfd1f50ed5d5382e5086b5eda0111c4",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Parse bracketed stored instance fields at their true constructor-slot ordinal.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 30,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_source_record_audit.ConclusionProvenanceTests.test_bracketed_instance_record_field_keeps_later_slot_ordinals"
+      ]
+    },
+    {
+      "engine_tree_sha256": "3392a467e70f03794c70e3ad80d17ac62855bfdb01e73ca8dd05365cce65c33d",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "71f9559f41ccc8b6bb451b57ef678c9c227eef4a2b2a3d71db41dfe3dda9be81",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Render the website Human review column from the saved independent review count and align the validation-report date rule with the human-facing template.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 31,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_sync_paper_status scripts.tests.test_final_validation_report_template"
+      ]
+    }
+  ],
+  "schema": 1
+}

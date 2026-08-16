@@ -68,6 +68,7 @@ def map_payload(folder: Path) -> dict[str, Any]:
         "generated_at": date.today().isoformat(),
         "source_inventory_kind": "dashboard_seeded_preliminary",
         "source_curated": False,
+        "source_coverage_mode": "named_theoretical_statements",
         "source_inventory_policy": (
             "Self-contained source-statement inventory seeded from the current "
             "paper-facing review dashboard after source PDF/text acquisition. "

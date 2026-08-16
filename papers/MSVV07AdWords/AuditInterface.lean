@@ -12,7 +12,7 @@ Vazirani, and Vazirani, *AdWords and Generalized Online Matching* (JACM 2007).
 
 It exposes the paper model formulas and the closed paper-facing theorem
 endpoints. The broader source-route LP and accounting audit ledger is retained
-in `ProofInterface.lean` and `PostPaperAudit.lean`.
+in `ProofInterface.lean` and `AuditLedger.lean`.
 -/
 
 open scoped BigOperators
@@ -281,7 +281,7 @@ theorem section4_lemma1_balance_pays_no_later_slab
     (hpsi_strictAnti : StrictAnti psi) :
     chosenSlab ≤ optType := by
   exact
-    Proof.section4_lemma1_balance_pays_no_later_slab
+    Proof.proof_section4_lemma1_balance_pays_no_later_slab
       psi hoptCurrent_le_type hchoice hequal_bids hbid_pos hpsi_strictAnti
 
 /-- Section 4 Lemma 2: Lemma 1's prefix accounting yields the LP row constraint. -/
@@ -298,7 +298,7 @@ theorem section4_lemma2_factor_revealing_lp_constraint
     MSVV07SourceLemmas.paperRouteLPRow x i ≤
       MSVV07SourceLemmas.paperRouteRhs N i := by
   exact
-    Proof.section4_lemma2_factor_revealing_lp_constraint
+    Proof.proof_section4_lemma2_factor_revealing_lp_constraint
       N x beta i hprefix_cover hbeta_prefix
 
 /-- Section 4 Lemma 3: the displayed factor-revealing LP value tends to `N / e`. -/
@@ -326,7 +326,7 @@ theorem section5_lemma4_dual_optimal_from_primal_dual_match
     (hvalue : primalObjective a = dualObjective ystar) :
     ∀ y, dualFeasible y → dualObjective ystar ≤ dualObjective y := by
   exact
-    Proof.section5_lemma4_dual_optimal_from_primal_dual_match
+    Proof.proof_section5_lemma4_dual_optimal_from_primal_dual_match
       primalFeasible dualFeasible primalObjective dualObjective hweak
       ha hystar hvalue
 
@@ -347,7 +347,7 @@ theorem section5_lemma5_tradeoff_rhs_eq_base_add_delta
       MSVV07SourceLemmas.paperRouteRhs N i +
         MSVV07SourceLemmas.paperRouteDelta alpha beta i := by
   exact
-    Proof.section5_lemma5_tradeoff_rhs_eq_base_add_delta
+    Proof.proof_section5_lemma5_tradeoff_rhs_eq_base_add_delta
       N alpha beta i hbeta_prefix
 
 /-- Section 5 Lemma 6: each query satisfies the pointwise ALG/OPT tradeoff. -/
@@ -361,7 +361,7 @@ theorem section5_lemma6_per_query_tradeoff
     (hchoice : optBid * psi optCurrentSlab ≤ algBid * psi algSlab) :
     optBid * psi queryType ≤ algBid * psi algSlab := by
   exact
-    Proof.section5_lemma6_per_query_tradeoff
+    Proof.proof_section5_lemma6_per_query_tradeoff
       psi hoptCurrent_le_type hpsi_antitone hoptBid_nonneg hchoice
 
 /--
@@ -385,57 +385,41 @@ theorem section5_lemma7_weighted_perturbation_bound
         (∑ i : m, psi i * beta i) + finalSlabError) :
     (∑ i : m, psi i * (alpha i - beta i)) ≤ finalSlabError := by
   exact
-    Proof.section5_lemma7_weighted_perturbation_bound
+    Proof.proof_section5_lemma7_weighted_perturbation_bound
       psi alpha beta opt alg queryType querySlab finalSlabError
       htradeoff_sum hopt_accounting halg_accounting
 
 /-! ## Section 5 / Theorem 8: Balance/MSVV is `1 - 1/e` competitive -/
 
-/--
-Paper-facing small-bids limiting family. The paper's limiting theorem is about
-a sequence of finite instances whose bids become small relative to budgets.
--/
+/-- Auxiliary convergence package retained for non-source limit corollaries. -/
 abbrev PaperSmallBidsLimitFamily
     (Advertiser : Type*) [Fintype Advertiser] [Nonempty Advertiser]
     [DecidableEq Advertiser] :=
   Proof.PaperSmallBidsLimitFamily Advertiser
 
 /--
-Paper-facing small-bids limiting family: bids become small relative to budgets,
-offline optimum converges to `optLimit`, and Balance/MSVV revenue converges to
-`revenueLimit`.
-Source status: formalization bridge for Theorem 8 limiting statement
+The source-shaped small-bids limiting regime for Theorem 8: the finite error
+term obtained from the proved accounting theorem tends to zero.  This
+definition does not assume convergence of OPT, revenue, or the competitive
+conclusion.
+Source status: Theorem 8 and proof, cached source lines 718-773.
 -/
-theorem paperSmallBidsLimitFamily_fields
+def paperSmallBidsLimitFamily_fields
     {Advertiser : Type*}
     [Fintype Advertiser] [Nonempty Advertiser] [DecidableEq Advertiser]
-    (F : PaperSmallBidsLimitFamily Advertiser) :
-    (∀ k, (F.instanceAt k).NonnegativeBids) ∧
-      (∀ k, (F.instanceAt k).PositiveBudgets) ∧
-        (∀ k, 0 <
-          ∑ q : Fin (F.queryCount k), (F.instanceAt k).maxBidForQuery q) ∧
-          (∀ delta : ℝ, 0 < delta →
-            ∃ N : ℕ, ∀ k : ℕ, N ≤ k →
-              paperSmallBids (F.instanceAt k)
-                (min 1
-                  (delta / ((Real.exp 1 + 1) *
-                    (∑ q : Fin (F.queryCount k),
-                      (F.instanceAt k).maxBidForQuery q))))) ∧
+    (n : ℕ → ℕ)
+    (I : (k : ℕ) → PaperInstance Advertiser (Fin (n k)))
+    (epsilon : ℕ → ℝ) : Prop :=
+  (∀ k, (I k).NonnegativeBids) ∧
+    (∀ k, (I k).PositiveBudgets) ∧
+      (∀ k, 0 ≤ epsilon k) ∧
+        (∀ k, epsilon k ≤ 1) ∧
+          (∀ k, paperSmallBids (I k) (epsilon k)) ∧
             Sequence.SeqTendsTo
               (fun k =>
-                (F.instanceAt k).offlineOptimumValue
-                  (fun a => (F.positive_budgets k a).le))
-              F.optLimit ∧
-            Sequence.SeqTendsTo
-              (fun k =>
-                (F.instanceAt k).revenue
-                  ((F.instanceAt k).runAssignment
-                    (F.instanceAt k).balanceChoiceRule
-                    (List.finRange (F.queryCount k))))
-              F.revenueLimit := by
-  exact
-    ⟨F.nonnegative_bids, F.positive_budgets, F.maxBidSum_pos,
-      F.small_bids_eventually, F.offlineOptimum_tendsTo, F.revenue_tendsTo⟩
+                epsilon k * (Real.exp 1 + 1) *
+                  (∑ q : Fin (n k), (I k).maxBidForQuery q))
+              0
 
 /--
 Theorem 8, finite explicit-error form. For a complete finite query history,
@@ -466,17 +450,41 @@ theorem theorem8_finite_explicit_error
       I hbid hbudget history hnodup hcover hepsilon hepsilon_le_one hsmall
 
 /--
-Theorem 8, paper-level limiting endpoint. Any finite-query small-bids family
-satisfying the explicit threshold eventually has limiting competitive ratio
-`1 - 1/e`.
-Source status: direct paper theorem
+Theorem 8, source-shaped limiting endpoint.  As the proved finite small-bids
+error vanishes, the `1 - 1/e` competitive inequality holds eventually for
+every positive tolerance.  OPT and revenue convergence are conclusions one
+may study afterwards, not premises of this theorem.
+Source status: Theorem 8 and proof, cached source lines 718-773.
 -/
 theorem theorem8_balance_msvv_competitive_of_small_bids_limit_family
     {Advertiser : Type*}
     [Fintype Advertiser] [Nonempty Advertiser] [DecidableEq Advertiser]
-    (F : PaperSmallBidsLimitFamily Advertiser) :
-    paperMsvvRatio * F.optLimit ≤ F.revenueLimit := by
-  exact Proof.theorem8_balance_msvv_competitive_of_small_bids_limit_family F
+    (n : ℕ → ℕ)
+    (I : (k : ℕ) → PaperInstance Advertiser (Fin (n k)))
+    (epsilon : ℕ → ℝ)
+    (hbid : ∀ k, (I k).NonnegativeBids)
+    (hbudget : ∀ k, (I k).PositiveBudgets)
+    (hepsilon : ∀ k, 0 ≤ epsilon k)
+    (hepsilon_le_one : ∀ k, epsilon k ≤ 1)
+    (hsmall : ∀ k, paperSmallBids (I k) (epsilon k))
+    (herror_tendsTo_zero :
+      Sequence.SeqTendsTo
+        (fun k =>
+          epsilon k * (Real.exp 1 + 1) *
+            (∑ q : Fin (n k), (I k).maxBidForQuery q))
+        0) :
+    ∀ delta : ℝ, 0 < delta →
+      ∃ N : ℕ, ∀ k : ℕ, N ≤ k →
+        paperMsvvRatio *
+            (I k).offlineOptimumValue (fun a => (hbudget k a).le) ≤
+          paperRevenue (I k)
+              ((I k).runAssignment (I k).balanceChoiceRule
+                (List.finRange (n k))) +
+            delta := by
+  exact
+    Proof.theorem8_balance_msvv_eventually_competitive_of_vanishing_small_bids_error
+      n I epsilon hbid hbudget hepsilon hepsilon_le_one hsmall
+      herror_tendsTo_zero
 
 /-! ## Section 6 and Section 8: model extensions by effective bids -/
 
@@ -505,7 +513,7 @@ theorem section6_different_budgets_and_nonexhaustive_optimum_theorem8_finite_exp
         epsilon * (Real.exp 1 + 1) *
           (∑ q : Query, I.maxBidForQuery q) := by
   exact
-    Proof.section6_different_budgets_and_nonexhaustive_optimum_theorem8_finite_explicit_error
+    Proof.proof_section6_different_budgets_and_nonexhaustive_optimum_theorem8_finite_explicit_error
       I hbid hbudget history hnodup hcover hepsilon hepsilon_le_one hsmall
 
 /-- Section 6 next-price charge from all bidders, floored at zero. -/
@@ -620,7 +628,7 @@ theorem section6_next_highest_bid_all_theorem8_finite_explicit_error
             (I.withEffectiveBids
               (section6_next_highest_bid_all I)).maxBidForQuery q) := by
   exact
-    Proof.section6_next_highest_bid_all_theorem8_finite_explicit_error
+    Proof.proof_section6_next_highest_bid_all_theorem8_finite_explicit_error
       I hbudget history hnodup hcover hepsilon hepsilon_le_one hnext_small
 
 /-- Section 6 next-highest-bid charges, alive-bidders variant. -/
@@ -656,7 +664,7 @@ theorem section6_next_highest_bid_alive_theorem8_finite_explicit_error
             (I.withEffectiveBids
               (section6_next_highest_bid_alive I alive)).maxBidForQuery q) := by
   exact
-    Proof.section6_next_highest_bid_alive_theorem8_finite_explicit_error
+    Proof.proof_section6_next_highest_bid_alive_theorem8_finite_explicit_error
       I alive hbudget history hnodup hcover hepsilon hepsilon_le_one hnext_small
 
 /-- Section 6 click-through rates: finite explicit Theorem 8 guarantee. -/
@@ -686,7 +694,7 @@ theorem section6_click_through_rates_theorem8_finite_explicit_error
         epsilon * (Real.exp 1 + 1) *
           (∑ q : Query, (I.withClickThroughRates ctr).maxBidForQuery q) := by
   exact
-    Proof.section6_click_through_rates_theorem8_finite_explicit_error
+    Proof.proof_section6_click_through_rates_theorem8_finite_explicit_error
       I ctr hctr_nonneg hctr_le_one hbid hbudget history hnodup hcover
       hepsilon hepsilon_le_one hsmall
 
@@ -716,7 +724,7 @@ theorem section6_availability_theorem8_finite_explicit_error
         epsilon * (Real.exp 1 + 1) *
           (∑ q : Query, (I.withAvailability available).maxBidForQuery q) := by
   exact
-    Proof.section6_availability_theorem8_finite_explicit_error
+    Proof.proof_section6_availability_theorem8_finite_explicit_error
       I available hbid hbudget history hnodup hcover hepsilon hepsilon_le_one hsmall
 
 /-- Section 6 multiple slots: finite explicit Theorem 8 guarantee. -/
@@ -776,7 +784,7 @@ theorem section6_page_top_balance_theorem8_finite_explicit_error
         epsilon * (Real.exp 1 + 1) *
           I.pageHistoryMaxBidSum slots history := by
   exact
-    Proof.section6_page_top_balance_theorem8_finite_explicit_error
+    Proof.proof_section6_page_top_balance_theorem8_finite_explicit_error
       I slots hbid hbudget history hnodup hcover
       hepsilon hepsilon_le_one hsmall
 
@@ -860,7 +868,7 @@ theorem section8_weighted_bids_theorem8_finite_explicit_error_of_weighted_small_
         epsilon * (Real.exp 1 + 1) *
           (∑ q : Query, (I.withAdvertiserWeights weight).maxBidForQuery q) := by
   exact
-    Proof.section8_weighted_bids_theorem8_finite_explicit_error_of_weighted_small_bids
+    Proof.proof_section8_weighted_bids_theorem8_finite_explicit_error_of_weighted_small_bids
       I weight hweight_nonneg hbid hbudget history hnodup hcover
       hepsilon hepsilon_le_one hweighted_small
 
@@ -940,7 +948,10 @@ The canonical payoff for integral prefix algorithms is definitionally the
 paper's capped normalized spend.
 -/
 theorem theorem9_capped_normalized_revenue_eq_prefix_spend
-    (N : ℕ) (algorithm : theorem9IntegralPrefixAlgorithm N)
+    (N : ℕ)
+    (algorithm :
+      { choice : BMatchingIntegralPrefixChoice N //
+        BMatchingIntegralPrefixChoice.Feasible choice })
     (permutation : Equiv.Perm (Fin N)) :
     theorem9CappedNormalizedRevenue N algorithm permutation =
       (∑ bidder : Fin N,
@@ -960,7 +971,10 @@ all bidders.
 Source status: direct paper proof formula
 -/
 theorem theorem9CappedNormalizedRevenue_formula
-    (N : ℕ) (algorithm : theorem9IntegralPrefixAlgorithm N)
+    (N : ℕ)
+    (algorithm :
+      { choice : BMatchingIntegralPrefixChoice N //
+        BMatchingIntegralPrefixChoice.Feasible choice })
     (permutation : Equiv.Perm (Fin N)) :
     theorem9CappedNormalizedRevenue N algorithm permutation =
       (∑ bidder : Fin N,
@@ -1021,7 +1035,7 @@ theorem theorem9_no_randomized_online_algorithm_beats_msvv_ratio :
               EconCSLib.pmfExp randomizedAlgorithm
                 (fun algorithm =>
                   theorem9CappedNormalizedRevenue N algorithm permutation) := by
-  exact Proof.theorem9_no_randomized_online_algorithm_beats_msvv_ratio
+  exact Proof.proof_theorem9_no_randomized_online_algorithm_beats_msvv_ratio
 
 end MSVV07PaperFacing
 end Online

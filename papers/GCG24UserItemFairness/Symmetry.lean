@@ -1,5 +1,6 @@
 import GCG24UserItemFairness.Optimization
 import EconCSLib.Applications.RecommenderSystems.Classwise
+import Mathlib.Data.Finset.Sum
 
 open EconCSLib
 
@@ -33,10 +34,124 @@ def IsTypeSymmetric {m n K : ℕ}
     (τ : RecommendationModel.UserTypeAssignment m K) (ρ : Policy m n) : Prop :=
   EconCSLib.Policy.IsClasswise τ.toType ρ
 
+/--
+When declared types are exactly utility-row classes, the source definition of
+`S_symm` agrees with the label-based representation used by the reduction.
+-/
+theorem utilityRowSymmetric_iff_isTypeSymmetric {m n K : ℕ}
+    (S : RecommendationModel.SymmetricData m n K)
+    (hRowsDetermineTypes :
+      RecommendationModel.UserTypeAssignment.UtilityRowsDetermineTypes
+        S.model S.types)
+    (ρ : Policy m n) :
+    RecommendationModel.UtilityRowSymmetric S.model ρ ↔
+      IsTypeSymmetric S.types ρ := by
+  constructor
+  · intro hRows u u' hType
+    exact hRows u u' (S.agreeWithinTypes u u' hType)
+  · intro hTypes u u' hRows
+    exact hTypes u u' (hRowsDetermineTypes u u' hRows)
+
+/-- The finite index type for the coordinate equalities defining `S_symm`. -/
+abbrev TypeSymmetryLinearConstraintIndex (m n : ℕ) :=
+  User m × User m × Item n
+
+/-- The linear coordinate expression `ρᵢⱼ - ρᵢ'ⱼ` when `i` and `i'` have
+the same type.  For different types the corresponding constraint is `0 = 0`.
+-/
+noncomputable def typeSymmetryLinearExpression {m n K : ℕ}
+    (τ : RecommendationModel.UserTypeAssignment m K)
+    (c : TypeSymmetryLinearConstraintIndex m n)
+    (ρ : Policy m n) : ℝ :=
+  if τ.toType c.1 = τ.toType c.2.1 then
+    (ρ c.1 c.2.2).toReal - (ρ c.2.1 c.2.2).toReal
+  else 0
+
+/-- Satisfaction of the finite coordinate-linear description of `S_symm`. -/
+def SatisfiesTypeSymmetryLinearConstraints {m n K : ℕ}
+    (τ : RecommendationModel.UserTypeAssignment m K)
+    (ρ : Policy m n) : Prop :=
+  ∀ c : TypeSymmetryLinearConstraintIndex m n,
+    typeSymmetryLinearExpression τ c ρ = 0
+
+/-- `S_symm` is exactly the solution set of the finite linear equalities
+`ρᵢⱼ - ρᵢ'ⱼ = 0` for equal-type user pairs. -/
+theorem satisfiesTypeSymmetryLinearConstraints_iff_isTypeSymmetric
+    {m n K : ℕ}
+    (τ : RecommendationModel.UserTypeAssignment m K) (ρ : Policy m n) :
+    SatisfiesTypeSymmetryLinearConstraints τ ρ ↔ IsTypeSymmetric τ ρ := by
+  constructor
+  · intro hlin u u' htype
+    apply PMF.ext
+    intro j
+    have hcoord := hlin (u, u', j)
+    simp [typeSymmetryLinearExpression, htype] at hcoord
+    have hreal : (ρ u j).toReal = (ρ u' j).toReal := sub_eq_zero.mp hcoord
+    exact (ENNReal.toReal_eq_toReal_iff'
+      ((ρ u).apply_ne_top j) ((ρ u').apply_ne_top j)).mp hreal
+  · intro hsym c
+    rcases c with ⟨u, u', j⟩
+    by_cases htype : τ.toType u = τ.toType u'
+    · have hrow : ρ u = ρ u' := hsym u u' htype
+      simp [typeSymmetryLinearExpression, htype, hrow]
+    · simp [typeSymmetryLinearExpression, htype]
+
 /-- The set `S_symm` of type-symmetric user-level policies. -/
 def SymmetricPolicies {m n K : ℕ}
     (τ : RecommendationModel.UserTypeAssignment m K) : Set (Policy m n) :=
   EconCSLib.Policy.ClasswisePolicies τ.toType
+
+/-- Coefficients realizing a type-symmetry coordinate equality as a linear
+expression over all policy coordinates. -/
+noncomputable def typeSymmetryLinearCoefficient {m n K : ℕ}
+    (τ : RecommendationModel.UserTypeAssignment m K)
+    (c : TypeSymmetryLinearConstraintIndex m n)
+    (u : User m) (j : Item n) : ℝ :=
+  if τ.toType c.1 = τ.toType c.2.1 then
+    (if u = c.1 then if j = c.2.2 then 1 else 0 else 0) -
+      (if u = c.2.1 then if j = c.2.2 then 1 else 0 else 0)
+  else 0
+
+theorem policyLinearExpression_typeSymmetryLinearCoefficient {m n K : ℕ}
+    (τ : RecommendationModel.UserTypeAssignment m K)
+    (c : TypeSymmetryLinearConstraintIndex m n) (ρ : Policy m n) :
+    RecommendationModel.policyLinearExpression
+        (typeSymmetryLinearCoefficient τ c) ρ =
+      typeSymmetryLinearExpression τ c ρ := by
+  classical
+  rcases c with ⟨u, u', j⟩
+  by_cases htype : τ.toType u = τ.toType u'
+  · simp only [RecommendationModel.policyLinearExpression,
+      typeSymmetryLinearCoefficient, typeSymmetryLinearExpression, htype,
+      if_pos]
+    simp_rw [sub_mul, Finset.sum_sub_distrib]
+    simp
+  · simp [RecommendationModel.policyLinearExpression,
+      typeSymmetryLinearCoefficient, typeSymmetryLinearExpression, htype]
+
+/-- A finite coefficient-level linear description witnessing condition (i) of
+Proposition 2 for `S_symm`. -/
+noncomputable def symmetricPoliciesFiniteLinearDescription {m n K : ℕ}
+    (τ : RecommendationModel.UserTypeAssignment m K) :
+    RecommendationModel.FiniteLinearPolicySetDescription
+      (SymmetricPolicies (n := n) τ) where
+  ConstraintIndex := TypeSymmetryLinearConstraintIndex m n
+  constraintFintype := inferInstance
+  coefficient := typeSymmetryLinearCoefficient τ
+  rhs := fun _ => 0
+  comparison := fun _ => .eq
+  mem_iff := by
+    intro ρ
+    change IsTypeSymmetric τ ρ ↔
+      ∀ c : TypeSymmetryLinearConstraintIndex m n,
+        RecommendationModel.policyLinearExpression
+          (typeSymmetryLinearCoefficient τ c) ρ = 0
+    rw [← satisfiesTypeSymmetryLinearConstraints_iff_isTypeSymmetric τ ρ]
+    apply iff_of_eq
+    apply propext
+    apply forall_congr'
+    intro c
+    rw [policyLinearExpression_typeSymmetryLinearCoefficient]
 
 @[simp] theorem liftTypePolicy_apply {m n K : ℕ}
     (τ : RecommendationModel.UserTypeAssignment m K) (ρ : TypePolicy K n) (u : User m) :
@@ -80,6 +195,17 @@ def descendTypePolicy {m n K : ℕ}
     descendTypePolicy τ reps (liftTypePolicy τ ρ) = ρ := by
   simpa [descendTypePolicy, liftTypePolicy] using
     (EconCSLib.Policy.descendAlong_liftAlong (τ := τ.toType) reps ρ)
+
+/-- Descending a type-symmetric user-level policy does not depend on the
+chosen representative users. -/
+theorem descendTypePolicy_eq_of_isTypeSymmetric {m n K : ℕ}
+    (τ : RecommendationModel.UserTypeAssignment m K)
+    (reps reps' : TypeRepresentatives τ) (ρ : Policy m n)
+    (hρ : IsTypeSymmetric τ ρ) :
+    descendTypePolicy τ reps ρ = descendTypePolicy τ reps' ρ := by
+  funext k
+  exact hρ (reps.repr k) (reps'.repr k) (by
+    rw [reps.repr_spec k, reps'.repr_spec k])
 
 /--
 If a user-level policy is type-symmetric, then after choosing one representative
@@ -301,15 +427,159 @@ theorem twoTypeThresholdSupport_of_zeroClosed_of_sharedBound {n : ℕ}
     exact typeOne_zero_before_lastActive_of_zeroClosed_of_sharedBound
       ρ hx hy hshared hj
 
+/-- Variables of the reduced equality-form LP: one coordinate for every
+type-item probability and one coordinate for the objective `ell`. -/
+abbrev ReducedEqualityLPVariable (K n : ℕ) :=
+  (UserType K × Item n) ⊕ Unit
+
+/-- Constraints of the reduced equality-form LP.  The left summand contains
+the `n` item-equalization equations and `K` row-sum equations; the right
+summand contains the `nK` nonnegativity constraints. -/
+abbrev ReducedEqualityLPConstraint (K n : ℕ) :=
+  (Item n ⊕ UserType K) ⊕ (UserType K × Item n)
+
+/-- A reduced LP candidate as a real vector, including the objective
+coordinate. -/
+noncomputable def reducedEqualityLPCandidate {K n : ℕ}
+    (ρ : TypePolicy K n) (ell : ℝ) : ReducedEqualityLPVariable K n → ℝ
+  | Sum.inl (k, j) => (ρ k j).toReal
+  | Sum.inr _ => ell
+
+/-- Coefficient vector of a constraint in a reduced equality-form LP.  Item
+equation normals are supplied by the concrete utility model. -/
+noncomputable def reducedEqualityLPConstraintNormal {K n : ℕ}
+    (itemNormal : Item n → ReducedEqualityLPVariable K n → ℝ) :
+    ReducedEqualityLPConstraint K n →
+      ReducedEqualityLPVariable K n → ℝ
+  | Sum.inl (Sum.inl j), v => itemNormal j v
+  | Sum.inl (Sum.inr k), Sum.inl (k', _j) => if k' = k then 1 else 0
+  | Sum.inl (Sum.inr _k), Sum.inr _ => 0
+  | Sum.inr (k, j), Sum.inl (k', j') => if k' = k ∧ j' = j then 1 else 0
+  | Sum.inr (_k, _j), Sum.inr _ => 0
+
+/-- A constraint is active at `(ρ, ell)` exactly in the source LP sense. -/
+def ReducedEqualityLPConstraintActive {K n : ℕ}
+    (itemNormal : Item n → ReducedEqualityLPVariable K n → ℝ)
+    (ρ : TypePolicy K n) (ell : ℝ) :
+    ReducedEqualityLPConstraint K n → Prop
+  | Sum.inl (Sum.inl j) =>
+      (∑ v : ReducedEqualityLPVariable K n,
+        itemNormal j v * reducedEqualityLPCandidate ρ ell v) = 0
+  | Sum.inl (Sum.inr k) => (∑ j : Item n, (ρ k j).toReal) = 1
+  | Sum.inr (k, j) => ρ k j = 0
+
 /--
-Support-count consequence of the LP basic-feasible-solution theorem used in
-the paper. The linear-programming fact supplies that at least
-`nK + 1 - (n + K)` nonnegativity constraints bind; in the recommendation LP
-these binding nonnegativity constraints are exactly zero-probability type-item
-pairs.
+The standard active-basis definition of a basic feasible solution for the
+paper's reduced equality-form LP.  In particular, the support bound is not a
+field: it will be derived from the independent active basis below.
 -/
+structure ReducedEqualityLPActiveBasis {K n : ℕ}
+    (itemNormal : Item n → ReducedEqualityLPVariable K n → ℝ)
+    (ρ : TypePolicy K n) (ell : ℝ) where
+  equality_feasible :
+    ∀ j : Item n,
+      (∑ v : ReducedEqualityLPVariable K n,
+        itemNormal j v * reducedEqualityLPCandidate ρ ell v) = 0
+  basis : Finset (ReducedEqualityLPConstraint K n)
+  basis_card : basis.card = n * K + 1
+  basis_independent :
+    LinearIndependent ℝ
+      (fun c : {c // c ∈ basis} =>
+        reducedEqualityLPConstraintNormal itemNormal c.1)
+  basis_active :
+    ∀ c ∈ basis, ReducedEqualityLPConstraintActive itemNormal ρ ell c
+
+/-- A reduced policy is basic feasible when its equality-form LP constraints
+contain a full active basis. -/
+abbrev ReducedEqualityLPBasicFeasible {K n : ℕ}
+    (itemNormal : Item n → ReducedEqualityLPVariable K n → ℝ)
+    (ρ : TypePolicy K n) (ell : ℝ) : Prop :=
+  Nonempty (ReducedEqualityLPActiveBasis itemNormal ρ ell)
+
+/-- The old support-count proposition, retained as a derived compatibility
+interface for the paper's downstream Problem 6 and Problem 11 developments. -/
 def BasicFeasibleSupportCertificate {K n : ℕ} (ρ : TypePolicy K n) : Prop :=
   n * K + 1 - (n + K) ≤ inactiveTypeItemPairsCard ρ
+
+namespace ReducedEqualityLPBasicFeasible
+
+/-- Equality constraints selected by an active basis. -/
+noncomputable def equalityBasis {K n : ℕ}
+    {itemNormal : Item n → ReducedEqualityLPVariable K n → ℝ}
+    {ρ : TypePolicy K n} {ell : ℝ}
+    (h : ReducedEqualityLPActiveBasis itemNormal ρ ell) :
+    Finset (Item n ⊕ UserType K) :=
+  h.basis.toLeft
+
+/-- Binding nonnegativity constraints selected by an active basis. -/
+noncomputable def nonnegativityBasis {K n : ℕ}
+    {itemNormal : Item n → ReducedEqualityLPVariable K n → ℝ}
+    {ρ : TypePolicy K n} {ell : ℝ}
+    (h : ReducedEqualityLPActiveBasis itemNormal ρ ell) :
+    Finset (UserType K × Item n) :=
+  h.basis.toRight
+
+theorem basis_card_eq_equality_add_nonnegativity {K n : ℕ}
+    {itemNormal : Item n → ReducedEqualityLPVariable K n → ℝ}
+    {ρ : TypePolicy K n} {ell : ℝ}
+    (h : ReducedEqualityLPActiveBasis itemNormal ρ ell) :
+    h.basis.card = (equalityBasis h).card + (nonnegativityBasis h).card := by
+  exact Finset.card_toLeft_add_card_toRight.symm
+
+theorem equalityBasis_card_le {K n : ℕ}
+    {itemNormal : Item n → ReducedEqualityLPVariable K n → ℝ}
+    {ρ : TypePolicy K n} {ell : ℝ}
+    (h : ReducedEqualityLPActiveBasis itemNormal ρ ell) :
+    (equalityBasis h).card ≤ n + K := by
+  classical
+  calc
+    (equalityBasis h).card ≤ Fintype.card (Item n ⊕ UserType K) :=
+      Finset.card_le_univ _
+    _ = n + K := by simp [Item, UserType]
+
+theorem nonnegativityBasis_card_le_inactive {K n : ℕ}
+    {itemNormal : Item n → ReducedEqualityLPVariable K n → ℝ}
+    {ρ : TypePolicy K n} {ell : ℝ}
+    (h : ReducedEqualityLPActiveBasis itemNormal ρ ell) :
+    (nonnegativityBasis h).card ≤ inactiveTypeItemPairsCard ρ := by
+  classical
+  unfold inactiveTypeItemPairsCard EconCSLib.Policy.inactivePairsCard
+  change (nonnegativityBasis h).card ≤ (inactiveTypeItemPairs ρ).card
+  apply Finset.card_le_card
+  intro p hp
+  have hpbasis :
+      (Sum.inr p : ReducedEqualityLPConstraint K n) ∈ h.basis := by
+    simpa [nonnegativityBasis] using hp
+  have hactive := h.basis_active (Sum.inr p) hpbasis
+  simpa [ReducedEqualityLPConstraintActive] using hactive
+
+/-- A genuine LP basic feasible solution supplies the support-count certificate
+used by the downstream paper arguments. -/
+theorem basicFeasibleSupportCertificate {K n : ℕ}
+    {itemNormal : Item n → ReducedEqualityLPVariable K n → ℝ}
+    {ρ : TypePolicy K n} {ell : ℝ}
+    (h : ReducedEqualityLPBasicFeasible itemNormal ρ ell) :
+    BasicFeasibleSupportCertificate ρ := by
+  rcases h with ⟨h⟩
+  have hsplit := basis_card_eq_equality_add_nonnegativity h
+  have heq := equalityBasis_card_le h
+  have hnonneg := nonnegativityBasis_card_le_inactive h
+  unfold BasicFeasibleSupportCertificate
+  have htotal :
+      n * K + 1 = (equalityBasis h).card + (nonnegativityBasis h).card := by
+    calc
+      n * K + 1 = h.basis.card := h.basis_card.symm
+      _ = (equalityBasis h).card + (nonnegativityBasis h).card := hsplit
+  have htotal_le :
+      n * K + 1 ≤ (n + K) + (nonnegativityBasis h).card := by
+    omega
+  have hzero_count :
+      n * K + 1 - (n + K) ≤ (nonnegativityBasis h).card := by
+    rw [Nat.sub_le_iff_le_add]
+    simpa [Nat.add_comm] using htotal_le
+  exact hzero_count.trans hnonneg
+
+end ReducedEqualityLPBasicFeasible
 
 /-- Active and inactive type-item pairs partition all `K * n` type-item pairs. -/
 theorem activeTypeItemPairsCard_add_inactiveTypeItemPairsCard_eq {K n : ℕ}

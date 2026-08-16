@@ -1,67 +1,179 @@
 {
-  "comment": "Regenerated context-free Lean-to-TeX drafts for semantic statement rejudge; every visible binder/hypothesis remains part of the translated surface.",
+  "comment": "Translations were read from the expanded Lean signatures alone; paper wording was not used to omit binders, premises, coercions, or conclusion shape.",
   "items": {
-    "definition_log_mgf_formula": {
-      "lean_statement_sha256": "29e9b7f65085e13446066aa4364249408fe23b30b831582cb5303797f660181e",
+    "author_approved_corrected_model_theorem1_finite_real_rate": {
+      "lean_statement_sha256": "e64495eae75207167d75e7af6b65ad9494c992036ae6a253b0ce0d925128ee13",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {Seller : Type u_1} {Rating : Type u_2} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] (M : FiniteRatingLDPModel Seller Rating) (\u03b8 : Seller) (z : \u211d), paperLogMGF M \u03b8 z = log (\\sum y, ((typeLaw \u03b8) y).toReal * exp (z * score y))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "tex_statement": "\\forall {n m : \u2115} [DecidableEq (finiteChainOrderedPair n)] {M : FiniteRatingLDPModel (Fin n) (Fin (m + 1))} {sampleRate : Fin n \\to \u211d} (model : ClarifiedSourceModel M sampleRate), \\exists rate, correctedTheorem1Rate = \u2191rate \\land HasExponentialRate (fun k  =>  1 - sourceStateWk (stateLaw k) (iidFloorSourceStateScore M sampleRate k)) rate",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
     },
-    "definition_rate_function_formula": {
-      "lean_statement_sha256": "83ba156947247538275b2add688e5a24a99fa5c59a570346b2dfe52765b1be13",
+    "author_confirmed_clarified_iid_state_law": {
+      "lean_statement_sha256": "3fa66451b2ad796d886114f6c5509e6d371ee5773c14e9f1a6aacd3dbb90c06e",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {Seller : Type u_1} {Rating : Type u_2} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] (M : FiniteRatingLDPModel Seller Rating) (\u03b8 : Seller) (a : \u211d), paperRateFunction M \u03b8 a = sSup (range fun z  =>  z * a - paperLogMGF M \u03b8 z)",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "tex_statement": "\\forall {n m : \u2115} {M : FiniteRatingLDPModel (Fin n) (Fin (m + 1))} {sampleRate : Fin n \\to \u211d} (model : ClarifiedSourceModel M sampleRate) (k : \u2115), stateLaw k = iidFloorSourceStateLaw M sampleRate k",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
     },
-    "lemmaC_pk_complement_source_threshold_rate_from_logMGF_derivatives": {
-      "lean_statement_sha256": "f560ce3648d5af6b62d3dc15839b3914ce38709b4126216617cd584943e26155",
+    "author_confirmed_clarified_model_theorem1_state_rate": {
+      "lean_statement_sha256": "fbe75dcb94d53e346db945396f5d44f017eabd78c29d58b611fa621073c372f7",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {Seller : Type u_1} {Rating : Type u_2} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] (M : FiniteRatingLDPModel Seller Rating) (sampleRate : Seller \\to \u211d) (hi lo : Seller) (gHi gLo : \u2115), 0 < gHi \\to 0 < gLo \\to sampleRate hi = \u2191gHi \\to sampleRate lo = \u2191gLo \\to (\\forall (a : \u211d), BddAbove (range fun z  =>  finiteLegendreValue (typeLaw hi) score a z)) \\to (\\forall (a : \u211d), BddAbove (range fun z  =>  finiteLegendreValue (typeLaw lo) score a z)) \\to \\forall (a z : \u211d), HasDerivAt (fun t  =>  logMGF hi t) a (z * (\u2191gHi)\u207b\u00b9) \\to HasDerivAt (fun t  =>  logMGF lo t) a (-(z * (\u2191gLo)\u207b\u00b9)) \\to 0 \\le pmfExp (twoSampleRateBlockLaw M hi lo gHi gLo) (twoSampleRateBlockScore M gHi gLo) \\to \\forall {samplePos sampleNeg : (Fin gHi \\to Rating) \u00d7 (Fin gLo \\to Rating)}, 0 < ((twoSampleRateBlockLaw M hi lo gHi gLo) samplePos).toReal \\to 0 < twoSampleRateBlockScore M gHi gLo samplePos \\to 0 < ((twoSampleRateBlockLaw M hi lo gHi gLo) sampleNeg).toReal \\to twoSampleRateBlockScore M gHi gLo sampleNeg < 0 \\to ExponentialRateCertificate (fun n  =>  twoSamplePkComplementErrorProb M hi lo (n * gHi) (n * gLo) (\u2191gHi)\u207b\u00b9 (\u2191gLo)\u207b\u00b9) (pairwiseSellerThresholdRate M sampleRate hi lo)",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "tex_statement": "\\forall {n m : \u2115} [DecidableEq (finiteChainOrderedPair n)] {M : FiniteRatingLDPModel (Fin n) (Fin (m + 1))} {sampleRate : Fin n \\to \u211d} (model : ClarifiedSourceModel M sampleRate), HasExtendedExponentialRate (fun k  =>  1 - sourceStateWk (stateLaw k) (iidFloorSourceStateScore M sampleRate k)) correctedTheorem1Rate",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
     },
-    "theorem1_finite_chain_adjacent_threshold_rate_top_min_eq_displayed_objective_min_of_logMGF_derivatives": {
-      "lean_statement_sha256": "c56bcdc9f59be99394e7a1de5ca43ec39c373a9a79fc1dc72bfe0abe50f339ef",
+    "author_confirmed_clarified_uniform_type_prior": {
+      "lean_statement_sha256": "cae6f2132a416aa257fec9c8b831eb564d0c997214740dc47e9ea8d08c95e9a9",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {n : \u2115} {Rating : Type u_1} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] [inst_2 : Nonempty (finiteChainAdjacentIndex n)] (M : FiniteRatingLDPModel (Fin n) Rating) (sampleRate : Fin n \\to \u211d), (\\forall (\u03b8 : Fin n), 0 < sampleRate \u03b8) \\to \\forall (a z : finiteChainOrderedPair n \\to \u211d), (\\forall (p : finiteChainOrderedPair n), HasDerivAt (fun t  =>  logMGF (finiteChainOrderedPairHi p) t) (a p) (z p * (sampleRate (finiteChainOrderedPairHi p))\u207b\u00b9)) \\to (\\forall (p : finiteChainOrderedPair n), HasDerivAt (fun t  =>  logMGF (finiteChainOrderedPairLo p) t) (a p) (-(z p * (sampleRate (finiteChainOrderedPairLo p))\u207b\u00b9))) \\to minFiniteChainAdjacentThresholdRateTop M sampleRate = \u2191(minFiniteChainAdjacentObjectiveRate M sampleRate a)",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "tex_statement": "\\forall {n m : \u2115} {M : FiniteRatingLDPModel (Fin n) (Fin (m + 1))} {sampleRate : Fin n \\to \u211d} (model : ClarifiedSourceModel M sampleRate), type_prior = clarifiedUniformTypePrior n \u22ef",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
     },
-    "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_rate_from_joint_floor_rating_law": {
-      "lean_statement_sha256": "bdda8b9915d349beec22f841cc51e8eae5a7bc6a028e66e653dca060aa1008a5",
+    "source_appendix_pk_ld_complement_rate_iid_completion": {
+      "lean_statement_sha256": "9954cd9fdf0f9a344aec00f8dbfef26c7d885a0d2e9da2ffcc25c888ed9410ae",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {n : \u2115} {Rating : Type u_1} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] [DecidableEq (finiteChainOrderedPair n)] [inst_3 : Nonempty (finiteChainAdjacentIndex n)] (M : FiniteRatingLDPModel (Fin n) Rating) (sampleRate : Fin n \\to \u211d), (\\forall (\u03b8 : Fin n), 0 < sampleRate \u03b8) \\to \\forall (a z : finiteChainOrderedPair n \\to \u211d), (\\forall (p : finiteChainOrderedPair n), z p \\le 0) \\to (\\forall (p : finiteChainOrderedPair n), HasDerivAt (fun t  =>  logMGF (finiteChainOrderedPairHi p) t) (a p) (z p * (sampleRate (finiteChainOrderedPairHi p))\u207b\u00b9)) \\to (\\forall (p : finiteChainOrderedPair n), HasDerivAt (fun t  =>  logMGF (finiteChainOrderedPairLo p) t) (a p) (-(z p * (sampleRate (finiteChainOrderedPairLo p))\u207b\u00b9))) \\to (\\forall (p : finiteChainOrderedPair n) (b : \u211d), pairwiseRateObjective sampleRate (finiteChainOrderedPairHi p) (finiteChainOrderedPairLo p) (a p) \\le pairwiseRateObjective sampleRate (finiteChainOrderedPairHi p) (finiteChainOrderedPairLo p) b) \\to (\\forall (p : finiteChainOrderedPair n), ratingLawStraddlesThreshold M (finiteChainOrderedPairHi p) (a p)) \\to (\\forall (p : finiteChainOrderedPair n), ratingLawStraddlesThreshold M (finiteChainOrderedPairLo p) (a p)) \\to HasExponentialRate (fun k  =>  1 - finiteUniformFloorPkObjective M sampleRate finiteChainOrderedPairHi finiteChainOrderedPairLo k) (minFiniteChainAdjacentThresholdRate M sampleRate)",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "tex_statement": "\\forall {n m : \u2115} [DecidableEq (finiteChainOrderedPair n)] (M : FiniteRatingLDPModel (Fin n) (Fin (m + 1))) (sampleRate : Fin n \\to \u211d), FiniteOrdinalSourceModel M sampleRate \\to (\\forall (theta : Fin n), 0 < sampleRate theta) \\to 1 \\le m \\to \\forall (p : finiteChainOrderedPair n), \\exists rate, pairwiseSellerThresholdRateTop M sampleRate (finiteChainOrderedPairHi p) (finiteChainOrderedPairLo p) = \u2191rate \\land ExponentialRateCertificate (fun k  =>  1 - sourceStatePairwisePk (iidFloorSourceStateLaw M sampleRate k) (iidFloorSourceStateScore M sampleRate k) p) rate",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
     },
-    "theorem1_finite_chain_uniform_floor_objective_oneSub_exact_min_adjacent_threshold_rate_from_joint_floor_rating_law_logMGF_derivatives_and_score_bounds_of_extended_min_eq": {
-      "lean_statement_sha256": "67c5550e4afcf21f48463e5306f6a4f45464f4bca41ffb32c22c9ad7ef1934c2",
+    "source_appendix_problessthan_score_gap_rate_iid_completion": {
+      "lean_statement_sha256": "62a2d608013c82eede90863033de5d8bc0453f5162a7b50a20f2216798f0bd00",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {n : \u2115} {Rating : Type u_1} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] [DecidableEq (finiteChainOrderedPair n)] [inst_3 : Nonempty (finiteChainAdjacentIndex n)] (M : FiniteRatingLDPModel (Fin n) Rating) (sampleRate : Fin n \\to \u211d), (\\forall (\u03b8 : Fin n), 0 < sampleRate \u03b8) \\to \\forall (a z : finiteChainOrderedPair n \\to \u211d), (\\forall (p : finiteChainOrderedPair n), z p \\le 0) \\to (\\forall (p : finiteChainOrderedPair n), HasDerivAt (fun t  =>  logMGF (finiteChainOrderedPairHi p) t) (a p) (z p * (sampleRate (finiteChainOrderedPairHi p))\u207b\u00b9)) \\to (\\forall (p : finiteChainOrderedPair n), HasDerivAt (fun t  =>  logMGF (finiteChainOrderedPairLo p) t) (a p) (-(z p * (sampleRate (finiteChainOrderedPairLo p))\u207b\u00b9))) \\to \\forall (rLow rHigh : Rating), (\\forall (\u03b8 : Fin n), 0 < ((typeLaw \u03b8) rLow).toReal) \\to (\\forall (\u03b8 : Fin n), 0 < ((typeLaw \u03b8) rHigh).toReal) \\to (\\forall (r : Rating), score rLow \\le score r) \\to (\\forall (r : Rating), score r \\le score rHigh) \\to score rLow < score rHigh \\to minFiniteChainAdjacentThresholdRateTop M sampleRate = \u2191(minFiniteChainAdjacentThresholdRate M sampleRate) \\to HasExponentialRate (fun k  =>  1 - finiteUniformFloorPkObjective M sampleRate finiteChainOrderedPairHi finiteChainOrderedPairLo k) (minFiniteChainAdjacentThresholdRate M sampleRate)",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "tex_statement": "\\forall {n m : \u2115} [DecidableEq (finiteChainOrderedPair n)] (M : FiniteRatingLDPModel (Fin n) (Fin (m + 1))) (sampleRate : Fin n \\to \u211d), FiniteOrdinalSourceModel M sampleRate \\to (\\forall (theta : Fin n), 0 < sampleRate theta) \\to 1 \\le m \\to \\forall (p : finiteChainOrderedPair n), \\exists rate, pairwiseSellerThresholdRateTop M sampleRate (finiteChainOrderedPairHi p) (finiteChainOrderedPairLo p) = \u2191rate \\land ExponentialRateCertificate (fun k  =>  sourceStateScoreGapLeftTailProb (iidFloorSourceStateLaw M sampleRate k) (iidFloorSourceStateScore M sampleRate k) p) rate",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
     },
-    "theorem1_finite_chain_uniform_floor_objective_oneSub_extended_min_adjacent_threshold_rate_from_rating_tail_dominance_and_full_support": {
-      "lean_statement_sha256": "14130ddb5b381660a0b17007198e3ead97ec5e5743035bb0fad0423ca5edcd06",
+    "source_definition_aggregate_score_formula": {
+      "lean_statement_sha256": "d806be9e658fee83977e40570fd06bc5aee6d9f4fce20f19f17ef1723c774a68",
       "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {n m : \u2115} [DecidableEq (finiteChainOrderedPair n)] [inst : Nonempty (finiteChainAdjacentIndex n)] (M : FiniteRatingLDPModel (Fin n) (Fin (m + 1))) (sampleRate : Fin n \\to \u211d), (\\forall (\u03b8 : Fin n), 0 < sampleRate \u03b8) \\to (\\forall (p : finiteChainOrderedPair n) (t : Fin (m + 1)), (pmfProb (typeLaw (finiteChainOrderedPairLo p)) fun r  =>  t \\le r) \\le pmfProb (typeLaw (finiteChainOrderedPairHi p)) fun r  =>  t \\le r) \\to Monotone score \\to fullSupport \\to score 0 < score (last m) \\to HasExtendedExponentialRate (fun k  =>  1 - finiteUniformFloorPkObjective M sampleRate finiteChainOrderedPairHi finiteChainOrderedPairLo k) (minFiniteChainAdjacentThresholdRateTop M sampleRate)",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
+      "tex_statement": "\\forall {n : \u2115} {Rating : Type u_1} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] (M : FiniteRatingLDPModel (Fin n) Rating) (sampleRate : Fin n \\to \u211d) (k : \u2115) (sample : finiteChainJointFloorRatingSample Rating sampleRate k) (theta : Fin n), finiteChainJointFloorAverageScore M sampleRate k sample theta = (\u2191(floorSampleCount sampleRate theta k))\u207b\u00b9 * \\sum i, score (sample theta i)",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_definition_extended_rate_function_formula": {
+      "lean_statement_sha256": "9d597cd542c9653df0922e641f203fb60c6f9b5c70f5bd8b78a1698d40f11af6",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "\\forall {Seller : Type u_1} {Rating : Type u_2} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] (M : FiniteRatingLDPModel Seller Rating) (theta : Seller) (a : \u211d), sourcePaperRateFunctionTop M theta a = sSup (range fun z  =>  \u2191z * \u2191a - \u2191(sourcePaperLogMGF M theta z))",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_definition_floor_sample_count_formula": {
+      "lean_statement_sha256": "2aa21844a84d7a60d0357c8f206d5a14433fef32aa9d74ddb74cb6572b63b79e",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "\\forall {Seller : Type u_1} (sampleRate : Seller \\to \u211d) (theta : Seller) (k : \u2115), floorSampleCount sampleRate theta k = \u230a\u2191k * sampleRate theta\u230b\u208a",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_definition_log_mgf_formula": {
+      "lean_statement_sha256": "33b95bc8fa7821fb1d024d8a576595d6d4fda3a906a309d0225ed0ebfba8ca7a",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "\\forall {Seller : Type u_1} {Rating : Type u_2} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] (M : FiniteRatingLDPModel Seller Rating) (theta : Seller) (z : \u211d), sourcePaperLogMGF M theta z = log (\\sum y, ((typeLaw theta) y).toReal * exp (z * score y))",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_definition_pairwise_objective_formula": {
+      "lean_statement_sha256": "156eec258a86805fa5f4283074b17fbaec4a1de216ac47aff23bc9b28cb5daeb",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "\\forall {n : \u2115} {Omega : Type u_1} [inst : Fintype Omega] [inst_1 : DecidableEq Omega] (mu : PMF Omega) (score : Omega \\to Fin n \\to \u211d) (p : finiteChainOrderedPair n), sourceStatePairwisePk mu score p = (pmfProb mu fun omega  =>  score omega (finiteChainOrderedPairHi p) > score omega (finiteChainOrderedPairLo p)) - pmfProb mu fun omega  =>  score omega (finiteChainOrderedPairHi p) < score omega (finiteChainOrderedPairLo p)",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_definition_rate_function_formula": {
+      "lean_statement_sha256": "77b4e5274e58965e9a1d3d4f84f1bec33c70d4db37a43c3a2f708e0b7d05ed91",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "\\forall {Seller : Type u_1} {Rating : Type u_2} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] (M : FiniteRatingLDPModel Seller Rating) (theta : Seller) (a : \u211d), sourcePaperRateFunction M theta a = sSup (range fun z  =>  z * a - sourcePaperLogMGF M theta z)",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_definition_uniform_ranking_normalization": {
+      "lean_statement_sha256": "34af5888ef819b26bf743379e2970997005e53b0b5fa2368e1da3fa917a5887f",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "\\forall {n : \u2115} {Omega : Type u_1} [inst : Fintype Omega] [inst_1 : DecidableEq Omega] (mu : PMF Omega) (score : Omega \\to Fin n \\to \u211d), 2 \\le n \\to sourceStateWk mu score = sourceStateUniformWk mu score",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_definition_uniform_ranking_objective_formula": {
+      "lean_statement_sha256": "20de4da3c952a0bbe875e74911a7fdad40db30dcab75a4063878cac7e99c4be1",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "\\forall {n : \u2115} {Omega : Type u_1} [inst : Fintype Omega] [inst_1 : DecidableEq Omega] (mu : PMF Omega) (score : Omega \\to Fin n \\to \u211d), sourceStateWk mu score = 2 / (\u2191n * (\u2191n - 1)) * \\sum p, sourceStatePairwisePk mu score p",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_fidelity_diagnostic_unrestricted_real_pairwise_rate_mismatch": {
+      "lean_statement_sha256": "5bbd1bf1357f01d977717e64308fcc37bea4dc2d2b7d0fd28dc1301f1accb947",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "\\forall {n m : \u2115} [DecidableEq (finiteChainOrderedPair n)] (M : FiniteRatingLDPModel (Fin n) (Fin (m + 1))) (sampleRate : Fin n \\to \u211d), FiniteOrdinalSourceModel M sampleRate \\to (\\forall (theta : Fin n), 0 < sampleRate theta) \\to 1 \\le m \\to \\forall (p : finiteChainOrderedPair n), pairwiseSellerThresholdRate M sampleRate (finiteChainOrderedPairHi p) (finiteChainOrderedPairLo p) = 0 \\land 0 < pairwiseSellerThresholdRateTop M sampleRate (finiteChainOrderedPairHi p) (finiteChainOrderedPairLo p)",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_iid_completion_pairwise_objective_bridge": {
+      "lean_statement_sha256": "028de3ff80e62a0e067f640db8f3b8ce356840c4c4fb3daa1ed6d45e77cbcd56",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "\\forall {n : \u2115} {Rating : Type u_1} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] [DecidableEq (finiteChainOrderedPair n)] (M : FiniteRatingLDPModel (Fin n) Rating) (sampleRate : Fin n \\to \u211d) (p : finiteChainOrderedPair n) (k : \u2115), sourceStatePairwisePk (iidFloorSourceStateLaw M sampleRate k) (iidFloorSourceStateScore M sampleRate k) p = twoSampleFloorPkObjectiveProb M sampleRate (finiteChainOrderedPairHi p) (finiteChainOrderedPairLo p) k",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_iid_completion_uniform_ranking_objective_bridge": {
+      "lean_statement_sha256": "6d6f81db96263b90d3af12067c0819eba4a49e0abe0887c7614d60d88c55bf80",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "\\forall {n : \u2115} {Rating : Type u_1} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] [DecidableEq (finiteChainOrderedPair n)] (M : FiniteRatingLDPModel (Fin n) Rating) (sampleRate : Fin n \\to \u211d) (k : \u2115), 2 \\le n \\to sourceStateWk (iidFloorSourceStateLaw M sampleRate k) (iidFloorSourceStateScore M sampleRate k) = finiteUniformFloorPkObjective M sampleRate finiteChainOrderedPairHi finiteChainOrderedPairLo k",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_iid_completion_weak_inversion_bridge": {
+      "lean_statement_sha256": "f33d285fbf938a3a20ced9539353f26a8f742025aa8b36f253475475e95543ba",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "\\forall {n : \u2115} {Rating : Type u_1} [inst : Fintype Rating] [inst_1 : DecidableEq Rating] [DecidableEq (finiteChainOrderedPair n)] (M : FiniteRatingLDPModel (Fin n) Rating) (sampleRate : Fin n \\to \u211d) (p : finiteChainOrderedPair n) (k : \u2115), sourceStateScoreGapLeftTailProb (iidFloorSourceStateLaw M sampleRate k) (iidFloorSourceStateScore M sampleRate k) p = twoSampleFloorScoreGapLeftTailProb M sampleRate (finiteChainOrderedPairHi p) (finiteChainOrderedPairLo p) k",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_pairwise_objective_tendsto_one_iid_completion": {
+      "lean_statement_sha256": "d0fd1be975aedbff2e99d0e9f4538b817e431533f792a99c45fcb05d9bb348d7",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "\\forall {n m : \u2115} [DecidableEq (finiteChainOrderedPair n)] (M : FiniteRatingLDPModel (Fin n) (Fin (m + 1))) (sampleRate : Fin n \\to \u211d), FiniteOrdinalSourceModel M sampleRate \\to (\\forall (theta : Fin n), 0 < sampleRate theta) \\to 1 \\le m \\to \\forall (p : finiteChainOrderedPair n), Tendsto (fun k  =>  sourceStatePairwisePk (iidFloorSourceStateLaw M sampleRate k) (iidFloorSourceStateScore M sampleRate k) p) atTop (nhds 1)",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_theorem1_informative_rating_system_rate_iid_completion": {
+      "lean_statement_sha256": "5f48e03a061d0f3a2e991ac088d4e30668d38df4cd596748a1a9fe5d40a642cb",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "\\forall {n m : \u2115} [DecidableEq (finiteChainOrderedPair n)] [inst : Nonempty (finiteChainAdjacentIndex n)] (M : FiniteRatingLDPModel (Fin n) (Fin (m + 1))) (sampleRate : Fin n \\to \u211d), FiniteOrdinalSourceModel M sampleRate \\to (\\forall (theta : Fin n), 0 < sampleRate theta) \\to 1 \\le m \\to HasExtendedExponentialRate (fun k  =>  1 - finiteUniformFloorPkObjective M sampleRate finiteChainOrderedPairHi finiteChainOrderedPairLo k) (minFiniteChainAdjacentThresholdRateTop M sampleRate)",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_uniform_ranking_objective_tendsto_one_iid_completion": {
+      "lean_statement_sha256": "381c133f30a670fc697ca9f2eda6e0debea162fee2fe24b7d1b8c5ab8dfd730c",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "tex_statement": "\\forall {n m : \u2115} [DecidableEq (finiteChainOrderedPair n)] [Nonempty (finiteChainAdjacentIndex n)] (M : FiniteRatingLDPModel (Fin n) (Fin (m + 1))) (sampleRate : Fin n \\to \u211d), FiniteOrdinalSourceModel M sampleRate \\to (\\forall (theta : Fin n), 0 < sampleRate theta) \\to 1 \\le m \\to Tendsto (fun k  =>  sourceStateWk (iidFloorSourceStateLaw M sampleRate k) (iidFloorSourceStateScore M sampleRate k)) atTop (nhds 1)",
+      "translated_at": "2026-07-26T23:10:00Z",
+      "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+      "validator_type": "agent"
     }
   },
   "paper": "GJ18InformativeRatingSystems",
   "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
   "schema": 1,
-  "translated_at": "2026-06-29T18:08:26Z",
-  "translator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  "translated_at": "2026-07-26T23:10:00Z",
+  "translator": "Codex GJ18 context-free Lean translator 2026-07-26",
+  "translator_type": "agent"
 }

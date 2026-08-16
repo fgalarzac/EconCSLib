@@ -1,7 +1,10 @@
 import MSVV07AdWords.MainTheorems
 import MSVV07AdWords.SourceLemmas
+import MSVV07AdWords.SourceRunner
+import MSVV07AdWords.AppendixCounterexample
 import MSVV07AdWords.PaperInterface
-import MSVV07AdWords.PostPaperAudit
+import MSVV07AdWords.AlgorithmCost
+import MSVV07AdWords.AuditLedger
 import MSVV07AdWords.AdWordsExtensions
 import MSVV07AdWords.AdWordsBatch
 import MSVV07AdWords.AdWordsLowerBound

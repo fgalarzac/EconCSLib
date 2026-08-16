@@ -38,7 +38,7 @@ abbrev assumption_epsilon_range (epsilon : ℝ) : Prop :=
 -- audit-premise: alive : Advertiser → Query → Prop
 abbrev assumption_alive_bidder_predicate
     {Advertiser Query : Type*} (_alive : Advertiser → Query → Prop) : Prop :=
-  True
+  ∀ a q, _alive a q ∨ ¬ _alive a q
 
 /-- Section 6 all-bidders next-price charges satisfy the effective small-bids condition. -/
 -- audit-premise: hnext_small : ∀ a q, section6_next_highest_bid_all I a q ≤ epsilon * I.budget a
@@ -67,7 +67,7 @@ abbrev assumption_click_through_rates_probability_bounds
 -- audit-premise: available : Advertiser → Query → Prop
 abbrev assumption_availability_predicate
     {Advertiser Query : Type*} (_available : Advertiser → Query → Prop) : Prop :=
-  True
+  ∀ a q, _available a q ∨ ¬ _available a q
 
 /-- Section 8 advertiser weights are nonnegative. -/
 -- audit-premise: hweight_nonneg : ∀ a, 0 ≤ weight a

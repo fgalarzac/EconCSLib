@@ -30,6 +30,27 @@ Source status: paper-facing source convention row; row-local LLM validation pend
 abbrev paper_choice_function_feasible (C : PaperChoiceRule α) : Prop :=
   paper_feasible C
 
+/-- Binary choice label `C(X)_i`, equal to one exactly for chosen applicants. -/
+abbrev paper_definition_choice_label
+    (C : PaperChoiceRule α) (X : Finset α) (x : α) : ℕ :=
+  paperChoiceLabel C X x
+
+/-- A predictor represents `C` when its label agrees on every offered applicant and pool. -/
+abbrev paper_definition_ml_representation
+    (predicts : PaperPoolPredictor α) (C : PaperChoiceRule α) : Prop :=
+  paperRepresentsChoice predicts C
+
+/-- Pool-independent fixed-threshold score formula `1{s(x) ≥ t}`. -/
+abbrev paper_definition_fixed_threshold_predictor
+    (score : α → ℝ) (threshold : ℝ) : PaperPoolPredictor α :=
+  paperFixedThresholdPredictor score threshold
+
+/-- Cohort-dependent rank formula `1{s(x) ≥ t_q(X)}`. -/
+noncomputable abbrev paper_definition_rank_threshold_predictor
+    (q : ℕ) (score : α → ℝ) (hinjective : Function.Injective score) :
+    PaperPoolPredictor α :=
+  paperRankThresholdPredictor q score hinjective
+
 /--
 Definition q-Acceptance: `C` chooses exactly `min q |X|` applicants from each
 finite applicant set `X`.
@@ -250,7 +271,7 @@ Source status: paper-facing source definition/result; row-local LLM validation p
 -/
 abbrev paper_definition_lap_no_profitable_one_slot_swap
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    (X : Finset α) (w : α → σ → ℤ) (A : LAP.Assignment α σ) : Prop :=
+    (X : Finset α) (w : α → σ → ℝ) (A : LAP.Assignment α σ) : Prop :=
   A.NoProfitableOneSlotSwap X w
 
 /--
@@ -259,7 +280,7 @@ Source status: paper-facing source definition/result; row-local LLM validation p
 -/
 abbrev paper_definition_lap_objective_optimal
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    (X : Finset α) (w : α → σ → ℤ) (A : LAP.Assignment α σ) : Prop :=
+    (X : Finset α) (w : α → σ → ℝ) (A : LAP.Assignment α σ) : Prop :=
   A.ObjectiveOptimal X w
 
 /--
@@ -268,7 +289,7 @@ Source status: paper-facing source definition/result; row-local LLM validation p
 -/
 abbrev paper_definition_lap_slot_at_least
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    (w : α → σ → ℤ) (s : σ) (a b : α) : Prop :=
+    (w : α → σ → ℝ) (s : σ) (a b : α) : Prop :=
   LAP.Assignment.SlotAtLeast w s a b
 
 /--
@@ -277,7 +298,7 @@ Source status: paper-facing source definition/result; row-local LLM validation p
 -/
 abbrev paper_definition_lap_slot_below
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    (w : α → σ → ℤ) (s : σ) (a b : α) : Prop :=
+    (w : α → σ → ℝ) (s : σ) (a b : α) : Prop :=
   LAP.Assignment.SlotBelow w s a b
 
 /-! ## Early Appendix Results -/
@@ -590,19 +611,22 @@ theorem paper_calculating_instability_statement
     (C := C) hfeasible haccept hcard hx
 
 /--
-If a fresh applicant is not chosen after insertion but the choice distance is
-positive, then the choice function is inconsistent.
+If a fresh insertion produces positive even choice distance, then the choice
+function is inconsistent. The fresh applicant's nonselection is derived from
+the displayed parity formula rather than assumed.
 Source status: paper-facing source definition/result; row-local LLM validation pending.
 -/
 theorem paper_even_instability_inconsistency_forward_statement
-    {C : PaperChoiceRule α}
+    {q : ℕ} {C : PaperChoiceRule α}
     (hfeasible : paper_choice_function_feasible C)
+    (haccept : paper_definition_q_acceptance q C)
     {X : Finset α} {x : α}
-    (hxNotChosen : x ∉ C (insert x X))
-    (hpositive : 0 < paper_definition_choice_distance C X (insert x X)) :
+    (hx : x ∉ X)
+    (hpositive : 0 < paper_definition_choice_distance C X (insert x X))
+    (heven : ∃ k, paper_definition_choice_distance C X (insert x X) = 2 * k) :
     ¬ paper_definition_consistency C := by
-  exact paper_inconsistent_of_positive_distance_and_fresh_not_chosen
-    (C := C) hfeasible hxNotChosen hpositive
+  exact paper_inconsistent_of_positive_even_insert_distance
+    (C := C) hfeasible haccept hx hpositive heven
 
 /--
 Conversely, if a feasible q-acceptant choice function is inconsistent, then
@@ -870,6 +894,41 @@ theorem paper_q_representative_characterization_statement
       hfeasible
 
 /--
+Nondegenerate exact q-representative characterization. The positive-capacity
+and excess-applicant hypotheses repair the source's omitted degenerate cases.
+Source status: paper-facing source definition/result; row-local LLM validation pending.
+-/
+theorem paper_q_representative_exact_characterization_statement
+    [Fintype α] {q : ℕ} {C : PaperChoiceRule α}
+    (hfeasible : paper_choice_function_feasible C)
+    (hqpos : 0 < q)
+    (hqlt : q < Fintype.card α) :
+    paper_definition_q_representativeness q C ↔
+      paper_definition_q_acceptance q C ∧
+        paper_definition_d_instability 1 C ∧
+          paper_definition_variability_exactly 1 C := by
+  exact
+    paper_q_representative_iff_q_acceptant_one_instability_exact_variability
+      hfeasible hqpos hqlt
+
+/--
+Under q-acceptance and 1-instability, exact variability one is equivalent to a
+single global applicant order in the nondegenerate regime.
+Source status: paper-facing source definition/result; row-local LLM validation pending.
+-/
+theorem paper_variability_one_iff_single_order_statement
+    [Fintype α] {q : ℕ} {C : PaperChoiceRule α}
+    (hfeasible : paper_choice_function_feasible C)
+    (haccept : paper_definition_q_acceptance q C)
+    (hunstable : paper_definition_d_instability 1 C)
+    (hqpos : 0 < q)
+    (hqlt : q < Fintype.card α) :
+    paper_definition_variability_exactly 1 C ↔
+      paper_definition_q_representativeness q C := by
+  exact paper_variability_exactly_one_iff_q_representative
+    hfeasible haccept hunstable hqpos hqlt
+
+/--
 A feasible q-representative choice function has general variability at most
 one: both its borderline and waitlisted sets have size at most one.
 Source status: paper-facing source definition/result; row-local LLM validation pending.
@@ -930,18 +989,21 @@ theorem paper_acceptant_one_instability_variability_general_variability_exactly_
       (C := C) hfeasible haccept hunstable hvar hwitness
 
 /--
-A feasible q-representative choice function has exact variability one when
-some added applicant actually displaces an existing admit.
+A feasible q-representative choice function has exact variability one at
+positive capacity when the finite applicant universe is strictly larger than
+capacity. These are the necessary nondegeneracy conditions omitted in the
+source statement.
 Source status: paper-facing source definition/result; row-local LLM validation pending.
 -/
 theorem paper_q_representative_variability_exactly_one_statement
     [Fintype α] {q : ℕ} {C : PaperChoiceRule α}
     (hfeasible : paper_choice_function_feasible C)
     (hrep : paper_definition_q_representativeness q C)
-    (hwitness : paper_definition_has_displacement C) :
+    (hqpos : 0 < q)
+    (hqlt : q < Fintype.card α) :
     paper_definition_variability_exactly 1 C := by
-  exact paper_q_representative_variability_exactly_one_of_displacement
-    (C := C) hfeasible hrep hwitness
+  exact paper_q_representative_variability_exactly_one_nontrivial
+    (C := C) hfeasible hrep hqpos hqlt
 
 /--
 For a feasible q-representative rule at full capacity, if inserting a fresh
@@ -955,12 +1017,11 @@ theorem paper_q_representative_borderline_eq_waitlisted_after_changing_insert_st
     (hrep : paper_definition_q_representativeness q C)
     {X : Finset α} {x : α}
     (hx : x ∉ X)
-    (hcard : q ≤ X.card)
     (hchange : C (insert x X) ≠ C X) :
     paper_definition_borderline_set C X =
       paper_definition_waitlisted_set C (insert x X) := by
   exact paper_q_representative_borderline_eq_waitlisted_after_changing_insert
-    (C := C) hfeasible hrep hx hcard hchange
+    (C := C) hfeasible hrep hx hchange
 
 /--
 Ranking-m bridge under the paper's one-queue characterization hypotheses: if a
@@ -977,38 +1038,140 @@ theorem paper_acceptant_one_instability_variability_borderline_eq_waitlisted_aft
     (hvar : paper_definition_variability_at_most 1 C)
     {X : Finset α} {x : α}
     (hx : x ∉ X)
-    (hcard : q ≤ X.card)
     (hchange : C (insert x X) ≠ C X) :
     paper_definition_borderline_set C X =
       paper_definition_waitlisted_set C (insert x X) := by
   exact
     paper_acceptant_one_instability_variability_borderline_eq_waitlisted_after_changing_insert
-      (C := C) hfeasible haccept hunstable hvar hx hcard hchange
+      (C := C) hfeasible haccept hunstable hvar hx hchange
+
+/-- The binary source label is one exactly when `x` belongs to `C(X)`. -/
+theorem paper_choice_label_formula_statement
+    (C : PaperChoiceRule α) (X : Finset α) (x : α) :
+    paper_definition_choice_label C X x = 1 ↔ x ∈ C X := by
+  exact paperChoiceLabel_eq_one_iff C X x
+
+/-- Exact fixed-threshold score formula for the induced choice rule. -/
+theorem paper_fixed_threshold_formula_statement
+    (score : α → ℝ) (threshold : ℝ) (X : Finset α) (x : α) :
+    x ∈ paperFixedThresholdChoice score threshold X ↔
+      x ∈ X ∧ paper_definition_fixed_threshold_predictor
+        score threshold X x := by
+  exact paperFixedThresholdChoice_mem_iff score threshold X x
+
+/-- The fixed-threshold score formula represents its induced choice function. -/
+theorem paper_fixed_threshold_represents_induced_choice_statement
+    (score : α → ℝ) (threshold : ℝ) :
+    paper_definition_ml_representation
+      (paper_definition_fixed_threshold_predictor score threshold)
+      (paperFixedThresholdChoice score threshold) := by
+  exact paperFixedThresholdPredictor_represents score threshold
 
 /--
-Independent applicant-by-applicant predictions can only represent zero-unstable
-choice rules, under the paper's feasibility convention.
+The source's fixed-score, fixed-threshold classifier makes each applicant's
+decision independently of the pool and therefore is zero-unstable.
 Source status: paper-facing source definition/result; row-local LLM validation pending.
 -/
 theorem paper_ml_independent_predictions_zero_unstable_statement
-    {C : PaperChoiceRule α}
+    (score : α → ℝ) (threshold : ℝ) :
+    paper_definition_zero_instability
+      (paperFixedThresholdChoice score threshold) := by
+  exact paper_fixed_threshold_predictions_zero_unstable score threshold
+
+/-- Any feasible choice rule represented by the fixed-threshold formula is zero-unstable. -/
+theorem paper_ml_fixed_threshold_representation_zero_unstable_statement
+    {C : PaperChoiceRule α} (score : α → ℝ) (threshold : ℝ)
     (hfeasible : paper_choice_function_feasible C)
-    (hind : paper_definition_independence C) :
+    (hrep : paper_definition_ml_representation
+      (paper_definition_fixed_threshold_predictor score threshold) C) :
     paper_definition_zero_instability C := by
-  exact paper_independent_predictions_zero_unstable hfeasible hind
+  exact paper_fixed_threshold_representation_zero_unstable
+    score threshold hfeasible hrep
+
+/-- The rank model has the displayed pool-specific threshold form. -/
+theorem paper_rank_threshold_formula_statement
+    (q : ℕ) (score : α → ℝ) (hinjective : Function.Injective score)
+    (hqpos : 0 < q) (X : Finset α) :
+    ∃ threshold : ℝ, ∀ x ∈ X,
+      (paper_definition_rank_threshold_predictor
+          q score hinjective X x ↔ threshold ≤ score x) := by
+  exact paperRankThresholdPredictor_threshold_formula
+    q score hinjective hqpos X
+
+/-- The rank-threshold formula represents its induced top-`q` choice rule. -/
+theorem paper_rank_threshold_represents_induced_choice_statement
+    (q : ℕ) (score : α → ℝ) (hinjective : Function.Injective score) :
+    paper_definition_ml_representation
+      (paper_definition_rank_threshold_predictor q score hinjective)
+      (paperRankThresholdChoice q score hinjective) := by
+  exact paperRankThresholdPredictor_represents q score hinjective
 
 /--
-Rank-threshold rules represented by a single applicant ordering are
-1-unstable and have variability at most one.
+The source's top-`q` score rule is 1-unstable and has variability at most one.
+The injectivity premise makes explicit the source proof's score-embedding step.
 Source status: paper-facing source definition/result; row-local LLM validation pending.
 -/
 theorem paper_ml_rank_threshold_one_instability_variability_statement
-    [Fintype α] {q : ℕ} {C : PaperChoiceRule α}
+    [Fintype α] (q : ℕ) (score : α → ℝ)
+    (hinjective : Function.Injective score) :
+    paper_definition_d_instability 1
+        (paperRankThresholdChoice q score hinjective) ∧
+      paper_definition_variability_at_most 1
+        (paperRankThresholdChoice q score hinjective) := by
+  exact paper_score_rank_threshold_one_instability_and_variability
+    q score hinjective
+
+/-- A feasible rule represented by the rank-threshold formula obeys both bounds. -/
+theorem paper_ml_rank_threshold_representation_bounds_statement
+    [Fintype α] {C : PaperChoiceRule α}
+    (q : ℕ) (score : α → ℝ) (hinjective : Function.Injective score)
     (hfeasible : paper_choice_function_feasible C)
-    (hrep : paper_definition_q_representativeness q C) :
+    (hrep : paper_definition_ml_representation
+      (paper_definition_rank_threshold_predictor q score hinjective) C) :
     paper_definition_d_instability 1 C ∧
       paper_definition_variability_at_most 1 C := by
-  exact paper_rank_threshold_one_instability_and_variability hfeasible hrep
+  exact paper_rank_threshold_representation_one_instability_and_variability
+    q score hinjective hfeasible hrep
+
+/--
+In the nondegenerate regime the concrete score-rank rule is tightly
+1-unstable and has exact variability one.
+Source status: paper-facing source definition/result; row-local LLM validation pending.
+-/
+theorem paper_ml_rank_threshold_exact_one_nontrivial_statement
+    [Fintype α] (q : ℕ) (score : α → ℝ)
+    (hinjective : Function.Injective score)
+    (hqpos : 0 < q)
+    (hqlt : q < Fintype.card α) :
+    paper_definition_tight_d_instability 1
+        (paperRankThresholdChoice q score hinjective) ∧
+      paper_definition_variability_exactly 1
+        (paperRankThresholdChoice q score hinjective) := by
+  exact paper_score_rank_threshold_exact_one_nontrivial
+    q score hinjective hqpos hqlt
+
+/-- A represented nondegenerate rank-threshold choice has both bounds tightly. -/
+theorem paper_ml_rank_threshold_representation_exact_one_statement
+    [Fintype α] {C : PaperChoiceRule α}
+    (q : ℕ) (score : α → ℝ) (hinjective : Function.Injective score)
+    (hfeasible : paper_choice_function_feasible C)
+    (hrep : paper_definition_ml_representation
+      (paper_definition_rank_threshold_predictor q score hinjective) C)
+    (hqpos : 0 < q) (hqlt : q < Fintype.card α) :
+    paper_definition_tight_d_instability 1 C ∧
+      paper_definition_variability_exactly 1 C := by
+  exact paper_rank_threshold_representation_exact_one_nontrivial
+    q score hinjective hfeasible hrep hqpos hqlt
+
+/-- Some finite rank-threshold model realizes exact instability/variability one. -/
+theorem paper_ml_rank_threshold_can_represent_exact_one_statement
+    (q : ℕ) (hqpos : 0 < q) :
+    ∃ (score : Fin (q + 1) → ℝ) (hinjective : Function.Injective score),
+      paper_definition_tight_d_instability 1
+          (paperRankThresholdChoice q score hinjective) ∧
+        paper_definition_variability_exactly 1
+          (paperRankThresholdChoice q score hinjective) := by
+  exact paper_rank_threshold_can_represent_exact_one q hqpos
 
 /--
 Sequential composition of feasible choice functions is feasible.
@@ -1102,6 +1265,85 @@ theorem paper_sequential_q_representative_choice_properties_statement
   exact paper_sequential_q_representative_choice_properties hqueues
 
 /--
+A nontrivial composition of `n` single-order queues realizes an exact
+variability `m` with `1 ≤ m ≤ n`.
+Source status: paper-facing source definition/result; row-local LLM validation pending.
+-/
+theorem paper_sequential_q_representative_variability_range_statement
+    [Fintype α] {qs : List ℕ} {Cs : List (PaperChoiceRule α)}
+    (hqueues : List.Forall₂
+      (fun q C => paper_choice_function_feasible C ∧
+        paper_definition_q_representativeness q C) qs Cs)
+    (hqpos : 0 < qs.sum)
+    (hqlt : qs.sum < Fintype.card α) :
+    ∃ m, 1 ≤ m ∧ m ≤ Cs.length ∧
+      paper_definition_variability_exactly m
+        (paper_definition_sequential_composition Cs) := by
+  exact paper_sequential_q_representative_variability_range
+    hqueues hqpos hqlt
+
+/-- Canonical Screened/Open program choice rule used to discharge Proposition 2. -/
+abbrev paper_definition_screened_open_program_choice : PaperChoiceRule (Fin 2) :=
+  paperScreenedOpenProgramChoice
+
+/-- Canonical Screened/Open with DIA program choice rule. -/
+abbrev paper_definition_screened_open_dia_program_choice : PaperChoiceRule (Fin 4) :=
+  paperScreenedOpenDIAProgramChoice
+
+/-- Canonical Educational Option program choice rule. -/
+abbrev paper_definition_educational_option_program_choice : PaperChoiceRule (Fin 6) :=
+  paperEducationalOptionProgramChoice
+
+/-- Canonical Educational Option with DIA program choice rule. -/
+abbrev paper_definition_educational_option_dia_program_choice : PaperChoiceRule (Fin 12) :=
+  paperEducationalOptionDIAProgramChoice
+
+/-- Proposition 2: modeled Screened/Open programs are 1-unstable and exactly 1-variable. -/
+theorem paper_screened_open_program_properties_statement :
+    paper_choice_function_feasible paper_definition_screened_open_program_choice ∧
+      paper_definition_q_acceptance 1 paper_definition_screened_open_program_choice ∧
+      paper_definition_d_instability 1 paper_definition_screened_open_program_choice ∧
+      paper_definition_variability_exactly 1
+        paper_definition_screened_open_program_choice := by
+  exact paper_screened_open_program_properties
+
+/-- Proposition 2: modeled Screened/Open with DIA programs are exactly 2-variable. -/
+theorem paper_screened_open_dia_program_properties_statement :
+    paper_choice_function_feasible paper_definition_screened_open_dia_program_choice ∧
+      paper_definition_q_acceptance 2 paper_definition_screened_open_dia_program_choice ∧
+      paper_definition_d_instability 1 paper_definition_screened_open_dia_program_choice ∧
+      paper_definition_variability_exactly 2
+        paper_definition_screened_open_dia_program_choice := by
+  exact paper_screened_open_dia_program_properties
+
+/-- Proposition 2: modeled Educational Option programs are exactly 3-variable. -/
+theorem paper_educational_option_program_properties_statement :
+    paper_choice_function_feasible paper_definition_educational_option_program_choice ∧
+      paper_definition_q_acceptance 3 paper_definition_educational_option_program_choice ∧
+      paper_definition_d_instability 1 paper_definition_educational_option_program_choice ∧
+      paper_definition_variability_exactly 3
+        paper_definition_educational_option_program_choice := by
+  exact paper_educational_option_program_properties
+
+/-- Proposition 2: modeled Educational Option with DIA programs are exactly 6-variable. -/
+theorem paper_educational_option_dia_program_properties_statement :
+    paper_choice_function_feasible paper_definition_educational_option_dia_program_choice ∧
+      paper_definition_q_acceptance 6 paper_definition_educational_option_dia_program_choice ∧
+      paper_definition_d_instability 1 paper_definition_educational_option_dia_program_choice ∧
+      paper_definition_variability_exactly 6
+        paper_definition_educational_option_dia_program_choice := by
+  exact paper_educational_option_dia_program_properties
+
+/-- Proposition 2 aggregate: all four modeled program classes are 1-unstable. -/
+theorem paper_program_classes_one_instability_statement :
+    paper_definition_d_instability 1 paper_definition_screened_open_program_choice ∧
+      paper_definition_d_instability 1 paper_definition_screened_open_dia_program_choice ∧
+      paper_definition_d_instability 1 paper_definition_educational_option_program_choice ∧
+      paper_definition_d_instability 1
+        paper_definition_educational_option_dia_program_choice := by
+  exact paper_program_classes_one_instability
+
+/--
 If each applicant pool is assigned feasibly, the induced assignment choice rule
 is feasible.
 Source status: paper-facing source definition/result; row-local LLM validation pending.
@@ -1136,11 +1378,11 @@ Source status: paper-facing source definition/result; row-local LLM validation p
 -/
 theorem paper_lap_assignment_one_instability_statement
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    {w : α → σ → ℤ} {select : Finset α → LAP.Assignment α σ}
-    (hselect : LAP.Assignment.SelectsUniqueGlobalOptima w select) :
+    {w : α → σ → ℝ}
+    (hwell : LAP.Assignment.WellPosedObjective w) :
     paper_definition_d_instability 1
-      (paper_definition_lap_choice_rule (α := α) select) := by
-  exact paper_lap_assignment_selector_one_instability hselect
+      (paperLAPChoiceRule w hwell) := by
+  exact paper_lap_well_posed_choice_one_instability hwell
 
 /--
 Conditional LAP 1-instability bridge: if the selected unique global optima
@@ -1149,7 +1391,7 @@ choice rule is 1-unstable.
 -/
 theorem paper_lap_assignment_one_instability_from_exchange_preservation_statement
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    {w : α → σ → ℤ} {select : Finset α → LAP.Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → LAP.Assignment α σ}
     (hselect : LAP.Assignment.SelectsUniqueGlobalOptima w select)
     (hpreserve : LAP.Assignment.SingleAddOldChosenPreservation w select) :
     paper_definition_d_instability 1
@@ -1165,7 +1407,7 @@ global-optimum theorem is proved.
 -/
 theorem paper_lap_assignment_one_instability_from_exchange_repair_statement
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    {w : α → σ → ℤ} {select : Finset α → LAP.Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → LAP.Assignment α σ}
     (hselect : LAP.Assignment.SelectsUniqueGlobalOptima w select)
     (hrepair : LAP.Assignment.SingleAddExchangeRepair w select) :
     paper_definition_d_instability 1
@@ -1216,7 +1458,7 @@ slots, then its assignment-induced choice rule has variability at most one.
 theorem paper_lap_assignment_common_order_variability_at_most_one_statement
     [Fintype α] [LinearOrder α]
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    {w : α → σ → ℤ} {select : Finset α → paper_definition_lap_assignment (α := α) σ}
+    {w : α → σ → ℝ} {select : Finset α → paper_definition_lap_assignment (α := α) σ}
     (hselect : LAP.Assignment.SelectsUniqueGlobalOptima w select)
     (horder : ∀ s a b, a < b ↔ w b s < w a s) :
     paper_definition_variability_at_most 1
@@ -1259,7 +1501,7 @@ number of supplied slot-order classes.
 -/
 theorem paper_lap_assignment_slot_order_class_variability_from_same_order_kernel_statement
     [Fintype α] {σ κ : Type*} [DecidableEq σ] [Fintype σ] [DecidableEq κ]
-    {w : α → σ → ℤ}
+    {w : α → σ → ℝ}
     {select : Finset α → paper_definition_lap_assignment (α := α) σ}
     {classOf : σ → κ}
     (hclass : ∀ {s t : σ}, classOf s = classOf t →
@@ -1283,27 +1525,22 @@ theorem paper_lap_assignment_slot_order_class_variability_from_same_order_kernel
 
 /--
 LAP distinct-ordering variability theorem: if a finite linear-assignment
-selector returns unique global optima, every slot has no applicant-weight ties,
-and the supplied slot classifier only groups slots with the same induced
-applicant order, then variability is bounded by the number of represented
-slot-order classes.
+selector returns unique global optima and every slot has no applicant-weight
+ties, variability is bounded by the canonical number of distinct slot-induced
+applicant orders.
 Source status: paper-facing source definition/result; row-local LLM validation pending.
 -/
 theorem paper_lap_assignment_slot_order_class_variability_of_unique_global_optima_statement
-    [Fintype α] {σ κ : Type*} [DecidableEq σ] [Fintype σ] [DecidableEq κ]
-    {w : α → σ → ℤ}
-    {select : Finset α → paper_definition_lap_assignment (α := α) σ}
-    {classOf : σ → κ}
-    (hselect : LAP.Assignment.SelectsUniqueGlobalOptima w select)
-    (hnoTies : ∀ s : σ, LAP.Assignment.SlotNoTies w s)
-    (hclass : ∀ {s t : σ}, classOf s = classOf t →
-      LAP.Assignment.SameSlotOrder w s t) :
+    [Fintype α] {σ : Type*} [DecidableEq σ] [Fintype σ]
+    {w : α → σ → ℝ}
+    (hwell : LAP.Assignment.WellPosedObjective w)
+    (hnoTies : ∀ s : σ, LAP.Assignment.SlotNoTies w s) :
     paper_definition_variability_at_most
-      ((Finset.univ : Finset σ).image classOf).card
-      (paper_definition_lap_choice_rule (α := α) select) := by
+      (LAP.Assignment.distinctSlotOrderCount w)
+      (paperLAPChoiceRule w hwell) := by
   exact
-    paper_lap_assignment_selector_variability_at_most_slot_order_classes_of_unique_global_optima
-      hselect hnoTies hclass
+    paper_lap_well_posed_choice_variability_at_most_distinct_slot_orders
+      hwell hnoTies
 
 /--
 Global objective optimality implies the local no-profitable-one-slot-swap
@@ -1312,7 +1549,7 @@ Source status: paper-facing source definition/result; row-local LLM validation p
 -/
 theorem paper_lap_no_profitable_one_slot_swap_of_objective_optimal_statement
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    {X : Finset α} {w : α → σ → ℤ}
+    {X : Finset α} {w : α → σ → ℝ}
     {A : paper_definition_lap_assignment (α := α) σ}
     (hopt : paper_definition_lap_objective_optimal X w A)
     (hfill : paper_definition_lap_capacity_filling X A) :
@@ -1327,14 +1564,17 @@ Source status: paper-facing source definition/result; row-local LLM validation p
 -/
 theorem paper_lap_ordering_statement
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    {X : Finset α} {w : α → σ → ℤ} {A : LAP.Assignment α σ}
-    (hopt : paper_definition_lap_no_profitable_one_slot_swap X w A)
+    {X : Finset α} {w : α → σ → ℝ} {A : LAP.Assignment α σ}
+    (hobjective : paper_definition_lap_objective_optimal X w A)
+    (hfill : paper_definition_lap_capacity_filling X A)
     (hassign : paper_definition_lap_assignment_feasible X A)
     {s : σ} {y x : α}
     (hslot : A.matchSlot s = some y)
     (hrej : paper_definition_lap_rejected X A x) :
     paper_definition_lap_slot_at_least w s y x := by
-  exact paper_lap_slot_ordering hopt hassign hslot hrej
+  exact paper_lap_slot_ordering
+    (paper_lap_no_profitable_one_slot_swap_of_objective_optimal hobjective hfill)
+    hassign hslot hrej
 
 /--
 In a locally optimal finite linear assignment, any offered applicant who
@@ -1343,8 +1583,9 @@ Source status: paper-facing source definition/result; row-local LLM validation p
 -/
 theorem paper_lap_strictly_higher_slot_applicant_assigned_statement
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    {X : Finset α} {w : α → σ → ℤ} {A : LAP.Assignment α σ}
-    (hopt : paper_definition_lap_no_profitable_one_slot_swap X w A)
+    {X : Finset α} {w : α → σ → ℝ} {A : LAP.Assignment α σ}
+    (hobjective : paper_definition_lap_objective_optimal X w A)
+    (hfill : paper_definition_lap_capacity_filling X A)
     (hassign : paper_definition_lap_assignment_feasible X A)
     {s : σ} {y x : α}
     (hslot : A.matchSlot s = some y)
@@ -1352,7 +1593,8 @@ theorem paper_lap_strictly_higher_slot_applicant_assigned_statement
     (hbelow : paper_definition_lap_slot_below w s y x) :
     paper_definition_lap_assigned A x := by
   exact paper_lap_strictly_higher_slot_applicant_assigned
-    hopt hassign hslot hxX hbelow
+    (paper_lap_no_profitable_one_slot_swap_of_objective_optimal hobjective hfill)
+    hassign hslot hxX hbelow
 
 /--
 In a feasible locally optimal finite linear assignment, no rejected applicant
@@ -1361,13 +1603,16 @@ Source status: paper-facing source definition/result; row-local LLM validation p
 -/
 theorem paper_lap_no_rejected_slot_below_statement
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    {X : Finset α} {w : α → σ → ℤ} {A : LAP.Assignment α σ}
-    (hopt : paper_definition_lap_no_profitable_one_slot_swap X w A)
+    {X : Finset α} {w : α → σ → ℝ} {A : LAP.Assignment α σ}
+    (hobjective : paper_definition_lap_objective_optimal X w A)
+    (hfill : paper_definition_lap_capacity_filling X A)
     (hassign : paper_definition_lap_assignment_feasible X A) :
     ¬ ∃ s y x, A.matchSlot s = some y ∧
       paper_definition_lap_rejected X A x ∧
         paper_definition_lap_slot_below w s y x := by
-  exact paper_lap_no_rejected_slot_below hopt hassign
+  exact paper_lap_no_rejected_slot_below
+    (paper_lap_no_profitable_one_slot_swap_of_objective_optimal hobjective hfill)
+    hassign
 
 /--
 Capacity-constrained choice functions are not zero-unstable on nontrivial

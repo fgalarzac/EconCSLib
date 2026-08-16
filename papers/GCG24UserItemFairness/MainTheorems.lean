@@ -485,6 +485,59 @@ theorem paper_lemma2_item_fairness_lp_value_eq
     hNonneg
 
 /--
+Appendix C, Lemma 2's full equality-form LP conclusion.
+
+Under the source's strictly positive utility model, a policy solves the
+original max-min item-fairness problem exactly when it is the policy component
+of an optimizer of the equality-form LP with `I_j(rho) = ell` for every item.
+This proves equality of the two optimizer sets, not merely equality of their
+objective values.
+-/
+theorem paper_lemma2_item_fairness_equality_lp_solution_set_of_positive
+    {m n : ℕ} [NeZero m] [NeZero n]
+    (W : RecommendationModel m n) (hPos : W.Positive) (rho : Policy m n) :
+    W.itemFairness rho = W.optimalItemFairness ↔
+      ∃ ell : ℝ,
+        W.itemFairnessEqualityLPFeasible rho ell ∧
+          ∀ rho' : Policy m n, ∀ ell' : ℝ,
+            W.itemFairnessEqualityLPFeasible rho' ell' → ell' ≤ ell := by
+  constructor
+  · intro hopt
+    refine ⟨W.itemFairness rho, ?_, ?_⟩
+    · exact W.itemFairnessEqualityLPFeasible_of_optimal_of_slackImprovement
+        (W.nonnegative_of_positive hPos) hopt
+        (W.itemFairnessSlackImprovementProperty_of_positive_of_optimal hPos hopt)
+    · intro rho' ell' hfeas
+      have hitem : W.itemFairness rho' = ell' :=
+        W.itemFairness_eq_of_itemFairnessEqualityLPFeasible rho' ell' hfeas
+      rw [← hitem, hopt]
+      exact le_csSup
+        (W.attainableItemFairnessSet_bddAbove_of_nonnegative
+          (W.nonnegative_of_positive hPos))
+        ⟨rho', rfl⟩
+  · rintro ⟨ell, hfeas, hmax⟩
+    obtain ⟨rhoopt, hopt⟩ :=
+      W.optimalItemFairness_attained_of_nonnegative
+        (W.nonnegative_of_positive hPos)
+    have hoptfeas : W.itemFairnessEqualityLPFeasible rhoopt
+        (W.itemFairness rhoopt) :=
+      W.itemFairnessEqualityLPFeasible_of_optimal_of_slackImprovement
+        (W.nonnegative_of_positive hPos) hopt
+        (W.itemFairnessSlackImprovementProperty_of_positive_of_optimal hPos hopt)
+    have hopt_le_ell : W.itemFairness rhoopt ≤ ell :=
+      hmax rhoopt (W.itemFairness rhoopt) hoptfeas
+    have hell_eq : W.itemFairness rho = ell :=
+      W.itemFairness_eq_of_itemFairnessEqualityLPFeasible rho ell hfeas
+    have hell_le_opt : ell ≤ W.optimalItemFairness := by
+      rw [← hell_eq]
+      exact le_csSup
+        (W.attainableItemFairnessSet_bddAbove_of_nonnegative
+          (W.nonnegative_of_positive hPos))
+        ⟨rho, rfl⟩
+    rw [hopt] at hopt_le_ell
+    exact hell_eq.trans (le_antisymm hell_le_opt hopt_le_ell)
+
+/--
 Appendix C, Lemma 2 proof component: an attained item-fairness optimum admits
 no alternative policy that strictly improves every normalized item utility.
 -/
@@ -6038,7 +6091,6 @@ type fairness is monotone for any `α ≤ α' ≤ 1/2`.
 theorem paper_theorem3_typeFairness_mono_firstHalf_center_of_alpha_le
     {n : ℕ} [NeZero n]
     {alpha alpha' : ℝ} {v : Item n → ℝ} {c : Item n}
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha0' : 0 < alpha') (halpha1' : alpha' < 1)
     (halpha_le : alpha ≤ alpha')
@@ -6055,7 +6107,7 @@ theorem paper_theorem3_typeFairness_mono_firstHalf_center_of_alpha_le
         (problem6FirstClosedPolicy alpha' v halpha0' halpha1' hpos) := by
   exact
     theorem3_typeFairness_mono_firstHalf_center_of_alpha_le
-      hn halpha0 halpha1 halpha0' halpha1' halpha_le
+      halpha0 halpha1 halpha0' halpha1' halpha_le
       halpha_half halpha_half' hpos hdec hcenter_c
 
 /--
@@ -6064,7 +6116,6 @@ Theorem 3 canonical closed-policy first-half monotonicity, even-center case.
 theorem paper_theorem3_typeFairness_mono_firstHalf_succ_center_of_alpha_le
     {n : ℕ} [NeZero n]
     {alpha alpha' : ℝ} {v : Item n → ℝ} {c : Item n}
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha0' : 0 < alpha') (halpha1' : alpha' < 1)
     (halpha_le : alpha ≤ alpha')
@@ -6081,7 +6132,7 @@ theorem paper_theorem3_typeFairness_mono_firstHalf_succ_center_of_alpha_le
         (problem6FirstClosedPolicy alpha' v halpha0' halpha1' hpos) := by
   exact
     theorem3_typeFairness_mono_firstHalf_succ_center_of_alpha_le
-      hn halpha0 halpha1 halpha0' halpha1' halpha_le
+      halpha0 halpha1 halpha0' halpha1' halpha_le
       halpha_half halpha_half' hpos hdec hsucc
 
 /--
@@ -6251,7 +6302,6 @@ canonicalization, so the Lemma 5 first-closed policy realizes reduced
 theorem paper_problem6_firstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_of_alpha_le_half_of_pivot_le_reverse
     {n : ℕ} [NeZero n]
     {alpha : ℝ} {v : Item n → ℝ}
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha_half : alpha ≤ 1 / 2)
     (hpos : ∀ j : Item n, 0 < v j)
@@ -6267,7 +6317,7 @@ theorem paper_problem6_firstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_of_al
         (problem6FirstClosedPolicy alpha v halpha0 halpha1 hpos) := by
   exact
     problem6FirstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_of_alpha_le_half_of_pivot_le_reverse
-      hn halpha0 halpha1 halpha_half hpos hdec hcenter
+      halpha0 halpha1 halpha_half hpos hdec hcenter
 
 /--
 Problem 6 canonical closed-policy optimality bridge, odd-center first-half
@@ -6276,7 +6326,6 @@ case.  Lemma 10 supplies the pivot-before-mirror side condition.
 theorem paper_problem6_firstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_firstHalf_center
     {n : ℕ} [NeZero n]
     {alpha : ℝ} {v : Item n → ℝ} {c : Item n}
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha_half : alpha ≤ 1 / 2)
     (hpos : ∀ j : Item n, 0 < v j)
@@ -6289,7 +6338,7 @@ theorem paper_problem6_firstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_first
         (problem6FirstClosedPolicy alpha v halpha0 halpha1 hpos) := by
   exact
     problem6FirstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_firstHalf_center
-      hn halpha0 halpha1 halpha_half hpos hdec hcenter_c
+      halpha0 halpha1 halpha_half hpos hdec hcenter_c
 
 /--
 Problem 6 canonical closed-policy optimality bridge, even-center first-half
@@ -6298,7 +6347,6 @@ case.  Lemma 10 supplies the pivot-before-mirror side condition.
 theorem paper_problem6_firstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_firstHalf_succ_center
     {n : ℕ} [NeZero n]
     {alpha : ℝ} {v : Item n → ℝ} {c : Item n}
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha_half : alpha ≤ 1 / 2)
     (hpos : ∀ j : Item n, 0 < v j)
@@ -6311,7 +6359,7 @@ theorem paper_problem6_firstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_first
         (problem6FirstClosedPolicy alpha v halpha0 halpha1 hpos) := by
   exact
     problem6FirstClosedPolicy_optimalTypeFairnessAtLevel_one_eq_firstHalf_succ_center
-      hn halpha0 halpha1 halpha_half hpos hdec hsucc
+      halpha0 halpha1 halpha_half hpos hdec hsucc
 
 /--
 Theorem 3 reduced-optimum monotonicity, odd-center first-half endpoint form,
@@ -6321,7 +6369,6 @@ dual.
 theorem paper_theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_center_of_alpha_le
     {n : ℕ} [NeZero n]
     {alpha alpha' : ℝ} {v : Item n → ℝ} {c : Item n}
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha0' : 0 < alpha') (halpha1' : alpha' < 1)
     (halpha_le : alpha ≤ alpha')
@@ -6336,7 +6383,7 @@ theorem paper_theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_center_of_a
         (twoTypeReducedModel alpha' v) 1 := by
   exact
     theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_center_of_alpha_le
-      hn halpha0 halpha1 halpha0' halpha1' halpha_le
+      halpha0 halpha1 halpha0' halpha1' halpha_le
       halpha_half halpha_half' hpos hdec hcenter_c
 
 /--
@@ -6347,7 +6394,6 @@ dual.
 theorem paper_theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_succ_center_of_alpha_le
     {n : ℕ} [NeZero n]
     {alpha alpha' : ℝ} {v : Item n → ℝ} {c : Item n}
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha0' : 0 < alpha') (halpha1' : alpha' < 1)
     (halpha_le : alpha ≤ alpha')
@@ -6362,7 +6408,7 @@ theorem paper_theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_succ_center
         (twoTypeReducedModel alpha' v) 1 := by
   exact
     theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_succ_center_of_alpha_le
-      hn halpha0 halpha1 halpha0' halpha1' halpha_le
+      halpha0 halpha1 halpha0' halpha1' halpha_le
       halpha_half halpha_half' hpos hdec hsucc
 
 /--
@@ -6379,7 +6425,6 @@ theorem paper_theorem3_price_decreases_firstHalf_center_of_reduction
     {alpha alpha' : ℝ} {v : Item n → ℝ} {c : Item n}
     (hred : R.reduced = twoTypeReducedModel alpha v)
     (hred' : R'.reduced = twoTypeReducedModel alpha' v)
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha0' : 0 < alpha') (halpha1' : alpha' < 1)
     (halpha_le : alpha ≤ alpha')
@@ -6457,7 +6502,7 @@ theorem paper_theorem3_price_decreases_firstHalf_center_of_reduction
           R'.reduced 1 := by
     rw [hred, hred']
     exact theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_center_of_alpha_le
-      hn halpha0 halpha1 halpha0' halpha1' halpha_le
+      halpha0 halpha1 halpha0' halpha1' halpha_le
       halpha_half halpha_half' hpos hdec hcenter_c
   have huser_mono :
       RecommendationModel.optimalUserFairnessAtLevel R.data.model 1 ≤
@@ -6481,7 +6526,6 @@ theorem paper_theorem3_price_decreases_firstHalf_succ_center_of_reduction
     {alpha alpha' : ℝ} {v : Item n → ℝ} {c : Item n}
     (hred : R.reduced = twoTypeReducedModel alpha v)
     (hred' : R'.reduced = twoTypeReducedModel alpha' v)
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha0' : 0 < alpha') (halpha1' : alpha' < 1)
     (halpha_le : alpha ≤ alpha')
@@ -6559,7 +6603,7 @@ theorem paper_theorem3_price_decreases_firstHalf_succ_center_of_reduction
           R'.reduced 1 := by
     rw [hred, hred']
     exact theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_succ_center_of_alpha_le
-      hn halpha0 halpha1 halpha0' halpha1' halpha_le
+      halpha0 halpha1 halpha0' halpha1' halpha_le
       halpha_half halpha_half' hpos hdec hsucc
   have huser_mono :
       RecommendationModel.optimalUserFairnessAtLevel R.data.model 1 ≤
@@ -6576,7 +6620,6 @@ odd/even midpoint split is discharged internally.
 theorem paper_theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_of_alpha_le
     {n : ℕ} [NeZero n]
     {alpha alpha' : ℝ} {v : Item n → ℝ}
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha0' : 0 < alpha') (halpha1' : alpha' < 1)
     (halpha_le : alpha ≤ alpha')
@@ -6588,16 +6631,16 @@ theorem paper_theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_of_alpha_le
         (twoTypeReducedModel alpha v) 1 ≤
       TypeWeightedRecommendationModel.optimalTypeFairnessAtLevel
         (twoTypeReducedModel alpha' v) 1 := by
-  rcases midpoint_center_or_succ_center (n := n) hn with hcenter | hsucc
+  rcases midpoint_center_or_succ_center (n := n) with hcenter | hsucc
   · rcases hcenter with ⟨c, hcenter⟩
     exact
       paper_theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_center_of_alpha_le
-        hn halpha0 halpha1 halpha0' halpha1' halpha_le
+        halpha0 halpha1 halpha0' halpha1' halpha_le
         halpha_half halpha_half' hpos hdec hcenter
   · rcases hsucc with ⟨c, hsucc⟩
     exact
       paper_theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_succ_center_of_alpha_le
-        hn halpha0 halpha1 halpha0' halpha1' halpha_le
+        halpha0 halpha1 halpha0' halpha1' halpha_le
         halpha_half halpha_half' hpos hdec hsucc
 
 /--
@@ -6608,7 +6651,6 @@ is the mirror-policy equivalence for the two-type reduced model.
 theorem paper_theorem3_optimalTypeFairnessAtLevel_one_antitone_secondHalf_of_alpha_le
     {n : ℕ} [NeZero n]
     {alpha alpha' : ℝ} {v : Item n → ℝ}
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha0' : 0 < alpha') (halpha1' : alpha' < 1)
     (halpha_le : alpha ≤ alpha')
@@ -6634,7 +6676,7 @@ theorem paper_theorem3_optimalTypeFairnessAtLevel_one_antitone_secondHalf_of_alp
           (twoTypeReducedModel (1 - alpha) v) 1 :=
     paper_theorem3_optimalTypeFairnessAtLevel_one_mono_firstHalf_of_alpha_le
       (alpha := 1 - alpha') (alpha' := 1 - alpha) (v := v)
-      hn hbeta0 hbeta1 hbeta0' hbeta1' hbeta_le
+      hbeta0 hbeta1 hbeta0' hbeta1' hbeta_le
       hbeta_half hbeta_half' hpos hdec
   rw [twoTypeReducedModel_optimalTypeFairnessAtLevel_one_mirror_eq
         (alpha := alpha') (v := v),
@@ -6655,7 +6697,6 @@ theorem paper_theorem3_price_decreases_firstHalf_of_reduction
     {alpha alpha' : ℝ} {v : Item n → ℝ}
     (hred : R.reduced = twoTypeReducedModel alpha v)
     (hred' : R'.reduced = twoTypeReducedModel alpha' v)
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha0' : 0 < alpha') (halpha1' : alpha' < 1)
     (halpha_le : alpha ≤ alpha')
@@ -6669,17 +6710,17 @@ theorem paper_theorem3_price_decreases_firstHalf_of_reduction
     (hRow' : R'.data.model.RowHasPositiveItem) :
     RecommendationModel.priceOfFairness R'.data.model ≤
       RecommendationModel.priceOfFairness R.data.model := by
-  rcases midpoint_center_or_succ_center (n := n) hn with hcenter | hsucc
+  rcases midpoint_center_or_succ_center (n := n) with hcenter | hsucc
   · rcases hcenter with ⟨c, hcenter⟩
     exact
       paper_theorem3_price_decreases_firstHalf_center_of_reduction
-        R R' reps reps' hred hred' hn halpha0 halpha1 halpha0' halpha1'
+        R R' reps reps' hred hred' halpha0 halpha1 halpha0' halpha1'
         halpha_le halpha_half halpha_half' hpos hdec hcenter hNonneg hRow
         hNonneg' hRow'
   · rcases hsucc with ⟨c, hsucc⟩
     exact
       paper_theorem3_price_decreases_firstHalf_succ_center_of_reduction
-        R R' reps reps' hred hred' hn halpha0 halpha1 halpha0' halpha1'
+        R R' reps reps' hred hred' halpha0 halpha1 halpha0' halpha1'
         halpha_le halpha_half halpha_half' hpos hdec hsucc hNonneg hRow
         hNonneg' hRow'
 
@@ -6696,7 +6737,6 @@ theorem paper_theorem3_price_increases_secondHalf_of_reduction
     {alpha alpha' : ℝ} {v : Item n → ℝ}
     (hred : R.reduced = twoTypeReducedModel alpha v)
     (hred' : R'.reduced = twoTypeReducedModel alpha' v)
-    (hn : 2 < n)
     (halpha0 : 0 < alpha) (halpha1 : alpha < 1)
     (halpha0' : 0 < alpha') (halpha1' : alpha' < 1)
     (halpha_le : alpha ≤ alpha')
@@ -6774,7 +6814,7 @@ theorem paper_theorem3_price_increases_secondHalf_of_reduction
     rw [hred, hred']
     exact
       paper_theorem3_optimalTypeFairnessAtLevel_one_antitone_secondHalf_of_alpha_le
-        hn halpha0 halpha1 halpha0' halpha1' halpha_le
+        halpha0 halpha1 halpha0' halpha1' halpha_le
         halpha_half halpha_half' hpos hdec
   have huser_mono :
       RecommendationModel.optimalUserFairnessAtLevel R'.data.model 1 ≤
@@ -10180,7 +10220,7 @@ theorem paper_theorem4_misestimation_tradeoff_trueHalf_collapsed_typeZero
       ∃ ρ1 : TypePolicy 3 n,
         E.SolvesEstimatedProblem 1 (Rest.liftedPolicy ρ1) ∧
           1 - eps < E.priceOfMisestimation 1 (Rest.liftedPolicy ρ1) := by
-  rcases OpposingTypes.midpoint_center_or_succ_center (n := n) hn with
+  rcases OpposingTypes.midpoint_center_or_succ_center (n := n) with
     hcenter | hsucc
   · rcases hcenter with ⟨c, hcenter⟩
     exact
@@ -10237,7 +10277,7 @@ theorem paper_theorem4_misestimation_tradeoff_trueHalf_collapsed_typeOne
       ∃ ρ1 : TypePolicy 3 n,
         E.SolvesEstimatedProblem 1 (Rest.liftedPolicy ρ1) ∧
           1 - eps < E.priceOfMisestimation 1 (Rest.liftedPolicy ρ1) := by
-  rcases OpposingTypes.midpoint_center_or_succ_center (n := n) hn with
+  rcases OpposingTypes.midpoint_center_or_succ_center (n := n) with
     hcenter | hsucc
   · rcases hcenter with ⟨c, hcenter⟩
     exact
@@ -11194,12 +11234,26 @@ This is the finite arithmetic part of the paper's BFS sparsity proof:
 `nK + 1 - (n + K)` binding nonnegativity constraints imply at most
 `n + K - 1` positive type-item pairs.
 -/
-theorem paper_active_pairs_bound_of_basic_feasible_support
+theorem paper_active_pairs_bound_of_basic_feasible_support_certificate
     {K n : ℕ} [NeZero K] [NeZero n]
     (ρ : TypePolicy K n)
     (hcert : BasicFeasibleSupportCertificate ρ) :
     ActivePairsBound ρ := by
   exact activePairsBound_of_basicFeasibleSupportCertificate ρ hcert
+
+/--
+Proposition 2 active-support bound from an actual basic feasible solution of
+the concrete reduced equality-form LP.  The binding-zero count is derived from
+the active constraint basis rather than supplied as a premise.
+-/
+theorem paper_active_pairs_bound_of_equality_lp_basic_feasible
+    {K n : ℕ} [NeZero K] [NeZero n]
+    (T : TypeWeightedRecommendationModel K n)
+    (ρ : TypePolicy K n) (ell : ℝ)
+    (hbfs : T.IsEqualityLPBasicFeasible ρ ell) :
+    ActivePairsBound ρ := by
+  exact activePairsBound_of_basicFeasibleSupportCertificate ρ
+    (ReducedEqualityLPBasicFeasible.basicFeasibleSupportCertificate hbfs)
 
 /--
 Proposition 2 sparse shared-item consequence for a maximal-item-fairness
@@ -11214,16 +11268,17 @@ theorem paper_sparse_shared_items_of_active_pairs_bound_of_maximal_optimum
     (T : TypeWeightedRecommendationModel K n) (ρ : TypePolicy K n)
     (hWeight : T.PositiveWeights) (hUtil : T.PositiveUtilities)
     (hactive : ActivePairsBound ρ)
-    (hopt : TypeWeightedRecommendationModel.IsOptimalAtLevel T 1 ρ) :
+    (hitemOptimal :
+      TypeWeightedRecommendationModel.itemFairness T ρ =
+        TypeWeightedRecommendationModel.optimalItemFairness T) :
     SharedItemsBound ρ := by
   have hopt_pos :
       0 < TypeWeightedRecommendationModel.optimalItemFairness T :=
     TypeWeightedRecommendationModel.optimalItemFairness_pos_of_positive
       T hWeight hUtil
   have hitem_pos : 0 < TypeWeightedRecommendationModel.itemFairness T ρ := by
-    have hfeas := hopt.1
-    unfold TypeWeightedRecommendationModel.feasibleAtLevel at hfeas
-    exact lt_of_lt_of_le hopt_pos (by simpa using hfeas)
+    rw [hitemOptimal]
+    exact hopt_pos
   exact sharedItemsBound_of_activePairsBound_of_item_coverage ρ hactive
     (TypeWeightedRecommendationModel.item_coverage_of_itemFairness_pos T ρ hitem_pos)
 
@@ -11236,11 +11291,13 @@ theorem paper_sparse_shape_of_active_pairs_bound_of_maximal_optimum
     (T : TypeWeightedRecommendationModel K n) (ρ : TypePolicy K n)
     (hWeight : T.PositiveWeights) (hUtil : T.PositiveUtilities)
     (hactive : ActivePairsBound ρ)
-    (hopt : TypeWeightedRecommendationModel.IsOptimalAtLevel T 1 ρ) :
+    (hitemOptimal :
+      TypeWeightedRecommendationModel.itemFairness T ρ =
+        TypeWeightedRecommendationModel.optimalItemFairness T) :
     SparseShape ρ := by
   exact ⟨hactive,
     paper_sparse_shared_items_of_active_pairs_bound_of_maximal_optimum
-      T ρ hWeight hUtil hactive hopt⟩
+      T ρ hWeight hUtil hactive hitemOptimal⟩
 
 /--
 Proposition 2 sparse shared-item consequence for a maximal-item-fairness
@@ -11250,13 +11307,16 @@ directly.
 theorem paper_sparse_shared_items_of_basic_feasible_maximal_optimum
     {K n : ℕ} [NeZero K] [NeZero n]
     (T : TypeWeightedRecommendationModel K n) (ρ : TypePolicy K n)
+    (ell : ℝ)
     (hWeight : T.PositiveWeights) (hUtil : T.PositiveUtilities)
-    (hcert : BasicFeasibleSupportCertificate ρ)
-    (hopt : TypeWeightedRecommendationModel.IsOptimalAtLevel T 1 ρ) :
+    (hbfs : T.IsEqualityLPBasicFeasible ρ ell)
+    (hLPOptimal : ell = TypeWeightedRecommendationModel.optimalItemFairness T) :
     SharedItemsBound ρ := by
   exact paper_sparse_shared_items_of_active_pairs_bound_of_maximal_optimum
     T ρ hWeight hUtil
-    (activePairsBound_of_basicFeasibleSupportCertificate ρ hcert) hopt
+    (paper_active_pairs_bound_of_equality_lp_basic_feasible T ρ ell hbfs)
+    ((T.itemFairness_eq_ell_of_equalityLPBasicFeasible
+      hWeight hUtil ρ ell hbfs).trans hLPOptimal)
 
 /--
 Proposition 2 sparse-shape consequence for a maximal-item-fairness reduced
@@ -11265,14 +11325,60 @@ optimum, using the paper's basic-feasible-solution support count directly.
 theorem paper_sparse_shape_of_basic_feasible_maximal_optimum
     {K n : ℕ} [NeZero K] [NeZero n]
     (T : TypeWeightedRecommendationModel K n) (ρ : TypePolicy K n)
+    (ell : ℝ)
     (hWeight : T.PositiveWeights) (hUtil : T.PositiveUtilities)
-    (hcert : BasicFeasibleSupportCertificate ρ)
-    (hopt : TypeWeightedRecommendationModel.IsOptimalAtLevel T 1 ρ) :
+    (hbfs : T.IsEqualityLPBasicFeasible ρ ell)
+    (hLPOptimal : ell = TypeWeightedRecommendationModel.optimalItemFairness T) :
     SparseShape ρ := by
   exact paper_sparse_shape_of_active_pairs_bound_of_maximal_optimum
     T ρ hWeight hUtil
-    (activePairsBound_of_basicFeasibleSupportCertificate ρ hcert) hopt
+    (paper_active_pairs_bound_of_equality_lp_basic_feasible T ρ ell hbfs)
+    ((T.itemFairness_eq_ell_of_equalityLPBasicFeasible
+      hWeight hUtil ρ ell hbfs).trans hLPOptimal)
 
 end TypePolicy
+
+/--
+The Proposition 2 conclusions established for the explicit reduced equality
+LP: a finite linear description of `S_symm`, existence of a symmetric optimum,
+the reduced-LP BFS active-support bound, and the optimal reduced-LP BFS
+shared-item bound.
+
+The separate linear-equivalence theorem transporting basic feasible solutions
+between Proposition 1's user-coordinate LP on `S_symm` and this reduced
+type-coordinate LP has not yet been formalized.
+-/
+theorem paper_proposition2_reduced_lp_conclusions
+    {m n K : ℕ} [NeZero m] [NeZero n] [NeZero K]
+    (S : RecommendationModel.SymmetricData m n K)
+    (reps : UserTypeAssignment.TypeRepresentatives S.types)
+    (hPos : S.model.Positive) :
+    ∃ _D : RecommendationModel.FiniteLinearPolicySetDescription
+        (UserTypeAssignment.SymmetricPolicies (n := n) S.types),
+      (∃ ρsym : Policy m n,
+        UserTypeAssignment.IsTypeSymmetric S.types ρsym ∧
+          RecommendationModel.IsOptimalAtLevel S.model 1 ρsym) ∧
+      (∀ (ρ : TypePolicy K n) (ell : ℝ),
+        (S.canonicalReduction reps).reduced.IsEqualityLPBasicFeasible ρ ell →
+          TypePolicy.ActivePairsBound ρ) ∧
+      (∀ (ρ : TypePolicy K n) (ell : ℝ),
+        (S.canonicalReduction reps).reduced.IsEqualityLPBasicFeasible ρ ell →
+        ell = TypeWeightedRecommendationModel.optimalItemFairness
+            (S.canonicalReduction reps).reduced →
+          TypePolicy.SharedItemsBound ρ) := by
+  let R : ReductionWitness m n K := S.canonicalReduction reps
+  have hWeight : R.reduced.PositiveWeights :=
+    R.reduced_positiveWeights_of_representatives reps
+  have hUtil : R.reduced.PositiveUtilities :=
+    R.reduced_positiveUtilities_of_positive reps hPos
+  refine ⟨UserTypeAssignment.symmetricPoliciesFiniteLinearDescription
+      (n := n) S.types, ?_, ?_, ?_⟩
+  · exact S.paper_proposition2_symmetric_optimum_exists_of_positive reps hPos
+  · intro ρ ell hbfs
+    exact TypePolicy.paper_active_pairs_bound_of_equality_lp_basic_feasible
+      R.reduced ρ ell hbfs
+  · intro ρ ell hbfs hLPOptimal
+    exact TypePolicy.paper_sparse_shared_items_of_basic_feasible_maximal_optimum
+      R.reduced ρ ell hWeight hUtil hbfs hLPOptimal
 
 end GCG24UserItemFairness

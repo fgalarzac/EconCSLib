@@ -169,6 +169,379 @@ theorem integral_lt_integral_of_forall_le_of_measure_setOf_lt_pos
   linarith
 
 /--
+Upper-tail rearrangement for a shifted value objective.
+
+If an admission rule `q` is pointwise between zero and one, then after
+subtracting the cutoff `threshold` from every value, the strict upper-tail rule
+weakly dominates `q` pointwise.  The dominance is strict whenever `q` is
+fractional away from the cutoff on a positive-measure set.
+-/
+theorem shiftedIntegral_lt_upperTailStep_of_fractional
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] {threshold : ℝ}
+    {q : ℝ → ℝ}
+    (hq_shift_int : Integrable (fun v : ℝ => (v - threshold) * q v) μ)
+    (hstep_shift_int :
+      Integrable
+        (fun v : ℝ =>
+          (v - threshold) * (if threshold < v then (1 : ℝ) else 0)) μ)
+    (hq_bounds : ∀ v : ℝ, 0 ≤ q v ∧ q v ≤ 1)
+    (hfractional :
+      0 < μ {v : ℝ | v ≠ threshold ∧ 0 < q v ∧ q v < 1}) :
+    (∫ v : ℝ, (v - threshold) * q v ∂μ) <
+      ∫ v : ℝ,
+        (v - threshold) * (if threshold < v then (1 : ℝ) else 0) ∂μ := by
+  let f : ℝ → ℝ := fun v => (v - threshold) * q v
+  let g : ℝ → ℝ :=
+    fun v => (v - threshold) * (if threshold < v then (1 : ℝ) else 0)
+  have hle : ∀ v : ℝ, f v ≤ g v := by
+    intro v
+    by_cases htv : threshold < v
+    · have hnonneg : 0 ≤ v - threshold := by linarith
+      calc
+        f v = (v - threshold) * q v := rfl
+        _ ≤ (v - threshold) * 1 :=
+          mul_le_mul_of_nonneg_left (hq_bounds v).2 hnonneg
+        _ = g v := by simp [g, htv]
+    · have hv_le : v ≤ threshold := le_of_not_gt htv
+      have hnonpos : v - threshold ≤ 0 := by linarith
+      have hprod : (v - threshold) * q v ≤ 0 :=
+        mul_nonpos_of_nonpos_of_nonneg hnonpos (hq_bounds v).1
+      simpa [f, g, htv] using hprod
+  have hstrict_subset :
+      {v : ℝ | v ≠ threshold ∧ 0 < q v ∧ q v < 1} ⊆
+        {v : ℝ | f v < g v} := by
+    intro v hv
+    rcases hv with ⟨hv_ne, hq_pos, hq_lt_one⟩
+    by_cases htv : threshold < v
+    · have hpos : 0 < v - threshold := by linarith
+      calc
+        f v = (v - threshold) * q v := rfl
+        _ < (v - threshold) * 1 :=
+          mul_lt_mul_of_pos_left hq_lt_one hpos
+        _ = g v := by simp [g, htv]
+    · have hv_lt : v < threshold := lt_of_le_of_ne (le_of_not_gt htv) hv_ne
+      have hneg : v - threshold < 0 := by linarith
+      have hprod : (v - threshold) * q v < 0 :=
+        mul_neg_of_neg_of_pos hneg hq_pos
+      simpa [f, g, htv] using hprod
+  have hstrict_pos : 0 < μ {v : ℝ | f v < g v} :=
+    lt_of_lt_of_le hfractional (measure_mono hstrict_subset)
+  exact
+    integral_lt_integral_of_forall_le_of_measure_setOf_lt_pos
+      μ hq_shift_int hstep_shift_int hle hstrict_pos
+
+/--
+Upper-tail rearrangement for the original value objective.
+
+Among `[0,1]` admission rules with the same total admitted mass as the strict
+upper-tail rule at `threshold`, any rule that is fractional away from the
+cutoff on a positive-measure set has strictly smaller value-weighted integral.
+-/
+theorem integral_value_mul_lt_upperTailStep_of_same_mass_fractional
+    (μ : Measure ℝ) [IsProbabilityMeasure μ] {threshold : ℝ}
+    {q : ℝ → ℝ}
+    (hq_int : Integrable q μ)
+    (hstep_int :
+      Integrable (fun v : ℝ => if threshold < v then (1 : ℝ) else 0) μ)
+    (hq_value_int : Integrable (fun v : ℝ => v * q v) μ)
+    (hstep_value_int :
+      Integrable
+        (fun v : ℝ => v * (if threshold < v then (1 : ℝ) else 0)) μ)
+    (hq_bounds : ∀ v : ℝ, 0 ≤ q v ∧ q v ≤ 1)
+    (hmass :
+      (∫ v : ℝ, q v ∂μ) =
+        ∫ v : ℝ, (if threshold < v then (1 : ℝ) else 0) ∂μ)
+    (hfractional :
+      0 < μ {v : ℝ | v ≠ threshold ∧ 0 < q v ∧ q v < 1}) :
+    (∫ v : ℝ, v * q v ∂μ) <
+      ∫ v : ℝ, v * (if threshold < v then (1 : ℝ) else 0) ∂μ := by
+  have hq_shift_int :
+      Integrable (fun v : ℝ => (v - threshold) * q v) μ := by
+    refine (hq_value_int.sub (hq_int.const_mul threshold)).congr ?_
+    filter_upwards with v
+    change v * q v - threshold * q v = (v - threshold) * q v
+    ring
+  have hstep_shift_int :
+      Integrable
+        (fun v : ℝ =>
+          (v - threshold) * (if threshold < v then (1 : ℝ) else 0)) μ := by
+    refine (hstep_value_int.sub (hstep_int.const_mul threshold)).congr ?_
+    filter_upwards with v
+    change
+      v * (if threshold < v then (1 : ℝ) else 0) -
+          threshold * (if threshold < v then (1 : ℝ) else 0) =
+        (v - threshold) * (if threshold < v then (1 : ℝ) else 0)
+    ring
+  have hshift_lt :
+      (∫ v : ℝ, (v - threshold) * q v ∂μ) <
+        ∫ v : ℝ,
+          (v - threshold) * (if threshold < v then (1 : ℝ) else 0) ∂μ :=
+    shiftedIntegral_lt_upperTailStep_of_fractional
+      μ hq_shift_int hstep_shift_int hq_bounds hfractional
+  have hq_shift_eq :
+      (∫ v : ℝ, (v - threshold) * q v ∂μ) =
+        (∫ v : ℝ, v * q v ∂μ) -
+          threshold * ∫ v : ℝ, q v ∂μ := by
+    calc
+      (∫ v : ℝ, (v - threshold) * q v ∂μ) =
+          ∫ v : ℝ, v * q v - threshold * q v ∂μ := by
+            congr 1
+            funext v
+            ring
+      _ = (∫ v : ℝ, v * q v ∂μ) -
+            ∫ v : ℝ, threshold * q v ∂μ := by
+            exact integral_sub hq_value_int (hq_int.const_mul threshold)
+      _ = (∫ v : ℝ, v * q v ∂μ) -
+            threshold * ∫ v : ℝ, q v ∂μ := by
+            rw [integral_const_mul]
+  have hstep_shift_eq :
+      (∫ v : ℝ,
+          (v - threshold) * (if threshold < v then (1 : ℝ) else 0) ∂μ) =
+        (∫ v : ℝ, v * (if threshold < v then (1 : ℝ) else 0) ∂μ) -
+          threshold *
+            ∫ v : ℝ, (if threshold < v then (1 : ℝ) else 0) ∂μ := by
+    calc
+      (∫ v : ℝ,
+          (v - threshold) * (if threshold < v then (1 : ℝ) else 0) ∂μ) =
+          ∫ v : ℝ,
+            v * (if threshold < v then (1 : ℝ) else 0) -
+              threshold * (if threshold < v then (1 : ℝ) else 0) ∂μ := by
+            congr 1
+            funext v
+            ring
+      _ = (∫ v : ℝ, v * (if threshold < v then (1 : ℝ) else 0) ∂μ) -
+            ∫ v : ℝ,
+              threshold * (if threshold < v then (1 : ℝ) else 0) ∂μ := by
+            exact integral_sub hstep_value_int
+              (hstep_int.const_mul threshold)
+      _ = (∫ v : ℝ, v * (if threshold < v then (1 : ℝ) else 0) ∂μ) -
+            threshold *
+              ∫ v : ℝ, (if threshold < v then (1 : ℝ) else 0) ∂μ := by
+            rw [integral_const_mul]
+  rw [hq_shift_eq, hstep_shift_eq] at hshift_lt
+  rw [hmass] at hshift_lt
+  linarith
+
+/--
+Integral upper bound from a two-piece pointwise bound.
+
+If `f < lowBound` on a positive-measure measurable set `s` and
+`f ≤ highBound` off `s`, then its integral is strictly below the corresponding
+two-piece constant integral.
+-/
+theorem integral_lt_measureReal_mul_add_compl_of_lt_on_of_le_on_compl
+    {α : Type*} [MeasurableSpace α]
+    (μ : Measure α) [IsProbabilityMeasure μ]
+    {s : Set α} (hs : MeasurableSet s) {f : α → ℝ}
+    {lowBound highBound : ℝ}
+    (hf : Integrable f μ)
+    (hpos : 0 < μ s)
+    (hlow : ∀ a, a ∈ s → f a < lowBound)
+    (hhigh : ∀ a, a ∉ s → f a ≤ highBound) :
+    ∫ a, f a ∂μ <
+      lowBound * μ.real s + highBound * μ.real sᶜ := by
+  classical
+  let g : α → ℝ :=
+    s.piecewise (fun _ : α => lowBound) (fun _ : α => highBound)
+  have hg_s : IntegrableOn (fun _ : α => lowBound) s μ :=
+    (integrable_const lowBound).integrableOn
+  have hg_compl : IntegrableOn (fun _ : α => highBound) sᶜ μ :=
+    (integrable_const highBound).integrableOn
+  have hg : Integrable g μ := by
+    dsimp [g]
+    exact Integrable.piecewise hs hg_s hg_compl
+  have hle : ∀ a, f a ≤ g a := by
+    intro a
+    by_cases ha : a ∈ s
+    · have hlt := hlow a ha
+      simpa [g, Set.piecewise, ha] using le_of_lt hlt
+    · have hle' := hhigh a ha
+      simpa [g, Set.piecewise, ha] using hle'
+  have hstrict_subset : s ⊆ {a | f a < g a} := by
+    intro a ha
+    have hlt := hlow a ha
+    simpa [g, Set.piecewise, ha] using hlt
+  have hstrict_pos : 0 < μ {a | f a < g a} :=
+    lt_of_lt_of_le hpos (measure_mono hstrict_subset)
+  have hlt_int :
+      ∫ a, f a ∂μ < ∫ a, g a ∂μ :=
+    integral_lt_integral_of_forall_le_of_measure_setOf_lt_pos
+      μ hf hg hle hstrict_pos
+  have hg_integral :
+      ∫ a, g a ∂μ =
+        lowBound * μ.real s + highBound * μ.real sᶜ := by
+    calc
+      ∫ a, g a ∂μ =
+          ∫ a in s, lowBound ∂μ + ∫ a in sᶜ, highBound ∂μ := by
+            simpa [g] using
+              (MeasureTheory.integral_piecewise
+                (μ := μ) (s := s) hs hg_s hg_compl)
+      _ = lowBound * μ.real s + highBound * μ.real sᶜ := by
+            rw [MeasureTheory.setIntegral_const,
+              MeasureTheory.setIntegral_const]
+            simp [smul_eq_mul, mul_comm]
+  exact hlt_int.trans_eq hg_integral
+
+/--
+Non-strict upper bound from a two-piece pointwise bound.
+
+If `f ≤ lowBound` on a measurable set `s` and `f ≤ highBound` off `s`, then
+the integral of `f` is bounded by the corresponding two-piece constant
+integral.
+-/
+theorem integral_le_measureReal_mul_add_compl_of_le_on_of_le_on_compl
+    {α : Type*} [MeasurableSpace α]
+    (μ : Measure α) [IsProbabilityMeasure μ]
+    {s : Set α} (hs : MeasurableSet s) {f : α → ℝ}
+    {lowBound highBound : ℝ}
+    (hf : Integrable f μ)
+    (hlow : ∀ a, a ∈ s → f a ≤ lowBound)
+    (hhigh : ∀ a, a ∉ s → f a ≤ highBound) :
+    ∫ a, f a ∂μ ≤
+      lowBound * μ.real s + highBound * μ.real sᶜ := by
+  classical
+  let g : α → ℝ :=
+    s.piecewise (fun _ : α => lowBound) (fun _ : α => highBound)
+  have hg_s : IntegrableOn (fun _ : α => lowBound) s μ :=
+    (integrable_const lowBound).integrableOn
+  have hg_compl : IntegrableOn (fun _ : α => highBound) sᶜ μ :=
+    (integrable_const highBound).integrableOn
+  have hg : Integrable g μ := by
+    dsimp [g]
+    exact Integrable.piecewise hs hg_s hg_compl
+  have hle : ∀ a, f a ≤ g a := by
+    intro a
+    by_cases ha : a ∈ s
+    · have hle' := hlow a ha
+      simpa [g, Set.piecewise, ha] using hle'
+    · have hle' := hhigh a ha
+      simpa [g, Set.piecewise, ha] using hle'
+  have hle_int : ∫ a, f a ∂μ ≤ ∫ a, g a ∂μ :=
+    MeasureTheory.integral_mono hf hg hle
+  have hg_integral :
+      ∫ a, g a ∂μ =
+        lowBound * μ.real s + highBound * μ.real sᶜ := by
+    calc
+      ∫ a, g a ∂μ =
+          ∫ a in s, lowBound ∂μ + ∫ a in sᶜ, highBound ∂μ := by
+            simpa [g] using
+              (MeasureTheory.integral_piecewise
+                (μ := μ) (s := s) hs hg_s hg_compl)
+      _ = lowBound * μ.real s + highBound * μ.real sᶜ := by
+            rw [MeasureTheory.setIntegral_const,
+              MeasureTheory.setIntegral_const]
+            simp [smul_eq_mul, mul_comm]
+  rw [hg_integral] at hle_int
+  exact hle_int
+
+/--
+Integral lower bound from a two-piece pointwise bound.
+
+If `lowBound < f` on a positive-measure measurable set `s` and `0 ≤ f` off
+`s`, then the integral of `f` is strictly above the integral of the two-piece
+constant lower bound.
+-/
+theorem measureReal_mul_lt_integral_of_lt_on_of_nonneg_on_compl
+    {α : Type*} [MeasurableSpace α]
+    (μ : Measure α) [IsProbabilityMeasure μ]
+    {s : Set α} (hs : MeasurableSet s) {f : α → ℝ}
+    {lowBound : ℝ}
+    (hf : Integrable f μ)
+    (hpos : 0 < μ s)
+    (hlow : ∀ a, a ∈ s → lowBound < f a)
+    (hnonneg : ∀ a, a ∉ s → 0 ≤ f a) :
+    lowBound * μ.real s < ∫ a, f a ∂μ := by
+  classical
+  let g : α → ℝ :=
+    s.piecewise (fun _ : α => lowBound) (fun _ : α => 0)
+  have hg_s : IntegrableOn (fun _ : α => lowBound) s μ :=
+    (integrable_const lowBound).integrableOn
+  have hg_compl : IntegrableOn (fun _ : α => (0 : ℝ)) sᶜ μ :=
+    (integrable_const (0 : ℝ)).integrableOn
+  have hg : Integrable g μ := by
+    dsimp [g]
+    exact Integrable.piecewise hs hg_s hg_compl
+  have hle : ∀ a, g a ≤ f a := by
+    intro a
+    by_cases ha : a ∈ s
+    · have hlt := hlow a ha
+      simpa [g, Set.piecewise, ha] using le_of_lt hlt
+    · have hle' := hnonneg a ha
+      simpa [g, Set.piecewise, ha] using hle'
+  have hstrict_subset : s ⊆ {a | g a < f a} := by
+    intro a ha
+    have hlt := hlow a ha
+    simpa [g, Set.piecewise, ha] using hlt
+  have hstrict_pos : 0 < μ {a | g a < f a} :=
+    lt_of_lt_of_le hpos (measure_mono hstrict_subset)
+  have hlt_int :
+      ∫ a, g a ∂μ < ∫ a, f a ∂μ :=
+    integral_lt_integral_of_forall_le_of_measure_setOf_lt_pos
+      μ hg hf hle hstrict_pos
+  have hg_integral :
+      ∫ a, g a ∂μ = lowBound * μ.real s := by
+    calc
+      ∫ a, g a ∂μ =
+          ∫ a in s, lowBound ∂μ + ∫ a in sᶜ, (0 : ℝ) ∂μ := by
+            simpa [g] using
+              (MeasureTheory.integral_piecewise
+                (μ := μ) (s := s) hs hg_s hg_compl)
+      _ = lowBound * μ.real s := by
+            rw [MeasureTheory.setIntegral_const,
+              MeasureTheory.setIntegral_const]
+            simp [smul_eq_mul, mul_comm]
+  exact hg_integral.symm.trans_lt hlt_int
+
+/--
+Non-strict lower bound from a two-piece pointwise bound.
+
+If `lowBound ≤ f` on a measurable set `s` and `0 ≤ f` off `s`, then the
+integral of `f` is at least the corresponding two-piece constant lower bound.
+-/
+theorem measureReal_mul_le_integral_of_le_on_of_nonneg_on_compl
+    {α : Type*} [MeasurableSpace α]
+    (μ : Measure α) [IsProbabilityMeasure μ]
+    {s : Set α} (hs : MeasurableSet s) {f : α → ℝ}
+    {lowBound : ℝ}
+    (hf : Integrable f μ)
+    (hlow : ∀ a, a ∈ s → lowBound ≤ f a)
+    (hnonneg : ∀ a, a ∉ s → 0 ≤ f a) :
+    lowBound * μ.real s ≤ ∫ a, f a ∂μ := by
+  classical
+  let g : α → ℝ :=
+    s.piecewise (fun _ : α => lowBound) (fun _ : α => 0)
+  have hg_s : IntegrableOn (fun _ : α => lowBound) s μ :=
+    (integrable_const lowBound).integrableOn
+  have hg_compl : IntegrableOn (fun _ : α => (0 : ℝ)) sᶜ μ :=
+    (integrable_const (0 : ℝ)).integrableOn
+  have hg : Integrable g μ := by
+    dsimp [g]
+    exact Integrable.piecewise hs hg_s hg_compl
+  have hle : ∀ a, g a ≤ f a := by
+    intro a
+    by_cases ha : a ∈ s
+    · have hle' := hlow a ha
+      simpa [g, Set.piecewise, ha] using hle'
+    · have hle' := hnonneg a ha
+      simpa [g, Set.piecewise, ha] using hle'
+  have hle_int : ∫ a, g a ∂μ ≤ ∫ a, f a ∂μ :=
+    MeasureTheory.integral_mono hg hf hle
+  have hg_integral :
+      ∫ a, g a ∂μ = lowBound * μ.real s := by
+    calc
+      ∫ a, g a ∂μ =
+          ∫ a in s, lowBound ∂μ + ∫ a in sᶜ, (0 : ℝ) ∂μ := by
+            simpa [g] using
+              (MeasureTheory.integral_piecewise
+                (μ := μ) (s := s) hs hg_s hg_compl)
+      _ = lowBound * μ.real s := by
+            rw [MeasureTheory.setIntegral_const,
+              MeasureTheory.setIntegral_const]
+            simp [smul_eq_mul, mul_comm]
+  rw [hg_integral] at hle_int
+  exact hle_int
+
+/--
 Average a fiberwise strict probability comparison.
 
 If the numerator event has source probability `∫ N`, the conditioning event has

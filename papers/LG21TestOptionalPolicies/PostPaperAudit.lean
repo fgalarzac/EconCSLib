@@ -12,9 +12,14 @@ implementation-facing `ProofInterface.lean` and gives source-numbered audit
 entrypoints for the paper definitions, named results, proof-route variants, and
 diagnostic scope checks.
 
-The paper-facing Section 3 and Section 4 source-model routes are closed.  The
-extra raw arbitrary-policy and pointwise-boundary diagnostics recorded here are
-scope checks for overbroad abstractions, not caveats on the paper statements.
+The paper-facing named-theory surface in `PaperInterface.lean` is closed as
+`formalized`. The approved Theorem 3.2 clarification and the Section 4
+source-timed, positive-mass active-branch refinement are explicit parts of
+that reviewed surface. This ledger retains earlier static-RCD and candidate
+diagnostics as historical audit routes; they are not alternative paper-facing
+theorems or open proof obligations. Formula-level proof presentations and
+source-declared research directions remain deep-mode support rather than
+ordinary named-theory closeout blockers.
 -/
 
 namespace LG21TestOptionalPolicies

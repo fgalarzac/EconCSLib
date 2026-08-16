@@ -1,4 +1,6 @@
 import EconCSLib.SocialChoice.Voting
+import Mathlib.Algebra.Order.Floor.Div
+import Mathlib.Algebra.Order.Floor.Semifield
 
 /-!
 # Paper-Facing Theorems: Combatting Gerrymandering with Ranked Choice Voting: an Experimental Analysis of Multi-member Districts in the United States
@@ -135,6 +137,70 @@ theorem pavSeatMinArgmax_seatInterval {seatCount seats : ℕ} {partyShare : ℝ}
     (EconCSLib.SocialChoice.Voting.pavSeatInterval_of_isMinArgmaxOn
       (seatCount := seatCount) (seats := seats) (partyShare := partyShare)
       hpos hle hmin)
+
+/-- The finite source PAV objective has the leftmost maximizing seat count. -/
+noncomputable def pavSeatMinArgmaxChoice (partyShare : ℝ) (seats : ℕ) : ℕ :=
+  Classical.choose (exists_isMinArgmaxOn (pavSeatScore partyShare seats) seats)
+
+/-- The constructed source selector satisfies the exact leftmost-maximizer predicate. -/
+theorem pavSeatMinArgmaxChoice_spec (partyShare : ℝ) (seats : ℕ) :
+    pavSeatMinArgmax (pavSeatMinArgmaxChoice partyShare seats) partyShare seats := by
+  unfold pavSeatMinArgmaxChoice pavSeatMinArgmax
+  exact Classical.choose_spec (exists_isMinArgmaxOn (pavSeatScore partyShare seats) seats)
+
+/-- The source Lemma C.1 interval written over the paper's integer variable. -/
+def pavSeatIntegerInterval (seatCount : ℤ) (partyShare : ℝ) (seats : ℕ) : Prop :=
+  partyShare * ((seats + 1 : ℕ) : ℝ) - 1 ≤ (seatCount : ℝ) ∧
+    (seatCount : ℝ) < partyShare * ((seats + 1 : ℕ) : ℝ)
+
+/-- Any integer in the Lemma C.1 interval equals a natural seat count in it. -/
+theorem pavSeatIntegerInterval_eq_of_pavSeatInterval
+    {seatCount seats : ℕ} {partyShare : ℝ}
+    (hinterval : pavSeatInterval seatCount partyShare seats) {ell : ℤ}
+    (hell : pavSeatIntegerInterval ell partyShare seats) :
+    ell = seatCount := by
+  rcases hinterval with ⟨hseatLower, hseatUpper⟩
+  rcases hell with ⟨hellLower, hellUpper⟩
+  have hcast : (ell : ℝ) = (seatCount : ℝ) := by
+    apply le_antisymm
+    · by_contra hnot
+      have hltReal : (seatCount : ℝ) < (ell : ℝ) := lt_of_not_ge hnot
+      have hlt : (seatCount : ℤ) < ell := by
+        exact_mod_cast hltReal
+      have hsucc : (seatCount : ℤ) + 1 ≤ ell := by omega
+      have hsuccReal : (seatCount : ℝ) + 1 ≤ (ell : ℝ) := by
+        exact_mod_cast hsucc
+      nlinarith
+    · by_contra hnot
+      have hltReal : (ell : ℝ) < (seatCount : ℝ) := lt_of_not_ge hnot
+      have hlt : ell < (seatCount : ℤ) := by
+        exact_mod_cast hltReal
+      have hsucc : ell + 1 ≤ (seatCount : ℤ) := by omega
+      have hsuccReal : (ell : ℝ) + 1 ≤ (seatCount : ℝ) := by
+        exact_mod_cast hsucc
+      nlinarith
+  exact_mod_cast hcast
+
+/-- Lemma C.1's constructed PAV selector equals the unique integer in its interval. -/
+theorem pavSeatMinArgmaxChoice_eq_uniqueIntegerInterval
+    {partyShare : ℝ} {seats : ℕ}
+    (hpos : 0 < partyShare) (hle : partyShare ≤ 1) :
+    ∃ ell : ℤ,
+      (pavSeatMinArgmaxChoice partyShare seats : ℤ) = ell ∧
+        pavSeatIntegerInterval ell partyShare seats ∧
+          ∀ other : ℤ, pavSeatIntegerInterval other partyShare seats → other = ell := by
+  let choice := pavSeatMinArgmaxChoice partyShare seats
+  have hinterval : pavSeatInterval choice partyShare seats :=
+    pavSeatMinArgmax_seatInterval hpos hle
+      (pavSeatMinArgmaxChoice_spec partyShare seats)
+  have hinteger : pavSeatIntegerInterval (choice : ℤ) partyShare seats := by
+    constructor
+    · exact_mod_cast hinterval.1
+    · exact_mod_cast hinterval.2
+  refine ⟨(choice : ℤ), ?_, hinteger, ?_⟩
+  · rfl
+  · intro other hother
+    exact pavSeatIntegerInterval_eq_of_pavSeatInterval hinterval hother
 
 /--
 The paper's leftmost PAV maximizing seat count has the floor/ceiling
@@ -8343,6 +8409,104 @@ theorem proposition1_seatSharesRounded_of_generatedFilledSeatRunFractionalSTVTra
       hpartyInitialMass hotherInitialMass helectCount hpav
 
 /--
+Quota-first/minimum-tally STV selection for the generated Proposition 1 run.
+If at least one active candidate has reached quota, the rule selects such a
+candidate. Otherwise it selects a minimum-tally active candidate. Selection
+among tied candidates is intentionally unspecified.
+-/
+noncomputable def quotaFirstMinimumTallyChoice
+    {Candidate : Type*} [DecidableEq Candidate] (quota : ℝ) :
+    FractionalSTVChoiceRule Candidate where
+  choose active tally :=
+    if hquota : (active.filter fun candidate => quota ≤ tally candidate).Nonempty then
+      some (Classical.choose hquota)
+    else if hactive : active.Nonempty then
+      some (Classical.choose (active.exists_min_image tally hactive))
+    else
+      none
+  choose_mem := by
+    intro active tally focused hchoose
+    classical
+    by_cases hquota :
+        (active.filter fun candidate => quota ≤ tally candidate).Nonempty
+    · have hfocused : Classical.choose hquota = focused := by
+        simpa [hquota] using hchoose
+      rw [← hfocused]
+      exact (Finset.mem_filter.mp (Classical.choose_spec hquota)).1
+    · by_cases hactive : active.Nonempty
+      · have hfocused :
+            Classical.choose (active.exists_min_image tally hactive) = focused := by
+          simpa [hquota, hactive] using hchoose
+        rw [← hfocused]
+        exact
+          (Classical.choose_spec (active.exists_min_image tally hactive)).1
+      · simp [hquota, hactive] at hchoose
+
+/-- The quota-first/minimum-tally rule is total on nonempty active sets. -/
+theorem quotaFirstMinimumTallyChoice_total
+    {Candidate : Type*} [DecidableEq Candidate] (quota : ℝ) :
+    (quotaFirstMinimumTallyChoice (Candidate := Candidate) quota).Total := by
+  intro active tally hactive
+  classical
+  by_cases hquota :
+      (active.filter fun candidate => quota ≤ tally candidate).Nonempty
+  · refine ⟨Classical.choose hquota, ?_⟩
+    simp [quotaFirstMinimumTallyChoice, hquota]
+  · refine
+      ⟨Classical.choose (active.exists_min_image tally hactive), ?_⟩
+    simp [quotaFirstMinimumTallyChoice, hquota, hactive]
+
+/-- The quota-first/minimum-tally rule selects at quota whenever possible. -/
+theorem quotaFirstMinimumTallyChoice_quotaRespecting
+    {Candidate : Type*} [DecidableEq Candidate] (quota : ℝ) :
+    (quotaFirstMinimumTallyChoice
+      (Candidate := Candidate) quota).QuotaRespecting quota := by
+  intro active tally focused hchoose hquotaExists
+  classical
+  have hquota :
+      (active.filter fun candidate => quota ≤ tally candidate).Nonempty := by
+    rcases hquotaExists with ⟨candidate, hcandidate, hreaches⟩
+    exact ⟨candidate, Finset.mem_filter.mpr ⟨hcandidate, hreaches⟩⟩
+  have hfocused : Classical.choose hquota = focused := by
+    simpa [quotaFirstMinimumTallyChoice, hquota] using hchoose
+  rw [← hfocused]
+  exact (Finset.mem_filter.mp (Classical.choose_spec hquota)).2
+
+/--
+Without a quota-reaching candidate, the rule selects a candidate whose tally
+is no larger than every other active tally.
+-/
+theorem quotaFirstMinimumTallyChoice_minimum_of_no_quota
+    {Candidate : Type*} [DecidableEq Candidate] {quota : ℝ}
+    {active : Finset Candidate} {tally : Candidate → ℝ} {focused : Candidate}
+    (hchoose :
+      (quotaFirstMinimumTallyChoice
+        (Candidate := Candidate) quota).choose active tally = some focused)
+    (hnoQuota :
+      ¬ ∃ candidate, candidate ∈ active ∧ quota ≤ tally candidate) :
+    ∀ candidate, candidate ∈ active → tally focused ≤ tally candidate := by
+  classical
+  have hquota :
+      ¬(active.filter fun candidate => quota ≤ tally candidate).Nonempty := by
+    intro hnonempty
+    rcases hnonempty with ⟨candidate, hcandidate⟩
+    exact hnoQuota
+      ⟨candidate, (Finset.mem_filter.mp hcandidate).1,
+        (Finset.mem_filter.mp hcandidate).2⟩
+  have hfocusedMem : focused ∈ active :=
+    (quotaFirstMinimumTallyChoice
+      (Candidate := Candidate) quota).choose_mem hchoose
+  have hactive : active.Nonempty := ⟨focused, hfocusedMem⟩
+  have hfocused :
+      Classical.choose (active.exists_min_image tally hactive) = focused := by
+    simpa [quotaFirstMinimumTallyChoice, hquota, hactive] using hchoose
+  intro candidate hcandidate
+  rw [← hfocused]
+  exact
+    (Classical.choose_spec (active.exists_min_image tally hactive)).2
+      candidate hcandidate
+
+/--
 Generated filled-seat simulator route from source primitives.
 
 This version uses the source filled-seat convention directly: quota-election
@@ -8969,5 +9133,2240 @@ theorem proposition1_seatSharesRounded_of_weightedRoundTraceFacts_and_pavMinArgm
       hpartyTallyEq hpartyRemaining hpartyMass hpartyResidual
       hpartyElectCount hotherActive hotherTallyEq hotherRemaining hotherMass
       hotherResidual hotherElectCount hpav
+
+/-!
+## Exact source STV algorithm and fractional refinement
+
+The source algorithm is relational: a round may elect a nonempty batch of
+quota-reaching candidates, and tied minimum-tally eliminations may be resolved
+nondeterministically.  This covers the source's random within-party choices;
+the D-favoring restriction is stated separately below.  A concrete transfer
+implementation supplies only the post-election and post-elimination transfer
+relations.
+-/
+
+/-- Candidate/seat/transfer state of the source STV procedure. -/
+structure SourceSTVState (Candidate TransferState : Type*) where
+  active : Finset Candidate
+  elected : ℕ
+  transferState : TransferState
+
+/-- The two stopping cases stated in the paper. -/
+def SourceSTVTerminal {Candidate TransferState : Type*}
+    (seats : ℕ) (state : SourceSTVState Candidate TransferState) : Prop :=
+  state.elected = seats ∨ state.active.card = seats - state.elected
+
+/--
+Transfer implementation used by the source algorithm.  It may be
+nondeterministic; the algorithm relation below supplies the quota and
+minimum-elimination guards.
+-/
+structure SourceSTVTransferRule (Candidate TransferState : Type*) where
+  tally : Finset Candidate → TransferState → Candidate → ℝ
+  electBatchTransfer :
+    Finset Candidate → Finset Candidate →
+      TransferState → TransferState → Prop
+  eliminateTransfer :
+    Finset Candidate → Candidate →
+      TransferState → TransferState → Prop
+
+/--
+One exact source algorithm transition.  Election batches are nonempty and all
+members meet quota.  Elimination is available only when no active candidate
+meets quota and removes a minimum-tally candidate.  Neither branch can run
+after a source terminal state.
+-/
+inductive SourceSTVBatchedTransition
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    (rule : SourceSTVTransferRule Candidate TransferState)
+    (quota : ℝ) (seats : ℕ) :
+    SourceSTVState Candidate TransferState →
+      SourceSTVState Candidate TransferState → Prop
+  | electBatch {before after : SourceSTVState Candidate TransferState}
+      (winners : Finset Candidate)
+      (hnotTerminal : ¬ SourceSTVTerminal seats before)
+      (hnonempty : winners.Nonempty)
+      (hactive : winners ⊆ before.active)
+      (hroom : winners.card ≤ seats - before.elected)
+      (hquota : ∀ candidate, candidate ∈ winners →
+        quota ≤ rule.tally before.active before.transferState candidate)
+      (hafterActive : after.active = before.active \ winners)
+      (hafterElected : after.elected = before.elected + winners.card)
+      (htransfer : rule.electBatchTransfer before.active winners
+        before.transferState after.transferState) :
+      SourceSTVBatchedTransition rule quota seats before after
+  | eliminate {before after : SourceSTVState Candidate TransferState}
+      (loser : Candidate)
+      (hnotTerminal : ¬ SourceSTVTerminal seats before)
+      (hactive : loser ∈ before.active)
+      (hnoQuota : ∀ candidate, candidate ∈ before.active →
+        rule.tally before.active before.transferState candidate < quota)
+      (hminimum : ∀ candidate, candidate ∈ before.active →
+        rule.tally before.active before.transferState loser ≤
+          rule.tally before.active before.transferState candidate)
+      (hafterActive : after.active = before.active.erase loser)
+      (hafterElected : after.elected = before.elected)
+      (htransfer : rule.eliminateTransfer before.active loser
+        before.transferState after.transferState) :
+      SourceSTVBatchedTransition rule quota seats before after
+
+/--
+Source tie restriction for an elimination "in party D's favor": if the
+eliminated candidate is D, every minimum-tally candidate is D.  Thus a tied
+non-D candidate is eliminated before a D candidate; within a party the
+relation intentionally leaves every tied choice available.
+-/
+def SourceDFavoringEliminationTie {Candidate TransferState : Type*}
+    [DecidableEq Candidate]
+    (favoredParty : Finset Candidate)
+    (rule : SourceSTVTransferRule Candidate TransferState)
+    (state : SourceSTVState Candidate TransferState) (loser : Candidate) : Prop :=
+  loser ∈ favoredParty →
+    ∀ candidate, candidate ∈ state.active →
+      rule.tally state.active state.transferState candidate =
+          rule.tally state.active state.transferState loser →
+        candidate ∈ favoredParty
+
+/-- Fractional transfers instantiate the source transfer interface. -/
+noncomputable def fractionalSourceSTVTransferRule
+    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]
+    (voters : Finset Voter) (ballots : Voter → Ballot Candidate)
+    (quota : ℝ) : SourceSTVTransferRule Candidate (Voter → ℝ) where
+  tally active weight candidate :=
+    fractionalActiveTally voters ballots weight active candidate
+  electBatchTransfer active winners beforeWeight afterWeight :=
+    ∃ focused, winners = {focused} ∧
+      afterWeight =
+        fractionalSTVNextWeight voters ballots quota
+          (fractionalSTVStepFromFocus voters ballots quota active beforeWeight
+            focused) beforeWeight
+  eliminateTransfer active loser beforeWeight afterWeight :=
+    afterWeight =
+      fractionalSTVNextWeight voters ballots quota
+        (fractionalSTVStepFromFocus voters ballots quota active beforeWeight
+          loser) beforeWeight
+
+/--
+One round selected by the paper-local quota-first/minimum-tally chooser is a
+singleton-batch refinement of the exact source transition relation.  Repeated
+singleton batches therefore linearize any concrete fractional generated run.
+-/
+theorem fractionalSTVStepFromQuotaFirstMinimumChoice_refines_sourceSTVBatchedTransition
+    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]
+    {voters : Finset Voter} {ballots : Voter → Ballot Candidate}
+    {quota : ℝ} {seats elected : ℕ} {active : Finset Candidate}
+    {weight : Voter → ℝ} {focused : Candidate}
+    (hchoose :
+      (quotaFirstMinimumTallyChoice (Candidate := Candidate) quota).choose
+          active (fractionalActiveTally voters ballots weight active) =
+        some focused)
+    (hnotTerminal :
+      ¬ SourceSTVTerminal seats
+        (SourceSTVState.mk active elected weight))
+    (hroom : elected < seats) :
+    let step :=
+      fractionalSTVStepFromFocus voters ballots quota active weight focused
+    SourceSTVBatchedTransition
+      (fractionalSourceSTVTransferRule voters ballots quota) quota seats
+      (SourceSTVState.mk active elected weight)
+      (SourceSTVState.mk step.afterActive
+        (if step.kind = StepKind.elect then elected + 1 else elected)
+        (fractionalSTVNextWeight voters ballots quota step weight)) := by
+  let step :=
+    fractionalSTVStepFromFocus voters ballots quota active weight focused
+  have hfocused : focused ∈ active :=
+    (quotaFirstMinimumTallyChoice (Candidate := Candidate) quota).choose_mem
+      hchoose
+  by_cases hquota :
+      quota ≤ fractionalActiveTally voters ballots weight active focused
+  · have hkind : step.kind = StepKind.elect := by
+      simp [step, fractionalSTVStepFromFocus, hquota]
+    refine SourceSTVBatchedTransition.electBatch (winners := {focused})
+      hnotTerminal (by simp) (by simpa using hfocused) (by simp; omega)
+      ?_ ?_ ?_ ?_
+    · intro candidate hcandidate
+      have hcandidate_eq : candidate = focused := by simpa using hcandidate
+      subst candidate
+      exact hquota
+    · exact (Finset.sdiff_singleton_eq_erase focused active).symm
+    · simp only [Finset.card_singleton]
+      rw [if_pos (by simpa [step] using hkind)]
+    · exact ⟨focused, rfl, rfl⟩
+  · have hkind : step.kind = StepKind.eliminate := by
+      simp [step, fractionalSTVStepFromFocus, hquota]
+    have hnoQuotaExists :
+        ¬ ∃ candidate, candidate ∈ active ∧
+          quota ≤ fractionalActiveTally voters ballots weight active
+            candidate := by
+      rintro ⟨candidate, hcandidate, hcandidateQuota⟩
+      have hfocusedQuota :
+          quota ≤ fractionalActiveTally voters ballots weight active focused :=
+        quotaFirstMinimumTallyChoice_quotaRespecting
+          (Candidate := Candidate) quota hchoose
+          ⟨candidate, hcandidate, hcandidateQuota⟩
+      exact hquota hfocusedQuota
+    have hnoQuota :
+        ∀ candidate, candidate ∈ active →
+          fractionalActiveTally voters ballots weight active candidate < quota := by
+      intro candidate hcandidate
+      exact lt_of_not_ge (by
+        intro hcandidateQuota
+        exact hnoQuotaExists ⟨candidate, hcandidate, hcandidateQuota⟩)
+    have hminimum :
+        ∀ candidate, candidate ∈ active →
+          fractionalActiveTally voters ballots weight active focused ≤
+            fractionalActiveTally voters ballots weight active candidate :=
+      quotaFirstMinimumTallyChoice_minimum_of_no_quota hchoose hnoQuotaExists
+    refine SourceSTVBatchedTransition.eliminate (loser := focused)
+      hnotTerminal hfocused hnoQuota hminimum ?_ ?_ ?_
+    · rfl
+    · rw [if_neg (by
+        intro helect
+        have : step.kind = StepKind.elect := by simpa [step] using helect
+        rw [hkind] at this
+        contradiction)]
+    · rfl
+
+/-- Exact source terminal state extracted from filled-seat accounting. -/
+theorem sourceSTVTerminal_of_filledSeatAccounting
+    {Candidate TransferState : Type*} {seats elected : ℕ}
+    {active : Finset Candidate} {transferState : TransferState}
+    (helected : elected ≤ seats)
+    (hfilled :
+      elected + (if elected < seats then active.card else 0) = seats) :
+    SourceSTVTerminal seats
+      (SourceSTVState.mk active elected transferState) := by
+  change elected = seats ∨ active.card = seats - elected
+  by_cases hlt : elected < seats
+  · right
+    simp [hlt] at hfilled
+    omega
+  · left
+    omega
+
+/--
+The existing generated fractional filled-seat runner reaches exactly one of
+the source stopping cases when supplied the source total chooser and enough
+initial candidates.  Together with the round-refinement theorem above, this
+is the runner-to-source protocol refinement on the paper domain.
+-/
+theorem fractionalSTVFilledSeatRun_refines_source_stopping
+    {Voter Candidate : Type*} [DecidableEq Voter] [DecidableEq Candidate]
+    (voters : Finset Voter) (ballots : Voter → Ballot Candidate)
+    (quota : ℝ) (seats : ℕ) (initialActive : Finset Candidate)
+    (initialWeight : Voter → ℝ)
+    (hseats : seats ≤ initialActive.card) :
+    let choice :=
+      quotaFirstMinimumTallyChoice (Candidate := Candidate) quota
+    let trace :=
+      fractionalSTVFilledSeatRunTrace choice voters ballots quota seats
+        initialActive.card 0 initialActive initialWeight
+    let terminalActive :=
+      fractionalSTVFilledSeatRunTerminalActive choice voters ballots quota seats
+        initialActive.card 0 initialActive initialWeight
+    SourceSTVTerminal seats
+      (SourceSTVState.mk terminalActive (electStepCount trace.steps)
+        (fractionalSTVWeightAfterSteps voters ballots quota trace.steps
+          initialWeight)) := by
+  dsimp
+  let choice :=
+    quotaFirstMinimumTallyChoice (Candidate := Candidate) quota
+  let trace :=
+    fractionalSTVFilledSeatRunTrace choice voters ballots quota seats
+      initialActive.card 0 initialActive initialWeight
+  let terminalActive :=
+    fractionalSTVFilledSeatRunTerminalActive choice voters ballots quota seats
+      initialActive.card 0 initialActive initialWeight
+  have hfilled :
+      electStepCount trace.steps +
+          (terminalFillActive seats trace.steps terminalActive).card = seats := by
+    simpa [choice, trace, terminalActive] using
+      electStepCount_add_terminalFillActive_card_fractionalSTVFilledSeatRunTrace_eq_seatLimit_of_total
+        choice voters ballots quota seats initialActive initialWeight
+        (quotaFirstMinimumTallyChoice_total
+          (Candidate := Candidate) quota) hseats
+  have helected : electStepCount trace.steps ≤ seats := by
+    omega
+  apply sourceSTVTerminal_of_filledSeatAccounting helected
+  by_cases hlt : electStepCount trace.steps < seats
+  · simpa [terminalFillActive, hlt] using hfilled
+  · simpa [terminalFillActive, hlt] using hfilled
+
+/-!
+## Surplus-preserving transfer rules
+
+The source proof treats each solid coalition as a separate quota process.
+This interface records exactly the local facts used by that argument.  A
+quota election retains one quota and transfers the full surplus; an
+elimination preserves vote mass and is available only when every remaining
+candidate is below quota.  The minimum-tally field records the source's
+elimination rule even though the partisan count proof only needs the
+all-below-quota part.
+-/
+
+/--
+Source-permitted same-party transfer rule.  `step` can be nondeterministic, so
+random whole-vote transfers and arbitrary within-party tie resolutions fit the
+interface.  All requirements are local to one transition; no terminal outcome
+or rounded-seat conclusion is a field.
+-/
+structure SourceSurplusPreservingPartyTransferRule (quota : ℝ) where
+  tally : (state : PartyQuotaState) → Fin state.remainingCandidates → ℝ
+  tally_nonneg :
+    ∀ state candidate, 0 ≤ tally state candidate
+  tally_partitions_mass :
+    ∀ state, state.voteMass = ∑ candidate, tally state candidate
+  step : PartyQuotaState → PartyQuotaState → Prop
+  local_source_law :
+    ∀ {before after}, step before after →
+      PartyQuotaElectStep quota before after ∨
+        ∃ loser : Fin before.remainingCandidates,
+          PartyQuotaEliminateStep quota before after ∧
+            (∀ candidate, tally before loser ≤ tally before candidate) ∧
+            (∀ candidate, tally before candidate < quota)
+
+/--
+The legacy unconstrained local-rule interface is empty: it asks its tally
+partition law to hold even at an impossible negative-mass state with no
+remaining candidates.  This theorem is kept adjacent to the definition so
+later source-facing results cannot silently reuse the interface as evidence
+for a nonvacuous arbitrary-transfer claim.
+
+A replacement must index tally laws by reachable/well-formed states and retain
+an explicit residual bucket when a party has no active candidates.
+-/
+theorem sourceSurplusPreservingPartyTransferRule_not_nonempty
+    (quota : ℝ) :
+    ¬ Nonempty (SourceSurplusPreservingPartyTransferRule quota) := by
+  rintro ⟨rule⟩
+  let impossibleState : PartyQuotaState := {
+    remainingCandidates := 0
+    quotaWinners := 0
+    voteMass := -1
+  }
+  have hpartition := rule.tally_partitions_mass impossibleState
+  simp [impossibleState] at hpartition
+
+/-- Every admitted rule step is a standard quota-process step. -/
+theorem SourceSurplusPreservingPartyTransferRule.step_is_partyQuotaStep
+    {quota : ℝ} (rule : SourceSurplusPreservingPartyTransferRule quota)
+    {before after : PartyQuotaState} (hstep : rule.step before after) :
+    PartyQuotaStep quota before after := by
+  rcases rule.local_source_law hstep with helect | heliminate
+  · exact Or.inl helect
+  · exact Or.inr heliminate.choose_spec.1
+
+/--
+At a source elimination round, partitioned nonnegative tallies and the fact
+that every remaining candidate is below quota give the aggregate capacity
+inequality used by the appendix pigeonhole argument.
+-/
+theorem SourceSurplusPreservingPartyTransferRule.voteMass_lt_remaining_mul_quota_of_eliminate
+    {quota : ℝ} (rule : SourceSurplusPreservingPartyTransferRule quota)
+    {before after : PartyQuotaState} (hstep : rule.step before after)
+    (heliminate : PartyQuotaEliminateStep quota before after) :
+    before.voteMass < (before.remainingCandidates : ℝ) * quota := by
+  rcases rule.local_source_law hstep with helect | hsourceEliminate
+  · have hwinnersElect := helect.2.2.1
+    have hwinnersEliminate := heliminate.2.1
+    omega
+  · rcases hsourceEliminate with
+      ⟨loser, _heliminate, _hminimum, hbelow⟩
+    have hremaining_pos : 0 < before.remainingCandidates := by
+      have hremaining := heliminate.1
+      omega
+    have huniv : (Finset.univ : Finset (Fin before.remainingCandidates)).Nonempty :=
+      ⟨⟨0, hremaining_pos⟩, Finset.mem_univ _⟩
+    have hsum_lt :
+        (∑ candidate : Fin before.remainingCandidates,
+            rule.tally before candidate) <
+          ∑ _candidate : Fin before.remainingCandidates, quota :=
+      Finset.sum_lt_sum_of_nonempty huniv (by
+        intro candidate _hcandidate
+        exact hbelow candidate)
+    rw [← rule.tally_partitions_mass before] at hsum_lt
+    simpa [nsmul_eq_mul, mul_comm] using hsum_lt
+
+/-- The party capacity bound is preserved by every admitted local step. -/
+theorem SourceSurplusPreservingPartyTransferRule.capacity_of_step
+    {quota : ℝ} (rule : SourceSurplusPreservingPartyTransferRule quota)
+    {before after : PartyQuotaState}
+    (hcapacity : PartyQuotaCapacityBound quota before)
+    (hstep : rule.step before after) :
+    PartyQuotaCapacityBound quota after := by
+  rcases rule.local_source_law hstep with helect | heliminate
+  · exact PartyQuotaCapacityBound.of_electStep hcapacity helect
+  · have hmass_lt :=
+      rule.voteMass_lt_remaining_mul_quota_of_eliminate hstep
+        heliminate.choose_spec.1
+    exact
+      PartyQuotaCapacityBound.of_eliminateStep_of_voteMass_lt_remaining_mul_quota
+        hmass_lt heliminate.choose_spec.1
+
+/-- Capacity is preserved along every finite run of an admitted rule. -/
+theorem SourceSurplusPreservingPartyTransferRule.capacity_of_run
+    {quota : ℝ} (rule : SourceSurplusPreservingPartyTransferRule quota)
+    {start terminal : PartyQuotaState}
+    (hcapacity : PartyQuotaCapacityBound quota start)
+    (hrun : Relation.ReflTransGen rule.step start terminal) :
+    PartyQuotaCapacityBound quota terminal := by
+  induction hrun using Relation.ReflTransGen.trans_induction_on with
+  | refl => exact hcapacity
+  | single hstep => exact rule.capacity_of_step hcapacity hstep
+  | trans _ _ hleft hright => exact hright (hleft hcapacity)
+
+/-- Quota decomposition is preserved along every finite admitted-rule run. -/
+theorem SourceSurplusPreservingPartyTransferRule.invariant_of_run
+    {initialVotes quota : ℝ}
+    (rule : SourceSurplusPreservingPartyTransferRule quota)
+    {start terminal : PartyQuotaState}
+    (hinvariant : PartyQuotaInvariant initialVotes quota start)
+    (hrun : Relation.ReflTransGen rule.step start terminal) :
+    PartyQuotaInvariant initialVotes quota terminal := by
+  induction hrun using Relation.ReflTransGen.trans_induction_on with
+  | refl => exact hinvariant
+  | single hstep =>
+      exact PartyQuotaInvariant.of_step hinvariant
+        (rule.step_is_partyQuotaStep hstep)
+  | trans _ _ hleft hright => exact hright (hleft hinvariant)
+
+/-- The tally partition law makes every projected party vote mass nonnegative. -/
+theorem SourceSurplusPreservingPartyTransferRule.voteMass_nonneg
+    {quota : ℝ} (rule : SourceSurplusPreservingPartyTransferRule quota)
+    (state : PartyQuotaState) : 0 ≤ state.voteMass := by
+  rw [rule.tally_partitions_mass state]
+  exact Finset.sum_nonneg (fun candidate _ => rule.tally_nonneg state candidate)
+
+/--
+Every serialized local path conserves quota accounting: residual vote mass plus
+one retained quota for each elected candidate is unchanged. This is the
+transfer-conservation fact later derived for each exact global transition.
+-/
+theorem SourceSurplusPreservingPartyTransferRule.quotaAccounting_conserved_of_run
+    {quota : ℝ} (rule : SourceSurplusPreservingPartyTransferRule quota)
+    {before after : PartyQuotaState}
+    (hrun : Relation.ReflTransGen rule.step before after) :
+    (before.quotaWinners : ℝ) * quota + before.voteMass =
+      (after.quotaWinners : ℝ) * quota + after.voteMass := by
+  let initialVotes : ℝ :=
+    (before.quotaWinners : ℝ) * quota + before.voteMass
+  have hinvariant : PartyQuotaInvariant initialVotes quota before := by
+    constructor
+    · rfl
+    · exact rule.voteMass_nonneg before
+  exact (rule.invariant_of_run hinvariant hrun).1
+
+/-- A finite party projection generated only from the rule's local steps. -/
+structure SourceSurplusPreservingPartyRun {quota : ℝ}
+    (rule : SourceSurplusPreservingPartyTransferRule quota)
+    (initialVotes : ℝ) where
+  initialCandidates : ℕ
+  terminalState : PartyQuotaState
+  path :
+    Relation.ReflTransGen rule.step
+      (PartyQuotaStartState initialCandidates initialVotes) terminalState
+
+/-- The terminal quota decomposition follows from local rule laws. -/
+theorem SourceSurplusPreservingPartyRun.terminalInvariant
+    {initialVotes quota : ℝ}
+    {rule : SourceSurplusPreservingPartyTransferRule quota}
+    (run : SourceSurplusPreservingPartyRun rule initialVotes)
+    (hinitialVotes : 0 ≤ initialVotes) :
+    PartyQuotaInvariant initialVotes quota run.terminalState := by
+  exact rule.invariant_of_run (PartyQuotaInvariant.start hinitialVotes) run.path
+
+/-- The terminal capacity bound follows from local rule laws. -/
+theorem SourceSurplusPreservingPartyRun.terminalCapacity
+    {initialVotes quota : ℝ}
+    {rule : SourceSurplusPreservingPartyTransferRule quota}
+    (run : SourceSurplusPreservingPartyRun rule initialVotes)
+    (hinitialCapacity :
+      PartyQuotaCapacityBound quota
+        (PartyQuotaStartState run.initialCandidates initialVotes)) :
+    PartyQuotaCapacityBound quota run.terminalState := by
+  exact rule.capacity_of_run hinitialCapacity run.path
+
+/--
+If a same-party source process exhausts its candidates, its quota-winner count
+is exactly the canonical floor of initial vote mass divided by quota.  The
+capacity invariant gives the lower bound; quota decomposition and nonnegative
+residual mass give the matching upper bound.
+-/
+theorem SourceSurplusPreservingPartyRun.quotaWinners_eq_floor_of_exhausted
+    {initialVotes quota : ℝ}
+    {rule : SourceSurplusPreservingPartyTransferRule quota}
+    (run : SourceSurplusPreservingPartyRun rule initialVotes)
+    (hquota_pos : 0 < quota) (hinitialVotes : 0 ≤ initialVotes)
+    (hinitialCapacity :
+      PartyQuotaCapacityBound quota
+        (PartyQuotaStartState run.initialCandidates initialVotes))
+    (hexhausted : run.terminalState.remainingCandidates = 0) :
+    run.terminalState.quotaWinners = ⌊initialVotes / quota⌋₊ := by
+  have hinvariant := run.terminalInvariant hinitialVotes
+  have hcapacity := run.terminalCapacity hinitialCapacity
+  have hlower :
+      ⌊initialVotes / quota⌋₊ ≤ run.terminalState.quotaWinners := by
+    have :=
+      floor_votes_div_quota_le_quotaWinners_add_remaining_of_capacityBound
+        hquota_pos hinitialVotes hinvariant.1 hcapacity
+    simpa [hexhausted] using this
+  have hwinners_real :
+      (run.terminalState.quotaWinners : ℝ) ≤ initialVotes / quota := by
+    rw [le_div_iff₀ hquota_pos]
+    nlinarith [hinvariant.1, hinvariant.2]
+  have hupper :
+      run.terminalState.quotaWinners ≤ ⌊initialVotes / quota⌋₊ :=
+    Nat.le_floor hwinners_real
+  exact le_antisymm hupper hlower
+
+/--
+Two solid-coalition projections of one source STV run.  The terminal clause is
+exactly the paper's two stopping cases: either all seats have quota winners,
+or the remaining candidates exactly fill the remaining seats.  It is stated
+on the two local process states so batching and random within-party transfers
+remain abstract.
+-/
+structure SourceTwoPartySurplusPreservingBatchedRun
+    {quota : ℝ}
+    (partyRule otherPartyRule : SourceSurplusPreservingPartyTransferRule quota)
+    (partyInitialVotes otherPartyInitialVotes : ℝ) (seats : ℕ) where
+  partyRun : SourceSurplusPreservingPartyRun partyRule partyInitialVotes
+  otherPartyRun :
+    SourceSurplusPreservingPartyRun otherPartyRule otherPartyInitialVotes
+  elected_le_seats :
+    partyRun.terminalState.quotaWinners +
+        otherPartyRun.terminalState.quotaWinners ≤ seats
+  source_terminal :
+    partyRun.terminalState.quotaWinners +
+          otherPartyRun.terminalState.quotaWinners = seats ∨
+      partyRun.terminalState.remainingCandidates +
+          otherPartyRun.terminalState.remainingCandidates =
+        seats - (partyRun.terminalState.quotaWinners +
+          otherPartyRun.terminalState.quotaWinners)
+
+/--
+Final party seats under the paper's stopping convention.  Remaining active
+candidates are filled only when fewer than `seats` quota winners have already
+been selected.
+-/
+def SourceTwoPartySurplusPreservingBatchedRun.partyFinalSeats
+    {quota : ℝ} {partyInitialVotes otherPartyInitialVotes : ℝ} {seats : ℕ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    (run : SourceTwoPartySurplusPreservingBatchedRun partyRule otherPartyRule
+      partyInitialVotes otherPartyInitialVotes seats) : ℕ :=
+  let elected := run.partyRun.terminalState.quotaWinners +
+    run.otherPartyRun.terminalState.quotaWinners
+  run.partyRun.terminalState.quotaWinners +
+    if elected < seats then
+      run.partyRun.terminalState.remainingCandidates
+    else 0
+
+/-- The other party's final seats under the same stopping convention. -/
+def SourceTwoPartySurplusPreservingBatchedRun.otherPartyFinalSeats
+    {quota : ℝ} {partyInitialVotes otherPartyInitialVotes : ℝ} {seats : ℕ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    (run : SourceTwoPartySurplusPreservingBatchedRun partyRule otherPartyRule
+      partyInitialVotes otherPartyInitialVotes seats) : ℕ :=
+  let elected := run.partyRun.terminalState.quotaWinners +
+    run.otherPartyRun.terminalState.quotaWinners
+  run.otherPartyRun.terminalState.quotaWinners +
+    if elected < seats then
+      run.otherPartyRun.terminalState.remainingCandidates
+    else 0
+
+/-- Both terminal branches fill exactly the requested number of seats. -/
+theorem SourceTwoPartySurplusPreservingBatchedRun.finalSeats_add
+    {quota : ℝ} {partyInitialVotes otherPartyInitialVotes : ℝ} {seats : ℕ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    (run : SourceTwoPartySurplusPreservingBatchedRun partyRule otherPartyRule
+      partyInitialVotes otherPartyInitialVotes seats) :
+    run.partyFinalSeats + run.otherPartyFinalSeats = seats := by
+  by_cases hlt :
+      run.partyRun.terminalState.quotaWinners +
+        run.otherPartyRun.terminalState.quotaWinners < seats
+  · simp [SourceTwoPartySurplusPreservingBatchedRun.partyFinalSeats,
+      SourceTwoPartySurplusPreservingBatchedRun.otherPartyFinalSeats, hlt]
+    have hremaining := Or.resolve_left run.source_terminal (Nat.ne_of_lt hlt)
+    omega
+  · simp [SourceTwoPartySurplusPreservingBatchedRun.partyFinalSeats,
+      SourceTwoPartySurplusPreservingBatchedRun.otherPartyFinalSeats, hlt]
+    have heq :
+        run.partyRun.terminalState.quotaWinners +
+          run.otherPartyRun.terminalState.quotaWinners = seats := by
+      have hge :
+          seats ≤ run.partyRun.terminalState.quotaWinners +
+            run.otherPartyRun.terminalState.quotaWinners :=
+        Nat.le_of_not_gt hlt
+      exact le_antisymm run.elected_le_seats hge
+    exact heq
+
+/-!
+## Exact global-run refinement to the two party projections
+
+`SourceSTVBatchedTransition` deliberately leaves the transfer relation
+generic, so the bare global relation alone cannot imply surplus conservation.
+The following refinement is the source-permitted global-rule interface: each
+exact global transition must serialize to finite paths of the two local
+surplus-preserving rules.  A global multiwinner batch may therefore require
+several one-winner local steps.  The accounting equalities tie those local
+paths back to the exact global active-candidate and elected-seat state.
+-/
+
+/-- Lift a stepwise finite-path refinement through a finite source path. -/
+theorem reflTransGen_of_stepwise_reflTransGen
+    {Alpha Beta : Type*} {sourceRel : Alpha → Alpha → Prop}
+    {targetRel : Beta → Beta → Prop} (project : Alpha → Beta)
+    (hrefine : ∀ {before after}, sourceRel before after →
+      Relation.ReflTransGen targetRel (project before) (project after))
+    {start terminal : Alpha}
+    (hpath : Relation.ReflTransGen sourceRel start terminal) :
+    Relation.ReflTransGen targetRel (project start) (project terminal) := by
+  induction hpath using Relation.ReflTransGen.trans_induction_on with
+  | refl => exact Relation.ReflTransGen.refl
+  | single hstep => exact hrefine hstep
+  | trans _ _ hleft hright => exact hleft.trans hright
+
+/-- Any transition-local invariant lifts through a finite path. -/
+theorem property_of_reflTransGen
+    {Alpha : Type*} {rel : Alpha → Alpha → Prop} {property : Alpha → Prop}
+    (hstep : ∀ {before after}, rel before after →
+      property before → property after)
+    {start terminal : Alpha} (hpath : Relation.ReflTransGen rel start terminal)
+    (hstart : property start) : property terminal := by
+  induction hpath using Relation.ReflTransGen.trans_induction_on with
+  | refl => exact hstart
+  | single hedge => exact hstep hedge hstart
+  | trans _ _ hleft hright => exact hright (hleft hstart)
+
+/-- Exact global transitions cannot increase the elected count past capacity. -/
+theorem SourceSTVBatchedTransition.elected_le_seats
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {rule : SourceSTVTransferRule Candidate TransferState}
+    {quota : ℝ} {seats : ℕ}
+    {before after : SourceSTVState Candidate TransferState}
+    (htransition : SourceSTVBatchedTransition rule quota seats before after)
+    (hbefore : before.elected ≤ seats) : after.elected ≤ seats := by
+  cases htransition with
+  | electBatch winners _hnotTerminal _hnonempty _hactive hroom _hquota
+      _hafterActive hafterElected _htransfer =>
+      rw [hafterElected]
+      omega
+  | eliminate _loser _hnotTerminal _hactive _hnoQuota _hminimum
+      _hafterActive hafterElected _htransfer =>
+      simpa [hafterElected] using hbefore
+
+/-- Exact source transitions only remove active candidates. -/
+theorem SourceSTVBatchedTransition.active_subset
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {rule : SourceSTVTransferRule Candidate TransferState}
+    {quota : ℝ} {seats : ℕ}
+    {before after : SourceSTVState Candidate TransferState}
+    (htransition : SourceSTVBatchedTransition rule quota seats before after) :
+    after.active ⊆ before.active := by
+  cases htransition with
+  | electBatch _winners _hnotTerminal _hnonempty _hactive _hroom _hquota
+      hafterActive _hafterElected _htransfer =>
+      rw [hafterActive]
+      exact Finset.sdiff_subset
+  | eliminate loser _hnotTerminal _hactive _hnoQuota _hminimum
+      hafterActive _hafterElected _htransfer =>
+      rw [hafterActive]
+      exact Finset.erase_subset loser before.active
+
+/-- The elect-batch branch of the exact source transition, with its batch visible. -/
+def SourceSTVElectBatchTransition
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    (rule : SourceSTVTransferRule Candidate TransferState)
+    (quota : ℝ) (seats : ℕ)
+    (winners : Finset Candidate)
+    (before after : SourceSTVState Candidate TransferState) : Prop :=
+  ¬ SourceSTVTerminal seats before ∧
+    winners.Nonempty ∧
+    winners ⊆ before.active ∧
+    winners.card ≤ seats - before.elected ∧
+    (∀ candidate, candidate ∈ winners →
+      quota ≤ rule.tally before.active before.transferState candidate) ∧
+    after.active = before.active \ winners ∧
+    after.elected = before.elected + winners.card ∧
+    rule.electBatchTransfer before.active winners
+      before.transferState after.transferState
+
+/-- The eliminate branch of the exact source transition, with its loser visible. -/
+def SourceSTVEliminateTransition
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    (rule : SourceSTVTransferRule Candidate TransferState)
+    (quota : ℝ) (seats : ℕ) (loser : Candidate)
+    (before after : SourceSTVState Candidate TransferState) : Prop :=
+  ¬ SourceSTVTerminal seats before ∧
+    loser ∈ before.active ∧
+    (∀ candidate, candidate ∈ before.active →
+      rule.tally before.active before.transferState candidate < quota) ∧
+    (∀ candidate, candidate ∈ before.active →
+      rule.tally before.active before.transferState loser ≤
+        rule.tally before.active before.transferState candidate) ∧
+    after.active = before.active.erase loser ∧
+    after.elected = before.elected ∧
+    rule.eliminateTransfer before.active loser
+      before.transferState after.transferState
+
+/--
+Local semantic refinement required of an admitted two-party global transfer
+rule.  The serialization fields are transition-local, not terminal outcomes:
+they say how one exact global election batch or elimination is implemented by
+the two party rules. Fixed disjoint party candidate sets tie remaining counts
+to the actual filtered active set and winner increments to the actual filtered
+global batch. Before the common first-party-exhaustion cutoff, each projected
+vote mass is exactly the sum of the global tallies of that party's active
+candidates. The transition that reaches the cutoff is still serialized, but
+no mass or serialization condition is imposed on the later global suffix.
+That is essential because the exhausted party's residual votes may then
+transfer to the still-active party.
+-/
+structure SourceTwoPartyGlobalSurplusPreservingRefinement
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    (globalRule : SourceSTVTransferRule Candidate TransferState)
+    (quota : ℝ)
+    (partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota)
+    (seats : ℕ) where
+  partyCandidates : Finset Candidate
+  otherPartyCandidates : Finset Candidate
+  candidateDisjoint : Disjoint partyCandidates otherPartyCandidates
+  active_cover : ∀ (state : SourceSTVState Candidate TransferState),
+    state.active ⊆ partyCandidates ∪ otherPartyCandidates
+  partyProjection : SourceSTVState Candidate TransferState → PartyQuotaState
+  otherPartyProjection :
+    SourceSTVState Candidate TransferState → PartyQuotaState
+  party_remaining_coherent :
+    ∀ (state : SourceSTVState Candidate TransferState),
+    (partyProjection state).remainingCandidates =
+      (state.active ∩ partyCandidates).card
+  otherParty_remaining_coherent :
+    ∀ (state : SourceSTVState Candidate TransferState),
+    (otherPartyProjection state).remainingCandidates =
+      (state.active ∩ otherPartyCandidates).card
+  party_voteMass_coherent_before_cutoff :
+    ∀ (state : SourceSTVState Candidate TransferState),
+    (state.active ∩ partyCandidates).Nonempty →
+    (state.active ∩ otherPartyCandidates).Nonempty →
+      (partyProjection state).voteMass =
+        ∑ candidate ∈ state.active ∩ partyCandidates,
+          globalRule.tally state.active state.transferState candidate
+  otherParty_voteMass_coherent_before_cutoff :
+    ∀ (state : SourceSTVState Candidate TransferState),
+    (state.active ∩ partyCandidates).Nonempty →
+    (state.active ∩ otherPartyCandidates).Nonempty →
+      (otherPartyProjection state).voteMass =
+        ∑ candidate ∈ state.active ∩ otherPartyCandidates,
+          globalRule.tally state.active state.transferState candidate
+  party_serialization : ∀ {before after},
+    SourceSTVBatchedTransition globalRule quota seats before after →
+    (before.active ∩ partyCandidates).Nonempty →
+    (before.active ∩ otherPartyCandidates).Nonempty →
+      Relation.ReflTransGen partyRule.step
+        (partyProjection before) (partyProjection after)
+  otherParty_serialization : ∀ {before after},
+    SourceSTVBatchedTransition globalRule quota seats before after →
+    (before.active ∩ partyCandidates).Nonempty →
+    (before.active ∩ otherPartyCandidates).Nonempty →
+      Relation.ReflTransGen otherPartyRule.step
+        (otherPartyProjection before) (otherPartyProjection after)
+  party_winner_update_elect : ∀ {before after} (winners : Finset Candidate),
+    SourceSTVElectBatchTransition globalRule quota seats winners before after →
+    (partyProjection after).quotaWinners =
+      (partyProjection before).quotaWinners +
+        (winners ∩ partyCandidates).card
+  otherParty_winner_update_elect :
+    ∀ {before after} (winners : Finset Candidate),
+    SourceSTVElectBatchTransition globalRule quota seats winners before after →
+    (otherPartyProjection after).quotaWinners =
+      (otherPartyProjection before).quotaWinners +
+        (winners ∩ otherPartyCandidates).card
+  party_winner_update_eliminate : ∀ {before after} (loser : Candidate),
+    SourceSTVEliminateTransition globalRule quota seats loser before after →
+      (partyProjection after).quotaWinners =
+        (partyProjection before).quotaWinners
+  otherParty_winner_update_eliminate :
+    ∀ {before after} (loser : Candidate),
+    SourceSTVEliminateTransition globalRule quota seats loser before after →
+      (otherPartyProjection after).quotaWinners =
+        (otherPartyProjection before).quotaWinners
+
+/-- Actual active-party counts partition the global active set. -/
+theorem SourceTwoPartyGlobalSurplusPreservingRefinement.remaining_partition
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (refinement :
+      SourceTwoPartyGlobalSurplusPreservingRefinement globalRule quota
+        partyRule otherPartyRule seats)
+    (state : SourceSTVState Candidate TransferState) :
+    (refinement.partyProjection state).remainingCandidates +
+        (refinement.otherPartyProjection state).remainingCandidates =
+      state.active.card := by
+  rw [refinement.party_remaining_coherent,
+    refinement.otherParty_remaining_coherent]
+  have hunion :
+      (state.active ∩ refinement.partyCandidates) ∪
+          (state.active ∩ refinement.otherPartyCandidates) =
+        state.active := by
+    ext candidate
+    constructor
+    · simp only [Finset.mem_union, Finset.mem_inter]
+      tauto
+    · intro hactive
+      have hcover := refinement.active_cover state hactive
+      simp only [Finset.mem_union] at hcover ⊢
+      rcases hcover with hparty | hother
+      · exact Or.inl (Finset.mem_inter.mpr ⟨hactive, hparty⟩)
+      · exact Or.inr (Finset.mem_inter.mpr ⟨hactive, hother⟩)
+  have hdisjoint :
+      Disjoint (state.active ∩ refinement.partyCandidates)
+        (state.active ∩ refinement.otherPartyCandidates) := by
+    rw [Finset.disjoint_left]
+    intro candidate hparty hother
+    exact Finset.disjoint_left.mp refinement.candidateDisjoint
+      (Finset.mem_inter.mp hparty).2 (Finset.mem_inter.mp hother).2
+  rw [← Finset.card_union_of_disjoint hdisjoint, hunion]
+
+/-- The actual elected batch partitions by the fixed party candidate sets. -/
+theorem SourceTwoPartyGlobalSurplusPreservingRefinement.electedBatch_card_partition
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (refinement :
+      SourceTwoPartyGlobalSurplusPreservingRefinement globalRule quota
+        partyRule otherPartyRule seats)
+    {before : SourceSTVState Candidate TransferState}
+    (winners : Finset Candidate) (hactive : winners ⊆ before.active) :
+    (winners ∩ refinement.partyCandidates).card +
+        (winners ∩ refinement.otherPartyCandidates).card = winners.card := by
+  have hbatchCover :
+      winners ⊆
+        refinement.partyCandidates ∪ refinement.otherPartyCandidates :=
+    hactive.trans (refinement.active_cover before)
+  have hunion :
+      (winners ∩ refinement.partyCandidates) ∪
+          (winners ∩ refinement.otherPartyCandidates) = winners := by
+    ext candidate
+    constructor
+    · simp only [Finset.mem_union, Finset.mem_inter]
+      tauto
+    · intro hbatch
+      have hcover := hbatchCover hbatch
+      simp only [Finset.mem_union] at hcover ⊢
+      rcases hcover with hparty | hother
+      · exact Or.inl (Finset.mem_inter.mpr ⟨hbatch, hparty⟩)
+      · exact Or.inr (Finset.mem_inter.mpr ⟨hbatch, hother⟩)
+  have hdisjoint :
+      Disjoint (winners ∩ refinement.partyCandidates)
+        (winners ∩ refinement.otherPartyCandidates) := by
+    rw [Finset.disjoint_left]
+    intro candidate hparty hother
+    exact Finset.disjoint_left.mp refinement.candidateDisjoint
+      (Finset.mem_inter.mp hparty).2 (Finset.mem_inter.mp hother).2
+  rw [← Finset.card_union_of_disjoint hdisjoint, hunion]
+
+/--
+The admitted global-rule refinement derives party transfer conservation from
+the serialized local path; conservation is not an independent outcome field.
+-/
+theorem SourceTwoPartyGlobalSurplusPreservingRefinement.partyTransferConserved
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (refinement :
+      SourceTwoPartyGlobalSurplusPreservingRefinement globalRule quota
+        partyRule otherPartyRule seats)
+    {before after : SourceSTVState Candidate TransferState}
+    (htransition :
+      SourceSTVBatchedTransition globalRule quota seats before after)
+    (hpartyActive :
+      (before.active ∩ refinement.partyCandidates).Nonempty)
+    (hotherActive :
+      (before.active ∩ refinement.otherPartyCandidates).Nonempty) :
+    ((refinement.partyProjection before).quotaWinners : ℝ) * quota +
+        (refinement.partyProjection before).voteMass =
+      ((refinement.partyProjection after).quotaWinners : ℝ) * quota +
+        (refinement.partyProjection after).voteMass := by
+  exact partyRule.quotaAccounting_conserved_of_run
+    (refinement.party_serialization htransition hpartyActive hotherActive)
+
+/-- The other party's transfer conservation follows in the same way. -/
+theorem SourceTwoPartyGlobalSurplusPreservingRefinement.otherPartyTransferConserved
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (refinement :
+      SourceTwoPartyGlobalSurplusPreservingRefinement globalRule quota
+        partyRule otherPartyRule seats)
+    {before after : SourceSTVState Candidate TransferState}
+    (htransition :
+      SourceSTVBatchedTransition globalRule quota seats before after)
+    (hpartyActive :
+      (before.active ∩ refinement.partyCandidates).Nonempty)
+    (hotherActive :
+      (before.active ∩ refinement.otherPartyCandidates).Nonempty) :
+    ((refinement.otherPartyProjection before).quotaWinners : ℝ) * quota +
+        (refinement.otherPartyProjection before).voteMass =
+      ((refinement.otherPartyProjection after).quotaWinners : ℝ) * quota +
+        (refinement.otherPartyProjection after).voteMass := by
+  exact otherPartyRule.quotaAccounting_conserved_of_run
+    (refinement.otherParty_serialization htransition hpartyActive hotherActive)
+
+/--
+Global elected-seat accounting pins the total number of serialized local
+election steps. In particular, a source batch of cardinality `batchSize`
+raises the two projected winner counts by exactly `batchSize`.
+-/
+theorem SourceTwoPartyGlobalSurplusPreservingRefinement.preservesWinnerPartition
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (refinement :
+      SourceTwoPartyGlobalSurplusPreservingRefinement globalRule quota
+        partyRule otherPartyRule seats)
+    {before after : SourceSTVState Candidate TransferState}
+    (htransition :
+      SourceSTVBatchedTransition globalRule quota seats before after)
+    (hbefore :
+      (refinement.partyProjection before).quotaWinners +
+          (refinement.otherPartyProjection before).quotaWinners =
+        before.elected) :
+    (refinement.partyProjection after).quotaWinners +
+        (refinement.otherPartyProjection after).quotaWinners =
+      after.elected := by
+  cases htransition with
+  | electBatch winners hnotTerminal hnonempty hactive hroom hquota
+      hafterActive hafterElected htransfer =>
+      have helect :
+          SourceSTVElectBatchTransition globalRule quota seats winners
+            before after :=
+        ⟨hnotTerminal, hnonempty, hactive, hroom, hquota,
+          hafterActive, hafterElected, htransfer⟩
+      rw [refinement.party_winner_update_elect winners helect,
+        refinement.otherParty_winner_update_elect winners helect,
+        hafterElected]
+      have hpartition :=
+        refinement.electedBatch_card_partition winners hactive
+      omega
+  | eliminate loser hnotTerminal hactive hnoQuota hminimum
+      hafterActive hafterElected htransfer =>
+      have heliminate :
+          SourceSTVEliminateTransition globalRule quota seats loser
+            before after :=
+        ⟨hnotTerminal, hactive, hnoQuota, hminimum,
+          hafterActive, hafterElected, htransfer⟩
+      rw [refinement.party_winner_update_eliminate loser heliminate,
+        refinement.otherParty_winner_update_eliminate loser heliminate,
+        hafterElected]
+      exact hbefore
+
+/--
+One exact global step in the common local phase. Both parties have an active
+candidate before the step; the step that first exhausts a party is included.
+-/
+def SourceSTVBeforeCommonCutoffTransition
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (refinement :
+      SourceTwoPartyGlobalSurplusPreservingRefinement globalRule quota
+        partyRule otherPartyRule seats)
+    (before after : SourceSTVState Candidate TransferState) : Prop :=
+  SourceSTVBatchedTransition globalRule quota seats before after ∧
+    (before.active ∩ refinement.partyCandidates).Nonempty ∧
+    (before.active ∩ refinement.otherPartyCandidates).Nonempty
+
+/--
+Split a finite path at the first state satisfying `P`. The prefix relation
+records both the original step and that its before-state does not yet satisfy
+`P`; the suffix retains the unrestricted original relation.
+-/
+theorem reflTransGen_split_at_first
+    {State : Type*} {relation : State → State → Prop}
+    {P : State → Prop} {initial terminal : State}
+    (path : Relation.ReflTransGen relation initial terminal)
+    (hterminal : P terminal) :
+    ∃ cutoff,
+      Relation.ReflTransGen
+          (fun before after => relation before after ∧ ¬ P before)
+          initial cutoff ∧
+        Relation.ReflTransGen relation cutoff terminal ∧
+        P cutoff := by
+  classical
+  induction path using Relation.ReflTransGen.head_induction_on with
+  | refl =>
+      exact ⟨terminal, Relation.ReflTransGen.refl,
+        Relation.ReflTransGen.refl, hterminal⟩
+  | @head before after hstep suffix ih =>
+      by_cases hbefore : P before
+      · exact ⟨before, Relation.ReflTransGen.refl,
+          suffix.head hstep, hbefore⟩
+      · rcases ih with ⟨cutoff, restrictedPath, cutoffSuffix, hcutoff⟩
+        exact ⟨cutoff, restrictedPath.head ⟨hstep, hbefore⟩,
+          cutoffSuffix, hcutoff⟩
+
+/--
+Raw source input for one exact terminal two-party global run. Unlike the
+common-cutoff run below, this record does not ask the caller to select a cutoff
+or supply the two local paths. It contains only the exact source path, its
+terminal condition, the initial source state, and the transition-local
+two-party refinement used to interpret the source rule.
+-/
+structure SourceTwoPartyExactTerminalGlobalRun
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    (globalRule : SourceSTVTransferRule Candidate TransferState)
+    {quota : ℝ}
+    (partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota)
+    (partyInitialVotes otherPartyInitialVotes : ℝ) (seats : ℕ) where
+  refinement :
+    SourceTwoPartyGlobalSurplusPreservingRefinement globalRule quota
+      partyRule otherPartyRule seats
+  partyInitialCandidates : ℕ
+  otherPartyInitialCandidates : ℕ
+  initialState : SourceSTVState Candidate TransferState
+  terminalState : SourceSTVState Candidate TransferState
+  initial_elected_zero : initialState.elected = 0
+  party_initial :
+    refinement.partyProjection initialState =
+      PartyQuotaStartState partyInitialCandidates partyInitialVotes
+  otherParty_initial :
+    refinement.otherPartyProjection initialState =
+      PartyQuotaStartState otherPartyInitialCandidates otherPartyInitialVotes
+  path :
+    Relation.ReflTransGen
+      (SourceSTVBatchedTransition globalRule quota seats)
+      initialState terminalState
+  source_terminal : SourceSTVTerminal seats terminalState
+
+/--
+One exact terminal global run with a common first-party-exhaustion cutoff. The
+prefix (including the cutoff transition) serializes to both same-party quota
+processes. The suffix remains an unrestricted exact source run, so residual
+votes may transfer to the surviving party after the cutoff.
+-/
+structure SourceTwoPartySurplusPreservingGlobalRun
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    (globalRule : SourceSTVTransferRule Candidate TransferState)
+    {quota : ℝ}
+    (partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota)
+    (partyInitialVotes otherPartyInitialVotes : ℝ) (seats : ℕ) where
+  refinement :
+    SourceTwoPartyGlobalSurplusPreservingRefinement globalRule quota
+      partyRule otherPartyRule seats
+  partyInitialCandidates : ℕ
+  otherPartyInitialCandidates : ℕ
+  initialState : SourceSTVState Candidate TransferState
+  cutoffState : SourceSTVState Candidate TransferState
+  terminalState : SourceSTVState Candidate TransferState
+  initial_elected_zero : initialState.elected = 0
+  party_initial :
+    refinement.partyProjection initialState =
+      PartyQuotaStartState partyInitialCandidates partyInitialVotes
+  otherParty_initial :
+    refinement.otherPartyProjection initialState =
+      PartyQuotaStartState otherPartyInitialCandidates otherPartyInitialVotes
+  commonPrefix :
+    Relation.ReflTransGen
+      (SourceSTVBeforeCommonCutoffTransition refinement)
+      initialState cutoffState
+  suffix :
+    Relation.ReflTransGen
+      (SourceSTVBatchedTransition globalRule quota seats)
+      cutoffState terminalState
+  cutoff_condition :
+    SourceSTVTerminal seats cutoffState ∨
+      (cutoffState.active ∩ refinement.partyCandidates).card = 0 ∨
+      (cutoffState.active ∩ refinement.otherPartyCandidates).card = 0
+  source_terminal : SourceSTVTerminal seats terminalState
+
+/--
+Choose the first terminal-or-party-exhaustion state on a raw finite exact run.
+The checked split supplies the common serialized prefix and leaves the later
+exact suffix unrestricted; neither local paths nor any seat-share conclusion
+is accepted from the caller.
+-/
+noncomputable def SourceTwoPartyExactTerminalGlobalRun.toCommonCutoffRun
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (rawRun :
+      SourceTwoPartyExactTerminalGlobalRun globalRule partyRule otherPartyRule
+        partyInitialVotes otherPartyInitialVotes seats) :
+    SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats := by
+  classical
+  let cutoffCondition :=
+    fun state : SourceSTVState Candidate TransferState =>
+      SourceSTVTerminal seats state ∨
+        (state.active ∩ rawRun.refinement.partyCandidates).card = 0 ∨
+        (state.active ∩ rawRun.refinement.otherPartyCandidates).card = 0
+  have split :=
+    reflTransGen_split_at_first rawRun.path
+      (P := cutoffCondition) (Or.inl rawRun.source_terminal)
+  let cutoffState := Classical.choose split
+  have splitSpec := Classical.choose_spec split
+  refine
+    { refinement := rawRun.refinement
+      partyInitialCandidates := rawRun.partyInitialCandidates
+      otherPartyInitialCandidates := rawRun.otherPartyInitialCandidates
+      initialState := rawRun.initialState
+      cutoffState := cutoffState
+      terminalState := rawRun.terminalState
+      initial_elected_zero := rawRun.initial_elected_zero
+      party_initial := rawRun.party_initial
+      otherParty_initial := rawRun.otherParty_initial
+      commonPrefix := ?_
+      suffix := splitSpec.2.1
+      cutoff_condition := splitSpec.2.2
+      source_terminal := rawRun.source_terminal }
+  exact reflTransGen_of_stepwise_reflTransGen id
+    (fun {before after} hstep => by
+      apply Relation.ReflTransGen.single
+      refine ⟨hstep.1, ?_, ?_⟩
+      · apply Finset.card_pos.mp
+        apply Nat.pos_of_ne_zero
+        intro hzero
+        exact hstep.2 (Or.inr (Or.inl hzero))
+      · apply Finset.card_pos.mp
+        apply Nat.pos_of_ne_zero
+        intro hzero
+        exact hstep.2 (Or.inr (Or.inr hzero)))
+    splitSpec.1
+
+/-- The restricted prefix is also an exact global source path. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.prefixGlobalPath
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats) :
+    Relation.ReflTransGen
+      (SourceSTVBatchedTransition globalRule quota seats)
+      run.initialState run.cutoffState := by
+  exact reflTransGen_of_stepwise_reflTransGen id
+    (fun hstep => Relation.ReflTransGen.single hstep.1) run.commonPrefix
+
+/-- Prefix followed by suffix recovers the complete exact global path. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.fullPath
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats) :
+    Relation.ReflTransGen
+      (SourceSTVBatchedTransition globalRule quota seats)
+      run.initialState run.terminalState :=
+  run.prefixGlobalPath.trans run.suffix
+
+/-- The common prefix serializes to the first party's local quota path. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.partyPath
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats) :
+    Relation.ReflTransGen partyRule.step
+      (PartyQuotaStartState run.partyInitialCandidates partyInitialVotes)
+      (run.refinement.partyProjection run.cutoffState) := by
+  rw [← run.party_initial]
+  exact reflTransGen_of_stepwise_reflTransGen
+    run.refinement.partyProjection
+    (fun hstep => run.refinement.party_serialization
+      hstep.1 hstep.2.1 hstep.2.2)
+    run.commonPrefix
+
+/-- The same common prefix serializes to the other party's local quota path. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.otherPartyPath
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats) :
+    Relation.ReflTransGen otherPartyRule.step
+      (PartyQuotaStartState run.otherPartyInitialCandidates
+        otherPartyInitialVotes)
+      (run.refinement.otherPartyProjection run.cutoffState) := by
+  rw [← run.otherParty_initial]
+  exact reflTransGen_of_stepwise_reflTransGen
+    run.refinement.otherPartyProjection
+    (fun hstep => run.refinement.otherParty_serialization
+      hstep.1 hstep.2.1 hstep.2.2)
+    run.commonPrefix
+
+/-- The exact global run starts with no elected candidates. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.initialElected_eq_zero
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats) :
+    run.initialState.elected = 0 :=
+  run.initial_elected_zero
+
+/-- The actual party-filtered winner counts partition elected seats at cutoff. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.cutoffWinnerPartition
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats) :
+    (run.refinement.partyProjection run.cutoffState).quotaWinners +
+        (run.refinement.otherPartyProjection run.cutoffState).quotaWinners =
+      run.cutoffState.elected := by
+  apply property_of_reflTransGen
+    (property := fun state =>
+      (run.refinement.partyProjection state).quotaWinners +
+          (run.refinement.otherPartyProjection state).quotaWinners =
+        state.elected)
+    (fun htransition hbefore =>
+      run.refinement.preservesWinnerPartition htransition hbefore)
+    run.prefixGlobalPath
+  rw [run.party_initial, run.otherParty_initial, run.initial_elected_zero]
+  simp [PartyQuotaStartState]
+
+/-- The actual party-filtered winner counts also partition at global terminal. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.terminalWinnerPartition
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats) :
+    (run.refinement.partyProjection run.terminalState).quotaWinners +
+        (run.refinement.otherPartyProjection run.terminalState).quotaWinners =
+      run.terminalState.elected := by
+  apply property_of_reflTransGen
+    (property := fun state =>
+      (run.refinement.partyProjection state).quotaWinners +
+          (run.refinement.otherPartyProjection state).quotaWinners =
+        state.elected)
+    (fun htransition hbefore =>
+      run.refinement.preservesWinnerPartition htransition hbefore)
+    run.fullPath
+  rw [run.party_initial, run.otherParty_initial, run.initial_elected_zero]
+  simp [PartyQuotaStartState]
+
+/-- Exact transition capacity bounds the cutoff elected count. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.cutoffElected_le
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats) :
+    run.cutoffState.elected ≤ seats := by
+  apply property_of_reflTransGen
+    (property := fun state => state.elected ≤ seats)
+    (fun htransition hbefore => htransition.elected_le_seats hbefore)
+    run.prefixGlobalPath
+  simp [run.initialElected_eq_zero]
+
+/-- Exact transition capacity also bounds the terminal elected count. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.terminalElected_le
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats) :
+    run.terminalState.elected ≤ seats := by
+  apply property_of_reflTransGen
+    (property := fun state => state.elected ≤ seats)
+    (fun htransition hbefore => htransition.elected_le_seats hbefore)
+    run.fullPath
+  simp [run.initialElected_eq_zero]
+
+/-- The first local process induced by the common prefix. -/
+noncomputable def SourceTwoPartySurplusPreservingGlobalRun.partyCutoffRun
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats) :
+    SourceSurplusPreservingPartyRun partyRule partyInitialVotes where
+  initialCandidates := run.partyInitialCandidates
+  terminalState := run.refinement.partyProjection run.cutoffState
+  path := run.partyPath
+
+/-- The second local process induced by the same common prefix. -/
+noncomputable def SourceTwoPartySurplusPreservingGlobalRun.otherPartyCutoffRun
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats) :
+    SourceSurplusPreservingPartyRun otherPartyRule otherPartyInitialVotes where
+  initialCandidates := run.otherPartyInitialCandidates
+  terminalState := run.refinement.otherPartyProjection run.cutoffState
+  path := run.otherPartyPath
+
+/-- If the common cutoff is already source-terminal, it gives the old local run. -/
+noncomputable def SourceTwoPartySurplusPreservingGlobalRun.toLocalBatchedRunAtCutoff
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats)
+    (hterminal : SourceSTVTerminal seats run.cutoffState) :
+    SourceTwoPartySurplusPreservingBatchedRun partyRule otherPartyRule
+      partyInitialVotes otherPartyInitialVotes seats where
+  partyRun := run.partyCutoffRun
+  otherPartyRun := run.otherPartyCutoffRun
+  elected_le_seats := by
+    change
+      (run.refinement.partyProjection run.cutoffState).quotaWinners +
+          (run.refinement.otherPartyProjection run.cutoffState).quotaWinners ≤
+        seats
+    rw [run.cutoffWinnerPartition]
+    exact run.cutoffElected_le
+  source_terminal := by
+    change
+      (run.refinement.partyProjection run.cutoffState).quotaWinners +
+            (run.refinement.otherPartyProjection run.cutoffState).quotaWinners =
+          seats ∨
+        (run.refinement.partyProjection run.cutoffState).remainingCandidates +
+            (run.refinement.otherPartyProjection run.cutoffState).remainingCandidates =
+          seats -
+            ((run.refinement.partyProjection run.cutoffState).quotaWinners +
+              (run.refinement.otherPartyProjection run.cutoffState).quotaWinners)
+    rcases hterminal with helected | hremaining
+    · left
+      rw [run.cutoffWinnerPartition]
+      exact helected
+    · right
+      rw [run.refinement.remaining_partition, run.cutoffWinnerPartition]
+      exact hremaining
+
+/-- A source-terminal cutoff admits no later exact transition. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.terminal_eq_cutoff_of_terminal
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats)
+    (hterminal : SourceSTVTerminal seats run.cutoffState) :
+    run.terminalState = run.cutoffState := by
+  apply property_of_reflTransGen
+    (property := fun state => state = run.cutoffState)
+    (fun {before after} htransition hbefore => by
+      subst before
+      cases htransition with
+      | electBatch _winners hnotTerminal _hnonempty _hactive _hroom _hquota
+          _hafterActive _hafterElected _htransfer =>
+          exact (hnotTerminal hterminal).elim
+      | eliminate _loser hnotTerminal _hactive _hnoQuota _hminimum
+          _hafterActive _hafterElected _htransfer =>
+          exact (hnotTerminal hterminal).elim)
+    run.suffix rfl
+
+/-- Party exhaustion and its actual winner count persist through the suffix. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.partyFrozenAlongSuffix
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats)
+    (hexhausted :
+      (run.cutoffState.active ∩ run.refinement.partyCandidates).card = 0) :
+    (run.terminalState.active ∩ run.refinement.partyCandidates).card = 0 ∧
+      (run.refinement.partyProjection run.terminalState).quotaWinners =
+        (run.refinement.partyProjection run.cutoffState).quotaWinners := by
+  apply property_of_reflTransGen
+    (property := fun state =>
+      (state.active ∩ run.refinement.partyCandidates).card = 0 ∧
+        (run.refinement.partyProjection state).quotaWinners =
+          (run.refinement.partyProjection run.cutoffState).quotaWinners)
+    (fun {before after} htransition hbefore => by
+      have hactiveSubset :
+          after.active ∩ run.refinement.partyCandidates ⊆
+            before.active ∩ run.refinement.partyCandidates := by
+        intro candidate hcandidate
+        exact Finset.mem_inter.mpr
+          ⟨htransition.active_subset (Finset.mem_inter.mp hcandidate).1,
+            (Finset.mem_inter.mp hcandidate).2⟩
+      have hafterEmpty :
+          (after.active ∩ run.refinement.partyCandidates).card = 0 := by
+        have hcard := Finset.card_le_card hactiveSubset
+        omega
+      refine ⟨hafterEmpty, ?_⟩
+      cases htransition with
+      | electBatch winners hnotTerminal hnonempty hactive hroom hquota
+          hafterActive hafterElected htransfer =>
+          have helect :
+              SourceSTVElectBatchTransition globalRule quota seats winners
+                before after :=
+            ⟨hnotTerminal, hnonempty, hactive, hroom, hquota,
+              hafterActive, hafterElected, htransfer⟩
+          have hbatchSubset :
+              winners ∩ run.refinement.partyCandidates ⊆
+                before.active ∩ run.refinement.partyCandidates := by
+            intro candidate hcandidate
+            exact Finset.mem_inter.mpr
+              ⟨hactive (Finset.mem_inter.mp hcandidate).1,
+                (Finset.mem_inter.mp hcandidate).2⟩
+          have hbatchCard := Finset.card_le_card hbatchSubset
+          have hbatchEmpty :
+              (winners ∩ run.refinement.partyCandidates).card = 0 := by
+            omega
+          rw [run.refinement.party_winner_update_elect winners helect,
+            hbatchEmpty, Nat.add_zero, hbefore.2]
+      | eliminate loser hnotTerminal hactive hnoQuota hminimum
+          hafterActive hafterElected htransfer =>
+          have heliminate :
+              SourceSTVEliminateTransition globalRule quota seats loser
+                before after :=
+            ⟨hnotTerminal, hactive, hnoQuota, hminimum,
+              hafterActive, hafterElected, htransfer⟩
+          rw [run.refinement.party_winner_update_eliminate loser heliminate,
+            hbefore.2])
+    run.suffix ⟨hexhausted, rfl⟩
+
+/-- Other-party exhaustion and its winner count persist through the suffix. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.otherPartyFrozenAlongSuffix
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats)
+    (hexhausted :
+      (run.cutoffState.active ∩ run.refinement.otherPartyCandidates).card = 0) :
+    (run.terminalState.active ∩ run.refinement.otherPartyCandidates).card = 0 ∧
+      (run.refinement.otherPartyProjection run.terminalState).quotaWinners =
+        (run.refinement.otherPartyProjection run.cutoffState).quotaWinners := by
+  apply property_of_reflTransGen
+    (property := fun state =>
+      (state.active ∩ run.refinement.otherPartyCandidates).card = 0 ∧
+        (run.refinement.otherPartyProjection state).quotaWinners =
+          (run.refinement.otherPartyProjection run.cutoffState).quotaWinners)
+    (fun {before after} htransition hbefore => by
+      have hactiveSubset :
+          after.active ∩ run.refinement.otherPartyCandidates ⊆
+            before.active ∩ run.refinement.otherPartyCandidates := by
+        intro candidate hcandidate
+        exact Finset.mem_inter.mpr
+          ⟨htransition.active_subset (Finset.mem_inter.mp hcandidate).1,
+            (Finset.mem_inter.mp hcandidate).2⟩
+      have hafterEmpty :
+          (after.active ∩ run.refinement.otherPartyCandidates).card = 0 := by
+        have hcard := Finset.card_le_card hactiveSubset
+        omega
+      refine ⟨hafterEmpty, ?_⟩
+      cases htransition with
+      | electBatch winners hnotTerminal hnonempty hactive hroom hquota
+          hafterActive hafterElected htransfer =>
+          have helect :
+              SourceSTVElectBatchTransition globalRule quota seats winners
+                before after :=
+            ⟨hnotTerminal, hnonempty, hactive, hroom, hquota,
+              hafterActive, hafterElected, htransfer⟩
+          have hbatchSubset :
+              winners ∩ run.refinement.otherPartyCandidates ⊆
+                before.active ∩ run.refinement.otherPartyCandidates := by
+            intro candidate hcandidate
+            exact Finset.mem_inter.mpr
+              ⟨hactive (Finset.mem_inter.mp hcandidate).1,
+                (Finset.mem_inter.mp hcandidate).2⟩
+          have hbatchCard := Finset.card_le_card hbatchSubset
+          have hbatchEmpty :
+              (winners ∩ run.refinement.otherPartyCandidates).card = 0 := by
+            omega
+          rw [run.refinement.otherParty_winner_update_elect winners helect,
+            hbatchEmpty, Nat.add_zero, hbefore.2]
+      | eliminate loser hnotTerminal hactive hnoQuota hminimum
+          hafterActive hafterElected htransfer =>
+          have heliminate :
+              SourceSTVEliminateTransition globalRule quota seats loser
+                before after :=
+            ⟨hnotTerminal, hactive, hnoQuota, hminimum,
+              hafterActive, hafterElected, htransfer⟩
+          rw [run.refinement.otherParty_winner_update_eliminate loser heliminate,
+            hbefore.2])
+    run.suffix ⟨hexhausted, rfl⟩
+
+/-- Actual focal-party seats in a raw terminal exact source outcome. -/
+noncomputable def SourceTwoPartyExactTerminalGlobalRun.actualPartyFinalSeats
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartyExactTerminalGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats) : ℕ :=
+  (run.refinement.partyProjection run.terminalState).quotaWinners +
+    if run.terminalState.elected < seats then
+      (run.terminalState.active ∩ run.refinement.partyCandidates).card
+    else 0
+
+/-- Actual other-party seats in the same raw terminal exact source outcome. -/
+noncomputable def SourceTwoPartyExactTerminalGlobalRun.actualOtherPartyFinalSeats
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartyExactTerminalGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats) : ℕ :=
+  (run.refinement.otherPartyProjection run.terminalState).quotaWinners +
+    if run.terminalState.elected < seats then
+      (run.terminalState.active ∩ run.refinement.otherPartyCandidates).card
+    else 0
+
+/-- Actual focal-party seats in the terminal exact source outcome. -/
+noncomputable def SourceTwoPartySurplusPreservingGlobalRun.actualPartyFinalSeats
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats) : ℕ :=
+  (run.refinement.partyProjection run.terminalState).quotaWinners +
+    if run.terminalState.elected < seats then
+      (run.terminalState.active ∩ run.refinement.partyCandidates).card
+    else 0
+
+/-- Actual other-party seats in the same terminal exact source outcome. -/
+noncomputable def SourceTwoPartySurplusPreservingGlobalRun.actualOtherPartyFinalSeats
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats) : ℕ :=
+  (run.refinement.otherPartyProjection run.terminalState).quotaWinners +
+    if run.terminalState.elected < seats then
+      (run.terminalState.active ∩ run.refinement.otherPartyCandidates).card
+    else 0
+
+/-- The two actual party-filtered terminal outputs fill exactly all seats. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.actualFinalSeats_add
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats) :
+    run.actualPartyFinalSeats + run.actualOtherPartyFinalSeats = seats := by
+  rw [SourceTwoPartySurplusPreservingGlobalRun.actualPartyFinalSeats,
+    SourceTwoPartySurplusPreservingGlobalRun.actualOtherPartyFinalSeats]
+  by_cases hlt : run.terminalState.elected < seats
+  · simp only [if_pos hlt]
+    rw [← run.refinement.party_remaining_coherent run.terminalState,
+      ← run.refinement.otherParty_remaining_coherent run.terminalState]
+    have hremaining :=
+      Or.resolve_left run.source_terminal (Nat.ne_of_lt hlt)
+    have hpartition := run.terminalWinnerPartition
+    have hactivePartition :=
+      run.refinement.remaining_partition run.terminalState
+    omega
+  · simp only [if_neg hlt, Nat.add_zero]
+    have helected : run.terminalState.elected = seats :=
+      le_antisymm run.terminalElected_le (Nat.le_of_not_gt hlt)
+    rw [run.terminalWinnerPartition, helected]
+
+/-- At a terminal cutoff, the local focal output is the actual global output. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.localPartyFinal_eq_actual_of_terminal
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats)
+    (hterminal : SourceSTVTerminal seats run.cutoffState) :
+    (run.toLocalBatchedRunAtCutoff hterminal).partyFinalSeats =
+      run.actualPartyFinalSeats := by
+  have hstate := run.terminal_eq_cutoff_of_terminal hterminal
+  rw [SourceTwoPartySurplusPreservingBatchedRun.partyFinalSeats,
+    SourceTwoPartySurplusPreservingGlobalRun.actualPartyFinalSeats]
+  simp only [SourceTwoPartySurplusPreservingGlobalRun.toLocalBatchedRunAtCutoff,
+    SourceTwoPartySurplusPreservingGlobalRun.partyCutoffRun,
+    SourceTwoPartySurplusPreservingGlobalRun.otherPartyCutoffRun]
+  rw [hstate, run.cutoffWinnerPartition,
+    run.refinement.party_remaining_coherent run.cutoffState]
+
+/-- At a terminal cutoff, the local other-party output is also the actual one. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.localOtherPartyFinal_eq_actual_of_terminal
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats)
+    (hterminal : SourceSTVTerminal seats run.cutoffState) :
+    (run.toLocalBatchedRunAtCutoff hterminal).otherPartyFinalSeats =
+      run.actualOtherPartyFinalSeats := by
+  have hstate := run.terminal_eq_cutoff_of_terminal hterminal
+  rw [SourceTwoPartySurplusPreservingBatchedRun.otherPartyFinalSeats,
+    SourceTwoPartySurplusPreservingGlobalRun.actualOtherPartyFinalSeats]
+  simp only [SourceTwoPartySurplusPreservingGlobalRun.toLocalBatchedRunAtCutoff,
+    SourceTwoPartySurplusPreservingGlobalRun.partyCutoffRun,
+    SourceTwoPartySurplusPreservingGlobalRun.otherPartyCutoffRun]
+  rw [hstate, run.cutoffWinnerPartition,
+    run.refinement.otherParty_remaining_coherent run.cutoffState]
+
+/-- If the focal party exhausts at cutoff, no suffix event can add its seats. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.actualPartyFinal_eq_cutoffWinners_of_exhausted
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats)
+    (hexhausted :
+      (run.cutoffState.active ∩ run.refinement.partyCandidates).card = 0) :
+    run.actualPartyFinalSeats =
+      (run.refinement.partyProjection run.cutoffState).quotaWinners := by
+  have hfrozen := run.partyFrozenAlongSuffix hexhausted
+  rw [SourceTwoPartySurplusPreservingGlobalRun.actualPartyFinalSeats,
+    hfrozen.2]
+  by_cases hlt : run.terminalState.elected < seats <;>
+    simp [hlt, hfrozen.1]
+
+/-- If the other party exhausts, no suffix event can add its seats. -/
+theorem SourceTwoPartySurplusPreservingGlobalRun.actualOtherPartyFinal_eq_cutoffWinners_of_exhausted
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {quota partyInitialVotes otherPartyInitialVotes : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule quota}
+    {seats : ℕ}
+    (run : SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+      otherPartyRule partyInitialVotes otherPartyInitialVotes seats)
+    (hexhausted :
+      (run.cutoffState.active ∩ run.refinement.otherPartyCandidates).card = 0) :
+    run.actualOtherPartyFinalSeats =
+      (run.refinement.otherPartyProjection run.cutoffState).quotaWinners := by
+  have hfrozen := run.otherPartyFrozenAlongSuffix hexhausted
+  rw [SourceTwoPartySurplusPreservingGlobalRun.actualOtherPartyFinalSeats,
+    hfrozen.2]
+  by_cases hlt : run.terminalState.elected < seats <;>
+    simp [hlt, hfrozen.1]
+
+/-- The global Droop residual after `seats` quotas is below one quota. -/
+theorem voters_sub_seats_mul_STVQuota_lt_STVQuota (seats voters : ℕ) :
+    (voters : ℝ) - (seats : ℝ) * (STVQuota seats voters : ℝ) <
+      (STVQuota seats voters : ℝ) := by
+  have hquota_pos : 0 < (STVQuota seats voters : ℝ) := by
+    exact_mod_cast (Nat.succ_pos (voters / (seats + 1)))
+  have hratio := voters_div_STVQuota_lt_seats_succ seats voters
+  rw [div_lt_iff₀ hquota_pos] at hratio
+  nlinarith
+
+/--
+Every run of every source-permitted surplus-preserving rule gives both party
+quota lower bounds.  The proof uses only local rule laws plus the exact two
+source stopping cases.
+-/
+theorem SourceTwoPartySurplusPreservingBatchedRun.quotaLowerBounds
+    {seats voters : ℕ} {partyShare : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule
+        (STVQuota seats voters : ℝ)}
+    (run :
+      SourceTwoPartySurplusPreservingBatchedRun partyRule otherPartyRule
+        (partyShare * (voters : ℝ))
+        ((1 - partyShare) * (voters : ℝ)) seats)
+    (hpos : 0 < partyShare) (hle : partyShare ≤ 1)
+    (hpartyCandidates : seats ≤ run.partyRun.initialCandidates)
+    (hotherPartyCandidates : seats ≤ run.otherPartyRun.initialCandidates) :
+    ⌊(partyShare * (voters : ℝ)) / (STVQuota seats voters : ℝ)⌋₊ ≤
+        run.partyFinalSeats ∧
+      ⌊((1 - partyShare) * (voters : ℝ)) /
+          (STVQuota seats voters : ℝ)⌋₊ ≤
+        run.otherPartyFinalSeats := by
+  let quota : ℝ := STVQuota seats voters
+  have hquota_pos : 0 < quota := by
+    dsimp [quota]
+    exact_mod_cast (Nat.succ_pos (voters / (seats + 1)))
+  have hpartyVotes_nonneg : 0 ≤ partyShare * (voters : ℝ) :=
+    mul_nonneg hpos.le (by positivity)
+  have hotherVotes_nonneg : 0 ≤ (1 - partyShare) * (voters : ℝ) :=
+    mul_nonneg (sub_nonneg.mpr hle) (by positivity)
+  have hpartyInvariant :=
+    run.partyRun.terminalInvariant hpartyVotes_nonneg
+  have hotherInvariant :=
+    run.otherPartyRun.terminalInvariant hotherVotes_nonneg
+  have hpartyStartCapacity :
+      PartyQuotaCapacityBound quota
+        (PartyQuotaStartState run.partyRun.initialCandidates
+          (partyShare * (voters : ℝ))) := by
+    simpa [quota] using
+      partyQuotaStartCapacityBound_of_share_le_one_candidate_bound
+        (seats := seats) (voters := voters)
+        (remainingCandidates := run.partyRun.initialCandidates)
+        (partyShare := partyShare) hle hpartyCandidates
+  have hotherShare_le : 1 - partyShare ≤ 1 := by linarith
+  have hotherStartCapacity :
+      PartyQuotaCapacityBound quota
+        (PartyQuotaStartState run.otherPartyRun.initialCandidates
+          ((1 - partyShare) * (voters : ℝ))) := by
+    simpa [quota] using
+      partyQuotaStartCapacityBound_of_share_le_one_candidate_bound
+        (seats := seats) (voters := voters)
+        (remainingCandidates := run.otherPartyRun.initialCandidates)
+        (partyShare := 1 - partyShare) hotherShare_le hotherPartyCandidates
+  have hpartyCapacity := run.partyRun.terminalCapacity hpartyStartCapacity
+  have hotherCapacity :=
+    run.otherPartyRun.terminalCapacity hotherStartCapacity
+  by_cases hlt :
+      run.partyRun.terminalState.quotaWinners +
+        run.otherPartyRun.terminalState.quotaWinners < seats
+  · constructor
+    · have hlower :=
+        floor_votes_div_quota_le_quotaWinners_add_remaining_of_capacityBound
+          hquota_pos hpartyVotes_nonneg hpartyInvariant.1 hpartyCapacity
+      simpa [quota,
+        SourceTwoPartySurplusPreservingBatchedRun.partyFinalSeats, hlt]
+        using hlower
+    · have hlower :=
+        floor_votes_div_quota_le_quotaWinners_add_remaining_of_capacityBound
+          hquota_pos hotherVotes_nonneg hotherInvariant.1 hotherCapacity
+      simpa [quota,
+        SourceTwoPartySurplusPreservingBatchedRun.otherPartyFinalSeats, hlt]
+        using hlower
+  · have helected :
+        run.partyRun.terminalState.quotaWinners +
+            run.otherPartyRun.terminalState.quotaWinners = seats := by
+      apply le_antisymm run.elected_le_seats
+      exact Nat.le_of_not_gt hlt
+    have helectedReal :
+        (run.partyRun.terminalState.quotaWinners : ℝ) +
+            (run.otherPartyRun.terminalState.quotaWinners : ℝ) =
+          (seats : ℝ) := by
+      exact_mod_cast helected
+    have hmassSum :
+        run.partyRun.terminalState.voteMass +
+            run.otherPartyRun.terminalState.voteMass =
+          (voters : ℝ) - (seats : ℝ) * quota := by
+      have hpartyDecomp := hpartyInvariant.1
+      have hotherDecomp := hotherInvariant.1
+      nlinarith
+    have hglobalResidual :
+        (voters : ℝ) - (seats : ℝ) * quota < quota := by
+      simpa [quota] using
+        voters_sub_seats_mul_STVQuota_lt_STVQuota seats voters
+    have hpartyResidual :
+        PartyQuotaTerminalBelowQuota quota run.partyRun.terminalState := by
+      change run.partyRun.terminalState.voteMass < quota
+      nlinarith [hotherInvariant.2]
+    have hotherResidual :
+        PartyQuotaTerminalBelowQuota quota run.otherPartyRun.terminalState := by
+      change run.otherPartyRun.terminalState.voteMass < quota
+      nlinarith [hpartyInvariant.2]
+    constructor
+    · have hwitness :
+          QuotaLowerBoundWitness run.partyRun.terminalState.quotaWinners
+            (partyShare * (voters : ℝ)) quota :=
+        quotaLowerBoundWitness_of_partyQuotaProcess hquota_pos le_rfl
+          hpartyInvariant hpartyResidual
+      have hlower :=
+        floor_votes_div_quota_le_finalSeats_of_quotaLowerBoundWitness hwitness
+      simpa [quota,
+        SourceTwoPartySurplusPreservingBatchedRun.partyFinalSeats, hlt]
+        using hlower
+    · have hwitness :
+          QuotaLowerBoundWitness run.otherPartyRun.terminalState.quotaWinners
+            ((1 - partyShare) * (voters : ℝ)) quota :=
+        quotaLowerBoundWitness_of_partyQuotaProcess hquota_pos le_rfl
+          hotherInvariant hotherResidual
+      have hlower :=
+        floor_votes_div_quota_le_finalSeats_of_quotaLowerBoundWitness hwitness
+      simpa [quota,
+        SourceTwoPartySurplusPreservingBatchedRun.otherPartyFinalSeats, hlt]
+        using hlower
+
+/--
+Source-uniform Proposition 1: the rounded STV conclusion holds for every pair
+of surplus-preserving party transfer rules satisfying the local source axioms,
+including nondeterministic/random transfer and tie choices.  The PAV side is
+the source's leftmost argmax characterization.
+-/
+theorem proposition1_seatSharesRounded_of_all_surplusPreservingTransferRules_and_pavMinArgmax
+    {seats voters pavSeatCount : ℕ} {partyShare : ℝ}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule
+        (STVQuota seats voters : ℝ)}
+    (run :
+      SourceTwoPartySurplusPreservingBatchedRun partyRule otherPartyRule
+        (partyShare * (voters : ℝ))
+        ((1 - partyShare) * (voters : ℝ)) seats)
+    (hpos : 0 < partyShare) (hle : partyShare ≤ 1)
+    (hvoters : seats * (seats + 1) ≤ voters)
+    (hpartyCandidates : seats ≤ run.partyRun.initialCandidates)
+    (hotherPartyCandidates : seats ≤ run.otherPartyRun.initialCandidates)
+    (hpav : pavSeatMinArgmax pavSeatCount partyShare seats) :
+    seatShareRounded run.partyFinalSeats partyShare seats ∧
+      seatShareRounded pavSeatCount partyShare seats := by
+  have hlower := run.quotaLowerBounds hpos hle hpartyCandidates
+    hotherPartyCandidates
+  have hstv :
+      stvSolidCoalitionQuotaLowerBounds run.partyFinalSeats partyShare seats
+        voters := by
+    have hpartyLower :
+        ⌊partyShare *
+            ((voters : ℝ) / (STVQuota seats voters : ℝ))⌋₊ ≤
+          run.partyFinalSeats := by
+      simpa [mul_div_assoc] using hlower.1
+    have hotherLower :
+        ⌊(1 - partyShare) *
+            ((voters : ℝ) / (STVQuota seats voters : ℝ))⌋₊ ≤
+          run.otherPartyFinalSeats := by
+      simpa [mul_div_assoc] using hlower.2
+    refine ⟨run.otherPartyFinalSeats, run.finalSeats_add, hpos.le, hle,
+      hvoters, hpartyLower, hotherLower⟩
+  exact
+    proposition1_seatSharesRounded_of_stvQuotaLowerBounds_and_pavMinArgmax
+      hpos hle hstv hpav
+
+/--
+Quota lower bounds for the connected global run with a common cutoff. If the
+cutoff is already source-terminal, this is the two-local-run proof above. If a
+party exhausts first, its local capacity and quota invariants make its winner
+count exactly its canonical quota floor; exact terminal seat conservation and
+the two-party floor-sum bound give the surviving party's lower bound. No mass
+coherence is required on the cross-party-transfer suffix.
+-/
+theorem SourceTwoPartySurplusPreservingGlobalRun.quotaLowerBounds
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {seats voters : ℕ} {partyShare : ℝ}
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule
+        (STVQuota seats voters : ℝ)}
+    (run :
+      SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+        otherPartyRule (partyShare * (voters : ℝ))
+        ((1 - partyShare) * (voters : ℝ)) seats)
+    (hpos : 0 < partyShare) (hle : partyShare ≤ 1)
+    (hpartyCandidates : seats ≤ run.partyInitialCandidates)
+    (hotherPartyCandidates : seats ≤ run.otherPartyInitialCandidates) :
+    ⌊(partyShare * (voters : ℝ)) / (STVQuota seats voters : ℝ)⌋₊ ≤
+        run.actualPartyFinalSeats ∧
+      ⌊((1 - partyShare) * (voters : ℝ)) /
+          (STVQuota seats voters : ℝ)⌋₊ ≤
+        run.actualOtherPartyFinalSeats := by
+  let quota : ℝ := STVQuota seats voters
+  have hquota_pos : 0 < quota := by
+    dsimp [quota]
+    exact_mod_cast (Nat.succ_pos (voters / (seats + 1)))
+  have hpartyVotes_nonneg : 0 ≤ partyShare * (voters : ℝ) :=
+    mul_nonneg hpos.le (by positivity)
+  have hotherVotes_nonneg : 0 ≤ (1 - partyShare) * (voters : ℝ) :=
+    mul_nonneg (sub_nonneg.mpr hle) (by positivity)
+  have hpartyStartCapacity :
+      PartyQuotaCapacityBound quota
+        (PartyQuotaStartState run.partyInitialCandidates
+          (partyShare * (voters : ℝ))) := by
+    simpa [quota] using
+      partyQuotaStartCapacityBound_of_share_le_one_candidate_bound
+        (seats := seats) (voters := voters)
+        (remainingCandidates := run.partyInitialCandidates)
+        (partyShare := partyShare) hle hpartyCandidates
+  have hotherShare_le : 1 - partyShare ≤ 1 := by linarith
+  have hotherStartCapacity :
+      PartyQuotaCapacityBound quota
+        (PartyQuotaStartState run.otherPartyInitialCandidates
+          ((1 - partyShare) * (voters : ℝ))) := by
+    simpa [quota] using
+      partyQuotaStartCapacityBound_of_share_le_one_candidate_bound
+        (seats := seats) (voters := voters)
+        (remainingCandidates := run.otherPartyInitialCandidates)
+        (partyShare := 1 - partyShare) hotherShare_le
+        hotherPartyCandidates
+  have hfloorSum :
+      ⌊(partyShare * (voters : ℝ)) / (STVQuota seats voters : ℝ)⌋₊ +
+          ⌊((1 - partyShare) * (voters : ℝ)) /
+            (STVQuota seats voters : ℝ)⌋₊ ≤ seats := by
+    simpa [mul_div_assoc] using
+      (stvTwoPartyQuotaFloors_sum_le_seats
+        (seats := seats) (voters := voters) (partyShare := partyShare)
+        hpos.le hle)
+  rcases run.cutoff_condition with hterminal | hpartyExhausted | hotherExhausted
+  · have hlocal :=
+      (run.toLocalBatchedRunAtCutoff hterminal).quotaLowerBounds hpos hle
+        (by
+          simpa [SourceTwoPartySurplusPreservingGlobalRun.toLocalBatchedRunAtCutoff,
+            SourceTwoPartySurplusPreservingGlobalRun.partyCutoffRun] using
+            hpartyCandidates)
+        (by
+          simpa [SourceTwoPartySurplusPreservingGlobalRun.toLocalBatchedRunAtCutoff,
+            SourceTwoPartySurplusPreservingGlobalRun.otherPartyCutoffRun] using
+            hotherPartyCandidates)
+    rw [run.localPartyFinal_eq_actual_of_terminal hterminal,
+      run.localOtherPartyFinal_eq_actual_of_terminal hterminal] at hlocal
+    exact hlocal
+  · have hremaining :
+        run.partyCutoffRun.terminalState.remainingCandidates = 0 := by
+      change
+        (run.refinement.partyProjection run.cutoffState).remainingCandidates = 0
+      rw [run.refinement.party_remaining_coherent, hpartyExhausted]
+    have hcutoffFloor :
+        (run.refinement.partyProjection run.cutoffState).quotaWinners =
+          ⌊(partyShare * (voters : ℝ)) /
+            (STVQuota seats voters : ℝ)⌋₊ := by
+      simpa [quota,
+        SourceTwoPartySurplusPreservingGlobalRun.partyCutoffRun] using
+        run.partyCutoffRun.quotaWinners_eq_floor_of_exhausted
+          hquota_pos hpartyVotes_nonneg hpartyStartCapacity hremaining
+    have hactual :=
+      run.actualPartyFinal_eq_cutoffWinners_of_exhausted hpartyExhausted
+    have htotal := run.actualFinalSeats_add
+    constructor <;> omega
+  · have hremaining :
+        run.otherPartyCutoffRun.terminalState.remainingCandidates = 0 := by
+      change
+        (run.refinement.otherPartyProjection run.cutoffState).remainingCandidates = 0
+      rw [run.refinement.otherParty_remaining_coherent, hotherExhausted]
+    have hcutoffFloor :
+        (run.refinement.otherPartyProjection run.cutoffState).quotaWinners =
+          ⌊((1 - partyShare) * (voters : ℝ)) /
+            (STVQuota seats voters : ℝ)⌋₊ := by
+      simpa [quota,
+        SourceTwoPartySurplusPreservingGlobalRun.otherPartyCutoffRun] using
+        run.otherPartyCutoffRun.quotaWinners_eq_floor_of_exhausted
+          hquota_pos hotherVotes_nonneg hotherStartCapacity hremaining
+    have hactual :=
+      run.actualOtherPartyFinal_eq_cutoffWinners_of_exhausted
+        hotherExhausted
+    have htotal := run.actualFinalSeats_add
+    constructor <;> omega
+
+/--
+Source-uniform Proposition 1 from one connected exact global STV run. The
+common prefix through first party exhaustion serializes into the two local
+surplus-preserving paths. The unrestricted exact suffix may transfer residual
+votes across parties; active-set monotonicity freezes the exhausted party's
+actual seat count, and terminal seat conservation supplies the complement.
+Thus the theorem covers the source's full transfer-rule class without making
+the STV output float free of the exact candidate-level algorithm.
+-/
+theorem proposition1_seatSharesRounded_of_connectedExactGlobalRun_all_surplusPreservingTransferRules_and_pavMinArgmax
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {seats voters pavSeatCount : ℕ} {partyShare : ℝ}
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule
+        (STVQuota seats voters : ℝ)}
+    (globalRun :
+      SourceTwoPartySurplusPreservingGlobalRun globalRule partyRule
+        otherPartyRule (partyShare * (voters : ℝ))
+        ((1 - partyShare) * (voters : ℝ)) seats)
+    (hpos : 0 < partyShare) (hle : partyShare ≤ 1)
+    (hvoters : seats * (seats + 1) ≤ voters)
+    (hpartyCandidates : seats ≤ globalRun.partyInitialCandidates)
+    (hotherPartyCandidates : seats ≤ globalRun.otherPartyInitialCandidates)
+    (hpav : pavSeatMinArgmax pavSeatCount partyShare seats) :
+    seatShareRounded globalRun.actualPartyFinalSeats partyShare seats ∧
+      seatShareRounded pavSeatCount partyShare seats := by
+  have hlower := globalRun.quotaLowerBounds hpos hle hpartyCandidates
+    hotherPartyCandidates
+  have hstv :
+      stvSolidCoalitionQuotaLowerBounds globalRun.actualPartyFinalSeats
+        partyShare seats voters := by
+    refine ⟨globalRun.actualOtherPartyFinalSeats,
+      globalRun.actualFinalSeats_add, hpos.le, hle, hvoters, ?_, ?_⟩
+    · simpa [mul_div_assoc] using hlower.1
+    · simpa [mul_div_assoc] using hlower.2
+  exact
+    proposition1_seatSharesRounded_of_stvQuotaLowerBounds_and_pavMinArgmax
+      hpos hle hstv hpav
+
+/--
+Source-uniform Proposition 1 from a raw finite exact terminal global run. Lean
+selects the first terminal-or-party-exhaustion cutoff, derives both serialized
+local prefixes, and proves the exhausted-side freeze internally before applying
+the connected-run theorem above.
+-/
+theorem proposition1_seatSharesRounded_of_exactTerminalGlobalRun_all_surplusPreservingTransferRules_and_pavMinArgmax
+    {Candidate TransferState : Type*} [DecidableEq Candidate]
+    {seats voters pavSeatCount : ℕ} {partyShare : ℝ}
+    {globalRule : SourceSTVTransferRule Candidate TransferState}
+    {partyRule otherPartyRule :
+      SourceSurplusPreservingPartyTransferRule
+        (STVQuota seats voters : ℝ)}
+    (rawRun :
+      SourceTwoPartyExactTerminalGlobalRun globalRule partyRule
+        otherPartyRule (partyShare * (voters : ℝ))
+        ((1 - partyShare) * (voters : ℝ)) seats)
+    (hpos : 0 < partyShare) (hle : partyShare ≤ 1)
+    (hvoters : seats * (seats + 1) ≤ voters)
+    (hpartyCandidates : seats ≤ rawRun.partyInitialCandidates)
+    (hotherPartyCandidates : seats ≤ rawRun.otherPartyInitialCandidates)
+    (hpav : pavSeatMinArgmax pavSeatCount partyShare seats) :
+    seatShareRounded rawRun.actualPartyFinalSeats partyShare seats ∧
+      seatShareRounded pavSeatCount partyShare seats := by
+  let globalRun := rawRun.toCommonCutoffRun
+  have hresult :=
+    proposition1_seatSharesRounded_of_connectedExactGlobalRun_all_surplusPreservingTransferRules_and_pavMinArgmax
+      (globalRun := globalRun) hpos hle hvoters
+      (by simpa [globalRun,
+          SourceTwoPartyExactTerminalGlobalRun.toCommonCutoffRun] using
+        hpartyCandidates)
+      (by simpa [globalRun,
+          SourceTwoPartyExactTerminalGlobalRun.toCommonCutoffRun] using
+        hotherPartyCandidates)
+      hpav
+  simpa [globalRun,
+    SourceTwoPartyExactTerminalGlobalRun.actualPartyFinalSeats,
+    SourceTwoPartySurplusPreservingGlobalRun.actualPartyFinalSeats,
+    SourceTwoPartyExactTerminalGlobalRun.toCommonCutoffRun] using hresult
+
+/-!
+## Source-exact vote-share-only computation
+
+The paper uses Proposition 1 inside a map-search loop only through its
+up-to-rounding output. The program below computes that output from integer
+party-vote and total-vote counts. It does not inspect rankings, candidates, or
+an STV trace.
+-/
+
+/--
+Primitive-operation accounting used for `voteShareRoundingSelector`.
+
+This is a straight-line natural-arithmetic model. A multiplication, division,
+addition, or truncated subtraction has unit cost; tuple construction and input
+reads have zero cost. Expanding natural ceiling division gives one
+multiplication, two divisions, one addition, and one truncated subtraction.
+-/
+structure VoteShareSelectorPrimitiveCost where
+  multiplications : ℕ
+  divisions : ℕ
+  additions : ℕ
+  truncatedSubtractions : ℕ
+  deriving DecidableEq, Repr
+
+/-- Total unit-cost arithmetic operations in the declared cost model. -/
+def VoteShareSelectorPrimitiveCost.total
+    (cost : VoteShareSelectorPrimitiveCost) : ℕ :=
+  cost.multiplications + cost.divisions + cost.additions +
+    cost.truncatedSubtractions
+
+/--
+Instrumented evaluation of the direct selector.  The result and its cost are
+produced by the same definition, so the cost certificate cannot float free of
+the advertised computation.
+-/
+def voteShareRoundingSelectorInstrumented
+    (partyVotes voters seats : ℕ) :
+    (ℕ × ℕ) × VoteShareSelectorPrimitiveCost :=
+  let numerator := partyVotes * seats
+  ((numerator / voters, numerator ⌈/⌉ voters),
+    { multiplications := 1
+      divisions := 2
+      additions := 1
+      truncatedSubtractions := 1 })
+
+/--
+The two source-permitted rounded seat counts computed directly from vote
+counts. Natural ceiling division is executable and is definitionally
+`(numerator + voters - 1) / voters`.
+-/
+def voteShareRoundingSelector (partyVotes voters seats : ℕ) : ℕ × ℕ :=
+  (voteShareRoundingSelectorInstrumented partyVotes voters seats).1
+
+/-- Cost returned by the instrumented direct-selector evaluation. -/
+def voteShareRoundingSelectorCost (partyVotes voters seats : ℕ) :
+    VoteShareSelectorPrimitiveCost :=
+  (voteShareRoundingSelectorInstrumented partyVotes voters seats).2
+
+/-- The instrumented evaluator's result is the advertised selector. -/
+theorem voteShareRoundingSelectorInstrumented_result
+    (partyVotes voters seats : ℕ) :
+    (voteShareRoundingSelectorInstrumented partyVotes voters seats).1 =
+      voteShareRoundingSelector partyVotes voters seats := by
+  rfl
+
+/-- The actual instrumented evaluation returns exactly five primitive operations. -/
+theorem voteShareRoundingSelectorInstrumented_cost_total
+    (partyVotes voters seats : ℕ) :
+    (voteShareRoundingSelectorInstrumented partyVotes voters seats).2.total = 5 := by
+  rfl
+
+/-- The named cost projection has the same exact connected cost. -/
+theorem voteShareRoundingSelectorCost_total
+    (partyVotes voters seats : ℕ) :
+    (voteShareRoundingSelectorCost partyVotes voters seats).total = 5 := by
+  rfl
+
+/-- Natural ceiling division agrees with the natural ceiling of real division. -/
+theorem natCeil_real_natCast_div_natCast (numerator denominator : ℕ)
+    (hdenominator : 0 < denominator) :
+    ⌈(numerator : ℝ) / (denominator : ℝ)⌉₊ =
+      numerator ⌈/⌉ denominator := by
+  apply le_antisymm
+  · rw [Nat.ceil_le]
+    have hnat : numerator ≤ denominator * (numerator ⌈/⌉ denominator) :=
+      (ceilDiv_le_iff_le_mul (b := numerator) (a := denominator)
+        hdenominator).mp le_rfl
+    have hreal :
+        (numerator : ℝ) ≤
+          (denominator : ℝ) *
+            ((numerator ⌈/⌉ denominator : ℕ) : ℝ) := by
+      exact_mod_cast hnat
+    rw [div_le_iff₀ (by exact_mod_cast hdenominator)]
+    simpa [mul_comm] using hreal
+  · rw [ceilDiv_le_iff_le_mul hdenominator]
+    have hceil :
+        (numerator : ℝ) / (denominator : ℝ) ≤
+          (⌈(numerator : ℝ) / (denominator : ℝ)⌉₊ : ℝ) :=
+      Nat.le_ceil _
+    have hdenominatorReal : 0 < (denominator : ℝ) := by
+      exact_mod_cast hdenominator
+    have hreal :
+        (numerator : ℝ) ≤
+          (denominator : ℝ) *
+            (⌈(numerator : ℝ) / (denominator : ℝ)⌉₊ : ℝ) := by
+      rw [div_le_iff₀ hdenominatorReal] at hceil
+      simpa [mul_comm] using hceil
+    exact_mod_cast hreal
+
+/--
+The executable selector is exactly the floor/ceiling pair for the rational
+vote share times the seat count.
+-/
+theorem voteShareRoundingSelector_eq_floor_ceil
+    (partyVotes voters seats : ℕ) (hvoters : 0 < voters) :
+    voteShareRoundingSelector partyVotes voters seats =
+      (⌊((partyVotes : ℝ) / (voters : ℝ)) * (seats : ℝ)⌋₊,
+        ⌈((partyVotes : ℝ) / (voters : ℝ)) * (seats : ℝ)⌉₊) := by
+  have hvotersReal : (voters : ℝ) ≠ 0 := by
+    exact_mod_cast (Nat.ne_of_gt hvoters)
+  have htarget :
+      ((partyVotes : ℝ) / (voters : ℝ)) * (seats : ℝ) =
+        ((partyVotes * seats : ℕ) : ℝ) / (voters : ℝ) := by
+    push_cast
+    field_simp [hvotersReal]
+  rw [voteShareRoundingSelector, htarget]
+  apply Prod.ext
+  · simpa using
+      (Nat.floor_div_eq_div (K := ℝ) (partyVotes * seats) voters).symm
+  · exact
+      (natCeil_real_natCast_div_natCast (partyVotes * seats) voters hvoters).symm
+
+/--
+Refinement theorem for any Proposition 1 output: after identifying the source
+vote share with the ratio of integer vote counts, the checked rounded-seat
+predicate is equivalent to membership in the executable selector's pair.
+-/
+theorem seatShareRounded_iff_voteShareRoundingSelector
+    {seatCount partyVotes voters seats : ℕ} {partyShare : ℝ}
+    (hvoters : 0 < voters)
+    (hshare : partyShare = (partyVotes : ℝ) / (voters : ℝ)) :
+    seatShareRounded seatCount partyShare seats ↔
+      seatCount = (voteShareRoundingSelector partyVotes voters seats).1 ∨
+        seatCount = (voteShareRoundingSelector partyVotes voters seats).2 := by
+  rw [hshare, voteShareRoundingSelector_eq_floor_ceil partyVotes voters seats
+    hvoters]
+  rfl
+
+/--
+The source-facing direct-computation certificate: the result returned by the
+instrumented evaluator is exactly the two rounded Proposition 1 outputs, and
+that same evaluation carries the five-operation cost certificate.  Thus the
+efficiency statement is attached to the executable refinement rather than to
+an unrelated constant.
+-/
+theorem voteShareRoundingSelectorInstrumented_refines_rounded_output_with_cost
+    {seatCount partyVotes voters seats : ℕ} {partyShare : ℝ}
+    (hvoters : 0 < voters)
+    (hshare : partyShare = (partyVotes : ℝ) / (voters : ℝ)) :
+    (seatShareRounded seatCount partyShare seats ↔
+        seatCount =
+          (voteShareRoundingSelectorInstrumented
+            partyVotes voters seats).1.1 ∨
+        seatCount =
+          (voteShareRoundingSelectorInstrumented
+            partyVotes voters seats).1.2) ∧
+      (voteShareRoundingSelectorInstrumented
+        partyVotes voters seats).2.total = 5 := by
+  constructor
+  · simpa [voteShareRoundingSelector] using
+      (seatShareRounded_iff_voteShareRoundingSelector
+        (seatCount := seatCount) hvoters hshare)
+  · exact voteShareRoundingSelectorInstrumented_cost_total
+      partyVotes voters seats
 
 end GGRS26CombattingGerrymanderingRCV

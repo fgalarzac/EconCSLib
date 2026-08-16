@@ -9,6 +9,7 @@ import EconCSLib.Learning.Bandits.ThompsonSampling
 import EconCSLib.MechanismDesign.Auctions
 import EconCSLib.SocialChoice
 import EconCSLib.Markets.Matching
+import EconCSLib.Markets.PublicDecision
 import EconCSLib.Applications.AlgorithmicFairness
 import EconCSLib.Applications.Admissions
 import EconCSLib.Applications.RecommenderSystems

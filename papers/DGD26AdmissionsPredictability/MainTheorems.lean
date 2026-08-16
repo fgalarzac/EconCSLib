@@ -2,6 +2,7 @@ import EconCSLib.Foundations.Math.FiniteChoice
 import DGD26AdmissionsPredictability.LAP
 import DGD26AdmissionsPredictability.QRepresentativeConverseWork
 import DGD26AdmissionsPredictability.TightExamples
+import DGD26AdmissionsPredictability.ProgramClasses
 
 /-!
 # Paper-Facing Theorems: Capacity Constraints Make Admissions Processes Less Predictable
@@ -97,6 +98,29 @@ abbrev paper_variability_at_most [Fintype α]
 abbrev paper_variability_exactly [Fintype α]
     (m : ℕ) (C : PaperChoiceRule α) : Prop :=
   VariabilityExactly m C
+
+/-- The realized maximum borderline-set size on a finite applicant universe. -/
+noncomputable def paperRealizedVariability [Fintype α]
+    (C : PaperChoiceRule α) : ℕ :=
+  (Finset.univ : Finset (Finset α)).sup fun X =>
+    (paper_borderline_set C X).card
+
+/-- Every finite choice rule attains its realized variability maximum. -/
+theorem paper_variability_exactly_realized [Fintype α]
+    (C : PaperChoiceRule α) :
+    paper_variability_exactly (paperRealizedVariability C) C := by
+  classical
+  constructor
+  · intro X
+    exact Finset.le_sup (f := fun Y : Finset α =>
+      (paper_borderline_set C Y).card) (Finset.mem_univ X)
+  · have hnonempty : (Finset.univ : Finset (Finset α)).Nonempty :=
+      ⟨∅, Finset.mem_univ ∅⟩
+    obtain ⟨X, _hX, hmax⟩ :=
+      Finset.exists_mem_eq_sup
+        (Finset.univ : Finset (Finset α)) hnonempty
+        (fun Y : Finset α => (paper_borderline_set C Y).card)
+    exact ⟨X, hmax.symm⟩
 
 /-- Nontriviality witness: some added applicant displaces an existing admit. -/
 abbrev paper_has_displacement (C : PaperChoiceRule α) : Prop :=
@@ -420,6 +444,57 @@ theorem paper_inconsistent_of_positive_distance_and_fresh_not_chosen
       (by
     simpa only [paper_choiceDistance, choiceDistance, choiceGainTerm,
       choiceLossTerm] using hpositive)
+
+/-- Positive one-step distance forces the original pool to be at capacity. -/
+theorem paper_capacity_reached_of_positive_insert_distance
+    {q : ℕ} {C : PaperChoiceRule α}
+    (hfeasible : paper_feasible C)
+    (haccept : paper_q_acceptant q C)
+    {X : Finset α} {x : α}
+    (hx : x ∉ X)
+    (hpositive : 0 < paper_choiceDistance C X (insert x X)) :
+    q ≤ X.card := by
+  by_contra hnot
+  have hlt : X.card < q := Nat.lt_of_not_ge hnot
+  have hXeq : C X = X := by
+    apply Finset.eq_of_subset_of_card_le (hfeasible X)
+    rw [haccept X, Nat.min_eq_right (Nat.le_of_lt hlt)]
+  have hInsertCard : (insert x X).card ≤ q := by
+    rw [Finset.card_insert_of_notMem hx]
+    omega
+  have hInsertEq : C (insert x X) = insert x X := by
+    apply Finset.eq_of_subset_of_card_le (hfeasible (insert x X))
+    rw [haccept (insert x X), Nat.min_eq_right hInsertCard]
+  have hzero : paper_choiceDistance C X (insert x X) = 0 := by
+    simp [paper_choiceDistance, hXeq, hInsertEq]
+  omega
+
+/--
+Exact forward direction of the source's even-instability theorem: a positive,
+even one-step choice distance makes a feasible q-acceptant rule inconsistent.
+The parity equation derives that the fresh applicant was not selected.
+-/
+theorem paper_inconsistent_of_positive_even_insert_distance
+    {q : ℕ} {C : PaperChoiceRule α}
+    (hfeasible : paper_feasible C)
+    (haccept : paper_q_acceptant q C)
+    {X : Finset α} {x : α}
+    (hx : x ∉ X)
+    (hpositive : 0 < paper_choiceDistance C X (insert x X))
+    (heven : ∃ k, paper_choiceDistance C X (insert x X) = 2 * k) :
+    ¬ paper_consistent C := by
+  have hcard : q ≤ X.card :=
+    paper_capacity_reached_of_positive_insert_distance
+      hfeasible haccept hx hpositive
+  have hxNotChosen : x ∉ C (insert x X) := by
+    intro hxChosen
+    rcases heven with ⟨k, hk⟩
+    have hcalc := paper_calculating_instability
+      (C := C) hfeasible haccept hcard hx
+    rw [if_pos hxChosen] at hcalc
+    omega
+  exact paper_inconsistent_of_positive_distance_and_fresh_not_chosen
+    hfeasible hxNotChosen hpositive
 
 /--
 Converse direction of the appendix even-instability theorem: if a feasible
@@ -787,9 +862,180 @@ theorem paper_q_representative_variability_exactly_one_of_displacement
     (C := C) hfeasible hrep hwitness
 
 /--
-For a feasible q-representative rule at full capacity, a changing fresh
-insertion has the same borderline set before insertion as waitlisted set after
-insertion.
+Any feasible positive-capacity choice rule on a strictly larger finite
+applicant universe has a genuine one-step displacement. This supplies the
+nondegeneracy step omitted by the source's exact-variability statement.
+-/
+theorem paper_has_displacement_of_feasible_q_acceptant_nontrivial
+    [Fintype α] {q : ℕ} {C : PaperChoiceRule α}
+    (hfeasible : paper_feasible C)
+    (haccept : paper_q_acceptant q C)
+    (hqpos : 0 < q)
+    (hqlt : q < Fintype.card α) :
+    paper_has_displacement C := by
+  classical
+  have hqUniv : q ≤ (Finset.univ : Finset α).card := by
+    simpa using Nat.le_of_lt hqlt
+  have hCunivCard : (C (Finset.univ : Finset α)).card = q := by
+    rw [haccept]
+    exact Nat.min_eq_left hqUniv
+  have hCunivNonempty : (C (Finset.univ : Finset α)).Nonempty := by
+    rw [Finset.nonempty_iff_ne_empty]
+    intro hempty
+    rw [hempty, Finset.card_empty] at hCunivCard
+    omega
+  rcases hCunivNonempty with ⟨x, hxChosen⟩
+  let X : Finset α := Finset.univ.erase x
+  have hxNotX : x ∉ X := by
+    simp [X]
+  have hxNotChosenX : x ∉ C X := by
+    intro hx
+    exact hxNotX (hfeasible X hx)
+  have hXcard : X.card + 1 = Fintype.card α := by
+    simp [X]
+    omega
+  have hqX : q ≤ X.card := by
+    omega
+  have hCXCard : (C X).card = q := by
+    rw [haccept]
+    exact Nat.min_eq_left hqX
+  have hxDiff : x ∈ C (Finset.univ : Finset α) \ C X := by
+    exact Finset.mem_sdiff.mpr ⟨hxChosen, hxNotChosenX⟩
+  obtain ⟨y, hyDiff⟩ :=
+    exists_mem_sdiff_of_card_eq_of_mem_sdiff
+      (A := C X) (B := C (Finset.univ : Finset α))
+      (by omega) hxDiff
+  refine ⟨X, x, y, hxNotX, (Finset.mem_sdiff.mp hyDiff).1, ?_⟩
+  have hInsert : insert x X = (Finset.univ : Finset α) := by
+    ext z
+    by_cases hzx : z = x
+    · simp [hzx]
+    · simp [X]
+  simpa [hInsert] using (Finset.mem_sdiff.mp hyDiff).2
+
+/--
+Source-corrected exact-one statement: a feasible q-representative rule has
+exact variability one at positive, nontrivial capacity. The source omits these
+necessary degeneracy exclusions.
+-/
+theorem paper_q_representative_variability_exactly_one_nontrivial
+    [Fintype α] {q : ℕ} {C : PaperChoiceRule α}
+    (hfeasible : paper_feasible C)
+    (hrep : paper_q_representative q C)
+    (hqpos : 0 < q)
+    (hqlt : q < Fintype.card α) :
+    paper_variability_exactly 1 C := by
+  exact paper_q_representative_variability_exactly_one_of_displacement
+    (C := C) hfeasible hrep
+    (paper_has_displacement_of_feasible_q_acceptant_nontrivial
+      hfeasible hrep.qAcceptant hqpos hqlt)
+
+/--
+Source-corrected exact characterization: on a positive, nontrivial finite
+universe, q-representativeness is equivalent to q-acceptance, 1-instability,
+and exact variability one.
+-/
+theorem paper_q_representative_iff_q_acceptant_one_instability_exact_variability
+    [Fintype α] {q : ℕ} {C : PaperChoiceRule α}
+    (hfeasible : paper_feasible C)
+    (hqpos : 0 < q)
+    (hqlt : q < Fintype.card α) :
+    paper_q_representative q C ↔
+      paper_q_acceptant q C ∧ paper_d_unstable 1 C ∧
+        paper_variability_exactly 1 C := by
+  constructor
+  · intro hrep
+    exact ⟨hrep.qAcceptant,
+      paper_q_representative_one_instability hfeasible hrep,
+      paper_q_representative_variability_exactly_one_nontrivial
+        hfeasible hrep hqpos hqlt⟩
+  · rintro ⟨haccept, hunstable, hexact⟩
+    exact paper_q_representative_of_q_acceptant_one_instability_variability
+      hfeasible haccept hunstable hexact.1
+
+/--
+Under the source's standing q-acceptance and 1-instability conditions, exact
+variability one is equivalent to representation by a single total order.
+-/
+theorem paper_variability_exactly_one_iff_q_representative
+    [Fintype α] {q : ℕ} {C : PaperChoiceRule α}
+    (hfeasible : paper_feasible C)
+    (haccept : paper_q_acceptant q C)
+    (hunstable : paper_d_unstable 1 C)
+    (hqpos : 0 < q)
+    (hqlt : q < Fintype.card α) :
+    paper_variability_exactly 1 C ↔ paper_q_representative q C := by
+  constructor
+  · intro hexact
+    exact paper_q_representative_of_q_acceptant_one_instability_variability
+      hfeasible haccept hunstable hexact.1
+  · intro hrep
+    exact paper_q_representative_variability_exactly_one_nontrivial
+      hfeasible hrep hqpos hqlt
+
+/-- Below capacity, feasibility and q-acceptance force the rule to choose all offers. -/
+theorem paper_choice_eq_self_of_card_le_capacity
+    {q : ℕ} {C : PaperChoiceRule α}
+    (hfeasible : paper_feasible C)
+    (haccept : paper_q_acceptant q C)
+    {X : Finset α} (hcard : X.card ≤ q) :
+    C X = X := by
+  apply Finset.eq_of_subset_of_card_le (hfeasible X)
+  rw [haccept X, Nat.min_eq_right hcard]
+
+/-- A pool strictly below capacity has no borderline applicants. -/
+theorem paper_borderline_set_eq_empty_of_card_lt_capacity
+    [Fintype α] {q : ℕ} {C : PaperChoiceRule α}
+    (hfeasible : paper_feasible C)
+    (haccept : paper_q_acceptant q C)
+    {X : Finset α} (hcard : X.card < q) :
+    paper_borderline_set C X = ∅ := by
+  classical
+  apply Finset.eq_empty_of_forall_notMem
+  intro y hy
+  rw [paper_borderline_set, borderlineSet] at hy
+  rcases Finset.mem_biUnion.mp hy with ⟨z, _hz, hyDiff⟩
+  have hXeq : C X = X :=
+    paper_choice_eq_self_of_card_le_capacity hfeasible haccept
+      (Nat.le_of_lt hcard)
+  have hInsertCard : (insert z X).card ≤ q := by
+    by_cases hzX : z ∈ X
+    · rw [Finset.insert_eq_of_mem hzX]
+      exact Nat.le_of_lt hcard
+    · rw [Finset.card_insert_of_notMem hzX]
+      omega
+  have hInsertEq : C (insert z X) = insert z X :=
+    paper_choice_eq_self_of_card_le_capacity hfeasible haccept hInsertCard
+  rw [hXeq, hInsertEq] at hyDiff
+  exact (Finset.mem_sdiff.mp hyDiff).2
+    (Finset.mem_insert_of_mem (Finset.mem_sdiff.mp hyDiff).1)
+
+/-- A pool at or below capacity has no waitlisted applicants. -/
+theorem paper_waitlisted_set_eq_empty_of_card_le_capacity
+    [Fintype α] {q : ℕ} {C : PaperChoiceRule α}
+    (hfeasible : paper_feasible C)
+    (haccept : paper_q_acceptant q C)
+    {X : Finset α} (hcard : X.card ≤ q) :
+    paper_waitlisted_set C X = ∅ := by
+  classical
+  apply Finset.eq_empty_of_forall_notMem
+  intro y hy
+  rw [paper_waitlisted_set, waitlistedSet] at hy
+  rcases Finset.mem_biUnion.mp hy with ⟨z, hzX, hyDiff⟩
+  have hXeq : C X = X :=
+    paper_choice_eq_self_of_card_le_capacity hfeasible haccept hcard
+  have hEraseCard : (X.erase z).card ≤ q :=
+    (Finset.card_le_card (Finset.erase_subset z X)).trans hcard
+  have hEraseEq : C (X.erase z) = X.erase z :=
+    paper_choice_eq_self_of_card_le_capacity hfeasible haccept hEraseCard
+  rw [hEraseEq, hXeq] at hyDiff
+  exact (Finset.mem_sdiff.mp hyDiff).2
+    (Finset.erase_subset z X (Finset.mem_sdiff.mp hyDiff).1)
+
+/--
+For a feasible q-representative rule, a changing fresh insertion has the same
+borderline set before insertion as waitlisted set after insertion. Below
+capacity both sets are empty; at capacity the ranking argument applies.
 -/
 theorem paper_q_representative_borderline_eq_waitlisted_after_changing_insert
     [Fintype α] {q : ℕ} {C : PaperChoiceRule α}
@@ -797,12 +1043,20 @@ theorem paper_q_representative_borderline_eq_waitlisted_after_changing_insert
     (hrep : paper_q_representative q C)
     {X : Finset α} {x : α}
     (hx : x ∉ X)
-    (hcard : q ≤ X.card)
     (hchange : C (insert x X) ≠ C X) :
     paper_borderline_set C X = paper_waitlisted_set C (insert x X) := by
-  exact
-    borderlineSet_eq_waitlistedSet_insert_of_feasible_of_qRepresentative_of_choice_ne
-      (C := C) hfeasible hrep hx hcard hchange
+  by_cases hcard : q ≤ X.card
+  · exact
+      borderlineSet_eq_waitlistedSet_insert_of_feasible_of_qRepresentative_of_choice_ne
+        (C := C) hfeasible hrep hx hcard hchange
+  · have hlt : X.card < q := Nat.lt_of_not_ge hcard
+    have hInsertCard : (insert x X).card ≤ q := by
+      rw [Finset.card_insert_of_notMem hx]
+      omega
+    rw [paper_borderline_set_eq_empty_of_card_lt_capacity
+          hfeasible hrep.qAcceptant hlt,
+      paper_waitlisted_set_eq_empty_of_card_le_capacity
+          hfeasible hrep.qAcceptant hInsertCard]
 
 /--
 Ranking-m bridge under the paper's characterization hypotheses: feasibility,
@@ -817,7 +1071,6 @@ theorem paper_acceptant_one_instability_variability_borderline_eq_waitlisted_aft
     (hvar : paper_variability_at_most 1 C)
     {X : Finset α} {x : α}
     (hx : x ∉ X)
-    (hcard : q ≤ X.card)
     (hchange : C (insert x X) ≠ C X) :
     paper_borderline_set C X = paper_waitlisted_set C (insert x X) := by
   have hrep : paper_q_representative q C :=
@@ -825,10 +1078,128 @@ theorem paper_acceptant_one_instability_variability_borderline_eq_waitlisted_aft
       hfeasible haccept hunstable hvar
   exact
     paper_q_representative_borderline_eq_waitlisted_after_changing_insert
-      (C := C) hfeasible hrep hx hcard hchange
+      (C := C) hfeasible hrep hx hchange
+
+/-! ## Machine-learning representation models -/
+
+/-- Binary choice label `C(X)_i`: one exactly for chosen applicants. -/
+def paperChoiceLabel (C : PaperChoiceRule α) (X : Finset α) (x : α) : ℕ :=
+  if x ∈ C X then 1 else 0
+
+/-- The choice label is one exactly when the applicant is selected. -/
+theorem paperChoiceLabel_eq_one_iff
+    (C : PaperChoiceRule α) (X : Finset α) (x : α) :
+    paperChoiceLabel C X x = 1 ↔ x ∈ C X := by
+  simp [paperChoiceLabel]
+
+/-- A pool-aware binary predictor, represented propositionally by its positive label. -/
+abbrev PaperPoolPredictor (α : Type*) := Finset α → α → Prop
 
 /--
-ML-representation proposition, independent-prediction side: any feasible
+An ML predictor represents a choice rule when it gives exactly the rule's
+binary choice label for every offered applicant in every applicant pool.
+-/
+def paperRepresentsChoice
+    (predicts : PaperPoolPredictor α) (C : PaperChoiceRule α) : Prop :=
+  ∀ X x, x ∈ X → (predicts X x ↔ x ∈ C X)
+
+/-- Pool-independent fixed-threshold prediction formula `1{s(x) ≥ t}`. -/
+def paperFixedThresholdPredictor (score : α → ℝ) (threshold : ℝ) :
+    PaperPoolPredictor α :=
+  fun _X x => threshold ≤ score x
+
+/-- The source's fixed-threshold classifier, viewed as a finite choice rule. -/
+noncomputable def paperFixedThresholdChoice (score : α → ℝ) (threshold : ℝ) :
+    PaperChoiceRule α :=
+  fun X => X.filter fun x => threshold ≤ score x
+
+/-- Exact displayed fixed-threshold formula for the induced choice rule. -/
+theorem paperFixedThresholdChoice_mem_iff
+    (score : α → ℝ) (threshold : ℝ) (X : Finset α) (x : α) :
+    x ∈ paperFixedThresholdChoice score threshold X ↔
+      x ∈ X ∧ paperFixedThresholdPredictor score threshold X x := by
+  simp [paperFixedThresholdChoice, paperFixedThresholdPredictor]
+
+/-- The fixed-threshold predictor represents its induced choice rule. -/
+theorem paperFixedThresholdPredictor_represents
+    (score : α → ℝ) (threshold : ℝ) :
+    paperRepresentsChoice
+      (paperFixedThresholdPredictor score threshold)
+      (paperFixedThresholdChoice score threshold) := by
+  intro X x hxX
+  simp [paperFixedThresholdPredictor, paperFixedThresholdChoice, hxX]
+
+/--
+Any feasible choice rule represented by one fixed-score, fixed-threshold
+predictor is exactly the induced fixed-threshold choice rule.
+-/
+theorem paper_choice_eq_fixed_threshold_of_representation
+    {C : PaperChoiceRule α} (score : α → ℝ) (threshold : ℝ)
+    (hfeasible : paper_feasible C)
+    (hrep : paperRepresentsChoice
+      (paperFixedThresholdPredictor score threshold) C) :
+    C = paperFixedThresholdChoice score threshold := by
+  funext X
+  ext x
+  constructor
+  · intro hxC
+    have hxX : x ∈ X := hfeasible X hxC
+    have hpredict : paperFixedThresholdPredictor score threshold X x :=
+      (hrep X x hxX).mpr hxC
+    exact Finset.mem_filter.mpr ⟨hxX, hpredict⟩
+  · intro hxFixed
+    have hmem := Finset.mem_filter.mp hxFixed
+    exact (hrep X x hmem.1).mp hmem.2
+
+/-- A fixed-threshold classifier only chooses offered applicants. -/
+theorem paperFixedThresholdChoice_feasible
+    (score : α → ℝ) (threshold : ℝ) :
+    paper_feasible (paperFixedThresholdChoice score threshold) := by
+  intro X x hx
+  exact (Finset.mem_filter.mp hx).1
+
+/-- Fixed-threshold decisions do not depend on the surrounding applicant pool. -/
+theorem paperFixedThresholdChoice_independent
+    (score : α → ℝ) (threshold : ℝ) :
+    paper_independent (paperFixedThresholdChoice score threshold) := by
+  intro x
+  by_cases hx : threshold ≤ score x
+  · left
+    intro X hxX
+    exact Finset.mem_filter.mpr ⟨hxX, hx⟩
+  · right
+    intro X _hxX
+    simp [paperFixedThresholdChoice, hx]
+
+/--
+ML-representation proposition, independent-prediction side: the source's
+fixed-score, fixed-threshold rule is zero-unstable.
+-/
+theorem paper_fixed_threshold_predictions_zero_unstable
+    (score : α → ℝ) (threshold : ℝ) :
+    paper_zero_unstable (paperFixedThresholdChoice score threshold) := by
+  exact
+    (paper_independent_iff_zero_unstable
+      (paperFixedThresholdChoice score threshold)
+      (paperFixedThresholdChoice_feasible score threshold)).mp
+        (paperFixedThresholdChoice_independent score threshold)
+
+/--
+Source ML proposition in representation form: if one pool-independent
+fixed-threshold predictor represents `C`, then `C` is 0-unstable.
+-/
+theorem paper_fixed_threshold_representation_zero_unstable
+    {C : PaperChoiceRule α} (score : α → ℝ) (threshold : ℝ)
+    (hfeasible : paper_feasible C)
+    (hrep : paperRepresentsChoice
+      (paperFixedThresholdPredictor score threshold) C) :
+    paper_zero_unstable C := by
+  rw [paper_choice_eq_fixed_threshold_of_representation
+    score threshold hfeasible hrep]
+  exact paper_fixed_threshold_predictions_zero_unstable score threshold
+
+/--
+Structural bridge used by the concrete fixed-threshold theorem: any feasible
 choice rule whose decisions are independent of the applicant pool is
 zero-unstable.
 -/
@@ -838,6 +1209,129 @@ theorem paper_independent_predictions_zero_unstable
     (hind : paper_independent C) :
     paper_zero_unstable C := by
   exact (paper_independent_iff_zero_unstable C hfeasible).mp hind
+
+/--
+The source's cohort-dependent rank-threshold model. The injectivity premise is
+the precise Lean form of the source proof's statement that scores embed
+applicants in the reals; higher scores have higher priority.
+-/
+@[reducible] noncomputable def paperOrderByScore
+    (score : α → ℝ) (hinjective : Function.Injective score) : LinearOrder α :=
+  LinearOrder.lift' (α := α) (β := OrderDual ℝ)
+    (fun a : α => OrderDual.toDual (score a))
+    (by
+      intro a b h
+      exact hinjective h)
+
+/-- Choose the top `q` applicants under the score-induced priority order. -/
+noncomputable def paperRankThresholdChoice
+    (q : ℕ) (score : α → ℝ) (hinjective : Function.Injective score) :
+    PaperChoiceRule α :=
+  letI : LinearOrder α := paperOrderByScore score hinjective
+  linearTopQChoice q
+
+/-- Pool-dependent top-`q` score predictor, i.e. `1{s(x) ≥ t_q(X)}`. -/
+noncomputable def paperRankThresholdPredictor
+    (q : ℕ) (score : α → ℝ) (hinjective : Function.Injective score) :
+    PaperPoolPredictor α :=
+  fun X x => x ∈ paperRankThresholdChoice q score hinjective X
+
+/-- The cohort-dependent top-`q` score predictor represents its induced rule. -/
+theorem paperRankThresholdPredictor_represents
+    (q : ℕ) (score : α → ℝ) (hinjective : Function.Injective score) :
+    paperRepresentsChoice
+      (paperRankThresholdPredictor q score hinjective)
+      (paperRankThresholdChoice q score hinjective) := by
+  intro X x _hxX
+  rfl
+
+/-- A feasible rule represented by the top-`q` score predictor is its induced rule. -/
+theorem paper_choice_eq_rank_threshold_of_representation
+    {C : PaperChoiceRule α} (q : ℕ) (score : α → ℝ)
+    (hinjective : Function.Injective score)
+    (hfeasible : paper_feasible C)
+    (hrep : paperRepresentsChoice
+      (paperRankThresholdPredictor q score hinjective) C) :
+    C = paperRankThresholdChoice q score hinjective := by
+  funext X
+  ext x
+  constructor
+  · intro hxC
+    have hxX : x ∈ X := hfeasible X hxC
+    exact (hrep X x hxX).mpr hxC
+  · intro hxRank
+    have hxX : x ∈ X := by
+      classical
+      unfold paperRankThresholdChoice at hxRank
+      letI : LinearOrder α := paperOrderByScore score hinjective
+      exact linearTopQChoice_feasible q X hxRank
+    exact (hrep X x hxX).mp hxRank
+
+/-- The source's rank-threshold choice rule is feasible. -/
+theorem paperRankThresholdChoice_feasible
+    (q : ℕ) (score : α → ℝ) (hinjective : Function.Injective score) :
+    paper_feasible (paperRankThresholdChoice q score hinjective) := by
+  classical
+  unfold paperRankThresholdChoice
+  letI : LinearOrder α := paperOrderByScore score hinjective
+  exact linearTopQChoice_feasible (α := α) q
+
+/-- The source's rank-threshold choice rule is represented by one priority order. -/
+theorem paperRankThresholdChoice_q_representative
+    (q : ℕ) (score : α → ℝ) (hinjective : Function.Injective score) :
+    paper_q_representative q (paperRankThresholdChoice q score hinjective) := by
+  classical
+  unfold paperRankThresholdChoice
+  letI : LinearOrder α := paperOrderByScore score hinjective
+  exact linearTopQChoice_qRepresentative (α := α) q
+
+/--
+Order-statistic form of the cohort-dependent rank model: at positive capacity,
+every pool admits exactly the applicants whose scores weakly exceed one
+pool-specific threshold `t_q(X)`.
+-/
+theorem paperRankThresholdPredictor_threshold_formula
+    (q : ℕ) (score : α → ℝ) (hinjective : Function.Injective score)
+    (hqpos : 0 < q) (X : Finset α) :
+    ∃ threshold : ℝ, ∀ x ∈ X,
+      (paperRankThresholdPredictor q score hinjective X x ↔
+        threshold ≤ score x) := by
+  classical
+  by_cases hX : X.Nonempty
+  · let C := paperRankThresholdChoice q score hinjective
+    have hchoiceNonempty : (C X).Nonempty := by
+      apply Finset.card_pos.mp
+      rw [(paperRankThresholdChoice_q_representative
+        q score hinjective).qAcceptant X]
+      have hXcard : 0 < X.card := Finset.card_pos.mpr hX
+      omega
+    let chosenScores := (C X).image score
+    have hscores : chosenScores.Nonempty := hchoiceNonempty.image _
+    let threshold := chosenScores.min' hscores
+    have hthresholdMem : threshold ∈ chosenScores :=
+      chosenScores.min'_mem hscores
+    rcases Finset.mem_image.mp hthresholdMem with ⟨y, hyChosen, hyScore⟩
+    refine ⟨threshold, ?_⟩
+    intro x hxX
+    change (x ∈ C X ↔ threshold ≤ score x)
+    constructor
+    · intro hxChosen
+      exact chosenScores.min'_le _
+        (Finset.mem_image.mpr ⟨x, hxChosen, rfl⟩)
+    · intro hscoreAtLeast
+      by_contra hxNot
+      letI : LinearOrder α := paperOrderByScore score hinjective
+      have hyPriority : y < x := by
+        dsimp [C] at hyChosen hxNot
+        unfold paperRankThresholdChoice at hyChosen hxNot
+        exact linearTopQChoice_priority q hyChosen hxX hxNot
+      have hscoreStrict : score x < score y := by
+        simpa [paperOrderByScore] using hyPriority
+      rw [hyScore] at hscoreStrict
+      exact (not_lt_of_ge hscoreAtLeast) hscoreStrict
+  · refine ⟨0, ?_⟩
+    intro x hxX
+    exact False.elim (hX ⟨x, hxX⟩)
 
 /--
 ML-representation proposition, rank-threshold side: a feasible q-representative
@@ -850,6 +1344,98 @@ theorem paper_rank_threshold_one_instability_and_variability
     paper_d_unstable 1 C ∧ paper_variability_at_most 1 C := by
   exact ⟨paper_q_representative_one_instability hfeasible hrep,
     paper_q_representative_variability_at_most_one hfeasible hrep⟩
+
+/--
+ML-representation proposition, rank-threshold side: the source's concrete
+top-`q` score rule is 1-unstable and has variability at most one.
+-/
+theorem paper_score_rank_threshold_one_instability_and_variability
+    [Fintype α] (q : ℕ) (score : α → ℝ)
+    (hinjective : Function.Injective score) :
+    paper_d_unstable 1 (paperRankThresholdChoice q score hinjective) ∧
+      paper_variability_at_most 1
+        (paperRankThresholdChoice q score hinjective) := by
+  exact paper_rank_threshold_one_instability_and_variability
+    (paperRankThresholdChoice_feasible q score hinjective)
+    (paperRankThresholdChoice_q_representative q score hinjective)
+
+/--
+Source ML proposition in representation form: any feasible choice rule
+represented by a top-`q` score predictor is 1-unstable and at most 1-variable.
+-/
+theorem paper_rank_threshold_representation_one_instability_and_variability
+    [Fintype α] {C : PaperChoiceRule α}
+    (q : ℕ) (score : α → ℝ) (hinjective : Function.Injective score)
+    (hfeasible : paper_feasible C)
+    (hrep : paperRepresentsChoice
+      (paperRankThresholdPredictor q score hinjective) C) :
+    paper_d_unstable 1 C ∧ paper_variability_at_most 1 C := by
+  rw [paper_choice_eq_rank_threshold_of_representation
+    q score hinjective hfeasible hrep]
+  exact paper_score_rank_threshold_one_instability_and_variability
+    q score hinjective
+
+/--
+At positive capacity below the finite universe size, the source's concrete
+score-rank model is tightly 1-unstable and has exact variability one.
+-/
+theorem paper_score_rank_threshold_exact_one_nontrivial
+    [Fintype α] (q : ℕ) (score : α → ℝ)
+    (hinjective : Function.Injective score)
+    (hqpos : 0 < q)
+    (hqlt : q < Fintype.card α) :
+    paper_tightly_d_unstable 1 (paperRankThresholdChoice q score hinjective) ∧
+      paper_variability_exactly 1
+        (paperRankThresholdChoice q score hinjective) := by
+  have hfeasible := paperRankThresholdChoice_feasible q score hinjective
+  have hrep := paperRankThresholdChoice_q_representative q score hinjective
+  have hdisplacement :
+      paper_has_displacement (paperRankThresholdChoice q score hinjective) :=
+    paper_has_displacement_of_feasible_q_acceptant_nontrivial
+      hfeasible hrep.qAcceptant hqpos hqlt
+  exact ⟨paper_q_representative_tightly_one_instability
+      hfeasible hrep hdisplacement,
+    paper_q_representative_variability_exactly_one_nontrivial
+      hfeasible hrep hqpos hqlt⟩
+
+/--
+Under the source's implicit nondegeneracy conditions, a represented top-`q`
+score rule is tightly 1-unstable and exactly 1-variable.
+-/
+theorem paper_rank_threshold_representation_exact_one_nontrivial
+    [Fintype α] {C : PaperChoiceRule α}
+    (q : ℕ) (score : α → ℝ) (hinjective : Function.Injective score)
+    (hfeasible : paper_feasible C)
+    (hrep : paperRepresentsChoice
+      (paperRankThresholdPredictor q score hinjective) C)
+    (hqpos : 0 < q)
+    (hqlt : q < Fintype.card α) :
+    paper_tightly_d_unstable 1 C ∧ paper_variability_exactly 1 C := by
+  rw [paper_choice_eq_rank_threshold_of_representation
+    q score hinjective hfeasible hrep]
+  exact paper_score_rank_threshold_exact_one_nontrivial
+    q score hinjective hqpos hqlt
+
+/--
+Existence direction of the source ML proposition: every positive capacity has
+a finite injectively scored cohort on which a rank-threshold model is tightly
+1-unstable and exactly 1-variable.
+-/
+theorem paper_rank_threshold_can_represent_exact_one (q : ℕ) (hqpos : 0 < q) :
+    ∃ (score : Fin (q + 1) → ℝ) (hinjective : Function.Injective score),
+      paper_tightly_d_unstable 1
+          (paperRankThresholdChoice q score hinjective) ∧
+        paper_variability_exactly 1
+          (paperRankThresholdChoice q score hinjective) := by
+  let score : Fin (q + 1) → ℝ := fun a => a.val
+  have hinjective : Function.Injective score := by
+    intro a b hab
+    apply Fin.ext
+    change (a.val : ℝ) = (b.val : ℝ) at hab
+    exact_mod_cast hab
+  refine ⟨score, hinjective, ?_⟩
+  exact paper_score_rank_threshold_exact_one_nontrivial
+    q score hinjective hqpos (by simp)
 
 /-- Sequential composition of feasible choice functions is feasible. -/
 theorem paper_sequential_composition_feasible
@@ -897,6 +1483,51 @@ theorem paper_sequential_additive_variability_bound
   exact
     variabilityAtMost_sequentialComposition_of_forall₂_feasible_qAcceptant_dUnstable
       hstages
+
+/--
+Source-facing additive variability theorem with capacity and variability
+ledgers exposed separately. This avoids making the paper-facing statement rely
+on anonymous pair projections for stage data.
+-/
+theorem paper_sequential_additive_variability_bound_of_stage_lists
+    [Fintype α] {qs ms : List ℕ} {Cs : List (PaperChoiceRule α)}
+    (hcapacity : List.Forall₂
+      (fun q C => paper_feasible C ∧ paper_q_acceptant q C ∧
+        paper_d_unstable 1 C)
+      qs Cs)
+    (hvariability : List.Forall₂
+      (fun m C => paper_variability_at_most m C)
+      ms Cs) :
+    paper_variability_at_most ms.sum (paper_sequential_composition Cs) := by
+  let qms := qs.zip ms
+  have hstages : List.Forall₂
+      (fun qm C =>
+        paper_feasible C ∧ paper_q_acceptant qm.1 C ∧ paper_d_unstable 1 C ∧
+          paper_variability_at_most qm.2 C)
+      qms Cs := by
+    subst qms
+    induction hcapacity generalizing ms with
+    | nil =>
+        cases hvariability
+        exact List.Forall₂.nil
+    | cons hcap _htail ih =>
+        cases hvariability with
+        | cons hvar hvar_tail =>
+            exact List.Forall₂.cons ⟨hcap.1, hcap.2.1, hcap.2.2, hvar⟩
+              (ih hvar_tail)
+  have hsum : (qms.map Prod.snd).sum = ms.sum := by
+    subst qms
+    clear hstages
+    induction hcapacity generalizing ms with
+    | nil =>
+        cases hvariability
+        simp
+    | cons _hcap _htail ih =>
+        cases hvariability with
+        | cons _hvar hvar_tail =>
+            simp [ih hvar_tail]
+  rw [← hsum]
+  exact paper_sequential_additive_variability_bound hstages
 
 /--
 Main variability theorem, upper-bound direction: a sequential composition of
@@ -1009,6 +1640,103 @@ theorem paper_sequential_q_representative_choice_properties
     paper_sequential_q_representative_variability_at_most_length hqueues_mem⟩
 
 /--
+Source-corrected main variability range: a nontrivial sequential composition
+of `n` single-order queues realizes some variability `m` with `1 ≤ m ≤ n`.
+-/
+theorem paper_sequential_q_representative_variability_range
+    [Fintype α] {qs : List ℕ} {Cs : List (PaperChoiceRule α)}
+    (hqueues : List.Forall₂
+      (fun q C => paper_feasible C ∧ paper_q_representative q C) qs Cs)
+    (hqpos : 0 < qs.sum)
+    (hqlt : qs.sum < Fintype.card α) :
+    ∃ m, 1 ≤ m ∧ m ≤ Cs.length ∧
+      paper_variability_exactly m (paper_sequential_composition Cs) := by
+  let C := paper_sequential_composition Cs
+  let m := paperRealizedVariability C
+  have hprops := paper_sequential_q_representative_choice_properties hqueues
+  have hexact : paper_variability_exactly m C :=
+    paper_variability_exactly_realized C
+  have hdisp : paper_has_displacement C :=
+    paper_has_displacement_of_feasible_q_acceptant_nontrivial
+      hprops.1 hprops.2.1 hqpos hqlt
+  rcases hdisp with ⟨X, x, y, hxX, hyOld, hyNew⟩
+  have hyBorder : y ∈ paper_borderline_set C X := by
+    rw [paper_borderline_set, borderlineSet]
+    exact Finset.mem_biUnion.mpr
+      ⟨x, Finset.mem_univ x,
+        Finset.mem_sdiff.mpr ⟨hyOld, hyNew⟩⟩
+  have hmpos : 1 ≤ m := by
+    have hcardpos : 0 < (paper_borderline_set C X).card :=
+      Finset.card_pos.mpr ⟨y, hyBorder⟩
+    exact hcardpos.trans_le (hexact.1 X)
+  obtain ⟨Y, hYeq⟩ := hexact.2
+  have hmle : m ≤ Cs.length := by
+    rw [← hYeq]
+    exact hprops.2.2.2 Y
+  exact ⟨m, hmpos, hmle, hexact⟩
+
+/-! ## Concrete NYC program-class representatives -/
+
+/-- Canonical one-queue representative of a Screened/Open program. -/
+abbrev paperScreenedOpenProgramChoice : PaperChoiceRule (Fin 2) :=
+  ProgramClasses.choice 1
+
+/-- Canonical two-queue representative of a Screened/Open with DIA program. -/
+abbrev paperScreenedOpenDIAProgramChoice : PaperChoiceRule (Fin 4) :=
+  ProgramClasses.choice 2
+
+/-- Canonical three-queue representative of an Educational Option program. -/
+abbrev paperEducationalOptionProgramChoice : PaperChoiceRule (Fin 6) :=
+  ProgramClasses.choice 3
+
+/-- Canonical six-queue representative of an Educational Option with DIA program. -/
+abbrev paperEducationalOptionDIAProgramChoice : PaperChoiceRule (Fin 12) :=
+  ProgramClasses.choice 6
+
+/-- The modeled Screened/Open program is 1-unstable and exactly 1-variable. -/
+theorem paper_screened_open_program_properties :
+    paper_feasible paperScreenedOpenProgramChoice ∧
+      paper_q_acceptant 1 paperScreenedOpenProgramChoice ∧
+      paper_d_unstable 1 paperScreenedOpenProgramChoice ∧
+      paper_variability_exactly 1 paperScreenedOpenProgramChoice := by
+  exact ProgramClasses.one_queue_properties
+
+/-- The modeled Screened/Open with DIA program is 1-unstable and exactly 2-variable. -/
+theorem paper_screened_open_dia_program_properties :
+    paper_feasible paperScreenedOpenDIAProgramChoice ∧
+      paper_q_acceptant 2 paperScreenedOpenDIAProgramChoice ∧
+      paper_d_unstable 1 paperScreenedOpenDIAProgramChoice ∧
+      paper_variability_exactly 2 paperScreenedOpenDIAProgramChoice := by
+  exact ProgramClasses.two_queue_properties
+
+/-- The modeled Educational Option program is 1-unstable and exactly 3-variable. -/
+theorem paper_educational_option_program_properties :
+    paper_feasible paperEducationalOptionProgramChoice ∧
+      paper_q_acceptant 3 paperEducationalOptionProgramChoice ∧
+      paper_d_unstable 1 paperEducationalOptionProgramChoice ∧
+      paper_variability_exactly 3 paperEducationalOptionProgramChoice := by
+  exact ProgramClasses.three_queue_properties
+
+/-- The modeled Educational Option with DIA program is 1-unstable and exactly 6-variable. -/
+theorem paper_educational_option_dia_program_properties :
+    paper_feasible paperEducationalOptionDIAProgramChoice ∧
+      paper_q_acceptant 6 paperEducationalOptionDIAProgramChoice ∧
+      paper_d_unstable 1 paperEducationalOptionDIAProgramChoice ∧
+      paper_variability_exactly 6 paperEducationalOptionDIAProgramChoice := by
+  exact ProgramClasses.six_queue_properties
+
+/-- All four explicit program-class representatives satisfy 1-instability. -/
+theorem paper_program_classes_one_instability :
+    paper_d_unstable 1 paperScreenedOpenProgramChoice ∧
+      paper_d_unstable 1 paperScreenedOpenDIAProgramChoice ∧
+      paper_d_unstable 1 paperEducationalOptionProgramChoice ∧
+      paper_d_unstable 1 paperEducationalOptionDIAProgramChoice := by
+  exact ⟨paper_screened_open_program_properties.2.2.1,
+    paper_screened_open_dia_program_properties.2.2.1,
+    paper_educational_option_program_properties.2.2.1,
+    paper_educational_option_dia_program_properties.2.2.1⟩
+
+/--
 An assignment selector that returns a feasible assignment for every applicant
 pool induces a feasible finite choice function by taking the applicants assigned
 to some slot.
@@ -1040,7 +1768,7 @@ single-addition matching-exchange preservation certificate is proved.
 -/
 theorem paper_lap_assignment_selector_one_instability_of_exchange_preservation
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    {w : α → σ → ℤ} {select : Finset α → LAP.Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → LAP.Assignment α σ}
     (hselect : LAP.Assignment.SelectsUniqueGlobalOptima w select)
     (hpreserve : LAP.Assignment.SingleAddOldChosenPreservation w select) :
     paper_d_unstable 1 (LAP.Assignment.choiceRuleOfAssignment select) := by
@@ -1054,7 +1782,7 @@ larger optimum into an old-pool optimum preserving the old chosen applicant.
 -/
 theorem paper_lap_assignment_selector_one_instability_of_exchange_repair
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    {w : α → σ → ℤ} {select : Finset α → LAP.Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → LAP.Assignment α σ}
     (hselect : LAP.Assignment.SelectsUniqueGlobalOptima w select)
     (hrepair : LAP.Assignment.SingleAddExchangeRepair w select) :
     paper_d_unstable 1 (LAP.Assignment.choiceRuleOfAssignment select) := by
@@ -1069,12 +1797,28 @@ repair is derived by the directed alternating-splice proof in `LAP.lean`.
 -/
 theorem paper_lap_assignment_selector_one_instability
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    {w : α → σ → ℤ} {select : Finset α → LAP.Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → LAP.Assignment α σ}
     (hselect : LAP.Assignment.SelectsUniqueGlobalOptima w select) :
     paper_d_unstable 1 (LAP.Assignment.choiceRuleOfAssignment select) := by
   exact
     LAP.Assignment.dUnstable_one_choiceRuleOfAssignment_of_selectsUniqueGlobalOptima
       hselect
+
+/-- Choice rule canonically induced by well-posed LAP weights. -/
+noncomputable def paperLAPChoiceRule
+    {σ : Type*} [DecidableEq σ] [Fintype σ]
+    (w : α → σ → ℝ) (hwell : LAP.Assignment.WellPosedObjective w) :
+    PaperChoiceRule α :=
+  LAP.Assignment.choiceRuleOfAssignment
+    (LAP.Assignment.canonicalOptimalAssignment w hwell)
+
+/-- A well-posed finite LAP canonically induces a 1-unstable choice rule. -/
+theorem paper_lap_well_posed_choice_one_instability
+    {σ : Type*} [DecidableEq σ] [Fintype σ]
+    {w : α → σ → ℝ} (hwell : LAP.Assignment.WellPosedObjective w) :
+    paper_d_unstable 1 (paperLAPChoiceRule w hwell) := by
+  exact paper_lap_assignment_selector_one_instability
+    (LAP.Assignment.canonicalOptimalAssignment_selectsUniqueGlobalOptima hwell)
 
 /-- A finite-slot assignment chooses no more applicants than there are slots. -/
 theorem paper_lap_chosen_set_card_le_slots
@@ -1109,7 +1853,7 @@ strict applicant order, unique global optima have variability at most one.
 theorem paper_lap_assignment_selector_variability_at_most_one_of_common_slot_order
     [Fintype α] [LinearOrder α]
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    {w : α → σ → ℤ} {select : Finset α → LAP.Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → LAP.Assignment α σ}
     (hselect : LAP.Assignment.SelectsUniqueGlobalOptima w select)
     (horder : ∀ s a b, a < b ↔ w b s < w a s) :
     paper_variability_at_most 1
@@ -1150,7 +1894,7 @@ borderline applicants assigned to same-order slots are equal.
 -/
 theorem paper_lap_assignment_selector_variability_at_most_slot_order_classes_of_same_order_kernel
     [Fintype α] {σ κ : Type*} [DecidableEq σ] [Fintype σ] [DecidableEq κ]
-    {w : α → σ → ℤ} {select : Finset α → LAP.Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → LAP.Assignment α σ}
     {classOf : σ → κ}
     (hclass : ∀ {s t : σ}, classOf s = classOf t →
       LAP.Assignment.SameSlotOrder w s t)
@@ -1178,7 +1922,7 @@ bounded by the number of represented slot-induced applicant orders.
 -/
 theorem paper_lap_assignment_selector_variability_at_most_slot_order_classes_of_unique_global_optima
     [Fintype α] {σ κ : Type*} [DecidableEq σ] [Fintype σ] [DecidableEq κ]
-    {w : α → σ → ℤ} {select : Finset α → LAP.Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → LAP.Assignment α σ}
     {classOf : σ → κ}
     (hselect : LAP.Assignment.SelectsUniqueGlobalOptima w select)
     (hnoTies : ∀ s : σ, LAP.Assignment.SlotNoTies w s)
@@ -1192,12 +1936,46 @@ theorem paper_lap_assignment_selector_variability_at_most_slot_order_classes_of_
       hselect hnoTies hclass
 
 /--
+Canonical source form of the LAP variability theorem: quotient slots by
+equality of their induced applicant orders and count those classes directly.
+-/
+theorem paper_lap_assignment_selector_variability_at_most_distinct_slot_orders
+    [Fintype α] {σ : Type*} [DecidableEq σ] [Fintype σ]
+    {w : α → σ → ℝ} {select : Finset α → LAP.Assignment α σ}
+    (hselect : LAP.Assignment.SelectsUniqueGlobalOptima w select)
+    (hnoTies : ∀ s : σ, LAP.Assignment.SlotNoTies w s) :
+    paper_variability_at_most
+      (LAP.Assignment.distinctSlotOrderCount w)
+      (LAP.Assignment.choiceRuleOfAssignment select) := by
+  classical
+  unfold LAP.Assignment.distinctSlotOrderCount
+  exact
+    paper_lap_assignment_selector_variability_at_most_slot_order_classes_of_unique_global_optima
+      (classOf := LAP.Assignment.slotOrderClass w) hselect hnoTies
+      (fun h => LAP.Assignment.sameSlotOrder_of_slotOrderClass_eq h)
+
+/--
+A well-posed finite LAP has variability bounded by its canonical number of
+distinct slot-induced applicant orders.
+-/
+theorem paper_lap_well_posed_choice_variability_at_most_distinct_slot_orders
+    [Fintype α] {σ : Type*} [DecidableEq σ] [Fintype σ]
+    {w : α → σ → ℝ} (hwell : LAP.Assignment.WellPosedObjective w)
+    (hnoTies : ∀ s : σ, LAP.Assignment.SlotNoTies w s) :
+    paper_variability_at_most
+      (LAP.Assignment.distinctSlotOrderCount w)
+      (paperLAPChoiceRule w hwell) := by
+  exact paper_lap_assignment_selector_variability_at_most_distinct_slot_orders
+    (LAP.Assignment.canonicalOptimalAssignment_selectsUniqueGlobalOptima hwell)
+    hnoTies
+
+/--
 Global linear-assignment optimality implies the local no-profitable-one-slot
 swap condition used in the LAP ordering lemma.
 -/
 theorem paper_lap_no_profitable_one_slot_swap_of_objective_optimal
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    {X : Finset α} {w : α → σ → ℤ} {A : LAP.Assignment α σ}
+    {X : Finset α} {w : α → σ → ℝ} {A : LAP.Assignment α σ}
     (hopt : A.ObjectiveOptimal X w)
     (hfill : A.CapacityFilling X) :
     A.NoProfitableOneSlotSwap X w := by
@@ -1211,7 +1989,7 @@ rejected applicant in that slot's weight order.
 -/
 theorem paper_lap_slot_ordering
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    {X : Finset α} {w : α → σ → ℤ} {A : LAP.Assignment α σ}
+    {X : Finset α} {w : α → σ → ℝ} {A : LAP.Assignment α σ}
     (hopt : A.NoProfitableOneSlotSwap X w)
     (hassign : LAP.Assignment.Feasible X A)
     {s : σ} {y x : α}
@@ -1227,7 +2005,7 @@ slot occupant in that slot's order, the applicant is assigned somewhere.
 -/
 theorem paper_lap_strictly_higher_slot_applicant_assigned
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    {X : Finset α} {w : α → σ → ℤ} {A : LAP.Assignment α σ}
+    {X : Finset α} {w : α → σ → ℝ} {A : LAP.Assignment α σ}
     (hopt : A.NoProfitableOneSlotSwap X w)
     (hassign : LAP.Assignment.Feasible X A)
     {s : σ} {y x : α}
@@ -1244,7 +2022,7 @@ assigned slot occupant in a feasible locally optimal finite assignment.
 -/
 theorem paper_lap_no_rejected_slot_below
     {σ : Type*} [DecidableEq σ] [Fintype σ]
-    {X : Finset α} {w : α → σ → ℤ} {A : LAP.Assignment α σ}
+    {X : Finset α} {w : α → σ → ℝ} {A : LAP.Assignment α σ}
     (hopt : A.NoProfitableOneSlotSwap X w)
     (hassign : LAP.Assignment.Feasible X A) :
     ¬ ∃ s y x, A.matchSlot s = some y ∧ A.Rejected X x ∧

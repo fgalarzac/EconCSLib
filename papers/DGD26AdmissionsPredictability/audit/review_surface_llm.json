@@ -2,12 +2,12 @@
   "schema": 1,
   "paper": "DGD26AdmissionsPredictability",
   "prompt_version": "review-surface-v2-semantic-paper-facing",
-  "validator": "codex-gpt-5.5-review-surface-pass",
+  "validator": "Codex DGD26 source-first surface auditor 2026-07-18",
   "validator_type": "agent",
-  "validated_at": "2026-07-01T13:30:00Z",
+  "validated_at": "2026-07-19T02:30:00Z",
   "judgment": "passes",
-  "reason": "The current 66-row dashboard surface consists of paper-facing definitions, core instability and tight-example statements, q-representative and sequential-composition results, and linear-assignment/capacity results. Auxiliary LAP exchange and same-order-kernel bridge rows are excluded from the human surface. The included rows are source-facing enough for human review while still covering the curated source inventory through the separate paper-coverage audit.",
-  "review_rows": 66,
-  "review_surface_sha256": "34e9d8f3469ec0b9549a01137896a926d8927b14fff55211e279166203287a0e",
+  "reason": "All 69 configured rows are direct paper-facing proved definition formulas, theorem projections, or complete paper-level results routed to the pinned source inventory. Helper lemmas and component-only declarations remain excluded from the review surface; every included row has a current v10 semantic match.",
+  "review_rows": 69,
+  "review_surface_sha256": "fed75f2c2d97af111210a4e397dd6c9948a8c065d8f387bb88077df1d74a5e91",
   "items": {}
 }

@@ -26,72 +26,62 @@
 \begin{dagPaperBody}
 
 \node[dag_model] (PAVScore) at (0,-1.0) {
-  \textbf{PAV score (Section 2)} \\
-  Thiele committee score with harmonic marginal weights
+  \textbf{PAV objective} \\
+  Harmonic two-party seat score
 };
 
-\node[dag_model] (PAVSelector) at (6.4,-1.0) {
-  \textbf{PAV seat selector} \\
-  Leftmost maximizer of the two-party PAV seat score
+\node[dag_model] (PAVSelector) at (5.0,-1.0) {
+  \textbf{PAV selector} \\
+  Leftmost finite maximizing seat count
 };
 
-\node[dag_model] (STVSource) at (12.8,-1.0) {
-  \textbf{Fractional STV source model} \\
-  Total quota-respecting choice rule and generated filled-seat run
+\node[dag_model] (BallotSTV) at (12.5,-1.0) {
+  \textbf{Reachable ballot-routed STV} \\
+  Droop quota, legal transfer policy,
+  minimum-tally elimination, terminal states
 };
 
-\node[dag_lemma] (LemmaC1) at (2.0,-4.2) {
-  \textbf{Lemma C.1 PAV interval} \\
-  PAV min-argmax implies
-  $y_R(M+1)-1 \le n_R < y_R(M+1)$
+\node[dag_lemma] (LemmaC1) at (2.5,-4.8) {
+  \textbf{Lemma C.1} \\
+  Unique interval integer for selected PAV count
 };
 
-\node[dag_lemma] (PAVRounded) at (2.0,-7.3) {
-  \textbf{PAV rounding} \\
-  Lemma C.1 gives a floor/ceiling PAV seat count
+\node[dag_lemma] (Terminal) at (12.5,-4.8) {
+  \textbf{Terminal-execution construction} \\
+  A legal source execution cannot get stuck
 };
 
-\node[dag_lemma] (Isolation) at (9.3,-3.6) {
-  \textbf{Solid-coalition isolation} \\
-  Same-party-first ballots prevent outside active support before exhaustion
+\node[dag_lemma] (Invariants) at (12.5,-8.3) {
+  \textbf{Party invariants and exact Droop arithmetic} \\
+  Solid-coalition isolation, party accounting,
+  full floor-Droop turnout domain
 };
 
-\node[dag_lemma] (FilledSeats) at (15.8,-3.6) {
-  \textbf{Filled-seat accounting} \\
-  Terminal fill candidates and elected candidates fill exactly $M$ seats
+\node[dag_lemma] (Fractional) at (18.5,-4.8) {
+  \textbf{Fractional transfer specialization} \\
+  Concrete formal operational support only
 };
 
-\node[dag_lemma] (Quota) at (9.3,-6.7) {
-  \textbf{Droop-quota capacity} \\
-  Two parties' quota floors fit within the district seat count
+\node[dag_result] (P1) at (7.6,-12.2) {
+  \textbf{Direct Proposition 1} \\
+  Every legal terminal ballot-routed outcome and PAV
+  have rounded party seat shares
 };
 
-\node[dag_result] (STVRounded) at (15.8,-6.7) {
-  \textbf{STV rounding} \\
-  Party filled-seat count satisfies the floor/ceiling share bound
+\node[dag_unformalized] (Empirical) at (14.5,-15.8) {
+  \textbf{Maps, simulations, and runtime} \\
+  Explicit empirical data/code scope
 };
 
-\node[dag_result] (Prop1) at (8.9,-10.0) {
-  \textbf{Proposition 1 (Section 2.2)} \\
-  STV and PAV produce rounded two-party seat shares
-};
-
-\node[dag_unformalized] (Empirical) at (15.8,-10.0) {
-  \textbf{Redistricting and simulation studies} \\
-  Data and code boundary after the seat-share theorem
-};
-
-\draw[dag_arrow] (PAVScore.south) -- (LemmaC1.north);
-\draw[dag_arrow] (PAVSelector.south) -- (LemmaC1.north);
-\draw[dag_arrow] (LemmaC1.south) -- (PAVRounded.north);
-\draw[dag_arrow] (STVSource.south west) -- (Isolation.north east);
-\draw[dag_arrow] (STVSource.south) -- (FilledSeats.north);
-\draw[dag_arrow] (Isolation.south) -- (Quota.north);
-\draw[dag_arrow] (FilledSeats.south) -- (STVRounded.north);
-\draw[dag_arrow] (Quota.east) -- (STVRounded.west);
-\draw[dag_arrow] (PAVRounded.south east) -- (Prop1.north west);
-\draw[dag_arrow] (STVRounded.south west) -- (Prop1.north east);
-\draw[dag_dashed_arrow] (Prop1.east) -- (Empirical.west);
+\draw[dag_arrow] (PAVScore.south) -- (LemmaC1.north west);
+\draw[dag_arrow] (PAVSelector.south) -- (LemmaC1.north east);
+\draw[dag_arrow] (BallotSTV.south) -- (Terminal.north);
+\draw[dag_arrow] (Terminal.south) -- (Invariants.north east);
+\draw[dag_arrow] (LemmaC1.south east) -- (P1.north west);
+\draw[dag_arrow] (Invariants.south west) -- (P1.north east);
+\draw[dag_dashed_arrow] (BallotSTV.south east)
+  to[out=-20,in=140,looseness=1.05] (Fractional.north west);
+\draw[dag_dashed_arrow] (P1.east) -- (Empirical.north west);
 
 \end{dagPaperBody}
 \end{tikzpicture}

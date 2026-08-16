@@ -1,0 +1,30 @@
+{
+  "schema": 2,
+  "paper": "GGSG19TopThree",
+  "source_artifact_path": "source.tar.gz",
+  "source_artifact_sha256": "667a8fb232a00e9161afc05cc6b68b3d8d950372531400e779388941fa68d41a",
+  "review_status": "reviewed_no_defects",
+  "reviewed_proof_scopes": [
+    {
+      "source_locator": "source_tex/arxiv.tex:289-552; source_tex/arxiv.tex:1188-1373",
+      "semantic_scope": "The finite-ranking model, three formal definitions, Propositions 1 through 4, their displayed pairwise and aggregate rate formulas, finite-sample bounds, and the appendix derivations by prefix summation, the Proposition 1 strict-reverse and exact-equality cases with independent uniform tie breaking, finite-support large deviations, ternary score gaps, and finite log-sum aggregation.",
+      "outcome": "no_defect"
+    },
+    {
+      "source_locator": "source_tex/arxiv.tex:665-747; source_tex/arxiv.tex:1397-1534",
+      "semantic_scope": "The randomized-mechanism model, arbitrary-goal scoring non-improvement theorem, fixed-pair randomized K-approval theorem, Mallows no-randomization corollary, and the convexity and pivotal-pair proof routes.",
+      "outcome": "no_defect"
+    },
+    {
+      "source_locator": "source_tex/arxiv.tex:740-760; source_tex/arxiv.tex:1537-1862",
+      "semantic_scope": "The two existence results showing that randomized approval can improve W-selection and that W-approval need not be Mallows-rate-optimal, including the fixed examples, probability/rate calculations, design-invariance construction, and parameter feasibility argument.",
+      "outcome": "no_defect"
+    },
+    {
+      "source_locator": "source_tex/arxiv.tex:762; source_tex/arxiv.tex:1545-1549",
+      "semantic_scope": "The advertised efficient dynamic program for exact joint locations of an arbitrary pair of candidates under Mallows repeated insertion, including the operational materialized-table runner, recurrence and PMF refinement semantics, normalization, exact scalar-operation accounting, and the polynomial bound.",
+      "outcome": "no_defect"
+    }
+  ],
+  "defects": []
+}

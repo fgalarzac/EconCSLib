@@ -1,12 +1,12 @@
 {
-  "judgment": "passes",
+  "schema": 1,
   "paper": "MSVV07AdWords",
   "prompt_version": "review-surface-v2-semantic-paper-facing",
-  "reason": "Semantic review-surface pass: the dashboard favors source-visible, LLM-legible paper claims over compactness; named definitions, examples, remarks, propositions, theorems, corollaries, and main-text lemmas are exposed as review rows rather than hidden as support-only declarations.",
-  "review_rows": 43,
-  "review_surface_sha256": "d0ae123fdc50e24c9be1a6d3957d2f38ab3156d3309487aae5ffc523b5daca20",
-  "schema": 1,
-  "validated_at": "2026-06-29T21:25:00Z",
-  "validator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  "judgment": "passes",
+  "reason": "Context-free review finds 101 compact paper-facing model, formula, algorithm, example, lemma, theorem, and corrected-Appendix rows plus 12 explicit source-condition rows. Open Section 8 guarantees remain source-inventory context rather than fabricated theorem rows.",
+  "review_rows": 113,
+  "review_surface_sha256": "4958df70c8bcc3b843a7bb841cb3c9d3393494b1ab564e03d719cab7b7e1415c",
+  "validated_at": "2026-07-24T00:18:45Z",
+  "validator": "Codex MSVV context-free review-surface judge 2026-07-23",
+  "validator_type": "agent"
 }

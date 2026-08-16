@@ -5,7 +5,7 @@
 |---|---|
 | Final status | Formalized |
 | Paper reference | [Balancing Producer Fairness and Efficiency via Prior-Weighted Rating System Design](https://arxiv.org/pdf/2207.04369) by Thomas Ma, Michael S. Bernstein, Ramesh Johari, and Nikhil Garg; ICWSM, 2025. |
-| Lines of Code | 680 |
+| Lines of Code | 981 |
 
 ## Key Links
 

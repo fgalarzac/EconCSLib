@@ -1,0 +1,699 @@
+{
+  "schema": 2,
+  "paper": "LBG24SpatialUnderreporting",
+  "source_artifact_path": "source.txt",
+  "source_artifact_sha256": "1190631ec27bcdbd1a067d75813538e9411ccd02fef5d10d2876348d80f5f9e5",
+  "review_status": "defects_recorded",
+  "reviewed_proof_scopes": [
+    {
+      "source_locator": "source.txt:1839-1868, Appendix B.2 Theorem 2 statement and Eq. (8)",
+      "semantic_scope": "The Poisson-process restatement of Theorem 1, the observed interval data, the conditioning history H, and the rate-likelihood factorization in Eq. (8).",
+      "outcome": "defect_recorded"
+    },
+    {
+      "source_locator": "source.txt:1870-1969, Lemma 2 statement and Eqs. (9)-(16)",
+      "semantic_scope": "The selected-start tail law, the conditioning on a tagged first report, and the exponential post-start waiting-time calculation used in Theorem 2.",
+      "outcome": "defect_recorded"
+    },
+    {
+      "source_locator": "source.txt:2085-2195, Appendix B.2 multi-report case Eqs. (27)-(32)",
+      "semantic_scope": "The ordered post-start report-time decomposition, first post-start interarrival density, terminal no-arrival factor, and residual multiplier used to isolate the Poisson count PMF.",
+      "outcome": "defect_recorded"
+    }
+  ],
+  "model_conventions": [
+    {
+      "id": "LBG24-CONDITION1-KERNEL-CONDITIONING-01",
+      "source_locator": "source.txt:1843-1847; source.txt:1870-1875",
+      "classification": "source_text_model_convention",
+      "formal_meaning": "The source's pointwise conditional-density notation for S given the continuously valued first report is represented by one rate-free regular conditional start kernel. Its support begins at the first report and it is conditionally independent of the supplied post-first-report tail; the fixed-history g(s) factor is separately rate independent.",
+      "why_needed": "A literal probability P(S=t | T1=t1) is not a well-typed point-mass formula on a continuous carrier. Treating it as an unconditional scalar or as an arbitrary tail-dependent selector would lose the source's conditional and future-path independence content.",
+      "checked_scope": "assumption_lemma2_condition_one_selection exposes the measurable first-report/start/tail maps, one Markov conditional start kernel, its support after the first report, its conditional law, and conditional tail independence. The Lemma 2 source theorem derives the stated exponential tail from that condition and a constructed forward Poisson process. The exact ten recursive field paths below are the only convention-credit routes; the source-model container and unrelated witness fields receive no inherited credit.",
+      "recursive_field_source_scope": {
+        "schema": 1,
+        "entries": [
+          {
+            "source_item": "lemma2_exponential_waiting_tail",
+            "root_record": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel",
+            "field_chain": [
+              {"structure": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel", "field": "firstReportTime_eq"}
+            ],
+            "source_locator": "source.txt:1839-1841; source.txt:1873-1875",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "lemma2_exponential_waiting_tail",
+            "root_record": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel",
+            "field_chain": [
+              {"structure": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel", "field": "interarrivalPath_measurable"}
+            ],
+            "source_locator": "source.txt:1839-1840; source.txt:1873-1875",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "lemma2_exponential_waiting_tail",
+            "root_record": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel",
+            "field_chain": [
+              {"structure": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel", "field": "postFirstReportTail_eq"}
+            ],
+            "source_locator": "source.txt:1873-1875; source.txt:1960-1969",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "lemma2_exponential_waiting_tail",
+            "root_record": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel",
+            "field_chain": [
+              {"structure": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel", "field": "selection"},
+              {"structure": "LBG24SpatialUnderreporting.Theorem2ConditionOneSelection", "field": "firstReportTime_measurable"}
+            ],
+            "source_locator": "source.txt:1839-1841; source.txt:1843-1847",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "lemma2_exponential_waiting_tail",
+            "root_record": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel",
+            "field_chain": [
+              {"structure": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel", "field": "selection"},
+              {"structure": "LBG24SpatialUnderreporting.Theorem2ConditionOneSelection", "field": "postFirstReportTail_measurable"}
+            ],
+            "source_locator": "source.txt:1843-1847; source.txt:1960-1969",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "lemma2_exponential_waiting_tail",
+            "root_record": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel",
+            "field_chain": [
+              {"structure": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel", "field": "selection"},
+              {"structure": "LBG24SpatialUnderreporting.Theorem2ConditionOneSelection", "field": "rateFreeStartKernel_isMarkov"}
+            ],
+            "source_locator": "source.txt:1843-1847; source.txt:1870-1875",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "lemma2_exponential_waiting_tail",
+            "root_record": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel",
+            "field_chain": [
+              {"structure": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel", "field": "selection"},
+              {"structure": "LBG24SpatialUnderreporting.Theorem2ConditionOneSelection", "field": "rateFreeStartKernel_supported_after_first"}
+            ],
+            "source_locator": "source.txt:1843-1847",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "lemma2_exponential_waiting_tail",
+            "root_record": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel",
+            "field_chain": [
+              {"structure": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel", "field": "selection"},
+              {"structure": "LBG24SpatialUnderreporting.Theorem2ConditionOneSelection", "field": "startTime_measurable"}
+            ],
+            "source_locator": "source.txt:1843-1847; source.txt:1870-1875",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "lemma2_exponential_waiting_tail",
+            "root_record": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel",
+            "field_chain": [
+              {"structure": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel", "field": "selection"},
+              {"structure": "LBG24SpatialUnderreporting.Theorem2ConditionOneSelection", "field": "start_condIndep_postFirstReportTail"}
+            ],
+            "source_locator": "source.txt:1843-1847; source.txt:1960-1964",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "lemma2_exponential_waiting_tail",
+            "root_record": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel",
+            "field_chain": [
+              {"structure": "LBG24SpatialUnderreporting.Lemma2ForwardSourceModel", "field": "selection"},
+              {"structure": "LBG24SpatialUnderreporting.Theorem2ConditionOneSelection", "field": "start_conditional_law"}
+            ],
+            "source_locator": "source.txt:1843-1847; source.txt:1870-1875",
+            "permitted_classifications": ["approved_source_convention"]
+          }
+        ]
+      }
+    },
+    {
+      "id": "LBG24-EQ8-CAUSAL-STOPPING-SEMANTICS-01",
+      "source_locator": "source.txt:285-323; source.txt:1839-1868; source.txt:2437-2467",
+      "classification": "source_text_model_convention",
+      "formal_meaning": "Theorem 1's endpoint condition is read as one rate-free causal stopping policy: after a visible report prefix, its conditional endpoint-response law may use that prefix but cannot inspect a future report gap. The selected-start contribution is conditioned on the pre-start history and is rate free. A canonical finite trace samples one terminal endpoint, rather than a global family of independently resampled counterfactual endpoint clocks.",
+      "why_needed": "The Appendix's terse final independence display can be misread as only a marginal statement after T1. The main theorem explicitly conditions on reports observed up to the endpoint and the application calls its end rule a stopping-times assumption. The live-history reading preserves those source semantics and is the minimum policy content needed for the likelihood calculation.",
+      "checked_scope": "SourceTheoremModels.AppendixTheorem2CausalStoppingSourceModel exposes only a selected-start likelihood and visible-prefix endpoint kernels with measurability and nonnegative remaining-time support. CausalStoppingEndpointTrace constructs one endpoint from that policy, and PaperInterface.appendix_theorem2_eq8_causal_stopping_source_model derives the rate-free residual times the Poisson count PMF. The exact three endpoint-policy leaves below, and no density-presentation or container fields, receive this convention's source credit.",
+      "recursive_field_source_scope": {
+        "schema": 1,
+        "entries": [
+          {
+            "source_item": "theorem1_theorem2_likelihood_decomposition",
+            "root_record": "LBG24SpatialUnderreporting.AppendixTheorem2CausalStoppingSourceModel",
+            "field_chain": [
+              {"structure": "LBG24SpatialUnderreporting.AppendixTheorem2CausalStoppingSourceModel", "field": "endpointResponse_isMarkov"}
+            ],
+            "source_locator": "source.txt:1839-1868; source.txt:2437-2467",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "theorem1_theorem2_likelihood_decomposition",
+            "root_record": "LBG24SpatialUnderreporting.AppendixTheorem2CausalStoppingSourceModel",
+            "field_chain": [
+              {"structure": "LBG24SpatialUnderreporting.AppendixTheorem2CausalStoppingSourceModel", "field": "endpointResponse_nonnegative_support"}
+            ],
+            "source_locator": "source.txt:1839-1868; source.txt:2437-2467",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "theorem1_theorem2_likelihood_decomposition",
+            "root_record": "LBG24SpatialUnderreporting.AppendixTheorem2CausalStoppingSourceModel",
+            "field_chain": [
+              {"structure": "LBG24SpatialUnderreporting.AppendixTheorem2CausalStoppingSourceModel", "field": "responseSurvival_measurable"}
+            ],
+            "source_locator": "source.txt:1839-1868; source.txt:2437-2467",
+            "permitted_classifications": ["approved_source_convention"]
+          }
+        ]
+      }
+    },
+    {
+      "id": "LBG24-EQ8-ENDPOINT-REFERENCE-MEASURE-01",
+      "source_locator": "source.txt:1839-1868; source.txt:2437-2467",
+      "classification": "source_text_model_convention",
+      "formal_meaning": "The source's h_m(e) point-density notation is the absolutely-continuous presentation of an endpoint kernel. A deterministic cap or stopping endpoint can have an atom, so the general source model is a kernel law; the displayed scalar likelihood uses the explicitly supplied density presentation when the relevant endpoint branch is absolutely continuous.",
+      "why_needed": "Treating every endpoint as Lebesgue-density-valued would silently exclude the fixed-cap observation policies described in the source application. Conversely, treating a point-density equation as a literal atom probability would not be a valid continuous likelihood statement.",
+      "checked_scope": "The endpoint kernel is primary in AppendixTheorem2CausalStoppingSourceModel. EndpointDensityPresentation is an explicit AC presentation with a checked kernel-with-density equality. The canonical endpoint-law construction is atom safe, while the PaperInterface Eq. (8) theorem checks the scalar density factorization in exactly the source display's branch. Only the exact three density-presentation leaves below receive this convention's source credit; endpoint-policy and carrier fields do not.",
+      "recursive_field_source_scope": {
+        "schema": 1,
+        "entries": [
+          {
+            "source_item": "theorem1_theorem2_likelihood_decomposition",
+            "root_record": "LBG24SpatialUnderreporting.AppendixTheorem2CausalStoppingSourceModel.EndpointDensityPresentation",
+            "field_chain": [
+              {"structure": "LBG24SpatialUnderreporting.AppendixTheorem2CausalStoppingSourceModel.EndpointDensityPresentation", "field": "endpointDensity_measurable"}
+            ],
+            "source_locator": "source.txt:1848-1856; source.txt:2437-2467",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "theorem1_theorem2_likelihood_decomposition",
+            "root_record": "LBG24SpatialUnderreporting.AppendixTheorem2CausalStoppingSourceModel.EndpointDensityPresentation",
+            "field_chain": [
+              {"structure": "LBG24SpatialUnderreporting.AppendixTheorem2CausalStoppingSourceModel.EndpointDensityPresentation", "field": "endpointResponse_eq_withDensity"}
+            ],
+            "source_locator": "source.txt:1848-1856; source.txt:2437-2467",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "theorem1_theorem2_likelihood_decomposition",
+            "root_record": "LBG24SpatialUnderreporting.AppendixTheorem2CausalStoppingSourceModel.EndpointDensityPresentation",
+            "field_chain": [
+              {"structure": "LBG24SpatialUnderreporting.AppendixTheorem2CausalStoppingSourceModel.EndpointDensityPresentation", "field": "terminalDensity_measurable"}
+            ],
+            "source_locator": "source.txt:1848-1856; source.txt:2437-2467",
+            "permitted_classifications": ["approved_source_convention"]
+          }
+        ]
+      }
+    },
+    {
+      "id": "LBG24-LEMMA1-STEADY-STATE-MARK-SEMANTICS-01",
+      "source_locator": "source.txt:1660-1770; source.txt:1772-1812",
+      "classification": "source_text_model_convention",
+      "formal_meaning": "The marked-process route is a checked support theorem for the Appendix proof's birth-cohort interpretation: births in an interval receive iid eventual-report labels, and the retained-birth count is thinned. It is not a formalization of a calendar-window first-report process. The current source text does not define N_observed consistently enough to identify those two readings, and it does not derive the conditional duration/report-path survival identity used in p when lifetime may depend on report history.",
+      "why_needed": "The distinction is semantic, not nominal: a first report in a window can come from a birth before that window. The existing marked interval law can support retained births but cannot establish a first-report displacement theorem. The source p calculation additionally needs duration/report-path independence or an equivalent conditional survival law; a duration density plus a marginal Poisson count law is insufficient.",
+      "checked_scope": "The old scalar-rate model and the new cumulative-intensity birth-cohort model prove genuine marked-thinning support results. They do not receive full Lemma 1 or Proposition 1 source credit. The recursive field routes below are historical evidence for the scoped cohort model only and must be regenerated for the current source-record surface before any later closeout.",
+      "recursive_field_source_scope": {
+        "schema": 1,
+        "entries": [
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "durationDensity_source"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.ContinuousDurationDensitySourceCondition",
+                "field": "integrable"
+              }
+            ],
+            "source_locator": "source.txt:1660-1698; source.txt:1715-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "durationDensity_source"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.ContinuousDurationDensitySourceCondition",
+                "field": "nonnegative_ae"
+              }
+            ],
+            "source_locator": "source.txt:1660-1698; source.txt:1715-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "durationDensity_source"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.ContinuousDurationDensitySourceCondition",
+                "field": "integral_eq_one"
+              }
+            ],
+            "source_locator": "source.txt:1660-1698; source.txt:1715-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "markedProcess"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess",
+                "field": "latentProcess"
+              },
+              {
+                "structure": "EconCSLib.Probability.PoissonProcess.ForwardHomogeneousPoissonCountingProcessByLaw",
+                "field": "count_measurable"
+              }
+            ],
+            "source_locator": "source.txt:1660-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "markedProcess"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess",
+                "field": "latentProcess"
+              },
+              {
+                "structure": "EconCSLib.Probability.PoissonProcess.ForwardHomogeneousPoissonCountingProcessByLaw",
+                "field": "count_mono_ae"
+              }
+            ],
+            "source_locator": "source.txt:1660-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "markedProcess"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess",
+                "field": "latentProcess"
+              },
+              {
+                "structure": "EconCSLib.Probability.PoissonProcess.ForwardHomogeneousPoissonCountingProcessByLaw",
+                "field": "count_zero_ae"
+              }
+            ],
+            "source_locator": "source.txt:1660-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "markedProcess"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess",
+                "field": "latentProcess"
+              },
+              {
+                "structure": "EconCSLib.Probability.PoissonProcess.ForwardHomogeneousPoissonCountingProcessByLaw",
+                "field": "hasIndepIncrements"
+              }
+            ],
+            "source_locator": "source.txt:1660-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "markedProcess"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess",
+                "field": "latentProcess"
+              },
+              {
+                "structure": "EconCSLib.Probability.PoissonProcess.ForwardHomogeneousPoissonCountingProcessByLaw",
+                "field": "increment_hasLaw"
+              }
+            ],
+            "source_locator": "source.txt:1660-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "markedProcess"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess",
+                "field": "latentProcess"
+              },
+              {
+                "structure": "EconCSLib.Probability.PoissonProcess.ForwardHomogeneousPoissonCountingProcessByLaw",
+                "field": "isProbability"
+              }
+            ],
+            "source_locator": "source.txt:1660-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "markedProcess"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess",
+                "field": "latentProcess"
+              },
+              {
+                "structure": "EconCSLib.Probability.PoissonProcess.ForwardHomogeneousPoissonCountingProcessByLaw",
+                "field": "rate_pos"
+              }
+            ],
+            "source_locator": "source.txt:1660-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "markedProcess"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess",
+                "field": "detectionProbability_le_one"
+              }
+            ],
+            "source_locator": "source.txt:1660-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "markedProcess"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess",
+                "field": "detectionProbability_pos"
+              }
+            ],
+            "source_locator": "source.txt:1660-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "markedProcess"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess",
+                "field": "intervalPairs_independent"
+              }
+            ],
+            "source_locator": "source.txt:1660-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "markedProcess"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess",
+                "field": "interval_joint_mass"
+              }
+            ],
+            "source_locator": "source.txt:1660-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "markedProcess"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess",
+                "field": "observedCount_measurable"
+              }
+            ],
+            "source_locator": "source.txt:1660-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "markedProcess"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess",
+                "field": "observedCount_mono_ae"
+              }
+            ],
+            "source_locator": "source.txt:1660-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "markedProcess"
+              },
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess",
+                "field": "observedCount_zero_ae"
+              }
+            ],
+            "source_locator": "source.txt:1660-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "latent_rate_eq_incidentRate"
+              }
+            ],
+            "source_locator": "source.txt:1660-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          },
+          {
+            "source_item": "lemma1_process_thinning_and_detection_rate",
+            "root_record": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+            "field_chain": [
+              {
+                "structure": "LBG24SpatialUnderreporting.Lemma1SteadyStateDurationSourceModel",
+                "field": "retention_probability_eq_firstReportProbability"
+              }
+            ],
+            "source_locator": "source.txt:1660-1770",
+            "permitted_classifications": [
+              "approved_source_convention"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "defects": [
+    {
+      "id": "LBG24-EQ30-FIRST-GAP-01",
+      "source_locator": "source.txt:2116-2139, Appendix B.2 Eq. (30) first arrival factor",
+      "source_claim": "The printed product in Eq. (30) uses the generic gap t_{m+i}-t_{m+i-1} for every i, which makes the i=1 factor refer to t_{m+1}-t_m even though the observed interval starts at s and only t_m <= s is in the pre-start history.",
+      "defect_kind": "index_or_integrality",
+      "affected_source_locators": [
+        "source.txt:2116-2139",
+        "source.txt:2141-2154"
+      ],
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The index repair changes an intermediate proof factor only: replacing the first gap by t_{m+1}-s lets the exponential terms telescope to e-s and preserves the advertised Eq. (8) likelihood factorization.",
+      "repair_obligation": "Derive the multi-report timeline density with the first post-start arrival measured from s, followed by ordinary consecutive gaps and the terminal no-arrival tail.",
+      "acceptance_condition": "Lean proves the ordered finite post-tag gap density and the corrected Eq. (8) wrapper with the first factor measured from the selected start, without adding a rate-dependent residual term.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "appendix_shifted_poisson_after_first_jump derives the post-first tail law, and appendix_theorem2_eq8_causal_stopping_source_model proves the corrected Eq. (8) factorization from the source causal stopping-policy model."
+    },
+    {
+      "id": "LBG24-EQ31-RESIDUAL-RECIPROCAL-01",
+      "source_locator": "source.txt:2141-2154; source.txt:2177-2194, Appendix B.2 Eqs. (31)-(32) residual definition",
+      "source_claim": "After collecting the rate-dependent factor lambda^M exp(-lambda(e-s)), the printed residual definition multiplies by (e-s)^M/M!, which is the reciprocal of the factor needed to rewrite the expression as f(e,s,H,J_M)p(M|lambda(e-s)).",
+      "defect_kind": "normalization_or_scaling",
+      "affected_source_locators": [
+        "source.txt:2141-2154",
+        "source.txt:2177-2194"
+      ],
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The reciprocal correction is an algebraic proof typo: the same rate-likelihood endpoint follows with the rate-free residual M!/(e-s)^M.",
+      "repair_obligation": "Match lambda^M exp(-lambda L) times the rate-free ordered-timeline density to exp(-lambda L)(lambda L)^M/M! and solve for the residual multiplier when L=e-s>0.",
+      "acceptance_condition": "Lean proves the residual multiplier is rate independent and equal to the corrected M!/(e-s)^M factor in the final Eq. (8) source wrapper.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "appendix_theorem2_eq8_causal_stopping_source_model exposes the corrected residual normalization and factors the source density into a rate-free term times the Poisson count PMF."
+    },
+    {
+      "id": "LBG24-EQ8-CAUSAL-PREEND-01",
+      "source_locator": "source.txt:1843-1868, Appendix B.2 Conditions 1-2 and Eq. (8)",
+      "source_claim": "A former source route replaced the one endpoint E by separately resampled stage clocks and therefore required a stronger global product law than the source stopping-policy semantics.",
+      "defect_kind": "logical_dependency",
+      "affected_source_locators": [
+        "source.txt:285-323",
+        "source.txt:1843-1868",
+        "source.txt:2116-2195"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The source-facing route now formalizes the live-history, rate-free stopping-policy reading supported by the main theorem and application text. It does not use the stronger resampled-clock product law, so the earlier mismatch is a repaired formalization-route error rather than a remaining boundary on Eq. (8).",
+      "repair_obligation": "Model the source endpoint as a rate-free visible-history response kernel and derive the likelihood factorization without a globally resampled vector of endpoint clocks.",
+      "acceptance_condition": "A paper-facing Eq. (8) theorem takes the source-shaped rate-free causal policy, constructs one endpoint from it, and proves a rate-free residual times the Poisson count PMF.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "AppendixTheorem2CausalStoppingSourceModel and CausalStoppingEndpointTrace replace the resampled-clock route. PaperInterface.appendix_theorem2_eq8_causal_stopping_source_model proves the corrected Eq. (8) factorization from the source policy model."
+    },
+    {
+      "id": "LBG24-EQ8-SOURCE-MODEL-COHERENCE-01",
+      "source_locator": "source.txt:285-323; source.txt:1843-1868; source.txt:2093-2167, Theorem 1 and Appendix Theorem 2 source variables and proof conditioning",
+      "source_claim": "The source likelihood is about one endpoint E, a selected start S, and a conditioned history H; the prior stationary/Palm route did not preserve that one-endpoint carrier.",
+      "defect_kind": "logical_dependency",
+      "affected_source_locators": [
+        "source.txt:285-323",
+        "source.txt:1843-1868",
+        "source.txt:2093-2167",
+        "source.txt:2437-2467",
+        "source.txt:5610-5628"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The source-facing causal trace has one terminal endpoint, and its rate-free selected-start contribution is explicitly conditioned on the pre-start history. Endpoint atoms are handled by the kernel law while the source h_m display is its AC presentation. The former Palm construction is no longer a source route.",
+      "repair_obligation": "Construct one endpoint from the visible-history stopping policy and expose its rate-free density presentation without identifying it with resampled candidate clocks.",
+      "acceptance_condition": "The direct Eq. (8) row uses one terminal endpoint from the source policy and proves the source factorization in its stated density presentation, with an atom-safe kernel carrier underneath.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "CausalStoppingEndpointTrace supplies the single terminal endpoint construction, and SourceTheoremModels.EndpointDensityPresentation supplies the checked h_m density branch. The direct PaperInterface Eq. (8) theorem replaces the retired stationary/Palm wrapper."
+    },
+    {
+      "id": "LBG24-LEGACY-POISSON-UNINHABITED-01",
+      "source_locator": "source.txt:1839-1868, Appendix B.2 Poisson-process statement",
+      "source_claim": "The source assumes a positive-rate Poisson process on the forward observation horizon. The older Lean source-semantics route instead packages an all-real-time monotone natural-valued count process fixed at zero at time zero.",
+      "defect_kind": "event_or_measure",
+      "affected_source_locators": [
+        "source.txt:1839-1842",
+        "source.txt:1858-1868"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The uninhabited all-real-time interface remains quarantined. Every direct LBG source theorem now uses the nonvacuous finite causal endpoint model or the forward-time marked process, so the defect is retained as a route-exclusion note rather than an open paper boundary.",
+      "repair_obligation": "Exclude the uninhabited all-real-time interface from all direct source routes.",
+      "acceptance_condition": "The source map and PaperInterface direct rows use only nonvacuous source model types, while the legacy theorem is auxiliary and quarantined.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "The source map directs Eq. (8) to appendix_theorem2_eq8_causal_stopping_source_model and Lemma 1/Proposition 1 to Lemma1SteadyStateDurationSourceModel. theorem2_poisson_process_and_condition_semantics remains excluded from the review surface."
+    },
+    {
+      "id": "LBG24-LEMMA1-PROP1-STEADY-STATE-SCOPE-01",
+      "source_locator": "source.txt:1626-1812, Appendix B.1 Proposition 1 and Lemma 1",
+      "source_claim": "Lemma 1 asserts a steady-state observed Poisson process for independently reported incidents with a duration density; Proposition 1 uses that process and an iid unit-window law of large numbers to state nonidentifiability from observed unique-incident counts.",
+      "defect_kind": "logical_dependency",
+      "affected_source_locators": [
+        "source.txt:1660-1770",
+        "source.txt:1772-1812"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "partially_formalized",
+      "status_impact_rationale": "The checked models derive a retained-birth thinning process after receiving a marked interval law and a retention-probability equality. The source's data and simulation language instead uses calendar-time first reports, while its Appendix proof conditions on births in the same interval. The source also lacks the conditional duration/report-path survival condition needed for its displayed p calculation. Those are material model obligations, not ordinary zero-mass or notation conventions.",
+      "repair_obligation": "Choose and state the event-time semantics. For the birth-cohort reading, derive iid eventual-report marks from iid duration/report paths plus an explicit conditional survival identity and prove cross-window coherence. For calendar-time first reports, construct a two-sided stationary marked-displacement theorem from source-backed duration/report-path marks. In either route, do not accept the observed process, its interval law, or the p bridge as an unexamined source conclusion.",
+      "acceptance_condition": "A current paper-facing Lemma 1 route exposes the chosen source event semantics and derives its process law from source-backed primitives. A Proposition 1 route then derives its large-time limit and compensating-rate claim for that same semantics. The source map, record audit, and semantic judgment must all distinguish retained births from first-report arrivals.",
+  "resolution": "open_proof_obligation",
+      "resolution_evidence": "SourceTheoremModels.lean and PaperInterface.lean contain a compiling cumulative-intensity retained-birth support theorem. papers/LBG24SpatialUnderreporting/docs/SOURCE_FIDELITY_REMEDIATION_2026-07-24.md records the two proof branches; source.txt:231-245, :1761-1770, :1780-1785, :2216-2229, :2312-2318, and :4752-4779 establish the unresolved semantic and conditional-survival boundary."
+    }
+  ]
+}

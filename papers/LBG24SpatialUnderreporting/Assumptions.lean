@@ -1,47 +1,255 @@
 import LBG24SpatialUnderreporting.MainTheorems
+import LBG24SpatialUnderreporting.Lemma1MarkedPoissonThinning
+import LBG24SpatialUnderreporting.ConditionOneTail
+import LBG24SpatialUnderreporting.CorrectedTheorem2Causal
+import LBG24SpatialUnderreporting.StationaryPalmCausalObservationLaw
+import EconCSLib.Foundations.Probability.ExponentialInterarrivalForwardPoisson
 
 /-!
 # Paper Assumptions: Quantifying Spatial Under-reporting Disparities
 
-This file declares the current paper-local source assumption for Appendix
-Theorem 2 / Theorem 1:
-`assumption_theorem2_poisson_process_and_conditions`.
-
-The assumption is source-shaped rather than arbitrary.  It bundles primitive
-homogeneous Poisson counting-process semantics, via
-`HomogeneousPoissonCountingProcessByLaw`, together with the paper's Condition
-1/2 functions `g`, `h_m`, and survival-integral terms, via
-`Theorem2ConditionFunctions`.  The interval-count law and ordered
-one/multi-report interarrival-density law are no longer assumed fields here:
-the reusable library derives the interval-count PMF from mathlib Poisson
-increment laws and constructs the canonical exponential interarrival density
-law from the same homogeneous count rate.  `ArrivalKernelCase`/
-`ObservedArrivalCase` expose the generic no/one/finite arrival-kernel algebra
-underneath both source-data and process-law cases.
-
-For finite observed-window likelihoods, theorem-facing rows can now avoid this
-continuous-time bundle by using `FinitePoissonCountFamily`, which is
-constructed in the reusable Poisson library.  The remaining reusable-library
-target is the stronger all-times stopping-window semantics that derives this
-source assumption bundle from primitive continuous-time Poisson-process
-semantics and the paper's Conditions 1/2.
+This module names the paper-source assumptions used for the response-time
+likelihood and selected-start results.
 -/
 
 namespace LBG24SpatialUnderreporting
 
-open MeasureTheory
+open MeasureTheory ProbabilityTheory
 open EconCSLib.Probability.PoissonProcess
+open scoped NNReal
 
 noncomputable section
 
 /--
-Primitive source semantics for Appendix Theorem 2 / Theorem 1 before the
-theorem-specific assumption bundle is formed.
+Process-level reading of Lemma 1's premise that latent Poisson incidents are
+reported independently.  It records the latent Poisson path, the observed
+forward path, independence of marked interval pairs, and their exact joint
+Poisson/binomial law.  Observed independent increments are derived rather than
+assumed.
+-/
+-- audit-premise: M : assumption_lemma1_independent_incident_reporting_process Ω P
+abbrev assumption_lemma1_independent_incident_reporting_process
+    (Ω : Type*) [MeasurableSpace Ω] (P : Measure Ω) :=
+  Lemma1MarkedPoissonThinning.MarkedPoissonReportingProcess Ω P
 
-The process component is paper-neutral homogeneous Poisson counting-process
-semantics, expressed through mathlib Poisson increment laws.  The condition
-component stores the paper's rate-indexed Condition 1/2 source terms together
-with explicit proofs that those terms are independent of the Poisson rate.
+/--
+The paper's Appendix-Theorem-2 Conditions 1 and 2, represented by the
+rate-independent start-density contribution and the rate-independent
+end-time density kernel (including its survival integrals).  This is a
+source-model input rather than a Poisson-process certificate: the source
+states these conditions explicitly.
+-/
+-- audit-premise: M : assumption_theorem2_condition_density_source_model
+abbrev assumption_theorem2_condition_density_source_model :=
+  Theorem2ConditionDensitySourceModel
+
+/--
+Collapsed finite endpoint-clock model for Appendix Theorem 2 at a fixed
+observed history. `startWeight` is an evaluated selected-start density factor,
+and the rate-free endpoint-clock kernels are selected before each unobserved
+exponential gap.
+-/
+-- audit-premise: M : assumption_theorem2_causal_endpoint_model count
+abbrev assumption_theorem2_causal_endpoint_model (count : ℕ) :=
+  CollapsedFiniteStageEndpointModel count
+
+/--
+Rate-free selected-start and causal endpoint densities for Appendix Theorem 2.
+Each conditional endpoint density is normalized, jointly measurable, and
+supported on nonnegative remaining times.  These data state the source's
+endpoint-selection conditions independently of the Poisson report process.
+-/
+-- audit-premise: S : assumption_theorem2_causal_endpoint_density_source count
+abbrev assumption_theorem2_causal_endpoint_density_source (count : ℕ) :=
+  FiniteCausalEndpointDensitySource count
+
+/--
+Stationary/Palm source semantics for the corrected causal reading of Appendix
+Theorem 2. The tagged post-arrival report block has its iid exponential law,
+the endpoint kernels are normalized and rate-free at every visible prefix,
+and the selected-start density agrees across the report and endpoint pieces.
+-/
+-- audit-premise: M : assumption_theorem2_stationary_palm_causal_observation_model OmegaBase Omega P count rate
+abbrev assumption_theorem2_stationary_palm_causal_observation_model
+    (OmegaBase Omega : Type*)
+    [MeasurableSpace OmegaBase] [MeasurableSpace Omega]
+    (P : Measure Omega) (count : ℕ) (rate : ℝ) :=
+  StationaryPalmCausalObservationModel OmegaBase Omega P count rate
+
+/--
+The kernelized form of the paper's Lemma-2 Condition 1: conditional on the
+first report, the selected start lies afterwards and is independent of the
+post-first-report tail.  The source writes this with a density `g`; the
+formalization uses a regular conditional kernel so that the continuous
+conditioning statement is well typed.
+-/
+-- audit-premise: C : assumption_lemma2_condition_one_selection Ω P Tail
+abbrev assumption_lemma2_condition_one_selection
+    (Ω : Type*) [MeasurableSpace Ω] [StandardBorelSpace Ω]
+    (P : Measure Ω) [IsProbabilityMeasure P]
+    (Tail : Type*) [MeasurableSpace Tail] :=
+  Theorem2ConditionOneSelection Ω P Tail
+
+/--
+Primitive source semantics for Appendix Lemma 2.  The report process is
+represented by a measurable iid exponential-interarrival path on the source
+carrier.  The same carrier may contain auxiliary randomness used by the
+Condition-1 selection.  The final two fields only identify the paper's first
+report and post-first-report tail with coordinates of that path; regeneration
+of the tail and the selected-start no-report event are derived theorems.
+-/
+structure Lemma2ForwardSourceModel
+    (Ω : Type*) [MeasurableSpace Ω] [StandardBorelSpace Ω]
+    (P : Measure Ω) [IsProbabilityMeasure P] where
+  rate : ℝ
+  rate_pos : 0 < rate
+  interarrivalPath : Ω → (ℕ → ℝ)
+  interarrivalPath_measurable : Measurable interarrivalPath
+  interarrivalPath_hasLaw :
+    ProbabilityTheory.HasLaw interarrivalPath
+      (exponentialInterarrivalMeasure rate) P
+  selection : assumption_lemma2_condition_one_selection Ω P (ℕ → ℝ)
+  firstReportTime_eq : selection.firstReportTime =
+    fun ω => (canonicalFirstArrival (interarrivalPath ω)).toNNReal
+  postFirstReportTail_eq : selection.postFirstReportTail =
+    fun ω => futureInterarrival 1 (interarrivalPath ω)
+
+namespace Lemma2ForwardSourceModel
+
+variable {Ω : Type*} [MeasurableSpace Ω] [StandardBorelSpace Ω]
+  {P : Measure Ω} [IsProbabilityMeasure P]
+
+/-- Pull a finite independent family back along a measure-preserving map. -/
+private theorem iIndepFun_comp_measurePreserving
+    {S ι : Type*} [MeasurableSpace S] [Fintype ι]
+    {μ : Measure S} [IsProbabilityMeasure μ]
+    {Y : Ω → S} (hY : MeasurePreserving Y P μ)
+    {A : ι → Type*} {mA : ∀ i, MeasurableSpace (A i)}
+    (Z : ∀ i, S → A i) (hZ : ∀ i, Measurable (Z i))
+    (hZindep : ProbabilityTheory.iIndepFun Z μ) :
+    ProbabilityTheory.iIndepFun (fun i => Z i ∘ Y) P := by
+  rw [ProbabilityTheory.iIndepFun_iff_map_fun_eq_pi_map
+    (fun i => ((hZ i).comp hY.measurable).aemeasurable)]
+  change P.map ((fun x i => Z i x) ∘ Y) =
+    Measure.pi (fun i => P.map (Z i ∘ Y))
+  rw [← Measure.map_map (measurable_pi_iff.2 hZ) hY.measurable,
+    hY.map_eq,
+    (ProbabilityTheory.iIndepFun_iff_map_fun_eq_pi_map
+      (fun i => (hZ i).aemeasurable)).mp hZindep]
+  congr 2
+  funext i
+  rw [← Measure.map_map (hZ i) hY.measurable, hY.map_eq]
+
+/-- The forward Poisson report process constructed from the primitive source
+interarrival path. -/
+def process (M : Lemma2ForwardSourceModel Ω P) :
+    ForwardHomogeneousPoissonCountingProcessByLaw Ω P := by
+  let μ : Measure (ℕ → ℝ) := exponentialInterarrivalMeasure M.rate
+  letI : IsProbabilityMeasure μ := by
+    simpa only [μ] using
+      isProbabilityMeasure_exponentialInterarrivalMeasure M.rate_pos
+  let H := canonicalForwardHomogeneousPoissonCountingProcessByLaw M.rate_pos
+  let hpath : MeasurePreserving M.interarrivalPath P μ :=
+    M.interarrivalPath_hasLaw.measurePreserving M.interarrivalPath_measurable
+  exact
+    { isProbability := inferInstance
+      rate := M.rate
+      rate_pos := M.rate_pos
+      count := fun t => H.count t ∘ M.interarrivalPath
+      count_measurable := fun t =>
+        (H.count_measurable t).comp M.interarrivalPath_measurable
+      count_zero_ae := hpath.quasiMeasurePreserving.ae H.count_zero_ae
+      count_mono_ae := hpath.quasiMeasurePreserving.ae H.count_mono_ae
+      hasIndepIncrements := by
+        intro n t ht
+        exact iIndepFun_comp_measurePreserving hpath
+          (fun (i : Fin n) path =>
+            H.count (t i.succ) path - H.count (t i.castSucc) path)
+          (fun (i : Fin n) => (H.count_measurable (t i.succ)).sub
+            (H.count_measurable (t i.castSucc)))
+          (H.hasIndepIncrements n t ht)
+      increment_hasLaw := by
+        intro s t hst
+        simpa [Function.comp_def] using
+          (H.increment_hasLaw hst).comp M.interarrivalPath_hasLaw }
+
+@[simp] theorem process_rate (M : Lemma2ForwardSourceModel Ω P) :
+    M.process.rate = M.rate := rfl
+
+@[simp] theorem process_count (M : Lemma2ForwardSourceModel Ω P)
+    (t : ℝ≥0) (ω : Ω) :
+    M.process.count t ω =
+      canonicalRenewalCount (t : ℝ) (M.interarrivalPath ω) := rfl
+
+/-- The fresh post-first-report tail law is transported from the canonical iid
+exponential path; it is not a source-model field. -/
+theorem postFirstReportTail_conditional_law
+    (M : Lemma2ForwardSourceModel Ω P) :
+    ProbabilityTheory.condDistrib M.selection.postFirstReportTail
+      M.selection.firstReportTime P =ᵐ[P.map M.selection.firstReportTime]
+        Kernel.const ℝ≥0 (exponentialInterarrivalMeasure M.rate) := by
+  let μ : Measure (ℕ → ℝ) := exponentialInterarrivalMeasure M.rate
+  let X : (ℕ → ℝ) → ℝ≥0 :=
+    fun path => (canonicalFirstArrival path).toNNReal
+  let Y : (ℕ → ℝ) → (ℕ → ℝ) := futureInterarrival 1
+  letI : IsProbabilityMeasure μ := by
+    simpa only [μ] using
+      isProbabilityMeasure_exponentialInterarrivalMeasure M.rate_pos
+  have hX : Measurable X := by
+    simpa only [X, canonicalFirstArrival] using
+      measurable_real_toNNReal.comp (measurable_interarrival 0)
+  have hY : Measurable Y := by
+    simpa only [Y] using
+      measurable_pi_iff.2 fun k => measurable_futureInterarrival 1 k
+  have hcanonical :
+      ProbabilityTheory.condDistrib Y X μ =ᵐ[μ.map X]
+        Kernel.const ℝ≥0 μ := by
+    simpa only [μ, X, Y] using
+      canonicalFirstArrival_toNNReal_condDistrib_futureInterarrival_eq_const
+        M.rate_pos
+  have htransport := ProbabilityTheory.condDistrib_map
+    (ν := P) (X := X) (Y := Y) (f := M.interarrivalPath)
+    (by simpa only [M.interarrivalPath_hasLaw.map_eq] using
+      hX.aemeasurable)
+    (by simpa only [M.interarrivalPath_hasLaw.map_eq] using
+      hY.aemeasurable)
+    M.interarrivalPath_measurable.aemeasurable
+  have hfirstMap : P.map (X ∘ M.interarrivalPath) = μ.map X := by
+    rw [← Measure.map_map hX M.interarrivalPath_measurable,
+      M.interarrivalPath_hasLaw.map_eq]
+  have htransport' :
+      ProbabilityTheory.condDistrib Y X μ =ᵐ[
+        P.map (X ∘ M.interarrivalPath)]
+        ProbabilityTheory.condDistrib (Y ∘ M.interarrivalPath)
+          (X ∘ M.interarrivalPath) P := by
+    simpa only [M.interarrivalPath_hasLaw.map_eq] using htransport
+  have hcanonical' :
+      ProbabilityTheory.condDistrib Y X μ =ᵐ[
+        P.map (X ∘ M.interarrivalPath)] Kernel.const ℝ≥0 μ := by
+    rw [hfirstMap]
+    exact hcanonical
+  simpa only [M.firstReportTime_eq, M.postFirstReportTail_eq, μ, X, Y,
+    Function.comp_apply] using htransport'.symm.trans hcanonical'
+
+end Lemma2ForwardSourceModel
+
+/-- First-class paper-facing premise for the carrier-generic Lemma-2 bridge. -/
+-- audit-premise: M : assumption_lemma2_forward_source_model Ω P
+abbrev assumption_lemma2_forward_source_model
+    (Ω : Type*) [MeasurableSpace Ω] [StandardBorelSpace Ω]
+    (P : Measure Ω) [IsProbabilityMeasure P] :=
+  Lemma2ForwardSourceModel Ω P
+
+/--
+Legacy compatibility semantics for Appendix Theorem 2 / Theorem 1 before the
+theorem-specific assumption bundle is formed.  This all-real-time interface is
+uninhabited at positive rate and is quarantined from every source-facing route;
+use a forward-time or genuine stationary/two-sided process model for source
+evidence.
+
+The condition component stores the paper's rate-indexed Condition 1/2 source
+terms together with explicit proofs that those terms are independent of the
+Poisson rate.
 -/
 -- audit-premise: S : theorem2_poisson_process_and_condition_semantics Ω P
 structure theorem2_poisson_process_and_condition_semantics
@@ -52,6 +260,12 @@ structure theorem2_poisson_process_and_condition_semantics
 namespace theorem2_poisson_process_and_condition_semantics
 
 variable {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
+
+/-- A natural-valued count fixed at zero at time zero cannot have a
+nondegenerate increment on a negative-time interval. -/
+theorem false
+    (S : theorem2_poisson_process_and_condition_semantics Ω P) : False :=
+  S.countProcess.false
 
 /-- Constant condition functions derived from rate-indexed source semantics. -/
 def conditionFunctions
@@ -1227,11 +1441,7 @@ namespace Theorem2PrimitiveSourceModel
 
 variable {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
 
-/--
-Legacy theorem-facing assumption bundle induced by the primitive source model.
-This is an audit bridge only: the preferred theorem rows consume
-`Theorem2PrimitiveSourceModel` directly.
--/
+/-- The theorem-facing assumption bundle induced by the primitive source model. -/
 noncomputable def toAssumptionBundle
     (M : Theorem2PrimitiveSourceModel Ω P) :
     assumption_theorem2_poisson_process_and_conditions Ω P :=

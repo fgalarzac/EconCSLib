@@ -197,6 +197,50 @@ noncomputable def theorem4EstimatedReducedModel {n : ℕ}
     else 1 - 2 * beta
 
 /--
+In the corrected three-mass estimated model, occurrence of all declared types
+makes the cold-start mass `1 - 2 * beta` positive. This derives the upper beta
+domain used by the theorem construction from the source model itself.
+-/
+theorem theorem4_beta_lt_half_of_estimated_reduction
+    {m n : Nat} [NeZero m] [NeZero n]
+    (Sest : RecommendationModel.SymmetricData m n 3)
+    (hTypesEst : Function.Surjective Sest.types.toType)
+    {beta : Real} {v : Item n -> Real}
+    (hredEst :
+      (Sest.canonicalReductionOfSurjective hTypesEst).reduced =
+        theorem4EstimatedReducedModel beta v) :
+    beta < 1 / 2 := by
+  let repsEst : UserTypeAssignment.TypeRepresentatives Sest.types :=
+    EconCSLib.Policy.FiberRepresentatives.ofSurjective hTypesEst
+  have hWeight :
+      (Sest.canonicalReductionOfSurjective hTypesEst).reduced.PositiveWeights := by
+    simpa [RecommendationModel.SymmetricData.canonicalReductionOfSurjective, repsEst] using
+      (Sest.canonicalReduction repsEst).reduced_positiveWeights_of_representatives repsEst
+  rw [hredEst] at hWeight
+  have hcold : 0 < 1 - 2 * beta := by
+    simpa [theorem4EstimatedReducedModel] using hWeight (2 : UserType 3)
+  linarith
+
+/--
+The Theorem 4 beta domain entails at least three items. This is a numerical
+consequence of `1 / n < beta < 1 / 2`, not a separate source assumption.
+-/
+theorem theorem4_at_least_three_items_of_beta_domain
+    {n : Nat} [NeZero n] {beta : Real}
+    (hbeta : (n : Real)⁻¹ < beta)
+    (hbeta_half : beta < 1 / 2) :
+    2 < n := by
+  by_contra hnot
+  have hn : n <= 2 := Nat.le_of_not_gt hnot
+  have hn_ne_zero : n ≠ 0 := NeZero.ne n
+  interval_cases n
+  · exact hn_ne_zero rfl
+  · norm_num at hbeta hbeta_half
+    linarith
+  · norm_num at hbeta hbeta_half
+    linarith
+
+/--
 The true three-type model when the cold-start type's actual preferences are the
 first opposing row.
 -/
@@ -1359,6 +1403,21 @@ def Theorem4Problem11PolicyOptimal {n : ℕ} [NeZero n]
       ∀ (ρ' : TypePolicy 3 n) (ell' : ℝ),
         Theorem4MirrorSymmetricPolicy ρ' →
           theorem4Problem11LPFeasible beta v ρ' ell' → ell' ≤ ell
+
+/--
+Literal Problem 11 equality-program optimality.  Unlike the epigraph
+predicate above, every comparison policy must equalize all item expressions.
+This is the premise written in Appendix E before Lemma 13.
+-/
+def Theorem4Problem11EqualityLPOptimal {n : ℕ}
+    (beta : ℝ) (v : Item n → ℝ) (ρ : TypePolicy 3 n) (ell : ℝ) : Prop :=
+  Theorem4MirrorSymmetricPolicy ρ ∧
+    (∀ j : Item n, theorem4Problem11PolicyItemValue beta v ρ j = ell) ∧
+      ∀ (ρ' : TypePolicy 3 n) (ell' : ℝ),
+        Theorem4MirrorSymmetricPolicy ρ' →
+          (∀ j : Item n,
+            theorem4Problem11PolicyItemValue beta v ρ' j = ell') →
+          ell' ≤ ell
 
 /--
 An estimated `γ = 1` optimum in the mirror-symmetric subspace solves the
@@ -3098,6 +3157,38 @@ theorem theorem4Problem11PolicyOptimal_of_equalityFormOptimalBFS {n : ℕ}
     exact le_of_eq (h.item_eq j).symm
   · intro ρ' ell' hsym' hfeas'
     exact h.optimal (theorem4Problem11RealLPFeasible_of_policy hsym' hfeas')
+
+/--
+A feasible real Problem 11 policy at a closed dual value is globally optimal.
+This is the direct finite-duality bridge and does not use a basic-feasibility
+or support certificate.
+-/
+theorem theorem4Problem11PolicyOptimal_of_closedDual_feasible {n : ℕ}
+    [NeZero n] {beta : ℝ} {v x z : Item n → ℝ} {t : Item n}
+    (hbeta : 0 ≤ beta) (hcold : 0 ≤ 1 - 2 * beta)
+    (hpos : ∀ j : Item n, 0 < v j)
+    (hdec : StrictlyDecreasingByIndex v)
+    (hleft : t.val ≤ (reverseItem t).val)
+    (hfeas :
+      Theorem4Problem11RealLPFeasible beta v x z
+        (theorem4Problem11ClosedDualValue beta v t)) :
+    Theorem4Problem11PolicyOptimal beta v
+      (theorem4Problem11PolicyOfRealVectors x z
+        hfeas.x_nonneg hfeas.z_nonneg hfeas.sum_x hfeas.sum_z)
+      (theorem4Problem11ClosedDualValue beta v t) := by
+  let ρ : TypePolicy 3 n :=
+    theorem4Problem11PolicyOfRealVectors x z
+      hfeas.x_nonneg hfeas.z_nonneg hfeas.sum_x hfeas.sum_z
+  refine ⟨?_, ?_, ?_⟩
+  · dsimp [ρ]
+    exact theorem4Problem11PolicyOfRealVectors_mirrorSymmetric hfeas.z_mirror
+  · intro j
+    rw [theorem4Problem11PolicyOfRealVectors_itemValue_eq]
+    exact hfeas.item_le j
+  · intro ρ' ell' hsym' hfeas'
+    exact theorem4Problem11ClosedDual_upper_bound
+      hbeta hcold hpos hdec hleft
+      (theorem4Problem11RealLPFeasible_of_policy hsym' hfeas')
 
 theorem theorem4Problem11EqualizedBasicOptimal_of_equalityFormOptimalBFS
     {n : ℕ} [NeZero n] {beta : ℝ} {v x z : Item n → ℝ} {ell : ℝ}
@@ -8091,6 +8182,34 @@ noncomputable def theorem4Problem11ClosedPolicy {n : ℕ}
     (theorem4Problem11ClosedX_sum_eq_one beta v t)
     (theorem4Problem11ClosedZ_sum_eq_one hleft)
 
+/--
+The closed-form policy is globally optimal directly from its primal
+feasibility and the closed dual certificate.
+-/
+theorem theorem4Problem11ClosedPolicyOptimal_of_witness {n : ℕ}
+    [NeZero n] {beta : ℝ} {v : Item n → ℝ} {t : Item n}
+    (hbeta_pos : 0 < beta)
+    (hbeta_half : beta < 1 / 2)
+    (hpos : ∀ j : Item n, 0 < v j)
+    (hdec : StrictlyDecreasingByIndex v)
+    (hleft : t.val ≤ (reverseItem t).val)
+    (hpivot : 0 ≤ theorem4Problem11ClosedX beta v t t)
+    (hendpoint : 0 ≤ theorem4Problem11ClosedZEndpointMass beta v t) :
+    Theorem4Problem11PolicyOptimal beta v
+      (theorem4Problem11ClosedPolicy beta v t
+        hbeta_pos hbeta_half hpos hleft hpivot hendpoint)
+      (theorem4Problem11ClosedDualValue beta v t) := by
+  let hfeas :
+      Theorem4Problem11RealLPFeasible beta v
+        (theorem4Problem11ClosedX beta v t)
+        (theorem4Problem11ClosedZ beta v t)
+        (theorem4Problem11ClosedDualValue beta v t) :=
+    theorem4Problem11Closed_realLPFeasible
+      hbeta_pos hbeta_half hpos hleft hpivot hendpoint
+  simpa [theorem4Problem11ClosedPolicy, hfeas] using
+    (theorem4Problem11PolicyOptimal_of_closedDual_feasible
+      hbeta_pos.le (by nlinarith) hpos hdec hleft hfeas)
+
 theorem theorem4Problem11ClosedPolicy_pivotSupport {n : ℕ}
     {beta : ℝ} {v : Item n → ℝ} {t : Item n}
     (hbeta_pos : 0 < beta)
@@ -8826,6 +8945,139 @@ theorem theorem4Problem11Closed_nonnegativePivots_of_bounds {n : ℕ}
       hbeta_pos hbeta_half hpos hleft hbounds,
     theorem4Problem11ClosedZEndpointMass_nonneg_of_bounds
       hbeta_pos hbeta_half hpos hleft hbounds⟩
+
+/--
+At least one left-half closed-form policy attains the Problem 11 optimum.
+The construction uses the center (or the left item of the central pair) and
+the closed primal-dual witness, without selecting a basic feasible solution.
+-/
+theorem theorem4Problem11ClosedPolicyOptimal_exists {n : ℕ}
+    [NeZero n] {beta : ℝ} {v : Item n → ℝ}
+    (hbeta_pos : 0 < beta)
+    (hbeta_half : beta < 1 / 2)
+    (hpos : ∀ j : Item n, 0 < v j)
+    (hdec : StrictlyDecreasingByIndex v) :
+    ∃ (t : Item n) (ρ : TypePolicy 3 n),
+      t.val ≤ (reverseItem t).val ∧
+        Theorem4Problem11PolicyOptimal beta v ρ
+          (theorem4Problem11ClosedDualValue beta v t) := by
+  rcases midpoint_center_or_succ_center (n := n) with
+    ⟨c, hcenter⟩ | ⟨c, hsucc⟩
+  · rcases theorem4Problem11ClosedPivotBounds_exists_of_center
+      hbeta_pos hbeta_half hpos hcenter with ⟨t, hleft, hbounds⟩
+    rcases theorem4Problem11Closed_nonnegativePivots_of_bounds
+      hbeta_pos hbeta_half hpos hleft hbounds with ⟨hpivot, hendpoint⟩
+    exact ⟨t,
+      theorem4Problem11ClosedPolicy beta v t
+        hbeta_pos hbeta_half hpos hleft hpivot hendpoint,
+      hleft,
+      theorem4Problem11ClosedPolicyOptimal_of_witness
+        hbeta_pos hbeta_half hpos hdec hleft hpivot hendpoint⟩
+  · rcases theorem4Problem11ClosedPivotBounds_exists_of_succ_center
+      hbeta_pos hbeta_half hpos hsucc with ⟨t, hleft, hbounds⟩
+    rcases theorem4Problem11Closed_nonnegativePivots_of_bounds
+      hbeta_pos hbeta_half hpos hleft hbounds with ⟨hpivot, hendpoint⟩
+    exact ⟨t,
+      theorem4Problem11ClosedPolicy beta v t
+        hbeta_pos hbeta_half hpos hleft hpivot hendpoint,
+      hleft,
+      theorem4Problem11ClosedPolicyOptimal_of_witness
+        hbeta_pos hbeta_half hpos hdec hleft hpivot hendpoint⟩
+
+/--
+An optimizer of the literal equality form of Problem 11 is also optimal for
+its epigraph form.  The proof is source-faithful: a closed primal-dual policy
+is an equality-form comparison witness, and its dual certificate bounds every
+epigraph-feasible comparison policy.
+-/
+theorem theorem4Problem11PolicyOptimal_of_equalityLPOptimal {n : ℕ}
+    [NeZero n] {beta : ℝ} {v : Item n → ℝ}
+    {ρ : TypePolicy 3 n} {ell : ℝ}
+    (hbeta_pos : 0 < beta)
+    (hbeta_half : beta < 1 / 2)
+    (hpos : ∀ j : Item n, 0 < v j)
+    (hdec : StrictlyDecreasingByIndex v)
+    (h : Theorem4Problem11EqualityLPOptimal beta v ρ ell) :
+    Theorem4Problem11PolicyOptimal beta v ρ ell := by
+  rcases theorem4Problem11ClosedPolicyOptimal_exists
+      hbeta_pos hbeta_half hpos hdec with
+    ⟨t, ρclosed, hleft, hclosed⟩
+  have hclosed_eq :
+      ∀ j : Item n,
+        theorem4Problem11PolicyItemValue beta v ρclosed j =
+          theorem4Problem11ClosedDualValue beta v t := by
+    exact theorem4Problem11PolicyOptimal_item_eq_of_closedDual_tight
+      hbeta_pos hbeta_half hpos hdec hleft rfl hclosed
+  have hclosed_le : theorem4Problem11ClosedDualValue beta v t ≤ ell :=
+    h.2.2 ρclosed (theorem4Problem11ClosedDualValue beta v t)
+      hclosed.1 hclosed_eq
+  refine ⟨h.1, ?_, ?_⟩
+  · intro j
+    exact le_of_eq (h.2.1 j).symm
+  · intro ρ' ell' hsym' hfeas'
+    exact (hclosed.2.2 ρ' ell' hsym' hfeas').trans hclosed_le
+
+/--
+Every equalized global Problem 11 optimum has the Lemma 13 pivot-support
+shape at its last active known-type item.  That item is also the minimum
+known-type cutoff with the same right-zero property.
+-/
+theorem theorem4Problem11PolicyOptimal_lastActive_pivotSupport {n : ℕ}
+    [NeZero n] {beta : ℝ} {v : Item n → ℝ}
+    {ρ : TypePolicy 3 n} {ell : ℝ}
+    (hn : 2 < n)
+    (hbeta_pos : 0 < beta)
+    (hbeta_half : beta < 1 / 2)
+    (hpos : ∀ j : Item n, 0 < v j)
+    (hdec : StrictlyDecreasingByIndex v)
+    (hitem_eq : ∀ j : Item n,
+      theorem4Problem11PolicyItemValue beta v ρ j = ell)
+    (hopt : Theorem4Problem11PolicyOptimal beta v ρ ell) :
+    let t := theorem4Problem11LastActiveTypeZero ρ
+    t.val ≤ (reverseItem t).val ∧
+      Theorem4Problem11PivotSupport ρ t ∧
+      ∀ s : Item n,
+        (∀ j : Item n, s.val < j.val → ρ 0 j = 0) → t.val ≤ s.val := by
+  rcases theorem4Problem11ClosedPolicyOptimal_exists
+      hbeta_pos hbeta_half hpos hdec with
+    ⟨t0, ρclosed, hleft0, hclosed_opt⟩
+  have hvalue : ell = theorem4Problem11ClosedDualValue beta v t0 :=
+    theorem4Problem11PolicyOptimal_value_unique hopt hclosed_opt
+  have hpivot0 : Theorem4Problem11PivotSupport ρ t0 :=
+    theorem4Problem11PolicyOptimal_pivotSupport_of_closedDual_tight
+      hbeta_pos hbeta_half hpos hdec hleft0 hvalue hopt
+  have hno : Theorem4Problem11PolicyNoStrictPointwiseImprovement beta v ρ :=
+    theorem4Problem11_noStrictPointwiseImprovement_of_policyOptimal_equalized
+      hitem_eq hopt
+  have hright_zero :
+      ∀ j : Item n, (reverseItem j).val < j.val → ρ 0 j = 0 :=
+    theorem4Problem11_typeZero_zero_after_mirror_of_noStrictPointwiseImprovement
+      hn hbeta_pos hpos hdec hopt.1 hno
+  let t : Item n := theorem4Problem11LastActiveTypeZero ρ
+  have hleft : t.val ≤ (reverseItem t).val := by
+    by_contra hnot
+    have hrev_lt : (reverseItem t).val < t.val := by omega
+    exact theorem4Problem11LastActiveTypeZero_active ρ
+      (hright_zero t hrev_lt)
+  have ht_le_t0 : t.val ≤ t0.val := by
+    by_contra hnot
+    have ht0_lt : t0.val < t.val := by omega
+    exact theorem4Problem11LastActiveTypeZero_active ρ
+      (hpivot0.1 t ht0_lt)
+  have hpivot : Theorem4Problem11PivotSupport ρ t := by
+    constructor
+    · intro j hj
+      exact theorem4Problem11_typeZero_zero_after_lastActive ρ hj
+    · intro j hj
+      exact hpivot0.2 j (lt_of_lt_of_le hj ht_le_t0)
+  have hminimum :
+      ∀ s : Item n,
+        (∀ j : Item n, s.val < j.val → ρ 0 j = 0) → t.val ≤ s.val := by
+    intro s hs
+    by_contra hnot
+    have hs_lt : s.val < t.val := by omega
+    exact theorem4Problem11LastActiveTypeZero_active ρ (hs t hs_lt)
+  exact ⟨hleft, hpivot, hminimum⟩
 
 theorem theorem4Problem11EqualityFormOptimalBFS_of_closed_witness {n : ℕ}
     {beta : ℝ} {v : Item n → ℝ} {t : Item n}

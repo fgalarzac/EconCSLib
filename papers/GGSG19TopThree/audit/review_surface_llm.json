@@ -2,11 +2,11 @@
   "judgment": "passes",
   "paper": "GGSG19TopThree",
   "prompt_version": "review-surface-v2-semantic-paper-facing",
-  "reason": "Semantic review-surface pass: source-visible review targets are exposed as paper-facing rows, with helper-only implementation details kept outside the dashboard unless needed for source coverage.",
-  "review_rows": 17,
-  "review_surface_sha256": "68e2827903c4784dd0aae496721831159514fb3bde917f977c4105a1af5e83e9",
+  "reason": "All 30 current rows remain paper-facing definitions, explicit assumptions, source propositions, theorems, examples, formulas, or the advertised Mallows dynamic-program specification/evidence. The strict refresh adds required source-status provenance and exposes the same dynamic-program contract directly; it adds no helper-only row.",
+  "review_rows": 30,
+  "review_surface_sha256": "6c7c8d06287861e6264e3033a277fdc7ec43c6e05f7d15cae7316c15a9719bd0",
   "schema": 1,
-  "validated_at": "2026-06-29T20:39:31Z",
-  "validator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  "validated_at": "2026-07-23T23:07:08Z",
+  "validator": "Codex GGSG19 strict contract revalidation 2026-07-23",
+  "validator_type": "agent"
 }

@@ -2260,10 +2260,11 @@ construction and the actual fixed-price benchmark on the constructed two-value
 input. This strengthens the certificate-valued witness above by proving the
 witness lower bound is feasible for the one-winner fixed-price benchmark `F`.
 -/
-theorem twoValueBidIndependentPrice_exists_low_revenue_witness_scaled_benchmark
+theorem twoValueBidIndependentPrice_exists_low_revenue_witness_scaled_benchmark_attained
     (price : ℕ → ℕ → ℝ) {H alpha : ℕ}
     (hH_ge_two : 2 ≤ H) (halpha_pos : 0 < alpha) :
     ∃ highCount lowCount : ℕ,
+      0 < highCount ∧
       (H : ℝ) *
           twoValueBidIndependentPriceRevenue price H highCount lowCount ≤
         twoValueFixedPriceBenchmark H highCount lowCount ∧
@@ -2289,7 +2290,7 @@ theorem twoValueBidIndependentPrice_exists_low_revenue_witness_scaled_benchmark
     simp
     nlinarith
   by_cases hend_low : price m 0 ≤ 1
-  · refine ⟨m + 1, 0, ?_⟩
+  · refine ⟨m + 1, 0, Nat.succ_pos m, ?_⟩
     haveI : Nonempty (TwoValueAgent (m + 1) 0) :=
       ⟨Sum.inl ⟨0, Nat.succ_pos m⟩⟩
     have hrev :=
@@ -2313,7 +2314,7 @@ theorem twoValueBidIndependentPrice_exists_low_revenue_witness_scaled_benchmark
   · have hend_high : 1 < price m 0 := lt_of_not_ge hend_low
     let highOffer : ℕ → Bool := fun k => decide (1 < price k (m - k))
     by_cases hstart : 1 < price alpha (m - alpha)
-    · refine ⟨alpha, m - alpha + 1, ?_⟩
+    · refine ⟨alpha, m - alpha + 1, halpha_pos, ?_⟩
       haveI : Nonempty (TwoValueAgent alpha (m - alpha + 1)) :=
         ⟨Sum.inr ⟨0, Nat.succ_pos (m - alpha)⟩⟩
       have hlow :
@@ -2375,9 +2376,9 @@ theorem twoValueBidIndependentPrice_exists_low_revenue_witness_scaled_benchmark
       obtain ⟨k, halpha_lt_k, hk_le_m, hkprev, hkcurr⟩ :=
         FiniteSum.exists_bool_transition highOffer halpha_lt_m
           hstart_false hend_true
-      refine ⟨k, m - k + 1, ?_⟩
       have hk_pos : 0 < k :=
         lt_of_lt_of_le halpha_pos (le_of_lt halpha_lt_k)
+      refine ⟨k, m - k + 1, hk_pos, ?_⟩
       haveI : Nonempty (TwoValueAgent k (m - k + 1)) :=
         ⟨Sum.inl ⟨0, hk_pos⟩⟩
       have hbench :
@@ -2418,6 +2419,25 @@ theorem twoValueBidIndependentPrice_exists_low_revenue_witness_scaled_benchmark
           (mul_le_mul_of_nonneg_left halpha_cast hH_nonneg) hbench
 
 /--
+Compatibility form of the attained scaled-benchmark witness.  The stronger
+theorem above additionally records that the high value `H` occurs in the
+constructed binary input.
+-/
+theorem twoValueBidIndependentPrice_exists_low_revenue_witness_scaled_benchmark
+    (price : ℕ → ℕ → ℝ) {H alpha : ℕ}
+    (hH_ge_two : 2 ≤ H) (halpha_pos : 0 < alpha) :
+    ∃ highCount lowCount : ℕ,
+      (H : ℝ) *
+          twoValueBidIndependentPriceRevenue price H highCount lowCount ≤
+        twoValueFixedPriceBenchmark H highCount lowCount ∧
+      (H : ℝ) * (alpha : ℝ) ≤
+        twoValueFixedPriceBenchmark H highCount lowCount := by
+  obtain ⟨highCount, lowCount, _hattained, hrev, hscale⟩ :=
+    twoValueBidIndependentPrice_exists_low_revenue_witness_scaled_benchmark_attained
+      price hH_ge_two halpha_pos
+  exact ⟨highCount, lowCount, hrev, hscale⟩
+
+/--
 the deterministic-threshold lower-bound theorem for a paper-style anonymous bid-independent price rule `f` on
 erased bid lists. Its binary restriction is exactly the count-threshold rule
 above, so the adversarial two-value input is obtained from the count-threshold
@@ -2435,6 +2455,23 @@ theorem twoValueListBidIndependentPrice_exists_low_revenue_witness_scaled_benchm
       (H : ℝ) * (alpha : ℝ) ≤
         twoValueFixedPriceBenchmark H highCount lowCount := by
   exact twoValueBidIndependentPrice_exists_low_revenue_witness_scaled_benchmark
+    (twoValueListBidIndependentThresholdPrice priceRule H)
+    hH_ge_two halpha_pos
+
+/-- Attained form of the erased-list scaled-benchmark witness. -/
+theorem twoValueListBidIndependentPrice_exists_low_revenue_witness_scaled_benchmark_attained
+    (priceRule : List ℝ → ℝ) {H alpha : ℕ}
+    (hH_ge_two : 2 ≤ H) (halpha_pos : 0 < alpha) :
+    ∃ highCount lowCount : ℕ,
+      0 < highCount ∧
+      (H : ℝ) *
+          twoValueBidIndependentPriceRevenue
+            (twoValueListBidIndependentThresholdPrice priceRule H)
+            H highCount lowCount ≤
+        twoValueFixedPriceBenchmark H highCount lowCount ∧
+      (H : ℝ) * (alpha : ℝ) ≤
+        twoValueFixedPriceBenchmark H highCount lowCount := by
+  exact twoValueBidIndependentPrice_exists_low_revenue_witness_scaled_benchmark_attained
     (twoValueListBidIndependentThresholdPrice priceRule H)
     hH_ge_two halpha_pos
 

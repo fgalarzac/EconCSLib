@@ -5,7 +5,7 @@
 |---|---|
 | Final status | Formalized |
 | Paper reference | [College Admissions and the Stability of Marriage](https://www.jstor.org/stable/2312726) by D. Gale and L. S. Shapley; American Mathematical Monthly, 1962. |
-| Lines of Code | 388 |
+| Lines of Code | 6,205 |
 
 ## Key Links
 

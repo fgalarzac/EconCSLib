@@ -38,6 +38,259 @@ noncomputable def symmetricOptimalItemFairness {m n K : ℕ} [NeZero n]
     (S : SymmetricData m n K) : ℝ :=
   sSup (symmetricAttainableItemFairnessSet S)
 
+/--
+The source-shaped user-coordinate equality LP from Proposition 1, specialized
+to the symmetric policy set `S_symm` used in Proposition 2.  The variables are
+the original user-item policy coordinates together with the objective coordinate
+`ell`; type-level coordinates are not part of this object.
+-/
+structure UserSymmetricEqualityLP (m n K : ℕ) where
+  model : RecommendationModel m n
+  types : UserTypeAssignment m K
+
+namespace UserSymmetricEqualityLP
+
+/-- User-coordinate LP variables: every original user-item coordinate plus
+the objective variable `ell`. -/
+abbrev Variable (m n : ℕ) :=
+  (User m × Item n) ⊕ Unit
+
+/--
+User-coordinate LP constraints: item equalities, user simplex row sums, the
+finite linear equalities defining `S_symm`, and policy-coordinate
+nonnegativity constraints.
+-/
+abbrev Constraint (m n K : ℕ) :=
+  ((Item n ⊕ User m) ⊕
+      GCG24UserItemFairness.UserTypeAssignment.TypeSymmetryLinearConstraintIndex m n) ⊕
+    (User m × Item n)
+
+/-- The real vector associated with a policy and objective candidate. -/
+noncomputable def candidate {m n K : ℕ}
+    (_L : UserSymmetricEqualityLP m n K) (ρ : Policy m n) (ell : ℝ) :
+    Variable m n → ℝ
+  | Sum.inl (u, j) => (ρ u j).toReal
+  | Sum.inr _ => ell
+
+/-- Descend a feasible user-level LP candidate to type-level coordinates by
+reading the policy at representative users and preserving `ell`. -/
+noncomputable def reduceUserSymmetricEqualityLP {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K)
+    (reps : GCG24UserItemFairness.UserTypeAssignment.TypeRepresentatives L.types)
+    (ρ : Policy m n) (ell : ℝ) :
+    TypePolicy.ReducedEqualityLPVariable K n → ℝ :=
+  TypePolicy.reducedEqualityLPCandidate
+    (GCG24UserItemFairness.UserTypeAssignment.descendTypePolicy L.types reps ρ)
+    ell
+
+/-- Lift a type-level LP candidate back to the source user-level coordinates by
+copying the type row to every user of that type and preserving `ell`. -/
+noncomputable def liftReducedEqualityLP {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K)
+    (ρ : TypePolicy K n) (ell : ℝ) :
+    Variable m n → ℝ :=
+  candidate L
+    (GCG24UserItemFairness.UserTypeAssignment.liftTypePolicy L.types ρ)
+    ell
+
+@[simp] theorem reduceUserSymmetricEqualityLP_type_coordinate {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K)
+    (reps : GCG24UserItemFairness.UserTypeAssignment.TypeRepresentatives L.types)
+    (ρ : Policy m n) (ell : ℝ) (k : UserType K) (j : Item n) :
+    reduceUserSymmetricEqualityLP L reps ρ ell (Sum.inl (k, j)) =
+      candidate L ρ ell (Sum.inl (reps.repr k, j)) := rfl
+
+@[simp] theorem reduceUserSymmetricEqualityLP_ell_coordinate {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K)
+    (reps : GCG24UserItemFairness.UserTypeAssignment.TypeRepresentatives L.types)
+    (ρ : Policy m n) (ell : ℝ) (u : Unit) :
+    reduceUserSymmetricEqualityLP L reps ρ ell (Sum.inr u) =
+      candidate L ρ ell (Sum.inr u) := rfl
+
+@[simp] theorem liftReducedEqualityLP_user_coordinate {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K)
+    (ρ : TypePolicy K n) (ell : ℝ) (u : User m) (j : Item n) :
+    liftReducedEqualityLP L ρ ell (Sum.inl (u, j)) =
+      TypePolicy.reducedEqualityLPCandidate ρ ell
+        (Sum.inl (L.types.toType u, j)) := rfl
+
+@[simp] theorem liftReducedEqualityLP_ell_coordinate {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K)
+    (ρ : TypePolicy K n) (ell : ℝ) (u : Unit) :
+    liftReducedEqualityLP L ρ ell (Sum.inr u) =
+      TypePolicy.reducedEqualityLPCandidate ρ ell (Sum.inr u) := rfl
+
+/-- The forward coordinate map is independent of representatives on the
+symmetric subspace `S_symm`. -/
+theorem reduceUserSymmetricEqualityLP_eq_of_isTypeSymmetric {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K)
+    (reps reps' : GCG24UserItemFairness.UserTypeAssignment.TypeRepresentatives L.types)
+    (ρ : Policy m n) (ell : ℝ)
+    (hρ : GCG24UserItemFairness.UserTypeAssignment.IsTypeSymmetric L.types ρ) :
+    reduceUserSymmetricEqualityLP L reps ρ ell =
+      reduceUserSymmetricEqualityLP L reps' ρ ell := by
+  simp [reduceUserSymmetricEqualityLP,
+    GCG24UserItemFairness.UserTypeAssignment.descendTypePolicy_eq_of_isTypeSymmetric
+      L.types reps reps' ρ hρ]
+
+/-- Reducing a lifted type-level candidate recovers the original reduced
+candidate. -/
+theorem reduceUserSymmetricEqualityLP_liftReducedEqualityLP {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K)
+    (reps : GCG24UserItemFairness.UserTypeAssignment.TypeRepresentatives L.types)
+    (ρ : TypePolicy K n) (ell : ℝ) :
+    reduceUserSymmetricEqualityLP L reps
+        (GCG24UserItemFairness.UserTypeAssignment.liftTypePolicy L.types ρ) ell =
+      TypePolicy.reducedEqualityLPCandidate ρ ell := by
+  simp [reduceUserSymmetricEqualityLP]
+
+/-- Lifting the reduction of a type-symmetric user-level candidate recovers the
+original user-level candidate. -/
+theorem liftReducedEqualityLP_reduceUserSymmetricEqualityLP
+    {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K)
+    (reps : GCG24UserItemFairness.UserTypeAssignment.TypeRepresentatives L.types)
+    (ρ : Policy m n) (ell : ℝ)
+    (hρ : GCG24UserItemFairness.UserTypeAssignment.IsTypeSymmetric L.types ρ) :
+    liftReducedEqualityLP L
+        (GCG24UserItemFairness.UserTypeAssignment.descendTypePolicy L.types reps ρ)
+        ell =
+      candidate L ρ ell := by
+  have hlift :
+      GCG24UserItemFairness.UserTypeAssignment.liftTypePolicy L.types
+          (GCG24UserItemFairness.UserTypeAssignment.descendTypePolicy L.types reps ρ) =
+        ρ :=
+    GCG24UserItemFairness.UserTypeAssignment.liftTypePolicy_descendTypePolicy_eq_of_isTypeSymmetric
+      L.types reps ρ hρ
+  simp [liftReducedEqualityLP, hlift]
+
+/-- The item-`j` equality normal in the source user-coordinate LP. -/
+noncomputable def itemEqualityNormal {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K) (j : Item n) :
+    Variable m n → ℝ
+  | Sum.inl (u, j') =>
+      if j' = j then L.model.utility u j / itemNormalizer L.model j else 0
+  | Sum.inr _ => -1
+
+/-- Coefficient vector of a source user-coordinate LP constraint. -/
+noncomputable def constraintNormal {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K) :
+    Constraint m n K → Variable m n → ℝ
+  | Sum.inl (Sum.inl (Sum.inl j)), v => itemEqualityNormal L j v
+  | Sum.inl (Sum.inl (Sum.inr u)), Sum.inl (u', _j) => if u' = u then 1 else 0
+  | Sum.inl (Sum.inl (Sum.inr _u)), Sum.inr _ => 0
+  | Sum.inl (Sum.inr c), Sum.inl (u, j) =>
+      GCG24UserItemFairness.UserTypeAssignment.typeSymmetryLinearCoefficient
+        L.types c u j
+  | Sum.inl (Sum.inr _c), Sum.inr _ => 0
+  | Sum.inr (u, j), Sum.inl (u', j') => if u' = u ∧ j' = j then 1 else 0
+  | Sum.inr (_u, _j), Sum.inr _ => 0
+
+/-- A source LP constraint is active at `(ρ, ell)` in the usual BFS sense. -/
+def ConstraintActive {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K) (ρ : Policy m n) (ell : ℝ) :
+    Constraint m n K → Prop
+  | Sum.inl (Sum.inl (Sum.inl j)) =>
+      propositionOneItemEqualityExpression L.model j ρ ell = 0
+  | Sum.inl (Sum.inl (Sum.inr u)) => ∑ j : Item n, (ρ u j).toReal = 1
+  | Sum.inl (Sum.inr c) =>
+      GCG24UserItemFairness.UserTypeAssignment.typeSymmetryLinearExpression
+        L.types c ρ = 0
+  | Sum.inr (u, j) => ρ u j = 0
+
+/--
+Feasibility for the source user-coordinate LP: user simplex rows,
+nonnegativity, membership in `S_symm`, and all item-equalization equations.
+The first two clauses are explicit here even though `Policy` already packages
+them, because they are rows of the paper-facing LP.
+-/
+def Feasible {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K) (ρ : Policy m n) (ell : ℝ) : Prop :=
+  (∀ u : User m, ∑ j : Item n, (ρ u j).toReal = 1) ∧
+    (∀ u : User m, ∀ j : Item n, 0 ≤ (ρ u j).toReal) ∧
+      GCG24UserItemFairness.UserTypeAssignment.IsTypeSymmetric L.types ρ ∧
+        ∀ j : Item n, propositionOneItemEqualityExpression L.model j ρ ell = 0
+
+/-- Objective optimality in the source user-coordinate equality LP. -/
+def Optimal {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K) (ρ : Policy m n) (ell : ℝ) : Prop :=
+  L.Feasible ρ ell ∧
+    ∀ (ρ' : Policy m n) (ell' : ℝ), L.Feasible ρ' ell' → ell' ≤ ell
+
+/--
+A basic feasible solution of the source user-coordinate LP: a feasible point
+with a full-cardinality linearly independent active constraint basis over the
+original `m * n + 1` variables.
+-/
+structure ActiveBasis {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K) (ρ : Policy m n) (ell : ℝ) where
+  feasible : L.Feasible ρ ell
+  basis : Finset (Constraint m n K)
+  basis_card : basis.card = m * n + 1
+  basis_independent :
+    LinearIndependent ℝ
+      (fun c : {c // c ∈ basis} => constraintNormal L c.1)
+  basis_active :
+    ∀ c ∈ basis, ConstraintActive L ρ ell c
+
+/-- Source-side basic feasibility for Proposition 1's LP on `S_symm`. -/
+abbrev BasicFeasible {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K) (ρ : Policy m n) (ell : ℝ) : Prop :=
+  Nonempty (ActiveBasis L ρ ell)
+
+/-- Construct the source user-coordinate LP attached to symmetric model data. -/
+def ofSymmetricData {m n K : ℕ}
+    (S : SymmetricData m n K) : UserSymmetricEqualityLP m n K where
+  model := S.model
+  types := S.types
+
+/--
+The source-shaped feasibility predicate is exactly Proposition 1's equality LP
+feasibility when condition (i)'s finite linear description is instantiated by
+the explicit coordinate description of `S_symm`.
+-/
+theorem feasible_iff_source_problem5 {m n K : ℕ}
+    (L : UserSymmetricEqualityLP m n K) (ρ : Policy m n) (ell : ℝ) :
+    L.Feasible ρ ell ↔
+      PropositionOneLPFeasible L.model
+        (GCG24UserItemFairness.UserTypeAssignment.symmetricPoliciesFiniteLinearDescription
+          (n := n) L.types) ρ ell := by
+  classical
+  let D :=
+    GCG24UserItemFairness.UserTypeAssignment.symmetricPoliciesFiniteLinearDescription
+      (n := n) L.types
+  constructor
+  · intro h
+    refine ⟨?_, h.2.2.2⟩
+    exact (D.satisfies_iff_mem ρ).mpr (by
+      simpa [GCG24UserItemFairness.UserTypeAssignment.SymmetricPolicies,
+        GCG24UserItemFairness.UserTypeAssignment.IsTypeSymmetric] using h.2.2.1)
+  · intro h
+    refine ⟨?_, ?_, ?_, h.2⟩
+    · intro u
+      exact EconCSLib.pmfToRealSum (ρ u)
+    · intro u j
+      exact ENNReal.toReal_nonneg
+    · have hmem := (D.satisfies_iff_mem ρ).mp h.1
+      simpa [GCG24UserItemFairness.UserTypeAssignment.SymmetricPolicies,
+        GCG24UserItemFairness.UserTypeAssignment.IsTypeSymmetric] using hmem
+
+end UserSymmetricEqualityLP
+
+/--
+Source-facing freeze for Proposition 2's LP presentation: the concrete
+user-coordinate LP over `S_symm` is the same Problem-(5) equality LP obtained
+from Proposition 1 with the explicit finite linear description of `S_symm`.
+-/
+theorem userSymmetricEqualityLP_eq_source_problem5 {m n K : ℕ}
+    (S : SymmetricData m n K) (ρ : Policy m n) (ell : ℝ) :
+    (UserSymmetricEqualityLP.ofSymmetricData S).Feasible ρ ell ↔
+      PropositionOneLPFeasible S.model
+        (GCG24UserItemFairness.UserTypeAssignment.symmetricPoliciesFiniteLinearDescription
+          (n := n) S.types) ρ ell := by
+  exact UserSymmetricEqualityLP.feasible_iff_source_problem5
+    (UserSymmetricEqualityLP.ofSymmetricData S) ρ ell
+
 end RecommendationModel
 
 namespace RecommendationModel.UserTypeAssignment
@@ -136,6 +389,69 @@ noncomputable def normalizedItemUtility {K n : ℕ}
     (T : TypeWeightedRecommendationModel K n) (ρ : TypePolicy K n) (j : Item n) : ℝ :=
   let denom := itemNormalizer T j
   if h : denom = 0 then 0 else rawItemUtility T ρ j / denom
+
+/-- Coefficient vector of the item-`j` equality in the reduced LP from
+Proposition 2. -/
+noncomputable def equalityLPItemNormal {K n : ℕ}
+    (T : TypeWeightedRecommendationModel K n) (j : Item n) :
+    TypePolicy.ReducedEqualityLPVariable K n → ℝ
+  | Sum.inl (k, j') =>
+      if j' = j then T.weight k * T.utility k j / itemNormalizer T j else 0
+  | Sum.inr _ => -1
+
+/-- The source basic-feasible-solution antecedent for the concrete reduced LP.
+Its active basis is checked against the actual item-equality coefficients. -/
+abbrev IsEqualityLPBasicFeasible {K n : ℕ}
+    (T : TypeWeightedRecommendationModel K n)
+    (ρ : TypePolicy K n) (ell : ℝ) : Prop :=
+  TypePolicy.ReducedEqualityLPBasicFeasible (equalityLPItemNormal T) ρ ell
+
+/-- Feasibility for the reduced equality-form LP before choosing an active
+basis: all item-equalization equations hold. Row sums and nonnegativity are
+already packaged by the `TypePolicy` PMF rows. -/
+def EqualityLPFeasible {K n : ℕ}
+    (T : TypeWeightedRecommendationModel K n)
+    (ρ : TypePolicy K n) (ell : ℝ) : Prop :=
+  ∀ j : Item n,
+    (∑ v : TypePolicy.ReducedEqualityLPVariable K n,
+      equalityLPItemNormal T j v *
+        TypePolicy.reducedEqualityLPCandidate ρ ell v) = 0
+
+/-- Objective optimality in the reduced equality-form LP. -/
+def EqualityLPOptimal {K n : ℕ}
+    (T : TypeWeightedRecommendationModel K n)
+    (ρ : TypePolicy K n) (ell : ℝ) : Prop :=
+  T.EqualityLPFeasible ρ ell ∧
+    ∀ (ρ' : TypePolicy K n) (ell' : ℝ),
+      T.EqualityLPFeasible ρ' ell' → ell' ≤ ell
+
+theorem equalityLPFeasible_of_basicFeasible {K n : ℕ}
+    (T : TypeWeightedRecommendationModel K n)
+    (ρ : TypePolicy K n) (ell : ℝ)
+    (hbfs : T.IsEqualityLPBasicFeasible ρ ell) :
+    T.EqualityLPFeasible ρ ell := by
+  rcases hbfs with ⟨hbasis⟩
+  exact hbasis.equality_feasible
+
+/-- The reduced item-equation dot product is precisely `I_j(ρ) - ell` when
+the item normalizer is nonzero. -/
+theorem equalityLPItemNormal_dot_candidate_eq {K n : ℕ}
+    (T : TypeWeightedRecommendationModel K n)
+    (ρ : TypePolicy K n) (ell : ℝ) (j : Item n)
+    (hden : itemNormalizer T j ≠ 0) :
+    (∑ v : TypePolicy.ReducedEqualityLPVariable K n,
+        equalityLPItemNormal T j v *
+          TypePolicy.reducedEqualityLPCandidate ρ ell v) =
+      normalizedItemUtility T ρ j - ell := by
+  classical
+  rw [Fintype.sum_sum_type]
+  rw [Fintype.sum_prod_type]
+  simp [equalityLPItemNormal, TypePolicy.reducedEqualityLPCandidate,
+    normalizedItemUtility, rawItemUtility, hden, Finset.sum_div]
+  congr 1
+  refine Finset.sum_congr rfl ?_
+  intro k _hk
+  ring
 
 /-- Minimum normalized item utility in the reduced problem. -/
 noncomputable def itemFairness {K n : ℕ} [NeZero n]
@@ -521,6 +837,37 @@ theorem itemNormalizer_pos_of_positive
   exact Finset.sum_pos (by
     intro k _hk
     exact mul_pos (hWeight k) (hUtil k j)) Finset.univ_nonempty
+
+/-- Equality feasibility in a concrete reduced-LP active basis makes every
+normalized item utility equal to the LP objective. -/
+theorem normalizedItemUtility_eq_ell_of_equalityLPBasicFeasible
+    {K n : ℕ} [NeZero K]
+    (T : TypeWeightedRecommendationModel K n)
+    (hWeight : T.PositiveWeights) (hUtil : T.PositiveUtilities)
+    (ρ : TypePolicy K n) (ell : ℝ)
+    (hbfs : T.IsEqualityLPBasicFeasible ρ ell) :
+    ∀ j : Item n, normalizedItemUtility T ρ j = ell := by
+  rcases hbfs with ⟨hbfs⟩
+  intro j
+  have heq := hbfs.equality_feasible j
+  rw [equalityLPItemNormal_dot_candidate_eq T ρ ell j
+    (itemNormalizer_pos_of_positive T hWeight hUtil j).ne'] at heq
+  exact sub_eq_zero.mp heq
+
+/-- A concrete reduced equality-LP BFS has item-fairness value exactly equal
+to its objective coordinate. -/
+theorem itemFairness_eq_ell_of_equalityLPBasicFeasible
+    {K n : ℕ} [NeZero K] [NeZero n]
+    (T : TypeWeightedRecommendationModel K n)
+    (hWeight : T.PositiveWeights) (hUtil : T.PositiveUtilities)
+    (ρ : TypePolicy K n) (ell : ℝ)
+    (hbfs : T.IsEqualityLPBasicFeasible ρ ell) :
+    itemFairness T ρ = ell := by
+  unfold itemFairness
+  exact EconCSLib.finiteMin_eq_of_forall
+    (normalizedItemUtility T ρ) ell
+    (normalizedItemUtility_eq_ell_of_equalityLPBasicFeasible
+      T hWeight hUtil ρ ell hbfs)
 
 /-- Under the uniform type policy, strictly positive data gives every item positive raw utility. -/
 theorem rawItemUtility_uniform_pos_of_positive
@@ -994,6 +1341,43 @@ structure ReductionWitness (m n K : ℕ) where
     data.model.utility u j = reduced.utility (data.types.toType u) j
   weight_eq_typeWeight : ∀ k,
     reduced.weight k = RecommendationModel.UserTypeAssignment.typeWeight data.types k
+
+/-- The canonical type-level reduction constructed from the source symmetric
+data, rather than supplied as an additional theorem premise. -/
+noncomputable def RecommendationModel.SymmetricData.canonicalReduction
+    {m n K : ℕ}
+    (S : RecommendationModel.SymmetricData m n K)
+    (reps : UserTypeAssignment.TypeRepresentatives S.types) :
+    ReductionWitness m n K where
+  data := S
+  reduced := {
+    utility := fun k j => S.model.utility (reps.repr k) j
+    weight := UserTypeAssignment.typeWeight S.types
+  }
+  utility_agrees := by
+    intro u j
+    have hrow :
+        S.model.utility u =
+          S.model.utility (reps.repr (S.types.toType u)) :=
+      S.agreeWithinTypes u (reps.repr (S.types.toType u))
+        (reps.repr_spec (S.types.toType u)).symm
+    exact congrFun hrow j
+  weight_eq_typeWeight := by
+    intro k
+    rfl
+
+/--
+Construct the canonical reduction from the source-level condition that every
+declared user type is represented by at least one user. Representatives are
+chosen internally and are not an additional paper-facing certificate.
+-/
+noncomputable def RecommendationModel.SymmetricData.canonicalReductionOfSurjective
+    {m n K : ℕ}
+    (S : RecommendationModel.SymmetricData m n K)
+    (hTypes : Function.Surjective S.types.toType) :
+    ReductionWitness m n K :=
+  S.canonicalReduction
+    (EconCSLib.Policy.FiberRepresentatives.ofSurjective hTypes)
 
 namespace ReductionWitness
 

@@ -344,6 +344,77 @@ theorem finiteFreshListPrefixSet_one {α : Type*} [DecidableEq α]
       ⟨⟨0, Nat.succ_pos k⟩, by norm_num, by simpa [ha]⟩
 
 /--
+The first `r` entries of `sample` agree, in order, with a realized fresh
+prefix.  The explicit `r ≤ k` argument lets this predicate compare prefixes of
+different ambient lengths without changing the underlying ordered values.
+-/
+def finiteFreshListHasPrefix {α : Type*}
+    {r k : ℕ} {forbidden : Finset α} (hrk : r ≤ k)
+    (pref : finiteFreshList α r forbidden)
+    (sample : finiteFreshList α k forbidden) : Prop :=
+  ∀ slot ∈ (Finset.univ : Finset (Fin r)),
+    sample.1 ⟨slot.val, lt_of_lt_of_le slot.2 hrk⟩ = pref.1 slot
+
+instance finiteFreshListHasPrefix_decidable
+    {α : Type*} [DecidableEq α]
+    {r k : ℕ} {forbidden : Finset α} (hrk : r ≤ k)
+    (pref : finiteFreshList α r forbidden)
+    (sample : finiteFreshList α k forbidden) :
+    Decidable (finiteFreshListHasPrefix hrk pref sample) := by
+  classical
+  unfold finiteFreshListHasPrefix
+  infer_instance
+
+/-- The ordered first `r` entries of a fresh list, as a fresh list. -/
+def finiteFreshListPrefix {α : Type*}
+    {r k : ℕ} {forbidden : Finset α} (hrk : r ≤ k)
+    (sample : finiteFreshList α k forbidden) :
+    finiteFreshList α r forbidden :=
+  ⟨fun slot => sample.1 ⟨slot.val, lt_of_lt_of_le slot.2 hrk⟩,
+    by
+      intro i j hij
+      apply Fin.ext
+      have hfull :
+          (⟨i.val, lt_of_lt_of_le i.2 hrk⟩ : Fin k) =
+            ⟨j.val, lt_of_lt_of_le j.2 hrk⟩ :=
+        sample.2.1 hij
+      exact congrArg (fun slot : Fin k => slot.val) hfull,
+    by
+      intro slot
+      exact sample.2.2 ⟨slot.val, lt_of_lt_of_le slot.2 hrk⟩⟩
+
+@[simp]
+theorem finiteFreshListPrefix_apply {α : Type*}
+    {r k : ℕ} {forbidden : Finset α} (hrk : r ≤ k)
+    (sample : finiteFreshList α k forbidden) (slot : Fin r) :
+    (finiteFreshListPrefix hrk sample).1 slot =
+      sample.1 ⟨slot.val, lt_of_lt_of_le slot.2 hrk⟩ := rfl
+
+/-- A fresh list has its own extracted prefix. -/
+theorem finiteFreshListHasPrefix_prefix
+    {α : Type*} {r k : ℕ} {forbidden : Finset α} (hrk : r ≤ k)
+    (sample : finiteFreshList α k forbidden) :
+    finiteFreshListHasPrefix hrk (finiteFreshListPrefix hrk sample)
+      sample := by
+  intro slot _hslot
+  rfl
+
+/-- Prefix agreement is equivalently equality with the extracted prefix. -/
+theorem finiteFreshListHasPrefix_iff_prefix_eq
+    {α : Type*} {r k : ℕ} {forbidden : Finset α} (hrk : r ≤ k)
+    (pref : finiteFreshList α r forbidden)
+    (sample : finiteFreshList α k forbidden) :
+    finiteFreshListHasPrefix hrk pref sample ↔
+      finiteFreshListPrefix hrk sample = pref := by
+  constructor
+  · intro hprefix
+    ext slot
+    exact hprefix slot (Finset.mem_univ slot)
+  · intro hprefix
+    rw [← hprefix]
+    exact finiteFreshListHasPrefix_prefix hrk sample
+
+/--
 Conditioning a fresh list on a fixed realized head leaves exactly the fresh-tail
 sample space with the head added to the forbidden set.
 -/
@@ -361,6 +432,40 @@ def finiteFreshListHeadEquivTail {α : Type*} [DecidableEq α] {k : ℕ}
     exact finiteFreshListCons_tailOfHead sample.1 head sample.2
   right_inv := by
     intro tail
+    simp
+
+/--
+Relabel fresh lists by an equivalence that transports the forbidden set.
+This is the basic exchangeability map for ordered samples without replacement.
+-/
+def finiteFreshListRelabelEquiv {α β : Type*}
+    [DecidableEq α] [DecidableEq β] {k : ℕ}
+    {forbidden : Finset α} {targetForbidden : Finset β}
+    (e : α ≃ β)
+    (hmem : ∀ a, e a ∈ targetForbidden ↔ a ∈ forbidden) :
+    finiteFreshList α k forbidden ≃ finiteFreshList β k targetForbidden where
+  toFun sample :=
+    ⟨fun slot => e (sample.1 slot), by
+      intro i j hij
+      exact sample.2.1 (e.injective hij), by
+      intro slot hforbidden
+      exact sample.2.2 slot ((hmem (sample.1 slot)).1 hforbidden)⟩
+  invFun sample :=
+    ⟨fun slot => e.symm (sample.1 slot), by
+      intro i j hij
+      exact sample.2.1 (e.symm.injective hij), by
+      intro slot hforbidden
+      have htarget :
+          e (e.symm (sample.1 slot)) ∈ targetForbidden :=
+        (hmem (e.symm (sample.1 slot))).2 hforbidden
+      exact sample.2.2 slot (by simpa using htarget)⟩
+  left_inv := by
+    intro sample
+    ext slot
+    simp
+  right_inv := by
+    intro sample
+    ext slot
     simp
 
 /--
@@ -1489,6 +1594,271 @@ theorem finiteWithoutReplacementPMF_prefixSet_conditional_next_prob_excluding_of
       next)
 
 /--
+Ordered-prefix Markov law for the recursive weighted sampler.  Conditional on
+the exact ordered first `r` draws, the next draw has the weighted law obtained
+by excluding the initial forbidden set together with the realized prefix set.
+-/
+theorem finiteWithoutReplacementPMF_prefix_conditional_next_prob_excluding
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (baseWeight : α → ℝ)
+    (hbase_nonneg : ∀ a, 0 ≤ baseWeight a)
+    (havailable : ∀ forbidden : Finset α,
+      forbidden.card < Fintype.card α →
+        0 < finiteAvailableWeight baseWeight forbidden)
+    (r remaining : ℕ) (forbidden : Finset α)
+    (pref : finiteFreshList α r forbidden)
+    (hbudget : forbidden.card + (remaining + r + 1) ≤ Fintype.card α)
+    (hstate_pos :
+      0 < pmfProb
+        (finiteWithoutReplacementPMF
+          baseWeight hbase_nonneg havailable
+          (remaining + r + 1) forbidden hbudget)
+        (fun sample =>
+          finiteFreshListHasPrefix (by omega : r ≤ remaining + r + 1)
+            pref sample))
+    (havailable_previous :
+      0 < finiteAvailableWeight baseWeight
+        (forbidden ∪ finiteFreshListPrefixSet r pref))
+    (next : α) :
+    pmfConditionalProb
+        (finiteWithoutReplacementPMF
+          baseWeight hbase_nonneg havailable
+          (remaining + r + 1) forbidden hbudget)
+        (fun sample =>
+          finiteFreshListHasPrefix (by omega : r ≤ remaining + r + 1)
+            pref sample)
+        (fun sample => sample.1 ⟨r, by omega⟩ = next) =
+      (finiteWeightedPMFExcluding
+        baseWeight (forbidden ∪ finiteFreshListPrefixSet r pref)
+        hbase_nonneg havailable_previous next).toReal := by
+  classical
+  induction r generalizing forbidden remaining with
+  | zero =>
+      simpa [finiteFreshListHasPrefix] using
+        (finiteWithoutReplacementPMF_zero_prefix_conditional_prob_excluding
+          baseWeight hbase_nonneg havailable
+          forbidden (∅ : Finset α) hbudget
+          (hstate_pos := by
+            simpa [finiteFreshListHasPrefix] using hstate_pos)
+          (havailable_previous := by
+            simpa using havailable_previous)
+          next)
+  | succ r ih =>
+      let head : {a // a ∉ forbidden} :=
+        ⟨pref.1 ⟨0, Nat.succ_pos r⟩,
+          pref.2.2 ⟨0, Nat.succ_pos r⟩⟩
+      let tailPrefix : finiteFreshList α r (insert head.1 forbidden) :=
+        finiteFreshListTailOfHead pref head rfl
+      let μ :=
+        finiteWithoutReplacementPMF
+          baseWeight hbase_nonneg havailable
+          (remaining + (r + 1) + 1) forbidden hbudget
+      let tailμ :=
+        finiteWithoutReplacementPMF
+          baseWeight hbase_nonneg havailable
+          (remaining + r + 1) (insert head.1 forbidden)
+          (by
+            rw [Finset.card_insert_of_notMem head.2]
+            omega)
+      let p : finiteFreshList α (remaining + (r + 1) + 1) forbidden → Prop :=
+        fun sample =>
+          finiteFreshListHasPrefix
+            (by omega : r + 1 ≤ remaining + (r + 1) + 1)
+            pref sample
+      let q : finiteFreshList α (remaining + (r + 1) + 1) forbidden → Prop :=
+        fun sample => sample.1 ⟨r + 1, by omega⟩ = next
+      let tailP :
+          finiteFreshList α (remaining + r + 1) (insert head.1 forbidden) →
+            Prop :=
+        fun tail =>
+          finiteFreshListHasPrefix
+            (by omega : r ≤ remaining + r + 1)
+            tailPrefix tail
+      let tailQ :
+          finiteFreshList α (remaining + r + 1) (insert head.1 forbidden) →
+            Prop :=
+        fun tail => tail.1 ⟨r, by omega⟩ = next
+      let lift :
+          (finiteFreshList α (remaining + r + 1)
+              (insert head.1 forbidden) → Prop) →
+            finiteFreshList α (remaining + (r + 1) + 1) forbidden → Prop :=
+        fun event sample =>
+          ∃ hhead : sample.1 ⟨0, by omega⟩ = head.1,
+            event (finiteFreshListTailOfHead sample head hhead)
+      have hcond_equiv : ∀ sample, p sample ↔ lift tailP sample := by
+        intro sample
+        constructor
+        · intro hp
+          have hhead : sample.1 ⟨0, by omega⟩ = head.1 := by
+            simpa [p, head, finiteFreshListHasPrefix] using
+              hp ⟨0, Nat.succ_pos r⟩ (Finset.mem_univ _)
+          refine ⟨hhead, ?_⟩
+          intro slot _hslot
+          have hsucc :
+              sample.1 ⟨slot.val.succ, by omega⟩ =
+                pref.1 slot.succ := by
+            simpa [p, finiteFreshListHasPrefix] using
+              hp slot.succ (Finset.mem_univ _)
+          simpa [tailP, tailPrefix, finiteFreshListHasPrefix,
+            finiteFreshListTailOfHead, finTail] using hsucc
+        · rintro ⟨hhead, htail⟩
+          intro slot _hslot
+          cases slot using Fin.cases with
+          | zero =>
+              simpa [p, head, finiteFreshListHasPrefix] using hhead
+          | succ slot =>
+              have htail_slot := htail slot (Finset.mem_univ _)
+              simpa [p, tailP, tailPrefix, finiteFreshListHasPrefix,
+                finiteFreshListTailOfHead, finTail] using htail_slot
+      have htarget_equiv : ∀ sample, p sample → (q sample ↔ lift tailQ sample) := by
+        intro sample hp
+        have hhead : sample.1 ⟨0, by omega⟩ = head.1 := by
+          simpa [p, head, finiteFreshListHasPrefix] using
+            hp ⟨0, Nat.succ_pos r⟩ (Finset.mem_univ _)
+        constructor
+        · intro hq
+          refine ⟨hhead, ?_⟩
+          simpa [q, tailQ, lift, finiteFreshListTailOfHead, finTail] using hq
+        · rintro ⟨_hhead', htail⟩
+          simpa [q, tailQ, lift, finiteFreshListTailOfHead, finTail] using htail
+      have hp_lift_pos : 0 < pmfProb μ (lift tailP) := by
+        rw [← pmfProb_congr μ hcond_equiv]
+        simpa [μ, p] using hstate_pos
+      have hp_lift_prob :
+          pmfProb μ (lift tailP) =
+            (finiteWeightedPMFAvailable
+              baseWeight forbidden hbase_nonneg
+              (havailable forbidden (by omega)) head).toReal *
+              pmfProb tailμ tailP := by
+        simpa [μ, tailμ, lift, tailP, Nat.add_assoc, Nat.add_comm,
+          Nat.add_left_comm] using
+          (finiteWithoutReplacementPMF_head_tail_prob
+            baseWeight hbase_nonneg havailable
+            forbidden hbudget head tailP)
+      have hprod_pos :
+          0 <
+            (finiteWeightedPMFAvailable
+              baseWeight forbidden hbase_nonneg
+              (havailable forbidden (by omega)) head).toReal *
+              pmfProb tailμ tailP := by
+        rwa [hp_lift_prob] at hp_lift_pos
+      have htail_pos : 0 < pmfProb tailμ tailP := by
+        exact pos_of_mul_pos_right hprod_pos ENNReal.toReal_nonneg
+      have hhead_pos :
+          0 < (finiteWeightedPMFAvailable
+            baseWeight forbidden hbase_nonneg
+            (havailable forbidden (by omega)) head).toReal := by
+        exact pos_of_mul_pos_left hprod_pos
+          (pmfProb_nonneg tailμ tailP)
+      have htail_cond :
+          pmfConditionalProb μ (lift tailP) (lift tailQ) =
+            pmfConditionalProb tailμ tailP tailQ := by
+        simpa [μ, tailμ, lift, tailP, tailQ, Nat.add_assoc, Nat.add_comm,
+          Nat.add_left_comm] using
+          (finiteWithoutReplacementPMF_conditional_tail_event_prob
+            baseWeight hbase_nonneg havailable
+            forbidden hbudget head hhead_pos
+            tailP tailQ htail_pos)
+      have hprefix_cons : finiteFreshListCons head tailPrefix = pref :=
+        finiteFreshListCons_tailOfHead pref head rfl
+      have hprefix_union :
+          (insert head.1 forbidden) ∪ finiteFreshListPrefixSet r tailPrefix =
+            forbidden ∪ finiteFreshListPrefixSet (r + 1) pref := by
+        rw [← hprefix_cons, finiteFreshListPrefixSet_cons_succ]
+        ext a
+        by_cases ha_head : a = head.1 <;>
+          by_cases ha_forbidden : a ∈ forbidden <;>
+          by_cases ha_tail : a ∈ finiteFreshListPrefixSet r tailPrefix <;>
+          simp [ha_head, ha_forbidden, ha_tail]
+      have htail_available :
+          0 < finiteAvailableWeight baseWeight
+            ((insert head.1 forbidden) ∪
+              finiteFreshListPrefixSet r tailPrefix) := by
+        simpa [hprefix_union] using havailable_previous
+      have htail_ind :
+          pmfConditionalProb tailμ tailP tailQ =
+            (finiteWeightedPMFExcluding
+              baseWeight
+              ((insert head.1 forbidden) ∪
+                finiteFreshListPrefixSet r tailPrefix)
+              hbase_nonneg htail_available next).toReal := by
+        simpa [tailμ, tailP, tailQ] using
+          (ih (remaining := remaining) (forbidden := insert head.1 forbidden)
+            (pref := tailPrefix)
+            (hbudget := by
+              rw [Finset.card_insert_of_notMem head.2]
+              omega)
+            (hstate_pos := by
+              simpa [tailμ, tailP] using htail_pos)
+            (havailable_previous := htail_available))
+      calc
+        pmfConditionalProb μ p q
+            = pmfConditionalProb μ (lift tailP) (lift tailQ) := by
+              exact pmfConditionalProb_congr μ p (lift tailP) q (lift tailQ)
+                hcond_equiv htarget_equiv
+        _ = pmfConditionalProb tailμ tailP tailQ := htail_cond
+        _ =
+          (finiteWeightedPMFExcluding
+            baseWeight
+            ((insert head.1 forbidden) ∪
+              finiteFreshListPrefixSet r tailPrefix)
+            hbase_nonneg htail_available next).toReal := htail_ind
+        _ =
+          (finiteWeightedPMFExcluding
+            baseWeight
+            (forbidden ∪ finiteFreshListPrefixSet (r + 1) pref)
+            hbase_nonneg havailable_previous next).toReal := by
+            simp [hprefix_union]
+
+/--
+Paper-facing wrapper for
+`finiteWithoutReplacementPMF_prefix_conditional_next_prob_excluding`, with an
+arbitrary list length `k` and an explicit decomposition `k = remaining + r + 1`.
+-/
+theorem finiteWithoutReplacementPMF_prefix_conditional_next_prob_excluding_of_length
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (baseWeight : α → ℝ)
+    (hbase_nonneg : ∀ a, 0 ≤ baseWeight a)
+    (havailable : ∀ forbidden : Finset α,
+      forbidden.card < Fintype.card α →
+        0 < finiteAvailableWeight baseWeight forbidden)
+    (r remaining k : ℕ) (forbidden : Finset α)
+    (pref : finiteFreshList α r forbidden)
+    (hr : r < k)
+    (hk_length : k = remaining + r + 1)
+    (hbudget : forbidden.card + k ≤ Fintype.card α)
+    (hstate_pos :
+      0 < pmfProb
+        (finiteWithoutReplacementPMF
+          baseWeight hbase_nonneg havailable
+          k forbidden hbudget)
+        (fun sample =>
+          finiteFreshListHasPrefix (Nat.le_of_lt hr) pref sample))
+    (havailable_previous :
+      0 < finiteAvailableWeight baseWeight
+        (forbidden ∪ finiteFreshListPrefixSet r pref))
+    (next : α) :
+    pmfConditionalProb
+        (finiteWithoutReplacementPMF
+          baseWeight hbase_nonneg havailable
+          k forbidden hbudget)
+        (fun sample =>
+          finiteFreshListHasPrefix (Nat.le_of_lt hr) pref sample)
+        (fun sample => sample.1 ⟨r, hr⟩ = next) =
+      (finiteWeightedPMFExcluding
+        baseWeight (forbidden ∪ finiteFreshListPrefixSet r pref)
+        hbase_nonneg havailable_previous next).toReal := by
+  subst k
+  simpa using
+    (finiteWithoutReplacementPMF_prefix_conditional_next_prob_excluding
+      baseWeight hbase_nonneg havailable
+      r remaining forbidden pref
+      (hbudget := hbudget)
+      (hstate_pos := hstate_pos)
+      (havailable_previous := havailable_previous)
+      next)
+
+/--
 One positive-prefix atom law: after the first realized draw, the second draw is
 distributed as the weighted available draw with the first draw removed.
 -/
@@ -1639,6 +2009,75 @@ noncomputable def finiteFreshListAtomWeight
       (baseWeight head.1 / finiteAvailableWeight baseWeight forbidden) *
         finiteFreshListAtomWeight baseWeight (insert head.1 forbidden) tail
 termination_by k forbidden sample => k
+
+/--
+Atom weights for the recursive without-replacement sampler are invariant under
+relabeling when the relabeling preserves weights and transports the forbidden
+set.
+-/
+theorem finiteFreshListAtomWeight_congr_equiv
+    {α β : Type*} [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
+    (sourceWeight : α → ℝ) (targetWeight : β → ℝ)
+    (e : α ≃ β)
+    (hweight : ∀ a, targetWeight (e a) = sourceWeight a) :
+    ∀ {k : ℕ} {forbidden : Finset α} {targetForbidden : Finset β}
+      (hmem : ∀ a, e a ∈ targetForbidden ↔ a ∈ forbidden)
+      (sample : finiteFreshList α k forbidden),
+      finiteFreshListAtomWeight targetWeight targetForbidden
+          (finiteFreshListRelabelEquiv e hmem sample) =
+        finiteFreshListAtomWeight sourceWeight forbidden sample
+  | 0, forbidden, targetForbidden, hmem, sample => by
+      simp [finiteFreshListAtomWeight, finiteFreshListRelabelEquiv]
+  | k + 1, forbidden, targetForbidden, hmem, sample => by
+      classical
+      let sourceHead : {a // a ∉ forbidden} :=
+        ⟨sample.1 ⟨0, Nat.succ_pos k⟩,
+          sample.2.2 ⟨0, Nat.succ_pos k⟩⟩
+      let targetHead : {b // b ∉ targetForbidden} :=
+        ⟨e sourceHead.1, by
+          intro htarget
+          exact sourceHead.2 ((hmem sourceHead.1).1 htarget)⟩
+      let sourceTail := finiteFreshListTailOfHead sample sourceHead rfl
+      let relabeled := finiteFreshListRelabelEquiv e hmem sample
+      have htarget_head :
+          relabeled.1 ⟨0, Nat.succ_pos k⟩ = targetHead.1 := by
+        rfl
+      let targetTail := finiteFreshListTailOfHead relabeled targetHead htarget_head
+      have hmem_tail :
+          ∀ a, e a ∈ insert targetHead.1 targetForbidden ↔
+            a ∈ insert sourceHead.1 forbidden := by
+        intro a
+        constructor
+        · intro ha
+          rw [Finset.mem_insert] at ha ⊢
+          rcases ha with hea | ha
+          · exact Or.inl (e.injective hea)
+          · exact Or.inr ((hmem a).1 ha)
+        · intro ha
+          rw [Finset.mem_insert] at ha ⊢
+          rcases ha with ha | ha
+          · exact Or.inl (by simpa [sourceHead, targetHead, ha])
+          · exact Or.inr ((hmem a).2 ha)
+      have htail_eq :
+          targetTail = finiteFreshListRelabelEquiv e hmem_tail sourceTail := by
+        ext slot
+        rfl
+      have hrec :=
+        finiteFreshListAtomWeight_congr_equiv
+          sourceWeight targetWeight e hweight hmem_tail sourceTail
+      rw [finiteFreshListAtomWeight, finiteFreshListAtomWeight]
+      rw [finiteAvailableWeight_congr_equiv
+        sourceWeight targetWeight forbidden targetForbidden e hweight hmem]
+      change
+        targetWeight targetHead.1 / finiteAvailableWeight sourceWeight forbidden *
+            finiteFreshListAtomWeight targetWeight
+              (insert targetHead.1 targetForbidden) targetTail =
+          sourceWeight sourceHead.1 / finiteAvailableWeight sourceWeight forbidden *
+            finiteFreshListAtomWeight sourceWeight
+              (insert sourceHead.1 forbidden) sourceTail
+      rw [show targetWeight targetHead.1 = sourceWeight sourceHead.1 by
+        simp [sourceHead, targetHead, hweight]]
+      rw [htail_eq, hrec]
 
 /--
 Scaling every base weight by a nonzero constant does not change the atom
@@ -1825,6 +2264,85 @@ theorem finiteWithoutReplacementPMF_event_prob_eq_sum_atomWeight
   rw [finiteWithoutReplacementPMF_atom_toReal
     baseWeight hbase_nonneg havailable forbidden hbudget sample]
   by_cases hevent : event sample <;> simp [hevent]
+
+/--
+Event probabilities for the recursive without-replacement sampler are invariant
+under a relabeling that preserves weights, transports forbidden atoms, and
+transports the event.
+-/
+theorem finiteWithoutReplacementPMF_event_prob_congr_equiv
+    {α β : Type*} [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
+    (sourceWeight : α → ℝ) (targetWeight : β → ℝ)
+    (source_nonneg : ∀ a, 0 ≤ sourceWeight a)
+    (target_nonneg : ∀ b, 0 ≤ targetWeight b)
+    (source_available : ∀ forbidden : Finset α,
+      forbidden.card < Fintype.card α →
+        0 < finiteAvailableWeight sourceWeight forbidden)
+    (target_available : ∀ forbidden : Finset β,
+      forbidden.card < Fintype.card β →
+        0 < finiteAvailableWeight targetWeight forbidden)
+    {k : ℕ}
+    (forbidden : Finset α) (targetForbidden : Finset β)
+    (sourceBudget : forbidden.card + k ≤ Fintype.card α)
+    (targetBudget : targetForbidden.card + k ≤ Fintype.card β)
+    (e : α ≃ β)
+    (hweight : ∀ a, targetWeight (e a) = sourceWeight a)
+    (hmem : ∀ a, e a ∈ targetForbidden ↔ a ∈ forbidden)
+    (sourceEvent : finiteFreshList α k forbidden → Prop)
+    (targetEvent : finiteFreshList β k targetForbidden → Prop)
+    [DecidablePred sourceEvent] [DecidablePred targetEvent]
+    (hevent : ∀ sample,
+      targetEvent (finiteFreshListRelabelEquiv e hmem sample) ↔
+        sourceEvent sample) :
+    pmfProb
+        (finiteWithoutReplacementPMF
+          targetWeight target_nonneg target_available
+          k targetForbidden targetBudget)
+        targetEvent =
+      pmfProb
+        (finiteWithoutReplacementPMF
+          sourceWeight source_nonneg source_available
+          k forbidden sourceBudget)
+        sourceEvent := by
+  classical
+  let relabel :=
+    finiteFreshListRelabelEquiv
+      (k := k) (forbidden := forbidden) (targetForbidden := targetForbidden)
+      e hmem
+  rw [finiteWithoutReplacementPMF_event_prob_eq_sum_atomWeight]
+  rw [finiteWithoutReplacementPMF_event_prob_eq_sum_atomWeight]
+  calc
+    (∑ sample : finiteFreshList β k targetForbidden,
+        if targetEvent sample then
+          finiteFreshListAtomWeight targetWeight targetForbidden sample
+        else 0)
+        =
+      (∑ sample : finiteFreshList α k forbidden,
+        if targetEvent (relabel sample) then
+          finiteFreshListAtomWeight targetWeight targetForbidden (relabel sample)
+        else 0) := by
+          simpa [relabel] using
+            (Equiv.sum_comp relabel
+              (fun sample : finiteFreshList β k targetForbidden =>
+                if targetEvent sample then
+                  finiteFreshListAtomWeight targetWeight targetForbidden sample
+                else 0)).symm
+    _ = (∑ sample : finiteFreshList α k forbidden,
+        if sourceEvent sample then
+          finiteFreshListAtomWeight sourceWeight forbidden sample
+        else 0) := by
+          refine Finset.sum_congr rfl ?_
+          intro sample _hsample
+          by_cases hsource : sourceEvent sample
+          · have htarget : targetEvent (relabel sample) :=
+              (hevent sample).2 hsource
+            simp [hsource, htarget, relabel,
+              finiteFreshListAtomWeight_congr_equiv
+                sourceWeight targetWeight e hweight hmem sample]
+          · have htarget : ¬ targetEvent (relabel sample) := by
+              intro htarget
+              exact hsource ((hevent sample).1 htarget)
+            simp [hsource, htarget]
 
 /--
 Scaling all base weights by a positive constant does not change any event

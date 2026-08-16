@@ -3,64 +3,46 @@
   "items": {
     "assumption_affine_response_shape_domains": {
       "judgment": "paper_condition",
-      "lean_statement_sha256": "1061ce9147e013d3ed2b9a9bd399a7e27ce19527d1dc9663d93bb72a40942377",
-      "paper_statement_sha256": "6ef5673c7344e5fad253d0e917511f467c89fe7ea9f80bcaad98100b489302af",
+      "lean_statement_sha256": "46135e2931d6c63e0d9c56d358d077568180d89b32342e0e0399c0feca13f3f1",
+      "paper_statement_sha256": "492686eabc1b4a8434ca8c3508bc729a6adca709ae74215a37cae82f85fe8249",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "Lemmas 7 and 8 explicitly state the affine sign and Delta sign domains; nonzero time denominators and positive state weight follow from the positive CTMC/time domain.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
+      "reason": "Lemmas 7 and 8 state alternative affine sign and reward-gap regimes. The corrected declaration records their disjunction, plus the positive slope/state-weight and nonzero state-time conditions used in the source derivative calculation.",
+      "validated_at": "2026-07-15T15:50:47Z",
+      "validator": "Codex GN21 semantic-obligation closeout",
+      "validator_type": "agent",
       "premise_judgments": {
-        "hTi : Ti ≠ 0": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Lemmas 7 and 8 explicitly state the affine sign and Delta sign domains; nonzero time denominators and positive state weight follow from the positive CTMC/time domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_affine_response_shape_domains"
-        },
-        "hTj : Tj ≠ 0": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Lemmas 7 and 8 explicitly state the affine sign and Delta sign domains; nonzero time denominators and positive state weight follow from the positive CTMC/time domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_affine_response_shape_domains"
-        },
-        "ha_neg : a < 0": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Lemmas 7 and 8 explicitly state the affine sign and Delta sign domains; nonzero time denominators and positive state weight follow from the positive CTMC/time domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_affine_response_shape_domains"
-        },
-        "ha_pos : 0 < a": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Lemmas 7 and 8 explicitly state the affine sign and Delta sign domains; nonzero time denominators and positive state weight follow from the positive CTMC/time domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_affine_response_shape_domains"
-        },
-        "hdelta_ji_nonneg : 0 ≤ Rj - Ri": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Lemmas 7 and 8 explicitly state the affine sign and Delta sign domains; nonzero time denominators and positive state weight follow from the positive CTMC/time domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_affine_response_shape_domains"
-        },
-        "hdelta_ji_nonpos : Rj - Ri ≤ 0": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Lemmas 7 and 8 explicitly state the affine sign and Delta sign domains; nonzero time denominators and positive state weight follow from the positive CTMC/time domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_affine_response_shape_domains"
-        },
         "hm_pos : 0 < m": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Lemmas 7 and 8 explicitly state the affine sign and Delta sign domains; nonzero time denominators and positive state weight follow from the positive CTMC/time domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_affine_response_shape_domains"
+          "reason": "Lemmas 7 and 8 state alternative affine sign and reward-gap regimes. The corrected declaration records their disjunction, plus the positive slope/state-weight and nonzero state-time conditions used in the source derivative calculation.",
+          "source_location": "source.txt:3750-3809; source.txt:4234-4466"
         },
         "hstate_weight_pos : 0 < Qi / Ti + Qj / Tj": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Lemmas 7 and 8 explicitly state the affine sign and Delta sign domains; nonzero time denominators and positive state weight follow from the positive CTMC/time domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_affine_response_shape_domains"
+          "reason": "Lemmas 7 and 8 state alternative affine sign and reward-gap regimes. The corrected declaration records their disjunction, plus the positive slope/state-weight and nonzero state-time conditions used in the source derivative calculation.",
+          "source_location": "source.txt:3750-3809; source.txt:4234-4466"
+        },
+        "hTi : Ti ≠ 0": {
+          "judgment": "paper_condition",
+          "reason": "Lemmas 7 and 8 state alternative affine sign and reward-gap regimes. The corrected declaration records their disjunction, plus the positive slope/state-weight and nonzero state-time conditions used in the source derivative calculation.",
+          "source_location": "source.txt:3750-3809; source.txt:4234-4466"
+        },
+        "hTj : Tj ≠ 0": {
+          "judgment": "paper_condition",
+          "reason": "Lemmas 7 and 8 state alternative affine sign and reward-gap regimes. The corrected declaration records their disjunction, plus the positive slope/state-weight and nonzero state-time conditions used in the source derivative calculation.",
+          "source_location": "source.txt:3750-3809; source.txt:4234-4466"
+        },
+        "hbranch : (0 < a ∧ Rj - Ri ≤ 0) ∨ (a < 0 ∧ 0 ≤ Rj - Ri)": {
+          "judgment": "paper_condition",
+          "reason": "Lemmas 7 and 8 state alternative affine sign and reward-gap regimes. The corrected declaration records their disjunction, plus the positive slope/state-weight and nonzero state-time conditions used in the source derivative calculation.",
+          "source_location": "source.txt:3750-3809; source.txt:4234-4466"
         }
       },
       "premises": [
+        "hm_pos : 0 < m",
+        "hstate_weight_pos : 0 < Qi / Ti + Qj / Tj",
         "hTi : Ti ≠ 0",
         "hTj : Tj ≠ 0",
-        "ha_neg : a < 0",
-        "ha_pos : 0 < a",
-        "hdelta_ji_nonneg : 0 ≤ Rj - Ri",
-        "hdelta_ji_nonpos : Rj - Ri ≤ 0",
-        "hm_pos : 0 < m",
-        "hstate_weight_pos : 0 < Qi / Ti + Qj / Tj"
+        "hbranch : (0 < a ∧ Rj - Ri ≤ 0) ∨ (a < 0 ∧ 0 ≤ Rj - Ri)"
       ]
     },
     "assumption_affine_single_state_parameter_domain": {
@@ -123,28 +105,46 @@
     },
     "assumption_fixed_response_policy_form_conditions": {
       "judgment": "paper_condition",
-      "lean_statement_sha256": "6df9cdbb2c1fa6745ece120749315f946d3db7f05719264024a6534a9f0c8df9",
-      "paper_statement_sha256": "492c308a3a0f3d39007cbdb5a422fd4347c7a308a82dd2df6c3ce56f608bf851",
+      "lean_statement_sha256": "698ff64d4b00ea9b823aad244beff7fb3f3548d032cb21df3be752a1fa63da2d",
+      "paper_statement_sha256": "3af944e6aa89d2c95e723f3324410759a78c4753f660181c44c59edc735a70d5",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "Lemma 5 is stated over measurable valid policies, and optimality is exactly the best-response condition in the source model.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
+      "reason": "Lemma 5 is explicitly about open measurable policies on positive trip lengths and its optimizer comparison ranges over feasible measurable policies. The formal row records that feasible-policy and marginal-reward optimality slice.",
+      "validated_at": "2026-07-15T15:50:47Z",
+      "validator": "Codex GN21 semantic-obligation closeout",
+      "validator_type": "agent",
       "premise_judgments": {
-        "hoptimal : ∀ sigma' : TripPolicy, sigma' ⊆ acceptAllPolicy → MeasurableSet sigma' → lemma5MarginalSetReward mu response sigma' ≤ lemma5MarginalSetReward mu response sigma": {
+        "hsigma_subset : sigma ⊆ acceptAllPolicy": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Lemma 5 is stated over measurable valid policies, and optimality is exactly the best-response condition in the source model.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_fixed_response_policy_form_conditions"
+          "reason": "Lemma 5 is explicitly about open measurable policies on positive trip lengths and its optimizer comparison ranges over feasible measurable policies. The formal row records that feasible-policy and marginal-reward optimality slice.",
+          "source_location": "source.txt:3325-3394"
+        },
+        "hsigma_measurable : MeasurableSet sigma": {
+          "judgment": "paper_condition",
+          "reason": "Lemma 5 is explicitly about open measurable policies on positive trip lengths and its optimizer comparison ranges over feasible measurable policies. The formal row records that feasible-policy and marginal-reward optimality slice.",
+          "source_location": "source.txt:3325-3394"
+        },
+        "hsigma_open : IsOpen sigma": {
+          "judgment": "paper_condition",
+          "reason": "Lemma 5 is explicitly about open measurable policies on positive trip lengths and its optimizer comparison ranges over feasible measurable policies. The formal row records that feasible-policy and marginal-reward optimality slice.",
+          "source_location": "source.txt:3325-3394"
         },
         "hresponse_measurable : Measurable response": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Lemma 5 is stated over measurable valid policies, and optimality is exactly the best-response condition in the source model.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_fixed_response_policy_form_conditions"
+          "reason": "Lemma 5 is explicitly about open measurable policies on positive trip lengths and its optimizer comparison ranges over feasible measurable policies. The formal row records that feasible-policy and marginal-reward optimality slice.",
+          "source_location": "source.txt:3325-3394"
+        },
+        "hoptimal : ∀ sigma' : TripPolicy, sigma' ⊆ acceptAllPolicy → MeasurableSet sigma' → lemma5MarginalSetReward mu response sigma' ≤ lemma5MarginalSetReward mu response sigma": {
+          "judgment": "paper_condition",
+          "reason": "Lemma 5 is explicitly about open measurable policies on positive trip lengths and its optimizer comparison ranges over feasible measurable policies. The formal row records that feasible-policy and marginal-reward optimality slice.",
+          "source_location": "source.txt:3325-3394"
         }
       },
       "premises": [
-        "hoptimal : ∀ sigma' : TripPolicy, sigma' ⊆ acceptAllPolicy → MeasurableSet sigma' → lemma5MarginalSetReward mu response sigma' ≤ lemma5MarginalSetReward mu response sigma",
-        "hresponse_measurable : Measurable response"
+        "hsigma_subset : sigma ⊆ acceptAllPolicy",
+        "hsigma_measurable : MeasurableSet sigma",
+        "hsigma_open : IsOpen sigma",
+        "hresponse_measurable : Measurable response",
+        "hoptimal : ∀ sigma' : TripPolicy, sigma' ⊆ acceptAllPolicy → MeasurableSet sigma' → lemma5MarginalSetReward mu response sigma' ≤ lemma5MarginalSetReward mu response sigma"
       ]
     },
     "assumption_nonsurge_derivative_source_bounds": {
@@ -235,52 +235,34 @@
     },
     "assumption_single_state_defined_reward_domain": {
       "judgment": "paper_condition",
-      "lean_statement_sha256": "842e4804af18cccd2b4be2bbdec766d7af2a7977ce7c1437ff559154e24aee45",
-      "paper_statement_sha256": "9c2499c341af0deaa7d481e4014f41a2d5f11a29b8fdab6d0b6aad3e6633d270",
+      "lean_statement_sha256": "d851e6714e2eaf4b258f89697067c448cbaff66430c07e4d8c00799ee61509e0",
+      "paper_statement_sha256": "f900981fcfabee35bb7e3d07bdece3923c269e08851059b8dbde43b3ac3da724",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "The source proof of Theorem 1 explicitly works in the nonnegative rate branch and assumes positive mass on positive payouts, while dismissing the zero-everywhere payout case as trivial.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
+      "reason": "The source proof of Theorem 1 treats the nonnegative payment-rate branch and separates the trivial zero-payout case. The corrected one-measure declaration records finite accept-all mass and positive mass of accepted positive-payout trips for that branch.",
+      "validated_at": "2026-07-15T15:50:47Z",
+      "validator": "Codex GN21 semantic-obligation closeout",
+      "validator_type": "agent",
       "premise_judgments": {
+        "hrate_nonneg : ∀ tau : TripLength, 0 < tau → 0 ≤ w tau / tau": {
+          "judgment": "paper_condition",
+          "reason": "The source proof of Theorem 1 treats the nonnegative payment-rate branch and separates the trivial zero-payout case. The corrected one-measure declaration records finite accept-all mass and positive mass of accepted positive-payout trips for that branch.",
+          "source_location": "source.txt:498-520; source.txt:2530-2576"
+        },
         "hfinite_acceptAll : mu acceptAllPolicy ≠ ⊤": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The source proof of Theorem 1 explicitly works in the nonnegative rate branch and assumes positive mass on positive payouts, while dismissing the zero-everywhere payout case as trivial.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_single_state_defined_reward_domain"
-        },
-        "hfinite_acceptAll : μ acceptAllPolicy ≠ ⊤": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The source proof of Theorem 1 explicitly works in the nonnegative rate branch and assumes positive mass on positive payouts, while dismissing the zero-everywhere payout case as trivial.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_single_state_defined_reward_domain"
+          "reason": "The source proof of Theorem 1 treats the nonnegative payment-rate branch and separates the trivial zero-payout case. The corrected one-measure declaration records finite accept-all mass and positive mass of accepted positive-payout trips for that branch.",
+          "source_location": "source.txt:498-520; source.txt:2530-2576"
         },
         "hpositive_payout_mass : 0 < mu {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ}": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The source proof of Theorem 1 explicitly works in the nonnegative rate branch and assumes positive mass on positive payouts, while dismissing the zero-everywhere payout case as trivial.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_single_state_defined_reward_domain"
-        },
-        "hpositive_payout_mass : 0 < μ {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ}": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The source proof of Theorem 1 explicitly works in the nonnegative rate branch and assumes positive mass on positive payouts, while dismissing the zero-everywhere payout case as trivial.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_single_state_defined_reward_domain"
-        },
-        "hrate_nonneg : ∀ tau : TripLength, 0 < tau → 0 ≤ w tau / tau": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The source proof of Theorem 1 explicitly works in the nonnegative rate branch and assumes positive mass on positive payouts, while dismissing the zero-everywhere payout case as trivial.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_single_state_defined_reward_domain"
-        },
-        "hrate_nonneg : ∀ τ : TripLength, 0 < τ → 0 ≤ w τ / τ": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The source proof of Theorem 1 explicitly works in the nonnegative rate branch and assumes positive mass on positive payouts, while dismissing the zero-everywhere payout case as trivial.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_single_state_defined_reward_domain"
+          "reason": "The source proof of Theorem 1 treats the nonnegative payment-rate branch and separates the trivial zero-payout case. The corrected one-measure declaration records finite accept-all mass and positive mass of accepted positive-payout trips for that branch.",
+          "source_location": "source.txt:498-520; source.txt:2530-2576"
         }
       },
       "premises": [
-        "hfinite_acceptAll : mu acceptAllPolicy ≠ ⊤",
-        "hfinite_acceptAll : μ acceptAllPolicy ≠ ⊤",
-        "hpositive_payout_mass : 0 < mu {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ}",
-        "hpositive_payout_mass : 0 < μ {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ}",
         "hrate_nonneg : ∀ tau : TripLength, 0 < tau → 0 ≤ w tau / tau",
-        "hrate_nonneg : ∀ τ : TripLength, 0 < τ → 0 ≤ w τ / τ"
+        "hfinite_acceptAll : mu acceptAllPolicy ≠ ⊤",
+        "hpositive_payout_mass : 0 < mu {τ : TripLength | τ ∈ acceptAllPolicy ∧ 0 < w τ}"
       ]
     },
     "assumption_surge_derivative_source_bounds": {
@@ -377,106 +359,94 @@
     },
     "assumption_switch_rate_domain": {
       "judgment": "paper_condition",
-      "lean_statement_sha256": "585711268b56265ebdb58f8b3ca7ee708c1d9b3f1b99dd1a38bd659c95e47a70",
-      "paper_statement_sha256": "a9ed17d5985a5654c79d6e3392967c03f856ac8fb7a2cd71d46ef6c91d2d9e05",
+      "lean_statement_sha256": "5308c8846058cf01e7e9173f804d2439b37a87350e99192fee7df891f98c821a",
+      "paper_statement_sha256": "caf93bc2ce525cae49fe32f60785da052a0d6cc53434e2167ae8f9fce699360b",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "The CTMC model states positive switching rates; nonnegativity and nonzero total intensity follow immediately.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
+      "reason": "The source dynamic model defines a two-state CTMC with a positive exponential transition rate in each direction. The corrected declaration exposes those two source conditions directly.",
+      "validated_at": "2026-07-15T15:50:47Z",
+      "validator": "Codex GN21 semantic-obligation closeout",
+      "validator_type": "agent",
       "premise_judgments": {
         "hlambdaIJ : 0 < lambdaIJ": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The CTMC model states positive switching rates; nonnegativity and nonzero total intensity follow immediately.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_switch_rate_domain"
+          "reason": "The source dynamic model defines a two-state CTMC with a positive exponential transition rate in each direction. The corrected declaration exposes those two source conditions directly.",
+          "source_location": "source.txt:235-285; source.txt:937-967"
         },
-        "hlambdaIJ : 0 ≤ lambdaIJ": {
+        "hlambdaJI : 0 < lambdaJI": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The CTMC model states positive switching rates; nonnegativity and nonzero total intensity follow immediately.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_switch_rate_domain"
-        },
-        "hsum : 0 < lambdaIJ + lambdaJI": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The CTMC model states positive switching rates; nonnegativity and nonzero total intensity follow immediately.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_switch_rate_domain"
-        },
-        "hsum : lambdaIJ + lambdaJI ≠ 0": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The CTMC model states positive switching rates; nonnegativity and nonzero total intensity follow immediately.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_switch_rate_domain"
+          "reason": "The source dynamic model defines a two-state CTMC with a positive exponential transition rate in each direction. The corrected declaration exposes those two source conditions directly.",
+          "source_location": "source.txt:235-285; source.txt:937-967"
         }
       },
       "premises": [
         "hlambdaIJ : 0 < lambdaIJ",
-        "hlambdaIJ : 0 ≤ lambdaIJ",
-        "hsum : 0 < lambdaIJ + lambdaJI",
-        "hsum : lambdaIJ + lambdaJI ≠ 0"
+        "hlambdaJI : 0 < lambdaJI"
       ]
     },
     "assumption_theorem3_source_data_domain": {
       "judgment": "paper_condition",
-      "lean_statement_sha256": "05acd69b9e9452bb8fc09e389e1afb977c9ed13358791f04f154631690c4b31c",
+      "lean_statement_sha256": "6ce5c14e15b1c07c70945c21c50eca3572d58b9b126e62359e210d27854c8693",
       "paper_statement_sha256": "d120c137b32b96ffac5d40205c570af14b1667ade7b8475bceb3a6e5be1ea4b5",
       "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "Theorem 3 states the R1=rho R2, R1<R2, rho<1, positive-switch, positive-arrival, and positive-measure source-data domain.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
+      "reason": "Theorem 3 states the two-state R1 = rho * R2, R1 < R2, rho < 1, positive-switch, positive-arrival, and positive accept-all-measure source-data domain.",
+      "validated_at": "2026-07-12T00:00:00Z",
+      "validator": "codex-gpt-5-semantic-audit",
+      "validator_type": "agent",
       "premise_judgments": {
         "hR1_eq : R1 = rho * R2": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the R1=rho R2, R1<R2, rho<1, positive-switch, positive-arrival, and positive-measure source-data domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_theorem3_source_data_domain"
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the two-state R1 = rho * R2, R1 < R2, rho < 1, positive-switch, positive-arrival, and positive accept-all-measure source-data domain.",
+          "source_location": "source.txt:722-733; source.txt:3099-3123"
         },
         "hR1_lt_R2 : R1 < R2": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the R1=rho R2, R1<R2, rho<1, positive-switch, positive-arrival, and positive-measure source-data domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_theorem3_source_data_domain"
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the two-state R1 = rho * R2, R1 < R2, rho < 1, positive-switch, positive-arrival, and positive accept-all-measure source-data domain.",
+          "source_location": "source.txt:722-733; source.txt:3099-3123"
         },
         "hR1_pos : 0 < R1": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the R1=rho R2, R1<R2, rho<1, positive-switch, positive-arrival, and positive-measure source-data domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_theorem3_source_data_domain"
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the two-state R1 = rho * R2, R1 < R2, rho < 1, positive-switch, positive-arrival, and positive accept-all-measure source-data domain.",
+          "source_location": "source.txt:722-733; source.txt:3099-3123"
         },
         "hR2_pos : 0 < R2": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the R1=rho R2, R1<R2, rho<1, positive-switch, positive-arrival, and positive-measure source-data domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_theorem3_source_data_domain"
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the two-state R1 = rho * R2, R1 < R2, rho < 1, positive-switch, positive-arrival, and positive accept-all-measure source-data domain.",
+          "source_location": "source.txt:722-733; source.txt:3099-3123"
         },
-        "harrival1_pos : 0 < arrival 0": {
+        "harrival0_pos : 0 < arrival0": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the R1=rho R2, R1<R2, rho<1, positive-switch, positive-arrival, and positive-measure source-data domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_theorem3_source_data_domain"
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the two-state R1 = rho * R2, R1 < R2, rho < 1, positive-switch, positive-arrival, and positive accept-all-measure source-data domain.",
+          "source_location": "source.txt:722-733; source.txt:3099-3123"
         },
-        "harrival2_pos : 0 < arrival 1": {
+        "harrival1_pos : 0 < arrival1": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the R1=rho R2, R1<R2, rho<1, positive-switch, positive-arrival, and positive-measure source-data domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_theorem3_source_data_domain"
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the two-state R1 = rho * R2, R1 < R2, rho < 1, positive-switch, positive-arrival, and positive accept-all-measure source-data domain.",
+          "source_location": "source.txt:722-733; source.txt:3099-3123"
         },
-        "hmeasure1_pos : 0 < mu 0 acceptAllPolicy": {
+        "hmeasure0_pos : 0 < mu0 acceptAllPolicy": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the R1=rho R2, R1<R2, rho<1, positive-switch, positive-arrival, and positive-measure source-data domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_theorem3_source_data_domain"
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the two-state R1 = rho * R2, R1 < R2, rho < 1, positive-switch, positive-arrival, and positive accept-all-measure source-data domain.",
+          "source_location": "source.txt:722-733; source.txt:3099-3123"
         },
-        "hmeasure2_pos : 0 < mu 1 acceptAllPolicy": {
+        "hmeasure1_pos : 0 < mu1 acceptAllPolicy": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the R1=rho R2, R1<R2, rho<1, positive-switch, positive-arrival, and positive-measure source-data domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_theorem3_source_data_domain"
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the two-state R1 = rho * R2, R1 < R2, rho < 1, positive-switch, positive-arrival, and positive accept-all-measure source-data domain.",
+          "source_location": "source.txt:722-733; source.txt:3099-3123"
         },
         "hrho_lt_one : rho < 1": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the R1=rho R2, R1<R2, rho<1, positive-switch, positive-arrival, and positive-measure source-data domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_theorem3_source_data_domain"
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the two-state R1 = rho * R2, R1 < R2, rho < 1, positive-switch, positive-arrival, and positive accept-all-measure source-data domain.",
+          "source_location": "source.txt:722-733; source.txt:3099-3123"
         },
         "hswitch12_pos : 0 < switch12": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the R1=rho R2, R1<R2, rho<1, positive-switch, positive-arrival, and positive-measure source-data domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_theorem3_source_data_domain"
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the two-state R1 = rho * R2, R1 < R2, rho < 1, positive-switch, positive-arrival, and positive accept-all-measure source-data domain.",
+          "source_location": "source.txt:722-733; source.txt:3099-3123"
         },
         "hswitch21_pos : 0 < switch21": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the R1=rho R2, R1<R2, rho<1, positive-switch, positive-arrival, and positive-measure source-data domain.",
-          "source_location": "GN21DriverSurgePricing source statement for assumption_theorem3_source_data_domain"
+          "reason": "Premise inherits the row-level provenance judgment. Theorem 3 states the two-state R1 = rho * R2, R1 < R2, rho < 1, positive-switch, positive-arrival, and positive accept-all-measure source-data domain.",
+          "source_location": "source.txt:722-733; source.txt:3099-3123"
         }
       },
       "premises": [
@@ -484,10 +454,10 @@
         "hR1_lt_R2 : R1 < R2",
         "hR1_pos : 0 < R1",
         "hR2_pos : 0 < R2",
-        "harrival1_pos : 0 < arrival 0",
-        "harrival2_pos : 0 < arrival 1",
-        "hmeasure1_pos : 0 < mu 0 acceptAllPolicy",
-        "hmeasure2_pos : 0 < mu 1 acceptAllPolicy",
+        "harrival0_pos : 0 < arrival0",
+        "harrival1_pos : 0 < arrival1",
+        "hmeasure0_pos : 0 < mu0 acceptAllPolicy",
+        "hmeasure1_pos : 0 < mu1 acceptAllPolicy",
         "hrho_lt_one : rho < 1",
         "hswitch12_pos : 0 < switch12",
         "hswitch21_pos : 0 < switch21"
@@ -559,7 +529,7 @@
   "paper": "GN21DriverSurgePricing",
   "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
   "schema": 1,
-  "validated_at": "2026-06-29T18:08:26Z",
-  "validator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  "validated_at": "2026-07-15T15:50:47Z",
+  "validator": "Codex GN21 semantic-obligation closeout",
+  "validator_type": "agent"
 }

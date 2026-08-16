@@ -1,4 +1,6 @@
 import Mathlib.Algebra.Order.BigOperators.Group.Finset
+import Mathlib.Algebra.Order.BigOperators.Ring.Finset
+import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.Analysis.Normed.Lp.PiLp
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
 import Mathlib.Analysis.SpecialFunctions.Sqrt
@@ -28,6 +30,10 @@ def l1 {ι : Type*} [Fintype ι] (x : ι → ℝ) : ℝ :=
 def l2Sq {ι : Type*} [Fintype ι] (x : ι → ℝ) : ℝ :=
   ∑ i : ι, x i ^ 2
 
+/-- Finite-coordinate Euclidean dot product, written as an explicit sum. -/
+def dot {ι : Type*} [Fintype ι] (x y : ι → ℝ) : ℝ :=
+  ∑ i : ι, x i * y i
+
 /-- Finite-coordinate `L2` quantity, written as the square root of `l2Sq`. -/
 def l2 {ι : Type*} [Fintype ι] (x : ι → ℝ) : ℝ :=
   Real.sqrt (l2Sq x)
@@ -49,6 +55,85 @@ theorem normL1_eq_sum_abs {ι : Type*} [Fintype ι] (x : ι → ℝ) :
 
 theorem normL2Sq_eq_sum_sq {ι : Type*} [Fintype ι] (x : ι → ℝ) :
     l2Sq x = ∑ i : ι, x i ^ 2 := rfl
+
+theorem dot_eq_sum_mul {ι : Type*} [Fintype ι] (x y : ι → ℝ) :
+    dot x y = ∑ i : ι, x i * y i := rfl
+
+theorem dot_self_eq_l2Sq {ι : Type*} [Fintype ι] (x : ι → ℝ) :
+    dot x x = l2Sq x := by
+  simp [dot, l2Sq, pow_two]
+
+theorem dot_comm {ι : Type*} [Fintype ι] (x y : ι → ℝ) :
+    dot x y = dot y x := by
+  simp [dot, mul_comm]
+
+/--
+Hilbert-space projection estimate used to turn one strong alignment and one
+small cross-alignment into a same-family correlation bound.
+-/
+theorem real_inner_le_abs_cross_add_sqrt_one_sub_sq_of_unit
+    {F : Type*} [NormedAddCommGroup F] [InnerProductSpace ℝ F]
+    {u v w : F} {alpha beta : ℝ}
+    (hu : ‖u‖ = 1) (hv : ‖v‖ = 1) (hw : ‖w‖ = 1)
+    (halpha : alpha ≤ inner ℝ u w) (halpha_nonneg : 0 ≤ alpha)
+    (hcross : |inner ℝ v w| ≤ beta) :
+    inner ℝ u v ≤ beta + Real.sqrt (1 - alpha ^ 2) := by
+  let a : ℝ := inner ℝ u w
+  let b : ℝ := inner ℝ v w
+  let uperp : F := u - a • w
+  let vperp : F := v - b • w
+  have ha_nonneg : 0 ≤ a := le_trans halpha_nonneg halpha
+  have ha_abs_le_one : |a| ≤ 1 := by
+    have h := abs_real_inner_le_norm u w
+    rw [hu, hw, mul_one] at h
+    simpa [a] using h
+  have ha_le_one : a ≤ 1 := (le_abs_self a).trans ha_abs_le_one
+  have hdecomp : inner ℝ u v = a * b + inner ℝ uperp vperp := by
+    dsimp [uperp, vperp, a, b]
+    rw [inner_sub_left, inner_sub_right, inner_sub_right]
+    simp [inner_smul_left, inner_smul_right, real_inner_comm, hw]
+  have hab_le_beta : a * b ≤ beta := by
+    have hab_le_abs : a * b ≤ |b| := by
+      by_cases hb : 0 ≤ b
+      · have hb_abs : |b| = b := abs_of_nonneg hb
+        rw [hb_abs]
+        nlinarith
+      · have hbneg : b < 0 := lt_of_not_ge hb
+        have hb_abs : |b| = -b := abs_of_neg hbneg
+        rw [hb_abs]
+        nlinarith
+    exact hab_le_abs.trans hcross
+  have huperp_sq : ‖uperp‖ ^ 2 = 1 - a ^ 2 := by
+    rw [← real_inner_self_eq_norm_sq]
+    dsimp [uperp, a]
+    rw [inner_sub_sub_self]
+    simp [inner_smul_left, inner_smul_right, real_inner_comm, norm_smul, hu, hw]
+    ring_nf
+  have hvperp_sq : ‖vperp‖ ^ 2 = 1 - b ^ 2 := by
+    rw [← real_inner_self_eq_norm_sq]
+    dsimp [vperp, b]
+    rw [inner_sub_sub_self]
+    simp [inner_smul_left, inner_smul_right, real_inner_comm, norm_smul, hv, hw]
+    ring_nf
+  have huperp_norm_le : ‖uperp‖ ≤ Real.sqrt (1 - alpha ^ 2) := by
+    apply Real.le_sqrt_of_sq_le
+    rw [huperp_sq]
+    nlinarith
+  have hvperp_norm_le_one : ‖vperp‖ ≤ 1 := by
+    have hs : ‖vperp‖ ^ 2 ≤ 1 := by
+      rw [hvperp_sq]
+      nlinarith [sq_nonneg b]
+    have h := Real.le_sqrt_of_sq_le hs
+    simpa using h
+  have hperp_le : inner ℝ uperp vperp ≤ Real.sqrt (1 - alpha ^ 2) := by
+    have h1 : inner ℝ uperp vperp ≤ |inner ℝ uperp vperp| := le_abs_self _
+    have h2 := abs_real_inner_le_norm uperp vperp
+    have hsqrt_nonneg : 0 ≤ Real.sqrt (1 - alpha ^ 2) := Real.sqrt_nonneg _
+    have h3 : ‖uperp‖ * ‖vperp‖ ≤ Real.sqrt (1 - alpha ^ 2) * 1 := by
+      exact mul_le_mul huperp_norm_le hvperp_norm_le_one (norm_nonneg _) hsqrt_nonneg
+    nlinarith
+  rw [hdecomp]
+  nlinarith
 
 theorem normL2_eq_sqrt_sum_sq {ι : Type*} [Fintype ι] (x : ι → ℝ) :
     l2 x = Real.sqrt (∑ i : ι, x i ^ 2) := rfl
@@ -85,6 +170,28 @@ theorem normL2Sq_nonneg {ι : Type*} [Fintype ι] (x : ι → ℝ) :
 theorem normL2_nonneg {ι : Type*} [Fintype ι] (x : ι → ℝ) :
     0 ≤ l2 x :=
   Real.sqrt_nonneg _
+
+theorem normL2_sq_eq_normL2Sq {ι : Type*} [Fintype ι] (x : ι → ℝ) :
+    l2 x ^ 2 = l2Sq x := by
+  rw [l2]
+  exact Real.sq_sqrt (normL2Sq_nonneg x)
+
+theorem abs_dot_le_l2_mul_l2 {ι : Type*} [Fintype ι]
+    (x y : ι → ℝ) :
+    |dot x y| ≤ l2 x * l2 y := by
+  have hpos :
+      dot x y ≤ l2 x * l2 y := by
+    simpa [dot, l2, l2Sq] using
+      (Real.sum_mul_le_sqrt_mul_sqrt (Finset.univ : Finset ι) x y)
+  have hneg :
+      -dot x y ≤ l2 x * l2 y := by
+    have h :=
+      Real.sum_mul_le_sqrt_mul_sqrt
+        (Finset.univ : Finset ι) (fun i => -x i) y
+    simpa [dot, l2, l2Sq, Finset.sum_neg_distrib] using h
+  have hleft : -(l2 x * l2 y) ≤ dot x y := by
+    linarith
+  exact abs_le.mpr ⟨hleft, hpos⟩
 
 /-- Each coordinate is bounded by the finite-coordinate `L2` norm. -/
 theorem normL2_coord_abs_le {ι : Type*} [Fintype ι]
@@ -268,6 +375,47 @@ theorem normL2_eq_piLp_norm_L2 {ι : Type*} [Fintype ι] (x : ι → ℝ) :
   apply Finset.sum_congr rfl
   intro i _hi
   simp [sq_abs]
+
+theorem piLp_inner_eq_dot {ι : Type*} [Fintype ι]
+    (x y : ι → ℝ) :
+    inner ℝ
+      (WithLp.toLp (2 : ENNReal) x : @PiLp (2 : ENNReal) ι (fun _ => ℝ))
+      (WithLp.toLp (2 : ENNReal) y : @PiLp (2 : ENNReal) ι (fun _ => ℝ)) =
+      dot x y := by
+  rw [PiLp.inner_apply]
+  rw [dot]
+  apply Finset.sum_congr rfl
+  intro i _hi
+  change RCLike.re (y i * (starRingEnd ℝ) (x i)) = x i * y i
+  simp [mul_comm]
+
+/--
+Finite-coordinate projection estimate, stated with the explicit `l2` and
+`dot` APIs used by paper formalizations.
+-/
+theorem dot_le_abs_cross_add_sqrt_one_sub_sq_of_l2_unit
+    {ι : Type*} [Fintype ι] {u v w : ι → ℝ} {alpha beta : ℝ}
+    (hu : l2 u = 1) (hv : l2 v = 1) (hw : l2 w = 1)
+    (halpha : alpha ≤ dot u w) (halpha_nonneg : 0 ≤ alpha)
+    (hcross : |dot v w| ≤ beta) :
+    dot u v ≤ beta + Real.sqrt (1 - alpha ^ 2) := by
+  let U : @PiLp (2 : ENNReal) ι (fun _ => ℝ) := WithLp.toLp (2 : ENNReal) u
+  let V : @PiLp (2 : ENNReal) ι (fun _ => ℝ) := WithLp.toLp (2 : ENNReal) v
+  let W : @PiLp (2 : ENNReal) ι (fun _ => ℝ) := WithLp.toLp (2 : ENNReal) w
+  have hU : ‖U‖ = 1 := by
+    simpa [U] using (normL2_eq_piLp_norm_L2 u).symm.trans hu
+  have hV : ‖V‖ = 1 := by
+    simpa [V] using (normL2_eq_piLp_norm_L2 v).symm.trans hv
+  have hW : ‖W‖ = 1 := by
+    simpa [W] using (normL2_eq_piLp_norm_L2 w).symm.trans hw
+  have halpha' : alpha ≤ inner ℝ U W := by
+    simpa [U, W, piLp_inner_eq_dot] using halpha
+  have hcross' : |inner ℝ V W| ≤ beta := by
+    simpa [V, W, piLp_inner_eq_dot] using hcross
+  have h :=
+    real_inner_le_abs_cross_add_sqrt_one_sub_sq_of_unit
+      hU hV hW halpha' halpha_nonneg hcross'
+  simpa [U, V, piLp_inner_eq_dot] using h
 
 /--
 The explicit finite `L∞` formula is mathlib's `PiLp ∞` norm on a finite

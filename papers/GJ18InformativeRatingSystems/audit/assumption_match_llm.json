@@ -1,213 +1,199 @@
 {
-  "comment": "Semantic premise provenance rejudge. Certificate/replay/process premises are not accepted by name and must be paper conditions, documented caveats, partial boundaries, or derived from primitives.",
+  "comment": "These records distinguish literal source conditions from the author-approved corrections needed to state a coherent finite ordinal IID model. They do not claim the archive already entails the corrected clauses.",
   "items": {
-    "assumption_full_finite_ordinal_rating_support": {
-      "judgment": "paper_condition",
-      "lean_statement_sha256": "4aab6849d660399b1eee59792877a8b3058c5f840cebe3f0e4eb5a8ebf116ce5",
-      "paper_statement_sha256": "dbf46d5074106976ea53ac9ffaedde7ef65166c88f2af5d417b29dfc517fefdf",
-      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "The source has a finite ordered rating scale and assumes the cumulative rating law is strictly decreasing in rating level; this supplies the positive finite rating support used by the support-safe endpoint.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
-      "premise_judgments": {
-        "hfull_support : M.fullSupport": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The source has a finite ordered rating scale and assumes the cumulative rating law is strictly decreasing in rating level; this supplies the positive finite rating support used by the support-safe endpoint.",
-          "source_location": "GJ18InformativeRatingSystems source statement for assumption_full_finite_ordinal_rating_support"
-        }
-      },
-      "premises": [
-        "hfull_support : M.fullSupport"
-      ]
-    },
-    "assumption_monotone_rating_scores": {
-      "judgment": "paper_assumption",
-      "lean_statement_sha256": "60cdc840b220d9c5a333f8b123541eb2061f0a875995f647f7c53d10c9df80a5",
-      "paper_statement_sha256": "e445cfccb74aa4ecbb3e2e68c5054e49f6877037ee814fe473ad8b9700411188",
-      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "The source design problem optimizes over increasing score functions on the ordered rating scale.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
-      "premise_judgments": {
-        "hscore_mono : Monotone M.score": {
-          "judgment": "paper_assumption",
-          "reason": "Premise inherits the row-level provenance judgment. The source design problem optimizes over increasing score functions on the ordered rating scale.",
-          "source_location": "GJ18InformativeRatingSystems source statement for assumption_monotone_rating_scores"
-        }
-      },
-      "premises": [
-        "hscore_mono : Monotone M.score"
-      ]
-    },
-    "assumption_nonpositive_common_dual_parameters": {
-      "judgment": "paper_condition",
-      "lean_statement_sha256": "f7ceb57770194a94ecf9ff11bece72d92bfc344cd62f51eea329173376bc5c3a",
-      "paper_statement_sha256": "5cde18fdc02d4b2d2682af3e33923e76ec07cdc8f20552116ab6322798f7e129",
-      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "The common-dual signs are lower-tail Chernoff/Laplace-principle witnesses for the source pairwise score-comparison event; the main support-safe endpoint derives the needed witness package internally.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
-      "premise_judgments": {
-        "hz : z ≤ 0": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The common-dual signs are lower-tail Chernoff/Laplace-principle witnesses for the source pairwise score-comparison event; the main support-safe endpoint derives the needed witness package internally.",
-          "source_location": "GJ18InformativeRatingSystems source statement for assumption_nonpositive_common_dual_parameters"
-        },
-        "hz : ∀ p : finiteChainOrderedPair n, z p ≤ 0": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The common-dual signs are lower-tail Chernoff/Laplace-principle witnesses for the source pairwise score-comparison event; the main support-safe endpoint derives the needed witness package internally.",
-          "source_location": "GJ18InformativeRatingSystems source statement for assumption_nonpositive_common_dual_parameters"
-        }
-      },
-      "premises": [
-        "hz : z ≤ 0",
-        "hz : ∀ p : finiteChainOrderedPair n, z p ≤ 0"
-      ]
-    },
-    "assumption_pairwise_threshold_minimizer": {
-      "judgment": "paper_condition",
-      "lean_statement_sha256": "01dd6e34c80e77ef7a344fdc4f537eb4386e2ed4547f3b1aa94adc4bce6cb236",
-      "paper_statement_sha256": "bae1ba49499756ea4680a4fab94c77ab704e8dd423a069bf57b5e66259909ff2",
-      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "The paper's displayed rate uses an infimum over the common threshold a; helper rows expose a minimizer witness while the main endpoint works through the support-safe adjacent threshold-rate minimum.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
-      "premise_judgments": {
-        "hthreshold_min : ∀ b : ℝ, M.pairwiseRateObjective sampleRate hi lo a ≤ M.pairwiseRateObjective sampleRate hi lo b": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The paper's displayed rate uses an infimum over the common threshold a; helper rows expose a minimizer witness while the main endpoint works through the support-safe adjacent threshold-rate minimum.",
-          "source_location": "GJ18InformativeRatingSystems source statement for assumption_pairwise_threshold_minimizer"
-        }
-      },
-      "premises": [
-        "hthreshold_min : ∀ b : ℝ, M.pairwiseRateObjective sampleRate hi lo a ≤ M.pairwiseRateObjective sampleRate hi lo b"
-      ]
-    },
-    "assumption_positive_integer_sample_rates": {
-      "judgment": "paper_condition",
-      "lean_statement_sha256": "3532aeed4bae7b0f15d68ee10c8c9ecd52178bb2d065404d7fc4da2fe2322444",
-      "paper_statement_sha256": "dcee8089722e3d0f5dcdbc6d1958784ec68b87e2cee1238b25189ed3704fd27a",
-      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "Integer-rate helper rows instantiate the paper's positive asymptotic sample-rate model with positive natural sample rates.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
-      "premise_judgments": {
-        "hgHi : 0 < gHi": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Integer-rate helper rows instantiate the paper's positive asymptotic sample-rate model with positive natural sample rates.",
-          "source_location": "GJ18InformativeRatingSystems source statement for assumption_positive_integer_sample_rates"
-        },
-        "hgLo : 0 < gLo": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Integer-rate helper rows instantiate the paper's positive asymptotic sample-rate model with positive natural sample rates.",
-          "source_location": "GJ18InformativeRatingSystems source statement for assumption_positive_integer_sample_rates"
-        }
-      },
-      "premises": [
-        "hgHi : 0 < gHi",
-        "hgLo : 0 < gLo"
-      ]
-    },
     "assumption_positive_match_rates": {
-      "judgment": "paper_condition",
+      "judgment": "documented_additional_assumption",
       "lean_statement_sha256": "c36c37f019ee52db5b5046ff9734ccbf34df5fc94aeb7e378c74287e09a916ce",
       "paper_statement_sha256": "092ef6b2c013a4cb789b4172fc2e28bb4bcc90ce1aaec1d9b3b500c7d76be475",
-      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "The source model gives sellers floor(k g(theta)) ratings by time k and the large-deviation theorem is stated in the nondegenerate asymptotic sample-rate regime.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
       "premise_judgments": {
-        "hgHi : 0 < sampleRate hi": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The source model gives sellers floor(k g(theta)) ratings by time k and the large-deviation theorem is stated in the nondegenerate asymptotic sample-rate regime.",
-          "source_location": "GJ18InformativeRatingSystems source statement for assumption_positive_match_rates"
-        },
-        "hgLo : 0 < sampleRate lo": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The source model gives sellers floor(k g(theta)) ratings by time k and the large-deviation theorem is stated in the nondegenerate asymptotic sample-rate regime.",
-          "source_location": "GJ18InformativeRatingSystems source statement for assumption_positive_match_rates"
-        },
-        "hpositive_sample : ∀ θ : Fin n, 0 < sampleRate θ": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The source model gives sellers floor(k g(theta)) ratings by time k and the large-deviation theorem is stated in the nondegenerate asymptotic sample-rate regime.",
-          "source_location": "GJ18InformativeRatingSystems source statement for assumption_positive_match_rates"
+        "positive rate for each seller type": {
+          "judgment": "documented_additional_assumption",
+          "reason": "The governing correction states 0 < g(theta) <= 1 for every type, which supplies the positivity premise used by asymptotic rate claims.",
+          "source_evidence": "Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
+          "source_location": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20",
+          "validated_at": "2026-07-26T23:10:00Z",
+          "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
+          "validator_type": "agent"
         }
       },
       "premises": [
-        "hgHi : 0 < sampleRate hi",
-        "hgLo : 0 < sampleRate lo",
-        "hpositive_sample : ∀ θ : Fin n, 0 < sampleRate θ"
-      ]
+        "positive rate for each seller type"
+      ],
+      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
+      "reason": "Positive match rates are explicit in the author-approved corrected model so every seller's floor sample count diverges; the archive's nondecreasing-rate prose alone does not establish positivity.",
+      "source_artifact_path": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
+      "source_artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9",
+      "source_evidence": "Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
+      "source_location": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20",
+      "validated_at": "2026-07-26T23:10:00Z",
+      "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
+      "validator_type": "agent"
     },
-    "assumption_score_range_and_strict_span": {
-      "judgment": "paper_condition",
-      "lean_statement_sha256": "2adc47c797b7e88188f9f262817fcb16efa8177aa49d99b92ef150680533401e",
-      "paper_statement_sha256": "0692afc1233a8681ffcb157797f18ae333f7a998552a5625d9f965ac479f8b08",
-      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "The source score function maps ordered rating levels into [0,1] and the optimization uses increasing score functions, giving lower/upper bounds and a nontrivial span.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
+    "source_match_schedule_coherence": {
+      "judgment": "documented_additional_assumption",
+      "lean_statement_sha256": "01ddd879e867f62df8a4bb9a09b5c89be7f1eefb7d2050b1590507df1ea9092d",
+      "paper_statement_sha256": "eb54376e6cbccd7e48e6e21be4b0856b665336a342aaa48a199e9de9927c91fa",
       "premise_judgments": {
-        "hscore_le_high : ∀ r : Rating, M.score r ≤ M.score rHigh": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The source score function maps ordered rating levels into [0,1] and the optimization uses increasing score functions, giving lower/upper bounds and a nontrivial span.",
-          "source_location": "GJ18InformativeRatingSystems source statement for assumption_score_range_and_strict_span"
+        "at most one floor-count increment per period": {
+          "judgment": "documented_additional_assumption",
+          "reason": "The source says at most one buyer matches per period; the exact floor-count step property is justified by the approved upper bound g(theta) <= 1.",
+          "source_evidence": "Pinned sources/arxiv.tex:669-670 states at-most-one matching per period and a nondecreasing match function with floor accumulation. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
+          "source_location": "sources/arxiv.tex:669; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20",
+          "validated_at": "2026-07-26T23:10:00Z",
+          "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
+          "validator_type": "agent"
         },
-        "hscore_low_le : ∀ r : Rating, M.score rLow ≤ M.score r": {
+        "monotone match rate": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The source score function maps ordered rating levels into [0,1] and the optimization uses increasing score functions, giving lower/upper bounds and a nontrivial span.",
-          "source_location": "GJ18InformativeRatingSystems source statement for assumption_score_range_and_strict_span"
+          "reason": "The source explicitly assumes a nondecreasing match function by seller quality.",
+          "source_evidence": "Pinned sources/arxiv.tex:669-670 states at-most-one matching per period and a nondecreasing match function with floor accumulation.",
+          "source_location": "sources/arxiv.tex:670",
+          "validated_at": "2026-07-26T23:10:00Z",
+          "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
+          "validator_type": "agent"
         },
-        "hscore_lt : M.score rLow < M.score rHigh": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. The source score function maps ordered rating levels into [0,1] and the optimization uses increasing score functions, giving lower/upper bounds and a nontrivial span.",
-          "source_location": "GJ18InformativeRatingSystems source statement for assumption_score_range_and_strict_span"
+        "nonnegative match rate": {
+          "judgment": "documented_additional_assumption",
+          "reason": "Positive corrected match rates imply nonnegative rates, but that strengthening is recorded as an author-approved correction rather than silently derived from prose.",
+          "source_evidence": "Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
+          "source_location": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20",
+          "validated_at": "2026-07-26T23:10:00Z",
+          "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
+          "validator_type": "agent"
         }
       },
       "premises": [
-        "hscore_le_high : ∀ r : Rating, M.score r ≤ M.score rHigh",
-        "hscore_low_le : ∀ r : Rating, M.score rLow ≤ M.score r",
-        "hscore_lt : M.score rLow < M.score rHigh"
-      ]
+        "nonnegative match rate",
+        "monotone match rate",
+        "at most one floor-count increment per period"
+      ],
+      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
+      "reason": "The source explicitly gives a nondecreasing match function and at-most-one matching prose; the exact floor-step coherence and nonnegativity used by Lean are recorded through the author-approved 0 < g(theta) <= 1 correction.",
+      "source_artifact_path": "sources/arxiv.tex",
+      "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
+      "source_evidence": "Pinned sources/arxiv.tex:669-670 states at-most-one matching per period and a nondecreasing match function with floor accumulation. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
+      "source_location": "sources/arxiv.tex:669-670; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20",
+      "validated_at": "2026-07-26T23:10:00Z",
+      "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
+      "validator_type": "agent"
     },
-    "assumption_two_sided_score_witnesses": {
+    "source_rating_scores_in_unit_interval": {
       "judgment": "paper_condition",
-      "lean_statement_sha256": "000065c2bf627058b4e66776f9d403fa135f512e2efc6b4f5d9a680176ed84e7",
-      "paper_statement_sha256": "0f954909940e7d1c8760b2da3e979c203b80391d667419e452d24b3180824eee",
-      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-      "reason": "Finite-support lower-bound helper rows expose positive and negative score-gap witnesses; the main finite ordinal endpoint derives them from full rating-law support and a strict score span.",
-      "validated_at": "2026-06-29T18:08:26Z",
-      "validator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model",
+      "lean_statement_sha256": "6e69c3fa9bca4718750db017bdfd2e256d4889739a558c187695f605686ce2b4",
+      "paper_statement_sha256": "3ed2430c18f1ce9f12919521e247d901c57824038dbf9c9f225d15579e73d21d",
       "premise_judgments": {
-        "hscoreNeg : twoSampleRateBlockScore M gHi gLo sampleNeg < 0": {
+        "every displayed score is between zero and one": {
           "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Finite-support lower-bound helper rows expose positive and negative score-gap witnesses; the main finite ordinal endpoint derives them from full rating-law support and a strict score span.",
-          "source_location": "GJ18InformativeRatingSystems source statement for assumption_two_sided_score_witnesses"
-        },
-        "hscorePos : 0 < twoSampleRateBlockScore M gHi gLo samplePos": {
-          "judgment": "paper_condition",
-          "reason": "Premise inherits the row-level provenance judgment. Finite-support lower-bound helper rows expose positive and negative score-gap witnesses; the main finite ordinal endpoint derives them from full rating-law support and a strict score span.",
-          "source_location": "GJ18InformativeRatingSystems source statement for assumption_two_sided_score_witnesses"
+          "reason": "The source gives phi(y) in [0,1] for every rating y, which is the same two-sided bound.",
+          "source_evidence": "Pinned sources/arxiv.tex:679-680 states that every rating score lies in [0,1].",
+          "source_location": "sources/arxiv.tex:679",
+          "validated_at": "2026-07-26T23:10:00Z",
+          "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
+          "validator_type": "agent"
         }
       },
       "premises": [
-        "hscoreNeg : twoSampleRateBlockScore M gHi gLo sampleNeg < 0",
-        "hscorePos : 0 < twoSampleRateBlockScore M gHi gLo samplePos"
-      ]
+        "every displayed score is between zero and one"
+      ],
+      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
+      "reason": "The source explicitly restricts each rating score to the interval [0,1], matching the two-sided real inequality in the Lean predicate.",
+      "source_artifact_path": "sources/arxiv.tex",
+      "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
+      "source_evidence": "Pinned sources/arxiv.tex:679-680 states that every rating score lies in [0,1].",
+      "source_location": "sources/arxiv.tex:679-680",
+      "validated_at": "2026-07-26T23:10:00Z",
+      "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_strict_ordinal_cumulative_tail_decrease_at_displayed_cutoffs": {
+      "judgment": "paper_condition",
+      "lean_statement_sha256": "c5e10b741e1ae9ff668f098255ac65a4ff4c75d241c40c0a50eb0ccb47d92b54",
+      "paper_statement_sha256": "cea98e74712644afafa504786a76a30e186afd298e7b82e1b978af11c55abaa7",
+      "premise_judgments": {
+        "strict decrease between adjacent displayed ordinal cutoffs": {
+          "judgment": "paper_condition",
+          "reason": "The finite adjacent-cutoff reading is the literal meaningful interpretation of strict decrease with the displayed ordinal rating level.",
+          "source_evidence": "Pinned sources/arxiv.tex:683 states that cumulative rating mass is strictly increasing in quality and strictly decreasing with rating level.",
+          "source_location": "sources/arxiv.tex:683",
+          "validated_at": "2026-07-26T23:10:00Z",
+          "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
+          "validator_type": "agent"
+        }
+      },
+      "premises": [
+        "strict decrease between adjacent displayed ordinal cutoffs"
+      ],
+      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
+      "reason": "The source says cumulative rating tails strictly decrease with rating level. Lean states that only between adjacent displayed cutoffs, avoiding an invented cutoff above the finite maximum.",
+      "source_artifact_path": "sources/arxiv.tex",
+      "source_artifact_sha256": "5b813bc9f600735f17fd6061c9d9ce0814b47c07f22f12273e7b21d22d547da5",
+      "source_evidence": "Pinned sources/arxiv.tex:683 states that cumulative rating mass is strictly increasing in quality and strictly decreasing with rating level. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
+      "source_location": "sources/arxiv.tex:683; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:22",
+      "validated_at": "2026-07-26T23:10:00Z",
+      "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_strict_ordinal_quality_tail_increase_above_bottom": {
+      "judgment": "documented_additional_assumption",
+      "lean_statement_sha256": "f76712b8525baa06923c5fbd6d9f24c5131509c11b8125ac2e5635ee2a281e2e",
+      "paper_statement_sha256": "652be29186e24e24858193d64f666b73b69cc0448f98f6537ee9d7ef21fd728c",
+      "premise_judgments": {
+        "strict cross-quality tail ordering above the bottom cutoff": {
+          "judgment": "documented_additional_assumption",
+          "reason": "This is the author-approved repair of the archive's all-cutoff wording, preserving strict stochastic ordering wherever a nontrivial cutoff exists.",
+          "source_evidence": "Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
+          "source_location": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:22",
+          "validated_at": "2026-07-26T23:10:00Z",
+          "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
+          "validator_type": "agent"
+        }
+      },
+      "premises": [
+        "strict cross-quality tail ordering above the bottom cutoff"
+      ],
+      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
+      "reason": "The archive says tails strictly increase with quality, but strictness at the bottom cutoff is impossible because that upper tail is always one. The approved correction restricts strictness to nonbottom displayed cutoffs.",
+      "source_artifact_path": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
+      "source_artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9",
+      "source_evidence": "Pinned sources/arxiv.tex:683 states that cumulative rating mass is strictly increasing in quality and strictly decreasing with rating level. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
+      "source_location": "sources/arxiv.tex:683; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:22",
+      "validated_at": "2026-07-26T23:10:00Z",
+      "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
+      "validator_type": "agent"
+    },
+    "source_strictly_increasing_rating_scores": {
+      "judgment": "documented_additional_assumption",
+      "lean_statement_sha256": "e07cdf34e0af51555401963b7590f86cd7954bf02716e5ea1e2c044e5e7c735a",
+      "paper_statement_sha256": "8c00d260db4ef56d91458b22f41707f558e7c431f09a3272fa1df1990cfdbd7a",
+      "premise_judgments": {
+        "strict monotonicity on the ordered rating scale": {
+          "judgment": "documented_additional_assumption",
+          "reason": "The source conditions its convergence claim on strict score increase, and the governing corrected model records strict increase as a model clause.",
+          "source_evidence": "Pinned sources/arxiv.tex:744-745 explicitly conditions convergence prose on a strictly increasing score function. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
+          "source_location": "sources/arxiv.tex:744; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:22",
+          "validated_at": "2026-07-26T23:10:00Z",
+          "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
+          "validator_type": "agent"
+        }
+      },
+      "premises": [
+        "strict monotonicity on the ordered rating scale"
+      ],
+      "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
+      "reason": "Strict score monotonicity is invoked in the source convergence discussion and is made an explicit author-approved finite-ordinal model clause; it is not inferred from the weaker [0,1] range condition.",
+      "source_artifact_path": "docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md",
+      "source_artifact_sha256": "d54f259b5fc723cf2e2884c3784dea29226af1dd8166c8e9998d096c7af356e9",
+      "source_evidence": "Pinned sources/arxiv.tex:744-745 explicitly conditions convergence prose on a strictly increasing score function. Pinned docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:20-22 records the author-approved finite model clauses and their archival deltas.",
+      "source_location": "sources/arxiv.tex:744-745; docs/GOVERNING_CORRECTED_MODEL_2026-07-24.md:22",
+      "validated_at": "2026-07-26T23:10:00Z",
+      "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
+      "validator_type": "agent"
     }
   },
   "paper": "GJ18InformativeRatingSystems",
   "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
   "schema": 1,
-  "validated_at": "2026-06-29T18:08:26Z",
-  "validator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  "validated_at": "2026-07-26T23:10:00Z",
+  "validator": "Codex GJ18 semantic fidelity auditor 2026-07-26",
+  "validator_type": "agent"
 }

@@ -1,6 +1,7 @@
 {
   "schema": 1,
   "id": "LOS02CombinatorialAuctions",
+  "repository_visibility": "public",
   "title": "Truth Revelation in Approximately Efficient Combinatorial Auctions",
   "authors": "Daniel Lehmann, Liadan Ita O'Callaghan, and Yoav Shoham",
   "source_version": "Journal of the ACM 49(5), 2002",

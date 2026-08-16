@@ -1,6 +1,7 @@
 {
   "schema": 1,
   "id": "GGRS26CombattingGerrymanderingRCV",
+  "repository_visibility": "public",
   "title": "Combatting Gerrymandering with Ranked Choice Voting: an Experimental Analysis of Multi-member Districts in the United States",
   "authors": "Nikhil Garg; Wes Gurnee; David Rothschild; David Shmoys",
   "source_version": "arXiv:2107.07083; Operations Research 2026, DOI 10.1287/opre.2024.1167",
@@ -15,18 +16,31 @@
   "review_entrypoint": "papers/GGRS26CombattingGerrymanderingRCV/FINAL_VALIDATION_REPORT.md",
   "human_review": {
     "reviewed_rows": 0,
-    "total_rows": 19,
+    "total_rows": 2,
     "stale_rows": 0,
     "mismatch_rows": 0,
-    "source": "paper-local status.json review_surface; human entries come from dashboard logs"
+    "surface": "normal_source_presentations_v1",
+    "source": "paper-local status.json counts the two normal source endpoints, Lemma C.1 and Proposition 1. Their specification/proof pairs and the appendix alias remain agent/audit evidence; reviewed_rows remains zero because no independent human-review certification is claimed"
   },
   "paper_interface": {
     "path": "papers/GGRS26CombattingGerrymanderingRCV/PaperInterface.lean",
-    "line_count": 403,
-    "declaration_rows": 19,
-    "review_rows": 19,
+    "line_count": 1278,
+    "declaration_rows": 45,
+    "review_rows": 4,
     "oversized": false,
     "maintainability_issue": null
+  },
+  "source_inventory": {
+    "path": "papers/GGRS26CombattingGerrymanderingRCV/audit/paper_statement_map.json",
+    "map_sha256": "4e4555385e111a37cb46c102b4ee04aeac0002e26a8a8536bbdf22e0efeea2e2",
+    "source_artifact_path": "papers/GGRS26CombattingGerrymanderingRCV/source.txt",
+    "source_artifact_sha256": "57762234dc7b4a41d10b7f05110551853ab717136eca7b9216da9425cfb8bce5",
+    "item_count": 4,
+    "normal_named_theory_items": 2,
+    "normal_definition_items": 0,
+    "normal_named_result_items": 2,
+    "deep_audit_items": 1,
+    "support_only_items": 1
   },
   "artifacts": {
     "readme": "papers/GGRS26CombattingGerrymanderingRCV/README.md",
@@ -44,14 +58,20 @@
       "match_judgment_file": "papers/GGRS26CombattingGerrymanderingRCV/audit/statement_match_llm.json",
       "review_surface_audit_file": "papers/GGRS26CombattingGerrymanderingRCV/audit/review_surface_llm.json",
       "paper_coverage_audit_file": "papers/GGRS26CombattingGerrymanderingRCV/audit/paper_coverage_llm.json",
+      "defect_support_judgment_file": "papers/GGRS26CombattingGerrymanderingRCV/audit/defect_support_match_llm.json",
       "assumption_judgment_file": "papers/GGRS26CombattingGerrymanderingRCV/audit/assumption_match_llm.json",
       "surface_audit_threshold": 30,
       "surface_warning_threshold": 120,
-      "policy": "Translate each Lean statement with an LLM that has no paper context and require it to preserve every visible binder, hypothesis, domain condition, named predicate/wrapper application, equivalence direction, conclusion, and visible input. Have a third LLM compare that TeX/prose translation with the original full paper statement, not just the theorem label or phrase. A `matches` verdict requires equivalence of hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, conclusions, and the semantics of every Lean premise. If a Lean premise is a named predicate or wrapper, the judge must inspect what that predicate means in the paper model; source-looking names are not evidence. Extra replay, certificate, process, bridge, source-row, or broad package assumptions must be judged `mismatch` or `uncertain` unless explicitly source-backed or derived from source primitives. Record the model/agent validator metadata and iterate on PaperInterface.lean until the full statement matches. If the dashboard has more than 30 rows, run a no-paper-context LLM audit that checks whether every row is paper-facing; at 120 or more rows, curate the surface before broad human review."
+      "require_explicit_source_routes": true,
+      "require_source_claim_atoms": true,
+      "required_prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
+      "policy": "Audit the two source-presented named endpoints through complete binder-name-independent Lean signature atoms and source obligations. A v10 match requires equivalent quantification, hypotheses, transfer-rule scope, exact rounding conclusion, and full conclusion arity. Source anchors and expanded semantic obligations, not declaration names, determine routes. The remaining PaperInterface declarations are proof support or deep-audit material rather than normal-scope named results."
     },
     "llm_paper_coverage_review": {
       "paper_coverage_audit_file": "papers/GGRS26CombattingGerrymanderingRCV/audit/paper_coverage_llm.json",
-      "policy": "Maintain a paper_statement_map.json inventory of source definitions, formulas, and named statements, then use a separate LLM pass to judge whether each source item is covered by one or more dashboard rows. This paper-level accounting is required before calling a full-paper formalization closed and is separate from row-local statement matching."
+      "defect_support_judgment_file": "papers/GGRS26CombattingGerrymanderingRCV/audit/defect_support_match_llm.json",
+      "required_prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins",
+      "policy": "Use the byte-pinned source-only named-theory inventory. Lemma C.1 and Proposition 1 must be covered by their exact current review rows; the appendix Proposition 1 presentation is a source-pinned alias. Algorithms, standalone formulas, proof steps, simulations, and ordinary prose require a separate deep-paper audit before becoming independent coverage targets."
     },
     "llm_assumption_review": {
       "assumption_judgment_file": "papers/GGRS26CombattingGerrymanderingRCV/audit/assumption_match_llm.json",
@@ -60,58 +80,111 @@
     "llm_source_record_review": {
       "source_record_audit_file": "papers/GGRS26CombattingGerrymanderingRCV/audit/source_record_audit.json",
       "source_record_judgment_file": "papers/GGRS26CombattingGerrymanderingRCV/audit/source_record_match_llm.json",
-      "policy": "Every visible replay, process, bridge, source-row, or certificate-shaped input must be mapped to source primitives, a Lean-checked constructor from source primitives, or an explicit partial boundary. Source-looking Lean names are not evidence."
+      "required_prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+      "policy": "Classify every boundary-shaped input and recursive record field from its expanded semantic content. Bare carrier data are witness data; proposition-valued fields require exact source evidence or a checked Lean derivation. Do not infer a source model from record, field, theorem, or function names."
+    },
+    "semantic_model_review": {
+      "schema": 2,
+      "required_dimensions": [
+        "expanded_binders_and_domain",
+        "carrier_and_domain",
+        "probability_support_endpoints",
+        "joint_law_and_state_evolution",
+        "conditioning_and_calibration_semantics",
+        "expectation_definedness",
+        "null_cell_totalization_and_partition_scope",
+        "extended_rate_codomain"
+      ],
+      "policy": "Review the expanded named-result model surfaces against the pinned source. Record not-applicable only after inspecting carrier, state evolution, probability, conditioning, expectation, partition, and rate semantics; names are routing only."
+    },
+    "source_proof_fidelity_review": {
+      "ledger_file": "papers/GGRS26CombattingGerrymanderingRCV/audit/source_proof_fidelity.json",
+      "policy": "Audit source proof steps, algorithm semantics, transfer-rule quantifiers, and computational claims by exact source locator. A proof omission repaired in Lean is a formalized note; an unproved source claim is a partial-formalization boundary, not a paper caveat."
     },
     "assumption_policy": "strict",
     "assumption_names": [],
-    "paper_coverage_required": true,
-    "include_names": [
+    "auxiliary_names": [
       "paper_pav_score",
       "paper_pav_seat_score",
       "paper_pav_min_argmax",
+      "paper_pav_selected_seat_count",
+      "paper_pav_integer_interval",
       "paper_pav_marginal_conditions",
       "paper_pav_seat_interval",
+      "paper_pav_min_argmax_seat_interval",
       "paper_seat_share_rounded",
       "paper_stv_solid_coalition_party_trace_isolation",
       "paper_stv_solid_coalition_quota_witness_bounds",
       "paper_stv_solid_coalition_lower_bounds",
       "paper_stv_seat_share_bounds",
-      "paper_pav_interval_seat_share_rounded",
-      "paper_pav_marginal_conditions_seat_share_rounded",
-      "paper_pav_min_argmax_seat_interval",
-      "paper_pav_min_argmax_seat_share_rounded",
+      "paper_source_stv_terminal_iff",
+      "paper_source_stv_batched_transition_iff",
+      "paper_source_d_favoring_elimination_tie_iff",
       "paper_stv_solid_coalition_ballots_party_trace_isolation",
       "paper_stv_quota_floors_fit",
       "paper_stv_solid_coalition_quota_witness_bounds_lower_bounds",
       "paper_stv_solid_coalition_lower_bounds_seat_share_bounds",
-      "paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax"
+      "paper_pav_interval_seat_share_rounded",
+      "paper_pav_marginal_conditions_seat_share_rounded",
+      "paper_pav_min_argmax_seat_share_rounded",
+      "paper_fractional_stv_republican_seat_count",
+      "paper_fractional_stv_quota_first_round_refines_source_batched_algorithm",
+      "paper_fractional_stv_filled_run_reaches_source_stopping_condition",
+      "paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax",
+      "paper_proposition1_fractional_stv_complete_rankings_and_selected_pav",
+      "paper_vote_share_only_selector_refinement_and_cost",
+      "paper_complete_party_ranking_ballots",
+      "paper_complete_party_ranking_ballots_solid_coalition",
+      "paper_proposition1_from_unit_weight_complete_rankings_generated_filled_seat_run_fractional_stv_trace_terminal_and_pav_min_argmax",
+      "paper_ballot_routed_stv_has_terminal_execution",
+      "paper_proposition1_ballot_routed_stv_initial_state",
+      "paper_proposition1_ballot_routed_stv_initial_state_unit_weight",
+      "paper_proposition1_ballot_routed_stv_initial_state_exists",
+      "paper_proposition1_ballot_routed_stv_outcome_domain_nonempty",
+      "paper_unit_weight_initial_state",
+      "paper_source_stv_terminal",
+      "paper_source_stv_batched_transition",
+      "paper_source_d_favoring_elimination_tie"
+    ],
+    "quarantined_auxiliary_names": [
+      "paper_unit_weight_initial_state",
+      "paper_proposition1_ballot_routed_stv_initial_state_unit_weight"
+    ],
+    "quarantined_auxiliary_source_reasons": {
+      "GGRS26CombattingGerrymanderingRCV.paper_unit_weight_initial_state": "Transparent operational representation of the source's unit-weight initial count on its finite electorate. Values of the total Lean weight function outside that electorate are representation-only. This is a Proposition 1 state-model premise, not an independently named source result and receives no source-claim credit.",
+      "GGRS26CombattingGerrymanderingRCV.paper_proposition1_ballot_routed_stv_initial_state_unit_weight": "Derived proof that the explicitly source-routed constructed initial count has unit voter weight on the finite electorate. It is implementation support for the construction, not a standalone source result or additional source premise."
+    },
+    "paper_coverage_required": true,
+    "include_names": [
+      "paper_lemma_c1_pav_selector_eq_unique_integer_interval",
+      "paper_lemma_c1_pav_selector_eq_unique_integer_intervalSpec",
+      "paper_proposition1_all_ballot_routed_surplus_transfer_outcomes_and_selected_pav",
+      "paper_proposition1_all_ballot_routed_surplus_transfer_outcomes_and_selected_pavSpec"
     ],
     "slices": [
       {
         "id": "all",
-        "title": "All source-facing review rows",
+        "title": "Source-presented named results",
         "names": [
-          "paper_pav_score",
-          "paper_pav_seat_score",
-          "paper_pav_min_argmax",
-          "paper_pav_marginal_conditions",
-          "paper_pav_seat_interval",
-          "paper_seat_share_rounded",
-          "paper_stv_solid_coalition_party_trace_isolation",
-          "paper_stv_solid_coalition_quota_witness_bounds",
-          "paper_stv_solid_coalition_lower_bounds",
-          "paper_stv_seat_share_bounds",
-          "paper_pav_interval_seat_share_rounded",
-          "paper_pav_marginal_conditions_seat_share_rounded",
-          "paper_pav_min_argmax_seat_interval",
-          "paper_pav_min_argmax_seat_share_rounded",
-          "paper_stv_solid_coalition_ballots_party_trace_isolation",
-          "paper_stv_quota_floors_fit",
-          "paper_stv_solid_coalition_quota_witness_bounds_lower_bounds",
-          "paper_stv_solid_coalition_lower_bounds_seat_share_bounds",
-          "paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax"
+          "paper_lemma_c1_pav_selector_eq_unique_integer_interval",
+          "paper_proposition1_all_ballot_routed_surplus_transfer_outcomes_and_selected_pav"
         ]
       }
-    ]
+    ],
+    "source_definition_names": [],
+    "proposition_spec_proofs": {
+      "paper_lemma_c1_pav_selector_eq_unique_integer_intervalSpec": "paper_lemma_c1_pav_selector_eq_unique_integer_interval",
+      "paper_proposition1_all_ballot_routed_surplus_transfer_outcomes_and_selected_pavSpec": "paper_proposition1_all_ballot_routed_surplus_transfer_outcomes_and_selected_pav"
+    }
+  },
+  "open_source_boundaries": [],
+  "v10_audit_state": {
+    "statement_prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
+    "paper_coverage_prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins",
+    "assumption_prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
+    "source_record_prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
+    "semantic_model_schema": 2,
+    "status": "current_complete",
+    "reason": "2026-07-30 closeout: the four current PaperInterface rows have fresh v10 source/Lean obligation ledgers, source-grounded named-theory coverage, and a current source-record receipt (SHA256 69a4560085372c924922a6cfb4a92c1466940e8036c6c17ede082875714313a5). Proposition 1 visibly begins from the constructed finite-electorate unit-weight state and ranges over relational PAV maximizers; the legacy raw-run API remains quarantined and receives no source credit. This is automated semantic-audit evidence, not human or independent-review release certification."
   }
 }

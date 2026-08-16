@@ -2,227 +2,542 @@
   "schema": 1,
   "paper": "MBJG25ProducerFairness",
   "title": "Balancing Producer Fairness and Efficiency via Prior-Weighted Rating System Design",
-  "generated_at": "2026-06-29T00:41:43Z",
-  "source_inventory_policy": "Source basis: /tmp/econcs_source_text/MBJG25ProducerFairness.txt, PDF cache, validation report, and human dashboard notes. Curated by the 2026-06-28 source-grounded coverage pass. Dashboard-seeded keys were checked against the source inventory reports/source text when available; explicitly missing named source items are recorded as out_of_scope rather than silently omitted.",
-  "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
+  "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+  "source_access_status": "available_pinned_published_pdf_with_local_ocr",
+  "source_artifact_path": "source.pdf",
+  "source_artifact_sha256": "fe566f61676aa347d331aa666a6533adc1325784cd5195f5068fab704fa6b981",
+  "source_curated": true,
+  "source_inventory_kind": "source_curated",
+  "source_coverage_mode": "named_theoretical_statements",
+  "source_inventory_policy": "Independent source-first inventory from the pinned ICWSM PDF. Local source.txt line ranges are OCR navigation aids; paper page, section, theorem, and equation locators are authoritative. The inventory includes all mathematical formulas, metrics, named results, and the responsive-market choice rule; raw datasets, calibrated estimates, plots, and simulator implementation are empirical non-theorem scope. Lean identifiers are routing only, never semantic evidence.",
+  "generated_at": "2026-07-18T19:30:00Z",
   "items": {
-    "paper_posterior_mean": {
-      "statement": "- The posterior mean estimated quality in the fixed binary rating model.\nPaper Definition:\n$\\frac{\\eta \\widetilde{\\alpha} + t q_v}\n{\\eta(\\widetilde{\\alpha}+\\widetilde{\\beta}) + t}$",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "direct paper formula",
+    "mbjg25_eq1_posterior_rating": {
+      "statement": "Equation 1 defines the posterior mean rating after binary feedback as (alpha_hat + R(v,t)) / (alpha_hat + beta_hat + |S(v,t)|).",
+      "source_location": "ICWSM 19(1), p. 1013, Equation 1; source.txt:203-276",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "definition",
+      "source_text_file": "source.txt",
       "aliases": [
+        "paper_posterior_rating"
+      ],
+      "support_lean_declarations": [
+        "paper_posterior_rating"
+      ]
+    },
+    "mbjg25_fixed_posterior_mean": {
+      "statement": "After fixing prior shape (alpha_tilde,beta_tilde) and strength eta, the conditional expected posterior rating in the fixed model is (eta*alpha_tilde + t*q_v) / (eta*alpha_tilde + eta*beta_tilde + t).",
+      "source_location": "ICWSM 19(1), pp. 1013-1015, Sections 2.1 and Appendix A derivation; source.txt:203-276 and 1497-1517",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "formula",
+      "source_text_file": "source.txt",
+      "aliases": [
+        "paper_posterior_mean"
+      ],
+      "support_lean_declarations": [
         "paper_posterior_mean"
       ]
     },
-    "paper_bias": {
-      "statement": "- The bias of the estimated quality.\nPaper Definition: $E[\\hat{q}_v] - q_v$",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "direct paper formula",
+    "mbjg25_fixed_bias": {
+      "statement": "The fixed-model bias is the conditional expected posterior rating minus true product quality q_v.",
+      "source_location": "ICWSM 19(1), p. 1014, Equation 3 and Appendix A; source.txt:333-341 and 1497-1517",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "definition",
+      "source_text_file": "source.txt",
       "aliases": [
+        "paper_bias"
+      ],
+      "support_lean_declarations": [
         "paper_bias"
       ]
     },
-    "paper_variance": {
-      "statement": "- The variance of the estimated quality.\nPaper Definition:\n$\\frac{t q_v (1 - q_v)}\n{(\\eta(\\widetilde{\\alpha}+\\widetilde{\\beta}) + t)^2}$",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "direct paper formula",
+    "mbjg25_fixed_variance": {
+      "statement": "The fixed-model conditional variance of the posterior rating is t*q_v*(1-q_v)/(eta*alpha_tilde + eta*beta_tilde + t)^2.",
+      "source_location": "ICWSM 19(1), Appendix A, Equations 8-11; source.txt:1533-1552",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "formula",
+      "source_text_file": "source.txt",
       "aliases": [
+        "paper_variance"
+      ],
+      "support_lean_declarations": [
         "paper_variance"
       ]
     },
-    "paper_squared_bias": {
-      "statement": "- The squared bias of the estimated quality.\nPaper Definition: $(E[\\hat{q}_v] - q_v)^2$",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "direct paper formula",
+    "mbjg25_fixed_squared_bias": {
+      "statement": "The squared-bias component is the square of conditional expected posterior rating minus true quality.",
+      "source_location": "ICWSM 19(1), p. 1014, Equation 3 and Appendix A; source.txt:333-341 and 1497-1517",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "definition",
+      "source_text_file": "source.txt",
       "aliases": [
+        "paper_squared_bias"
+      ],
+      "support_lean_declarations": [
         "paper_squared_bias"
       ]
     },
-    "paper_facing_theorem3_1_variance_weak_decrease": {
-      "statement": "-\nTheorem 3.1, variance weakly decreases in prior strength:\nfor full quality interval `0 \u2264 q_v \u2264 1`, if prior strength increases the\nposterior-mean variance is nonincreasing.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "corrected source statement",
+    "mbjg25_eq2_fixed_market_mse": {
+      "statement": "Equation 2 defines fixed-market MSE as the average over products of squared posterior-rating error relative to true quality.",
+      "source_location": "ICWSM 19(1), p. 1014, Equation 2; source.txt:315-333",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "definition",
+      "source_text_file": "source.txt",
+      "aliases": [
+        "paper_fixed_market_mse"
+      ],
+      "support_lean_declarations": [
+        "paper_fixed_market_mse"
+      ]
+    },
+    "mbjg25_eq3_fixed_bias_variance_decomposition": {
+      "statement": "Equation 3 states that conditional mean squared error for one product equals squared conditional bias plus conditional variance.",
+      "source_location": "ICWSM 19(1), p. 1014, Equation 3; source.txt:333-345",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "claim",
+      "source_text_file": "source.txt",
+      "aliases": [
+        "paper_facing_fixed_mse_decomposition"
+      ],
+      "proof_lean_declarations": [
+        "paper_facing_fixed_mse_decomposition"
+      ]
+    },
+    "mbjg25_theorem3_1_variance_closed_interval_correction": {
+      "statement": "Corrected Theorem 3.1 variance conclusion: on 0 <= q_v <= 1, increasing nonnegative prior strength weakly decreases posterior-rating variance.",
+      "source_location": "ICWSM 19(1), p. 1015, Theorem 3.1 and Appendix A Equations 11 and 14-15; source.txt:443-450 and 1533-1552 and 1638-1650",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "theorem",
+      "source_text_file": "source.txt",
       "aliases": [
         "paper_facing_theorem3_1_variance_weak_decrease"
-      ]
+      ],
+      "proof_lean_declarations": [
+        "paper_facing_theorem3_1_variance_weak_decrease"
+      ],
+      "source_note": "The printed theorem says strictly decreasing on the closed Bernoulli interval. The corrected weak endpoint is paired with a strict interior theorem and checked endpoint counterexamples.",
+      "source_defect_id": "MBJG25-THEOREM3-1-STRICT-ENDPOINT-01"
     },
-    "paper_facing_theorem3_1_variance_strict_decrease_interior": {
-      "statement": "-\nTheorem 3.1, strict decrease on interior quality values.\nFor `0 < q_v < 1`, positive prior-shape mass, positive number of prior samples,\nand stronger prior strength `\u03b7_high > \u03b7_low`, variance is strictly decreasing.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "corrected source statement",
+    "mbjg25_theorem3_1_variance_strict_interior_correction": {
+      "statement": "Corrected Theorem 3.1 strict conclusion: for 0 < q_v < 1, positive elapsed reviews, positive prior-shape mass, and a strict increase in nonnegative prior strength, posterior-rating variance strictly decreases.",
+      "source_location": "ICWSM 19(1), p. 1015, Theorem 3.1 and Appendix A Equations 11 and 14-15; source.txt:443-450 and 1533-1552 and 1638-1650",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "theorem",
+      "source_text_file": "source.txt",
       "aliases": [
         "paper_facing_theorem3_1_variance_strict_decrease_interior"
-      ]
+      ],
+      "proof_lean_declarations": [
+        "paper_facing_theorem3_1_variance_strict_decrease_interior"
+      ],
+      "source_note": "This repairs the printed statement's endpoint-domain slip without changing its substantive interior monotonicity conclusion.",
+      "source_defect_id": "MBJG25-THEOREM3-1-STRICT-ENDPOINT-01"
     },
-    "paper_facing_theorem3_1_squared_bias_nondecreasing": {
-      "statement": "-\nTheorem 3.1, squared posterior-mean bias is nondecreasing in prior strength.\nWith stronger prior (`\u03b7_high \u2265 \u03b7_low`) and basic nonnegativity assumptions,\nthe squared bias term does not decrease.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "direct paper statement",
+    "mbjg25_theorem3_1_squared_bias_monotonicity": {
+      "statement": "Theorem 3.1 states that squared conditional bias is nondecreasing as prior strength eta increases in the fixed model.",
+      "source_location": "ICWSM 19(1), p. 1015, Theorem 3.1 and Appendix A Equations 6-7 and 12-13; source.txt:443-450 and 1497-1517 and 1606-1637",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "theorem",
+      "source_text_file": "source.txt",
       "aliases": [
+        "paper_facing_theorem3_1_squared_bias_nondecreasing"
+      ],
+      "proof_lean_declarations": [
         "paper_facing_theorem3_1_squared_bias_nondecreasing"
       ]
     },
-    "paper_facing_theorem3_2_squared_bias_convex_in_quality": {
-      "statement": "-\nTheorem 3.2, squared-bias Jensen convexity in true quality.\nThe squared bias is Jensen-convex as a function of quality.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "direct paper statement",
+    "mbjg25_theorem3_2_squared_bias_convexity": {
+      "statement": "Theorem 3.2 states that squared bias is convex as a function of true product quality.",
+      "source_location": "ICWSM 19(1), p. 1015, Theorem 3.2 and Appendix A Equation 18; source.txt:460-469 and 1664-1674",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "theorem",
+      "source_text_file": "source.txt",
       "aliases": [
+        "paper_facing_theorem3_2_squared_bias_convex_in_quality"
+      ],
+      "proof_lean_declarations": [
         "paper_facing_theorem3_2_squared_bias_convex_in_quality"
       ]
     },
-    "paper_facing_theorem3_2_squared_bias_global_min_at_prior_mean": {
-      "statement": "-\nTheorem 3.2, squared-bias global minimizer.\nOn the full quality interval, squared bias is minimized at the prior mean\n`alpha / (alpha + beta)` under positive shape mass and positive sample weight.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "direct paper statement",
+    "mbjg25_theorem3_2_squared_bias_minimizer": {
+      "statement": "Theorem 3.2 states that squared bias has a global minimum at the prior mean alpha_tilde/(alpha_tilde+beta_tilde).",
+      "source_location": "ICWSM 19(1), p. 1015, Theorem 3.2 and Appendix A; source.txt:460-469 and 1655-1663",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "theorem",
+      "source_text_file": "source.txt",
       "aliases": [
+        "paper_facing_theorem3_2_squared_bias_global_min_at_prior_mean"
+      ],
+      "proof_lean_declarations": [
         "paper_facing_theorem3_2_squared_bias_global_min_at_prior_mean"
       ]
     },
-    "paper_facing_theorem3_2_variance_concave_in_quality": {
-      "statement": "-\nTheorem 3.2, posterior-mean variance Jensen concavity in true quality.\nThis holds when the prior-weighted sample mass is nonnegative (`t \u2265 0`).",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "direct paper statement",
+    "mbjg25_theorem3_2_variance_concavity": {
+      "statement": "Theorem 3.2 states that posterior-rating variance is concave as a function of true product quality.",
+      "source_location": "ICWSM 19(1), p. 1015, Theorem 3.2 and Appendix A Equation 11; source.txt:460-469 and 1533-1561",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "theorem",
+      "source_text_file": "source.txt",
       "aliases": [
+        "paper_facing_theorem3_2_variance_concave_in_quality"
+      ],
+      "proof_lean_declarations": [
         "paper_facing_theorem3_2_variance_concave_in_quality"
       ]
     },
-    "paper_facing_theorem3_2_variance_global_max_at_half": {
-      "statement": "-\nTheorem 3.2, posterior-mean variance global maximum at `q = 1/2`.\nFor nonnegative prior-weighted sample mass, variance is globally maximized at\n`q_v = 1/2`.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "direct paper statement",
+    "mbjg25_theorem3_2_variance_maximizer": {
+      "statement": "Theorem 3.2 states that posterior-rating variance has a global maximum at true quality one half.",
+      "source_location": "ICWSM 19(1), p. 1015, Theorem 3.2 and Appendix A Equation 11; source.txt:460-469 and 1533-1561",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "theorem",
+      "source_text_file": "source.txt",
       "aliases": [
+        "paper_facing_theorem3_2_variance_global_max_at_half"
+      ],
+      "proof_lean_declarations": [
         "paper_facing_theorem3_2_variance_global_max_at_half"
       ]
     },
-    "paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_zero": {
-      "statement": "-\nBoundary caution for Theorem 3.1 strict decrease:\nat `q_v = 0`, posterior-mean variance is identically zero for any prior strength,\nso strict decrease cannot hold unconditionally.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "added audit row",
+    "mbjg25_theorem3_1_endpoint_zero_evidence": {
+      "statement": "At q_v=0, the variance numerator t*q_v*(1-q_v) is zero for every prior strength, refuting the printed closed-interval strict wording at the lower endpoint.",
+      "source_location": "ICWSM 19(1), p. 1015, Theorem 3.1 and Appendix A Equation 11; source.txt:443-450 and 1533-1552",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "example",
+      "source_text_file": "source.txt",
       "aliases": [
         "paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_zero"
-      ]
+      ],
+      "proof_lean_declarations": [
+        "paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_zero"
+      ],
+      "source_note": "Checked mathematical evidence for the schema-2 source correction, not a separately advertised paper theorem.",
+      "source_defect_id": "MBJG25-THEOREM3-1-STRICT-ENDPOINT-01"
     },
-    "paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_one": {
-      "statement": "-\nBoundary caution for Theorem 3.1 strict decrease:\nat `q_v = 1`, posterior-mean variance is identically zero for any prior strength,\nso strict decrease cannot hold unconditionally.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "added audit row",
+    "mbjg25_theorem3_1_endpoint_one_evidence": {
+      "statement": "At q_v=1, the variance numerator t*q_v*(1-q_v) is zero for every prior strength, refuting the printed closed-interval strict wording at the upper endpoint.",
+      "source_location": "ICWSM 19(1), p. 1015, Theorem 3.1 and Appendix A Equation 11; source.txt:443-450 and 1533-1552",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "example",
+      "source_text_file": "source.txt",
       "aliases": [
         "paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_one"
+      ],
+      "proof_lean_declarations": [
+        "paper_facing_theorem3_1_variance_strict_decrease_counterexample_quality_one"
+      ],
+      "source_note": "Checked mathematical evidence for the schema-2 source correction, not a separately advertised paper theorem.",
+      "source_defect_id": "MBJG25-THEOREM3-1-STRICT-ENDPOINT-01"
+    },
+    "mbjg25_selection_rate": {
+      "statement": "Section 2.3 defines a product's selection rate as its number of selections (equivalently ratings) divided by its lifespan.",
+      "source_location": "ICWSM 19(1), p. 1014, Section 2.3; source.txt:346-353",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "definition",
+      "source_text_file": "source.txt",
+      "aliases": [
+        "paper_facing_selection_rate"
+      ],
+      "support_lean_declarations": [
+        "paper_facing_selection_rate"
       ]
     },
-    "paper_facing_individual_producer_unfairness": {
-      "statement": "- Section 4: Individual Producer Unfairness.\nDefined as the standard deviation in Selection Rate (SR) among producers with\nthe same true quality `q`.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "direct paper definition",
+    "mbjg25_individual_producer_unfairness": {
+      "statement": "Equation 5 defines quality-conditional individual producer unfairness as the standard deviation of selection rates among products with the same true quality.",
+      "source_location": "ICWSM 19(1), p. 1014, Equation 5; source.txt:376-386",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "definition",
+      "source_text_file": "source.txt",
       "aliases": [
         "paper_facing_individual_producer_unfairness"
+      ],
+      "support_lean_declarations": [
+        "paper_facing_individual_producer_unfairness"
+      ],
+      "source_note": "The source denotes the statistic by sigma-hat without spelling out its finite-sample divisor; Lean records the empirical-distribution divisor |U| and the empty-class convention explicitly."
+    },
+    "mbjg25_marketplace_producer_unfairness": {
+      "statement": "Marketplace-level producer unfairness is the expectation of quality-conditional individual unfairness over true product qualities.",
+      "source_location": "ICWSM 19(1), p. 1014, paragraph after Equation 5; source.txt:386-390",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "definition",
+      "source_text_file": "source.txt",
+      "aliases": [
+        "paper_facing_marketplace_producer_unfairness"
+      ],
+      "support_lean_declarations": [
+        "paper_facing_marketplace_producer_unfairness"
       ]
     },
-    "paper_facing_thompson_sampling_mechanism": {
-      "statement": "- Section 4: Thompson Sampling.\nA dynamic policy that selects an arm by drawing from a belief distribution\nand picking the argmax.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "direct paper definition",
+    "mbjg25_thompson_sampling_choice": {
+      "statement": "In each responsive-market period, Thompson sampling draws one posterior-quality value for every currently available product and chooses a product attaining the maximum draw.",
+      "source_location": "ICWSM 19(1), p. 1017, Section 4.1; source.txt:680-708",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "algorithm",
+      "source_text_file": "source.txt",
       "aliases": [
         "paper_facing_thompson_sampling_mechanism"
-      ]
+      ],
+      "proof_lean_declarations": [
+        "paper_facing_thompson_sampling_mechanism"
+      ],
+      "source_note": "Lean exposes the exact draw-a-joint-profile then argmax policy map; the source's independent Beta posteriors instantiate the supplied joint belief law, while calibrated simulation code is empirical implementation scope."
     },
-    "paper_facing_expected_regret": {
-      "statement": "- Section 4: Expected Regret (Efficiency).\nThe total expected regret across a finite time horizon.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "direct paper definition",
+    "mbjg25_eq4_expected_regret": {
+      "statement": "Equation 4 defines finite-horizon expected regret as the expected sum of the quality gap between the best currently available product and the selected product.",
+      "source_location": "ICWSM 19(1), p. 1014, Equation 4; source.txt:354-369",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "definition",
+      "source_text_file": "source.txt",
       "aliases": [
+        "paper_facing_expected_regret"
+      ],
+      "support_lean_declarations": [
         "paper_facing_expected_regret"
       ]
     },
-    "paper_facing_responsive_mse_decomposition": {
-      "statement": "- Appendix C: MSE Decomposition in the responsive setting.\nWhen the number of reviews $N$ is a random variable, the expected mean squared error\nconditional on true quality decomposes into the expected squared bias and the expected variance.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "direct paper statement",
+    "mbjg25_appendix_c_responsive_mse_decomposition": {
+      "statement": "Appendix C Equations 19-20 apply the tower law over random review count and decompose responsive-market conditional MSE into expected squared fixed-model bias plus expected fixed-model variance.",
+      "source_location": "ICWSM 19(1), Appendix C, Equations 19-20; source.txt:1750-1815",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "claim",
+      "source_text_file": "source.txt",
       "aliases": [
+        "paper_facing_responsive_mse_decomposition"
+      ],
+      "proof_lean_declarations": [
         "paper_facing_responsive_mse_decomposition"
       ]
     },
-    "assumption_positive_prior_shape": {
-      "statement": "- The prior shape has positive total mass.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "mbjg25_positive_prior_shape": {
+      "statement": "The fixed prior shape has positive total mass so its Beta mean and scaled prior parameters are defined.",
+      "source_location": "ICWSM 19(1), Section 2.1 and Theorems 3.1-3.2; source.txt:233-276 and 443-469",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "assumption",
+      "source_text_file": "source.txt",
       "aliases": [
+        "assumption_positive_prior_shape"
+      ],
+      "support_lean_declarations": [
         "assumption_positive_prior_shape"
       ]
     },
-    "assumption_positive_time": {
-      "statement": "- The fixed-setting theorem is evaluated after a positive number of timesteps.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "mbjg25_positive_fixed_time": {
+      "statement": "The fixed-setting results evaluate quality after a positive number of elapsed review timesteps.",
+      "source_location": "ICWSM 19(1), Sections 2.2-3.1 and Appendix A; source.txt:288-292 and 443-469 and 1497-1552",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "assumption",
+      "source_text_file": "source.txt",
       "aliases": [
+        "assumption_positive_time"
+      ],
+      "support_lean_declarations": [
         "assumption_positive_time"
       ]
     },
-    "assumption_nonnegative_time": {
-      "statement": "- Nonnegative time/sample mass for Jensen concavity and global maximum statements.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "mbjg25_nonnegative_review_count": {
+      "statement": "Elapsed time and review-count mass are nonnegative in the fixed and responsive models.",
+      "source_location": "ICWSM 19(1), Sections 2.1-2.2 and Appendix A; source.txt:203-292 and 1533-1552",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "assumption",
+      "source_text_file": "source.txt",
       "aliases": [
+        "assumption_nonnegative_time"
+      ],
+      "support_lean_declarations": [
         "assumption_nonnegative_time"
       ]
     },
-    "assumption_quality_nonnegative": {
-      "statement": "- True quality lies in the closed Bernoulli quality interval.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "mbjg25_quality_lower_bound": {
+      "statement": "Every product's Bernoulli true quality satisfies 0 <= q_v.",
+      "source_location": "ICWSM 19(1), Section 2.1; source.txt:213-223",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "assumption",
+      "source_text_file": "source.txt",
       "aliases": [
+        "assumption_quality_nonnegative"
+      ],
+      "support_lean_declarations": [
         "assumption_quality_nonnegative"
       ]
     },
-    "assumption_quality_at_most_one": {
-      "statement": "- True quality lies in the closed Bernoulli quality interval.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "mbjg25_quality_upper_bound": {
+      "statement": "Every product's Bernoulli true quality satisfies q_v <= 1.",
+      "source_location": "ICWSM 19(1), Section 2.1; source.txt:213-223",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "assumption",
+      "source_text_file": "source.txt",
       "aliases": [
+        "assumption_quality_at_most_one"
+      ],
+      "support_lean_declarations": [
         "assumption_quality_at_most_one"
       ]
     },
-    "assumption_quality_positive": {
-      "statement": "- Interior true quality for the corrected strict variance statement.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "mbjg25_corrected_interior_quality_lower_bound": {
+      "statement": "The corrected strict-variance conclusion restricts true quality to 0 < q_v so that the Bernoulli variance numerator is positive.",
+      "source_location": "ICWSM 19(1), Theorem 3.1 and Appendix A Equation 11; source.txt:443-450 and 1533-1552 and 1638-1650",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "assumption",
+      "source_text_file": "source.txt",
       "aliases": [
         "assumption_quality_positive"
-      ]
+      ],
+      "support_lean_declarations": [
+        "assumption_quality_positive"
+      ],
+      "source_note": "Formalized source-correction condition implied by the source formula.",
+      "source_defect_id": "MBJG25-THEOREM3-1-STRICT-ENDPOINT-01"
     },
-    "assumption_quality_lt_one": {
-      "statement": "- Interior true quality for the corrected strict variance statement.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "mbjg25_corrected_interior_quality_upper_bound": {
+      "statement": "The corrected strict-variance conclusion restricts true quality to q_v < 1 so that the Bernoulli variance numerator is positive.",
+      "source_location": "ICWSM 19(1), Theorem 3.1 and Appendix A Equation 11; source.txt:443-450 and 1533-1552 and 1638-1650",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "assumption",
+      "source_text_file": "source.txt",
       "aliases": [
         "assumption_quality_lt_one"
-      ]
+      ],
+      "support_lean_declarations": [
+        "assumption_quality_lt_one"
+      ],
+      "source_note": "Formalized source-correction condition implied by the source formula.",
+      "source_defect_id": "MBJG25-THEOREM3-1-STRICT-ENDPOINT-01"
     },
-    "assumption_prior_strength_nonnegative": {
-      "statement": "- Prior strength is nonnegative.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "mbjg25_nonnegative_prior_strength": {
+      "statement": "Prior strength eta is nonnegative in the source parameterization (alpha_hat,beta_hat)=(eta*alpha_tilde,eta*beta_tilde).",
+      "source_location": "ICWSM 19(1), Section 2.1 and Theorem 3.1; source.txt:270-276 and 443-450",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "assumption",
+      "source_text_file": "source.txt",
       "aliases": [
+        "assumption_prior_strength_nonnegative"
+      ],
+      "support_lean_declarations": [
         "assumption_prior_strength_nonnegative"
       ]
     },
-    "assumption_prior_strength_weak_order": {
-      "statement": "- Prior strength weakly increases.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "mbjg25_weak_prior_strength_order": {
+      "statement": "The nondecreasing/nonincreasing clauses compare a lower prior strength eta_low with eta_high satisfying eta_low <= eta_high.",
+      "source_location": "ICWSM 19(1), Theorem 3.1 and Appendix A; source.txt:443-450 and 1606-1650",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "assumption",
+      "source_text_file": "source.txt",
       "aliases": [
+        "assumption_prior_strength_weak_order"
+      ],
+      "support_lean_declarations": [
         "assumption_prior_strength_weak_order"
       ]
     },
-    "assumption_prior_strength_strict_order": {
-      "statement": "- Prior strength strictly increases.",
-      "source_url": "https://arxiv.org/pdf/2207.04369; published article: https://doi.org/10.1609/icwsm.v19i1.35865",
-      "source_location": "paper-facing review target; exact source location to be refined",
+    "mbjg25_strict_prior_strength_order": {
+      "statement": "Strict variance decrease compares prior strengths satisfying eta_low < eta_high.",
+      "source_location": "ICWSM 19(1), Theorem 3.1 and Appendix A; source.txt:443-450 and 1638-1650",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "assumption",
+      "source_text_file": "source.txt",
       "aliases": [
         "assumption_prior_strength_strict_order"
+      ],
+      "support_lean_declarations": [
+        "assumption_prior_strength_strict_order"
+      ]
+    },
+    "mbjg25_eq20_positive_rating_count": {
+      "statement": "Equation 20's observed-rating weighted-average expression is evaluated for a positive observed rating count n.",
+      "source_location": "ICWSM 19(1), Appendix D, Equation 20; source.txt:1810-1830",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "assumption",
+      "source_text_file": "source.txt",
+      "aliases": [
+        "assumption_positive_rating_count"
+      ],
+      "support_lean_declarations": [
+        "assumption_positive_rating_count"
+      ]
+    },
+    "mbjg25_eq20_bayesian_rating_equivalence": {
+      "statement": "Equation 20 simplifies the convex combination of the observed positive-rating share and population baseline C to (k+m*C)/(n+m), which is the binary posterior formula with pseudo-counts m*C and m*(1-C).",
+      "source_location": "ICWSM 19(1), Appendix D, Equation 20 and following paragraph; source.txt:1810-1835",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "claim",
+      "source_text_file": "source.txt",
+      "aliases": [
+        "paper_facing_eq20_bayesian_rating_equivalence"
+      ],
+      "proof_lean_declarations": [
+        "paper_facing_eq20_bayesian_rating_equivalence"
+      ],
+      "source_note": "The printed Beta(C,1) label is corrected to Beta(C,1-C), the unique shape whose mean is C and whose strength-one scaling yields Equation 20.",
+      "source_defect_id": "MBJG25-EQ20-BETA-SHAPE-01"
+    },
+    "mbjg25_eq21_corrected_ordinal_posterior_rating": {
+      "statement": "Corrected Equation 21: under a Dirichlet prior, ordinal posterior expected rating is the rating-value-weighted sum of prior pseudo-count plus observed count, divided by total prior plus observed mass.",
+      "source_location": "ICWSM 19(1), Appendix E, Equation 21 and surrounding Dirichlet-prior paragraphs; source.txt:1903-2029",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "definition",
+      "source_text_file": "source.txt",
+      "aliases": [
+        "paper_ordinal_posterior_rating"
+      ],
+      "support_lean_declarations": [
+        "paper_ordinal_posterior_rating"
+      ],
+      "source_note": "The printed display omits alphaHat from both sums; the notation and adjacent paragraphs uniquely require the prior pseudo-count terms.",
+      "source_defect_id": "MBJG25-EQ21-PRIOR-OMISSION-01"
+    },
+    "mbjg25_eq21_printed_zero_prior_comparison": {
+      "statement": "The expression printed in Equation 21 is exactly the zero-prior special case of the corrected Dirichlet posterior expected-rating formula.",
+      "source_location": "ICWSM 19(1), Appendix E, Equation 21 and following prior-strength paragraph; source.txt:1903-2029",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "claim",
+      "source_text_file": "source.txt",
+      "aliases": [
+        "paper_facing_eq21_zero_prior_comparison"
+      ],
+      "proof_lean_declarations": [
+        "paper_facing_eq21_zero_prior_comparison"
+      ],
+      "source_note": "Checked comparison evidence for the formalized Equation 21 source correction.",
+      "source_defect_id": "MBJG25-EQ21-PRIOR-OMISSION-01"
+    },
+    "mbjg25_appendix_f_k_sampling_rule": {
+      "statement": "Appendix F defines k-sampling by taking the k products with the highest values in the sampled reward profile and selecting uniformly from that top-k set.",
+      "source_location": "ICWSM 19(1), Appendix F, k-sampling definition; source.txt:2090-2175",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "algorithm",
+      "source_text_file": "source.txt",
+      "aliases": [
+        "paper_facing_k_sampling_mechanism"
+      ],
+      "proof_lean_declarations": [
+        "paper_facing_k_sampling_mechanism"
+      ]
+    },
+    "mbjg25_appendix_f_k_one_endpoint": {
+      "statement": "At k=1, k-sampling selects the profile argmax and is the one-profile choice step of traditional Thompson sampling.",
+      "source_location": "ICWSM 19(1), Appendix F, paragraph after k-sampling definition; source.txt:2090-2175",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "claim",
+      "source_text_file": "source.txt",
+      "aliases": [
+        "paper_facing_k_sampling_one_is_argmax"
+      ],
+      "proof_lean_declarations": [
+        "paper_facing_k_sampling_one_is_argmax"
+      ]
+    },
+    "mbjg25_appendix_f_market_size_endpoint": {
+      "statement": "When k equals the number of products in the market, k-sampling is uniform random selection over the whole market.",
+      "source_location": "ICWSM 19(1), Appendix F, paragraph after k-sampling definition; source.txt:2090-2175",
+      "source_url": "https://doi.org/10.1609/icwsm.v19i1.35854",
+      "source_kind": "claim",
+      "source_text_file": "source.txt",
+      "aliases": [
+        "paper_facing_k_sampling_market_size_is_uniform"
+      ],
+      "proof_lean_declarations": [
+        "paper_facing_k_sampling_market_size_is_uniform"
       ]
     }
-  },
-  "source_inventory_kind": "source_curated",
-  "source_curated": true
+  }
 }

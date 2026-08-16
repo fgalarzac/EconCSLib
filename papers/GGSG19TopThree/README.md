@@ -4,8 +4,8 @@
 | Field | Value |
 |---|---|
 | Final status | Formalized |
-| Paper reference | [Who is in Your Top Three? Optimizing Learning in Elections with Many Candidates](https://arxiv.org/pdf/1906.08160) by Nikhil Garg, Lodewijk Gelauff, Sukolsak Sakshuwong, Ashish Goel; HCOMP, 2019. |
-| Lines of Code | 35,059 |
+| Paper reference | [Who is in Your Top Three? Optimizing Learning in Elections with Many Candidates](https://arxiv.org/pdf/1906.08160) by Nikhil Garg; Lodewijk Gelauff; Sukolsak Sakshuwong; Ashish Goel; HCOMP, 2019. |
+| Lines of Code | 37,395 |
 
 ## Key Links
 

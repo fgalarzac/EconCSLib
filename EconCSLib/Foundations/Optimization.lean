@@ -10,9 +10,11 @@ import EconCSLib.Foundations.Optimization.Certificate
 import EconCSLib.Foundations.Optimization.Endpoint
 import EconCSLib.Foundations.Optimization.FiniteSearch
 import EconCSLib.Foundations.Optimization.LinearProgram
+import EconCSLib.Foundations.Optimization.MeasureThreshold
 import EconCSLib.Foundations.Optimization.MoveGraph
 import EconCSLib.Foundations.Optimization.StochasticSubgradient
 import EconCSLib.Foundations.Optimization.StrategicEquilibrium
+import EconCSLib.Foundations.Optimization.ThresholdExchange
 
 /-!
 # Optimization Foundations
@@ -52,8 +54,13 @@ Aggregate import for reusable optimization primitives.
   over nonempty finite feasible sets and finite encodings of feasible regions.
 - `EconCSLib.Foundations.Optimization.LinearProgram`: lightweight finite LP
   primal/dual feasibility, weak duality, and optimality certificates.
+- `EconCSLib.Foundations.Optimization.MeasureThreshold`: finite-measure
+  threshold-attainment helpers with boundary randomization.
 - `EconCSLib.Foundations.Optimization.MoveGraph`: exchange/local-move
   optimality from reachability and monotone moves.
 - `EconCSLib.Foundations.Optimization.StochasticSubgradient`: the audited
   library-level boundary for stochastic subgradient convergence consequences.
+- `EconCSLib.Foundations.Optimization.ThresholdExchange`: finite weighted
+  threshold-exchange inequalities for threshold and fractional-knapsack
+  dominance proofs.
 -/

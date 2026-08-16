@@ -237,32 +237,58 @@ theorem variabilityAtMost_choiceRuleOfAssignment_slots [Fintype α]
 Two slots induce the same strict applicant order when every pair of applicants
 is ordered the same way by their slot weights.
 -/
-def SameSlotOrder (w : α → σ → ℤ) (s t : σ) : Prop :=
+def SameSlotOrder (w : α → σ → ℝ) (s t : σ) : Prop :=
   ∀ a b, w a s < w b s ↔ w a t < w b t
 
 /-- A slot has no applicant weight ties. -/
-def SlotNoTies (w : α → σ → ℤ) (s : σ) : Prop :=
+def SlotNoTies (w : α → σ → ℝ) (s : σ) : Prop :=
   ∀ {a b}, a ≠ b → w a s ≠ w b s
 
 omit [DecidableEq α] [DecidableEq σ] in
-theorem sameSlotOrder_refl (w : α → σ → ℤ) (s : σ) :
+theorem sameSlotOrder_refl (w : α → σ → ℝ) (s : σ) :
     SameSlotOrder w s s := by
   intro a b
   rfl
 
 omit [DecidableEq α] in
-theorem SameSlotOrder.symm {w : α → σ → ℤ} {s t : σ}
+theorem SameSlotOrder.symm {w : α → σ → ℝ} {s t : σ}
     (h : SameSlotOrder w s t) :
     SameSlotOrder w t s := by
   intro a b
   exact (h a b).symm
 
 omit [DecidableEq α] [DecidableEq σ] [Fintype σ] in
-theorem SameSlotOrder.trans {w : α → σ → ℤ} {s t u : σ}
+theorem SameSlotOrder.trans {w : α → σ → ℝ} {s t u : σ}
     (hst : SameSlotOrder w s t) (htu : SameSlotOrder w t u) :
     SameSlotOrder w s u := by
   intro a b
   exact (hst a b).trans (htu a b)
+
+/-- Equality of slot-induced applicant orders as a canonical setoid. -/
+def sameSlotOrderSetoid (w : α → σ → ℝ) : Setoid σ where
+  r := SameSlotOrder w
+  iseqv := {
+    refl := sameSlotOrder_refl w
+    symm := fun h => SameSlotOrder.symm h
+    trans := fun hst htu => SameSlotOrder.trans hst htu
+  }
+
+/-- The canonical equivalence class of a slot's induced applicant order. -/
+def slotOrderClass (w : α → σ → ℝ) (s : σ) :
+    Quotient (sameSlotOrderSetoid w) :=
+  Quotient.mk _ s
+
+/-- Equal canonical slot-order classes induce the same applicant order. -/
+theorem sameSlotOrder_of_slotOrderClass_eq
+    {w : α → σ → ℝ} {s t : σ}
+    (h : slotOrderClass w s = slotOrderClass w t) :
+    SameSlotOrder w s t := by
+  exact Quotient.exact h
+
+/-- Number of distinct applicant orders represented by the finite slot set. -/
+noncomputable def distinctSlotOrderCount (w : α → σ → ℝ) : ℕ := by
+  classical
+  exact ((Finset.univ : Finset σ).image (slotOrderClass w)).card
 
 omit [DecidableEq σ] in
 /--
@@ -338,7 +364,7 @@ slot-order classes.
 -/
 theorem variabilityAtMost_choiceRuleOfAssignment_of_same_slot_order_borderline_injective
     [Fintype α] {κ : Type*} [DecidableEq κ]
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ} {classOf : σ → κ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ} {classOf : σ → κ}
     (hclass : ∀ {s t : σ}, classOf s = classOf t → SameSlotOrder w s t)
     (hkernel :
       ∀ {X : Finset α} {y z : α} {sy sz : σ},
@@ -375,13 +401,13 @@ theorem exists_loss_witness_of_mem_borderlineSet_choiceRuleOfAssignment
   exact ⟨x, hyLoss⟩
 
 /-- The contribution of one slot to the linear assignment objective. -/
-def slotValue (w : α → σ → ℤ) (A : Assignment α σ) (s : σ) : ℤ :=
+def slotValue (w : α → σ → ℝ) (A : Assignment α σ) (s : σ) : ℝ :=
   match A.matchSlot s with
   | none => 0
   | some a => w a s
 
 /-- Linear objective: sum of assigned applicant-slot weights over all slots. -/
-def objective (w : α → σ → ℤ) (A : Assignment α σ) : ℤ :=
+def objective (w : α → σ → ℝ) (A : Assignment α σ) : ℝ :=
   ∑ s : σ, slotValue w A s
 
 /--
@@ -389,7 +415,7 @@ Global optimality for the finite linear assignment model, among feasible
 capacity-filling assignments for the same applicant pool.
 -/
 def ObjectiveOptimal
-    (X : Finset α) (w : α → σ → ℤ) (A : Assignment α σ) : Prop :=
+    (X : Finset α) (w : α → σ → ℝ) (A : Assignment α σ) : Prop :=
   ∀ B : Assignment α σ,
     Feasible X B → CapacityFilling X B → objective w B ≤ objective w A
 
@@ -399,7 +425,7 @@ tie-breaking condition needed to turn existence of a preserving optimum into a
 specific deterministic choice rule.
 -/
 def UniqueChosenSetObjectiveOptimal
-    (X : Finset α) (w : α → σ → ℤ) (A : Assignment α σ) : Prop :=
+    (X : Finset α) (w : α → σ → ℝ) (A : Assignment α σ) : Prop :=
   ObjectiveOptimal X w A ∧
     ∀ B : Assignment α σ,
       Feasible X B → CapacityFilling X B →
@@ -411,15 +437,47 @@ capacity-filling assignment whose chosen set is the unique globally optimal
 chosen set.
 -/
 def SelectsUniqueGlobalOptima
-    (w : α → σ → ℤ) (select : Finset α → Assignment α σ) : Prop :=
+    (w : α → σ → ℝ) (select : Finset α → Assignment α σ) : Prop :=
   ∀ X, Feasible X (select X) ∧
     CapacityFilling X (select X) ∧
       UniqueChosenSetObjectiveOptimal X w (select X)
 
+/--
+Well-posed LAP weights: every finite applicant pool has a feasible,
+capacity-filling optimum with a unique optimal chosen set. This is the precise
+global no-tie condition needed for a deterministic choice function.
+-/
+def WellPosedObjective (w : α → σ → ℝ) : Prop :=
+  ∀ X : Finset α, ∃ A : Assignment α σ,
+    Feasible X A ∧ CapacityFilling X A ∧
+      UniqueChosenSetObjectiveOptimal X w A
+
+/-- Canonical selected optimum supplied by a well-posed finite LAP. -/
+noncomputable def canonicalOptimalAssignment
+    (w : α → σ → ℝ) (hwell : WellPosedObjective w)
+    (X : Finset α) : Assignment α σ :=
+  Classical.choose (hwell X)
+
+/-- The canonical selected assignment has the complete well-posedness specification. -/
+theorem canonicalOptimalAssignment_spec
+    {w : α → σ → ℝ} (hwell : WellPosedObjective w) (X : Finset α) :
+    Feasible X (canonicalOptimalAssignment w hwell X) ∧
+      CapacityFilling X (canonicalOptimalAssignment w hwell X) ∧
+        UniqueChosenSetObjectiveOptimal X w
+          (canonicalOptimalAssignment w hwell X) := by
+  exact Classical.choose_spec (hwell X)
+
+/-- The canonical selector really selects unique global optima at every pool. -/
+theorem canonicalOptimalAssignment_selectsUniqueGlobalOptima
+    {w : α → σ → ℝ} (hwell : WellPosedObjective w) :
+    SelectsUniqueGlobalOptima w (canonicalOptimalAssignment w hwell) := by
+  intro X
+  exact canonicalOptimalAssignment_spec hwell X
+
 omit [DecidableEq σ] in
 /-- A selector of unique global optima returns feasible assignments. -/
 theorem feasible_of_selectsUniqueGlobalOptima
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select) (X : Finset α) :
     Feasible X (select X) :=
   (hselect X).1
@@ -427,7 +485,7 @@ theorem feasible_of_selectsUniqueGlobalOptima
 omit [DecidableEq σ] in
 /-- A selector of unique global optima returns capacity-filling assignments. -/
 theorem capacityFilling_of_selectsUniqueGlobalOptima
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select) (X : Finset α) :
     CapacityFilling X (select X) :=
   (hselect X).2.1
@@ -435,7 +493,7 @@ theorem capacityFilling_of_selectsUniqueGlobalOptima
 omit [DecidableEq σ] in
 /-- A selector of unique global optima returns globally optimal assignments. -/
 theorem objectiveOptimal_of_selectsUniqueGlobalOptima
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select) (X : Finset α) :
     ObjectiveOptimal X w (select X) :=
   (hselect X).2.2.1
@@ -446,7 +504,7 @@ If a selector returns unique global optima, the induced choice rule is
 feasible.
 -/
 theorem feasible_choiceRuleOfAssignment_of_selectsUniqueGlobalOptima
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select) :
     EconCSLib.FiniteChoice.Feasible (choiceRuleOfAssignment select) :=
   feasible_choiceRuleOfAssignment
@@ -458,7 +516,7 @@ If a selector returns unique global optima, the induced choice rule is
 q-acceptant at capacity equal to the number of slots.
 -/
 theorem qAcceptant_choiceRuleOfAssignment_of_selectsUniqueGlobalOptima
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select) :
     EconCSLib.FiniteChoice.QAcceptant
       (Fintype.card σ) (choiceRuleOfAssignment select) :=
@@ -473,7 +531,7 @@ applicant `x`, then there is some optimal assignment for the old pool that
 still chooses `a`.
 -/
 def SingleAddOldChosenPreservation
-    (w : α → σ → ℤ) (select : Finset α → Assignment α σ) : Prop :=
+    (w : α → σ → ℝ) (select : Finset α → Assignment α σ) : Prop :=
   ∀ {X : Finset α} {x a : α},
     x ∉ X →
       a ∈ X →
@@ -492,7 +550,7 @@ optimum. Since the selected old assignment is globally optimal, this repair is
 automatically globally optimal too.
 -/
 def SingleAddExchangeRepair
-    (w : α → σ → ℤ) (select : Finset α → Assignment α σ) : Prop :=
+    (w : α → σ → ℝ) (select : Finset α → Assignment α σ) : Prop :=
   ∀ {X : Finset α} {x a : α},
     x ∉ X →
       a ∈ X →
@@ -510,7 +568,7 @@ selected before insertion.  The other branches are closed by direct optimality
 arguments below.
 -/
 def SingleAddNewlyChosenExchangeRepair
-    (w : α → σ → ℤ) (select : Finset α → Assignment α σ) : Prop :=
+    (w : α → σ → ℝ) (select : Finset α → Assignment α σ) : Prop :=
   ∀ {X : Finset α} {x a : α},
     x ∉ X →
       a ∈ X →
@@ -526,7 +584,7 @@ def SingleAddNewlyChosenExchangeRepair
 omit [DecidableEq σ] in
 /-- An at-least-as-good feasible repair of a global optimum is also optimal. -/
 theorem objectiveOptimal_of_objectiveOptimal_of_objective_le
-    {X : Finset α} {w : α → σ → ℤ} {A B : Assignment α σ}
+    {X : Finset α} {w : α → σ → ℝ} {A B : Assignment α σ}
     (hAopt : ObjectiveOptimal X w A)
     (hAB : objective w A ≤ objective w B) :
     ObjectiveOptimal X w B := by
@@ -539,7 +597,7 @@ The exchange-repair target implies the preservation certificate using the
 old-pool global optimality supplied by the selector.
 -/
 theorem singleAddOldChosenPreservation_of_selectsUniqueGlobalOptima_of_singleAddExchangeRepair
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hrepair : SingleAddExchangeRepair w select) :
     SingleAddOldChosenPreservation w select := by
@@ -557,7 +615,7 @@ Under unique chosen-set selection, the single-addition exchange certificate
 rules out every one-step gain of a previously rejected old applicant.
 -/
 theorem no_single_add_gain_of_selectsUniqueGlobalOptima_of_singleAddOldChosenPreservation
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hpreserve : SingleAddOldChosenPreservation w select) :
     ¬ ∃ X x a,
@@ -580,7 +638,7 @@ single-addition exchange certificate imply substitutability of the assignment
 choice rule.
 -/
 theorem substitutable_choiceRuleOfAssignment_of_selectsUniqueGlobalOptima_of_singleAddOldChosenPreservation
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hpreserve : SingleAddOldChosenPreservation w select) :
     EconCSLib.FiniteChoice.Substitutable (choiceRuleOfAssignment select) := by
@@ -596,7 +654,7 @@ Consequently, the existing finite-choice theorem closes the paper's
 proved.
 -/
 theorem dUnstable_one_choiceRuleOfAssignment_of_selectsUniqueGlobalOptima_of_singleAddOldChosenPreservation
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hpreserve : SingleAddOldChosenPreservation w select) :
     EconCSLib.FiniteChoice.DUnstable 1 (choiceRuleOfAssignment select) := by
@@ -612,7 +670,7 @@ Same source-theorem bridge, stated against the lower-level exchange-repair
 lemma that should be proved by an alternating-path/matching argument.
 -/
 theorem dUnstable_one_choiceRuleOfAssignment_of_selectsUniqueGlobalOptima_of_singleAddExchangeRepair
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hrepair : SingleAddExchangeRepair w select) :
     EconCSLib.FiniteChoice.DUnstable 1 (choiceRuleOfAssignment select) := by
@@ -718,7 +776,7 @@ is not selected after insertion, the enlarged-pool optimum itself is a valid
 old-pool repair.
 -/
 theorem singleAddExchangeRepair_case_new_not_chosen
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     {X : Finset α} {x a : α}
     (hxX : x ∉ X)
@@ -773,7 +831,7 @@ already chosen before insertion, the selected old-pool optimum is itself the
 repair.
 -/
 theorem singleAddExchangeRepair_case_already_chosen
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     {X : Finset α} {a : α}
     (haSmall : a ∈ (select X).chosenSet) :
@@ -794,7 +852,7 @@ The selected-new/newly-chosen branch is the only remaining case needed for the
 full single-addition exchange-repair certificate.
 -/
 theorem singleAddExchangeRepair_of_selectsUniqueGlobalOptima_of_newlyChosenExchangeRepair
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hnew : SingleAddNewlyChosenExchangeRepair w select) :
     SingleAddExchangeRepair w select := by
@@ -1133,7 +1191,7 @@ At each slot, the two complementary splices have the same total contribution as
 the two original assignments.
 -/
 theorem slotValue_spliceSlots_add_slotValue_spliceSlots
-    {w : α → σ → ℤ} {A B : Assignment α σ} {R : Finset σ} (s : σ) :
+    {w : α → σ → ℝ} {A B : Assignment α σ} {R : Finset σ} (s : σ) :
     slotValue w (spliceSlots A B R) s +
         slotValue w (spliceSlots B A R) s =
       slotValue w A s + slotValue w B s := by
@@ -1146,7 +1204,7 @@ omit [DecidableEq α] in
 Objective accounting for complementary slot splices.
 -/
 theorem objective_spliceSlots_add_objective_spliceSlots
-    {w : α → σ → ℤ} {A B : Assignment α σ} {R : Finset σ} :
+    {w : α → σ → ℝ} {A B : Assignment α σ} {R : Finset σ} :
     objective w (spliceSlots A B R) +
         objective w (spliceSlots B A R) =
       objective w A + objective w B := by
@@ -1162,7 +1220,7 @@ If reverting the same component in `B` back to `A` is no better than `B`, then
 the forward splice from `A` to `B` is at least as good as `A`.
 -/
 theorem objective_le_spliceSlots_of_reverse_splice_le
-    {w : α → σ → ℤ} {A B : Assignment α σ} {R : Finset σ}
+    {w : α → σ → ℝ} {A B : Assignment α σ} {R : Finset σ}
     (hle :
       objective w (spliceSlots B A R) ≤ objective w B) :
     objective w A ≤ objective w (spliceSlots A B R) := by
@@ -1185,7 +1243,7 @@ capacity-filling assignment that preserves `a` and is at least as good as the
 old assignment.
 -/
 theorem exchangeRepair_of_component_not_fresh
-    {X : Finset α} {x a : α} {w : α → σ → ℤ} {A B : Assignment α σ}
+    {X : Finset α} {x a : α} {w : α → σ → ℝ} {A B : Assignment α σ}
     {root : σ}
     (hxX : x ∉ X)
     (hAfeas : Feasible X A)
@@ -1633,7 +1691,7 @@ Directed alternating exchange repair.  This is the selected-new/newly-chosen
 branch of the LAP exchange theorem.
 -/
 theorem exchangeRepair_forwardSlotReachSet
-    {X : Finset α} {x a : α} {w : α → σ → ℤ} {A B : Assignment α σ}
+    {X : Finset α} {x a : α} {w : α → σ → ℝ} {A B : Assignment α σ}
     {root : σ}
     (hxX : x ∉ X)
     (haX : a ∈ X)
@@ -1697,7 +1755,7 @@ Unique global LAP optima satisfy the selected-new/newly-chosen exchange-repair
 branch by the directed alternating splice argument.
 -/
 theorem singleAddNewlyChosenExchangeRepair_of_selectsUniqueGlobalOptima
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select) :
     SingleAddNewlyChosenExchangeRepair w select := by
   classical
@@ -1725,7 +1783,7 @@ Finite globally optimal LAP assignment selectors satisfy the full
 single-addition exchange-repair certificate.
 -/
 theorem singleAddExchangeRepair_of_selectsUniqueGlobalOptima
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select) :
     SingleAddExchangeRepair w select :=
   singleAddExchangeRepair_of_selectsUniqueGlobalOptima_of_newlyChosenExchangeRepair
@@ -1738,7 +1796,7 @@ Finite globally optimal LAP assignment choice rules are `1`-unstable; the
 exchange-repair certificate is derived above rather than assumed.
 -/
 theorem dUnstable_one_choiceRuleOfAssignment_of_selectsUniqueGlobalOptima
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select) :
     EconCSLib.FiniteChoice.DUnstable 1 (choiceRuleOfAssignment select) :=
   dUnstable_one_choiceRuleOfAssignment_of_selectsUniqueGlobalOptima_of_singleAddExchangeRepair
@@ -1752,7 +1810,7 @@ applicant `x`, losing old applicant `y` means the new chosen set is exactly
 the old chosen set with `y` replaced by `x`.
 -/
 theorem choice_insert_eq_insert_erase_choice_of_lap_borderline_loss
-    {X : Finset α} {x y : α} {w : α → σ → ℤ}
+    {X : Finset α} {x y : α} {w : α → σ → ℝ}
     {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hxX : x ∉ X)
@@ -1783,7 +1841,7 @@ omit [DecidableEq σ] in
 Every LAP borderline applicant has a fresh one-for-one exchange witness.
 -/
 theorem exists_exact_exchange_witness_of_mem_borderlineSet_choiceRuleOfAssignment
-    [Fintype α] {X : Finset α} {y : α} {w : α → σ → ℤ}
+    [Fintype α] {X : Finset α} {y : α} {w : α → σ → ℝ}
     {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hyB : y ∈ EconCSLib.FiniteChoice.borderlineSet
@@ -1818,7 +1876,7 @@ at the new slot of the fresh applicant reaches the old slot of the lost
 applicant.
 -/
 theorem lost_slot_mem_forwardSlotReachSet_of_lap_borderline_loss
-    {X : Finset α} {x y : α} {root lost : σ} {w : α → σ → ℤ}
+    {X : Finset α} {x y : α} {root lost : σ} {w : α → σ → ℝ}
     {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hxX : x ∉ X)
@@ -1974,7 +2032,7 @@ In an exact LAP insertion that loses `y`, every slot in the fresh-root
 reachability set lies on the directed path to the old slot of `y`.
 -/
 theorem forward_reaches_lost_of_mem_forwardSlotReachSet_of_lap_borderline_loss
-    {X : Finset α} {x y : α} {root lost s : σ} {w : α → σ → ℤ}
+    {X : Finset α} {x y : α} {root lost s : σ} {w : α → σ → ℝ}
     {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hxX : x ∉ X)
@@ -2001,7 +2059,7 @@ assignment into the old assignment on the fresh-to-lost reachability set
 remains globally optimal for the enlarged pool.
 -/
 theorem objectiveOptimal_spliceSlots_forwardSlotReachSet_of_lap_borderline_loss
-    {X : Finset α} {x y : α} {root : σ} {w : α → σ → ℤ}
+    {X : Finset α} {x y : α} {root : σ} {w : α → σ → ℝ}
     {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hxX : x ∉ X)
@@ -2083,7 +2141,7 @@ For a unique-global-optimum LAP selector, once one old chosen applicant is
 lost after a fresh insertion, every other old chosen applicant remains chosen.
 -/
 theorem chosen_after_insert_of_ne_lost_of_selectsUniqueGlobalOptima
-    {X : Finset α} {x y z : α} {w : α → σ → ℤ}
+    {X : Finset α} {x y z : α} {w : α → σ → ℝ}
     {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hxX : x ∉ X)
@@ -2194,7 +2252,7 @@ Primitive local optimality: no feasible one-slot replacement of an assigned
 slot occupant by a rejected applicant strictly improves the linear objective.
 -/
 def NoProfitableOneSlotSwap
-    (X : Finset α) (w : α → σ → ℤ) (A : Assignment α σ) : Prop :=
+    (X : Finset α) (w : α → σ → ℝ) (A : Assignment α σ) : Prop :=
   ∀ {s y x},
     A.matchSlot s = some y →
       Rejected X A x →
@@ -2203,7 +2261,7 @@ def NoProfitableOneSlotSwap
 
 /-- Global objective optimality implies no profitable one-slot swap. -/
 theorem noProfitableOneSlotSwap_of_objectiveOptimal
-    {X : Finset α} {w : α → σ → ℤ} {A : Assignment α σ}
+    {X : Finset α} {w : α → σ → ℝ} {A : Assignment α σ}
     (hopt : ObjectiveOptimal X w A)
     (hfill : CapacityFilling X A) :
     NoProfitableOneSlotSwap X w A := by
@@ -2218,13 +2276,13 @@ theorem noProfitableOneSlotSwap_of_objectiveOptimal
   exact not_lt_of_ge hle hlt
 
 /-- Strict slot order induced by the slot's assignment weight. -/
-def SlotBelow (w : α → σ → ℤ) (s : σ) (a b : α) : Prop :=
+def SlotBelow (w : α → σ → ℝ) (s : σ) (a b : α) : Prop :=
   w a s < w b s
 
 omit [DecidableEq α] [DecidableEq σ] [Fintype σ] in
 /-- Strict slot comparison implies distinct applicants. -/
 theorem ne_of_slotBelow
-    {w : α → σ → ℤ} {s : σ} {a b : α}
+    {w : α → σ → ℝ} {s : σ} {a b : α}
     (hbelow : SlotBelow w s a b) :
     a ≠ b := by
   intro hab
@@ -2232,7 +2290,7 @@ theorem ne_of_slotBelow
   exact (lt_irrefl (w b s)) hbelow
 
 /-- Weak slot order induced by the slot's assignment weight. -/
-def SlotAtLeast (w : α → σ → ℤ) (s : σ) (a b : α) : Prop :=
+def SlotAtLeast (w : α → σ → ℝ) (s : σ) (a b : α) : Prop :=
   w b s ≤ w a s
 
 omit [DecidableEq σ] in
@@ -2241,7 +2299,7 @@ In a no-ties slot order, two distinct applicants are strictly comparable; the
 comparison can be transported to any slot with the same induced order.
 -/
 theorem slotBelow_or_slotBelow_of_sameSlotOrder_of_noTies
-    {w : α → σ → ℤ} {s t : σ} {a b : α}
+    {w : α → σ → ℝ} {s t : σ} {a b : α}
     (hsame : SameSlotOrder w s t)
     (hnoTies : SlotNoTies w s)
     (hab : a ≠ b) :
@@ -2258,10 +2316,10 @@ Replacing the occupant of one slot by a strictly higher-weight applicant
 strictly raises the finite linear objective.
 -/
 theorem objective_lt_replaceSlot_of_slot_weight_lt
-    {w : α → σ → ℤ} {A : Assignment α σ} {s : σ} {y x : α}
+    {w : α → σ → ℝ} {A : Assignment α σ} {s : σ} {y x : α}
     (hslot : A.matchSlot s = some y) (hweight : w y s < w x s) :
     objective w A < objective w (replaceSlot A s x) := by
-  let rest : ℤ := (Finset.univ.erase s).sum fun t => slotValue w A t
+  let rest : ℝ := (Finset.univ.erase s).sum fun t => slotValue w A t
   have hrest :
       ((Finset.univ.erase s).sum fun t =>
         slotValue w (replaceSlot A s x) t) = rest := by
@@ -2303,7 +2361,7 @@ rejected from the same applicant pool, and the one-slot replacement is feasible,
 then `y` is not below `x` in the slot-weight order.
 -/
 theorem not_slotBelow_of_noProfitableOneSlotSwap
-    {X : Finset α} {w : α → σ → ℤ} {A : Assignment α σ}
+    {X : Finset α} {w : α → σ → ℝ} {A : Assignment α σ}
     (hopt : NoProfitableOneSlotSwap X w A)
     {s : σ} {y x : α}
     (hslot : A.matchSlot s = some y)
@@ -2319,7 +2377,7 @@ Equivalent weak-order form: under the same hypotheses, the assigned applicant
 is at least as high as the rejected feasible replacement at slot `s`.
 -/
 theorem slotAtLeast_of_noProfitableOneSlotSwap
-    {X : Finset α} {w : α → σ → ℤ} {A : Assignment α σ}
+    {X : Finset α} {w : α → σ → ℝ} {A : Assignment α σ}
     (hopt : NoProfitableOneSlotSwap X w A)
     {s : σ} {y x : α}
     (hslot : A.matchSlot s = some y)
@@ -2334,7 +2392,7 @@ Feasible-assignment bridge: if `A` is feasible and locally optimal, then every
 occupied slot ranks its occupant at least as high as any rejected applicant.
 -/
 theorem slotAtLeast_rejected_of_noProfitableOneSlotSwap_of_feasible
-    {X : Finset α} {w : α → σ → ℤ} {A : Assignment α σ}
+    {X : Finset α} {w : α → σ → ℝ} {A : Assignment α σ}
     (hopt : NoProfitableOneSlotSwap X w A)
     (hfeas : Feasible X A)
     {s : σ} {y x : α}
@@ -2353,7 +2411,7 @@ contradict the LAP ordering lemma.
 -/
 theorem old_slot_mem_forwardSlotReachSet_of_slotBelow_lost_of_lap_borderline_loss
     {X : Finset α} {x y z : α} {root lost oldSlot : σ}
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hxX : x ∉ X)
     (hyLoss :
@@ -2431,7 +2489,7 @@ applicant survives in a particular new slot, the survivor is at least as high
 as the lost applicant in that new slot's order.
 -/
 theorem slotAtLeast_survivor_of_single_insert_loss
-    {X : Finset α} {x y z : α} {s : σ} {w : α → σ → ℤ}
+    {X : Finset α} {x y z : α} {s : σ} {w : α → σ → ℝ}
     {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hyLoss :
@@ -2466,7 +2524,7 @@ lost old applicant weakly dominates that lost applicant at the fresh
 applicant's assigned slot.
 -/
 theorem slotAtLeast_inserted_witness_vs_lost_of_lap_borderline_loss
-    {X : Finset α} {x y : α} {s : σ} {w : α → σ → ℤ}
+    {X : Finset α} {x y : α} {s : σ} {w : α → σ → ℝ}
     {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hyLoss :
@@ -2483,7 +2541,7 @@ assigned to some slot that weakly dominates the lost applicant in that slot's
 order.
 -/
 theorem exists_slotAtLeast_inserted_witness_vs_lost_of_lap_borderline_loss
-    {X : Finset α} {x y : α} {w : α → σ → ℤ}
+    {X : Finset α} {x y : α} {w : α → σ → ℝ}
     {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hxX : x ∉ X)
@@ -2509,7 +2567,7 @@ old loss is assigned to some new slot that ranks it at least as high as the
 lost applicant.
 -/
 theorem exists_slotAtLeast_survivor_of_ne_lost_of_selectsUniqueGlobalOptima
-    {X : Finset α} {x y z : α} {w : α → σ → ℤ}
+    {X : Finset α} {x y z : α} {w : α → σ → ℝ}
     {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hxX : x ∉ X)
@@ -2537,7 +2595,7 @@ Local contradiction behind the LAP variability proof: if `y` outranks `z` in
 where `z` survives in a new slot with the same order as that old slot.
 -/
 theorem not_loss_of_survivor_same_slot_order
-    {X : Finset α} {x y z : α} {oldSlot newSlot : σ} {w : α → σ → ℤ}
+    {X : Finset α} {x y z : α} {oldSlot newSlot : σ} {w : α → σ → ℝ}
     {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hyLoss :
@@ -2559,7 +2617,7 @@ higher applicant in some slot order, the survivor is assigned after insertion
 to a slot with a different induced order.
 -/
 theorem exists_survivor_new_slot_not_same_order_of_loss_of_slotBelow
-    {X : Finset α} {x y z : α} {oldSlot : σ} {w : α → σ → ℤ}
+    {X : Finset α} {x y z : α} {oldSlot : σ} {w : α → σ → ℝ}
     {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hxX : x ∉ X)
@@ -2588,7 +2646,7 @@ insertion `z` moves across a directed edge to a slot with a different induced
 order.
 -/
 theorem exists_forward_move_not_same_order_of_loss_of_slotBelow
-    {X : Finset α} {x y z : α} {oldSlot : σ} {w : α → σ → ℤ}
+    {X : Finset α} {x y z : α} {oldSlot : σ} {w : α → σ → ℝ}
     {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hxX : x ∉ X)
@@ -2617,7 +2675,7 @@ leaves the old slot's order class and still reaches the lost slot.
 -/
 theorem exists_cross_order_successor_reaches_lost_of_slotBelow_lost
     {X : Finset α} {x y z : α} {root lost oldSlot : σ}
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hxX : x ∉ X)
     (hyLoss :
@@ -2664,7 +2722,7 @@ Along a directed path that starts outside an order class and ends inside it,
 there is a first edge whose target is back inside the order class.
 -/
 theorem exists_forward_reentry_sameSlotOrder_of_path
-    {A B : Assignment α σ} {w : α → σ → ℤ}
+    {A B : Assignment α σ} {w : α → σ → ℝ}
     {base start terminal : σ}
     (hstartNot : ¬ SameSlotOrder w base start)
     (hterminalSame : SameSlotOrder w base terminal)
@@ -2692,7 +2750,7 @@ path has a concrete edge re-entering that order class.
 -/
 theorem exists_reentry_edge_sameSlotOrder_of_slotBelow_lost
     {X : Finset α} {x y z : α} {root lost oldSlot : σ}
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hxX : x ∉ X)
     (hyLoss :
@@ -2917,7 +2975,7 @@ applicant into `oldSlot` strictly improves the old optimum.
 -/
 theorem false_of_forward_suffix_exchange_slotBelow
     {X : Finset α} {x y z : α} {root lost oldSlot newSlot : σ}
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hxX : x ∉ X)
     (hyLoss :
@@ -3030,7 +3088,7 @@ fresh insertion, then no old chosen occupant in any slot can be strictly below
 -/
 theorem not_slotBelow_old_occupant_lost_of_lap_borderline_loss
     {X : Finset α} {x y z : α} {root lost oldSlot : σ}
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hxX : x ∉ X)
     (hyLoss :
@@ -3070,7 +3128,7 @@ slot.
 theorem not_slotBelow_old_occupant_of_borderline_lost
     [Fintype α]
     {X : Finset α} {y z : α} {lost oldSlot : σ}
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hyB : y ∈ EconCSLib.FiniteChoice.borderlineSet
       (choiceRuleOfAssignment select) X)
@@ -3107,7 +3165,7 @@ must be the same applicant.
 theorem same_slot_order_borderline_injective_of_selectsUniqueGlobalOptima_of_slotNoTies
     [Fintype α]
     {X : Finset α} {y z : α} {sy sz : σ}
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hnoTies : ∀ s : σ, SlotNoTies w s)
     (hyB : y ∈ EconCSLib.FiniteChoice.borderlineSet
@@ -3143,7 +3201,7 @@ then variability is bounded by the number of represented slot-order classes.
 -/
 theorem variabilityAtMost_choiceRuleOfAssignment_of_distinct_slot_orders
     [Fintype α] {κ : Type*} [DecidableEq κ]
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ} {classOf : σ → κ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ} {classOf : σ → κ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hnoTies : ∀ s : σ, SlotNoTies w s)
     (hclass : ∀ {s t : σ}, classOf s = classOf t → SameSlotOrder w s t) :
@@ -3166,7 +3224,7 @@ to a slot with a different induced order.
 -/
 theorem exists_survivor_new_slot_not_same_order_of_borderline_slotBelow
     [Fintype α]
-    {X : Finset α} {y z : α} {oldSlot : σ} {w : α → σ → ℤ}
+    {X : Finset α} {y z : α} {oldSlot : σ} {w : α → σ → ℝ}
     {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hyB : y ∈ EconCSLib.FiniteChoice.borderlineSet
@@ -3203,7 +3261,7 @@ new slot with a different induced order.
 -/
 theorem exists_forward_move_not_same_order_of_borderline_slotBelow
     [Fintype α]
-    {X : Finset α} {y z : α} {oldSlot : σ} {w : α → σ → ℤ}
+    {X : Finset α} {y z : α} {oldSlot : σ} {w : α → σ → ℝ}
     {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (hyB : y ∈ EconCSLib.FiniteChoice.borderlineSet
@@ -3229,7 +3287,7 @@ that applicant must be assigned somewhere in a feasible locally optimal
 assignment.
 -/
 theorem assigned_of_slotBelow_occupant_of_noProfitableOneSlotSwap_of_feasible
-    {X : Finset α} {w : α → σ → ℤ} {A : Assignment α σ}
+    {X : Finset α} {w : α → σ → ℝ} {A : Assignment α σ}
     (hopt : NoProfitableOneSlotSwap X w A)
     (hfeas : Feasible X A)
     {s : σ} {y x : α}
@@ -3248,7 +3306,7 @@ No rejected applicant is strictly above the current occupant of any assigned
 slot in a feasible locally optimal assignment.
 -/
 theorem not_exists_rejected_slotBelow_of_noProfitableOneSlotSwap_of_feasible
-    {X : Finset α} {w : α → σ → ℤ} {A : Assignment α σ}
+    {X : Finset α} {w : α → σ → ℝ} {A : Assignment α σ}
     (hopt : NoProfitableOneSlotSwap X w A)
     (hfeas : Feasible X A) :
     ¬ ∃ s y x, A.matchSlot s = some y ∧ Rejected X A x ∧ SlotBelow w s y x := by
@@ -3265,7 +3323,7 @@ have higher slot weight.
 -/
 theorem choiceRuleOfAssignment_eq_linearTopQChoice_of_common_slot_order
     [LinearOrder α]
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (horder : ∀ s a b, a < b ↔ w b s < w a s) :
     choiceRuleOfAssignment select =
@@ -3329,7 +3387,7 @@ omit [DecidableEq σ] in
 /-- A unique-global-optimum LAP whose slots share one strict order is q-representative. -/
 theorem qRepresentative_choiceRuleOfAssignment_of_selectsUniqueGlobalOptima_of_common_slot_order
     [LinearOrder α]
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (horder : ∀ s a b, a < b ↔ w b s < w a s) :
     EconCSLib.FiniteChoice.QRepresentative
@@ -3346,7 +3404,7 @@ variability at most one.
 -/
 theorem variabilityAtMost_one_choiceRuleOfAssignment_of_selectsUniqueGlobalOptima_of_common_slot_order
     [Fintype α] [LinearOrder α]
-    {w : α → σ → ℤ} {select : Finset α → Assignment α σ}
+    {w : α → σ → ℝ} {select : Finset α → Assignment α σ}
     (hselect : SelectsUniqueGlobalOptima w select)
     (horder : ∀ s a b, a < b ↔ w b s < w a s) :
     EconCSLib.FiniteChoice.VariabilityAtMost 1

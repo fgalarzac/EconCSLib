@@ -2,182 +2,242 @@
   "schema": 1,
   "paper": "GGRS26CombattingGerrymanderingRCV",
   "title": "Combatting Gerrymandering with Ranked Choice Voting: an Experimental Analysis of Multi-member Districts in the United States",
-  "generated_at": "2026-06-30",
-  "source_inventory_kind": "source_curated_from_local_text_extract",
+  "generated_at": "2026-07-29",
+  "source_inventory_kind": "source_curated_named_theory",
   "source_curated": true,
-  "source_inventory_policy": "Source-curated inventory for the theoretical Lemma C.1 / Proposition 1 dashboard surface. Empirical redistricting and simulation claims are intentionally out of theorem scope.",
+  "source_curated_at": "2026-07-29T00:00:00Z",
+  "source_inventory_policy": "Normal named-theory scope is determined from the pinned source presentation, not Lean identifiers. The source-only index finds Lemma C.1 and two visible presentations of Proposition 1. The STV algorithm, PAV formulas, proof bookkeeping, simulation machinery, and empirical runtime discussion remain dependencies or deep-audit material unless a separate deep-paper audit is requested.",
+  "source_coverage_mode": "named_theoretical_statements",
+  "source_anchor_evidence_required": true,
+  "source_claim_atoms_schema": 1,
+  "semantic_contract_schema": 1,
+  "declared_scope_exclusions": [
+    "Empirical redistricting data, geographic feasibility constraints, map-generation implementation, simulation estimates, figures, and policy conclusions.",
+    "Standalone formulas, the STV transition algorithm, and proof-local quota bookkeeping are retained as dependencies of the named results rather than independent normal-scope claims.",
+    "The prose discussion of computational use is retained as byte-pinned deep-audit material, but is not an additional source-presented named result."
+  ],
+  "non_target_source_inventory": {
+    "PAV formula and selector": "source.txt:433-476",
+    "STV transition and solid-coalition model": "source.txt:403-432",
+    "Proposition 1 transfer-rule explanation": "source.txt:492-498",
+    "Vote-share computation discussion": "source.txt:481-483; source.txt:499-505",
+    "Appendix proof bookkeeping": "source.txt:2435-2536"
+  },
+  "source_named_result_inventory_review": {
+    "schema": 1,
+    "complete": true,
+    "validator": "Codex GGRS26 source-only named-result reconciliation",
+    "validated_at": "2026-07-29T00:00:00Z",
+    "method": "Independently indexed the exact pinned source.txt without consulting source-map keys, Lean declarations, or theorem names. The normal named-theory index contains Proposition 1 in the methods section, Lemma C.1 in the appendix, and the appendix's repeated Proposition 1 presentation. The repeated Proposition 1 is retained as a separately byte-pinned source-presentation alias; formulas, algorithm prose, proof steps, figures, and empirical text are not independent normal-scope named results.",
+    "source_artifact_sha256": "57762234dc7b4a41d10b7f05110551853ab717136eca7b9216da9425cfb8bce5",
+    "discovered_named_result_sha256": "751c69772759fc0eb8dd07d7fcb2643122e065b508a1689b2491c2a06492abfb",
+    "prose_definition_presentations": [],
+    "discovered_prose_definition_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
   "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
+  "source_artifact_path": "source.txt",
+  "source_artifact_sha256": "57762234dc7b4a41d10b7f05110551853ab717136eca7b9216da9425cfb8bce5",
   "items": {
-    "paper_pav_score": {
-      "statement": "Paper object for the `lambda_PAV` committee-score comparison in Proposition 1.",
+    "lemma_c1_pav_min_argmax_interval": {
+      "model_convention_ids": [
+        "GGRS26-POSITIVE-PARTY-SHARE-CONVENTION-01"
+      ],
+      "statement": "Lemma C.1: for y_R in (0,1], the paper's leftmost PAV maximizing Republican seat count equals the unique integer ell satisfying y_R(M+1)-1 <= ell < y_R(M+1).",
       "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "source.txt:404-456; Appendix Lemma C.1 source.txt:3661-3678",
-      "source_note": "Source evidence: main text defines party seat share by the PAV/Thiele min-argmax formula at source.txt:425-456; Appendix Lemma C.1 states the same min-argmax, the interval y_R(M+1)-1 <= ell < y_R(M+1), and the adjacent marginal conditions at source.txt:3661-3715.",
-      "aliases": [
-        "paper_pav_score"
+      "source_location": "source.txt:2414-2433",
+      "source_kind": "lemma",
+      "claim_bearing": true,
+      "semantic_contract": {
+        "spec_declaration": "GGRS26CombattingGerrymanderingRCV.paper_lemma_c1_pav_selector_eq_unique_integer_intervalSpec",
+        "evidence_declaration": "GGRS26CombattingGerrymanderingRCV.paper_lemma_c1_pav_selector_eq_unique_integer_interval",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain"
+      },
+    "source_note": "The appendix defines the PAV selector by `min arg max`, then presents its unique interval integer and equality. The review route proves that the finite relational leftmost-maximizer domain is nonempty, every relational selector witness is the same interval integer, and that integer is unique; it does not treat an internal choice implementation as source semantics.",
+      "lean_declarations": [
+        "GGRS26CombattingGerrymanderingRCV.paper_lemma_c1_pav_selector_eq_unique_integer_interval"
+      ],
+    "support_lean_declarations": [
+      "GGRS26CombattingGerrymanderingRCV.paper_pav_min_argmax",
+        "GGRS26CombattingGerrymanderingRCV.paper_pav_integer_interval",
+        "GGRS26CombattingGerrymanderingRCV.paper_pav_seat_interval",
+        "GGRS26CombattingGerrymanderingRCV.paper_pav_seat_score",
+        "GGRS26CombattingGerrymanderingRCV.paper_pav_min_argmax_seat_interval"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "source.txt",
+          "line_start": 2414,
+          "line_end": 2433,
+          "quoted_text": "Lemma C.1. Let yR ∈ (0, 1]. Consider\n                                                                          n\n                                                       \"           \"\n                              nR (yR , λP AV ) = min arg max yR\n                                                                          X\n                                                                                λ(i)\n                                                  n         n\n                                                                          i=1\n                                                                   M −n\n                                                                                 ##\n                                                      +(1 − yR )\n                                                                   X\n                                                                          λ(i)        .\n                                                                   i=1\n\n    and let ℓ be the unique integer such that\n\n                                    yR (M + 1) − 1 ≤ ℓ < yR (M + 1)\n\n    Then, nR (yR , λPAV ) = ℓ, for all yR , M .",
+          "quoted_text_sha256": "d65a4d82a8d7aa9cd0a67b120cc327fbf9f949c8743af1bf26e0e94b3c3f9635"
+        }
+      ],
+      "source_claim_atoms": [
+        {
+          "id": "lemma_c1.pav_selector_unique_interval",
+          "source_locator": "source.txt:2414-2433",
+          "semantic_claim": "For every party share y_R in (0,1] and district magnitude M, the tie-broken PAV selector is the unique integer ell with y_R(M+1)-1 <= ell < y_R(M+1).",
+          "reviewed_lean_route": "GGRS26CombattingGerrymanderingRCV.paper_lemma_c1_pav_selector_eq_unique_integer_interval"
+        }
       ]
     },
-    "paper_pav_seat_score": {
-      "statement": "- Paper PAV objective over possible Republican seat counts: `y_R * sum_{i=1}^{n_R} lambda_PAV(i) + (1 - y_R) * sum_{i=1}^{M - n_R} lambda_PAV(i)`.",
+    "proposition1_stv_pav_rounded_seats": {
+      "model_convention_ids": [
+        "GGRS26-POSITIVE-PARTY-SHARE-CONVENTION-01",
+        "GGRS26-TWO-PARTY-ACTIVE-CANDIDATE-UNIVERSE-01"
+      ],
+      "statement": "Proposition 1: in a two-party M-seat district with V >= M(M+1), at least M candidates per party, solid coalitions, and D-favoring ties, both the STV and PAV Republican seat counts are in {floor(y_R M), ceil(y_R M)}.",
       "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "source.txt:404-456; Appendix Lemma C.1 source.txt:3661-3678",
-      "source_note": "Source evidence: main text defines party seat share by the PAV/Thiele min-argmax formula at source.txt:425-456; Appendix Lemma C.1 states the same min-argmax, the interval y_R(M+1)-1 <= ell < y_R(M+1), and the adjacent marginal conditions at source.txt:3661-3715.",
-      "aliases": [
-        "paper_pav_seat_score"
+      "source_location": "source.txt:485-490",
+      "source_kind": "proposition",
+      "claim_bearing": true,
+      "source_defect_ids": [
+        "GGRS26-P1-DIVISIBILITY-PROOF-01",
+        "GGRS26-P1-TRANSFER-GENERALITY-01"
+      ],
+      "semantic_contract": {
+        "spec_declaration": "GGRS26CombattingGerrymanderingRCV.paper_proposition1_all_ballot_routed_surplus_transfer_outcomes_and_selected_pavSpec",
+        "evidence_declaration": "GGRS26CombattingGerrymanderingRCV.paper_proposition1_all_ballot_routed_surplus_transfer_outcomes_and_selected_pav",
+        "evidence_mode": "proves",
+        "semantic_shape": "plain"
+      },
+    "source_note": "The following source paragraph explains that the rounded conclusion is independent of the fractional transfer implementation for surplus-preserving transfer rules. The direct route uses a reachable ballot-routed transfer policy, a unit-weight initial state only on the source's finite electorate, and every legal terminal execution; party projection, cutoff, and terminal accounting are proved internally. Its exact-header companion proves that a legal terminal execution exists from that same state and policy, so the universal outcome result is not vacuous. The source model's two-party active-candidate universe is separately recorded from the displayed proposition: the two named party rosters cover the active candidates, rather than merely supplying two subsets of a larger candidate set. A winner's supporting ballot can retain or transfer weight but cannot gain weight or reassign it to another voter; off-support ballots are unchanged and exactly one quota leaves the winner's support. This is the common physical ballot semantics of fractional and random-voter transfer. The PAV side ranges over the relational leftmost `min arg max` definition rather than an internal choice witness, with its finite totality and functionality proved by the separately reviewed Lemma C.1 route. The paper's D-favoring tie condition is source-recorded, while the checked rounded conclusion is tie-robust. These scope facts are enumerated as source atoms and expanded semantic obligations, rather than inferred from Lean names.",
+      "lean_declarations": [
+        "GGRS26CombattingGerrymanderingRCV.paper_proposition1_all_ballot_routed_surplus_transfer_outcomes_and_selected_pav"
+      ],
+    "support_lean_declarations": [
+      "GGRS26CombattingGerrymanderingRCV.paper_lemma_c1_pav_selector_eq_unique_integer_interval",
+      "GGRS26CombattingGerrymanderingRCV.paper_pav_min_argmax",
+        "GGRS26CombattingGerrymanderingRCV.paper_pav_seat_score",
+      "GGRS26CombattingGerrymanderingRCV.paper_seat_share_rounded",
+      "GGRS26CombattingGerrymanderingRCV.paper_complete_party_ranking_ballots",
+      "GGRS26CombattingGerrymanderingRCV.paper_complete_party_ranking_ballots_solid_coalition",
+      "GGRS26CombattingGerrymanderingRCV.paper_proposition1_ballot_routed_stv_initial_state",
+      "GGRS26CombattingGerrymanderingRCV.paper_proposition1_ballot_routed_stv_initial_state_exists",
+      "GGRS26CombattingGerrymanderingRCV.paper_proposition1_ballot_routed_stv_outcome_domain_nonempty"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "source.txt",
+          "line_start": 485,
+          "line_end": 490,
+          "quoted_text": "Proposition 1 (Seat shares under STV). Suppose – for a given district with M seats and V ≥\nM (M + 1) voters – that a fraction yp of voters belong to each party p ∈ {R, D}, and that there are\nat least M candidates per party. Assume that each party’s voters rank all same-party candidates\nabove all other-party candidates, and ties are broken in party D’s favor.\n    Let nR (yR , ST V ) be the number of winners belonging to party R using STV. Then, both\nnR (yR , ST V ) and nR (yR , λPAV ) are in {⌊yR M ⌋, ⌈yR M ⌉}.",
+          "quoted_text_sha256": "3fe3d139a2019ca1148de08cc82430a8dec50476aa16fe6dd34fb0b38b504bb6"
+        }
+      ],
+      "source_presentation_reconciliation": {
+        "schema": 1,
+        "relation": "conservative_text_span_core",
+        "presentation_kind": "proposition",
+        "presentation_label": "Proposition 1",
+        "core_anchor": {
+          "path": "source.txt",
+          "line_start": 485,
+          "line_end": 490,
+          "quoted_text": "Proposition 1 (Seat shares under STV). Suppose – for a given district with M seats and V ≥\nM (M + 1) voters – that a fraction yp of voters belong to each party p ∈ {R, D}, and that there are\nat least M candidates per party. Assume that each party’s voters rank all same-party candidates\nabove all other-party candidates, and ties are broken in party D’s favor.\n    Let nR (yR , ST V ) be the number of winners belonging to party R using STV. Then, both\nnR (yR , ST V ) and nR (yR , λPAV ) are in {⌊yR M ⌋, ⌈yR M ⌉}.",
+          "quoted_text_sha256": "3fe3d139a2019ca1148de08cc82430a8dec50476aa16fe6dd34fb0b38b504bb6"
+        },
+        "boundary_reason": "completed_statement_then_explanation",
+        "semantic_basis": "The pinned core contains the complete displayed Proposition 1 hypotheses and both STV and PAV conclusions. The extractor's longer source span contains explanation and empirical discussion after that completed statement.",
+        "validator": "Codex GGRS26 source-only named-result reconciliation",
+        "validated_at": "2026-07-29T00:00:00Z"
+      },
+      "source_claim_atoms": [
+        {
+          "id": "proposition1.stv_rounded_seat_count",
+          "source_locator": "source.txt:485-490",
+          "semantic_claim": "Under the displayed two-party, candidate-count, turnout, solid-coalition, and D-favoring tie assumptions, the Republican STV seat count belongs to {floor(y_R M), ceil(y_R M)}.",
+          "reviewed_lean_route": "GGRS26CombattingGerrymanderingRCV.paper_proposition1_all_ballot_routed_surplus_transfer_outcomes_and_selected_pav"
+        },
+        {
+          "id": "proposition1.pav_rounded_seat_count",
+          "source_locator": "source.txt:485-490",
+          "semantic_claim": "Under the displayed source domain, the Republican PAV seat count belongs to {floor(y_R M), ceil(y_R M)}.",
+          "reviewed_lean_route": "GGRS26CombattingGerrymanderingRCV.paper_proposition1_all_ballot_routed_surplus_transfer_outcomes_and_selected_pav"
+        },
+        {
+          "id": "proposition1.surplus_preserving_transfer_generality",
+          "source_locator": "source.txt:492-498",
+          "semantic_claim": "The Proposition 1 rounded STV seat-share formula does not depend on fractional STV specifically: other transfer rules that preserve the number of surplus votes induce the same formula under the stated assumptions.",
+          "reviewed_lean_route": "GGRS26CombattingGerrymanderingRCV.paper_proposition1_all_ballot_routed_surplus_transfer_outcomes_and_selected_pav"
+        }
       ]
     },
-    "paper_pav_min_argmax": {
-      "statement": "- Paper selector for `n_R(y_R, lambda_PAV)`: the smallest seat count maximizing the PAV objective among seat counts from `0` to `M`.",
-      "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "source.txt:404-456; Appendix Lemma C.1 source.txt:3661-3678",
-      "source_note": "Source evidence: main text defines party seat share by the PAV/Thiele min-argmax formula at source.txt:425-456; Appendix Lemma C.1 states the same min-argmax, the interval y_R(M+1)-1 <= ell < y_R(M+1), and the adjacent marginal conditions at source.txt:3661-3715.",
-      "aliases": [
-        "paper_pav_min_argmax"
+    "vote_share_calculation_and_optimization_prose": {
+      "statement": "Unnumbered prose says Proposition 1 permits an up-to-rounding party-seat calculation from vote shares without individual rankings, and uses that shortcut in a large map-optimization workload.",
+      "aliases": [],
+      "source_kind": "prose_assertion",
+      "source_kind_validated_at": "2026-07-29T00:00:00Z",
+      "source_kind_validator": "Codex GGRS26 source-only named-result reconciliation",
+      "source_location": "source.txt:481-483; source.txt:499-505",
+      "inventory_role": "deep_audit_material",
+      "source_note": "This is unnumbered computational-use prose, not a named source theorem. The ballot-routed Proposition 1 endpoint proves the per-district rounded outcome, while paper_vote_share_only_selector_refinement_and_cost proves only a per-query selector-pair refinement and five-operation arithmetic certificate. Neither is credit for the paper's whole-map implementation or runtime discussion.",
+      "lean_declarations": [],
+      "support_lean_declarations": [
+        "GGRS26CombattingGerrymanderingRCV.paper_proposition1_all_ballot_routed_surplus_transfer_outcomes_and_selected_pav",
+        "GGRS26CombattingGerrymanderingRCV.paper_vote_share_only_selector_refinement_and_cost"
+      ],
+      "deep_audit_observation_ids": [
+        "GGRS26-P1-EFFICIENT-CALCULATION-01"
+      ],
+      "source_anchor_evidence": [
+        {
+          "path": "source.txt",
+          "line_start": 481,
+          "line_end": 483,
+          "quoted_text": "\foptimization algorithm. The following proposition establishes that under our assumptions, party seat\nshares can be efficiently calculated (up to rounding) just from the vote shares, without dependence\non voter rankings.9",
+          "quoted_text_sha256": "a0a438670b3d889813a6eb9bd9b170b9cdafe3693a9ad6fba60f6dc90fbbf546"
+        },
+        {
+          "path": "source.txt",
+          "line_start": 499,
+          "line_end": 505,
+          "quoted_text": "    Importantly for this work, Proposition 1 enables calculating party seat shares in a district that\nuses STV, without needing to (either computationally or in terms of data requirements) consider\nvoters’ individual rankings – substantially simplifying the task for a (human or algorithmic) map\ndrawer.10 While simulating STV is not computationally intractable for a single election, in our\ncomputational optimization below we need to run STV elections in each district as a subroutine to\nmap generation and optimization, in the process of optimizing over about 1012 maps for a single\nstate; as explained next in Section 2.3, we leverage this result to draw gerrymandered and fair maps",
+          "quoted_text_sha256": "1b50563300f68bb70878b54ec132a88f6360955e7e8467fa1bc8a5bb4c9e876b"
+        }
       ]
     },
-    "paper_pav_marginal_conditions": {
-      "statement": "- Paper proof inequalities from Lemma C.1 after clearing positive denominators. For a chosen Republican seat count `n_R`, the previous chosen Republican seat has strictly larger PAV marginal value than the next Democratic seat, and the next Republican seat has no larger PAV marginal value than the previous Democratic seat.",
+    "proposition1_stv_pav_rounded_seats_appendix_presentation": {
+      "statement": "Appendix proof presentation repeating Proposition 1 before its proof.",
       "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "Appendix Lemma C.1 proof source.txt:3694-3715",
-      "source_note": "Source evidence: main text defines party seat share by the PAV/Thiele min-argmax formula at source.txt:425-456; Appendix Lemma C.1 states the same min-argmax, the interval y_R(M+1)-1 <= ell < y_R(M+1), and the adjacent marginal conditions at source.txt:3661-3715.",
-      "aliases": [
-        "paper_pav_marginal_conditions"
-      ]
-    },
-    "paper_pav_seat_interval": {
-      "statement": "- Paper interval characterization from Lemma C.1: `y_R (M + 1) - 1 <= n_R < y_R (M + 1)`.",
-      "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "Appendix Lemma C.1 source.txt:3661-3694; Proposition 1 source.txt:3740-3744",
-      "source_note": "Source evidence: main text defines party seat share by the PAV/Thiele min-argmax formula at source.txt:425-456; Appendix Lemma C.1 states the same min-argmax, the interval y_R(M+1)-1 <= ell < y_R(M+1), and the adjacent marginal conditions at source.txt:3661-3715.",
-      "aliases": [
-        "paper_pav_seat_interval"
-      ]
-    },
-    "paper_seat_share_rounded": {
-      "statement": "- Paper formula target for Proposition 1: a party's seat count is one of the floor or ceiling of party vote share times the number of seats.",
-      "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "Appendix Lemma C.1 source.txt:3661-3694; Proposition 1 source.txt:3740-3744",
-      "source_note": "Source evidence: main text defines party seat share by the PAV/Thiele min-argmax formula at source.txt:425-456; Appendix Lemma C.1 states the same min-argmax, the interval y_R(M+1)-1 <= ell < y_R(M+1), and the adjacent marginal conditions at source.txt:3661-3715.",
-      "aliases": [
-        "paper_seat_share_rounded"
-      ]
-    },
-    "paper_stv_solid_coalition_party_trace_isolation": {
-      "statement": "Under the solid-coalition assumption, votes can transfer from a candidate of one party to a candidate of the other party only after candidates from the sending party have been exhausted; before party exhaustion, party voters give no active support to outside-party candidates.",
-      "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "Proposition 1 proof source.txt:3769-3778; separate-process step source.txt:3818-3824",
-      "source_note": "Source evidence: the proof says cross-party transfer can occur only if candidates from the sending party have been exhausted, because voters rank all same-party candidates above all other-party candidates; it then uses that fact to carry out the initial STV rounds separately for each party.",
-      "aliases": [
-        "paper_stv_solid_coalition_party_trace_isolation"
-      ]
-    },
-    "paper_stv_solid_coalition_quota_witness_bounds": {
-      "statement": "Paper STV quota-witness consequence used by the quota arithmetic bridge.",
-      "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "Proposition 1 and Appendix proof source.txt:3740-3868",
-      "source_note": "Source evidence: Proposition 1 states the STV/PAV rounded-seat conclusion at source.txt:3740-3744; the appendix proof introduces the Droop quota, separate same-party quota processes, quota-capacity argument, and final STV lower/upper bounds at source.txt:3748-3868.",
-      "aliases": [
-        "paper_stv_solid_coalition_quota_witness_bounds"
-      ]
-    },
-    "paper_stv_solid_coalition_lower_bounds": {
-      "statement": "Paper STV proportional lower-bound consequence used by the final floor/ceiling bridge.",
-      "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "Proposition 1 and Appendix proof source.txt:3740-3868",
-      "source_note": "Source evidence: Proposition 1 states the STV/PAV rounded-seat conclusion at source.txt:3740-3744; the appendix proof introduces the Droop quota, separate same-party quota processes, quota-capacity argument, and final STV lower/upper bounds at source.txt:3748-3868.",
-      "aliases": [
-        "paper_stv_solid_coalition_lower_bounds"
-      ]
-    },
-    "paper_stv_seat_share_bounds": {
-      "statement": "- Paper STV floor/ceiling consequence used by Proposition 1.",
-      "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "Proposition 1 and Appendix proof source.txt:3740-3868",
-      "source_note": "Source evidence: Proposition 1 states the STV/PAV rounded-seat conclusion at source.txt:3740-3744; the appendix proof introduces the Droop quota, separate same-party quota processes, quota-capacity argument, and final STV lower/upper bounds at source.txt:3748-3868.",
-      "aliases": [
-        "paper_stv_seat_share_bounds"
-      ]
-    },
-    "paper_pav_interval_seat_share_rounded": {
-      "statement": "- Arithmetic bridge used after Lemma C.1: once the source interval `y_R (M + 1) - 1 <= n_R < y_R (M + 1)` is available, the party seat count is one of floor or ceiling of `y_R M`.",
-      "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "Appendix Lemma C.1 source.txt:3661-3694; Proposition 1 source.txt:3740-3744",
-      "source_note": "Source evidence: main text defines party seat share by the PAV/Thiele min-argmax formula at source.txt:425-456; Appendix Lemma C.1 states the same min-argmax, the interval y_R(M+1)-1 <= ell < y_R(M+1), and the adjacent marginal conditions at source.txt:3661-3715.",
-      "aliases": [
-        "paper_pav_interval_seat_share_rounded"
-      ]
-    },
-    "paper_pav_marginal_conditions_seat_share_rounded": {
-      "statement": "- Arithmetic bridge from the source proof's adjacent PAV marginal inequalities to the Proposition 1 floor/ceiling target.",
-      "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "Appendix Lemma C.1 proof source.txt:3694-3715",
-      "source_note": "Source evidence: main text defines party seat share by the PAV/Thiele min-argmax formula at source.txt:425-456; Appendix Lemma C.1 states the same min-argmax, the interval y_R(M+1)-1 <= ell < y_R(M+1), and the adjacent marginal conditions at source.txt:3661-3715.",
-      "aliases": [
-        "paper_pav_marginal_conditions_seat_share_rounded"
-      ]
-    },
-    "paper_pav_min_argmax_seat_interval": {
-      "statement": "the paper's leftmost maximizing PAV seat count satisfies `y_R (M + 1) - 1 <= n_R < y_R (M + 1)`.",
-      "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "Appendix Lemma C.1 source.txt:3661-3694; Proposition 1 source.txt:3740-3744",
-      "source_note": "Source evidence: main text defines party seat share by the PAV/Thiele min-argmax formula at source.txt:425-456; Appendix Lemma C.1 states the same min-argmax, the interval y_R(M+1)-1 <= ell < y_R(M+1), and the adjacent marginal conditions at source.txt:3661-3715.",
-      "aliases": [
-        "paper_pav_min_argmax_seat_interval"
-      ]
-    },
-    "paper_pav_min_argmax_seat_share_rounded": {
-      "statement": "- PAV component of Lemma C.1 / Proposition 1: the paper's leftmost maximizing PAV seat count is one of floor or ceiling of `y_R M`.",
-      "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "Appendix Lemma C.1 source.txt:3661-3694; Proposition 1 source.txt:3740-3744",
-      "source_note": "Source evidence: main text defines party seat share by the PAV/Thiele min-argmax formula at source.txt:425-456; Appendix Lemma C.1 states the same min-argmax, the interval y_R(M+1)-1 <= ell < y_R(M+1), and the adjacent marginal conditions at source.txt:3661-3715.",
-      "aliases": [
-        "paper_pav_min_argmax_seat_share_rounded"
-      ]
-    },
-    "paper_stv_solid_coalition_ballots_party_trace_isolation": {
-      "statement": "If a party's voters rank all same-party candidates above all other-party candidates, then at every STV trace step before party exhaustion, no outside-party candidate has active support from that party's voters.",
-      "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "Proposition 1 proof source.txt:3769-3778; separate-process step source.txt:3818-3824",
-      "source_note": "Source evidence: the proof says cross-party transfer can occur only if candidates from the sending party have been exhausted, because voters rank all same-party candidates above all other-party candidates; it then uses that fact to carry out the initial STV rounds separately for each party.",
-      "aliases": [
-        "paper_stv_solid_coalition_ballots_party_trace_isolation"
-      ]
-    },
-    "paper_stv_quota_floors_fit": {
-      "statement": "the two parties' canonical Droop-quota floors fit into the district's seat count.",
-      "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "Proposition 1 and Appendix proof source.txt:3740-3868",
-      "source_note": "Source evidence: Proposition 1 states the STV/PAV rounded-seat conclusion at source.txt:3740-3744; the appendix proof introduces the Droop quota, separate same-party quota processes, quota-capacity argument, and final STV lower/upper bounds at source.txt:3748-3868.",
-      "aliases": [
-        "paper_stv_quota_floors_fit"
-      ]
-    },
-    "paper_stv_solid_coalition_quota_witness_bounds_lower_bounds": {
-      "statement": "the named STV quota-witness boundary implies the proportional lower-bound boundary.",
-      "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "Proposition 1 and Appendix proof source.txt:3740-3868",
-      "source_note": "Source evidence: Proposition 1 states the STV/PAV rounded-seat conclusion at source.txt:3740-3744; the appendix proof introduces the Droop quota, separate same-party quota processes, quota-capacity argument, and final STV lower/upper bounds at source.txt:3748-3868.",
-      "aliases": [
-        "paper_stv_solid_coalition_quota_witness_bounds_lower_bounds"
-      ]
-    },
-    "paper_stv_solid_coalition_lower_bounds_seat_share_bounds": {
-      "statement": "the proportional lower-bound boundary implies the STV floor/ceiling seat-share bound.",
-      "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "Proposition 1 and Appendix proof source.txt:3740-3868",
-      "source_note": "Source evidence: Proposition 1 states the STV/PAV rounded-seat conclusion at source.txt:3740-3744; the appendix proof introduces the Droop quota, separate same-party quota processes, quota-capacity argument, and final STV lower/upper bounds at source.txt:3748-3868.",
-      "aliases": [
-        "paper_stv_solid_coalition_lower_bounds_seat_share_bounds"
-      ]
-    },
-    "paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax": {
-      "statement": "Proposition 1 theoretical endpoint: for a two-party election under the solid-coalition STV/PAV setup, the generated filled-seat fractional STV outcome and the PAV min-argmax seat count are both rounded party vote shares.",
-      "source_url": "https://arxiv.org/pdf/2107.07083.pdf",
-      "source_location": "Proposition 1 source.txt:3740-3744; Appendix proof source.txt:3748-3868",
-      "source_note": "Source evidence: Proposition 1 states the STV/PAV rounded-seat conclusion; the appendix proof uses solid coalitions, Droop quota accounting, separate party STV processes, and final STV lower/upper bounds.",
-      "aliases": [
-        "paper_proposition1_from_generated_filled_seat_run_fractional_stv_trace_global_weight_terminal_and_pav_min_argmax"
-      ]
+      "source_location": "source.txt:2465-2470",
+      "source_kind": "proposition",
+      "claim_bearing": true,
+      "source_presentation_alias": {
+        "schema": 1,
+        "canonical_source_item": "proposition1_stv_pav_rounded_seats",
+        "relation": "repeated_source_presentation",
+        "semantic_basis": "The appendix presentation repeats the same visible Proposition 1 label, hypotheses, and two rounded-seat conclusions before the proof. This source-only comparison is based on the two pinned source spans, not a map key or Lean declaration name.",
+        "validator": "Codex GGRS26 source-only named-result reconciliation",
+        "validated_at": "2026-07-29T00:00:00Z"
+      },
+      "source_anchor_evidence": [
+        {
+          "path": "source.txt",
+          "line_start": 2465,
+          "line_end": 2470,
+          "quoted_text": "Proposition 1 (Seat shares under STV). Suppose – for a given district with M seats and V ≥\nM (M + 1) voters – that a fraction yp of voters belong to each party p ∈ {R, D}, and that there are\nat least M candidates per party. Assume that each party’s voters rank all same-party candidates\nabove all other-party candidates, and ties are broken in party D’s favor.\n    Let nR (yR , ST V ) be the number of winners belonging to party R using STV. Then, both\nnR (yR , ST V ) and nR (yR , λPAV ) are in {⌊yR M ⌋, ⌈yR M ⌉}.",
+          "quoted_text_sha256": "3fe3d139a2019ca1148de08cc82430a8dec50476aa16fe6dd34fb0b38b504bb6"
+        }
+      ],
+      "source_presentation_reconciliation": {
+        "schema": 1,
+        "relation": "conservative_text_span_core",
+        "presentation_kind": "proposition",
+        "presentation_label": "Proposition 1",
+        "core_anchor": {
+          "path": "source.txt",
+          "line_start": 2465,
+          "line_end": 2470,
+          "quoted_text": "Proposition 1 (Seat shares under STV). Suppose – for a given district with M seats and V ≥\nM (M + 1) voters – that a fraction yp of voters belong to each party p ∈ {R, D}, and that there are\nat least M candidates per party. Assume that each party’s voters rank all same-party candidates\nabove all other-party candidates, and ties are broken in party D’s favor.\n    Let nR (yR , ST V ) be the number of winners belonging to party R using STV. Then, both\nnR (yR , ST V ) and nR (yR , λPAV ) are in {⌊yR M ⌋, ⌈yR M ⌉}.",
+          "quoted_text_sha256": "3fe3d139a2019ca1148de08cc82430a8dec50476aa16fe6dd34fb0b38b504bb6"
+        },
+        "boundary_reason": "completed_statement_then_explanation",
+        "semantic_basis": "The appendix core is the complete repeated statement; the extracted source span continues through page material before the proof marker.",
+        "validator": "Codex GGRS26 source-only named-result reconciliation",
+        "validated_at": "2026-07-29T00:00:00Z"
+      }
     }
   }
 }

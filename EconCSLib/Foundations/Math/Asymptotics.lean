@@ -48,6 +48,42 @@ theorem isBigO_of_eventually_nonneg_le
   simpa [abs_of_nonneg hf] using hx
 
 /--
+Nonnegative functions bounded by a fixed nonnegative multiple of the comparison
+function are Big-O of that comparison function.
+-/
+theorem isBigO_of_eventually_nonneg_le_const_mul
+    {α : Type*} {l : Filter α} {f g : α → ℝ} {C : ℝ}
+    (_hC : 0 ≤ C)
+    (hf_nonneg : ∀ᶠ x in l, 0 ≤ f x)
+    (hg_nonneg : ∀ᶠ x in l, 0 ≤ g x)
+    (hle : ∀ᶠ x in l, f x ≤ C * g x) :
+    Asymptotics.IsBigO l f g := by
+  refine Asymptotics.IsBigO.of_bound C ?_
+  filter_upwards [hf_nonneg, hg_nonneg, hle] with x hf hg hx
+  simpa [Real.norm_eq_abs, abs_of_nonneg hf, abs_of_nonneg hg] using hx
+
+/--
+If a positive fixed multiple of a nonnegative function is eventually bounded
+by a nonnegative comparison function, then the function is Big-O of that
+comparison function.  This is the lower-bound counterpart of the usual
+constant-multiple upper-bound packaging.
+-/
+theorem isBigO_of_eventually_pos_mul_le
+    {α : Type*} {l : Filter α} {f g : α → ℝ} {c : ℝ}
+    (hc : 0 < c)
+    (hf_nonneg : ∀ᶠ x in l, 0 ≤ f x)
+    (hg_nonneg : ∀ᶠ x in l, 0 ≤ g x)
+    (hle : ∀ᶠ x in l, c * f x ≤ g x) :
+    Asymptotics.IsBigO l f g := by
+  refine isBigO_of_eventually_nonneg_le_const_mul
+    (C := c⁻¹) (inv_nonneg.mpr hc.le) hf_nonneg hg_nonneg ?_
+  filter_upwards [hle] with x hx
+  calc
+    f x = c⁻¹ * (c * f x) := by
+      field_simp [hc.ne']
+    _ ≤ c⁻¹ * g x := mul_le_mul_of_nonneg_left hx (inv_nonneg.mpr hc.le)
+
+/--
 Specialized Big-O bridge for quadratic log-style runtime envelopes
 `C * g^2`.
 -/
@@ -664,6 +700,222 @@ theorem nat_floor_mul_div_sub_abs_lt_inv
   simpa [n] using abs_lt.mpr ⟨hleft, hright⟩
 
 /--
+Floor selector for source-style finite parameter choices: if
+`s = floor (m / a)`, then `a * (s - 1) < m`.  The subtraction makes the
+inequality strict even when `m / a` is an integer.
+-/
+theorem nat_mul_floor_div_sub_one_lt
+    {m a : ℕ} (hm : 0 < m) (ha : 0 < a) :
+    (a : ℝ) * (((Nat.floor ((m : ℝ) / (a : ℝ)) - 1 : ℕ) : ℝ)) <
+      (m : ℝ) := by
+  let s : ℕ := Nat.floor ((m : ℝ) / (a : ℝ))
+  have ha_real_pos : 0 < (a : ℝ) := by exact_mod_cast ha
+  by_cases hs_zero : s = 0
+  · simp [s, hs_zero]
+    exact_mod_cast hm
+  · have hs_pos : 0 < s := Nat.pos_of_ne_zero hs_zero
+    have hsub_lt_nat : s - 1 < s := by omega
+    have hsub_lt : (((s - 1 : ℕ) : ℝ)) < (s : ℝ) := by
+      exact_mod_cast hsub_lt_nat
+    have harg_nonneg : 0 ≤ (m : ℝ) / (a : ℝ) := by
+      exact div_nonneg (Nat.cast_nonneg _) ha_real_pos.le
+    have hfloor_le : (s : ℝ) ≤ (m : ℝ) / (a : ℝ) := by
+      simpa [s] using Nat.floor_le harg_nonneg
+    have hleft_lt :
+        (a : ℝ) * (((s - 1 : ℕ) : ℝ)) < (a : ℝ) * (s : ℝ) :=
+      mul_lt_mul_of_pos_left hsub_lt ha_real_pos
+    have hright_le :
+        (a : ℝ) * (s : ℝ) ≤ (a : ℝ) * ((m : ℝ) / (a : ℝ)) :=
+      mul_le_mul_of_nonneg_left hfloor_le ha_real_pos.le
+    have hmul_div : (a : ℝ) * ((m : ℝ) / (a : ℝ)) = (m : ℝ) := by
+      field_simp [ha_real_pos.ne']
+    exact lt_of_lt_of_le hleft_lt (by simpa [hmul_div] using hright_le)
+
+/--
+Floor-division bridge: if `a * n <= m` over the reals, then
+`n <= floor(m/a)`.
+-/
+theorem nat_le_floor_div_of_mul_le
+    {m a n : ℕ} (ha : 0 < a)
+    (h : (a : ℝ) * (n : ℝ) ≤ (m : ℝ)) :
+    n ≤ Nat.floor ((m : ℝ) / (a : ℝ)) := by
+  have ha_real_pos : 0 < (a : ℝ) := by exact_mod_cast ha
+  have hn_le_div : (n : ℝ) ≤ (m : ℝ) / (a : ℝ) := by
+    rw [le_div_iff₀ ha_real_pos]
+    simpa [mul_comm] using h
+  exact Nat.le_floor hn_le_div
+
+/--
+Strict floor-division bridge: if `a * n < m` over the reals, then
+`n <= floor(m/a)`.
+-/
+theorem nat_le_floor_div_of_mul_lt
+    {m a n : ℕ} (ha : 0 < a)
+    (h : (a : ℝ) * (n : ℝ) < (m : ℝ)) :
+    n ≤ Nat.floor ((m : ℝ) / (a : ℝ)) :=
+  nat_le_floor_div_of_mul_le ha h.le
+
+/--
+Logarithmic floor-power selector: for `1 < k` and `1 ≤ s`, if
+`p = floor(log s / (2 log k))`, then `k^(2p) ≤ s`.
+-/
+theorem pow_two_mul_nat_floor_log_div_le
+    {k s : ℕ} (hk : 1 < k) (hs : 1 ≤ s) :
+    ((k : ℝ) ^
+        (2 * Nat.floor (Real.log (s : ℝ) / (2 * Real.log (k : ℝ))) : ℕ)) ≤
+      (s : ℝ) := by
+  let p : ℕ := Nat.floor (Real.log (s : ℝ) / (2 * Real.log (k : ℝ)))
+  have hk_real_pos : 0 < (k : ℝ) := by exact_mod_cast (zero_lt_one.trans hk)
+  have hs_real_pos : 0 < (s : ℝ) := by exact_mod_cast (lt_of_lt_of_le zero_lt_one hs)
+  have hlogk_pos : 0 < Real.log (k : ℝ) := by
+    exact Real.log_pos (by exact_mod_cast hk)
+  have hlogs_nonneg : 0 ≤ Real.log (s : ℝ) := by
+    exact Real.log_nonneg (by exact_mod_cast hs)
+  have harg_nonneg :
+      0 ≤ Real.log (s : ℝ) / (2 * Real.log (k : ℝ)) := by
+    exact div_nonneg hlogs_nonneg (by positivity)
+  have hfloor_le :
+      (p : ℝ) ≤ Real.log (s : ℝ) / (2 * Real.log (k : ℝ)) := by
+    simpa [p] using Nat.floor_le harg_nonneg
+  have hp_log :
+      (2 * (p : ℝ)) * Real.log (k : ℝ) ≤ Real.log (s : ℝ) := by
+    have hmul :=
+      mul_le_mul_of_nonneg_right hfloor_le (by positivity : 0 ≤ 2 * Real.log (k : ℝ))
+    have hden_ne : 2 * Real.log (k : ℝ) ≠ 0 := by positivity
+    calc
+      (2 * (p : ℝ)) * Real.log (k : ℝ) =
+          (p : ℝ) * (2 * Real.log (k : ℝ)) := by ring
+      _ ≤ (Real.log (s : ℝ) / (2 * Real.log (k : ℝ))) *
+            (2 * Real.log (k : ℝ)) := hmul
+      _ = Real.log (s : ℝ) := by
+            field_simp [hden_ne]
+  have hlogpow :
+      Real.log ((k : ℝ) ^ (2 * p)) ≤ Real.log (s : ℝ) := by
+    rw [Real.log_pow]
+    norm_num
+    simpa [mul_assoc, mul_comm, mul_left_comm] using hp_log
+  have hpow_pos : 0 < (k : ℝ) ^ (2 * p) := pow_pos hk_real_pos _
+  have hpow_le : (k : ℝ) ^ (2 * p) ≤ (s : ℝ) :=
+    (Real.log_le_log_iff hpow_pos hs_real_pos).mp hlogpow
+  simpa [p] using hpow_le
+
+/--
+Logarithmic ceiling-power selector: for `1 < k` and `1 ≤ s`, if
+`p = ceil(log s / (2 log k))`, then `s ≤ k^(2p)`.
+-/
+theorem le_pow_two_mul_nat_ceil_log_div
+    {k s : ℕ} (hk : 1 < k) (hs : 1 ≤ s) :
+    (s : ℝ) ≤
+      ((k : ℝ) ^
+        (2 * Nat.ceil (Real.log (s : ℝ) / (2 * Real.log (k : ℝ))) : ℕ)) := by
+  let p : ℕ := Nat.ceil (Real.log (s : ℝ) / (2 * Real.log (k : ℝ)))
+  have hk_real_pos : 0 < (k : ℝ) := by exact_mod_cast (zero_lt_one.trans hk)
+  have hs_real_pos : 0 < (s : ℝ) := by exact_mod_cast (lt_of_lt_of_le zero_lt_one hs)
+  have hlogk_pos : 0 < Real.log (k : ℝ) := by
+    exact Real.log_pos (by exact_mod_cast hk)
+  have hceil_ge :
+      Real.log (s : ℝ) / (2 * Real.log (k : ℝ)) ≤ (p : ℝ) := by
+    simpa [p] using Nat.le_ceil (Real.log (s : ℝ) / (2 * Real.log (k : ℝ)))
+  have hlog_le :
+      Real.log (s : ℝ) ≤ (2 * (p : ℝ)) * Real.log (k : ℝ) := by
+    have hmul :=
+      mul_le_mul_of_nonneg_right hceil_ge (by positivity : 0 ≤ 2 * Real.log (k : ℝ))
+    have hden_ne : 2 * Real.log (k : ℝ) ≠ 0 := by positivity
+    calc
+      Real.log (s : ℝ) =
+          (Real.log (s : ℝ) / (2 * Real.log (k : ℝ))) *
+            (2 * Real.log (k : ℝ)) := by
+            field_simp [hden_ne]
+      _ ≤ (p : ℝ) * (2 * Real.log (k : ℝ)) := hmul
+      _ = (2 * (p : ℝ)) * Real.log (k : ℝ) := by ring
+  have hlogpow :
+      Real.log (s : ℝ) ≤ Real.log ((k : ℝ) ^ (2 * p)) := by
+    rw [Real.log_pow]
+    norm_num
+    simpa [mul_assoc, mul_comm, mul_left_comm] using hlog_le
+  have hpow_pos : 0 < (k : ℝ) ^ (2 * p) := pow_pos hk_real_pos _
+  have hs_le : (s : ℝ) ≤ (k : ℝ) ^ (2 * p) :=
+    (Real.log_le_log_iff hs_real_pos hpow_pos).mp hlogpow
+  simpa [p] using hs_le
+
+/--
+A nonnegative real floor is at least half the original value once the original
+value is at least one.
+-/
+theorem half_le_nat_floor_of_one_le {x : ℝ} (hx : 1 ≤ x) :
+    x / 2 ≤ (Nat.floor x : ℝ) := by
+  by_cases hx_lt_two : x < 2
+  · have hfloor_pos : 0 < Nat.floor x := Nat.floor_pos.mpr hx
+    have hone_le_floor : (1 : ℝ) ≤ (Nat.floor x : ℝ) := by
+      exact_mod_cast hfloor_pos
+    calc
+      x / 2 ≤ 1 := by linarith
+      _ ≤ (Nat.floor x : ℝ) := hone_le_floor
+  · have hx_two : 2 ≤ x := le_of_not_gt hx_lt_two
+    have hfloor_lt : x < (Nat.floor x : ℝ) + 1 :=
+      Nat.lt_floor_add_one x
+    have hx_half : x / 2 ≤ x - 1 := by linarith
+    calc
+      x / 2 ≤ x - 1 := hx_half
+      _ ≤ (Nat.floor x : ℝ) := le_of_lt (by linarith)
+
+/--
+If `s >= k^2`, then the logarithmic selector argument
+`log s / (2 log k)` is at least one.
+-/
+theorem one_le_log_div_of_sq_le
+    {k s : ℕ} (hk : 1 < k)
+    (hsq : (k : ℝ) ^ 2 ≤ (s : ℝ)) :
+    (1 : ℝ) ≤ Real.log (s : ℝ) / (2 * Real.log (k : ℝ)) := by
+  have hk_real_pos : 0 < (k : ℝ) := by exact_mod_cast (zero_lt_one.trans hk)
+  have hk_sq_pos : 0 < (k : ℝ) ^ 2 := pow_pos hk_real_pos _
+  have hlog_sq :
+      Real.log ((k : ℝ) ^ 2) ≤ Real.log (s : ℝ) :=
+    Real.log_le_log hk_sq_pos hsq
+  have htwo_log :
+      2 * Real.log (k : ℝ) ≤ Real.log (s : ℝ) := by
+    rw [Real.log_pow] at hlog_sq
+    norm_num at hlog_sq
+    simpa using hlog_sq
+  have hden_pos : 0 < 2 * Real.log (k : ℝ) := by
+    have hlogk_pos : 0 < Real.log (k : ℝ) := by
+      exact Real.log_pos (by exact_mod_cast hk)
+    positivity
+  rw [le_div_iff₀ hden_pos]
+  simpa using htwo_log
+
+/--
+If `s` is at least `k^2`, then the logarithmic floor-power selector is at
+least one.
+-/
+theorem one_le_nat_floor_log_div_of_sq_le
+    {k s : ℕ} (hk : 1 < k)
+    (hsq : (k : ℝ) ^ 2 ≤ (s : ℝ)) :
+    1 ≤ Nat.floor (Real.log (s : ℝ) / (2 * Real.log (k : ℝ))) := by
+  apply Nat.le_floor
+  simpa using one_le_log_div_of_sq_le (k := k) (s := s) hk hsq
+
+/--
+If `s >= k^2`, the floor-power selector keeps a constant fraction of the
+source logarithmic ratio.
+-/
+theorem half_log_div_le_nat_floor_log_div_of_sq_le
+    {k s : ℕ} (hk : 1 < k)
+    (hsq : (k : ℝ) ^ 2 ≤ (s : ℝ)) :
+    Real.log (s : ℝ) / (4 * Real.log (k : ℝ)) ≤
+      (Nat.floor (Real.log (s : ℝ) / (2 * Real.log (k : ℝ))) : ℝ) := by
+  have hone :
+      (1 : ℝ) ≤ Real.log (s : ℝ) / (2 * Real.log (k : ℝ)) :=
+    one_le_log_div_of_sq_le (k := k) (s := s) hk hsq
+  have hhalf :=
+    half_le_nat_floor_of_one_le
+      (x := Real.log (s : ℝ) / (2 * Real.log (k : ℝ))) hone
+  have hrearrange :
+      (Real.log (s : ℝ) / (2 * Real.log (k : ℝ))) / 2 =
+        Real.log (s : ℝ) / (4 * Real.log (k : ℝ)) := by ring
+  simpa [hrearrange] using hhalf
+
+/--
 One-step dyadic floor-window arithmetic.  For `x ∈ [0,1]`, the refined grid
 index `floor((2*M - 1) * x)` stays within the two-index window around
 `2 * floor(M*x)`.
@@ -1092,6 +1344,19 @@ theorem tendsto_nat_succ_cast_atTop :
     Tendsto (fun N : ℕ => (((N + 1 : ℕ) : ℝ))) atTop atTop :=
   tendsto_natCast_atTop_atTop.comp (tendsto_add_atTop_nat 1)
 
+/-- Any fixed real constant divided by `N + 1` is eventually at most `1 / 2`. -/
+theorem eventually_const_div_nat_succ_le_half (C : ℝ) :
+    ∀ᶠ N : ℕ in atTop, C / (((N + 1 : ℕ) : ℝ)) ≤ 1 / 2 := by
+  have hlim :
+      Tendsto (fun N : ℕ => C / (((N + 1 : ℕ) : ℝ))) atTop (nhds 0) :=
+    Filter.Tendsto.const_div_atTop tendsto_nat_succ_cast_atTop C
+  have hnear :
+      ∀ᶠ N : ℕ in atTop,
+        C / (((N + 1 : ℕ) : ℝ)) ∈ Set.Iio (1 / 2 : ℝ) :=
+    hlim (isOpen_Iio.mem_nhds (by norm_num : (0 : ℝ) < 1 / 2))
+  filter_upwards [hnear] with N hN
+  exact le_of_lt hN
+
 /--
 The elementary logarithmic endpoint rate `-log(1 - 1/(N+1))` tends to zero.
 -/
@@ -1131,6 +1396,38 @@ theorem tendsto_nat_succ_cast_rpow_neg_nhds_zero {β : ℝ}
     Tendsto (fun N : ℕ => (((N + 1 : ℕ) : ℝ) ^ (-β)))
       atTop (nhds 0) :=
   (tendsto_rpow_neg_atTop hβ_pos).comp tendsto_nat_succ_cast_atTop
+
+/--
+Uniform negative-power bound gives eventual uniform smallness.  This is the
+paper-neutral form of the common step from an `O(N^{-β})` estimate, uniform
+over a family indexed by `α N`, to "smaller than any positive tolerance"
+eventually.
+-/
+theorem eventually_forall_lt_of_uniform_rpow_neg_bound
+    {α : ℕ → Type*} {f : ∀ N : ℕ, α N → ℝ}
+    {A β : ℝ} {N0 : ℕ}
+    (hβ_pos : 0 < β)
+    (hbound :
+      ∀ N : ℕ, N0 ≤ N →
+        ∀ a : α N,
+          f N a ≤ A * Real.rpow (((N + 1 : ℕ) : ℝ)) (-β)) :
+    ∀ tol : ℝ, 0 < tol →
+      ∀ᶠ N : ℕ in atTop, ∀ a : α N, f N a < tol := by
+  intro tol htol
+  have hupper_zero :
+      Tendsto
+        (fun N : ℕ => A * Real.rpow (((N + 1 : ℕ) : ℝ)) (-β))
+        atTop (nhds 0) := by
+    have hpow := tendsto_nat_succ_cast_rpow_neg_nhds_zero hβ_pos
+    simpa using (tendsto_const_nhds.mul hpow : Tendsto
+      (fun N : ℕ => A * Real.rpow (((N + 1 : ℕ) : ℝ)) (-β))
+      atTop (nhds (A * 0)))
+  have hsmall :
+      ∀ᶠ N : ℕ in atTop,
+        A * Real.rpow (((N + 1 : ℕ) : ℝ)) (-β) < tol :=
+    hupper_zero (isOpen_Iio.mem_nhds htol)
+  filter_upwards [eventually_ge_atTop N0, hsmall] with N hN hsmallN a
+  exact lt_of_le_of_lt (hbound N hN a) hsmallN
 
 /-- A negative real power of `(N + 1 : ℝ) + d` tends to zero. -/
 theorem tendsto_nat_succ_cast_add_const_rpow_neg_nhds_zero

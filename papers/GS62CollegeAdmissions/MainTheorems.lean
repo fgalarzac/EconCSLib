@@ -4,11 +4,11 @@ import EconCSLib.Markets.Matching.ManyToOne
 /-!
 # Paper-Facing Theorems: Gale-Shapley 1962
 
-This file starts the formalization of Gale and Shapley's
-*College Admissions and the Stability of Marriage*.  The first closed seam is
-the paper's one-to-one marriage specialization and quota-one college-admissions
-wrapper: deferred acceptance produces a stable complete matching and the
-proposing side receives its best partner among stable matchings.
+This file contains the foundational one-to-one marriage endpoints and the
+cloned-seat stable-existence construction.  Full source completion, including
+the arbitrary-quota Theorem 2 and the checked source-procedure bridges, lives in
+the paper's `SourceCompletion`, `BatchedProcedure`,
+`ManyToOneOptimality`, and `ExactCollegeBatchedProcedure` modules.
 -/
 
 namespace GS62CollegeAdmissions
@@ -168,8 +168,9 @@ theorem paper_gs62_college_admissions_stable_assignment_exists
     ManyToOne.deferredAcceptanceManyToOne_stable quota val_applicant val_college⟩
 
 /--
-Gale-Shapley Theorem 2, quota-one/proposer-side form: every applicant is at
-least as well off under deferred acceptance as under any other stable assignment.
+Quota-one specialization of Gale-Shapley Theorem 2, retained as a useful
+marriage corollary.  The arbitrary-quota source theorem is proved in
+`ManyToOneOptimality.lean`.
 -/
 theorem paper_gs62_theorem2_deferred_acceptance_applicant_optimal
     {Applicants Colleges : Type*}

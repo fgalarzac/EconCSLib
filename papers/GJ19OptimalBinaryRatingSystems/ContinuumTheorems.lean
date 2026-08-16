@@ -157,6 +157,20 @@ structure LemmaC4RawSourcePositiveSupportIntervalModel
     ∀ θ ∈ Set.Ioo lo hi, 0 < successProb θ ∧ successProb θ < 1
 
 /--
+The source `\bar P_k` kernel associated with a positive-support Lemma C.4
+model. This names the paper's floor-count complement error on ordered quality
+pairs; it is a definition, not an additional theorem premise.
+-/
+def lemmaC4RawSourcePbarKernel
+    {μ : Measure ℝ}
+    (R : LemmaC4RawSourcePositiveSupportIntervalModel μ) :
+    ℕ → ℝ × ℝ → ℝ :=
+  fun k q =>
+    twoSampleFloorPkComplementErrorProb
+      (binaryRatingModel R.successProb R.hprob0 R.hprob1)
+      R.sampleRate q.1 q.2 k
+
+/--
 Success-probability step function induced by a finite cutpoint chain and
 endpoint levels.  Points outside the displayed cutpoint support are assigned
 `0`; on the source support the value is one of the finitely many endpoint

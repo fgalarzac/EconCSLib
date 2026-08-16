@@ -2,15 +2,18 @@ import GJ18InformativeRatingSystems.MainTheorems
 import GJ18InformativeRatingSystems.Assumptions
 
 /-!
-# Audited Review Surface: Designing Informative Rating Systems
+# Auxiliary Proof Surface: Designing Informative Rating Systems
 
-This audited review surface exposes the paper's large-deviation theorem seam:
-single-rating log-MGFs, the Legendre rate function, pairwise score-comparison
-rates, and the finite aggregation bridge for the ranking objective. The
-strongest Theorem 1 endpoint is support-safe and extended-rate valued; the
-real-valued paper statement is reduced to the finite-domain equality between
-that extended adjacent threshold-rate minimum and the paper's real adjacent
-threshold-rate minimum.
+This historical auxiliary proof surface exposes earlier large-deviation proof
+seams. Some declarations retain superseded full-support and legacy-real-rate
+routes for audit traceability. They are not the governing GJ18 model and must
+not be used as source-fidelity or closeout evidence.
+
+The configured row-level review surface is `PaperInterface.lean`. Keep
+human-facing reviewed rows there; declarations in this module are proof support
+unless they are re-exported by `PaperInterface.lean`. The governing corrected
+model and the final paper theorems are in `ClarifiedSourceModel.lean` and
+`PaperInterface.lean`.
 -/
 
 namespace GJ18InformativeRatingSystems

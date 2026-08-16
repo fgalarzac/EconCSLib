@@ -9650,14 +9650,13 @@ theorem paper_corollary1_exponential_top_k_order_statistic_gamma_one_sequence_fo
     likelihood lambda k hlambda_pos hk_pos hlike_pos seq
 
 /--
-Source Corollary 1, concrete model existence for every `γ ≥ 0`.
+Top-one (`k = 1`) supporting specialization of source Corollary 1.
 
-The proof chooses a concrete source family by cases: two-point Bernoulli for
-`γ = 0`, bounded reflected-power iid order statistics for `0 < γ < 1`,
-exponential order statistics for `γ = 1`, and iid Pareto order statistics for
-`γ > 1`.  The conclusion has no certificate premise: every optimal allocation
-sequence for the returned model converges to the paper's `γ`-homogeneous
-profile.
+The theorem predates the arbitrary-fixed-`k` source route and deliberately
+chooses top-one witnesses in every branch.  It is retained for downstream
+compatibility, but is not the paper-facing formalization of the full source
+claim; the arbitrary positive `k` paper-facing endpoint is
+`PaperInterface.corollary1`.
 -/
 theorem paper_corollary1_any_nonnegative_gamma_concrete_model_sequence_formula
     {T : ℕ} [NeZero T]

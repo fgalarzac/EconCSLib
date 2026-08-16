@@ -1,150 +1,77 @@
 # Final Validation Report: PRPKG24 Accuracy-Diversity
-
-Updated: 2026-07-03
+Updated: 2026-08-16
 
 ## 1. Human Verdict
-Formalized. The paper-facing surface covers the main examples, definitions,
-theorems, corollaries, propositions, and appendix lemmas listed below.
-Source-quality notes remain for Proposition 2's printed finite constant and
-Lemma D.1(i)'s sign convention; Proposition 4 is treated as validated for the
-concrete sphere endpoint rather than as a caveat. No human dashboard sign-off
-has been recorded. The automated statement judge marks Proposition 2 as a
-mismatch because Lean uses the corrected finite constant.
+
+**Formalized.** The paper's named theoretical results have closed proofs on
+the source model, with the source correction and model clarifications stated below.
+No paper-level caveat is recorded. Independent human review has not yet been
+recorded.
 
 ## 2. Closeout Status
+
 - Completion status: formalized.
-- One-sentence recap: Proposition 2's printed finite bound appears to miss a factor of 2; Lean proves the corrected finite bound, which is sufficient for the asymptotic 1/2-homogeneity result.
-- Lean footprint: 52,018 paper-local Lean LOC; `PaperInterface.lean` is 287 lines; 42 human-review declarations are exposed.
-- Audit summary: source coverage has 40 covered, 2 conditional_boundary; statement LLM-as-judge has 40 matches, 2 mismatch; resolutions: 2 conditional_boundary; Lean-to-TeX has 27 row translations; assumption provenance has 15 paper_condition; source-record classification has 2 validated_source_assumption; source-record audit reports 42 review rows, 0 boundary inputs, 0 recursion failures; review-surface audit passes over 42 review rows; holistic source-first audit PASS; DAG/source-json audit PASS in `docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`.
+- Scope: the paper's named definitions, theoretical results, and Equation (4)'s
+  representation definition.
+- Human review: not yet recorded.
 
 ## 3. Source and Scope
-- Paper: *Reconciling the Accuracy-Diversity Trade-off in Recommendations*.
-- Authors: Kenny Peng, Manish Raghavan, Emma Pierson, Jon Kleinberg, and Nikhil Garg.
-- Source version: The ACM Web Conference, 2024 metadata plus local arXiv:2307.15142v1 text cache.
-- Local source text: `papers/PRPKG24AccuracyDiversity/PRPKG24AccuracyDiversity.txt`.
-- Lean folder: `papers/PRPKG24AccuracyDiversity`.
-- Human-facing theorem file: `papers/PRPKG24AccuracyDiversity/PaperInterface.lean`.
-- Detailed audit notes: `papers/PRPKG24AccuracyDiversity/docs/POST_FORMALIZATION_AUDIT.md`.
-- DAG artifacts: `papers/PRPKG24AccuracyDiversity/docs/DependencyDAG.tex` and `papers/PRPKG24AccuracyDiversity/docs/DependencyDAG.pdf`.
+
+The source is [arXiv:2307.15142](https://arxiv.org/abs/2307.15142). The scope
+includes Equation (4), Definitions 1--3, the named main-text results, and
+Appendix Lemmas D.1--D.5. Simulations, numerical examples, figures, captions,
+and other computational observations are not part of this formalization.
 
 ## 4. Researcher Summary of Checked Results
-- The paper-facing surface covers the main examples, definitions, theorems, corollaries, propositions, and appendix lemmas.
-- Proposition 2 is closed for the asymptotic homogeneity conclusion via the corrected finite constant.
-- Proposition 4 is validated for the concrete sphere endpoint, with source-quality notes recorded separately from proof boundaries.
+
+The formalized surface covers Equation (4)'s representation definition,
+Definitions 1--3, Theorem 1, Corollaries 1 and 3, Theorems 2 and 3,
+Propositions 2, 4, and 5, Lemma 1, and Appendix Lemmas D.1--D.5. Equation (3)
+and other displayed formulas support these named results. The results retain
+the selected-type probability law, the conditional finite experiment, exact
+top-k semantics where required, the relevant product laws, and the clarified
+Bernoulli models.
 
 ## 5. Remaining Boundaries and Gaps
-None for the checked theorem conclusions; source-quality notes are recorded below.
+
+The formalization does not claim an all-zero-weight extension, degenerate
+Bernoulli endpoint conclusions, or the source's inconsistent iid formulation
+of Theorem 2. These are explicit scope boundaries. Computational claims are
+outside the formalized theoretical surface.
 
 ## 6. Additional Assumptions Beyond Paper
-None.
+
+The all-coordinate gamma-share results require strictly positive type mass;
+the source permits zero-mass types. Theorem 1(v) requires a nonnegative common
+mean, and the Bernoulli results use their stated nondegeneracy domains.
+Equation (4) is stated for a nonempty slate. These conditions are explicit in
+the formalized statements.
 
 ## 7. Proof-Strategy Deviations
+
 None.
 
 ## 8. Proof Tricks Worth Reusing
-- None
 
-## 9. Mathematical Typos or Other Fixes Suggested in the Source Paper
-- Proposition 2: the printed finite constant appears to miss a factor of 2. Lean proves the corrected finite `(2m+1)/N` bound, which is sufficient for the paper's asymptotic conclusion. The automated statement judge records this as a mismatch.
-- Lemma D.1(i): the literal printed sign convention combines `B > 0` with `sigma < 0`, while the proof route and downstream exponential-decay application use the source-consistent positive-rate/decay convention. Lean closes the optimizer-limit content and downstream routes under that convention.
+A positive probability-mass atom gives a direct positivity proof for the
+finite normalizer in the gamma-share argument.
 
-## 10. Paper Issues or Caveats
-No paper-level formalization caveat is claimed from the source-quality notes above. Proposition 2's corrected finite constant is sufficient for the paper's asymptotic conclusion, and the Lemma D.1 optimizer-limit content used downstream is closed under the source-consistent convention.
+## 9. Generalizations, Conjectures, and Extensions
 
-## 11. Detailed Formalization Evidence
-The current paper interface exposes source-shaped statements rather than proof-internal certificates. In particular:
+A supportwise treatment of zero-PMF coordinates could generalize the
+all-coordinate share results, but it is not represented as an already-proved
+extension. Any such extension should first specify whether coordinates with
+zero selection probability are excluded or assigned a separate convention.
 
-- Definitions 1-3 and Example 1 are exposed at the paper-facing equation/interface level.
-- Theorem 1 covers the finite-discrete, bounded, exponential, Pareto, and all-consumed/common-mean branches, with Corollary 1's model-witness split.
-- Theorem 2 covers the decaying-Bernoulli top-one regimes and the all-consumed alpha-zero argmax interpretation.
-- Theorem 3 proves the varying-success log-share limit and all-consumed argmax endpoint from primitive Bernoulli probability assumptions.
-- Proposition 2 proves the homogeneity conclusion from the corrected finite `(2m+1)/N` bound.
-- Proposition 4 proves the concrete continuous-sphere endpoint using the unit sphere, normalized Haar-sphere uniform measure, linear-isometry transitivity, radial log-kernel symmetry, Fubini/integrability facts, compact maximizer, and positive-Laplace-defined objective route.
-- Proposition 5, Lemma 1, and Lemmas D.1-D.5 are exposed through source-shaped paper rows.
+## 10. Source Clarifications and Exact Readings
 
-## 12. Paper Assumption Provenance
-All visible paper assumptions are routed through `Assumptions.lean` and the current `assumption_match_llm.json` sidecar. There are 15 assumption/provenance rows; all are judged current, with 56 premise-level judgments and no unresolved or partial-boundary premises.
+Proposition 2 uses the factor-of-two finite coefficient. Theorem 2's
+probability law is the independent rank-varying law specified by the displayed
+model, rather than an iid law. The source anchors and row-level evidence for
+these readings, including Appendix D, are in the
+[paper statement map](audit/paper_statement_map.json).
 
-The Proposition 4 row `assumption_proposition4_continuous_sphere_laplace_boundary` is a validation-note row, not an external proof boundary. It records:
+## 11. Paper Issues or Caveats
 
-- `hp : Continuous q`, the regularity used by the formal Laplace route;
-- positivity of the radial function on `[0,2]`, aligned with the paper's `(0,1]` codomain;
-- the reading of the paper's displayed `Gamma` limit as the Laplace-defined compact-supremum objective used by the Lean endpoint.
-
-## 13. Displayed Formula Provenance
-Displayed and source-defining formulas are tracked through the paper-facing rows in `PaperInterface.lean` and the current statement-match sidecars. This report pass found no standalone formula-provenance issue beyond any source notes already listed above.
-
-## 14. Library Lift Pass
-Reusable infrastructure used by this proof already lives in shared recommender, finite-rounding, asymptotics, order-statistics, exponential, Pareto, real-distribution, large-deviation, and symmetry modules. No additional library extraction was made in this closeout pass.
-
-The library-only premise audit was clean:
-
-```bash
-python3 scripts/audit_repository.py --library-only --library-premise-audit --info-limit 0
-```
-
-Result: 0 errors, 0 warnings.
-
-## 15. DAG Audit
-`DependencyDAG.tex` was audited against the workflow. Definition 1 is green and now covers both equation (5) for finite real `gamma` and the `gamma = infinity` likelihood-argmax profile, Proposition 4 appears once as a formalized result node, the header records the ACM Web Conference 2024 venue while pointing to the arXiv source cache, and the rendered layout has no node/text overlap. `pdflatex` wrote `DependencyDAG.pdf`, but the local MiKTeX wrapper still exits with code 134 after trying to write user config/log files under read-only `~/.miktex`; `mutool draw` was used for PNG rendering and visual inspection.
-
-## 16. Validation Checks
-
-<!-- BEGIN GENERATED LLM-AS-JUDGE RESULTS -->
-### LLM-as-Judge Results
-- Source coverage (`audit/paper_coverage_llm.json`): 40 covered, 2 conditional_boundary.
-- Statement match (`audit/statement_match_llm.json`): 40 matches, 2 mismatch; resolutions: 2 conditional_boundary.
-- Lean-to-TeX translations (`audit/lean_to_tex_llm.json`): 27 row translations generated from Lean statements.
-- Assumption provenance (`audit/assumption_match_llm.json`): 15 paper_condition.
-- Source-record classification (`audit/source_record_match_llm.json`): 2 validated_source_assumption.
-- Source-record structural audit (`audit/source_record_audit.json`): 42 review rows, 0 boundary inputs, 0 recursion failures.
-- Review-surface audit (`audit/review_surface_llm.json`): passes over 42 review rows.
-- Holistic source-first audit (`docs/AGENT_SOURCE_AUDIT.md`): PASS.
-- DAG/source/source-json audit (`docs/PUBLIC_DAG_HOLISTIC_AUDIT_2026-07-02.md`): PASS.
-<!-- END GENERATED LLM-AS-JUDGE RESULTS -->
-
-Passed:
-
-```bash
-lake build PRPKG24AccuracyDiversity
-python3 scripts/review_dashboard.py --paper PRPKG24AccuracyDiversity --statement-check
-python3 scripts/review_dashboard.py --paper PRPKG24AccuracyDiversity --assumption-check
-python3 scripts/review_dashboard.py --paper PRPKG24AccuracyDiversity --precheck
-python3 scripts/sync_paper_status.py --check
-python3 scripts/audit_repository.py --paper PRPKG24AccuracyDiversity --paper-closeout --include-active --info-limit 0
-python3 scripts/audit_repository.py --library-only --library-premise-audit --info-limit 0
-git diff --check
-```
-
-The targeted paper-closeout repository audit:
-
-```bash
-python3 scripts/audit_repository.py --paper PRPKG24AccuracyDiversity --paper-closeout --include-active --info-limit 0
-```
-
-passes with no PRPKG-specific errors or warnings. The broader unfiltered
-repository audit still has unrelated maintenance findings, including a
-pre-existing tracked source-PDF artifact in
-`papers/GLM20DroppingStandardizedTesting`.
-
-The proof-hole scan found no Lean proof holes in PRPKG files; matches were historical documentation lines mentioning `sorry`/`admit` commands or notes.
-
-## 17. Paper Definitions Checked
-No separate generated definitions table was recorded in this report refresh. The paper-facing definition rows are tracked in `PaperInterface.lean` and the statement validator sidecars.
-
-## 18. Named Theorem Statements Checked
-No separate generated theorem table was recorded in this report refresh. Named theorem endpoints are tracked in `PaperInterface.lean`, `status.json`, and the statement validator sidecars.
-
-## 19. Paper-Facing Statement Validator Ledger
-Current source: `audit/statement_match_llm.json`, refreshed 2026-06-29, plus assumption provenance in `audit/assumption_match_llm.json`.
-
-| Validator surface | Result |
-| --- | --- |
-| Statement match | 40 matches, 2 mismatch; resolutions: 2 conditional_boundary. |
-| Lean-to-TeX drafts | 27 row translations generated from Lean statements. |
-| Assumption provenance | 15 paper_condition. |
-| Source coverage | 40 covered, 2 conditional_boundary. |
-
-The full row-level validator ledger is tracked in the JSON sidecars. Human
-dashboard reviews and model/agent statement checks are separate provenance lanes;
-this report does not change the human-only `human_review.reviewed_rows` counter.
+None. The stated conditions and clarifications are formalization notes,
+not status-bearing caveats.

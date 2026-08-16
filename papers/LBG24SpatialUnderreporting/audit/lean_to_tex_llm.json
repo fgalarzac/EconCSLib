@@ -1,203 +1,194 @@
 {
-  "comment": "Regenerated context-free Lean-to-TeX drafts for semantic statement rejudge; every visible binder/hypothesis remains part of the translated surface.",
-  "items": {
-    "equation2_poisson_count_pmf_formula": {
-      "lean_statement_sha256": "46edb1d2ec791f7ddccea4d6ab61c702e7fccc931dd9ebd80a5a745aff876651",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall (rate exposure : \u211d) (count : \u2115), sourcePoissonPMF rate exposure count = exp (-(rate * exposure)) * (rate * exposure) ^ count / \u2191factorial",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "equation33_nyc_preprocessing_stopping_observation_window": {
-      "lean_statement_sha256": "48b803784112fa1332d3dea4d10210f1e585b6d5c3c8426cc408bd6d2af3251e",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {\\Omega : Type u_1} {m\\Omega : MeasurableSpace \\Omega} (\ud835\udcd5 : Filtration \u211d m\\Omega) (startTime inspectionTime workOrderTime : \\Omega \\to \u211d), IsStoppingTime \ud835\udcd5 startTime \\to IsStoppingTime \ud835\udcd5 inspectionTime \\to IsStoppingTime \ud835\udcd5 workOrderTime \\to (\\forall (\\omega : \\Omega), startTime \\omega \\le inspectionTime \\omega) \\to (\\forall (\\omega : \\Omega), startTime \\omega \\le workOrderTime \\omega) \\to \\exists W, startTime = startTime \\land (endTime = fun \\omega  =>  min (min (startTime \\omega + 100) (inspectionTime \\omega)) (workOrderTime \\omega)) \\land \\forall (\\omega : \\Omega), 0 \\le exposure \\omega",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "equation34_chicago_preprocessing_stopping_observation_window": {
-      "lean_statement_sha256": "26efbabd368051c0520902c6794625b2d242fc6a05175c648cdb92aa6a8c9ccd",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {\\Omega : Type u_1} {m\\Omega : MeasurableSpace \\Omega} (\ud835\udcd5 : Filtration \u211d m\\Omega) (firstReportTime closedTime retrievalTime : \\Omega \\to \u211d), IsStoppingTime \ud835\udcd5 firstReportTime \\to IsStoppingTime \ud835\udcd5 closedTime \\to IsStoppingTime \ud835\udcd5 retrievalTime \\to (\\forall (\\omega : \\Omega), firstReportTime \\omega \\le closedTime \\omega) \\to (\\forall (\\omega : \\Omega), firstReportTime \\omega \\le retrievalTime \\omega) \\to \\exists W, startTime = firstReportTime \\land (endTime = fun \\omega  =>  min (min (firstReportTime \\omega + 100) (closedTime \\omega)) (retrievalTime \\omega)) \\land \\forall (\\omega : \\Omega), 0 \\le exposure \\omega",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "equation3_mle_global_logLikelihood_max": {
-      "lean_statement_sha256": "2bb465afc04d9dc7d19f8a29ca911cd43f86c49f32cf3c3a2dfc8ab586d03ce0",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {totalCount : \u2115} {totalExposure rate : \u211d}, totalCount \\ne 0 \\to 0 < totalExposure \\to 0 < rate \\to poissonRateLogLikelihood totalCount totalExposure rate \\le poissonRateLogLikelihood totalCount totalExposure (mleRate totalCount totalExposure)",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "equation3_mle_score_equation": {
-      "lean_statement_sha256": "014fa7892ce41f60437c57999c3c76530d64ab3113f7f3340e384641273ab0df",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {totalCount : \u2115} {totalExposure : \u211d}, totalCount \\ne 0 \\to totalExposure \\ne 0 \\to poissonRateScore totalCount totalExposure (mleRate totalCount totalExposure) = 0",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "equation5_poisson_regression_rate_formula": {
-      "lean_statement_sha256": "254bf801058382b79fa643a0da3f88caaeeadcfd224786502b2df2afd4f7acf4",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {Feature : Type u_1} [inst : Fintype Feature] (alpha : \u211d) (beta theta : Feature \\to \u211d), poissonRegressionRate alpha beta theta = exp (alpha + \\sum j, beta j * theta j)",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "equation6_poisson_regression_likelihood_formula": {
-      "lean_statement_sha256": "1c2b69a6298830c70be3af89f52eaa172f32d71033acee1c5faa06e5503685a9",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {Feature : Type u_1} [inst : Fintype Feature] (alpha : \u211d) (beta theta : Feature \\to \u211d) (exposure : \u211d) (count : \u2115), poissonRegressionIncidentLikelihood alpha beta theta exposure count = sourcePoissonPMF (exp (alpha + \\sum j, beta j * theta j)) exposure count",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "equation7_zero_inflated_likelihood_positive_count": {
-      "lean_statement_sha256": "ad4379fdad759a08bc01cb4df90f5557a9afe5e3b1364ebdbafa46e10c83964c",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {gamma rate exposure : \u211d} {count : \u2115}, count \\ne 0 \\to zeroInflatedIncidentLikelihood gamma rate exposure count = (1 - gamma) * sourcePoissonPMF rate exposure count",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "equation7_zero_inflated_likelihood_zero": {
-      "lean_statement_sha256": "524cbaa597260f8862a078b423634b6c17b6a9fc9dff1f8556752eea7859094f",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall (gamma rate exposure : \u211d), zeroInflatedIncidentLikelihood gamma rate exposure 0 = gamma + (1 - gamma) * sourcePoissonPMF rate exposure 0",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "first_report_probability_formula": {
-      "lean_statement_sha256": "f065d372e34d4f10c7e35404ae046f89a9d7b87312b5bd6fe5e58b3e362141c0",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall (reportingRate duration : \u211d), firstReportProbability reportingRate duration = 1 - exp (-(reportingRate * duration))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "lemma1_continuous_duration_first_report_probability_integral": {
-      "lean_statement_sha256": "f1d79b4f2463311252a53391f01251cd3b3dedba3135fae821989774587e862d",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall (reportingRate : \u211d) (durationDensity : \u211d \\to \u211d), \\int (t : \u211d) in Ici 0, durationDensity t = 1 \\to Integrable durationDensity (restrict (Ici 0)) \\to Integrable (fun t  =>  durationDensity t * noArrivalProb reportingRate t) (restrict (Ici 0)) \\to continuousDurationFirstReportProbability reportingRate durationDensity = \\int (t : \u211d) in Ici 0, durationDensity t * firstReportProbability reportingRate t",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "lemma1_continuous_duration_observed_rate_integral": {
-      "lean_statement_sha256": "36456e47fc34641f458dcfe4f86599a9dd43062937434b530341a9096ce9eb86",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall (incidentRate reportingRate : \u211d) (durationDensity : \u211d \\to \u211d), \\int (t : \u211d) in Ici 0, durationDensity t = 1 \\to Integrable durationDensity (restrict (Ici 0)) \\to Integrable (fun t  =>  durationDensity t * noArrivalProb reportingRate t) (restrict (Ici 0)) \\to continuousDurationObservedIncidentRate incidentRate reportingRate durationDensity = incidentRate * \\int (t : \u211d) in Ici 0, durationDensity t * firstReportProbability reportingRate t",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "lemma1_continuous_duration_poisson_thinning_count_law": {
-      "lean_statement_sha256": "12b90ca480f0e3473b1a499c3bb00eddd381e175d3b2010c915d3b6ba15afb90",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall (incidentMean reportingRate : \u211d) (durationDensity : \u211d \\to \u211d) (observedCount : \u2115), \\sum' (originalCount : \u2115), countLikelihood 1 incidentMean originalCount * binomialThinningMass (continuousDurationFirstReportProbability reportingRate durationDensity) originalCount observedCount = countLikelihood 1 (continuousDurationObservedIncidentRate incidentMean reportingRate durationDensity) observedCount",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "lemma1_finite_duration_first_report_weighted_average": {
-      "lean_statement_sha256": "2fe2ff50534aacf7d009a6f3c866aaa8cdde06940f792c98fca27a0d4a398a4f",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {DurationType : Type u_1} [inst : Fintype DurationType] (reportingRate : \u211d) (weight duration : DurationType \\to \u211d), \\sum d, weight d = 1 \\to finiteDurationFirstReportProbability reportingRate weight duration = \\sum d, weight d * firstReportProbability reportingRate (duration d)",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "lemma2_exponential_waiting_tail": {
-      "lean_statement_sha256": "43db7004f7de148cecfb930268f2fff48a4c649cb6c0d08a5094ed8d5f2b5bcd",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall (rate : \u211d) (h_rate : 0 < rate) {epsilon lower : \u211d}, 0 \\le epsilon \\to \\forall {elapsed startDensity : \u211d \\to \u211d}, \\int (s : \u211d) in Ici lower, startDensity s = 1 \\to (\\forall (s : \u211d), 0 \\le rate * elapsed s) \\to \\int (s : \u211d) in Ici lower, (noArrivalProb rate epsilon * \\sum' (count : \u2115), countLikelihood rate (elapsed s) count) * startDensity s = ({ rate := rate, rate_pos := h_rate }.measure (Ioi epsilon)).toReal",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "lemma2_exponential_waiting_tail_memoryless_ratio": {
-      "lean_statement_sha256": "638e1dd814cb6a5eba050a3c3a3ed61b7e7a696c55bef2d369a38bfd85a283e3",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall (rate : \u211d) (h_rate : 0 < rate) {elapsed future : \u211d}, 0 \\le elapsed \\to 0 \\le future \\to ({ rate := rate, rate_pos := h_rate }.measure (Ioi (elapsed + future))).toReal / ({ rate := rate, rate_pos := h_rate }.measure (Ioi elapsed)).toReal = ({ rate := rate, rate_pos := h_rate }.measure (Ioi future)).toReal",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "proposition1_continuous_duration_nonidentifiability": {
-      "lean_statement_sha256": "bf1500c6ca8c1dfbb18450294a2b7c5c0eee60a570c28f3552b61da8d3994548",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall (durationDensity : \u211d \\to \u211d) {observedRate rate\u2081 rate\u2082 : \u211d}, rate\u2081 \\ne rate\u2082 \\to continuousDurationFirstReportProbability rate\u2081 durationDensity \\ne 0 \\to continuousDurationFirstReportProbability rate\u2082 durationDensity \\ne 0 \\to rate\u2081 \\ne rate\u2082 \\land continuousDurationObservedIncidentRate (observedRate / continuousDurationFirstReportProbability rate\u2081 durationDensity) rate\u2081 durationDensity = continuousDurationObservedIncidentRate (observedRate / continuousDurationFirstReportProbability rate\u2082 durationDensity) rate\u2082 durationDensity",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "proposition1_homogeneous_nonidentifiability": {
-      "lean_statement_sha256": "a8ba125407b3588a0638f5de23d35e24f0c7063cdeb1e08051f35ce0d27f3ea6",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {observedRate rate\u2081 rate\u2082 duration : \u211d}, rate\u2081 \\ne rate\u2082 \\to firstReportProbability rate\u2081 duration \\ne 0 \\to firstReportProbability rate\u2082 duration \\ne 0 \\to rate\u2081 \\ne rate\u2082 \\land homogeneousObservedIncidentRate (observedRate / firstReportProbability rate\u2081 duration) rate\u2081 duration = homogeneousObservedIncidentRate (observedRate / firstReportProbability rate\u2082 duration) rate\u2082 duration",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem1_likelihood_decomposition_from_poisson_increment_laws": {
-      "lean_statement_sha256": "bdaedc20009f63233d74f29d35c3396d878f75b58b284792e8fb3786b85f7025",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {\\Omega : Type u_1} [inst : MeasurableSpace \\Omega] {P : Measure \\Omega} (H : HomogeneousPoissonCountingProcessByLaw \\Omega P) (K : Theorem2ConditionFunctions) (C : Theorem2ObservedWindowCase), likelihoodFromPoissonIncrementLaws K H C = residualWith K C * sourcePoissonPMF rate (exposureWith K C) (countWith K C)",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem1_likelihood_product_decomposition_from_poisson_increment_laws": {
-      "lean_statement_sha256": "9c364ad8c0ee38dcb64787d925d513f8cd97d624b70c5d37b56eb8c4eb27acbc",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {\\Omega : Type u_1} {Incident : Type u_2} [inst : MeasurableSpace \\Omega] {P : Measure \\Omega} (H : HomogeneousPoissonCountingProcessByLaw \\Omega P) (K : Theorem2ConditionFunctions) (s : Finset Incident) (C : Incident \\to Theorem2ObservedWindowCase), (totalExposure s fun i  =>  exposureWith K (C i)) \\ne 0 \\to \\prod i \\in s, likelihoodFromPoissonIncrementLaws K H (C i) = productResidualWith K s C * sourcePoissonPMF rate (totalExposure s fun i  =>  exposureWith K (C i)) (totalCount s fun i  =>  countWith K (C i))",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem2_corrected_case_factorization": {
-      "lean_statement_sha256": "a26a42fbdbdde3c1ee5c34c79b40edaa5429cd949b3c7e993df6717114540480",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {kernelResidual rate exposure : \u211d} {count : \u2115}, exposure \\ne 0 \\to theorem2RawCaseLikelihood kernelResidual rate exposure count = theorem2CorrectedResidual kernelResidual exposure count * sourcePoissonPMF rate exposure count",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem2_multi_report_source_case": {
-      "lean_statement_sha256": "7b5b50f90542d115e10e6349bf762dba8f610a9c1272bc5cc283a428e018f975",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {startDensity endDensityAfterLastJump survivalIntegralProduct rate exposure : \u211d} {count : \u2115}, 1 < count \\to exposure \\ne 0 \\to 1 < count \\land theorem2MultiReportLikelihood startDensity endDensityAfterLastJump survivalIntegralProduct rate exposure count = theorem2CorrectedResidual (theorem2MultiReportKernelResidual startDensity endDensityAfterLastJump survivalIntegralProduct) exposure count * sourcePoissonPMF rate exposure count",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem2_one_report_source_case": {
-      "lean_statement_sha256": "7333e09887eeb26498557d264d47c6a12c9462de446e4df1e85f99f1e17f5368",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall {startDensity endDensityAfterJump endSurvivalIntegral rate exposure : \u211d}, exposure \\ne 0 \\to theorem2OneReportLikelihood startDensity endDensityAfterJump endSurvivalIntegral rate exposure = theorem2OneReportKernelResidual startDensity endDensityAfterJump endSurvivalIntegral / exposure * sourcePoissonPMF rate exposure 1",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    },
-    "theorem2_zero_report_source_case": {
-      "lean_statement_sha256": "ded8d60f17141746be8cddce246acda7e64639fa017e734e3ece8965348cc6e7",
-      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-      "tex_statement": "\\forall (startDensity endDensity rate exposure : \u211d), theorem2ZeroReportLikelihood startDensity endDensity rate exposure = theorem2ZeroReportResidual startDensity endDensity * sourcePoissonPMF rate exposure 0",
-      "translated_at": "2026-06-29T18:08:26Z",
-      "translator": "codex-gpt-5.5-semantic-rejudge",
-      "validator_type": "model"
-    }
-  },
+  "schema": 1,
   "paper": "LBG24SpatialUnderreporting",
   "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
-  "schema": 1,
-  "translated_at": "2026-06-29T18:08:26Z",
-  "translator": "codex-gpt-5.5-semantic-rejudge",
-  "validator_type": "model"
+  "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+  "translator_type": "agent",
+  "translated_at": "2026-07-28T18:00:00Z",
+  "items": {
+    "theorem2_observed_window_data_definition": {
+      "tex_statement": "For every observed-window case $C$, exactly one of the three displayed source representations is exhibited: there are $b,W$ with $C=\\mathrm{zero}(b,W)$, or $b,T,h_E$ with $C=\\mathrm{one}(b,T,h_E)$, or $b,T,h_M,h_E$ with $C=\\mathrm{multi}(b,T,h_M,h_E)$.",
+      "lean_statement_sha256": "39a6c112ec8143f5db1436c40f8ea7e080bd840dfa99a9fc595281edd2f0780f",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "equation2_poisson_count_pmf_formula": {
+      "tex_statement": "For every $\\mathrm{rate},\\mathrm{exposure}\\in\\mathbb{R}$ and $\\mathrm{count}\\in\\mathbb{N}$, $\\operatorname{sourcePoissonPMF}(\\mathrm{rate},\\mathrm{exposure},\\mathrm{count})=\\exp[-(\\mathrm{rate}\\,\\mathrm{exposure})](\\mathrm{rate}\\,\\mathrm{exposure})^{\\mathrm{count}}/\\mathrm{count}!$.",
+      "lean_statement_sha256": "4892a10a4c91597dab8e3467e9c73d4cb734dcdd2d5d8a8a48456ccb5744b54f",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "first_report_probability_formula": {
+      "tex_statement": "For every $\\mathrm{reportingRate},\\mathrm{duration}\\in\\mathbb{R}$, $\\operatorname{firstReportProbability}(\\mathrm{reportingRate},\\mathrm{duration})=1-\\exp[-(\\mathrm{reportingRate}\\,\\mathrm{duration})]$.",
+      "lean_statement_sha256": "1daee10801f86b477794b654482d2644bc452772adedcbe4e72fda3f3500c850",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "lemma1_continuous_duration_first_report_probability_integral": {
+      "tex_statement": "For every $\\mathrm{reportingRate}\\in\\mathbb{R}$ and $\\mathrm{durationDensity}:\\mathbb{R}\\to\\mathbb{R}$, if $\\int_{[0,\\infty)}\\mathrm{durationDensity}(t)\\,dt=1$, if $\\mathrm{durationDensity}$ is integrable with respect to Lebesgue measure restricted to $[0,\\infty)$, and if $t\\mapsto\\mathrm{durationDensity}(t)\\operatorname{noArrivalProb}(\\mathrm{reportingRate},t)$ is integrable with respect to the same restricted measure, then $\\operatorname{continuousDurationFirstReportProbability}(\\mathrm{reportingRate},\\mathrm{durationDensity})=\\int_{[0,\\infty)}\\mathrm{durationDensity}(t)\\operatorname{firstReportProbability}(\\mathrm{reportingRate},t)\\,dt$.",
+      "lean_statement_sha256": "7b4d07da52e892134579bba6bb3e096c5218d1cc64b68fb4750cda80c02c9965",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "lemma1_continuous_duration_observed_rate_integral": {
+      "tex_statement": "For every $\\mathrm{incidentRate},\\mathrm{reportingRate}\\in\\mathbb{R}$ and $\\mathrm{durationDensity}:\\mathbb{R}\\to\\mathbb{R}$, if $\\int_{[0,\\infty)}\\mathrm{durationDensity}(t)\\,dt=1$, if $\\mathrm{durationDensity}$ is integrable with respect to Lebesgue measure restricted to $[0,\\infty)$, and if $t\\mapsto\\mathrm{durationDensity}(t)\\operatorname{noArrivalProb}(\\mathrm{reportingRate},t)$ is integrable with respect to the same restricted measure, then $\\operatorname{continuousDurationObservedIncidentRate}(\\mathrm{incidentRate},\\mathrm{reportingRate},\\mathrm{durationDensity})=\\mathrm{incidentRate}\\int_{[0,\\infty)}\\mathrm{durationDensity}(t)\\operatorname{firstReportProbability}(\\mathrm{reportingRate},t)\\,dt$.",
+      "lean_statement_sha256": "9824b18f5a2bc618ca7c904de1791257ef74651fa13e6dfce6bcbbbde0033f92",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "lemma1_nonhomogeneous_first_report_probability_integral": {
+      "tex_statement": "For every $\\mathrm{reportingRate},\\mathrm{durationDensity}:\\mathbb{R}\\to\\mathbb{R}$, if $\\int_{[0,\\infty)}\\mathrm{durationDensity}(t)\\,dt=1$, if $\\mathrm{durationDensity}$ is integrable with respect to Lebesgue measure restricted to $[0,\\infty)$, and if $t\\mapsto\\mathrm{durationDensity}(t)\\exp[-\\int_0^t\\mathrm{reportingRate}(u)\\,du]$ is integrable with respect to that measure, then $\\operatorname{continuousDurationFirstReportProbabilityOfCumulativeIntensity}(t\\mapsto\\int_0^t\\mathrm{reportingRate}(u)\\,du,\\mathrm{durationDensity})=\\int_{[0,\\infty)}\\mathrm{durationDensity}(t)\\bigl(1-\\exp[-\\int_0^t\\mathrm{reportingRate}(u)\\,du]\\bigr)\\,dt$.",
+      "lean_statement_sha256": "edf50766a0f211780bef4f63b2cfe82384324b1e16a62ec5ba5c6a4c3b077569",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "lemma1_nonhomogeneous_observed_rate_integral": {
+      "tex_statement": "For every $\\mathrm{incidentRate}\\in\\mathbb{R}$ and $\\mathrm{reportingRate},\\mathrm{durationDensity}:\\mathbb{R}\\to\\mathbb{R}$, if $\\int_{[0,\\infty)}\\mathrm{durationDensity}(t)\\,dt=1$, if $\\mathrm{durationDensity}$ is integrable with respect to Lebesgue measure restricted to $[0,\\infty)$, and if $t\\mapsto\\mathrm{durationDensity}(t)\\exp[-\\int_0^t\\mathrm{reportingRate}(u)\\,du]$ is integrable with respect to that measure, then $\\operatorname{continuousDurationObservedIncidentRateOfCumulativeIntensity}(\\mathrm{incidentRate},t\\mapsto\\int_0^t\\mathrm{reportingRate}(u)\\,du,\\mathrm{durationDensity})=\\mathrm{incidentRate}\\int_{[0,\\infty)}\\mathrm{durationDensity}(t)\\bigl(1-\\exp[-\\int_0^t\\mathrm{reportingRate}(u)\\,du]\\bigr)\\,dt$.",
+      "lean_statement_sha256": "6f52b207efc5acc8bab1c43f1be90172cb29a356a8340142d8a9465a5dd69207",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "lemma1_steady_state_duration_source_observed_process": {
+      "tex_statement": "For every source steady-state duration model $M$ containing a latent Poisson incident process, independent eventual-report marks, and the displayed duration-mixture retention probability, the observed count path is measurable, starts at zero almost surely, is almost-surely monotone, has independent increments, and each interval increment has Poisson mass function with rate $\\operatorname{continuousDurationObservedIncidentRate}(M.\\mathrm{incidentRate},M.\\mathrm{reportingRate},M.\\mathrm{durationDensity})$ times the interval length.",
+      "lean_statement_sha256": "2528c5ae29238ad38adb7f4cae7b0bbbdd31dde7b027c6b02219b41047ea704d",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "proposition1_steady_state_duration_source_exists_nonidentifiability": {
+      "tex_statement": "For a probability duration density and a positive observed rate for which the first-report probabilities at reporting rates $1$ and $2$ are positive, there exist two source steady-state duration models with distinct positive reporting rates, the same observed incident rate, almost-sure unit-window count averages converging to that rate, and observed homogeneous-Poisson count-process laws at that common rate.",
+      "lean_statement_sha256": "7c621d511f6b7126ee81fa971cad4c2cbeabccb7a5707cae32ad16314e3f9fa3",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "lemma2_forward_selected_start_exponential_tail": {
+      "tex_statement": "Let $\\Omega$ be a measurable standard-Borel space, $P$ a probability measure, $M$ a forward source model consisting of a positive-rate iid exponential interarrival path and a Condition-1 selected start, and $u\\in\\mathbb R_{\\geq0}$. For $P$-almost every first-report history, the conditional probability that the forward Poisson process has no jump on the interval of length $u$ after $M.\\mathrm{selection.startTime}$ equals the exponential-rate-$M.\\mathrm{rate}$ tail probability of $(u,\\infty)$.",
+      "lean_statement_sha256": "a70d9202e22a1d2d795054a63fc76cea9ec4e0399351c16a3370f43bf3d015e1",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "appendix_shifted_poisson_after_first_jump": {
+      "tex_statement": "\\forall {\\Omega : Type u_1} [inst : MeasurableSpace \\Omega] [inst_1 : StandardBorelSpace \\Omega] {P : Measure \\Omega} [inst_2 : IsProbabilityMeasure P] (M : assumption_lemma2_forward_source_model \\Omega P), ⇑(condDistrib postFirstReportTail firstReportTime P) =ᵐ[map firstReportTime P] ⇑(const NNReal (exponentialInterarrivalMeasure rate))",
+      "lean_statement_sha256": "710a4ced28de4b88b61b8985ce2b6d258a7a0cf57d9ece289ecf5687a46bf42f",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "homogeneous_reporting_delay_mean_formula": {
+      "tex_statement": "\\forall (rate : ℝ) (h_rate : 0 < rate), \\int (x : ℝ), x ∂{ rate := rate, rate_pos := h_rate }.measure = 1 / rate",
+      "lean_statement_sha256": "06d1c1842855f0fb45d3e5bf8862240f07de323c14663583770100db4e835cfc",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "equation3_mle_formula": {
+      "tex_statement": "For every $\\mathrm{totalCount}\\in\\mathbb{N}$ and $\\mathrm{totalExposure}\\in\\mathbb{R}$, if $\\mathrm{totalExposure}\\ne 0$, then $\\operatorname{mleRate}(\\mathrm{totalCount},\\mathrm{totalExposure})=\\mathrm{totalCount}/\\mathrm{totalExposure}$, where the natural count is cast to a real number.",
+      "lean_statement_sha256": "384be62a08f0062f1fd9f8ded8480ee2d040302cc4906eda2173c3589a86e2ed",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "equation3_mle_global_logLikelihood_max": {
+      "tex_statement": "For every $\\mathrm{totalCount}\\in\\mathbb{N}$ and $\\mathrm{totalExposure},\\mathrm{rate}\\in\\mathbb{R}$, if $\\mathrm{totalCount}\\ne 0$, $\\mathrm{totalExposure}>0$, and $\\mathrm{rate}>0$, then $\\operatorname{poissonRateLogLikelihood}(\\mathrm{totalCount},\\mathrm{totalExposure},\\mathrm{rate})\\le\\operatorname{poissonRateLogLikelihood}(\\mathrm{totalCount},\\mathrm{totalExposure},\\operatorname{mleRate}(\\mathrm{totalCount},\\mathrm{totalExposure}))$.",
+      "lean_statement_sha256": "912980c2d693fdfc9eb6309fbf1502fff805897c82d83e5fb889bb2a89362853",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "equation3_mle_global_logLikelihood_max_zero_count": {
+      "tex_statement": "For every $\\mathrm{totalExposure},\\mathrm{rate}\\in\\mathbb{R}$, if $\\mathrm{totalExposure}\\ge 0$ and $\\mathrm{rate}\\ge 0$, then $\\operatorname{poissonRateLogLikelihood}(0,\\mathrm{totalExposure},\\mathrm{rate})\\le\\operatorname{poissonRateLogLikelihood}(0,\\mathrm{totalExposure},\\operatorname{mleRate}(0,\\mathrm{totalExposure}))$.",
+      "lean_statement_sha256": "e16dfe265065f01149bce7067899a6d2531e0354b5f15b5cd96f4cc343ae3bcf",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "equation5_poisson_regression_rate_formula": {
+      "tex_statement": "For every finite type $\\mathrm{Feature}$, every $\\alpha\\in\\mathbb{R}$, and every $\\beta,\\theta:\\mathrm{Feature}\\to\\mathbb{R}$, $\\operatorname{poissonRegressionRate}(\\alpha,\\beta,\\theta)=\\exp\\!\\left(\\alpha+\\sum_{j:\\mathrm{Feature}}\\beta(j)\\theta(j)\\right)$.",
+      "lean_statement_sha256": "72f778b2d2246c8a3d7b5c9e95328a815f058e758f7aa2acd25af4b0f0dc188e",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "equation6_poisson_regression_likelihood_formula": {
+      "tex_statement": "For a finite feature type, $\\alpha\\in\\mathbb R$, $\\beta,\\theta: \\mathrm{Feature}\\to\\mathbb R$, an ordered observed timeline $T$, a causal endpoint source model $M$ and its density presentation $D$, if $T.\\mathrm{window.exposure}>0$, then the conditional likelihood at $\\exp(\\alpha+\\sum_j\\beta_j\\theta_j)$ is the rate-free residual times $\\operatorname{sourcePoissonPMF}(\\exp(\\alpha+\\sum_j\\beta_j\\theta_j),T.\\mathrm{window.exposure},T.\\mathrm{count})$; the residual is independent of the rate argument.",
+      "lean_statement_sha256": "ef996e46210258db42979d73d15f48bf88f7652704a73b0b6e6d5bfd9010e381",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "equation7_zero_inflated_likelihood_zero": {
+      "tex_statement": "For every $\\gamma,\\mathrm{rate},\\mathrm{exposure}\\in\\mathbb{R}$, $\\operatorname{zeroInflatedIncidentLikelihood}(\\gamma,\\mathrm{rate},\\mathrm{exposure},0)=\\gamma+(1-\\gamma)\\operatorname{sourcePoissonPMF}(\\mathrm{rate},\\mathrm{exposure},0)$.",
+      "lean_statement_sha256": "dacaea5e174c3b80e583c9588b13702c4aaeaf6b170e3a411cf1fd61dfd612b1",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "equation7_zero_inflated_likelihood_positive_count": {
+      "tex_statement": "For every $\\gamma,\\mathrm{rate},\\mathrm{exposure}\\in\\mathbb{R}$ and $\\mathrm{count}\\in\\mathbb{N}$, if $1\\le\\mathrm{count}$, then $\\operatorname{zeroInflatedIncidentLikelihood}(\\gamma,\\mathrm{rate},\\mathrm{exposure},\\mathrm{count})=(1-\\gamma)\\operatorname{sourcePoissonPMF}(\\mathrm{rate},\\mathrm{exposure},\\mathrm{count})$.",
+      "lean_statement_sha256": "23ac94719e7f91c48b3ede982192192ed4e01f1eb279ae96f4306355f677bded",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "equation33_nyc_observation_end": {
+      "tex_statement": "For $\\mathrm{startTime},\\mathrm{inspectionTime},\\mathrm{workOrderTime}\\in\\mathbb{R}$, define $\\operatorname{equation33\\_nyc\\_observation\\_end}(\\mathrm{startTime},\\mathrm{inspectionTime},\\mathrm{workOrderTime})=\\min\\{\\min\\{\\mathrm{startTime}+100,\\mathrm{inspectionTime}\\},\\mathrm{workOrderTime}\\}$.",
+      "lean_statement_sha256": "79d7be7f99e6ed65b3671a965dfdaf7644102697582edaaf6c8ba39fba23562e",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "equation33_nyc_preprocessing_endpoint_is_stopping_time": {
+      "tex_statement": "For every type $\\Omega$, measurable space $m_\\Omega$ on $\\Omega$, filtration $\\mathcal{F}$ indexed by $\\mathbb{R}$, and functions $\\mathrm{startTime},\\mathrm{inspectionTime},\\mathrm{workOrderTime}:\\Omega\\to\\mathbb{R}$, if all three functions are stopping times for $\\mathcal{F}$, then $\\omega\\mapsto\\min\\{\\min\\{\\mathrm{startTime}(\\omega)+100,\\mathrm{inspectionTime}(\\omega)\\},\\mathrm{workOrderTime}(\\omega)\\}$ is also a stopping time for $\\mathcal{F}$.",
+      "lean_statement_sha256": "9e2e4ed71070b282f69db26f9ab9622d0d0f0650ce45ab34d51653d8fa6b3232",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "equation34_chicago_observation_end": {
+      "tex_statement": "For $\\mathrm{firstReportTime},\\mathrm{closedTime},\\mathrm{retrievalTime}\\in\\mathbb{R}$, define $\\operatorname{equation34\\_chicago\\_observation\\_end}(\\mathrm{firstReportTime},\\mathrm{closedTime},\\mathrm{retrievalTime})=\\min\\{\\min\\{\\mathrm{firstReportTime}+100,\\mathrm{closedTime}\\},\\mathrm{retrievalTime}\\}$.",
+      "lean_statement_sha256": "b05509c261fff4d98cead3c414355c90d82cf921b1ee425bf236f5dd865091ce",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    },
+    "appendix_theorem2_eq8_causal_stopping_source_model": {
+      "tex_statement": "For an ordered finite jump timeline $T$, a causal stopping source model $M$, a density presentation $D$, and a positive rate and exposure, the conditional likelihood is the rate-free causal residual times $\\operatorname{sourcePoissonPMF}(\\mathrm{rate},T.\\mathrm{window.exposure},T.\\mathrm{count})$.",
+      "lean_statement_sha256": "42853dfa29bd1c677f860c65a6369dffc968040e87ab2fb76961402c77155d57",
+      "prompt_version": "lean-to-tex-v3-strict-context-free-semantic-inputs",
+      "translator": "codex-gpt-5-lbg24-current-v10-rebind",
+      "translator_type": "agent",
+      "translated_at": "2026-07-28T18:00:00Z"
+    }
+  }
 }

@@ -3,10 +3,11 @@ import EconCSLib.Foundations.Econometrics.RatingModels.BinaryRating
 /-!
 # Paper-Facing Theorems: Balancing Producer Fairness and Efficiency
 
-This file records the current theorem-status finding for the prior-weighted
-rating-system paper. The strict-variance clause of Theorem 3.1 is formalized
-with an interior-quality assumption; the unqualified published statement has
-boundary-quality counterexamples.
+This file records the checked theorem endpoints for the prior-weighted
+rating-system paper. The source's strict-variance clause in Theorem 3.1 has a
+minor endpoint slip: Lean proves the full closed-interval weak statement, the
+strict interior statement, and the two endpoint counterexamples. This is a
+formalized source correction, not a remaining proof caveat.
 -/
 
 namespace MBJG25ProducerFairness

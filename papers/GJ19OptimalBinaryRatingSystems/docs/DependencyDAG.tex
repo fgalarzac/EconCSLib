@@ -39,8 +39,8 @@
 };
 
 \node[dag_result] (T31Lex) at (24.8,0) {
-  \textbf{Theorem 3.1 Lexicographic Optimality} \\
-  value first, then rate, characterizes optimal binary systems
+  \textbf{Theorem 3.1 Lexicographic Result} \\
+  source cell rates, finite optimizer, and value-first/rate-second assembly
 };
 
 \node[dag_model] (MatchModel) at (0,-3.3) {
@@ -59,13 +59,13 @@
 };
 
 \node[dag_result] (T31Branches) at (18.6,-3.3) {
-  \textbf{Theorem 3.1 Fixed/Continuum Branches} \\
-  fixed discretizations and continuum cell integrals realize the same optimum
+  \textbf{Theorem 3.1 Source Bridge} \\
+  nondecreasing matching function supplies positive monotone cell rates
 };
 
 \node[dag_result] (T31) at (24.8,-3.3) {
-  \textbf{Full Theorem 3.1} \\
-  continuum optimal discretization and maximin decomposition are checked
+  \textbf{General-$g$ Theorem 3.1} \\
+  exact staged source certificate, with explicit first-stage tie convention
 };
 
 \node[dag_result] (TC1) at (0,-6.6) {
@@ -80,7 +80,7 @@
 
 \node[dag_result] (C4) at (12.4,-6.6) {
   \textbf{Lemma C.4} \\
-  positive rate occurs exactly for the source piecewise-constant case
+  finite selected pullbacks have positive rate; non-step source gaps have rate zero
 };
 
 \node[dag_result] (C5) at (0,-9.9) {
@@ -90,7 +90,7 @@
 
 \node[dag_result] (C1C2C6C8) at (6.2,-9.9) {
   \textbf{Cor. C.1-C.2; Lemmas C.6-C.8} \\
-  rate vanishes, mesh shrinks, and finite-support bounds hold
+  convergence, refinement bounds, and general monotone-$g$ C.6
 };
 
 \node[dag_result] (C3Cor) at (12.4,-9.9) {
@@ -104,13 +104,13 @@
 };
 
 \node[dag_result] (T32Cert) at (24.8,-9.9) {
-  \textbf{Theorem 3.2} \\
-  calculated grid gives additive loss and runtime bounds
+  \textbf{Algorithm 1 / Theorem 3.2} \\
+  literal weighted runner, additive loss, and polynomial runtime
 };
 
 \node[dag_result] (B1Lemma) at (0,-13.2) {
   \textbf{Lemma B.1} \\
-  matching-rate shifts preserve the limiting comparison
+  one-crossing matching-rate shifts order the optimizer coordinates
 };
 
 \node[dag_result] (TB1) at (6.2,-13.2) {
@@ -120,7 +120,7 @@
 
 \node[dag_result] (B2B3) at (12.4,-13.2) {
   \textbf{Lemmas B.2-B.3} \\
-  known-type and unknown-type learning converge uniformly
+  finite SLLN learning and rank recovery under strict identifiability
 };
 
 \node[dag_model] (DefC1) at (18.6,-13.2) {
@@ -136,6 +136,11 @@
 \node[dag_result] (CorC4) at (24.8,-16.5) {
   \textbf{Corollary C.4} \\
   equispaced Kendall/Spearman rules arise along a uniform optimal subsequence
+};
+
+\node[dag_model] (StateDesign) at (0,-16.5) {
+  \textbf{State Dynamics / Section 4} \\
+  literal transition, experiment, mixture, and design definitions
 };
 
 \draw[dag_arrow] (KL.east) -- (AdjRate.west);

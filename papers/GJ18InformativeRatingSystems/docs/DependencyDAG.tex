@@ -11,109 +11,63 @@
 \dagPaperMetadata{Designing Informative Rating Systems}{Garg, Johari}{Manufacturing \& Service Operations Management 23(3)}{2020}{https://arxiv.org/pdf/1810.13028}
 
 \dagPaperLegendRightOfMetadata{
-\node[dag_model, dag_template_legend] (legDef) at (0,0) {definition /\\formula};
-\node[dag_lemma, dag_template_legend] (legLemma) at (3.4,0) {formalized\\lemma};
-\node[dag_result, dag_template_legend] (legResult) at (6.8,0) {formalized\\result};
-\node[dag_conditional, dag_template_legend] (legCond) at (10.2,0) {conditional\\helper};
+\node[dag_model, dag_template_legend] (legDef) at (0,0) {source\\definition};
+\node[dag_lemma, dag_template_legend] (legLemma) at (3.4,0) {formalized\\appendix result};
+\node[dag_result, dag_template_legend] (legResult) at (7.2,0) {formalized\\main result};
 }
-\daglegend{(legDef)(legLemma)(legResult)(legCond)}{Legend}
+\daglegend{(legDef)(legLemma)(legResult)}{Legend}
 
 \begin{dagPaperBody}
 
-\node[dag_model] (Model) at (0,0) {
-  \textbf{Rating Model} \\
-  seller types, full-support levels, scores, matching rates
+\node[dag_model] (CountScore) at (0,0) {
+  \textbf{Sample count and aggregate score} \\
+  $n_k(\theta)=\lfloor k g(\theta)\rfloor$; average of exactly $n_k$ scores \\
+  \emph{corrects the printed off-by-one index}
 };
 
-\node[dag_model] (LogMGF) at (7.2,0) {
-  \textbf{Definitions: Lambda and I} \\
-  log-MGF and Legendre formulas
+\node[dag_model] (Objectives) at (6.8,0) {
+  \textbf{Pairwise and ranking objectives} \\
+  strict correct-order minus inversion probability; \\
+  uniform average $W_k$ over quality-ordered pairs
 };
 
-\node[dag_model] (PairFormula) at (14.4,0) {
-  \textbf{Lemma C.1 Formula Side} \\
-  pairwise threshold-rate RHS
+\node[dag_model] (RateDefs) at (13.6,0) {
+  \textbf{Large-deviation definitions} \\
+  log-MGF $\Lambda(z\mid\theta)$ and \\
+  rate function $I(a\mid\theta)$
 };
 
-\node[dag_lemma] (EqualSample) at (0,-4.1) {
-  \textbf{Lemma C Equal-Sample Bridge} \\
-  paired MGF and mean formulas
+\node[dag_model, text width=5.1cm] (Conditions) at (0,-4.5) {
+  \textbf{Source model conditions} \\
+  positive match rates; monotone scores; ordinal \\
+  tail dominance and strict tail decrease; strict span
 };
 
-\node[dag_lemma] (TwoPop) at (7.2,-4.1) {
-  \textbf{Lemma C.1 Two-Pop Samples} \\
-  MGF and Chernoff upper bound
+\node[dag_lemma, text width=4.8cm] (ProbLess) at (7.0,-4.5) {
+  \textbf{Appendix: \texttt{problessthan}} \\
+  pairwise score-gap error has the displayed \\
+  support-safe threshold rate
 };
 
-\node[dag_lemma] (Block) at (14.4,-4.1) {
-  \textbf{Lemma C.1 Integer-Rate Block} \\
-  finite-type Cramer and log-MGF bridge
+\node[dag_lemma, text width=4.8cm] (PkLD) at (13.8,-8.8) {
+  \textbf{Appendix: \texttt{Pk\_LD}} \\
+  the rate transfers to $1-P_k$
 };
 
-\node[dag_model] (FloorCounts) at (0,-8.3) {
-  \textbf{Floor Counts} \\
-  floor(k g)/k and natural-rate equality
-};
-
-\node[dag_lemma] (Fenchel) at (7.2,-8.3) {
-  \textbf{Lemma C.1 Source Rate} \\
-  exact rate from common-dual derivatives
-};
-
-\node[dag_lemma] (PkTransfer) at (14.4,-8.3) {
-  \textbf{Lemma C.2 Pk Transfer} \\
-  1-P algebra and rate transfer
-};
-
-\node[dag_lemma] (TailDom) at (4.0,-12.4) {
-  \textbf{Finite FOSD Bridge} \\
-  upper-tail dominance gives expected-score order
-};
-
-\node[dag_lemma, text width=4.7cm, minimum height=1.8cm, font=\sffamily\small] (ChainDom) at (14.4,-12.4) {
-  \textbf{Joint Adjacent Reduction} \\
-  joint floor law and finite union bounds
-};
-
-\node[dag_result] (FiniteAgg) at (14.4,-16.6) {
-  \textbf{Theorem 1 Aggregation Bridge} \\
-  $1-W_k$ rate from pairwise rates
-};
-
-\node[dag_result, text width=5.0cm, minimum height=2.0cm, font=\sffamily\small] (TheoremOne) at (4.0,-16.6) {
+\node[dag_result, text width=5.8cm, minimum height=2.1cm] (TheoremOne) at (5.5,-13.0) {
   \textbf{Theorem 1} \\
-  $1-W_k$ has the minimum adjacent threshold rate
+  $1-W_k$ has the minimum over valid adjacent-pair rates, \\
+  with the finite-support endpoint stated support-safely
 };
 
-\coordinate (ModelToFloorBendA) at (-3.2,-3.7);
-\coordinate (ModelToFloorBendB) at (-3.2,-7.2);
-\coordinate (ModelToTailBendA) at (-3.6,-11.0);
-\coordinate (ModelToTailBendB) at (0.5,-12.4);
-\coordinate (FloorToTheoremBend) at (0,-14.8);
-\coordinate (PkToFiniteAggBendA) at (18.0,-9.8);
-\coordinate (PkToFiniteAggBendB) at (18.0,-15.4);
-
-\draw[dag_arrow] (Model) -- (LogMGF);
-\draw[dag_arrow] (LogMGF) -- (PairFormula);
-\draw[dag_arrow] (LogMGF) -- (EqualSample);
-\draw[dag_arrow] (LogMGF) -- (TwoPop);
-\draw[dag_arrow] (TwoPop) -- (Block);
-\draw[dag_dashed_arrow] (EqualSample.south east) to[out=-20,in=-160,looseness=0.75] (Block.south west);
-\draw[dag_arrow] (Model.south west) to[out=-135,in=90] (ModelToFloorBendA)
-  -- (ModelToFloorBendB) to[out=-90,in=160] (FloorCounts.north west);
-\draw[dag_arrow] (PairFormula) -- (Fenchel);
-\draw[dag_arrow] (Block) -- (Fenchel);
-\draw[dag_arrow] (Model.south west) to[out=-145,in=90] (ModelToTailBendA)
-  to[out=-90,in=180] (ModelToTailBendB) -- (TailDom.west);
-\draw[dag_arrow] (Fenchel) -- (PkTransfer);
-\draw[dag_arrow] (PkTransfer.south east) to[out=-40,in=90] (PkToFiniteAggBendA)
-  -- (PkToFiniteAggBendB) to[out=-90,in=25] (FiniteAgg.north east);
-\draw[dag_arrow] (FloorCounts.south) -- (FloorToTheoremBend)
-  to[out=-90,in=145] (TheoremOne.north west);
-\draw[dag_arrow] (PkTransfer) -- (ChainDom);
-\draw[dag_arrow] (TailDom) -- (TheoremOne);
-\draw[dag_arrow] (FiniteAgg) -- (TheoremOne);
-\draw[dag_arrow] (ChainDom) -- (FiniteAgg);
+\draw[dag_arrow] (CountScore) -- (Objectives);
+\draw[dag_arrow] (RateDefs) -- (ProbLess);
+\draw[dag_arrow] (CountScore) -- (ProbLess);
+\draw[dag_arrow] (Conditions) -- (ProbLess);
+\draw[dag_arrow] (Objectives) -- (PkLD);
+\draw[dag_arrow] (ProbLess) -- (PkLD);
+\draw[dag_arrow] (Conditions.south) to[out=-90,in=170] (TheoremOne.west);
+\draw[dag_arrow] (PkLD.south west) to[out=-130,in=15] (TheoremOne.east);
 
 \end{dagPaperBody}
 \end{tikzpicture}

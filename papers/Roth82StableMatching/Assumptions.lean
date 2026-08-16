@@ -14,6 +14,7 @@ namespace Roth82StableMatching
 /--
 The source marriage-problem representation uses balanced one-to-one markets.
 This is the equal-size condition needed for complete strict-marriage endpoints.
+Source status: explicit paper model condition.
 -/
 -- audit-premise: hcard : Fintype.card M = Fintype.card W
 abbrev assumption_equal_cardinality {M W : Type*}
@@ -23,6 +24,7 @@ abbrev assumption_equal_cardinality {M W : Type*}
 /--
 Roth's Lemma 1 simple-misrepresentation route assumes the simplified report
 strictly ranks the obtained partner first.
+Source status: explicit paper proof condition.
 -/
 -- audit-premise: hfirst : ∀ w, w ≠ wstar → simple_report_m w < simple_report_m wstar
 abbrev assumption_simple_report_ranks_partner_first {W : Type*}

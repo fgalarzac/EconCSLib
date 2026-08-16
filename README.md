@@ -19,25 +19,68 @@ If you use this project, please cite the following paper
 }
 ```
 
-# Paper Formalization Quickstart guide for humans
+## Contribute A Paper Formalization
 
-To get started in formalizing your own paper, clone the repository. Give the agent (I use Codex with GPT 5.5 in xhigh thinking mode) an arXiv link or paper pdf/source, and also mention where the published version is for its records.
+A one-paper contribution has a scoped path: it builds and audits only the paper
+being contributed. It does not refresh aggregate status files or audit existing
+papers.
 
-```text
-Get context on this repo and skills and formalize
-<paper link>.
+```bash
+python3 scripts/paper_contribution.py doctor
+PAPER=ABC24ShortTitle
+PAPER_URL=https://arxiv.org/abs/2401.01234
+SOURCE_VERSION='arXiv v2'
+SOURCE_ARTIFACT=".scratch/$PAPER/source.pdf"
+STATEMENT_SPEC=".scratch/$PAPER/statement-spec.json"
+mkdir -p ".scratch/$PAPER"
+# Copy or download the exact v2 source bytes here before continuing.
+test -f "$SOURCE_ARTIFACT"
+python3 scripts/paper_contribution.py init-spec \
+  "$SOURCE_ARTIFACT" \
+  --version "$SOURCE_VERSION" \
+  --output "$STATEMENT_SPEC"
 ```
-Set a durable goal:
-```text
-/goal fully formalize <PaperFolder> until full done, and then run the post formalization audit.
+
+**STOP before `new`:** edit `$STATEMENT_SPEC`, replace every `REPLACE ...`
+value and `replace_with_lean_name`, and add all named theoretical targets in
+scope. This guard must print nothing and succeed:
+
+```bash
+! grep -nE 'REPLACE|replace_with_lean_name' "$STATEMENT_SPEC"
 ```
 
-Useful steering advice:
-- I often ask it for the status and steer it into proving one thing or another first.
-- Often it will state something is a caveat/error in the paper, but I ask it to look for the source assumptions carefully and usually it'll find it.
-- You may want to give feedback on what is the right "formalization boundary" -- do you want the paper fully formalized from the basic axioms, or are you OK assuming something fundamental not yet proven in the upstream libraries (e.g., classic compressed sensing results or that stochastic subgradient descent converges). 
+Then scaffold the paper:
 
-(And please let me know what your experience is like!).
+```bash
+python3 scripts/paper_contribution.py new "$PAPER_URL" \
+  --folder "$PAPER" --title "A Short Formalization Example" \
+  --authors "Ada Author and Bao Collaborator" \
+  --version "$SOURCE_VERSION" \
+  --statement-spec "$STATEMENT_SPEC"
+```
+
+Both local inputs stay under the Git-ignored `.scratch/` tree. Do not stage or
+commit the source artifact or statement spec.
+
+Develop in `papers/ABC24ShortTitle/`, then use:
+
+```bash
+python3 scripts/paper_contribution.py check ABC24ShortTitle --fast
+python3 scripts/paper_contribution.py prepare-pr ABC24ShortTitle --base upstream/main
+```
+
+After publication is approved, set the paper-local
+`repository_visibility` to `public`, synchronize only that paper, and commit
+the candidate before `prepare-pr`. That command runs the full local,
+source-present acceptance check. Pull-request CI verifies the same paper in
+public-checkout mode but does not replace that source-grounded closeout. See
+[`docs/contributing/README.md`](docs/contributing/README.md) for the short path
+and [`docs/NEW_CONTRIBUTOR_WORKFLOW.md`](docs/NEW_CONTRIBUTOR_WORKFLOW.md) for
+details.
+
+When using a coding agent, give it the paper URL, exact source version, and
+folder name, and ask it to follow the repository's paper-formalization skill
+through source inventory, proofs, and paper-scoped closeout.
 
 ## How The Repository Is Organized
 
@@ -75,15 +118,17 @@ proves.
 
 This project is aligned to Lean/mathlib/CSLib `v4.30.0-rc2`.
 
-Useful commands:
+Maintainer and integration commands:
 
 ```bash
 lake build EconCSLib
 python3 scripts/audit_repository.py
 ```
 
-`lake build EconCSLib` is the first fresh-clone check and should pass for the
+`lake build EconCSLib` is the reusable-library check and should pass for the
 public repository. `python3 scripts/audit_repository.py` is a maintainer audit.
+One-paper contributors should use `scripts/paper_contribution.py check` instead;
+they are not expected to run either repository-wide command.
 In a fresh clone it may report missing ignored local artifacts such as source
 PDFs, rendered dependency-graph PDFs, or review-dashboard caches; those are not
 Lean verification failures.

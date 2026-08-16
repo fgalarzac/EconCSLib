@@ -94,7 +94,7 @@ continuous densities, CTMCs, renewal-reward reductions, and RUM/noise models.
   interval is `[threshold, upperTailMean)`. It packages the strict upper-tail
   mean comparison and the positive Gaussian interval-mass fact, so paper files
   do not need a local `hupper` followed by `GaussianScaleLaw.toMeasure_Ico_pos`.
-- For random-utility Gaussian reductions that normalize an arbitrary
+- For KR-style random-utility Gaussian reductions that normalize an arbitrary
   positive standard deviation to the paper's variance-`1/2` convention, use
   `EconCSLib.Foundations.Probability.BivariateGaussian` before adding
   paper-local scaling proofs. The reusable entry points are
@@ -1287,7 +1287,7 @@ continuous densities, CTMCs, renewal-reward reductions, and RUM/noise models.
   `rum3_swap23_mass_lt_of_density_formula`,
   `rum3_withDensity_swap12_measure_le_of_density_formula`, and
   `rum3_withDensity_swap23_measure_lt_of_density_formula` before proving
-  paper-local versions. Keep concrete ranking encodings, six hard-coded
+  KR-style local versions. Keep concrete ranking encodings, six hard-coded
   three-candidate rankings, lambda/delta payoff certificates, and
   theorem-number wrappers in the paper folder unless a second paper actually
   needs that same abstraction.

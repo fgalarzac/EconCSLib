@@ -3,6 +3,10 @@ import EconCSLib.Foundations.Math.FiniteOptimization
 import EconCSLib.Foundations.Math.FiniteChoice
 import EconCSLib.Foundations.Math.FiniteDimensionalNorms
 import EconCSLib.Foundations.Math.FiniteDimensionalNormsDerivative
+import EconCSLib.Foundations.Math.LinearCompressedSensing
+import EconCSLib.Foundations.Math.ExtremalGraph
+import EconCSLib.Foundations.Math.MatrixRankInequalities
+import EconCSLib.Foundations.Math.RankBounds
 import EconCSLib.Foundations.Math.BinomialBounds
 import EconCSLib.Foundations.Math.FiniteRanking
 import EconCSLib.Foundations.Math.FiniteRounding

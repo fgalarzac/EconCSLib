@@ -81,6 +81,25 @@ theorem measure_Ioi_toReal (M : Model) {x : ℝ} (hx : 0 ≤ x) :
       ring
 
 /--
+Scaling a rate-`r` exponential time by `r` gives the unit-rate exponential
+tail.  This is the service-work normalization used when an exponential
+potential-service time is converted into unit-mean service requirement.
+-/
+theorem measure_rate_mul_Ioi_toReal
+    (M : Model) {z : ℝ} (hz : 0 ≤ z) :
+    (M.measure {x : ℝ | z < M.rate * x}).toReal = Real.exp (-z) := by
+  have hset : {x : ℝ | z < M.rate * x} = Set.Ioi (z / M.rate) := by
+    ext x
+    have hiff : z / M.rate < x ↔ z < M.rate * x := by
+      rw [div_lt_iff₀ M.rate_pos]
+      rw [mul_comm]
+    exact hiff.symm
+  rw [hset, M.measure_Ioi_toReal (div_nonneg hz M.rate_pos.le)]
+  have harg : -(M.rate * (z / M.rate)) = -z := by
+    field_simp [M.rate_pos.ne']
+  rw [harg]
+
+/--
 Memoryless tail ratio for a positive-rate exponential model, stated directly
 in terms of the model's tail probabilities.
 -/
@@ -97,6 +116,36 @@ theorem measure_Ioi_add_div_measure_Ioi_toReal
       -(M.rate * elapsed) + -(M.rate * future) by ring]
   rw [Real.exp_add]
   field_simp [Real.exp_ne_zero]
+
+/-- The elementary exponential overshoot calculation before conditioning: the
+mass of surviving `elapsed` and then an additional `future` factorizes into
+the two tail masses. A deterministic-clock renewal proof needs this identity
+under a measurable random elapsed prefix. -/
+theorem measure_residual_tail_toReal
+    (M : Model) {elapsed future : ℝ}
+    (helapsed : 0 ≤ elapsed) (hfuture : 0 ≤ future) :
+    (M.measure {x : ℝ | elapsed < x ∧ future < x - elapsed}).toReal =
+      (M.measure (Set.Ioi elapsed)).toReal *
+        (M.measure (Set.Ioi future)).toReal := by
+  have hset : {x : ℝ | elapsed < x ∧ future < x - elapsed} =
+      Set.Ioi (elapsed + future) := by
+    ext x
+    constructor
+    · intro hx
+      change elapsed < x ∧ future < x - elapsed at hx
+      change elapsed + future < x
+      linarith [hx.2]
+    · intro hx
+      change elapsed + future < x at hx
+      constructor
+      · change elapsed < x
+        linarith [hx]
+      · change future < x - elapsed
+        linarith [hx]
+  rw [hset, M.measure_Ioi_toReal (add_nonneg helapsed hfuture),
+    M.measure_Ioi_toReal helapsed, M.measure_Ioi_toReal hfuture]
+  rw [show -(M.rate * (elapsed + future)) =
+    -(M.rate * elapsed) + -(M.rate * future) by ring, Real.exp_add]
 
 theorem measure_Iic_toReal (M : Model) {x : ℝ} (hx : 0 ≤ x) :
     (M.measure (Set.Iic x)).toReal =

@@ -18,6 +18,7 @@
 .env.*
 !.env.example
 *.log
+/.scratch/
 
 # Python cache and local tool output
 __pycache__/
@@ -37,6 +38,7 @@ __pycache__/
 # Local source-paper extraction caches. Keep extracted paper text out of the
 # public repository unless redistribution rights have been checked. Planning,
 # audit, handoff, and citation-note `.txt` files are allowed below.
+papers/*/source-audited*
 papers/*/*.txt
 !papers/*/citation_source.txt
 !papers/*/*PLAN*.txt

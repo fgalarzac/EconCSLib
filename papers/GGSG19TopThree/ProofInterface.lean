@@ -8887,6 +8887,47 @@ theorem randomized_scoring_prefix_actual_cross_tier_static_selection_and_extende
       exact ⟨⊤, HasExtendedExponentialRate.infinite heventually, le_top⟩
 
 /--
+Paper-facing static-dominance proposition for Theorem
+`lem:randomizebetterscoring`.  It states that the convex-combination static
+scoring rule has an extended finite-outcome error rate that weakly dominates
+the randomized scoring mixture, without exposing the randomized product sample
+space or the selected extended-rate witness in the review-surface theorem.
+-/
+def randomizedScoringPrefixStaticDominatesRandomized
+    {Rule Cut Candidate Signal : Type*}
+    [Fintype Rule] [DecidableEq Rule] [Fintype Cut] [DecidableEq Cut]
+    [Fintype Candidate] [DecidableEq Candidate]
+    [Fintype Signal] [DecidableEq Signal]
+    (law : PMF Signal) (weight : Rule → ℝ) (diff : Rule → Cut → ℝ)
+    (inPrefix : Signal → Candidate → Cut → Prop)
+    [∀ signal candidate cut, Decidable (inPrefix signal candidate cut)]
+    (winnerSet : Finset Candidate)
+    [Nonempty (CrossTierPair winnerSet)]
+    (hweight : ∀ rule, 0 ≤ weight rule)
+    (hsum : (∑ rule : Rule, weight rule) = 1) : Prop :=
+  ∃ staticRate : WithTop ℝ,
+    HasExtendedExponentialRate
+      (fun sampleSize =>
+        ∑ pair : CrossTierPair winnerSet,
+          finiteScoreGapPairwiseErrorProb law
+            (fun candidate =>
+              prefixScoreFromEvent
+                (fun cut => ∑ rule : Rule, weight rule * diff rule cut)
+                inPrefix candidate)
+            pair.hi pair.lo sampleSize)
+      staticRate ∧
+      ((finiteOutcomeLearningRate
+          (fun pair : CrossTierPair winnerSet =>
+            finiteChernoffRate
+              (randomizedScoringSamplingLaw law weight hweight hsum)
+              (fun signal : Rule × Signal =>
+                prefixScoreFromEvent (diff signal.1) inPrefix
+                    pair.hi signal.2 -
+                  prefixScoreFromEvent (diff signal.1) inPrefix
+                    pair.lo signal.2)) : WithTop ℝ) ≤
+        staticRate)
+
+/--
 Automatic actual-law randomized scoring theorem over source W-set boundary
 pairs, stated as one extended-rate comparison.  Unlike the branch-split
 wrapper above, this theorem does not ask the caller to identify the finite

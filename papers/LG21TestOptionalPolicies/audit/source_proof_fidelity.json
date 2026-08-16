@@ -1,0 +1,539 @@
+{
+  "schema": 2,
+  "paper": "LG21TestOptionalPolicies",
+  "source_artifact_path": "source.txt",
+  "source_artifact_sha256": "11fb7a52959948847ce19d85adf97256a30c3f1575941ff6efec0e33bf908e1c",
+  "review_status": "defects_recorded",
+  "reviewed_proof_scopes": [
+    {
+      "source_locator": "source.txt:199-472; source.txt:829-1782",
+      "semantic_scope": "The Gaussian student and school model, Definitions 1-5, Theorems 3.1-3.2, and every displayed posterior, mixture, cutoff, continuity, equilibrium, deviation, and fairness step in the hidden-access proofs.",
+      "outcome": "defect_recorded"
+    },
+    {
+      "source_locator": "source.txt:480-632; source.txt:1784-2553",
+      "semantic_scope": "The observed-access model, Lemma 4.1, Propositions 4.2-4.3, Definition 6, Theorem 4.4, and every displayed Gaussian, threshold, posterior-law, resampling, and fairness step in their proofs.",
+      "outcome": "defect_recorded"
+    },
+    {
+      "source_locator": "source.txt:639-660",
+      "semantic_scope": "Discussion-section mathematical generalization claims about non-Gaussian signals, alternative student objectives, and approximate distributional fairness.",
+      "outcome": "no_defect"
+    }
+  ],
+  "model_conventions": [
+    {
+      "id": "LG21-LEMMA41-AE-EQUILIBRIUM-01",
+      "source_locator": "source.txt:199-324; source.txt:492-512; source.txt:1784-2317",
+      "classification": "user_approved_source_model_convention",
+      "formal_meaning": "The Section 4 route makes the source's known-decision-function unraveling explicit. For each voluntary protocol it selects a source-timed, self-enforcing positive-mass candidate by the fibrewise maximal active-branch rule, derives literal PBOs only on positive action branches, and concludes all selected voluntary actions are active almost everywhere. No null branch receives a PBO, payoff, or response comparison.",
+      "why_needed": "Definition 1 couples known decision functions to estimation, while a static RCD leaves a null history underdetermined. The source nevertheless operationally reasons that every nonreporting or nontaking fraction unravels. The explicit maximal active-branch rule formalizes that operational reading without treating arbitrary static-RCD versions as determined.",
+      "checked_scope": "ObservedAccessVoluntarySelfEnforcingCandidates.lean and ObservedAccessVoluntaryActiveBranchSelection.lean define the source-timed candidates and fibrewise selection. ObservedAccessVoluntaryActiveBranchModels.lean proves nonempty selected optional and report-required profile carriers. PaperInterface.lemma4_1_observed_access_strategy_proofness_source_core derives the mandatory, optional, and report-required behavioral conclusions and uniqueness almost everywhere; PaperInterface.lemma4_1_observed_access_strategy_proofness separately packages the checked nonemptiness strengthening. Proposition42ActiveBranchSourceBridge.lean, Proposition42ReportRequiredActiveBranchSourceBridge.lean, and the direct Proposition 4.3 and Theorem 4.4 source-core endpoints transport the resulting actual output laws to the Section 4 claims.",
+      "limitation": "This is not a theorem that every static Definition 1/RCD completion has a unique all-active equilibrium. It makes no pointwise claim on null histories, no unique off-path PBO or equilibrium-record claim, and no finite null-branch payoff claim. Proposition 4.2 uses a total canonical fixed-fibre PBO representative only to state Definition 2; selected source output realizes it almost everywhere, not pointwise for arbitrary null-fibre RCD versions.",
+      "approval": {
+        "approval_kind": "explicit_user_instruction",
+        "approval_reference": "User instruction on 2026-07-29: for zero-mass deviations, state the result up to measure zero rather than imposing an off-path payoff completion.",
+        "approved_at": "2026-07-29",
+        "conditions": [
+          "only behavioral conclusions up to the continuous population law are claimed",
+          "positive-mass actual and candidate PBO branches remain proof obligations",
+          "no finite default or minus-infinity value is credited for a null branch",
+          "the report-required route uses Definition 1 expected-estimate payoff",
+          "the operational reading is a formalization of the paper's known-decision-function semantics, not an additional assumption or caveat"
+        ]
+      }
+    },
+    {
+      "id": "LG21-THEOREM31-LOCAL-RECALIBRATION-STABILITY-01",
+      "source_locator": "source.txt:256-324; source.txt:424-450; source.txt:953-1045; source.txt:1432-1598",
+      "classification": "user_approved_operational_equilibrium_refinement",
+      "formal_meaning": "For the two Theorem 3.1 hidden-access routes, the formalized equilibrium domain excludes exactly the positive-mass locally recalibrated counterexample candidates attached to the four route-local source contexts. Each candidate closure is independently alpha-normalized and digest-pinned by stored-field semantics: optional reporting permits a local change to taking/reporting with attained-branch posterior recalibration and strict continuation gain; reporting-required-after-taking permits a local pre-score taking change with attained take/no-take posterior recalibration and strict ex-ante gain. The refinement is only the corresponding `Not (Nonempty candidate)` condition for that exact current closure.",
+      "why_needed": "Definition 1 specifies individual action feasibility, best responses, and PBO consistency, while the Theorem 3.1 proof says that extreme profiles are not stable and sketches an increasing/cutoff argument. It does not define or derive absence of every positive-mass locally recalibrated collective candidate encoded by the Lean endpoints. Making that equilibrium-scope strengthening visible prevents it from being silently treated as a consequence of bare Definition 1 or as a literal source assumption.",
+      "checked_scope": "The four `equilibrium_stability_refinement` source contexts on the optional-reporting, reporting-required, and combined-fairness Theorem 3.1 rows. The generic Lean-elaborated proposition graph discovers each complete premise and its transitive record-field closure without a stability-specific recognizer. The ordinary source-disposition judgment must cite this convention's current ledger digest; changing the source context, elaborated premise graph, or any reachable candidate field invalidates reuse.",
+      "limitation": "This is not claimed to be a literal theorem of the printed stability sentences, nor a consequence of the bare Definition 1 carrier, nor a general equilibrium concept for unrelated records. It supplies no PBO/payoff on a null branch, no result about arbitrary collective deviations outside the exact closures, and no credit to an individual candidate field as though the source separately assumed it.",
+      "recursive_field_source_scope": {
+        "schema": 1,
+        "entries": [
+          {
+            "source_item": "model_theorem31_optional_local_candidate_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry", "field": "region_measurable"}],
+            "source_locator": "source.txt:256-324; source.txt:953-1045",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_optional_local_candidate_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry", "field": "region_positive"}],
+            "source_locator": "source.txt:256-324; source.txt:953-1045",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_optional_local_candidate_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry",
+            "field_chain": [
+              {"structure": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry", "field": "candidate"},
+              {"structure": "LG21TestOptionalPolicies.LG21OptionalCandidateBranchData", "field": "testLaw_isProbability"}
+            ],
+            "source_locator": "source.txt:256-324; source.txt:953-1045",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_optional_local_candidate_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry",
+            "field_chain": [
+              {"structure": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry", "field": "candidate"},
+              {"structure": "LG21TestOptionalPolicies.LG21OptionalCandidateBranchData", "field": "continuationValue_integrable"}
+            ],
+            "source_locator": "source.txt:256-324; source.txt:953-1045",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_optional_local_candidate_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry", "field": "candidate_report_action"}],
+            "source_locator": "source.txt:256-324; source.txt:953-1045",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_optional_local_candidate_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry", "field": "candidate_take_measurable"}],
+            "source_locator": "source.txt:256-324; source.txt:953-1045",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_optional_local_candidate_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry", "field": "candidate_report_measurable"}],
+            "source_locator": "source.txt:256-324; source.txt:953-1045",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_optional_local_candidate_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry", "field": "candidate_agrees_outside_region"}],
+            "source_locator": "source.txt:256-324; source.txt:953-1045",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_optional_local_candidate_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry", "field": "candidate_changed_action_positive"}],
+            "source_locator": "source.txt:256-324; source.txt:953-1045",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_optional_local_candidate_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry", "field": "candidate_report_positive"}],
+            "source_locator": "source.txt:256-324; source.txt:953-1045",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_optional_local_candidate_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry", "field": "candidate_noReport_positive"}],
+            "source_locator": "source.txt:256-324; source.txt:953-1045",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_optional_local_candidate_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry", "field": "candidate_report_pbo"}],
+            "source_locator": "source.txt:256-324; source.txt:953-1045",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_optional_local_candidate_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry", "field": "candidate_noReport_pbo"}],
+            "source_locator": "source.txt:256-324; source.txt:953-1045",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_optional_local_candidate_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry", "field": "candidate_report_members_best_respond"}],
+            "source_locator": "source.txt:256-324; source.txt:953-1045",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_optional_local_candidate_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21HiddenAccessSourceLocalCandidateEntry", "field": "candidate_tester_strict_gain"}],
+            "source_locator": "source.txt:256-324; source.txt:953-1045",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_report_required_local_tail_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry", "field": "region_measurable"}],
+            "source_locator": "source.txt:256-324; source.txt:1432-1598",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_report_required_local_tail_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry", "field": "region_positive"}],
+            "source_locator": "source.txt:256-324; source.txt:1432-1598",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_report_required_local_tail_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry", "field": "current_take_measurable"}],
+            "source_locator": "source.txt:256-324; source.txt:1432-1598",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_report_required_local_tail_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry", "field": "current_take_zero"}],
+            "source_locator": "source.txt:256-324; source.txt:1432-1598",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_report_required_local_tail_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry",
+            "field_chain": [
+              {"structure": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry", "field": "candidate"},
+              {"structure": "LG21TestOptionalPolicies.LG21ReportRequiredTailCandidateData", "field": "testLaw_isProbability"}
+            ],
+            "source_locator": "source.txt:256-324; source.txt:1432-1598",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_report_required_local_tail_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry",
+            "field_chain": [
+              {"structure": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry", "field": "candidate"},
+              {"structure": "LG21TestOptionalPolicies.LG21ReportRequiredTailCandidateData", "field": "reportedPayoff_integrable"}
+            ],
+            "source_locator": "source.txt:256-324; source.txt:1432-1598",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_report_required_local_tail_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry", "field": "candidate_take_measurable"}],
+            "source_locator": "source.txt:256-324; source.txt:1432-1598",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_report_required_local_tail_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry", "field": "candidate_report_positive"}],
+            "source_locator": "source.txt:256-324; source.txt:1432-1598",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_report_required_local_tail_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry", "field": "candidate_noReport_positive"}],
+            "source_locator": "source.txt:256-324; source.txt:1432-1598",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_report_required_local_tail_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry", "field": "candidate_report_pbo"}],
+            "source_locator": "source.txt:256-324; source.txt:1432-1598",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_report_required_local_tail_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry", "field": "candidate_noReport_pbo"}],
+            "source_locator": "source.txt:256-324; source.txt:1432-1598",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_report_required_local_tail_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry", "field": "candidate_changed_taker_positive"}],
+            "source_locator": "source.txt:256-324; source.txt:1432-1598",
+            "permitted_classifications": ["approved_source_convention"]
+          },
+          {
+            "source_item": "model_theorem31_report_required_local_tail_stability_refinement",
+            "root_record": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry",
+            "field_chain": [{"structure": "LG21TestOptionalPolicies.LG21ReportRequiredLocalTailEntry", "field": "candidate_changed_taker_strict_gain"}],
+            "source_locator": "source.txt:256-324; source.txt:1432-1598",
+            "permitted_classifications": ["approved_source_convention"]
+          }
+        ]
+      },
+      "approval": {
+        "approval_kind": "explicit_user_instruction",
+        "approval_reference": "User instruction on 2026-07-30: formalize the Theorem 3.1 stability condition as a visible operational/equilibrium refinement, record it in the post-formalization report as an additional refinement, and do not present it as a caveat.",
+        "approved_at": "2026-07-30",
+        "conditions": [
+          "the exact candidate closure and source context must be independently pinned",
+          "the refinement must not receive literal-source-assumption credit",
+          "PaperInterface must expose the premise rather than hiding it in a legacy carrier",
+          "the final report must state that Definition 1 alone does not imply the closure"
+        ]
+      }
+    }
+  ],
+  "defects": [
+    {
+      "id": "LG21-THEOREM31-NONREPORT-MIXTURE-01",
+      "source_locator": "source.txt:1134-1172; source.txt:1233-1267",
+      "source_claim": "The proof defines A(c) as the probability that an access student reports, Pr(test >= c), but then uses C*A(c) as the access mass among students with X=0 and in the no-report pooled estimate.",
+      "defect_kind": "algebra_or_sign",
+      "affected_source_locators": [
+        "source.txt:829-846",
+        "source.txt:1134-1172",
+        "source.txt:1233-1390"
+      ],
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The source has an A-versus-(1-A) bookkeeping error in an intermediate mixture formula. Lean uses the correct below-cutoff Gaussian CDF mass and proves the corrected fixed-point route, so this is a minor repaired proof issue rather than a caveat.",
+      "repair_obligation": "Use C*Pr(test < c) = C*(1-A(c)) as the access-side no-report mass, normalize by (1-C)+C*Pr(test<c), and re-establish the cutoff fixed point with that corrected mixture.",
+      "acceptance_condition": "A reviewed Lean formula identifies the access-side no-report mass with C times the below-cutoff CDF and the no-report estimate with the corresponding normalized two-component mixture; the fixed-point lemmas use that same formula.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "PaperInterface.theorem3_1_corrected_no_report_mixture_formula unfolds lg21OptionalNoReportMixtureEstimate to the corrected formula with accessFraction * normalCDF(scoreLaw, cutoff), and the MainTheorems fixed-point route is proved for that definition.",
+      "governing_disposition": "repaired_in_governing_proof",
+      "correction_id": "LG21-CORR-THEOREM31-NONREPORT-MIXTURE-2026-07-27",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-27.md (Governing Clauses: LG21-CORR-THEOREM31-NONREPORT-MIXTURE-2026-07-27)",
+      "conclusion_relation": "same",
+      "does_not_claim_archive_derivation": true
+    },
+    {
+      "id": "LG21-THEOREM31-CONTINUITY-01",
+      "source_locator": "source.txt:1268-1390",
+      "source_claim": "The proof says the truncated improper integral, and hence the no-report estimate, is continuous in the cutoff because the integrand is always finite, then invokes the endpoint sign change to obtain a finite fixed point.",
+      "defect_kind": "logical_dependency",
+      "affected_source_locators": [
+        "source.txt:1205-1267",
+        "source.txt:1268-1390"
+      ],
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "Pointwise finiteness does not by itself justify continuity of an improper parameterized integral. Lean repairs this analytic step through proved Gaussian CDF and lower-tail-mean continuity and endpoint lemmas, leaving the advertised fixed-point conclusion unchanged.",
+      "repair_obligation": "Prove continuity of the Gaussian below-cutoff mass and truncated first moment, positivity of the mixture denominator, and the required limits at both infinite endpoints before applying an intermediate-value argument.",
+      "acceptance_condition": "Lean derives continuity and both endpoint signs from the Gaussian-law API rather than assuming continuity of an arbitrary finite integrand.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "MainTheorems proves standardGaussianLowerTailMean_continuous-based continuity for the access lower-tail posterior, denominator positivity for lg21OptionalNoReportMixtureEstimate, and the high/low endpoint existence lemmas used by the no-report-mixture fixed point.",
+      "governing_disposition": "repaired_in_governing_proof",
+      "correction_id": "LG21-CORR-THEOREM31-CONTINUITY-2026-07-27",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-27.md (Governing Clauses: LG21-CORR-THEOREM31-CONTINUITY-2026-07-27)",
+      "conclusion_relation": "same",
+      "does_not_claim_archive_derivation": true
+    },
+    {
+      "id": "LG21-THEOREM31-SOURCE-MODEL-BRIDGE-01",
+      "source_locator": "source.txt:424-450; source.txt:829-1612; source.txt:1577-1598",
+      "source_claim": "Theorem 3.1 asserts, for every equilibrium in the hidden-access Gaussian model with Bayesian-optimal estimation, finite optional-reporting and report-required thresholds together with failure of every fairness notion. Its proof explicitly uses a stability/equilibrium step to rule out endpoint behavior before concluding that a threshold satisfies equilibrium.",
+      "defect_kind": "logical_dependency",
+      "affected_source_locators": [
+        "source.txt:424-450",
+        "source.txt:829-1390",
+        "source.txt:1391-1612",
+        "source.txt:1577-1598"
+      ],
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The final endpoints derive their behavioral and actual-output-law conclusions from the same Gaussian population, source-timed actions, action-selected PBOs, and positive-mass candidate semantics. Their two explicit no-local-candidate premises are not derivable from bare Definition 1, and the printed proof does not state their full universal local-recalibration closure. They are therefore accepted only under the visible, user-approved operational equilibrium refinement `LG21-THEOREM31-LOCAL-RECALIBRATION-STABILITY-01`, never as silently inherited source assumptions. The remaining source-visible change is the approved almost-everywhere interpretation for null populations.",
+      "repair_obligation": "Define one source-faithful hidden-access sequential/PBO equilibrium object and derive its reported payoff formula, no-report mixture law, finite fixed-point thresholds, and fairness comparison hypotheses from the same population and policy. Keep the two no-local-candidate premises visible, and bind each to the exact candidate closure and source context. They must be classified as the approved operational refinement rather than a literal source assumption; the proof must preserve source timing and may not hide the relations in an unrelated legacy carrier.",
+      "acceptance_condition": "A reviewed source-endpoint theorem starts from the source model, explicitly exposes the two local-entry conditions, constructs or derives every conclusion-bearing payoff, law, and consistency relation used by the cutoff and fairness arguments, and proves the named optional and report-required conclusions under the route-local approved refinement. Semantic review expands each condition to inspect positive mass, locally recalibrated PBO, and strict gain; its receipt must pin the exact current source context, candidate closure, and convention ledger digest. A bare Definition 1 theorem or a generic convention response cannot receive this credit.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "PaperInterface.theorem3_1_optional_reporting_source_timed explicitly takes `LG21HiddenAccessSourceStableAgainstLocalCandidateEntry`, and PaperInterface.theorem3_1_report_required_positive_withholding plus theorem3_1_report_required_finite_take_cutoff_ae explicitly take `LG21ReportRequiredStableAgainstLocalTailEntry`. The source map binds each resulting `Not (Nonempty candidate)` input to one context and exact anonymous closure. `LG21-THEOREM31-LOCAL-RECALIBRATION-STABILITY-01` records the user-approved operational equilibrium refinement and states that it is neither a literal source theorem nor a bare-Definition-1 consequence. The checked Lean endpoints prove the advertised behavior and actual-output consequences under that visible refinement; no caller-supplied law comparison or hidden bare-Definition-1 derivation is used."
+    },
+    {
+      "id": "LG21-DEFINITION1-OPAQUE-ESTIMATION-CONSISTENT-01",
+      "source_locator": "source.txt:239-244; source.txt:256-324",
+      "source_claim": "The source says that the school knows the student decision functions and estimates from them, and Definition 1 requires the estimation function to follow its definition given those functions. For Bayesian-optimal estimation, the relevant output is the conditional expectation on the literal information/action event.",
+      "defect_kind": "logical_dependency",
+      "affected_source_locators": [
+        "source.txt:209-221",
+        "source.txt:239-244",
+        "source.txt:256-324"
+      ],
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The former generic sequential Lean data stored `estimationConsistent : Prop`. Since an arbitrary proposition can be `True`, a source-facing theorem could not receive conditional-mean PBO credit merely by accepting or projecting that field. The reviewed route replaces that opaque slot with explicit Definition 1 literal PBO contracts, so feasibility, timing, response, and PBO obligations are visible in the theorem semantics rather than hidden behind a name.",
+      "repair_obligation": "For each source-facing protocol route, state feasibility, source-timed response obligations, and the actual conditional-expectation PBO identities for the literal information/action event. Guard null action branches by positive mass and do not derive any PBO equation from a generic consistency proposition.",
+      "acceptance_condition": "PaperInterface exposes explicit Definition 1 PBO contracts and source-timed witnesses for hidden-access optional reporting, observed-access optional reporting, observed-access reporting-required-after-taking, and mandatory-given-access. A semantic audit can expand those contracts to inspect action events, response scope, and PBO equations without any theorem-facing use of the opaque legacy field.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "Definition1LiteralPBOContract.lean defines the literal contracts and proves their source-timed witnesses from concrete fields, explicitly stating that it never reads `estimationConsistent : Prop`. PaperInterface.definition1_hidden_access_optional_pbo_contract, definition1_observed_access_optional_operational_pbo_contract, definition1_observed_access_report_required_operational_pbo_contract, and definition1_observed_access_mandatory_pbo_contract are the review declarations. Legacy sequential wrappers remain support infrastructure only and are not source-facing PBO evidence."
+    },
+    {
+      "id": "LG21-THEOREM32-ARBITRARY-POLICY-01",
+      "source_locator": "source.txt:1652-1708; source.txt:1717-1769",
+      "source_claim": "For an arbitrary estimation policy P, the proof infers from equality of the output estimate laws DP,1 and DP,0 that an imputed test-score law equals the reported test-score law, and then evaluates deviations using the affine Bayesian-optimal posterior formula.",
+      "defect_kind": "logical_dependency",
+      "affected_source_locators": [
+        "source.txt:455-461",
+        "source.txt:1614-1708",
+        "source.txt:1709-1778"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The literal arbitrary-randomized-policy theorem is false, but the repository user approved a clarified governing model: deterministic output on the reported-score branch, arbitrary common no-report/no-take output, explicit finite-expectation regularity where needed, separate schedules, and an operational almost-everywhere blankness conclusion. The archival theorem is retained only as a diagnosed counterexample boundary, never as equivalent to the formalized target.",
+      "repair_obligation": "Keep the exact source-domain randomized-policy counterexample as diagnostic evidence, and prove the independent optional-reporting and report-required clarified operational endpoints without output-law mean-identification, no-downside, or strict-detection premises.",
+      "acceptance_condition": "PaperInterface exposes one schedule-specific optional-reporting clarified theorem and one schedule-specific report-required clarified theorem; each quantifies over supplied clarified-model equilibria/fibres, preserves arbitrary base-law output, and explicitly declines a bare Definition 1 adapter or archival equivalence.",
+      "resolution": "corrected_source_statement",
+      "resolution_evidence": "PaperInterface.theorem3_2_gaussian_randomized_policy_counterexample retains the exact source-domain diagnostic. PaperInterface.theorem3_2_optional_reporting_clarified_model and PaperInterface.theorem3_2_report_required_clarified_model prove the approved separate operational targets; the report-required Gaussian convolution rigidity argument is checked in Lean rather than asserted as a model field.",
+      "governing_disposition": "replaced_by_authorized_correction",
+      "correction_id": "LG21-CORR-THEOREM32-CLARIFIED-OPERATIONAL-MODEL-2026-07-27",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-27.md (Governing Clauses: LG21-CORR-THEOREM32-CLARIFIED-OPERATIONAL-MODEL-2026-07-27)",
+      "conclusion_relation": "restricted_domain",
+      "does_not_claim_archive_derivation": true
+    },
+    {
+      "id": "LG21-THEOREM32-DEMOGRAPHIC-TYPO-01",
+      "source_locator": "source.txt:1770-1782",
+      "source_claim": "The final summary sentence says any policy satisfying demographic fairness is test-blank or leads to no reporting, although the theorem and proof address latent-skill and observable fairness and the main text explicitly leaves hidden-access demographic fairness open.",
+      "defect_kind": "other",
+      "affected_source_locators": [
+        "source.txt:455-470",
+        "source.txt:1614-1616",
+        "source.txt:1770-1782"
+      ],
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "This isolated use of demographic is contradicted by the named theorem, the preceding proof, and the explicit open-question paragraph; observable is the contextually consistent word. Correcting that word does not change an advertised theorem endpoint and does not warrant a caveat.",
+      "repair_obligation": "Read the summary as referring to observable fairness, preserve the theorem's latent-skill consequence through the stated implication chain, and keep hidden-access demographic fairness source-declared open.",
+      "acceptance_condition": "The source inventory and reviewed surface do not claim a hidden-access demographic-fairness impossibility theorem and explicitly record the demographic question as source-declared open.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "The source inventory records lines 465-470 as source-declared open, while the reviewed clarified Theorem 3.2 rows expose only latent-skill or observable fairness; no demographic-impossibility row is claimed.",
+      "governing_disposition": "repaired_in_governing_proof",
+      "correction_id": "LG21-CORR-THEOREM32-DEMOGRAPHIC-TYPO-2026-07-27",
+      "corrected_clause_anchor": "docs/GOVERNING_CORRECTED_MODEL_2026-07-27.md (Governing Clauses: LG21-CORR-THEOREM32-DEMOGRAPHIC-TYPO-2026-07-27)",
+      "conclusion_relation": "same",
+      "does_not_claim_archive_derivation": true
+    },
+    {
+      "id": "LG21-LEMMA41-AE-POSITIVE-BRANCH-PBO-01",
+      "source_locator": "source.txt:199-324; source.txt:492-512; source.txt:1784-2317",
+      "source_claim": "Lemma 4.1 says that every access student takes and reports under all three listed requirement protocols. The source says that the school knows the decision functions and estimates from them, so every actual or candidate positive-mass no-report/no-take branch must carry the PBO induced by its complete public action event.",
+      "defect_kind": "logical_dependency",
+      "affected_source_locators": [
+        "source.txt:199-324",
+        "source.txt:219-228",
+        "source.txt:492-512",
+        "source.txt:1784-2317"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The repaired source-core route begins with the source Gaussian model, derives literal positive-branch PBOs through source-timed candidates, and proves the displayed voluntary actions almost everywhere. The checked aggregate auxiliary separately proves nonempty optional and report-required selected-profile carriers. The retained note records the nonclaim about arbitrary static-RCD null histories rather than a remaining proof gap.",
+      "repair_obligation": "The repaired route must derive normalized PBO estimates only on positive-mass actual or candidate no-report/no-take branches, preserve prior taking in optional X=0, and expose a nonvacuous fibrewise active-branch selection. It must not supply a cutoff, a PBO identity, a hidden coalition label, or a finite null-branch value as a model field.",
+      "acceptance_condition": "Satisfied by the source-facing PaperInterface core together with its checked nonvacuity support: the core starts from the source Gaussian model and explicit active-branch selection, derives the behavioral conclusion, and never evaluates PBO on a null branch or uses mandatory feasibility as voluntary evidence; the aggregate auxiliary separately supplies nonempty voluntary witnesses.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "ObservedAccessVoluntarySelfEnforcingCandidates.lean, ObservedAccessVoluntaryActiveBranchSelection.lean, and ObservedAccessVoluntaryActiveBranchModels.lean provide the literal positive-branch candidates, selection, and nonempty profiles. PaperInterface.lemma4_1_observed_access_strategy_proofness_source_core is the literal source route and keeps its optional and report-required fields independent; PaperInterface.lemma4_1_observed_access_strategy_proofness is checked auxiliary nonvacuity support."
+    },
+    {
+      "id": "LG21-LEMMA41-SEQUENTIAL-SELECTION-01",
+      "source_locator": "source.txt:229-324; source.txt:1798-1803; source.txt:1947-1989; source.txt:2158-2316",
+      "source_claim": "Lemma 4.1 claims all access students take and report under optional reporting and report-required-after-taking. Its proof must evaluate Bayesian posterior estimates on the action-selected information sets that the school observes and knows from the strategy functions.",
+      "defect_kind": "logical_dependency",
+      "affected_source_locators": [
+        "source.txt:229-244",
+        "source.txt:1798-1803",
+        "source.txt:1947-1989",
+        "source.txt:2158-2316"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The optional profile retains its ex-ante taking comparison against the expected score-stage continuation and its separate report/withhold response; the report-required profile retains the pre-score expected-estimate decision. The direct source-core proof derives the selected behavioral conclusions at the approved almost-everywhere scope, while the aggregate auxiliary separately establishes nonvacuity. The note preserves the timing distinction rather than leaving it implicit.",
+      "repair_obligation": "The repaired model must retain the complete selected event: access Z=1, taking Y, reporting X, and score when observed. It must derive PBOs from the same raw Gaussian population and source-timed strategies, using the source expected-estimate objective rather than an unselected posterior.",
+      "acceptance_condition": "Satisfied by the checked PaperInterface source core and aggregate nonvacuity support: the core's optional and report-required fields arise from separate source-faithful sequential active-branch profiles and condition PBOs on selected events, while the auxiliary aggregate provides nonvacuous voluntary witnesses without a finite off-path value.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "ObservedAccessVoluntarySelfEnforcingCandidates.lean records the two source timing structures; ObservedAccessVoluntaryActiveBranchSelection.lean selects their maximal positive branches. PaperInterface.lemma4_1_observed_access_strategy_proofness_source_core exposes the resulting optional and report-required conclusions without claiming that the archived threshold argument was reconstructed verbatim; the aggregate theorem remains nonvacuity support only."
+    },
+    {
+      "id": "LG21-LEMMA41-NULL-BRANCH-EQUILIBRIUM-02",
+      "source_locator": "source.txt:209-324; source.txt:492-512; source.txt:1784-2317",
+      "source_claim": "Lemma 4.1 asserts a unique all-take/all-report equilibrium even though Definition 1 requires a weak best response for every feasible action and the displayed PBO formula conditions on action events that have zero mass at the claimed boundary profile.",
+      "defect_kind": "model_semantics",
+      "affected_source_locators": [
+        "source.txt:209-244",
+        "source.txt:256-324",
+        "source.txt:492-512",
+        "source.txt:1798-1803",
+        "source.txt:2158-2317"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The raw-static-RCD diagnostic remains true, but the governed route now makes the source's operational active-branch selection explicit and proves its a.e. behavioral consequences. It never assigns a null-branch PBO or payoff. This is a source-model convention recorded transparently, not a residual partial-formalization boundary.",
+      "repair_obligation": "The refinement must preserve literal PBOs on positive branches, make the active-branch selection visible in PaperInterface, and never fabricate a finite or extended null-branch estimate. The post-formalization report must distinguish it from arbitrary static Definition 1/RCD completion.",
+      "acceptance_condition": "Satisfied by PaperInterface.lemma4_1_observed_access_strategy_proofness_source_core and the aggregate theorem's checked nonvacuity support for optional and report-required active-branch profiles. Only the core receives source credit under the explicit operational convention, not for a conditional carrier or arbitrary RCD version.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "ObservedAccessVoluntaryActiveBranchSelection.lean and the governing refinement memo make the selection explicit. ObservedAccessVoluntaryActiveBranchModels.lean proves profile nonemptiness, the PaperInterface source core proves the a.e. active actions without any null-branch value, and the aggregate theorem records the checked nonvacuity strengthening. The prior static-RCD diagnostic remains documented as a pre-refinement warning."
+    },
+    {
+      "id": "LG21-LEMMA41-TWO-SIDED-CLOSURE-03",
+      "source_locator": "source.txt:223-244; source.txt:492-512; source.txt:1784-2317",
+      "source_claim": "The source argues that any positive fraction of voluntary nonreporters or nontakers is unstable, and therefore concludes all take and report in every requirement regime.",
+      "defect_kind": "logical_dependency",
+      "affected_source_locators": [
+        "source.txt:223-244",
+        "source.txt:1798-1803",
+        "source.txt:1947-2055",
+        "source.txt:2158-2317"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The explicit fibrewise maximal rule now selects the source-timed full branch using independently constructed all-active candidates. Candidate records include attained-branch responses and outsider closure for the optional and report-required schedules. The note preserves the fact that this is not ordinary coalition stability and does not purport to exclude every positive departure under raw static semantics.",
+      "repair_obligation": "The selection must allow zero boundary branches, retain literal PBOs only on positive candidate branches, preserve source-timed feasibility and response conditions, and instantiate separately for optional pre-score actions and report-required actions. It cannot use a one-direction active-entry predicate or an unnamed generic closure carrier as the source route.",
+      "acceptance_condition": "Satisfied by the explicit active-branch selection and the source-core voluntary endpoint, with the aggregate theorem retained as checked nonvacuity support. The core distinguishes score withdrawals, optional pre-score taking, and report-required decisions while proving the selected a.e. boundary; it does not claim every raw-static departure is impossible.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "ObservedAccessVoluntarySelfEnforcingCandidates.lean supplies candidate-side responses and outsider closure; ObservedAccessVoluntaryActiveBranchSelection.lean supplies the fibrewise maximal selection; PaperInterface.lemma4_1_observed_access_strategy_proofness_source_core proves the resulting independent optional and report-required fields."
+    },
+    {
+      "id": "LG21-LEMMA41-TEST-CUTOFF-01",
+      "source_locator": "source.txt:2183-2220; source.txt:2262-2310",
+      "source_claim": "The report-required proof identifies the no-taker posterior skill estimate q-tilde with the raw test-score value at which the posterior estimate after testing equals q-tilde, and therefore evaluates the deviation probability as Pr(test > q-tilde | skill).",
+      "defect_kind": "algebra_or_sign",
+      "affected_source_locators": [
+        "source.txt:2158-2223",
+        "source.txt:2262-2317"
+      ],
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "Under Gaussian updating the raw score cutoff is affineCutoff(intercept, slope, q-tilde), not generally q-tilde, so the printed substitution is a local formula error. Lean proves that affine inverse. The independently repaired active-branch route supplies the Section 4 behavioral and selected-PBO transport; this local note remains limited to the displayed equation.",
+      "repair_obligation": "Derive the affine posterior intercept and positive slope for the source Gaussian test signal, then solve intercept + slope * test = q-tilde for the raw test-score indifference point. Do not use this local equation as a proof that every student takes the test.",
+      "acceptance_condition": "A reviewed theorem proves that the reported posterior equals the finite no-take estimate exactly at affineCutoff(intercept, slope, q-tilde), without identifying the raw score with q-tilde and without claiming an all-taking equilibrium.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "PaperInterface.lemma4_1_taking_indifference_affine_inverse proves the affine inverse from posterior-estimate space to raw-score space. The evidence for this note remains limited to that equation; PaperInterface.lemma4_1_observed_access_strategy_proofness_source_core separately supplies the governed a.e. behavioral result."
+    },
+    {
+      "id": "LG21-SECTION4-ACTUAL-LAW-BRIDGE-01",
+      "source_locator": "source.txt:550-632; source.txt:2318-2553",
+      "source_claim": "Propositions 4.2-4.3 and Theorem 4.4 use the Lemma 4.1 all-report/all-take conclusion to identify the access output law, compare it with the no-access policy law, and assert fairness or unfairness of the resulting population distributions.",
+      "defect_kind": "logical_dependency",
+      "affected_source_locators": [
+        "source.txt:492-512",
+        "source.txt:550-632",
+        "source.txt:2318-2553"
+      ],
+      "statement_impact": "source_statement",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "The source-facing P4.2, P4.3, and T4.4 endpoints are each one source-core all-protocol theorem corresponding to one named source result. Their voluntary fields are direct under the recorded a.e. active-branch interpretation; their mandatory fields are direct under literal feasibility and all-report PBO. Checked aggregate auxiliaries separately establish profile nonvacuity. P4.2 has independent optional, report-required, and mandatory canonical source-PBO fields with arbitrary no-access kernels; P4.3 refutes the actual access-dispatched policy for each selected voluntary route and every mandatory source PBO profile; T4.4 proves the literal Definition 6 two-branch fairness predicate on those same independent scopes. The note preserves the a.e. RCD scope for voluntary routes.",
+      "repair_obligation": "Starting from one source population and an explicit fibrewise active-branch selection, derive positive-branch PBOs and a.e. Lemma 4.1 behavior, construct actual output measures or kernels, and carry the identities into each fairness comparison. The proof must not use tags as law equality, insert a kernel equality as a theorem input, or silently reuse a conditional endpoint.",
+      "acceptance_condition": "Satisfied by one direct source-core all-protocol endpoint for each named Section 4 result, together with separately checked aggregate nonvacuity support: P4.2's independent canonical/a.e. source-PBO fields for optional, report-required, and mandatory-given-access protocols; P4.3's observable and demographic refutations for each selected voluntary route and every mandatory source PBO profile; and T4.4's literal Definition 6 policy fairness on those same independent scopes. The source-core endpoints must not require a simultaneous profile, shared off-path output, or stability implication. Conditional routes remain support only.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "Proposition42ActiveBranchSourceBridge.lean, Proposition42ReportRequiredActiveBranchSourceBridge.lean, and MandatoryObservedAccessProposition42Bridge.lean derive the three P4.2 fields. PaperInterface.proposition4_2_all_observed_access_requirement_protocols_source_core, PaperInterface.proposition4_3_all_observed_access_requirement_protocols_source_core, and PaperInterface.theorem4_4_all_observed_access_requirement_protocols_source_core expose the complete independent source conclusions; their aggregate counterparts are checked nonvacuity support. MandatoryObservedAccessSection4PolicyEndpoints.lean supplies the actual mandatory P4.3/T4.4 fields and Definition 6 source witness. No access-law equality is supplied as an input."
+    },
+    {
+      "id": "LG21-PROPOSITION43-MARGINAL-01",
+      "source_locator": "source.txt:2495-2505",
+      "source_claim": "The proof concludes that unequal conditional estimate laws at fixed non-test features imply unequal demographic marginal laws after integrating over the common non-test-feature distribution.",
+      "defect_kind": "logical_dependency",
+      "affected_source_locators": [
+        "source.txt:561-565",
+        "source.txt:2417-2505"
+      ],
+      "statement_impact": "proof_only",
+      "status_impact": "formalized_note",
+      "status_impact_rationale": "Pointwise conditional-law inequality need not survive mixing because differences can cancel. Lean proves a direct actual-Gaussian-measure precision gap for the local inference. The repaired selected-voluntary and mandatory actual-output routes carry that comparison into the all-protocol source-core Proposition 4.3 endpoint.",
+      "repair_obligation": "Compare the two unconditional Gaussian posterior-mean laws directly, for example through their distinct variances or scales induced by the extra test-signal precision, rather than inferring marginal inequality from conditional inequality alone.",
+      "acceptance_condition": "A reviewed local theorem derives the Gaussian demographic law inequality directly from a strict precision or variance gap without using conditional-law inequality as an injective mixing step. It must state separately whether the source behavioral and population bridges have been supplied.",
+      "resolution": "repaired_in_lean",
+      "resolution_evidence": "PaperInterface.proposition4_3_actual_gaussian_measure_repair exposes a direct actual-Gaussian-measure proof from a strict extra-noise variance gap. PaperInterface.proposition4_3_all_observed_access_requirement_protocols_source_core separately carries the repaired comparison through independent selected-voluntary and mandatory actual-output fields; the aggregate counterpart remains checked nonvacuity support."
+    }
+  ]
+}

@@ -5,7 +5,7 @@
 |---|---|
 | Final status | Formalized |
 | Paper reference | [The Economics of Matching: Stability and Incentives](https://pubsonline.informs.org/doi/epdf/10.1287/moor.7.4.617) by Alvin E. Roth; Mathematics of Operations Research, 1982. |
-| Lines of Code | 8,931 |
+| Lines of Code | 11,274 |
 
 ## Key Links
 

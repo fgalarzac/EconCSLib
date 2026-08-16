@@ -92,7 +92,6 @@ theorem paper_theorem4_measurable_accept_all_unique_optimal_of_extended_one_thre
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (D :
       GN21Theorem3ExtendedOneThresholdBranchSurgeCrossByPolicyFormFixedTransferSourceExistenceData
@@ -109,8 +108,7 @@ theorem paper_theorem4_measurable_accept_all_unique_optimal_of_extended_one_thre
           ρ = acceptAllDynamicPolicy := by
   let S :=
     D.to_exact_one_threshold_non_accept_all_selection_unless
-      P hR1_pos hR1_lt_R2 hR2_pos hmeasure_nonsurge_acceptAll_pos
-      hmeasure_surge_acceptAll_pos
+      P hR1_pos hR1_lt_R2 hR2_pos hmeasure_surge_acceptAll_pos
   exact
     paper_theorem4_measurable_accept_all_unique_optimal_of_endpoint_theorem3_fixed_transfer_regular_exact_one_threshold_non_accept_all_selection_unless
       μ arrival m z R1 R2 switch12 switch21 S.1.to_shape_replacements S.2
@@ -382,7 +380,6 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_middle_reroute
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (D :
       GN21Theorem3MiddleRerouteAEPolicyFormSourceExistenceData
@@ -401,7 +398,7 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_middle_reroute
       μ arrival m z switch12 switch21
       ((D.local_endpoint.to_shape_replacement_rejected_mass_improvements_existence_of_shape_replacements
           P hR1_pos hR1_lt_R2 hR2_pos
-          hmeasure_nonsurge_acceptAll_pos hmeasure_surge_acceptAll_pos
+          hmeasure_surge_acceptAll_pos
           D.replacement.to_shape_replacements)
         |>.to_accept_all_certificate)
 
@@ -422,7 +419,6 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_middle_reroute
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (D :
       GN21Theorem3MiddleRerouteLightAEEqSourceExistenceData
@@ -439,7 +435,7 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_middle_reroute
           dynamicAcceptAllAlmostEverywhere μ ρ :=
     paper_theorem4_measurable_accept_all_ae_unique_optimal_of_middle_reroute_ae_policy_form_source_existence
       μ arrival m z R1 R2 switch12 switch21 P hR1_pos hR1_lt_R2 hR2_pos
-      hmeasure_nonsurge_acceptAll_pos hmeasure_surge_acceptAll_pos
+      hmeasure_surge_acceptAll_pos
       { replacement := D.replacement
         local_endpoint := D.local_endpoint.to_by_policy_form_ae_local_endpoint }
 
@@ -460,7 +456,6 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (D :
       GN21Theorem3FixedResponsePolicyFormEqMiddleRerouteSourceExistenceData
@@ -478,7 +473,7 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response
   let S :=
     GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_state_eq_middle_reroute
       μ arrival m z R1 R2 switch12 switch21 P hR1_pos hR1_lt_R2
-      hR2_pos hmeasure_nonsurge_acceptAll_pos hmeasure_surge_acceptAll_pos
+      hR2_pos hmeasure_surge_acceptAll_pos
       D.forms D.local_endpoint
   exact
     paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response_policy_forms_and_representative_rejected_mass_improvements_from_exists
@@ -505,7 +500,6 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (D :
       GN21Theorem3FixedResponseOneThresholdEqMiddleRerouteSourceExistenceData
@@ -520,10 +514,10 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response
             (ctmcStructuredDynamicSurgePrice m z switch12 switch21))
           ρ →
           dynamicAcceptAllAlmostEverywhere μ ρ :=
-  paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response_policy_form_eq_middle_reroute_source_existence
-    μ arrival m z R1 R2 switch12 switch21 P hR1_pos hR1_lt_R2 hR2_pos
-    hmeasure_nonsurge_acceptAll_pos hmeasure_surge_acceptAll_pos
-    D.to_policy_form_source
+    paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response_policy_form_eq_middle_reroute_source_existence
+      μ arrival m z R1 R2 switch12 switch21 P hR1_pos hR1_lt_R2 hR2_pos
+      hmeasure_surge_acceptAll_pos
+      D.to_policy_form_source
 
 /--
 Theorem 4 AE endpoint from raw bracket-level one-threshold fixed-response
@@ -542,7 +536,6 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (D :
       GN21Theorem3FixedResponseOneThresholdBracketEqMiddleRerouteSourceExistenceData
@@ -557,9 +550,9 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response
             (ctmcStructuredDynamicSurgePrice m z switch12 switch21))
           ρ →
           dynamicAcceptAllAlmostEverywhere μ ρ :=
-  paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response_one_threshold_eq_middle_reroute_source_existence
-    μ arrival m z R1 R2 switch12 switch21 P hR1_pos hR1_lt_R2 hR2_pos
-    hmeasure_nonsurge_acceptAll_pos hmeasure_surge_acceptAll_pos
+    paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response_one_threshold_eq_middle_reroute_source_existence
+      μ arrival m z R1 R2 switch12 switch21 P hR1_pos hR1_lt_R2 hR2_pos
+    hmeasure_surge_acceptAll_pos
     D.to_one_threshold_source
 
 /--
@@ -580,7 +573,6 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (D :
       GN21Theorem3FixedResponsePolicyFormByPolicyFormMiddleCutoffRerouteSourceExistenceData
@@ -598,7 +590,7 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response
   let S :=
     GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_state_by_policy_form_middle_cutoff_reroute
       μ arrival m z R1 R2 switch12 switch21 P hR1_pos hR1_lt_R2
-      hR2_pos hmeasure_nonsurge_acceptAll_pos hmeasure_surge_acceptAll_pos
+      hR2_pos hmeasure_surge_acceptAll_pos
       D.forms D.local_endpoint
   exact
     paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response_policy_forms_and_representative_rejected_mass_improvements_from_exists
@@ -625,7 +617,6 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (D :
       GN21Theorem3FixedResponsePolicyFormSurgeCrossByPolicyFormMiddleCutoffRerouteSourceExistenceData
@@ -643,7 +634,7 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response
   let S :=
     GN21Theorem3FixedResponsePolicyFormRejectedMassSourceExistenceData.of_fixed_state_cross_by_policy_form_middle_cutoff_reroute
       μ arrival m z R1 R2 switch12 switch21 P hR1_pos hR1_lt_R2
-      hR2_pos hmeasure_nonsurge_acceptAll_pos hmeasure_surge_acceptAll_pos
+      hR2_pos hmeasure_surge_acceptAll_pos
       D.forms D.local_endpoint
   exact
     paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response_policy_forms_and_representative_rejected_mass_improvements_from_exists
@@ -669,7 +660,6 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response
     (hR1_pos : 0 < R1)
     (hR1_lt_R2 : R1 < R2)
     (hR2_pos : 0 < R2)
-    (hmeasure_nonsurge_acceptAll_pos : 0 < μ 0 acceptAllPolicy)
     (hmeasure_surge_acceptAll_pos : 0 < μ 1 acceptAllPolicy)
     (D :
       GN21Theorem3FixedResponsePolicyFormSurgeCutoffByPolicyFormMiddleCutoffRerouteSourceExistenceData
@@ -684,9 +674,9 @@ theorem paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response
             (ctmcStructuredDynamicSurgePrice m z switch12 switch21))
           ρ →
           dynamicAcceptAllAlmostEverywhere μ ρ :=
-  paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response_policy_form_by_policy_form_middle_cutoff_reroute_source_existence
-    μ arrival m z R1 R2 switch12 switch21 P hR1_pos hR1_lt_R2 hR2_pos
-    hmeasure_nonsurge_acceptAll_pos hmeasure_surge_acceptAll_pos
+    paper_theorem4_measurable_accept_all_ae_unique_optimal_of_fixed_response_policy_form_by_policy_form_middle_cutoff_reroute_source_existence
+      μ arrival m z R1 R2 switch12 switch21 P hR1_pos hR1_lt_R2 hR2_pos
+    hmeasure_surge_acceptAll_pos
     D.to_by_policy_form_source
 
 end

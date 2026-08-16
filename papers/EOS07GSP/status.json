@@ -1,6 +1,7 @@
 {
   "schema": 1,
   "id": "EOS07GSP",
+  "repository_visibility": "public",
   "title": "Internet Advertising and the Generalized Second-Price Auction",
   "authors": "Benjamin Edelman, Michael Ostrovsky, and Michael Schwarz",
   "source_version": "NBER Working Paper 11765 / AER 2007 publication citation",
@@ -10,19 +11,23 @@
   "status": "formalized",
   "main_caveat": "",
   "human_summary": "",
+  "human_summary_review": {
+    "status": "draft",
+    "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction."
+  },
   "review_entrypoint": "papers/EOS07GSP/FINAL_VALIDATION_REPORT.md",
   "human_review": {
     "reviewed_rows": 0,
-    "total_rows": 26,
+    "total_rows": 23,
     "stale_rows": 0,
     "mismatch_rows": 0,
     "source": "paper-local status.json review_surface; human entries come from dashboard logs"
   },
   "paper_interface": {
     "path": "papers/EOS07GSP/PaperInterface.lean",
-    "line_count": 294,
+    "line_count": 516,
     "declaration_rows": 36,
-    "review_rows": 25,
+    "review_rows": 23,
     "oversized": false,
     "maintainability_issue": null
   },
@@ -31,17 +36,58 @@
     "paper_interface": "papers/EOS07GSP/PaperInterface.lean",
     "final_validation_report": "papers/EOS07GSP/FINAL_VALIDATION_REPORT.md",
     "dependency_dag_tex": "papers/EOS07GSP/docs/DependencyDAG.tex",
-    "dependency_dag_pdf": "papers/EOS07GSP/docs/DependencyDAG.pdf"
+    "dependency_dag_pdf": "papers/EOS07GSP/docs/DependencyDAG.pdf",
+    "source_proof_fidelity": "papers/EOS07GSP/audit/source_proof_fidelity.json"
   },
   "review_surface": {
     "source_file": "papers/EOS07GSP/PaperInterface.lean",
     "assumption_source_file": "papers/EOS07GSP/Assumptions.lean",
+    "llm_statement_review": {
+      "lean_to_tex_file": "papers/EOS07GSP/audit/lean_to_tex_llm.json",
+      "match_judgment_file": "papers/EOS07GSP/audit/statement_match_llm.json",
+      "review_surface_audit_file": "papers/EOS07GSP/audit/review_surface_llm.json",
+      "paper_coverage_audit_file": "papers/EOS07GSP/audit/paper_coverage_llm.json",
+      "assumption_judgment_file": "papers/EOS07GSP/audit/assumption_match_llm.json",
+      "surface_audit_threshold": 30,
+      "surface_warning_threshold": 120,
+      "require_explicit_source_routes": true,
+      "policy": "Translate every elaborated row without relying on its name. Preserve the finite position-auction carriers, tie rule, payment and utility formulas, history order, value-density law, conditional survival events, legal stopped-clock domain, complete-continuation deviation quantifiers, effective-price uniqueness, and every VCG conclusion. Treat a below-clock raw threshold as immediate dropout, but reject any local payoff predicate, supplied equilibrium certificate, belief package, or terminal outcome package presented as the full legal-history Theorem 8 endpoint."
+    },
+    "llm_paper_coverage_review": {
+      "paper_coverage_audit_file": "papers/EOS07GSP/audit/paper_coverage_llm.json",
+      "policy": "Inventory the first-price and GSP/VCG running examples, Remarks 1-3, Definition 4, Lemmas 5-6, Theorem 7 including the locally-envy-free and VCG-payment clauses, and Theorem 8 including its continuous type law, full-history strategy, Bayes consistency, arbitrary-continuation ex-post PBE, effective uniqueness, and VCG-equivalent outcome. Narrative history and empirical market-size facts are outside the mathematical scope."
+    },
+    "llm_source_record_review": {
+      "source_record_audit_file": "papers/EOS07GSP/audit/source_record_audit.json",
+      "source_record_judgment_file": "papers/EOS07GSP/audit/source_record_match_llm.json",
+      "policy": "Recursively inspect every visible game, strategy, belief, value-law, certificate, outcome, or source-model input. Source primitives may include click rates, independent continuous values with positive density, finite bidders and slots, histories, and the stated tie rule. A supplied best-response, equilibrium, uniqueness, VCG outcome, continuation payoff bound, posterior consistency conclusion, or theorem-level source row is conclusion-bearing proof debt unless Lean constructs it internally."
+    },
     "llm_assumption_review": {
       "assumption_judgment_file": "papers/EOS07GSP/audit/assumption_match_llm.json"
     },
-    "assumption_names": [
-      "assumption_theorem8_strict_ordered_value_certificate"
-    ],
+    "source_proof_fidelity_review": {
+      "ledger_file": "papers/EOS07GSP/audit/source_proof_fidelity.json",
+      "policy": "Schema 2 separates source-proof notes from formalization gaps. The stopped-clock immediate-drop convention is an implied legal-history domain convention and has no theorem-status impact."
+    },
+    "semantic_model_review": {
+      "schema": 2,
+      "required_dimensions": [
+        "expanded_binders_and_domain",
+        "carrier_and_domain",
+        "probability_support_endpoints",
+        "joint_law_and_state_evolution",
+        "conditioning_and_calibration_semantics",
+        "expectation_definedness",
+        "null_cell_totalization_and_partition_scope",
+        "extended_rate_codomain"
+      ],
+      "policy": "Review the expanded paper-facing auction and dynamic-equilibrium surfaces against the pinned source. Record not-applicable only after inspecting bidder and position carriers, value-law support, histories and conditioning, continuation expectations, legal stopped-clock branches, and the exact effective-price and VCG-equivalent conclusions; names are routing only."
+    },
+    "paper_coverage_required": true,
+    "assumption_policy": "strict",
+    "assumption_names": [],
+    "source_definition_names": [],
+    "proposition_spec_proofs": {},
     "include_names": [
       "definition4_locally_envy_free",
       "stable_assignment",
@@ -64,10 +110,8 @@
       "theorem8_q_mem_interval_review",
       "theorem8_q_strict_mem_interval_review",
       "theorem8_q_continuous_value_review",
-      "theorem8_continuous_source_local_best_response_support_unique_review",
-      "theorem8_strict_values_ex_post_local_deviation",
-      "theorem8_belief_source_extensive_unique_pbe_vcg_conclusion",
-      "theorem8_continuous_generalized_english_payoff_game_strict_values_main_conclusion_review"
+      "theorem8_continuous_full_history_bayes_ex_post_review",
+      "theorem8_continuous_source_local_best_response_support_unique_review"
     ],
     "slices": [
       {
@@ -101,14 +145,13 @@
           "theorem8_q_mem_interval_review",
           "theorem8_q_strict_mem_interval_review",
           "theorem8_q_continuous_value_review",
-          "theorem8_continuous_source_local_best_response_support_unique_review",
-          "theorem8_strict_values_ex_post_local_deviation",
-          "theorem8_belief_source_extensive_unique_pbe_vcg_conclusion",
-          "theorem8_continuous_generalized_english_payoff_game_strict_values_main_conclusion_review"
+          "theorem8_continuous_full_history_bayes_ex_post_review",
+          "theorem8_continuous_source_local_best_response_support_unique_review"
         ]
       }
     ],
     "auxiliary_names": [
+      "theorem8_continuous_full_history_local_best_response_support_unique_review",
       "theorem8_continuous_generalized_english_payoff_game_support_unique_review",
       "theorem8_source_event_strict_values_payoff_pbe_nonnegative_support_conclusion",
       "theorem8_continuous_generalized_english_payoff_game_strict_values_source_event_conclusion_review",
@@ -119,7 +162,8 @@
       "theorem8_source_event_strict_values_continuous_profile_unique_source_extensive_pbe",
       "theorem8_source_event_strict_values_payment_formula",
       "theorem8_source_event_strict_values_unique_pbe_continuous_action_formula",
-      "theorem8_source_event_strict_values_unique_pbe_formula_conclusion"
+      "theorem8_source_event_strict_values_unique_pbe_formula_conclusion",
+      "theorem8_named_history_strategy_not_globally_clock_legal_review"
     ]
   }
 }

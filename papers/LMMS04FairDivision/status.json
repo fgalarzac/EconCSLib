@@ -1,6 +1,7 @@
 {
   "schema": 1,
   "id": "LMMS04FairDivision",
+  "repository_visibility": "public",
   "title": "On Approximately Fair Allocations of Indivisible Goods",
   "authors": "Richard J. Lipton, Evangelos Markakis, Elchanan Mossel, and Amin Saberi",
   "source_version": "ACM EC 2004",

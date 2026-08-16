@@ -1,3 +1,4 @@
+import EconCSLib.Foundations.Math.ExponentialBounds
 import Mathlib.Tactic
 
 namespace EconCSLib
@@ -73,6 +74,57 @@ theorem atLeastOneValue_diminishing_marginal {p : ℝ}
     _ ≤ p * (1 - p) ^ q := mul_le_mul_of_nonneg_left hpow hp0
     _ = atLeastOneValue p (q + 1) - atLeastOneValue p q := by
           rw [atLeastOneValue_succ_sub]
+
+/--
+The probability of no success in `q` Bernoulli trials is at most the
+exponential approximation `exp (-q p)`.
+-/
+theorem one_sub_pow_le_exp_neg_mul {p : ℝ} (q : ℕ)
+    (hp0 : 0 ≤ p) (hp1 : p ≤ 1) :
+    (1 - p) ^ q ≤ Real.exp (-((q : ℝ) * p)) := by
+  by_cases hp_one : p = 1
+  · subst p
+    by_cases hq : q = 0
+    · simp [hq]
+    · have hq_pos : 0 < q := Nat.pos_of_ne_zero hq
+      simpa [hq_pos.ne'] using (Real.exp_pos (-(q : ℝ))).le
+  have hp_lt : p < 1 := lt_of_le_of_ne hp1 hp_one
+  have hbase_nonneg : 0 ≤ 1 - p := by linarith
+  have hbase_pos : 0 < 1 - p := by linarith
+  have hlog_le : Real.log (1 - p) ≤ -p := by
+    have h := EconCSLib.Math.le_neg_log_one_sub hp0 hp_lt
+    linarith
+  have hbase_le_exp : 1 - p ≤ Real.exp (-p) :=
+    (Real.log_le_iff_le_exp hbase_pos).mp hlog_le
+  have hpow :
+      (1 - p) ^ q ≤ (Real.exp (-p)) ^ q :=
+    pow_le_pow_left₀ hbase_nonneg hbase_le_exp q
+  have hexp_pow : (Real.exp (-p)) ^ q = Real.exp (-((q : ℝ) * p)) := by
+    rw [← Real.exp_nat_mul]
+    congr 1
+    ring
+  simpa [hexp_pow] using hpow
+
+/--
+The at-least-one-success value dominates the exponential lower bound
+`1 - exp (-q p)`.
+-/
+theorem one_sub_exp_neg_mul_le_atLeastOneValue {p : ℝ} (q : ℕ)
+    (hp0 : 0 ≤ p) (hp1 : p ≤ 1) :
+    1 - Real.exp (-((q : ℝ) * p)) ≤ atLeastOneValue p q := by
+  dsimp [atLeastOneValue]
+  have hpow := one_sub_pow_le_exp_neg_mul q hp0 hp1
+  linarith
+
+/--
+Strict corollary of the exponential Bernoulli lower bound.
+-/
+theorem lt_atLeastOneValue_of_lt_one_sub_exp_neg_mul {p target : ℝ} {q : ℕ}
+    (htarget : target < 1 - Real.exp (-((q : ℝ) * p)))
+    (hp0 : 0 ≤ p) (hp1 : p ≤ 1) :
+    target < atLeastOneValue p q :=
+  lt_of_lt_of_le htarget
+    (one_sub_exp_neg_mul_le_atLeastOneValue q hp0 hp1)
 
 end Bernoulli
 end Probability

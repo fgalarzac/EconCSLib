@@ -311,7 +311,7 @@ Section 4 Lemma 1. In the equal-bids BALANCE proof, if OPT's bidder is still
 active in a no-later slab and BALANCE maximizes a strictly decreasing equal-bid
 slab score, BALANCE cannot pay from a later slab.
 -/
-theorem section4_lemma1_balance_pays_no_later_slab
+theorem proof_section4_lemma1_balance_pays_no_later_slab
     {Slab : Type*} [LinearOrder Slab]
     (psi : Slab → ℝ) {optType optCurrentSlab chosenSlab : Slab}
     {bid chosenBid : ℝ}
@@ -352,7 +352,7 @@ theorem section4_lemma1_balance_pays_no_later_spent_fraction_of_balance_choice
           (paperSpend I A chosen / I.budget chosen) := by
     simpa [paperBalanceScore] using hscore
   exact
-    section4_lemma1_balance_pays_no_later_slab
+    proof_section4_lemma1_balance_pays_no_later_slab
       paperTradeoff hoptCurrent_le_type hchoice_score hequal_bids hbid_pos
       paperTradeoff_strictAnti
 
@@ -360,7 +360,7 @@ theorem section4_lemma1_balance_pays_no_later_spent_fraction_of_balance_choice
 Section 4 Lemma 2. The source factor-revealing LP constraint follows from the
 prefix counting inequality supplied by Lemma 1 and the slab-spend identity.
 -/
-theorem section4_lemma2_factor_revealing_lp_constraint
+theorem proof_section4_lemma2_factor_revealing_lp_constraint
     {m : ℕ} (N : ℝ) (x beta : Fin m → ℝ) (i : Fin m)
     (hprefix_cover :
       (∑ j ∈ MSVV07SourceLemmas.paperRoutePrefix i, x j) ≤
@@ -563,7 +563,7 @@ Section 5 Lemma 4. If weak duality holds and a feasible primal point matches
 the value of the inherited feasible dual point, that inherited dual point is
 optimal for the tradeoff-revealing LP.
 -/
-theorem section5_lemma4_dual_optimal_from_primal_dual_match
+theorem proof_section5_lemma4_dual_optimal_from_primal_dual_match
     {Primal Dual : Type*}
     (primalFeasible : Primal → Prop) (dualFeasible : Dual → Prop)
     (primalObjective : Primal → ℝ) (dualObjective : Dual → ℝ)
@@ -614,7 +614,7 @@ theorem section5_lemma4_dual_feasible_of_same_A_c
 Section 5 Lemma 5. The right-hand side of `L(π, ψ)` is the original LP
 right-hand side plus the perturbation vector `Δ(π, ψ)`.
 -/
-theorem section5_lemma5_tradeoff_rhs_eq_base_add_delta
+theorem proof_section5_lemma5_tradeoff_rhs_eq_base_add_delta
     {m : ℕ} (N : ℝ) (alpha beta : Fin m → ℝ) (i : Fin m)
     (hbeta_prefix :
       (∑ j ∈ MSVV07SourceLemmas.paperRoutePrefix i, beta j) =
@@ -633,7 +633,7 @@ Section 5 Lemma 6. For each query with OPT type at most `k - 1`, the
 Balance/MSVV choice rule and monotonicity of `ψ` imply the paper's per-query
 tradeoff inequality.
 -/
-theorem section5_lemma6_per_query_tradeoff
+theorem proof_section5_lemma6_per_query_tradeoff
     {Slab : Type*} [Preorder Slab]
     (psi : Slab → ℝ) {queryType optCurrentSlab algSlab : Slab}
     {optBid algBid : ℝ}
@@ -651,7 +651,7 @@ Section 5 Lemma 6 bridge for the concrete Balance/MSVV choice rule. The
 score-maximization premise is discharged by the actual canonical choice rule;
 only the source slab/score identifications remain explicit.
 -/
-theorem section5_lemma6_per_query_tradeoff_of_balance_choice
+theorem proof_section5_lemma6_per_query_tradeoff_of_balance_choice
     {Advertiser Query Slab : Type*}
     [Fintype Advertiser] [Fintype Query] [DecidableEq Advertiser]
     [Preorder Slab]
@@ -680,7 +680,7 @@ theorem section5_lemma6_per_query_tradeoff_of_balance_choice
       _ ≤ paperBalanceScore I A chosen q := hscore
       _ = I.bid chosen q * psi algSlab := hchosen_score
   exact
-    section5_lemma6_per_query_tradeoff
+    proof_section5_lemma6_per_query_tradeoff
       psi hoptCurrent_le_type hpsi_antitone hoptBid_nonneg hchoice_score
 
 /--
@@ -688,7 +688,7 @@ Section 5 Lemma 6 in concrete spent-fraction form. The score identities and
 tradeoff monotonicity are discharged from the paper definitions, leaving only
 the source type comparison and the actual Balance/MSVV choice.
 -/
-theorem section5_lemma6_per_query_tradeoff_of_balance_choice_spent_fraction
+theorem proof_section5_lemma6_per_query_tradeoff_of_balance_choice_spent_fraction
     {Advertiser Query : Type*}
     [Fintype Advertiser] [Fintype Query] [DecidableEq Advertiser]
     (I : PaperInstance Advertiser Query)
@@ -702,7 +702,7 @@ theorem section5_lemma6_per_query_tradeoff_of_balance_choice_spent_fraction
       I.bid chosen q *
         paperTradeoff (paperSpend I A chosen / I.budget chosen) := by
   exact
-    section5_lemma6_per_query_tradeoff_of_balance_choice
+    proof_section5_lemma6_per_query_tradeoff_of_balance_choice
       I A q paperTradeoff hchoice hopt_can hoptCurrent_le_type
       paperTradeoff_antitone (hbid opt q) rfl rfl
 
@@ -711,7 +711,7 @@ Section 5 Lemma 7. Summing Lemma 6 over queries and using the paper's type and
 slab accounting identities bounds the weighted perturbation by the last-slab
 error term.
 -/
-theorem section5_lemma7_weighted_perturbation_bound
+theorem proof_section5_lemma7_weighted_perturbation_bound
     {m Query : Type*} [Fintype m] [Fintype Query]
     (psi alpha beta : m → ℝ) (opt alg : Query → ℝ)
     (queryType querySlab : Query → m) (finalSlabError : ℝ)
@@ -734,7 +734,7 @@ theorem section5_lemma7_weighted_perturbation_bound
 Section 5 Lemma 7, paper-shaped `N/k` corollary once the last-slab accounting
 error has the paper's `N/k` bound.
 -/
-theorem section5_lemma7_weighted_perturbation_bound_by_N_div_k
+theorem proof_section5_lemma7_weighted_perturbation_bound_by_N_div_k
     {m Query : Type*} [Fintype m] [Fintype Query]
     (psi alpha beta : m → ℝ) (opt alg : Query → ℝ)
     (queryType querySlab : Query → m) (finalSlabError N : ℝ) (k : ℕ)
@@ -759,7 +759,7 @@ theorem section5_lemma7_weighted_perturbation_bound_by_N_div_k
 Section 5 Lemma 7, exact paper-shaped `N/k` corollary with no separate error
 variable.
 -/
-theorem section5_lemma7_weighted_perturbation_bound_exact_N_div_k
+theorem proof_section5_lemma7_weighted_perturbation_bound_exact_N_div_k
     {m Query : Type*} [Fintype m] [Fintype Query]
     (psi alpha beta : m → ℝ) (opt alg : Query → ℝ)
     (queryType querySlab : Query → m) (N : ℝ) (k : ℕ)
@@ -830,7 +830,7 @@ Section 5 Lemma 7 composed from pointwise tradeoff and fiber accounting facts.
 This removes the already-summed accounting hypotheses from the paper-facing
 `N/k` perturbation bound.
 -/
-theorem section5_lemma7_weighted_perturbation_bound_exact_N_div_k_from_pointwise_fibers
+theorem proof_section5_lemma7_weighted_perturbation_bound_exact_N_div_k_from_pointwise_fibers
     {m Query : Type*} [Fintype m] [Fintype Query] [DecidableEq m]
     (psi alpha beta : m → ℝ) (opt alg : Query → ℝ)
     (queryType querySlab : Query → m) (N : ℝ) (k : ℕ)
@@ -867,7 +867,7 @@ theorem section5_lemma7_weighted_perturbation_bound_exact_N_div_k_from_pointwise
       psi beta alg querySlab (N / (k : ℝ))
       hpsi_nonneg hβ hfinal_nonneg
   exact
-    section5_lemma7_weighted_perturbation_bound_exact_N_div_k
+    proof_section5_lemma7_weighted_perturbation_bound_exact_N_div_k
       psi alpha beta opt alg queryType querySlab N k
       htradeoff_sum hopt_accounting halg_accounting
 
@@ -1146,7 +1146,7 @@ theorem theorem8_source_route_tradeoff_lp_upper_bound_from_pointwise_fibers
       (∑ i : Fin m,
         MSVV07SourceLemmas.paperRoutePsiCandidate (m := m) i *
           (alpha i - beta i)) ≤ N / (k : ℝ) :=
-    section5_lemma7_weighted_perturbation_bound_exact_N_div_k_from_pointwise_fibers
+    proof_section5_lemma7_weighted_perturbation_bound_exact_N_div_k_from_pointwise_fibers
       (MSVV07SourceLemmas.paperRoutePsiCandidate (m := m))
       alpha beta opt alg queryType querySlab N k
       hpointwise hα theorem8_dual_candidate_psi_nonnegative hβ hfinal_nonneg
@@ -1252,11 +1252,70 @@ theorem theorem8_finite_explicit_error
       (by simpa [paperSmallBids_eq_library] using hsmall)
 
 /--
+Source-shaped asymptotic form of Theorem 8.  If the explicit finite small-bids
+error tends to zero, then for every positive tolerance the Balance/MSVV
+competitive inequality holds eventually.  No convergence of OPT or revenue is
+assumed.
+-/
+theorem theorem8_balance_msvv_eventually_competitive_of_vanishing_small_bids_error
+    {Advertiser : Type*}
+    [Fintype Advertiser] [Nonempty Advertiser] [DecidableEq Advertiser]
+    (n : ℕ → ℕ)
+    (I : (k : ℕ) → PaperInstance Advertiser (Fin (n k)))
+    (epsilon : ℕ → ℝ)
+    (hbid : ∀ k, (I k).NonnegativeBids)
+    (hbudget : ∀ k, (I k).PositiveBudgets)
+    (hepsilon : ∀ k, 0 ≤ epsilon k)
+    (hepsilon_le_one : ∀ k, epsilon k ≤ 1)
+    (hsmall : ∀ k, paperSmallBids (I k) (epsilon k))
+    (herror_tendsTo_zero :
+      Sequence.SeqTendsTo
+        (fun k =>
+          epsilon k * (Real.exp 1 + 1) *
+            (∑ q : Fin (n k), (I k).maxBidForQuery q))
+        0) :
+    ∀ delta : ℝ, 0 < delta →
+      ∃ N : ℕ, ∀ k : ℕ, N ≤ k →
+        paperMsvvRatio *
+            (I k).offlineOptimumValue (fun a => (hbudget k a).le) ≤
+          paperRevenue (I k)
+              ((I k).runAssignment (I k).balanceChoiceRule
+                (List.finRange (n k))) +
+            delta := by
+  have herror_eventually :
+      ∀ delta : ℝ, 0 < delta →
+        ∃ N : ℕ, ∀ k : ℕ, N ≤ k →
+          epsilon k * (Real.exp 1 + 1) *
+              (∑ q : Fin (n k), (I k).maxBidForQuery q) ≤ delta := by
+    intro delta hdelta
+    obtain ⟨N, hN⟩ := herror_tendsTo_zero delta hdelta
+    refine ⟨N, ?_⟩
+    intro k hk
+    have habs := hN k hk
+    have hle_abs :
+        epsilon k * (Real.exp 1 + 1) *
+            (∑ q : Fin (n k), (I k).maxBidForQuery q) ≤
+          |epsilon k * (Real.exp 1 + 1) *
+            (∑ q : Fin (n k), (I k).maxBidForQuery q)| :=
+      le_abs_self _
+    have habs' :
+        |epsilon k * (Real.exp 1 + 1) *
+          (∑ q : Fin (n k), (I k).maxBidForQuery q)| ≤ delta := by
+      simpa using habs
+    exact hle_abs.trans habs'
+  rw [paperMsvvRatio_eq_library]
+  exact
+    AdWordsInstance.balance_msvv_finRange_family_eventually_up_to_delta
+      n I epsilon hbid hbudget hepsilon hepsilon_le_one
+      (fun k => by simpa [paperSmallBids_eq_library] using hsmall k)
+      herror_eventually
+
+/--
 Theorem 8, paper-level limiting endpoint. Any finite-query small-bids family
 satisfying the explicit threshold eventually has limiting competitive ratio
 `1 - 1/e`.
 -/
-theorem theorem8_balance_msvv_competitive_of_small_bids_limit_family
+theorem proof_theorem8_balance_msvv_competitive_of_small_bids_limit_family
     {Advertiser : Type*}
     [Fintype Advertiser] [Nonempty Advertiser] [DecidableEq Advertiser]
     (F : PaperSmallBidsLimitFamily Advertiser) :
@@ -1273,7 +1332,7 @@ Section 6 items 1--2. Different advertiser budgets and nonexhaustive optima are
 already part of the base AdWords model, so the finite explicit Theorem 8
 guarantee applies without changing the instance.
 -/
-theorem section6_different_budgets_and_nonexhaustive_optimum_theorem8_finite_explicit_error
+theorem proof_section6_different_budgets_and_nonexhaustive_optimum_theorem8_finite_explicit_error
     {Advertiser Query : Type*}
     [Fintype Advertiser] [Nonempty Advertiser]
     [Fintype Query] [DecidableEq Advertiser] [DecidableEq Query]
@@ -1467,7 +1526,7 @@ Section 6 next-price variant using the next-highest bid among all initial bids.
 Once these next-price charges satisfy the paper's small-bids condition, the
 finite explicit Theorem 8 guarantee applies.
 -/
-theorem section6_next_highest_bid_all_theorem8_finite_explicit_error
+theorem proof_section6_next_highest_bid_all_theorem8_finite_explicit_error
     {Advertiser Query : Type*}
     [Fintype Advertiser] [Nonempty Advertiser]
     [Fintype Query] [DecidableEq Advertiser] [DecidableEq Query]
@@ -1504,7 +1563,7 @@ When the online model keeps alive bidders so this charge process is available
 and the resulting charges are small, the finite explicit Theorem 8 guarantee
 applies to the induced effective-bid instance.
 -/
-theorem section6_next_highest_bid_alive_theorem8_finite_explicit_error
+theorem proof_section6_next_highest_bid_alive_theorem8_finite_explicit_error
     {Advertiser Query : Type*}
     [Fintype Advertiser] [Nonempty Advertiser]
     [Fintype Query] [DecidableEq Advertiser] [DecidableEq Query]
@@ -1544,7 +1603,7 @@ theorem section6_next_highest_bid_alive_theorem8_finite_explicit_error
 Section 6 click-through-rate variant composed with Theorem 8. CTR-weighted
 effective bids inherit the finite explicit MSVV guarantee.
 -/
-theorem section6_click_through_rates_theorem8_finite_explicit_error
+theorem proof_section6_click_through_rates_theorem8_finite_explicit_error
     {Advertiser Query : Type*}
     [Fintype Advertiser] [Nonempty Advertiser]
     [Fintype Query] [DecidableEq Advertiser] [DecidableEq Query]
@@ -1582,7 +1641,7 @@ theorem section6_click_through_rates_theorem8_finite_explicit_error
 Section 6 availability/delayed-entry variant composed with Theorem 8. Zeroing
 inactive advertisers' bids preserves the finite explicit MSVV guarantee.
 -/
-theorem section6_availability_theorem8_finite_explicit_error
+theorem proof_section6_availability_theorem8_finite_explicit_error
     {Advertiser Query : Type*}
     [Fintype Advertiser] [Nonempty Advertiser]
     [Fintype Query] [DecidableEq Advertiser] [DecidableEq Query]
@@ -1655,7 +1714,7 @@ the rule simultaneously chooses the top `slots q` distinct feasible advertisers
 by the Balance/MSVV scaled bid. The benchmark is the page-level offline optimum
 with at most `slots q` distinct advertisers per page.
 -/
-theorem section6_page_top_balance_theorem8_finite_explicit_error
+theorem proof_section6_page_top_balance_theorem8_finite_explicit_error
     {Advertiser Query : Type*}
     [Fintype Advertiser] [Nonempty Advertiser]
     [Fintype Query] [DecidableEq Advertiser] [DecidableEq Query]
@@ -1725,7 +1784,7 @@ Section 8 weighted-bid variant without normalizing weights by one. If the
 weighted effective bids themselves are nonnegative and small, they inherit the
 finite explicit MSVV guarantee.
 -/
-theorem section8_weighted_bids_theorem8_finite_explicit_error_of_weighted_small_bids
+theorem proof_section8_weighted_bids_theorem8_finite_explicit_error_of_weighted_small_bids
     {Advertiser Query : Type*}
     [Fintype Advertiser] [Nonempty Advertiser]
     [Fintype Query] [DecidableEq Advertiser] [DecidableEq Query]
@@ -1871,7 +1930,7 @@ theorem theorem9_no_randomized_integral_prefix_algorithm_beats_msvv_ratio
 Theorem 9, paper-facing randomized online algorithm endpoint in the finite
 prefix model.
 -/
-theorem theorem9_no_randomized_online_algorithm_beats_msvv_ratio :
+theorem proof_theorem9_no_randomized_online_algorithm_beats_msvv_ratio :
     ∀ delta : ℝ, 0 < delta →
       ∃ N0 : ℕ, ∀ N : ℕ, N0 ≤ N →
         ∀ randomizedAlgorithm : theorem9RandomizedOnlineAlgorithm N,

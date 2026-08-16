@@ -3,6 +3,7 @@ import Mathlib.Data.Fintype.Fin
 import Mathlib.Data.Fintype.BigOperators
 import Mathlib.Data.Prod.Lex
 import Mathlib.Data.Real.Basic
+import Mathlib.Order.Interval.Finset.Nat
 
 /-!
 # Finite Rankings
@@ -438,6 +439,366 @@ theorem upperRankFinset_card_half (s : Finset α) (value : α → ℝ)
     (upperRankFinset s value hcard (k / 2)).card = k - k / 2 := by
   rw [upperRankFinset_card]
   exact congrArg (fun x => k - x) (min_eq_right (Nat.div_le_self k 2))
+
+/--
+Elements whose sorted rank index lies in the half-open interval `[lo, hi)`.
+The interval is taken in the nondecreasing `(value, tie-breaker)` order.
+-/
+noncomputable def rankIntervalFinset (s : Finset α) (value : α → ℝ)
+    {k : ℕ} (hcard : s.card = k) (lo hi : ℕ) : Finset α :=
+  ((Finset.univ : Finset (Fin k)).filter fun i => lo ≤ i.val ∧ i.val < hi).image
+    (rankAgentByValue s value hcard)
+
+theorem rankIntervalFinset_subset (s : Finset α) (value : α → ℝ)
+    {k : ℕ} (hcard : s.card = k) (lo hi : ℕ) :
+    rankIntervalFinset s value hcard lo hi ⊆ s := by
+  classical
+  intro a ha
+  rcases Finset.mem_image.mp ha with ⟨i, _hi, rfl⟩
+  exact rankAgentByValue_mem s value hcard i
+
+theorem rankIntervalFinset_card_le_width (s : Finset α) (value : α → ℝ)
+    {k : ℕ} (hcard : s.card = k) (lo hi : ℕ) :
+    (rankIntervalFinset s value hcard lo hi).card ≤ hi - lo := by
+  classical
+  let I : Finset (Fin k) :=
+    (Finset.univ : Finset (Fin k)).filter fun i => lo ≤ i.val ∧ i.val < hi
+  unfold rankIntervalFinset
+  rw [Finset.card_image_of_injective _
+    (rankAgentByValue_injective s value hcard)]
+  have hmaps : Set.MapsTo (fun i : Fin k => i.val) (I : Set (Fin k))
+      (Finset.Ico lo hi : Set ℕ) := by
+    intro i hiI
+    exact Finset.mem_Ico.mpr (Finset.mem_filter.mp hiI).2
+  have hinj : Set.InjOn (fun i : Fin k => i.val) (I : Set (Fin k)) := by
+    intro i _hi j _hj hval
+    exact Fin.ext hval
+  have hle := Finset.card_le_card_of_injOn (fun i : Fin k => i.val) hmaps hinj
+  simpa [I, Nat.card_Ico] using hle
+
+theorem rankIntervalFinset_card_eq_width_of_le
+    (s : Finset α) (value : α → ℝ)
+    {k : ℕ} (hcard : s.card = k) {lo hi : ℕ}
+    (hhi : hi ≤ k) :
+    (rankIntervalFinset s value hcard lo hi).card = hi - lo := by
+  classical
+  let I : Finset (Fin k) :=
+    (Finset.univ : Finset (Fin k)).filter fun i => lo ≤ i.val ∧ i.val < hi
+  let J : Finset ℕ := Finset.Ico lo hi
+  have hmaps_to_J : Set.MapsTo (fun i : Fin k => i.val) (I : Set (Fin k)) (J : Set ℕ) := by
+    intro i hiI
+    exact Finset.mem_Ico.mpr (Finset.mem_filter.mp hiI).2
+  have hinj_to_J : Set.InjOn (fun i : Fin k => i.val) (I : Set (Fin k)) := by
+    intro i _hi j _hj hval
+    exact Fin.ext hval
+  have hI_le_J : I.card ≤ J.card :=
+    Finset.card_le_card_of_injOn (fun i : Fin k => i.val) hmaps_to_J hinj_to_J
+  let toI : J → I := fun n =>
+    let hn := Finset.mem_Ico.mp n.property
+    ⟨⟨n.1, lt_of_lt_of_le hn.2 hhi⟩, by
+      simp [I, hn.1, hn.2]⟩
+  have hJ_le_I : J.card ≤ I.card := by
+    refine Finset.card_le_card_of_injective (s := J) (t := I) (f := toI) ?_
+    intro a b hab
+    apply Subtype.ext
+    exact congrArg (fun x : I => ((x : Fin k).val)) hab
+  have hI_card : I.card = J.card := le_antisymm hI_le_J hJ_le_I
+  unfold rankIntervalFinset
+  rw [Finset.card_image_of_injective _
+    (rankAgentByValue_injective s value hcard)]
+  simpa [I, J, Nat.card_Ico] using hI_card
+
+theorem disjoint_rankIntervalFinset_of_le
+    (s : Finset α) (value : α → ℝ)
+    {k : ℕ} (hcard : s.card = k)
+    {lo₁ hi₁ lo₂ hi₂ : ℕ} (hsep : hi₁ ≤ lo₂) :
+    Disjoint (rankIntervalFinset s value hcard lo₁ hi₁)
+      (rankIntervalFinset s value hcard lo₂ hi₂) := by
+  classical
+  rw [Finset.disjoint_left]
+  intro a ha₁ ha₂
+  rcases Finset.mem_image.mp ha₁ with ⟨i₁, hi₁mem, hi₁eq⟩
+  rcases Finset.mem_image.mp ha₂ with ⟨i₂, hi₂mem, hi₂eq⟩
+  have hagent :
+      rankAgentByValue s value hcard i₁ =
+        rankAgentByValue s value hcard i₂ := by
+    rw [hi₁eq, hi₂eq]
+  have hidx : i₁ = i₂ :=
+    rankAgentByValue_injective s value hcard hagent
+  subst i₂
+  have hleft := (Finset.mem_filter.mp hi₁mem).2
+  have hright := (Finset.mem_filter.mp hi₂mem).2
+  exact not_lt_of_ge (hsep.trans hright.1) hleft.2
+
+theorem rankInterval_value_le_rankInterval
+    (s : Finset α) (value : α → ℝ)
+    {k : ℕ} (hcard : s.card = k)
+    {lo₁ hi₁ lo₂ hi₂ : ℕ} (hsep : hi₁ ≤ lo₂) :
+    ∀ high : α, high ∈ rankIntervalFinset s value hcard lo₂ hi₂ →
+      ∀ low : α, low ∈ rankIntervalFinset s value hcard lo₁ hi₁ →
+        value low ≤ value high := by
+  classical
+  intro high hhigh low hlow
+  rcases Finset.mem_image.mp hhigh with ⟨ihi, hihi, rfl⟩
+  rcases Finset.mem_image.mp hlow with ⟨ilo, hilo, rfl⟩
+  have hilo_bounds := (Finset.mem_filter.mp hilo).2
+  have hihi_bounds := (Finset.mem_filter.mp hihi).2
+  have hlt : ilo.val < ihi.val :=
+    Nat.lt_of_lt_of_le hilo_bounds.2 (hsep.trans hihi_bounds.1)
+  have hmono := rankValueByValue_mono s value hcard ilo ihi hlt
+  rw [rankValueByValue_eq_value s value hcard ilo] at hmono
+  rw [rankValueByValue_eq_value s value hcard ihi] at hmono
+  exact hmono
+
+/--
+Descending fixed-width rank block.  Block `0` is the top `width` elements,
+block `1` is the next `width` elements, and later blocks continue downward in
+the sorted order.  Saturating natural subtraction makes high block numbers
+empty.
+-/
+noncomputable def descendingRankBlockFinset (s : Finset α) (value : α → ℝ)
+    (width block : ℕ) : Finset α :=
+  rankIntervalFinset s value rfl
+    (s.card - (block + 1) * width)
+    (s.card - block * width)
+
+theorem nat_lt_succ_div_mul_self {q width : ℕ} (hwidth : 0 < width) :
+    q < (q / width + 1) * width := by
+  calc
+    q = width * (q / width) + q % width := by
+      exact (Nat.div_add_mod q width).symm
+    _ < width * (q / width) + width := by
+      exact Nat.add_lt_add_left (Nat.mod_lt q hwidth) _
+    _ = (q / width + 1) * width := by
+      rw [Nat.add_mul, one_mul, Nat.mul_comm (q / width) width]
+
+theorem descendingRankBlockFinset_subset (s : Finset α) (value : α → ℝ)
+    (width block : ℕ) :
+    descendingRankBlockFinset s value width block ⊆ s := by
+  classical
+  exact rankIntervalFinset_subset s value rfl
+    (s.card - (block + 1) * width)
+    (s.card - block * width)
+
+theorem descendingRankBlockFinset_card_le_width
+    (s : Finset α) (value : α → ℝ) (width block : ℕ) :
+    (descendingRankBlockFinset s value width block).card ≤ width := by
+  classical
+  have hwidth :=
+    rankIntervalFinset_card_le_width s value rfl
+      (s.card - (block + 1) * width)
+      (s.card - block * width)
+  have hblock_width :
+      (s.card - block * width) - (s.card - (block + 1) * width) ≤ width := by
+    have hmul : (block + 1) * width = block * width + width := by
+      rw [Nat.add_mul, one_mul]
+    rw [hmul]
+    rw [Nat.sub_le_iff_le_add]
+    omega
+  exact hwidth.trans hblock_width
+
+theorem descendingRankBlockFinset_card_eq_width_of_le
+    (s : Finset α) (value : α → ℝ) {width block : ℕ}
+    (hblock : (block + 1) * width ≤ s.card) :
+    (descendingRankBlockFinset s value width block).card = width := by
+  classical
+  have hcard :=
+    rankIntervalFinset_card_eq_width_of_le s value rfl
+      (lo := s.card - (block + 1) * width)
+      (hi := s.card - block * width)
+      (Nat.sub_le _ _)
+  have hwidth :
+      (s.card - block * width) - (s.card - (block + 1) * width) = width := by
+    have hmul : (block + 1) * width = block * width + width := by
+      rw [Nat.add_mul, one_mul]
+    rw [hmul] at hblock ⊢
+    omega
+  simpa [descendingRankBlockFinset, hwidth] using hcard
+
+theorem exists_mem_descendingRankBlockFinset
+    (s : Finset α) (value : α → ℝ) {width : ℕ} (hwidth : 0 < width)
+    {a : α} (ha : a ∈ s) :
+    ∃ block : ℕ, a ∈ descendingRankBlockFinset s value width block := by
+  classical
+  have ha_image :
+      a ∈ Finset.image (rankAgentByValue s value rfl)
+        (Finset.univ : Finset (Fin s.card)) := by
+    simpa [image_rankAgentByValue_univ s value rfl] using ha
+  rcases Finset.mem_image.mp ha_image with ⟨i, hi, rfl⟩
+  let q := s.card - 1 - i.val
+  let block := q / width
+  refine ⟨block, ?_⟩
+  unfold descendingRankBlockFinset rankIntervalFinset
+  refine Finset.mem_image.mpr ⟨i, ?_, rfl⟩
+  refine Finset.mem_filter.mpr ⟨Finset.mem_univ i, ?_⟩
+  have hq_lt : q < (block + 1) * width := by
+    simpa [block] using nat_lt_succ_div_mul_self (q := q) hwidth
+  have hblock_mul_le : block * width ≤ q := by
+    simpa [block, Nat.mul_comm] using Nat.div_mul_le_self q width
+  constructor
+  · omega
+  · omega
+
+theorem exists_mem_descendingRankBlockFinset_lt_card
+    (s : Finset α) (value : α → ℝ) {width : ℕ} (hwidth : 0 < width)
+    {a : α} (ha : a ∈ s) :
+    ∃ block : ℕ, block < s.card ∧
+      a ∈ descendingRankBlockFinset s value width block := by
+  classical
+  have ha_image :
+      a ∈ Finset.image (rankAgentByValue s value rfl)
+        (Finset.univ : Finset (Fin s.card)) := by
+    simpa [image_rankAgentByValue_univ s value rfl] using ha
+  rcases Finset.mem_image.mp ha_image with ⟨i, hi, rfl⟩
+  let q := s.card - 1 - i.val
+  let block := q / width
+  have hq_lt_card : q < s.card := by
+    omega
+  have hblock_lt_card : block < s.card := by
+    exact (Nat.div_le_self q width).trans_lt hq_lt_card
+  refine ⟨block, hblock_lt_card, ?_⟩
+  unfold descendingRankBlockFinset rankIntervalFinset
+  refine Finset.mem_image.mpr ⟨i, ?_, rfl⟩
+  refine Finset.mem_filter.mpr ⟨Finset.mem_univ i, ?_⟩
+  have hq_lt : q < (block + 1) * width := by
+    simpa [block] using nat_lt_succ_div_mul_self (q := q) hwidth
+  have hblock_mul_le : block * width ≤ q := by
+    simpa [block, Nat.mul_comm] using Nat.div_mul_le_self q width
+  constructor
+  · omega
+  · omega
+
+theorem disjoint_descendingRankBlockFinset_of_lt
+    (s : Finset α) (value : α → ℝ) (width : ℕ) {lower higher : ℕ}
+    (hblock : higher < lower) :
+    Disjoint (descendingRankBlockFinset s value width lower)
+      (descendingRankBlockFinset s value width higher) := by
+  classical
+  have hsep :
+      s.card - lower * width ≤ s.card - (higher + 1) * width := by
+    exact Nat.sub_le_sub_left
+      (Nat.mul_le_mul_right width (Nat.succ_le_of_lt hblock)) s.card
+  simpa [descendingRankBlockFinset] using
+    disjoint_rankIntervalFinset_of_le
+      (s := s) (value := value) (hcard := rfl)
+      (lo₁ := s.card - (lower + 1) * width)
+      (hi₁ := s.card - lower * width)
+      (lo₂ := s.card - (higher + 1) * width)
+      (hi₂ := s.card - higher * width)
+      hsep
+
+theorem next_descendingRankBlock_value_le_current
+    (s : Finset α) (value : α → ℝ) (width block : ℕ) :
+    ∀ high : α, high ∈ descendingRankBlockFinset s value width block →
+      ∀ low : α, low ∈ descendingRankBlockFinset s value width (block + 1) →
+        value low ≤ value high := by
+  classical
+  simpa [descendingRankBlockFinset, Nat.add_assoc] using
+    rankInterval_value_le_rankInterval
+      (s := s) (value := value) (hcard := rfl)
+      (lo₁ := s.card - (block + 2) * width)
+      (hi₁ := s.card - (block + 1) * width)
+      (lo₂ := s.card - (block + 1) * width)
+      (hi₂ := s.card - block * width)
+      (le_rfl)
+
+/--
+The `take` largest elements of `s` by `value`, with deterministic tie-breaking
+inherited from `rankAgentByValue`.  If `take` exceeds `s.card`, this returns
+all of `s`.
+-/
+noncomputable def topRankFinset (s : Finset α) (value : α → ℝ)
+    (take : ℕ) : Finset α :=
+  upperRankFinset s value rfl (s.card - take)
+
+theorem topRankFinset_subset (s : Finset α) (value : α → ℝ)
+    (take : ℕ) :
+    topRankFinset s value take ⊆ s := by
+  classical
+  exact upperRankFinset_subset s value rfl (s.card - take)
+
+theorem descendingRankBlockFinset_zero_eq_topRankFinset
+    (s : Finset α) (value : α → ℝ) (take : ℕ) :
+    descendingRankBlockFinset s value take 0 = topRankFinset s value take := by
+  classical
+  ext a
+  constructor
+  · intro ha
+    rcases Finset.mem_image.mp ha with ⟨i, hi, rfl⟩
+    have hidx := (Finset.mem_filter.mp hi).2
+    refine Finset.mem_image.mpr ⟨i, ?_, rfl⟩
+    exact Finset.mem_filter.mpr ⟨Finset.mem_univ i, by simpa using hidx.1⟩
+  · intro ha
+    rcases Finset.mem_image.mp ha with ⟨i, hi, rfl⟩
+    have hidx := (Finset.mem_filter.mp hi).2
+    refine Finset.mem_image.mpr ⟨i, ?_, rfl⟩
+    refine Finset.mem_filter.mpr ⟨Finset.mem_univ i, ?_⟩
+    exact ⟨by simpa using hidx, by simp⟩
+
+theorem topRankFinset_card (s : Finset α) (value : α → ℝ)
+    (take : ℕ) :
+    (topRankFinset s value take).card =
+      s.card - min s.card (s.card - take) := by
+  classical
+  exact upperRankFinset_card s value rfl (s.card - take)
+
+theorem topRankFinset_card_le (s : Finset α) (value : α → ℝ)
+    (take : ℕ) :
+    (topRankFinset s value take).card ≤ take := by
+  classical
+  rw [topRankFinset_card]
+  rw [min_eq_right (Nat.sub_le s.card take)]
+  omega
+
+theorem topRankFinset_card_eq_of_le (s : Finset α) (value : α → ℝ)
+    {take : ℕ} (htake : take ≤ s.card) :
+    (topRankFinset s value take).card = take := by
+  classical
+  rw [topRankFinset_card]
+  rw [min_eq_right (Nat.sub_le s.card take)]
+  omega
+
+theorem sdiff_topRankFinset_eq_lowerRankFinset
+    (s : Finset α) (value : α → ℝ) (take : ℕ) :
+    s \ topRankFinset s value take =
+      lowerRankFinset s value rfl (s.card - take) := by
+  classical
+  let cut := s.card - take
+  have hupper :
+      upperRankFinset s value rfl cut =
+        s \ lowerRankFinset s value rfl cut :=
+    upperRankFinset_eq_sdiff_lowerRankFinset s value rfl cut
+  ext a
+  constructor
+  · intro ha
+    have has : a ∈ s := (Finset.mem_sdiff.mp ha).1
+    have hnotupper : a ∉ topRankFinset s value take :=
+      (Finset.mem_sdiff.mp ha).2
+    by_contra hnotlower
+    have haupper : a ∈ upperRankFinset s value rfl cut := by
+      rw [hupper]
+      exact Finset.mem_sdiff.mpr ⟨has, hnotlower⟩
+    exact hnotupper (by simpa [topRankFinset, cut] using haupper)
+  · intro hlow
+    refine Finset.mem_sdiff.mpr ⟨lowerRankFinset_subset s value rfl cut hlow, ?_⟩
+    intro htop
+    exact lowerRankFinset_disjoint_upperRankFinset
+      s value rfl cut a hlow (by simpa [topRankFinset, cut] using htop)
+
+theorem outside_topRank_value_le_inside_topRank_value
+    (s : Finset α) (value : α → ℝ) (take : ℕ) :
+    ∀ high : α, high ∈ topRankFinset s value take →
+      ∀ low : α, low ∈ s \ topRankFinset s value take →
+        value low ≤ value high := by
+  classical
+  intro high hhigh low hlow
+  let cut := s.card - take
+  have hhigh_upper : high ∈ upperRankFinset s value rfl cut := by
+    simpa [topRankFinset, cut] using hhigh
+  have hlow_lower : low ∈ lowerRankFinset s value rfl cut := by
+    simpa [sdiff_topRankFinset_eq_lowerRankFinset, cut] using hlow
+  exact lowerRank_value_le_upperRank_value
+    s value rfl cut high hhigh_upper low hlow_lower
 
 end FiniteRanking
 end EconCSLib
