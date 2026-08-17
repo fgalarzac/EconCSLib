@@ -74,10 +74,15 @@ diagnostics only and cannot justify a raw reuse, reissue, or closeout result.
   helper constructions, audit counts, source hashes, command output, or prior
   implementation history there. Do not explain that a former gap, defect, or
   remediation was resolved: state only the current mathematical disposition.
-  Put technical evidence only in public audit JSON and closure-ledger sidecars;
-  reports end at Section 11. Write `None.`
-  for an empty assumptions, deviations, gaps, or caveats section rather than
-  converting a resolved implementation detail into a public note.
+  Write `None.` for an empty assumptions, deviations, gaps, or caveats section
+  rather than converting a resolved implementation detail into a public note.
+  Preserve substantive, current Sections 12+ when a report has them: detailed
+  formalization evidence, claim/assumption/formula provenance, library lift,
+  DAG audit, validation, and source-coverage ledgers are useful technical
+  closeout material. Do not delete those sections merely to shorten a report.
+  Keep them current, paper-specific, and clearly subordinate to the human
+  verdict; exclude raw source-paper text, private plans or handoffs, approval
+  records, agent chronology, commands, and historical repair narratives.
 - Keep the Human Verdict to the present paper-level disposition, covered
   result family, and review state. Do not use it for source conventions,
   correction history, proof machinery, or an implementation inventory. A
@@ -96,6 +101,19 @@ diagnostics only and cannot justify a raw reuse, reissue, or closeout result.
   but its current content must be source-facing only: remove closeout history,
   commands, implementation routes, and Lean declaration inventories. Prefer
   “clarification” unless the printed formula or statement is actually false.
+- If a printed intermediate lemma, strictness condition, or proof step is
+  false or has the wrong quantifier scope, but the named result is still true
+  by a different source-model proof, record that fact in Section 7 as a
+  proof-strategy deviation and in Section 10 with a reader-facing note. State
+  why the stated result survives; do not call the paper caveated or downgrade
+  it merely because the printed route needs repair.
+- A public source-clarification note must stand on its own for a mathematical
+  reader. It may name a published result and its source location, but must not
+  expose source files, private approvals, hashes, implementation identifiers,
+  Lean declarations, audit history, commands, or repair-agent instructions.
+  Keep approval records, source extractions, detailed audit ledgers, and
+  historical repair notes private. When no safe existing note exists, write a
+  short current-mathematics note rather than exporting a private one.
 - Preserve a genuine source-proof deviation during report normalization. State
   its source route, the material underspecification or departure, the checked
   paper-level route, and whether the theorem statement changes. Do not delete
