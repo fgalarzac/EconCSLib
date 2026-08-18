@@ -93,6 +93,9 @@ class SemanticReviewIndexTests(unittest.TestCase):
         translation = "Translated statement"
         judgment = {
             "lean_signature_sha256": signature,
+            "lean_statement_sha256": dashboard.statement_digest(
+                "theorem current_navigation : True"
+            ),
             "paper_statement_sha256": dashboard.statement_digest(paper),
             "tex_statement_sha256": dashboard.statement_digest(translation),
         }
@@ -131,6 +134,9 @@ class SemanticReviewIndexTests(unittest.TestCase):
             "judgment": "matches",
             "reason": "Same source and elaborated proposition.",
             "lean_signature_sha256": signature,
+            "lean_statement_sha256": dashboard.statement_digest(
+                "theorem current_navigation : True"
+            ),
             "paper_statement_sha256": dashboard.statement_digest(paper),
             "tex_statement_sha256": dashboard.statement_digest(translation),
         }

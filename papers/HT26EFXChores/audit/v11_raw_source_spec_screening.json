@@ -1,0 +1,253 @@
+{
+  "audit_kind": "raw_source_to_expanded_spec_screening",
+  "comment": "Each listed verdict compares the exact byte-pinned source-anchor bundle and explicitly pinned semantic context with Lean's fully expanded paper-local semantic target. The paired proof endpoint is reviewed separately.",
+  "items": {
+    "HT26EFXChores.appendix_no_two_a_itemsSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "f6db712d8d3237eb6e5d8fd9adc9dffb9c6467a32f19721a48385604df945f30",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "15761af7f6f5aa97344e9ae2381a5fd433267ff7686beb591a81e9128b33ae17",
+      "reason": "The raw Appendix-A construction fixes n, the two groups, the A/B/C cardinalities, p=1, q, r, and the complete cost table; the proposition says no EFX bundle has two A items. The transparent Spec encodes that same finite construction and concludes that every bundle has at most one A item.",
+      "semantic_target_declaration": "HT26EFXChores.appendix_no_two_a_itemsSpec",
+      "source_input_bundle_sha256": "15761af7f6f5aa97344e9ae2381a5fd433267ff7686beb591a81e9128b33ae17",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.appendix_p1_p2_lower_boundsSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "79c8609c073787d95cf26972b1d53441e807f431699b81a4ea914c643ce9d672",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "47b174043a7f194f24357fb1163e41a6445a3cbf551c3473dd7471acefbdd2dd",
+      "reason": "The raw Appendix-A construction and notation define P1, P2, p1, and p2 before the proposition p1,p2 at least r. The transparent Spec uses those same construction equations, P1/P2 definitions, group-specific costs, and minimum witnesses to conclude both lower bounds.",
+      "semantic_target_declaration": "HT26EFXChores.appendix_p1_p2_lower_boundsSpec",
+      "source_input_bundle_sha256": "47b174043a7f194f24357fb1163e41a6445a3cbf551c3473dd7471acefbdd2dd",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.balanced_orientationSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "08d61c019fa782617a9ba9295e1ca801b6fa933e8e0ee88544439374aced703c",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "4d013b8c91428f2f6ffc4c84ca8f5eca3dd753615cde7eefa9080760bd591804",
+      "reason": "The full displayed lemma is sufficient: the Spec gives the exact all-edges endpoint-assignment equivalence at equality and the partial Option-valued assignment conclusion when total demand is at most the number of edges.",
+      "semantic_target_declaration": "HT26EFXChores.balanced_orientationSpec",
+      "source_input_bundle_sha256": "4d013b8c91428f2f6ffc4c84ca8f5eca3dd753615cde7eefa9080760bd591804",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.canonicalShortLongLabels_iff_source_definitionSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "e61088904cdefa228f6269bb691f5a80a21c7231c6fda1d585b1b94e3447c974",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "9db429fd7d82c620d20e012caf00f2292b4b1fd83427dea9d08b74e13773bfab",
+      "reason": "The expanded Spec gives separate short and long agent sets in a canonical allocation: for b positive they are exactly the a-item and (a+1)-item agents, while for b zero and a positive both sets are all four agents. The raw bundle includes the canonical-allocation definition that fixes the convention's scope.",
+      "semantic_target_declaration": "HT26EFXChores.canonicalShortLongLabels_iff_source_definitionSpec",
+      "source_input_bundle_sha256": "9db429fd7d82c620d20e012caf00f2292b4b1fd83427dea9d08b74e13773bfab",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.canonicalSmallChoreAllocation_iff_source_definitionSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "a674579eb229ac8b9e20c8e2da68be738cf91a6686df9ad6ec938632f56eec3d",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "50b47e06570e4be4ca2ce72d982d3f2bd2a5787f1a6de2c2d2cbd12dc68574f9",
+      "reason": "The expanded canonical Spec states the complete four-agent M01 allocation condition directly: adjacent bundle sizes and the exact own-small maximum. The source's separate short/long-label convention and its super-canonical definition have their own Specs and review rows.",
+      "semantic_target_declaration": "HT26EFXChores.canonicalSmallChoreAllocation_iff_source_definitionSpec",
+      "source_input_bundle_sha256": "50b47e06570e4be4ca2ce72d982d3f2bd2a5787f1a6de2c2d2cbd12dc68574f9",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.canonical_allocation_propertiesSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "d01ce6b1ff52b99a2fa977e36dbde89d6ba80f586425aba8ba89836699cb6985",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "cb286b33880ece427c2750229ee9ac7145a62d061ce509c2757bccdf74e27bc5",
+      "reason": "The raw bundle includes the M01 and canonical-allocation definitions as well as the three displayed lemma clauses. The transparent Spec spells out their four-agent, adjacent-quota, canonicality, EFX/envy-free, super-canonical-existence, and selected-pair conclusions without changing a clause.",
+      "semantic_target_declaration": "HT26EFXChores.canonical_allocation_propertiesSpec",
+      "source_input_bundle_sha256": "cb286b33880ece427c2750229ee9ac7145a62d061ce509c2757bccdf74e27bc5",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.compositionSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "03d35e909955ab9e85a37db3875b31113310802c06f6a025acf1158b5b0f9142",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "be0fb18abdc9efface801c90107617e6abfe6e6a3ca28b6fe3fb457d7489666d",
+      "reason": "The displayed source lemma states disjoint allocations, the first and second cost-gap alternatives, the combined EFX conclusion, and the single-pair no-strong-envy conclusion. The transparent Spec gives those alternatives and conclusions explicitly, with the pinned normalized nonnegative-cost convention supplying the visible lower-bound fact used in the first alternative.",
+      "semantic_target_declaration": "HT26EFXChores.compositionSpec",
+      "source_input_bundle_sha256": "be0fb18abdc9efface801c90107617e6abfe6e6a3ca28b6fe3fb457d7489666d",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.efxForChores_iff_source_definitionSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "da9b2930bdac1c35fb63af7290ec621ab0411721f320d3f8ec9c805f54c3acc6",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "4c24be697d5157d8834c038e6ca597fd594a2d8dad6a54efc70e1adf01bd46c3",
+      "reason": "The source's empty-own-bundle alternative and universal one-item-removal inequality are both present in the transparent Spec.",
+      "semantic_target_declaration": "HT26EFXChores.efxForChores_iff_source_definitionSpec",
+      "source_input_bundle_sha256": "4c24be697d5157d8834c038e6ca597fd594a2d8dad6a54efc70e1adf01bd46c3",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.efx_pareto_incompatibilitySpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "9f1f68b90d1553d0526e5201f1d482bb44d0cc58dc33e6918188bc228beb6c93",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "861482d754534ab4fe3a363e7013c6b7a8ce40931e65cec3e0b4cb99e1668067",
+      "reason": "The source theorem's n, r threshold, existence of a (1,r)-bi-valued instance, and universal EFX-implies-not-Pareto-optimal conclusion are represented directly. The Spec no longer strengthens the source theorem by fixing a particular item carrier size.",
+      "semantic_target_declaration": "HT26EFXChores.efx_pareto_incompatibilitySpec",
+      "source_input_bundle_sha256": "861482d754534ab4fe3a363e7013c6b7a8ce40931e65cec3e0b4cb99e1668067",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.efx_po_cost_lower_boundsSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "7d81f88b8a3fb1a448e70cd2ac8ab5a4065178dfde6bb98540f3590687896dac",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "0c7cf85eaf4b1345134878cde34b1352b3465ba7c3c0f08c3911d2a92ab87908",
+      "reason": "The raw bundle gives the same Theorem 2 construction and the proposition's two lower bounds. The transparent Spec has the same n and r threshold, the same finite cost table, EFX feasibility premise, every-agent r+1 bound, and one-agent r+2 bound.",
+      "semantic_target_declaration": "HT26EFXChores.efx_po_cost_lower_boundsSpec",
+      "source_input_bundle_sha256": "0c7cf85eaf4b1345134878cde34b1352b3465ba7c3c0f08c3911d2a92ab87908",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.efx_po_every_agent_largeSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "568465ad7a2afa8b917169e73e8734ba8d5e60e00defb5f988f7a8cf4bd12ef5",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "61ca7f77746bacb2f55d09352ba70a48cc68e14a61c0a5d827cb5f81ea6bbcb7",
+      "reason": "The raw bundle gives the Theorem 2 threshold, the two agent groups, all three item classes, their cardinalities, and their (1,r) costs. The transparent Spec uses Fin n and Fin (2n+1), identifies the floor/ceiling groups by index, and states exactly that every EFX bundle contains an r-cost item.",
+      "semantic_target_declaration": "HT26EFXChores.efx_po_every_agent_largeSpec",
+      "source_input_bundle_sha256": "61ca7f77746bacb2f55d09352ba70a48cc68e14a61c0a5d827cb5f81ea6bbcb7",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.envyFreeForChores_iff_source_definitionSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "6dec3bfa2d9e58dba9f2d83b88d6aab4e1a8d663850b65a9e185ef942bf26464",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "7398fd04562fc2fb10dda81044a9f572edbb06482adf2f7989512c6ff15ed9ad",
+      "reason": "The displayed EF condition is the same all-agent, all-comparison bundle-cost inequality as the transparent Spec.",
+      "semantic_target_declaration": "HT26EFXChores.envyFreeForChores_iff_source_definitionSpec",
+      "source_input_bundle_sha256": "7398fd04562fc2fb10dda81044a9f572edbb06482adf2f7989512c6ff15ed9ad",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.exceptional_residue_combinationSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "86eefa512aaf1fbfa989fa8f19c7259be96a9e5b7564e0f2644d374e6b79f2fd",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "cfdc74bb2e731ebb22ff61b7c919654f085ca740f16d5946203a8f309fad3bba",
+      "reason": "The raw lemma, canonical-definition context, M2 definition, and exceptional/gap-filling construction describe a canonical M01 prefix extended to envy-freeness and an exceptional M2 residue with two long exceptional agents. The transparent Spec makes precisely those pool, allocation, quota, exceptional-agent, and EFX conclusion conditions explicit.",
+      "semantic_target_declaration": "HT26EFXChores.exceptional_residue_combinationSpec",
+      "source_input_bundle_sha256": "cfdc74bb2e731ebb22ff61b7c919654f085ca740f16d5946203a8f309fad3bba",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.four_agent_bi_valued_efx_existsSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "16ae6bfe13694f775587e26c9b70dd91b46d112b1f9f8cc502b21a58ee1df74d",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "e8dede7ce0dd07648756fa575f6b4628ba23764ba9637dfca8c9016ba2294673",
+      "reason": "The source theorem asserts EFX existence for every four-agent bi-valued instance. Its pinned definition gives two nonnegative cost values; the transparent Spec quantifies over exactly a four-agent finite additive-chore instance satisfying that bi-valued condition and concludes a feasible EFX allocation.",
+      "semantic_target_declaration": "HT26EFXChores.four_agent_bi_valued_efx_existsSpec",
+      "source_input_bundle_sha256": "e8dede7ce0dd07648756fa575f6b4628ba23764ba9637dfca8c9016ba2294673",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.m2_efx_allocationSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "e1342bb70bdaabb93698421ae7b15fefac89ded34ab59a52cc4fa3564c313792",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "ad0af23c010e4648e7fc2d7dfec2cadc61c7d3b4b3353b8650167a4a14e0d877",
+      "reason": "The raw lemma asserts an EFX allocation of M2, and its pinned definition identifies M2 as items small for exactly two agents in the normalized four-agent model. The transparent Spec has exactly those hypotheses and a feasible EFX allocation conclusion.",
+      "semantic_target_declaration": "HT26EFXChores.m2_efx_allocationSpec",
+      "source_input_bundle_sha256": "ad0af23c010e4648e7fc2d7dfec2cadc61c7d3b4b3353b8650167a4a14e0d877",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.m2_efx_allocation_propertiesSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "240b9c4a4e69603f852388c44a05400b34503855d30bc0b920b3a47b7de722b1",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "abd51f19755fa6c5b71ec9e79e6b305e38fc4e5ade1f0fd984b592fe8a45b80c",
+      "reason": "The raw long lemma and pinned M2/type definitions enumerate the ordinary envy certificates, exceptional configurations, preferred-agent branch, and exceptional allocation branch. The transparent Spec expands each of those alternatives on the same normalized four-agent M2 domain.",
+      "semantic_target_declaration": "HT26EFXChores.m2_efx_allocation_propertiesSpec",
+      "source_input_bundle_sha256": "abd51f19755fa6c5b71ec9e79e6b305e38fc4e5ade1f0fd984b592fe8a45b80c",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.m34_insertionSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "302f106ff2e99fba0de91c3f40f915406e268899177ab8b1a78271d3e3586e4d",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "5205ad852a5378c076ac2992027d88122700561d71cdc7749435c732e99fb63e",
+      "reason": "The raw lemma and pinned normalization/M34 definitions state an EFX allocation of T, a new item outside T that is small for at least three agents, and an EFX allocation after insertion. The transparent Spec expands those same 1,r, r>2, feasibility, EFX, freshness, and small-agent conditions.",
+      "semantic_target_declaration": "HT26EFXChores.m34_insertionSpec",
+      "source_input_bundle_sha256": "5205ad852a5378c076ac2992027d88122700561d71cdc7749435c732e99fb63e",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.paretoOptimalForChores_iff_source_definitionSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "c8bb03d39baa9e82b2f8a22af0678521f2fe3d9d8d2f113921b609e48e68c551",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "4ea5cbb24173b4b189fcec3c9c6996dd0b298efaee48f3151cdacb470818ac75",
+      "reason": "The Spec states exactly the source's no-complete-allocation Pareto-dominates condition, including weak improvement for all agents and strict improvement for one.",
+      "semantic_target_declaration": "HT26EFXChores.paretoOptimalForChores_iff_source_definitionSpec",
+      "source_input_bundle_sha256": "4ea5cbb24173b4b189fcec3c9c6996dd0b298efaee48f3151cdacb470818ac75",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.superCanonicalSmallChoreAllocation_iff_source_definitionSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "af4e1e158533cdd260a7836143b7aeda216111c3d09cdf4e6043223f25f49bf9",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "bd5177d9fcd6bee9e454cd3c648d4bd8895b111ada499e2597657347c2d90671",
+      "reason": "The expanded Spec separately states the source's b-positive super-canonical definition: canonicality plus the cost gap from every short agent to every long agent. Its raw source bundle includes the preceding definitions that determine M01, canonicality, and short/long labels.",
+      "semantic_target_declaration": "HT26EFXChores.superCanonicalSmallChoreAllocation_iff_source_definitionSpec",
+      "source_input_bundle_sha256": "bd5177d9fcd6bee9e454cd3c648d4bd8895b111ada499e2597657347c2d90671",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.tri_four_no_a_bundle_expensiveSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "5a9f080d3015e6eb0504d7a807390b0c3088310162c0702a1112636a4a481d4a",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "e48b4c136f882f7e1e95a5c1a726f50478346e26d2fa21bd5faea2a97bf4f3f1",
+      "reason": "The raw bundle includes the construction, the EFX setting, and the stated one-no-A/three-one-A distribution after the source's without-loss-of-generality choice. The Spec expresses that chosen case and the resulting cost-at-least-20 conclusion.",
+      "semantic_target_declaration": "HT26EFXChores.tri_four_no_a_bundle_expensiveSpec",
+      "source_input_bundle_sha256": "e48b4c136f882f7e1e95a5c1a726f50478346e26d2fa21bd5faea2a97bf4f3f1",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.tri_four_no_two_largeSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "55a9d208431586f125a3c28daf0e625c133223af02a1e310e038ff99862a5a88",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "f7734836d958b3b01d4e8c41a80dacb28205787202100b494831a191ad10a0f7",
+      "reason": "The raw bundle includes the displayed four-agent construction and the EFX contradiction setup. The Spec states that each bundle contains at most one A item under precisely that construction and EFX premise.",
+      "semantic_target_declaration": "HT26EFXChores.tri_four_no_two_largeSpec",
+      "source_input_bundle_sha256": "f7734836d958b3b01d4e8c41a80dacb28205787202100b494831a191ad10a0f7",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "HT26EFXChores.tri_valued_nonexistenceSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "6f9fa4e7bbc284f1208be79af4b2ae28d88b94efbcd15ee08feec7cfa4631f81",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "1b9e3d25d6a101d375abe96261a6479cc3ada61a22bbd77ae0aa34251f9baed1",
+      "paper_statement_sha256": "2033c6d823014a2b8becd13b5c3fe013c6619d5fa734cfbcc63997c47f73644d",
+      "reason": "The source theorem's quantification over n at least four and existence of a tri-valued n-agent instance with no EFX allocation are represented directly. The finite-item equality instance is Lean representation support, not an additional paper premise.",
+      "semantic_target_declaration": "HT26EFXChores.tri_valued_nonexistenceSpec",
+      "source_input_bundle_sha256": "2033c6d823014a2b8becd13b5c3fe013c6619d5fa734cfbcc63997c47f73644d",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    }
+  },
+  "paper": "HT26EFXChores",
+  "prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
+  "schema": 2,
+  "validated_at": "2026-08-18T09:15:56+00:00",
+  "validator": "Codex HT26 raw source-to-Lean-expanded-Spec reviewer"
+}

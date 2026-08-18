@@ -228,6 +228,24 @@ class ConfiguredAssumptionFormalizationRegularityTests(unittest.TestCase):
             "source_location": "source.txt:1-1",
         }
 
+    def test_current_top_level_raw_policy_version_is_accepted(self) -> None:
+        """Current raw receipts keep their policy at receipt level, not in the fingerprint."""
+
+        source_text = "Source model regularity."
+        raw = raw_audit()
+        raw["source_record_policy_version"] = POLICY
+        raw["source_record_input_fingerprint"] = {}
+        entry = regularity_entry(raw, source_text)
+        temporary, paper, status = self.write_fixture(raw, entry, source_text)
+        self.addCleanup(temporary.cleanup)
+
+        context, error = REGULARITY.load_configured_assumption_formalization_regularity_context(
+            paper, raw, status_payload=status
+        )
+
+        self.assertEqual(error, "")
+        self.assertIsNotNone(context)
+
     def test_structural_entry_projects_and_validates_without_navigation_names(self) -> None:
         temporary, _paper, _status, raw, entry, context = self.context_fixture()
         self.addCleanup(temporary.cleanup)

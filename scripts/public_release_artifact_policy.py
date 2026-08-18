@@ -191,10 +191,42 @@ def _current_audit_exceptions(
     return frozenset(normalized_paths)
 
 
+def _public_source_exceptions(
+    paths: Iterable[str | PurePath],
+) -> frozenset[str]:
+    """Normalize the narrowly approved public-source paths from the guard.
+
+    The caller is responsible for proving arXiv provenance and byte identity.
+    This path policy only keeps that decision scoped to one paper-local TeX
+    artifact; it never permits archives, extracted caches, PDFs, or a source
+    directory as a whole.
+    """
+
+    approved: set[str] = set()
+    for raw_path in paths:
+        normalized = _normalize_repo_path(raw_path)
+        if normalized is None:
+            raise ValueError(f"invalid public source artifact path: {raw_path}")
+        path = PurePosixPath(normalized)
+        if (
+            len(path.parts) != 4
+            or path.parts[0] != "papers"
+            or path.parts[2] != "source"
+            or path.suffix.lower() != ".tex"
+        ):
+            raise ValueError(
+                "public source artifact exceptions must name exactly "
+                "papers/<paper>/source/<official-arxiv-file>.tex: " + normalized
+            )
+        approved.add(normalized)
+    return frozenset(approved)
+
+
 def public_release_artifact_issues(
     paths: Iterable[str | PurePath],
     *,
     current_audit_artifacts: Iterable[str | PurePath] = (),
+    public_source_artifacts: Iterable[str | PurePath] = (),
 ) -> list[str]:
     """Return deterministic hygiene issues for candidate repository paths.
 
@@ -205,6 +237,7 @@ def public_release_artifact_issues(
     """
 
     current_audit_paths = _current_audit_exceptions(current_audit_artifacts)
+    public_source_paths = _public_source_exceptions(public_source_artifacts)
     issues: list[str] = []
     seen: set[tuple[str, str]] = set()
 
@@ -236,7 +269,7 @@ def public_release_artifact_issues(
                 "source, extraction, trace, or generated cache directory "
                 f"{private_components[0]!r} must remain private",
             )
-        if _SOURCE_BUNDLE_RE.fullmatch(path.name):
+        if _SOURCE_BUNDLE_RE.fullmatch(path.name) and normalized not in public_source_paths:
             add(
                 "private-source-bundle",
                 normalized,

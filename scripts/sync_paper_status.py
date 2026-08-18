@@ -118,6 +118,7 @@ PAPER_FACING_HUMAN_REVIEW_SURFACE = "paper_facing_excluding_deep_audit_v1"
 NORMAL_SOURCE_PRESENTATIONS_HUMAN_REVIEW_SURFACE = (
     "normal_source_presentations_v1"
 )
+SOURCE_CLAIMS_HUMAN_REVIEW_SURFACE = "source_claims_v1"
 CATALOG = PAPERS / "catalog.json"
 
 STATUS_LABELS = {
@@ -350,7 +351,8 @@ def aggregate_payload(records: list[tuple[Path, dict[str, Any]]]) -> dict[str, A
         ),
         "review_count_policy": (
             "reviewed_rows counts saved human dashboard rows tracked in the public repository. "
-            "total_rows counts the current dashboard review surface from each paper-local status.json. "
+            "total_rows counts the configured human source-claim surface; a paired transparent "
+            "Spec and proof theorem count once, while the raw declaration surface remains machine-audit metadata. "
             "Agent source audits are not counted as human review."
         ),
         "paper_interface_maintenance_policy": (
@@ -546,6 +548,7 @@ def paper_facing_human_review_total(
     if surface not in {
         PAPER_FACING_HUMAN_REVIEW_SURFACE,
         NORMAL_SOURCE_PRESENTATIONS_HUMAN_REVIEW_SURFACE,
+        SOURCE_CLAIMS_HUMAN_REVIEW_SURFACE,
     }:
         return None
     review_surface = payload.get("review_surface")
@@ -611,6 +614,32 @@ def paper_facing_human_review_total(
                 f"{payload.get('id', folder.name)}: normal source-presentation inventory does not reconcile"
             )
         return normal_total + len(assumptions)
+
+    if surface == SOURCE_CLAIMS_HUMAN_REVIEW_SURFACE:
+        source_map = load_json_object(folder / "audit" / "paper_statement_map.json")
+        raw_items = source_map.get("items")
+        if not isinstance(raw_items, dict) or not raw_items:
+            raise ValueError(
+                f"{payload.get('id', folder.name)}: source-claim review requires a nonempty paper statement map"
+            )
+
+        def is_deep_only(item: object) -> bool:
+            if not isinstance(item, dict):
+                return False
+            return (
+                "deep" in str(item.get("inventory_role") or "").strip().lower()
+                or str(item.get("coverage_status") or "").strip().lower()
+                == "deep_audit_material"
+            )
+
+        ordinary_claims = [
+            item for item in raw_items.values() if isinstance(item, dict) and not is_deep_only(item)
+        ]
+        if not ordinary_claims:
+            raise ValueError(
+                f"{payload.get('id', folder.name)}: source-claim review has no ordinary source claims"
+            )
+        return len(ordinary_claims) + len(assumptions)
 
     excluded_deep = source_map_deep_only_review_rows(folder, payload)
     return len(set(names) - excluded_deep) + len(assumptions)
@@ -1051,6 +1080,8 @@ class ReviewSurfaceProvider:
         self._saved_sidecar_status_digest = ""
         self._corrected_scope_current: bool | None = None
         self._corrected_scope_status_digest = ""
+        self._v11_source_spec_counts: tuple[dict[str, int] | None, str] | None = None
+        self._v11_source_spec_status_digest = ""
 
     @staticmethod
     def _status_digest(payload: Mapping[str, Any]) -> str:
@@ -1422,6 +1453,7 @@ def source_condition_rows_for_payload(
         in {
             PAPER_FACING_HUMAN_REVIEW_SURFACE,
             NORMAL_SOURCE_PRESENTATIONS_HUMAN_REVIEW_SURFACE,
+            SOURCE_CLAIMS_HUMAN_REVIEW_SURFACE,
         }
     ):
         return assumption_count
@@ -1647,6 +1679,139 @@ def saved_paper_coverage_label(
     )
 
 
+def current_v11_source_spec_counts(
+    folder: Path,
+    payload: dict[str, Any],
+    *,
+    review_surface_provider: ReviewSurfaceProvider | None = None,
+) -> tuple[dict[str, int] | None, str]:
+    """Return current direct source-to-Spec counts for an opted-in closeout.
+
+    v11 intentionally replaces the legacy Lean-to-paraphrase sidecar with one
+    raw-source/expanded-Spec judgment per human source claim.  A normal status
+    sync must not silently fall back to the retired lane.  It checks the
+    recorded closeout receipt and the current, byte-pinned review ledger, but
+    deliberately does not re-elaborate Lean: live closure validation belongs to
+    the explicit closeout and release gates, not website rendering.
+    """
+
+    review_surface = payload.get("review_surface")
+    if not isinstance(review_surface, dict) or review_surface.get(
+        "require_v11_raw_source_spec_screening"
+    ) is not True:
+        return None, ""
+    status_digest = ReviewSurfaceProvider._status_digest(payload)
+    if review_surface_provider is not None:
+        if (
+            review_surface_provider._v11_source_spec_counts is not None
+            and review_surface_provider._v11_source_spec_status_digest == status_digest
+        ):
+            return review_surface_provider._v11_source_spec_counts
+
+    def record(result: tuple[dict[str, int] | None, str]) -> tuple[dict[str, int] | None, str]:
+        if review_surface_provider is not None:
+            review_surface_provider._v11_source_spec_counts = result
+            review_surface_provider._v11_source_spec_status_digest = status_digest
+        return result
+
+    screening_path = folder / "audit" / "v11_raw_source_spec_screening.json"
+    try:
+        try:
+            from final_closure_receipt import load_final_closure_receipt
+        except ModuleNotFoundError:  # pragma: no cover - module-style import
+            from scripts.final_closure_receipt import load_final_closure_receipt
+        receipt = load_final_closure_receipt(ROOT, folder.name).payload
+        ledger_pin = receipt.get("review_ledger")
+        expected_ledger_path = (
+            f"papers/{folder.name}/audit/v11_raw_source_spec_screening.json"
+        )
+        if (
+            receipt.get("paper") != folder.name
+            or receipt.get("closure_status") != "current"
+            or receipt.get("evidence_lane") != "direct-source-row-review"
+            or not isinstance(ledger_pin, Mapping)
+            or ledger_pin.get("path") != expected_ledger_path
+            or ledger_pin.get("sha256") != file_sha256(screening_path)
+        ):
+            return record((None, "recorded direct source-to-Spec receipt is not current"))
+    except Exception as exc:  # noqa: BLE001 - a status projection must fail closed.
+        return record((None, f"direct source-to-Spec receipt is unavailable: {exc}"))
+
+    screening = load_json_object(screening_path)
+    rows = screening.get("items") if isinstance(screening, dict) else None
+    expected_total = int(payload.get("human_review", {}).get("total_rows", 0))
+    if (
+        not isinstance(rows, dict)
+        or screening.get("schema") != 2
+        or screening.get("paper") != folder.name
+        or not str(screening.get("validator") or "").strip()
+        or not str(screening.get("validated_at") or "").strip()
+        or expected_total <= 0
+        or len(rows) != expected_total
+    ):
+        return record((None, "direct source-to-Spec ledger is incomplete"))
+
+    counts = {
+        "total": expected_total,
+        "matches": 0,
+        "mismatch": 0,
+        "uncertain": 0,
+        "unknown": 0,
+    }
+    for row in rows.values():
+        judgment = (
+            str(row.get("judgment") or "").strip().lower()
+            if isinstance(row, dict)
+            else ""
+        )
+        if judgment == "matches":
+            counts["matches"] += 1
+        elif judgment == "mismatch":
+            counts["mismatch"] += 1
+        elif judgment == "uncertain":
+            counts["uncertain"] += 1
+        else:
+            counts["unknown"] += 1
+    return record((counts, ""))
+
+
+def current_v11_source_spec_label(
+    folder: Path,
+    payload: dict[str, Any],
+    *,
+    coverage: bool,
+    review_surface_provider: ReviewSurfaceProvider | None = None,
+) -> str | None:
+    """Render the accepted v11 direct-review lane, or its stale reason."""
+
+    counts, problem = current_v11_source_spec_counts(
+        folder,
+        payload,
+        review_surface_provider=review_surface_provider,
+    )
+    if counts is None:
+        review_surface = payload.get("review_surface")
+        if isinstance(review_surface, dict) and review_surface.get(
+            "require_v11_raw_source_spec_screening"
+        ) is True:
+            return stale_unavailable_label(problem or "direct source-to-Spec evidence is unavailable")
+        return None
+    total = counts["total"]
+    matches = counts["matches"]
+    if coverage:
+        parts = [f"{matches}/{total} source claims covered"]
+    else:
+        parts = [f"{matches}/{total} raw-source-to-Spec match"]
+    for key, label in (
+        ("mismatch", "mismatch"),
+        ("uncertain", "uncertain"),
+        ("unknown", "unknown"),
+    ):
+        if counts[key]:
+            parts.append(f"{counts[key]} {label}")
+    return "; ".join(parts)
+
+
 def llm_translation_label(
     folder: Path,
     payload: dict[str, Any],
@@ -1658,6 +1823,14 @@ def llm_translation_label(
         folder,
         use_dashboard_audit=use_dashboard_audit,
     )
+    v11_label = current_v11_source_spec_label(
+        folder,
+        payload,
+        coverage=False,
+        review_surface_provider=selected_provider,
+    )
+    if v11_label is not None:
+        return v11_label
     if selected_provider.corrected_scope_is_current(payload):
         return "author-approved corrected target; semantic contract current"
     authorization = selected_provider.authorize_saved_sidecar_reuse(payload)
@@ -1775,6 +1948,14 @@ def llm_paper_coverage_label(
         folder,
         use_dashboard_audit=use_dashboard_audit,
     )
+    v11_label = current_v11_source_spec_label(
+        folder,
+        payload,
+        coverage=True,
+        review_surface_provider=selected_provider,
+    )
+    if v11_label is not None:
+        return v11_label
     if selected_provider.corrected_scope_is_current(payload):
         return "author-approved corrected target; semantic contract current"
     authorization = selected_provider.authorize_saved_sidecar_reuse(payload)
@@ -1895,7 +2076,21 @@ def component_loc(paths: list[str]) -> int:
 
 def human_note(payload: dict[str, Any]) -> str:
     note = payload.get("human_summary")
-    if isinstance(note, str):
+    review = human_summary_review(payload)
+    # A status record can retain an agent-authored draft for internal editing,
+    # but aggregate/public-facing status must not present that draft as a paper
+    # summary.  The record itself stays untouched, so changing presentation
+    # policy does not invalidate a closeout receipt that pins status bytes.
+    # A user-authored status note may predate the current `human_approved`
+    # vocabulary.  `human_written` has the same ownership protection: render
+    # it verbatim rather than silently falling back to an implementation-facing
+    # caveat.  Agent drafts remain private until a human explicitly approves
+    # them.
+    if isinstance(note, str) and (
+        review is None
+        or review.get("status", "").lower()
+        in {"human_approved", "human_written"}
+    ):
         return note
     if payload.get("status") == "formalized":
         return ""
@@ -1924,22 +2119,27 @@ def human_status_rows(
     lean_loc_by_folder: Mapping[Path, int] | None = None,
 ) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
-    saved_closure_provider = (
-        None
-        if use_dashboard_audit and dashboard_audit_paper is None
-        else LazySharedClosureProvider(ROOT)
-    )
-    shared_build_input_provider = LazySharedBuildInputSnapshotProvider(ROOT)
     for folder, payload in records:
         publication, year = publication_for(payload)
         audit_this_paper = use_dashboard_audit and (
             dashboard_audit_paper is None or folder.name == dashboard_audit_paper
         )
+        # Import-closure identity providers cache every transitive module they
+        # inspect.  Status sync spans the whole repository, so sharing one
+        # provider across papers can retain an unbounded union of closures.
+        # A fresh, frozen provider per paper preserves the no-change check
+        # while keeping aggregate-site rendering bounded.
+        closure_provider = (
+            None
+            if use_dashboard_audit and dashboard_audit_paper is None
+            else LazySharedClosureProvider(ROOT)
+        )
+        build_input_provider = LazySharedBuildInputSnapshotProvider(ROOT)
         review_surface_provider = ReviewSurfaceProvider(
             folder,
             use_dashboard_audit=audit_this_paper,
-            closure_provider=saved_closure_provider,
-            build_input_provider=shared_build_input_provider,
+            closure_provider=closure_provider,
+            build_input_provider=build_input_provider,
         )
         reuse_authorization = review_surface_provider.authorize_saved_sidecar_reuse(
             payload
@@ -1991,26 +2191,25 @@ def human_status_rows(
             "artifacts": payload.get("artifacts", {}),
         }
         rows.append(row)
-
-    if not shared_build_input_provider.finalize_unchanged():
-        raise RuntimeError(
-            "repository build inputs changed during cached status rendering; "
-            "discarding the run"
+        if not build_input_provider.finalize_unchanged():
+            raise RuntimeError(
+                "repository build inputs changed during cached status rendering; "
+                "discarding the run"
+            )
+        closure_problems = (
+            closure_provider.finalization_problems()
+            if closure_provider is not None
+            else ()
         )
-    closure_problems = (
-        saved_closure_provider.finalization_problems()
-        if saved_closure_provider is not None
-        else ()
-    )
-    if closure_problems:
-        details = "; ".join(
-            problem.format() if hasattr(problem, "format") else str(problem)
-            for problem in closure_problems[:3]
-        )
-        raise RuntimeError(
-            "Lean import-closure inputs changed during saved-status rendering; "
-            f"discarding the run ({details})"
-        )
+        if closure_problems:
+            details = "; ".join(
+                problem.format() if hasattr(problem, "format") else str(problem)
+                for problem in closure_problems[:3]
+            )
+            raise RuntimeError(
+                "Lean import-closure inputs changed during saved-status rendering; "
+                f"discarding the run ({details})"
+            )
 
     rows.sort(
         key=lambda row: (
@@ -2045,8 +2244,8 @@ def human_payload(
             "a source-version or proof-route note is important for a public reader."
         ),
         "review_count_policy": (
-            "human_review counts saved human dashboard rows as reviewed/total. Agent audits are "
-            "not counted as human review."
+            "human_review counts saved human source-claim dashboard rows as reviewed/total. "
+            "Paired transparent specifications and their proving theorems count once; agent audits are not human review."
         ),
         "translation_status_policy": (
             "human_translation reports saved human dashboard judgments. "
@@ -2146,6 +2345,28 @@ def dependency_dag_path(folder: Path, payload: dict[str, Any]) -> str | None:
     return first_present_artifact(
         folder, payload, "dependency_dag_pdf", "dependency_dag_tex"
     )
+
+
+def human_review_packet_path(folder: Path, payload: dict[str, Any]) -> str | None:
+    """Return the durable, mark-up-friendly review packet when present.
+
+    The status artifact is the release declaration.  The paper-local fallback
+    keeps a freshly generated packet visible before the next status sync, but
+    never invents a path when the artifact has not actually been generated.
+    """
+
+    configured = first_present_artifact(
+        folder,
+        payload,
+        "human_review_packet_pdf",
+        "human_review_packet_tex",
+    )
+    if configured:
+        return configured
+    default = folder / "docs" / "HUMAN_REVIEW_PACKET.pdf"
+    if default.is_file():
+        return str(default.relative_to(ROOT))
+    return None
 
 
 def paper_interface_path(folder: Path, payload: dict[str, Any]) -> str | None:
@@ -2276,6 +2497,7 @@ def generated_paper_readme_block(
 ) -> str:
     review_path = review_entrypoint_path(folder, payload)
     dag_path = dependency_dag_path(folder, payload)
+    packet_path = human_review_packet_path(folder, payload)
     interface_path = paper_interface_path(folder, payload)
     audit_path = audit_surface_path(folder, payload)
     notes_path = str((folder / LEGACY_README_NOTES).relative_to(ROOT))
@@ -2311,6 +2533,11 @@ def generated_paper_readme_block(
         )
     else:
         link_lines.append("- Dependency DAG: not tracked in this folder.")
+    if packet_path:
+        link_lines.append(
+            "- Human review packet: "
+            + markdown_file_link(folder, packet_path, Path(packet_path).name)
+        )
     if interface_path:
         link_lines.append(
             f"- Compact Lean interface: {markdown_file_link(folder, interface_path, Path(interface_path).name)}"
@@ -2545,6 +2772,12 @@ def site_status_artifacts_cell(row: dict[str, Any]) -> str:
         dag = artifacts.get("dependency_dag_pdf") or artifacts.get("dependency_dag_tex")
         if isinstance(dag, str) and dag.strip():
             links.append(artifact_anchor("DAG", dag.strip()))
+        packet = (
+            artifacts.get("human_review_packet_pdf")
+            or artifacts.get("human_review_packet_tex")
+        )
+        if isinstance(packet, str) and packet.strip():
+            links.append(artifact_anchor("Review packet", packet.strip()))
     return '<div class="artifact-links">' + " ".join(links) + "</div>"
 
 

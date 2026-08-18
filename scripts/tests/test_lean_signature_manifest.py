@@ -2578,6 +2578,15 @@ def pointwiseSpec (operation : Nat → Nat) : Prop :=
 theorem whollyRenamedWitness (unrelated : Nat → Nat) : pointwiseSpec unrelated := by
   intro element
   rfl
+
+def sourceDefinition (value : Nat) : Prop := value = value
+def sourceDefinitionSpec (value : Nat) : Prop := value = value
+theorem sourceDefinitionRealizes (value : Nat) :
+    sourceDefinition value ↔ sourceDefinitionSpec value := by
+  rfl
+theorem sourceDefinitionWrong (value : Nat) :
+    sourceDefinition value ↔ True := by
+  simp [sourceDefinition]
 """
         routes = [
             ("coupledExecutionSpec", "disconnectedArithmetic", "proves"),
@@ -2585,6 +2594,8 @@ theorem whollyRenamedWitness (unrelated : Nat → Nat) : pointwiseSpec unrelated
             ("impossiblePoint", "negativeConjunctOnly", "refutes"),
             ("impossiblePoint", "exactNegativeEvidence", "refutes"),
             ("pointwiseSpec", "whollyRenamedWitness", "proves"),
+            ("sourceDefinitionSpec", "sourceDefinitionRealizes", "definitionally_realizes"),
+            ("sourceDefinitionSpec", "sourceDefinitionWrong", "definitionally_realizes"),
         ]
         matches = run_lean_semantic_contract_matches_for_source(ROOT, source, routes)
         self.assertEqual(set(matches), set(routes))
@@ -2593,6 +2604,8 @@ theorem whollyRenamedWitness (unrelated : Nat → Nat) : pointwiseSpec unrelated
         self.assertFalse(matches[routes[2]])
         self.assertTrue(matches[routes[3]])
         self.assertTrue(matches[routes[4]])
+        self.assertTrue(matches[routes[5]])
+        self.assertFalse(matches[routes[6]])
 
     def test_operational_outcome_bridge_requires_exact_terminal_run_shape(self) -> None:
         source = """
@@ -3335,121 +3348,97 @@ end ClosureFixture
         self.assertIn('"completed_count":0', diagnostic)
         self.assertIn('"missing_count":2', diagnostic)
 
-    def test_closure_cache_rehashes_external_and_foundation_artifacts(self) -> None:
-        for origin_class, module_origin in (
-            ("external", "Vendor.External"),
-            ("foundation", "Init.Prelude"),
-        ):
-            with (
-                self.subTest(origin_class=origin_class),
-                tempfile.TemporaryDirectory() as temp_dir,
-            ):
-                root = Path(temp_dir)
-                external_root = root / "external-lean"
-                artifact = external_root / Path(*module_origin.split(".")).with_suffix(
-                    ".olean"
-                )
-                artifact.parent.mkdir(parents=True)
-                artifact.write_bytes(b"first compiled artifact")
-                specification = "Fixture.Spec"
-                raw_manifest = {
-                    "scope": {
-                        "hash_tool_path": "/verified/sha256sum",
-                        "foundation_modules": ["Init"],
-                    },
-                    "reached_modules": [
-                        {
-                            "origin_class": origin_class,
-                            "module_origin": module_origin,
-                        }
-                    ],
-                }
-                extracted = mock.Mock(return_value={specification: raw_manifest})
-                manifest_module._SEMANTIC_CONTRACT_CLOSURE_CACHE.clear()
-                try:
-                    with (
-                        mock.patch.object(
-                            manifest_module,
-                            "_semantic_contract_closure_hash_tool_identity",
-                            return_value={"resolved_path": "/verified/sha256sum"},
-                        ),
-                        mock.patch.object(
-                            manifest_module,
-                            "_build_import_target",
-                            return_value=True,
-                        ),
-                        mock.patch.object(
-                            manifest_module,
-                            "_built_olean_fingerprint",
-                            return_value=(1, 1),
-                        ),
-                        mock.patch.object(
-                            manifest_module,
-                            "_file_content_fingerprint",
-                            return_value=(1, 1),
-                        ),
-                        mock.patch.object(
-                            manifest_module,
-                            "_loaded_workspace_module_scope",
-                            return_value=(("Fixture",), "workspace-sha256"),
-                        ),
-                        mock.patch.object(
-                            manifest_module,
-                            "_paper_module_olean_fingerprints",
-                            return_value=(),
-                        ),
-                        mock.patch.object(
-                            manifest_module,
-                            "_lean_loaded_module_candidates",
-                            return_value=("Fixture", module_origin),
-                        ) as loaded_candidates,
-                        mock.patch.object(
-                            manifest_module,
-                            "_lake_env_lean_path",
-                            return_value=str(external_root),
-                        ),
-                        mock.patch.object(
-                            manifest_module,
-                            "_run_semantic_contract_closure_script",
-                            extracted,
-                        ),
-                    ):
-                        first = run_lean_semantic_contract_closure_manifests(
-                            root,
-                            "Fixture",
-                            [specification],
-                            ("Fixture",),
-                        )[specification]
-                        cached = run_lean_semantic_contract_closure_manifests(
-                            root,
-                            "Fixture",
-                            [specification],
-                            ("Fixture",),
-                        )[specification]
-                        self.assertEqual(extracted.call_count, 1)
-                        self.assertEqual(loaded_candidates.call_count, 2)
-                        self.assertEqual(
-                            first["closure_module_identities"],
-                            cached["closure_module_identities"],
-                        )
+    def test_closure_cache_rehashes_reached_paper_artifacts(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            build_root = root / ".lake" / "build" / "lib" / "lean"
+            artifact = build_root / "Fixture.olean"
+            artifact.parent.mkdir(parents=True)
+            artifact.write_bytes(b"first compiled artifact")
+            specification = "Fixture.Spec"
+            raw_manifest = {
+                "scope": {
+                    "hash_tool_path": "/verified/sha256sum",
+                    "foundation_modules": ["Init"],
+                },
+                "reached_modules": [
+                    {"origin_class": "paper", "module_origin": "Fixture"}
+                ],
+            }
+            extracted = mock.Mock(return_value={specification: raw_manifest})
+            manifest_module._SEMANTIC_CONTRACT_CLOSURE_CACHE.clear()
+            try:
+                with (
+                    mock.patch.object(
+                        manifest_module,
+                        "_semantic_contract_closure_hash_tool_identity",
+                        return_value={"resolved_path": "/verified/sha256sum"},
+                    ),
+                    mock.patch.object(
+                        manifest_module,
+                        "_build_import_target",
+                        return_value=True,
+                    ),
+                    mock.patch.object(
+                        manifest_module,
+                        "_compiled_audit_helper_available",
+                        return_value=True,
+                    ),
+                    mock.patch.object(
+                        manifest_module,
+                        "_build_compiled_audit_helper",
+                        return_value=True,
+                    ),
+                    mock.patch.object(
+                        manifest_module,
+                        "_file_content_fingerprint",
+                        return_value=(1, 1),
+                    ),
+                    mock.patch.object(
+                        manifest_module,
+                        "_lake_env_lean_path",
+                        return_value=str(build_root),
+                    ),
+                    mock.patch.object(
+                        manifest_module,
+                        "_run_semantic_contract_closure_script",
+                        extracted,
+                    ),
+                ):
+                    first = run_lean_semantic_contract_closure_manifests(
+                        root,
+                        "Fixture",
+                        [specification],
+                        ("Fixture",),
+                    )[specification]
+                    cached = run_lean_semantic_contract_closure_manifests(
+                        root,
+                        "Fixture",
+                        [specification],
+                        ("Fixture",),
+                    )[specification]
+                    self.assertEqual(extracted.call_count, 1)
+                    self.assertEqual(
+                        first["closure_module_identities"],
+                        cached["closure_module_identities"],
+                    )
 
-                        artifact.write_bytes(b"second compiled artifact")
-                        refreshed = run_lean_semantic_contract_closure_manifests(
-                            root,
-                            "Fixture",
-                            [specification],
-                            ("Fixture",),
-                        )[specification]
-                        self.assertEqual(extracted.call_count, 2)
-                        self.assertEqual(loaded_candidates.call_count, 3)
-                        self.assertNotEqual(
-                            first["closure_module_identities"][0]["artifact_sha256"],
-                            refreshed["closure_module_identities"][0][
-                                "artifact_sha256"
-                            ],
-                        )
-                finally:
-                    manifest_module._SEMANTIC_CONTRACT_CLOSURE_CACHE.clear()
+                    artifact.write_bytes(b"second compiled artifact")
+                    refreshed = run_lean_semantic_contract_closure_manifests(
+                        root,
+                        "Fixture",
+                        [specification],
+                        ("Fixture",),
+                    )[specification]
+                    self.assertEqual(extracted.call_count, 2)
+                    self.assertNotEqual(
+                        first["closure_module_identities"][0]["artifact_sha256"],
+                        refreshed["closure_module_identities"][0][
+                            "artifact_sha256"
+                        ],
+                    )
+            finally:
+                manifest_module._SEMANTIC_CONTRACT_CLOSURE_CACHE.clear()
 
     def test_unrelated_workspace_artifact_does_not_invalidate_closure_cache(
         self,
@@ -3566,44 +3555,32 @@ end ClosureFixture
         self.assertEqual(workspace_first[0], ("Shadowed.Module", "Workspace.Only"))
         self.assertNotEqual(external_first[1], workspace_first[1])
 
-    def test_closure_extraction_rejects_reached_artifact_mutation(self) -> None:
-        for origin_class, module_origin in (
-            ("external", "Vendor.External"),
-            ("foundation", "Init.Prelude"),
-        ):
-            with (
-                self.subTest(origin_class=origin_class),
-                tempfile.TemporaryDirectory() as temp_dir,
-            ):
-                root = Path(temp_dir)
-                external_root = root / "external-lean"
-                artifact = external_root / Path(*module_origin.split(".")).with_suffix(
-                    ".olean"
-                )
-                artifact.parent.mkdir(parents=True)
-                artifact.write_bytes(b"before extraction")
-                specification = "Fixture.Spec"
-                raw_manifest = {
-                    "scope": {
-                        "hash_tool_path": "/verified/sha256sum",
-                        "foundation_modules": ["Init"],
-                    },
-                    "reached_modules": [
-                        {
-                            "origin_class": origin_class,
-                            "module_origin": module_origin,
-                        }
-                    ],
-                }
+    def test_closure_extraction_rejects_reached_paper_artifact_mutation(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            build_root = root / ".lake" / "build" / "lib" / "lean"
+            artifact = build_root / "Fixture.olean"
+            artifact.parent.mkdir(parents=True)
+            artifact.write_bytes(b"before extraction")
+            specification = "Fixture.Spec"
+            raw_manifest = {
+                "scope": {
+                    "hash_tool_path": "/verified/sha256sum",
+                    "foundation_modules": ["Init"],
+                },
+                "reached_modules": [
+                    {"origin_class": "paper", "module_origin": "Fixture"}
+                ],
+            }
 
-                def mutate_during_extraction(*args: object, **kwargs: object) -> dict:
-                    del args, kwargs
-                    artifact.write_bytes(b"during extraction")
-                    return {specification: raw_manifest}
+            def mutate_during_extraction(*args: object, **kwargs: object) -> dict:
+                del args, kwargs
+                artifact.write_bytes(b"during extraction")
+                return {specification: raw_manifest}
 
-                manifest_module._SEMANTIC_CONTRACT_CLOSURE_CACHE.clear()
-                try:
-                    with (
+            manifest_module._SEMANTIC_CONTRACT_CLOSURE_CACHE.clear()
+            try:
+                with (
                         mock.patch.object(
                             manifest_module,
                             "_semantic_contract_closure_hash_tool_identity",
@@ -3626,43 +3603,33 @@ end ClosureFixture
                         ),
                         mock.patch.object(
                             manifest_module,
-                            "_loaded_workspace_module_scope",
-                            return_value=(("Fixture",), "workspace-sha256"),
-                        ),
-                        mock.patch.object(
-                            manifest_module,
                             "_paper_module_olean_fingerprints",
                             return_value=(),
                         ),
                         mock.patch.object(
                             manifest_module,
-                            "_lean_loaded_module_candidates",
-                            return_value=("Fixture", module_origin),
-                        ),
-                        mock.patch.object(
-                            manifest_module,
                             "_lake_env_lean_path",
-                            return_value=str(external_root),
+                            return_value=str(build_root),
                         ),
                         mock.patch.object(
                             manifest_module,
                             "_run_semantic_contract_closure_script",
                             side_effect=mutate_during_extraction,
                         ),
-                    ):
-                        result = run_lean_semantic_contract_closure_manifests(
-                            root,
-                            "Fixture",
-                            [specification],
-                            ("Fixture",),
-                        )
-                    self.assertEqual(result, {})
-                    self.assertEqual(
-                        manifest_module._SEMANTIC_CONTRACT_CLOSURE_CACHE,
-                        {},
+                ):
+                    result = run_lean_semantic_contract_closure_manifests(
+                        root,
+                        "Fixture",
+                        [specification],
+                        ("Fixture",),
                     )
-                finally:
-                    manifest_module._SEMANTIC_CONTRACT_CLOSURE_CACHE.clear()
+                self.assertEqual(result, {})
+                self.assertEqual(
+                    manifest_module._SEMANTIC_CONTRACT_CLOSURE_CACHE,
+                    {},
+                )
+            finally:
+                manifest_module._SEMANTIC_CONTRACT_CLOSURE_CACHE.clear()
 
     def test_spec_closure_blocks_workspace_terminal_and_pins_same_typed_foundations(
         self,
@@ -3743,25 +3710,33 @@ end A
             renamed = run_lean_semantic_contract_closure_manifests(
                 root,
                 "A",
-                ["A.FirstRenamedSpec", "A.SecondRenamedSpec", "A.ChangedSpec"],
+                [
+                    "A.FirstRenamedSpec",
+                    "A.SecondRenamedSpec",
+                    "A.ChangedSpec",
+                    "A.FirstSpec",
+                ],
                 ("A",),
                 timeout_seconds=120,
                 build_timeout_seconds=120,
             )
             self.assertEqual(
                 set(renamed),
-                {"A.FirstRenamedSpec", "A.SecondRenamedSpec", "A.ChangedSpec"},
+                {
+                    "A.FirstRenamedSpec",
+                    "A.SecondRenamedSpec",
+                    "A.ChangedSpec",
+                    "A.FirstSpec",
+                },
             )
             first_renamed = renamed["A.FirstRenamedSpec"]
             second_renamed = renamed["A.SecondRenamedSpec"]
             self.assertTrue(first_renamed["passes"], first_renamed["failures"])
             self.assertTrue(second_renamed["passes"], second_renamed["failures"])
-            self.assertEqual(first_renamed["surface_mode"], "closure_fingerprints")
             self.assertEqual(
-                first_renamed["surface_sha256"],
-                second_renamed["surface_sha256"],
+                first_renamed["surface_mode"], "closure_expanded"
             )
-            self.assertEqual(first_renamed["sha256"], second_renamed["sha256"])
+            self.assertIn("body", first_renamed["surface"])
             self.assertNotEqual(
                 first_renamed["surface_sha256"],
                 renamed["A.ChangedSpec"]["surface_sha256"],
@@ -3778,46 +3753,7 @@ end A
                 "lean_compact_canonical_surface_sha256_v2",
             )
 
-            # Bounded compatibility oracle: on a small surface, Lean's v2
-            # digest must equal the historical expanded tree after applying
-            # the same recursive compaction that signature manifests use.
-            legacy = manifest_module._run_semantic_contract_closure_script(
-                root,
-                "import Lean\nimport A",
-                ["A.FirstRenamedSpec"],
-                ("A",),
-                (),
-                manifest_module.DEFAULT_SEMANTIC_CONTRACT_FOUNDATION_MODULES,
-                inline_paper_scope=True,
-                max_expansions=64,
-                timeout_seconds=120,
-            )["A.FirstRenamedSpec"]
-            compact_legacy_body = manifest_module._compact_canonical(
-                legacy["surface"]["body"]
-            )
-            compact_legacy_digest = hashlib.sha256(
-                json.dumps(
-                    compact_legacy_body,
-                    ensure_ascii=False,
-                    sort_keys=True,
-                    separators=(",", ":"),
-                ).encode("utf-8")
-            ).hexdigest()
-            self.assertEqual(
-                first_renamed["surface"]["body_fingerprint"]["canonical_sha256"],
-                compact_legacy_digest,
-            )
-
-            blocked = run_lean_semantic_contract_closure_manifests(
-                root,
-                "A",
-                ["A.FirstSpec"],
-                ("A",),
-                timeout_seconds=120,
-                build_timeout_seconds=120,
-            )
-            self.assertEqual(set(blocked), {"A.FirstSpec"})
-            blocked_manifest = blocked["A.FirstSpec"]
+            blocked_manifest = renamed["A.FirstSpec"]
             self.assertFalse(blocked_manifest["passes"])
             workspace_nodes = [
                 node
@@ -3830,100 +3766,8 @@ end A
                 "unregistered_workspace_dependency",
                 [failure["tag"] for failure in blocked_manifest["failures"]],
             )
-            first_b_identity = next(
-                identity
-                for identity in blocked_manifest["closure_module_identities"]
-                if identity["module_origin"] == "B"
-            )
-            self.assertEqual(first_b_identity["origin_class"], "workspace")
-            self.assertEqual(first_b_identity["artifact_scope"], "workspace")
-            self.assertRegex(first_b_identity["artifact_sha256"], r"^[0-9a-f]{64}$")
             self.assertRegex(
                 blocked_manifest["closure_module_context_sha256"], r"^[0-9a-f]{64}$"
-            )
-
-            # The durable pin follows the exact encountered B artifact, not
-            # a global workspace timestamp.  Force a fresh closure after its
-            # compiled content changes and verify that the row-level identity
-            # changes with it.
-            (root / "B.lean").write_text(
-                """namespace ExternalFixture
-opaque first : Nat
-opaque second : Nat
-opaque later : Nat
-end ExternalFixture
-""",
-                encoding="utf-8",
-            )
-            rebuild = subprocess.run(
-                ["lake", "build", "A"],
-                cwd=root,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
-                timeout=120,
-                check=False,
-            )
-            self.assertEqual(rebuild.returncode, 0, rebuild.stdout)
-            manifest_module._SEMANTIC_CONTRACT_CLOSURE_CACHE.clear()
-            try:
-                refreshed = run_lean_semantic_contract_closure_manifests(
-                    root,
-                    "A",
-                    ["A.FirstSpec"],
-                    ("A",),
-                    timeout_seconds=120,
-                    build_timeout_seconds=120,
-                )["A.FirstSpec"]
-            finally:
-                manifest_module._SEMANTIC_CONTRACT_CLOSURE_CACHE.clear()
-            refreshed_b_identity = next(
-                identity
-                for identity in refreshed["closure_module_identities"]
-                if identity["module_origin"] == "B"
-            )
-            self.assertNotEqual(
-                first_b_identity["artifact_sha256"],
-                refreshed_b_identity["artifact_sha256"],
-            )
-
-            # The low-level helper models `B` as an externally pinned
-            # foundation only to test identity preservation.  The public API
-            # above never permits this: it derives `B` from the workspace
-            # inventory and blocks it.
-            foundation = manifest_module._run_semantic_contract_closure_script(
-                root,
-                "import Lean\nimport A",
-                ["A.FirstSpec", "A.SecondSpec"],
-                ("A",),
-                (),
-                ("B", "Init", "Lean", "Std", "Mathlib", "Cslib"),
-                inline_paper_scope=True,
-                max_expansions=64,
-                timeout_seconds=120,
-            )
-            self.assertEqual(set(foundation), {"A.FirstSpec", "A.SecondSpec"})
-            first_node = next(
-                node
-                for node in foundation["A.FirstSpec"]["nodes"]
-                if node["declaration"] == "ExternalFixture.first"
-            )
-            second_node = next(
-                node
-                for node in foundation["A.SecondSpec"]["nodes"]
-                if node["declaration"] == "ExternalFixture.second"
-            )
-            self.assertTrue(foundation["A.FirstSpec"]["passes"])
-            self.assertTrue(foundation["A.SecondSpec"]["passes"])
-            self.assertEqual(first_node["origin_class"], "foundation")
-            self.assertEqual(second_node["origin_class"], "foundation")
-            self.assertEqual(
-                first_node["canonical_identity_sha256"],
-                second_node["canonical_identity_sha256"],
-            )
-            self.assertNotEqual(
-                first_node["pinned_declaration_identity_sha256"],
-                second_node["pinned_declaration_identity_sha256"],
             )
 
     def test_compact_closure_hashes_shared_declaration_dag_once(self) -> None:

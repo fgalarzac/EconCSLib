@@ -1459,6 +1459,11 @@ def check_paper(
             f"papers/{paper}",
             f"papers/{paper}.lean",
             "lakefile.toml",
+            # A byte-pinned canonical source artifact must be copied verbatim,
+            # including the publisher's trailing whitespace.  It is an audit
+            # input, not contributor-authored formatting, so diff --check
+            # must not reject an otherwise valid paper release because of it.
+            f":(exclude)papers/{paper}/source/",
         ]
     )
     _run(diff_command)

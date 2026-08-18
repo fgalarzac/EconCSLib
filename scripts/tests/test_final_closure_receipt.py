@@ -123,6 +123,68 @@ class FinalClosureReceiptTests(unittest.TestCase):
                         required_lane=receipt.DIRECT_SOURCE_ROW_REVIEW_LANE,
                     )
 
+    def test_final_receipt_can_reuse_a_current_pinned_build_record(self) -> None:
+        """A split run remains strict when the build record pins every input."""
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            self.make_paper(root)
+            with (
+                mock.patch.object(receipt, "_git_head", return_value="c" * 40),
+                mock.patch.object(
+                    receipt, "_current_interface_closure", return_value="a" * 64
+                ),
+                mock.patch.object(
+                    receipt,
+                    "formalization_review_protocol_digest",
+                    return_value="b" * 64,
+                ),
+            ):
+                build_record = receipt.record_focused_build_receipt(root, "Fixture")
+                self.assertTrue(build_record.is_file())
+                path = receipt.issue_final_closure_receipt(
+                    root,
+                    "Fixture",
+                    evidence_lane=receipt.DIRECT_SOURCE_ROW_REVIEW_LANE,
+                    review_ledger_path="FINAL_VALIDATION_REPORT.md",
+                    run_build=False,
+                    reuse_focused_build_receipt=True,
+                )
+                current = receipt.validate_final_closure_receipt(root, "Fixture")
+
+            self.assertTrue(path.is_file())
+            self.assertEqual(current.payload["schema"], 3)
+            self.assertIn("focused_build_receipt", current.payload)
+
+    def test_v11_direct_lane_refuses_a_report_in_place_of_its_screening_ledger(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            folder = self.make_paper(root)
+            (folder / "status.json").write_text(
+                json.dumps(
+                    {
+                        "build_target": "true",
+                        "review_surface": {
+                            "require_source_spec_correspondence": True
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                receipt.FinalClosureReceiptError,
+                "must bind `audit/v11_raw_source_spec_screening.json`",
+            ):
+                receipt.issue_final_closure_receipt(
+                    root,
+                    "Fixture",
+                    evidence_lane=receipt.DIRECT_SOURCE_ROW_REVIEW_LANE,
+                    review_ledger_path="FINAL_VALIDATION_REPORT.md",
+                    run_build=True,
+                )
+
     def test_direct_receipt_allows_only_structural_source_absence(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)

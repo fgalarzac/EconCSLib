@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import contextlib
+import hashlib
 import io
 import json
 import subprocess
@@ -313,6 +314,61 @@ class PublicReleaseCandidateGuardTests(unittest.TestCase):
             issues,
         )
         self.assertFalse(any("papers/Public/status.json" in issue for issue in issues), issues)
+
+    def test_changed_public_finalized_paper_requires_packet_and_readme_link(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir)
+            subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+            subprocess.run(
+                ["git", "config", "user.email", "fixture@example.com"],
+                cwd=repo,
+                check=True,
+            )
+            subprocess.run(
+                ["git", "config", "user.name", "Fixture"], cwd=repo, check=True
+            )
+            folder = repo / "papers" / "Paper"
+            folder.mkdir(parents=True)
+            status_path = folder / "status.json"
+            status_path.write_text(
+                json.dumps(
+                    {
+                        "id": "Paper",
+                        "repository_visibility": "public",
+                        "status": "paper draft",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=repo, check=True)
+            subprocess.run(["git", "commit", "-qm", "base"], cwd=repo, check=True)
+            base = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                cwd=repo,
+                check=True,
+                text=True,
+                capture_output=True,
+            ).stdout.strip()
+            status_path.write_text(
+                json.dumps(
+                    {
+                        "id": "Paper",
+                        "repository_visibility": "public",
+                        "status": "formalized",
+                        "artifacts": {},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=repo, check=True)
+            subprocess.run(["git", "commit", "-qm", "candidate"], cwd=repo, check=True)
+
+            issues = guard.changed_formalized_packet_issues(
+                repo, "HEAD", public_base_ref=base
+            )
+
+        self.assertTrue(any("human_review_packet_pdf" in issue for issue in issues), issues)
+        self.assertTrue(any("HUMAN_REVIEW_PACKET.pdf" in issue for issue in issues), issues)
 
     def test_private_blob_provenance_compares_exact_committed_bytes(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -1540,6 +1596,41 @@ class PublicReleaseCandidateGuardTests(unittest.TestCase):
         self.assertEqual(len(issues), 2, issues)
         self.assertTrue(any("visual_primary_scan" in issue for issue in issues), issues)
         self.assertTrue(any("transcript_input_scan" in issue for issue in issues), issues)
+
+    def test_official_arxiv_tex_artifact_is_an_explicit_public_exception(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir) / "candidate"
+            self.init_repo(repo)
+            paper = repo / "papers" / "Fixture"
+            (paper / "audit").mkdir(parents=True)
+            source = paper / "source" / "source.tex"
+            source.parent.mkdir()
+            source_bytes = b"\\documentclass{article}\\begin{document}Official arXiv source.\\end{document}\n"
+            source.write_bytes(source_bytes)
+            (paper / "audit" / "paper_statement_map.json").write_text(
+                json.dumps(
+                    {
+                        "source_url": "https://arxiv.org/abs/2601.00001v2",
+                        "source_artifact_path": "source/source.tex",
+                        "source_artifact_sha256": hashlib.sha256(source_bytes).hexdigest(),
+                        "items": {
+                            "claim": {
+                                "source_anchor_evidence": [
+                                    {"path": "source/source.tex", "line_start": 1, "line_end": 1}
+                                ]
+                            }
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            candidate = self.commit(repo, "candidate")
+
+            leakage = guard.source_artifact_leakage_issues(repo, candidate)
+            policy = guard.candidate_public_artifact_policy_issues(repo, candidate)
+
+        self.assertEqual(leakage, [])
+        self.assertEqual(policy, [])
 
     def test_source_map_archive_surface_archive_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:

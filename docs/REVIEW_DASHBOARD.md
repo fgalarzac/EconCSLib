@@ -4,11 +4,25 @@ The dashboard is the human-facing tool for checking whether each
 `PaperInterface.lean` statement matches the corresponding paper statement.
 It is for statement validation, not proof search.
 
-`PaperInterface.lean` is the only supported human-review filename. If that file
-has grown into a broad helper/proof surface, rename the broad file to an
-implementation-facing module such as `ProofInterface.lean`, update imports, and
-make `PaperInterface.lean` compact before launching the dashboard.
-It should expose only paper-facing definitions, formulas, and named statements.
+`PaperInterface.lean` is the semantic-review file. It contains exactly one
+expanded transparent `<name>Spec : Prop` declaration per paper source claim;
+it contains no thin theorem/lemma wrappers. `ProofInterface.lean` holds each
+separately Lean-checked endpoint of exactly that Spec type. If a legacy
+interface contains proof wrappers or helpers, migrate that paper before
+calling its semantic review current.
+
+A material paper-local model declaration or reusable `EconCSLib` definition is
+not a trusted name or a glossary entry. When Lean leaves a paper-local name in
+a Spec display, the packet first opens that declaration's own body/signature,
+then recursively reviews every remaining paper-local or library dependency.
+Each paper-local prerequisite needs its selected byte-pinned source connection
+and current source-to-target screening in
+`audit/paper_semantic_prerequisites.json`; each reusable declaration needs the
+analogous record in `audit/library_semantic_review.json`. The dashboard and
+packet show these cards before the dependent source claim. They are prerequisite
+review nodes, not duplicate paper claims or denominator rows.
+Foundational Lean/Mathlib syntax and containers remain version-pinned closure
+terminals; a paper must not pretend to source-match `Nat` or `Finset` itself.
 If the dashboard row count is much larger than the paper's named definitions and
 results, curate `review_surface.include_names` in `status.json` and move helper
 or certificate endpoints out of `PaperInterface.lean` before asking for review.
@@ -20,6 +34,12 @@ At public-facing closeout, the repository audit is stricter: any paper marked
 `formalized`, `formalized with caveat`, `partially formalized`, or
 `conditional` needs an explicit current `review_surface_llm.json` pass, even if
 the dashboard has 30 or fewer rows.
+
+This document describes statement-review and diagnostic commands. They are not
+a frozen-closeout command sequence. Once all paper inputs are frozen, begin
+with `python3 scripts/closeout_reuse_plan.py --paper <Paper>` and execute only
+its current `next_action`; the planner decides whether a dashboard refresh or
+strict repository check is still needed.
 
 ## Start A Review
 
@@ -40,21 +60,54 @@ by default, prints both `127.0.0.1` and any detected WSL guest-IP fallback, and
 tries to open those URLs in Windows. Keep the terminal open while it prints
 startup status.
 
+## Markup-Friendly Review Packet
+
+Generate a paper-local TeX/PDF packet when a reviewer prefers to compare and
+annotate a stable document rather than use the browser:
+
+```bash
+python3 scripts/review_dashboard_packet.py --paper ABC24ShortTitle --write --compile
+```
+
+This writes `docs/HUMAN_REVIEW_PACKET.tex` and
+`docs/HUMAN_REVIEW_PACKET.pdf`. It first presents recursively retained
+paper-local model cards and material library prerequisites used by the selected
+Specs. Every card shows its byte-pinned paper-source connection, Lean-owned
+semantic target, exact Lean declaration, screening status, and reviewer
+annotation. It then presents one row per paper source claim: the exact byte-pinned raw source
+input (the displayed claim plus declared raw context), the expanded
+`PaperInterface` Spec, the separately checked proof endpoint, its saved
+source-to-Spec judgment, a \(\square\) **Matches source input** reviewer check,
+and a blank annotation area. The same check and annotation area appear for
+every material library-definition prerequisite. Map summaries and
+Lean-to-TeX prose are excluded from both semantic comparison surfaces. The
+packet is generated evidence display, not a human-review credential: after
+returning an annotated PDF or TeX, reconcile the reviewer decisions into the
+dashboard so that `paper_theorem_validations.jsonl` records the actual human
+judgments.
+
+The packet follows the paper's source-artifact publication policy. Do not copy
+private source excerpts into a public export merely because they appear in a
+local review packet. When an official arXiv TeX source is explicitly approved
+for publication, its source map remains the authority for that separate export
+decision.
+
 ## Reviewer Workflow
 
 1. Select the paper.
-2. Compare the paper statement, Lean statement, and generated Lean-to-TeX draft.
-3. Check the independent statement-match judgment when one is available.
-4. Mark whether the Lean statement matches the paper statement.
-5. Add notes for assumptions, source ambiguities, or mismatches.
-6. Submit the review row.
+2. Review each paper-local model card and each material library definition against its selected raw paper-source connection.
+3. Compare each raw source input with the expanded Lean Spec.
+4. Check the independently recorded source-to-Spec, source-to-paper-model, and source-to-library judgments when available.
+5. Confirm the named proof endpoint is separate proof evidence, not a second claim.
+6. Add notes for assumptions, source ambiguities, or mismatches.
+7. Submit the paper-claim review row.
 
 The dashboard includes search, status filters, slice filters, source-file
 buttons, line numbers, and MathJax rendering for formula-like paper statements.
 It reads the paper-local `status.json` `review_surface` section as the
 machine-readable source of truth for curated review rows and slices.
 
-## Lean-To-TeX Drafts
+## Optional Lean-To-TeX Drafts
 
 The Lean-to-TeX draft column can be overridden by a paper-local
 `audit/lean_to_tex_llm.json` file. Use this for stable,
@@ -62,21 +115,68 @@ context-free drafts generated from `PaperInterface.lean` alone, without reading
 the source paper. The legacy paper-root and `.review_traces/lean_to_tex_llm.json`
 locations are still read when no tracked `audit/` draft exists.
 
-The intended workflow has three independent statement passes:
+Lean-to-TeX is a display aid only. It is never shown to, or used by, the
+source-to-Spec LLM judge. The required review lanes are:
 
-1. The formalization agent writes the compact paper-facing Lean statement in
-   `PaperInterface.lean`.
-2. A second LLM, given only that Lean statement and no paper context, translates
-   it to paper-style LaTeX/prose and saves the result in
-   `audit/lean_to_tex_llm.json`.
-3. An independent semantic LLM judge, given only the original paper statement and the translated
-   LaTeX/prose, judges whether they match and saves the result in
-   `audit/statement_match_llm.json`.
-4. A separate assumption-provenance LLM, given only the paper source text for
+1. The formalization agent writes one expanded paper-facing Spec in
+   `PaperInterface.lean` and one exact-type proof endpoint in
+   `ProofInterface.lean`.
+2. For every material paper-local declaration retained after the Spec root is
+   opened, Lean produces its own-body target and recursively inventories its
+   remaining paper-local and reusable-library dependencies. The paper-local
+   card must have an exact source connection and current hash-bound semantic
+   judgment; a name or exact code alone is not enough.
+3. For every material reusable library primitive used directly by a source-facing
+   Spec or by a retained paper-local declaration,
+   the formalization agent records an exact bounded library declaration and a
+   source-map item (or a separately byte-pinned source-model/definition
+   connector that is not an independently counted claim) in
+   `audit/library_semantic_review.json`. An independent
+   semantic reviewer receives only that source item's current ordered bundle of
+   verbatim byte-pinned quotes and the exact expanded library declaration. It
+   must not receive a glossary, identifier explanation, theorem label, or a
+   Lean-to-TeX paraphrase. Its record is current only when both inputs' hashes
+   and reviewer metadata are current.
+4. An independent semantic LLM judge receives only the current ordered bundle
+   of verbatim byte-pinned source quotes and the fully expanded Spec, then
+   saves its result in `audit/statement_match_llm.json`.
+5. A separate assumption-provenance LLM, given only the paper source text for
    the claimed assumptions and the assumption declarations from `Assumptions.lean`,
    judges whether every listed assumption is truly a paper/source model
    assumption rather than a proof shortcut. Save this in
    `assumption_match_llm.json`.
+
+The library-review ledger has this source-facing shape (the exact declaration
+body is read from the registered bounded Lean source location, never copied as
+a paraphrase):
+
+```json
+{
+  "schema": 1,
+  "paper": "ABC24ShortTitle",
+  "prompt_version": "library-statement-match-v1-verbatim-source-anchor-expanded-definition",
+  "target_protocol": "expanded_library_definition_v1",
+  "items": {
+    "EconCSLib.Namespace.LibraryDefinition": {
+      "library_declaration": "EconCSLib.Namespace.LibraryDefinition",
+      "source_item": "source_map_item_key",
+      "library_definition_sha256": "...",
+      "source_input_bundle_sha256": "...",
+      "judgment": "matches",
+      "reason": "...",
+      "validator": "independent reviewer",
+      "validated_at": "2026-08-17T00:00:00Z"
+    }
+  }
+}
+```
+
+For an uncommon library primitive, also record `label`,
+`library_source_path`, `library_line_start`, and `library_line_end` in its
+item. A standalone connector uses the same `source_anchor_evidence`,
+`semantic_context_requirements`, and `source_location` fields as a source-map
+item. This makes its exact Lean definition available to both review surfaces
+without adding the preliminary source passage to the paper-claim denominator.
 
 The statement match pass is full-theorem and formula-level, not just
 result-label-level. Every displayed equation, inequality, iff, definition, or
@@ -117,19 +217,19 @@ proof-boundary premise. Internally constructed certificates are fine; hidden
 premise consumers are not. Axioms, constants, opaque declarations, and unsafe
 declarations are review blockers.
 
-If the semantic judge reports a mismatch or uncertainty, edit the Lean statement, not
-the translation, unless the translation is plainly wrong. The statement being
-iterated is the theorem that should be formalized. Re-run the Lean-to-TeX and
-judge passes after changing `PaperInterface.lean`.
+If the semantic judge reports a mismatch or uncertainty, repair the source map
+or the expanded Spec. The source input must remain raw byte-pinned text, and
+the semantic target must remain the Spec; do not repair a verdict by changing a
+paraphrase. Re-run the source-to-Spec judge after changing either surface.
 
 Use this workflow in two modes:
 
 - Initial target-setting pass: run near the beginning of a paper, after the
-  source inventory and first `PaperInterface.lean` skeleton, before investing in
-  long proofs. This lightweight pass only establishes that the Lean statements
-  are the right formalization targets. Generate `audit/lean_to_tex_llm.json` from the
-  full expanded Lean statements, generate `audit/statement_match_llm.json` against the
-  complete original paper theorem/definition/formula text, run
+  source inventory and first `PaperInterface.lean` Spec skeleton, before
+  investing in long proofs. This lightweight pass only establishes that the
+  Lean Specs are the right formalization targets. Generate
+  `audit/statement_match_llm.json` from the raw source-anchor bundles and
+  full expanded Specs, then run
   `python3 scripts/review_dashboard.py --paper <paper> --statement-precheck`,
   then run `python3 scripts/review_dashboard.py --paper <paper>
   --assumption-precheck`. The statement judge is row-local; it does not certify
@@ -137,12 +237,14 @@ Use this workflow in two modes:
   Iterate on `PaperInterface.lean` until mismatches and premise-provenance
   findings are fixed. Do not update the final validation report,
   review-surface audit, DAG, or human-review log just for this early pass.
-- Full review-boundary pass: run before handoff, before public release, and
-  after major `PaperInterface.lean` statement changes. This includes the same
-  Lean-to-TeX and statement-judge pass, plus the review-surface audit when row
-  count requires it, the assumption-provenance pass when assumptions exist, the
-  `Statement Translation Audit` section in
-  `FINAL_VALIDATION_REPORT.md`, and the full `--precheck`.
+- Full review-boundary pass: use after a material `PaperInterface.lean` or
+  source-surface change, before an active proof or review handoff. This includes
+  the same raw-source-to-Spec judgment, plus the review-surface audit
+  when row count requires it, the assumption-provenance pass when assumptions
+  exist, the `Statement Translation Audit` section in
+  `FINAL_VALIDATION_REPORT.md`, and the full `--precheck`. It is not a routine
+  final-closeout predecessor: at public release or any other frozen closeout,
+  the planner determines the exact current delta.
 
 For both modes, every dashboard row needs one concrete source statement. If the
 automatic TeX/text extraction is missing, over-broad, or pulls in surrounding
@@ -195,7 +297,7 @@ It has schema:
 {
   "schema": 1,
   "paper": "PaperFolder",
-  "prompt_version": "statement-match-v3-semantic-full-statement",
+  "prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
   "validator": "gpt-5-codex",
   "validator_type": "model",
   "validated_at": "2026-06-06T12:00:00Z",
@@ -212,7 +314,27 @@ It has schema:
       "judgment": "matches",
       "reason": "The translated statement has the same hypotheses and conclusion.",
       "comment": "Optional validator-facing note.",
-      "lean_statement_sha256": "required digest",
+      "source_obligations": [
+        {"id": "s0", "kind": "parameter", "statement": "The paper quantifies over the model domain.", "source_location": "Theorem 2, p. 4"},
+        {"id": "s1", "kind": "assumption", "statement": "The paper's first hypothesis.", "source_location": "Theorem 2, p. 4"},
+        {"id": "s2", "kind": "conclusion", "statement": "The paper's complete conclusion.", "source_location": "Theorem 2, p. 4"}
+      ],
+      "lean_obligations": [
+        {"id": "l0", "kind": "parameter", "signature_ref": "b/0", "signature_atom_sha256": "required atom digest"},
+        {"id": "l1", "kind": "assumption", "signature_ref": "b/1", "signature_atom_sha256": "required atom digest"},
+        {"id": "l2", "kind": "conclusion", "signature_ref": "result", "signature_atom_sha256": "required atom digest"}
+      ],
+      "obligation_alignment": [
+        {"source_id": "s0", "lean_id": "l0", "relation": "equivalent", "semantic_basis": "The quantified domains agree.", "bridge_statement": "The source and Lean model variables range over the same domain."},
+        {"source_id": "s1", "lean_id": "l1", "relation": "equivalent", "semantic_basis": "The formulas agree after expanding notation.", "bridge_statement": "For every x, the source premise holds if and only if the expanded Lean premise holds."},
+        {"source_id": "s2", "lean_id": "l2", "relation": "equivalent", "semantic_basis": "Every quantified conclusion clause is present.", "bridge_statement": "For every output, the Lean conclusion holds if and only if the complete source conclusion holds."}
+      ],
+      "unmatched_source_conclusions": [],
+      "unmatched_source_inputs": [],
+      "unjustified_lean_inputs": [],
+      "unmatched_lean_conclusions": [],
+      "lean_signature_sha256": "required canonical manifest digest",
+      "lean_statement_sha256": "optional pretty-printed snapshot digest",
       "paper_statement_sha256": "required digest",
       "tex_statement_sha256": "required digest"
     }
@@ -220,12 +342,47 @@ It has schema:
 }
 ```
 
+The JSON above abbreviates the v10 item shape. Every current item also requires
+`semantic_scope_review`, including source-versus-Lean quantification, expanded
+named definitions and recursive result dependencies, algorithm/runner/output
+semantics, numeric semantics, discrete/container/stopping semantics, and all
+five required fidelity-risk dimensions. A row whose source claims operational
+complexity also needs a sibling `operational_complexity_review` with a concrete
+worst-case recurrence and bound, representation and traversal costs, and
+bit-complexity where relevant. Use the schema emitted by `scripts/new_paper.py`
+and enforced by `scripts/review_dashboard.py`; do not copy this abbreviated
+example as a complete sidecar.
+
 Use `matches: false` or `"judgment": "mismatch"` for a failed check, and
-`"judgment": "uncertain"` when the judge cannot decide. Lean, paper, and TeX
-statement digests are required for a judgment to count as current; if any
-digest is missing or no longer matches the current row, the dashboard marks the
-saved LLM judgment as stale. These LLM checks do not count as human dashboard
+`"judgment": "uncertain"` when the judge cannot decide. The canonical Lean
+declaration-manifest digest plus paper and TeX statement digests are required for
+a judgment to count as current; if any required digest is missing or no longer
+matches the current row, the dashboard marks the saved LLM judgment as stale.
+The raw Lean statement digest is an optional display snapshot. Every obligation must use an exact page,
+theorem/equation, appendix, or source-file/line locator. Every alignment must
+state the mathematical equivalence or implication in `bridge_statement`; a
+declaration or obligation name is only a routing key.
+
+For a `matches` verdict, the ledger must map every source conclusion to an
+equivalent Lean conclusion, justify every Lean parameter and assumption from a
+same-kind source obligation, account for every source input, and leave all four
+gap lists empty. Every Lean obligation has exactly one `signature_ref` and the
+current `signature_atom_sha256`; those refs must partition the current
+Lean-generated manifest: every elaborated explicit, implicit, strict-implicit,
+and instance binder plus the final conclusion is covered once.
+The canonical `lean_signature_sha256` ignores binder and declaration names; raw
+source and `#check` text remain display aids rather than coverage evidence. For `mismatch` or
+`uncertain`, the four gap lists contain exactly the unmatched source-conclusion,
+unmatched source-input, unjustified Lean-input, and unmatched Lean-conclusion
+ids computed from the alignments. A conditional boundary may account for
+explicit extra Lean inputs, but it cannot excuse an unmatched or weakened
+source conclusion, a source-input mismatch, or an unmatched Lean conclusion.
+These LLM checks do not count as human dashboard
 reviews.
+
+If Lean cannot elaborate a declaration or emit its declaration manifest, the row
+fails closed. The dashboard never reconstructs this coverage from declaration
+names or by parsing pretty-printed `#check` output.
 
 Top-level `validator`, `validator_type`, `validated_at`, and `comment` fields
 are defaults; an item entry may override them when a different model or agent
@@ -364,14 +521,17 @@ assumptions only if the source states them as assumptions or theorem
 hypotheses. Otherwise they must either be derived in Lean from source
 primitives or recorded as a partial boundary.
 
-Run `python3 scripts/audit_repository.py` at the same boundary. The repository
-audit does not stop at the compact `PaperInterface.lean` declaration text: it
-follows thin `abbrev`/`def` aliases into paper-local Lean files and scans
-paper-facing declarations such as `paper_interface_*` across the paper folder.
-Thus a certificate, threshold equation, capacity identity, source-row package,
-or proof-boundary premise hidden in `ProofInterface.lean` is still a review
-blocker unless it is derived or appears as a validated paper-assumption
-declaration.
+`--assumption-precheck` already performs the selected hidden-premise check. For
+a named failure diagnosis, a maintainer may run the targeted repository child
+with `--paper-closeout --no-closeout-state`; it does not establish closeout
+acceptance. At a frozen closeout, the planner's strict worker owns that check.
+The repository audit does not stop at the compact `PaperInterface.lean`
+declaration text: it follows thin `abbrev`/`def` aliases into paper-local Lean
+files and scans paper-facing declarations such as `paper_interface_*` across the
+paper folder. Thus a certificate, threshold equation, capacity identity,
+source-row package, or proof-boundary premise hidden in `ProofInterface.lean`
+is still a review blocker unless it is derived or appears as a validated
+paper-assumption declaration.
 
 `--assumption-precheck` reports only this lane and also invokes the repository
 hidden-premise audit for the selected paper. `--assumption-check` is the same
@@ -392,14 +552,20 @@ validation.
 
 Row-local statement matching is not enough when a theorem signature mentions a
 record, certificate, replay, process, bridge, source-row package, or broad model
-predicate. Run:
+predicate. During initial source/statement review, or to diagnose one named
+source-record failure, the producer can generate the raw payload with:
 
 ```bash
 python3 skills/econcs-formalizer/scripts/source_record_audit.py --paper <PaperFolder> --out papers/<PaperFolder>/audit/source_record_audit.json
 ```
 
+Do not run that producer by hand as a frozen-closeout prelude. Freeze the
+paper inputs, use `closeout_reuse_plan.py`, and let its bounded raw preflight
+reuse current evidence, request a judgment-only repair, or schedule the one raw
+transition. Re-enter through the planner after a direct diagnostic.
+
 The generated payload contains `prompt_version:
-"source-record-v2-semantic-boundary-inputs"`, the current audit digest,
+"source-record-v10-semantic-conclusion-boundary-contract"`, the current audit digest,
 boundary-shaped visible theorem inputs, recursive source-record fields, and a
 judge prompt. Save the independent LLM judgments in
 `audit/source_record_match_llm.json` with the same prompt version and current
@@ -408,10 +574,56 @@ judge prompt. Save the independent LLM judgments in
 Each boundary-shaped theorem input must be classified by source evidence, a
 Lean derivation, an approved external boundary, or an unresolved finding.
 `validated_source_assumption` requires a source key/location/evidence.
-`proved_from_primitives` requires a Lean constructor or derivation. A replay,
+`proved_from_primitives` requires a Lean constructor or derivation.
+`visible_boundary_component` is only for recursive fields exactly unpacked from
+visible theorem premises, and `derived_from_visible_boundary` is only for
+recursive fields Lean derives from visible theorem premises; neither
+classification is valid for a theorem-boundary input itself. A replay,
 certificate, process, bridge, or source-row package cannot be approved by a
 source-looking Lean name or final theorem label. A paper marked `formalized`
 cannot retain an `approved_external_boundary` source-record judgment.
+The v10 audit also compares visible proposition premises structurally with
+the advertised result. A premise equivalent to, providing, or logically
+composing advertised feasibility, cost, runtime, or optimality is
+conclusion-bearing proof debt and cannot establish coverage for that same
+source theorem, even after declarations or binders are renamed.
+
+Version 10 additionally rejects semantic-world collapse: records or constructors
+that are valid only for a fixed profile, rounded instance, selected witness,
+one stopping rule, or one output projection cannot justify a source theorem
+quantified over a broader world. The judge must trace recursive result
+components and refinements back to source primitives or visible validated
+boundaries. A renamed or repackaged conclusion remains conclusion-bearing.
+
+For an `author_approved_corrected_model` closeout, the source-record audit is
+necessary but not sufficient. The paper-local
+`audit/corrected_model_semantic_contract.json` must bind the current audit and
+formalization scope, the full canonicalized governing-correction content, every
+generated expanded semantic item and its digest, every target result, and every
+visible model or assumption condition. Mappings use fully qualified Lean
+declarations and generated item digests, not final-component names. Each
+detected model dimension needs a checkable source locator, a semantic
+comparison, a disposition, and exact Lean evidence; a required bridge must be
+found in the current imported paper-local declaration surface. A stale,
+incomplete, ambiguous, or spelling-based contract cannot support a corrected
+model status.
+
+## Source-proof fidelity and status impact
+
+Completed papers with a configured `audit/source_proof_fidelity.json` use
+schema 2. Review the source proof by exact source locator and mathematical
+claim, not by Lean declaration name. Each defect records `statement_impact`,
+`resolution`, `status_impact`, and `status_impact_rationale`.
+
+- `formalized_note` is a minor correction, routine implicit condition, or proof
+  repair that leaves the substantive advertised endpoint fully proved.
+- `formalized_with_caveat` is reserved for a substantial error in a central
+  source-paper claim whose corrected endpoint is fully checked in Lean.
+- `partially_formalized` marks an open obligation, added non-source restriction,
+  or materially weaker semantic endpoint.
+
+The paper status must agree with every issue-level impact. Certification and
+human review remain separate axes.
 
 ## Review-Surface Audit
 
@@ -516,11 +728,15 @@ Use `--user` to force a reviewer handle. Summary views can be filtered with
 
 ## Checks And Exports
 
-Run the launch-time freshness check without opening a browser:
+Run the launch-time freshness check without opening a browser when preparing a
+statement review or diagnosing a dashboard problem:
 
 ```bash
 python3 scripts/review_dashboard.py --paper ABC24ShortTitle --precheck
 ```
+
+It is not a routine frozen-closeout predecessor. For closeout, freeze inputs
+and use the planner route described above.
 
 Run non-interactive check mode. It exits with code 1 if any selected review is
 missing, stale, or marked as not matching:
@@ -556,7 +772,7 @@ GET /api/status?paper=...&slice=slice-01&stale_only=true&user=<github-user>
 
 New paper scaffolds created with `scripts/new_paper.py` include the paper-local
 launcher automatically. For existing paper folders, refresh launchers and cached
-paper-interface rows with:
+paper-interface rows before an active review (not during a frozen closeout) with:
 
 ```bash
 python3 scripts/bootstrap_review_launchers.py --write --refresh-cache

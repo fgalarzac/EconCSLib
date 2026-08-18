@@ -13974,6 +13974,18 @@ class ConclusionProvenanceTests(unittest.TestCase):
             ],
         )
 
+    def test_almost_everywhere_and_eventually_notation_are_terminal_results(self) -> None:
+        """Filter quantifier notation is not an outer Lean Pi binder."""
+
+        for result_type in (
+            "∀ᵐ outcome ∂law, Claim outcome",
+            "∀ᶠ index in Filter.atTop, Claim index",
+        ):
+            with self.subTest(result_type=result_type):
+                inputs, terminal = AUDIT.result_type_inputs(result_type)
+                self.assertEqual(inputs, [])
+                self.assertEqual(terminal, result_type)
+
     def test_result_forall_distinguishes_anonymous_instance_from_untyped_names(self) -> None:
         declaration = (
             "theorem reviewed : ∀ {Carrier : Type*} [Fintype Carrier] "
@@ -22014,6 +22026,7 @@ class SourceRecordRawIntegrityCacheTests(unittest.TestCase):
                 "prompt_version": AUDIT.SOURCE_RECORD_PROMPT_VERSION,
                 "paper_statement_map_sha256": map_digest,
                 "source_record_audit_sha256": "c" * 64,
+                "lean_check": {"returncode": 0},
                 "source_record_input_fingerprint": stored,
             }
             ledger = {
@@ -24069,6 +24082,94 @@ class SourceRecordFastSavedIdentityTests(unittest.TestCase):
         )
         self.assertEqual(dimensions["raw_bytes"]["state"], "unavailable")
 
+    def test_fast_saved_identity_uses_configured_proof_interface_entrypoint(
+        self,
+    ) -> None:
+        """A paired proof endpoint must not look foreign to fast reuse."""
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            paper_dir = root / "papers" / "Fixture"
+            audit_dir = paper_dir / "audit"
+            audit_dir.mkdir(parents=True)
+            interface = paper_dir / "PaperInterface.lean"
+            proof = paper_dir / "ProofInterface.lean"
+            interface.write_text(
+                "namespace Fixture\ndef ClaimSpec : Prop := True\n",
+                encoding="utf-8",
+            )
+            proof.write_text(
+                "import Fixture.PaperInterface\nnamespace Fixture\n"
+                "theorem claim : ClaimSpec := trivial\n",
+                encoding="utf-8",
+            )
+            (paper_dir / "status.json").write_text(
+                json.dumps(
+                    {
+                        "review_surface": {
+                            "proof_file": "ProofInterface.lean",
+                            "proposition_spec_proofs": {"ClaimSpec": "claim"},
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            fingerprint = {
+                "schema": 10,
+                "max_depth": 4,
+                "no_lean": False,
+                AUDIT.SOURCE_RECORD_LEAN_IMPORT_CLOSURE_SHA256_FIELD: "b" * 64,
+            }
+            (audit_dir / "source_record_audit.json").write_text(
+                json.dumps(
+                    {
+                        "paper": "Fixture",
+                        "prompt_version": AUDIT.SOURCE_RECORD_PROMPT_VERSION,
+                        "source_record_audit_sha256": "a" * 64,
+                        "source_record_input_fingerprint": fingerprint,
+                        AUDIT.SOURCE_RECORD_LEAN_IMPORT_CLOSURE_FIELD: {},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            closure = AUDIT.SourceRecordLeanImportClosure(
+                record={}, repository_sources=(), sha256="b" * 64
+            )
+            with (
+                patch.object(AUDIT, "source_record_audit_receipt_error", return_value=""),
+                patch.object(
+                    AUDIT, "source_record_raw_semantic_surface_error", return_value=""
+                ),
+                patch.object(
+                    AUDIT, "source_record_raw_scan_completeness_error", return_value=""
+                ),
+                patch.object(
+                    AUDIT,
+                    "source_record_raw_reusable_item_metadata_error",
+                    return_value="",
+                ),
+                patch.object(
+                    AUDIT,
+                    "source_record_lean_import_closure_from_record",
+                    return_value=closure,
+                ) as closure_from_record,
+                patch.object(
+                    AUDIT,
+                    "paper_statement_map_cache_receipts",
+                    return_value=("c" * 64, "d" * 64),
+                ),
+                patch.object(
+                    AUDIT,
+                    "source_record_input_fingerprint",
+                    return_value=fingerprint,
+                ),
+            ):
+                AUDIT.fast_saved_source_record_identity_payload(
+                    argparse.Namespace(paper="Fixture"), root
+                )
+
+        self.assertEqual(closure_from_record.call_args.args[1], proof)
+
     def test_fast_saved_identity_uses_one_raw_snapshot_for_feature_selectors(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
@@ -24133,7 +24234,23 @@ class SourceRecordFastSavedIdentityTests(unittest.TestCase):
                     return_value="f" * 64,
                 ),
                 patch.object(
-                    AUDIT, "source_record_raw_producer_code_identities", return_value=[]
+                    AUDIT,
+                    "source_record_raw_producer_code_identities",
+                    return_value=[
+                        {
+                            "path": "scripts/lean_signature_manifest_helper.lean",
+                            "sha256": "1" * 64,
+                            "status": "present",
+                        },
+                        {
+                            "path": (
+                                "skills/econcs-formalizer/scripts/"
+                                "source_record_audit.py#fresh-raw-generation"
+                            ),
+                            "sha256": "2" * 64,
+                            "status": "present",
+                        },
+                    ],
                 ),
                 patch.object(
                     AUDIT,

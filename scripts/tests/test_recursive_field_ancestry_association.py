@@ -139,6 +139,60 @@ def semantic_contract_parent_item(
     return parent
 
 
+def source_claim_atom_parent_item(statement: dict[str, object]) -> dict[str, object]:
+    """Build one generator-shaped direct atom-route parent association."""
+
+    parent = parent_item(statement)
+    direct_association = parent.pop("source_statement_association")
+    assert isinstance(direct_association, dict)
+    identity = source_identity(statement)
+    signature = parent_signature()
+    atom_context = {
+        "schema": 1,
+        "id": "fixture-result-clause",
+        "source_locator": "source.tex:10",
+        "semantic_claim": "The source result has the fixture conclusion.",
+        "source_quote": "Fixture result.",
+        "source_quote_sha256": AUDIT.hashlib.sha256(
+            b"Fixture result."
+        ).hexdigest(),
+    }
+    atom_context["source_claim_atom_semantic_sha256"] = (
+        AUDIT.source_claim_atom_semantic_digest(atom_context)
+    )
+    association = {
+        "schema": 1,
+        "association_origin": AUDIT.SOURCE_CLAIM_ATOM_ROUTE_ORIGIN,
+        "role": AUDIT.SOURCE_CLAIM_ATOM_ROUTE_ROLE,
+        "reviewed_declaration_identity": direct_association[
+            "reviewed_declaration_identity"
+        ],
+        "reviewed_elaborated_signature_identity": signature,
+        "source_item_identities": [identity],
+        "source_claim_atom_routes": [
+            {
+                "source_key": SOURCE_ITEM_KEY,
+                "atom_id": atom_context["id"],
+                "reviewed_lean_route": PARENT_DECLARATION,
+                "source_claim_atom_semantic_sha256": atom_context[
+                    "source_claim_atom_semantic_sha256"
+                ],
+            }
+        ],
+        "source_claim_atom_semantic_association_sha256": (
+            AUDIT.source_claim_atom_semantic_association_digest(
+                [atom_context], signature
+            )
+        ),
+        "review_scope": "individual_row_only",
+        "structural_pairing": "not_asserted_by_source_claim_atom_route",
+    }
+    association["association_sha256"] = AUDIT.stable_digest(association)
+    parent["source_claim_atom_association"] = association
+    parent["source_claim_atom_contexts"] = [atom_context]
+    return parent
+
+
 def outer_field() -> dict[str, object]:
     return {
         "structure": ROOT_RECORD,
@@ -327,6 +381,66 @@ class RecursiveFieldAncestryAssociationTests(unittest.TestCase):
             ],
             "semantic_contract_source_association",
         )
+        atom_route_fields = [outer_field(), leaf_field()]
+        atom_route_errors, _counts = attach(
+            fields=atom_route_fields,
+            statement=statement,
+            source_ledger=source_ledger,
+            parents=[source_claim_atom_parent_item(statement)],
+        )
+        self.assertEqual(atom_route_errors, [])
+        self.assertEqual(
+            atom_route_fields[1]["recursive_field_explicit_parent_route"][
+                "parent_association_field"
+            ],
+            "source_claim_atom_association",
+        )
+        self.assertEqual(
+            DISPOSITION.recursive_field_target_disposition_errors(
+                atom_route_fields[1],
+                response,
+                statement_map=statement,
+                source_proof_fidelity=source_ledger,
+            ),
+            [],
+        )
+
+    def test_parent_route_accepts_canonical_applied_record_head(self) -> None:
+        """Canonical type rendering may omit spaces before record arguments."""
+
+        statement = statement_map()
+        source_ledger = ledger([scope_entry()])
+        fields = [outer_field(), leaf_field()]
+        errors, _counts = attach(
+            fields=fields, statement=statement, source_ledger=source_ledger
+        )
+        self.assertEqual(errors, [])
+        route = fields[1]["recursive_field_explicit_parent_route"]
+        assert isinstance(route, dict)
+        route["root_input_type_canonical"] = ROOT_RECORD + "(Fin 4)"
+        route["association_sha256"] = DISPOSITION.recursive_field_parent_route_record_digest(
+            route
+        )
+        response = {
+            "classification": "approved_source_convention",
+            "source_target_disposition": "approved_source_convention",
+            "source_location": "source.tex:20",
+            "model_convention_ids": [CONVENTION_ID],
+            "model_convention_sha256_by_id": {
+                CONVENTION_ID: DISPOSITION.model_convention_semantic_digest(
+                    source_ledger["model_conventions"][0]
+                )
+            },
+        }
+        self.assertEqual(
+            DISPOSITION.recursive_field_target_disposition_errors(
+                fields[1],
+                response,
+                statement_map=statement,
+                source_proof_fidelity=source_ledger,
+            ),
+            [],
+        )
 
     def test_no_scope_leaves_recursive_fields_aggregate_only(self) -> None:
         statement = statement_map()
@@ -465,6 +579,35 @@ class RecursiveFieldAncestryAssociationTests(unittest.TestCase):
             any("2 exact current direct parent routes" in error for error in errors)
         )
         self.assertNotIn("recursive_field_explicit_parent_route", fields[1])
+
+    def test_complementary_routes_on_one_parent_choose_canonical_route(self) -> None:
+        """An atom receipt must not duplicate its full source-contract parent."""
+
+        statement = statement_map()
+        fields = [outer_field(), leaf_field()]
+        parent = semantic_contract_parent_item(statement)
+        atom_parent = source_claim_atom_parent_item(statement)
+        parent["source_claim_atom_association"] = atom_parent[
+            "source_claim_atom_association"
+        ]
+        parent["source_claim_atom_contexts"] = atom_parent[
+            "source_claim_atom_contexts"
+        ]
+
+        errors, _counts = attach(
+            fields=fields,
+            statement=statement,
+            source_ledger=ledger([scope_entry()]),
+            parents=[parent],
+        )
+
+        self.assertEqual(errors, [])
+        self.assertEqual(
+            fields[1]["recursive_field_explicit_parent_route"][
+                "parent_association_field"
+            ],
+            "semantic_contract_source_association",
+        )
 
     def test_tampered_parent_route_identity_or_signature_cannot_attach(self) -> None:
         statement = statement_map()

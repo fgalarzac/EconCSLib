@@ -1,0 +1,209 @@
+{
+  "audit_kind": "raw_source_to_expanded_spec_screening",
+  "comment": "Each listed verdict compares the exact byte-pinned source-anchor bundle and explicitly pinned semantic context with Lean's fully expanded paper-local semantic target. The paired proof endpoint is reviewed separately.",
+  "items": {
+    "GN21DriverSurgePricing.PaperInterface.lemma5_full_variational_policy_formsSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "073d69540f989d8abe04263d27bf1ef8d86fcfc6a3ae2b3381ef228abcc27ba8",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "c10e9f04f1645d2e13e78579c8a01cfb2d66f2c86dd0716ebe30819ae0ef4236",
+      "reason": "Lemma 5 treats the five stated response-shape cases and concludes a no-worse policy of the corresponding interval form, with strict improvement unless the starting policy already has that form up to null sets. The Spec makes the source's continuous-law, open-policy, equality-modulo-null-sets, and endpoint-derivative conditions explicit rather than replacing them by a name or a policy-form premise.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.lemma5_full_variational_policy_formsSpec",
+      "source_input_bundle_sha256": "c10e9f04f1645d2e13e78579c8a01cfb2d66f2c86dd0716ebe30819ae0ef4236",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_definition_incentive_compatibleSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "3c49df0b69e46aa462ce04eafd378f965fe028318f54ab46c1fe8c1c9ff562f4",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "922ead690406a623172b57b6293eb32e2b8df82336bb5683e220ba004443572b",
+      "reason": "The one source definition gives both accept-all branches: measurable one-state policies and open measurable dynamic policy pairs. The one transparent Spec is their conjunction, with each source policy domain and accept-all optimality comparison explicit.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_definition_incentive_compatibleSpec",
+      "source_input_bundle_sha256": "922ead690406a623172b57b6293eb32e2b8df82336bb5683e220ba004443572b",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_definition_surge_stateSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "07151f40fc9aacc5ccfcece77e7f96f154120bd29904e6bc648ea4a1d63c104f",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "dfa5f3ccefbcaf56611acb443a801af91dd0d99ba824fcacc4cba5369b416a9b",
+      "reason": "The source defines state 2 as a surge state when one state-2 policy has a reward rate strictly above every feasible state-1 policy. The transparent Spec preserves that existential policy, universal comparison, strict inequality, and open-policy domain.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_definition_surge_stateSpec",
+      "source_input_bundle_sha256": "dfa5f3ccefbcaf56611acb443a801af91dd0d99ba824fcacc4cba5369b416a9b",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "3c43058eb798e8337ecf67dd405e17754aca8d47485776bbd715e88abc6dc5a0",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "e5bb2cc7f277e288ca586e6d7701f8139689b55540bdd65b009d0a381cee9eb4",
+      "reason": "Lemma 10 fixes the surge policy, uses the displayed non-surge price and accept-all quantities, and concludes positivity of the relevant non-surge upper-endpoint derivative. The expanded Spec makes the source inequality domain and derivative statement explicit.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec",
+      "source_input_bundle_sha256": "e5bb2cc7f277e288ca586e6d7701f8139689b55540bdd65b009d0a381cee9eb4",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_lemma1_measured_dynamic_reward_decompositionSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "fb193f72b67ecc91dd931ff50679432fa7d695965c077d0bb5a01bdf0e36cdc2",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "826e83c11a41dcdaf4d99c9d9aad9f19eef91c536589d82684739b78879dce88",
+      "reason": "Lemma 1 states the almost-sure decomposition of dynamic earnings into state-time fractions times state earnings rates. The transparent Spec is the renewal-cycle almost-sure convergence statement with the displayed weighted reward formula and its explicit IID-cycle model inputs.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_lemma1_measured_dynamic_reward_decompositionSpec",
+      "source_input_bundle_sha256": "826e83c11a41dcdaf4d99c9d9aad9f19eef91c536589d82684739b78879dce88",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_lemma2_switch_probability_formulaSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "151d14ccd4d4f741a75a778305841d75902b6b1772c6f6d81b1204a6b9693584",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "c98e04db1235b30b64648efa8810f9885aa0d89e246d38776f3ca195db0873d3",
+      "reason": "Lemma 2 gives the probability of a state switch during a trip as the displayed CTMC exponential formula. The Spec states that formula for the two switch rates and trip duration, including the positive-rate denominator condition.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_lemma2_switch_probability_formulaSpec",
+      "source_input_bundle_sha256": "c98e04db1235b30b64648efa8810f9885aa0d89e246d38776f3ca195db0873d3",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_lemma3_measured_time_fraction_formulaSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "275b5968a3d0debd9cceea1a3a248a68c3e2a0fb0737c27d56cf9dda03006158",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "50ddc3eb11b9f47e2d9223afbf950356410bfe55687c436a23c7350105a8dfa5",
+      "reason": "Lemma 3 identifies the almost-sure fraction of time spent in each state with the displayed expression in T and Q. The expanded Spec keeps the sample-path convergence, both state components, and the renewal-cycle model assumptions explicit.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_lemma3_measured_time_fraction_formulaSpec",
+      "source_input_bundle_sha256": "50ddc3eb11b9f47e2d9223afbf950356410bfe55687c436a23c7350105a8dfa5",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_lemma4_single_state_threshold_uniquenessSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "a61cdb127b215645d066c24cb1f01c40ab437dad71243492da588c60a41a4a41",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "0f235e9de429f613dcb2e6539a584911ec12b1a7438b29e80d796f8b01f9945b",
+      "reason": "Lemma 4 says that a single-state optimal policy is unique up to changes on a zero-measure set under the strict threshold comparison. The Spec gives the two optimal-policy hypotheses and exactly the source null-set equality conclusion.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_lemma4_single_state_threshold_uniquenessSpec",
+      "source_input_bundle_sha256": "0f235e9de429f613dcb2e6539a584911ec12b1a7438b29e80d796f8b01f9945b",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_lemma6_upper_endpoint_derivative_formulaSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "1514bbcdf03048ba2b257ff5c95f2c6fa60dcb644fe515572a086d8412095dab",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "5af2c566d1a47cc21ee243f905b0989a31f2786430b537e3ca30409e7ee650ed",
+      "reason": "Lemma 6 gives the upper-endpoint derivative formula for the dynamic reward and uses positive endpoint density only for the strict sign consequence. The expanded Spec retains the formula and separates that conditional sign transfer, matching the selected source statement and proof context.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_lemma6_upper_endpoint_derivative_formulaSpec",
+      "source_input_bundle_sha256": "5af2c566d1a47cc21ee243f905b0989a31f2786430b537e3ca30409e7ee650ed",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_lemma7_affine_positive_additive_response_quasi_convexSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "f40bad88738c61377e0b1cf89485bdd1b2f5fd2a837e8350760caa8d930ffe2b",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "8359e63425275101e948e326ca70c0f9057e8d51fc49b326ce871c13424961ef",
+      "reason": "Lemma 7 identifies the response under a positive additive affine price as strictly quasi-convex. The Spec gives the same price form, coefficient condition, and quasi-convex response conclusion.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_lemma7_affine_positive_additive_response_quasi_convexSpec",
+      "source_input_bundle_sha256": "8359e63425275101e948e326ca70c0f9057e8d51fc49b326ce871c13424961ef",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_lemma8_affine_negative_additive_response_quasi_concaveSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "b885476125cf5bfcb7cb733abd7cfcea55a87beecfe9e9bf564314e08cf979b1",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "87cb42f5729ff00ff2216f54ae24108baba775cd993fff1131d71160c4b7032b",
+      "reason": "Lemma 8 identifies the response under the corresponding negative additive affine price as strictly quasi-concave. The Spec preserves the source price form, sign condition, and quasi-concavity conclusion.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_lemma8_affine_negative_additive_response_quasi_concaveSpec",
+      "source_input_bundle_sha256": "87cb42f5729ff00ff2216f54ae24108baba775cd993fff1131d71160c4b7032b",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "b5c261064ff7fd7d17ea6c6b1f51168c92d8080925be00b9061d4ac5dba7f84b",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "9a559cad4b50129913a06889c4f1c58a33561cbf13b8d79edf15fea27310ccd2",
+      "reason": "Lemma 9 fixes the non-surge policy, applies the displayed surge-state price and accept-all bounds, and concludes positivity of the relevant surge derivative. The transparent Spec records those fixed quantities, bounds, and derivative conclusion without suppressing the interval conditions.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec",
+      "source_input_bundle_sha256": "9a559cad4b50129913a06889c4f1c58a33561cbf13b8d79edf15fea27310ccd2",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_proposition3_1_affine_single_state_icSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "207ae421a39200d36ce726f8c6afe13b2d5f52617acada34ccc33d07073aabb2",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "3577e8560edcbdf0075e1e896f0fe13dfebfe7b88f7db8f50e6d3e0c3fe8e8b5",
+      "reason": "Proposition 3.1 states that affine payment proportional to trip duration is incentive compatible. The Spec uses the paper's affine one-state reward and concludes the accept-all incentive-compatibility relation under the displayed positive-arrival and parameter domain.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_proposition3_1_affine_single_state_icSpec",
+      "source_input_bundle_sha256": "3577e8560edcbdf0075e1e896f0fe13dfebfe7b88f7db8f50e6d3e0c3fe8e8b5",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_theorem1_single_state_threshold_best_responseSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "2e791b04af94cd45db35d7a596693d48574ca0ce021e469bcfabde1bfd8050cd",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "5f631d2f03752defb741d08227498ecea03857ce68faac241dfea174c881d1f6",
+      "reason": "Theorem 1 states that a single-state optimum can be selected as a threshold policy. The expanded Spec gives an explicit cutoff and policy satisfying the source threshold relation and concludes optimality for the one-state renewal reward under the stated measurable and integrability domain.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_theorem1_single_state_threshold_best_responseSpec",
+      "source_input_bundle_sha256": "5f631d2f03752defb741d08227498ecea03857ce68faac241dfea174c881d1f6",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_theorem2_multiplicative_policy_shape_source_claimSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "58fe3f8145fb878b153083eecb325c0b811793d251cf0b76179bda075faad16d",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "e17bd3b0f06b26ec675aae1b63f8dc4642dcf46e759c3e5d61a667a9da8c6763",
+      "reason": "Theorem 2 gives the multiplicative-pricing policy shapes: an optimal open policy exists and every optimal open policy has the stated non-surge reject-long and surge reject-short cutoff forms up to null sets. The expanded Spec states both quantifier clauses and the continuous-law, positive-rate, and surge-state model domain used in the source.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_theorem2_multiplicative_policy_shape_source_claimSpec",
+      "source_input_bundle_sha256": "e17bd3b0f06b26ec675aae1b63f8dc4642dcf46e759c3e5d61a667a9da8c6763",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "471e4d6e47f62c87e30b0a415eb09c3ee63396614a09300100c97c1ad5b92dbb",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "39310eca475197f6878d8ae47fa08fa38bdb3805d4a1101708328231ea77725a",
+      "reason": "The selected Theorem 2 source instance supplies a multiplicative pricing rule with profitable positive finite-cutoff deviations in both states and therefore fails dynamic incentive compatibility. The Spec states that concrete two-state instance and both deviations directly, rather than using the theorem name as evidence.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec",
+      "source_input_bundle_sha256": "39310eca475197f6878d8ae47fa08fa38bdb3805d4a1101708328231ea77725a",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_theorem3_structured_pricingSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "70eec242ac29793790e6e1d52b6990331d74473eceddd98c8228f62270776ac0",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "323945a82d291486aa982d6b89efbfb58dfe56ad056a31bafeffe90314680655",
+      "reason": "Theorem 3 states both its ordered-target structured-pricing clause and its stricter ratio-interval fully-IC clause under one numbered result. The transparent conjunction preserves the two displayed target domains, structured-price form, target-rate conclusions, policy form, accept-all optimality, and uniqueness up to null sets.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_theorem3_structured_pricingSpec",
+      "source_input_bundle_sha256": "323945a82d291486aa982d6b89efbfb58dfe56ad056a31bafeffe90314680655",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GN21DriverSurgePricing.PaperInterface.review_theorem4_full_structural_policy_forms_directSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "863c58371c84a64ca12029c65cb3c91f98f7dd61b62e0f15abee0590e695d24f",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "23e724dea280fe40321fe29ac4cf272fca665ded6c30bc20f55751ee6a08b5ab",
+      "paper_statement_sha256": "18d42a4c2361d5a98c2903296b928dc6f7414c450a842604c6621ee67b5dd559",
+      "reason": "Theorem 4 asserts existence of an open measurable optimum and the listed structural price-policy forms for every such optimum. The Spec retains the five response-shape cases, the source surge-state model, open measurable domain, and the existence-and-universal structural conclusion; the zero-density convention is represented by the source's stated almost-everywhere policy semantics, not by a full-support assumption.",
+      "semantic_target_declaration": "GN21DriverSurgePricing.PaperInterface.review_theorem4_full_structural_policy_forms_directSpec",
+      "source_input_bundle_sha256": "18d42a4c2361d5a98c2903296b928dc6f7414c450a842604c6621ee67b5dd559",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    }
+  },
+  "paper": "GN21DriverSurgePricing",
+  "prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
+  "schema": 2,
+  "validated_at": "2026-08-18T19:27:54+00:00",
+  "validator": "GN21 independent direct source-to-Spec reviewer"
+}

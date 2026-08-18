@@ -827,15 +827,21 @@ def _root_semantic_review_visible_premise_error(
     # than that general policy; this merely avoids treating an aggregate pin as
     # the sole valid form of freshness.
     try:
+        # Prefer the package-qualified module.  Test and CLI entrypoints may
+        # also place an unrelated top-level ``audit_repository`` module in
+        # ``sys.modules``; accepting that module would silently choose a
+        # different currentness policy for this otherwise package-qualified
+        # helper.  The direct-script import remains only for that invocation
+        # mode.
         try:
-            from audit_repository import (
+            from scripts.audit_repository import (
                 semantic_model_review_findings,
                 source_record_expected_item_digest_pins,
                 source_record_expected_item_digests,
                 source_record_judgment_current,
             )
-        except ModuleNotFoundError:  # pragma: no cover - package-style imports.
-            from scripts.audit_repository import (
+        except ModuleNotFoundError:  # pragma: no cover - direct-script imports.
+            from audit_repository import (
                 semantic_model_review_findings,
                 source_record_expected_item_digest_pins,
                 source_record_expected_item_digests,

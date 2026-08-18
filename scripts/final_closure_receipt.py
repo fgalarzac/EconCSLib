@@ -44,10 +44,14 @@ ROOT = Path(
     os.environ.get("ECONCSLIB_REPO_ROOT", Path(__file__).resolve().parents[1])
 ).resolve()
 RECEIPT_NAME = "FINAL_CLOSURE_RECEIPT.md"
-RECEIPT_SCHEMA = 2
+RECEIPT_SCHEMA = 3
+LEGACY_RECEIPT_SCHEMAS = frozenset({2, RECEIPT_SCHEMA})
+FOCUSED_BUILD_RECEIPT_NAME = "FOCUSED_BUILD_RECEIPT.json"
+FOCUSED_BUILD_RECEIPT_SCHEMA = 1
 RAW_SOURCE_RECORD_LANE = "raw-source-record"
 DIRECT_SOURCE_ROW_REVIEW_LANE = "direct-source-row-review"
 EVIDENCE_LANES = frozenset({RAW_SOURCE_RECORD_LANE, DIRECT_SOURCE_ROW_REVIEW_LANE})
+V11_SCREENING_LEDGER_RELATIVE = Path("audit") / "v11_raw_source_spec_screening.json"
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 GIT_COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
 PAPER_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]*$")
@@ -68,6 +72,10 @@ class FinalClosureReceipt:
 
 def final_closure_receipt_path(root: Path, paper: str) -> Path:
     return root / "papers" / paper / RECEIPT_NAME
+
+
+def focused_build_receipt_path(root: Path, paper: str) -> Path:
+    return root / "papers" / paper / "audit" / FOCUSED_BUILD_RECEIPT_NAME
 
 
 def _sha256_bytes(raw: bytes) -> str:
@@ -378,8 +386,10 @@ def validate_final_closure_receipt(
 
     receipt = load_final_closure_receipt(root, paper)
     payload = receipt.payload
-    if payload.get("schema") != RECEIPT_SCHEMA:
-        raise FinalClosureReceiptError(f"`schema` must equal {RECEIPT_SCHEMA}")
+    schema = payload.get("schema")
+    if schema not in LEGACY_RECEIPT_SCHEMAS:
+        expected = ", ".join(str(value) for value in sorted(LEGACY_RECEIPT_SCHEMAS))
+        raise FinalClosureReceiptError(f"`schema` must equal one of {expected}")
     if _required_string(payload, "paper") != paper:
         raise FinalClosureReceiptError("receipt `paper` does not match its folder")
     if _required_string(payload, "closure_status") != "current":
@@ -407,6 +417,8 @@ def validate_final_closure_receipt(
     }
     if lane == RAW_SOURCE_RECORD_LANE:
         allowed.add("raw_source_record")
+    if schema == RECEIPT_SCHEMA:
+        allowed.add("focused_build_receipt")
     _expect_exact_keys(payload, field="receipt", required=allowed)
 
     paper_dir = root / "papers" / paper
@@ -486,7 +498,7 @@ def validate_final_closure_receipt(
             "PaperInterface transitive import-closure SHA-256 is stale"
         )
 
-    _validate_review_ledger_pin(root, paper, payload)
+    ledger_path = _validate_review_ledger_pin(root, paper, payload)
 
     focused_build = _mapping(payload, "focused_build")
     _expect_exact_keys(
@@ -498,6 +510,15 @@ def validate_final_closure_receipt(
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         raise FinalClosureReceiptError(f"current status file is unreadable: {exc}") from exc
     expected_command = _required_string(status, "build_target")
+    if (
+        lane == DIRECT_SOURCE_ROW_REVIEW_LANE
+        and _status_requires_v11_source_spec_screening(status)
+        and ledger_path.resolve() != (paper_dir / V11_SCREENING_LEDGER_RELATIVE).resolve()
+    ):
+        raise FinalClosureReceiptError(
+            "a v11 source-spec closeout using direct-source-row-review must bind "
+            f"`{V11_SCREENING_LEDGER_RELATIVE.as_posix()}` as its review ledger"
+        )
     if _required_string(focused_build, "command") != expected_command:
         raise FinalClosureReceiptError(
             "focused build command does not match current status build_target"
@@ -509,6 +530,22 @@ def validate_final_closure_receipt(
     commit = _required_string(focused_build, "commit").lower()
     if not GIT_COMMIT_RE.fullmatch(commit):
         raise FinalClosureReceiptError("focused build commit must be a lowercase Git commit")
+    if schema == RECEIPT_SCHEMA:
+        build_receipt_path = _validate_file_pin(
+            root,
+            paper,
+            payload,
+            field="focused_build_receipt",
+            expected_path=focused_build_receipt_path(root, paper),
+            paper_local=False,
+        )
+        if build_receipt_path != focused_build_receipt_path(root, paper):
+            raise FinalClosureReceiptError("focused build receipt path is invalid")
+        build_receipt = validate_focused_build_receipt(root, paper)
+        if _required_string(build_receipt, "commit").lower() != commit:
+            raise FinalClosureReceiptError(
+                "focused build receipt commit disagrees with final receipt"
+            )
 
     protocol = _mapping(payload, "protocol")
     _expect_exact_keys(
@@ -607,6 +644,134 @@ def _focused_build(root: Path, command: str) -> None:
         )
 
 
+def _current_focused_build_inputs(
+    root: Path, paper: str
+) -> tuple[Mapping[str, Any], Mapping[str, Any], Path, Path, Path, Path]:
+    """Return the source/code inputs a focused build is allowed to certify."""
+
+    paper_dir = root / "papers" / paper
+    status_path = paper_dir / "status.json"
+    map_path = paper_dir / "audit" / "paper_statement_map.json"
+    interface_path = paper_dir / "PaperInterface.lean"
+    try:
+        status = json.loads(status_path.read_text(encoding="utf-8"))
+        source_map = json.loads(map_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise FinalClosureReceiptError(
+            f"cannot read focused-build inputs: {exc}"
+        ) from exc
+    if not isinstance(status, Mapping) or not isinstance(source_map, Mapping):
+        raise FinalClosureReceiptError("focused-build inputs must be JSON objects")
+    source_relative = _required_string(source_map, "source_artifact_path")
+    source_path = _source_artifact_path_from_map(root, paper, source_relative)
+    if not interface_path.is_file():
+        raise FinalClosureReceiptError("PaperInterface.lean is unavailable")
+    return status, source_map, source_path, status_path, map_path, interface_path
+
+
+def record_focused_build_receipt(root: Path, paper: str) -> Path:
+    """Run the focused build and preserve a reusable, input-pinned result.
+
+    This is operational evidence only.  The canonical final-closeout authority
+    remains ``FINAL_CLOSURE_RECEIPT.md``; it can reuse this record only while
+    its source, interface, map, and protocol pins are still current.
+    """
+
+    status, _source_map, source_path, status_path, map_path, interface_path = (
+        _current_focused_build_inputs(root, paper)
+    )
+    command = _required_string(status, "build_target")
+    _focused_build(root, command)
+    payload = {
+        "schema": FOCUSED_BUILD_RECEIPT_SCHEMA,
+        "paper": paper,
+        "command": command,
+        "target": paper,
+        "result": "passed",
+        "commit": _git_head(root),
+        "status_sha256": _sha256_file(status_path),
+        "statement_map_sha256": _sha256_file(map_path),
+        "source_artifact_sha256": _sha256_file(source_path),
+        "paper_interface_sha256": _sha256_file(interface_path),
+        "formalization_review_protocol_sha256": formalization_review_protocol_digest(),
+    }
+    path = focused_build_receipt_path(root, paper)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    validate_focused_build_receipt(root, paper, require_current_head=True)
+    return path
+
+
+def validate_focused_build_receipt(
+    root: Path, paper: str, *, require_current_head: bool = False
+) -> Mapping[str, Any]:
+    """Check a recorded focused build without treating it as final closure."""
+
+    path = focused_build_receipt_path(root, paper)
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise FinalClosureReceiptError(
+            f"could not read focused build receipt: {exc}"
+        ) from exc
+    required = {
+        "schema",
+        "paper",
+        "command",
+        "target",
+        "result",
+        "commit",
+        "status_sha256",
+        "statement_map_sha256",
+        "source_artifact_sha256",
+        "paper_interface_sha256",
+        "formalization_review_protocol_sha256",
+    }
+    if not isinstance(payload, Mapping) or set(payload) != required:
+        raise FinalClosureReceiptError("focused build receipt fields are malformed")
+    if payload.get("schema") != FOCUSED_BUILD_RECEIPT_SCHEMA:
+        raise FinalClosureReceiptError("focused build receipt schema is unsupported")
+    if _required_string(payload, "paper") != paper:
+        raise FinalClosureReceiptError("focused build receipt paper does not match")
+    status, _source_map, source_path, status_path, map_path, interface_path = (
+        _current_focused_build_inputs(root, paper)
+    )
+    if _required_string(payload, "command") != _required_string(status, "build_target"):
+        raise FinalClosureReceiptError("focused build receipt command is stale")
+    if _required_string(payload, "target") != paper:
+        raise FinalClosureReceiptError("focused build receipt target is stale")
+    if _required_string(payload, "result") != "passed":
+        raise FinalClosureReceiptError("focused build receipt did not pass")
+    commit = _required_string(payload, "commit").lower()
+    if not GIT_COMMIT_RE.fullmatch(commit):
+        raise FinalClosureReceiptError("focused build receipt commit is malformed")
+    if require_current_head and commit != _git_head(root):
+        raise FinalClosureReceiptError(
+            "focused build receipt was issued for a different Git commit"
+        )
+    expected_pins = {
+        "status_sha256": status_path,
+        "statement_map_sha256": map_path,
+        "source_artifact_sha256": source_path,
+        "paper_interface_sha256": interface_path,
+    }
+    for field, current_path in expected_pins.items():
+        if _required_sha256(payload, field) != _sha256_file(current_path):
+            raise FinalClosureReceiptError(f"focused build receipt `{field}` is stale")
+    if _required_sha256(
+        payload, "formalization_review_protocol_sha256"
+    ) != formalization_review_protocol_digest():
+        raise FinalClosureReceiptError("focused build receipt protocol is stale")
+    return payload
+
+
+def _status_requires_v11_source_spec_screening(status: Mapping[str, Any]) -> bool:
+    review_surface = status.get("review_surface")
+    return isinstance(review_surface, Mapping) and review_surface.get(
+        "require_source_spec_correspondence"
+    ) is True
+
+
 def issue_final_closure_receipt(
     root: Path,
     paper: str,
@@ -614,14 +779,15 @@ def issue_final_closure_receipt(
     evidence_lane: str,
     review_ledger_path: str,
     run_build: bool,
+    reuse_focused_build_receipt: bool = False,
 ) -> Path:
     """Run the focused build and write a newly current canonical receipt."""
 
     if evidence_lane not in EVIDENCE_LANES:
         raise FinalClosureReceiptError("unsupported evidence lane")
-    if not run_build:
+    if run_build == reuse_focused_build_receipt:
         raise FinalClosureReceiptError(
-            "refusing to issue a final receipt without `--run-focused-build`"
+            "issue exactly one focused-build proof: `--run-focused-build` or a current focused build receipt"
         )
     paper_dir = root / "papers" / paper
     status_path = paper_dir / "status.json"
@@ -639,10 +805,27 @@ def issue_final_closure_receipt(
     ledger_path = _paper_local_path(root, paper, review_ledger_path, field="review_ledger")
     if not ledger_path.is_file():
         raise FinalClosureReceiptError("review ledger does not exist")
-    _focused_build(root, build_command)
+    if (
+        evidence_lane == DIRECT_SOURCE_ROW_REVIEW_LANE
+        and _status_requires_v11_source_spec_screening(status)
+        and ledger_path.resolve() != (paper_dir / V11_SCREENING_LEDGER_RELATIVE).resolve()
+    ):
+        raise FinalClosureReceiptError(
+            "a v11 source-spec closeout using direct-source-row-review must bind "
+            f"`{V11_SCREENING_LEDGER_RELATIVE.as_posix()}` as its review ledger"
+        )
+    build_receipt: Mapping[str, Any] | None = None
+    if run_build:
+        _focused_build(root, build_command)
+        focused_build_commit = _git_head(root)
+    else:
+        build_receipt = validate_focused_build_receipt(
+            root, paper, require_current_head=True
+        )
+        focused_build_commit = _required_string(build_receipt, "commit")
     closure_digest = _current_interface_closure(root, paper)
     payload: dict[str, Any] = {
-        "schema": RECEIPT_SCHEMA,
+        "schema": RECEIPT_SCHEMA if build_receipt is not None else 2,
         "paper": paper,
         "closure_status": "current",
         "evidence_lane": evidence_lane,
@@ -663,7 +846,7 @@ def issue_final_closure_receipt(
             "command": build_command,
             "target": paper,
             "result": "passed",
-            "commit": _git_head(root),
+            "commit": focused_build_commit,
         },
         "protocol": {
             "formalization_review_protocol_sha256": formalization_review_protocol_digest(),
@@ -675,6 +858,12 @@ def issue_final_closure_receipt(
         payload["raw_source_record"] = {
             "path": raw_path.relative_to(root).as_posix(),
             "sha256": _sha256_file(raw_path),
+        }
+    if build_receipt is not None:
+        build_receipt_path = focused_build_receipt_path(root, paper)
+        payload["focused_build_receipt"] = {
+            "path": build_receipt_path.relative_to(root).as_posix(),
+            "sha256": _sha256_file(build_receipt_path),
         }
     text = _render_receipt(payload)
     receipt_path = final_closure_receipt_path(root, paper)
@@ -706,6 +895,7 @@ def _render_receipt(payload: Mapping[str, Any]) -> str:
         "review_ledger",
         "raw_source_record",
         "focused_build",
+        "focused_build_receipt",
         "protocol",
     ):
         value = payload.get(key)
@@ -729,19 +919,54 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--paper", required=True)
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--write", action="store_true")
+    parser.add_argument(
+        "--record-focused-build",
+        action="store_true",
+        help=(
+            "run the focused build and write its input-pinned operational receipt; "
+            "the canonical final closure receipt may reuse it at the same commit"
+        ),
+    )
     parser.add_argument("--evidence-lane", choices=sorted(EVIDENCE_LANES))
     parser.add_argument("--review-ledger")
     parser.add_argument("--run-focused-build", action="store_true")
+    parser.add_argument(
+        "--reuse-focused-build-receipt",
+        action="store_true",
+        help=(
+            "with --write, reuse audit/FOCUSED_BUILD_RECEIPT.json only when its "
+            "current input pins and Git commit match"
+        ),
+    )
     parser.add_argument("--allow-missing-source-bytes", action="store_true")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
-    if args.check == args.write:
-        raise SystemExit("choose exactly one of --check or --write")
+    selected_actions = sum(
+        bool(value) for value in (args.check, args.write, args.record_focused_build)
+    )
+    if selected_actions != 1:
+        raise SystemExit("choose exactly one of --check, --write, or --record-focused-build")
+    if args.record_focused_build and (
+        args.evidence_lane
+        or args.review_ledger
+        or args.run_focused_build
+        or args.reuse_focused_build_receipt
+    ):
+        raise SystemExit("--record-focused-build cannot be combined with receipt-issue options")
+    if args.reuse_focused_build_receipt and not args.write:
+        raise SystemExit("--reuse-focused-build-receipt requires --write")
+    if args.write and args.run_focused_build == args.reuse_focused_build_receipt:
+        raise SystemExit(
+            "--write requires exactly one of --run-focused-build or --reuse-focused-build-receipt"
+        )
     try:
-        if args.check:
+        if args.record_focused_build:
+            path = record_focused_build_receipt(ROOT, args.paper)
+            print(f"wrote {path.relative_to(ROOT)}")
+        elif args.check:
             validate_final_closure_receipt(
                 ROOT,
                 args.paper,
@@ -759,6 +984,7 @@ def main(argv: list[str] | None = None) -> int:
                 evidence_lane=args.evidence_lane,
                 review_ledger_path=args.review_ledger,
                 run_build=args.run_focused_build,
+                reuse_focused_build_receipt=args.reuse_focused_build_receipt,
             )
             print(f"wrote {path.relative_to(ROOT)}")
     except FinalClosureReceiptError as exc:

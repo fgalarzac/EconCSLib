@@ -1,8 +1,15 @@
+import Lean
+import ImportGraph.Imports.RequiredModules
+
 /-!
-This source is injected after `import Lean` and the reviewed paper module by
-`scripts/lean_signature_manifest.py`. It is intentionally not a standalone
-module: keeping the command in the generated audit process means a new helper
-`.olean` cannot become a hidden prerequisite for reviewing a paper module.
+This module supplies Lean-owned audit commands.  Audit runners import its
+compiled artifact when available, so a large paper interface is not elaborated
+alongside the helper's implementation on every recursive-closure request.  The
+runner fingerprints this source and builds the helper explicitly; it is audit
+tooling, not a prerequisite of any paper theorem.
+
+For hermetic historical fixtures that lack the module artifact, the Python
+runner may still inject this exact source into a temporary audit process.
 -/
 
 open Lean Meta Elab Command
@@ -1432,6 +1439,35 @@ private def semanticContractMatches
     withTransparency .all do
       isDefEq evidenceType expectedType
 
+/-- Check a source-definition realization endpoint.  A source definition is
+not an asserted theorem: its endpoint must instead state an equivalence whose
+two sides are definitionally equal to the independently written semantic
+`Spec`.  This keeps the source meaning on the Spec card and prevents a
+definition wrapper from becoming a second paper claim. -/
+private def semanticContractDefinitionallyRealizes
+    (specName evidenceName : Name) : MetaM Bool := do
+  let specInfo ← getConstInfo specName
+  match specInfo with
+  | .defnInfo _ | .inductInfo _ => pure ()
+  | _ => return false
+  let .thmInfo evidenceInfo ← getConstInfo evidenceName
+    | return false
+  if specInfo.levelParams.length != evidenceInfo.levelParams.length then
+    return false
+  let rigidLevels := (List.range specInfo.levelParams.length).map fun index =>
+    Level.param (Name.mkSimple s!"_econcs_audit_universe_{index}")
+  let specConst := mkConst specName rigidLevels
+  let evidenceConst := mkConst evidenceName rigidLevels
+  let evidenceType ← inferType evidenceConst
+  forallTelescope evidenceType fun outerBinders resultType => do
+    unless resultType.isAppOfArity ``Iff 2 do
+      return false
+    let specBody := mkAppN specConst outerBinders
+    let left := resultType.getArg! 0
+    let right := resultType.getArg! 1
+    withTransparency .all do
+      return (← isDefEq left specBody) && (← isDefEq right specBody)
+
 /-- Return the direct constant head of an elaborated application, if any. -/
 private def operationalOutcomeDirectHead? (expression : Expr) : MetaM (Option Name) := do
   let reduced ← withTransparency .reducible <| whnf expression
@@ -2109,10 +2145,15 @@ private def semanticContractClosureOrigin
       let moduleOrigin := moduleName.toString
       if scope.paperModules.contains moduleName then
         pure (.paper, moduleOrigin)
+      else if let some foundationRoot :=
+          scope.foundationModules.find? (fun root => root.isPrefixOf moduleName) then
+        -- A package root is the auditable foundation identity here.  Recording
+        -- every transitive Mathlib/Batteries leaf would add thousands of
+        -- duplicate module pins without changing the Lean-owned reachability
+        -- result; library declarations have their own semantic-review lane.
+        pure (.foundation, foundationRoot.toString)
       else if scope.workspaceModules.contains moduleName then
         pure (.workspace, moduleOrigin)
-      else if scope.foundationModules.any (fun root => root.isPrefixOf moduleName) then
-        pure (.foundation, moduleOrigin)
       else
         pure (.external, moduleOrigin)
   | none =>
@@ -2574,9 +2615,161 @@ private def semanticContractClosureSurface
         else "terminal_fingerprints",
         fallback)
 
+/-!
+Production source-to-Spec correspondence needs Lean to identify the recursive
+*statement* dependency closure, not to materialize every recursively expanded
+expression or walk the proof body of an imported theorem. The latter duplicated
+the semantic display already produced for human review and could retain
+gigabytes for a large imported paper interface. Lean's elaborated-expression
+utility `Expr.getUsedConstantsAsSet`, together with Lean environment module
+origins, supplies every direct edge; this helper performs the recursive walk
+inside Lean, excludes only theorem proof-body edges, and handles cycles.
+
+The compact surface below fingerprints the exact elaborated declaration type
+and value.  The separate raw-source screen remains responsible for the
+human-readable fully expanded proposition; its current digest is checked
+before a correspondence record can be issued.  Thus this compact route does
+not replace semantic review with a declaration name or a paraphrase.
+-/
+private def semanticContractClosureLeanUtilityState
+    (specName : Name) (scope : SemanticContractClosureScope) (fuel : Nat) :
+    MetaM SemanticContractClosureState := do
+  let env ← getEnv
+  let rootModule := env.getModuleIdxFor? specName
+  let initial : SemanticContractClosureState := { fuel := fuel }
+  match rootModule with
+  | some moduleIdx =>
+      unless scope.paperModules.contains (env.header.moduleNames[moduleIdx.toNat]!) do
+        return semanticContractClosureFailure initial "invalid_closure_scope" specName
+  | none =>
+      return semanticContractClosureFailure initial "unresolved_dependency_origin" specName
+  let info? ← try some <$> getConstInfo specName catch _ => pure none
+  let some info := info? | return (
+    semanticContractClosureFailure initial "unresolved_local_dependency" specName)
+  let .defnInfo _ := info | return (
+    semanticContractClosureFailure initial "specification_not_transparent_definition" specName)
+  let isProp ← withNewMCtxDepth do
+    forallTelescopeReducing info.type fun _ result =>
+      isDefEq result (mkSort .zero)
+  unless isProp do
+    return semanticContractClosureFailure initial "specification_not_proposition" specName
+  -- This is the recursive statement graph walk. Python receives only the
+  -- compact, Lean-classified result and never reconstructs membership. A
+  -- source `Spec` is a proposition, so a theorem's proof implementation is
+  -- not source semantics and must not pull its full proof dependency cone
+  -- into the source-to-Spec receipt.
+  let statementClosure ←
+    statementDependencyClosureFor specName scope.paperModules rootModule
+  let names := statementClosure.names
+  let mut state := initial
+  for failedName in statementClosure.scanFailures do
+    state := semanticContractClosureFailure
+      state "statement_dependency_scan_failed" failedName
+  let mut paperModules : Array String := #[]
+  let mut foundationModules : Array String := #[]
+  -- Do not materialize one receipt node per traversed declaration. Lean has
+  -- still visited every statement dependency in `names`; the compact receipt retains
+  -- each reached paper module (byte-pinned by Python) and each approved
+  -- foundation package root.  This is a serialization reduction, not a
+  -- shallower graph walk.
+  for name in names do
+    let (origin, moduleOrigin) ← semanticContractClosureOrigin scope rootModule name
+    match origin with
+    | .paper =>
+        if !paperModules.contains moduleOrigin then
+          paperModules := paperModules.push moduleOrigin
+    | .foundation =>
+        if !foundationModules.contains moduleOrigin then
+          foundationModules := foundationModules.push moduleOrigin
+    | .workspace =>
+        let currentInfo? ← try some <$> getConstInfo name catch _ => pure none
+        let recorded := semanticContractClosureRecordNode state
+          "lean_statement_dependency/workspace" "lean_statement_terminal"
+          origin moduleOrigin name currentInfo?
+        state := semanticContractClosureFailure
+          recorded "unregistered_workspace_dependency" name
+    | .external =>
+        let currentInfo? ← try some <$> getConstInfo name catch _ => pure none
+        let recorded := semanticContractClosureRecordNode state
+          "lean_statement_dependency/external" "lean_statement_terminal"
+          origin moduleOrigin name currentInfo?
+        state := semanticContractClosureFailure
+          recorded "unregistered_imported_dependency" name
+    | .unresolved =>
+        let currentInfo? ← try some <$> getConstInfo name catch _ => pure none
+        let recorded := semanticContractClosureRecordNode state
+          "lean_statement_dependency/unresolved" "lean_statement_terminal"
+          origin moduleOrigin name currentInfo?
+        state := semanticContractClosureFailure
+          recorded "unresolved_dependency_origin" name
+  let sortedPaperModules := paperModules.qsort (· < ·)
+  let sortedFoundationModules := foundationModules.qsort (· < ·)
+  if sortedPaperModules.size > state.fuel then
+    state := semanticContractClosureFailure state "fuel_exhausted" specName
+  else
+    state := {
+      state with
+      fuel := state.fuel - sortedPaperModules.size
+      expanded := state.expanded + sortedPaperModules.size }
+  for moduleOrigin in sortedPaperModules do
+    state := { state with reachedModules := state.reachedModules.push (
+      semanticContractClosureOriginName .paper, moduleOrigin) }
+  for moduleOrigin in sortedFoundationModules do
+    state := { state with reachedModules := state.reachedModules.push (
+      semanticContractClosureOriginName .foundation, moduleOrigin) }
+  pure state
+
+private def semanticContractClosureLeanUtilitySurface
+    (specName : Name) (scope : SemanticContractClosureScope) : MetaM (Option Json) := do
+  try
+    let info ← getConstInfo specName
+    let .defnInfo definition := info | throwError "Spec is not a definition"
+    let typeDigest ← canonicalDigest scope.hashToolPath (toString info.type)
+    let valueDigest ← canonicalDigest scope.hashToolPath (toString definition.value)
+    unless typeDigest.length == 64 && valueDigest.length == 64 do
+      throwError "semantic Spec fingerprint is malformed"
+    pure <| some <| obj "lean_declaration_fingerprint" [
+      ("schema", Json.str "1"),
+      ("declaration_kind", Json.str (declarationKind info)),
+      ("declaration_type_sha256", Json.str typeDigest),
+      ("declaration_value_sha256", Json.str valueDigest)]
+  catch _ => pure none
+
+private def semanticContractClosureLeanUtilityManifest
+    (specName : Name) (scope : SemanticContractClosureScope) (fuel : Nat) :
+    MetaM Json := do
+  let state ← semanticContractClosureLeanUtilityState specName scope fuel
+  let surface ← semanticContractClosureLeanUtilitySurface specName scope
+  let state :=
+    if surface.isSome then state
+    else semanticContractClosureFailure state "specification_surface_unavailable" specName
+  let failures := state.failures.map fun failure => Json.mkObj [
+    ("tag", Json.str failure.1),
+    ("declaration", Json.str failure.2.toString)]
+  pure <| Json.mkObj [
+    ("schema", Json.str "1"),
+    ("spec", Json.str specName.toString),
+    ("passes", Json.bool state.failures.isEmpty),
+    ("expanded", Json.str (toString state.expanded)),
+    ("surface_mode", Json.str "lean_dependency_fingerprint"),
+    ("surface", surface.getD Json.null),
+    ("nodes", Json.arr state.nodes),
+    ("reached_modules", Json.arr (state.reachedModules.map fun entry => Json.mkObj [
+      ("origin_class", Json.str entry.1),
+      ("module_origin", Json.str entry.2)])),
+    ("failures", Json.arr failures),
+    ("scope", Json.mkObj [
+      ("paper_modules", Json.arr (scope.paperModules.map fun name => Json.str name.toString)),
+      ("workspace_modules", Json.arr (scope.workspaceModules.map fun name => Json.str name.toString)),
+      ("foundation_modules", Json.arr (scope.foundationModules.map fun name => Json.str name.toString)),
+      ("hash_tool_path", Json.str scope.hashToolPath),
+      ("inline_paper_scope", Json.bool scope.inlinePaperScope)])]
+
 private def semanticContractClosureManifest
     (specName : Name) (scope : SemanticContractClosureScope) (fuel : Nat) :
     MetaM Json := do
+  if !scope.inlinePaperScope then
+    return ← semanticContractClosureLeanUtilityManifest specName scope fuel
   let knownVector ← canonicalDigest scope.hashToolPath "abc"
   unless knownVector ==
       "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad" do
@@ -3339,6 +3532,459 @@ private def sourcePremiseFalseEliminators
   pure <| Json.mkObj [
     ("reviewed_inputs", Json.arr reviewedInputs)]
 
+/--
+Return the directly elaborated EconCSLib constants used by each source-facing
+Spec.  This deliberately inspects Lean's resolved declaration body, rather
+than its tokens: `open` declarations, notation, coercions, and synthesized
+arguments therefore cannot hide a reusable library primitive from the
+source-to-library review surface.
+
+The result is intentionally *direct* rather than transitive.  A paper reviewer
+checks the mathematical library object used in the Spec; Lean's ordinary
+signature/closure receipt separately pins the implementation dependencies of
+that object.
+-/
+private def directLibraryDependencySurface
+    (requested : Array Name) : MetaM Json := do
+  let mut rows : Array Json := #[]
+  for declaration in requested do
+    let info ← getConstInfo declaration
+    let dependencies ← semanticDependencyDirectEdges info
+    let mut directNames : Array Name := #[]
+    for (_, dependency) in dependencies do
+      if dependency.toString.startsWith "EconCSLib." && !directNames.contains dependency then
+        directNames := directNames.push dependency
+    let sortedDirectNames := directNames.qsort (fun left right => left.toString < right.toString)
+    rows := rows.push <| Json.mkObj [
+      ("declaration", Json.str declaration.toString),
+      ("direct_library_declarations", Json.arr <| sortedDirectNames.map fun dependency =>
+        Json.str dependency.toString)]
+  pure <| Json.mkObj [
+    ("schema", Json.str "1"),
+    ("roots", Json.arr rows)]
+
+private def parseDirectLibraryDependencyRequests
+    (raw : String) : Option (Array Name) := do
+  match Json.parse raw with
+  | .ok (.arr values) =>
+      let mut requested : Array Name := #[]
+      for value in values do
+        let name ← value.getStr?.toOption
+        if name.isEmpty || requested.any (fun prior => prior.toString == name) then
+          failure
+        requested := requested.push name.toName
+      pure <| requested.qsort (fun left right => left.toString < right.toString)
+  | _ => none
+
+/--
+One Lean-owned, readable expansion of a source-facing `Spec`.  The review
+target unfolds transparent declarations owned by the paper, but deliberately
+leaves imported library declarations named: those are reviewed as their own
+source-connected prerequisites.  An opaque or theorem-valued paper-local
+dependency cannot silently become a black box; it is reported and makes this
+display incomplete.
+
+This is a presentation and source-review transport, not a custom semantic
+algorithm.  Lean resolves the declaration, controls the delta reduction, and
+pretty-prints the resulting elaborated expression.  Python only carries the
+result and pins its bytes in the screening ledger.
+-/
+private structure TransparentSpecDisplayState where
+  remaining : Nat
+  expansionCount : Nat := 0
+  expandedDeclarations : Array Name := #[]
+  prerequisiteDeclarations : Array Name := #[]
+  blockedDeclarations : Array Name := #[]
+
+private def appendTransparentSpecDisplayName
+    (names : Array Name) (name : Name) : Array Name :=
+  if names.contains name then names else names.push name
+
+private def declarationIsOwnedByPaper
+    (paperModules : Array Name) (name : Name) : MetaM Bool := do
+  let env ← getEnv
+  match env.getModuleIdxFor? name with
+  | some moduleIdx =>
+      pure <| paperModules.contains (env.header.moduleNames[moduleIdx.toNat]!)
+  | none => pure false
+
+/-! A structure constructor or projection has no independent paper-facing
+presentation: its source meaning is the owning structure.  Keep the owner as
+one prerequisite card instead of manufacturing cards for `.mk` and each
+field.  Ordinary names nested below a structure (for example an explicitly
+written `State.initial`) are not projections and remain independent cards. -/
+private def paperDeclarationReviewOwner (declaration : Name) : MetaM Name := do
+  let env ← getEnv
+  match env.find? declaration with
+  | some (.ctorInfo constructorInfo) =>
+      pure constructorInfo.induct
+  | _ =>
+      match env.getProjectionFnInfo? declaration with
+      | some projectionInfo =>
+          match env.find? projectionInfo.ctorName with
+          | some (.ctorInfo constructorInfo) => pure constructorInfo.induct
+          | _ => pure declaration
+      | none => pure declaration
+
+private def recordTransparentPaperPrerequisite
+    (stateRef : IO.Ref TransparentSpecDisplayState) (declaration : Name) : MetaM Unit := do
+  if declaration.toString.contains ".match_" ||
+      declaration.toString.contains "._proof_" then
+    pure ()
+  else
+    let owner ← paperDeclarationReviewOwner declaration
+    let state ← stateRef.get
+    stateRef.set {
+      state with
+      prerequisiteDeclarations := appendTransparentSpecDisplayName
+        state.prerequisiteDeclarations owner }
+
+private def transparentPaperSpecDisplayStep
+    (paperModules : Array Name) (stateRef : IO.Ref TransparentSpecDisplayState)
+    (node : Expr) : MetaM TransformStep := do
+  -- Proof values inserted while a paper-local definition is elaborated do not
+  -- contribute mathematical data to the proposition being displayed.  The
+  -- proof endpoint and its build are checked separately; recursively opening
+  -- a theorem proof here would only turn implementation proof terms into fake
+  -- source-model prerequisites.
+  let (declaration, _) := node.getAppFnArgs
+  if declaration.isAnonymous then
+    return .done node
+  else
+      let paperOwned ← declarationIsOwnedByPaper paperModules declaration
+      unless paperOwned do
+        return .done node
+      -- The selected `Spec` was opened explicitly before this traversal.  Any
+      -- further paper-local name is an independently reviewable source-model,
+      -- state, policy, or construction declaration. Leave it visible and
+      -- create a prerequisite card instead of expanding implementation records
+      -- into the claim.
+      recordTransparentPaperPrerequisite stateRef declaration
+      return .done node
+
+private partial def normalizeTransparentPaperSpecDisplay
+    (paperModules : Array Name) (stateRef : IO.Ref TransparentSpecDisplayState)
+    (remainingPasses : Nat) (expression : Expr) : MetaM Expr := do
+  if remainingPasses == 0 then
+    return expression
+  let changedRef ← IO.mkRef false
+  let beforeState ← stateRef.get
+  let expandedBefore := beforeState.expansionCount
+  let transformed ← transform expression
+    (post := fun node => transparentPaperSpecDisplayStep paperModules stateRef node)
+    (skipConstInApp := true)
+  let afterState ← stateRef.get
+  let expandedAfter := afterState.expansionCount
+  if expandedAfter > expandedBefore then
+    changedRef.set true
+  if ← changedRef.get then
+    normalizeTransparentPaperSpecDisplay paperModules stateRef
+      (remainingPasses - 1) transformed
+  else
+    pure transformed
+
+private def directLibraryDeclarationsInTransparentDisplay
+    (expression : Expr) : MetaM (Array Name) := do
+  let foundRef ← IO.mkRef (#[] : Array Name)
+  let _ ← transform expression
+    (post := fun node => do
+      let (declaration, _) := node.getAppFnArgs
+      if declaration.toString.startsWith "EconCSLib." then
+        let found ← foundRef.get
+        foundRef.set (appendTransparentSpecDisplayName found declaration)
+      pure (.done node))
+    (skipConstInApp := true)
+  let found ← foundRef.get
+  pure <| (found.filter fun declaration =>
+    !declaration.toString.contains ".match_" &&
+      !declaration.toString.contains "._proof_").qsort
+        (fun left right => left.toString < right.toString)
+
+/--
+Lean's pretty printer renders an equation-compiler matcher as the actual
+`match` expression.  Once that has happened, retaining the generated
+`.match_N` helper in `blocked_declarations` would incorrectly claim that the
+semantic display hides a paper-local dependency.  Compiler-generated proof
+helpers likewise carry no data in a proposition. Other local definitions,
+opaque constants, and inductives still remain explicit prerequisites.
+-/
+private def transparentPaperSpecDisplayBlocker (declaration : Name) : Bool :=
+  !declaration.toString.contains ".match_" &&
+    !declaration.toString.contains "._proof_"
+
+private def transparentPaperSpecDisplayFor
+    (specification : Name) (paperModules : Array Name) (maxExpansions : Nat) :
+    MetaM Json :=
+  withNewMCtxDepth do
+    let info ← getConstInfo specification
+    let .defnInfo definition := info | throwError "Spec is not a transparent definition"
+    forallTelescopeReducing info.type fun binders result => do
+      unless ← isDefEq result (mkSort .zero) do
+        throwError "Spec is not proposition-valued"
+      let stateRef ← IO.mkRef ({ remaining := maxExpansions } : TransparentSpecDisplayState)
+      -- `headBeta` exposes the Spec's own telescope without asking Lean to
+      -- unfold an imported library predicate at the root.  Re-wrap every
+      -- declaration binder as a forall before walking: source review must see
+      -- even an otherwise unused paper hypothesis, rather than only the
+      -- definition body after those inputs were instantiated as local fvars.
+      -- Every remaining paper-local declaration is retained as an explicit,
+      -- separately source-checked prerequisite rather than hidden by recursive
+      -- implementation expansion.
+      let initial ← mkForallFVars binders (mkAppN definition.value binders).headBeta
+      let normalized ← normalizeTransparentPaperSpecDisplay paperModules stateRef
+        (maxExpansions + 1) initial
+      let state ← stateRef.get
+      let display := (← ppExpr normalized).pretty
+      let libraryDeclarations ← directLibraryDeclarationsInTransparentDisplay normalized
+      let blockedDeclarations := state.blockedDeclarations.filter
+        transparentPaperSpecDisplayBlocker
+      pure <| Json.mkObj [
+        ("specification", Json.str specification.toString),
+        ("complete", Json.bool blockedDeclarations.isEmpty),
+        ("expansion_count", Json.str (toString state.expansionCount)),
+        ("expanded_declarations", Json.arr <|
+          state.expandedDeclarations.qsort (fun left right => left.toString < right.toString) |>.map
+            fun declaration => Json.str declaration.toString),
+        ("prerequisite_declarations", Json.arr <|
+          state.prerequisiteDeclarations.qsort (fun left right => left.toString < right.toString) |>.map
+            fun declaration => Json.str declaration.toString),
+        ("library_declarations", Json.arr <|
+          libraryDeclarations.map fun declaration => Json.str declaration.toString),
+        ("blocked_declarations", Json.arr <|
+          blockedDeclarations.qsort (fun left right => left.toString < right.toString) |>.map
+            fun declaration => Json.str declaration.toString),
+        ("display", Json.str display)]
+
+private def parseTransparentPaperSpecDisplayRequest
+    (raw : String) : Option (Array Name × Array Name) := do
+  let value ← (Json.parse raw).toOption
+  let specificationsRaw ← (value.getObjVal? "specifications").toOption
+  let paperModulesRaw ← (value.getObjVal? "paper_modules").toOption
+  let specifications ← parseSemanticContractClosureNames specificationsRaw
+  let paperModules ← parseSemanticContractClosureNames paperModulesRaw
+  if specifications.isEmpty || paperModules.isEmpty then
+    failure
+  let mut seen : Array Name := #[]
+  for specification in specifications do
+    guard !seen.contains specification
+    seen := seen.push specification
+  pure (
+    specifications.qsort (fun left right => left.toString < right.toString),
+    paperModules.qsort (fun left right => left.toString < right.toString))
+
+private def transparentPaperSpecDisplays
+    (specifications paperModules : Array Name) (maxExpansions : Nat) : MetaM Json := do
+  let items ← specifications.mapM fun specification =>
+    transparentPaperSpecDisplayFor specification paperModules maxExpansions
+  pure <| Json.mkObj [
+    ("schema", Json.str "1"),
+    ("items", Json.arr items)]
+
+/-- Return named paper-local dependencies that remain after one declaration's
+own body has been exposed.  This is a Lean elaboration walk; it deliberately
+does not infer dependencies from source tokens. -/
+private def directPaperDeclarationsInDisplay
+    (paperModules : Array Name) (expression : Expr) : MetaM (Array Name) := do
+  let foundRef ← IO.mkRef (#[] : Array Name)
+  let _ ← transform expression
+    (post := fun node => do
+      let (declaration, _) := node.getAppFnArgs
+      if !declaration.isAnonymous &&
+          !declaration.toString.contains ".match_" &&
+          !declaration.toString.contains "._proof_" &&
+          (← declarationIsOwnedByPaper paperModules declaration) then
+        let owner ← paperDeclarationReviewOwner declaration
+        let found ← foundRef.get
+        foundRef.set (appendTransparentSpecDisplayName found owner)
+      pure (.done node))
+    (skipConstInApp := true)
+  pure <| (← foundRef.get).qsort (fun left right => left.toString < right.toString)
+
+/-- Lean-owned own-body/sigature display for a retained paper-local semantic
+prerequisite.  A transparent definition exposes its body exactly once; its
+remaining paper and library names become separate cards in the recursive
+review packet. -/
+private def transparentPaperDeclarationDisplayFor
+    (declaration : Name) (paperModules : Array Name) : MetaM Json :=
+  withNewMCtxDepth do
+    let info ← getConstInfo declaration
+    let (kind, expression, rootExpanded) ←
+      match info with
+      | .defnInfo defInfo =>
+          forallTelescopeReducing info.type fun binders _ => do
+            let body := (mkAppN defInfo.value binders).headBeta
+            pure ("definition", ← mkForallFVars binders body, true)
+      | .opaqueInfo _ =>
+          pure ("opaque_definition", info.type, false)
+      | _ =>
+          pure ("non_definition", info.type, false)
+    let libraries ← directLibraryDeclarationsInTransparentDisplay expression
+    let paperDependencies ← directPaperDeclarationsInDisplay paperModules expression
+    let directPaperDependencies := paperDependencies.filter fun dependency =>
+      dependency != declaration
+    pure <| Json.mkObj [
+      ("declaration", Json.str declaration.toString),
+      ("declaration_kind", Json.str kind),
+      ("root_expanded", Json.bool rootExpanded),
+      ("direct_paper_declarations", Json.arr <|
+        directPaperDependencies.map fun dependency => Json.str dependency.toString),
+      ("direct_library_declarations", Json.arr <|
+        libraries.map fun dependency => Json.str dependency.toString),
+      ("display", Json.str ((← ppExpr expression).pretty))]
+
+private def paperDeclarationDisplayDependencies (item : Json) : Array Name :=
+  match (item.getObjVal? "direct_paper_declarations").toOption with
+  | some (.arr values) =>
+      values.foldl (init := #[]) fun dependencies value =>
+        match value.getStr?.toOption with
+        | some rawName =>
+            let name := rawName.toName
+            if !dependencies.contains name then dependencies.push name else dependencies
+        | none => dependencies
+  | _ => #[]
+
+private def transparentPaperDeclarationDisplayName (item : Json) : String :=
+  ((item.getObjVal? "declaration").toOption.bind (·.getStr?.toOption)).getD ""
+
+private def transparentPaperDeclarationDisplays
+    (declarations paperModules : Array Name) : MetaM Json := do
+  let mut pending := declarations
+  let mut visited : Array Name := #[]
+  let mut items : Array Json := #[]
+  while !pending.isEmpty && visited.size < 512 do
+    match pending.toList with
+    | [] => pure ()
+    | declaration :: rest =>
+        pending := rest.toArray
+        if !visited.contains declaration then
+          let item ← transparentPaperDeclarationDisplayFor declaration paperModules
+          visited := visited.push declaration
+          items := items.push item
+          for dependency in paperDeclarationDisplayDependencies item do
+            if !visited.contains dependency && !pending.contains dependency then
+              pending := pending.push dependency
+  unless pending.isEmpty do
+    throwError "paper semantic-prerequisite closure exceeds 512 declarations"
+  pure <| Json.mkObj [
+    ("schema", Json.str "1"),
+    ("items", Json.arr <| items.qsort fun left right =>
+      transparentPaperDeclarationDisplayName left < transparentPaperDeclarationDisplayName right)]
+
+/-- Expand compiler-generated helpers belonging to one library declaration.
+
+Recursive definitions often elaborate through generated names such as
+`foo._f`.  Those names have no independent paper/source presentation, so they
+must not turn into pretend library cards.  We open them only under their
+declared root and leave a recursive call back to the root visible.
+-/
+private partial def normalizeTransparentLibraryRootDisplay
+    (root : Name) (remainingPasses : Nat) (expression : Expr) : MetaM Expr := do
+  if remainingPasses == 0 then
+    return expression
+  let changedRef ← IO.mkRef false
+  let transformed ← transform expression
+    (post := fun node => do
+      let (declaration, _) := node.getAppFnArgs
+      if declaration == root || !root.isPrefixOf declaration then
+        pure (.done node)
+      else
+        match ← getConstInfo declaration with
+        | .defnInfo _ =>
+            match ← unfoldDefinition? node with
+            | some unfolded =>
+                changedRef.set true
+                pure (.done unfolded)
+            | none => pure (.done node)
+        | _ => pure (.done node))
+    (skipConstInApp := true)
+  if ← changedRef.get then
+    normalizeTransparentLibraryRootDisplay root (remainingPasses - 1) transformed
+  else
+    pure transformed
+
+/--
+One Lean-owned readable target for a reusable library declaration.  A `def`
+is displayed after its own delta reduction, while the reusable declarations it
+uses remain named.  They are separate source-connected review cards, so a
+short wrapper cannot hide behind its declaration name.  Structures,
+inductives, theorems, and opaque declarations instead expose their
+elaborated type; their exact source declaration is still carried alongside
+this target by the packet/dashboard layer.
+-/
+private def transparentLibraryDeclarationDisplayFor
+    (declaration : Name) : MetaM Json :=
+  withNewMCtxDepth do
+    let info ← getConstInfo declaration
+    let (kind, expression, rootExpanded) ←
+      match info with
+      | .defnInfo defInfo =>
+          forallTelescopeReducing info.type fun binders _ => do
+            let body := (mkAppN defInfo.value binders).headBeta
+            let expanded ← normalizeTransparentLibraryRootDisplay declaration 64 body
+            pure ("definition", ← mkForallFVars binders expanded, true)
+      | .opaqueInfo _ =>
+          pure ("opaque_definition", info.type, false)
+      | _ =>
+          pure ("non_definition", info.type, false)
+    let dependencies ← directLibraryDeclarationsInTransparentDisplay expression
+    let compilerHelperPrefix := declaration.toString ++ "."
+    let directDependencies := dependencies.filter fun dependency =>
+      dependency != declaration &&
+        !dependency.toString.startsWith compilerHelperPrefix
+    pure <| Json.mkObj [
+      ("declaration", Json.str declaration.toString),
+      ("declaration_kind", Json.str kind),
+      ("root_expanded", Json.bool rootExpanded),
+      ("direct_library_declarations", Json.arr <|
+        directDependencies.map fun dependency => Json.str dependency.toString),
+      ("display", Json.str ((← ppExpr expression).pretty))]
+
+private def parseTransparentLibraryDeclarationDisplayRequest
+    (raw : String) : Option (Array Name) := do
+  let value ← (Json.parse raw).toOption
+  parseSemanticContractClosureNames value
+
+private def libraryDeclarationDisplayDependencies (item : Json) : Array Name :=
+  match (item.getObjVal? "direct_library_declarations").toOption with
+  | some (.arr values) =>
+      values.foldl (init := #[]) fun dependencies value =>
+        match value.getStr?.toOption with
+        | some rawName =>
+            let name := rawName.toName
+            if rawName.startsWith "EconCSLib." && !dependencies.contains name then
+              dependencies.push name
+            else
+              dependencies
+        | none => dependencies
+  | _ => #[]
+
+private def libraryDeclarationDisplayName (item : Json) : String :=
+  ((item.getObjVal? "declaration").toOption.bind (·.getStr?.toOption)).getD ""
+
+private def transparentLibraryDeclarationDisplays
+    (declarations : Array Name) : MetaM Json := do
+  let mut pending := declarations
+  let mut visited : Array Name := #[]
+  let mut items : Array Json := #[]
+  while !pending.isEmpty && visited.size < 512 do
+    match pending.toList with
+    | [] => pure ()
+    | declaration :: rest =>
+        pending := rest.toArray
+        if !visited.contains declaration then
+          let item ← transparentLibraryDeclarationDisplayFor declaration
+          visited := visited.push declaration
+          items := items.push item
+          for dependency in libraryDeclarationDisplayDependencies item do
+            if !visited.contains dependency && !pending.contains dependency then
+              pending := pending.push dependency
+  unless pending.isEmpty do
+    throwError "library semantic-target closure exceeds 512 declarations"
+  pure <| Json.mkObj [
+    ("schema", Json.str "1"),
+    ("items", Json.arr <| items.qsort fun left right =>
+      libraryDeclarationDisplayName left < libraryDeclarationDisplayName right)]
+
 syntax (name := signatureManifestCmd) "#signature_manifest " str str str : command
 
 syntax (name := signatureManifestRevalidationCmd)
@@ -3431,6 +4077,18 @@ syntax (name := inductiveConstructorFieldSlotCountCmd)
 syntax (name := typeWitnessPayloadSafetyCmd)
   "#type_witness_payload_safety " str : command
 
+syntax (name := directLibraryDependencySurfaceCmd)
+  "#direct_library_dependency_surface " str : command
+
+syntax (name := transparentPaperSpecDisplayCmd)
+  "#transparent_paper_spec_display " str str : command
+
+syntax (name := transparentPaperDeclarationDisplayCmd)
+  "#transparent_paper_declaration_display " str : command
+
+syntax (name := transparentLibraryDeclarationDisplayCmd)
+  "#transparent_library_declaration_display " str : command
+
 elab_rules : command
   | `(#proposition_spec_proof_match $spec:str $proof:str) => do
       let specName := spec.getString.toName
@@ -3453,6 +4111,11 @@ elab_rules : command
           try
             liftTermElabM <|
               semanticContractMatches specName evidenceName (modeName == "refutes")
+          catch _ =>
+            pure false
+        else if modeName == "definitionally_realizes" then
+          try
+            liftTermElabM <| semanticContractDefinitionallyRealizes specName evidenceName
           catch _ =>
             pure false
         else
@@ -3747,5 +4410,69 @@ elab_rules : command
           IO.println s!"LEAN_TYPE_WITNESS_PAYLOAD_SAFETY:{(Json.mkObj [("declarations", Json.arr results)]).compress}"
       | none =>
           IO.println "LEAN_TYPE_WITNESS_PAYLOAD_SAFETY_ERROR"
+  | `(#direct_library_dependency_surface $declarations:str) => do
+      let requested? := parseDirectLibraryDependencyRequests declarations.getString
+      let result? ← try
+        match requested? with
+        | some requested => some <$> liftTermElabM (directLibraryDependencySurface requested)
+        | none => pure none
+      catch _ =>
+        pure none
+      match result? with
+      | some result =>
+          IO.println s!"LEAN_DIRECT_LIBRARY_DEPENDENCY_SURFACE:{result.compress}"
+      | none =>
+          IO.println "LEAN_DIRECT_LIBRARY_DEPENDENCY_SURFACE_ERROR"
+  | `(#transparent_paper_spec_display $request:str $fuel:str) => do
+      let request? := parseTransparentPaperSpecDisplayRequest request.getString
+      let maxExpansions? := fuel.getString.toNat?
+      let result? ← try
+        match request?, maxExpansions? with
+        | some (specifications, paperModules), some maxExpansions =>
+            if maxExpansions == 0 then
+              pure none
+            else
+              some <$> liftTermElabM
+                (transparentPaperSpecDisplays specifications paperModules maxExpansions)
+        | _, _ => pure none
+      catch _ =>
+        pure none
+      match result? with
+      | some result =>
+          IO.println s!"LEAN_TRANSPARENT_PAPER_SPEC_DISPLAY:{result.compress}"
+      | none =>
+          IO.println "LEAN_TRANSPARENT_PAPER_SPEC_DISPLAY_ERROR"
+
+  | `(#transparent_paper_declaration_display $request:str) => do
+      let request? := parseTransparentPaperSpecDisplayRequest request.getString
+      let result? ← try
+        match request? with
+        | some (declarations, paperModules) =>
+            some <$> liftTermElabM
+              (transparentPaperDeclarationDisplays declarations paperModules)
+        | none => pure none
+      catch _ =>
+        pure none
+      match result? with
+      | some result =>
+          IO.println s!"LEAN_TRANSPARENT_PAPER_DECLARATION_DISPLAY:{result.compress}"
+      | none =>
+          IO.println "LEAN_TRANSPARENT_PAPER_DECLARATION_DISPLAY_ERROR"
+
+elab_rules : command
+  | `(#transparent_library_declaration_display $request:str) => do
+      let declarations? := parseTransparentLibraryDeclarationDisplayRequest request.getString
+      let result? ← try
+        match declarations? with
+        | some declarations =>
+            some <$> liftTermElabM (transparentLibraryDeclarationDisplays declarations)
+        | none => pure none
+      catch _ =>
+        pure none
+      match result? with
+      | some result =>
+          IO.println s!"LEAN_TRANSPARENT_LIBRARY_DECLARATION_DISPLAY:{result.compress}"
+      | none =>
+          IO.println "LEAN_TRANSPARENT_LIBRARY_DECLARATION_DISPLAY_ERROR"
 
 end EconCSLibAudit.SignatureManifest

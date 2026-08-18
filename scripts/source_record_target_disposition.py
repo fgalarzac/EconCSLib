@@ -3708,6 +3708,14 @@ def _recursive_field_parent_route_context(
             errors.append(
                 "generated recursive-field source-statement parent route must retain the exact direct origin and role"
             )
+    elif parent_association_field == SOURCE_CLAIM_ATOM_ASSOCIATION_FIELD:
+        if (
+            parent_origin != SOURCE_CLAIM_ATOM_ROUTE_ORIGIN
+            or parent_role != SOURCE_CLAIM_ATOM_ROUTE_ROLE
+        ):
+            errors.append(
+                "generated recursive-field source-claim-atom parent route must retain the exact atom-route origin and role"
+            )
     elif parent_association_field == "semantic_contract_source_association":
         if (
             parent_role
@@ -3918,7 +3926,9 @@ def _recursive_field_parent_route_generated_path_errors(
     if root_input_type and not (
         root_input_type == root_record
         or root_input_type.startswith(root_record + " ")
+        or root_input_type.startswith(root_record + "(")
         or root_input_type.startswith("@" + root_record + " ")
+        or root_input_type.startswith("@" + root_record + "(")
     ):
         errors.append(
             "explicit parent-route root input type is not headed by its generated root record"

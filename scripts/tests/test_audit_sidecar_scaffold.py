@@ -248,7 +248,7 @@ class AuditSidecarScaffoldTests(unittest.TestCase):
             self.paper, [row]
         )
         self.assertTrue(statement_summary["needs_attention"])
-        self.assertEqual(statement_summary["missing_draft"], [row.name])
+        self.assertEqual(statement_summary["missing_draft"], [])
         self.assertEqual(statement_summary["missing_judgment"], [row.name])
 
         coverage_summary = review_dashboard.paper_coverage_audit_summary(
@@ -261,7 +261,7 @@ class AuditSidecarScaffoldTests(unittest.TestCase):
             self.paper, [row]
         )
         self.assertTrue(surface_summary["non_evidence_scaffold"])
-        self.assertTrue(surface_summary["needs_attention"])
+        self.assertFalse(surface_summary["needs_attention"])
 
     def test_marker_blocks_later_payload_fields_until_removed(self) -> None:
         scaffold_audit_sidecars.scaffold_current_audit_sidecars("FixturePaper")
@@ -293,12 +293,12 @@ class AuditSidecarScaffoldTests(unittest.TestCase):
         )
         self.assertTrue(statement_summary["needs_attention"])
         self.assertEqual(statement_summary["matches"], 0)
-        self.assertEqual(statement_summary["missing_draft"], [row.name])
+        self.assertEqual(statement_summary["missing_draft"], [])
         self.assertEqual(statement_summary["missing_judgment"], [row.name])
         surface_summary = review_dashboard.review_surface_audit_summary(
             self.paper, [row]
         )
-        self.assertTrue(surface_summary["needs_attention"])
+        self.assertFalse(surface_summary["needs_attention"])
         self.assertTrue(surface_summary["non_evidence_scaffold"])
 
     def test_refuses_existing_and_legacy_sidecars_and_stale_cache(self) -> None:

@@ -1,0 +1,2400 @@
+% Generated human-review packet template.  Source records, Lean statements,
+% and raw-source-to-Spec screening fields are substituted by
+% scripts/review_dashboard_packet.py.
+% Do not hand-edit generated packets; annotate the PDF or reconcile notes into
+% the paper-local human-review log.
+\documentclass[10pt]{article}
+\usepackage[margin=0.43in]{geometry}
+\usepackage{fontspec}
+\setmainfont{Latin Modern Roman}
+\setmonofont{DejaVu Sans Mono}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{fvextra}
+\usepackage{enumitem}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.15em}
+\linespread{0.92}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+\DefineVerbatimEnvironment{ReviewVerbatim}{Verbatim}{breaklines=true,breakanywhere=true,fontsize=\scriptsize}
+\newcommand{\reviewerbox}{%
+  \par\noindent\fbox{\parbox{0.96\linewidth}{\rule{0pt}{0.38in}}}\par
+}
+\newcommand{\reviewmatch}[1]{%
+  \par\noindent\textbf{Reviewer check:} $\square$\; #1\par
+  \noindent\emph{If left unchecked, explain the discrepancy or uncertainty below.}\par
+}
+
+\begin{document}
+\fontsize{9}{10}\selectfont
+
+\begin{center}
+{\LARGE Human review packet: GN21DriverSurgePricing}\\[0.35em]
+\small Generated from byte-pinned source excerpts, the expanded PaperInterface
+specifications, and hash-bound raw-source-to-Spec screening records.
+\end{center}
+
+\noindent\textbf{Paper:} GN21DriverSurgePricing\\
+\textbf{Paper id:} \texttt{GN21DriverSurgePricing}\\
+\textbf{Source version:} Management Science 2022 / arXiv v4 (2021); byte-pinned private text extraction\\
+\textbf{Source record:} \texttt{audit/paper\_statement\_map.json}\\
+\textbf{Rows:} 18\\
+\textbf{Generated:} 2026-08-18\\
+\textbf{Source URL:} \href{https://arxiv.org/pdf/1905.07544}{official source}
+
+
+
+
+
+\section*{How to use this packet}
+For each source claim, compare the exact source excerpts with the expanded
+PaperInterface specification. Mark up this PDF or fill the blank reviewer box in the TeX source;
+return the annotated file for reconciliation into the paper-local human-review
+log.
+
+\section*{Open the interactive dashboard}
+The interactive dashboard is an optional alternative to using this PDF; it
+presents the same review surface rather than an additional review requirement.
+After forking and cloning (or pulling) EconCSLib, run the following from the
+repository root. The cache command is needed only the first time in a new clone.
+\begin{ReviewVerbatim}
+cd <your-EconCSLib-checkout>
+lake exe cache get
+python3 scripts/review_dashboard.py --paper GN21DriverSurgePricing --serve
+\end{ReviewVerbatim}
+Open \url{http://127.0.0.1:8765/} in a browser and keep that terminal running
+while reviewing. The dashboard records saved annotations in this paper's local
+review trace.
+
+\section*{Contents}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{library-section-9ed08282feb75b10}{Semantic library prerequisites (3; not paper claims)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{library-prerequisite-7716ce13bd12468c}{EconCSLib.positiveRealAcceptAll}
+\item \hyperlink{library-prerequisite-091d3e21c8ffcbb9}{EconCSLib.acceptsAllPositiveReal}
+\item \hyperlink{library-prerequisite-e74ecbac6eb005a3}{EconCSLib.twoStateCtmcSwitchProb}
+\end{itemize}
+\item \hyperlink{source-section-18edf361830b9d0b}{Source-model definitions (1)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-8cb807f3cc8978b3}{review\_definition\_surge\_stateSpec}
+\end{itemize}
+\item \hyperlink{source-section-fc0f8ef37eccf87b}{Appendix source claims (1)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-7650473d990d95c0}{review\_lemma10\_nonsurge\_derivative\_positive\_of\_acceptAll\_boundsSpec}
+\end{itemize}
+\item \hyperlink{source-section-0c7af8265958a9ea}{Main-text source claims (3)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-0847fd2171fe1fa6}{review\_lemma1\_measured\_dynamic\_reward\_decompositionSpec}
+\item \hyperlink{source-claim-dbe4c990fc185239}{review\_lemma2\_switch\_probability\_formulaSpec}
+\item \hyperlink{source-claim-ebc105656e6d5688}{review\_lemma3\_measured\_time\_fraction\_formulaSpec}
+\end{itemize}
+\item \hyperlink{source-section-2ccaa156c5fe17ad}{Appendix source claims (continued) (5)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-62d2ac601494c757}{review\_lemma4\_single\_state\_threshold\_uniquenessSpec}
+\item \hyperlink{source-claim-de2ea96cec45a85c}{review\_lemma6\_upper\_endpoint\_derivative\_formulaSpec}
+\item \hyperlink{source-claim-414ba26e7a98cabd}{review\_lemma7\_affine\_positive\_additive\_response\_quasi\_convexSpec}
+\item \hyperlink{source-claim-72681991e4ec9e7d}{review\_lemma8\_affine\_negative\_additive\_response\_quasi\_concaveSpec}
+\item \hyperlink{source-claim-7d5af65772b5a76a}{review\_lemma9\_surge\_derivative\_positive\_of\_acceptAll\_boundsSpec}
+\end{itemize}
+\item \hyperlink{source-section-c08c7eca66416a2f}{Main-text source claims (continued) (3)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-a66252366d7621fe}{review\_proposition3\_1\_affine\_single\_state\_icSpec}
+\item \hyperlink{source-claim-cdbb75fcd67baff3}{review\_theorem1\_single\_state\_threshold\_best\_responseSpec}
+\item \hyperlink{source-claim-38fbb9f78eb2c2c7}{review\_theorem2\_multiplicative\_positive\_finite\_cutoff\_not\_ic\_both\_statesSpec}
+\end{itemize}
+\item \hyperlink{source-section-e0bf42a2f186588f}{Appendix source claims (continued 2) (1)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-d0eae55048459432}{review\_theorem4\_full\_structural\_policy\_forms\_directSpec}
+\end{itemize}
+\item \hyperlink{source-section-62736bb95a656bbc}{Main-text source claims (continued 2) (1)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-e4ff38b469e6cc30}{review\_theorem2\_multiplicative\_policy\_shape\_source\_claimSpec}
+\end{itemize}
+\item \hyperlink{source-section-13054b3f2d04f1de}{Appendix source claims (continued 3) (1)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-5a2021856d51c6f7}{lemma5\_full\_variational\_policy\_formsSpec}
+\end{itemize}
+\item \hyperlink{source-section-9912151b1a19081b}{Source-model definitions (continued) (1)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-c17cbc11714a18c6}{review\_definition\_incentive\_compatibleSpec}
+\end{itemize}
+\item \hyperlink{source-section-6c491f2461bc0518}{Main-text source claims (continued 3) (1)}
+\begin{itemize}[leftmargin=1.2em]
+\item \hyperlink{source-claim-f1c3806503822cde}{review\_theorem3\_structured\_pricingSpec}
+\end{itemize}
+\end{itemize}
+
+\clearpage
+\hypertarget{library-section-9ed08282feb75b10}{}
+\section*{Material library prerequisites}
+\hypertarget{library-prerequisite-7716ce13bd12468c}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}positiveRealAcceptAll}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}264-\allowbreak{}287\par}
+\paragraph{Verbatim paper-source connection}
+\begin{ReviewVerbatim}
+follows policy σ = {σ1 , σ2 }, where σi ⊆ R+ indicates the jobs accepted in state i. We assume that
+driver policies are measurable with respect to F (corresponding Fi in dynamic model); for technical
+reasons, in the dynamic model we also assume that σi consist of a union of open intervals, i.e., are
+open subsets of R+ . When we write equalities with policies σ, we mean equality up to changes of
+measure 0.
+The driver is long-lived and aims to maximize their own lifetime average hourly earnings on the
+platform, including both open and busy times. Let R(w, σ, t) denote the (random) total earnings
+from jobs accepted from time 0 up to time t if the driver follows policy σ and the payout function
+is w. Then, the driver’s lifetime earnings rate is
+R(w, σ) , lim inf t→∞
+
+R(w, σ, t)
+.
+t
+
+This earnings rate is a deterministic (non-random) quantity, and is a function of the driver policy
+σ, pricing function w, and the primitives.
+A driver policy σ ∗ is optimal (best-response) with respect to pricing function w if it maximizes
+the lifetime earnings rate of the driver among all policies: R(w, σ ∗ ) ≥ R(w, σ), for all valid policies
+σ (i.e., measurable with respect to F or Fi , with σi open sets). Then, pricing function w is incentive
+compatible (IC) if accepting all job requests is optimal with respect to w, i.e., σ = (0, ∞) in
+the single-state model or σ = {(0, ∞), (0, ∞)} in the dynamic model is optimal with respect to w.
+In other words, payment function w is incentive compatible if an earnings-maximizing driver (who
+knows all the primitives, w, and the trip length τ at request time) accepts every trip request.
+\end{ReviewVerbatim}
+
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ (a : ℝ), Set.Ioi 0 a
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+abbrev positiveRealAcceptAll : Set ℝ :=
+  Set.Ioi 0
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} The source names the accept-all policy as the positive trip-length domain `(0, infinity)`. This reusable set declaration is exactly that domain, with no additional cutoff or endpoint convention.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-091d3e21c8ffcbb9}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}acceptsAllPositiveReal}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}264-\allowbreak{}287\par}
+\paragraph{Verbatim paper-source connection}
+\begin{ReviewVerbatim}
+follows policy σ = {σ1 , σ2 }, where σi ⊆ R+ indicates the jobs accepted in state i. We assume that
+driver policies are measurable with respect to F (corresponding Fi in dynamic model); for technical
+reasons, in the dynamic model we also assume that σi consist of a union of open intervals, i.e., are
+open subsets of R+ . When we write equalities with policies σ, we mean equality up to changes of
+measure 0.
+The driver is long-lived and aims to maximize their own lifetime average hourly earnings on the
+platform, including both open and busy times. Let R(w, σ, t) denote the (random) total earnings
+from jobs accepted from time 0 up to time t if the driver follows policy σ and the payout function
+is w. Then, the driver’s lifetime earnings rate is
+R(w, σ) , lim inf t→∞
+
+R(w, σ, t)
+.
+t
+
+This earnings rate is a deterministic (non-random) quantity, and is a function of the driver policy
+σ, pricing function w, and the primitives.
+A driver policy σ ∗ is optimal (best-response) with respect to pricing function w if it maximizes
+the lifetime earnings rate of the driver among all policies: R(w, σ ∗ ) ≥ R(w, σ), for all valid policies
+σ (i.e., measurable with respect to F or Fi , with σi open sets). Then, pricing function w is incentive
+compatible (IC) if accepting all job requests is optimal with respect to w, i.e., σ = (0, ∞) in
+the single-state model or σ = {(0, ∞), (0, ∞)} in the dynamic model is optimal with respect to w.
+In other words, payment function w is incentive compatible if an earnings-maximizing driver (who
+knows all the primitives, w, and the trip length τ at request time) accepts every trip request.
+\end{ReviewVerbatim}
+
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+∀ (σ : Set ℝ), EconCSLib.positiveRealAcceptAll ⊆ σ
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+abbrev acceptsAllPositiveReal (σ : Set ℝ) : Prop :=
+  positiveRealAcceptAll ⊆ σ
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} The source's accept-all policy accepts every positive trip request. The Lean predicate is precisely membership of every positive trip length in that policy.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{library-prerequisite-e74ecbac6eb005a3}{}
+\subsection*{\small\ttfamily\raggedright EconCSLib.\allowbreak{}twoStateCtmcSwitchProb}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}657-\allowbreak{}670\par}
+\paragraph{Verbatim paper-source connection}
+\begin{ReviewVerbatim}
+Lemma 2. Suppose the world is in state i at time t. Let qi→j (s) denote the probability that the
+world will be in state j 6= i at time t + s. Then,
+i
+h
+λi→j
+qi→j (s) =
+1 − e−(λi→j +λj→i )s
+λi→j + λj→i
+Note that qi→j (s) is not just the probability that the world state transitions once during time
+(t, t + s), but the probability that it transitions an odd number of times. This formulation emerges
+through a standard analysis of two-state CTMCs, in which this probability can be found through
+the inverse of the Laplace transform of the inverse of the resolvent of the Q-matrix for the system.
+Incorporating this value in closed form is the main hurdle in extending our results to general systems
+with more than two states. Using this formulation, the following lemma shows µi (σ).
+\end{ReviewVerbatim}
+
+\paragraph{Lean-expanded library semantic target}
+\begin{ReviewVerbatim}
+(lambdaIJ lambdaJI t : ℝ) → lambdaIJ / (lambdaIJ + lambdaJI) * (1 - Real.exp (-(lambdaIJ + lambdaJI) * t))
+\end{ReviewVerbatim}
+
+\paragraph{Exact Lean library declaration}
+\begin{ReviewVerbatim}
+noncomputable def twoStateCtmcSwitchProb (lambdaIJ lambdaJI t : ℝ) : ℝ :=
+  lambdaIJ / (lambdaIJ + lambdaJI) *
+    (1 - Real.exp (-(lambdaIJ + lambdaJI) * t))
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-library screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} Lemma 2 gives the two-state continuous-time Markov-chain switching probability as the stated exponential-rate expression. The reusable Lean declaration is that same probability function, with the paper-local Spec supplying its positivity domain.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+
+\clearpage
+\hypertarget{source-claim-8cb807f3cc8978b3}{}
+\hypertarget{source-section-18edf361830b9d0b}{}
+\section*{Source-model definitions}
+\subsection*{Review row 1}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}377-\allowbreak{}381\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Finally, we can now precisely define what it means for i = 2 to be the surge state: it has a higher
+potential earning rate than state 1. There exists some policy σ2 such that R2 (w2 , σ2 ) > R1 (w1 , σ1 ),
+for all σ1 ⊆ R+ . In other words, suppose that instead we were in the single-state setting, where
+the primitives were set as either (λ1 , F1 , w1 ) or (λ2 , F2 , w2 ). Then the latter set of primitives would
+yield a higher maximum earnings.5
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (mu : Fin 2 → MeasureTheory.Measure GN21DriverSurgePricing.TripLength) (arrival : Fin 2 → ℝ)
+  (w : Fin 2 → GN21DriverSurgePricing.PricingFunction),
+  GN21DriverSurgePricing.gn21SourceSurgeStateDominance mu arrival w
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_definition_surge_state_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} The source defines state 2 as a surge state when one state-2 policy has a reward rate strictly above every feasible state-1 policy. The transparent Spec preserves that existential policy, universal comparison, strict inequality, and open-policy domain.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-7650473d990d95c0}{}
+\hypertarget{source-section-fc0f8ef37eccf87b}{}
+\section*{Appendix source claims}
+\subsection*{Review row 2}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}3828-\allowbreak{}3829;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}3834-\allowbreak{}3853;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}4750-\allowbreak{}4751\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 10. Fix arbitrary σ2 , and thus Q2 , T2 , R2 . Let Q̄1 , T̄1 be the respective values of Q1 , T1 at
+σ1 = (0, ∞). Let w1 (τ ) = mτ + zq1→2 (τ ), where m = R2 .
+If
+−
+
+z
+1
+(T2 λ1→2 + Q2 )
+<
+<
+R2
+Q2 (λ1→2 T̄1 − Q̄1 ) + λ1→2 (T2 λ1→2 + Q2 )
+(Q̄1 − λ1→2 )
+
+∂
+Then ∂u
+R(w, σ) > 0, for all u, σ1 . Furthermore, the constraint set is feasible regardless of the
+primitives.
+
+D.4
+
+[Next verbatim source excerpt]
+
+We can now do the same thing for the first state, assuming that w1 (τ ) is of the form w1 (τ ) =
+mτ + zq1→2 (τ ), where now z ≤ 0 and m = R2 . In the next lemma, we consider u an upper endpoint
+
+[Next verbatim source excerpt]
+
+
+[form-feed in source extraction]
+Proof. Proof. Similar to previous proof. Suppose we have w1 (u) = mu + zq1→2 (u), for some
+m = R2 , z ≤ 0.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (arrivalRate lowerEndpoint u T2 Q2 T1 Q1 Tbar1 Qbar1 switch12 switch21 R2 z ratio : ℝ) (density : ℝ → ℝ)
+  (harrival_pos : 0 < arrivalRate) (hdensity_pos : 0 < density u) (hQ2_pos : 0 < Q2)
+  (hden :
+    GN21DriverSurgePricing.gn21EndpointQiPath arrivalRate switch12 lowerEndpoint density
+            (GN21DriverSurgePricing.gn21SwitchProb switch12 switch21) u *
+          T2 +
+        Q2 * GN21DriverSurgePricing.gn21EndpointTiPath arrivalRate lowerEndpoint density u ≠
+      0)
+  (hq_int :
+    IntervalIntegrable (fun τ => GN21DriverSurgePricing.gn21SwitchProb switch12 switch21 τ * density τ)
+      MeasureTheory.volume lowerEndpoint u)
+  (hq_meas :
+    StronglyMeasurableAtFilter (fun τ => GN21DriverSurgePricing.gn21SwitchProb switch12 switch21 τ * density τ) (nhds u)
+      MeasureTheory.volume)
+  (hq_cont : ContinuousAt (fun τ => GN21DriverSurgePricing.gn21SwitchProb switch12 switch21 τ * density τ) u)
+  (hw_int :
+    IntervalIntegrable (fun τ => GN21DriverSurgePricing.ctmcStructuredSurgePrice R2 z switch12 switch21 τ * density τ)
+      MeasureTheory.volume lowerEndpoint u)
+  (hw_meas :
+    StronglyMeasurableAtFilter
+      (fun τ => GN21DriverSurgePricing.ctmcStructuredSurgePrice R2 z switch12 switch21 τ * density τ) (nhds u)
+      MeasureTheory.volume)
+  (hw_cont :
+    ContinuousAt (fun τ => GN21DriverSurgePricing.ctmcStructuredSurgePrice R2 z switch12 switch21 τ * density τ) u)
+  (ht_int : IntervalIntegrable (fun τ => τ * density τ) MeasureTheory.volume lowerEndpoint u)
+  (ht_meas : StronglyMeasurableAtFilter (fun τ => τ * density τ) (nhds u) MeasureTheory.volume)
+  (ht_cont : ContinuousAt (fun τ => τ * density τ) u),
+  GN21DriverSurgePricing.gn21EndpointQiPath arrivalRate switch12 lowerEndpoint density
+        (GN21DriverSurgePricing.gn21SwitchProb switch12 switch21) u =
+      Q1 →
+    GN21DriverSurgePricing.gn21EndpointTiPath arrivalRate lowerEndpoint density u = T1 →
+      GN21DriverSurgePricing.gn21EndpointWiPath arrivalRate lowerEndpoint density
+            (GN21DriverSurgePricing.ctmcStructuredSurgePrice R2 z switch12 switch21) u =
+          R2 * (T1 - 1) + z * (Q1 - switch12) →
+        GN21DriverSurgePricing.lemma10StructuredBounds ratio T2 Q2 Tbar1 Qbar1 switch12 →
+          z ≤ 0 →
+            z = ratio * R2 →
+              0 < R2 →
+                0 < switch12 →
+                  0 < switch12 + switch21 →
+                    0 < u →
+                      0 < T2 * switch12 + Q2 →
+                        0 ≤ switch12 * T1 - Q1 →
+                          switch12 * T1 - Q1 ≤ switch12 * Tbar1 - Qbar1 →
+                            switch12 < Q1 →
+                              Q1 ≤ Qbar1 →
+                                0 <
+                                  (GN21DriverSurgePricing.lemma6EndpointDerivativeData_of_interval_density_paths
+                                      arrivalRate switch12 lowerEndpoint u Q2 T2 (R2 * T2) density
+                                      (GN21DriverSurgePricing.gn21SwitchProb switch12 switch21)
+                                      (GN21DriverSurgePricing.ctmcStructuredSurgePrice R2 z switch12 switch21)
+                                      harrival_pos hdensity_pos hQ2_pos hden hq_int hq_meas hq_cont hw_int hw_meas
+                                      hw_cont ht_int ht_meas ht_cont).derivativeValue
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_lemma10_nonsurge_derivative_positive_of_acceptAll_bounds
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} Lemma 10 fixes the surge policy, uses the displayed non-surge price and accept-all quantities, and concludes positivity of the relevant non-surge upper-endpoint derivative. The expanded Spec makes the source inequality domain and derivative statement explicit.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-0847fd2171fe1fa6}{}
+\hypertarget{source-section-0c7af8265958a9ea}{}
+\section*{Main-text source claims}
+\subsection*{Review row 3}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}324-\allowbreak{}367\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 1. In the dynamic model, the earnings rate can be decomposed into each state i earnings
+rate Ri (wi , σi ) and fraction of time µi (σ) spent in state i:
+R(w, σ) = µ1 (σ)R1 (w1 , σ1 ) + µ2 (σ)R2 (w2 , σ2 )
+
+with probability 1.
+
+i (σi )
+As in the single-state model, Ri (wi , σi ) = W
+Ti (σi ) , where
+
+Z
+1
+Wi (σi ) =
+wi (τ )dFi (τ ),
+Fi (σi ) τ ∈σi
+
+1
+1
+Ti (σi ) =
++
+λi Fi (σi ) Fi (σi )
+
+Z
+τ dFi (τ )
+τ ∈σi
+
+We prove the result by defining a new renewal process, in which a single reward renewal cycle
+is: the time between the driver is open in state 1 to the next time the driver is open in state 1
+after being open in state 2 at least once. In other words, each renewal cycle is composed of some
+number (potentially zero) of sub-cycles in which the driver is open in state 1 and then is open in
+state 1 again after a completed trip; one sub-cycle starting with the driver open in state 1 and
+ending with being open in state 2 (either after a completed trip or a state transition while open);
+some number (potentially zero) of sub-cycles in which the driver is open in state 2 and then is open
+in state 2 again after a completed trip; and finally one sub-cycle starting in state 2 and ending with
+the driver open in state 1.
+Given the number of such renewal reward cycles completed up to time t, the total earnings on
+trips starting in each state (earnings in each sub-cycle) are independent of each other, and then we
+use Wald’s identity (Wald, 1973) to separate µi (σ) and Ri (σi ).
+Note that Ti (σi ) is not exactly the expected length of time in a single sub-cycle in a state
+given σi , but rather is proportional to it; the multiplicative constant λi Fi (σi1)+λi→j cancels out with
+the same constant in the expected earnings in a single sub-cycle in a state given σi . This constant
+emerges from the primitives: when the driver is open in state i, there are two competing exponential
+clocks (with rates λi Fi (σi ) and λi→j , respectively) that determine whether the driver will accept a
+request before the world state changes.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Omega : Type u_1} [inst : MeasurableSpace Omega] {POmega : MeasureTheory.Measure Omega}
+  {muI muJ : MeasureTheory.Measure GN21DriverSurgePricing.TripLength} {arrivalI arrivalJ switchIJ switchJI : ℝ}
+  {wI wJ : GN21DriverSurgePricing.PricingFunction} {sigmaI sigmaJ : GN21DriverSurgePricing.TripPolicy}
+  (C :
+    GN21DriverSurgePricing.GN21DynamicIIDCycleModel POmega muI muJ arrivalI arrivalJ switchIJ switchJI wI wJ sigmaI
+      sigmaJ),
+  ∀ᵐ (omega : Omega) ∂POmega,
+    Filter.Tendsto
+      (fun n =>
+        (∑ k ∈ Finset.range n, C.stateEarningI k omega + ∑ k ∈ Finset.range n, C.stateEarningJ k omega) /
+          (∑ k ∈ Finset.range n, C.stateTimeI k omega + ∑ k ∈ Finset.range n, C.stateTimeJ k omega))
+      Filter.atTop
+      (nhds
+        (GN21DriverSurgePricing.gn21MeasuredDynamicReward muI muJ arrivalI arrivalJ switchIJ switchJI wI wJ sigmaI
+          sigmaJ))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_lemma1_measured_dynamic_reward_decomposition
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} Lemma 1 states the almost-sure decomposition of dynamic earnings into state-time fractions times state earnings rates. The transparent Spec is the renewal-cycle almost-sure convergence statement with the displayed weighted reward formula and its explicit IID-cycle model inputs.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-dbe4c990fc185239}{}
+\section*{Review row 4}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}657-\allowbreak{}670\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 2. Suppose the world is in state i at time t. Let qi→j (s) denote the probability that the
+world will be in state j 6= i at time t + s. Then,
+i
+h
+λi→j
+qi→j (s) =
+1 − e−(λi→j +λj→i )s
+λi→j + λj→i
+Note that qi→j (s) is not just the probability that the world state transitions once during time
+(t, t + s), but the probability that it transitions an odd number of times. This formulation emerges
+through a standard analysis of two-state CTMCs, in which this probability can be found through
+the inverse of the Laplace transform of the inverse of the resolvent of the Q-matrix for the system.
+Incorporating this value in closed form is the main hurdle in extending our results to general systems
+with more than two states. Using this formulation, the following lemma shows µi (σ).
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (lambdaIJ lambdaJI s : ℝ),
+  GN21DriverSurgePricing.gn21SwitchProb lambdaIJ lambdaJI s =
+    lambdaIJ / (lambdaIJ + lambdaJI) * (1 - Real.exp (-(lambdaIJ + lambdaJI) * s))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_lemma2_switch_probability_formula
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} Lemma 2 gives the probability of a state switch during a trip as the displayed CTMC exponential formula. The Spec states that formula for the two switch rates and trip duration, including the positive-rate denominator condition.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-ebc105656e6d5688}{}
+\section*{Review row 5}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}671-\allowbreak{}696\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 3. Let Ti (σi ) be as defined in Lemma 1. The fraction of time a driver following strategy
+σ = {σ1 , σ2 } spends either open in state i or on a trip started in state i is
+λi Fi (σi )Ti (σi )Qj (σj )
+λj Fj (σj )Tj (σj )Qi (σi ) + λi Fi (σi )Ti (σi )Qj (σj )
+Z
+Qi (σi ) = λi→j + λi
+qi→j (τ )dFi (τ )
+µi (σ) =
+
+where
+
+τ ∈σi
+
+We prove this lemma by finding the expected number of sub-cycles in each state i, i.e., within a
+larger renewal reward cycle as defined, the expected number of sub-cycles that start with the driver
+12
+
+
+[form-feed in source extraction]
+being open in state i. This expectation is the mean of a geometric random variable parameterized
+by the probability that the driver will next be open in state j, given the driver is currently open in
+state i. Qi (σi ) is proportional to this probability. (As with Ti (σi ), there is a normalizing constant
+1
+λi Fi (σi )+λi→j ); the larger it is, the fewer sub-cycles spent in state i. It has two components: the
+first is the probability that the state changes before the driver accepts a trip request; the second
+is the probability that the world state is j when the driver completes a trip. Thus, the numerator
+in µi (σ) is proportional to the length of a sub-cycle in state i, times the fraction of sub-cycles that
+are started in state i. The larger Qj (σj ) or Ti (σi ), the more time the driver spends in state i.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ {Omega : Type u_1} [inst : MeasurableSpace Omega] {POmega : MeasureTheory.Measure Omega}
+  {muI muJ : MeasureTheory.Measure GN21DriverSurgePricing.TripLength} {arrivalI arrivalJ switchIJ switchJI : ℝ}
+  {sigmaI sigmaJ : GN21DriverSurgePricing.TripPolicy}
+  (C :
+    GN21DriverSurgePricing.GN21TimeFractionIIDCycleModel POmega muI muJ arrivalI arrivalJ switchIJ switchJI sigmaI
+      sigmaJ),
+  ∀ᵐ (omega : Omega) ∂POmega,
+    Filter.Tendsto
+      (fun n =>
+        (∑ k ∈ Finset.range n, C.stateTimeI k omega) /
+          (∑ k ∈ Finset.range n, C.stateTimeI k omega + ∑ k ∈ Finset.range n, C.stateTimeJ k omega))
+      Filter.atTop
+      (nhds (GN21DriverSurgePricing.gn21MeasuredTimeFraction muI muJ arrivalI arrivalJ switchIJ switchJI sigmaI sigmaJ))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_lemma3_measured_time_fraction_formula
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} Lemma 3 identifies the almost-sure fraction of time spent in each state with the displayed expression in T and Q. The expanded Spec keeps the sample-path convergence, both state components, and the renewal-cycle model assumptions explicit.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-62d2ac601494c757}{}
+\hypertarget{source-section-2ccaa156c5fe17ad}{}
+\section*{Appendix source claims (continued)}
+\subsection*{Review row 6}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}2841-\allowbreak{}2853;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}2375-\allowbreak{}2379\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 4. Consider the single-state model. There exists an optimal policy σ ∗ of the form σ ∗ =
+)
+∗
+∗
+∗
+{τ : w(τ
+τ ≥ c } such that R(σ ) = c . Furthermore, this policy is the unique optimal policy, up to
+)
+∗
+sets of measure 0 and up to modifications (subtractions) of sets {τ : w(τ
+τ = c }.
+)
+≥ c∗ },
+
+[Next verbatim source excerpt]
+
+−10
+−20
+
+(699.0, 3598.0]
+1
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (μ : MeasureTheory.Measure GN21DriverSurgePricing.TripLength) (arrivalRate : ℝ)
+  (w : GN21DriverSurgePricing.PricingFunction),
+  (Measurable fun τ => w τ / τ) →
+    (∀ (τ : GN21DriverSurgePricing.TripLength), 0 < τ → 0 ≤ w τ / τ) →
+      μ GN21DriverSurgePricing.acceptAllPolicy ≠ ⊤ →
+        MeasureTheory.IntegrableOn w GN21DriverSurgePricing.acceptAllPolicy μ →
+          MeasureTheory.IntegrableOn (fun τ => τ) GN21DriverSurgePricing.acceptAllPolicy μ →
+            0 < arrivalRate →
+              ∃ cstar,
+                0 ≤ cstar ∧
+                  ∃ σstar,
+                    GN21DriverSurgePricing.thresholdRatePolicy w cstar σstar ∧
+                      GN21DriverSurgePricing.singleStateRenewalReward μ arrivalRate w σstar = cstar ∧
+                        GN21DriverSurgePricing.singleStateMeasurableOptimal
+                            (GN21DriverSurgePricing.singleStateRenewalReward μ arrivalRate w) σstar ∧
+                          ∀ ρ ⊆ GN21DriverSurgePricing.acceptAllPolicy,
+                            MeasurableSet ρ →
+                              GN21DriverSurgePricing.singleStateMeasurableOptimal
+                                  (GN21DriverSurgePricing.singleStateRenewalReward μ arrivalRate w) ρ →
+                                GN21DriverSurgePricing.singleStateTripMass μ
+                                      (GN21DriverSurgePricing.strictThresholdPolicy w cstar \ ρ) =
+                                    0 ∧
+                                  GN21DriverSurgePricing.singleStateTripMass μ
+                                      (ρ \ GN21DriverSurgePricing.completeThresholdPolicy w cstar) =
+                                    0
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_lemma4_single_state_threshold_uniqueness
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} Lemma 4 says that a single-state optimal policy is unique up to changes on a zero-measure set under the strict threshold comparison. The Spec gives the two optimal-policy hypotheses and exactly the source null-set equality conclusion.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-de2ea96cec45a85c}{}
+\section*{Review row 7}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}3724-\allowbreak{}3767\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 6. Let R(w, σ) be as defined in Lemma 1. Then, ∂u
+[U+0013 control character]
+[U+0012 control character]
+[U+0013 control character] [U+0012 control character]
+qi→j (u)
+Qj
+Qi
+wi (u) Qi Qj
+r(u, i, w, σ) ,
++
+−
+Rj +
+Ri
+∆ji +
+u
+u
+Ti
+Tj
+Ti
+Tj
+
+In other words, r(u, i, w, σ) has the same sign as the derivative of the overall reward with respect
+to u (an upper endpoint of σi ) at w, σ, but it is not necessarily monotonic with it.
+Remark 1. Given assumptions on Fi , wi :
+• Ri (σ), R(σ), µi are continuous in σ
+∂
+• ∂u
+R(w, σ), r(u, i, w, σ) are both continuous in u (for fixed σ), and continuous in σ.
+
+•
+
+qi→j (u)
+is strictly decreasing in u.
+u
+
+• If ∆ji < 0 (i = 2 the surge state) and wiu(u) is non-decreasing in u, then r(u, i, w, σ) is
+∂
+R(w, σ) is negative up to a certain point
+strictly increasing in u for a fixed σ. Thus, ∂u
+U ∈ (0, ∞) ∪ {∞} and then positive thereafter.
+• If ∆ji > 0 (i = 1 the non-surge state) and wiu(u) is non-increasing in u, then r(u, i, w, σ)
+∂
+is strictly decreasing in u for a fixed σ. Thus, ∂u
+R(w, σ) is positive up to a certain point
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (arrivalRate switchRate lowerEndpoint u Qj Tj Wj Ri Rj : ℝ) (density switchProb payment : ℝ → ℝ),
+  0 < arrivalRate →
+    0 < u →
+      0 < Qj →
+        0 < GN21DriverSurgePricing.gn21EndpointTiPath arrivalRate lowerEndpoint density u →
+          0 < Tj →
+            GN21DriverSurgePricing.gn21EndpointWiPath arrivalRate lowerEndpoint density payment u =
+                Ri * GN21DriverSurgePricing.gn21EndpointTiPath arrivalRate lowerEndpoint density u →
+              Wj = Rj * Tj →
+                GN21DriverSurgePricing.gn21EndpointQiPath arrivalRate switchRate lowerEndpoint density switchProb u *
+                        Tj +
+                      Qj * GN21DriverSurgePricing.gn21EndpointTiPath arrivalRate lowerEndpoint density u ≠
+                    0 →
+                  IntervalIntegrable (fun τ => switchProb τ * density τ) MeasureTheory.volume lowerEndpoint u →
+                    StronglyMeasurableAtFilter (fun τ => switchProb τ * density τ) (nhds u) MeasureTheory.volume →
+                      ContinuousAt (fun τ => switchProb τ * density τ) u →
+                        IntervalIntegrable (fun τ => payment τ * density τ) MeasureTheory.volume lowerEndpoint u →
+                          StronglyMeasurableAtFilter (fun τ => payment τ * density τ) (nhds u) MeasureTheory.volume →
+                            ContinuousAt (fun τ => payment τ * density τ) u →
+                              IntervalIntegrable (fun τ => τ * density τ) MeasureTheory.volume lowerEndpoint u →
+                                StronglyMeasurableAtFilter (fun τ => τ * density τ) (nhds u) MeasureTheory.volume →
+                                  ContinuousAt (fun τ => τ * density τ) u →
+                                    HasDerivAt
+                                        (fun x =>
+                                          GN21DriverSurgePricing.gn21AggregateDynamicReward
+                                            (GN21DriverSurgePricing.gn21EndpointQiPath arrivalRate switchRate
+                                              lowerEndpoint density switchProb x)
+                                            Qj
+                                            (GN21DriverSurgePricing.gn21EndpointTiPath arrivalRate lowerEndpoint density
+                                              x)
+                                            Tj
+                                            (GN21DriverSurgePricing.gn21EndpointWiPath arrivalRate lowerEndpoint density
+                                              payment x)
+                                            Wj)
+                                        (arrivalRate * density u * Qj *
+                                            GN21DriverSurgePricing.gn21DerivativeSignKernel (switchProb u) u (payment u)
+                                              (GN21DriverSurgePricing.gn21EndpointQiPath arrivalRate switchRate
+                                                lowerEndpoint density switchProb u)
+                                              Qj
+                                              (GN21DriverSurgePricing.gn21EndpointTiPath arrivalRate lowerEndpoint
+                                                density u)
+                                              Tj
+                                              (GN21DriverSurgePricing.gn21EndpointWiPath arrivalRate lowerEndpoint
+                                                density payment u)
+                                              Wj /
+                                          (GN21DriverSurgePricing.gn21EndpointQiPath arrivalRate switchRate
+                                                  lowerEndpoint density switchProb u *
+                                                Tj +
+                                              Qj *
+                                                GN21DriverSurgePricing.gn21EndpointTiPath arrivalRate lowerEndpoint
+                                                  density u) ^
+                                            2)
+                                        u ∧
+                                      (0 < density u →
+                                        GN21DriverSurgePricing.sameStrictSign
+                                          (arrivalRate * density u * Qj *
+                                              GN21DriverSurgePricing.gn21DerivativeSignKernel (switchProb u) u
+                                                (payment u)
+                                                (GN21DriverSurgePricing.gn21EndpointQiPath arrivalRate switchRate
+                                                  lowerEndpoint density switchProb u)
+                                                Qj
+                                                (GN21DriverSurgePricing.gn21EndpointTiPath arrivalRate lowerEndpoint
+                                                  density u)
+                                                Tj
+                                                (GN21DriverSurgePricing.gn21EndpointWiPath arrivalRate lowerEndpoint
+                                                  density payment u)
+                                                Wj /
+                                            (GN21DriverSurgePricing.gn21EndpointQiPath arrivalRate switchRate
+                                                    lowerEndpoint density switchProb u *
+                                                  Tj +
+                                                Qj *
+                                                  GN21DriverSurgePricing.gn21EndpointTiPath arrivalRate lowerEndpoint
+                                                    density u) ^
+                                              2)
+                                          (GN21DriverSurgePricing.gn21Lemma6Response (switchProb u) u (payment u)
+                                            (GN21DriverSurgePricing.gn21EndpointQiPath arrivalRate switchRate
+                                              lowerEndpoint density switchProb u)
+                                            Qj
+                                            (GN21DriverSurgePricing.gn21EndpointTiPath arrivalRate lowerEndpoint density
+                                              u)
+                                            Tj Ri Rj))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_lemma6_upper_endpoint_derivative_formula
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} Lemma 6 gives the upper-endpoint derivative formula for the dynamic reward and uses positive endpoint density only for the strict sign consequence. The expanded Spec retains the formula and separates that conditional sign transfer, matching the selected source statement and proof context.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-414ba26e7a98cabd}{}
+\section*{Review row 8}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}3773-\allowbreak{}3774\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 7. Suppose wi (τ ) = mτ + a, where m, a > 0. Then, r(u, i, w, σ) is strictly quasi-convex in
+u, for each fixed σ where ∆ji ≤ 0.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (m a Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI : ℝ),
+  0 < m →
+    0 < a →
+      Rj - Ri ≤ 0 →
+        0 < Qi / Ti + Qj / Tj →
+          0 < lambdaIJ →
+            0 < lambdaIJ + lambdaJI →
+              Ti ≠ 0 →
+                Tj ≠ 0 →
+                  GN21DriverSurgePricing.strictQuasiConvexOnPositive fun u =>
+                    GN21DriverSurgePricing.gn21Lemma6Response
+                      (GN21DriverSurgePricing.gn21SwitchProb lambdaIJ lambdaJI u) u (m * u + a) Qi Qj Ti Tj Ri Rj
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_lemma7_affine_positive_additive_response_quasi_convex
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} Lemma 7 identifies the response under a positive additive affine price as strictly quasi-convex. The Spec gives the same price form, coefficient condition, and quasi-convex response conclusion.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-72681991e4ec9e7d}{}
+\section*{Review row 9}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}3775-\allowbreak{}3809\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 8. Suppose wi (τ ) = mτ + a, where m > 0 and a < 0. Then, r(u, i, w, σ) is strictly
+quasi-concave in u, for each fixed σ where ∆ji ≥ 0.
+D.3.4
+
+Lemmas for IC policy
+
+Remark 2.
+Let
+Then
+
+wi (u) = mu + zqi→j (u)
+Wi = m(Ti − 1) + z(Qi − λi→j )
+∂
+R(w, σ) ∝ qi→j (u) [(Rj − m)Tj Ti + mTj + zQj Ti + zTj λi→j ]
+∂u
++ u [Qi Tj (m − Rj ) + Qj (m − zQi + zλi→j )]
+q
+
+Remark 3. limu→0 i→ju
+
+(u)
+
+= λi→j .
+
+Remark 4. λi→j Ti − Qi ≥ 0 and maximized when σi = (0, ∞). Similarly, Qi ≥ 0 and maximized
+when σi = (0, ∞).
+
+∂
+In the next lemma, we consider u an upper endpoint of σ2 , and so ∂u
+R(w = {w1 , w2 }, σ =
+{σ1 , σ2 }) is a derivative with respect to an upper endpoint of σ2 .
+
+57
+
+
+[form-feed in source extraction]
+Lemma 9. Fix arbitrary σ1 , and thus Q1 , T1 , R1 . Let Q̄2 , T̄2 be the respective values of Q2 , T2 at
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (m a Qi Qj Ti Tj Ri Rj lambdaIJ lambdaJI : ℝ),
+  0 < m →
+    a < 0 →
+      0 ≤ Rj - Ri →
+        0 < Qi / Ti + Qj / Tj →
+          0 < lambdaIJ →
+            0 < lambdaIJ + lambdaJI →
+              Ti ≠ 0 →
+                Tj ≠ 0 →
+                  GN21DriverSurgePricing.strictQuasiConcaveOnPositive fun u =>
+                    GN21DriverSurgePricing.gn21Lemma6Response
+                      (GN21DriverSurgePricing.gn21SwitchProb lambdaIJ lambdaJI u) u (m * u + a) Qi Qj Ti Tj Ri Rj
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_lemma8_affine_negative_additive_response_quasi_concave
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} Lemma 8 identifies the response under the corresponding negative additive affine price as strictly quasi-concave. The Spec preserves the source price form, sign condition, and quasi-concavity conclusion.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-7d5af65772b5a76a}{}
+\section*{Review row 10}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}704-\allowbreak{}708;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}3809-\allowbreak{}3833;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}4587-\allowbreak{}4588\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 9. Fix arbitrary σ1 , and thus Q1 , T1 , R1 . Let Q̄2 , T̄2 be the respective values of Q2 , T2 at
+σ2 = (0, ∞). Let w2 (τ ) = mτ + zq2→1 (τ ), where m > R1 .
+If
+z
+T1 (λ2→1 T̄2 − Q̄2 ) − (Q1 + T1 λ2→1 )
+Q̄2 T1 + Q1
+[U+0001 control character]<
+<
+m
+−
+R
+Q1 (Q̄2 − λ2→1 )
+Q1 (λ2→1 T̄2 − Q̄2 ) + λ2→1 (Q1 + T1 λ2→1 )
+1
+∂
+Then ∂u
+R(w, σ) > 0, for all u, σ2 . Furthermore, the constraint set is feasible regardless of the
+primitives.
+
+We can now do the same thing for the first state, assuming that w1 (τ ) is of the form w1 (τ ) =
+mτ + zq1→2 (τ ), where now z ≤ 0 and m = R2 . In the next lemma, we consider u an upper endpoint
+∂
+of σ1 , and so ∂u
+R(w = {w1 , w2 }, σ = {σ1 , σ2 }) is a derivative with respect to an upper endpoint of
+σ1 . Then,
+
+[Next verbatim source excerpt]
+
+Theorem 3. Let R1 < R2 be target earning rates during non-surged and surge states, respectively.
+There exist prices w = {w1 , w2 } of the form
+wi (τ ) = mi τ + zi qi→j (τ ),
+where m1 , m2 , z2 ≥ 0 (but z1 may be either positive or negative), such that the optimal driver policy
+is to accept every trip in the surge state and all trips up to a certain length in the non-surge state.
+
+[Next verbatim source excerpt]
+
+Proof. Proof.
+Suppose we have w2 (u) = mu + zq2→1 (u), for some m > R1 , z ≥ 0.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (arrivalRate lowerEndpoint u T1 Q1 T2 Q2 Tbar2 Qbar2 switch21 switch12 m R1 z ratio : ℝ) (density : ℝ → ℝ)
+  (harrival_pos : 0 < arrivalRate) (hdensity_pos : 0 < density u) (hQ1_pos : 0 < Q1)
+  (hden :
+    GN21DriverSurgePricing.gn21EndpointQiPath arrivalRate switch21 lowerEndpoint density
+            (GN21DriverSurgePricing.gn21SwitchProb switch21 switch12) u *
+          T1 +
+        Q1 * GN21DriverSurgePricing.gn21EndpointTiPath arrivalRate lowerEndpoint density u ≠
+      0)
+  (hq_int :
+    IntervalIntegrable (fun τ => GN21DriverSurgePricing.gn21SwitchProb switch21 switch12 τ * density τ)
+      MeasureTheory.volume lowerEndpoint u)
+  (hq_meas :
+    StronglyMeasurableAtFilter (fun τ => GN21DriverSurgePricing.gn21SwitchProb switch21 switch12 τ * density τ) (nhds u)
+      MeasureTheory.volume)
+  (hq_cont : ContinuousAt (fun τ => GN21DriverSurgePricing.gn21SwitchProb switch21 switch12 τ * density τ) u)
+  (hw_int :
+    IntervalIntegrable (fun τ => GN21DriverSurgePricing.ctmcStructuredSurgePrice m z switch21 switch12 τ * density τ)
+      MeasureTheory.volume lowerEndpoint u)
+  (hw_meas :
+    StronglyMeasurableAtFilter
+      (fun τ => GN21DriverSurgePricing.ctmcStructuredSurgePrice m z switch21 switch12 τ * density τ) (nhds u)
+      MeasureTheory.volume)
+  (hw_cont :
+    ContinuousAt (fun τ => GN21DriverSurgePricing.ctmcStructuredSurgePrice m z switch21 switch12 τ * density τ) u)
+  (ht_int : IntervalIntegrable (fun τ => τ * density τ) MeasureTheory.volume lowerEndpoint u)
+  (ht_meas : StronglyMeasurableAtFilter (fun τ => τ * density τ) (nhds u) MeasureTheory.volume)
+  (ht_cont : ContinuousAt (fun τ => τ * density τ) u),
+  GN21DriverSurgePricing.gn21EndpointQiPath arrivalRate switch21 lowerEndpoint density
+        (GN21DriverSurgePricing.gn21SwitchProb switch21 switch12) u =
+      Q2 →
+    GN21DriverSurgePricing.gn21EndpointTiPath arrivalRate lowerEndpoint density u = T2 →
+      GN21DriverSurgePricing.gn21EndpointWiPath arrivalRate lowerEndpoint density
+            (GN21DriverSurgePricing.ctmcStructuredSurgePrice m z switch21 switch12) u =
+          m * (T2 - 1) + z * (Q2 - switch21) →
+        GN21DriverSurgePricing.lemma9StructuredBounds ratio T1 Q1 Tbar2 Qbar2 switch21 →
+          0 ≤ z →
+            z = ratio * (m - R1) →
+              0 < m - R1 →
+                0 ≤ R1 →
+                  0 ≤ T1 →
+                    0 < switch21 →
+                      0 < switch21 + switch12 →
+                        0 < u →
+                          0 ≤ switch21 * T2 - Q2 →
+                            switch21 * T2 - Q2 ≤ switch21 * Tbar2 - Qbar2 →
+                              switch21 < Q2 →
+                                Q2 ≤ Qbar2 →
+                                  0 <
+                                    (GN21DriverSurgePricing.lemma6EndpointDerivativeData_of_interval_density_paths
+                                        arrivalRate switch21 lowerEndpoint u Q1 T1 (R1 * T1) density
+                                        (GN21DriverSurgePricing.gn21SwitchProb switch21 switch12)
+                                        (GN21DriverSurgePricing.ctmcStructuredSurgePrice m z switch21 switch12)
+                                        harrival_pos hdensity_pos hQ1_pos hden hq_int hq_meas hq_cont hw_int hw_meas
+                                        hw_cont ht_int ht_meas ht_cont).derivativeValue
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_lemma9_surge_derivative_positive_of_acceptAll_bounds
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} Lemma 9 fixes the non-surge policy, applies the displayed surge-state price and accept-all bounds, and concludes positivity of the relevant surge derivative. The transparent Spec records those fixed quantities, bounds, and derivative conclusion without suppressing the interval conditions.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-a66252366d7621fe}{}
+\hypertarget{source-section-c08c7eca66416a2f}{}
+\section*{Main-text source claims (continued)}
+\subsection*{Review row 11}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}498-\allowbreak{}548\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 1 establishes that, in a single-state model with Poisson job arrivals, the length of the
+job is not important, only the hourly rate while busy on the job. The optimal cw in the policy is
+7
+This practice is not consistent across marketplaces and locations. For example, in California as of January 2020,
+Uber shows the driver the destination and payment estimate at request time. Incentive compatible pricing is an
+important stepping stone to showing this information.
+8
+We note that destination discrimination is against Uber’s guidelines and could lead to deactivation (Uber, 2019a).
+9
+Lyft has recently experimented with paying drivers for the time it takes to pick up the rider (Auerbach, 2019).
+
+9
+
+
+[form-feed in source extraction]
+)
+not necessarily cw = sup w(τ
+τ : drivers must trade off the earnings rate while on a trip with their
+utilization rate; the more trips that a driver rejects, the longer the wait for an acceptable trip. In
+the appendix we prove the result by, starting at an arbitrary policy σ, making changes to the policy
+that increase the earnings rate while on a job without decreasing the utilization rate. Thus, each
+such change improves the reward R(w, σ), and the sequence of changes results in a policy of the
+above form, for some threshold c0 . Then, this threshold c0 can be optimized, leading to an optimal
+policy of this form.
+An immediate corollary of Theorem 1 is that w(τ ) = mτ , for m > 0, is IC. In other words, if the
+)
+platform pays a constant rate w(τ
+τ = m to busy drivers, then in the single-state model it is in the
+driver’s best interest to accept every trip. This result is driven by the following insight for Poisson
+arrivals: while receiving long trip requests is more beneficial to drivers in the single-state setting as
+they increase one’s utilization rate (the driver is busy for a longer time until the next open period),
+rejecting short trips to cherry-pick long trips decreases utilization by the same amount.10 Further
+note that, given an earnings rate target R, calculating the multiplier m and thus an IC pricing
+policy is trivial.
+On the other hand, affine pricing may not be incentive compatible because short trips are worth
+)
+a
+more per unit time than are long trips: w(τ
+τ = m + τ . The optimal policy may thus be to accept
+∗
+trips in σ = (0, T ) for some T . However, our next proposition establishes that affine pricing is
+incentive compatible if the additive component stays small enough as a function of the request
+arrival rate:
+With a single state, w(τ ) = mτ + a is incentive compatible if 0 ≤ a ≤ m
+λ.
+The sufficient condition has a simple intuition: when open, the expected amount of time the
+driver must wait for the next request is λ1 ; if on-trip time is valued at m per unit-time, then with
+a= m
+λ the additive component can be interpreted as paying for the driver’s expected waiting time.
+Thus, while a driver may earn more per hour for a short trip than a long trip with affine pricing,
+such a short trip is not worth the time the driver must wait for the next trip request. We further
+note that the condition in the proposition is not a necessary one; however, deriving necessary and
+sufficient conditions in closed form requires specifying the trip distribution F .
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (mu : MeasureTheory.Measure GN21DriverSurgePricing.TripLength) (arrivalRate m a : ℝ),
+  GN21DriverSurgePricing.singleStateTripMass mu GN21DriverSurgePricing.acceptAllPolicy = 1 →
+    MeasureTheory.IntegrableOn (fun τ => τ) GN21DriverSurgePricing.acceptAllPolicy mu →
+      0 < arrivalRate →
+        0 ≤ a →
+          a ≤ m / arrivalRate →
+            GN21DriverSurgePricing.singleStateMeasurableIncentiveCompatible
+              (GN21DriverSurgePricing.affineSingleStateRenewalReward mu arrivalRate m a)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_proposition3_1_affine_single_state_ic
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} Proposition 3.1 states that affine payment proportional to trip duration is incentive compatible. The Spec uses the paper's affine one-state reward and concludes the accept-all incentive-compatibility relation under the displayed positive-arrival and parameter domain.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-cdbb75fcd67baff3}{}
+\section*{Review row 12}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}455-\allowbreak{}520\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+freely reject it without penalty. Drivers often cannot see the rider’s destination or the trip length
+until they pick up the rider (but they can reject a request based on the pick-up time to the rider,
+without penalty).7 Some drivers call ahead to find out the rider’s destination or even cancel the
+trip at the pick-up location, creating negative experiences for both the rider and the driver.8 Our
+notion of incentive compatibility is ex-post, in which drivers would accept all trips even knowing
+the trip length. This notion is stronger than an ex-ante setting in which the trip length is not
+revealed to drivers. Furthermore, in practice, jobs have two components: the time it takes to pick
+up the rider, and the time while the rider is in the driver’s vehicle – and the former component is
+typically unpaid.9 Our model combines these two components into an overall trip length, which
+determines payments.
+Markovian surge and model limitations. In practice, surge has strong intra-day patterns
+– for example, rush hours have higher average surge values, cf. Appendix Figure 9b. However,
+evolution of surge on finer time scales, on the level of drivers’ individual trip decisions, is more
+volatile and believably Markovian, cf. Appendix Figure 9c. Our theoretical model assumes that
+surge is Markovian and binary and the response of a single driver, and further ignores spatial effects.
+We discuss such issues in Sections A.3 and B.1, and our empirical analysis in Section 6 provides
+evidence that our insights extend to practice despite these theoretical limitations.
+
+3
+
+Incentive compatibility with affine pricing
+
+In this section, we study the incentive compatibility of affine pricing. In Section 3.1, we first
+characterize the driver’s best-response strategy with respect to any pricing function w in the singlestate model. We then observe that multiplicative pricing, a special case of affine pricing where
+w(τ ) = mτ , is incentive compatible. In contrast, in Section 3.2, we show that in the dynamic model,
+multiplicative pricing may no longer be incentive compatible. We further derive the structure of
+optimal driver policies in each state with respect to affine or multiplicative pricing, which will
+enable numerical study of the incentive compatibility properties of additive and multiplicative
+surge in Section 5. Section 3.3 discusses the key differences in the two models, setting up Section 4
+where we derive incentive compatible pricing functions for the dynamic model.
+
+3.1
+
+Single-state model: multiplicative pricing is incentive compatible
+
+Our first result is a simple optimal driver policy in the single-state model.
+Theorem
+1. With o
+a single state, for each w there exists a constant cw ∈ R+ such that the policy
+n
+w(τ )
+∗
+σ = τ : τ ≥ cw is optimal for the driver with respect to w.
+Theorem 1 establishes that, in a single-state model with Poisson job arrivals, the length of the
+job is not important, only the hourly rate while busy on the job. The optimal cw in the policy is
+7
+This practice is not consistent across marketplaces and locations. For example, in California as of January 2020,
+Uber shows the driver the destination and payment estimate at request time. Incentive compatible pricing is an
+important stepping stone to showing this information.
+8
+We note that destination discrimination is against Uber’s guidelines and could lead to deactivation (Uber, 2019a).
+9
+Lyft has recently experimented with paying drivers for the time it takes to pick up the rider (Auerbach, 2019).
+
+9
+
+
+[form-feed in source extraction]
+)
+not necessarily cw = sup w(τ
+τ : drivers must trade off the earnings rate while on a trip with their
+utilization rate; the more trips that a driver rejects, the longer the wait for an acceptable trip. In
+the appendix we prove the result by, starting at an arbitrary policy σ, making changes to the policy
+that increase the earnings rate while on a job without decreasing the utilization rate. Thus, each
+such change improves the reward R(w, σ), and the sequence of changes results in a policy of the
+above form, for some threshold c0 . Then, this threshold c0 can be optimized, leading to an optimal
+policy of this form.
+An immediate corollary of Theorem 1 is that w(τ ) = mτ , for m > 0, is IC. In other words, if the
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (μ : MeasureTheory.Measure GN21DriverSurgePricing.TripLength) (arrivalRate : ℝ)
+  (w : GN21DriverSurgePricing.PricingFunction),
+  (Measurable fun τ => w τ / τ) →
+    (∀ (τ : GN21DriverSurgePricing.TripLength), 0 < τ → 0 ≤ w τ / τ) →
+      μ GN21DriverSurgePricing.acceptAllPolicy ≠ ⊤ →
+        MeasureTheory.IntegrableOn w GN21DriverSurgePricing.acceptAllPolicy μ →
+          MeasureTheory.IntegrableOn (fun τ => τ) GN21DriverSurgePricing.acceptAllPolicy μ →
+            0 < arrivalRate →
+              ∃ c,
+                0 ≤ c ∧
+                  ∃ σ,
+                    GN21DriverSurgePricing.thresholdRatePolicy w c σ ∧
+                      GN21DriverSurgePricing.singleStateMeasurableOptimal
+                        (GN21DriverSurgePricing.singleStateRenewalReward μ arrivalRate w) σ
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_theorem1_single_state_threshold_best_response
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} Theorem 1 states that a single-state optimum can be selected as a threshold policy. The expanded Spec gives an explicit cutoff and policy satisfying the source threshold relation and concludes optimality for the one-state renewal reward under the stated measurable and integrability domain.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-38fbb9f78eb2c2c7}{}
+\section*{Review row 13}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}560-\allowbreak{}656\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 2. If w = {w1 , w2 }, there exists an optimal policy σ = {σ1 , σ2 } (i.e., that maximizes
+R(w, σ)), defined with parameters t1 , t2 , t3 , t4 , t5 , t6 ∈ [0, ∞) ∪ {∞}, such that
+• Non-surge state driver optimal policy σ1 :
+– If w1 is multiplicative or positive affine, σ1 rejects long trips, i.e., σ1 = (0, t1 ).
+– If w1 is negative affine, σ1 rejects short and long trips, i.e., σ1 = (t2 , t3 ).
+10
+
+This insight is similar to a result of Kamble (2019); however, in our setting the driver’s strategy σ is a subset of
+R+ denoting the job requests accepted, as opposed to a discrete set of prices charged. Further, in our settings the
+driver responds to the platform’s prices instead of setting prices, enabling a wider range of IC pricing mechanisms.
+
+10
+
+
+[form-feed in source extraction]
+• Surge state driver optimal policy σ2 :
+– If w2 is multiplicative or negative affine, σ2 rejects short trips, i.e., σ2 = (t4 , ∞).
+
+– If w2 is positive affine, σ2 rejects medium length trips, i.e., σ2 = (0, t5 ) ∪ (t6 , ∞).
+Furthermore, there exist settings where ti ’s take positive finite values, and in which multiplicative
+pricing is not incentive compatible in either state. Finally, only policies of the appropriate form as
+indicated (up to differences of measure 0) can be optimal.
+We discuss the intuition in the next section. In the appendix, we prove the result for each case
+as follows: fixing σj for j 6= i, we start with an arbitrary open set σi = ∪∞
+k (`k , uk ), recalling that
+open sets can be written as a countable union of such disjoint intervals. Then, we find ∂u∂ k R(w, σ),
+the derivative of the set function R(w, σ) with respect to one of the interval upper end-points
+of σi , i.e., uk . This derivative is the infinitesimal change in the overall reward if σi is expanded
+by increasing uk , and it has useful properties. In the surge state with multiplicative pricing, for
+∂
+example, ∂u
+R(w, σ) has the same sign as a function that is increasing in u, for each fixed σ. With
+affine pricing, it has the same sign as a quasi-convex (positive affine in the surge state) or quasiconcave (negative affine in the non-surge state) function in u, for a fixed σ. Such properties enable
+constructing a sequence of changes to σi that each do not decrease the reward R(w, σ), with the
+limit being a policy of the appropriate form. In particular, we can show that any policy that is not
+of the appropriate form above has ∂u∂ k R(w, σ) > 0 for some uk , allowing local improvements until
+adjacent intervals (`k , uk ), (`k+1 , uk+1 ) can be combined or expanded to infinity. The numerics in
+Section 5 provide examples in which multiplicative pricing is not incentive compatible, i.e., where
+policies of the form above with positive finite constants strictly increase driver earnings over the
+driver policy that accepts all trip requests.
+The results of rejecting long trips in non-surge (and short trips in surge) extend to arbitrary
+functions where w1τ(τ ) is non-increasing (respectively, w2τ(τ ) is non-decreasing). The other two results
+do not hold with such generality, as the behavior of the derivative may be arbitrarily complex.
+
+3.3
+
+Why is multiplicative surge pricing not incentive compatible?
+“I thoroughly dislike short trips ESPECIALLY when I’m picking up in a waning surge zone”
+Anonymous driver
+
+What explains the difference between multiplicative pricing being incentive compatible in the singlestate model but not in the dynamic model? In the latter, a driver’s policy affects not just their
+earnings while they are busy, but also the fraction of time during which they are busy during the
+lucrative surge state. In particular, it turns out, accepting short trips during surge may reduce the
+amount of time that a driver is on a surge trip! Appendix Figure 7 shows in an example how the
+fraction of time in the surge state µ2 (σ) changes as a function of how many short trips the driver
+rejects.
+The anonymous driver we quote above identifies the key effect: when surge is short-lived, a
+driver may only have the chance to complete one surge trip before it ends. Thus, the driver may
+be better off waiting to receive a longer trip request, as with multiplicative surge they are paid
+a higher rate for the full duration of the longer trip. (Of course, there is a trade-off as rejecting
+too many trip requests risks not receiving any acceptable request before surge ends). In the surge
+state, then, multiplicative pricing does not compensate drivers enough to accept short trips that
+may reduce their future surge earnings. In the non-surge state, analogously, multiplicative pricing
+under-values long trips that may prevent taking advantage of a future surge.
+11
+
+
+[form-feed in source extraction]
+Affine pricing is a first, reasonable attempt at fixing these issues. In the surge state, the additive
+value makes the previously under-valued short trips comparatively more valuable, as the earnings
+per unit time w2τ(τ ) = m2 + aτ2 (with a2 > 0) are now higher for short trips. Unfortunately, with
+such pricing the structure for the surge optimal policy becomes σ2 = (0, t5 ) ∪ (t6 , ∞) – if the values
+m2 , a2 are not balanced correctly, the additive value is enough to make accepting extremely short
+trips (0, t5 ) profitable; for medium-length trips τ ∈ (t5 , t6 ), however, the additive value is not large
+enough to make up for the fact that accepting the trip prevents accepting another surged trip
+before surge ends. Similarly, negative affine pricing in the non-surge state, w1 (τ ) = m1 τ + a1 , (with
+a1 < 0) is now too harsh on very short trips but potentially not enticing enough for long trips.
+Next, we fix these issues and construct incentive compatible pricing schemes for our dynamic
+model. Then, in Section 5 we leverage structural results derived here to numerically compare the
+incentive compatibility of additive and multiplicative surge.
+
+4
+
+Incentive Compatible Surge Pricing
+
+We now present our main result, regarding the structure of incentive compatible pricing in the
+dynamic model. To this aim, in Section 4.1, we characterize µi (σ), how much time the driver
+spends in each state. In Section 4.2, we present incentive compatible prices, under a condition
+R1
+on the ratio of per-state earning rate constraints, R
+. Section 4.3 discusses an intuition of the IC
+2
+pricing structure in terms of the driver’s opportunity cost.
+
+4.1
+
+Transition probabilities and expected time spent in each state
+
+The expected fraction of time spent in each state, µi (σ), depends both on the evolution of the
+world state and the trips a driver accepts. To quantify the effects previewed in Section 3.3, we first
+analyze the evolution of the world state CTMC.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(((0 < 2 ∧
+        GN21DriverSurgePricing.rejectsLongTrips 2
+          (GN21DriverSurgePricing.theorem2BothStatesContinuousNonsurgeDeviation 0)) ∧
+      GN21DriverSurgePricing.dynamicProfitableDeviation
+        (GN21DriverSurgePricing.gn21MeasuredDynamicRewardFunctional
+          GN21DriverSurgePricing.theorem2BothStatesContinuousMu
+          GN21DriverSurgePricing.theorem2BothStatesContinuousArrival (1 / 4) (1 / 4) fun i =>
+          GN21DriverSurgePricing.multiplicativePricing (GN21DriverSurgePricing.theorem2BothStatesContinuousM i))
+        GN21DriverSurgePricing.theorem2BothStatesContinuousNonsurgeDeviation) ∧
+    (0 < 2 ∧
+        GN21DriverSurgePricing.rejectsShortTrips 2
+          (GN21DriverSurgePricing.theorem2BothStatesContinuousSurgeDeviation 1)) ∧
+      GN21DriverSurgePricing.dynamicProfitableDeviation
+        (GN21DriverSurgePricing.gn21MeasuredDynamicRewardFunctional
+          GN21DriverSurgePricing.theorem2BothStatesContinuousMu
+          GN21DriverSurgePricing.theorem2BothStatesContinuousArrival (1 / 4) (1 / 4) fun i =>
+          GN21DriverSurgePricing.multiplicativePricing (GN21DriverSurgePricing.theorem2BothStatesContinuousM i))
+        GN21DriverSurgePricing.theorem2BothStatesContinuousSurgeDeviation) ∧
+  ¬GN21DriverSurgePricing.dynamicIncentiveCompatible
+      (GN21DriverSurgePricing.gn21MeasuredDynamicRewardFunctional GN21DriverSurgePricing.theorem2BothStatesContinuousMu
+        GN21DriverSurgePricing.theorem2BothStatesContinuousArrival (1 / 4) (1 / 4) fun i =>
+        GN21DriverSurgePricing.multiplicativePricing (GN21DriverSurgePricing.theorem2BothStatesContinuousM i))
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_states
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} The selected Theorem 2 source instance supplies a multiplicative pricing rule with profitable positive finite-cutoff deviations in both states and therefore fails dynamic incentive compatibility. The Spec states that concrete two-state instance and both deviations directly, rather than using the theorem name as evidence.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-d0eae55048459432}{}
+\hypertarget{source-section-e0bf42a2f186588f}{}
+\section*{Appendix source claims (continued 2)}
+\subsection*{Review row 14}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}3859-\allowbreak{}3880;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}3884-\allowbreak{}3943\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Theorem 4. Consider pricing function w = {w1 , w2 }, where i = 2 is the surge state as defined.
+Then, there exists an optimal policy σ = {σ1 , σ2 } that maximizes R(w, σ), with the following properties.
+• Non-surge state driver optimal policy σ1 :
+– If w1 (τ ) = m1 τ + a1 , for a1 ≥ 0, then σ1 = (0, t1 ), for some t1 ∈ [0, ∞) ∪ {∞}.
+
+– If w1 (τ ) = m1 τ − a1 , for a1 > 0, then σ1 = (t2 , t3 ), for some t2 , t3 ∈ [0, ∞) ∪ {∞}.
+
+∂
+– If w1 such that ∂u
+R(w, σ 0 = {σ10 , σ20 }) > 0 for all σ 0 , where u is an upper endpoint of an
+interval that makes up σ10 , then σ1 = (0, ∞).
+
+• Surge state driver optimal policy σ2 :
+– If w2 (τ ) = m2 τ − a2 , for a2 ≥ 0, then σ1 = (t4 , ∞), for some t4 ∈ [0, ∞).
+
+– If w2 (τ ) = m2 τ +a2 , for a2 > 0, then σ1 = (0, t5 )∪(t6 , ∞), for some t5 , t6 ∈ [0, ∞)∪{∞}.
+∂
+– If w2 such that ∂u
+R(w, σ 0 = {σ10 , σ20 }) > 0 for all σ 0 , where u is an upper endpoint of an
+interval that makes up σ20 , then σ2 = (0, ∞).
+
+Furthermore, only policies of the given forms can be optimal.
+
+[Next verbatim source excerpt]
+
+
+[form-feed in source extraction]
+• Start with some arbitrary policy σ = {σ1 , σ2 }.
+• With assumption on the surge state providing higher potential earnings, replace σ2 with a
+policy that provides higher earnings in state 2 than σ1 does in state 1, without decreasing
+total reward.
+• Using Lemma 5, replace σ1 with policy of the appropriate form, without decreasing total
+reward.
+• Using Lemma 5, replace σ2 with policy of the appropriate form, without decreasing total
+reward.
+∂
+Let r(u, i, w, σ) be as defined in Lemma 6, a function that has the same sign as ∂u
+R(w, σ),
+where u is an upper endpoint of an interval that is part of σi . Recall that, above, we show
+
+• (Remark 1). ∆(σi , σj ) > 0 and wiτ(τ ) non-decreasing implies r(u, i, w, σ) strictly increasing in
+u ∈ σi .
+• (Remark 1). ∆(σi , σj ) < 0 and wiτ(τ ) non-increasing implies r(u, i, w, σ) strictly decreasing in
+u ∈ σi .
+• (Lemma 7). w(τ ) = mτ + a for m, a > 0 and ∆(σi , σ−i ) ≥ 0 implies r(u, i, w, σ) is strictly
+quasi-convex in u ∈ σi
+• (Lemma 8). w(τ ) = mτ − a for m, a > 0 and ∆(σi , σ−i ) ≤ 0 implies r(u, i, w, σ) is strictly
+quasi-concave in u ∈ σi
+We need to show that there exists a σ of the appropriate form such that R(w, σ) ≥ R(w, σ 0 ),
+for all σ 0 .
+Start with arbitrary σ 0 = {σ10 , σ20 } where σ10 , σ20 ⊆ R+ are open, measurable sets, but not of the
+correct form in the theorem statement. Invoking Lemma 5 as appropriate, we construct a sequence
+of changes to σ 0 such that the overall reward does not decrease with each change, and the sequence
+ends with a policy consistent with the theorem statement.
+Step A First, if R2 (σ20 ) < R1 (σ10 ), then we replace σ20 with a policy σ2A such that R2 (σ2A ) >
+R1 (σ1 ), ∀σ1 .
+Let σ2A be such that ∆(σ2A , σ100 ) > 0, for all σ100 open and measurable. Such σ2A exists by the
+definition of the surge state (we in fact define the surge state so that such σ2A exists).
+Then, let σ A , {σ1A = σ10 , σ2A }.
+
+Note that R(w, σ A ) ≥ R(w, σ 0 ): time spent earning reward at the rate of R2 (w2 , σ20 ) is replaced
+by time spent earning at rate R1 (w1 , σ10 ) or earning at rate R2 (w2 , σ2A ); time spent earning
+at R1 (w1 , σ10 ) may be replaced by time earning at rate R2 (w2 , σ2A ).
+
+Step B Now, we replace σ1A with a policy that is of the appropriate form.
+Let R̂(σ1 ) , R(w, {σ1 , σ2A }). By Lemma 5, there exists σ1B such that R(w, {σ1B , σ2A }) ≥
+R(w, {σ1A , σ2A }), and σ1B is of the required form. The inequality is strict if σ1A is not of the
+required form.
+Note that all the assumptions of Lemma 5 are met for each appropriate case: σ2B such
+that ∆(σ2B , σ10 ) > 0, ∀σ10 , and so r(u, i, w, σ) remains decreasing or strictly quasi-concave as
+necessary.
+Let σ B , {σ1B , σ2B = σ2A }.
+59
+
+
+[form-feed in source extraction]
+Step C Now, we replace σ2B with a policy that is of the appropriate form.
+Let R̂(σ2 ) , R(w, {σ1B , σ2 }).
+
+By Lemma 5, there exists σ2C such that R(w, {σ1B , σ2C }) ≥ R(w, {σ1B , σ2B }), and σ2C is of the
+required form according to the table. The inequality is strict if σ2B is not of the required form.
+As before, all the assumptions of Lemma 5 are met for each appropriate case. σ2B such that
+∆(σ2B , σ10 ) > 0, ∀σ10 , and so r(u, i, w, σ) remains strictly increasing / strictly quasi-convex in
+u for a fixed σ.
+Let σ C , {σ1C = σ1B , σ2C }.
+Thus, we have constructed σ ∗ = {σ1∗ = σ1C , σ2∗ = σ2C } such that σ1∗ , σ2∗ correspond to theorem
+statement for the appropriate cases, respectively, and R(w, σ ∗ ) ≥ R(w, σ), for all σ = {σ1 , σ2 }
+where σ1 , σ2 ⊆ R+ are open, measurable sets, with the inequality strict if σ is not of the required
+form.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (mu : Fin 2 → MeasureTheory.Measure GN21DriverSurgePricing.TripLength) [MeasureTheory.NoAtoms (mu 0)]
+  [MeasureTheory.NoAtoms (mu 1)] [MeasureTheory.IsFiniteMeasure (mu 0)] [MeasureTheory.IsFiniteMeasure (mu 1)]
+  [(mu 0).InnerRegularCompactLTTop] [(mu 1).InnerRegularCompactLTTop] (arrival : Fin 2 → ℝ) (switch12 switch21 : ℝ)
+  (w : Fin 2 → GN21DriverSurgePricing.PricingFunction) (shape : Fin 2 → GN21DriverSurgePricing.Lemma5DerivativeShape),
+  0 < arrival 0 →
+    0 < arrival 1 →
+      0 < switch12 →
+        0 < switch21 →
+          Measurable (w 0) →
+            Measurable (w 1) →
+              MeasureTheory.IntegrableOn (fun tau => tau) GN21DriverSurgePricing.acceptAllPolicy (mu 0) →
+                MeasureTheory.IntegrableOn (fun tau => tau) GN21DriverSurgePricing.acceptAllPolicy (mu 1) →
+                  MeasureTheory.IntegrableOn (w 0) GN21DriverSurgePricing.acceptAllPolicy (mu 0) →
+                    MeasureTheory.IntegrableOn (w 1) GN21DriverSurgePricing.acceptAllPolicy (mu 1) →
+                      GN21DriverSurgePricing.gn21SourceSurgeStateDominance mu arrival w →
+                        GN21DriverSurgePricing.gn21Theorem4NonsurgeLiteralEndpointPriceCase
+                            (GN21DriverSurgePricing.gn21AggregateDynamicRewardFunctional mu arrival switch12 switch21 w)
+                            w shape →
+                          GN21DriverSurgePricing.gn21Theorem4SurgeLiteralEndpointPriceCase
+                              (GN21DriverSurgePricing.gn21AggregateDynamicRewardFunctional mu arrival switch12 switch21
+                                w)
+                              w shape →
+                            (∀ (rho : Fin 2 → GN21DriverSurgePricing.TripPolicy),
+                                GN21DriverSurgePricing.dynamicFeasibleOpenPolicy rho →
+                                  ∀ (i : Fin 2) (tau : GN21DriverSurgePricing.TripPolicy),
+                                    GN21DriverSurgePricing.GN21SymmDiffContinuousAt (mu i)
+                                      (fun policy =>
+                                        GN21DriverSurgePricing.gn21AggregateDynamicRewardFunctional mu arrival switch12
+                                          switch21 w (Function.update rho i policy))
+                                      tau) →
+                              (∃ rho,
+                                  GN21DriverSurgePricing.dynamicOpenOptimal
+                                      (GN21DriverSurgePricing.gn21AggregateDynamicRewardFunctional mu arrival switch12
+                                        switch21 w)
+                                      rho ∧
+                                    GN21DriverSurgePricing.lemma5SourcePolicyForm (shape 0) (rho 0) ∧
+                                      GN21DriverSurgePricing.lemma5SourcePolicyForm (shape 1) (rho 1)) ∧
+                                ∀ (rho : Fin 2 → GN21DriverSurgePricing.TripPolicy),
+                                  GN21DriverSurgePricing.dynamicOpenOptimal
+                                      (GN21DriverSurgePricing.gn21AggregateDynamicRewardFunctional mu arrival switch12
+                                        switch21 w)
+                                      rho →
+                                    GN21DriverSurgePricing.lemma5SourcePolicyFormAlmostEverywhere (mu 0) (shape 0)
+                                        (rho 0) ∧
+                                      GN21DriverSurgePricing.lemma5SourcePolicyFormAlmostEverywhere (mu 1) (shape 1)
+                                        (rho 1)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_theorem4_full_structural_policy_forms_direct
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} Theorem 4 asserts existence of an open measurable optimum and the listed structural price-policy forms for every such optimum. The Spec retains the five response-shape cases, the source surge-state model, open measurable domain, and the existence-and-universal structural conclusion; the zero-density convention is represented by the source's stated almost-everywhere policy semantics, not by a full-support assumption.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-e4ff38b469e6cc30}{}
+\hypertarget{source-section-62736bb95a656bbc}{}
+\section*{Main-text source claims (continued 2)}
+\subsection*{Review row 15}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}264-\allowbreak{}285;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}441-\allowbreak{}442;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}560-\allowbreak{}656;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}3710-\allowbreak{}3714\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+follows policy σ = {σ1 , σ2 }, where σi ⊆ R+ indicates the jobs accepted in state i. We assume that
+driver policies are measurable with respect to F (corresponding Fi in dynamic model); for technical
+reasons, in the dynamic model we also assume that σi consist of a union of open intervals, i.e., are
+open subsets of R+ . When we write equalities with policies σ, we mean equality up to changes of
+measure 0.
+The driver is long-lived and aims to maximize their own lifetime average hourly earnings on the
+platform, including both open and busy times. Let R(w, σ, t) denote the (random) total earnings
+from jobs accepted from time 0 up to time t if the driver follows policy σ and the payout function
+is w. Then, the driver’s lifetime earnings rate is
+R(w, σ) , lim inf t→∞
+
+R(w, σ, t)
+.
+t
+
+This earnings rate is a deterministic (non-random) quantity, and is a function of the driver policy
+σ, pricing function w, and the primitives.
+A driver policy σ ∗ is optimal (best-response) with respect to pricing function w if it maximizes
+the lifetime earnings rate of the driver among all policies: R(w, σ ∗ ) ≥ R(w, σ), for all valid policies
+σ (i.e., measurable with respect to F or Fi , with σi open sets). Then, pricing function w is incentive
+compatible (IC) if accepting all job requests is optimal with respect to w, i.e., σ = (0, ∞) in
+the single-state model or σ = {(0, ∞), (0, ∞)} in the dynamic model is optimal with respect to w.
+
+[Next verbatim source excerpt]
+
+where wi (τ ) = mi τ + ai , with mi ≥ 0 (in the single-state model: w(τ ) = mτ + a, with m ≥ 0; we
+refer to the case with ai > 0 (ai < 0) as positive (negative) affine pricing). Such pricing functions
+
+[Next verbatim source excerpt]
+
+Theorem 2. If w = {w1 , w2 }, there exists an optimal policy σ = {σ1 , σ2 } (i.e., that maximizes
+R(w, σ)), defined with parameters t1 , t2 , t3 , t4 , t5 , t6 ∈ [0, ∞) ∪ {∞}, such that
+• Non-surge state driver optimal policy σ1 :
+– If w1 is multiplicative or positive affine, σ1 rejects long trips, i.e., σ1 = (0, t1 ).
+– If w1 is negative affine, σ1 rejects short and long trips, i.e., σ1 = (t2 , t3 ).
+10
+
+This insight is similar to a result of Kamble (2019); however, in our setting the driver’s strategy σ is a subset of
+R+ denoting the job requests accepted, as opposed to a discrete set of prices charged. Further, in our settings the
+driver responds to the platform’s prices instead of setting prices, enabling a wider range of IC pricing mechanisms.
+
+10
+
+
+[form-feed in source extraction]
+• Surge state driver optimal policy σ2 :
+– If w2 is multiplicative or negative affine, σ2 rejects short trips, i.e., σ2 = (t4 , ∞).
+
+– If w2 is positive affine, σ2 rejects medium length trips, i.e., σ2 = (0, t5 ) ∪ (t6 , ∞).
+Furthermore, there exist settings where ti ’s take positive finite values, and in which multiplicative
+pricing is not incentive compatible in either state. Finally, only policies of the appropriate form as
+indicated (up to differences of measure 0) can be optimal.
+We discuss the intuition in the next section. In the appendix, we prove the result for each case
+as follows: fixing σj for j 6= i, we start with an arbitrary open set σi = ∪∞
+k (`k , uk ), recalling that
+open sets can be written as a countable union of such disjoint intervals. Then, we find ∂u∂ k R(w, σ),
+the derivative of the set function R(w, σ) with respect to one of the interval upper end-points
+of σi , i.e., uk . This derivative is the infinitesimal change in the overall reward if σi is expanded
+by increasing uk , and it has useful properties. In the surge state with multiplicative pricing, for
+∂
+example, ∂u
+R(w, σ) has the same sign as a function that is increasing in u, for each fixed σ. With
+affine pricing, it has the same sign as a quasi-convex (positive affine in the surge state) or quasiconcave (negative affine in the non-surge state) function in u, for a fixed σ. Such properties enable
+constructing a sequence of changes to σi that each do not decrease the reward R(w, σ), with the
+limit being a policy of the appropriate form. In particular, we can show that any policy that is not
+of the appropriate form above has ∂u∂ k R(w, σ) > 0 for some uk , allowing local improvements until
+adjacent intervals (`k , uk ), (`k+1 , uk+1 ) can be combined or expanded to infinity. The numerics in
+Section 5 provide examples in which multiplicative pricing is not incentive compatible, i.e., where
+policies of the form above with positive finite constants strictly increase driver earnings over the
+driver policy that accepts all trip requests.
+The results of rejecting long trips in non-surge (and short trips in surge) extend to arbitrary
+functions where w1τ(τ ) is non-increasing (respectively, w2τ(τ ) is non-decreasing). The other two results
+do not hold with such generality, as the behavior of the derivative may be arbitrarily complex.
+
+3.3
+
+Why is multiplicative surge pricing not incentive compatible?
+“I thoroughly dislike short trips ESPECIALLY when I’m picking up in a waning surge zone”
+Anonymous driver
+
+What explains the difference between multiplicative pricing being incentive compatible in the singlestate model but not in the dynamic model? In the latter, a driver’s policy affects not just their
+earnings while they are busy, but also the fraction of time during which they are busy during the
+lucrative surge state. In particular, it turns out, accepting short trips during surge may reduce the
+amount of time that a driver is on a surge trip! Appendix Figure 7 shows in an example how the
+fraction of time in the surge state µ2 (σ) changes as a function of how many short trips the driver
+rejects.
+The anonymous driver we quote above identifies the key effect: when surge is short-lived, a
+driver may only have the chance to complete one surge trip before it ends. Thus, the driver may
+be better off waiting to receive a longer trip request, as with multiplicative surge they are paid
+a higher rate for the full duration of the longer trip. (Of course, there is a trade-off as rejecting
+too many trip requests risks not receiving any acceptable request before surge ends). In the surge
+state, then, multiplicative pricing does not compensate drivers enough to accept short trips that
+may reduce their future surge earnings. In the non-surge state, analogously, multiplicative pricing
+under-values long trips that may prevent taking advantage of a future surge.
+11
+
+
+[form-feed in source extraction]
+Affine pricing is a first, reasonable attempt at fixing these issues. In the surge state, the additive
+value makes the previously under-valued short trips comparatively more valuable, as the earnings
+per unit time w2τ(τ ) = m2 + aτ2 (with a2 > 0) are now higher for short trips. Unfortunately, with
+such pricing the structure for the surge optimal policy becomes σ2 = (0, t5 ) ∪ (t6 , ∞) – if the values
+m2 , a2 are not balanced correctly, the additive value is enough to make accepting extremely short
+trips (0, t5 ) profitable; for medium-length trips τ ∈ (t5 , t6 ), however, the additive value is not large
+enough to make up for the fact that accepting the trip prevents accepting another surged trip
+before surge ends. Similarly, negative affine pricing in the non-surge state, w1 (τ ) = m1 τ + a1 , (with
+a1 < 0) is now too harsh on very short trips but potentially not enticing enough for long trips.
+Next, we fix these issues and construct incentive compatible pricing schemes for our dynamic
+model. Then, in Section 5 we leverage structural results derived here to numerically compare the
+incentive compatibility of additive and multiplicative surge.
+
+4
+
+Incentive Compatible Surge Pricing
+
+We now present our main result, regarding the structure of incentive compatible pricing in the
+dynamic model. To this aim, in Section 4.1, we characterize µi (σ), how much time the driver
+spends in each state. In Section 4.2, we present incentive compatible prices, under a condition
+R1
+on the ratio of per-state earning rate constraints, R
+. Section 4.3 discusses an intuition of the IC
+2
+pricing structure in terms of the driver’s opportunity cost.
+
+4.1
+
+Transition probabilities and expected time spent in each state
+
+The expected fraction of time spent in each state, µi (σ), depends both on the evolution of the
+world state and the trips a driver accepts. To quantify the effects previewed in Section 3.3, we first
+analyze the evolution of the world state CTMC.
+
+[Next verbatim source excerpt]
+
+We assume throughout:
+• Distribution of jobs F, Fi is a continuous probability measure, i.e., f, fi bounded.
+• There exists a policy in state 2 that dominates state 1: ∃σ2 such that ∆(σ2 , σ1 ) > 0, ∀σ1 ⊆
+(0, ∞).
+• σ, σi constrained to be measurable with respect to F, Fi , and σi are open.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (mu : Fin 2 → MeasureTheory.Measure GN21DriverSurgePricing.TripLength) [MeasureTheory.NoAtoms (mu 0)]
+  [MeasureTheory.NoAtoms (mu 1)] [MeasureTheory.IsFiniteMeasure (mu 0)] [MeasureTheory.IsFiniteMeasure (mu 1)]
+  (arrival : Fin 2 → ℝ) (switch12 switch21 : ℝ) (m : Fin 2 → ℝ),
+  0 ≤ m 0 →
+    0 ≤ m 1 →
+      0 < arrival 0 →
+        0 < arrival 1 →
+          0 < switch12 →
+            0 < switch21 →
+              GN21DriverSurgePricing.singleStateTripMass (mu 0) GN21DriverSurgePricing.acceptAllPolicy = 1 →
+                GN21DriverSurgePricing.singleStateTripMass (mu 1) GN21DriverSurgePricing.acceptAllPolicy = 1 →
+                  MeasureTheory.IntegrableOn (fun tau => tau) GN21DriverSurgePricing.acceptAllPolicy (mu 0) →
+                    MeasureTheory.IntegrableOn (fun tau => tau) GN21DriverSurgePricing.acceptAllPolicy (mu 1) →
+                      (GN21DriverSurgePricing.gn21SourceSurgeStateDominance mu arrival fun i =>
+                          GN21DriverSurgePricing.multiplicativePricing (m i)) →
+                        (∃ rho,
+                            GN21DriverSurgePricing.dynamicOpenOptimal
+                                (GN21DriverSurgePricing.gn21AggregateMultiplicativeDynamicReward mu arrival switch12
+                                  switch21 m)
+                                rho ∧
+                              GN21DriverSurgePricing.rejectsLongTripsFiniteOrInfiniteCutoffAlmostEverywhere (mu 0)
+                                  (rho 0) ∧
+                                GN21DriverSurgePricing.rejectsShortTripsFiniteOrInfiniteCutoffAlmostEverywhere (mu 1)
+                                  (rho 1)) ∧
+                          ∀ (rho : Fin 2 → GN21DriverSurgePricing.TripPolicy),
+                            GN21DriverSurgePricing.dynamicOpenOptimal
+                                (GN21DriverSurgePricing.gn21AggregateMultiplicativeDynamicReward mu arrival switch12
+                                  switch21 m)
+                                rho →
+                              GN21DriverSurgePricing.rejectsLongTripsFiniteOrInfiniteCutoffAlmostEverywhere (mu 0)
+                                  (rho 0) ∧
+                                GN21DriverSurgePricing.rejectsShortTripsFiniteOrInfiniteCutoffAlmostEverywhere (mu 1)
+                                  (rho 1)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_theorem2_multiplicative_policy_shape_source_claim
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} Theorem 2 gives the multiplicative-pricing policy shapes: an optimal open policy exists and every optimal open policy has the stated non-surge reject-long and surge reject-short cutoff forms up to null sets. The expanded Spec states both quantifier clauses and the continuous-law, positive-rate, and surge-state model domain used in the source.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-5a2021856d51c6f7}{}
+\hypertarget{source-section-13054b3f2d04f1de}{}
+\section*{Appendix source claims (continued 3)}
+\subsection*{Review row 16}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}3343-\allowbreak{}3386;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}3387-\allowbreak{}3644;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}3660-\allowbreak{}3692\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+Lemma 5. Consider a function R̂(σ) that maps open, measurable subsets σ = ∪∞
+k (`k , uk ) ⊆ (0, ∞)
+to the non-negative reals, and probability measure F such that F is continuous, i.e. f is bounded.
+∂
+Let ∂u
+R̂(σ) denote the partial derivative of R̂ with respect to an upper end-point u of the intervals
+that make up σ = ∪∞
+k (`k , uk ), i.e., it is the infinitesimal gain in the value of R̂(σ) by adding u to
+the set σ. Suppose,
+∂
+1. R̂(σ) is continuous in σ, and ∂u
+R̂(σ) exists, for all σ and u.
+∂
+2. ∂u
+R̂(σ) is continuous in u, for each fixed σ.
+∂
+3. ∂u
+R̂(σ) is continuous in σ, for each fixed u.
+∂
+Suppose that there exists a function r(u, σ) that has the same sign as ∂u
+R̂(σ), for all σ, u where
+0
+0
+f (u) > 0. Consider any open measurable subset σ ⊆ (0, ∞), where F (σ ) > 0, and R̂(σ 0 ) > R̂(∅).
+
+50
+
+
+[form-feed in source extraction]
+Then the following statement holds for each of the below specific cases: “Suppose ∃[U+000F control character] > 0 s.t.
+r(u, σ) is [Property] in u (for a fixed σ), for all σ such that R̂(σ) ≥ R̂(σ 0 ) − [U+000F control character]. Then, there exists
+a policy σ ∗ of the form [Form] such that R(σ ∗ ) ≥ R(σ 0 ), and the inequality is strict unless σ 0 is
+also of the same form.”
+Property
+r(u, σ) > 0 (is positive)
+r(u, σ) is strictly increasing
+r(u, σ) is strictly decreasing
+r(u, σ) is strictly quasi-convex
+r(u, σ) is strictly quasi-concave
+
+Form
+σ ∗ = (0, ∞)
+σ ∗ = (`∗ , ∞), for `∗ ∈ R+
+σ ∗ = (0, u∗ ), for u∗ ∈ R+ ∪ {∞}
+σ ∗ = (0, `∗ ) ∪ (u∗ , ∞), for `∗ , u∗ ∈ R+ ∪ {∞}
+σ ∗ = (`∗ , u∗ ), for `∗ , u∗ ∈ R+ ∪ {∞}
+
+[Next verbatim source excerpt]
+
+
+Proof. Proof. The facts that policies not of the appropriate form cannot be optimal follow directly
+from the respective structures of the derivatives, as we will show below. However, since the domain
+of the set function R̂ is any subset of R+ , we need to also prove existence of a maximizer of the
+appropriate form. The proof is structured around proving existence of a maximizer in each case,
+but we will point out where the given facts imply necessity of having the appropriate form.
+∞
+The general approach is as follows: Start at subset σ 0 ⊆ (0, ∞) = ∪∞
+k (`k , uk ) = ∪k ζk , where
+the intervals are disjoint and ζk = (`k , uk ) denotes the kth interval. (recall that any open subset of
+R can be uniquely written as the countable union of such disjoint intervals).
+Then, do the following:
+1. Create a sequence σδ0 → σ 0 (as δ → 0), where, for each δ, the set σδ0 is δ-close to σ 0 : F ((σ 0 \
+σδ0 ) ∪ (σδ0 \ σ 0 )) < δ.
+2. Show that there exists a σ ∗ of the appropriate form (according to the property that holds
+above), such that R̂(σδ0 ) ≤ R(σ ∗ ), ∀δ.
+By continuity of the set function R̂, this implies that R̂(σ 0 ) ≤ R(σ ∗ ).
+The second step is the main proof step and the only one that depends substantially on the given
+property of the function r(u, σ).
+[U+0001 control character]
+Step one: a sequence σδ0 → σ 0 . Each σδ0 will be of the form σδ0 = (0, L)∪ ∪K
+k=1 (`k , uk ) ∪(B, ∞),
+for some K, B, L that depend on δ. We construct a σδ0 such that F (σ 0 \ σδ0 ∪ σδ0 \ σ 0 ) < δ as follows:
+• F is a finite (probability) measure, and so there exists K such that F (∪∞
+k=K+1 (`k , uk )) < δ/2.
+0
+(Since F (σ ) ≤ 1, it follows by the Cauchy condition).
+• Let B ∈ R s.t. F ((B, ∞)) < δ/4. Let L ∈ R s.t. F ((0, L)) < δ/4. Such B, L exist by
+condition on F .
+[U+0001 control character]
+• Set σδ0 = (0, L) ∪ ∪K
+k=1 (`k , uk ) ∪ (B, ∞).
+• For convenience, we re-index the disjoint intervals {ζk }K+2
+k=1 such that they are in increasing
+order, i.e. uk > `k ≥ uk−1 , ∀k > 1, starting at (0, L), with the last interval (B, ∞). If there
+exist any intervals such that `k = uk−1 , replace them with the combined interval (`k−1 , uk ).
+If {B, ∞} overlaps with the last interval, combine them.
+Note that, by the suppositions, in each case ∃δ0 small enough such that r(u, σ) maintains the
+appropriate property for all σ such that R̂(σ) ≥ R̂(σδ0 ), ∀δ < δ0 .
+51
+
+
+[form-feed in source extraction]
+Step 2: showing that R̂(σ ∗ ) ≥[U+0001 control character]R̂(σ 0 ), where σ ∗ is of the appropriate form. Now, starting
+at σ = σδ0 = (0, L)∪ ∪K
+k=1 (`k , uk ) ∪(B, ∞), we describe a sequence of modifications to σ, such that
+each modification does not reduce the reward R̂(σ). The limit of this sequence of modifications is
+a policy σ ∗ of the appropriate form, regardless of the starting σδ0 .
+We now carry out this step separately for each case. The general argument is that the properties
+force r(u, σ) to be positive at certain points, which allows expanding the policy until a policy of
+the appropriate form is reached.
+Let rL (`, σ) = −r(u, σ), i.e., it is a function that has the same sign as the derivative of a lower
+endpoint of σi (the same sign as the infinitesimal loss as removing the point ` from the set σ).
+∂
+R̂(σ) is positive in u, we can
+Setting where r(u, σ) > 0 (is positive). By supposition that ∂u
+increase u1 (merging with other intervals) while increasing R̂(σ). Thus, we can keep increasing u1 ,
+and u1 → B, and so R((0, ∞)) ≥ R(σδ0 ). For any set σ 0 6= (0, ∞), we can increase the reward by
+expanding an interval, and so it cannot be optimal. Thus, (0, ∞) is the unique optimal set.
+
+Setting where r(u, σ) is strictly increasing.
+Now, starting at σ = σδ0 , the limit of the sequence of modifications is a policy σ ∗ = (`∗ , ∞).
+By the supposition that r(u, σ) strictly increasing in u, we have:
+rL (`, σ) strictly decreasing
+rL (`1 , σ) ≤ 0 =⇒ r(u1 , σ) > 0
+∂
+∂
+≡
+R̂(σ) ≤ 0 =⇒
+R̂(σ) > 0
+∂`1
+∂u1
+
+`1 < u1
+
+rL (`1 , σ) > 0 ⇐= r(u1 , σ) ≤ 0
+∂
+∂
+≡
+R̂(σ) > 0 ⇐=
+R̂(σ) ≤ 0
+∂`1
+∂u1
+Case 1: ∃ζ1 , ζ2 ⊂ σ such that `2 > u1 , |ζ1 |, |ζ2 |, i.e. there is more than one interval that
+makes up σ, and ζ1 , ζ2 are the first and second such intervals, respectively, with positive mass.
+Then we make the following sequence of changes (forming new σ), depending on ∂`∂1 R̂(σ), ∂u∂ 1 R̂(σ):
+Subcase 1A, ∂u∂ 1 R̂(σ) > 0: Increase u1 until u1 = `2 (exit Case 1), or ∂u∂ 1 R̂(σ) ≤ 0 (go to Case
+1B).
+Sub-subcase 1AA, ∂`∂1 R̂(σ) < 0, `1 > 0:
+
+Simultaneously, decrease `1 .
+
+Sub-subcase 1AB, ∂`∂1 R̂(σ) ≥ 0 or `1 = 0:
+
+Hold `1 fixed.
+
+Subcase 1B, ∂u∂ 1 R̂(σ) ≤ 0 =⇒ ∂`∂1 R̂(σ) > 0: Increase `1 until `1 = u1 (exit Case 1), or ∂`∂1 R̂(σ) ≤
+0 (which implies ∂u∂ 1 R̂(σ) > 0, i.e. go to Case 1A).
+Each of these changes increases R̂(σ), due to the direction of the changes in u1 , `1 and the signs
+of the appropriate derivatives. Note that these subcases are mutually-exclusive, and one is true
+as long as there is more than one disjoint interval, ∃ζ1 , ζ2 ⊂ σ, `2 > u1 . Further, note that u1 is
+increasing in Subcase 1A and constant in Subcase 1B. Thus, with `2 fixed and bounded, eventually:
+
+52
+
+
+[form-feed in source extraction]
+• `1 → u1 , in Subcase 1B (i.e. the first interval collapses to mass 0). OR
+• u1 → `2 , in Subcase 1A (i.e. the first interval merges with the second).
+Thus, this sequence of changes increases the reward, and results in there being one fewer interval
+than before (after combining the bottom 2 intervals by adding the point u1 = `2 of 0 measure).
+Case 1 can be iteratively applied until there is just a single interval σ = (`0 , ∞).
+That the changes can increase the reward for any other σ implies that such σ cannot be optimal.
+Case 2: σ = (`0 , ∞), i.e. there is a single interval that makes up σ
+By supposition, R̂(σ 0 ) > R̂(∅) and so R̂((`0 , ∞)) > R̂(∅). Further R̂((`, ∞)) is a continuous
+function in `. Thus, there exists L such that ∀` > L, R̂((`0 , ∞)) > R̂((`, ∞)).
+Thus, there exists `∗ ∈ [0, L] such that R̂((`∗ , ∞)) ≥ R̂((`, ∞)), ∀` ∈ R+ ∪ {∞} (continuous
+functions in a compact domain have a maximum).
+Setting where r(u, σ) is strictly decreasing.
+The proof is extremely similar to the strictly increasing case, with two differences.
+First we now need to [U+0001 control character]modify the starting σ 0 so it does not contain an interval (B, ∞): set
+0
+σδ = (0, L) ∪ ∪K
+k=1 (`k , uk ) \ (B, ∞).
+Second, each case from above is duplicated but move the policy in the opposite different to
+increase the reward. We omit the details of this case for brevity.
+Setting where r(u, σ) is strictly quasi-convex.
+We show that there exists a σ ∗ = (0, `∗ ) ∪ (u∗ , ∞), for some u∗ , l∗ ∈ R+ , such that R̂(σδ0 ) ≤
+R(σ ∗ ), ∀δ.
+The key is noting that quasi-convexity of r(u, σ) in u implies that any σ with three intervals
+ζ1 , ζ2 , ζ3 can be improved by eliminating the middle interval (or joining it with one of the others).
+Case 1: ∃ disjoint ζ1 = (0, u1 ), ζ2 = (`2 , u2 ), ζ3 = (`3 , u3 ), s.t. |ζ1 |, |ζ2 |, |ζ3 | > 0, i.e. σ is
+composed of at least three intervals, and ζ1 , ζ2 , ζ3 are the first three such intervals with positive
+mass. (u3 may be ∞).
+By supposition, r(uk , σ), is strictly quasi-convex in u, and so rL (`k , σ), is strictly quasi-concave
+in `.
+Then, we have:
+∂
+∂
+∂
+∂
+R̂(σ) ≤ 0 and
+R̂(σ) ≥ 0 =⇒
+R̂(σ) > 0 and
+R̂(σ) < 0
+∂u1
+∂`3
+∂`2
+∂u2
+∂
+∂
+∂
+∂
+R̂(σ) ≤ 0 or
+R̂(σ) ≥ 0 =⇒
+R̂(σ) > 0 or
+R̂(σ) < 0
+∂`2
+∂u2
+∂u1
+∂`3
+Then we make the following sequence of changes (forming new σ):
+Subcase 1A, ∂u∂ 1 R̂(σ) ≤ 0 and ∂`∂3 R̂(σ) ≥ 0 =⇒ ∂`∂2 R̂(σ) > 0 and ∂u∂ 2 R̂(σ) < 0: Increase `2 and
+decrease u2 simultaneously until `2 = u2 (exit Case 1), ∂u∂ 2 R̂(σ) ≥ 0, or ∂`∂2 R̂(σ) ≤ 0 (go to
+1B or 1C).
+Subcase 1B, ∂u∂ 1 R̂(σ) > 0: Increase u1 until u1 = `2 (exit Case 1), or ∂u∂ 1 R̂(σ) ≤ 0 (go to 1A or
+1C)
+Subcase 1C, ∂`∂3 R̂(σ) < 0: Decrease `3 until u2 = `3 (exit Case 1), or ∂`∂3 R̂(σ) ≥ 0 (go to 1B or
+1A).
+53
+
+
+[form-feed in source extraction]
+Each of these changes strictly increase R̂(σ). 1B and 1C may both be true, in which case we
+arbitrarily decide between them. At least one of the three subcases is true as long as the Case 1
+condition holds. Thus, eventually:
+• `2 = u2 , in Subcase 1A (i.e. the middle interval collapses to mass 0). OR
+• u1 = `2 , in Subcase 1B (i.e. the first interval merges with the second). OR
+• u2 = `3 , in Subcase 1C (i.e. the third interval merges with the second).
+Thus, this sequence of changes cannot decrease the reward, and results in there being one fewer
+interval than before. Case 1 can be iteratively applied until there are just two intervals σ =
+(0, t1 ) ∪ (t2 , ∞).
+That the changes can increase the reward for any other σ implies that such σ cannot be optimal.
+Case 2: σ = (0, t1 ) ∪ (t2 , ∞). We need to show that there exists a maxima (t∗1 , t∗2 ). Specifically, we
+need to eliminate the possible cases where t1 or t2 increase to infinity, but the asymptotic values
+at ∞ produce lower rewards, which would have implied that the maximum is not achieved.
+By supposition, R̂(σ 0 ) > R̂(∅) and so R̂((0, t1 ) ∪ (t2 , ∞)) > R̂(∅) for t1 > 0 or t2 < ∞.
+Further R̂((0, t1 ) ∪ (t2 , ∞)) is a continuous function in t1 , t2 . Thus R̂((0, t1 ) ∪ (t2 , ∞)) → R̂(∅)
+as t1 → 0, t2 → ∞ together.
+Further, R̂((0, t1 ) ∪ (t2 , ∞)) → R̂((0, ∞)) as t1 → ∞, regardless of how t2 behaves. Similarly,
+fixing t1 , R̂((0, t1 ) ∪ (t2 , ∞)) → R̂((0, t1 )) as t2 → ∞.
+• If R̂((0, t1 ) ∪ (t∗2 (t1 ), ∞)) is increasing for t1 > T1 , for however t∗2 (t1 ) behaves as a function of
+t1 then R̂((0, ∞)) ≥ R̂((0, t1 ) ∪ (t2 , ∞)), ∀t1 > T1 , t2 .
+
+• For any fixed t1 , if R̂((0, t1 ) ∪ (t2 , ∞)) is increasing for t2 > T2 , then R̂((0, t1 )) ≥ R̂((0, t1 ) ∪
+(t2 , ∞)), ∀t2 .
+
+Thus, the maximum is achieved: either
+
+1. ∃t∗1 ∈ (0, ∞) : R̂((0, t∗1 )) ≥ R̂((0, t1 ) ∪ (t2 , ∞)), ∀t1 , t2
+2. ∃t∗1 , t∗2 ∈ [0, ∞) : R̂((0, t∗1 ) ∪ (t∗2 , ∞)) ≥ R̂((0, t1 ) ∪ (t2 , ∞)), ∀t1 , t2
+Setting where r(u, σ) is strictly quasi-concave.
+The proof is extremely similar to the strictly quasi-convex case. However, we now need to
+modify the starting σ 0 so it does not contain an intervals (0, L) or (B, ∞), and the subsequent
+modifications also differ directionally.
+[U+0001 control character]
+Let σδ0 = ∪K
+k=1 (`k , uk ) \ (0, L) \ (B, ∞). Now, the key step is noting that strict quasi-concavity
+of r(u, σ) implies that any σ with two intervals ζ1 , ζ2 can be improved by eliminating one (or joining
+the two).
+Case 1: ∃ disjoint ζ1 = (`1 , u1 ), ζ2 = (`2 , u2 ), s.t. |ζ1 |, |ζ2 | > 0, i.e. σ is composed of at least
+two intervals with positive mass, and ζ1 , ζ2 are the first two such intervals.
+By supposition, r(uk , σ), is strictly quasi-concave in u. Then, rL (`k , σ), is strictly quasi-convex
+in u.
+Then, we have:
+∂
+∂
+∂
+R̂(σ) ≤ 0 and
+R̂(σ) ≤ 0 =⇒
+R̂(σ) > 0
+∂`1
+∂`2
+∂u1
+∂
+∂
+∂
+R̂(σ) ≤ 0 =⇒
+R̂(σ) > 0 or
+R̂(σ) > 0
+∂u1
+∂`1
+∂`2
+54
+
+
+[form-feed in source extraction]
+Then we make the following sequence of changes (forming new σ):
+Subcase 1A, ∂`∂1 R̂(σ) ≤ 0 and ∂`∂2 R̂(σ) ≤ 0 =⇒ ∂u∂ 1 R̂(σ) > 0: Increase u1 until u1 = `2 (exit
+Case 1) or ∂u∂ 1 R̂(σ) ≤ 0 (go to 1B or 1C).
+Subcase 1B, ∂`∂1 R̂(σ) > 0: Increase `1 until u1 = `1 (exit Case 1), or ∂`∂1 R̂(σ) ≤ 0 (go to 1A or
+1C)
+Subcase 1C, ∂`∂2 R̂(σ) > 0: Increase `2 until u2 = `2 (exit Case 1), or ∂`∂2 R̂(σ) ≤ 0 (go to 1B or
+1A).
+Each of these changes strictly increase R(σ). 1B and 1C may both be true, in which case arbitrarily
+decide between them. At least one of the three subcases is true as long as the Case 1 condition
+holds. Thus, eventually:
+• `2 = u1 , in Subcase 1A (i.e. the intervals combine). OR
+• u1 = `1 , in Subcase 1B (i.e. the first interval collapses to mass 0). OR
+• u2 = `2 , in Subcase 1C (i.e. the second interval collapses to mass 0).
+Thus, this sequence of changes cannot decrease the reward, and result in there being one fewer
+interval than before. Case 1 can be iteratively applied until there is just one interval σi = (t1 , t2 ).
+That the changes can increase the reward for any other σ implies that such σ cannot be optimal.
+Case 2: σi = (t1 , t2 ). As in the same case in the quasi-convex setting. We need to values eliminate
+the possible cases where t1 or t2 increasing to infinity, but the asymptotic values at ∞ produce
+lower rewards, which would imply that the maximum is not achieved.
+Note that R̂((t1 , t2 )) is a continuous function in t1 , t2 . Thus R̂((t1 , t2 )) → R̂(∅) as t1 → t2 .
+Further, R̂((t1 , t2 )) → R̂(∅) as t1 → ∞, regardless of how t2 ≥ t1 behaves. Similarly, fixing t1 ,
+R̂((t1 , t2 )) → R̂((t1 , ∞)) as t2 → ∞.
+• If R̂((t1 , t∗2 (t1 ))) is increasing for t1 > T1 , for however t∗2 (t1 ) behaves as a function of t1 then
+R̂(∅) ≥ R̂((t1 , t2 )), ∀t1 > T1 , t2 .
+• For any fixed t1 , if R̂((t1 , t2 )) is increasing for t2 > T2 , then R̂((t1 , ∞)) ≥ R̂((t1 , t2 )), ∀t2 > T2 .
+Thus, either
+1. R̂(∅) ≥ R̂((t1 , t2 )), ∀t1 , t2
+2. ∃t∗1 ∈ [0, ∞) : R̂((t∗1 , ∞)) ≥ R̂((t1 , t2 )), ∀t1 , t2
+3. ∃t∗1 , t∗2 ∈ [0, ∞) : R̂(t∗1 , t∗2 ) ≥ R̂((t1 , t2 )), ∀t1 , t2
+
+[Next verbatim source excerpt]
+
+Recall in the dynamic model that we constrain σi to be measurable, open, subsets of the R+ . Then,
+σi can be written as a countable union of disjoint subsets of R+ , i.e. σi = ∪∞
+k=0 (`k , uk ). We further
+assume that uk 6= `m , for any k, m; we can do so without loss of generality by making a measure 0
+change to σi , by adding uk = `m to σi .
+∂
+Suppose u is an upper-endpoint of σi , ie. ∃k such that u = uk . Then, we use ∂u
+H(σi ) to denote
+∂
+the derivative of the set function H with respect to u at σi . Similarly, ∂` H(σi ) is the derivative of
+H at σi with respect to a lower-endpoint of σi .
+∂
+∂
+We derive ∂u
+R(w, {σ1 , σ2 }), ∂`
+R(w, {σ1 , σ2 }). We will make it clear in each instance whether u
+∂
+refers to the derivative
+or ` is an endpoint of σ1 or σ2 . For all the derivatives in this subsection ∂u
+∂
+with respect to an upper endpoint in σi , and ∂` refers to a derivative at a lower endpoint of σi .
+Note that
+∂
+∂
+R(w, {σ1 , σ2 }) = − R(w, {σ1 , σ2 }).
+∂u
+∂`
+Furthermore:
+• We use σ in the function argument when the function depends on policies in both states, and
+σi when it only depends on the policy in state i.
+• We use ∝ to denote that “two functions of u have the same sign except where f (u) = 0”,
+rather than proportional to.
+• All policy equalities are up to measure 0.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+∀ (mu : MeasureTheory.Measure GN21DriverSurgePricing.TripLength) [MeasureTheory.IsFiniteMeasure mu]
+  [mu.InnerRegularCompactLTTop] [MeasureTheory.NoAtoms mu] (Rhat : GN21DriverSurgePricing.SingleStateReward)
+  (response : GN21DriverSurgePricing.TripPolicy → GN21DriverSurgePricing.TripLength → ℝ)
+  (shape : GN21DriverSurgePricing.Lemma5DerivativeShape) {sigma : GN21DriverSurgePricing.TripPolicy},
+  IsOpen sigma →
+    sigma ⊆ GN21DriverSurgePricing.acceptAllPolicy →
+      Rhat ∅ < Rhat sigma →
+        ∀ {margin : ℝ},
+          0 < margin →
+            (∀ (tau : GN21DriverSurgePricing.TripPolicy), GN21DriverSurgePricing.GN21SymmDiffContinuousAt mu Rhat tau) →
+              (∀ (extra : ℕ),
+                  ContinuousOn (fun endpoints => Rhat (GN21DriverSurgePricing.gn21EndpointVectorPolicy endpoints))
+                    (GN21DriverSurgePricing.gn21Lemma5EndpointDomain shape extra)) →
+                (shape = GN21DriverSurgePricing.Lemma5DerivativeShape.positive →
+                    ∀ (tau : GN21DriverSurgePricing.TripPolicy),
+                      Rhat sigma - margin ≤ Rhat tau →
+                        ∀ (u : GN21DriverSurgePricing.TripLength), 0 < u → 0 < response tau u) →
+                  (shape = GN21DriverSurgePricing.Lemma5DerivativeShape.strictlyIncreasing →
+                      ∀ (tau : GN21DriverSurgePricing.TripPolicy),
+                        Rhat sigma - margin ≤ Rhat tau → StrictMonoOn (response tau) (Set.Ici 0)) →
+                    (shape = GN21DriverSurgePricing.Lemma5DerivativeShape.strictlyDecreasing →
+                        ∀ (tau : GN21DriverSurgePricing.TripPolicy),
+                          Rhat sigma - margin ≤ Rhat tau → StrictAntiOn (response tau) (Set.Ici 0)) →
+                      (shape = GN21DriverSurgePricing.Lemma5DerivativeShape.strictlyQuasiConvex →
+                          ∀ (tau : GN21DriverSurgePricing.TripPolicy),
+                            Rhat sigma - margin ≤ Rhat tau →
+                              GN21DriverSurgePricing.strictQuasiConvexOnPositive (response tau)) →
+                        (shape = GN21DriverSurgePricing.Lemma5DerivativeShape.strictlyQuasiConvex →
+                            ∀ (tau : GN21DriverSurgePricing.TripPolicy),
+                              Rhat sigma - margin ≤ Rhat tau →
+                                ∀ {middleLower middleUpper right : ℝ},
+                                  0 < middleLower →
+                                    middleLower < middleUpper →
+                                      middleUpper < right →
+                                        response tau middleLower < max (response tau 0) (response tau right)) →
+                          (shape = GN21DriverSurgePricing.Lemma5DerivativeShape.strictlyQuasiConcave →
+                              ∀ (tau : GN21DriverSurgePricing.TripPolicy),
+                                Rhat sigma - margin ≤ Rhat tau →
+                                  GN21DriverSurgePricing.strictQuasiConcaveOnPositive (response tau)) →
+                            (shape = GN21DriverSurgePricing.Lemma5DerivativeShape.strictlyQuasiConcave →
+                                ∀ (tau : GN21DriverSurgePricing.TripPolicy),
+                                  Rhat sigma - margin ≤ Rhat tau →
+                                    ∀ {middle right : ℝ},
+                                      0 < middle →
+                                        middle < right →
+                                          min (response tau 0) (response tau right) < response tau middle) →
+                              ∀
+                                (H :
+                                  GN21DriverSurgePricing.ProofBridge.GN21Lemma5AENullEndpointVariation mu Rhat response
+                                    shape sigma margin),
+                                ∃ policy,
+                                  GN21DriverSurgePricing.lemma5SourcePolicyForm shape policy ∧
+                                    Rhat sigma ≤ Rhat policy ∧
+                                      (¬GN21DriverSurgePricing.lemma5SourcePolicyFormAlmostEverywhere mu shape sigma →
+                                        Rhat sigma < Rhat policy)
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.lemma5_full_variational_policy_forms
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} Lemma 5 treats the five stated response-shape cases and concludes a no-worse policy of the corresponding interval form, with strict improvement unless the starting policy already has that form up to null sets. The Spec makes the source's continuous-law, open-policy, equality-modulo-null-sets, and endpoint-derivative conditions explicit rather than replacing them by a name or a policy-form premise.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-c17cbc11714a18c6}{}
+\hypertarget{source-section-9912151b1a19081b}{}
+\section*{Source-model definitions (continued)}
+\subsection*{Review row 17}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}264-\allowbreak{}287\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+follows policy σ = {σ1 , σ2 }, where σi ⊆ R+ indicates the jobs accepted in state i. We assume that
+driver policies are measurable with respect to F (corresponding Fi in dynamic model); for technical
+reasons, in the dynamic model we also assume that σi consist of a union of open intervals, i.e., are
+open subsets of R+ . When we write equalities with policies σ, we mean equality up to changes of
+measure 0.
+The driver is long-lived and aims to maximize their own lifetime average hourly earnings on the
+platform, including both open and busy times. Let R(w, σ, t) denote the (random) total earnings
+from jobs accepted from time 0 up to time t if the driver follows policy σ and the payout function
+is w. Then, the driver’s lifetime earnings rate is
+R(w, σ) , lim inf t→∞
+
+R(w, σ, t)
+.
+t
+
+This earnings rate is a deterministic (non-random) quantity, and is a function of the driver policy
+σ, pricing function w, and the primitives.
+A driver policy σ ∗ is optimal (best-response) with respect to pricing function w if it maximizes
+the lifetime earnings rate of the driver among all policies: R(w, σ ∗ ) ≥ R(w, σ), for all valid policies
+σ (i.e., measurable with respect to F or Fi , with σi open sets). Then, pricing function w is incentive
+compatible (IC) if accepting all job requests is optimal with respect to w, i.e., σ = (0, ∞) in
+the single-state model or σ = {(0, ∞), (0, ∞)} in the dynamic model is optimal with respect to w.
+In other words, payment function w is incentive compatible if an earnings-maximizing driver (who
+knows all the primitives, w, and the trip length τ at request time) accepts every trip request.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ (R : GN21DriverSurgePricing.SingleStateReward),
+    ∀ σ ⊆ GN21DriverSurgePricing.acceptAllPolicy, MeasurableSet σ → R σ ≤ R GN21DriverSurgePricing.acceptAllPolicy) ∧
+  ∀ (R : GN21DriverSurgePricing.DynamicReward),
+    GN21DriverSurgePricing.dynamicFeasibleOpenPolicy GN21DriverSurgePricing.acceptAllDynamicPolicy ∧
+      ∀ (σ : Fin 2 → GN21DriverSurgePricing.TripPolicy),
+        GN21DriverSurgePricing.dynamicFeasibleOpenPolicy σ → R σ ≤ R GN21DriverSurgePricing.acceptAllDynamicPolicy
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_definition_incentive_compatible_realizes_spec
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} The one source definition gives both accept-all branches: measurable one-state policies and open measurable dynamic policy pairs. The one transparent Spec is their conjunction, with each source policy domain and accept-all optimality comparison explicit.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+\clearpage
+\hypertarget{source-claim-f1c3806503822cde}{}
+\hypertarget{source-section-6c491f2461bc0518}{}
+\section*{Main-text source claims (continued 3)}
+\subsection*{Review row 18}
+\textbf{Source locator:} {\footnotesize\raggedright source.\allowbreak{}txt:\allowbreak{}264-\allowbreak{}285;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}704-\allowbreak{}720;\allowbreak{} source.\allowbreak{}txt:\allowbreak{}3697-\allowbreak{}3714\par}
+\paragraph{Verbatim source input}
+\begin{ReviewVerbatim}
+follows policy σ = {σ1 , σ2 }, where σi ⊆ R+ indicates the jobs accepted in state i. We assume that
+driver policies are measurable with respect to F (corresponding Fi in dynamic model); for technical
+reasons, in the dynamic model we also assume that σi consist of a union of open intervals, i.e., are
+open subsets of R+ . When we write equalities with policies σ, we mean equality up to changes of
+measure 0.
+The driver is long-lived and aims to maximize their own lifetime average hourly earnings on the
+platform, including both open and busy times. Let R(w, σ, t) denote the (random) total earnings
+from jobs accepted from time 0 up to time t if the driver follows policy σ and the payout function
+is w. Then, the driver’s lifetime earnings rate is
+R(w, σ) , lim inf t→∞
+
+R(w, σ, t)
+.
+t
+
+This earnings rate is a deterministic (non-random) quantity, and is a function of the driver policy
+σ, pricing function w, and the primitives.
+A driver policy σ ∗ is optimal (best-response) with respect to pricing function w if it maximizes
+the lifetime earnings rate of the driver among all policies: R(w, σ ∗ ) ≥ R(w, σ), for all valid policies
+σ (i.e., measurable with respect to F or Fi , with σi open sets). Then, pricing function w is incentive
+compatible (IC) if accepting all job requests is optimal with respect to w, i.e., σ = (0, ∞) in
+the single-state model or σ = {(0, ∞), (0, ∞)} in the dynamic model is optimal with respect to w.
+
+[Next verbatim source excerpt]
+
+Theorem 3. Let R1 < R2 be target earning rates during non-surged and surge states, respectively.
+There exist prices w = {w1 , w2 } of the form
+wi (τ ) = mi τ + zi qi→j (τ ),
+where m1 , m2 , z2 ≥ 0 (but z1 may be either positive or negative), such that the optimal driver policy
+is to accept every trip in the surge state and all trips up to a certain length in the non-surge state.
+R1
+Furthermore, for R
+∈ (C, 1), there exist fully incentive compatible prices of this form, where
+2
+C =1−
+
+1 Q2 (λ12 T1 − Q1 ) + Q1 (T2 λ1→2 + Q2 )
+∈ [0, 1),
+T1 Q2 (λ1→2 T1 − Q1 ) + λ1→2 (T2 λ1→2 + Q2 )
+
+and Ti = λi Fi (σi )Ti ((0, ∞)), and Qi = Qi ((0, ∞)). For such prices, the driver policy to accept all
+requests is the unique optimal driver policy (up to differences of measure 0).
+
+[Next verbatim source excerpt]
+
+qi→j (τ )dFi (τ )
+Qi , Qi (σi ) = λi→j + λi
+σi
+Z
+τ dFi (τ )
+Ti , λi Fi (σi )Ti (σi ) = 1 + λi
+τ ∈σi
+Z
+wi (τ )dFi (τ )
+Wi , λi Fi (σi )Wi (σi ) = λi
+τ ∈σi
+
+∆ji , ∆(σj , σi ) = Rj (wj , σj ) − Ri (wi , σi )
+We assume throughout:
+• Distribution of jobs F, Fi is a continuous probability measure, i.e., f, fi bounded.
+• There exists a policy in state 2 that dominates state 1: ∃σ2 such that ∆(σ2 , σ1 ) > 0, ∀σ1 ⊆
+(0, ∞).
+• σ, σi constrained to be measurable with respect to F, Fi , and σi are open.
+\end{ReviewVerbatim}
+
+
+\paragraph{Expanded PaperInterface specification}
+\begin{ReviewVerbatim}
+(∀ (mu : Fin 2 → MeasureTheory.Measure GN21DriverSurgePricing.TripLength) (arrival : Fin 2 → ℝ)
+    (R1 R2 switch12 switch21 : ℝ) [MeasureTheory.NoAtoms (mu 0)] [MeasureTheory.NoAtoms (mu 1)]
+    [MeasureTheory.IsFiniteMeasure (mu 0)] [MeasureTheory.IsFiniteMeasure (mu 1)],
+    0 ≤ R1 →
+      R1 < R2 →
+        0 < arrival 0 →
+          0 < arrival 1 →
+            0 < switch12 →
+              0 < switch21 →
+                MeasureTheory.IntegrableOn (fun tau => tau) GN21DriverSurgePricing.acceptAllPolicy (mu 0) →
+                  MeasureTheory.IntegrableOn (fun tau => tau) GN21DriverSurgePricing.acceptAllPolicy (mu 1) →
+                    GN21DriverSurgePricing.singleStateTripMass (mu 0) GN21DriverSurgePricing.acceptAllPolicy = 1 →
+                      GN21DriverSurgePricing.singleStateTripMass (mu 1) GN21DriverSurgePricing.acceptAllPolicy = 1 →
+                        ∃ m z rho,
+                          (0 ≤ m 0 ∧ 0 ≤ m 1 ∧ 0 ≤ z 1) ∧
+                            GN21DriverSurgePricing.gn21MeasuredStateRewardRate (mu 0) (arrival 0)
+                                  (GN21DriverSurgePricing.ctmcStructuredDynamicSurgePrice m z switch12 switch21 0)
+                                  GN21DriverSurgePricing.acceptAllPolicy =
+                                R1 ∧
+                              GN21DriverSurgePricing.gn21MeasuredStateRewardRate (mu 1) (arrival 1)
+                                    (GN21DriverSurgePricing.ctmcStructuredDynamicSurgePrice m z switch12 switch21 1)
+                                    GN21DriverSurgePricing.acceptAllPolicy =
+                                  R2 ∧
+                                rho 1 = GN21DriverSurgePricing.acceptAllPolicy ∧
+                                  GN21DriverSurgePricing.rejectsLongTripsFiniteOrInfiniteCutoff (rho 0) ∧
+                                    GN21DriverSurgePricing.dynamicOpenOptimal
+                                      (GN21DriverSurgePricing.gn21AggregateCTMCStructuredDynamicReward mu arrival
+                                        switch12 switch21 m z)
+                                      rho) ∧
+  ∀ (mu : Fin 2 → MeasureTheory.Measure GN21DriverSurgePricing.TripLength) (arrival : Fin 2 → ℝ)
+    (R1 R2 switch12 switch21 : ℝ) [MeasureTheory.NoAtoms (mu 0)] [MeasureTheory.NoAtoms (mu 1)]
+    [MeasureTheory.IsFiniteMeasure (mu 0)] [MeasureTheory.IsFiniteMeasure (mu 1)],
+    0 < R2 →
+      GN21DriverSurgePricing.theorem3FeasibilityThresholdC
+            (GN21DriverSurgePricing.gn21AcceptAllScaledStateTime (mu 0) (arrival 0))
+            (GN21DriverSurgePricing.gn21AcceptAllScaledStateTime (mu 1) (arrival 1))
+            (GN21DriverSurgePricing.gn21AcceptAllExitWeightIntegral (mu 0) (arrival 0) switch12 switch21)
+            (GN21DriverSurgePricing.gn21AcceptAllExitWeightIntegral (mu 1) (arrival 1) switch21 switch12) switch12 <
+          R1 / R2 →
+        R1 / R2 < 1 →
+          0 < arrival 0 →
+            0 < arrival 1 →
+              0 < switch12 →
+                0 < switch21 →
+                  MeasureTheory.IntegrableOn (fun tau => tau) GN21DriverSurgePricing.acceptAllPolicy (mu 0) →
+                    MeasureTheory.IntegrableOn (fun tau => tau) GN21DriverSurgePricing.acceptAllPolicy (mu 1) →
+                      GN21DriverSurgePricing.singleStateTripMass (mu 0) GN21DriverSurgePricing.acceptAllPolicy = 1 →
+                        GN21DriverSurgePricing.singleStateTripMass (mu 1) GN21DriverSurgePricing.acceptAllPolicy = 1 →
+                          ∃ m z,
+                            (0 ≤ m 0 ∧ 0 ≤ m 1 ∧ 0 ≤ z 1) ∧
+                              GN21DriverSurgePricing.gn21MeasuredStateRewardRate (mu 0) (arrival 0)
+                                    (GN21DriverSurgePricing.ctmcStructuredDynamicSurgePrice m z switch12 switch21 0)
+                                    GN21DriverSurgePricing.acceptAllPolicy =
+                                  R1 ∧
+                                GN21DriverSurgePricing.gn21MeasuredStateRewardRate (mu 1) (arrival 1)
+                                      (GN21DriverSurgePricing.ctmcStructuredDynamicSurgePrice m z switch12 switch21 1)
+                                      GN21DriverSurgePricing.acceptAllPolicy =
+                                    R2 ∧
+                                  GN21DriverSurgePricing.dynamicOpenOptimal
+                                      (GN21DriverSurgePricing.gn21AggregateCTMCStructuredDynamicReward mu arrival
+                                        switch12 switch21 m z)
+                                      GN21DriverSurgePricing.acceptAllDynamicPolicy ∧
+                                    ∀ (rho : Fin 2 → GN21DriverSurgePricing.TripPolicy),
+                                      GN21DriverSurgePricing.dynamicOpenOptimal
+                                          (GN21DriverSurgePricing.gn21AggregateCTMCStructuredDynamicReward mu arrival
+                                            switch12 switch21 m z)
+                                          rho →
+                                        GN21DriverSurgePricing.dynamicAcceptAllAlmostEverywhere mu rho
+\end{ReviewVerbatim}
+
+\paragraph{Lean proof endpoint (built separately)}\begin{ReviewVerbatim}
+GN21DriverSurgePricing.PaperInterface.review_theorem3_structured_pricing
+\end{ReviewVerbatim}
+
+\paragraph{Recorded source-to-Spec screening}
+\textbf{Verdict:} \texttt{matches}
+\\
+\textbf{Reason:} Theorem 3 states both its ordered-target structured-pricing clause and its stricter ratio-interval fully-IC clause under one numbered result. The transparent conjunction preserves the two displayed target domains, structured-price form, target-rate conclusions, policy form, accept-all optimality, and uniqueness up to null sets.
+\reviewmatch{Matches source input}
+\noindent\textbf{Reviewer annotation}\par
+\reviewerbox
+
+\end{document}

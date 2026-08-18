@@ -96,15 +96,19 @@ class StatementFirstScaffoldTests(unittest.TestCase):
         interface = NEW_PAPER.paper_interface_text(
             "Example", "EX00Example", "EX00Example", spec.targets
         )
+        proof_interface = NEW_PAPER.proof_interface_text(
+            "Example", "EX00Example", "EX00Example", spec.targets
+        )
         self.assertIn(
             "def theorem2_reflexiveSpec : Prop :=\n  (n : Nat) -> n = n",
             interface,
         )
         self.assertIn(
             "theorem theorem2_reflexive :\n  theorem2_reflexiveSpec := by",
-            interface,
+            proof_interface,
         )
-        self.assertIn("\n  sorry", interface)
+        self.assertNotIn("theorem theorem2_reflexive", interface)
+        self.assertIn("\n  sorry", proof_interface)
         self.assertIn(
             "Source status: pinned statement-spec transcription; independent source audit pending",
             interface,
@@ -307,11 +311,11 @@ class StatementFirstScaffoldTests(unittest.TestCase):
                 "defect-support-v1-exact-source-defect-to-lean-semantic",
             )
             status = json.loads((paper / "status.json").read_text(encoding="utf-8"))
-            self.assertEqual(status["paper_interface"]["declaration_rows"], 2)
-            self.assertEqual(status["paper_interface"]["review_rows"], 2)
+            self.assertEqual(status["paper_interface"]["declaration_rows"], 1)
+            self.assertEqual(status["paper_interface"]["review_rows"], 1)
             self.assertEqual(
                 status["review_surface"]["include_names"],
-                ["theorem2_reflexiveSpec", "theorem2_reflexive"],
+                ["theorem2_reflexiveSpec"],
             )
             self.assertEqual(
                 status["review_surface"]["proposition_spec_proofs"],
@@ -551,11 +555,14 @@ class StatementFirstScaffoldTests(unittest.TestCase):
             NEW_PAPER.validate_rendered_statement_interface(
                 "EX00Example", spec.targets, changed_spec
             )
-        changed_proof = rendered.replace(
+        proof_rendered = NEW_PAPER.proof_interface_text(
+            "Example", "EX00Example", "EX00Example", spec.targets
+        )
+        changed_proof = proof_rendered.replace(
             "theorem2_reflexiveSpec := by", "True := by", 1
         )
         with self.assertRaisesRegex(ValueError, "`...Spec := by sorry`"):
-            NEW_PAPER.validate_rendered_statement_interface(
+            NEW_PAPER.validate_rendered_proof_interface(
                 "EX00Example", spec.targets, changed_proof
             )
 
@@ -591,6 +598,9 @@ class StatementFirstScaffoldTests(unittest.TestCase):
         rendered = NEW_PAPER.paper_interface_text(
             "Example", "EX00Example", "EX00Example", [target]
         )
+        proof_rendered = NEW_PAPER.proof_interface_text(
+            "Example", "EX00Example", "EX00Example", [target]
+        )
         NEW_PAPER.validate_rendered_statement_interface(
             "EX00Example", [target], rendered
         )
@@ -608,16 +618,22 @@ class StatementFirstScaffoldTests(unittest.TestCase):
         rendered = NEW_PAPER.paper_interface_text(
             "Example", "EX00Example", "EX00Example", [target]
         )
+        proof_rendered = NEW_PAPER.proof_interface_text(
+            "Example", "EX00Example", "EX00Example", [target]
+        )
         self.assertIn(
             "def lemma1_reflexiveSpec : Prop :=\n  (n : Nat) -> n = n",
             rendered,
         )
         self.assertIn(
             "lemma lemma1_reflexive :\n  lemma1_reflexiveSpec := by",
-            rendered,
+            proof_rendered,
         )
         NEW_PAPER.validate_rendered_statement_interface(
             "EX00Example", [target], rendered
+        )
+        NEW_PAPER.validate_rendered_proof_interface(
+            "EX00Example", [target], proof_rendered
         )
 
     def test_plan_records_manifest_freeze_and_v10_fidelity_review(self) -> None:
@@ -662,7 +678,7 @@ class StatementFirstScaffoldTests(unittest.TestCase):
         sidecar = json.loads(NEW_PAPER.statement_match_llm_text("EX00Example"))
         self.assertEqual(
             sidecar["prompt_version"],
-            "statement-match-v10-semantic-fidelity-seat-stopping",
+            "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
         )
         summary = "\n".join(sidecar["prompt_summary"])
         self.assertIn("self_characterizing", summary)
@@ -800,7 +816,7 @@ class StatementFirstScaffoldTests(unittest.TestCase):
         )
         self.assertEqual(
             sidecar["prompt_version"],
-            "paper-coverage-v5-semantic-proof-row-signature-pins",
+            "paper-coverage-v6-verbatim-source-anchor-proof-row-signature-pins",
         )
         self.assertEqual(
             sidecar["source_artifact_path"],

@@ -441,6 +441,272 @@
       "verification": [
         "python3 -m unittest scripts.tests.test_sync_paper_status scripts.tests.test_final_validation_report_template"
       ]
+    },
+    {
+      "engine_tree_sha256": "7bb75e13465674e641b66298dfce6468bd92b9dc1c3302c351d50e2126463051",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "3392a467e70f03794c70e3ad80d17ac62855bfdb01e73ca8dd05365cce65c33d",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Allow public candidate artifact policy to recognize a direct-review ledger only when the canonical final closure receipt binds it, avoiding duplicate evidence surfaces without changing source-fidelity review obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 32,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_public_release_candidate_guard scripts.tests.test_final_closure_receipt (50 passed)"
+      ]
+    },
+    {
+      "engine_tree_sha256": "7f8b372faf14c90888e634ea06ed06948a23190f4c45d353571aa32a54fdf85e",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "7bb75e13465674e641b66298dfce6468bd92b9dc1c3302c351d50e2126463051",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Increase the isolated Lean semantic-closure capacity from 2 GiB/8 GiB address space to 6 GiB/12 GiB after HT26 source-facing closures exhausted the former bound; preserve one worker and all other traversal limits.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 33,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_lean_signature_manifest.LeanSignatureManifestTests.test_semantic_contract_closure_runner_uses_finite_budgets",
+        "HT26 main theorem closure extraction under the new bounded cap"
+      ]
+    },
+    {
+      "engine_tree_sha256": "36a45c3ea15c9b2cdc157c6d156c1055f8054ceae14c87c34b8967576fee062f",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "7f8b372faf14c90888e634ea06ed06948a23190f4c45d353571aa32a54fdf85e",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Honor explicitly atomized source definitions in strict v11 source-to-Spec routing without broadening ordinary theorem-like atom obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 34,
+      "verification": [
+        "Focused source-claim-atom regression suite passes.",
+        "Python compilation and exact diff checks pass."
+      ]
+    },
+    {
+      "engine_tree_sha256": "ff2cc06f4d5a97769537b8a1146f6fb9fe4f40bf38dc626b4f28c4a6598a423b",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "36a45c3ea15c9b2cdc157c6d156c1055f8054ceae14c87c34b8967576fee062f",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Retire duplicate legacy v10 semantic coverage when an exact strict-v11 occurrence contract is active.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 35,
+      "verification": [
+        "Focused strict-v11 versus v10 semantic-lane regression passes.",
+        "Recursive-field ancestry and source-claim-atom regressions pass; Python compilation and diff checks pass."
+      ]
+    },
+    {
+      "engine_tree_sha256": "66ffd6b0a5193541d8c0efd3bb0065524de5c11aa6587cb68bb523e364322eac",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "ff2cc06f4d5a97769537b8a1146f6fb9fe4f40bf38dc626b4f28c4a6598a423b",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Accept canonical applied record heads in exact recursive-field source-route validation.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 36,
+      "verification": [
+        "Focused recursive-field ancestry regression passes.",
+        "Python compilation passes."
+      ]
+    },
+    {
+      "engine_tree_sha256": "77d79dc6232911a6fbe39fd80684133d133a795ecfa03fe9f9888ef928a9d5b7",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "66ffd6b0a5193541d8c0efd3bb0065524de5c11aa6587cb68bb523e364322eac",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Permit exact source-to-Spec direct-evidence parents to close explicitly generated recursive record-field occurrences.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 37,
+      "verification": [
+        "Focused semantic-model record-binding regression suite passes (45 tests).",
+        "Python compilation and exact diff checks pass."
+      ]
+    },
+    {
+      "engine_tree_sha256": "23e3ed9fb88d4c0a3bb6e283226898449a1a832a7d47e3b1ceeb7d50e9c6c870",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "77d79dc6232911a6fbe39fd80684133d133a795ecfa03fe9f9888ef928a9d5b7",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Let an exact runtime strict source-to-Spec receipt discharge its own semantic-model parent when minting scoped recursive-field component receipts.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 38,
+      "verification": [
+        "Focused paper-closeout consolidation regression suite passes (25 tests).",
+        "Python compilation and exact diff checks pass."
+      ]
+    },
+    {
+      "engine_tree_sha256": "73da7d93d57453d0fd46ccc2e2c5e9a5628c19682b863726313f9c362e30be9d",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "23e3ed9fb88d4c0a3bb6e283226898449a1a832a7d47e3b1ceeb7d50e9c6c870",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "The downstream manual-complement integrity reader now recognizes the exact in-memory primary closeout receipt after it has validated canonical sidecar provenance, preventing duplicate serialization of runtime-only strict full-Spec semantic-model coverage.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 39,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_source_record_canonical_sidecar_coverage scripts.tests.test_paper_closeout_consolidation"
+      ]
+    },
+    {
+      "engine_tree_sha256": "d54070ee06f2a15f98c3401e13681fc1fff96986da1356d526d8c23cedaa7ccd",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "73da7d93d57453d0fd46ccc2e2c5e9a5628c19682b863726313f9c362e30be9d",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Permit current source-claim-atom routes to parent explicitly scoped recursive record-field reviews, while retaining exact atom, source-item, signature, convention, and structural-path pins.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 40,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_recursive_field_ancestry_association scripts.tests.test_source_record_differential_revalidation scripts.tests.test_paper_closeout_consolidation scripts.tests.test_source_record_raw_producer_compatibility (102 passed)",
+        "python3 -m py_compile skills/econcs-formalizer/scripts/source_record_audit.py scripts/source_record_target_disposition.py scripts/audit_repository.py scripts/source_record_differential_revalidation.py"
+      ]
+    },
+    {
+      "engine_tree_sha256": "e04df7976198be2fb19514190e9d9fad5b4228978ce0485fca03a1f902b87058",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "d54070ee06f2a15f98c3401e13681fc1fff96986da1356d526d8c23cedaa7ccd",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Recognize filter quantifier notation as terminal proposition syntax rather than Lean outer binders, preserving exact conclusion review without false telescope arity failures.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 41,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_source_record_audit.ConclusionProvenanceTests (194 passed)",
+        "python3 -m py_compile skills/econcs-formalizer/scripts/source_record_audit.py"
+      ]
+    },
+    {
+      "engine_tree_sha256": "5f8515027e0f702725f75ac97c1c960a631c4c07ac034df6666cd14b4d396262",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "e04df7976198be2fb19514190e9d9fad5b4228978ce0485fca03a1f902b87058",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Accept current raw-receipt policy placement in configured regularity validation without changing source-to-Lean review obligations.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 42,
+      "verification": [
+        "Focused configured-assumption regularity regression suite passes, including a current top-level raw-policy receipt fixture.",
+        "Python byte-compilation passes for the validator and focused regression suite; Ruff is unavailable in this checkout."
+      ]
+    },
+    {
+      "engine_tree_sha256": "0e4600a28605af55b0840eaecd4c2e36ee496b7c0f50f371eb426c720e99f85e",
+      "formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "previous_engine_tree_sha256": "5f8515027e0f702725f75ac97c1c960a631c4c07ac034df6666cd14b4d396262",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Treat complementary full-contract and source-claim-atom receipts on one semantic parent as one deterministic recursive-field parent route.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 43,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_recursive_field_ancestry_association (17 passed)",
+        "python3 -m py_compile skills/econcs-formalizer/scripts/source_record_audit.py"
+      ]
+    },
+    {
+      "engine_tree_sha256": "425dd2b1579493dba289b562a3a1a83195091e024deba81d1fb8e0ffaae2869e",
+      "formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "previous_engine_tree_sha256": "0e4600a28605af55b0840eaecd4c2e36ee496b7c0f50f371eb426c720e99f85e",
+      "previous_formalization_review_protocol_sha256": "e94b775a4b0bfdebe915ac7d0c13c414fad98036906876fb9239a7086c3cd805",
+      "rationale": "Adopt v11 raw-source-to-expanded-Spec review: one transparent PaperInterface Spec per source claim; dependency-first paper/library screening; and linked, human-reviewable packet and dashboard surfaces.",
+      "relation_to_previous": "review_semantics_changed",
+      "sequence": 44,
+      "verification": [
+        "python3 -m py_compile scripts/activate_v11_review_surface.py scripts/audit_evidence_integrity.py scripts/audit_repository.py scripts/final_closure_receipt.py scripts/formalization_protocol.py scripts/internal_derivational_auxiliary.py scripts/issue_source_spec_correspondence.py scripts/lean_signature_manifest.py scripts/migrate_legacy_paperinterface_v11.py scripts/prepare_v11_source_map.py scripts/reissue_library_semantic_review.py scripts/reissue_paper_semantic_prerequisites.py scripts/reissue_v11_raw_source_spec_screening.py scripts/review_dashboard.py scripts/review_dashboard_packet.py scripts/sync_paper_status.py",
+        "python3 -m unittest scripts.tests.test_v11_semantic_review_gates scripts.tests.test_activate_v11_review_surface scripts.tests.test_issue_source_spec_correspondence scripts.tests.test_migrate_legacy_paperinterface_v11 scripts.tests.test_prepare_v11_source_map scripts.tests.test_review_dashboard_surface_selection scripts.tests.test_review_dashboard_packet scripts.tests.test_sync_paper_status (116 passed)"
+      ]
+    },
+    {
+      "engine_tree_sha256": "eb26c7f1da841d47afb75db2e494e6f34b0e3f156a8106af1d506570995955e7",
+      "formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "previous_engine_tree_sha256": "425dd2b1579493dba289b562a3a1a83195091e024deba81d1fb8e0ffaae2869e",
+      "previous_formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "rationale": "Allow the canonical final closure receipt to reuse a separately recorded focused build only when its source, statement map, PaperInterface, protocol, and issuing commit are exactly current; the final receipt remains the sole closeout authority.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 45,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_final_closure_receipt (6 passed)",
+        "python3 -m py_compile scripts/final_closure_receipt.py"
+      ]
+    },
+    {
+      "engine_tree_sha256": "b14dc8140b76c28d2cd4391d7e91d1d0e624c49c8b5febaaaddae5a984c53ddd",
+      "formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "previous_engine_tree_sha256": "eb26c7f1da841d47afb75db2e494e6f34b0e3f156a8106af1d506570995955e7",
+      "previous_formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "rationale": "Exclude byte-pinned canonical paper source directories from contributor whitespace linting so the CLI preserves publisher-supplied source bytes while continuing to check formalization and generated release artifacts.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 46,
+      "verification": [
+        "python3 scripts/paper_contribution.py check HT26EFXChores --fast",
+        "python3 -m py_compile scripts/paper_contribution.py"
+      ]
+    },
+    {
+      "engine_tree_sha256": "c731a014354dc32ebe378d64035f6f642031627064fd3847057d3917add00032",
+      "formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "previous_engine_tree_sha256": "b14dc8140b76c28d2cd4391d7e91d1d0e624c49c8b5febaaaddae5a984c53ddd",
+      "previous_formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "rationale": "Reuse a builder-issued frozen source-record identity only after rechecking canonical bytes, map, source/producer watch inputs, and transaction mutations; keep human packet completion visible but nonblocking for public release.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 47,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_audit_evidence_identity_runtime scripts.tests.test_audit_evidence_run_context scripts.tests.test_final_closure_receipt",
+        "python3 scripts/audit_evidence_integrity.py --paper HT26EFXChores --release"
+      ]
+    },
+    {
+      "engine_tree_sha256": "02db6aa3fd3c5ead43f0885d696fa82d55d4d2c609261b7a1c37a114f277afe7",
+      "formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "previous_engine_tree_sha256": "c731a014354dc32ebe378d64035f6f642031627064fd3847057d3917add00032",
+      "previous_formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "rationale": "Make audit acceptance location-independent for explicitly Spec-paired proof endpoints and require a source-first v11 coverage relation, so contextual excerpts cannot cover unpaired source items.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 48,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_review_dashboard_surface_selection scripts.tests.test_source_record_audit scripts.tests.test_v11_semantic_review_gates"
+      ]
+    },
+    {
+      "engine_tree_sha256": "ea9f45853013447eb220d949731ba39eb92354a949697848424ada9975d5f950",
+      "formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "previous_engine_tree_sha256": "02db6aa3fd3c5ead43f0885d696fa82d55d4d2c609261b7a1c37a114f277afe7",
+      "previous_formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "rationale": "Enforce a source-first one-source-item-to-one-Spec coverage relation alongside explicitly configured proof endpoint routes, preventing contextual source bundles or implementation placement from masking an uncovered source claim.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 49,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_semantic_contract_closeout_bridge scripts.tests.test_review_dashboard_surface_selection scripts.tests.test_v11_semantic_review_gates"
+      ]
+    },
+    {
+      "engine_tree_sha256": "2f0995751771d9f0760b0704ef1d8dbfb608092ad4ed65853a9eed504302ccca",
+      "formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "previous_engine_tree_sha256": "ea9f45853013447eb220d949731ba39eb92354a949697848424ada9975d5f950",
+      "previous_formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "rationale": "Retain every byte-pinned user-approved source exclusion as a visible non-proof disposition even when it lies outside the ordinary selected proof surface, while preserving source-first one-item-to-one-Spec coverage.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 50,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_semantic_contract_closeout_bridge scripts.tests.test_review_dashboard_surface_selection scripts.tests.test_v11_semantic_review_gates scripts.tests.test_source_record_audit"
+      ]
+    },
+    {
+      "engine_tree_sha256": "3daa1634d26a9b2f963f8aaf0c8194eb8b6f7a662059b71d2f06d55223aee8f3",
+      "formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "previous_engine_tree_sha256": "2f0995751771d9f0760b0704ef1d8dbfb608092ad4ed65853a9eed504302ccca",
+      "previous_formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "rationale": "Validate saved source-record closures against the configured proof endpoint whenever explicitly paired theorem routes are audited, so fast source identity checks use the same Lean entrypoint as fresh raw scans.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 51,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_source_record_audit scripts.tests.test_semantic_contract_closeout_bridge scripts.tests.test_review_dashboard_surface_selection scripts.tests.test_v11_semantic_review_gates"
+      ]
+    },
+    {
+      "engine_tree_sha256": "b2fbd6328f52fa2f57add23057ea733c53ea1ee7037ef74fd1f3bc73a502e56b",
+      "formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "previous_engine_tree_sha256": "3daa1634d26a9b2f963f8aaf0c8194eb8b6f7a662059b71d2f06d55223aee8f3",
+      "previous_formalization_review_protocol_sha256": "345e2b1c89c9ca81d8d51463fa57ad502450652e438ef4561cf76f9c5ca1fe09",
+      "rationale": "Let closeout planning recognize a current v11 raw-source-to-expanded-Spec lane as the replacement for an older source-record judgment sidecar, preventing legacy paraphrase-era rebind requests when the direct semantic ledger is current.",
+      "relation_to_previous": "review_compatible",
+      "sequence": 52,
+      "verification": [
+        "python3 -m unittest scripts.tests.test_closeout_reuse_plan scripts.tests.test_source_record_audit scripts.tests.test_semantic_contract_closeout_bridge scripts.tests.test_v11_semantic_review_gates"
+      ]
     }
   ],
   "schema": 1

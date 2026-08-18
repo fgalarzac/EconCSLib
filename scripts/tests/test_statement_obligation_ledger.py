@@ -895,7 +895,9 @@ class StatementObligationLedgerTests(unittest.TestCase):
                         {
                             "schema": 1,
                             "paper": folder.name,
-                            "prompt_version": review_dashboard.REQUIRED_LLM_STATEMENT_PROMPT_VERSION,
+                            # This fixture isolates legacy route-policy behavior.  It
+                            # predates the v11 verbatim-source-input credential.
+                            "prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
                             "validator": "test-model",
                             "validator_type": "agent",
                             "validated_at": "2026-07-26T00:00:00Z",
@@ -1035,7 +1037,9 @@ class StatementObligationLedgerTests(unittest.TestCase):
                     {
                         "schema": 1,
                         "paper": folder.name,
-                        "prompt_version": review_dashboard.REQUIRED_LLM_STATEMENT_PROMPT_VERSION,
+                        # This fixture isolates legacy route-policy behavior.  It
+                        # predates the v11 verbatim-source-input credential.
+                        "prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
                         "validator": "test-model",
                         "validator_type": "agent",
                         "validated_at": "2026-07-24T00:00:00Z",
@@ -1059,7 +1063,7 @@ class StatementObligationLedgerTests(unittest.TestCase):
                     {
                         "schema": 1,
                         "paper": folder.name,
-                        "prompt_version": review_dashboard.REQUIRED_LLM_STATEMENT_PROMPT_VERSION,
+                        "prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
                         "validator": "test-model",
                         "validator_type": "agent",
                         "validated_at": "2026-07-24T00:00:00Z",
@@ -1074,6 +1078,128 @@ class StatementObligationLedgerTests(unittest.TestCase):
             self.assertIn(
                 "model/assumption convention", loaded["row"]["source_route_error"]
             )
+
+    def test_v11_route_requires_the_verbatim_source_anchor_bundle(self) -> None:
+        """A v11 semantic match cannot substitute a map paraphrase for raw text."""
+
+        source_statement = "The curator's navigation summary."
+        source_quote = "\\begin{proposition}\\n  Raw source claim.\\n\\end{proposition}"
+        source_location = "source.tex:10-12"
+        source_digest = review_dashboard.statement_digest(source_statement)
+        source_item = {
+            "statement": source_statement,
+            "statement_sha256": source_digest,
+            "source_location": source_location,
+            "source_kind": "theorem",
+            "spec_lean_declarations": ["Test.rowSpec"],
+            "source_anchor_evidence": [
+                {
+                    "path": "source.tex",
+                    "line_start": 10,
+                    "line_end": 12,
+                    "quoted_text": source_quote,
+                    "quoted_text_sha256": hashlib.sha256(
+                        source_quote.encode("utf-8")
+                    ).hexdigest(),
+                }
+            ],
+        }
+        anchor_identity, error = review_dashboard.source_anchor_quote_identity(
+            source_item
+        )
+        self.assertEqual(error, "")
+        _source_input, source_input_identity, source_input_error = (
+            review_dashboard.source_semantic_input_bundle(source_item)
+        )
+        self.assertEqual(source_input_error, "")
+        ledger = valid_ledger()
+        ledger["paper_statement_sha256"] = source_input_identity
+        ledger["tex_statement_sha256"] = review_dashboard.statement_digest("P x")
+        ledger["source_input_protocol"] = "verbatim_source_anchor_bundle_v1"
+        ledger["source_input_bundle_sha256"] = source_input_identity
+        ledger["lean_target_protocol"] = "expanded_paperinterface_spec_v1"
+        ledger["semantic_target_declaration"] = "Test.rowSpec"
+        conclusion = ledger["source_obligations"][1]
+        assert isinstance(conclusion, dict)
+        conclusion.update(
+            {
+                "source_item": "theorem",
+                "source_statement_sha256": source_digest,
+                "source_location": source_location,
+                "source_anchor_quote_identity_sha256": anchor_identity,
+                "source_input_bundle_sha256": source_input_identity,
+                "statement": source_statement,
+            }
+        )
+        ledger["source_routes"] = [
+            {
+                "source_item": "theorem",
+                "source_statement_sha256": source_digest,
+                "source_location": source_location,
+                "source_anchor_quote_identity_sha256": anchor_identity,
+                "route_kind": "direct",
+            }
+        ]
+        self.assertEqual(
+            review_dashboard.source_route_pin_error(
+                ledger,
+                inventory={"theorem": source_item},
+                require_statement_target=True,
+                require_verbatim_source_inputs=True,
+            ),
+            "",
+        )
+        conclusion.pop("source_anchor_quote_identity_sha256")
+        self.assertIn(
+            "no exact equivalent source-conclusion binding",
+            review_dashboard.source_route_pin_error(
+                ledger,
+                inventory={"theorem": source_item},
+                require_statement_target=True,
+                require_verbatim_source_inputs=True,
+            ),
+        )
+
+    def test_v11_context_requires_a_bounded_source_semantic_role(self) -> None:
+        """Raw context may interpret a claim but cannot be unnamed proof material."""
+
+        claim = "Raw displayed claim."
+        context = "Raw source construction."
+        source_item: dict[str, object] = {
+            "source_anchor_evidence": [
+                {
+                    "quoted_text": claim,
+                    "quoted_text_sha256": hashlib.sha256(claim.encode("utf-8")).hexdigest(),
+                }
+            ],
+            "semantic_context_requirements": [
+                {
+                    "source_anchor_evidence": [
+                        {
+                            "quoted_text": context,
+                            "quoted_text_sha256": hashlib.sha256(
+                                context.encode("utf-8")
+                            ).hexdigest(),
+                        }
+                    ]
+                }
+            ],
+        }
+        _text, _identity, error = review_dashboard.source_semantic_input_bundle(
+            source_item,
+            require_context_roles=True,
+        )
+        self.assertIn("no permitted semantic_role", error)
+
+        requirement = source_item["semantic_context_requirements"][0]  # type: ignore[index]
+        assert isinstance(requirement, dict)
+        requirement["semantic_role"] = "model_construction"
+        _text, identity, error = review_dashboard.source_semantic_input_bundle(
+            source_item,
+            require_context_roles=True,
+        )
+        self.assertEqual(error, "")
+        self.assertRegex(identity, r"^[0-9a-f]{64}$")
 
     def test_direct_route_rejects_partial_model_and_defect_laundering(self) -> None:
         """Only an exact ordinary source endpoint can use the direct route."""
@@ -3299,6 +3425,7 @@ class StatementObligationLedgerTests(unittest.TestCase):
             agent_statement=agent_statement,
             lean_signature_manifest=manifest,
             lean_signature_sha256=str(manifest["sha256"]),
+            source_input_bundle_sha256="b" * 64,
         )
         ledger = valid_ledger()
         ledger.update(
@@ -3312,8 +3439,13 @@ class StatementObligationLedgerTests(unittest.TestCase):
                 "tex_statement_sha256": review_dashboard.statement_digest(
                     agent_statement
                 ),
+                "source_input_protocol": "verbatim_source_anchor_bundle_v1",
+                "source_input_bundle_sha256": "b" * 64,
+                "lean_target_protocol": "expanded_paperinterface_spec_v1",
+                "semantic_target_declaration": "Test.current_rowSpec",
             }
         )
+        ledger["paper_statement_sha256"] = "b" * 64
 
         with tempfile.TemporaryDirectory() as temp_dir:
             folder = Path(temp_dir)
@@ -3381,16 +3513,16 @@ class StatementObligationLedgerTests(unittest.TestCase):
             self.assertEqual(
                 ambiguous["ambiguous_semantic_judgment"], ["current_row"]
             )
-            self.assertEqual(ambiguous["stale_draft_count"], 1)
+            self.assertEqual(ambiguous["stale_draft_count"], 0)
             self.assertTrue(ambiguous["needs_attention"])
 
             wrong_pin = copy.deepcopy(ledger)
-            wrong_pin["tex_statement_sha256"] = "1" * 64
+            wrong_pin["lean_statement_sha256"] = "1" * 64
             write_judgments({"renamed_storage_key": wrong_pin})
             pin_mismatch = review_dashboard.statement_translation_audit_summary(
                 folder, [item]
             )
-            self.assertEqual(pin_mismatch["stale_draft_count"], 1)
+            self.assertEqual(pin_mismatch["stale_draft_count"], 0)
             self.assertEqual(pin_mismatch["missing_judgment_count"], 1)
             self.assertTrue(pin_mismatch["needs_attention"])
 
@@ -3400,7 +3532,7 @@ class StatementObligationLedgerTests(unittest.TestCase):
             stale_prompt = review_dashboard.statement_translation_audit_summary(
                 folder, [item]
             )
-            self.assertEqual(stale_prompt["stale_draft_count"], 1)
+            self.assertEqual(stale_prompt["stale_draft_count"], 0)
             self.assertEqual(stale_prompt["missing_judgment_count"], 1)
             self.assertTrue(stale_prompt["needs_attention"])
 

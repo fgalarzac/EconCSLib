@@ -63,6 +63,9 @@ try:  # Supports direct execution and package imports in focused tests.
         STATEMENT_SOURCE_REVIEW_ASSOCIATION_ROLE,
         SOURCE_TARGET_DISPOSITIONS,
         SOURCE_RECORD_ADMINISTRATIVE_PROJECTION_REBIND_BASENAME,
+        SOURCE_CLAIM_ATOM_ASSOCIATION_FIELD,
+        SOURCE_CLAIM_ATOM_ROUTE_ORIGIN,
+        SOURCE_CLAIM_ATOM_ROUTE_ROLE,
         ValidatedAdministrativeProjectionRebind,
         administrative_projection_rebound_association,
         administrative_projection_rebound_response,
@@ -97,6 +100,9 @@ except ModuleNotFoundError:  # pragma: no cover - direct script fallback.
         STATEMENT_SOURCE_REVIEW_ASSOCIATION_ROLE,
         SOURCE_TARGET_DISPOSITIONS,
         SOURCE_RECORD_ADMINISTRATIVE_PROJECTION_REBIND_BASENAME,
+        SOURCE_CLAIM_ATOM_ASSOCIATION_FIELD,
+        SOURCE_CLAIM_ATOM_ROUTE_ORIGIN,
+        SOURCE_CLAIM_ATOM_ROUTE_ROLE,
         ValidatedAdministrativeProjectionRebind,
         administrative_projection_rebound_association,
         administrative_projection_rebound_response,
@@ -1529,6 +1535,12 @@ def _recursive_field_parent_route_semantic_scope(
         if (
             parent_role != "direct_source_route"
             or parent_origin != "explicit_source_map_direct_route"
+        ):
+            return None
+    elif parent_field == SOURCE_CLAIM_ATOM_ASSOCIATION_FIELD:
+        if (
+            parent_role != SOURCE_CLAIM_ATOM_ROUTE_ROLE
+            or parent_origin != SOURCE_CLAIM_ATOM_ROUTE_ORIGIN
         ):
             return None
     elif parent_field == "semantic_contract_source_association":

@@ -15,9 +15,9 @@ key.  Instead it requires all of the following current evidence:
   pin set;
 * the direct source-result association and elaborated signature for the
   source theorem/lemma containing that input;
-* a current v10 statement-match record for that source result and its input
+* a current v11 raw-source-to-expanded-Spec statement-match record for that source result and its input
   atom;
-* a current v10 direct source-definition statement-match record whose exact
+* a current v11 direct source-definition statement-match record whose exact
   IFF expansion has the same expanded proposition; and
 * byte-checked source anchors for both the definition and the source result.
 
@@ -53,7 +53,10 @@ try:  # Supports direct execution and package-style focused tests.
         HELPER_PATH as SIGNATURE_MANIFEST_HELPER_PATH,
         parse_signature_manifest_output,
     )
-    from scripts.review_dashboard import signature_manifest_atom_digest
+    from scripts.review_dashboard import (
+        signature_manifest_atom_digest,
+        source_semantic_input_bundle,
+    )
     from scripts.source_coverage_scope import source_item_coverage_sha256
     from scripts.source_record_differential_revalidation import _raw_item_groups
     from scripts.source_record_integrity import canonical_digest_payload
@@ -65,7 +68,7 @@ except ModuleNotFoundError:  # pragma: no cover - direct script fallback.
         HELPER_PATH as SIGNATURE_MANIFEST_HELPER_PATH,
         parse_signature_manifest_output,
     )
-    from review_dashboard import signature_manifest_atom_digest
+    from review_dashboard import signature_manifest_atom_digest, source_semantic_input_bundle
     from source_coverage_scope import source_item_coverage_sha256
     from source_record_differential_revalidation import _raw_item_groups
     from source_record_integrity import canonical_digest_payload
@@ -1815,9 +1818,9 @@ def _anchor_for_result(
 
 def _statement_match_items(payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
     prompt = str(payload.get("prompt_version") or "").strip()
-    if not prompt.startswith("statement-match-v10-"):
+    if prompt != "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2":
         raise SourceDefinitionAntecedentRouteError(
-            "statement-match payload is not a v10 statement-match record"
+            "statement-match payload is not a v11 raw-source-to-expanded-Spec record"
         )
     raw = payload.get("items")
     if not isinstance(raw, Mapping):
@@ -1835,11 +1838,21 @@ def _statement_match_items(payload: Mapping[str, Any]) -> dict[str, dict[str, An
 def _record_has_current_source_route(
     record: Mapping[str, Any], item: Mapping[str, Any]
 ) -> bool:
-    statement_sha = _statement_digest(item.get("statement"))
+    _source_input, source_input_sha, source_input_error = source_semantic_input_bundle(
+        item,
+        require_context_roles=True,
+    )
+    if source_input_error or not _sha256(source_input_sha):
+        return False
     location = str(item.get("source_location") or "").strip()
     if (
         str(record.get("judgment") or "").strip() != "matches"
-        or _sha256(record.get("paper_statement_sha256")) != statement_sha
+        or str(record.get("source_input_protocol") or "").strip()
+        != "verbatim_source_anchor_bundle_v1"
+        or str(record.get("lean_target_protocol") or "").strip()
+        != "expanded_paperinterface_spec_v1"
+        or _sha256(record.get("paper_statement_sha256")) != source_input_sha
+        or _sha256(record.get("source_input_bundle_sha256")) != source_input_sha
         or not _sha256(record.get("lean_signature_sha256"))
     ):
         return False
@@ -1853,7 +1866,7 @@ def _record_has_current_source_route(
         and str(route.get("route_kind") or "").strip() == "direct"
         and str(route.get("semantic_relation") or "").strip()
         == "equivalent_source_statement"
-        and _sha256(route.get("source_statement_sha256")) == statement_sha
+        and _sha256(route.get("source_input_bundle_sha256")) == source_input_sha
         and str(route.get("source_location") or "").strip() == location
     ]
     if len(matched_routes) != 1:
@@ -1864,7 +1877,7 @@ def _record_has_current_source_route(
     return any(
         isinstance(obligation, Mapping)
         and str(obligation.get("kind") or "").strip() == "conclusion"
-        and _sha256(obligation.get("source_statement_sha256")) == statement_sha
+        and _sha256(obligation.get("source_input_bundle_sha256")) == source_input_sha
         and str(obligation.get("source_location") or "").strip() == location
         for obligation in obligations
     )
@@ -1884,7 +1897,7 @@ def _statement_match_for_result(
     ]
     if len(candidates) != 1:
         raise SourceDefinitionAntecedentRouteError(
-            "source result does not select exactly one current v10 statement-match endpoint"
+            "source result does not select exactly one current v11 statement-match endpoint"
         )
     return candidates[0]
 
@@ -1899,7 +1912,7 @@ def _statement_match_for_definition(
     ]
     if len(candidates) != 1:
         raise SourceDefinitionAntecedentRouteError(
-            "source definition does not select exactly one current v10 statement-match endpoint"
+            "source definition does not select exactly one current v11 statement-match endpoint"
         )
     return candidates[0]
 

@@ -1,0 +1,66 @@
+{
+  "audit_kind": "raw_source_to_expanded_spec_screening",
+  "comment": "Each listed verdict compares the exact byte-pinned source-anchor bundle and explicitly pinned semantic context with Lean's fully expanded paper-local semantic target. The paired proof endpoint is reviewed separately.",
+  "items": {
+    "GS62CollegeAdmissions.PaperInterface.literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "4293c57acd86e61f85947755eb8bc4a2c66b4f6c15bbd27f90f963ffa710da94",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "2e7eae9aeacca5e8043df83af9d53d7a50601f0feab0b95111e644bd1bed24b7",
+      "paper_statement_sha256": "f73b770b61f4307f7e86514972dc96bf720a0f5ea2aac36eed4e89345f5278db",
+      "reason": "The transparent Spec preserves the literal page-10 comparison class: quota-feasible assignments with no displayed replacement pair and applicant-by-applicant weak preference for the selected assignment. This row intentionally does not use the Section 4 operational stability convention.",
+      "semantic_target_declaration": "GS62CollegeAdmissions.PaperInterface.literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec",
+      "source_input_bundle_sha256": "f73b770b61f4307f7e86514972dc96bf720a0f5ea2aac36eed4e89345f5278db",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GS62CollegeAdmissions.PaperInterface.theorem1_stable_marriage_existsSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "ec0460a5c2ada64bc29d08779dc42b53eb2ea49509a2800c3e74c6edd41264d7",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "2e7eae9aeacca5e8043df83af9d53d7a50601f0feab0b95111e644bd1bed24b7",
+      "paper_statement_sha256": "19052ac0b099165596a35aaf772a4b50fc7a9c72b14dac4ef77c566ecbe510c6",
+      "reason": "The transparent Spec has the source's finite equal-size strict complete domain and concludes a complete assignment with no mutually preferred blocking pair. Its expanded form makes the source's stable-marriage claim checkable without a wrapper predicate.",
+      "semantic_target_declaration": "GS62CollegeAdmissions.PaperInterface.theorem1_stable_marriage_existsSpec",
+      "source_input_bundle_sha256": "19052ac0b099165596a35aaf772a4b50fc7a9c72b14dac4ef77c566ecbe510c6",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GS62CollegeAdmissions.PaperInterface.theorem2_applicant_optimalitySpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "0825d873659c5a93fafedfa0831397a113aec974128fdcc6b1d432d48df96d51",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "2e7eae9aeacca5e8043df83af9d53d7a50601f0feab0b95111e644bd1bed24b7",
+      "paper_statement_sha256": "ea5ece6179c30d0cf46530e65869555adcbc983fed343cd7430ff498fc1416d8",
+      "reason": "The raw bundle includes both the earlier displayed replacement-pair condition and Sections 4--5. Read together, the latter uses stable assignment for the terminal top-quota waiting-list outcome and says its stability proof is analogous to the marriage proof; it therefore supplies the completed operational comparison class used by the transparent Spec. The literal display remains a distinct source claim and is not silently identified with that Section 4--5 reading.",
+      "semantic_target_declaration": "GS62CollegeAdmissions.PaperInterface.theorem2_applicant_optimalitySpec",
+      "source_input_bundle_sha256": "ea5ece6179c30d0cf46530e65869555adcbc983fed343cd7430ff498fc1416d8",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GS62CollegeAdmissions.PaperInterface.unstableCollegeAssignment_iff_source_definitionSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "b833b539b2082fdf6e234abd01b21da0c8960b7de9d82dfd7a62cf42d607eae9",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "2e7eae9aeacca5e8043df83af9d53d7a50601f0feab0b95111e644bd1bed24b7",
+      "paper_statement_sha256": "5b53a3fb0c1b77b54358c8eb5350ecfdce33d328aa5b7070bd35e88038def050",
+      "reason": "The transparent Spec states the displayed current-assignment replacement pair directly: two currently assigned applicants, their current colleges, the applicant's strict improvement, and the college's strict preference for the replacement applicant. It adds no vacancy, unmatched-applicant, or individual-rationality condition.",
+      "semantic_target_declaration": "GS62CollegeAdmissions.PaperInterface.unstableCollegeAssignment_iff_source_definitionSpec",
+      "source_input_bundle_sha256": "5b53a3fb0c1b77b54358c8eb5350ecfdce33d328aa5b7070bd35e88038def050",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    },
+    "GS62CollegeAdmissions.PaperInterface.unstableMarriage_iff_source_definitionSpec": {
+      "judgment": "matches",
+      "lean_expanded_statement_sha256": "55fee101e8e3fa20f6d1af66d381632ec541c70b0ac129a4c0c157d645e5e7a6",
+      "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+      "paper_interface_sha256": "2e7eae9aeacca5e8043df83af9d53d7a50601f0feab0b95111e644bd1bed24b7",
+      "paper_statement_sha256": "9cfca20cb362b64684984fd140251af4f7a82728d7c5a4f31c1d5734b2a60a69",
+      "reason": "The source's marriage discussion concerns a complete matching and a man-woman pair who each prefer the other to the present partner. The transparent Spec writes the completeness and both strict present-partner comparisons explicitly.",
+      "semantic_target_declaration": "GS62CollegeAdmissions.PaperInterface.unstableMarriage_iff_source_definitionSpec",
+      "source_input_bundle_sha256": "9cfca20cb362b64684984fd140251af4f7a82728d7c5a4f31c1d5734b2a60a69",
+      "source_input_protocol": "verbatim_source_anchor_bundle_v1"
+    }
+  },
+  "paper": "GS62CollegeAdmissions",
+  "prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
+  "schema": 2,
+  "validated_at": "2026-08-18T04:38:31+00:00",
+  "validator": "Codex GS62 raw source-to-expanded-Spec reviewer"
+}

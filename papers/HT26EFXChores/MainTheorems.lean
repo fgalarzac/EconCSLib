@@ -1,0 +1,212 @@
+import EconCSLib
+import HT26EFXChores.BalancedOrientation
+import HT26EFXChores.M2Orientation
+
+/-!
+# Paper-Facing Theorems: EFX for Additive Chores: Nonexistence, Pareto Incompatibility, and Bi-Valued Existence
+
+This file is the implementation theorem layer for the source paper. Keep
+source-faithful definitions and theorem wrappers here, and expose only the
+compact human-review subset in `PaperInterface.lean`.
+
+During the statement-first phase, each exact paper-facing proposition lives in a
+transparent `<name>Spec : Prop` declaration in `PaperInterface.lean`; the paired
+theorem/lemma has exactly that type and a temporary `by sorry` body. Add proof
+implementations here only after those specifications pass v10 semantic statement
+review and recursive premise provenance audit. Before full closeout, the v11
+realization audit independently binds pinned source atoms to the elaborated Spec
+and accounts for the complete Lean closure; a proof hole or a declaration name
+is never evidence for that correspondence.
+-/
+
+namespace HT26EFXChores
+
+open EconCSLib.FairDivision
+
+/--
+Source-faithful implementation of He--Tao's M34 insertion lemma.
+
+The reduction potential removes cycles in the strict most-envy graph.  When
+direct insertion at its sink is unavailable, a path from the cheapest updated
+bundle to that sink is rotated and the chore is inserted at the predecessor.
+The reusable allocation and graph lemmas are implemented in the core library;
+this theorem composes them in the paper's four-agent setting.
+
+Source: `EFXadditivechores.tex`, Lemma (M34 insertion), lines 577--580.
+-/
+theorem m34InsertionProof
+    (Item : Type) [DecidableEq Item] (r : ℝ) (cost : ChoreCost (Fin 4) Item)
+    (chores : Finset Item) (item : Item)
+    (hr : 2 < r) (hcost : IsOneOrRChoreCost cost r) (hitem : item ∉ chores)
+    (hsmallThree : IsSmallForAtLeastThree cost item)
+    (allocation : Allocation (Fin 4) Item)
+    (halloc : IsAllocationOf allocation chores)
+    (hefx : EFXForChores (additiveChoreCost cost) allocation) :
+    ∃ extended : Allocation (Fin 4) Item,
+      IsAllocationOf extended (insert item chores) ∧
+        EFXForChores (additiveChoreCost cost) extended := by
+  have hnonneg : ∀ agent chore, 0 ≤ cost agent chore :=
+    IsOneOrRChoreCost.nonneg cost r hcost (by linarith)
+  have hlower : ∀ agent chore, 1 ≤ cost agent chore :=
+    IsOneOrRChoreCost.one_le cost r hcost (by linarith)
+  obtain ⟨reduced, hReducedAlloc, hReducedEFX, hNoCycle, sink, hSinkMin⟩ :=
+    exists_reduced_efx_allocation_with_cost_sink_and_no_mostEnvyCycle
+      cost chores hnonneg allocation halloc hefx
+  by_cases hhasSmallSink : ∃ agent : Fin 4,
+      (∀ comparison, additiveChoreCost cost agent (reduced agent) ≤
+        additiveChoreCost cost agent (reduced comparison)) ∧ IsSmallChore cost agent item
+  · obtain ⟨agent, hminimum, hsmall⟩ := hhasSmallSink
+    exact exists_efx_allocation_addItem_of_small_cost_sink cost chores item hlower hitem
+      reduced hReducedAlloc hReducedEFX agent hsmall hminimum
+  · have hsmallSink : ¬ IsSmallChore cost sink item := by
+      intro hsmall
+      exact hhasSmallSink ⟨sink, hSinkMin, hsmall⟩
+    have hsmallOther := small_for_all_other_agents_of_atLeastThree cost item hsmallThree
+      sink hsmallSink
+    have hunique : ∀ agent,
+        (∀ comparison,
+          ¬ StrictMostEnvyEdgeForChores cost reduced agent comparison) → agent = sink := by
+      intro agent hno
+      have hminimum := no_strictMostEnvyEdge_implies_envyFreeForChores cost reduced agent hno
+      by_contra hne
+      exact hhasSmallSink ⟨agent, hminimum, hsmallOther agent hne⟩
+    let tentative := addItem reduced sink item
+    obtain ⟨cheapest, _, hcheapest⟩ := Finset.exists_min_image (Finset.univ : Finset (Fin 4))
+      (fun agent => additiveChoreCost cost sink (tentative agent)) Finset.univ_nonempty
+    by_cases hcheapestSink : cheapest = sink
+    · refine ⟨tentative,
+        isAllocationOf_addItem_insert reduced chores sink item hReducedAlloc hitem, ?_⟩
+      apply efxForChores_addItem_of_new_owner_minimal cost reduced sink item hnonneg hReducedEFX
+      intro comparison
+      simpa [tentative, hcheapestSink] using hcheapest comparison (Finset.mem_univ _)
+    · have hpath : Relation.ReflTransGen (StrictMostEnvyEdgeForChores cost reduced)
+          cheapest sink :=
+        EconCSLib.Foundations.Graph.reaches_unique_sink_of_no_cycle hNoCycle sink hunique cheapest
+      have hpathTrans : Relation.TransGen (StrictMostEnvyEdgeForChores cost reduced)
+          cheapest sink := by
+        rcases Relation.reflTransGen_iff_eq_or_transGen.mp hpath with hEq | hTrans
+        · exact (hcheapestSink hEq.symm).elim
+        · exact hTrans
+      obtain ⟨path, hpathNodup, hpathLength, hpathHead, hpathLast, hpathChain⟩ :=
+        EconCSLib.Foundations.Graph.exists_nodup_chain_list_of_transGen_of_no_cycle hNoCycle
+          hpathTrans
+      have hpathNe : path ≠ [] := List.ne_nil_of_length_pos (by omega)
+      have hlast : path.getLast hpathNe = sink := by
+        simpa [List.getLast?_eq_getLast_of_ne_nil hpathNe] using hpathLast
+      let owner := path[path.length - 2]
+      let next : Fin 4 → Fin 4 := path.formPerm
+      have hnextOwner : next owner = sink := by
+        dsimp [next, owner]
+        rw [EconCSLib.Foundations.Graph.formPerm_penultimate_eq_getLast path hpathNodup hpathLength]
+        exact hlast
+      have hownerNe : owner ≠ sink := by
+        intro hEq
+        apply EconCSLib.Foundations.Graph.penultimate_ne_getLast_of_nodup path hpathNodup
+          hpathLength
+        simpa [owner, hlast] using hEq
+      have hownerSmall : cost owner item = 1 := hsmallOther owner hownerNe
+      have hownerMin : ∀ comparison,
+          additiveChoreCost cost owner (reduced sink) ≤
+            additiveChoreCost cost owner (reduced comparison) := by
+        have hedge := EconCSLib.Foundations.Graph.isChain_edge_formPerm_of_ne_getLast
+          hpathNodup hpathChain hpathNe
+          (vertex := owner)
+          (by
+            dsimp [owner]
+            exact List.getElem_mem (by omega))
+          (by
+            simpa [owner, hlast] using hownerNe)
+        simpa [next, hnextOwner] using hedge.2
+      have hpathMin : ∀ agent, agent ≠ sink → agent ≠ owner → next agent ≠ agent →
+          ∀ comparison,
+            additiveChoreCost cost agent (reduced (next agent)) ≤
+              additiveChoreCost cost agent (reduced comparison) := by
+        intro agent hagentSink _ hchanged
+        have hmem : agent ∈ path := by
+          exact List.mem_of_formPerm_apply_ne (by simpa [next] using hchanged)
+        have hnotLast : agent ≠ path.getLast hpathNe := by simpa [hlast] using hagentSink
+        exact (EconCSLib.Foundations.Graph.isChain_edge_formPerm_of_ne_getLast
+          hpathNodup hpathChain hpathNe hmem hnotLast).2
+      have hnextSink : next sink = cheapest := by
+        dsimp [next]
+        rw [← hlast]
+        exact EconCSLib.Foundations.Graph.formPerm_getLast_eq_head_of_head?_eq
+          path hpathNe hpathHead
+      have hnextInjective : Function.Injective next := by
+        exact path.formPerm.injective
+      have hmap : ∀ comparison,
+          addItem (rotateBundles reduced next) owner item comparison =
+            tentative (next comparison) := by
+        intro comparison
+        by_cases hcomparison : comparison = owner
+        · subst comparison
+          simp [tentative, addItem, rotateBundles, hnextOwner]
+        · have hnextNe : next comparison ≠ sink := by
+            intro hEq
+            apply hcomparison
+            apply hnextInjective
+            exact hEq.trans hnextOwner.symm
+          simp [tentative, addItem, rotateBundles, hcomparison, hnextNe]
+      have hsinkMin : ∀ comparison,
+          additiveChoreCost cost sink (reduced (next sink)) ≤
+            additiveChoreCost cost sink
+              (addItem (rotateBundles reduced next) owner item comparison) := by
+        intro comparison
+        rw [hmap comparison]
+        have htcheap : tentative cheapest = reduced cheapest := by
+          simp [tentative, addItem, hcheapestSink]
+        calc
+          additiveChoreCost cost sink (reduced (next sink)) =
+              additiveChoreCost cost sink (tentative (next sink)) := by
+            rw [hnextSink]
+            exact congrArg (additiveChoreCost cost sink) htcheap.symm
+          _ ≤ additiveChoreCost cost sink (tentative (next comparison)) :=
+            by simpa [hnextSink] using hcheapest (next comparison) (Finset.mem_univ _)
+      refine ⟨addItem (rotateBundles reduced next) owner item, ?_, ?_⟩
+      · apply isAllocationOf_addItem_insert
+        · exact isAllocationOf_rotate_of_bijective reduced chores next hReducedAlloc
+            path.formPerm.bijective
+        · exact hitem
+      · exact efxForChores_addItem_after_rotation_of_minimal_path cost reduced next owner sink item
+          hownerNe hnextOwner hlower
+          (by
+            intro hmem
+            exact hitem (hReducedAlloc.1 sink item hmem))
+          hownerSmall hReducedEFX hownerMin hpathMin hsinkMin
+
+/-- Source-faithful implementation of the paper's balanced-orientation lemma. -/
+theorem balancedOrientationProof
+    (Vertex Edge : Type) [Fintype Vertex] [DecidableEq Vertex] [DecidableEq Edge]
+    (edges : Finset Edge) (endpoints : Edge → Finset Vertex) (quota : Vertex → ℕ)
+    (hends : ∀ edge ∈ edges, (endpoints edge).card = 2) :
+    (Finset.univ.sum quota = edges.card →
+      ((∃ owner : Edge → Option Vertex,
+        (∀ edge ∈ edges, ∃ vertex, owner edge = some vertex ∧ vertex ∈ endpoints edge) ∧
+          ∀ vertex, (edges.filter fun edge => owner edge = some vertex).card = quota vertex) ↔
+        ∀ vertices : Finset Vertex,
+          vertices.sum quota ≤
+            (edges.filter fun edge => (endpoints edge ∩ vertices).Nonempty).card)) ∧
+      (Finset.univ.sum quota ≤ edges.card →
+        (∀ vertices : Finset Vertex,
+          vertices.sum quota ≤
+            (edges.filter fun edge => (endpoints edge ∩ vertices).Nonempty).card) →
+          ∃ owner : Edge → Option Vertex,
+            (∀ edge ∈ edges, ∀ vertex, owner edge = some vertex → vertex ∈ endpoints edge) ∧
+              ∀ vertex, (edges.filter fun edge => owner edge = some vertex).card = quota vertex) := by
+  constructor
+  · intro hsum
+    exact balancedOrientationIff Vertex Edge edges endpoints quota hends hsum
+  · intro _ hcondition
+    exact partialBalancedOrientation Vertex Edge edges endpoints quota hcondition
+
+/-- Source-faithful proof of the paper's M2 allocation lemma.  The case split
+and its finite incidence arithmetic are established in `M2Orientation.lean`. -/
+theorem m2EfxAllocationProof
+    (Item : Type) [DecidableEq Item] (r : ℝ) (cost : ChoreCost (Fin 4) Item)
+    (chores : Finset Item) (hr : 2 < r) (hcost : IsOneOrRChoreCost cost r)
+    (hsmall : ∀ item ∈ chores, IsSmallForExactlyTwo cost item) :
+    ∃ allocation : Allocation (Fin 4) Item,
+      IsAllocationOf allocation chores ∧ EFXForChores (additiveChoreCost cost) allocation :=
+  existsEfxOfM2 Item r cost chores hr hcost hsmall
+
+end HT26EFXChores

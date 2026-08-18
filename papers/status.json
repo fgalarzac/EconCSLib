@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "description": "Aggregate index generated from papers/<PaperName>/status.json. Paper-local status files are the source of truth for status, human summaries, review rows, and PaperInterface metadata.",
-  "review_count_policy": "reviewed_rows counts saved human dashboard rows tracked in the public repository. total_rows counts the current dashboard review surface from each paper-local status.json. Agent source audits are not counted as human review.",
+  "review_count_policy": "reviewed_rows counts saved human dashboard rows tracked in the public repository. total_rows counts the configured human source-claim surface; a paired transparent Spec and proof theorem count once, while the raw declaration surface remains machine-audit metadata. Agent source audits are not counted as human review.",
   "paper_interface_maintenance_policy": "PaperInterface.lean is the required row-level review surface for every paper. Keep implementation details and broad proof aliases behind imported modules such as AuditInterface.lean or implementation files only when PaperInterface.lean still contains the audited paper-facing statements themselves. Large PaperInterface.lean surfaces must be marked oversized and sliced for review, not routed through paper_interface.audit_surface_path, which is obsolete.",
   "papers": [
     {
@@ -3125,37 +3125,44 @@
         "assumptions": "papers/GN21DriverSurgePricing/Assumptions.lean",
         "dependency_dag_pdf": "papers/GN21DriverSurgePricing/docs/DependencyDAG.pdf",
         "dependency_dag_tex": "papers/GN21DriverSurgePricing/docs/DependencyDAG.tex",
+        "final_closure_receipt": "papers/GN21DriverSurgePricing/FINAL_CLOSURE_RECEIPT.md",
         "final_validation_report": "papers/GN21DriverSurgePricing/FINAL_VALIDATION_REPORT.md",
+        "human_review_packet_pdf": "papers/GN21DriverSurgePricing/docs/HUMAN_REVIEW_PACKET.pdf",
+        "human_review_packet_tex": "papers/GN21DriverSurgePricing/docs/HUMAN_REVIEW_PACKET.tex",
+        "library_semantic_review": "papers/GN21DriverSurgePricing/audit/library_semantic_review.json",
+        "paper_semantic_prerequisites": "papers/GN21DriverSurgePricing/audit/paper_semantic_prerequisites.json",
         "paper_interface": "papers/GN21DriverSurgePricing/PaperInterface.lean",
         "proof_interface": "papers/GN21DriverSurgePricing/ProofInterface.lean",
         "readme": "papers/GN21DriverSurgePricing/README.md",
         "source_text": "papers/GN21DriverSurgePricing/source.txt",
         "theorem2_cutoff_attainment": "papers/GN21DriverSurgePricing/CutoffAttainment.lean",
         "theorem2_cutoff_canonicalization": "papers/GN21DriverSurgePricing/CutoffCanonicalization.lean",
-        "theorem3_direct_verification": "papers/GN21DriverSurgePricing/CTMCVerification.lean"
+        "theorem3_direct_verification": "papers/GN21DriverSurgePricing/CTMCVerification.lean",
+        "v11_raw_source_spec_screening": "papers/GN21DriverSurgePricing/audit/v11_raw_source_spec_screening.json"
       },
       "authors": "Nikhil Garg and Hamid Nazerzadeh",
       "build_target": "lake build GN21DriverSurgePricing",
       "human_review": {
-        "mismatch_rows": 0,
         "reviewed_rows": 0,
-        "source": "paper-local status.json has 17 source-presented named-theory endpoints and 11 visible source-condition rows; current semantic sidecars remain separate from independent human review",
+        "total_rows": 18,
         "stale_rows": 0,
-        "total_rows": 28
+        "mismatch_rows": 0,
+        "uncertain_rows": 0,
+        "source": "v11 PaperInterface claim surface; human entries are recorded after direct review"
       },
       "id": "GN21DriverSurgePricing",
       "repository_visibility": "public",
       "main_caveat": "",
       "human_summary": "",
       "paper_interface": {
-        "declaration_rows": 85,
-        "line_count": 4431,
-        "maintainability_issue": "The 17 reviewed source-facing theorem rows and 27 auxiliary proof/model rows remain in PaperInterface.lean so the source interface is directly auditable; review_surface.slices keep the named-theory surface manageable.",
-        "oversized": true,
+        "declaration_rows": 18,
+        "line_count": 506,
+        "maintainability_issue": "The semantic interface has one transparent source-facing Spec for each of the 18 selected source claims; proof routes are kept separately in ProofInterface.lean.",
+        "oversized": false,
         "path": "papers/GN21DriverSurgePricing/PaperInterface.lean",
-        "proof_interface_line_count": 5534,
+        "proof_interface_line_count": 349,
         "proof_interface_path": "papers/GN21DriverSurgePricing/ProofInterface.lean",
-        "review_rows": 17
+        "review_rows": 18
       },
       "review_entrypoint": "papers/GN21DriverSurgePricing/FINAL_VALIDATION_REPORT.md",
       "review_surface": {
@@ -3175,65 +3182,63 @@
         "assumption_policy": "strict",
         "assumption_source_file": "papers/GN21DriverSurgePricing/Assumptions.lean",
         "source_definition_names": [
-          "review_definition_single_state_ic",
-          "review_definition_dynamic_ic",
+          "review_definition_incentive_compatible",
           "review_definition_surge_state"
         ],
         "include_names": [
-          "review_definition_single_state_ic",
-          "review_definition_dynamic_ic",
-          "review_definition_surge_state",
-          "review_proposition3_1_affine_single_state_ic",
-          "review_theorem1_single_state_threshold_best_response",
-          "review_lemma4_single_state_threshold_uniqueness",
-          "review_lemma1_measured_dynamic_reward_decomposition",
-          "review_lemma2_switch_probability_formula",
-          "review_lemma3_measured_time_fraction_formula",
-          "review_lemma6_upper_endpoint_derivative_formula",
-          "review_lemma7_affine_positive_additive_response_quasi_convex",
-          "review_lemma8_affine_negative_additive_response_quasi_concave",
-          "review_lemma9_surge_derivative_positive_of_acceptAll_bounds",
-          "review_lemma10_nonsurge_derivative_positive_of_acceptAll_bounds",
-          "review_theorem2_multiplicative_policy_shape_source_claim",
-          "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_states",
-          "review_theorem3_structured_general_policy_source_claim",
-          "review_theorem3_structured_ic_source_claim",
-          "lemma5_full_variational_policy_forms",
-          "review_theorem4_full_structural_policy_forms_direct",
-          "review_proposition3_1_affine_single_state_icSpec",
-          "review_proposition3_1_affine_single_state_icSpec_proof",
-          "review_theorem1_single_state_threshold_best_responseSpec",
-          "review_theorem1_single_state_threshold_best_responseSpec_proof",
-          "review_lemma4_single_state_threshold_uniquenessSpec",
-          "review_lemma4_single_state_threshold_uniquenessSpec_proof",
-          "review_lemma1_measured_dynamic_reward_decompositionSpec",
-          "review_lemma1_measured_dynamic_reward_decompositionSpec_proof",
-          "review_lemma2_switch_probability_formulaSpec",
-          "review_lemma2_switch_probability_formulaSpec_proof",
-          "review_lemma3_measured_time_fraction_formulaSpec",
-          "review_lemma3_measured_time_fraction_formulaSpec_proof",
-          "review_lemma6_upper_endpoint_derivative_formulaSpec",
-          "review_lemma6_upper_endpoint_derivative_formulaSpec_proof",
-          "review_lemma7_affine_positive_additive_response_quasi_convexSpec",
-          "review_lemma7_affine_positive_additive_response_quasi_convexSpec_proof",
-          "review_lemma8_affine_negative_additive_response_quasi_concaveSpec",
-          "review_lemma8_affine_negative_additive_response_quasi_concaveSpec_proof",
-          "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec",
-          "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec_proof",
+          "review_definition_surge_stateSpec",
           "review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec",
-          "review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec_proof",
-          "review_theorem2_multiplicative_policy_shape_source_claimSpec",
-          "review_theorem2_multiplicative_policy_shape_source_claimSpec_proof",
+          "review_lemma1_measured_dynamic_reward_decompositionSpec",
+          "review_lemma2_switch_probability_formulaSpec",
+          "review_lemma3_measured_time_fraction_formulaSpec",
+          "review_lemma4_single_state_threshold_uniquenessSpec",
+          "review_lemma6_upper_endpoint_derivative_formulaSpec",
+          "review_lemma7_affine_positive_additive_response_quasi_convexSpec",
+          "review_lemma8_affine_negative_additive_response_quasi_concaveSpec",
+          "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec",
+          "review_proposition3_1_affine_single_state_icSpec",
+          "review_theorem1_single_state_threshold_best_responseSpec",
           "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec",
-          "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec_proof",
-          "review_theorem3_structured_general_policy_source_claimSpec",
-          "review_theorem3_structured_general_policy_source_claimSpec_proof",
-          "review_theorem3_structured_ic_source_claimSpec",
-          "review_theorem3_structured_ic_source_claimSpec_proof",
-          "lemma5_full_variational_policy_formsSpec",
-          "lemma5_full_variational_policy_formsSpec_proof",
           "review_theorem4_full_structural_policy_forms_directSpec",
-          "review_theorem4_full_structural_policy_forms_directSpec_proof"
+          "review_theorem2_multiplicative_policy_shape_source_claimSpec",
+          "lemma5_full_variational_policy_formsSpec",
+          "review_definition_incentive_compatibleSpec",
+          "review_theorem3_structured_pricingSpec"
+        ],
+        "presentation_sections": [
+          {
+            "title": "Source-model definitions",
+            "names": [
+              "review_definition_incentive_compatibleSpec",
+              "review_definition_surge_stateSpec"
+            ]
+          },
+          {
+            "title": "Main-text source claims",
+            "names": [
+              "review_theorem1_single_state_threshold_best_responseSpec",
+              "review_proposition3_1_affine_single_state_icSpec",
+              "review_theorem2_multiplicative_policy_shape_source_claimSpec",
+              "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec",
+              "review_lemma1_measured_dynamic_reward_decompositionSpec",
+              "review_lemma2_switch_probability_formulaSpec",
+              "review_lemma3_measured_time_fraction_formulaSpec",
+              "review_theorem3_structured_pricingSpec"
+            ]
+          },
+          {
+            "title": "Appendix source claims",
+            "names": [
+              "review_lemma4_single_state_threshold_uniquenessSpec",
+              "lemma5_full_variational_policy_formsSpec",
+              "review_lemma6_upper_endpoint_derivative_formulaSpec",
+              "review_lemma7_affine_positive_additive_response_quasi_convexSpec",
+              "review_lemma8_affine_negative_additive_response_quasi_concaveSpec",
+              "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec",
+              "review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec",
+              "review_theorem4_full_structural_policy_forms_directSpec"
+            ]
+          }
         ],
         "llm_assumption_review": {
           "assumption_judgment_file": "papers/GN21DriverSurgePricing/audit/assumption_match_llm.json",
@@ -3243,60 +3248,24 @@
           {
             "id": "all",
             "names": [
-              "review_definition_single_state_ic",
-              "review_definition_dynamic_ic",
-              "review_definition_surge_state",
-              "review_proposition3_1_affine_single_state_ic",
-              "review_theorem1_single_state_threshold_best_response",
-              "review_lemma4_single_state_threshold_uniqueness",
-              "review_lemma1_measured_dynamic_reward_decomposition",
-              "review_lemma2_switch_probability_formula",
-              "review_lemma3_measured_time_fraction_formula",
-              "review_lemma6_upper_endpoint_derivative_formula",
-              "review_lemma7_affine_positive_additive_response_quasi_convex",
-              "review_lemma8_affine_negative_additive_response_quasi_concave",
-              "review_lemma9_surge_derivative_positive_of_acceptAll_bounds",
-              "review_lemma10_nonsurge_derivative_positive_of_acceptAll_bounds",
-              "review_theorem2_multiplicative_policy_shape_source_claim",
-              "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_states",
-              "review_theorem3_structured_general_policy_source_claim",
-              "review_theorem3_structured_ic_source_claim",
-              "lemma5_full_variational_policy_forms",
-              "review_theorem4_full_structural_policy_forms_direct",
-              "review_proposition3_1_affine_single_state_icSpec",
-              "review_proposition3_1_affine_single_state_icSpec_proof",
+              "review_definition_incentive_compatibleSpec",
+              "review_definition_surge_stateSpec",
               "review_theorem1_single_state_threshold_best_responseSpec",
-              "review_theorem1_single_state_threshold_best_responseSpec_proof",
-              "review_lemma4_single_state_threshold_uniquenessSpec",
-              "review_lemma4_single_state_threshold_uniquenessSpec_proof",
-              "review_lemma1_measured_dynamic_reward_decompositionSpec",
-              "review_lemma1_measured_dynamic_reward_decompositionSpec_proof",
-              "review_lemma2_switch_probability_formulaSpec",
-              "review_lemma2_switch_probability_formulaSpec_proof",
-              "review_lemma3_measured_time_fraction_formulaSpec",
-              "review_lemma3_measured_time_fraction_formulaSpec_proof",
-              "review_lemma6_upper_endpoint_derivative_formulaSpec",
-              "review_lemma6_upper_endpoint_derivative_formulaSpec_proof",
-              "review_lemma7_affine_positive_additive_response_quasi_convexSpec",
-              "review_lemma7_affine_positive_additive_response_quasi_convexSpec_proof",
-              "review_lemma8_affine_negative_additive_response_quasi_concaveSpec",
-              "review_lemma8_affine_negative_additive_response_quasi_concaveSpec_proof",
-              "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec",
-              "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec_proof",
-              "review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec",
-              "review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec_proof",
+              "review_proposition3_1_affine_single_state_icSpec",
               "review_theorem2_multiplicative_policy_shape_source_claimSpec",
-              "review_theorem2_multiplicative_policy_shape_source_claimSpec_proof",
               "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec",
-              "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec_proof",
-              "review_theorem3_structured_general_policy_source_claimSpec",
-              "review_theorem3_structured_general_policy_source_claimSpec_proof",
-              "review_theorem3_structured_ic_source_claimSpec",
-              "review_theorem3_structured_ic_source_claimSpec_proof",
+              "review_lemma1_measured_dynamic_reward_decompositionSpec",
+              "review_lemma2_switch_probability_formulaSpec",
+              "review_lemma3_measured_time_fraction_formulaSpec",
+              "review_theorem3_structured_pricingSpec",
+              "review_lemma4_single_state_threshold_uniquenessSpec",
               "lemma5_full_variational_policy_formsSpec",
-              "lemma5_full_variational_policy_formsSpec_proof",
-              "review_theorem4_full_structural_policy_forms_directSpec",
-              "review_theorem4_full_structural_policy_forms_directSpec_proof"
+              "review_lemma6_upper_endpoint_derivative_formulaSpec",
+              "review_lemma7_affine_positive_additive_response_quasi_convexSpec",
+              "review_lemma8_affine_negative_additive_response_quasi_concaveSpec",
+              "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec",
+              "review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec",
+              "review_theorem4_full_structural_policy_forms_directSpec"
             ],
             "title": "All source-facing review rows"
           }
@@ -3335,27 +3304,30 @@
           "theorem4_full_structural_policy_forms_open_corrected"
         ],
         "proposition_spec_proofs": {
-          "review_proposition3_1_affine_single_state_icSpec": "review_proposition3_1_affine_single_state_icSpec_proof",
-          "review_theorem1_single_state_threshold_best_responseSpec": "review_theorem1_single_state_threshold_best_responseSpec_proof",
-          "review_lemma4_single_state_threshold_uniquenessSpec": "review_lemma4_single_state_threshold_uniquenessSpec_proof",
-          "review_lemma1_measured_dynamic_reward_decompositionSpec": "review_lemma1_measured_dynamic_reward_decompositionSpec_proof",
-          "review_lemma2_switch_probability_formulaSpec": "review_lemma2_switch_probability_formulaSpec_proof",
-          "review_lemma3_measured_time_fraction_formulaSpec": "review_lemma3_measured_time_fraction_formulaSpec_proof",
-          "review_lemma6_upper_endpoint_derivative_formulaSpec": "review_lemma6_upper_endpoint_derivative_formulaSpec_proof",
-          "review_lemma7_affine_positive_additive_response_quasi_convexSpec": "review_lemma7_affine_positive_additive_response_quasi_convexSpec_proof",
-          "review_lemma8_affine_negative_additive_response_quasi_concaveSpec": "review_lemma8_affine_negative_additive_response_quasi_concaveSpec_proof",
-          "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec": "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec_proof",
-          "review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec": "review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec_proof",
-          "review_theorem2_multiplicative_policy_shape_source_claimSpec": "review_theorem2_multiplicative_policy_shape_source_claimSpec_proof",
-          "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec": "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec_proof",
-          "review_theorem3_structured_general_policy_source_claimSpec": "review_theorem3_structured_general_policy_source_claimSpec_proof",
-          "review_theorem3_structured_ic_source_claimSpec": "review_theorem3_structured_ic_source_claimSpec_proof",
-          "lemma5_full_variational_policy_formsSpec": "lemma5_full_variational_policy_formsSpec_proof",
-          "review_theorem4_full_structural_policy_forms_directSpec": "review_theorem4_full_structural_policy_forms_directSpec_proof"
+          "review_definition_surge_stateSpec": "review_definition_surge_state_realizes_spec",
+          "review_lemma10_nonsurge_derivative_positive_of_acceptAll_boundsSpec": "review_lemma10_nonsurge_derivative_positive_of_acceptAll_bounds",
+          "review_lemma1_measured_dynamic_reward_decompositionSpec": "review_lemma1_measured_dynamic_reward_decomposition",
+          "review_lemma2_switch_probability_formulaSpec": "review_lemma2_switch_probability_formula",
+          "review_lemma3_measured_time_fraction_formulaSpec": "review_lemma3_measured_time_fraction_formula",
+          "review_lemma4_single_state_threshold_uniquenessSpec": "review_lemma4_single_state_threshold_uniqueness",
+          "review_lemma6_upper_endpoint_derivative_formulaSpec": "review_lemma6_upper_endpoint_derivative_formula",
+          "review_lemma7_affine_positive_additive_response_quasi_convexSpec": "review_lemma7_affine_positive_additive_response_quasi_convex",
+          "review_lemma8_affine_negative_additive_response_quasi_concaveSpec": "review_lemma8_affine_negative_additive_response_quasi_concave",
+          "review_lemma9_surge_derivative_positive_of_acceptAll_boundsSpec": "review_lemma9_surge_derivative_positive_of_acceptAll_bounds",
+          "review_proposition3_1_affine_single_state_icSpec": "review_proposition3_1_affine_single_state_ic",
+          "review_theorem1_single_state_threshold_best_responseSpec": "review_theorem1_single_state_threshold_best_response",
+          "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_statesSpec": "review_theorem2_multiplicative_positive_finite_cutoff_not_ic_both_states",
+          "review_theorem4_full_structural_policy_forms_directSpec": "review_theorem4_full_structural_policy_forms_direct",
+          "review_theorem2_multiplicative_policy_shape_source_claimSpec": "review_theorem2_multiplicative_policy_shape_source_claim",
+          "lemma5_full_variational_policy_formsSpec": "lemma5_full_variational_policy_forms",
+          "review_definition_incentive_compatibleSpec": "review_definition_incentive_compatible_realizes_spec",
+          "review_theorem3_structured_pricingSpec": "review_theorem3_structured_pricing"
         },
         "llm_statement_review": {
           "lean_to_tex_file": "papers/GN21DriverSurgePricing/audit/lean_to_tex_llm.json",
+          "library_semantic_review_file": "papers/GN21DriverSurgePricing/audit/library_semantic_review.json",
           "match_judgment_file": "papers/GN21DriverSurgePricing/audit/statement_match_llm.json",
+          "paper_semantic_prerequisites_file": "papers/GN21DriverSurgePricing/audit/paper_semantic_prerequisites.json",
           "review_surface_audit_file": "papers/GN21DriverSurgePricing/audit/review_surface_llm.json",
           "paper_coverage_audit_file": "papers/GN21DriverSurgePricing/audit/paper_coverage_llm.json",
           "defect_support_judgment_file": "papers/GN21DriverSurgePricing/audit/defect_support_match_llm.json",
@@ -3364,8 +3336,9 @@
           "surface_warning_threshold": 120,
           "require_explicit_source_routes": true,
           "require_source_claim_atoms": true,
-          "policy": "Use complete binder-name-independent Lean signature atoms and source obligations. A v10 match requires equivalent quantification, premises, numeric semantics, semantic world, and full conclusion arity; visible source-model conventions may support a result only through exact pinned routes.",
-          "required_prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping"
+          "v11_screening_file": "papers/GN21DriverSurgePricing/audit/v11_raw_source_spec_screening.json",
+          "policy": "For every selected source claim, compare only its exact byte-pinned raw source-anchor bundle and Lean's expanded transparent `...Spec : Prop` target. The paired proof endpoint receives separate Lean-Meta proof credit; a name, paraphrase, wrapper, or prior aggregate receipt is not a semantic match. Review every retained paper-local prerequisite and every material library prerequisite before the dependent claim.",
+          "required_prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2"
         },
         "llm_paper_coverage_review": {
           "paper_coverage_audit_file": "papers/GN21DriverSurgePricing/audit/paper_coverage_llm.json",
@@ -3393,7 +3366,9 @@
           ],
           "policy": "Review the trip-length law, open-policy domain, CTMC state evolution, response/reward ratios, almost-everywhere quotient, and extended endpoint semantics against pinned source text. Names route review but are never semantic evidence."
         },
-        "paper_coverage_required": true
+        "paper_coverage_required": true,
+        "require_v11_raw_source_spec_screening": true,
+        "require_source_spec_correspondence": true
       },
       "schema": 1,
       "source_version": "Management Science 2022 / arXiv v4, 2021",
@@ -3409,7 +3384,7 @@
       "source_version": "American Mathematical Monthly, 1962",
       "build_target": "lake build GS62CollegeAdmissions",
       "status": "formalized",
-      "main_caveat": "",
+      "main_caveat": "No theorem-level formalization boundary is recorded. The Section 4--5 operational reading of stability is documented as a source clarification while the page-10 replacement-pair definition remains literal.",
       "human_summary": "",
       "human_summary_review": {
         "status": "agent_draft",
@@ -3426,17 +3401,17 @@
       },
       "paper_interface": {
         "path": "papers/GS62CollegeAdmissions/PaperInterface.lean",
-        "line_count": 739,
-        "declaration_rows": 49,
-        "review_rows": 10,
+        "line_count": 698,
+        "declaration_rows": 44,
+        "review_rows": 5,
         "oversized": false,
         "maintainability_issue": null
       },
       "source_inventory": {
         "path": "papers/GS62CollegeAdmissions/audit/paper_statement_map.json",
-        "map_sha256": "9aec7bf627915a83b1726ece1dcd435b67a4da3cb5fa6985d182c494d4aac583",
-        "source_artifact_path": "papers/GS62CollegeAdmissions/source.txt",
-        "source_artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
+        "map_sha256": "c48ddc877a39cb440bb78b3c4e6bc98c98bfde4ac508f9acf077057d1adaabbd",
+        "source_artifact_path": "papers/GS62CollegeAdmissions/source.pdf",
+        "source_artifact_sha256": "953a8123e8120a86b17ae3de92cb51abb5aed420fe11b97fe2a666a8e637d09b",
         "item_count": 5,
         "normal_named_theory_items": 5,
         "normal_definition_items": 3,
@@ -3447,15 +3422,29 @@
       "artifacts": {
         "readme": "papers/GS62CollegeAdmissions/README.md",
         "paper_interface": "papers/GS62CollegeAdmissions/PaperInterface.lean",
+        "proof_interface": "papers/GS62CollegeAdmissions/ProofInterface.lean",
+        "final_closure_receipt": "papers/GS62CollegeAdmissions/FINAL_CLOSURE_RECEIPT.md",
         "final_validation_report": "papers/GS62CollegeAdmissions/FINAL_VALIDATION_REPORT.md",
+        "focused_build_receipt": "papers/GS62CollegeAdmissions/audit/FOCUSED_BUILD_RECEIPT.json",
+        "human_review_packet_pdf": "papers/GS62CollegeAdmissions/docs/HUMAN_REVIEW_PACKET.pdf",
+        "human_review_packet_tex": "papers/GS62CollegeAdmissions/docs/HUMAN_REVIEW_PACKET.tex",
         "dependency_dag_tex": "papers/GS62CollegeAdmissions/docs/DependencyDAG.tex",
-        "dependency_dag_pdf": "papers/GS62CollegeAdmissions/docs/DependencyDAG.pdf"
+        "dependency_dag_pdf": "papers/GS62CollegeAdmissions/docs/DependencyDAG.pdf",
+        "library_semantic_review": "papers/GS62CollegeAdmissions/audit/library_semantic_review.json",
+        "paper_semantic_prerequisites": "papers/GS62CollegeAdmissions/audit/paper_semantic_prerequisites.json",
+        "v11_raw_source_spec_screening": "papers/GS62CollegeAdmissions/audit/v11_raw_source_spec_screening.json"
       },
       "review_surface": {
         "source_file": "papers/GS62CollegeAdmissions/PaperInterface.lean",
+        "proof_file": "papers/GS62CollegeAdmissions/ProofInterface.lean",
+        "proof_module": "GS62CollegeAdmissions.ProofInterface",
+        "require_v11_raw_source_spec_screening": true,
         "llm_statement_review": {
           "lean_to_tex_file": "papers/GS62CollegeAdmissions/audit/lean_to_tex_llm.json",
           "match_judgment_file": "papers/GS62CollegeAdmissions/audit/statement_match_llm.json",
+          "library_semantic_review_file": "papers/GS62CollegeAdmissions/audit/library_semantic_review.json",
+          "paper_semantic_prerequisites_file": "papers/GS62CollegeAdmissions/audit/paper_semantic_prerequisites.json",
+          "v11_screening_file": "papers/GS62CollegeAdmissions/audit/v11_raw_source_spec_screening.json",
           "review_surface_audit_file": "papers/GS62CollegeAdmissions/audit/review_surface_llm.json",
           "paper_coverage_audit_file": "papers/GS62CollegeAdmissions/audit/paper_coverage_llm.json",
           "defect_support_judgment_file": "papers/GS62CollegeAdmissions/audit/defect_support_match_llm.json",
@@ -3464,8 +3453,8 @@
           "surface_warning_threshold": 120,
           "require_explicit_source_routes": true,
           "require_source_claim_atoms": true,
-          "required_prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
-          "policy": "Audit the five source-presented normal-scope items through complete binder-name-independent Lean signature atoms and source obligations. Match judgments must compare quantification, preference and quota domains, instability and optimality semantics, procedure state evolution, and full conclusion arity. Source anchors and expanded semantic content, never declaration or function names, determine routes."
+          "required_prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
+          "policy": "Compare only raw byte-pinned source-anchor bundles with one transparent PaperInterface Spec per source claim. Lean opens that Spec and retains each material paper-local model/procedure declaration and reusable EconCSLib declaration as its own exact-code, source-anchored prerequisite card. Paired theorem endpoints live in ProofInterface.lean and supply proof evidence, not a duplicate semantic judgment. The canonical v11 screening ledger is the source-to-Spec evidence bound by a direct final closure receipt; Lean elaboration separately checks the paired proof endpoint and its transitive dependencies."
         },
         "llm_paper_coverage_review": {
           "paper_coverage_audit_file": "papers/GS62CollegeAdmissions/audit/paper_coverage_llm.json",
@@ -3554,7 +3543,7 @@
         "quarantined_auxiliary_source_reasons": {
           "GS62CollegeAdmissions.PaperInterface.applicantOptimalCollegeAssignment": "Transparent completed-standard comparison predicate used inside the selected Theorem 2 specification. It is audited through that theorem's expanded closure, not as an independently presented source item.",
           "GS62CollegeAdmissions.PaperInterface.completeMarriage": "Transparent complete-matching vocabulary used inside the selected Theorem 1 specification. It is part of that theorem's source domain and conclusion, not an additional source item.",
-          "GS62CollegeAdmissions.PaperInterface.feasibleCollegeAssignment": "Transparent fixed-quota feasibility vocabulary used inside the selected displayed optimal-assignment definition. It is audited through that definition's expanded closure and receives no separate source credit.",
+          "GS62CollegeAdmissions.PaperInterface.feasibleCollegeAssignment": "Transparent fixed-quota feasibility vocabulary used in the completed operational stability reading of Theorem 2. It is audited through that theorem's expanded closure and receives no separate source credit.",
           "GS62CollegeAdmissions.PaperInterface.literalApplicantOptimalCollegeAssignment": "Transparent predicate whose exact unfolding is the selected displayed optimal-assignment definition. The selected Spec/proof pair, not this support declaration by itself, carries source credit.",
           "GS62CollegeAdmissions.PaperInterface.literalStableCollegeAssignment": "Transparent negation of the displayed replacement-pair instability predicate used within the selected optimal-assignment definition. It is support vocabulary rather than a separately presented source item.",
           "GS62CollegeAdmissions.PaperInterface.replacementPairCollegeInstability": "Transparent mathematical body of the selected displayed unstable-assignment definition. Its semantics are audited through the selected Spec/proof closure and it receives no independent source credit.",
@@ -3566,31 +3555,33 @@
         "paper_coverage_required": true,
         "include_names": [
           "unstableCollegeAssignment_iff_source_definitionSpec",
-          "unstableCollegeAssignment_iff_source_definition",
           "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec",
-          "literalApplicantOptimalCollegeAssignment_iff_source_definition",
           "unstableMarriage_iff_source_definitionSpec",
-          "unstableMarriage_iff_source_definition",
           "theorem1_stable_marriage_existsSpec",
-          "theorem1_stable_marriage_exists",
-          "theorem2_applicant_optimalitySpec",
-          "theorem2_applicant_optimality"
+          "theorem2_applicant_optimalitySpec"
+        ],
+        "presentation_sections": [
+          {
+            "title": "Main-text source claims",
+            "names": [
+              "unstableCollegeAssignment_iff_source_definitionSpec",
+              "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec",
+              "unstableMarriage_iff_source_definitionSpec",
+              "theorem1_stable_marriage_existsSpec",
+              "theorem2_applicant_optimalitySpec"
+            ]
+          }
         ],
         "slices": [
           {
             "id": "all",
-            "title": "Five normal source items as transparent specification/proof pairs",
+            "title": "Five normal source items as one semantic Spec each",
             "names": [
               "unstableCollegeAssignment_iff_source_definitionSpec",
-              "unstableCollegeAssignment_iff_source_definition",
               "literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec",
-              "literalApplicantOptimalCollegeAssignment_iff_source_definition",
               "unstableMarriage_iff_source_definitionSpec",
-              "unstableMarriage_iff_source_definition",
               "theorem1_stable_marriage_existsSpec",
-              "theorem1_stable_marriage_exists",
-              "theorem2_applicant_optimalitySpec",
-              "theorem2_applicant_optimality"
+              "theorem2_applicant_optimalitySpec"
             ]
           }
         ],
@@ -3605,27 +3596,232 @@
         "require_source_spec_correspondence": true,
         "source_proof_fidelity_review": {
           "ledger_file": "papers/GS62CollegeAdmissions/audit/source_proof_fidelity.json",
-          "policy": "Schema 2 records source-proof defects separately from formalization gaps; a missing source theorem remains partially formalized rather than becoming a paper caveat. The literal page-10 stability boundary and the exact Section 4 procedure semantics must be reviewed by source locator and mathematical content, not by Lean declaration names."
+          "policy": "Schema 2 records source-proof defects separately from formalization gaps. The literal page-10 stability definition, the completed Sections 4--5 operational reading, and the exact Section 4 procedure semantics are reviewed by source locator and mathematical content, not by Lean declaration names."
         }
       },
-      "open_source_boundaries": [],
-      "v10_audit_state": {
-        "statement_prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
-        "paper_coverage_prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins",
-        "assumption_prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
-        "source_record_prompt_version": "source-record-v10-semantic-conclusion-boundary-contract",
-        "semantic_model_schema": 2,
-        "status": "current_complete",
-        "reason": "The compact ten-row Spec/proof surface has current v10 statement evidence and strict v11 source-to-Spec correspondence for all five normal source items. The exact relational Section 4 route has a current 69-judgment recursive source-record contract bound to 64 realization components, with zero unresolved conclusion dependencies and a passing conclusion-provenance gate. Automated evidence does not imply human release certification.",
-        "receipt": {
-          "review_rows": 10,
-          "source_inventory_rows": 5,
-          "direct_coverage_rows": 5,
-          "source_record_judgments": 69,
-          "theorem_realization_components": 64,
-          "source_record_audit_sha256": "e93fcb1cd8939c5c49187516f5eaa0f8faee653d0a7ce48c5b7e5221b6dc0ab6",
-          "source_record_match_file_sha256": "df43dfb01c8678f1a04e115f8c24499b9dac0d42eb47866e531e5f9773d6b79b"
-        }
+      "open_source_boundaries": []
+    },
+    {
+      "schema": 1,
+      "id": "HT26EFXChores",
+      "title": "EFX for Additive Chores: Nonexistence, Pareto Incompatibility, and Bi-Valued Existence",
+      "authors": "Wentao He and Biaoshuai Tao",
+      "source_version": "arXiv v2 (2026-07-09)",
+      "intake_freeze_required": true,
+      "repository_visibility": "public",
+      "build_target": "lake build HT26EFXChores",
+      "status": "formalized",
+      "main_caveat": "None.",
+      "human_summary": "Draft summary: the three named theorem routes and all named supporting lemmas are compiled against arXiv v2; the formalizer source audit found no additional paper-facing assumption or source correction.",
+      "human_summary_review": {
+        "status": "draft",
+        "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction."
+      },
+      "review_entrypoint": "papers/HT26EFXChores/FINAL_VALIDATION_REPORT.md",
+      "human_review": {
+        "reviewed_rows": 0,
+        "total_rows": 22,
+        "stale_rows": 0,
+        "mismatch_rows": 0,
+        "surface": "source_claims_v1",
+        "source": "The human paper-review surface is the 22 named source claims in the pinned source map. The canonical-allocation, short/long-label, and super-canonical clauses are distinct source definitions even though the TeX places them in one definition environment. PaperInterface contains one expanded transparent Spec per claim; its exact-type proof endpoint is separate machine evidence. Human entries come from dashboard logs."
+      },
+      "paper_interface": {
+        "path": "papers/HT26EFXChores/PaperInterface.lean",
+        "line_count": 475,
+        "declaration_rows": 22,
+        "review_rows": 22,
+        "oversized": false,
+        "maintainability_issue": null
+      },
+      "artifacts": {
+        "paper_interface": "papers/HT26EFXChores/PaperInterface.lean",
+        "proof_interface": "papers/HT26EFXChores/ProofInterface.lean",
+        "assumptions": "papers/HT26EFXChores/Assumptions.lean",
+        "final_closure_receipt": "papers/HT26EFXChores/FINAL_CLOSURE_RECEIPT.md",
+        "final_validation_report": "papers/HT26EFXChores/FINAL_VALIDATION_REPORT.md",
+        "focused_build_receipt": "papers/HT26EFXChores/audit/FOCUSED_BUILD_RECEIPT.json",
+        "dependency_dag_tex": "papers/HT26EFXChores/docs/DependencyDAG.tex",
+        "dependency_dag_pdf": "papers/HT26EFXChores/docs/DependencyDAG.pdf",
+        "human_review_packet_tex": "papers/HT26EFXChores/docs/HUMAN_REVIEW_PACKET.tex",
+        "human_review_packet_pdf": "papers/HT26EFXChores/docs/HUMAN_REVIEW_PACKET.pdf",
+        "library_semantic_review": "papers/HT26EFXChores/audit/library_semantic_review.json",
+        "source_proof_fidelity": "papers/HT26EFXChores/audit/source_proof_fidelity.json",
+        "defect_support_match": "papers/HT26EFXChores/audit/defect_support_match_llm.json",
+        "v11_raw_source_spec_screening": "papers/HT26EFXChores/audit/v11_raw_source_spec_screening.json"
+      },
+      "review_surface": {
+        "source_file": "papers/HT26EFXChores/PaperInterface.lean",
+        "proof_module": "HT26EFXChores.ProofInterface",
+        "proof_file": "papers/HT26EFXChores/ProofInterface.lean",
+        "assumption_source_file": "papers/HT26EFXChores/Assumptions.lean",
+        "require_source_spec_correspondence": true,
+        "require_v11_raw_source_spec_screening": true,
+        "llm_statement_review": {
+          "lean_to_tex_file": "papers/HT26EFXChores/audit/lean_to_tex_llm.json",
+          "match_judgment_file": "papers/HT26EFXChores/audit/statement_match_llm.json",
+          "library_semantic_review_file": "papers/HT26EFXChores/audit/library_semantic_review.json",
+          "v11_screening_file": "papers/HT26EFXChores/audit/v11_raw_source_spec_screening.json",
+          "review_surface_audit_file": "papers/HT26EFXChores/audit/review_surface_llm.json",
+          "paper_coverage_audit_file": "papers/HT26EFXChores/audit/paper_coverage_llm.json",
+          "defect_support_judgment_file": "papers/HT26EFXChores/audit/defect_support_match_llm.json",
+          "assumption_judgment_file": "papers/HT26EFXChores/audit/assumption_match_llm.json",
+          "surface_audit_threshold": 30,
+          "surface_warning_threshold": 120,
+          "require_explicit_source_routes": true,
+          "require_source_claim_atoms": true,
+          "require_direct_expression_semantics_review": "v1",
+          "required_prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
+          "policy": "For each source claim, compare only the exact ordered byte-pinned source-anchor bundle, plus any separately byte-pinned semantic-context excerpts, with the fully expanded transparent `...Spec : Prop` declaration. Do not give the judge a source-map statement, source-claim paraphrase, theorem label, Lean-to-TeX translation, context explanation, or thin proof wrapper. Record the v11 raw source-input bundle digest and expanded-Spec digest. Every material reusable EconCSLib declaration shown on this paper-facing surface also has a source-to-library verdict in library_semantic_review.json, whose exact Lean code and raw source connection appear before review rows. `PaperInterface.lean` contains only the expanded Spec once; `ProofInterface.lean` supplies its paired theorem/lemma, whose exact Spec type Lean Meta checks separately. A `matches` verdict requires equivalence of every hypothesis, quantifier, domain, constant, normalization, direction, conclusion, and expanded named predicate. Recursive source-record review remains a structural Lean-provenance audit, not a replacement for this semantic source comparison."
+        },
+        "llm_paper_coverage_review": {
+          "paper_coverage_audit_file": "papers/HT26EFXChores/audit/paper_coverage_llm.json",
+          "defect_support_judgment_file": "papers/HT26EFXChores/audit/defect_support_match_llm.json",
+          "policy": "Maintain an audit/paper_statement_map.json inventory of source definitions, formulas, and named statements, then use a separate LLM pass to judge whether each source item is covered by one or more dashboard rows. If coverage uses a reusable library declaration, it must route through an audited paper-local semantic bridge/equivalence row; matching by Lean/library/source names is not semantic evidence. Quarantined source defects require a separate exact-hash semantic judgment binding each candidate counterexample/refutation theorem to the validated defect record and every elaborated signature atom. This paper-level accounting is required before calling a full-paper formalization closed and is separate from row-local statement matching."
+        },
+        "llm_assumption_review": {
+          "assumption_judgment_file": "papers/HT26EFXChores/audit/assumption_match_llm.json",
+          "policy": "Every paper-facing theorem premise not derived from prior Lean declarations must be declared in Assumptions.lean, listed in assumption_names, and judged by an independent LLM as a true paper/source model assumption rather than a proof assumption."
+        },
+        "llm_source_record_review": {
+          "source_record_audit_file": "papers/HT26EFXChores/audit/source_record_audit.json",
+          "source_record_judgment_file": "papers/HT26EFXChores/audit/source_record_match_llm.json",
+          "policy": "Run the code-backed recursive source-record audit for any visible record, certificate, replay, process, bridge, source-row, or broad package premise. The LLM judge must classify each boundary-shaped input and recursive field by source evidence, Lean derivation, approved external boundary, or unresolved proof debt."
+        },
+        "semantic_model_review": {
+          "schema": 2,
+          "required_dimensions": [
+            "expanded_binders_and_domain",
+            "carrier_and_domain",
+            "probability_support_endpoints",
+            "joint_law_and_state_evolution",
+            "conditioning_and_calibration_semantics",
+            "expectation_definedness",
+            "null_cell_totalization_and_partition_scope",
+            "extended_rate_codomain"
+          ],
+          "policy": "For every reviewed row, preserve an alpha-normalized expanded binder/domain surface, including transparent local type aliases, record parameter domains, and model records reached only in result quantifiers. An unexpanded local opaque/constant type requires a checked carrier/refinement bridge rather than being silently treated as an ordinary carrier. When an expanded finite carrier uses index arithmetic such as Fin (n + c), record the source cardinal parameter, the expanded Lean expression, and a proved parameter translation; then explicitly compare it with pinned source text. Review endpoint support/cutoffs, product or iid laws versus source state evolution, conditioning/calibration semantics, expectation definedness, null-cell totalization and finite/countable/arbitrary partition scope, and Real versus extended-rate codomains when the expanded model makes them relevant. For a probability-law surface, state whether conditioning is pointwise, a.e., positive-fiber, or event-calibrated; state measurability/integrability or extended-value conventions for every expectation; and expose every zero-mass-cell branch. Local declaration and binder names are routing only; detected probability/rate shapes need a checked bridge from source primitives. Because this scaffold enables explicit v10 source routes, every full closeout requires current source-record semantic-model judgments for every generated row; an unresolved model dimension blocks both full statuses."
+        },
+        "source_proof_fidelity_review": {
+          "ledger_file": "papers/HT26EFXChores/audit/source_proof_fidelity.json",
+          "policy": "Audit source proof steps by source locator and mathematical claim, not by Lean declaration name. Completed papers use ledger schema 2. Every defect records status_impact as formalized_note, formalized_with_caveat, or partially_formalized plus a semantic rationale. Minor repairs with an unchanged substantive endpoint are notes; formalized with caveat is reserved for a substantial central source-paper error with a fully proved corrected endpoint; weaker Lean targets and added non-source assumptions are partial. Keep this configured ledger whenever explicit source routes or source-defect links are present; a formalized note cannot waive an added non-source assumption or a partial boundary."
+        },
+        "assumption_policy": "strict",
+        "assumption_names": [],
+        "source_definition_names": [],
+        "proposition_spec_proofs": {
+          "envyFreeForChores_iff_source_definitionSpec": "envyFreeForChores_iff_source_definition",
+          "efxForChores_iff_source_definitionSpec": "efxForChores_iff_source_definition",
+          "paretoOptimalForChores_iff_source_definitionSpec": "paretoOptimalForChores_iff_source_definition",
+          "canonicalSmallChoreAllocation_iff_source_definitionSpec": "canonicalSmallChoreAllocation_iff_source_definition",
+          "canonicalShortLongLabels_iff_source_definitionSpec": "canonicalShortLongLabels_iff_source_definition",
+          "superCanonicalSmallChoreAllocation_iff_source_definitionSpec": "superCanonicalSmallChoreAllocation_iff_source_definition",
+          "tri_valued_nonexistenceSpec": "tri_valued_nonexistence",
+          "tri_four_no_two_largeSpec": "tri_four_no_two_large",
+          "tri_four_no_a_bundle_expensiveSpec": "tri_four_no_a_bundle_expensive",
+          "efx_pareto_incompatibilitySpec": "efx_pareto_incompatibility",
+          "efx_po_every_agent_largeSpec": "efx_po_every_agent_large",
+          "efx_po_cost_lower_boundsSpec": "efx_po_cost_lower_bounds",
+          "four_agent_bi_valued_efx_existsSpec": "four_agent_bi_valued_efx_exists",
+          "m34_insertionSpec": "m34_insertion",
+          "compositionSpec": "composition",
+          "canonical_allocation_propertiesSpec": "canonical_allocation_properties",
+          "balanced_orientationSpec": "balanced_orientation",
+          "m2_efx_allocationSpec": "m2_efx_allocation",
+          "m2_efx_allocation_propertiesSpec": "m2_efx_allocation_properties",
+          "exceptional_residue_combinationSpec": "exceptional_residue_combination",
+          "appendix_no_two_a_itemsSpec": "appendix_no_two_a_items",
+          "appendix_p1_p2_lower_boundsSpec": "appendix_p1_p2_lower_bounds"
+        },
+        "paper_coverage_required": false,
+        "include_names": [
+          "envyFreeForChores_iff_source_definitionSpec",
+          "efxForChores_iff_source_definitionSpec",
+          "paretoOptimalForChores_iff_source_definitionSpec",
+          "canonicalSmallChoreAllocation_iff_source_definitionSpec",
+          "canonicalShortLongLabels_iff_source_definitionSpec",
+          "superCanonicalSmallChoreAllocation_iff_source_definitionSpec",
+          "tri_valued_nonexistenceSpec",
+          "tri_four_no_two_largeSpec",
+          "tri_four_no_a_bundle_expensiveSpec",
+          "efx_pareto_incompatibilitySpec",
+          "efx_po_every_agent_largeSpec",
+          "efx_po_cost_lower_boundsSpec",
+          "four_agent_bi_valued_efx_existsSpec",
+          "m34_insertionSpec",
+          "compositionSpec",
+          "canonical_allocation_propertiesSpec",
+          "balanced_orientationSpec",
+          "m2_efx_allocationSpec",
+          "m2_efx_allocation_propertiesSpec",
+          "exceptional_residue_combinationSpec",
+          "appendix_no_two_a_itemsSpec",
+          "appendix_p1_p2_lower_boundsSpec"
+        ],
+        "presentation_sections": [
+          {
+            "title": "Main-text source claims",
+            "names": [
+              "envyFreeForChores_iff_source_definitionSpec",
+              "efxForChores_iff_source_definitionSpec",
+              "paretoOptimalForChores_iff_source_definitionSpec",
+              "canonicalSmallChoreAllocation_iff_source_definitionSpec",
+              "canonicalShortLongLabels_iff_source_definitionSpec",
+              "superCanonicalSmallChoreAllocation_iff_source_definitionSpec",
+              "tri_valued_nonexistenceSpec",
+              "tri_four_no_two_largeSpec",
+              "tri_four_no_a_bundle_expensiveSpec",
+              "efx_pareto_incompatibilitySpec",
+              "efx_po_every_agent_largeSpec",
+              "efx_po_cost_lower_boundsSpec",
+              "four_agent_bi_valued_efx_existsSpec",
+              "m34_insertionSpec",
+              "compositionSpec",
+              "canonical_allocation_propertiesSpec",
+              "balanced_orientationSpec",
+              "m2_efx_allocationSpec",
+              "m2_efx_allocation_propertiesSpec",
+              "exceptional_residue_combinationSpec"
+            ]
+          },
+          {
+            "title": "Appendix and supplement source claims",
+            "names": [
+              "appendix_no_two_a_itemsSpec",
+              "appendix_p1_p2_lower_boundsSpec"
+            ]
+          }
+        ],
+        "slices": [
+          {
+            "id": "all",
+            "title": "All source-facing review rows",
+            "names": [
+              "envyFreeForChores_iff_source_definitionSpec",
+              "efxForChores_iff_source_definitionSpec",
+              "paretoOptimalForChores_iff_source_definitionSpec",
+              "canonicalSmallChoreAllocation_iff_source_definitionSpec",
+              "canonicalShortLongLabels_iff_source_definitionSpec",
+              "superCanonicalSmallChoreAllocation_iff_source_definitionSpec",
+              "tri_valued_nonexistenceSpec",
+              "tri_four_no_two_largeSpec",
+              "tri_four_no_a_bundle_expensiveSpec",
+              "efx_pareto_incompatibilitySpec",
+              "efx_po_every_agent_largeSpec",
+              "efx_po_cost_lower_boundsSpec",
+              "four_agent_bi_valued_efx_existsSpec",
+              "m34_insertionSpec",
+              "compositionSpec",
+              "canonical_allocation_propertiesSpec",
+              "balanced_orientationSpec",
+              "m2_efx_allocationSpec",
+              "m2_efx_allocation_propertiesSpec",
+              "exceptional_residue_combinationSpec",
+              "appendix_no_two_a_itemsSpec",
+              "appendix_p1_p2_lower_boundsSpec"
+            ]
+          }
+        ]
       }
     },
     {

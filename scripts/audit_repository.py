@@ -172,9 +172,13 @@ try:
     from scripts.source_record_target_disposition import (
         EXPLICIT_DIRECT_SOURCE_ROUTE_ORIGIN,
         EXPLICIT_DIRECT_SOURCE_ROUTE_ROLE,
+        SOURCE_CLAIM_ATOM_ASSOCIATION_FIELD,
+        SOURCE_CLAIM_ATOM_ROUTE_ORIGIN,
+        SOURCE_CLAIM_ATOM_ROUTE_ROLE,
         approved_source_convention_antecedent_errors,
         project_source_record_response_association_pins,
         recursive_field_target_disposition_errors,
+        semantic_association_record_digest,
         semantic_target_disposition_errors,
         source_contract_association_record_digest,
         source_input_target_disposition_errors,
@@ -183,9 +187,13 @@ except ModuleNotFoundError:  # pragma: no cover - supports module-style imports.
     from source_record_target_disposition import (
         EXPLICIT_DIRECT_SOURCE_ROUTE_ORIGIN,
         EXPLICIT_DIRECT_SOURCE_ROUTE_ROLE,
+        SOURCE_CLAIM_ATOM_ASSOCIATION_FIELD,
+        SOURCE_CLAIM_ATOM_ROUTE_ORIGIN,
+        SOURCE_CLAIM_ATOM_ROUTE_ROLE,
         approved_source_convention_antecedent_errors,
         project_source_record_response_association_pins,
         recursive_field_target_disposition_errors,
+        semantic_association_record_digest,
         semantic_target_disposition_errors,
         source_contract_association_record_digest,
         source_input_target_disposition_errors,
@@ -473,9 +481,9 @@ SOURCE_RECORD_JUDGMENT_ITEM_SECTIONS = (
     "type_valued_certificate_result_items",
     "source_premise_consistency_items",
 )
-REQUIRED_LLM_ASSUMPTION_PROMPT_VERSION = "assumption-provenance-v3-semantic-exact-premise-source"
+REQUIRED_LLM_ASSUMPTION_PROMPT_VERSION = "assumption-provenance-v4-verbatim-source-anchor-exact-premise"
 REQUIRED_LLM_STATEMENT_PROMPT_VERSION = (
-    "statement-match-v10-semantic-fidelity-seat-stopping"
+    "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2"
 )
 REQUIRED_SOURCE_RECORD_PROMPT_VERSION = "source-record-v10-semantic-conclusion-boundary-contract"
 SOURCE_RECORD_LEAN_IMPORT_CLOSURE_FIELD = "lean_import_closure"
@@ -2345,6 +2353,9 @@ FINAL_REPORT_SOURCE_FIXES_RE = re.compile(
     r"(?mi)^##+\s+(?:\d+\.\s*)?Mathematical\s+Typos\s+or\s+Other\s+Fixes\s+"
     r"Suggested\s+(?:in|for)\s+the\s+Source\s+Paper\b"
 )
+FINAL_REPORT_SOURCE_CLARIFICATIONS_RE = re.compile(
+    r"(?mi)^##+\s+(?:\d+\.\s*)?Source\s+Clarifications\s+and\s+Exact\s+Readings\b"
+)
 FINAL_REPORT_ISSUES_CAVEATS_RE = re.compile(
     r"(?mi)^##+\s+(?:\d+\.\s*)?Paper\s+Issues\s+or\s+Caveats\b"
 )
@@ -2626,6 +2637,10 @@ def check_final_report_human_facing_front_matter(
         tricks = FINAL_REPORT_PROOF_TRICKS_RE.search(report_text)
         generalizations = FINAL_REPORT_GENERALIZATIONS_RE.search(report_text)
         source_fixes = FINAL_REPORT_SOURCE_FIXES_RE.search(report_text)
+        source_clarifications = FINAL_REPORT_SOURCE_CLARIFICATIONS_RE.search(
+            report_text
+        )
+        source_reading = source_clarifications or source_fixes
         issues = FINAL_REPORT_ISSUES_CAVEATS_RE.search(report_text)
         detailed = FINAL_REPORT_DETAILED_EVIDENCE_RE.search(report_text)
         assumption_provenance = FINAL_REPORT_ASSUMPTION_PROVENANCE_RE.search(report_text)
@@ -2637,7 +2652,7 @@ def check_final_report_human_facing_front_matter(
         theorems_checked = FINAL_REPORT_THEOREMS_CHECKED_RE.search(report_text)
         validator_ledger = FINAL_REPORT_VALIDATOR_LEDGER_RE.search(report_text)
         source_coverage = FINAL_REPORT_SOURCE_COVERAGE_RE.search(report_text)
-        required_sections = [
+        required_front_sections = [
             ("Closeout Status", closeout),
             ("Source and Scope", source_scope),
             ("Researcher Summary of Checked Results", summary),
@@ -2646,26 +2661,16 @@ def check_final_report_human_facing_front_matter(
             ("Proof-Strategy Deviations", deviations),
             ("Proof Tricks Worth Reusing", tricks),
             ("Generalizations, Conjectures, and Extensions", generalizations),
-            ("Mathematical Typos or Other Fixes Suggested in the Source Paper", source_fixes),
+            ("Source Clarifications and Exact Readings", source_reading),
             ("Paper Issues or Caveats", issues),
-            ("Detailed Formalization Evidence", detailed),
-            ("Paper Assumption Provenance", assumption_provenance),
-            ("Displayed Formula Provenance", formula_provenance),
-            ("Library Lift Pass", library_lift),
-            ("DAG Audit", dag_audit),
-            ("Validation Checks", validation_checks),
-            ("Paper Definitions Checked", definitions_checked),
-            ("Named Theorem Statements Checked", theorems_checked),
-            ("Paper-Facing Statement Validator Ledger", validator_ledger),
-            ("Source-Coverage Audit Ledger", source_coverage),
         ]
-        for title, match in required_sections:
+        for title, match in required_front_sections:
             if not match:
                 findings.append(
                     Finding(
                         "WARN",
                         report,
-                        f"final validation report should include `{title}` in the standard template order",
+                        f"final validation report should include `{title}` in the human-facing 1--11 front matter",
                     )
                 )
         present_positions = [
@@ -2681,18 +2686,8 @@ def check_final_report_human_facing_front_matter(
                     deviations,
                     tricks,
                     generalizations,
-                    source_fixes,
+                    source_reading,
                     issues,
-                    detailed,
-                    assumption_provenance,
-                    formula_provenance,
-                    library_lift,
-                    dag_audit,
-                    validation_checks,
-                    definitions_checked,
-                    theorems_checked,
-                    validator_ledger,
-                    source_coverage,
                 ]
                 if match
             ],
@@ -2706,8 +2701,8 @@ def check_final_report_human_facing_front_matter(
                     "Closeout Status, Source and Scope, Researcher Summary, "
                     "Remaining Boundaries, Additional Assumptions, Proof-Strategy "
                     "Deviations, Proof Tricks, Generalizations/Conjectures/"
-                    "Extensions, source-paper fixes, Paper Issues or Caveats, "
-                    "Detailed Formalization Evidence, and the remaining template appendices",
+                    "Extensions, Source Clarifications and Exact Readings, and Paper "
+                    "Issues or Caveats; technical appendices are optional and follow them",
                 )
             )
         if detailed:
@@ -4671,6 +4666,8 @@ def paper_statement_sidecar_findings(
         try:
             from scripts.review_dashboard import (
                 assumption_provenance_audit_summary,
+                bind_current_v11_source_spec_screening,
+                human_review_claim_items,
                 paper_coverage_audit_summary,
                 review_surface_audit_summary,
                 statement_translation_audit_summary,
@@ -4678,6 +4675,8 @@ def paper_statement_sidecar_findings(
         except ModuleNotFoundError:  # Direct script execution.
             from review_dashboard import (
                 assumption_provenance_audit_summary,
+                bind_current_v11_source_spec_screening,
+                human_review_claim_items,
                 paper_coverage_audit_summary,
                 review_surface_audit_summary,
                 statement_translation_audit_summary,
@@ -4713,6 +4712,137 @@ def paper_statement_sidecar_findings(
             statements = statement_translation_audit_summary(folder, items)
             paper_coverage = paper_coverage_audit_summary(folder, items)
             assumptions = assumption_provenance_audit_summary(folder, items)
+            review_surface_config = (
+                status_payload.get("review_surface")
+                if isinstance(status_payload, dict)
+                else None
+            )
+            v11_required = bool(
+                isinstance(review_surface_config, dict)
+                and review_surface_config.get("require_v11_raw_source_spec_screening")
+                is True
+            )
+            v11_screening_errors: list[str] = []
+            v11_coverage_errors: list[str] = []
+            if v11_required:
+                # The v11 lane is deliberately raw source -> transparent Spec,
+                # so it supersedes the legacy paraphrase/translation sidecars
+                # only when every single human source-claim card carries a
+                # current positive verdict.  The independent source-record
+                # and map gates continue to prove completeness and proof
+                # routing below; this code merely avoids requiring an obsolete
+                # paraphrase judge in parallel.
+                claim_rows = human_review_claim_items(folder, list(items))
+                bind_current_v11_source_spec_screening(folder, claim_rows)
+                for row in claim_rows:
+                    name = str(row.get("full_name") or "").strip()
+                    verdict = str(row.get("llm_match_judgment") or "").strip()
+                    source = str(row.get("llm_match_source") or "").strip()
+                    if (
+                        not name
+                        or source != "v11_raw_source_spec_screening.json"
+                        or verdict != "matches"
+                    ):
+                        v11_screening_errors.append(
+                            f"{name or 'unnamed'}:{verdict or 'missing'}"
+                        )
+                # Coverage is checked source-first.  A larger source bundle
+                # may explain one claim, but never covers a second claim that
+                # happens to occur nearby.  Every selected byte-pinned source
+                # item therefore has to appear exactly once as the map item
+                # owning a current v11 source-to-Spec comparison.
+                statement_map_path = folder / PAPER_AUDIT_DIR / "paper_statement_map.json"
+                source_map = (
+                    run_context.exact_json_payload(statement_map_path)
+                    if run_context is not None
+                    else load_json_object(statement_map_path)
+                )
+                source_map_items = (
+                    source_map.get("items")
+                    if isinstance(source_map, dict)
+                    else None
+                )
+                if not isinstance(source_map_items, dict):
+                    v11_coverage_errors.append("missing_source_inventory")
+                else:
+                    coverage_mode, coverage_mode_error = source_coverage_mode_from_map(
+                        source_map
+                    )
+                    if coverage_mode_error:
+                        v11_coverage_errors.append("invalid_source_coverage_mode")
+                    else:
+                        selected_source_ids = source_index_byte_pinned_anchor_item_ids(
+                            folder,
+                            source_map,
+                            coverage_mode,
+                            repository_root=ROOT,
+                        )
+                        required_items = filter_source_map_items_for_proof_obligations(
+                            source_map_items,
+                            coverage_mode,
+                            declared_environment_kinds=(
+                                source_named_result_environment_kinds_from_map(source_map)
+                            ),
+                            additional_selected_item_ids=selected_source_ids,
+                        )
+                        aliases, alias_errors = source_presentation_aliases(
+                            source_map_items
+                        )
+                        if alias_errors:
+                            v11_coverage_errors.append("invalid_presentation_aliases")
+                        required_keys = set(required_items) - set(aliases)
+                        claims_by_source: dict[str, list[dict[str, Any]]] = {}
+                        for row in claim_rows:
+                            source_key = str(
+                                row.get("human_claim_source_key") or ""
+                            ).strip()
+                            if source_key:
+                                claims_by_source.setdefault(source_key, []).append(row)
+                        spec_owners: dict[str, list[str]] = {}
+                        for source_key in sorted(required_keys):
+                            candidates = claims_by_source.get(source_key, [])
+                            if len(candidates) != 1:
+                                v11_coverage_errors.append(
+                                    f"{source_key}:"
+                                    + ("missing" if not candidates else "duplicate")
+                                )
+                                continue
+                            source_item = required_items.get(source_key)
+                            contract = (
+                                source_item.get("semantic_contract")
+                                if isinstance(source_item, dict)
+                                else None
+                            )
+                            spec_name = (
+                                str(contract.get("spec_declaration") or "").strip()
+                                if isinstance(contract, dict)
+                                else ""
+                            )
+                            card_name = str(
+                                candidates[0].get("full_name") or ""
+                            ).strip()
+                            if not spec_name or card_name != spec_name:
+                                v11_coverage_errors.append(
+                                    f"{source_key}:wrong_spec"
+                                )
+                                continue
+                            spec_owners.setdefault(spec_name, []).append(source_key)
+                            if str(
+                                candidates[0].get("llm_match_judgment") or ""
+                            ).strip() != "matches":
+                                v11_coverage_errors.append(
+                                    f"{source_key}:not_current_v11_match"
+                                )
+                        # One semantic Spec has one source-claim owner.  A
+                        # single expanded Lean proposition cannot silently
+                        # take coverage credit for two independently anchored
+                        # source presentations, even if their surrounding
+                        # source bundles overlap.
+                        for spec_name, owners in sorted(spec_owners.items()):
+                            if len(owners) > 1:
+                                v11_coverage_errors.append(
+                                    f"{spec_name}:multiple_source_items"
+                                )
     except Exception as exc:  # noqa: BLE001 - audit should report parser failures.
         return findings + [
             Finding(
@@ -4732,6 +4862,37 @@ def paper_statement_sidecar_findings(
         for lane, reusable in current_semantic_reuse_lanes.items():
             if reusable:
                 bridge_lanes[lane] = True
+
+    if v11_required:
+        if v11_screening_errors:
+            findings.append(
+                Finding(
+                    severity,
+                    folder / f"{PAPER_AUDIT_DIR}/v11_raw_source_spec_screening.json",
+                    f"`{paper_id}` v11 raw-source-to-expanded-Spec screening needs attention: "
+                    + ", ".join(v11_screening_errors[:8])
+                    + ("; ..." if len(v11_screening_errors) > 8 else ""),
+                )
+            )
+        if v11_coverage_errors:
+            findings.append(
+                Finding(
+                    severity,
+                    folder / f"{PAPER_AUDIT_DIR}/paper_statement_map.json",
+                    f"`{paper_id}` v11 source inventory is not fully covered by "
+                    "current raw-source-to-Spec rows: "
+                    + ", ".join(v11_coverage_errors[:8])
+                    + ("; ..." if len(v11_coverage_errors) > 8 else ""),
+                )
+            )
+        if not v11_screening_errors and not v11_coverage_errors:
+            # A fully current v11 verdict is the source-semantic counterpart
+            # of legacy review-surface, translation, and coverage rows.  The
+            # source-first coverage relation above additionally ensures that
+            # context for one row cannot silently cover another source item.
+            bridge_lanes.update(
+                {"review_surface": True, "statement": True, "coverage": True}
+            )
 
     strict_evidence_required = status in {
         "formalized",
@@ -4785,6 +4946,10 @@ def paper_statement_sidecar_findings(
             (
                 "coverage_row_signature_error_count",
                 "coverage judgment without a current elaborated Lean-row signature pin",
+            ),
+            (
+                "coverage_source_input_error_count",
+                "coverage judgment without the required byte-pinned raw source-input protocol",
             ),
             ("covered_without_rows_count", "covered source statement without linked row"),
             ("covered_without_reason_count", "covered source statement without semantic coverage reason"),
@@ -5104,6 +5269,7 @@ def paper_reviewed_semantic_bridge_names(
     comments: dict[str, str] = {}
     for review_path in {
         review_surface_source_file_path(folder, review_surface),
+        proof_endpoint_source_file_path(folder, review_surface),
         assumption_source_file_path(folder, review_surface),
     }:
         if source_text_by_path is not None:
@@ -6932,6 +7098,7 @@ class SemanticContractSurfaceRoute:
     specification: LeanDeclaration
     qualified_evidence: str
     qualified_specification: str
+    evidence_mode: str
 
 
 @dataclass(frozen=True)
@@ -7174,7 +7341,7 @@ def semantic_contract_schema3_surface_routes(
         if (
             evidence.kind not in SEMANTIC_CONTRACT_EVIDENCE_KINDS
             or specification.kind not in {"def", "abbrev"}
-            or mode != "proves"
+            or mode not in {"proves", "definitionally_realizes"}
         ):
             findings.append(
                 Finding(
@@ -7182,7 +7349,7 @@ def semantic_contract_schema3_surface_routes(
                     statement_map,
                     f"`{paper_id}` source item `{source_key}` contract-backed schema-3 "
                     "surface requires a theorem/lemma evidence route, a transparent def/abbrev "
-                    "Prop Spec, and evidence_mode `proves`",
+                    "Prop Spec, and a positive evidence mode",
                 )
             )
             continue
@@ -7238,6 +7405,7 @@ def semantic_contract_schema3_surface_routes(
             specification=specification,
             qualified_evidence=qualified_evidence,
             qualified_specification=qualified_specification,
+            evidence_mode=mode,
         )
 
     if not requested:
@@ -7280,7 +7448,7 @@ def semantic_contract_schema3_surface_routes(
                 (
                     route.qualified_specification,
                     route.qualified_evidence,
-                    "proves",
+                    route.evidence_mode,
                 )
                 for route in requested.values()
             ],
@@ -7306,7 +7474,7 @@ def semantic_contract_schema3_surface_routes(
         route_key = (
             route.qualified_specification,
             route.qualified_evidence,
-            "proves",
+            route.evidence_mode,
         )
         if meta_matches.get(route_key) is not True:
             findings.append(
@@ -7998,6 +8166,7 @@ def source_spec_correspondence_runtime_errors(
         "terminal_fallback",
         "closure_fingerprints",
         "terminal_fingerprints",
+        "lean_dependency_fingerprint",
     }:
         errors.append("current Lean closure has an unsupported surface mode")
     source_components = semantic_contract_spec_surface_component_sha256s(
@@ -8148,6 +8317,7 @@ def paper_statement_map_semantic_contract_findings(
     if isinstance(review_surface, dict):
         reviewed_source_paths = {
             review_surface_source_file_path(folder, review_surface).resolve(),
+            proof_endpoint_source_file_path(folder, review_surface).resolve(),
             assumption_source_file_path(folder, review_surface).resolve(),
         }
         for field in ("include_names", "assumption_names"):
@@ -8173,6 +8343,43 @@ def paper_statement_map_semantic_contract_findings(
                     reviewed_declaration_keys.add(
                         declaration_key(resolved_review_name[0])
                     )
+        # The human review row is the transparent Spec in PaperInterface.  A
+        # paired theorem/lemma may live in a separate paper-local proof module
+        # without becoming a second source claim.  Admit precisely those
+        # endpoints here; `check_proposition_spec_routes` subsequently uses
+        # Lean Meta to require that each endpoint has exactly its paired Spec
+        # type.  No other declaration in the proof module receives review
+        # credit merely because of its file location.
+        raw_pairs = review_surface.get("proposition_spec_proofs")
+        include_names = {
+            str(name).strip()
+            for name in review_surface.get("include_names", [])
+            if isinstance(name, str) and name.strip()
+        }
+        if isinstance(raw_pairs, dict):
+            proof_path = proof_endpoint_source_file_path(folder, review_surface).resolve()
+            source_path = review_surface_source_file_path(folder, review_surface).resolve()
+            for raw_spec, raw_proof in raw_pairs.items():
+                if not isinstance(raw_spec, str) or not isinstance(raw_proof, str):
+                    continue
+                spec_name = raw_spec.strip()
+                proof_name = raw_proof.strip()
+                if not spec_name or not proof_name or spec_name not in include_names:
+                    continue
+                specs = resolve_declaration_name(paper_declarations, spec_name)
+                proofs = resolve_declaration_name(paper_declarations, proof_name)
+                if len(specs) != 1:
+                    specs = [decl for decl in specs if decl.path.resolve() == source_path]
+                if len(proofs) != 1:
+                    proofs = [decl for decl in proofs if decl.path.resolve() == proof_path]
+                if (
+                    len(specs) == 1
+                    and declaration_key(specs[0]) in reviewed_declaration_keys
+                    and len(proofs) == 1
+                    and proofs[0].path.resolve() == proof_path
+                    and proofs[0].kind in LEAN_PROOF_DECLARATION_KINDS
+                ):
+                    reviewed_declaration_keys.add(declaration_key(proofs[0]))
     contract_schema = payload.get("semantic_contract_schema")
     strict_realization = source_spec_correspondence_enabled(payload)
     # The source inventory decides which source claims may mint a full-surface
@@ -8357,10 +8564,7 @@ def paper_statement_map_semantic_contract_findings(
                     run_lean_semantic_contract_closure_manifests,
                     run_lean_semantic_contract_transparency_checks,
                 )
-                from review_dashboard import (
-                    review_source_file,
-                    review_source_module,
-                )
+                from review_dashboard import review_source_file, review_source_module
             source_path = review_source_file(folder)
             review_module = review_source_module(folder, source_path)
             paper_modules = paper_local_module_names(
@@ -8395,19 +8599,28 @@ def paper_statement_map_semantic_contract_findings(
         try:
             try:
                 from scripts.lean_signature_manifest import run_lean_semantic_contract_matches
-                from scripts.review_dashboard import review_source_file, review_source_module
+                from scripts.review_dashboard import (
+                    review_proof_module,
+                    review_source_file,
+                    review_source_module,
+                )
             except ModuleNotFoundError:
                 from lean_signature_manifest import (
                     run_lean_semantic_contract_matches,
                 )
                 from review_dashboard import (
+                    review_proof_module,
                     review_source_file,
                     review_source_module,
                 )
             source_path = review_source_file(folder)
             meta_matches = run_lean_semantic_contract_matches(
                 ROOT,
-                review_source_module(folder, source_path),
+                # Semantic Specs remain expanded from PaperInterface, while
+                # proof endpoints are checked from their configured
+                # paper-local proof module.  Their location is immaterial;
+                # the exact Spec/evidence relationship is the authority.
+                review_proof_module(folder, source_path),
                 [
                     (spec, evidence, mode)
                     for spec, evidence, mode, _shape, _item in requested.values()
@@ -8475,7 +8688,15 @@ def paper_statement_map_semantic_contract_findings(
             )
             continue
         if meta_matches.get((spec, evidence, mode)) is not True:
-            expected = "the exact specification" if mode == "proves" else "exactly `Not` the specification"
+            expected = (
+                "the exact specification"
+                if mode == "proves"
+                else (
+                    "an exact definition-to-Spec equivalence"
+                    if mode == "definitionally_realizes"
+                    else "exactly `Not` the specification"
+                )
+            )
             findings.append(
                 Finding(
                     severity,
@@ -8511,7 +8732,7 @@ def paper_statement_map_semantic_contract_findings(
             if (
                 run_context is not None
                 and source_key in strict_source_scope_keys
-                and mode == "proves"
+                and mode in {"proves", "definitionally_realizes"}
                 and isinstance(raw_correspondence, dict)
                 and isinstance(raw_contract, dict)
                 and str(raw_contract.get("spec_declaration") or "").strip()
@@ -9279,6 +9500,7 @@ def paper_statement_map_declaration_findings(
         reviewed_source_texts = {}
         for source_path in {
             review_surface_source_file_path(folder, review_surface).resolve(),
+            proof_endpoint_source_file_path(folder, review_surface).resolve(),
             assumption_source_file_path(folder, review_surface).resolve(),
         }:
             source_text = run_context.exact_lean_source_text(source_path)
@@ -9293,6 +9515,7 @@ def paper_statement_map_declaration_findings(
     )
     reviewed_source_paths = {
         review_surface_source_file_path(folder, review_surface).resolve(),
+        proof_endpoint_source_file_path(folder, review_surface).resolve(),
         assumption_source_file_path(folder, review_surface).resolve(),
     }
     reviewed_declaration_keys: set[tuple[Path, int, str]] = set()
@@ -9312,6 +9535,52 @@ def paper_statement_map_declaration_findings(
         if len(resolved_reviewed) == 1:
             reviewed_declaration_keys.add(declaration_key(resolved_reviewed[0]))
 
+    # The configured Spec/proof pairing is a single audited source claim:
+    # admit its theorem endpoint to proof-route validation even though the
+    # endpoint is intentionally absent from the human `include_names` list.
+    # Exact Spec-type equality is checked independently by Lean Meta in
+    # `check_proposition_spec_routes`; this narrow structural admission cannot
+    # make an arbitrary proof-module helper reviewable.
+    if isinstance(review_surface, dict):
+        raw_pairs = review_surface.get("proposition_spec_proofs")
+        include_names = {
+            str(name).strip()
+            for name in review_surface.get("include_names", [])
+            if isinstance(name, str) and name.strip()
+        }
+        source_path = review_surface_source_file_path(folder, review_surface).resolve()
+        proof_path = proof_endpoint_source_file_path(folder, review_surface).resolve()
+        if isinstance(raw_pairs, dict):
+            for raw_spec, raw_proof in raw_pairs.items():
+                if not isinstance(raw_spec, str) or not isinstance(raw_proof, str):
+                    continue
+                spec_name = raw_spec.strip()
+                proof_name = raw_proof.strip()
+                if not spec_name or not proof_name or spec_name not in include_names:
+                    continue
+                resolved_spec = resolve_declaration_name(paper_declarations, spec_name)
+                resolved_proof = resolve_declaration_name(paper_declarations, proof_name)
+                if len(resolved_spec) != 1:
+                    resolved_spec = [
+                        declaration
+                        for declaration in resolved_spec
+                        if declaration.path.resolve() == source_path
+                    ]
+                if len(resolved_proof) != 1:
+                    resolved_proof = [
+                        declaration
+                        for declaration in resolved_proof
+                        if declaration.path.resolve() == proof_path
+                    ]
+                if (
+                    len(resolved_spec) == 1
+                    and declaration_key(resolved_spec[0]) in reviewed_declaration_keys
+                    and len(resolved_proof) == 1
+                    and resolved_proof[0].path.resolve() == proof_path
+                    and resolved_proof[0].kind in LEAN_PROOF_DECLARATION_KINDS
+                ):
+                    reviewed_declaration_keys.add(declaration_key(resolved_proof[0]))
+
     def is_unique_reviewed_declaration(
         resolved: list[LeanDeclaration], expected_kinds: set[str] | None = None
     ) -> bool:
@@ -9326,6 +9595,9 @@ def paper_statement_map_declaration_findings(
     # identity check only; the atom's pinned source text remains the semantic
     # evidence for what has to be proved.
     review_source_path = review_surface_source_file_path(
+        folder, review_surface
+    ).resolve()
+    proof_endpoint_path = proof_endpoint_source_file_path(
         folder, review_surface
     ).resolve()
     included_reviewed_declaration_keys: set[tuple[Path, int, str]] = set()
@@ -9349,13 +9621,58 @@ def paper_statement_map_declaration_findings(
                 declaration_key(resolved_included[0])
             )
 
+    # One source claim may have a transparent `Spec : Prop` in
+    # PaperInterface and its theorem/lemma endpoint in a separate, configured
+    # paper-local proof module.  The endpoint is an auditable route only when
+    # it is explicitly paired to an included Spec.  This keeps the semantic
+    # row count unchanged and prevents arbitrary proof-module helpers from
+    # acquiring source-claim credit.
+    configured_endpoint_keys: set[tuple[Path, int, str]] = set()
+    raw_spec_proof_pairs = (
+        review_surface.get("proposition_spec_proofs")
+        if isinstance(review_surface, dict)
+        else None
+    )
+    if isinstance(raw_spec_proof_pairs, dict):
+        for raw_spec, raw_proof in raw_spec_proof_pairs.items():
+            if not isinstance(raw_spec, str) or not isinstance(raw_proof, str):
+                continue
+            spec_name = raw_spec.strip()
+            proof_name = raw_proof.strip()
+            if not spec_name or not proof_name:
+                continue
+            resolved_spec = resolve_declaration_name(paper_declarations, spec_name)
+            resolved_proof = resolve_declaration_name(paper_declarations, proof_name)
+            if len(resolved_spec) != 1:
+                resolved_spec = [
+                    declaration
+                    for declaration in resolved_spec
+                    if declaration.path.resolve() == review_source_path
+                ]
+            if len(resolved_proof) != 1:
+                resolved_proof = [
+                    declaration
+                    for declaration in resolved_proof
+                    if declaration.path.resolve() == proof_endpoint_path
+                ]
+            if (
+                len(resolved_spec) == 1
+                and declaration_key(resolved_spec[0])
+                in included_reviewed_declaration_keys
+                and len(resolved_proof) == 1
+                and resolved_proof[0].path.resolve() == proof_endpoint_path
+                and resolved_proof[0].kind in LEAN_PROOF_DECLARATION_KINDS
+            ):
+                configured_endpoint_keys.add(declaration_key(resolved_proof[0]))
+
     def resolve_atom_route(route: str) -> list[LeanDeclaration]:
         resolved_route = resolve_declaration_name(paper_declarations, route)
         if len(resolved_route) != 1:
             visible = [
                 declaration
                 for declaration in resolved_route
-                if declaration.path.resolve() == review_source_path
+                if declaration.path.resolve()
+                in {review_source_path, proof_endpoint_path}
             ]
             if len(visible) == 1:
                 return visible
@@ -9366,9 +9683,13 @@ def paper_statement_map_declaration_findings(
     ) -> bool:
         return bool(
             len(resolved_route) == 1
-            and declaration_key(resolved_route[0])
-            in included_reviewed_declaration_keys
-            and resolved_route[0].path.resolve() == review_source_path
+            and (
+                declaration_key(resolved_route[0])
+                in included_reviewed_declaration_keys
+                or declaration_key(resolved_route[0]) in configured_endpoint_keys
+            )
+            and resolved_route[0].path.resolve()
+            in {review_source_path, proof_endpoint_path}
             and resolved_route[0].kind in LEAN_PROOF_DECLARATION_KINDS
         )
 
@@ -9870,7 +10191,7 @@ def paper_statement_map_declaration_findings(
                 severity,
                 statement_map,
                 f"`{paper_id}` source-claim atom route(s) must be configured "
-                "PaperInterface theorem/lemma result rows, not assumptions, definitions, "
+                "Spec-paired theorem/lemma result endpoints, not assumptions, definitions, "
                 "records, certificates, or hidden helpers: "
                 + ", ".join(unauditable_source_claim_atom_routes[:8])
                 + ("; ..." if len(unauditable_source_claim_atom_routes) > 8 else ""),
@@ -10034,6 +10355,21 @@ def review_surface_source_file_path(folder: Path, review_surface: dict[str, obje
     if isinstance(raw_path, str) and raw_path.strip():
         return ROOT / raw_path.strip()
     return folder / "PaperInterface.lean"
+
+
+def proof_endpoint_source_file_path(folder: Path, review_surface: dict[str, object]) -> Path:
+    """Return the optional module containing theorem endpoints for reviewed Specs.
+
+    PaperInterface remains the single human semantic-review surface.  When
+    theorem endpoints are intentionally separated into ProofInterface, this
+    path is still included in machine proof-route validation without creating
+    duplicate human source-claim rows.
+    """
+
+    raw_path = review_surface.get("proof_file")
+    if isinstance(raw_path, str) and raw_path.strip():
+        return ROOT / raw_path.strip()
+    return folder / "ProofInterface.lean"
 
 
 def assumption_judgment_file_path(folder: Path, review_surface: dict[str, object]) -> Path:
@@ -13430,7 +13766,11 @@ def _recursive_field_explicit_parent_semantic_model_item(
     if (
         not semantic_key
         or association_field
-        not in {"source_statement_association", "semantic_contract_source_association"}
+        not in {
+            "source_statement_association",
+            "semantic_contract_source_association",
+            SOURCE_CLAIM_ATOM_ASSOCIATION_FIELD,
+        }
         or not isinstance(expected_identity, Mapping)
         or not isinstance(expected_signature, Mapping)
         or not isinstance(expected_source_identities, list)
@@ -13465,19 +13805,48 @@ def _recursive_field_explicit_parent_semantic_model_item(
     ):
         return None
     association = candidate.get(association_field)
+    association_is_claim_atom = (
+        association_field == SOURCE_CLAIM_ATOM_ASSOCIATION_FIELD
+    )
+    observed_association_sha = (
+        semantic_association_record_digest(
+            [
+                str(identity.get("source_semantic_sha256") or "").strip().lower()
+                for identity in expected_source_identities
+                if isinstance(identity, Mapping)
+            ],
+            expected_signature,
+        )
+        if association_is_claim_atom
+        else str(
+            association.get("semantic_association_sha256")
+            if isinstance(association, Mapping)
+            else ""
+        )
+        .strip()
+        .lower()
+    )
     if (
         not isinstance(association, Mapping)
-        or association.get("schema") != 2
+        or association.get("schema") != (1 if association_is_claim_atom else 2)
         or association.get("reviewed_declaration_identity") != expected_identity
         or association.get("reviewed_elaborated_signature_identity")
         != expected_signature
         or association.get("source_item_identities") != expected_source_identities
-        or str(association.get("semantic_association_sha256") or "").strip().lower()
-        != expected_association_sha
+        or observed_association_sha != expected_association_sha
         or str(association.get("role") or "").strip()
         != str(route.get("parent_source_association_role") or "").strip()
         or str(association.get("association_origin") or "").strip()
         != str(route.get("parent_source_association_origin") or "").strip()
+        or (
+            association_is_claim_atom
+            and (
+                str(association.get("association_origin") or "").strip()
+                != SOURCE_CLAIM_ATOM_ROUTE_ORIGIN
+                or str(association.get("role") or "").strip()
+                != SOURCE_CLAIM_ATOM_ROUTE_ROLE
+            )
+        )
     ):
         return None
     raw_bindings = candidate.get("record_input_bindings")
@@ -13576,6 +13945,14 @@ def _recursive_field_explicit_parent_component_receipts(
     expected_item_digest_pins = source_record_expected_item_digest_pins(
         dict(exact_audit)
     )
+    strict_semantic_parent_keys = (
+        current_strict_v11_full_spec_source_record_semantic_model_judgment_keys(
+            paper_id,
+            folder,
+            exact_audit,
+            run_context=run_context,
+        )
+    )
     parent_reviewed: dict[str, bool] = {}
     receipts: set[RecursiveFieldExplicitParentComponentReceipt] = set()
     for _section, raw_component in theorem_realization_components(exact_audit):
@@ -13644,30 +14021,33 @@ def _recursive_field_explicit_parent_component_receipts(
         ).strip():
             continue
         if parent_key not in parent_reviewed:
-            parent_reviewed[parent_key] = not semantic_model_review_findings(
-                paper_id,
-                folder,
-                judgment_file,
-                [dict(parent)],
-                dict(judgments),
-                digest=audit_digest,
-                expected_item_digests=expected_item_digests,
-                expected_item_digest_pins=expected_item_digest_pins,
-                severity="ERROR",
-                target_disposition_statement_map=dict(statement_map),
-                target_disposition_source_proof_fidelity=dict(source_proof_fidelity),
-                target_disposition_validated_vocabulary_binding_source_item_ids=(
-                    exact_audit.get(
-                        "source_coverage_validated_vocabulary_binding_source_items"
-                    )
-                ),
-                target_disposition_validated_vocabulary_direct_route_source_item_ids=(
-                    exact_audit.get(
-                        "source_coverage_validated_vocabulary_direct_route_source_items"
-                    )
-                ),
-                target_disposition_administrative_projection_rebind=rebind,
-                enforce_target_disposition=True,
+            parent_reviewed[parent_key] = (
+                parent_key in strict_semantic_parent_keys
+                or not semantic_model_review_findings(
+                    paper_id,
+                    folder,
+                    judgment_file,
+                    [dict(parent)],
+                    dict(judgments),
+                    digest=audit_digest,
+                    expected_item_digests=expected_item_digests,
+                    expected_item_digest_pins=expected_item_digest_pins,
+                    severity="ERROR",
+                    target_disposition_statement_map=dict(statement_map),
+                    target_disposition_source_proof_fidelity=dict(source_proof_fidelity),
+                    target_disposition_validated_vocabulary_binding_source_item_ids=(
+                        exact_audit.get(
+                            "source_coverage_validated_vocabulary_binding_source_items"
+                        )
+                    ),
+                    target_disposition_validated_vocabulary_direct_route_source_item_ids=(
+                        exact_audit.get(
+                            "source_coverage_validated_vocabulary_direct_route_source_items"
+                        )
+                    ),
+                    target_disposition_administrative_projection_rebind=rebind,
+                    enforce_target_disposition=True,
+                )
             )
         if not parent_reviewed[parent_key]:
             continue
@@ -15338,18 +15718,73 @@ def check_source_record_audit(
     allowed_judgment_keys = all_expected_keys | traceability_input_keys
     expected_item_digests = source_record_expected_item_digests(payload)
     expected_item_digest_pins = source_record_expected_item_digest_pins(payload)
+    # `PaperInterface` owns the one human semantic surface.  The raw
+    # source-record scan may instead enter through the configured proof
+    # module, provided Lean's pinned import closure contains that semantic
+    # surface and its explicitly paired endpoints.  This is deliberately a
+    # closure relation, not a filename waiver: an implementation module that
+    # merely happens to be paper-local remains inadmissible.
     expected_import_module = f"{paper_id}.PaperInterface"
+    configured_proof_module = str(review_surface.get("proof_module") or "").strip()
+    configured_proof_path = proof_endpoint_source_file_path(
+        folder, review_surface
+    ).resolve()
+    configured_source_path = review_surface_source_file_path(
+        folder, review_surface
+    ).resolve()
+    has_configured_spec_proof_pairs = isinstance(
+        review_surface.get("proposition_spec_proofs"), dict
+    ) and bool(review_surface.get("proposition_spec_proofs"))
+
+    def source_record_import_is_admissible(record: Mapping[str, object]) -> bool:
+        import_module = str(record.get("import_module") or "").strip()
+        if not import_module or import_module == expected_import_module:
+            return True
+        if (
+            not configured_proof_module
+            or import_module != configured_proof_module
+            or not has_configured_spec_proof_pairs
+        ):
+            return False
+        closure = record.get(SOURCE_RECORD_LEAN_IMPORT_CLOSURE_FIELD)
+        if not isinstance(closure, Mapping):
+            return False
+        if str(closure.get("entry_module") or "").strip() != import_module:
+            return False
+        loaded = closure.get("lean_loaded_modules")
+        if not isinstance(loaded, list) or expected_import_module not in loaded:
+            return False
+        sources = closure.get("sources")
+        if not isinstance(sources, list):
+            return False
+        try:
+            expected_paths = {
+                expected_import_module: str(configured_source_path.relative_to(ROOT)),
+                configured_proof_module: str(configured_proof_path.relative_to(ROOT)),
+            }
+        except ValueError:
+            return False
+        seen = {
+            str(source.get("module") or "").strip(): str(
+                source.get("path") or ""
+            ).strip()
+            for source in sources
+            if isinstance(source, Mapping)
+        }
+        return all(seen.get(module) == path for module, path in expected_paths.items())
+
     if "import_module" in payload:
         current_import_module = str(payload.get("import_module") or "").strip()
-        if current_import_module != expected_import_module:
+        if not source_record_import_is_admissible(payload):
             findings.append(
                 Finding(
                     severity,
                     folder / "PaperInterface.lean",
                     f"`{paper_id}` source-record audit helper imported "
                     f"`{current_import_module or 'missing'}`; recursive provenance audits "
-                    f"must build `{expected_import_module}` so the checked rows come from "
-                    "`PaperInterface.lean`, not `AuditInterface.lean` or implementation modules.",
+                    f"must build `{expected_import_module}` or the configured proof module "
+                    "with a pinned Lean closure containing both the semantic Specs and their "
+                    "explicitly paired endpoints.",
                 )
             )
     audit_file = source_record_audit_file_path(folder, review_surface)
@@ -15405,15 +15840,15 @@ def check_source_record_audit(
             )
         if "import_module" in saved_audit:
             saved_import_module = str(saved_audit.get("import_module") or "").strip()
-            if saved_import_module != expected_import_module:
+            if not source_record_import_is_admissible(saved_audit):
                 findings.append(
                     Finding(
                         severity,
                         audit_file,
                         f"`{paper_id}` saved source-record audit imported "
                         f"`{saved_import_module or 'missing'}`; regenerate the payload from "
-                        f"`{expected_import_module}` so row provenance is tied to "
-                        "`PaperInterface.lean`.",
+                        f"`{expected_import_module}` or the configured proof module with "
+                        "a pinned closure tying endpoints back to PaperInterface.",
                     )
                 )
 
@@ -15590,16 +16025,8 @@ def check_source_record_audit(
         == REQUIRED_SOURCE_RECORD_PROMPT_VERSION
         and str(saved_audit.get("prompt_version") or "").strip()
         == REQUIRED_SOURCE_RECORD_PROMPT_VERSION
-        and (
-            "import_module" not in payload
-            or str(payload.get("import_module") or "").strip()
-            == expected_import_module
-        )
-        and (
-            "import_module" not in saved_audit
-            or str(saved_audit.get("import_module") or "").strip()
-            == expected_import_module
-        )
+        and source_record_import_is_admissible(payload)
+        and source_record_import_is_admissible(saved_audit)
         and not missing_configured_rows
         and not semantic_model_config_errors
         and not semantic_model_target_route_errors
@@ -19423,16 +19850,16 @@ def check_proposition_spec_routes(
             from scripts.review_dashboard import (
                 is_proposition_specification_manifest,
                 parse_review_source_declarations,
+                review_proof_module,
                 review_source_file,
-                review_source_module,
             )
             from scripts.lean_signature_manifest import run_lean_proposition_spec_proof_matches
         except ModuleNotFoundError:
             from review_dashboard import (
                 is_proposition_specification_manifest,
                 parse_review_source_declarations,
+                review_proof_module,
                 review_source_file,
-                review_source_module,
             )
             from lean_signature_manifest import (
                 run_lean_proposition_spec_proof_matches,
@@ -19478,33 +19905,50 @@ def check_proposition_spec_routes(
         if run_context is not None and run_context.evidence_context is not None
         else review_source_file(folder)
     )
+    proof_path = proof_endpoint_source_file_path(folder, review_surface)
+    if proof_routes and not proof_path.is_file():
+        return [
+            Finding(
+                "ERROR" if paper_closeout else completed_status_finding_severity(status),
+                proof_path,
+                f"`{paper_id}` configures Spec proof routes but its proof endpoint source is missing",
+            )
+        ]
     qualified_names: dict[str, str] = {}
     ambiguous_names: set[str] = set()
     if run_context is not None and run_context.evidence_context is not None:
         source_text = run_context.exact_lean_source_text(source_path)
-        if source_text is None:
+        proof_text = run_context.exact_lean_source_text(proof_path)
+        if source_text is None or (proof_routes and proof_text is None):
             return [
                 Finding(
                     "ERROR",
-                    source_path,
+                    source_path if source_text is None else proof_path,
                     f"`{paper_id}` proposition-spec routing source is absent from "
                     "the exact Lean import closure",
                 )
             ]
-        declaration_blocks = review_declaration_blocks(source_text)
-        namespace_stacks = namespace_stacks_at_lines(
-            source_text,
-            {line for line, _kind, _source in declaration_blocks.values()},
-        )
-        parsed_source_names = [
-            (
-                name,
-                ".".join([*namespace_stacks.get(line, []), name])
-                if namespace_stacks.get(line)
-                else name,
+        parsed_source_names: list[tuple[str, str]] = []
+        parsed_sources = [(source_path, source_text)]
+        if proof_path != source_path:
+            parsed_sources.append((proof_path, proof_text))
+        for path, text in parsed_sources:
+            if text is None:
+                continue
+            declaration_blocks = review_declaration_blocks(text)
+            namespace_stacks = namespace_stacks_at_lines(
+                text,
+                {line for line, _kind, _source in declaration_blocks.values()},
             )
-            for name, (line, _kind, _source) in declaration_blocks.items()
-        ]
+            parsed_source_names.extend(
+                (
+                    name,
+                    ".".join([*namespace_stacks.get(line, []), name])
+                    if namespace_stacks.get(line)
+                    else name,
+                )
+                for name, (line, _kind, _source) in declaration_blocks.items()
+            )
     else:
         parsed_source_names = [
             (short_name, full_name)
@@ -19512,6 +19956,13 @@ def check_proposition_spec_routes(
                 parse_review_source_declarations(source_path)
             )
         ]
+        if proof_routes and proof_path != source_path:
+            parsed_source_names.extend(
+                (short_name, full_name)
+                for _kind, short_name, full_name, *_rest in (
+                    parse_review_source_declarations(proof_path)
+                )
+            )
     for short_name, full_name in parsed_source_names:
         qualified_names[full_name] = full_name
         previous = qualified_names.get(short_name)
@@ -19524,7 +19975,7 @@ def check_proposition_spec_routes(
 
     requested_routes: dict[tuple[str, str], tuple[str, str]] = {}
     for spec_name, proof_name in proof_routes.items():
-        if spec_name not in prop_specs or proof_name not in include_set or proof_name not in by_name:
+        if spec_name not in prop_specs:
             continue
         qualified_spec = qualified_names.get(spec_name)
         qualified_proof = qualified_names.get(proof_name)
@@ -19537,7 +19988,7 @@ def check_proposition_spec_routes(
     if requested_routes:
         meta_matches = run_lean_proposition_spec_proof_matches(
             ROOT,
-            review_source_module(folder, source_path),
+            review_proof_module(folder, source_path),
             list(requested_routes.values()),
             build_input_provider=(
                 run_context.build_input_provider
@@ -19591,13 +20042,12 @@ def check_proposition_spec_routes(
                 )
             )
             continue
-        proof_item = by_name.get(proof_name)
-        if proof_name not in include_set or proof_item is None:
+        if proof_name not in qualified_names:
             findings.append(
                 Finding(
                     severity,
                     folder / "status.json",
-                    f"`{paper_id}` Prop specification `{name}` routes to missing/unreviewed proof row `{proof_name}`",
+                    f"`{paper_id}` Prop specification `{name}` routes to missing proof endpoint `{proof_name}`",
                 )
             )
             continue
@@ -20750,11 +21200,16 @@ def check_machine_paper_status(
         total_rows = review.get("total_rows") if isinstance(review, dict) else None
         review_rows = interface.get("review_rows")
         source_condition_rows = len(assumption_names)
+        source_claim_surface = (
+            isinstance(review, dict)
+            and review.get("surface") == "source_claims_v1"
+        )
         if (
             isinstance(total_rows, int)
             and isinstance(review_rows, int)
             and review_rows != total_rows
             and review_rows + source_condition_rows != total_rows
+            and not source_claim_surface
         ):
             findings.append(
                 Finding(
@@ -20765,13 +21220,22 @@ def check_machine_paper_status(
             )
         configured_review_surface_names = set(include_names).union(assumption_names)
         valid_review_totals = {len(set(include_names)), len(configured_review_surface_names)}
+        if source_claim_surface:
+            paired_specs = review_surface.get("proposition_spec_proofs", {})
+            if isinstance(paired_specs, dict):
+                valid_review_totals.update(
+                    {
+                        len(paired_specs),
+                        len(paired_specs) + source_condition_rows,
+                    }
+                )
         if isinstance(total_rows, int) and include_names and total_rows not in valid_review_totals:
             findings.append(
                 Finding(
                     "ERROR",
                     PAPER_STATUS_FILE,
                     f"`{paper_id}` human_review.total_rows should count either PaperInterface "
-                    "review rows or review rows plus separately tracked source conditions",
+                    "review rows, paired source claims, or those rows plus separately tracked source conditions",
                 )
             )
         missing_review_names = set(include_names) - set(actual_review_names)

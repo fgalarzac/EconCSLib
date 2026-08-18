@@ -868,11 +868,16 @@ def load_configured_assumption_formalization_regularity_context(
     if not raw_audit_sha or _sha256_text(receipt.get("source_record_audit_sha256")) != raw_audit_sha:
         return None, "configured-assumption regularity ledger does not match the current raw source-record receipt"
     fingerprint = raw_audit.get("source_record_input_fingerprint")
+    # Older raw-fingerprint schemas carried the policy version inside the
+    # fingerprint.  Current raw receipts bind it at the receipt top level,
+    # so prefer the fingerprint when present and otherwise use that canonical
+    # receipt field.  A configured-regularity ledger still has to match one
+    # exact current policy in either representation.
     policy = (
         str(fingerprint.get("source_record_policy_version") or "").strip()
         if isinstance(fingerprint, Mapping)
         else ""
-    )
+    ) or str(raw_audit.get("source_record_policy_version") or "").strip()
     if not policy or str(receipt.get("source_record_policy_version") or "").strip() != policy:
         return None, "configured-assumption regularity ledger does not match the current raw source-record policy"
     if source_artifact_sha256_override is _EXACT_INPUT_UNSET:

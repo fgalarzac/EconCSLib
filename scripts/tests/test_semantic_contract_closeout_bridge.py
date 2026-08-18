@@ -942,6 +942,123 @@ class SemanticContractCloseoutBridgeTests(unittest.TestCase):
             any("paper-coverage audit needs attention" in finding.message for finding in findings)
         )
 
+    def test_v11_source_first_coverage_rejects_a_spec_reused_by_two_sources(
+        self,
+    ) -> None:
+        """Context on one card cannot cover a second source presentation."""
+
+        (self.paper / "status.json").write_text(
+            json.dumps(
+                {
+                    "status": "formalized",
+                    "review_surface": {
+                        "require_v11_raw_source_spec_screening": True,
+                    },
+                }
+            ),
+            encoding="utf-8",
+        )
+        shared_contract = {
+            "spec_declaration": "Fixture.SharedSpec",
+            "evidence_declaration": "Fixture.sharedProof",
+            "evidence_mode": "proves",
+            "semantic_shape": "plain",
+        }
+        map_items = {
+            "first_source_presentation": {"semantic_contract": shared_contract},
+            "second_source_presentation": {"semantic_contract": shared_contract},
+        }
+        (self.audit / "paper_statement_map.json").write_text(
+            json.dumps({"items": map_items}), encoding="utf-8"
+        )
+        claim_rows = [
+            {
+                "human_claim_source_key": "first_source_presentation",
+                "full_name": "Fixture.SharedSpec",
+                "llm_match_judgment": "matches",
+                "llm_match_source": "v11_raw_source_spec_screening.json",
+            },
+            {
+                "human_claim_source_key": "second_source_presentation",
+                "full_name": "Fixture.SharedSpec",
+                "llm_match_judgment": "matches",
+                "llm_match_source": "v11_raw_source_spec_screening.json",
+            },
+        ]
+        clear_summary = {"needs_attention": False, "has_completed_audit": True}
+        with (
+            mock.patch.object(
+                audit_repository,
+                "paper_statement_map_declaration_findings",
+                return_value=[],
+            ),
+            mock.patch.object(
+                audit_repository,
+                "semantic_contract_closeout_bridge_is_current",
+                return_value=False,
+            ),
+            mock.patch.object(
+                review_dashboard,
+                "review_surface_audit_summary",
+                return_value=clear_summary,
+            ),
+            mock.patch.object(
+                review_dashboard,
+                "statement_translation_audit_summary",
+                return_value={"needs_attention": False},
+            ),
+            mock.patch.object(
+                review_dashboard,
+                "paper_coverage_audit_summary",
+                return_value={"needs_attention": False},
+            ),
+            mock.patch.object(
+                review_dashboard,
+                "assumption_provenance_audit_summary",
+                return_value={"needs_attention": False},
+            ),
+            mock.patch.object(
+                review_dashboard,
+                "human_review_claim_items",
+                return_value=claim_rows,
+            ),
+            mock.patch.object(
+                review_dashboard,
+                "bind_current_v11_source_spec_screening",
+            ),
+            mock.patch.object(
+                audit_repository,
+                "source_coverage_mode_from_map",
+                return_value=("named_theoretical_statements", ""),
+            ),
+            mock.patch.object(
+                audit_repository,
+                "source_index_byte_pinned_anchor_item_ids",
+                return_value=set(),
+            ),
+            mock.patch.object(
+                audit_repository,
+                "filter_source_map_items_for_proof_obligations",
+                return_value=map_items,
+            ),
+            mock.patch.object(
+                audit_repository,
+                "source_presentation_aliases",
+                return_value=({}, []),
+            ),
+        ):
+            findings = audit_repository.paper_statement_sidecar_findings(
+                "FixturePaper",
+                self.paper,
+                "formalized",
+                review_items_provider=lambda: (),
+            )
+
+        self.assertTrue(
+            any("Fixture.SharedSpec:multiple_source_items" in finding.message for finding in findings),
+            [finding.message for finding in findings],
+        )
+
     def test_stale_positive_surface_reuse_requires_complete_current_semantic_rows(
         self,
     ) -> None:

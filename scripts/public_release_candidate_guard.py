@@ -720,6 +720,75 @@ def status_visibility_issues(repo: Path, candidate_ref: str = "HEAD") -> list[st
     return issues
 
 
+def changed_formalized_packet_issues(
+    repo: Path,
+    candidate_ref: str,
+    *,
+    public_base_ref: str,
+) -> list[str]:
+    """Require a durable review packet for each newly released final paper.
+
+    This applies when a public completed paper is added or its status record is
+    changed in the candidate.  It deliberately does not retroactively reject
+    older public papers while their packets are being migrated.  The packet is
+    a reviewer aid (not a human-signoff substitute), but its committed PDF and
+    TeX ensure a public release exposes the same source/Lean review surface as
+    the local dashboard.
+    """
+
+    changed = set(
+        _git(repo, ["diff", "--name-only", public_base_ref, candidate_ref]).splitlines()
+    )
+    candidate_paths = set(
+        _git(repo, ["ls-tree", "-r", "--name-only", candidate_ref]).splitlines()
+    )
+    issues: list[str] = []
+    for status_path in sorted(
+        path
+        for path in changed
+        if re.fullmatch(r"papers/[^/]+/status\.json", path)
+    ):
+        try:
+            payload = json.loads(_git(repo, ["show", f"{candidate_ref}:{status_path}"]))
+        except (RuntimeError, json.JSONDecodeError) as exc:
+            issues.append(f"{status_path}: cannot read candidate status: {exc}")
+            continue
+        if not isinstance(payload, dict):
+            issues.append(f"{status_path}: candidate status must be a JSON object")
+            continue
+        if payload.get("repository_visibility") != "public" or str(
+            payload.get("status") or ""
+        ).strip().lower() not in {"formalized", "formalized with caveat"}:
+            continue
+        paper = PurePosixPath(status_path).parts[1]
+        pdf_path = f"papers/{paper}/docs/HUMAN_REVIEW_PACKET.pdf"
+        tex_path = f"papers/{paper}/docs/HUMAN_REVIEW_PACKET.tex"
+        readme_path = f"papers/{paper}/README.md"
+        artifacts = payload.get("artifacts")
+        if not isinstance(artifacts, dict):
+            issues.append(f"{status_path}: public finalized paper needs an artifacts object with human review packet paths")
+            continue
+        if artifacts.get("human_review_packet_pdf") != pdf_path:
+            issues.append(f"{status_path}: artifacts.human_review_packet_pdf must be `{pdf_path}`")
+        if artifacts.get("human_review_packet_tex") != tex_path:
+            issues.append(f"{status_path}: artifacts.human_review_packet_tex must be `{tex_path}`")
+        for path in (pdf_path, tex_path):
+            if path not in candidate_paths:
+                issues.append(f"{status_path}: public finalized paper is missing `{path}`")
+        if readme_path not in candidate_paths:
+            issues.append(f"{status_path}: public finalized paper is missing `{readme_path}`")
+            continue
+        try:
+            readme = _git(repo, ["show", f"{candidate_ref}:{readme_path}"])
+        except RuntimeError as exc:
+            issues.append(f"{readme_path}: cannot read candidate README: {exc}")
+            continue
+        expected_link = "Human review packet: [HUMAN_REVIEW_PACKET.pdf](docs/HUMAN_REVIEW_PACKET.pdf)"
+        if expected_link not in readme:
+            issues.append(f"{readme_path}: public finalized paper must link its human review packet")
+    return issues
+
+
 def _paper_local_candidate_path(
     *, paper_dir: PurePosixPath, raw_path: object
 ) -> str | None:
@@ -746,6 +815,63 @@ def _artifact_present(candidate_paths: set[str], artifact_path: str) -> bool:
     )
 
 
+def public_arxiv_tex_artifact_paths(
+    repo: Path, candidate_ref: str = "HEAD"
+) -> tuple[set[str], list[str]]:
+    """Return candidate TeX files eligible for the official-arXiv exception.
+
+    Only a canonical source-map artifact is eligible, and only when the exact
+    candidate blob equals its recorded SHA-256.  Source archives, PDFs, OCR
+    text, companion scans, and arbitrary item-level paths remain private.
+    """
+
+    candidate_paths = set(
+        _git(repo, ["ls-tree", "-r", "--name-only", candidate_ref]).splitlines()
+    )
+    map_paths = sorted(
+        path
+        for path in candidate_paths
+        if path.startswith("papers/")
+        and path.endswith("/audit/paper_statement_map.json")
+    )
+    approved: set[str] = set()
+    issues: list[str] = []
+    for map_path in map_paths:
+        paper_dir = PurePosixPath(map_path).parents[1]
+        try:
+            payload = json.loads(_git(repo, ["show", f"{candidate_ref}:{map_path}"]))
+        except (RuntimeError, json.JSONDecodeError) as exc:
+            issues.append(f"{map_path}: cannot inspect official arXiv source exception: {exc}")
+            continue
+        if not isinstance(payload, dict):
+            continue
+        source_url = str(payload.get("source_url") or "").strip().lower()
+        raw_path = payload.get("source_artifact_path")
+        expected_sha256 = str(payload.get("source_artifact_sha256") or "").strip().lower()
+        artifact = _paper_local_candidate_path(paper_dir=paper_dir, raw_path=raw_path)
+        if artifact not in candidate_paths:
+            continue
+        if not re.match(r"https?://(?:export\.)?arxiv\.org/(?:abs|e-print)/", source_url):
+            continue
+        if artifact is None or PurePosixPath(artifact).suffix.lower() != ".tex":
+            continue
+        if not SHA256_RE.fullmatch(expected_sha256):
+            issues.append(
+                f"{map_path}: public official-arXiv TeX artifact has no valid source-artifact SHA-256"
+            )
+            continue
+        actual_sha256 = hashlib.sha256(
+            _git_bytes(repo, ["show", f"{candidate_ref}:{artifact}"])
+        ).hexdigest()
+        if actual_sha256 != expected_sha256:
+            issues.append(
+                f"{map_path}: public official-arXiv TeX artifact does not match its source-map SHA-256"
+            )
+            continue
+        approved.add(artifact)
+    return approved, issues
+
+
 def source_artifact_leakage_issues(
     repo: Path, candidate_ref: str = "HEAD"
 ) -> list[str]:
@@ -760,7 +886,10 @@ def source_artifact_leakage_issues(
         if path.startswith("papers/")
         and path.endswith("/audit/paper_statement_map.json")
     )
-    issues: list[str] = []
+    approved_arxiv_tex, approved_issues = public_arxiv_tex_artifact_paths(
+        repo, candidate_ref
+    )
+    issues: list[str] = list(approved_issues)
     for map_path in map_paths:
         paper_dir = PurePosixPath(map_path).parents[1]
         try:
@@ -821,6 +950,8 @@ def source_artifact_leakage_issues(
                         f"{map_path}: declared private source artifact path is unsafe "
                         f"or leaves its paper directory ({field} -> {raw_path.strip()})"
                     )
+                continue
+            if artifact in approved_arxiv_tex:
                 continue
             if artifact not in reported_artifacts and _artifact_present(
                 candidate_paths, artifact
@@ -1024,11 +1155,16 @@ def candidate_public_artifact_policy_issues(
     )
     current_audit_artifacts.update(receipt_ledgers)
     issues.extend(receipt_issues)
+    public_source_artifacts, public_source_issues = public_arxiv_tex_artifact_paths(
+        repo, candidate_ref
+    )
+    issues.extend(public_source_issues)
     try:
         issues.extend(
             public_release_artifact_issues(
                 candidate_paths,
                 current_audit_artifacts=current_audit_artifacts,
+                public_source_artifacts=public_source_artifacts,
             )
         )
     except ValueError as exc:
@@ -1650,6 +1786,13 @@ def run_guard(
         )
     issues.extend(unused_allowlist_issues(entries, used_entries))
     issues.extend(status_visibility_issues(repo, candidate_commit))
+    issues.extend(
+        changed_formalized_packet_issues(
+            repo,
+            candidate_commit,
+            public_base_ref=public_base_commit,
+        )
+    )
     issues.extend(source_artifact_leakage_issues(repo, candidate_commit))
     issues.extend(forbidden_candidate_path_issues(repo, candidate_commit))
     issues.extend(candidate_public_artifact_policy_issues(repo, candidate_commit))

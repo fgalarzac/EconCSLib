@@ -1,0 +1,223 @@
+{
+  "schema": 1,
+  "id": "HT26EFXChores",
+  "title": "EFX for Additive Chores: Nonexistence, Pareto Incompatibility, and Bi-Valued Existence",
+  "authors": "Wentao He and Biaoshuai Tao",
+  "source_version": "arXiv v2 (2026-07-09)",
+  "intake_freeze_required": true,
+  "repository_visibility": "public",
+  "build_target": "lake build HT26EFXChores",
+  "status": "formalized",
+  "main_caveat": "None.",
+  "human_summary": "Draft summary: the three named theorem routes and all named supporting lemmas are compiled against arXiv v2; the formalizer source audit found no additional paper-facing assumption or source correction.",
+  "human_summary_review": {
+    "status": "draft",
+    "note": "Set to human_approved only after a human has written or explicitly approved this summary; do not rewrite a human_approved summary without explicit human instruction."
+  },
+  "review_entrypoint": "papers/HT26EFXChores/FINAL_VALIDATION_REPORT.md",
+  "human_review": {
+    "reviewed_rows": 0,
+    "total_rows": 22,
+    "stale_rows": 0,
+    "mismatch_rows": 0,
+    "surface": "source_claims_v1",
+    "source": "The human paper-review surface is the 22 named source claims in the pinned source map. The canonical-allocation, short/long-label, and super-canonical clauses are distinct source definitions even though the TeX places them in one definition environment. PaperInterface contains one expanded transparent Spec per claim; its exact-type proof endpoint is separate machine evidence. Human entries come from dashboard logs."
+  },
+  "paper_interface": {
+    "path": "papers/HT26EFXChores/PaperInterface.lean",
+    "line_count": 475,
+    "declaration_rows": 22,
+    "review_rows": 22,
+    "oversized": false,
+    "maintainability_issue": null
+  },
+  "artifacts": {
+    "paper_interface": "papers/HT26EFXChores/PaperInterface.lean",
+    "proof_interface": "papers/HT26EFXChores/ProofInterface.lean",
+    "assumptions": "papers/HT26EFXChores/Assumptions.lean",
+    "final_closure_receipt": "papers/HT26EFXChores/FINAL_CLOSURE_RECEIPT.md",
+    "final_validation_report": "papers/HT26EFXChores/FINAL_VALIDATION_REPORT.md",
+    "focused_build_receipt": "papers/HT26EFXChores/audit/FOCUSED_BUILD_RECEIPT.json",
+    "dependency_dag_tex": "papers/HT26EFXChores/docs/DependencyDAG.tex",
+    "dependency_dag_pdf": "papers/HT26EFXChores/docs/DependencyDAG.pdf",
+    "human_review_packet_tex": "papers/HT26EFXChores/docs/HUMAN_REVIEW_PACKET.tex",
+    "human_review_packet_pdf": "papers/HT26EFXChores/docs/HUMAN_REVIEW_PACKET.pdf",
+    "library_semantic_review": "papers/HT26EFXChores/audit/library_semantic_review.json",
+    "source_proof_fidelity": "papers/HT26EFXChores/audit/source_proof_fidelity.json",
+    "defect_support_match": "papers/HT26EFXChores/audit/defect_support_match_llm.json",
+    "v11_raw_source_spec_screening": "papers/HT26EFXChores/audit/v11_raw_source_spec_screening.json"
+  },
+  "review_surface": {
+    "source_file": "papers/HT26EFXChores/PaperInterface.lean",
+    "proof_module": "HT26EFXChores.ProofInterface",
+    "proof_file": "papers/HT26EFXChores/ProofInterface.lean",
+    "assumption_source_file": "papers/HT26EFXChores/Assumptions.lean",
+    "require_source_spec_correspondence": true,
+    "require_v11_raw_source_spec_screening": true,
+    "llm_statement_review": {
+      "lean_to_tex_file": "papers/HT26EFXChores/audit/lean_to_tex_llm.json",
+      "match_judgment_file": "papers/HT26EFXChores/audit/statement_match_llm.json",
+      "library_semantic_review_file": "papers/HT26EFXChores/audit/library_semantic_review.json",
+      "v11_screening_file": "papers/HT26EFXChores/audit/v11_raw_source_spec_screening.json",
+      "review_surface_audit_file": "papers/HT26EFXChores/audit/review_surface_llm.json",
+      "paper_coverage_audit_file": "papers/HT26EFXChores/audit/paper_coverage_llm.json",
+      "defect_support_judgment_file": "papers/HT26EFXChores/audit/defect_support_match_llm.json",
+      "assumption_judgment_file": "papers/HT26EFXChores/audit/assumption_match_llm.json",
+      "surface_audit_threshold": 30,
+      "surface_warning_threshold": 120,
+      "require_explicit_source_routes": true,
+      "require_source_claim_atoms": true,
+      "require_direct_expression_semantics_review": "v1",
+      "required_prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
+      "policy": "For each source claim, compare only the exact ordered byte-pinned source-anchor bundle, plus any separately byte-pinned semantic-context excerpts, with the fully expanded transparent `...Spec : Prop` declaration. Do not give the judge a source-map statement, source-claim paraphrase, theorem label, Lean-to-TeX translation, context explanation, or thin proof wrapper. Record the v11 raw source-input bundle digest and expanded-Spec digest. Every material reusable EconCSLib declaration shown on this paper-facing surface also has a source-to-library verdict in library_semantic_review.json, whose exact Lean code and raw source connection appear before review rows. `PaperInterface.lean` contains only the expanded Spec once; `ProofInterface.lean` supplies its paired theorem/lemma, whose exact Spec type Lean Meta checks separately. A `matches` verdict requires equivalence of every hypothesis, quantifier, domain, constant, normalization, direction, conclusion, and expanded named predicate. Recursive source-record review remains a structural Lean-provenance audit, not a replacement for this semantic source comparison."
+    },
+    "llm_paper_coverage_review": {
+      "paper_coverage_audit_file": "papers/HT26EFXChores/audit/paper_coverage_llm.json",
+      "defect_support_judgment_file": "papers/HT26EFXChores/audit/defect_support_match_llm.json",
+      "policy": "Maintain an audit/paper_statement_map.json inventory of source definitions, formulas, and named statements, then use a separate LLM pass to judge whether each source item is covered by one or more dashboard rows. If coverage uses a reusable library declaration, it must route through an audited paper-local semantic bridge/equivalence row; matching by Lean/library/source names is not semantic evidence. Quarantined source defects require a separate exact-hash semantic judgment binding each candidate counterexample/refutation theorem to the validated defect record and every elaborated signature atom. This paper-level accounting is required before calling a full-paper formalization closed and is separate from row-local statement matching."
+    },
+    "llm_assumption_review": {
+      "assumption_judgment_file": "papers/HT26EFXChores/audit/assumption_match_llm.json",
+      "policy": "Every paper-facing theorem premise not derived from prior Lean declarations must be declared in Assumptions.lean, listed in assumption_names, and judged by an independent LLM as a true paper/source model assumption rather than a proof assumption."
+    },
+    "llm_source_record_review": {
+      "source_record_audit_file": "papers/HT26EFXChores/audit/source_record_audit.json",
+      "source_record_judgment_file": "papers/HT26EFXChores/audit/source_record_match_llm.json",
+      "policy": "Run the code-backed recursive source-record audit for any visible record, certificate, replay, process, bridge, source-row, or broad package premise. The LLM judge must classify each boundary-shaped input and recursive field by source evidence, Lean derivation, approved external boundary, or unresolved proof debt."
+    },
+    "semantic_model_review": {
+      "schema": 2,
+      "required_dimensions": [
+        "expanded_binders_and_domain",
+        "carrier_and_domain",
+        "probability_support_endpoints",
+        "joint_law_and_state_evolution",
+        "conditioning_and_calibration_semantics",
+        "expectation_definedness",
+        "null_cell_totalization_and_partition_scope",
+        "extended_rate_codomain"
+      ],
+      "policy": "For every reviewed row, preserve an alpha-normalized expanded binder/domain surface, including transparent local type aliases, record parameter domains, and model records reached only in result quantifiers. An unexpanded local opaque/constant type requires a checked carrier/refinement bridge rather than being silently treated as an ordinary carrier. When an expanded finite carrier uses index arithmetic such as Fin (n + c), record the source cardinal parameter, the expanded Lean expression, and a proved parameter translation; then explicitly compare it with pinned source text. Review endpoint support/cutoffs, product or iid laws versus source state evolution, conditioning/calibration semantics, expectation definedness, null-cell totalization and finite/countable/arbitrary partition scope, and Real versus extended-rate codomains when the expanded model makes them relevant. For a probability-law surface, state whether conditioning is pointwise, a.e., positive-fiber, or event-calibrated; state measurability/integrability or extended-value conventions for every expectation; and expose every zero-mass-cell branch. Local declaration and binder names are routing only; detected probability/rate shapes need a checked bridge from source primitives. Because this scaffold enables explicit v10 source routes, every full closeout requires current source-record semantic-model judgments for every generated row; an unresolved model dimension blocks both full statuses."
+    },
+    "source_proof_fidelity_review": {
+      "ledger_file": "papers/HT26EFXChores/audit/source_proof_fidelity.json",
+      "policy": "Audit source proof steps by source locator and mathematical claim, not by Lean declaration name. Completed papers use ledger schema 2. Every defect records status_impact as formalized_note, formalized_with_caveat, or partially_formalized plus a semantic rationale. Minor repairs with an unchanged substantive endpoint are notes; formalized with caveat is reserved for a substantial central source-paper error with a fully proved corrected endpoint; weaker Lean targets and added non-source assumptions are partial. Keep this configured ledger whenever explicit source routes or source-defect links are present; a formalized note cannot waive an added non-source assumption or a partial boundary."
+    },
+    "assumption_policy": "strict",
+    "assumption_names": [],
+    "source_definition_names": [],
+    "proposition_spec_proofs": {
+      "envyFreeForChores_iff_source_definitionSpec": "envyFreeForChores_iff_source_definition",
+      "efxForChores_iff_source_definitionSpec": "efxForChores_iff_source_definition",
+      "paretoOptimalForChores_iff_source_definitionSpec": "paretoOptimalForChores_iff_source_definition",
+      "canonicalSmallChoreAllocation_iff_source_definitionSpec": "canonicalSmallChoreAllocation_iff_source_definition",
+      "canonicalShortLongLabels_iff_source_definitionSpec": "canonicalShortLongLabels_iff_source_definition",
+      "superCanonicalSmallChoreAllocation_iff_source_definitionSpec": "superCanonicalSmallChoreAllocation_iff_source_definition",
+      "tri_valued_nonexistenceSpec": "tri_valued_nonexistence",
+      "tri_four_no_two_largeSpec": "tri_four_no_two_large",
+      "tri_four_no_a_bundle_expensiveSpec": "tri_four_no_a_bundle_expensive",
+      "efx_pareto_incompatibilitySpec": "efx_pareto_incompatibility",
+      "efx_po_every_agent_largeSpec": "efx_po_every_agent_large",
+      "efx_po_cost_lower_boundsSpec": "efx_po_cost_lower_bounds",
+      "four_agent_bi_valued_efx_existsSpec": "four_agent_bi_valued_efx_exists",
+      "m34_insertionSpec": "m34_insertion",
+      "compositionSpec": "composition",
+      "canonical_allocation_propertiesSpec": "canonical_allocation_properties",
+      "balanced_orientationSpec": "balanced_orientation",
+      "m2_efx_allocationSpec": "m2_efx_allocation",
+      "m2_efx_allocation_propertiesSpec": "m2_efx_allocation_properties",
+      "exceptional_residue_combinationSpec": "exceptional_residue_combination",
+      "appendix_no_two_a_itemsSpec": "appendix_no_two_a_items",
+      "appendix_p1_p2_lower_boundsSpec": "appendix_p1_p2_lower_bounds"
+    },
+    "paper_coverage_required": false,
+    "include_names": [
+      "envyFreeForChores_iff_source_definitionSpec",
+      "efxForChores_iff_source_definitionSpec",
+      "paretoOptimalForChores_iff_source_definitionSpec",
+      "canonicalSmallChoreAllocation_iff_source_definitionSpec",
+      "canonicalShortLongLabels_iff_source_definitionSpec",
+      "superCanonicalSmallChoreAllocation_iff_source_definitionSpec",
+      "tri_valued_nonexistenceSpec",
+      "tri_four_no_two_largeSpec",
+      "tri_four_no_a_bundle_expensiveSpec",
+      "efx_pareto_incompatibilitySpec",
+      "efx_po_every_agent_largeSpec",
+      "efx_po_cost_lower_boundsSpec",
+      "four_agent_bi_valued_efx_existsSpec",
+      "m34_insertionSpec",
+      "compositionSpec",
+      "canonical_allocation_propertiesSpec",
+      "balanced_orientationSpec",
+      "m2_efx_allocationSpec",
+      "m2_efx_allocation_propertiesSpec",
+      "exceptional_residue_combinationSpec",
+      "appendix_no_two_a_itemsSpec",
+      "appendix_p1_p2_lower_boundsSpec"
+    ],
+    "presentation_sections": [
+      {
+        "title": "Main-text source claims",
+        "names": [
+          "envyFreeForChores_iff_source_definitionSpec",
+          "efxForChores_iff_source_definitionSpec",
+          "paretoOptimalForChores_iff_source_definitionSpec",
+          "canonicalSmallChoreAllocation_iff_source_definitionSpec",
+          "canonicalShortLongLabels_iff_source_definitionSpec",
+          "superCanonicalSmallChoreAllocation_iff_source_definitionSpec",
+          "tri_valued_nonexistenceSpec",
+          "tri_four_no_two_largeSpec",
+          "tri_four_no_a_bundle_expensiveSpec",
+          "efx_pareto_incompatibilitySpec",
+          "efx_po_every_agent_largeSpec",
+          "efx_po_cost_lower_boundsSpec",
+          "four_agent_bi_valued_efx_existsSpec",
+          "m34_insertionSpec",
+          "compositionSpec",
+          "canonical_allocation_propertiesSpec",
+          "balanced_orientationSpec",
+          "m2_efx_allocationSpec",
+          "m2_efx_allocation_propertiesSpec",
+          "exceptional_residue_combinationSpec"
+        ]
+      },
+      {
+        "title": "Appendix and supplement source claims",
+        "names": [
+          "appendix_no_two_a_itemsSpec",
+          "appendix_p1_p2_lower_boundsSpec"
+        ]
+      }
+    ],
+    "slices": [
+      {
+        "id": "all",
+        "title": "All source-facing review rows",
+        "names": [
+          "envyFreeForChores_iff_source_definitionSpec",
+          "efxForChores_iff_source_definitionSpec",
+          "paretoOptimalForChores_iff_source_definitionSpec",
+          "canonicalSmallChoreAllocation_iff_source_definitionSpec",
+          "canonicalShortLongLabels_iff_source_definitionSpec",
+          "superCanonicalSmallChoreAllocation_iff_source_definitionSpec",
+          "tri_valued_nonexistenceSpec",
+          "tri_four_no_two_largeSpec",
+          "tri_four_no_a_bundle_expensiveSpec",
+          "efx_pareto_incompatibilitySpec",
+          "efx_po_every_agent_largeSpec",
+          "efx_po_cost_lower_boundsSpec",
+          "four_agent_bi_valued_efx_existsSpec",
+          "m34_insertionSpec",
+          "compositionSpec",
+          "canonical_allocation_propertiesSpec",
+          "balanced_orientationSpec",
+          "m2_efx_allocationSpec",
+          "m2_efx_allocation_propertiesSpec",
+          "exceptional_residue_combinationSpec",
+          "appendix_no_two_a_itemsSpec",
+          "appendix_p1_p2_lower_boundsSpec"
+        ]
+      }
+    ]
+  }
+}

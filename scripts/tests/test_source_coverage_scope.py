@@ -2279,6 +2279,7 @@ class SourceCoverageScopeTests(unittest.TestCase):
                         ),
                         "audit_kind": "source_to_dashboard_agent",
                         "source_grounded": True,
+                        "source_input_protocol": "verbatim_source_anchor_bundle_v1",
                         "validator": "independent-test-agent",
                         "validator_type": "agent",
                         "validated_at": "2026-07-26T12:00:00Z",
@@ -2304,6 +2305,9 @@ class SourceCoverageScopeTests(unittest.TestCase):
                                     "source location."
                                 ),
                                 "statement_sha256": source_item["statement_sha256"],
+                                "source_anchor_quote_identity_sha256": (
+                                    review_dashboard.source_anchor_quote_identity(source_item)[0]
+                                ),
                                 "source_item_coverage_digest_schema": (
                                     SOURCE_ITEM_COVERAGE_DIGEST_SCHEMA
                                 ),

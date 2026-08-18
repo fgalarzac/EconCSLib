@@ -1,4 +1,4 @@
-import GS62CollegeAdmissions.PaperInterface
+import GS62CollegeAdmissions.ProofInterface
 
 /-!
 # Post-paper audit: Gale--Shapley 1962
@@ -34,7 +34,14 @@ theorem theorem1
     (hdomain : strictMarriageDomain val_m val_w) :
     ∃ mu : Assignment M W,
       ¬ unstableMarriage val_m val_w mu ∧ completeMarriage mu :=
-  theorem1_stable_marriage_exists val_m val_w hcard hdomain
+  by
+    rcases GS62CollegeAdmissions.paper_gs62_theorem1_stable_marriage_exists
+      val_m val_w hcard hdomain with ⟨mu, hstable, hcomplete⟩
+    refine ⟨mu, ?_, hcomplete⟩
+    intro hunstable
+    rcases hunstable with ⟨hcomplete', hblocking⟩
+    rcases hblocking with ⟨m, w, hcomparisons⟩
+    exact hstable.2.2 m w hcomparisons.1 hcomparisons.2
 
 /-- Audit endpoint for the printed batched-stage bound. -/
 theorem exact_marriage_stage_bound
@@ -97,6 +104,97 @@ theorem inverted_responsive_college_optimal
         val_college nu → nu = mu :=
   inverted_college_proposing_unique_responsive_college_optimal
     quota val_applicant val_college hdomain
+
+/--
+On the two-applicant/one-seat boundary market, the exact Section 4 waiting-list
+procedure assigns the seat to the college's preferred applicant.  This gives a
+runner-level counterexample to treating the earlier literal two-assignee
+replacement condition as Theorem 2's comparison class.
+-/
+theorem raw_literal_boundary_source_procedure_eq_preferred_assignment :
+    ExactCollegeBatchedProcedure.sourceWaitingListFinalAssignment
+        gs62RawLiteralBoundaryQuota
+        gs62RawLiteralBoundaryApplicantValue
+        gs62RawLiteralBoundaryCollegeValue
+        (gs62RawLiteralBoundary_strictCollegeAdmissionsDomain.2.1) =
+      gs62RawLiteralBoundaryPreferredAssignment := by
+  let mu := ExactCollegeBatchedProcedure.sourceWaitingListFinalAssignment
+    gs62RawLiteralBoundaryQuota
+    gs62RawLiteralBoundaryApplicantValue
+    gs62RawLiteralBoundaryCollegeValue
+    (gs62RawLiteralBoundary_strictCollegeAdmissionsDomain.2.1)
+  have hstable : ManyToOne.IsStable
+      gs62RawLiteralBoundaryApplicantValue
+      gs62RawLiteralBoundaryCollegeValue
+      gs62RawLiteralBoundaryQuota mu := by
+    dsimp [mu]
+    exact ExactCollegeBatchedProcedure.paper_gs62_source_waiting_list_assignment_stable
+      gs62RawLiteralBoundaryQuota
+      gs62RawLiteralBoundaryApplicantValue
+      gs62RawLiteralBoundaryCollegeValue
+      gs62RawLiteralBoundary_strictCollegeAdmissionsDomain
+  have hOne : mu.app_match 1 = some 0 := by
+    cases hmatch : mu.app_match 1 with
+    | some c =>
+        fin_cases c
+        simpa using hmatch
+    | none =>
+        have hpreference : ManyToOne.valApplicant
+            gs62RawLiteralBoundaryApplicantValue 1 (mu.app_match 1) <
+            gs62RawLiteralBoundaryApplicantValue 1 0 := by
+          norm_num [ManyToOne.valApplicant, hmatch,
+            gs62RawLiteralBoundaryApplicantValue]
+        have hnotOne : 1 ∉ mu.college_roster 0 := by
+          intro hmem
+          have : mu.app_match 1 = some 0 :=
+            (mu.consistent 1 0).mpr hmem
+          simp [hmatch] at this
+        by_cases hzero : 0 ∈ mu.college_roster 0
+        · exact (hstable.2.2.2 1 0 hpreference
+            (Or.inr ⟨0, hzero, by
+              norm_num [gs62RawLiteralBoundaryCollegeValue]⟩)).elim
+        · have hempty : mu.college_roster 0 = ∅ := by
+            ext a
+            fin_cases a <;> simp [hzero, hnotOne]
+          exact (hstable.2.2.2 1 0 hpreference
+            (Or.inl ⟨by
+              norm_num [gs62RawLiteralBoundaryCollegeValue], by
+              simp [hempty, gs62RawLiteralBoundaryQuota]⟩)).elim
+  have hZero : mu.app_match 0 = none := by
+    cases hmatch : mu.app_match 0 with
+    | none => rfl
+    | some c =>
+        fin_cases c
+        have hzero : 0 ∈ mu.college_roster 0 :=
+          (mu.consistent 0 0).mp (by simpa using hmatch)
+        have hone : 1 ∈ mu.college_roster 0 :=
+          (mu.consistent 1 0).mp hOne
+        have hEq : (0 : Fin 2) = 1 :=
+          (Finset.card_le_one.mp (hstable.1 0)) 0 hzero 1 hone
+        norm_num at hEq
+  apply ManyToOneOptimality.manyToOneAssignment_eq_of_app_match
+  intro a
+  change mu.app_match a = gs62RawLiteralBoundaryPreferredAssignment.app_match a
+  fin_cases a
+  · simp [hZero, gs62RawLiteralBoundaryPreferredAssignment]
+  · simp [hOne, gs62RawLiteralBoundaryPreferredAssignment]
+
+/--
+The actual Section 4 output in the boundary market is not applicant-optimal
+under the literal printed comparison class.  Theorem 2 therefore requires the
+completed stability convention rather than the raw page-10 predicate alone.
+-/
+theorem raw_literal_boundary_source_procedure_not_literal_optimal :
+    Not (gs62RawLiteralApplicantOptimal
+      gs62RawLiteralBoundaryApplicantValue
+      gs62RawLiteralBoundaryCollegeValue
+      (ExactCollegeBatchedProcedure.sourceWaitingListFinalAssignment
+        gs62RawLiteralBoundaryQuota
+        gs62RawLiteralBoundaryApplicantValue
+        gs62RawLiteralBoundaryCollegeValue
+        (gs62RawLiteralBoundary_strictCollegeAdmissionsDomain.2.1))) := by
+  rw [raw_literal_boundary_source_procedure_eq_preferred_assignment]
+  exact gs62RawLiteralBoundaryPreferredAssignment_not_rawLiteralApplicantOptimal
 
 end PostPaperAudit
 end GS62CollegeAdmissions

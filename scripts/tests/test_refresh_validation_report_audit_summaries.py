@@ -31,6 +31,33 @@ SUMMARY = {
 
 
 class LegacyAuditSummaryCompatibilityTests(unittest.TestCase):
+    def test_direct_source_spec_reports_are_not_rewritten_by_legacy_refresher(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            folder = Path(temp_dir) / "EX24Example"
+            folder.mkdir()
+            report = folder / "FINAL_VALIDATION_REPORT.md"
+            original = "# Closeout\n\nSource-first review links stay intact.\n"
+            report.write_text(original, encoding="utf-8")
+            (folder / "status.json").write_text(
+                json.dumps(
+                    {
+                        "review_surface": {
+                            "llm_statement_review": {
+                                "required_prompt_version": (
+                                    "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2"
+                                )
+                            }
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            prepared = REFRESH.prepare_report(report)
+
+        self.assertEqual(prepared.rendered, original)
+
     def test_report_input_digest_tracks_present_missing_and_changed_bytes(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             present = Path(temp_dir) / "present.json"
@@ -181,6 +208,29 @@ class LegacyAuditSummaryCompatibilityTests(unittest.TestCase):
 
 
 class HumanFacingLedgerGenerationTests(unittest.TestCase):
+    @staticmethod
+    def legacy_report_template() -> str:
+        """Small report declaring the legacy generated-ledger layout."""
+
+        return "\n".join(
+            [
+                "# Legacy report",
+                "",
+                "## 12. Validation Checks",
+                "",
+                "## 13. Paper Assumption Provenance",
+                "",
+                "## 14. Displayed Formula Provenance",
+                "",
+                "## 15. Supporting Detail",
+                "",
+                "## 20. Paper-Facing Statement Validator Ledger",
+                "",
+                "## 21. Source-Coverage Audit Ledger",
+                "",
+            ]
+        )
+
     def test_reason_text_preserves_complete_human_review_comment(self) -> None:
         reason = "Reviewed source condition. " * 20
         resolution = "The Lean statement preserves the complete condition. " * 10
@@ -1495,10 +1545,7 @@ class HumanFacingLedgerGenerationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp_dir:
             folder = self.make_fixture(Path(temp_dir))
             report = folder / REFRESH.REPORT
-            template = (ROOT / "papers" / "TEMPLATE" / REFRESH.REPORT).read_text(
-                encoding="utf-8"
-            )
-            report.write_text(template, encoding="utf-8")
+            report.write_text(self.legacy_report_template(), encoding="utf-8")
             before = report.read_text(encoding="utf-8")
 
             rendered = REFRESH.render_report(report)
@@ -1512,9 +1559,7 @@ class HumanFacingLedgerGenerationTests(unittest.TestCase):
             folder = self.make_fixture(Path(temp_dir))
             report = folder / REFRESH.REPORT
             report.write_text(
-                (ROOT / "papers" / "TEMPLATE" / REFRESH.REPORT).read_text(
-                    encoding="utf-8"
-                ),
+                self.legacy_report_template(),
                 encoding="utf-8",
             )
             prepared = REFRESH.prepare_report(report)
@@ -1534,9 +1579,7 @@ class HumanFacingLedgerGenerationTests(unittest.TestCase):
             folder = self.make_fixture(Path(temp_dir))
             report = folder / REFRESH.REPORT
             report.write_text(
-                (ROOT / "papers" / "TEMPLATE" / REFRESH.REPORT).read_text(
-                    encoding="utf-8"
-                ),
+                self.legacy_report_template(),
                 encoding="utf-8",
             )
             source_map_path = folder / "audit" / "paper_statement_map.json"
@@ -1586,9 +1629,7 @@ class HumanFacingLedgerGenerationTests(unittest.TestCase):
             folder = self.make_fixture(Path(temp_dir))
             report = folder / REFRESH.REPORT
             report.write_text(
-                (ROOT / "papers" / "TEMPLATE" / REFRESH.REPORT).read_text(
-                    encoding="utf-8"
-                ),
+                self.legacy_report_template(),
                 encoding="utf-8",
             )
             prepared = REFRESH.prepare_report(report)

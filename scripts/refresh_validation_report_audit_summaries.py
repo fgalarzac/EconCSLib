@@ -265,6 +265,38 @@ SOURCE_RECORD_ORDER = [
 ]
 
 
+def uses_direct_source_spec_closeout(status: Mapping[str, Any]) -> bool:
+    """Whether a report is owned by the source-to-expanded-Spec closeout lane.
+
+    The legacy refresher projects v10 sidecars into sections 13--21.  Those
+    sidecars are neither the canonical semantic judgment nor the human-facing
+    source-first order for a v11 paper, so refreshing them would overwrite a
+    deliberately curated closeout report with an obsolete evidence lane.
+    """
+
+    review_surface = status.get("review_surface")
+    if not isinstance(review_surface, Mapping):
+        return False
+    if review_surface.get("require_source_spec_correspondence") is True:
+        return True
+    statement_review = review_surface.get("llm_statement_review")
+    return (
+        isinstance(statement_review, Mapping)
+        and str(statement_review.get("required_prompt_version") or "").strip()
+        == "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2"
+    )
+
+
+def supports_legacy_generated_layout(text: str) -> bool:
+    """Whether a report still declares the retired generated-ledger layout."""
+
+    required_sections = (12, 13, 14, 15, 20, 21)
+    return all(
+        re.search(rf"(?m)^## {section}\. ", text) is not None
+        for section in required_sections
+    )
+
+
 def public_report_paths(paper: str | None = None) -> list[Path]:
     paths = sorted(
         path for path in PAPERS.glob(f"*/{REPORT}") if path.parent.name != "TEMPLATE"
@@ -3271,7 +3303,7 @@ def replace_or_insert_block(text: str, block: str, path: Path) -> str:
     match = re.search(r"^## \d+\. Validation Checks\n", text, flags=re.MULTILINE)
     if match is None:
         raise ValueError(
-            f"{path.relative_to(ROOT)} does not contain a Validation Checks section"
+            f"{_path_label(path)} does not contain a Validation Checks section"
         )
     return text[: match.end()] + block + "\n\n" + text[match.end() :]
 
@@ -3279,6 +3311,15 @@ def replace_or_insert_block(text: str, block: str, path: Path) -> str:
 def prepare_report(path: Path) -> PreparedReport:
     snapshot = load_report_input_snapshot(path)
     reuse = saved_report_reuse_authorization(path.parent, snapshot.status)
+    if uses_direct_source_spec_closeout(snapshot.status) or not supports_legacy_generated_layout(
+        snapshot.text
+    ):
+        # v11 report prose and its source-first link surface are hand-authored
+        # closeout artifacts.  Updating it through the retired v10 projection
+        # would regress the semantic review contract rather than refresh it.
+        # Reports which no longer declare the legacy section layout are also
+        # intentionally left alone rather than acquiring a mixed layout.
+        return PreparedReport(snapshot=snapshot, reuse=reuse, rendered=snapshot.text)
     surface = semantic_review_surface(
         path.parent,
         snapshot.status,

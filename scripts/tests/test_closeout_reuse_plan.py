@@ -1538,7 +1538,64 @@ class CloseoutReusePlanTests(unittest.TestCase):
             raw.assert_not_called()
             cached.assert_not_called()
 
+    def test_current_v11_lane_suppresses_legacy_source_record_judgment_rebind(
+        self,
+    ) -> None:
+        """A direct raw-source/Spec ledger replaces the historical v10 sidecar."""
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            folder = root / "papers" / "Fixture"
+            audit = folder / "audit"
+            audit.mkdir(parents=True)
+            (folder / "status.json").write_text(
+                json.dumps({"status": "formalized"}), encoding="utf-8"
+            )
+            (audit / "source_record_audit.json").write_text(
+                "{}\n", encoding="utf-8"
+            )
+            (audit / "source_record_match_llm.json").write_text(
+                json.dumps({"source_record_audit_sha256": "b" * 64}),
+                encoding="utf-8",
+            )
+            helper = root / "fast_saved_identity_helper.py"
+            helper.write_text("# fixture\n", encoding="utf-8")
+            proc = types.SimpleNamespace(
+                returncode=0,
+                stdout=json.dumps(
+                    {
+                        "current": True,
+                        "source_record_audit_sha256": "a" * 64,
+                    }
+                ),
+                stderr="",
+            )
+            with (
+                mock.patch.object(planner, "ROOT", root),
+                mock.patch.object(
+                    planner,
+                    "FAST_SAVED_SOURCE_RECORD_HELPER_RELATIVE",
+                    helper.relative_to(root),
+                ),
+                mock.patch.object(planner.subprocess, "run", return_value=proc),
+                mock.patch(
+                    "scripts.audit_evidence_integrity.v11_direct_semantic_review_state",
+                    return_value=(True, ""),
+                ) as v11_state,
+            ):
+                preflight = planner.fast_saved_source_record_preflight(folder)
+
+        self.assertEqual(preflight["state"], "current_v11_direct_semantic_review")
+        self.assertEqual(preflight["v11_direct_semantic_review"], "current")
+        self.assertIsNone(planner.source_record_preflight_action("Fixture", preflight))
+        v11_state.assert_called_once_with(folder, "formalized")
+
     def test_source_record_preflight_actions_are_dependency_ordered(self) -> None:
+        self.assertIsNone(
+            planner.source_record_preflight_action(
+                "Fixture", {"state": "current_v11_direct_semantic_review"}
+            )
+        )
         current_delta = planner.source_record_preflight_action(
             "Fixture",
             {"state": "current_raw_judgment_delta", "reason": "different digest"},

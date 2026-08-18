@@ -28,6 +28,8 @@ from typing import Any, Callable, Iterable, Iterator, Mapping
 
 
 HELPER_PATH = Path(__file__).with_name("lean_signature_manifest_helper.lean")
+COMPILED_AUDIT_HELPER_MODULE = "EconCSLib.Audit.SignatureManifest"
+COMPILED_AUDIT_HELPER_SOURCE = Path("EconCSLib") / "Audit" / "SignatureManifest.lean"
 CLOSURE_SUBPROCESS_TRAMPOLINE_PATH = Path(__file__).with_name(
     "lean_closure_subprocess.py"
 )
@@ -59,6 +61,20 @@ INDUCTIVE_CONSTRUCTOR_FIELD_SLOT_COUNTS_SENTINEL = (
     "LEAN_INDUCTIVE_CONSTRUCTOR_FIELD_SLOT_COUNTS:"
 )
 TYPE_WITNESS_PAYLOAD_SAFETY_SENTINEL = "LEAN_TYPE_WITNESS_PAYLOAD_SAFETY:"
+DIRECT_LIBRARY_DEPENDENCY_SURFACE_SENTINEL = (
+    "LEAN_DIRECT_LIBRARY_DEPENDENCY_SURFACE:"
+)
+DIRECT_LIBRARY_DEPENDENCY_SURFACE_SCHEMA = 1
+TRANSPARENT_PAPER_SPEC_DISPLAY_SENTINEL = "LEAN_TRANSPARENT_PAPER_SPEC_DISPLAY:"
+TRANSPARENT_PAPER_SPEC_DISPLAY_SCHEMA = 1
+TRANSPARENT_PAPER_DECLARATION_DISPLAY_SENTINEL = (
+    "LEAN_TRANSPARENT_PAPER_DECLARATION_DISPLAY:"
+)
+TRANSPARENT_PAPER_DECLARATION_DISPLAY_SCHEMA = 1
+TRANSPARENT_LIBRARY_DECLARATION_DISPLAY_SENTINEL = (
+    "LEAN_TRANSPARENT_LIBRARY_DECLARATION_DISPLAY:"
+)
+TRANSPARENT_LIBRARY_DECLARATION_DISPLAY_SCHEMA = 1
 TYPE_WITNESS_PAYLOAD_SAFETY_SCHEMA = 1
 RECURSIVE_FIELD_SAFETY_LOCATOR_SCHEMA = 1
 RECURSIVE_FIELD_SAFETY_RECEIPT_SCHEMA = 1
@@ -208,14 +224,15 @@ SEMANTIC_CONTRACT_CLOSURE_OUTPUT_LIMIT_SENTINEL = (
 # closure's semantics or accepting a partial receipt.
 SEMANTIC_CONTRACT_CLOSURE_MAX_RECURSION_DEPTH = 4096
 SEMANTIC_CONTRACT_CLOSURE_MAX_HEARTBEATS = 8_000_000
-# Lean reserves a large virtual heap even for a small imported file.  Keep its
-# own allocation cap below the physical-memory budget, use one worker, and
-# retain an address-space ceiling above that normal reservation.  Together
-# these confine a malformed meta traversal to its child without rejecting a
-# normal Lean startup merely because of virtual reservations.
-SEMANTIC_CONTRACT_CLOSURE_MAX_MEMORY_MB = 2048
+# Lean reserves a large virtual heap when importing a large compiled paper
+# interface.  The closure route uses one worker and a 4 GiB Lean cap: enough
+# for the largest current interface import, while avoiding the old 6 GiB cap
+# that could let the host terminate a child before Lean returned a fail-closed
+# diagnostic.  The recursive walk itself is Lean's compact environment utility
+# and no longer materializes a second expanded closure tree.
+SEMANTIC_CONTRACT_CLOSURE_MAX_MEMORY_MB = 4096
 SEMANTIC_CONTRACT_CLOSURE_MAX_THREADS = 1
-SEMANTIC_CONTRACT_CLOSURE_MAX_ADDRESS_SPACE_BYTES = 8 * 1024 * 1024 * 1024
+SEMANTIC_CONTRACT_CLOSURE_MAX_ADDRESS_SPACE_BYTES = 12 * 1024 * 1024 * 1024
 SEMANTIC_CONTRACT_CLOSURE_RUNNER_FAILURE_SENTINEL = (
     "LEAN_SEMANTIC_CONTRACT_CLOSURE_RUNNER_FAILURE:"
 )
@@ -1489,6 +1506,342 @@ def parse_signature_manifest_output(output: str) -> dict[str, dict[str, Any]]:
     return manifests
 
 
+def parse_direct_library_dependency_surface_output(
+    output: str,
+    requested_declarations: Iterable[str],
+) -> dict[str, tuple[str, ...]]:
+    """Parse one Lean-owned direct reusable-library dependency surface.
+
+    The helper resolves the declaration body after elaboration.  This parser
+    only validates a narrow, deterministic JSON transport: source tokens and
+    Python namespace guesses never decide which reusable declaration is used.
+    """
+
+    requested = sorted(
+        {str(name).strip() for name in requested_declarations if str(name).strip()}
+    )
+    matches = [
+        line[line.find(DIRECT_LIBRARY_DEPENDENCY_SURFACE_SENTINEL) + len(DIRECT_LIBRARY_DEPENDENCY_SURFACE_SENTINEL) :]
+        for line in output.splitlines()
+        if DIRECT_LIBRARY_DEPENDENCY_SURFACE_SENTINEL in line
+    ]
+    if len(matches) != 1:
+        return {}
+    try:
+        payload = json.loads(matches[0])
+    except json.JSONDecodeError:
+        return {}
+    if not isinstance(payload, Mapping) or set(payload) != {"schema", "roots"}:
+        return {}
+    if payload.get("schema") != str(DIRECT_LIBRARY_DEPENDENCY_SURFACE_SCHEMA):
+        return {}
+    roots = payload.get("roots")
+    if not isinstance(roots, list) or len(roots) != len(requested):
+        return {}
+    parsed: dict[str, tuple[str, ...]] = {}
+    for raw in roots:
+        if not isinstance(raw, Mapping) or set(raw) != {
+            "declaration",
+            "direct_library_declarations",
+        }:
+            return {}
+        declaration = str(raw.get("declaration") or "").strip()
+        dependencies = raw.get("direct_library_declarations")
+        if (
+            not declaration
+            or declaration in parsed
+            or not isinstance(dependencies, list)
+            or any(not isinstance(value, str) for value in dependencies)
+        ):
+            return {}
+        normalized = tuple(str(value).strip() for value in dependencies)
+        if (
+            any(
+                not value.startswith("EconCSLib.") or not value
+                for value in normalized
+            )
+            or list(normalized) != sorted(set(normalized))
+        ):
+            return {}
+        parsed[declaration] = normalized
+    return parsed if sorted(parsed) == requested else {}
+
+
+def parse_transparent_paper_spec_display_output(
+    output: str,
+    requested_specifications: Iterable[str],
+) -> dict[str, dict[str, Any]]:
+    """Validate Lean-owned readable expansions for exact paper ``Spec`` roots.
+
+    The textual display is deliberately emitted by Lean after elaboration and
+    transparent paper-local delta reduction.  Python validates only a small
+    transport envelope; it does not expand names or reconstruct semantics from
+    source tokens.
+    """
+
+    requested = sorted(
+        {str(name).strip() for name in requested_specifications if str(name).strip()}
+    )
+    matches = [
+        line[
+            line.find(TRANSPARENT_PAPER_SPEC_DISPLAY_SENTINEL)
+            + len(TRANSPARENT_PAPER_SPEC_DISPLAY_SENTINEL) :
+        ]
+        for line in output.splitlines()
+        if TRANSPARENT_PAPER_SPEC_DISPLAY_SENTINEL in line
+    ]
+    if len(matches) != 1:
+        return {}
+    try:
+        payload = json.loads(matches[0])
+    except json.JSONDecodeError:
+        return {}
+    if not isinstance(payload, Mapping) or set(payload) != {"schema", "items"}:
+        return {}
+    if payload.get("schema") != str(TRANSPARENT_PAPER_SPEC_DISPLAY_SCHEMA):
+        return {}
+    raw_items = payload.get("items")
+    if not isinstance(raw_items, list) or len(raw_items) != len(requested):
+        return {}
+    parsed: dict[str, dict[str, Any]] = {}
+    for raw in raw_items:
+        if not isinstance(raw, Mapping) or set(raw) != {
+            "specification",
+            "complete",
+            "expansion_count",
+            "expanded_declarations",
+            "prerequisite_declarations",
+            "library_declarations",
+            "blocked_declarations",
+            "display",
+        }:
+            return {}
+        specification = str(raw.get("specification") or "").strip()
+        complete = raw.get("complete")
+        expansion_count = raw.get("expansion_count")
+        expanded = raw.get("expanded_declarations")
+        prerequisites = raw.get("prerequisite_declarations")
+        libraries = raw.get("library_declarations")
+        blocked = raw.get("blocked_declarations")
+        display = raw.get("display")
+        if (
+            not specification
+            or specification in parsed
+            or complete is not True
+            or not isinstance(expansion_count, str)
+            or not expansion_count.isdigit()
+            or not isinstance(expanded, list)
+            or not isinstance(prerequisites, list)
+            or not isinstance(libraries, list)
+            or not isinstance(blocked, list)
+            or blocked
+            or not isinstance(display, str)
+            or not display.strip()
+            or any(not isinstance(value, str) or not value.strip() for value in expanded)
+            or any(not isinstance(value, str) or not value.strip() for value in prerequisites)
+            or any(
+                not isinstance(value, str)
+                or not value.strip().startswith("EconCSLib.")
+                for value in libraries
+            )
+        ):
+            return {}
+        normalized_expanded = [str(value).strip() for value in expanded]
+        normalized_prerequisites = [str(value).strip() for value in prerequisites]
+        normalized_libraries = [str(value).strip() for value in libraries]
+        if (
+            normalized_expanded != sorted(set(normalized_expanded))
+            or normalized_prerequisites != sorted(set(normalized_prerequisites))
+            or normalized_libraries != sorted(set(normalized_libraries))
+        ):
+            return {}
+        parsed[specification] = {
+            "display": display,
+            "display_sha256": hashlib.sha256(display.encode("utf-8")).hexdigest(),
+            "expansion_count": int(expansion_count),
+            "expanded_declarations": tuple(normalized_expanded),
+            "prerequisite_declarations": tuple(normalized_prerequisites),
+            "library_declarations": tuple(normalized_libraries),
+        }
+    return parsed if sorted(parsed) == requested else {}
+
+
+def parse_transparent_paper_declaration_display_output(
+    output: str,
+    requested_declarations: Iterable[str],
+) -> dict[str, dict[str, Any]]:
+    """Validate Lean-owned semantic displays for paper-local prerequisites.
+
+    The initial names and every recursively retained paper-local declaration
+    are emitted by Lean.  Python validates the transport envelope and hashes
+    the exact display, but never discovers or expands source declarations.
+    """
+
+    requested = sorted(
+        {str(name).strip() for name in requested_declarations if str(name).strip()}
+    )
+    matches = [
+        line[
+            line.find(TRANSPARENT_PAPER_DECLARATION_DISPLAY_SENTINEL)
+            + len(TRANSPARENT_PAPER_DECLARATION_DISPLAY_SENTINEL) :
+        ]
+        for line in output.splitlines()
+        if TRANSPARENT_PAPER_DECLARATION_DISPLAY_SENTINEL in line
+    ]
+    if len(matches) != 1:
+        return {}
+    try:
+        payload = json.loads(matches[0])
+    except json.JSONDecodeError:
+        return {}
+    if not isinstance(payload, Mapping) or set(payload) != {"schema", "items"}:
+        return {}
+    if payload.get("schema") != str(TRANSPARENT_PAPER_DECLARATION_DISPLAY_SCHEMA):
+        return {}
+    raw_items = payload.get("items")
+    if not isinstance(raw_items, list) or len(raw_items) < len(requested):
+        return {}
+    parsed: dict[str, dict[str, Any]] = {}
+    allowed_kinds = {"definition", "opaque_definition", "non_definition"}
+    for raw in raw_items:
+        if not isinstance(raw, Mapping) or set(raw) != {
+            "declaration",
+            "declaration_kind",
+            "root_expanded",
+            "direct_paper_declarations",
+            "direct_library_declarations",
+            "display",
+        }:
+            return {}
+        declaration = str(raw.get("declaration") or "").strip()
+        kind = str(raw.get("declaration_kind") or "").strip()
+        root_expanded = raw.get("root_expanded")
+        paper_dependencies = raw.get("direct_paper_declarations")
+        library_dependencies = raw.get("direct_library_declarations")
+        display = raw.get("display")
+        if (
+            not declaration
+            or declaration in parsed
+            or kind not in allowed_kinds
+            or not isinstance(root_expanded, bool)
+            or (kind == "definition") != root_expanded
+            or not isinstance(paper_dependencies, list)
+            or not isinstance(library_dependencies, list)
+            or not isinstance(display, str)
+            or not display.strip()
+        ):
+            return {}
+        normalized_paper_dependencies = [str(value).strip() for value in paper_dependencies]
+        normalized_library_dependencies = [
+            str(value).strip() for value in library_dependencies
+        ]
+        if (
+            any(not isinstance(value, str) or not value.strip() for value in paper_dependencies)
+            or normalized_paper_dependencies != sorted(set(normalized_paper_dependencies))
+            or declaration in normalized_paper_dependencies
+            or any(
+                not isinstance(value, str)
+                or not value.strip().startswith("EconCSLib.")
+                for value in library_dependencies
+            )
+            or normalized_library_dependencies != sorted(set(normalized_library_dependencies))
+        ):
+            return {}
+        parsed[declaration] = {
+            "display": display,
+            "display_sha256": hashlib.sha256(display.encode("utf-8")).hexdigest(),
+            "declaration_kind": kind,
+            "root_expanded": root_expanded,
+            "direct_paper_declarations": tuple(normalized_paper_dependencies),
+            "direct_library_declarations": tuple(normalized_library_dependencies),
+        }
+    return parsed if set(requested).issubset(parsed) else {}
+
+
+def parse_transparent_library_declaration_display_output(
+    output: str,
+    requested_declarations: Iterable[str],
+) -> dict[str, dict[str, Any]]:
+    """Validate Lean-owned target displays for reusable declarations.
+
+    A definition target is its own delta-reduced body with all declaration
+    binders reinstated.  Other Lean declaration kinds have a meaningful
+    signature but no reducible body; their exact bounded source declaration is
+    retained by the caller for the constructor/field-level review.
+    """
+
+    requested = sorted(
+        {str(name).strip() for name in requested_declarations if str(name).strip()}
+    )
+    matches = [
+        line[
+            line.find(TRANSPARENT_LIBRARY_DECLARATION_DISPLAY_SENTINEL)
+            + len(TRANSPARENT_LIBRARY_DECLARATION_DISPLAY_SENTINEL) :
+        ]
+        for line in output.splitlines()
+        if TRANSPARENT_LIBRARY_DECLARATION_DISPLAY_SENTINEL in line
+    ]
+    if len(matches) != 1:
+        return {}
+    try:
+        payload = json.loads(matches[0])
+    except json.JSONDecodeError:
+        return {}
+    if not isinstance(payload, Mapping) or set(payload) != {"schema", "items"}:
+        return {}
+    if payload.get("schema") != str(TRANSPARENT_LIBRARY_DECLARATION_DISPLAY_SCHEMA):
+        return {}
+    raw_items = payload.get("items")
+    if not isinstance(raw_items, list) or len(raw_items) < len(requested):
+        return {}
+    parsed: dict[str, dict[str, Any]] = {}
+    allowed_kinds = {"definition", "opaque_definition", "non_definition"}
+    for raw in raw_items:
+        if not isinstance(raw, Mapping) or set(raw) != {
+            "declaration",
+            "declaration_kind",
+            "root_expanded",
+            "direct_library_declarations",
+            "display",
+        }:
+            return {}
+        declaration = str(raw.get("declaration") or "").strip()
+        kind = str(raw.get("declaration_kind") or "").strip()
+        root_expanded = raw.get("root_expanded")
+        dependencies = raw.get("direct_library_declarations")
+        display = raw.get("display")
+        if (
+            not declaration.startswith("EconCSLib.")
+            or declaration in parsed
+            or kind not in allowed_kinds
+            or not isinstance(root_expanded, bool)
+            or (kind == "definition") != root_expanded
+            or not isinstance(dependencies, list)
+            or not isinstance(display, str)
+            or not display.strip()
+        ):
+            return {}
+        normalized_dependencies = [str(value).strip() for value in dependencies]
+        if (
+            any(
+                not isinstance(value, str)
+                or not value.strip().startswith("EconCSLib.")
+                or value.strip() == declaration
+                for value in dependencies
+            )
+            or normalized_dependencies != sorted(set(normalized_dependencies))
+        ):
+            return {}
+        parsed[declaration] = {
+            "display": display,
+            "display_sha256": hashlib.sha256(display.encode("utf-8")).hexdigest(),
+            "declaration_kind": kind,
+            "root_expanded": root_expanded,
+            "direct_library_declarations": tuple(normalized_dependencies),
+        }
+    return parsed if set(requested).issubset(parsed) else {}
+
+
 def _semantic_dependency_root_identity(
     graph: Mapping[str, Any], declaration: str
 ) -> str:
@@ -1697,7 +2050,7 @@ def parse_semantic_contract_output(
         if (
             not spec
             or not evidence
-            or mode not in {"proves", "refutes"}
+            or mode not in {"proves", "refutes", "definitionally_realizes"}
             or key in matches
         ):
             return {}
@@ -2001,8 +2354,19 @@ DEFAULT_SEMANTIC_CONTRACT_FOUNDATION_MODULES = (
     "Init",
     "Lean",
     "Std",
+    "Batteries",
+    "Qq",
+    "Aesop",
+    "Cli",
+    "ImportGraph",
+    "ProofWidgets",
+    "LeanSearchClient",
+    "Plausible",
     "Mathlib",
     "Cslib",
+    # EconCSLib definitions are library prerequisites with their own current
+    # source-to-Lean screening lane; they are not paper-local source claims.
+    "EconCSLib",
 )
 
 
@@ -2079,6 +2443,7 @@ def _normalize_semantic_contract_closure(
             "terminal_fallback",
             "closure_fingerprints",
             "terminal_fingerprints",
+            "lean_dependency_fingerprint",
         }
         or (surface is not None and not isinstance(surface, dict))
         or not isinstance(raw_nodes, list)
@@ -2091,77 +2456,107 @@ def _normalize_semantic_contract_closure(
     normalized_surface: dict[str, Any] | None = None
     if surface is not None:
         surface_tag = str(surface.get("tag") or "")
-        raw_binders = surface.get("binder_domains")
-        if not isinstance(raw_binders, list):
-            return None
-        binders: list[dict[str, Any]] = []
-        seen_indices: set[str] = set()
-        for binder in raw_binders:
-            if not isinstance(binder, dict):
-                return None
-            index = str(binder.get("index") or "")
-            binder_info = str(binder.get("binder_info") or "")
-            domain_is_proposition = binder.get("domain_is_proposition")
+        if surface_tag == "lean_declaration_fingerprint":
             if (
-                not index.isdigit()
-                or index in seen_indices
-                or binder_info
-                not in {"explicit", "implicit", "strictImplicit", "instImplicit"}
-                or not isinstance(domain_is_proposition, bool)
+                surface_mode != "lean_dependency_fingerprint"
+                or str(surface.get("schema") or "") != "1"
+                or set(surface) != {
+                    "tag",
+                    "schema",
+                    "declaration_kind",
+                    "declaration_type_sha256",
+                    "declaration_value_sha256",
+                }
             ):
                 return None
-            seen_indices.add(index)
-            normalized_binder: dict[str, Any] = {
-                "index": index,
-                "binder_info": binder_info,
-                "domain_is_proposition": domain_is_proposition,
-            }
-            if surface_tag == "spec_surface":
-                canonical = binder.get("canonical")
-                if canonical is None:
-                    return None
-                normalized_binder["canonical"] = canonical
-            elif surface_tag == "spec_surface_fingerprints":
-                fingerprint = _normalize_semantic_contract_expr_fingerprint(
-                    binder.get("fingerprint")
-                )
-                if fingerprint is None:
-                    return None
-                normalized_binder["fingerprint"] = fingerprint
-            else:
-                return None
-            binders.append(normalized_binder)
-        if [int(item["index"]) for item in binders] != list(range(len(binders))):
-            return None
-        if surface_tag == "spec_surface":
-            if surface_mode not in {"closure_expanded", "terminal_fallback"}:
-                return None
-            body = surface.get("body")
-            if body is None:
-                return None
-            normalized_surface = {"binder_domains": binders, "body": body}
-        else:
-            fingerprint_schema = str(surface.get("schema") or "")
-            if surface_mode not in {
-                "closure_fingerprints",
-                "terminal_fingerprints",
-            } or fingerprint_schema not in {"2", "3"}:
-                return None
-            body_fingerprint = _normalize_semantic_contract_expr_fingerprint(
-                surface.get("body_fingerprint")
-            )
-            if body_fingerprint is None:
+            declaration_kind = str(surface.get("declaration_kind") or "")
+            type_hash = str(surface.get("declaration_type_sha256") or "")
+            value_hash = str(surface.get("declaration_value_sha256") or "")
+            if (
+                not declaration_kind
+                or not re.fullmatch(r"[0-9a-f]{64}", type_hash)
+                or not re.fullmatch(r"[0-9a-f]{64}", value_hash)
+            ):
                 return None
             normalized_surface = {
-                "schema": int(fingerprint_schema),
-                "representation": (
-                    "lean_canonical_surface_sha256_v1"
-                    if fingerprint_schema == "2"
-                    else "lean_compact_canonical_surface_sha256_v2"
-                ),
-                "binder_domains": binders,
-                "body_fingerprint": body_fingerprint,
+                "schema": 1,
+                "representation": "lean_environment_dependency_closure_v1",
+                "declaration_kind": declaration_kind,
+                "declaration_type_sha256": type_hash,
+                "declaration_value_sha256": value_hash,
             }
+        else:
+            raw_binders = surface.get("binder_domains")
+            if not isinstance(raw_binders, list):
+                return None
+            binders: list[dict[str, Any]] = []
+            seen_indices: set[str] = set()
+            for binder in raw_binders:
+                if not isinstance(binder, dict):
+                    return None
+                index = str(binder.get("index") or "")
+                binder_info = str(binder.get("binder_info") or "")
+                domain_is_proposition = binder.get("domain_is_proposition")
+                if (
+                    not index.isdigit()
+                    or index in seen_indices
+                    or binder_info
+                    not in {"explicit", "implicit", "strictImplicit", "instImplicit"}
+                    or not isinstance(domain_is_proposition, bool)
+                ):
+                    return None
+                seen_indices.add(index)
+                normalized_binder: dict[str, Any] = {
+                    "index": index,
+                    "binder_info": binder_info,
+                    "domain_is_proposition": domain_is_proposition,
+                }
+                if surface_tag == "spec_surface":
+                    canonical = binder.get("canonical")
+                    if canonical is None:
+                        return None
+                    normalized_binder["canonical"] = canonical
+                elif surface_tag == "spec_surface_fingerprints":
+                    fingerprint = _normalize_semantic_contract_expr_fingerprint(
+                        binder.get("fingerprint")
+                    )
+                    if fingerprint is None:
+                        return None
+                    normalized_binder["fingerprint"] = fingerprint
+                else:
+                    return None
+                binders.append(normalized_binder)
+            if [int(item["index"]) for item in binders] != list(range(len(binders))):
+                return None
+            if surface_tag == "spec_surface":
+                if surface_mode not in {"closure_expanded", "terminal_fallback"}:
+                    return None
+                body = surface.get("body")
+                if body is None:
+                    return None
+                normalized_surface = {"binder_domains": binders, "body": body}
+            else:
+                fingerprint_schema = str(surface.get("schema") or "")
+                if surface_mode not in {
+                    "closure_fingerprints",
+                    "terminal_fingerprints",
+                } or fingerprint_schema not in {"2", "3"}:
+                    return None
+                body_fingerprint = _normalize_semantic_contract_expr_fingerprint(
+                    surface.get("body_fingerprint")
+                )
+                if body_fingerprint is None:
+                    return None
+                normalized_surface = {
+                    "schema": int(fingerprint_schema),
+                    "representation": (
+                        "lean_canonical_surface_sha256_v1"
+                        if fingerprint_schema == "2"
+                        else "lean_compact_canonical_surface_sha256_v2"
+                    ),
+                    "binder_domains": binders,
+                    "body_fingerprint": body_fingerprint,
+                }
 
     nodes: list[dict[str, Any]] = []
     for raw_node in raw_nodes:
@@ -2247,7 +2642,11 @@ def _normalize_semantic_contract_closure(
         failures.append({"tag": tag, "declaration": declaration})
     if passes != (not failures):
         return None
-    if passes and surface_mode not in {"closure_expanded", "closure_fingerprints"}:
+    if passes and surface_mode not in {
+        "closure_expanded",
+        "closure_fingerprints",
+        "lean_dependency_fingerprint",
+    }:
         return None
     if passes and any(
         node["origin_class"] in {"workspace", "external", "unresolved"}
@@ -2801,16 +3200,53 @@ def parse_type_witness_payload_safety_output(
 def _compose_helper_script(script_prefix: str, helper: str, commands: str) -> str:
     """Compose every Meta helper invocation with its exact Lean API import.
 
-    The helper's transitive reachability is provided by ImportGraph's
-    Lean-owned ``Name.transitivelyUsedConstants`` API. Keeping this preamble in
-    one composer prevents a command-specific runner from accidentally falling
-    back to a different graph protocol.
+    The helper's recursive statement reachability is provided by Lean's
+    elaborated-expression and environment APIs. Keeping this preamble in one
+    composer prevents a command-specific runner from accidentally falling
+    back to a Python- or text-derived graph protocol.
     """
 
+    # The helper is also a standalone compiled Lean module and therefore
+    # starts with its own imports.  Hermetic fixtures inject that same source
+    # after runner-specific options; imports are no longer legal there.  The
+    # common preamble below already imports its complete API requirement, so
+    # remove only the contiguous leading imports from the injected copy.
+    helper_body = re.sub(r"\A(?:import [^\n]+\n)+", "", helper)
     return (
         "import ImportGraph.Imports.RequiredModules\n"
-        f"{script_prefix.rstrip()}\n\n{helper}\n\n{commands}\n"
+        f"{script_prefix.rstrip()}\n\n{helper_body}\n\n{commands}\n"
     )
+
+
+def _compiled_audit_helper_available(root: Path) -> bool:
+    """Whether this checkout can import the separately compiled audit helper.
+
+    Minimal temporary fixtures intentionally retain the injected-source path;
+    a production checkout uses the compiled helper so reviewing a large paper
+    does not elaborate the helper implementation in the same Lean process.
+    """
+
+    return (root / COMPILED_AUDIT_HELPER_SOURCE).is_file()
+
+
+def _build_compiled_audit_helper(root: Path, timeout_seconds: int) -> bool:
+    """Build the audit helper explicitly, never as a paper-theorem dependency."""
+
+    if not _compiled_audit_helper_available(root):
+        return False
+    try:
+        proc = subprocess.run(
+            ["lake", "build", COMPILED_AUDIT_HELPER_MODULE],
+            cwd=str(root),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            timeout=timeout_seconds,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return False
+    return proc.returncode == 0
 
 
 def _emit_manifest_timeout_diagnostic(
@@ -2929,6 +3365,92 @@ def _run_manifest_script(
             line
             for line in stdout.splitlines()
             if "LEAN_SIGNATURE_MANIFEST_DIAGNOSTIC:" in line
+        ]
+        if diagnostics:
+            print("\n".join(diagnostics[:8]), file=sys.stderr)
+        elif stdout.strip():
+            print(
+                "Lean direct-library dependency extraction returned no valid receipt:\n"
+                + stdout[:8000],
+                file=sys.stderr,
+            )
+    return parsed
+
+
+def _run_direct_library_dependency_surface_script(
+    root: Path,
+    script_prefix: str,
+    declaration_names: list[str],
+    timeout_seconds: int,
+) -> dict[str, tuple[str, ...]]:
+    """Ask Lean for direct EconCSLib dependencies without materializing graphs.
+
+    This intentionally has a much smaller memory profile than a full signature
+    manifest: it uses the same elaborated declaration bodies, but returns only
+    the direct reusable-library coordinates required to construct the human
+    source-to-library review surface.
+    """
+
+    names = sorted({str(name).strip() for name in declaration_names if str(name).strip()})
+    if not names or not HELPER_PATH.exists():
+        return {}
+    try:
+        helper = HELPER_PATH.read_text(encoding="utf-8")
+    except OSError:
+        return {}
+    script = _compose_helper_script(
+        script_prefix
+        + "\nset_option maxRecDepth 100000"
+        + "\nset_option maxHeartbeats 0",
+        helper,
+        "#direct_library_dependency_surface " + json.dumps(json.dumps(names)),
+    )
+    with tempfile.TemporaryDirectory() as tmpdir:
+        path = Path(tmpdir) / "direct_library_dependency_surface.lean"
+        path.write_text(script, encoding="utf-8")
+        try:
+            proc = subprocess.Popen(
+                ["lake", "env", "lean", str(path)],
+                cwd=str(root),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                start_new_session=True,
+            )
+            stdout_bytes, stderr_bytes = proc.communicate(timeout=timeout_seconds)
+        except OSError:
+            return {}
+        except subprocess.TimeoutExpired:
+            try:
+                os.killpg(proc.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            try:
+                proc.communicate(timeout=1)
+            except (OSError, subprocess.TimeoutExpired):
+                pass
+            return {}
+    stdout = stdout_bytes.decode("utf-8", errors="replace")
+    if proc.returncode != 0:
+        diagnostic = stderr_bytes.decode("utf-8", errors="replace")
+        if diagnostic.strip():
+            print(
+                "Lean direct-library dependency extraction failed:\n" + diagnostic[:8000],
+                file=sys.stderr,
+            )
+        else:
+            print(
+                "Lean direct-library dependency extraction failed without stderr "
+                f"(exit {proc.returncode}):\n"
+                + stdout_bytes.decode("utf-8", errors="replace")[:8000],
+                file=sys.stderr,
+            )
+        return {}
+    parsed = parse_direct_library_dependency_surface_output(stdout, names)
+    if not parsed:
+        diagnostics = [
+            line
+            for line in stdout.splitlines()
+            if "LEAN_DIRECT_LIBRARY_DEPENDENCY_SURFACE" in line
         ]
         if diagnostics:
             print("\n".join(diagnostics[:8]), file=sys.stderr)
@@ -3306,6 +3828,7 @@ def _run_semantic_contract_closure_script(
     *,
     hash_tool_path: str | None = None,
     inline_paper_scope: bool,
+    use_compiled_helper: bool = False,
     max_expansions: int,
     timeout_seconds: int,
 ) -> dict[str, dict[str, Any]]:
@@ -3325,7 +3848,13 @@ def _run_semantic_contract_closure_script(
         or any(not module for module in foundation_modules)
     ):
         return {}
-    helper = HELPER_PATH.read_text(encoding="utf-8")
+    if use_compiled_helper:
+        if not _compiled_audit_helper_available(root):
+            return {}
+        helper = ""
+        script_prefix = script_prefix + f"\nimport {COMPILED_AUDIT_HELPER_MODULE}"
+    else:
+        helper = HELPER_PATH.read_text(encoding="utf-8")
     encoded_scope = json.dumps(
         {
             "paper_modules": list(paper_modules),
@@ -4382,11 +4911,26 @@ def _closure_module_identity_snapshot(
     manifests: Mapping[str, Mapping[str, Any]],
     *,
     timeout_seconds: int,
+    lean_path: str | None = None,
 ) -> dict[str, list[dict[str, str]]]:
     """Hash every reached module once for one coherent closure snapshot."""
 
+    # Foundation entries are package roots, deliberately not individual
+    # ``.olean`` modules.  Their immutable package/toolchain identity is
+    # attached separately by ``_semantic_contract_closure_foundation_context``.
+    # Requiring a fictitious ``Mathlib.olean`` or ``Batteries.olean`` here
+    # would turn a valid compact package receipt into an unresolved artifact.
+    # Paper and unregistered external origins, in contrast, remain exact
+    # module artifacts and are byte-pinned below.
     origins_by_specification = {
-        specification: _closure_module_origin_pairs(manifest)
+        specification: [
+            (origin_class, module_origin)
+            for origin_class, module_origin in _closure_module_origin_pairs(manifest)
+            if not (
+                manifest.get("surface_mode") == "lean_dependency_fingerprint"
+                and origin_class == "foundation"
+            )
+        ]
         for specification, manifest in manifests.items()
     }
     reached_origins = {
@@ -4399,6 +4943,7 @@ def _closure_module_identity_snapshot(
         root,
         {module_origin for _origin_class, module_origin in reached_origins},
         timeout_seconds=timeout_seconds,
+        lean_path=lean_path,
     )
     return {
         specification: [
@@ -6573,6 +7118,421 @@ def run_lean_signature_manifests(
     return _CACHE[cache_key]
 
 
+def run_lean_direct_library_dependency_surface(
+    root: Path,
+    import_module: str,
+    declaration_names: list[str],
+    timeout_seconds: int = 120,
+    build_timeout_seconds: int = 600,
+) -> dict[str, tuple[str, ...]]:
+    """Return each current Spec's direct elaborated EconCSLib dependencies.
+
+    Unlike the full manifest route this retains neither recursive graphs nor
+    proof bodies.  It is the narrow source-to-library review inventory: Lean
+    resolves every direct constant in the transparent Spec, and callers decide
+    which reviewed library declaration owns a projection or structure field.
+    A failed build or incomplete Lean response yields no surface, never a
+    source-token fallback.
+    """
+
+    names = sorted({str(name).strip() for name in declaration_names if str(name).strip()})
+    if not names or not _build_import_target(root, import_module, build_timeout_seconds):
+        return {}
+    return _run_direct_library_dependency_surface_script(
+        root,
+        f"import Lean\nimport {import_module}",
+        names,
+        timeout_seconds,
+    )
+
+
+def _run_transparent_paper_spec_display_script(
+    root: Path,
+    script_prefix: str,
+    specification_names: list[str],
+    paper_modules: tuple[str, ...],
+    *,
+    max_expansions: int,
+    timeout_seconds: int,
+) -> dict[str, dict[str, Any]]:
+    """Ask Lean to pretty-print current transparent paper-local Spec bodies."""
+
+    names = sorted({str(name).strip() for name in specification_names if str(name).strip()})
+    modules = tuple(sorted({str(module).strip() for module in paper_modules if str(module).strip()}))
+    if (
+        not names
+        or not modules
+        or not HELPER_PATH.exists()
+        or not (1 <= max_expansions <= 4096)
+    ):
+        return {}
+    try:
+        helper = HELPER_PATH.read_text(encoding="utf-8")
+    except OSError:
+        return {}
+    request = json.dumps(
+        {"specifications": names, "paper_modules": list(modules)},
+        ensure_ascii=True,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+    script = _compose_helper_script(
+        script_prefix
+        + "\nset_option maxRecDepth 100000"
+        + "\nset_option maxHeartbeats 0",
+        helper,
+        "#transparent_paper_spec_display "
+        + json.dumps(request)
+        + " "
+        + json.dumps(str(max_expansions)),
+    )
+    with tempfile.TemporaryDirectory() as tmpdir:
+        path = Path(tmpdir) / "transparent_paper_spec_display.lean"
+        path.write_text(script, encoding="utf-8")
+        try:
+            proc = subprocess.Popen(
+                ["lake", "env", "lean", str(path)],
+                cwd=str(root),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                start_new_session=True,
+            )
+            stdout_bytes, stderr_bytes = proc.communicate(timeout=timeout_seconds)
+        except OSError:
+            return {}
+        except subprocess.TimeoutExpired:
+            try:
+                os.killpg(proc.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            try:
+                proc.communicate(timeout=1)
+            except (OSError, subprocess.TimeoutExpired):
+                pass
+            return {}
+    stdout = stdout_bytes.decode("utf-8", errors="replace")
+    if proc.returncode != 0:
+        diagnostic = stderr_bytes.decode("utf-8", errors="replace")
+        if diagnostic.strip():
+            print(
+                "Lean transparent-Spec display extraction failed:\n" + diagnostic[:8000],
+                file=sys.stderr,
+            )
+        else:
+            print(
+                "Lean transparent-Spec display extraction failed without stderr "
+                f"(exit {proc.returncode}):\n"
+                + stdout[:8000],
+                file=sys.stderr,
+            )
+        return {}
+    parsed = parse_transparent_paper_spec_display_output(stdout, names)
+    if not parsed:
+        diagnostics = [
+            line
+            for line in stdout.splitlines()
+            if "LEAN_TRANSPARENT_PAPER_SPEC_DISPLAY" in line
+        ]
+        if diagnostics:
+            print("\n".join(diagnostics[:8]), file=sys.stderr)
+    return parsed
+
+
+def _run_transparent_paper_declaration_display_script(
+    root: Path,
+    script_prefix: str,
+    declaration_names: list[str],
+    paper_modules: tuple[str, ...],
+    *,
+    timeout_seconds: int,
+) -> dict[str, dict[str, Any]]:
+    """Ask Lean for a recursive paper-prerequisite display closure."""
+
+    names = sorted({str(name).strip() for name in declaration_names if str(name).strip()})
+    modules = tuple(
+        sorted({str(module).strip() for module in paper_modules if str(module).strip()})
+    )
+    if not names or not modules or not HELPER_PATH.exists():
+        return {}
+    try:
+        helper = HELPER_PATH.read_text(encoding="utf-8")
+    except OSError:
+        return {}
+    request = json.dumps(
+        {"specifications": names, "paper_modules": list(modules)},
+        ensure_ascii=True,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+    script = _compose_helper_script(
+        script_prefix
+        + "\nset_option maxRecDepth 100000"
+        + "\nset_option maxHeartbeats 0",
+        helper,
+        "#transparent_paper_declaration_display " + json.dumps(request),
+    )
+    with tempfile.TemporaryDirectory() as tmpdir:
+        path = Path(tmpdir) / "transparent_paper_declaration_display.lean"
+        path.write_text(script, encoding="utf-8")
+        try:
+            proc = subprocess.Popen(
+                ["lake", "env", "lean", str(path)],
+                cwd=str(root),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                start_new_session=True,
+            )
+            stdout_bytes, stderr_bytes = proc.communicate(timeout=timeout_seconds)
+        except OSError:
+            return {}
+        except subprocess.TimeoutExpired:
+            try:
+                os.killpg(proc.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            try:
+                proc.communicate(timeout=1)
+            except (OSError, subprocess.TimeoutExpired):
+                pass
+            return {}
+    stdout = stdout_bytes.decode("utf-8", errors="replace")
+    if proc.returncode != 0:
+        diagnostic = stderr_bytes.decode("utf-8", errors="replace")
+        if diagnostic.strip():
+            print(
+                "Lean paper-prerequisite display extraction failed:\n" + diagnostic[:8000],
+                file=sys.stderr,
+            )
+        else:
+            print(
+                "Lean paper-prerequisite display extraction failed without stderr "
+                f"(exit {proc.returncode}):\n" + stdout[:8000],
+                file=sys.stderr,
+            )
+        return {}
+    parsed = parse_transparent_paper_declaration_display_output(stdout, names)
+    if not parsed:
+        diagnostics = [
+            line
+            for line in stdout.splitlines()
+            if "LEAN_TRANSPARENT_PAPER_DECLARATION_DISPLAY" in line
+        ]
+        if diagnostics:
+            print("\n".join(diagnostics[:8]), file=sys.stderr)
+        elif stdout.strip():
+            print(
+                "Lean paper-prerequisite display extraction emitted no valid receipt:\n"
+                + stdout[:8000],
+                file=sys.stderr,
+            )
+    return parsed
+
+
+def _run_transparent_library_declaration_display_script(
+    root: Path,
+    script_prefix: str,
+    declaration_names: list[str],
+    *,
+    timeout_seconds: int,
+) -> dict[str, dict[str, Any]]:
+    """Ask Lean for each library root's own transparent semantic target."""
+
+    names = sorted({str(name).strip() for name in declaration_names if str(name).strip()})
+    if (
+        not names
+        or any(not name.startswith("EconCSLib.") for name in names)
+        or not HELPER_PATH.exists()
+    ):
+        return {}
+    try:
+        helper = HELPER_PATH.read_text(encoding="utf-8")
+    except OSError:
+        return {}
+    script = _compose_helper_script(
+        script_prefix
+        + "\nset_option maxRecDepth 100000"
+        + "\nset_option maxHeartbeats 0",
+        helper,
+        "#transparent_library_declaration_display "
+        + json.dumps(
+            json.dumps(names, ensure_ascii=True, separators=(",", ":")),
+            ensure_ascii=True,
+        ),
+    )
+    with tempfile.TemporaryDirectory() as tmpdir:
+        path = Path(tmpdir) / "transparent_library_declaration_display.lean"
+        path.write_text(script, encoding="utf-8")
+        try:
+            proc = subprocess.Popen(
+                ["lake", "env", "lean", str(path)],
+                cwd=str(root),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                start_new_session=True,
+            )
+            stdout_bytes, stderr_bytes = proc.communicate(timeout=timeout_seconds)
+        except OSError:
+            return {}
+        except subprocess.TimeoutExpired:
+            try:
+                os.killpg(proc.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            try:
+                proc.communicate(timeout=1)
+            except (OSError, subprocess.TimeoutExpired):
+                pass
+            return {}
+    stdout = stdout_bytes.decode("utf-8", errors="replace")
+    if proc.returncode != 0:
+        diagnostic = stderr_bytes.decode("utf-8", errors="replace")
+        if diagnostic.strip():
+            print(
+                "Lean transparent-library display extraction failed:\n" + diagnostic[:8000],
+                file=sys.stderr,
+            )
+        else:
+            print(
+                "Lean transparent-library display extraction failed without stderr "
+                f"(exit {proc.returncode}):\n" + stdout[:8000],
+                file=sys.stderr,
+            )
+        return {}
+    parsed = parse_transparent_library_declaration_display_output(stdout, names)
+    if not parsed:
+        diagnostics = [
+            line
+            for line in stdout.splitlines()
+            if "LEAN_TRANSPARENT_LIBRARY_DECLARATION_DISPLAY" in line
+        ]
+        if diagnostics:
+            print("\n".join(diagnostics[:8]), file=sys.stderr)
+        elif stdout.strip():
+            print(
+                "Lean transparent-library display extraction emitted no valid receipt:\n"
+                + stdout[:8000],
+                file=sys.stderr,
+            )
+    return parsed
+
+
+def run_lean_transparent_paper_spec_displays(
+    root: Path,
+    import_module: str,
+    specification_names: list[str],
+    paper_modules: tuple[str, ...],
+    *,
+    max_expansions: int = 512,
+    timeout_seconds: int = 120,
+    build_timeout_seconds: int = 600,
+    build_input_provider: RepositoryBuildInputSnapshotProvider | None = None,
+    require_build: bool = True,
+) -> dict[str, dict[str, Any]]:
+    """Return Lean-owned readable semantic targets for source-to-Spec review.
+
+    A target is available only after Lean builds the selected import module and
+    fully eliminates transparent declarations owned by the paper.  Imported
+    library declarations intentionally remain visible so the separate library
+    review surface can show their exact definitions and source connections.
+    """
+
+    names = sorted({str(name).strip() for name in specification_names if str(name).strip()})
+    modules = tuple(sorted({str(module).strip() for module in paper_modules if str(module).strip()}))
+    if not names or not modules or not (1 <= max_expansions <= 4096):
+        return {}
+    # Receipt-producing audit callers leave this enabled.  Packet rendering is
+    # deliberately non-certifying and may reuse a just-built interface: asking
+    # Lake to rebuild the same large import closure immediately before the
+    # independent Lean display pass can consume the whole renderer budget.
+    if require_build and not _build_import_target(
+        root,
+        import_module,
+        build_timeout_seconds,
+        provider=build_input_provider,
+    ):
+        return {}
+    return _run_transparent_paper_spec_display_script(
+        root,
+        f"import Lean\nimport {import_module}",
+        names,
+        modules,
+        max_expansions=max_expansions,
+        timeout_seconds=timeout_seconds,
+    )
+
+
+def run_lean_transparent_paper_declaration_displays(
+    root: Path,
+    import_module: str,
+    declaration_names: list[str],
+    paper_modules: tuple[str, ...],
+    *,
+    timeout_seconds: int = 120,
+    build_timeout_seconds: int = 600,
+    build_input_provider: RepositoryBuildInputSnapshotProvider | None = None,
+    require_build: bool = True,
+) -> dict[str, dict[str, Any]]:
+    """Return Lean-owned semantic displays for retained paper-local objects.
+
+    Every transparent definition is opened exactly at its own root.  Named
+    paper and library dependencies left in that elaborated body become
+    recursive review cards; Python only carries Lean's resulting closure.
+    """
+
+    names = sorted({str(name).strip() for name in declaration_names if str(name).strip()})
+    modules = tuple(
+        sorted({str(module).strip() for module in paper_modules if str(module).strip()})
+    )
+    if not names or not modules:
+        return {}
+    if require_build and not _build_import_target(
+        root,
+        import_module,
+        build_timeout_seconds,
+        provider=build_input_provider,
+    ):
+        return {}
+    return _run_transparent_paper_declaration_display_script(
+        root,
+        f"import Lean\nimport {import_module}",
+        names,
+        modules,
+        timeout_seconds=timeout_seconds,
+    )
+
+
+def run_lean_transparent_library_declaration_displays(
+    root: Path,
+    import_module: str,
+    declaration_names: list[str],
+    *,
+    timeout_seconds: int = 120,
+    build_timeout_seconds: int = 600,
+    require_build: bool = True,
+) -> dict[str, dict[str, Any]]:
+    """Return Lean-expanded own bodies for reusable library declarations.
+
+    This is deliberately a shallow declaration-level expansion: names left in
+    a definition's body form their own library review cards instead of being
+    hidden by a recursive pretty-printer.  The function is Lean-owned; Python
+    only validates and hashes the emitted transport.
+    """
+
+    names = sorted({str(name).strip() for name in declaration_names if str(name).strip()})
+    if not names or any(not name.startswith("EconCSLib.") for name in names):
+        return {}
+    if require_build and not _build_import_target(
+        root, import_module, build_timeout_seconds
+    ):
+        return {}
+    return _run_transparent_library_declaration_display_script(
+        root,
+        f"import Lean\nimport {import_module}",
+        names,
+        timeout_seconds=timeout_seconds,
+    )
+
+
 def run_lean_signature_manifest_revalidations(
     root: Path,
     import_module: str,
@@ -7513,11 +8473,12 @@ def run_lean_semantic_contract_closure_manifests(
 ) -> dict[str, dict[str, Any]]:
     """Return bounded Lean-owned closure manifests for transparent `Spec : Prop`.
 
-    `paper_modules` is the exact filesystem-derived paper module set.  Lean
-    treats any declaration whose compiled module lies elsewhere under this
-    workspace as a visible, blocking `workspace` dependency.  The optional
-    foundation tuple is an explicit package-module registry; it is never
-    inferred from declaration or binder names.
+    `paper_modules` is the exact filesystem-derived paper module set.  The
+    Lean helper identifies the recursive declaration closure with Lean's own
+    environment utility.  It receives only that paper set and the explicit
+    foundation package registry: any other loaded dependency is visible as an
+    unregistered external terminal and fails closed.  This avoids an
+    expensive, unrelated inventory of every compiled workspace module.
     """
 
     specifications = tuple(
@@ -7529,6 +8490,7 @@ def run_lean_semantic_contract_closure_manifests(
     foundations = tuple(
         sorted(set(module.strip() for module in foundation_modules if module.strip()))
     )
+    use_compiled_helper = _compiled_audit_helper_available(root)
     hash_tool_identity = _semantic_contract_closure_hash_tool_identity()
     if (
         not specifications
@@ -7542,6 +8504,10 @@ def run_lean_semantic_contract_closure_manifests(
             build_timeout_seconds,
             provider=build_input_provider,
         )
+        or (
+            use_compiled_helper
+            and not _build_compiled_audit_helper(root, build_timeout_seconds)
+        )
     ):
         return {}
     olean_fingerprint = _built_olean_fingerprint(root, import_module)
@@ -7549,22 +8515,50 @@ def run_lean_semantic_contract_closure_manifests(
     module_fingerprints = _paper_module_olean_fingerprints(root, modules)
     if olean_fingerprint is None or helper_fingerprint is None:
         return {}
-    loaded_candidates = _lean_loaded_module_candidates(
-        root,
-        import_module,
-        timeout_seconds=build_timeout_seconds,
-        provider=build_input_provider,
-    )
-    if loaded_candidates is None:
+    if import_module not in modules:
         return {}
+    # Production uses the compiled Lean utility. It does not need a Python
+    # inventory of the entire imported workspace: any local module outside
+    # the explicit paper set becomes an unregistered external dependency and
+    # blocks the receipt. Hermetic source-injection fixtures retain the older
+    # explicit inventory path so they can exercise its historical parser.
+    loaded_candidates: tuple[str, ...] = ()
+    if use_compiled_helper:
+        workspace_modules: tuple[str, ...] = ()
+        workspace_scope_sha256 = _closure_json_sha256(
+            {
+                "schema": SEMANTIC_CONTRACT_CLOSURE_SCHEMA,
+                "ownership_policy": "unregistered_loaded_module_is_external_fail_closed_v1",
+                "paper_modules": list(modules),
+            }
+        )
+    else:
+        loaded = _lean_loaded_module_candidates(
+            root,
+            import_module,
+            timeout_seconds=build_timeout_seconds,
+            provider=build_input_provider,
+        )
+        if loaded is None:
+            return {}
+        loaded_candidates = loaded
+        provisional_lean_path = _lake_env_lean_path(root, build_timeout_seconds)
+        if not provisional_lean_path:
+            return {}
+        legacy_workspace_scope = _loaded_workspace_module_scope(
+            root, loaded_candidates, provisional_lean_path
+        )
+        if legacy_workspace_scope is None:
+            return {}
+        workspace_modules, workspace_scope_sha256 = legacy_workspace_scope
+        if import_module not in workspace_modules:
+            return {}
+    # Obtain Lean's package search path once before launching the bounded
+    # closure subprocess. Reusing it for both before/after artifact pins
+    # avoids a second Lake environment process immediately after a large Lean
+    # import, which was pure overhead and could briefly exceed host memory.
     lean_path = _lake_env_lean_path(root, build_timeout_seconds)
     if not lean_path:
-        return {}
-    workspace_scope = _loaded_workspace_module_scope(root, loaded_candidates, lean_path)
-    if workspace_scope is None:
-        return {}
-    workspace_modules, workspace_scope_sha256 = workspace_scope
-    if import_module not in workspace_modules:
         return {}
     context_sha256 = _semantic_contract_closure_context_sha256(
         root,
@@ -7599,13 +8593,21 @@ def run_lean_semantic_contract_closure_manifests(
             return cached
         del _SEMANTIC_CONTRACT_CLOSURE_CACHE[cache_key]
 
+    # A compiled compact closure can only reach paper modules (which are exact
+    # byte-pinned artifacts) and registered foundation package roots (which
+    # are pinned by the Lake/toolchain foundation context). The injected test
+    # fallback retains its legacy prepass for fixture compatibility.
     candidate_artifacts = _closure_module_artifact_snapshot(
         root,
-        loaded_candidates,
+        modules if use_compiled_helper else loaded_candidates,
         timeout_seconds=build_timeout_seconds,
         lean_path=lean_path,
     )
     names = list(specifications)
+    # A statement closure is compact, but a long paper still accumulates Meta
+    # state while Lean elaborates each request. Keep the bounded four-row
+    # batches so any pathological row fails closed without turning an entire
+    # paper's receipt into one large resident process.
     batches = _semantic_contract_closure_batches(names)
     uses_chunking = len(batches) > 1
     # Each requested timeout is already an external per-process wall bound.
@@ -7623,7 +8625,8 @@ def run_lean_semantic_contract_closure_manifests(
             workspace_modules,
             foundations,
             hash_tool_path=hash_tool_identity["resolved_path"],
-            inline_paper_scope=False,
+            inline_paper_scope=not use_compiled_helper,
+            use_compiled_helper=use_compiled_helper,
             max_expansions=max_expansions,
             timeout_seconds=(batch_timeout if uses_chunking else timeout_seconds),
         )
@@ -7642,7 +8645,8 @@ def run_lean_semantic_contract_closure_manifests(
                     workspace_modules,
                     foundations,
                     hash_tool_path=hash_tool_identity["resolved_path"],
-                    inline_paper_scope=False,
+                    inline_paper_scope=not use_compiled_helper,
+                    use_compiled_helper=use_compiled_helper,
                     max_expansions=max_expansions,
                     timeout_seconds=batch_timeout,
                 )
@@ -7652,6 +8656,8 @@ def run_lean_semantic_contract_closure_manifests(
                     )
                 )
     requested = _requested_semantic_contract_closure_manifests(manifests, names)
+    if _paper_module_olean_fingerprints(root, modules) != module_fingerprints:
+        return {}
     if (
         _semantic_contract_closure_context_sha256(
             root,
@@ -7671,6 +8677,7 @@ def run_lean_semantic_contract_closure_manifests(
         root,
         contextualized,
         timeout_seconds=build_timeout_seconds,
+        lean_path=lean_path,
     )
     if not _semantic_contract_closure_reached_artifacts_match_candidates(
         candidate_artifacts,

@@ -2,24 +2,24 @@
   "schema": 1,
   "paper": "GS62CollegeAdmissions",
   "title": "College Admissions and the Stability of Marriage",
-  "generated_at": "2026-08-04T00:00:00Z",
+  "generated_at": "2026-08-17T00:00:00Z",
   "source_url": "https://doi.org/10.1080/00029890.1962.11989827; https://www.jstor.org/stable/2312726",
   "source_version": "American Mathematical Monthly 69(1), January 1962, printed pages 9-15",
   "source_artifact_path": "source.txt",
-  "source_artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
+  "source_artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
   "source_text_companion": {
     "schema": 1,
     "canonical_text": {
       "path": "source.txt",
-      "sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799"
+      "sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d"
     },
     "visual_primary_scan": {
       "path": "source.pdf",
-      "sha256": "953a8123e8120a86b17ae3de92cb51abb5aed420fe11b97fe2a666a8e637d09b"
+      "sha256": "828c80ac9607df374c4f3e3b51af5db4e43952c60b2f5dba8dc7f3c6c568b21d"
     },
     "transcript_input_scan": {
-      "path": "source_text_layer.pdf",
-      "sha256": "8c897503c47c066d057f88311ae928703b829b3215cad3ec534c18558ff06314"
+      "path": "source.pdf",
+      "sha256": "828c80ac9607df374c4f3e3b51af5db4e43952c60b2f5dba8dc7f3c6c568b21d"
     },
     "extraction": {
       "tool": "pdftotext",
@@ -30,63 +30,63 @@
     "page_map": [
       {
         "line_start": 1,
-        "line_end": 52,
+        "line_end": 71,
         "pdf_page": 2,
         "printed_page": 9
       },
       {
-        "line_start": 53,
-        "line_end": 106,
+        "line_start": 72,
+        "line_end": 119,
         "pdf_page": 3,
         "printed_page": 10
       },
       {
-        "line_start": 107,
-        "line_end": 162,
+        "line_start": 120,
+        "line_end": 161,
         "pdf_page": 4,
         "printed_page": 11
       },
       {
-        "line_start": 163,
-        "line_end": 215,
+        "line_start": 162,
+        "line_end": 202,
         "pdf_page": 5,
         "printed_page": 12
       },
       {
-        "line_start": 216,
-        "line_end": 269,
+        "line_start": 203,
+        "line_end": 244,
         "pdf_page": 6,
         "printed_page": 13
       },
       {
-        "line_start": 270,
-        "line_end": 322,
+        "line_start": 245,
+        "line_end": 288,
         "pdf_page": 7,
         "printed_page": 14
       },
       {
-        "line_start": 323,
-        "line_end": 348,
+        "line_start": 289,
+        "line_end": 334,
         "pdf_page": 8,
         "printed_page": 15
       }
     ],
     "visual_comparison_attestation": {
       "complete": true,
-      "method": "Compared every mapped transcript page against the corresponding article page in the primary JSTOR scan, including headings, displayed statements, page breaks, and OCR-sensitive preference symbols."
+      "method": "The private text extraction was checked against the pinned primary scan for the five selected source items and their source contexts."
     }
   },
   "source_access_status": {
     "primary_source_text_cached": true,
     "source_artifact_pinned": true,
-    "artifact_kind": "visually checked transcript of a published JSTOR scan",
+    "artifact_kind": "primary published scan with a private text extraction",
     "article_pages_inspected": "printed pages 9-15",
-    "text_layer_status": "The canonical transcript was extracted with pdftotext -layout from a companion text-layer PDF and checked page by page against the primary scan."
+    "text_layer_status": "The checked private source.txt is a pdftotext -layout extraction of the pinned complete article scan. It is source-review material and is not for public redistribution."
   },
   "source_inventory_kind": "source_curated_named_theory",
   "source_curated": true,
   "source_curator": "Codex GS62 source-only named-result reconciliation",
-  "source_curated_at": "2026-08-04T00:00:00Z",
+  "source_curated_at": "2026-08-17T00:00:00Z",
   "source_coverage_mode": "named_theoretical_statements",
   "source_anchor_evidence_required": true,
   "semantic_contract_schema": 1,
@@ -110,24 +110,24 @@
     "schema": 1,
     "complete": true,
     "validator": "Codex GS62 source-only presentation extractor",
-    "validated_at": "2026-08-04T00:00:00Z",
-    "method": "Independently indexed the exact canonical transcript and checked it against the primary scan before consulting source-map keys or Lean names. The visible named-result index contains two unnumbered displayed Definitions and Theorems 1 and 2. A separate complete prose-definition pass adds the Section 3 marriage-instability definition, records the Example 3 roommate definition as deep-only under the standing user scope instruction, and records possible-college as proof-local notation.",
-    "source_artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-    "discovered_named_result_sha256": "aaf8dc302308f9e3c6bec0491d39df7d80268264978fe0cbf368e819c34610ac",
+    "validated_at": "2026-08-17T00:00:00Z",
+    "method": "Independently indexed the exact current primary-scan extraction before consulting source-map keys or Lean names. The source-only extractor finds two unnumbered displayed Definitions and Theorems 1 and 2; the named-result receipt digest contains Theorems 1 and 2 after the separate prose-definition inventory claims the displayed definitions. That complete prose-definition pass adds the Section 3 marriage-instability definition, records the Example 3 roommate definition as deep-only under the standing user scope instruction, and records possible-college as proof-local notation.",
+    "source_artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+    "discovered_named_result_sha256": "c2400113111f10f996a8905f5e669cfb127f97175594a5a01292877ee6cac4b7",
     "prose_definition_presentations": [
       {
         "schema": 1,
         "presentation_kind": "definition",
         "defined_entity_kind": "predicate",
-        "defined_object": "set of marriages unstable",
-        "definitional_clause": "Imitating our earlier definition, we call a set of marriages unstable (and here the suitability of the term is quite clear) if under it there are a man and a woman who are not married to each other but prefer each other to their actual mates.",
+        "defined_object": "set of marriagesunstable",
+    "definitional_clause": "Imitatingour earlierdefinition,we call a set of marriagesunstable(and here the suitabilityof the termis quite clear) if under it thereare a man and a woman who are not marriedto each other but prefereach other to theiractual mates.",
         "scope_disposition": "normal_named_theory_definition",
         "source_anchor": {
           "path": "source.txt",
-          "line_start": 121,
-          "line_end": 127,
-          "quoted_text": "    A certain community consists of n men and n women. Each person ranks\nthose of the opposite sex in accordance with his or her preferences for a marriage\npartner. We seek a satisfactory way of marrying off all members of the com-\nmunity. Imitating our earlier definition, we call a set of marriages unstable (and\nhere the suitability of the term is quite clear) if under it there are a man and a\nwoman who are not married to each other but prefer each other to their actual\nmates.",
-          "quoted_text_sha256": "cef274aec753d24c934c665d7c6e6d69474aee631f5aa54627b9c22cb728f5ca"
+          "line_start": 133,
+          "line_end": 139,
+          "quoted_text": "   A certain communityconsists of n men and n women. Each person ranks\nthose of the opposite sex in accordance with his or her preferencesfora marriage\npartner.We seek a satisfactoryway of marryingoffall membersof the com-\nmunity.Imitatingour earlierdefinition,we call a set of marriagesunstable(and\nhere the suitabilityof the termis quite clear) if under it thereare a man and a\nwoman who are not marriedto each other but prefereach other to theiractual\nmates.",
+          "quoted_text_sha256": "ef0ef634cb9f445ecf54525d6d9d3751f4f1b0eac61054a6486522cfbebd6877"
         }
       },
       {
@@ -135,7 +135,7 @@
         "presentation_kind": "definition",
         "defined_entity_kind": "predicate",
         "defined_object": "set of pairings",
-        "definitional_clause": "A set of pairings is called stable if under it there are no two boys who are not roommates and who prefer each other to their actual roommates.",
+    "definitional_clause": "A set of pairingsis called stableif underit thereare no two boys who are not roommatesand who prefereach other to theiractual roommates.",
         "scope_disposition": "deep_only_definition",
         "scope_reason": "This predicate occurs inside Example 3's roommate counterexample, not as a paper-facing marriage or college-admissions definition or a named theoretical result, so the standing normal-scope rule assigns it to deep all-prose review.",
         "scope_judgment": "excluded_from_normal_named_theory",
@@ -144,10 +144,10 @@
         "validated_at": "2026-08-04T00:00:00Z",
         "source_anchor": {
           "path": "source.txt",
-          "line_start": 179,
-          "line_end": 183,
-          "quoted_text": "   Example 3. A problem similar to the marriage problem is the \"problem of\nthe roommates.\" An even number of boys wish to divide up into pairs of room-\nmates. A set of pairings is called stable if under it there are no two boys who are\nnot roommates and who prefer each other to their actual roommates. An easy\nexample shows that there can be situations in which there exists no stable pair-",
-          "quoted_text_sha256": "0487dc351679a1f0159d3f8064f6f0c0f1871cf3476b3e44355f12f62c8136de"
+          "line_start": 174,
+          "line_end": 178,
+          "quoted_text": "    Example 3. A problem similar to the marriage problem is the \"problem of\nthe roommates.\"An even numberof boys wish to divide up into pairs of room-\nmates. A set of pairingsis called stableif underit thereare no two boys who are\nnot roommatesand who prefereach other to theiractual roommates.An easy\nexample shows that therecan be situations in which thereexists no stable pair-",
+          "quoted_text_sha256": "49258fe4b149dcb4aacc9d9c7c486242154671eafe7dfcf0176085108eb64df5"
         },
         "normal_scope_exclusion_approval": {
           "schema": 1,
@@ -155,14 +155,14 @@
           "approval_reference": "2026-08-04 standing user instruction: normal coverage checks named theoretical statements and paper-facing definitions; examples and other prose components belong only to deep all-prose mode.",
           "approved_at": "2026-08-04T00:00:00Z"
         },
-        "scope_judgment_source_sha256": "dc4e65e473a60fd877f5a916d8a9af5f35b538b60a3fe5086bfba9557ad9429e"
+        "scope_judgment_source_sha256": "fb6fb83c942e38e6d75f4041da8c9994dd8292cfd7a079eee9217baaa2c8159e"
       },
       {
         "schema": 1,
         "presentation_kind": "definition",
         "defined_entity_kind": "predicate",
         "defined_object": "college \"possible\"",
-        "definitional_clause": "Let us call a college \"possible\" for a particular applicant if there is a stable assignment that sends him there.",
+    "definitional_clause": "Let us call a college \"possible\" fora particularapplicant if there is a stable assignmentthat sends him there.",
         "scope_disposition": "local_proof_notation",
         "scope_reason": "Possible college is introduced only inside the proof of Theorem 2 as the induction predicate used to characterize rejections; it is not a paper-facing definition or independent result.",
         "scope_judgment": "excluded_from_normal_named_theory",
@@ -171,33 +171,33 @@
         "validated_at": "2026-08-04T00:00:00Z",
         "source_anchor": {
           "path": "source.txt",
-          "line_start": 284,
-          "line_end": 285,
-          "quoted_text": "    Proof. Let us call a college \"possible\" for a particular applicant if there is a\nstable assignment that sends him there. The proof is by induction. Assume that",
-          "quoted_text_sha256": "a4e25e11f4a684b73733cbf2cc0c4f0ba9b72c668ebc0ba133f8e85ce2a95c52"
+          "line_start": 256,
+          "line_end": 257,
+          "quoted_text": "    Proof. Let us call a college \"possible\" fora particularapplicant if there is a\nstable assignmentthat sends him there.The proofis by induction.Assume that",
+          "quoted_text_sha256": "cd108bcfe0fd20bcd2357295dc961a4b0640f90abd8c15ee35ca3a9fbc324988"
         },
-        "scope_judgment_source_sha256": "7467fd8b63cad3d0ae2640a70b27ef4bf57182e696fcffd91f4e678e8727999d"
+        "scope_judgment_source_sha256": "ccd3a8854020a336fd6b0c6dc2fe43c2e65d8a15f55f083dc0ed1e31433c78fe"
       }
     ],
-    "discovered_prose_definition_sha256": "e60e0ca7f351407a419d2ebaaea05125d5978055ac943a40ad584f9f707fd701"
+    "discovered_prose_definition_sha256": "020f94889c84bace4b912291438540eba8ddb6690d03cd6dd3598959c0e4a43b"
   },
   "items": {
     "displayed_unstable_college_assignment_definition": {
       "statement": "Displayed Definition: an assignment is unstable when applicants alpha and beta are assigned to colleges A and B, respectively, beta prefers A to B, and A prefers beta to alpha.",
       "source_url": "https://www.jstor.org/stable/2312726",
-      "source_location": "source.txt:76-78; printed page 10, first displayed Definition",
+      "source_location": "source.txt:93-98 (printed page 10, first displayed Definition)",
       "source_kind": "definition",
       "source_status": "direct_source_definition",
       "claim_bearing": true,
       "semantic_contract": {
         "spec_declaration": "GS62CollegeAdmissions.PaperInterface.unstableCollegeAssignment_iff_source_definitionSpec",
-        "evidence_declaration": "GS62CollegeAdmissions.PaperInterface.unstableCollegeAssignment_iff_source_definition",
+        "evidence_declaration": "GS62CollegeAdmissions.ProofInterface.unstableCollegeAssignment_iff_source_definition",
         "evidence_mode": "proves",
         "semantic_shape": "plain"
       },
       "source_note": "This row formalizes the displayed replacement-pair definition literally. It does not silently add individual rationality, vacancy blocks, or blocks by an unmatched applicant.",
       "lean_declarations": [
-        "GS62CollegeAdmissions.PaperInterface.unstableCollegeAssignment_iff_source_definition"
+        "GS62CollegeAdmissions.ProofInterface.unstableCollegeAssignment_iff_source_definition"
       ],
       "support_lean_declarations": [
         "GS62CollegeAdmissions.PaperInterface.unstableCollegeAssignment_iff_source_definitionSpec"
@@ -205,156 +205,178 @@
       "source_anchor_evidence": [
         {
           "path": "source.txt",
-          "line_start": 76,
-          "line_end": 78,
-          "quoted_text": "   DEFINITION. An assignment of applicants to colleges will be called unstable if\nthere are two applicants a and ,B who are assigned to colleges A and B, respectively,\nalthough ,3 prefers A to B and A prefers : to a.",
-          "quoted_text_sha256": "825c7c5e1dd1aee78a3c5c9cf501960b54d52650504269078a554366783c7a44"
+          "line_start": 93,
+          "line_end": 98,
+          "quoted_text": "   DEFINITION. An assignment  ofapplicantstocolleges\n                                                   willbecalledunstableif\nthereare twoapplicantsa and ,Bwhoare assignedtocolleges\n                                                      A andB, respectively,\nalthough        A toB and A prefers: toa.\n        ,3prefers",
+          "quoted_text_sha256": "428be34342d658bf68ae968d7383233831758a9b3964ea12d462d8ffbbaa4f01"
         }
       ],
       "source_claim_atoms": [
         {
           "id": "unstable_college.replacement_pair",
-          "source_locator": "source.txt:76-78",
-          "source_quote_sha256": "825c7c5e1dd1aee78a3c5c9cf501960b54d52650504269078a554366783c7a44",
+          "source_locator": "source.txt:93-98",
+          "source_quote_sha256": "428be34342d658bf68ae968d7383233831758a9b3964ea12d462d8ffbbaa4f01",
           "semantic_claim": "An assignment is unstable when two currently assigned applicants and their colleges form the displayed mutually improving replacement pair.",
-          "reviewed_lean_route": "GS62CollegeAdmissions.PaperInterface.unstableCollegeAssignment_iff_source_definition"
+          "reviewed_lean_route": "GS62CollegeAdmissions.ProofInterface.unstableCollegeAssignment_iff_source_definition"
         }
       ],
       "source_spec_correspondence": {
         "schema": 1,
-        "source_atoms_sha256": "c78803972cf8642020d982a933f3b419eda1eb47dc3814090f7bca6f3b2a815d",
-        "spec_closure_sha256": "ced3cfba8363b8ecf67cff23a69697fede6b27ae3466f8706da63eaa0cfb90f3",
-        "spec_surface_sha256": "e45fab2761ac6b40763587121d33811bf7896da4eb709ec575e977458f5fbe44",
-        "closure_environment_sha256": "6ea5c0dec9c89605110d3f17c08aa6620d33746f9bfa3f8b9fb74fe2eb74aa67",
+        "source_atoms_sha256": "f80bdaecf361815241455e296a656dd2c240ee3ffa07c99b3134b5618940fa34",
+        "spec_closure_sha256": "df349403c2ba222b1b8decd8aaf31d1bea2ab7d4a550fb2dd14fa7d94e2062d8",
+        "spec_surface_sha256": "9d9501f41276276397666b1cb5d3b374c61540339e1e3e24819dc2a6d2201a6e",
+        "closure_environment_sha256": "9c58db6b168bec9c39d5b57826dff691120019442a0a10a0d95557e655759e7b",
         "source_atom_bindings": [
           {
-            "source_atom_sha256": "9a5f55f589c25f858f264d16dd3d34879aca53a7a9ee86e9bd1b27013178afe7",
+            "source_atom_sha256": "2e64408890b0818c56f20666d456f290a479292d07ee8a9641383512b0adaa26",
             "spec_component_sha256s": [
-              "e45fab2761ac6b40763587121d33811bf7896da4eb709ec575e977458f5fbe44"
+              "9d9501f41276276397666b1cb5d3b374c61540339e1e3e24819dc2a6d2201a6e"
             ],
             "semantic_bridge": "The root Spec is exactly the displayed existential replacement-pair clause: both current assignments and both strict improvement comparisons are retained, without adding vacancy, unmatched-applicant, or individual-rationality conditions."
           }
         ],
         "closure_node_dispositions": [
           {
-            "closure_component_sha256": "6088138f779889707ad7f1deaf30fc59c4bff6ec2c071a8d1942b8a5a0d38c65",
-            "source_atom_sha256": "9a5f55f589c25f858f264d16dd3d34879aca53a7a9ee86e9bd1b27013178afe7",
+            "closure_component_sha256": "f4c4540ee55ec234c7fdd5151c2950af61e3ec0820a9e0a5226ea7398055e6e0",
+            "source_atom_sha256": "2e64408890b0818c56f20666d456f290a479292d07ee8a9641383512b0adaa26",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:76-78",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:93-98",
+              "semantic_statement": "The displayed clause is a predicate on an assignment of applicants to colleges; this imported structure is the many-to-one assignment object on which the literal replacement-pair condition is evaluated."
+            },
+            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
+          },
+          {
+            "closure_component_sha256": "ff9c737d93120f7fde5e2b9ee55752b6344ea15c430edd2202ab80249d94cc73",
+            "source_atom_sha256": "2e64408890b0818c56f20666d456f290a479292d07ee8a9641383512b0adaa26",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:93-98",
               "semantic_statement": "The displayed clause is a predicate on an assignment of applicants to colleges; this imported structure is the many-to-one assignment object on which the literal replacement-pair condition is evaluated."
             },
             "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
           },
           {
             "closure_component_sha256": "6ab39dfe819a524195364b8e1d782f9d571d9364c1d1b8ba01cba8de08137bc6",
-            "source_atom_sha256": "9a5f55f589c25f858f264d16dd3d34879aca53a7a9ee86e9bd1b27013178afe7",
+            "source_atom_sha256": "2e64408890b0818c56f20666d456f290a479292d07ee8a9641383512b0adaa26",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:76-78",
-              "semantic_statement": "The displayed clause is a predicate on an assignment of applicants to colleges; this imported structure is the many-to-one assignment object on which the literal replacement-pair condition is evaluated."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "94e2b0a8aa79f012fb8f6e46f3fda00408cbc247a87840aea63c72bb2973fc66",
-            "source_atom_sha256": "9a5f55f589c25f858f264d16dd3d34879aca53a7a9ee86e9bd1b27013178afe7",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:76-78",
-              "semantic_statement": "The displayed clause explicitly identifies the college currently assigned to each of two applicants; this imported projection supplies exactly that current-college observation."
-            },
-            "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
-          },
-          {
-            "closure_component_sha256": "b5b2e0a07ca301e1223813c08498e2ea0f8fa3e721446b6b48d8538e0bead42c",
-            "source_atom_sha256": "9a5f55f589c25f858f264d16dd3d34879aca53a7a9ee86e9bd1b27013178afe7",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:76-78",
-              "semantic_statement": "The displayed clause is a predicate on an assignment of applicants to colleges; this imported structure is the many-to-one assignment object on which the literal replacement-pair condition is evaluated."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "c097c66789faffee894f6c976c93e2200317e23e91debd65e795fb674d0d58e6",
-            "source_atom_sha256": "9a5f55f589c25f858f264d16dd3d34879aca53a7a9ee86e9bd1b27013178afe7",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:76-78",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:93-98",
               "semantic_statement": "The displayed clause is a predicate on an assignment of applicants to colleges; this imported structure is the many-to-one assignment object on which the literal replacement-pair condition is evaluated."
             },
             "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
           },
           {
             "closure_component_sha256": "e8374630cfd7506ec2855196d8eb21f2cbf3fc664c8beb1d514699a52b91e611",
-            "source_atom_sha256": "9a5f55f589c25f858f264d16dd3d34879aca53a7a9ee86e9bd1b27013178afe7",
+            "source_atom_sha256": "2e64408890b0818c56f20666d456f290a479292d07ee8a9641383512b0adaa26",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:76-78",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:93-98",
               "semantic_statement": "The displayed clause is a predicate on an assignment of applicants to colleges; this imported structure is the many-to-one assignment object on which the literal replacement-pair condition is evaluated."
             },
             "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
           },
           {
-            "closure_component_sha256": "f4c4540ee55ec234c7fdd5151c2950af61e3ec0820a9e0a5226ea7398055e6e0",
-            "source_atom_sha256": "9a5f55f589c25f858f264d16dd3d34879aca53a7a9ee86e9bd1b27013178afe7",
+            "closure_component_sha256": "b5b2e0a07ca301e1223813c08498e2ea0f8fa3e721446b6b48d8538e0bead42c",
+            "source_atom_sha256": "2e64408890b0818c56f20666d456f290a479292d07ee8a9641383512b0adaa26",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:76-78",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:93-98",
+              "semantic_statement": "The displayed clause is a predicate on an assignment of applicants to colleges; this imported structure is the many-to-one assignment object on which the literal replacement-pair condition is evaluated."
+            },
+            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
+          },
+          {
+            "closure_component_sha256": "c097c66789faffee894f6c976c93e2200317e23e91debd65e795fb674d0d58e6",
+            "source_atom_sha256": "2e64408890b0818c56f20666d456f290a479292d07ee8a9641383512b0adaa26",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:93-98",
+              "semantic_statement": "The displayed clause is a predicate on an assignment of applicants to colleges; this imported structure is the many-to-one assignment object on which the literal replacement-pair condition is evaluated."
+            },
+            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
+          },
+          {
+            "closure_component_sha256": "6088138f779889707ad7f1deaf30fc59c4bff6ec2c071a8d1942b8a5a0d38c65",
+            "source_atom_sha256": "2e64408890b0818c56f20666d456f290a479292d07ee8a9641383512b0adaa26",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:93-98",
               "semantic_statement": "The displayed clause is a predicate on an assignment of applicants to colleges; this imported structure is the many-to-one assignment object on which the literal replacement-pair condition is evaluated."
             },
             "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
           },
           {
             "closure_component_sha256": "fe2395db65a41f0daa4657192d6d8d9f3284c13afc1c39de1f1ad7d0c81d305a",
-            "source_atom_sha256": "9a5f55f589c25f858f264d16dd3d34879aca53a7a9ee86e9bd1b27013178afe7",
+            "source_atom_sha256": "2e64408890b0818c56f20666d456f290a479292d07ee8a9641383512b0adaa26",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:76-78",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:93-98",
               "semantic_statement": "The displayed clause explicitly identifies the college currently assigned to each of two applicants; this imported projection supplies exactly that current-college observation."
             },
             "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
           },
           {
-            "closure_component_sha256": "ff9c737d93120f7fde5e2b9ee55752b6344ea15c430edd2202ab80249d94cc73",
-            "source_atom_sha256": "9a5f55f589c25f858f264d16dd3d34879aca53a7a9ee86e9bd1b27013178afe7",
+            "closure_component_sha256": "94e2b0a8aa79f012fb8f6e46f3fda00408cbc247a87840aea63c72bb2973fc66",
+            "source_atom_sha256": "2e64408890b0818c56f20666d456f290a479292d07ee8a9641383512b0adaa26",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:76-78",
-              "semantic_statement": "The displayed clause is a predicate on an assignment of applicants to colleges; this imported structure is the many-to-one assignment object on which the literal replacement-pair condition is evaluated."
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:93-98",
+              "semantic_statement": "The displayed clause explicitly identifies the college currently assigned to each of two applicants; this imported projection supplies exactly that current-college observation."
             },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
+            "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
+          },
+          {
+            "closure_component_sha256": "e0e2444c12b721c417e8d059ba3ff394a5ce9858fbe2e3dfdbba4b75b3166772",
+            "source_atom_sha256": "2e64408890b0818c56f20666d456f290a479292d07ee8a9641383512b0adaa26",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:93-98",
+              "semantic_statement": "The displayed clause explicitly identifies the college currently assigned to each of two applicants; this imported projection supplies exactly that current-college observation."
+            },
+            "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
+          },
+          {
+            "closure_component_sha256": "35f3dbe9921497dbd0c349dba8a084002385cc26c5c17f931deeeb0baee508da",
+            "source_atom_sha256": "2e64408890b0818c56f20666d456f290a479292d07ee8a9641383512b0adaa26",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:93-98",
+              "semantic_statement": "The displayed clause explicitly identifies the college currently assigned to each of two applicants; this imported projection supplies exactly that current-college observation."
+            },
+            "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
           }
         ],
-        "item_identity_sha256": "72ac027bf5d1e8e195fb95f10c36367c3dcf49718881238ccc90e9bc460f0691"
+        "item_identity_sha256": "df4e2ab9723099e1b686ee32e44cbcaee98b106ca3dd1f1ab42aae7eba30f652"
       }
     },
     "displayed_optimal_assignment_definition": {
       "statement": "Displayed Definition: within the fixed-quota feasible domain, a literally stable assignment is optimal when every applicant is at least as well off under it as under every other literally stable feasible assignment.",
       "source_url": "https://www.jstor.org/stable/2312726",
-      "source_location": "source.txt:96-97; printed page 10, second displayed Definition",
+      "source_location": "source.txt:115-117 (printed page 10, second displayed Definition)",
       "source_kind": "definition",
       "source_status": "direct_source_definition_in_surrounding_fixed_quota_domain",
       "claim_bearing": true,
       "semantic_contract": {
         "spec_declaration": "GS62CollegeAdmissions.PaperInterface.literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec",
-        "evidence_declaration": "GS62CollegeAdmissions.PaperInterface.literalApplicantOptimalCollegeAssignment_iff_source_definition",
+        "evidence_declaration": "GS62CollegeAdmissions.ProofInterface.literalApplicantOptimalCollegeAssignment_iff_source_definition",
         "evidence_mode": "proves",
         "semantic_shape": "plain"
       },
-      "source_note": "Feasibility makes the surrounding fixed-quota assignment domain explicit. The row intentionally retains the page-10 literal replacement-pair reading of stable and remains distinct from Theorem 2's completed standard-stability route.",
+      "source_note": "This row preserves the page-10 literal replacement-pair reading of stable. It does not add quota feasibility, individual rationality, vacancy blocks, or unmatched-applicant blocks.",
       "lean_declarations": [
-        "GS62CollegeAdmissions.PaperInterface.literalApplicantOptimalCollegeAssignment_iff_source_definition"
+        "GS62CollegeAdmissions.ProofInterface.literalApplicantOptimalCollegeAssignment_iff_source_definition"
       ],
       "support_lean_declarations": [
         "GS62CollegeAdmissions.PaperInterface.literalApplicantOptimalCollegeAssignment_iff_source_definitionSpec"
@@ -362,343 +384,310 @@
       "source_anchor_evidence": [
         {
           "path": "source.txt",
-          "line_start": 96,
-          "line_end": 97,
-          "quoted_text": "   DEFINITION. A stable assignment is called optimal if every applicant is at least\nas well off under it as under any other stable assignment.",
-          "quoted_text_sha256": "e1da8c2bf65567b804ff25fa28f01e7c154effdf02ab164b9cbb605b8bd477fc"
+          "line_start": 115,
+          "line_end": 117,
+          "quoted_text": "   DEFINITION. A stableassignment                      applicantis at least\n                                is calledoptimalif every\nas welloffunderit as underanyotherstableassignment.",
+          "quoted_text_sha256": "4d8c09405f53a81337e2e11fa640617a61e54bd29a766ece3f7f00b5604dda60"
         }
       ],
       "source_claim_atoms": [
         {
           "id": "optimal_assignment.applicant_weak_preference",
-          "source_locator": "source.txt:96-97",
-          "source_quote_sha256": "e1da8c2bf65567b804ff25fa28f01e7c154effdf02ab164b9cbb605b8bd477fc",
-          "semantic_claim": "An assignment is applicant-optimal when every applicant weakly prefers it to every other stable assignment in the same fixed-quota feasible domain.",
-          "reviewed_lean_route": "GS62CollegeAdmissions.PaperInterface.literalApplicantOptimalCollegeAssignment_iff_source_definition"
+          "source_locator": "source.txt:115-117",
+          "source_quote_sha256": "4d8c09405f53a81337e2e11fa640617a61e54bd29a766ece3f7f00b5604dda60",
+          "semantic_claim": "An assignment is applicant-optimal when every applicant weakly prefers it to every other stable assignment.",
+          "reviewed_lean_route": "GS62CollegeAdmissions.ProofInterface.literalApplicantOptimalCollegeAssignment_iff_source_definition"
         }
       ],
       "source_spec_correspondence": {
         "schema": 1,
-        "source_atoms_sha256": "57f7d2afb8bc0d7641a8943cde39faa77ff5a6609fed8f25985892322023e4b9",
-        "spec_closure_sha256": "775193f45805f4bd57195b22d802f3c7a1e0923d869b275a28e364a8a9a870b3",
-        "spec_surface_sha256": "b0b0ddfc8ca26b80451be14aa22dd588e0e68a79178c76ac6f0d361f96374029",
-        "closure_environment_sha256": "5d3461b54c1a63926d9d443557aaedc9ce129fa1d6166de94da6501326f48cd8",
+        "source_atoms_sha256": "5e41918919d8bda250843000efae04e29fe999bdb67d814d0c34f3ce47ff42fb",
+        "spec_closure_sha256": "543ad58e15e9ec5931db057189f0f1580c3e1a6b9b248f02d7fa6553e918522f",
+        "spec_surface_sha256": "d9041016b0570de438df8d3586b85aaf86eb6765bc23cc151acbfd5491e52b52",
+        "closure_environment_sha256": "f2bda7943254a900076dc1c60179a400d059474727515d4158b874faf350ccf2",
         "source_atom_bindings": [
           {
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
             "spec_component_sha256s": [
-              "b0b0ddfc8ca26b80451be14aa22dd588e0e68a79178c76ac6f0d361f96374029"
+              "d9041016b0570de438df8d3586b85aaf86eb6765bc23cc151acbfd5491e52b52"
             ],
-            "semantic_bridge": "The root Spec is exactly applicant optimality in the surrounding fixed-quota domain: candidate and comparison assignments are feasible and literally stable, and every applicant weakly prefers the candidate."
+            "semantic_bridge": "The root Spec is exactly the displayed applicant-optimality definition: the candidate and each comparison assignment satisfy the literal no-replacement condition, and every applicant weakly prefers the candidate."
           }
         ],
         "closure_node_dispositions": [
           {
-            "closure_component_sha256": "0447f13dd4b4b5050c93049b63bc883fd3a77f004ec63f70bf1310ec6c88559e",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
+            "closure_component_sha256": "f4c4540ee55ec234c7fdd5151c2950af61e3ec0820a9e0a5226ea7398055e6e0",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
               "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
             },
             "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
           },
           {
-            "closure_component_sha256": "04bc077c5f3d2d23619e8dfa92b1e23c6b95a3c79133a6bdcee7ba15d26cdd38",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
+            "closure_component_sha256": "ff9c737d93120f7fde5e2b9ee55752b6344ea15c430edd2202ab80249d94cc73",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
+              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
+            },
+            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
+          },
+          {
+            "closure_component_sha256": "6ab39dfe819a524195364b8e1d782f9d571d9364c1d1b8ba01cba8de08137bc6",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
+              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
+            },
+            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
+          },
+          {
+            "closure_component_sha256": "e8374630cfd7506ec2855196d8eb21f2cbf3fc664c8beb1d514699a52b91e611",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
+              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
+            },
+            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
+          },
+          {
+            "closure_component_sha256": "b5b2e0a07ca301e1223813c08498e2ea0f8fa3e721446b6b48d8538e0bead42c",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
+              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
+            },
+            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
+          },
+          {
+            "closure_component_sha256": "99a1603d376b09df35cad1581af8d342a02ea737780a5fd81144adfbdd2928d9",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
+              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
+            },
+            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
+          },
+          {
+            "closure_component_sha256": "fde4856cebe0ce8ad7bcaa01f8c1a59fe7b2a8cf979368a98b6c001f3bb6ccc7",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
+              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
+            },
+            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
+          },
+          {
+            "closure_component_sha256": "ca12c6fc3d4e493e5dcf9805a0e8777c0f26317c6916c59e37d49cdc554c5d4f",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
+              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
+            },
+            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
+          },
+          {
+            "closure_component_sha256": "123df00894e25dae98b61a0a7cbfd7119514735cbdc31adad1e63b55a4d08902",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
+              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
+            },
+            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
+          },
+          {
+            "closure_component_sha256": "5642da49b2c9bb894b119110fbb9b67e6e0dcf36eb09f55117ec4f57f2f05587",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
+              "semantic_statement": "The displayed definition compares how each applicant fares in candidate and alternative assignments; this imported projection supplies the applicant assigned college in each comparison."
+            },
+            "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
+          },
+          {
+            "closure_component_sha256": "213d98a3b0d279c480d4b12f20e0cd9046b204641dcb16873e86426850c3f8c7",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
+              "semantic_statement": "The displayed definition compares how each applicant fares in candidate and alternative assignments; this imported projection supplies the applicant assigned college in each comparison."
+            },
+            "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
+          },
+          {
+            "closure_component_sha256": "94214c33dcd64a89e4ea9321db6ddc56e12f20f5da08e00102711c17be700ae0",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
+              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
+            },
+            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
+          },
+          {
+            "closure_component_sha256": "367aaf224396f17d0c499b3a55f2f140a443db038365cb6b53af3ec0f43f68c7",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
               "semantic_statement": "The displayed definition weakly orders the colleges assigned to each applicant, including the outside option; this imported evaluator supplies exactly that assigned-outcome preference value."
             },
             "pinned_declaration_identity_sha256": "1a5f10b8426e3ee912a683992447814357629df65a471048e123d54d9477a411"
           },
           {
-            "closure_component_sha256": "13028f6481a9f42708e98abf46acb58816c495595655f133fb33287a5652ec55",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
+            "closure_component_sha256": "dab1af881bbefb2f2c4fb8b5fb44a425282f9a3e8258f10e3e2cbfa58bf810ff",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
-              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "15d774b4a1bc3bce73d53f99ac998b5d626445f4962b27773ff88b3b7dc598f9",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
-              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "3300eefe6e6a13d6e15f1a4d20ca0c30985dc3d3b4a6d5337d97816c55560ecf",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:37-58",
-              "semantic_statement": "Section 2 fixes a quota for every college and asks for an assignment among the colleges; this imported predicate states that no assigned roster exceeds its fixed quota."
-            },
-            "pinned_declaration_identity_sha256": "a5642854063de1fa9bf3f23db32622774ae03186968fb1653902d110ccb90cde"
-          },
-          {
-            "closure_component_sha256": "3ba59a0eca0ff72425d26e5f3f55eb55108c8b50e7a43274c1f2386ed2962982",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
               "semantic_statement": "The displayed definition compares how each applicant fares in candidate and alternative assignments; this imported projection supplies the applicant assigned college in each comparison."
             },
             "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
           },
           {
-            "closure_component_sha256": "40af1dc3ab71be3509a3c17a130effdebe4a85c939bd00530b93a74a8b8849a7",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
+            "closure_component_sha256": "14af58611567849e2c46f94b0003c6fccf73ee82139f0ca3be42d797179e253e",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
-              "semantic_statement": "The displayed definition compares how each applicant fares in candidate and alternative assignments; this imported projection supplies the applicant assigned college in each comparison."
-            },
-            "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
-          },
-          {
-            "closure_component_sha256": "4b4fa618c0c05ea5662392b82901aba84c178da94af5710068f9ba8675f3e742",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
               "semantic_statement": "The displayed definition weakly orders the colleges assigned to each applicant, including the outside option; this imported evaluator supplies exactly that assigned-outcome preference value."
             },
             "pinned_declaration_identity_sha256": "1a5f10b8426e3ee912a683992447814357629df65a471048e123d54d9477a411"
           },
           {
-            "closure_component_sha256": "4c92d75800a58c7be6352bb54349f3bb935cd89a0c70447d6e42fef565275a72",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
+            "closure_component_sha256": "8cf22a35105aea6f77dc0aa41f46fa84a1bbc24822d0b1992fda394a87d1d4c6",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
-              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "4f53fb7609700c91bd47c254de0dd32f87b57729eb847d366115ada1bafe08e4",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
-              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "5141f2290dd7c9686dd6499214c9b2e7964e1acb496e47d111e9b36853b55aff",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
-              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "5498a3cf423d5de4add6e0134cc3d781b66de4f2c41373ca964cee7ae1c9b531",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
-              "semantic_statement": "The displayed definition weakly orders the colleges assigned to each applicant, including the outside option; this imported evaluator supplies exactly that assigned-outcome preference value."
-            },
-            "pinned_declaration_identity_sha256": "1a5f10b8426e3ee912a683992447814357629df65a471048e123d54d9477a411"
-          },
-          {
-            "closure_component_sha256": "5a52b0b3ccad5ddb51da7d3de50925a9598859c8d6a03d0d59734abeed5730c1",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
               "semantic_statement": "The displayed definition compares how each applicant fares in candidate and alternative assignments; this imported projection supplies the applicant assigned college in each comparison."
             },
             "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
           },
           {
-            "closure_component_sha256": "61bdf97f6dc4565132f9b41f707b095c66047f3e4320ab1157c8b5f51881a8e8",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
+            "closure_component_sha256": "27dee2077f8b8ab144825d81c1dcc8662a330a19a5b5041f447cee43656da203",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
               "semantic_statement": "The displayed definition compares how each applicant fares in candidate and alternative assignments; this imported projection supplies the applicant assigned college in each comparison."
             },
             "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
           },
           {
-            "closure_component_sha256": "736a02f3344dfbb4ee5b2f7965c73cf174f0b57ea289927334d09f6f79187389",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
+            "closure_component_sha256": "cb4fe35bc6f432be708a07a5f26ad11ade82384d0a4aadd2b0f832bc19f84dd8",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
-              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "81c0c21cef8c71c088fd4df136f21743a1eef1608604e4f708ade21dc5d6c9c5",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
               "semantic_statement": "The displayed definition compares how each applicant fares in candidate and alternative assignments; this imported projection supplies the applicant assigned college in each comparison."
             },
             "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
           },
           {
-            "closure_component_sha256": "81efc358458ea3a3ed1cd811938ae9ffa3bcd14a3d58c7258ea8c2c349676fa7",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
+            "closure_component_sha256": "000a689544643c134fab833f7baac11daaa4557e751108ca142fd9631dfbc532",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
               "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
             },
             "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
           },
           {
-            "closure_component_sha256": "8e76cde601c2777594f58b8e7eeeed88de029e9af2b00ce001c639a8a657e1a7",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
+            "closure_component_sha256": "3b33bc4cd88fcb73e85489ecd1bfae8b24310e27e84f07bff6afec46f2b56da6",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
-              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "af06c6b13a556f310ac7ba35c46a3e3d54430d2ff5605b03ea4da11b6402a948",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
-              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "afda6c867661e299e639b979af56819f253b6d82798f333c452f86668823e040",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
-              "semantic_statement": "The displayed definition weakly orders the colleges assigned to each applicant, including the outside option; this imported evaluator supplies exactly that assigned-outcome preference value."
-            },
-            "pinned_declaration_identity_sha256": "1a5f10b8426e3ee912a683992447814357629df65a471048e123d54d9477a411"
-          },
-          {
-            "closure_component_sha256": "c81104e6690de82cdc20f0e3ab930eb25478c0a86f07d431caba09f5abcfa1ed",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
-              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "c83135a2075e3e31cd93f86b2c518c2fe12768d7b7fa571dcc0250777a928ed6",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
               "semantic_statement": "The displayed definition compares how each applicant fares in candidate and alternative assignments; this imported projection supplies the applicant assigned college in each comparison."
             },
             "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
           },
           {
-            "closure_component_sha256": "d8b646415abe4a751e6713193a14e81bba802159f75582ba617f0533cf448c27",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
+            "closure_component_sha256": "bd8ee0debc5b481444e556a293877d3276fb7212d2b30a63c3655d28fedf56de",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
-              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
+              "semantic_statement": "The displayed definition compares how each applicant fares in candidate and alternative assignments; this imported projection supplies the applicant assigned college in each comparison."
             },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
+            "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
           },
           {
-            "closure_component_sha256": "e64a8b7b5ba71a338a3a2aa49089e5efedfa5ea184bedfd28d2f5b3345b797af",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
+            "closure_component_sha256": "c30c4d9495b3087a64572a3863199f76e653cd78acde5824ff29dd7839d92158",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
-              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
+              "semantic_statement": "The displayed definition compares how each applicant fares in candidate and alternative assignments; this imported projection supplies the applicant assigned college in each comparison."
             },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
+            "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
           },
           {
-            "closure_component_sha256": "eac3e09a197b7155a3bae433ae1f52ec6f6b555061b3bcd19cab017a620e5767",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
+            "closure_component_sha256": "59e4de6f7ff0091464edf5a8435869669a4919eed3c411307a78cb799bfbc1ab",
+            "source_atom_sha256": "921208c19ca74d33d82adec3788d82466650fff9bbd078d308825dd80a40bb01",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
-              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:115-117",
+              "semantic_statement": "The displayed definition compares how each applicant fares in candidate and alternative assignments; this imported projection supplies the applicant assigned college in each comparison."
             },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "fe8b14a0756f6079682af60777727e30d84e1e584b3998d236dc191bcc171c3b",
-            "source_atom_sha256": "8a8f6b43c03da33999f4f4bed76cbe46c553faa2ea93097c89c98540c2e0c51d",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:91-97",
-              "semantic_statement": "The displayed definition compares one stable college assignment with every other stable assignment in the same fixed-quota domain; this imported structure represents each compared assignment."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
+            "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
           }
         ],
-        "item_identity_sha256": "f55e5029dac13517483f155296b92907dabe65d1d4a29df19711b5cad790a78e"
+        "item_identity_sha256": "d019ff0893c3136ff230c18fe5be748a755fd40aae8218970fcded351fad60a8"
       }
     },
     "section3_marriage_instability_definition": {
       "statement": "Section 3 prose Definition: a set of marriages is unstable when some man and woman are not married to each other but both prefer each other to their actual mates.",
       "source_url": "https://www.jstor.org/stable/2312726",
-      "source_location": "source.txt:121-127; printed page 11, Section 3",
+      "source_location": "source.txt:133-139 (printed page 11, Section 3)",
       "source_kind": "definition",
       "source_status": "direct_source_prose_definition",
       "claim_bearing": true,
       "semantic_contract": {
         "spec_declaration": "GS62CollegeAdmissions.PaperInterface.unstableMarriage_iff_source_definitionSpec",
-        "evidence_declaration": "GS62CollegeAdmissions.PaperInterface.unstableMarriage_iff_source_definition",
+        "evidence_declaration": "GS62CollegeAdmissions.ProofInterface.unstableMarriage_iff_source_definition",
         "evidence_mode": "proves",
         "semantic_shape": "plain"
       },
       "source_note": "The source's surrounding marriage domain is complete, so every participant has an actual mate at theorem use sites. The routed predicate is the literal mutually preferable unmatched-pair condition.",
       "lean_declarations": [
-        "GS62CollegeAdmissions.PaperInterface.unstableMarriage_iff_source_definition"
+        "GS62CollegeAdmissions.ProofInterface.unstableMarriage_iff_source_definition"
       ],
       "support_lean_declarations": [
         "GS62CollegeAdmissions.PaperInterface.unstableMarriage_iff_source_definitionSpec"
@@ -706,16 +695,16 @@
       "source_anchor_evidence": [
         {
           "path": "source.txt",
-          "line_start": 121,
-          "line_end": 127,
-          "quoted_text": "    A certain community consists of n men and n women. Each person ranks\nthose of the opposite sex in accordance with his or her preferences for a marriage\npartner. We seek a satisfactory way of marrying off all members of the com-\nmunity. Imitating our earlier definition, we call a set of marriages unstable (and\nhere the suitability of the term is quite clear) if under it there are a man and a\nwoman who are not married to each other but prefer each other to their actual\nmates.",
-          "quoted_text_sha256": "cef274aec753d24c934c665d7c6e6d69474aee631f5aa54627b9c22cb728f5ca"
+          "line_start": 133,
+          "line_end": 139,
+          "quoted_text": "   A certain communityconsists of n men and n women. Each person ranks\nthose of the opposite sex in accordance with his or her preferencesfora marriage\npartner.We seek a satisfactoryway of marryingoffall membersof the com-\nmunity.Imitatingour earlierdefinition,we call a set of marriagesunstable(and\nhere the suitabilityof the termis quite clear) if under it thereare a man and a\nwoman who are not marriedto each other but prefereach other to theiractual\nmates.",
+          "quoted_text_sha256": "ef0ef634cb9f445ecf54525d6d9d3751f4f1b0eac61054a6486522cfbebd6877"
         }
       ],
       "source_prose_definition_reconciliation": {
         "schema": 2,
         "relation": "source_item_represents_prose_definition",
-        "presentation_sha256": "b59ca23ab77723e892e030bd733c2d3118ab8c0cd774e812c797e0d774ae442f",
+        "presentation_sha256": "5f843da2aa46feebf5223d939aabc204d1fea92c949e4f2a77132478ec057de0",
         "source_item_statement_sha256": "995882c12ee74cebb3c44178712ead56c12a59ee8563f779e1cb3ce7844c0307",
         "judgment": "semantically_equivalent",
         "semantic_basis": "The source clause and routed predicate both assert exactly the existence of a man-woman pair who are not matched to one another and who each strictly prefer the other to the current mate.",
@@ -726,151 +715,195 @@
       "source_claim_atoms": [
         {
           "id": "marriage_instability.blocking_pair",
-          "source_locator": "source.txt:121-127",
-          "source_quote_sha256": "cef274aec753d24c934c665d7c6e6d69474aee631f5aa54627b9c22cb728f5ca",
+          "source_locator": "source.txt:133-139",
+          "source_quote_sha256": "ef0ef634cb9f445ecf54525d6d9d3751f4f1b0eac61054a6486522cfbebd6877",
           "semantic_claim": "A set of marriages is unstable exactly when an unmatched man-woman pair both strictly prefer each other to their actual mates.",
-          "reviewed_lean_route": "GS62CollegeAdmissions.PaperInterface.unstableMarriage_iff_source_definition"
+          "reviewed_lean_route": "GS62CollegeAdmissions.ProofInterface.unstableMarriage_iff_source_definition"
         }
       ],
       "source_spec_correspondence": {
         "schema": 1,
-        "source_atoms_sha256": "e98a07b3b277e57bb1f3fbb55142e978249f7d93c5e32d7d80029940bbadee05",
-        "spec_closure_sha256": "c95c9f1b0a7b139208c67fcb9b7ed3f39e0c2499ee6dca3df28749ef4ecc5195",
-        "spec_surface_sha256": "857373d43f09a261d351269aff7c1f3b99d40f040935d7bd96deb99bc93f8d8f",
-        "closure_environment_sha256": "6adc28d7e3a1b688309d2c11253701b1cccf8016419e10a8ef0e8d5fa6620f8a",
+        "source_atoms_sha256": "a8af2bc0b82a5e47295b41b7cc0f864237569e970e6206aa513702bc9a1e5905",
+        "spec_closure_sha256": "ad576bca6ab9f9852618577f94e901e6c137a64d6f57991e85f5cc8c11c6bca9",
+        "spec_surface_sha256": "0a21fcd0e691f84fa4cf46bba8da2028cf1c419cd515505923b69b96c15c475c",
+        "closure_environment_sha256": "37175cc89968c0a0cbfa269fa442c73f8a43763a8785fc821c3f680eac526849",
         "source_atom_bindings": [
           {
-            "source_atom_sha256": "8f58d2f5c70f6c3b8c04753fc5f8e6d858d9cae53478d684c7b86d4f1fac028e",
+            "source_atom_sha256": "07f50b7f5c59e535f3a6da96ba75360ee02c9362bf41c889b9712efe6d0b7a5d",
             "spec_component_sha256s": [
-              "857373d43f09a261d351269aff7c1f3b99d40f040935d7bd96deb99bc93f8d8f"
+              "0a21fcd0e691f84fa4cf46bba8da2028cf1c419cd515505923b69b96c15c475c"
             ],
             "semantic_bridge": "The root Spec is exactly the Section 3 prose definition: an unmatched man-woman pair exists and each strictly prefers the other to the current mate."
           }
         ],
         "closure_node_dispositions": [
           {
-            "closure_component_sha256": "35d4002fca06fbf43f296facac45da85b687486711a2c6099d01acb82d7ca534",
-            "source_atom_sha256": "8f58d2f5c70f6c3b8c04753fc5f8e6d858d9cae53478d684c7b86d4f1fac028e",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-127",
-              "semantic_statement": "The prose definition compares a woman with her actual mate and an alternative man; this imported projection supplies the woman actual mate."
-            },
-            "pinned_declaration_identity_sha256": "bea3e70fbcf43a5321443366bd71a7f9532b73aa38cb73862afd5b26e71c38d8"
-          },
-          {
-            "closure_component_sha256": "36896d6f459debbca2c427ad9aef4b661c25e3863783ab93bc3aebca8c0cf91e",
-            "source_atom_sha256": "8f58d2f5c70f6c3b8c04753fc5f8e6d858d9cae53478d684c7b86d4f1fac028e",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-127",
-              "semantic_statement": "The prose definition compares a woman with her actual mate and an alternative man; this imported projection supplies the woman actual mate."
-            },
-            "pinned_declaration_identity_sha256": "bea3e70fbcf43a5321443366bd71a7f9532b73aa38cb73862afd5b26e71c38d8"
-          },
-          {
-            "closure_component_sha256": "5bd0d2e76fd0334fbe06bd2a83937f4a63456cc7ac18a6a83563e891354ff8d6",
-            "source_atom_sha256": "8f58d2f5c70f6c3b8c04753fc5f8e6d858d9cae53478d684c7b86d4f1fac028e",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-127",
-              "semantic_statement": "The prose definition uses a woman strict preference between an alternative man and her actual mate; this imported evaluator supplies her current-mate preference value."
-            },
-            "pinned_declaration_identity_sha256": "e4c25cf611a930b7578f3e99250d9f5af2fe30224ba92b5a462e1ffda43e488b"
-          },
-          {
-            "closure_component_sha256": "6ab39dfe819a524195364b8e1d782f9d571d9364c1d1b8ba01cba8de08137bc6",
-            "source_atom_sha256": "8f58d2f5c70f6c3b8c04753fc5f8e6d858d9cae53478d684c7b86d4f1fac028e",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-127",
-              "semantic_statement": "The prose definition is evaluated on a set of marriages giving participants actual mates; this imported one-to-one assignment structure represents that marriage arrangement."
-            },
-            "pinned_declaration_identity_sha256": "dc02091416c01a060cb5a859a704cf4f5fe5b48f822f7472dd7d94bdc52574e2"
-          },
-          {
-            "closure_component_sha256": "75edc13dff05b6adbebef63e41b3a8c751ab0b3c945cc851edfae540f514b69a",
-            "source_atom_sha256": "8f58d2f5c70f6c3b8c04753fc5f8e6d858d9cae53478d684c7b86d4f1fac028e",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-127",
-              "semantic_statement": "The prose definition uses a man strict preference between an alternative woman and his actual mate; this imported evaluator supplies his current-mate preference value."
-            },
-            "pinned_declaration_identity_sha256": "678f8ff1babc3bc05e6128ca8934a1b9008d2ddbfa285911e67b3cb39121f901"
-          },
-          {
-            "closure_component_sha256": "914c252f560440692b61cfca560735104aadfd7acf33c0cc308d00317e8c9d16",
-            "source_atom_sha256": "8f58d2f5c70f6c3b8c04753fc5f8e6d858d9cae53478d684c7b86d4f1fac028e",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-127",
-              "semantic_statement": "The prose definition compares a man with his actual mate and an alternative woman; this imported projection supplies the man actual mate."
-            },
-            "pinned_declaration_identity_sha256": "5cb9b5e46b29cb2df5c9c7c4961ab826846fa5d9fd62e6102599ceff43e38342"
-          },
-          {
-            "closure_component_sha256": "bd47364b96cbcab0f1bc6a3fa116ed2c96231e6b0568c469667eff993a9c46c5",
-            "source_atom_sha256": "8f58d2f5c70f6c3b8c04753fc5f8e6d858d9cae53478d684c7b86d4f1fac028e",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-127",
-              "semantic_statement": "The prose definition compares a man with his actual mate and an alternative woman; this imported projection supplies the man actual mate."
-            },
-            "pinned_declaration_identity_sha256": "5cb9b5e46b29cb2df5c9c7c4961ab826846fa5d9fd62e6102599ceff43e38342"
-          },
-          {
-            "closure_component_sha256": "dd02e5eaa724f321248cd4dec3cbef4f71e5bb17c9c1adc1e0a145530fc6a1c3",
-            "source_atom_sha256": "8f58d2f5c70f6c3b8c04753fc5f8e6d858d9cae53478d684c7b86d4f1fac028e",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-127",
-              "semantic_statement": "The prose definition uses a woman strict preference between an alternative man and her actual mate; this imported evaluator supplies her current-mate preference value."
-            },
-            "pinned_declaration_identity_sha256": "e4c25cf611a930b7578f3e99250d9f5af2fe30224ba92b5a462e1ffda43e488b"
-          },
-          {
-            "closure_component_sha256": "de5703e49bbbb508b2a823eb5607d9740e257798b29a648ee5ca2c027afc1e3e",
-            "source_atom_sha256": "8f58d2f5c70f6c3b8c04753fc5f8e6d858d9cae53478d684c7b86d4f1fac028e",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-127",
-              "semantic_statement": "The prose definition uses a man strict preference between an alternative woman and his actual mate; this imported evaluator supplies his current-mate preference value."
-            },
-            "pinned_declaration_identity_sha256": "678f8ff1babc3bc05e6128ca8934a1b9008d2ddbfa285911e67b3cb39121f901"
-          },
-          {
             "closure_component_sha256": "f4c4540ee55ec234c7fdd5151c2950af61e3ec0820a9e0a5226ea7398055e6e0",
-            "source_atom_sha256": "8f58d2f5c70f6c3b8c04753fc5f8e6d858d9cae53478d684c7b86d4f1fac028e",
+            "source_atom_sha256": "07f50b7f5c59e535f3a6da96ba75360ee02c9362bf41c889b9712efe6d0b7a5d",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-127",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:133-139",
               "semantic_statement": "The prose definition is evaluated on a set of marriages giving participants actual mates; this imported one-to-one assignment structure represents that marriage arrangement."
             },
             "pinned_declaration_identity_sha256": "dc02091416c01a060cb5a859a704cf4f5fe5b48f822f7472dd7d94bdc52574e2"
           },
           {
             "closure_component_sha256": "ff9c737d93120f7fde5e2b9ee55752b6344ea15c430edd2202ab80249d94cc73",
-            "source_atom_sha256": "8f58d2f5c70f6c3b8c04753fc5f8e6d858d9cae53478d684c7b86d4f1fac028e",
+            "source_atom_sha256": "07f50b7f5c59e535f3a6da96ba75360ee02c9362bf41c889b9712efe6d0b7a5d",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-127",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:133-139",
               "semantic_statement": "The prose definition is evaluated on a set of marriages giving participants actual mates; this imported one-to-one assignment structure represents that marriage arrangement."
             },
             "pinned_declaration_identity_sha256": "dc02091416c01a060cb5a859a704cf4f5fe5b48f822f7472dd7d94bdc52574e2"
+          },
+          {
+            "closure_component_sha256": "6ab39dfe819a524195364b8e1d782f9d571d9364c1d1b8ba01cba8de08137bc6",
+            "source_atom_sha256": "07f50b7f5c59e535f3a6da96ba75360ee02c9362bf41c889b9712efe6d0b7a5d",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:133-139",
+              "semantic_statement": "The prose definition is evaluated on a set of marriages giving participants actual mates; this imported one-to-one assignment structure represents that marriage arrangement."
+            },
+            "pinned_declaration_identity_sha256": "dc02091416c01a060cb5a859a704cf4f5fe5b48f822f7472dd7d94bdc52574e2"
+          },
+          {
+            "closure_component_sha256": "e46846e48608b256377f101887b8787a1453b42500368bff3fa7dd81dc61b076",
+            "source_atom_sha256": "07f50b7f5c59e535f3a6da96ba75360ee02c9362bf41c889b9712efe6d0b7a5d",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:133-139",
+              "semantic_statement": "The prose definition compares a man with his actual mate and an alternative woman; this imported projection supplies the man actual mate."
+            },
+            "pinned_declaration_identity_sha256": "5cb9b5e46b29cb2df5c9c7c4961ab826846fa5d9fd62e6102599ceff43e38342"
+          },
+          {
+            "closure_component_sha256": "9366e5e20fc07a1f0adf15ac2405ff1c1f6e43ffeb73650b89de5d344bf3de61",
+            "source_atom_sha256": "07f50b7f5c59e535f3a6da96ba75360ee02c9362bf41c889b9712efe6d0b7a5d",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:133-139",
+              "semantic_statement": "The prose definition compares a woman with her actual mate and an alternative man; this imported projection supplies the woman actual mate."
+            },
+            "pinned_declaration_identity_sha256": "bea3e70fbcf43a5321443366bd71a7f9532b73aa38cb73862afd5b26e71c38d8"
+          },
+          {
+            "closure_component_sha256": "fc13cb5e6aca66c34221296f04f078a0adf0055594098a356a39f31f0ae84e38",
+            "source_atom_sha256": "07f50b7f5c59e535f3a6da96ba75360ee02c9362bf41c889b9712efe6d0b7a5d",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:133-139",
+              "semantic_statement": "The prose definition uses a man strict preference between an alternative woman and his actual mate; this imported evaluator supplies his current-mate preference value."
+            },
+            "pinned_declaration_identity_sha256": "678f8ff1babc3bc05e6128ca8934a1b9008d2ddbfa285911e67b3cb39121f901"
+          },
+          {
+            "closure_component_sha256": "19274f75f335a04b04d5411e0ba35b4596739175d104163cdfce046f887d8506",
+            "source_atom_sha256": "07f50b7f5c59e535f3a6da96ba75360ee02c9362bf41c889b9712efe6d0b7a5d",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:133-139",
+              "semantic_statement": "The prose definition compares a man with his actual mate and an alternative woman; this imported projection supplies the man actual mate."
+            },
+            "pinned_declaration_identity_sha256": "5cb9b5e46b29cb2df5c9c7c4961ab826846fa5d9fd62e6102599ceff43e38342"
+          },
+          {
+            "closure_component_sha256": "197f92231d250e1ceaa71c9a801d77ea02c5b450804c0add6104929dd3f43ccd",
+            "source_atom_sha256": "07f50b7f5c59e535f3a6da96ba75360ee02c9362bf41c889b9712efe6d0b7a5d",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:133-139",
+              "semantic_statement": "The prose definition uses a woman strict preference between an alternative man and her actual mate; this imported evaluator supplies her current-mate preference value."
+            },
+            "pinned_declaration_identity_sha256": "e4c25cf611a930b7578f3e99250d9f5af2fe30224ba92b5a462e1ffda43e488b"
+          },
+          {
+            "closure_component_sha256": "bdd39bc18727fece298682628445bdd3a0afab6ce7db5ee535466b246005c900",
+            "source_atom_sha256": "07f50b7f5c59e535f3a6da96ba75360ee02c9362bf41c889b9712efe6d0b7a5d",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:133-139",
+              "semantic_statement": "The prose definition compares a woman with her actual mate and an alternative man; this imported projection supplies the woman actual mate."
+            },
+            "pinned_declaration_identity_sha256": "bea3e70fbcf43a5321443366bd71a7f9532b73aa38cb73862afd5b26e71c38d8"
+          },
+          {
+            "closure_component_sha256": "380fb5d0dd2d45b61dacaa596058d0d1a4fcbe20c3d3ea72d9f5055ed54123a8",
+            "source_atom_sha256": "07f50b7f5c59e535f3a6da96ba75360ee02c9362bf41c889b9712efe6d0b7a5d",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:133-139",
+              "semantic_statement": "The prose definition compares a man with his actual mate and an alternative woman; this imported projection supplies the man actual mate."
+            },
+            "pinned_declaration_identity_sha256": "5cb9b5e46b29cb2df5c9c7c4961ab826846fa5d9fd62e6102599ceff43e38342"
+          },
+          {
+            "closure_component_sha256": "510099b10a8b4d5c395db0d2809e21809bdaa350e052dd1215b4e98d9c137a6c",
+            "source_atom_sha256": "07f50b7f5c59e535f3a6da96ba75360ee02c9362bf41c889b9712efe6d0b7a5d",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:133-139",
+              "semantic_statement": "The prose definition compares a woman with her actual mate and an alternative man; this imported projection supplies the woman actual mate."
+            },
+            "pinned_declaration_identity_sha256": "bea3e70fbcf43a5321443366bd71a7f9532b73aa38cb73862afd5b26e71c38d8"
+          },
+          {
+            "closure_component_sha256": "9564275a9dfa141d752afe4ad220ea7026b4c964d4e057d6f54e2c7e5d14e1af",
+            "source_atom_sha256": "07f50b7f5c59e535f3a6da96ba75360ee02c9362bf41c889b9712efe6d0b7a5d",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:133-139",
+              "semantic_statement": "The prose definition uses a man strict preference between an alternative woman and his actual mate; this imported evaluator supplies his current-mate preference value."
+            },
+            "pinned_declaration_identity_sha256": "678f8ff1babc3bc05e6128ca8934a1b9008d2ddbfa285911e67b3cb39121f901"
+          },
+          {
+            "closure_component_sha256": "55893a152c69dd80308e491e18a0a33acf0c1121d3b179c3fc128e4825c319fa",
+            "source_atom_sha256": "07f50b7f5c59e535f3a6da96ba75360ee02c9362bf41c889b9712efe6d0b7a5d",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:133-139",
+              "semantic_statement": "The prose definition compares a man with his actual mate and an alternative woman; this imported projection supplies the man actual mate."
+            },
+            "pinned_declaration_identity_sha256": "5cb9b5e46b29cb2df5c9c7c4961ab826846fa5d9fd62e6102599ceff43e38342"
+          },
+          {
+            "closure_component_sha256": "cd2f738a087e778ffee836429207131d08553d2f7695493bfd738dddb3b692e7",
+            "source_atom_sha256": "07f50b7f5c59e535f3a6da96ba75360ee02c9362bf41c889b9712efe6d0b7a5d",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:133-139",
+              "semantic_statement": "The prose definition uses a woman strict preference between an alternative man and her actual mate; this imported evaluator supplies her current-mate preference value."
+            },
+            "pinned_declaration_identity_sha256": "e4c25cf611a930b7578f3e99250d9f5af2fe30224ba92b5a462e1ffda43e488b"
+          },
+          {
+            "closure_component_sha256": "13a8a510e18fce4ac261634742a4fb780b0a9defbc886eec6ea8d22756d27714",
+            "source_atom_sha256": "07f50b7f5c59e535f3a6da96ba75360ee02c9362bf41c889b9712efe6d0b7a5d",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:133-139",
+              "semantic_statement": "The prose definition compares a woman with her actual mate and an alternative man; this imported projection supplies the woman actual mate."
+            },
+            "pinned_declaration_identity_sha256": "bea3e70fbcf43a5321443366bd71a7f9532b73aa38cb73862afd5b26e71c38d8"
           }
         ],
-        "item_identity_sha256": "079c43ff8527c35d8ed38931b58264747dc6cac0c4dbbe2ab0a24074082f6cf9"
+        "item_identity_sha256": "1059f358f571b3932a07ffd326d483d149c1724fcecea49aa7e3276696fd22f3"
       }
     },
     "theorem1_stable_marriage_exists": {
@@ -879,19 +912,19 @@
       ],
       "statement": "Theorem 1: for two finite equally sized communities in which every participant strictly ranks every member of the opposite side, there exists a complete set of marriages with no mutually preferable unmatched pair.",
       "source_url": "https://www.jstor.org/stable/2312726",
-      "source_location": "source.txt:115-130; source.txt:191; printed pages 11-12",
+      "source_location": "source.txt:127-139; source.txt:185 (printed pages 11-12, Section 3 and Theorem 1)",
       "source_kind": "theorem",
       "source_status": "direct_source_theorem",
       "claim_bearing": true,
       "semantic_contract": {
         "spec_declaration": "GS62CollegeAdmissions.PaperInterface.theorem1_stable_marriage_existsSpec",
-        "evidence_declaration": "GS62CollegeAdmissions.PaperInterface.theorem1_stable_marriage_exists",
+        "evidence_declaration": "GS62CollegeAdmissions.ProofInterface.theorem1_stable_marriage_exists",
         "evidence_mode": "proves",
         "semantic_shape": "plain"
       },
       "source_note": "The one-line theorem is interpreted in Section 3's immediately preceding finite equal-side complete strict-ranking domain. Real-valued strict preference functions are an order-preserving representation of those source lists, recorded by the cited model convention.",
       "lean_declarations": [
-        "GS62CollegeAdmissions.PaperInterface.theorem1_stable_marriage_exists"
+        "GS62CollegeAdmissions.ProofInterface.theorem1_stable_marriage_exists"
       ],
       "support_lean_declarations": [
         "GS62CollegeAdmissions.PaperInterface.theorem1_stable_marriage_existsSpec"
@@ -899,54 +932,86 @@
       "source_anchor_evidence": [
         {
           "path": "source.txt",
-          "line_start": 115,
-          "line_end": 130,
-          "quoted_text": "    3. Stable assignments and a marriage problem. In trying to settle the\nquestion of the existence of stable assignments we were led to look first at a\nspecial case, in which there are the same number of applicants as colleges and all\nquotas are unity. This situation is, of course, highly unnatural in the context\nof college admissions, but there is another \"story\" into which it fits quite\nreadily.\n    A certain community consists of n men and n women. Each person ranks\nthose of the opposite sex in accordance with his or her preferences for a marriage\npartner. We seek a satisfactory way of marrying off all members of the com-\nmunity. Imitating our earlier definition, we call a set of marriages unstable (and\nhere the suitability of the term is quite clear) if under it there are a man and a\nwoman who are not married to each other but prefer each other to their actual\nmates.\n\n   QUESTION: For any pattern of preferences is it possible to find a stable set of\nmarriages?",
-          "quoted_text_sha256": "f2655d1a66c264f0b096b59e935dbef40da894ae8578a56a599470b4d2ac7c68"
+          "line_start": 127,
+          "line_end": 139,
+          "quoted_text": "   3. Stable assignments and a marriage problem. In trying to settle the\nquestion of the existence of stable assignmentswe were led to look firstat a\nspecial case, in whichthereare the same numberof applicants as colleges and all\nquotas are unity. This situation is, of course, highlyunnatural in the context\nof college admissions, but there is another \"story\" into which it fits quite\nreadily.\n   A certain communityconsists of n men and n women. Each person ranks\nthose of the opposite sex in accordance with his or her preferencesfora marriage\npartner.We seek a satisfactoryway of marryingoffall membersof the com-\nmunity.Imitatingour earlierdefinition,we call a set of marriagesunstable(and\nhere the suitabilityof the termis quite clear) if under it thereare a man and a\nwoman who are not marriedto each other but prefereach other to theiractual\nmates.",
+          "quoted_text_sha256": "fcfaddea9c7b831c524d93c04c5fa6579b9b9b802e369953353ed082479bdc02"
         },
         {
           "path": "source.txt",
-          "line_start": 191,
-          "line_end": 191,
-          "quoted_text": "   THEOREM 1. There always exists a stable set of marriages.",
-          "quoted_text_sha256": "cabc6b4e1e74d197a9e678bd4646147a7cf10e53f262e280b2409661d0743447"
+          "line_start": 185,
+          "line_end": 185,
+          "quoted_text": "     THEOREM 1. Therealwaysexistsa stablesetofmarriages.",
+          "quoted_text_sha256": "296adf8d97ce71609edac4d6bf4706f2a943821cd0a181e26f1c46c01afeccb9"
+        }
+      ],
+      "semantic_context_requirements": [
+        {
+          "kind": "marriage_problem_scope",
+          "semantic_role": "model",
+          "source_location": "source.txt:127-132 (printed page 11, Section 3)",
+          "explanation": "Section 3 selects the equal-size, unit-quota special case used for the marriage theorem.",
+          "source_anchor_evidence": [
+            {
+              "path": "source.txt",
+              "line_start": 127,
+              "line_end": 132,
+              "quoted_text": "   3. Stable assignments and a marriage problem. In trying to settle the\nquestion of the existence of stable assignmentswe were led to look firstat a\nspecial case, in whichthereare the same numberof applicants as colleges and all\nquotas are unity. This situation is, of course, highlyunnatural in the context\nof college admissions, but there is another \"story\" into which it fits quite\nreadily.",
+              "quoted_text_sha256": "d007cd8f3786bd0b1a3d55e0a948c2fe0faac2203874f8c127b95e63dd007da3"
+            }
+          ]
+        },
+        {
+          "kind": "marriage_stability_reading",
+          "semantic_role": "definition",
+          "source_location": "source.txt:133-139 (printed page 11, Section 3)",
+          "explanation": "The theorem's stable marriage reading uses actual mates and excludes a mutually preferred unmatched pair.",
+          "source_anchor_evidence": [
+            {
+              "path": "source.txt",
+              "line_start": 133,
+              "line_end": 139,
+              "quoted_text": "   A certain communityconsists of n men and n women. Each person ranks\nthose of the opposite sex in accordance with his or her preferencesfora marriage\npartner.We seek a satisfactoryway of marryingoffall membersof the com-\nmunity.Imitatingour earlierdefinition,we call a set of marriagesunstable(and\nhere the suitabilityof the termis quite clear) if under it thereare a man and a\nwoman who are not marriedto each other but prefereach other to theiractual\nmates.",
+              "quoted_text_sha256": "ef0ef634cb9f445ecf54525d6d9d3751f4f1b0eac61054a6486522cfbebd6877"
+            }
+          ]
         }
       ],
       "source_claim_atoms": [
         {
           "id": "theorem1.complete_strict_equal_side_domain",
-          "source_locator": "source.txt:115-130",
-          "source_quote_sha256": "f2655d1a66c264f0b096b59e935dbef40da894ae8578a56a599470b4d2ac7c68",
+          "source_locator": "source.txt:127-139",
+          "source_quote_sha256": "fcfaddea9c7b831c524d93c04c5fa6579b9b9b802e369953353ed082479bdc02",
           "semantic_claim": "Section 3 fixes two finite communities of the same size, has every participant rank every member of the opposite community, and seeks a marriage covering all participants.",
-          "reviewed_lean_route": "GS62CollegeAdmissions.PaperInterface.theorem1_stable_marriage_exists"
+          "reviewed_lean_route": "GS62CollegeAdmissions.ProofInterface.theorem1_stable_marriage_exists"
         },
         {
           "id": "theorem1.stable_marriage_existence",
-          "source_locator": "source.txt:191",
-          "source_quote_sha256": "cabc6b4e1e74d197a9e678bd4646147a7cf10e53f262e280b2409661d0743447",
+          "source_locator": "source.txt:185",
+          "source_quote_sha256": "296adf8d97ce71609edac4d6bf4706f2a943821cd0a181e26f1c46c01afeccb9",
           "semantic_claim": "Every finite equal-side complete strict marriage preference profile admits a complete marriage with no mutually preferable unmatched pair.",
-          "reviewed_lean_route": "GS62CollegeAdmissions.PaperInterface.theorem1_stable_marriage_exists"
+          "reviewed_lean_route": "GS62CollegeAdmissions.ProofInterface.theorem1_stable_marriage_exists"
         }
       ],
       "source_spec_correspondence": {
         "schema": 1,
-        "source_atoms_sha256": "e9b9206e9c6d97b763cebf9a564aea7439727ecbb2e818d131151dbaf3f649e0",
-        "spec_closure_sha256": "4391b0fd3f7a453d5f3528e303120833cb75eeeccd842f0b4c275749e20ca63a",
-        "spec_surface_sha256": "ebaf355e4c95217ec629467e7c9be5286c63fd256e3accaa422b4528ed090091",
-        "closure_environment_sha256": "6155e4ee9adbd497c1e2610378667bdaf2605af3bd75d3131a90204aa59b0516",
+        "source_atoms_sha256": "28882b539d54a244241646c082c3c90760efa9a0810e63181188498289397655",
+        "spec_closure_sha256": "ed74a99d3536d8fede3be7f98f17e8f6293f1f8156c69f1868ad492e9682e7d1",
+        "spec_surface_sha256": "6a25f43d6acc79f1c81c5250bbe766573437014daa6447d1a36af89a8cf5545e",
+        "closure_environment_sha256": "513b778bb4238db24b5acd52f1f78fdcf113366c5a09723ae5ef6c564e4242b5",
         "source_atom_bindings": [
           {
-            "source_atom_sha256": "ac575cfee1983d423b7d5d40776e1aae74ca4ac0fa754120291215dcdab7f000",
+            "source_atom_sha256": "712afeab2ff320c30e688c9992dcb0cbed8d09cdcb3ee96e52784c710e12ba76",
             "spec_component_sha256s": [
-              "ebaf355e4c95217ec629467e7c9be5286c63fd256e3accaa422b4528ed090091"
+              "6a25f43d6acc79f1c81c5250bbe766573437014daa6447d1a36af89a8cf5545e"
             ],
             "semantic_bridge": "The root Spec retains the first atom as distinct finite side types, equal cardinality, and the complete strict preference-domain antecedent.",
             "overlap_justification": "The domain atom and existence atom are the antecedent and consequent of one quantified theorem proposition; the closure exposes one indivisible root fingerprint, so these independently anchored clauses intentionally share it."
           },
           {
-            "source_atom_sha256": "c8b999704cf3b89924d447447b549ce7df95ab10b43a93cde29ba630ab1ea10b",
+            "source_atom_sha256": "ee4d7a20da04f9dde8b91b6e80a78fffee0f293eb5af7c37fc85760da647b413",
             "spec_component_sha256s": [
-              "ebaf355e4c95217ec629467e7c9be5286c63fd256e3accaa422b4528ed090091"
+              "6a25f43d6acc79f1c81c5250bbe766573437014daa6447d1a36af89a8cf5545e"
             ],
             "semantic_bridge": "The root Spec retains the second atom as existence of a complete marriage with no mutually preferable unmatched man-woman pair.",
             "overlap_justification": "The domain atom and existence atom are the antecedent and consequent of one quantified theorem proposition; the closure exposes one indivisible root fingerprint, so these independently anchored clauses intentionally share it."
@@ -954,197 +1019,140 @@
         ],
         "closure_node_dispositions": [
           {
-            "closure_component_sha256": "172cd8a71610a5075a92f11b29aac32e41efb6fb6de43208a058c52bedad4dba",
-            "source_atom_sha256": "c8b999704cf3b89924d447447b549ce7df95ab10b43a93cde29ba630ab1ea10b",
+            "closure_component_sha256": "5f94d0f3b34a2e1bb4de49aa22e5b7fd26ac9edd83bda730365ebf370dd3e868",
+            "source_atom_sha256": "ee4d7a20da04f9dde8b91b6e80a78fffee0f293eb5af7c37fc85760da647b413",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-130",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:127-139",
               "semantic_statement": "Theorem 1 asserts existence of a complete set of marriages on the two finite communities; this imported one-to-one assignment structure represents that witness."
             },
             "pinned_declaration_identity_sha256": "dc02091416c01a060cb5a859a704cf4f5fe5b48f822f7472dd7d94bdc52574e2"
           },
           {
-            "closure_component_sha256": "307d11fc62af6152b9222b230dbf26a99d81bf2c0e0ea84c4893ee914774cd02",
-            "source_atom_sha256": "c8b999704cf3b89924d447447b549ce7df95ab10b43a93cde29ba630ab1ea10b",
+            "closure_component_sha256": "a861c1c0ae78bec15439499fe61b2c7f9c95a8c9b6240b8d3ba95783b4d049c2",
+            "source_atom_sha256": "ee4d7a20da04f9dde8b91b6e80a78fffee0f293eb5af7c37fc85760da647b413",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-130",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:127-139",
               "semantic_statement": "Theorem 1 asserts existence of a complete set of marriages on the two finite communities; this imported one-to-one assignment structure represents that witness."
             },
             "pinned_declaration_identity_sha256": "dc02091416c01a060cb5a859a704cf4f5fe5b48f822f7472dd7d94bdc52574e2"
           },
           {
-            "closure_component_sha256": "4aca7fc14caf7d35aeb35a86315ff507cb888a563eacc9d893f8e5f1bcaf5183",
-            "source_atom_sha256": "ac575cfee1983d423b7d5d40776e1aae74ca4ac0fa754120291215dcdab7f000",
+            "closure_component_sha256": "844c28aa910568991f4bec2a6a3e7027bafc44ea8bb14c8259b316757e3bfb9b",
+            "source_atom_sha256": "ee4d7a20da04f9dde8b91b6e80a78fffee0f293eb5af7c37fc85760da647b413",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-127",
-              "semantic_statement": "Section 3 says every man ranks every woman; this imported predicate is the strict no-ties numerical representation of those complete male preference rankings."
-            },
-            "pinned_declaration_identity_sha256": "35305d6e4a580481d7ee2b8fe36188c751064c842cfe11ba2723772e4fd6c91d"
-          },
-          {
-            "closure_component_sha256": "507c6c1e61aa2f6722379084e629c9a2274de6026a0c545e3c111a42297798e1",
-            "source_atom_sha256": "c8b999704cf3b89924d447447b549ce7df95ab10b43a93cde29ba630ab1ea10b",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-130",
-              "semantic_statement": "Theorem 1 returns a complete marriage with no mutually preferable unmatched pair; this imported projection supplies each woman assigned mate in that conclusion."
-            },
-            "pinned_declaration_identity_sha256": "bea3e70fbcf43a5321443366bd71a7f9532b73aa38cb73862afd5b26e71c38d8"
-          },
-          {
-            "closure_component_sha256": "533fc4ed9cc0e24989c57094c59c8429be9a44da17d27de19149cd4b5da26614",
-            "source_atom_sha256": "c8b999704cf3b89924d447447b549ce7df95ab10b43a93cde29ba630ab1ea10b",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-130",
-              "semantic_statement": "Theorem 1 returns a complete marriage with no mutually preferable unmatched pair; this imported projection supplies each woman assigned mate in that conclusion."
-            },
-            "pinned_declaration_identity_sha256": "bea3e70fbcf43a5321443366bd71a7f9532b73aa38cb73862afd5b26e71c38d8"
-          },
-          {
-            "closure_component_sha256": "62844b6cc1ee92f01ef9ec16e5300a0df328c36564f772c7ff86337cd9450410",
-            "source_atom_sha256": "c8b999704cf3b89924d447447b549ce7df95ab10b43a93cde29ba630ab1ea10b",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-130",
-              "semantic_statement": "Theorem 1 asserts existence of a complete set of marriages on the two finite communities; this imported one-to-one assignment structure represents that witness."
-            },
-            "pinned_declaration_identity_sha256": "dc02091416c01a060cb5a859a704cf4f5fe5b48f822f7472dd7d94bdc52574e2"
-          },
-          {
-            "closure_component_sha256": "62e973fbfaf935d02122237ddf9eb8ed5610fb75de96fb011edc17a11e5a3fda",
-            "source_atom_sha256": "c8b999704cf3b89924d447447b549ce7df95ab10b43a93cde29ba630ab1ea10b",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-130",
-              "semantic_statement": "Theorem 1 asserts existence of a complete set of marriages on the two finite communities; this imported one-to-one assignment structure represents that witness."
-            },
-            "pinned_declaration_identity_sha256": "dc02091416c01a060cb5a859a704cf4f5fe5b48f822f7472dd7d94bdc52574e2"
-          },
-          {
-            "closure_component_sha256": "918a764c9924bf1b045f4f906906cd9ad3e188b82b715184eee8ac31e1cc4564",
-            "source_atom_sha256": "ac575cfee1983d423b7d5d40776e1aae74ca4ac0fa754120291215dcdab7f000",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-127",
-              "semantic_statement": "Section 3 says every woman ranks every man; this imported predicate is the strict no-ties numerical representation of those complete female preference rankings."
-            },
-            "pinned_declaration_identity_sha256": "bfb1937395cb79e3854b0872586b0884c0b39c593a2af71af6b18601565b996b"
-          },
-          {
-            "closure_component_sha256": "ad107adfa8cfa081c95387f883a823cd1f6b5b5808ef99f015c06d87fca0b5fb",
-            "source_atom_sha256": "c8b999704cf3b89924d447447b549ce7df95ab10b43a93cde29ba630ab1ea10b",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-130",
-              "semantic_statement": "Theorem 1 rules out a pair that a woman prefers to her assigned mate; this imported evaluator supplies the woman current-mate preference value."
-            },
-            "pinned_declaration_identity_sha256": "e4c25cf611a930b7578f3e99250d9f5af2fe30224ba92b5a462e1ffda43e488b"
-          },
-          {
-            "closure_component_sha256": "ae0dc2671346487ccde2a73090acd7e69cffe74e5b9e7d2c987fd671a30ff9c9",
-            "source_atom_sha256": "c8b999704cf3b89924d447447b549ce7df95ab10b43a93cde29ba630ab1ea10b",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-130",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:127-139",
               "semantic_statement": "Theorem 1 returns a complete marriage with no mutually preferable unmatched pair; this imported projection supplies each man assigned mate in that conclusion."
             },
             "pinned_declaration_identity_sha256": "5cb9b5e46b29cb2df5c9c7c4961ab826846fa5d9fd62e6102599ceff43e38342"
           },
           {
-            "closure_component_sha256": "b0364edf3aa2923f9e2d25a708b6e74880240a77e9feda4681e5d80b305cfa4a",
-            "source_atom_sha256": "c8b999704cf3b89924d447447b549ce7df95ab10b43a93cde29ba630ab1ea10b",
+            "closure_component_sha256": "5ad4b778cb6d2919f87ef49ec5b491af849012a45a901c9370568db8a7c8064f",
+            "source_atom_sha256": "ee4d7a20da04f9dde8b91b6e80a78fffee0f293eb5af7c37fc85760da647b413",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-130",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:127-139",
+              "semantic_statement": "Theorem 1 returns a complete marriage with no mutually preferable unmatched pair; this imported projection supplies each woman assigned mate in that conclusion."
+            },
+            "pinned_declaration_identity_sha256": "bea3e70fbcf43a5321443366bd71a7f9532b73aa38cb73862afd5b26e71c38d8"
+          },
+          {
+            "closure_component_sha256": "ab79323aacfa1050091f507912333f2330cc59d829a26f13fb377e0e80ebe5c7",
+            "source_atom_sha256": "ee4d7a20da04f9dde8b91b6e80a78fffee0f293eb5af7c37fc85760da647b413",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:127-139",
               "semantic_statement": "Theorem 1 rules out a pair that a man prefers to his assigned mate; this imported evaluator supplies the man current-mate preference value."
             },
             "pinned_declaration_identity_sha256": "678f8ff1babc3bc05e6128ca8934a1b9008d2ddbfa285911e67b3cb39121f901"
           },
           {
-            "closure_component_sha256": "ba4d623ae871a9bb6f92a00af176652a3b625fa514150caadd71eb9203263e16",
-            "source_atom_sha256": "ac575cfee1983d423b7d5d40776e1aae74ca4ac0fa754120291215dcdab7f000",
+            "closure_component_sha256": "5c51e1a3143930636cf075ebd135c4337e0c01d02a97707702a4e63355fb8495",
+            "source_atom_sha256": "ee4d7a20da04f9dde8b91b6e80a78fffee0f293eb5af7c37fc85760da647b413",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-127",
-              "semantic_statement": "Section 3 has every participant rank every member of the opposite community and seeks to marry off all members; this imported predicate records that every cross-side pair lies above the unmatched option."
-            },
-            "pinned_declaration_identity_sha256": "269debf7489009a7f6465f4407a6717f6c015a595a16c4ce58dff0a946a50963"
-          },
-          {
-            "closure_component_sha256": "d0d8f3b25b31ed4d9a3692b428665dccebb28aa20ab0739a715dd52cc9008316",
-            "source_atom_sha256": "c8b999704cf3b89924d447447b549ce7df95ab10b43a93cde29ba630ab1ea10b",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-130",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:127-139",
               "semantic_statement": "Theorem 1 returns a complete marriage with no mutually preferable unmatched pair; this imported projection supplies each man assigned mate in that conclusion."
             },
             "pinned_declaration_identity_sha256": "5cb9b5e46b29cb2df5c9c7c4961ab826846fa5d9fd62e6102599ceff43e38342"
           },
           {
-            "closure_component_sha256": "e025706194e32f7d87d2cb2c17dda133830a77e9b267b158b13159510e3e854d",
-            "source_atom_sha256": "c8b999704cf3b89924d447447b549ce7df95ab10b43a93cde29ba630ab1ea10b",
+            "closure_component_sha256": "07bd992528da484ccaa1893c0d25ef3b772514db6c2d8cc002b722b1a7739010",
+            "source_atom_sha256": "ee4d7a20da04f9dde8b91b6e80a78fffee0f293eb5af7c37fc85760da647b413",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-130",
-              "semantic_statement": "Theorem 1 asserts existence of a complete set of marriages on the two finite communities; this imported one-to-one assignment structure represents that witness."
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:127-139",
+              "semantic_statement": "Theorem 1 rules out a pair that a woman prefers to her assigned mate; this imported evaluator supplies the woman current-mate preference value."
             },
-            "pinned_declaration_identity_sha256": "dc02091416c01a060cb5a859a704cf4f5fe5b48f822f7472dd7d94bdc52574e2"
+            "pinned_declaration_identity_sha256": "e4c25cf611a930b7578f3e99250d9f5af2fe30224ba92b5a462e1ffda43e488b"
           },
           {
-            "closure_component_sha256": "fa0063787a738b7dfed6526247fea252dcdf4e66128c4159738fa8c5aa2af86c",
-            "source_atom_sha256": "c8b999704cf3b89924d447447b549ce7df95ab10b43a93cde29ba630ab1ea10b",
+            "closure_component_sha256": "6d061f0489022e3ea313054bc2ac8763397d149e666cef0efe068f4d915b67a9",
+            "source_atom_sha256": "ee4d7a20da04f9dde8b91b6e80a78fffee0f293eb5af7c37fc85760da647b413",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:121-130",
-              "semantic_statement": "Theorem 1 asserts existence of a complete set of marriages on the two finite communities; this imported one-to-one assignment structure represents that witness."
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:127-139",
+              "semantic_statement": "Theorem 1 returns a complete marriage with no mutually preferable unmatched pair; this imported projection supplies each woman assigned mate in that conclusion."
             },
-            "pinned_declaration_identity_sha256": "dc02091416c01a060cb5a859a704cf4f5fe5b48f822f7472dd7d94bdc52574e2"
+            "pinned_declaration_identity_sha256": "bea3e70fbcf43a5321443366bd71a7f9532b73aa38cb73862afd5b26e71c38d8"
+          },
+          {
+            "closure_component_sha256": "609ef829b98442e8f7b88e0485afadc21c6d4ce7a18e132f6c8880a9340ec147",
+            "source_atom_sha256": "ee4d7a20da04f9dde8b91b6e80a78fffee0f293eb5af7c37fc85760da647b413",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:127-139",
+              "semantic_statement": "Theorem 1 returns a complete marriage with no mutually preferable unmatched pair; this imported projection supplies each man assigned mate in that conclusion."
+            },
+            "pinned_declaration_identity_sha256": "5cb9b5e46b29cb2df5c9c7c4961ab826846fa5d9fd62e6102599ceff43e38342"
+          },
+          {
+            "closure_component_sha256": "b043fad8b200ad66b3f8a853b05d478a68600321fa4993a746d119f707e2956f",
+            "source_atom_sha256": "ee4d7a20da04f9dde8b91b6e80a78fffee0f293eb5af7c37fc85760da647b413",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:127-139",
+              "semantic_statement": "Theorem 1 returns a complete marriage with no mutually preferable unmatched pair; this imported projection supplies each woman assigned mate in that conclusion."
+            },
+            "pinned_declaration_identity_sha256": "bea3e70fbcf43a5321443366bd71a7f9532b73aa38cb73862afd5b26e71c38d8"
           }
         ],
-        "item_identity_sha256": "ea44b0cd9e5de24fd1a22720461f1a6748ca74b4ca46ffd0afcb9e13a5510f36"
+        "item_identity_sha256": "8bbf532603480ca038c82a3fedec17734003a355fed719d8ba35ac367e77b577"
       }
     },
     "theorem2_applicant_optimality": {
-      "source_defect_ids": [
-        "GS62-LITERAL-STABILITY-COMPLETION-01"
-      ],
       "model_convention_ids": [
+        "GS62-COMPLETED-STABILITY-READING-01",
         "GS62-STRICT-LIST-NUMERIC-EXTENSION-01",
         "GS62-MUTUAL-APPLICATION-ELIGIBILITY-01"
       ],
       "statement": "Theorem 2: the Section 4 arbitrary-quota applicant-proposing waiting-list procedure returns a completed-standard stable assignment under which every applicant is at least as well off as under every other completed-standard stable assignment.",
       "source_url": "https://www.jstor.org/stable/2312726",
-      "source_location": "source.txt:251-274; source.txt:280-282; printed pages 13-14, Sections 4-5",
+      "source_location": "source.txt:232-249; source.txt:253-255 (printed pages 13-14, Sections 4-5 and Theorem 2)",
       "source_kind": "theorem",
-      "source_status": "direct_source_theorem_under_documented_standard_stability_completion",
+      "source_status": "direct_source_theorem_under_approved_source_convention",
       "claim_bearing": true,
       "semantic_contract": {
         "spec_declaration": "GS62CollegeAdmissions.PaperInterface.theorem2_applicant_optimalitySpec",
-        "evidence_declaration": "GS62CollegeAdmissions.PaperInterface.theorem2_applicant_optimality",
+        "evidence_declaration": "GS62CollegeAdmissions.ProofInterface.theorem2_applicant_optimality",
         "evidence_mode": "proves",
         "semantic_shape": "plain"
       },
-      "source_note": "The procedure filters applications by the source's pairwise mutual eligibility convention, then each college retains exactly its top q among its prior waiting list and new applicants. No extra global applicant-positive-implies-college-positive premise is part of the theorem. The comparison uses standard completed many-to-one stability: feasibility and individual rationality, plus blocking by a mutually acceptable applicant-college pair when the college has a vacancy or prefers that applicant to a current assignee. This is the intended stability reading required by the source proof and procedure; the literal displayed page-10 replacement-pair definition remains separately formalized rather than silently strengthened. The source defect/formalized-note and model-convention IDs make these distinctions reviewable.",
+      "source_note": "The procedure filters applications by the source's pairwise mutual eligibility convention, then each college retains exactly its top q among its prior waiting list and new applicants. No extra global applicant-positive-implies-college-positive premise is part of the theorem. Under the documented completed-stability reading of Sections 4--5, the comparison class is quota-feasible and individually rational and has no mutually acceptable block through a vacancy or replacement of a current assignee. The literal page-10 replacement-pair definition remains separately formalized rather than silently strengthened.",
       "lean_declarations": [
-        "GS62CollegeAdmissions.PaperInterface.theorem2_applicant_optimality"
+        "GS62CollegeAdmissions.ProofInterface.theorem2_applicant_optimality"
       ],
       "support_lean_declarations": [
         "GS62CollegeAdmissions.PaperInterface.theorem2_applicant_optimalitySpec"
@@ -1152,54 +1160,101 @@
       "source_anchor_evidence": [
         {
           "path": "source.txt",
-          "line_start": 251,
-          "line_end": 274,
-          "quoted_text": "   4. Stable assignments and the admissions problem. The extension of our\n\"deferred-acceptance\" procedure to the problem of college admissions is straight-\nforward. For convenience we will assume that if a college is not willing to accept\na student under any circumstances, as described in Section 2, then that student\nwill not even be permitted to apply to the college. With this understanding the\nprocedure follows: First, all students apply to the college of their first choice.\nA college with a quota of q then places on its waiting list the q applicants who\nrank highest, or all applicants if there are fewer than q, and rejects the rest.\nRejected applicants then apply to their second choice and again each college\nselects the top q from among the new applicants and those on its waiting list,\nputs these on its new waiting list, and rejects the rest. The procedure terminates\nwhen every applicant is either on a waiting list or has been rejected by every\ncollege to which he is willing and permitted to apply. At this point each college\n\n\n\n                                    This content downloaded from\n                  103.27.11.106 on Sun, 19 Dec 2021 14:02:55 UTC\n                            All use subject to https://about.jstor.org/terms\n\f14 COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE [January\n\nadmits everyone on its waiting list and the stable assignment has been achieved.\nThe proof that the assignment is stable is entirely analogous to the proof given\nfor the marriage problem and is left to the reader.",
-          "quoted_text_sha256": "e77df781e6d394f4701a712843296531dc92852ae0acf24ce2b265970611aa0f"
+          "line_start": 232,
+          "line_end": 249,
+          "quoted_text": "    4. Stable assignments and the admissions problem. The extension of our\n\"deferred-acceptance\"procedureto the problemofcollegeadmissionsis straight-\nforward.For conveniencewe will assume that ifa college is not willingto accept\na student underany circumstances,as describedin Section 2, then that student\nwill not even be permittedto apply to the college. With this understandingthe\nprocedure follows: First, all students apply to the college of their firstchoice.\nA college with a quota of q then places on its waiting list the q applicants who\nrank highest,or all applicants if there are fewerthan q, and rejects the rest.\nRejected applicants then apply to their second choice and again each college\nselects the top q fromamong the new applicants and those on its waiting list,\nputs these on its new waitinglist,and rejects the rest.The procedureterminates\nwhen every applicant is either on a waiting list or has been rejected by every\ncollege to which he is willingand permittedto apply. At this point each college\n\f14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January\n\nadmits everyoneon its waitinglist and the stable assignmenthas been achieved.\nThe proofthat the assignmentis stable is entirelyanalogous to the proofgiven\nforthe marriageproblemand is leftto the reader.",
+          "quoted_text_sha256": "56b2cff43a0390ed87027adfe588c9477159142f221042d86892d36625545624"
         },
         {
           "path": "source.txt",
-          "line_start": 280,
-          "line_end": 282,
-          "quoted_text": "   THEOREM 2. Every applicant is at least as well off under the assignment given\nby the deferred acceptance procedure as he would be under any other stable assign\nment.",
-          "quoted_text_sha256": "b816b58f2106372c658c86b2ea6af7b760d96a6868ffeb364880a9795c7954ed"
+          "line_start": 253,
+          "line_end": 255,
+          "quoted_text": "   THEOREM 2. Everyapplicant is at least as well offundertheassignmentgiven\nby thedeferredacceptanceprocedureas he would be underany otherstableassign-\nment.",
+          "quoted_text_sha256": "ebae604eb5f27c59d340bc8de54bae48c0a13809db969bbeea66c126614a0afa"
+        }
+      ],
+      "semantic_context_requirements": [
+        {
+          "kind": "displayed_replacement_pair_definition",
+          "semantic_role": "definition",
+          "source_location": "source.txt:93-98 (printed page 10)",
+          "explanation": "The earlier displayed replacement-pair condition is included so the Theorem 2 review can distinguish that literal predicate from the completed operational stability reading of Sections 4--5.",
+          "source_anchor_evidence": [
+            {
+              "path": "source.txt",
+              "line_start": 93,
+              "line_end": 98,
+              "quoted_text": "   DEFINITION. An assignment  ofapplicantstocolleges\n                                                   willbecalledunstableif\nthereare twoapplicantsa and ,Bwhoare assignedtocolleges\n                                                      A andB, respectively,\nalthough        A toB and A prefers: toa.\n        ,3prefers",
+              "quoted_text_sha256": "428be34342d658bf68ae968d7383233831758a9b3964ea12d462d8ffbbaa4f01"
+            }
+          ]
+        },
+        {
+          "kind": "college_waiting_list_procedure",
+          "semantic_role": "model_construction",
+          "source_location": "source.txt:232-249 (printed pages 13-14, Section 4)",
+          "explanation": "Section 4 supplies the mutually eligible, top-quota waiting-list procedure whose terminal assignment is named in Theorem 2.",
+          "source_anchor_evidence": [
+            {
+              "path": "source.txt",
+              "line_start": 232,
+              "line_end": 249,
+              "quoted_text": "    4. Stable assignments and the admissions problem. The extension of our\n\"deferred-acceptance\"procedureto the problemofcollegeadmissionsis straight-\nforward.For conveniencewe will assume that ifa college is not willingto accept\na student underany circumstances,as describedin Section 2, then that student\nwill not even be permittedto apply to the college. With this understandingthe\nprocedure follows: First, all students apply to the college of their firstchoice.\nA college with a quota of q then places on its waiting list the q applicants who\nrank highest,or all applicants if there are fewerthan q, and rejects the rest.\nRejected applicants then apply to their second choice and again each college\nselects the top q fromamong the new applicants and those on its waiting list,\nputs these on its new waitinglist,and rejects the rest.The procedureterminates\nwhen every applicant is either on a waiting list or has been rejected by every\ncollege to which he is willingand permittedto apply. At this point each college\n\f14             COLLEGE ADMISSIONS AND STABILITY OF MARRIAGE              [January\n\nadmits everyoneon its waitinglist and the stable assignmenthas been achieved.\nThe proofthat the assignmentis stable is entirelyanalogous to the proofgiven\nforthe marriageproblemand is leftto the reader.",
+              "quoted_text_sha256": "56b2cff43a0390ed87027adfe588c9477159142f221042d86892d36625545624"
+            }
+          ]
+        },
+        {
+          "kind": "theorem2_operational_stability_reading",
+          "semantic_role": "prior_result",
+          "source_location": "source.txt:250-252 (printed page 14, Section 5)",
+          "explanation": "Section 5 applies the stability reading of the just-described procedure when comparing its assignment to every other stable assignment.",
+          "source_anchor_evidence": [
+            {
+              "path": "source.txt",
+              "line_start": 250,
+              "line_end": 252,
+              "quoted_text": "   5. Optimality.We now show that the \"deferredacceptance\" procedurejust\ndescribed yields not only a stable but an optimal assignment of applicants.\nThat is,",
+              "quoted_text_sha256": "e13f76c611d554c5be9696d38ee41db888c1bc6cbc32be5fdc7a5dc691194b7c"
+            }
+          ]
         }
       ],
       "source_claim_atoms": [
         {
           "id": "theorem2.section4_top_q_procedure",
-          "source_locator": "source.txt:251-274",
-          "source_quote_sha256": "e77df781e6d394f4701a712843296531dc92852ae0acf24ce2b265970611aa0f",
+          "source_locator": "source.txt:232-249",
+          "source_quote_sha256": "56b2cff43a0390ed87027adfe588c9477159142f221042d86892d36625545624",
           "semantic_claim": "Applicants apply in preference order only to mutually eligible colleges; after each batch, a quota-q college retains its top q applicants from its prior waiting list together with new applicants, and the terminal waiting lists become the assignment.",
-          "reviewed_lean_route": "GS62CollegeAdmissions.PaperInterface.theorem2_applicant_optimality"
+          "reviewed_lean_route": "GS62CollegeAdmissions.ProofInterface.theorem2_applicant_optimality"
         },
         {
           "id": "theorem2.applicant_optimality",
-          "source_locator": "source.txt:280-282",
-          "source_quote_sha256": "b816b58f2106372c658c86b2ea6af7b760d96a6868ffeb364880a9795c7954ed",
+          "source_locator": "source.txt:253-255",
+          "source_quote_sha256": "ebae604eb5f27c59d340bc8de54bae48c0a13809db969bbeea66c126614a0afa",
           "semantic_claim": "Every applicant weakly prefers the assignment returned by the deferred-acceptance procedure to every other stable assignment.",
-          "reviewed_lean_route": "GS62CollegeAdmissions.PaperInterface.theorem2_applicant_optimality"
+          "reviewed_lean_route": "GS62CollegeAdmissions.ProofInterface.theorem2_applicant_optimality"
         }
       ],
       "source_spec_correspondence": {
         "schema": 1,
-        "source_atoms_sha256": "693b7a8e2e0b87b4214db14549426042a09ff13bf33adc5df507ba7f5b6f80b2",
-        "spec_closure_sha256": "c77d02d3b6fc56639e5c1c0b09f0716ab65c6d4ec20562124776491dca1cd2c1",
-        "spec_surface_sha256": "e9460c2eff85abd1c0a97e755ae648f55b3ad0e4aa4bcf94ffad5689814aff92",
-        "closure_environment_sha256": "96e5c689f10ee64b4bf2f612cb6f6e3567b3dd0fe4c3f027e1553cf5655f81b3",
+        "source_atoms_sha256": "a519911ab88246272097dff3b9db1b4c0e2b399e40b036a81e10caafc01c0e62",
+        "spec_closure_sha256": "6e5eb5627bb4b1ae58bb4ad0f5d32ac4b3efbf2bd6079a2f2568ca6f4e7507bb",
+        "spec_surface_sha256": "521ee1db6579c6ea694d24821cdf9f3dd196f0dc88326a0e2b1777fbbf22f8b2",
+        "closure_environment_sha256": "34d5c29f5dc4ca3d32c026b486e714c551bae0f401dfc8c103c6c09213b8c9d0",
         "source_atom_bindings": [
           {
-            "source_atom_sha256": "b9c6c641a5eeac01166a335224b0e978cdbf8eb6d02b2a920789ebac8e9b558e",
+            "source_atom_sha256": "0c9d24f991873a3697dd846c7aadccf7cccac28bb960dc7438c8109a710700d3",
             "spec_component_sha256s": [
-              "e9460c2eff85abd1c0a97e755ae648f55b3ad0e4aa4bcf94ffad5689814aff92"
+              "521ee1db6579c6ea694d24821cdf9f3dd196f0dc88326a0e2b1777fbbf22f8b2"
             ],
             "semantic_bridge": "The closed root Spec quantifies the source market, requires existence of a terminal state reachable by zero or more exact source steps, and requires every reachable terminal state to induce an applicant-optimal assignment. Its transparent closure expands mutual eligibility, best-first new applications, batched top-quota waiting lists, the terminal condition, and terminal assignment construction.",
             "overlap_justification": "The procedure atom identifies the assignment whose applicant optimality is asserted by the theorem atom; the closure exposes one indivisible root fingerprint, so these independently anchored clauses intentionally share it."
           },
           {
-            "source_atom_sha256": "e5d34d074a4af2ab1f8893d025ed9174361cf97f190e9d818a5e4cab771605c1",
+            "source_atom_sha256": "8a430885a95236b54a26dc3cfaceb2a6598214497622730480b60822cde28b71",
             "spec_component_sha256s": [
-              "e9460c2eff85abd1c0a97e755ae648f55b3ad0e4aa4bcf94ffad5689814aff92"
+              "521ee1db6579c6ea694d24821cdf9f3dd196f0dc88326a0e2b1777fbbf22f8b2"
             ],
             "semantic_bridge": "The closed root Spec states that every assignment induced by a reachable terminal source state is completed-standard stable and weakly preferred by every applicant to every completed-standard stable comparison assignment.",
             "overlap_justification": "The procedure atom identifies the assignment whose applicant optimality is asserted by the theorem atom; the closure exposes one indivisible root fingerprint, so these independently anchored clauses intentionally share it."
@@ -1207,161 +1262,260 @@
         ],
         "closure_node_dispositions": [
           {
-            "closure_component_sha256": "3e4add07c5ae5ee2f1d61f59ad068129c8275c7687d03a5bf759524c6d10b3d3",
-            "source_atom_sha256": "e5d34d074a4af2ab1f8893d025ed9174361cf97f190e9d818a5e4cab771605c1",
+            "closure_component_sha256": "2e50a969f582363f402b1bcfc27769db265e7f20424b280f3f28d611407d0565",
+            "source_atom_sha256": "0c9d24f991873a3697dd846c7aadccf7cccac28bb960dc7438c8109a710700d3",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:251-298",
-              "semantic_statement": "Section 4 calls the terminal waiting-list assignment stable, and the Theorem 2 rejection proof treats a mutually improving applicant-college pair as upsetting a comparison assignment; this imported predicate makes that proof-used completed stability comparison explicit while the literal displayed predicate remains separate."
-            },
-            "pinned_declaration_identity_sha256": "296d822f34c1290c0ba78f0aba3119ae3b1c1007d2f230845118bd3efe7d2c03"
-          },
-          {
-            "closure_component_sha256": "42891c879303f36626047fa38648e49dddd63cda99562c2d4984af23f69f0e09",
-            "source_atom_sha256": "e5d34d074a4af2ab1f8893d025ed9174361cf97f190e9d818a5e4cab771605c1",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:263-282",
-              "semantic_statement": "Section 4 turns terminal waiting lists into a college assignment, and Theorem 2 compares it with every other stable assignment; this imported structure represents those many-to-one assignments."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "69b529d3317f6e4c83f333570874d4a4c9e1f27fbfd5f11cc2ae95da73c3e5cb",
-            "source_atom_sha256": "e5d34d074a4af2ab1f8893d025ed9174361cf97f190e9d818a5e4cab771605c1",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:276-282",
-              "semantic_statement": "Theorem 2 states that every applicant is at least as well off under the procedure outcome; this imported evaluator supplies the weak-preference value of an assigned college or the unmatched option."
-            },
-            "pinned_declaration_identity_sha256": "1a5f10b8426e3ee912a683992447814357629df65a471048e123d54d9477a411"
-          },
-          {
-            "closure_component_sha256": "6dbd6ccd281e5ed6fdf74f7cd163092b7f96f5121964688f2d88611d03c4d993",
-            "source_atom_sha256": "e5d34d074a4af2ab1f8893d025ed9174361cf97f190e9d818a5e4cab771605c1",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:263-282",
-              "semantic_statement": "Section 4 turns terminal waiting lists into a college assignment, and Theorem 2 compares it with every other stable assignment; this imported structure represents those many-to-one assignments."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "73494e6061b9b00de8f36ada3619ba1060761a651e006df236ddf1ccc7d5df99",
-            "source_atom_sha256": "e5d34d074a4af2ab1f8893d025ed9174361cf97f190e9d818a5e4cab771605c1",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:276-282",
-              "semantic_statement": "Theorem 2 compares how every applicant fares under the procedure assignment and every other stable assignment; this imported projection supplies the applicant college in each comparison."
-            },
-            "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
-          },
-          {
-            "closure_component_sha256": "7c2d879545b242d7034600b65a6471e79b81b777c8628118edb18bb405240669",
-            "source_atom_sha256": "b9c6c641a5eeac01166a335224b0e978cdbf8eb6d02b2a920789ebac8e9b558e",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:256-261",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:232-249",
               "semantic_statement": "Section 4 directs a quota-q college to retain exactly its q highest-ranked applicants from the prior waiting list and new batch, or all when fewer than q; this imported finite choice operator performs that top-q selection."
             },
             "pinned_declaration_identity_sha256": "6eae8ae8782598689ba1781d4cba4ad4c8ea0060caf6d3c60e75d8742dcb3ec8"
           },
           {
-            "closure_component_sha256": "7e1bc6eaff5aca336fb6741c5d6cf2f653e9581607322dfaf64b1d3acbcea795",
-            "source_atom_sha256": "b9c6c641a5eeac01166a335224b0e978cdbf8eb6d02b2a920789ebac8e9b558e",
+            "source_atom_sha256": "0c9d24f991873a3697dd846c7aadccf7cccac28bb960dc7438c8109a710700d3",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:261-272",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:232-249",
+              "semantic_statement": "Section 4 has each college retain a waiting list of its top quota applicants and makes that terminal list the assignment. This roster projection is the college-specific set whose cardinality and replacement comparison are made explicit in the expanded Theorem 2 Spec."
+            },
+            "pinned_declaration_identity_sha256": "1e0b971454f382e535062dd8a1c7f4ed524aaab7e78754e4008abd975c9c56e4",
+            "closure_component_sha256": "f73991cfe07d924532e8b728a4ae888ced2d1766349a847694c88226e67dec31"
+          },
+          {
+            "closure_component_sha256": "a5483b76e7d301a78026fc0b7e72775055aa5619469b19d5aeb0ea3b84c455b7",
+            "source_atom_sha256": "0c9d24f991873a3697dd846c7aadccf7cccac28bb960dc7438c8109a710700d3",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:232-249",
               "semantic_statement": "Section 4 terminates with each college admitting everyone on its waiting list; this imported constructor packages the terminal applicant and college rosters as the resulting assignment."
             },
             "pinned_declaration_identity_sha256": "f31601d719529be0788396bf40eea4081ff32608a11bce00baab92148e910b6f"
           },
           {
-            "closure_component_sha256": "94a5a6b9f04f23a4bbdb52cadcb3c02570dfcc4e38055fe47b4f32ac5b89c2da",
-            "source_atom_sha256": "e5d34d074a4af2ab1f8893d025ed9174361cf97f190e9d818a5e4cab771605c1",
+            "closure_component_sha256": "2007463f6a4cda77eb4597fa2a1b2d32aa1a6de47c73efa1a263bd1b0eef2c4c",
+            "source_atom_sha256": "8a430885a95236b54a26dc3cfaceb2a6598214497622730480b60822cde28b71",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:263-282",
-              "semantic_statement": "Section 4 turns terminal waiting lists into a college assignment, and Theorem 2 compares it with every other stable assignment; this imported structure represents those many-to-one assignments."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "a7bf209939cadd12dd85aad13b1c5bfe2a4b711cecd112375dd3648fafa2edf6",
-            "source_atom_sha256": "e5d34d074a4af2ab1f8893d025ed9174361cf97f190e9d818a5e4cab771605c1",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:263-282",
-              "semantic_statement": "Section 4 turns terminal waiting lists into a college assignment, and Theorem 2 compares it with every other stable assignment; this imported structure represents those many-to-one assignments."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "b908461c57565f47c3a0c3989cb44b84bc4aae4f12909c57eddbcc18e54d2a8e",
-            "source_atom_sha256": "e5d34d074a4af2ab1f8893d025ed9174361cf97f190e9d818a5e4cab771605c1",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:263-282",
-              "semantic_statement": "Section 4 turns terminal waiting lists into a college assignment, and Theorem 2 compares it with every other stable assignment; this imported structure represents those many-to-one assignments."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "c0842c47e700077c18166f2715ba58e2a408e5a8f3deeb6b2f9dff3c2940a006",
-            "source_atom_sha256": "e5d34d074a4af2ab1f8893d025ed9174361cf97f190e9d818a5e4cab771605c1",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:263-282",
-              "semantic_statement": "Section 4 turns terminal waiting lists into a college assignment, and Theorem 2 compares it with every other stable assignment; this imported structure represents those many-to-one assignments."
-            },
-            "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
-          },
-          {
-            "closure_component_sha256": "d093440717be80214e206e95a47f3bc6eac24aa74d4fecfffd5599fbc287dad8",
-            "source_atom_sha256": "e5d34d074a4af2ab1f8893d025ed9174361cf97f190e9d818a5e4cab771605c1",
-            "semantic_basis": {
-              "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:276-282",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:250-255",
               "semantic_statement": "Theorem 2 states that every applicant is at least as well off under the procedure outcome; this imported evaluator supplies the weak-preference value of an assigned college or the unmatched option."
             },
             "pinned_declaration_identity_sha256": "1a5f10b8426e3ee912a683992447814357629df65a471048e123d54d9477a411"
           },
           {
-            "closure_component_sha256": "d603c70e4684b26c641e3ef97afb37e7535650716c4b90dd4b1c9aae9724b355",
-            "source_atom_sha256": "e5d34d074a4af2ab1f8893d025ed9174361cf97f190e9d818a5e4cab771605c1",
+            "closure_component_sha256": "0df6aaf0d3847c8c309f7f8a2492da05c3086bb35eed430e0900a92aa93955ad",
+            "source_atom_sha256": "8a430885a95236b54a26dc3cfaceb2a6598214497622730480b60822cde28b71",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:263-282",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:250-255",
+              "semantic_statement": "Theorem 2 compares how every applicant fares under the procedure assignment and every other stable assignment; this imported projection supplies the applicant college in each comparison."
+            },
+            "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
+          },
+          {
+            "source_atom_sha256": "0c9d24f991873a3697dd846c7aadccf7cccac28bb960dc7438c8109a710700d3",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:232-249",
+              "semantic_statement": "Section 4 has each college retain a waiting list of its top quota applicants and makes that terminal list the assignment. This roster projection is the college-specific set whose cardinality and replacement comparison are made explicit in the expanded Theorem 2 Spec."
+            },
+            "pinned_declaration_identity_sha256": "1e0b971454f382e535062dd8a1c7f4ed524aaab7e78754e4008abd975c9c56e4",
+            "closure_component_sha256": "217e6b8f0dd3c5075a43c10786fbd200ad2c006385eafa3a4ba11d8ad7b0a18f"
+          },
+          {
+            "closure_component_sha256": "83119662619b801fdb70e7d36b461e113a94e5ac9b7f9b8a64a511955482a5f7",
+            "source_atom_sha256": "8a430885a95236b54a26dc3cfaceb2a6598214497622730480b60822cde28b71",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:250-255",
+              "semantic_statement": "Theorem 2 states that every applicant is at least as well off under the procedure outcome; this imported evaluator supplies the weak-preference value of an assigned college or the unmatched option."
+            },
+            "pinned_declaration_identity_sha256": "1a5f10b8426e3ee912a683992447814357629df65a471048e123d54d9477a411"
+          },
+          {
+            "closure_component_sha256": "da12101c7649c88bc36e3e617159f6d29a64edbd273031f3631ca6a856c9b6ed",
+            "source_atom_sha256": "8a430885a95236b54a26dc3cfaceb2a6598214497622730480b60822cde28b71",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:250-255",
+              "semantic_statement": "Theorem 2 compares how every applicant fares under the procedure assignment and every other stable assignment; this imported projection supplies the applicant college in each comparison."
+            },
+            "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
+          },
+          {
+            "source_atom_sha256": "0c9d24f991873a3697dd846c7aadccf7cccac28bb960dc7438c8109a710700d3",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:232-249",
+              "semantic_statement": "Section 4 has each college retain a waiting list of its top quota applicants and makes that terminal list the assignment. This roster projection is the college-specific set whose cardinality and replacement comparison are made explicit in the expanded Theorem 2 Spec."
+            },
+            "pinned_declaration_identity_sha256": "1e0b971454f382e535062dd8a1c7f4ed524aaab7e78754e4008abd975c9c56e4",
+            "closure_component_sha256": "b4b2b5ee5ac8d4108628cee687c6ca3ddf316ece3f0cd66ab1341167a00e7f85"
+          },
+          {
+            "source_atom_sha256": "0c9d24f991873a3697dd846c7aadccf7cccac28bb960dc7438c8109a710700d3",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:232-249",
+              "semantic_statement": "Section 4 has each college retain a waiting list of its top quota applicants and makes that terminal list the assignment. This roster projection is the college-specific set whose cardinality and replacement comparison are made explicit in the expanded Theorem 2 Spec."
+            },
+            "pinned_declaration_identity_sha256": "1e0b971454f382e535062dd8a1c7f4ed524aaab7e78754e4008abd975c9c56e4",
+            "closure_component_sha256": "918017a14cfd08381356265ad9fd2309835f19b2f034a85a16a85a7017dc5c57"
+          },
+          {
+            "closure_component_sha256": "970f8d48a0895da307f9d7948e2522736a8debe4fb5256db5f88918a6b02cee8",
+            "source_atom_sha256": "8a430885a95236b54a26dc3cfaceb2a6598214497622730480b60822cde28b71",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:232-255",
               "semantic_statement": "Section 4 turns terminal waiting lists into a college assignment, and Theorem 2 compares it with every other stable assignment; this imported structure represents those many-to-one assignments."
             },
             "pinned_declaration_identity_sha256": "ec0b1b9d3af7397926c757cd7c81e4ea9ed8b5e0ccca24c670e7153197ad80aa"
           },
           {
-            "closure_component_sha256": "d781757dce4f7515eb0a38abfadfd37ae5e5362ffb946e7521d00fb614342384",
-            "source_atom_sha256": "e5d34d074a4af2ab1f8893d025ed9174361cf97f190e9d818a5e4cab771605c1",
+            "source_atom_sha256": "0c9d24f991873a3697dd846c7aadccf7cccac28bb960dc7438c8109a710700d3",
             "semantic_basis": {
               "artifact_path": "source.txt",
-              "artifact_sha256": "9774fb809c349d8d56ebf758e912018958b7b2353d325ccfa65ffc6b37bfe799",
-              "source_locator": "source.txt:276-282",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:232-249",
+              "semantic_statement": "Section 4 has each college retain a waiting list of its top quota applicants and makes that terminal list the assignment. This roster projection is the college-specific set whose cardinality and replacement comparison are made explicit in the expanded Theorem 2 Spec."
+            },
+            "pinned_declaration_identity_sha256": "1e0b971454f382e535062dd8a1c7f4ed524aaab7e78754e4008abd975c9c56e4",
+            "closure_component_sha256": "d0f3d894c610d47004c323d9bb307f82d710e1f7a3fc9afe9bc0ecde8b1ba9c8"
+          },
+          {
+            "closure_component_sha256": "b9c9cc83ce8e15b04a3ea0e74eb47cc1637616ba212e7a546eea722528a84ea8",
+            "source_atom_sha256": "8a430885a95236b54a26dc3cfaceb2a6598214497622730480b60822cde28b71",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:250-255",
+              "semantic_statement": "Theorem 2 states that every applicant is at least as well off under the procedure outcome; this imported evaluator supplies the weak-preference value of an assigned college or the unmatched option."
+            },
+            "pinned_declaration_identity_sha256": "1a5f10b8426e3ee912a683992447814357629df65a471048e123d54d9477a411"
+          },
+          {
+            "closure_component_sha256": "6b3c1c062886ae99f7e372501cf834a6c319963cf816c01e99c666cff01b8a45",
+            "source_atom_sha256": "8a430885a95236b54a26dc3cfaceb2a6598214497622730480b60822cde28b71",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:250-255",
+              "semantic_statement": "Theorem 2 compares how every applicant fares under the procedure assignment and every other stable assignment; this imported projection supplies the applicant college in each comparison."
+            },
+            "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
+          },
+          {
+            "source_atom_sha256": "0c9d24f991873a3697dd846c7aadccf7cccac28bb960dc7438c8109a710700d3",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:232-249",
+              "semantic_statement": "Section 4 has each college retain a waiting list of its top quota applicants and makes that terminal list the assignment. This roster projection is the college-specific set whose cardinality and replacement comparison are made explicit in the expanded Theorem 2 Spec."
+            },
+            "pinned_declaration_identity_sha256": "1e0b971454f382e535062dd8a1c7f4ed524aaab7e78754e4008abd975c9c56e4",
+            "closure_component_sha256": "69a1b3e46eb3f7d35e909a8c478cdeb35bbc4f380b8822f59c67e8407f022004"
+          },
+          {
+            "closure_component_sha256": "021861709c05ce1f684a5eee5096a5cf7c6016c5399a159098d7b02e566024a2",
+            "source_atom_sha256": "8a430885a95236b54a26dc3cfaceb2a6598214497622730480b60822cde28b71",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:250-255",
+              "semantic_statement": "Theorem 2 states that every applicant is at least as well off under the procedure outcome; this imported evaluator supplies the weak-preference value of an assigned college or the unmatched option."
+            },
+            "pinned_declaration_identity_sha256": "1a5f10b8426e3ee912a683992447814357629df65a471048e123d54d9477a411"
+          },
+          {
+            "closure_component_sha256": "0c6e7ae6c8fe24efc28cbe812699aa8a850a56cdd6390b204a2f7723fe047d9e",
+            "source_atom_sha256": "8a430885a95236b54a26dc3cfaceb2a6598214497622730480b60822cde28b71",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:250-255",
+              "semantic_statement": "Theorem 2 compares how every applicant fares under the procedure assignment and every other stable assignment; this imported projection supplies the applicant college in each comparison."
+            },
+            "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
+          },
+          {
+            "source_atom_sha256": "0c9d24f991873a3697dd846c7aadccf7cccac28bb960dc7438c8109a710700d3",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:232-249",
+              "semantic_statement": "Section 4 has each college retain a waiting list of its top quota applicants and makes that terminal list the assignment. This roster projection is the college-specific set whose cardinality and replacement comparison are made explicit in the expanded Theorem 2 Spec."
+            },
+            "pinned_declaration_identity_sha256": "1e0b971454f382e535062dd8a1c7f4ed524aaab7e78754e4008abd975c9c56e4",
+            "closure_component_sha256": "cfb871e2a1990544e12a3a41961072f3749edd5694a704a0f983268717ce963c"
+          },
+          {
+            "source_atom_sha256": "0c9d24f991873a3697dd846c7aadccf7cccac28bb960dc7438c8109a710700d3",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:232-249",
+              "semantic_statement": "Section 4 has each college retain a waiting list of its top quota applicants and makes that terminal list the assignment. This roster projection is the college-specific set whose cardinality and replacement comparison are made explicit in the expanded Theorem 2 Spec."
+            },
+            "pinned_declaration_identity_sha256": "1e0b971454f382e535062dd8a1c7f4ed524aaab7e78754e4008abd975c9c56e4",
+            "closure_component_sha256": "cdc8f1a6c8b59d215ca34288a2a723539431acff8c67a96975519d771217f10f"
+          },
+          {
+            "closure_component_sha256": "f0c39a89773234a2989e07736c8282f07955c2cabc89aec9b0ed5939c600541e",
+            "source_atom_sha256": "8a430885a95236b54a26dc3cfaceb2a6598214497622730480b60822cde28b71",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:250-255",
+              "semantic_statement": "Theorem 2 states that every applicant is at least as well off under the procedure outcome; this imported evaluator supplies the weak-preference value of an assigned college or the unmatched option."
+            },
+            "pinned_declaration_identity_sha256": "1a5f10b8426e3ee912a683992447814357629df65a471048e123d54d9477a411"
+          },
+          {
+            "closure_component_sha256": "bfc75be7b74105db6a2273f67c67afbfc1d0c97f376fd0a04117a765c59947bb",
+            "source_atom_sha256": "8a430885a95236b54a26dc3cfaceb2a6598214497622730480b60822cde28b71",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:250-255",
+              "semantic_statement": "Theorem 2 compares how every applicant fares under the procedure assignment and every other stable assignment; this imported projection supplies the applicant college in each comparison."
+            },
+            "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
+          },
+          {
+            "closure_component_sha256": "9152a0647eadc2b510e42b2a10825cb3f4ef395366d732d3b178afe7928d5ab9",
+            "source_atom_sha256": "8a430885a95236b54a26dc3cfaceb2a6598214497622730480b60822cde28b71",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:250-255",
+              "semantic_statement": "Theorem 2 states that every applicant is at least as well off under the procedure outcome; this imported evaluator supplies the weak-preference value of an assigned college or the unmatched option."
+            },
+            "pinned_declaration_identity_sha256": "1a5f10b8426e3ee912a683992447814357629df65a471048e123d54d9477a411"
+          },
+          {
+            "closure_component_sha256": "a1b61ffeaf9d4fcd5e5a3cef783e2506d503e8f2fa2a9ba1a8c03a8e3798eb1e",
+            "source_atom_sha256": "8a430885a95236b54a26dc3cfaceb2a6598214497622730480b60822cde28b71",
+            "semantic_basis": {
+              "artifact_path": "source.txt",
+              "artifact_sha256": "159e8d7735c826a6725bcbe41370aa4f87c3d30bf9d55aa87a0a00b23cfd615d",
+              "source_locator": "source.txt:250-255",
               "semantic_statement": "Theorem 2 compares how every applicant fares under the procedure assignment and every other stable assignment; this imported projection supplies the applicant college in each comparison."
             },
             "pinned_declaration_identity_sha256": "34ffbfb6d48e41bc789e7618aecb7282d62633cb77b891d68a99bd17eac11757"
           }
         ],
-        "item_identity_sha256": "e870b4862dd4553b505faabf7df2d2154ea8188dd9f3dcec22fed9e9bb9e404a"
+        "item_identity_sha256": "d4837a97433fb2c293a5e50fae48a6fd2c9a1d6368546beb0a7eeecffe80e9a3"
       }
     }
   }

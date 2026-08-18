@@ -23,8 +23,8 @@ REVIEW_PROTOCOL_DIGEST_SCHEMA = 1
 
 EXPECTED_AUDIT_VERSIONS = {
     "statement_semantic_review": {
-        "current": "v10",
-        "prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
+        "current": "v11",
+        "prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
     },
     "source_record": {
         "current": "v10",

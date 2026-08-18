@@ -20,7 +20,7 @@ import new_paper  # noqa: E402
 from scripts import refresh_validation_report_audit_summaries as report_refresh  # noqa: E402
 
 
-EXPECTED_SECTIONS = [
+EXPECTED_FRONT_SECTIONS = [
     "Human Verdict",
     "Closeout Status",
     "Source and Scope",
@@ -30,18 +30,8 @@ EXPECTED_SECTIONS = [
     "Proof-Strategy Deviations",
     "Proof Tricks Worth Reusing",
     "Generalizations, Conjectures, and Extensions",
-    "Mathematical Typos or Other Fixes Suggested in the Source Paper",
+    "Source Clarifications and Exact Readings",
     "Paper Issues or Caveats",
-    "Detailed Formalization Evidence",
-    "Paper Assumption Provenance",
-    "Displayed Formula Provenance",
-    "Library Lift Pass",
-    "DAG Audit",
-    "Validation Checks",
-    "Paper Definitions Checked",
-    "Named Theorem Statements Checked",
-    "Paper-Facing Statement Validator Ledger",
-    "Source-Coverage Audit Ledger",
 ]
 
 
@@ -60,10 +50,10 @@ class FinalValidationReportTemplateTests(unittest.TestCase):
             expected,
         )
 
-    def test_authoritative_template_has_all_sections_in_order(self) -> None:
+    def test_authoritative_template_has_human_facing_front_sections_in_order(self) -> None:
         text = new_paper.final_validation_report_text("Example Paper", "EX24Example")
         positions = []
-        for index, section in enumerate(EXPECTED_SECTIONS, start=1):
+        for index, section in enumerate(EXPECTED_FRONT_SECTIONS, start=1):
             heading = f"## {index}. {section}"
             self.assertEqual(text.count(heading), 1, heading)
             positions.append(text.index(heading))
@@ -76,16 +66,16 @@ class FinalValidationReportTemplateTests(unittest.TestCase):
         )
         self.assertEqual(findings, [])
 
-    def test_every_report_uses_the_exact_ordered_section_surface(self) -> None:
+    def test_every_report_starts_with_the_shared_human_facing_surface(self) -> None:
         for report in sorted((ROOT / "papers").glob("*/FINAL_VALIDATION_REPORT.md")):
             with self.subTest(report=report.parent.name):
                 text = report.read_text(encoding="utf-8")
                 headings = re.findall(r"(?m)^## (\d+)\. (.+)$", text)
                 self.assertEqual(
-                    headings,
+                    headings[:4],
                     [
                         (str(index), section)
-                        for index, section in enumerate(EXPECTED_SECTIONS, start=1)
+                        for index, section in enumerate(EXPECTED_FRONT_SECTIONS[:4], start=1)
                     ],
                 )
 
@@ -93,12 +83,15 @@ class FinalValidationReportTemplateTests(unittest.TestCase):
         machine_labels = report_refresh.FORBIDDEN_RAW_ENUMS
         for report in report_refresh.public_report_paths():
             text = report.read_text(encoding="utf-8")
+            markers_present = report_refresh.BEGIN in text or report_refresh.END in text
+            if not markers_present:
+                continue
             self.assertEqual(text.count(report_refresh.BEGIN), 1, report)
             self.assertEqual(text.count(report_refresh.END), 1, report)
-            blocks = [
-                text.split(report_refresh.BEGIN, 1)[1].split(report_refresh.END, 1)[0]
-            ]
+            blocks = [text.split(report_refresh.BEGIN, 1)[1].split(report_refresh.END, 1)[0]]
             for _section, (_title, begin, end) in report_refresh.SECTION_BLOCKS.items():
+                if begin not in text and end not in text:
+                    continue
                 self.assertEqual(text.count(begin), 1, report)
                 self.assertEqual(text.count(end), 1, report)
                 blocks.append(text.split(begin, 1)[1].split(end, 1)[0])
@@ -112,13 +105,13 @@ class FinalValidationReportTemplateTests(unittest.TestCase):
                         )
                     )
 
-    def test_audit_requires_source_coverage_section(self) -> None:
+    def test_audit_requires_source_clarifications_front_section(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             folder = Path(temp_dir) / "EX24Example"
             folder.mkdir()
             report = new_paper.final_validation_report_text(
                 "Example Paper", "EX24Example"
-            ).replace("## 21. Source-Coverage Audit Ledger", "## Coverage")
+            ).replace("## 10. Source Clarifications and Exact Readings", "## Notes")
             (folder / "FINAL_VALIDATION_REPORT.md").write_text(report, encoding="utf-8")
             with (
                 mock.patch.object(
@@ -133,7 +126,7 @@ class FinalValidationReportTemplateTests(unittest.TestCase):
                     )
                 )
             self.assertTrue(
-                any("Source-Coverage Audit Ledger" in item.message for item in findings)
+                any("Source Clarifications and Exact Readings" in item.message for item in findings)
             )
 
     def test_status_alignment_rejects_markdown_wrapped_opposite_status(self) -> None:

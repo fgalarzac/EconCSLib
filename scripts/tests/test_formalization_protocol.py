@@ -66,7 +66,7 @@ class FormalizationProtocolTests(unittest.TestCase):
     def test_repository_protocol_is_valid_and_unambiguous(self) -> None:
         payload = load_formalization_protocol()
 
-        self.assertEqual(payload["audit_versions"]["statement_semantic_review"]["current"], "v10")
+        self.assertEqual(payload["audit_versions"]["statement_semantic_review"]["current"], "v11")
         self.assertEqual(payload["audit_versions"]["source_record"]["current"], "v10")
         self.assertEqual(payload["audit_versions"]["theorem_realization"]["current"], "v11")
         baseline = payload["audit_versions"]["theorem_realization"][

@@ -43,6 +43,8 @@ try:
         paper_owned_module_names_in_import_closure,
         run_lean_semantic_contract_matches,
         run_lean_semantic_contract_transparency_checks,
+        run_lean_transparent_library_declaration_displays,
+        run_lean_transparent_paper_spec_displays,
         run_lean_signature_manifests,
         signature_manifest_cache_context,
         signature_manifest_cache_context_sha256,
@@ -85,6 +87,8 @@ except ModuleNotFoundError:  # Direct `python scripts/review_dashboard.py` execu
         paper_owned_module_names_in_import_closure,
         run_lean_semantic_contract_matches,
         run_lean_semantic_contract_transparency_checks,
+        run_lean_transparent_library_declaration_displays,
+        run_lean_transparent_paper_spec_displays,
         run_lean_signature_manifests,
         signature_manifest_cache_context,
         signature_manifest_cache_context_sha256,
@@ -128,6 +132,7 @@ ROOT = Path(
 PAPERS_DIR = ROOT / "papers"
 AUDIT_CONFIG = PAPERS_DIR / "audit_config.json"
 DEFAULT_PAPER_LOG_FILE = "paper_theorem_validations.jsonl"
+DEFAULT_LIBRARY_PREREQUISITE_LOG_FILE = "library_prerequisite_validations.jsonl"
 DEFAULT_PAPER_INTERFACE_CACHE_FILE = "paper_interface_cache.json"
 MANIFEST_RESUME_CACHE_DIRNAME = "lean_signature_manifest_resume"
 MANIFEST_RESUME_CACHE_SCHEMA = 2
@@ -144,13 +149,24 @@ FINAL_VALIDATION_REPORT_FILE = "FINAL_VALIDATION_REPORT.md"
 DEFAULT_LLM_LEAN_TO_TEX_FILE = f"{PAPER_AUDIT_DIR}/lean_to_tex_llm.json"
 DEFAULT_LLM_STATEMENT_JUDGE_FILE = f"{PAPER_AUDIT_DIR}/statement_match_llm.json"
 DEFAULT_LLM_REVIEW_SURFACE_FILE = f"{PAPER_AUDIT_DIR}/review_surface_llm.json"
+V11_RAW_SOURCE_SPEC_SCREENING_FILE = (
+    f"{PAPER_AUDIT_DIR}/v11_raw_source_spec_screening.json"
+)
+V11_RAW_SOURCE_SPEC_SCREENING_SCHEMA = 2
+V11_RAW_SOURCE_SPEC_SCREENING_PROMPT_VERSION = (
+    "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2"
+)
+V11_RAW_SOURCE_SPEC_LEAN_TARGET_PROTOCOL = (
+    "lean_transparent_paper_expansion_v1"
+)
 DEFAULT_LLM_PAPER_COVERAGE_FILE = f"{PAPER_AUDIT_DIR}/paper_coverage_llm.json"
 DEFAULT_LLM_DEFECT_SUPPORT_FILE = f"{PAPER_AUDIT_DIR}/defect_support_match_llm.json"
 DEFAULT_LLM_ASSUMPTION_JUDGE_FILE = f"{PAPER_AUDIT_DIR}/assumption_match_llm.json"
+DEFAULT_LIBRARY_SEMANTIC_REVIEW_FILE = f"{PAPER_AUDIT_DIR}/library_semantic_review.json"
 DEFAULT_ASSUMPTION_SOURCE_FILE = "Assumptions.lean"
 REQUIRED_LLM_LEAN_TO_TEX_PROMPT_VERSION = "lean-to-tex-v3-strict-context-free-semantic-inputs"
 REQUIRED_LLM_STATEMENT_PROMPT_VERSION = (
-    "statement-match-v10-semantic-fidelity-seat-stopping"
+    "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2"
 )
 # Prompt labels identify the producer instructions, while these contracts
 # identify the semantic obligations that make an existing row reusable.  A
@@ -161,8 +177,13 @@ REQUIRED_LLM_LEAN_TO_TEX_SEMANTIC_CONTRACT_VERSION = (
     "lean-to-tex-semantic-inputs-v3"
 )
 REQUIRED_LLM_STATEMENT_SEMANTIC_CONTRACT_VERSION = (
-    "statement-match-semantic-fidelity-v10"
+    "statement-match-verbatim-source-anchor-expanded-spec-v11"
 )
+REQUIRED_LLM_LIBRARY_SEMANTIC_REVIEW_PROMPT_VERSION = (
+    "library-statement-match-v2-verbatim-source-anchor-lean-display-exact-code"
+)
+LIBRARY_SEMANTIC_REVIEW_SCHEMA = 1
+LIBRARY_SEMANTIC_TARGET_PROTOCOL = "lean-library-display-plus-exact-code-v1"
 LLM_LEAN_TO_TEX_PROMPT_SEMANTIC_CONTRACTS: dict[str, str] = {
     REQUIRED_LLM_LEAN_TO_TEX_PROMPT_VERSION: (
         REQUIRED_LLM_LEAN_TO_TEX_SEMANTIC_CONTRACT_VERSION
@@ -174,7 +195,7 @@ LLM_STATEMENT_PROMPT_SEMANTIC_CONTRACTS: dict[str, str] = {
     ),
 }
 REQUIRED_LLM_PAPER_COVERAGE_PROMPT_VERSION = (
-    "paper-coverage-v5-semantic-proof-row-signature-pins"
+    "paper-coverage-v6-verbatim-source-anchor-proof-row-signature-pins"
 )
 LEGACY_LLM_PAPER_COVERAGE_PROMPT_VERSION = (
     "paper-coverage-v3-semantic-proof-declaration-and-defect-support"
@@ -183,7 +204,7 @@ REQUIRED_LLM_DEFECT_SUPPORT_PROMPT_VERSION = (
     "defect-support-v1-exact-source-defect-to-lean-semantic"
 )
 REQUIRED_LLM_REVIEW_SURFACE_PROMPT_VERSION = "review-surface-v2-semantic-paper-facing"
-REQUIRED_LLM_ASSUMPTION_PROMPT_VERSION = "assumption-provenance-v3-semantic-exact-premise-source"
+REQUIRED_LLM_ASSUMPTION_PROMPT_VERSION = "assumption-provenance-v4-verbatim-source-anchor-exact-premise"
 PAPER_STATEMENT_MAP_FILE = f"{PAPER_AUDIT_DIR}/paper_statement_map.json"
 # This is an explicit human-scope disposition for a source-visible claim.  It
 # is deliberately not a source classification: the claim remains visible in
@@ -630,7 +651,7 @@ SOURCE_TEXT_ASSUMPTION_PREMISE_JUDGMENTS = {
 
 
 DECL_RE = re.compile(
-    r"^(?P<indent>\s*)(?:(?:@[A-Za-z_][A-Za-z0-9_]*(?:\([^)]*\))?\s+)*)?"
+    r"^(?P<indent>\s*)(?:(?:@\[[^\]]+\]|@[A-Za-z_][A-Za-z0-9_]*(?:\([^)]*\))?)\s+)*"
     r"(?:(?:noncomputable|private|protected)\s+)*"
     r"(?P<kind>theorem|lemma|def|abbrev|axiom|structure|class|inductive)\s+"
     r"(?P<name>[A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)*)\b"
@@ -1374,6 +1395,13 @@ class ReviewItem:
     llm_assumption_paper_statement_sha256: str = ""
     llm_assumption_premise_judgments: dict[str, dict[str, str]] | None = None
     paper_statement_image_url: str = ""
+    # The v11 statement-review source target.  Unlike ``paper_statement``,
+    # which may be a readable navigation summary for legacy rows, these values
+    # identify only the exact byte-pinned source excerpts supplied to the
+    # semantic reviewer.
+    source_item_key: str = ""
+    source_input_bundle_sha256: str = ""
+    verbatim_source_input: str = ""
     line_number: int = 0
     slice_id: str = "all"
     slice_title: str = "All statements"
@@ -1427,6 +1455,28 @@ def review_source_module(folder: Path, source_file: Path) -> str:
     """Return the Lean import module for a paper-local review source."""
 
     return f"{folder.name}.{source_file.stem}"
+
+
+def review_proof_module(folder: Path, source_file: Path) -> str:
+    """Return the module that exposes proof endpoints for semantic Specs.
+
+    The default keeps legacy papers working, where the exact-type wrapper still
+    sits in `PaperInterface.lean`. New and migrated papers set `proof_module`
+    to their root module, which imports `ProofInterface.lean` without adding
+    thin wrappers to the human review surface.
+    """
+
+    payload = load_review_slice_payload(folder)
+    configured = str(payload.get("proof_module") or "").strip()
+    if not configured:
+        return review_source_module(folder, source_file)
+    if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*", configured):
+        raise ValueError(f"{folder.name} review_surface.proof_module is not a Lean module name")
+    if configured != folder.name and not configured.startswith(f"{folder.name}."):
+        raise ValueError(
+            f"{folder.name} review_surface.proof_module must be paper-owned"
+        )
+    return configured
 
 
 def assumption_source_file(folder: Path) -> Path:
@@ -1878,6 +1928,7 @@ def source_metadata_digest(source_status: str, source_note: str) -> str:
         "direct paper formula",
         "direct source text",
         "direct source formula",
+        "byte-pinned verbatim source input",
     }
     if status.lower() in direct_statuses and not note:
         return ""
@@ -2441,6 +2492,7 @@ def paper_statement_inventory(folder: Path) -> dict[str, dict[str, Any]]:
                     if isinstance(alias, str) and alias.strip()
                 ]
                 inventory[key] = {
+                    "source_item_key": key,
                     "title": str(raw_item.get("title") or "").strip(),
                     "statement": text,
                     "aliases": aliases,
@@ -2487,6 +2539,9 @@ def paper_statement_inventory(folder: Path) -> dict[str, dict[str, Any]]:
                     ),
                     "source_anchor_evidence": raw_item.get(
                         "source_anchor_evidence"
+                    ),
+                    "semantic_context_requirements": raw_item.get(
+                        "semantic_context_requirements"
                     ),
                     "source_defect_ids": _normalize_string_list(
                         raw_item.get("source_defect_ids")
@@ -3340,7 +3395,13 @@ def resolved_direct_source_statement_routes(
         statement, _statement_sha256 = _source_item_coverage_statement(source_item)
         if not statement:
             continue
-        for navigation in source_item_direct_coverage_declarations(source_item):
+        # A source-facing `Spec` is a semantic-review target even though its
+        # paired theorem, not the Spec, supplies formal proof credit.  Use the
+        # broader statement-routing declaration set here; proof/coverage code
+        # deliberately continues to call
+        # `source_item_direct_coverage_declarations` and therefore cannot
+        # mistake a Spec for a proof endpoint.
+        for navigation in source_item_statement_routing_declarations(source_item):
             exact = [row for row in rows if row[2] == navigation]
             candidates = exact if exact else [row for row in rows if row[1] == navigation]
             if len(candidates) != 1:
@@ -3355,6 +3416,47 @@ def resolved_direct_source_statement_routes(
                 continue
             direct_routes[full_name] = statement
     return direct_routes
+
+
+def resolved_direct_source_item_routes(
+    folder: Path,
+    parsed_rows: Iterable[
+        tuple[str, str, str, str, str | None, int, Path]
+    ],
+) -> dict[str, tuple[str, dict[str, Any]]]:
+    """Resolve one canonical source item for each direct review declaration.
+
+    This is a navigation resolution only.  The returned source item's
+    byte-pinned anchor bundle is what later establishes the semantic source
+    input; neither this key nor the Lean declaration name is evidence.
+    """
+
+    rows = [row for row in parsed_rows if row[0] in REVIEW_DECL_KINDS]
+    routes: dict[str, tuple[str, dict[str, Any]]] = {}
+    conflicts: set[str] = set()
+    for source_key, source_item in paper_statement_inventory(folder).items():
+        if not isinstance(source_item, dict):
+            continue
+        # See the companion display-route resolver above.  This attaches the
+        # raw source bundle to both the explicitly configured semantic Spec
+        # and any legacy direct endpoint that is actually present in the
+        # review surface, while coverage/proof credit remains separately
+        # constrained to the theorem endpoint.
+        for navigation in source_item_statement_routing_declarations(source_item):
+            exact = [row for row in rows if row[2] == navigation]
+            candidates = exact if exact else [row for row in rows if row[1] == navigation]
+            if len(candidates) != 1:
+                continue
+            full_name = candidates[0][2]
+            if full_name in conflicts:
+                continue
+            previous = routes.get(full_name)
+            if previous is not None and previous[0] != source_key:
+                routes.pop(full_name, None)
+                conflicts.add(full_name)
+                continue
+            routes[full_name] = (source_key, source_item)
+    return routes
 
 
 def paper_statement_for_review_row(
@@ -3705,16 +3807,241 @@ def direct_source_definition_route_keys(
     return keys
 
 
+def source_anchor_quote_identity(
+    source_item: Mapping[str, Any],
+) -> tuple[str, str]:
+    """Return the identity of the verbatim source text for one source item.
+
+    A source-map ``statement`` is a navigation aid for a human reader.  It is
+    not an admissible semantic-review input: it may summarize a displayed
+    theorem and its surrounding context.  The LLM statement/coverage lanes
+    instead bind the exact, byte-pinned anchor quotes.  The content-only
+    identity deliberately excludes line numbers, since an unchanged passage
+    can move after an unrelated source edit; the source-anchor integrity gate
+    separately validates the current locations and artifact bytes.
+    """
+
+    anchors = source_item.get("source_anchor_evidence")
+    if not isinstance(anchors, list) or not anchors:
+        return "", "source item has no byte-pinned source_anchor_evidence"
+    quote_digests: list[str] = []
+    for index, raw_anchor in enumerate(anchors):
+        if not isinstance(raw_anchor, Mapping):
+            return "", f"source anchor {index} is not an object"
+        quote = raw_anchor.get("quoted_text")
+        recorded = str(raw_anchor.get("quoted_text_sha256") or "").strip().lower()
+        if not isinstance(quote, str) or not quote:
+            return "", f"source anchor {index} has no quoted_text"
+        normalized = quote.replace("\r\n", "\n").replace("\r", "\n")
+        actual = hashlib.sha256(normalized.encode("utf-8")).hexdigest()
+        if not re.fullmatch(r"[0-9a-f]{64}", recorded) or recorded != actual:
+            return "", f"source anchor {index} quoted_text_sha256 is stale"
+        quote_digests.append(actual)
+    return (
+        hashlib.sha256(
+            json.dumps(
+                {"schema": 1, "quotes": quote_digests},
+                ensure_ascii=True,
+                sort_keys=True,
+                separators=(",", ":"),
+            ).encode("utf-8")
+        ).hexdigest(),
+        "",
+    )
+
+
+def _verbatim_anchor_quotes(
+    anchors: object,
+    *,
+    label: str,
+) -> tuple[list[str], list[str], str]:
+    """Validate and return one ordered raw-source anchor bundle.
+
+    This helper is deliberately narrower than the map's human-oriented
+    ``statement`` field.  It returns only source bytes which can be shown to a
+    reviewer or supplied to an LLM semantic judge; explanatory map prose is
+    never part of the result.
+    """
+
+    if not isinstance(anchors, list) or not anchors:
+        return [], [], f"{label} has no byte-pinned source_anchor_evidence"
+    quotes: list[str] = []
+    quote_digests: list[str] = []
+    for index, raw_anchor in enumerate(anchors):
+        if not isinstance(raw_anchor, Mapping):
+            return [], [], f"{label} source anchor {index} is not an object"
+        quote = raw_anchor.get("quoted_text")
+        recorded = str(raw_anchor.get("quoted_text_sha256") or "").strip().lower()
+        if not isinstance(quote, str) or not quote:
+            return [], [], f"{label} source anchor {index} has no quoted_text"
+        normalized = quote.replace("\r\n", "\n").replace("\r", "\n")
+        actual = hashlib.sha256(normalized.encode("utf-8")).hexdigest()
+        if not re.fullmatch(r"[0-9a-f]{64}", recorded) or recorded != actual:
+            return [], [], f"{label} source anchor {index} quoted_text_sha256 is stale"
+        quotes.append(normalized)
+        quote_digests.append(actual)
+    return quotes, quote_digests, ""
+
+
+def source_anchor_file_error(folder: Path, source_record: Mapping[str, Any]) -> str:
+    """Verify every displayed raw anchor against the current paper bytes.
+
+    Source-map anchors also receive repository-wide integrity checks, but a
+    library or paper-local prerequisite may use a direct anchor without adding
+    a denominator row to that map.  Those direct connections need the same
+    file/range validation before they can feed a semantic judgment.
+    """
+
+    anchors = source_record.get("source_anchor_evidence")
+    if not isinstance(anchors, list) or not anchors:
+        return "no byte-pinned source_anchor_evidence is registered"
+    for index, raw_anchor in enumerate(anchors):
+        label = f"source anchor {index}"
+        if not isinstance(raw_anchor, Mapping):
+            return label + " is not an object"
+        raw_path = str(raw_anchor.get("path") or "").strip()
+        start = raw_anchor.get("line_start")
+        end = raw_anchor.get("line_end")
+        quote = raw_anchor.get("quoted_text")
+        if (
+            not raw_path
+            or not isinstance(start, int)
+            or isinstance(start, bool)
+            or not isinstance(end, int)
+            or isinstance(end, bool)
+            or start <= 0
+            or end < start
+            or not isinstance(quote, str)
+            or not quote
+        ):
+            return label + " lacks a valid path, line range, or quote"
+        # Source maps historically permit a source path relative either to the
+        # paper folder (``source/main.tex``) or to the repository root
+        # (``papers/Paper/source/main.tex``).  The packet/reissue lane must
+        # validate the same safe forms as evidence integrity, rather than
+        # interpreting the latter a second time beneath the paper folder.
+        # In both cases it accepts only a path that resolves back inside this
+        # exact paper; a repository-relative path can never broaden the file
+        # access boundary.
+        candidates = [(folder / raw_path).resolve()]
+        repository_candidate = (ROOT / raw_path).resolve()
+        if repository_candidate not in candidates:
+            candidates.append(repository_candidate)
+        path = next(
+            (
+                candidate
+                for candidate in candidates
+                if candidate.is_file()
+                and candidate.is_relative_to(folder.resolve())
+            ),
+            candidates[0],
+        )
+        try:
+            path.relative_to(folder.resolve())
+            lines = path.read_text(encoding="utf-8").replace("\r\n", "\n").replace("\r", "\n").split("\n")
+        except (OSError, UnicodeDecodeError, ValueError) as exc:
+            return label + " cannot read the declared source path: " + str(exc)
+        # A terminal newline produces one trailing empty split element.  The
+        # numbered source lines themselves remain 1-indexed and unchanged.
+        if end > len(lines) - (1 if lines and lines[-1] == "" else 0):
+            return label + " line range is outside the declared source file"
+        actual = "\n".join(lines[start - 1 : end])
+        normalized_quote = quote.replace("\r\n", "\n").replace("\r", "\n")
+        if actual != normalized_quote:
+            return label + " quote does not equal the current declared source slice"
+    return ""
+
+
+SEMANTIC_CONTEXT_ROLES = frozenset(
+    {
+        "definition",
+        "model",
+        "model_construction",
+        "scope",
+        "prior_result",
+        "stated_antecedent",
+    }
+)
+
+
+def source_semantic_input_bundle(
+    source_item: Mapping[str, Any],
+    *,
+    require_context_roles: bool = False,
+) -> tuple[str, str, str]:
+    """Return raw source text and its exact v11 semantic-input identity.
+
+    A semantic input begins with the source item's displayed presentation and
+    then appends any map-declared semantic-context requirements. Each
+    component is a byte-pinned quote. Under v11, every contextual component
+    also declares a bounded semantic role: a definition, source model or
+    construction, scope condition, prior stated result, or stated antecedent.
+    This makes clear that context interprets a displayed source claim; it
+    cannot be an inferred proof derivation used to strengthen that claim. The
+    requirements' explanation is intentionally excluded: it helps a human
+    curate source context, but it is a paraphrase and cannot supply source
+    semantics to the judge.
+    """
+
+    quotes, quote_digests, error = _verbatim_anchor_quotes(
+        source_item.get("source_anchor_evidence"), label="source item"
+    )
+    if error:
+        return "", "", error
+    requirements = source_item.get("semantic_context_requirements")
+    if requirements is not None:
+        if not isinstance(requirements, list):
+            return "", "", "semantic_context_requirements is not a list"
+        for index, requirement in enumerate(requirements):
+            if not isinstance(requirement, Mapping):
+                return "", "", f"semantic context {index} is not an object"
+            if require_context_roles:
+                role = str(requirement.get("semantic_role") or "").strip()
+                if role not in SEMANTIC_CONTEXT_ROLES:
+                    return (
+                        "",
+                        "",
+                        f"semantic context {index} has no permitted semantic_role",
+                    )
+            context_quotes, context_digests, context_error = _verbatim_anchor_quotes(
+                requirement.get("source_anchor_evidence"),
+                label=f"semantic context {index}",
+            )
+            if context_error:
+                return "", "", context_error
+            quotes.extend(context_quotes)
+            quote_digests.extend(context_digests)
+    identity = hashlib.sha256(
+        json.dumps(
+            {
+                "schema": 1,
+                "source_anchor_quote_sha256": quote_digests,
+            },
+            ensure_ascii=True,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    ).hexdigest()
+    # A fixed separator makes the source input reconstructible without adding
+    # an invented mathematical sentence between independent source excerpts.
+    return "\n\n[Next verbatim source excerpt]\n\n".join(quotes), identity, ""
+
+
 def source_route_pin_error(
     raw: Any,
     *,
     inventory: dict[str, dict[str, Any]],
     require_statement_target: bool = False,
+    require_verbatim_source_inputs: bool = False,
 ) -> str:
-    """Validate source-statement pins recorded by an enabled v10 statement row.
+    """Validate source-statement pins recorded by a statement-review row.
 
-    The primary evidence is an exact map-statement digest, exact source
-    locator, and a source-conclusion obligation carrying those same values.
+    The legacy primary evidence was an exact map-statement digest, exact
+    source locator, and a source-conclusion obligation carrying those same
+    values.  Current v11 evidence additionally binds every route and endpoint
+    obligation to the identity of the *verbatim* byte-pinned source-anchor
+    bundle.  A source-map paraphrase may remain useful navigation metadata but
+    can never be the source text supplied to an LLM semantic reviewer.
     Curated declaration names may help an auditor find candidates, but they are
     not certification evidence and are deliberately not read here.  Production
     v10 consumers also require ``require_statement_target``: the judgment's
@@ -3726,6 +4053,22 @@ def source_route_pin_error(
 
     if not isinstance(raw, dict):
         return "judgment is not an object"
+    if require_verbatim_source_inputs and (
+        str(raw.get("source_input_protocol") or "").strip()
+        != "verbatim_source_anchor_bundle_v1"
+    ):
+        return (
+            "statement review does not declare the required "
+            "verbatim_source_anchor_bundle_v1 input protocol"
+        )
+    if require_verbatim_source_inputs and (
+        str(raw.get("lean_target_protocol") or "").strip()
+        != "expanded_paperinterface_spec_v1"
+    ):
+        return (
+            "statement review does not declare the required "
+            "expanded_paperinterface_spec_v1 Lean target protocol"
+        )
     routes = raw.get("source_routes")
     if not isinstance(routes, list) or not routes:
         return "missing nonempty explicit `source_routes` list"
@@ -3754,7 +4097,16 @@ def source_route_pin_error(
     if not isinstance(alignment, list):
         return "missing obligation alignment for explicit source-route pins"
 
-    def exact_endpoint_binding(source_item_key: str, expected_digest: str, expected_location: str) -> bool:
+    source_input_bundle_sha256 = str(
+        raw.get("source_input_bundle_sha256") or ""
+    ).strip().lower()
+
+    def exact_endpoint_binding(
+        source_item_key: str,
+        expected_digest: str,
+        expected_location: str,
+        expected_anchor_identity: str,
+    ) -> bool:
         matching_ids = {
             str(obligation.get("id") or "").strip()
             for obligation in source_obligations
@@ -3765,8 +4117,23 @@ def source_route_pin_error(
             == expected_digest
             and str(obligation.get("source_location") or "").strip()
             == expected_location
-            and statement_digest(str(obligation.get("statement") or ""))
-            == expected_digest
+            and (
+                (
+                    statement_digest(str(obligation.get("statement") or ""))
+                    == expected_digest
+                )
+                if not require_verbatim_source_inputs
+                else (
+                    str(
+                        obligation.get("source_anchor_quote_identity_sha256") or ""
+                    ).strip().lower()
+                    == expected_anchor_identity
+                    and str(
+                        obligation.get("source_input_bundle_sha256") or ""
+                    ).strip().lower()
+                    == source_input_bundle_sha256
+                )
+            )
         }
         return bool(matching_ids) and any(
             isinstance(entry, dict)
@@ -3839,10 +4206,40 @@ def source_route_pin_error(
             return f"source route `{source_item_key}` {target_error}"
         expected_statement, expected_digest = _source_item_coverage_statement(source_item)
         expected_location = _source_item_coverage_location(source_item)
+        expected_anchor_identity, anchor_identity_error = source_anchor_quote_identity(
+            source_item
+        )
+        expected_semantic_input_text, expected_semantic_input_identity, semantic_input_error = (
+            source_semantic_input_bundle(
+                source_item,
+                require_context_roles=require_verbatim_source_inputs,
+            )
+        )
+        del expected_semantic_input_text
         recorded_digest = str(raw_route.get("source_statement_sha256") or "").strip()
         recorded_location = str(raw_route.get("source_location") or "").strip()
         if not expected_statement or not expected_digest or not expected_location:
             return f"source route `{source_item_key}` has incomplete canonical source inventory"
+        if require_verbatim_source_inputs and anchor_identity_error:
+            return f"source route `{source_item_key}` {anchor_identity_error}"
+        if require_verbatim_source_inputs and semantic_input_error:
+            return f"source route `{source_item_key}` {semantic_input_error}"
+        if require_verbatim_source_inputs and str(
+            raw_route.get("source_anchor_quote_identity_sha256") or ""
+        ).strip().lower() != expected_anchor_identity:
+            return (
+                f"source route `{source_item_key}` lacks the current exact "
+                "verbatim source-anchor identity"
+            )
+        if (
+            require_verbatim_source_inputs
+            and route_kind in {"direct", CORRECTED_TARGET_ROUTE_KIND}
+            and source_input_bundle_sha256 != expected_semantic_input_identity
+        ):
+            return (
+                f"direct source route `{source_item_key}` lacks the exact "
+                "verbatim source-input bundle identity"
+            )
         if is_corrected_target and route_kind != CORRECTED_TARGET_ROUTE_KIND:
             return (
                 f"corrected-target source route `{source_item_key}` must use "
@@ -3859,12 +4256,17 @@ def source_route_pin_error(
         route_policy = source_item_effective_route_policy(source_item)
         relation = str(raw_route.get("semantic_relation") or "").strip().lower()
         endpoint_binding = exact_endpoint_binding(
-            source_item_key,
-            expected_digest,
-            expected_location,
+            source_item_key, expected_digest, expected_location, expected_anchor_identity
         )
         source_target_routes.append(
-            (expected_digest, route_kind, relation, endpoint_binding)
+            (
+                expected_semantic_input_identity
+                if require_verbatim_source_inputs
+                else expected_digest,
+                route_kind,
+                relation,
+                endpoint_binding,
+            )
         )
 
         if route_kind == CORRECTED_TARGET_ROUTE_KIND:
@@ -4076,6 +4478,9 @@ def source_route_pin_error(
         _endpoint_statement, endpoint_digest = _source_item_coverage_statement(
             source_item
         )
+        endpoint_anchor_identity, endpoint_anchor_error = source_anchor_quote_identity(
+            source_item
+        )
         if not (
             str(obligation.get("source_statement_sha256") or "").strip()
             == endpoint_digest
@@ -4083,6 +4488,16 @@ def source_route_pin_error(
             == _source_item_coverage_location(source_item)
             and statement_digest(str(obligation.get("statement") or ""))
             == endpoint_digest
+            and (
+                not require_verbatim_source_inputs
+                or (
+                    not endpoint_anchor_error
+                    and str(
+                        obligation.get("source_anchor_quote_identity_sha256") or ""
+                    ).strip().lower()
+                    == endpoint_anchor_identity
+                )
+            )
         ):
             continue
         endpoint_source_items.add(source_item_key)
@@ -4119,6 +4534,37 @@ def source_route_pin_error(
                 "statement review paper-statement target is not bound by any "
                 "current explicit source route"
             )
+        if require_verbatim_source_inputs:
+            target_declaration = str(
+                raw.get("semantic_target_declaration") or ""
+            ).strip()
+            if not target_declaration:
+                return "statement review has no transparent Spec target declaration"
+            direct_source_items = {
+                str(route.get("source_item") or "").strip()
+                for route in routes
+                if isinstance(route, Mapping)
+                and str(route.get("route_kind") or "").strip().lower()
+                in {"direct", CORRECTED_TARGET_ROUTE_KIND}
+            }
+            allowed_specs: set[str] = set()
+            for source_item_key in direct_source_items:
+                source_item = inventory.get(source_item_key)
+                if not isinstance(source_item, Mapping):
+                    continue
+                allowed_specs.update(
+                    _normalize_string_list(source_item.get("spec_lean_declarations"))
+                )
+                contract = source_item.get("semantic_contract")
+                if isinstance(contract, Mapping):
+                    declaration = str(contract.get("spec_declaration") or "").strip()
+                    if declaration:
+                        allowed_specs.add(declaration)
+            if target_declaration not in allowed_specs:
+                return (
+                    "statement review semantic target is not the direct source "
+                    "item's transparent Spec declaration"
+                )
         judgment = _normalize_llm_match_judgment(
             raw.get("judgment")
             or raw.get("verdict")
@@ -6776,6 +7222,10 @@ def load_llm_statement_judgments(
                     raw_value,
                     inventory=source_route_inventory,
                     require_statement_target=True,
+                    require_verbatim_source_inputs=(
+                        item_prompt_version
+                        == REQUIRED_LLM_STATEMENT_PROMPT_VERSION
+                    ),
                 )
                 if require_source_routes
                 else ""
@@ -6845,6 +7295,18 @@ def load_llm_statement_judgments(
                 ),
                 "prompt_version": item_prompt_version,
                 "prompt_version_stale": item_prompt_version_stale,
+                "source_input_protocol": str(
+                    raw_value.get("source_input_protocol") or ""
+                ).strip(),
+                "source_input_bundle_sha256": str(
+                    raw_value.get("source_input_bundle_sha256") or ""
+                ).strip().lower(),
+                "lean_target_protocol": str(
+                    raw_value.get("lean_target_protocol") or ""
+                ).strip(),
+                "semantic_target_declaration": str(
+                    raw_value.get("semantic_target_declaration") or ""
+                ).strip(),
                 "lean_statement_sha256": str(raw_value.get("lean_statement_sha256") or "").strip(),
                 "lean_signature_sha256": str(raw_value.get("lean_signature_sha256") or "").strip(),
                 "paper_statement_sha256": str(raw_value.get("paper_statement_sha256") or "").strip(),
@@ -6929,6 +7391,7 @@ def _llm_statement_judgment_is_stale(
     lean_statement: str,
     paper_statement: str,
     agent_statement: str,
+    source_input_bundle_sha256: str = "",
 ) -> bool:
     """Re-evaluate statement evidence against the current audit contract.
 
@@ -6941,12 +7404,37 @@ def _llm_statement_judgment_is_stale(
 
     if not judgment:
         return False
-    if not normalize_statement(paper_statement):
-        return True
     recorded_signature = str(judgment.get("lean_signature_sha256") or "").strip()
     recorded_lean = str(judgment.get("lean_statement_sha256") or "").strip()
     recorded_paper = str(judgment.get("paper_statement_sha256") or "").strip()
     recorded_tex = str(judgment.get("tex_statement_sha256") or "").strip()
+    is_v11 = (
+        str(judgment.get("prompt_version") or "").strip()
+        == REQUIRED_LLM_STATEMENT_PROMPT_VERSION
+    )
+    if is_v11:
+        recorded_source_input = str(
+            judgment.get("source_input_bundle_sha256") or ""
+        ).strip().lower()
+        return (
+            not recorded_signature
+            or not recorded_lean
+            or not source_input_bundle_sha256
+            or recorded_signature != signature_sha256
+            or recorded_lean != statement_digest(lean_statement)
+            or recorded_paper != source_input_bundle_sha256
+            or recorded_source_input != source_input_bundle_sha256
+            or str(judgment.get("source_input_protocol") or "").strip()
+            != "verbatim_source_anchor_bundle_v1"
+            or str(judgment.get("lean_target_protocol") or "").strip()
+            != "expanded_paperinterface_spec_v1"
+            or bool(judgment.get("prompt_version_stale"))
+            or bool(judgment.get("metadata_missing"))
+            or bool(judgment.get("obligation_ledger_error"))
+            or not signature_sha256
+        )
+    if not normalize_statement(paper_statement):
+        return True
     component_target = _validated_unique_source_component_target_sha256(judgment)
     paper_digest_is_current = recorded_paper == statement_digest(
         paper_statement
@@ -6969,7 +7457,7 @@ def _llm_statement_judgment_is_stale(
 
 def _semantic_statement_judgment_identity(
     judgment: dict[str, Any],
-) -> tuple[str, str, str] | None:
+) -> tuple[str, ...] | None:
     """Return a judgment's exact semantic reuse identity, never its row name."""
 
     fields = (
@@ -6983,12 +7471,24 @@ def _semantic_statement_judgment_identity(
         or values[1] == statement_digest("")
     ):
         return None
+    if str(judgment.get("prompt_version") or "").strip() == REQUIRED_LLM_STATEMENT_PROMPT_VERSION:
+        source_input = str(
+            judgment.get("source_input_bundle_sha256") or ""
+        ).strip().lower()
+        direct_lean = str(judgment.get("lean_statement_sha256") or "").strip().lower()
+        if not (
+            SOURCE_ARTIFACT_SHA256_RE.fullmatch(source_input)
+            and SOURCE_ARTIFACT_SHA256_RE.fullmatch(direct_lean)
+            and values[1] == source_input
+        ):
+            return None
+        return ("v11", values[0], source_input, direct_lean)
     return values
 
 
 def _semantic_statement_judgment_index(
     judgments: Mapping[str, dict[str, Any]],
-) -> dict[tuple[str, str, str], list[tuple[str, dict[str, Any]]]]:
+) -> dict[tuple[str, ...], list[tuple[str, dict[str, Any]]]]:
     """Index judgments once by exact content identity, preserving ambiguity."""
 
     index: dict[tuple[str, str, str], list[tuple[str, dict[str, Any]]]] = {}
@@ -7004,7 +7504,7 @@ def _current_semantic_statement_judgment_for_item(
     judgments: dict[str, dict[str, Any]],
     *,
     identity_index: Mapping[
-        tuple[str, str, str], list[tuple[str, dict[str, Any]]]
+        tuple[str, ...], list[tuple[str, dict[str, Any]]]
     ]
     | None = None,
 ) -> tuple[str, dict[str, Any] | None, bool]:
@@ -7022,6 +7522,7 @@ def _current_semantic_statement_judgment_for_item(
         lean_statement=item.lean_statement,
         paper_statement=item.paper_statement,
         agent_statement=item.agent_statement,
+        source_input_bundle_sha256=item.source_input_bundle_sha256,
         judgments=judgments,
         identity_index=identity_index,
     )
@@ -7033,19 +7534,24 @@ def _current_semantic_statement_judgment(
     lean_statement: str,
     paper_statement: str,
     agent_statement: str,
+    source_input_bundle_sha256: str = "",
     judgments: dict[str, dict[str, Any]],
     identity_index: Mapping[
-        tuple[str, str, str], list[tuple[str, dict[str, Any]]]
+        tuple[str, ...], list[tuple[str, dict[str, Any]]]
     ]
     | None = None,
 ) -> tuple[str, dict[str, Any] | None, bool]:
     """Resolve one judgment before or after a ``ReviewItem`` is materialized."""
 
     signature = str(signature_sha256 or "").strip().lower()
-    identity = (
-        signature,
-        statement_digest(paper_statement),
-        statement_digest(agent_statement),
+    identity: tuple[str, ...] = (
+        ("v11", signature, source_input_bundle_sha256, statement_digest(lean_statement))
+        if source_input_bundle_sha256
+        else (
+            signature,
+            statement_digest(paper_statement),
+            statement_digest(agent_statement),
+        )
     )
     if not re.fullmatch(r"[0-9a-f]{64}", signature):
         return "", None, False
@@ -7082,6 +7588,7 @@ def _current_semantic_statement_judgment(
             lean_statement=lean_statement,
             paper_statement=paper_statement,
             agent_statement=agent_statement,
+            source_input_bundle_sha256=source_input_bundle_sha256,
         )
     ]
     if len(candidates) == 1:
@@ -7152,6 +7659,9 @@ def load_llm_paper_coverage_audit(
         payload_prompt_version != REQUIRED_LLM_PAPER_COVERAGE_PROMPT_VERSION
     )
     payload_source_grounded = bool(payload.get("source_grounded") is True)
+    payload_source_input_protocol = str(
+        payload.get("source_input_protocol") or ""
+    ).strip()
     payload_seed_scaffold = (
         payload_non_evidence_scaffold
         or bool(payload.get("seed_scaffold") is True)
@@ -7198,6 +7708,9 @@ def load_llm_paper_coverage_audit(
                 ).strip(),
                 "source_anchor_quote_sha256": str(
                     raw_value.get("source_anchor_quote_sha256") or ""
+                ).strip().lower(),
+                "source_anchor_quote_identity_sha256": str(
+                    raw_value.get("source_anchor_quote_identity_sha256") or ""
                 ).strip().lower(),
                 "target_kind": str(raw_value.get("target_kind") or "").strip().lower(),
                 "archival_statement_sha256": str(
@@ -7284,6 +7797,7 @@ def load_llm_paper_coverage_audit(
                 "source_evidence": "",
                 "source_scope_judgment": "",
                 "source_anchor_quote_sha256": "",
+                "source_anchor_quote_identity_sha256": "",
                 "target_kind": "",
                 "archival_statement_sha256": "",
                 "corrected_target_sha256": "",
@@ -7313,6 +7827,7 @@ def load_llm_paper_coverage_audit(
         "prompt_version": payload_prompt_version,
         "prompt_version_stale": payload_prompt_version_stale,
         "source_grounded": payload_source_grounded,
+        "source_input_protocol": payload_source_input_protocol,
         "seed_scaffold": payload_seed_scaffold,
         "comment": str(payload.get("comment") or payload.get("notes") or "").strip(),
         "paper_statement_inventory_sha256": str(
@@ -8118,6 +8633,8 @@ def load_review_slice_payload(
                 )
                 source_file = review_surface.get("source_file")
                 human_source_file = review_surface.get("human_source_file")
+                proof_file = review_surface.get("proof_file")
+                proof_module = review_surface.get("proof_module")
                 assumption_source_file = review_surface.get("assumption_source_file")
                 assumption_policy = review_surface.get("assumption_policy")
                 paper_coverage_required = review_surface.get("paper_coverage_required")
@@ -8125,6 +8642,10 @@ def load_review_slice_payload(
                     payload["source_file"] = source_file
                 if isinstance(human_source_file, str) and human_source_file.strip():
                     payload["human_source_file"] = human_source_file
+                if isinstance(proof_file, str) and proof_file.strip():
+                    payload["proof_file"] = proof_file
+                if isinstance(proof_module, str) and proof_module.strip():
+                    payload["proof_module"] = proof_module
                 if isinstance(include_names, list):
                     payload["include_names"] = include_names
                 if isinstance(slices, list):
@@ -8157,6 +8678,8 @@ def load_review_slice_payload(
                     or "source_component_statement_routes" in payload
                     or "source_file" in payload
                     or "human_source_file" in payload
+                    or "proof_file" in payload
+                    or "proof_module" in payload
                     or "assumption_source_file" in payload
                     or "assumption_policy" in payload
                     or "paper_coverage_required" in payload
@@ -8263,25 +8786,30 @@ def attach_current_lean_semantic_contract_results(
     for item in items:
         by_short_name.setdefault(item.name, []).append(item)
 
-    requested: list[tuple[ReviewItem, ReviewItem, tuple[str, str, str]]] = []
+    requested: list[tuple[ReviewItem, tuple[str, str, str]]] = []
     for specification in items:
         proof_name = str(specification.proposition_spec_proof or "").strip()
         if not proof_name or specification.proposition_spec_role != "proof_routed":
             continue
+        proof_full_name = proof_name
         evidence = by_full_name.get(proof_name)
         if evidence is None:
             candidates = by_short_name.get(proof_name, [])
             if len(candidates) == 1:
                 evidence = candidates[0]
-        if evidence is None or not specification.full_name or not evidence.full_name:
+        if evidence is not None:
+            proof_full_name = evidence.full_name
+        elif "." not in proof_full_name:
+            proof_full_name = f"{folder.name}.{proof_full_name}"
+        if not specification.full_name or not proof_full_name:
             continue
-        route = (specification.full_name, evidence.full_name, "proves")
-        requested.append((specification, evidence, route))
+        route = (specification.full_name, proof_full_name, "proves")
+        requested.append((specification, route))
 
     if not requested:
         return
 
-    import_module = review_source_module(folder, interface_path)
+    import_module = review_proof_module(folder, interface_path)
     paper_modules = paper_owned_module_names_in_import_closure(
         ROOT,
         folder,
@@ -8292,13 +8820,13 @@ def attach_current_lean_semantic_contract_results(
         matches = run_lean_semantic_contract_matches(
             ROOT,
             import_module,
-            [route for _specification, _evidence, route in requested],
+            [route for _specification, route in requested],
             build_input_provider=build_input_provider,
         )
         transparency = run_lean_semantic_contract_transparency_checks(
             ROOT,
             import_module,
-            sorted({route[0] for _specification, _evidence, route in requested}),
+            sorted({route[0] for _specification, route in requested}),
             paper_modules,
             build_input_provider=build_input_provider,
         )
@@ -8306,7 +8834,7 @@ def attach_current_lean_semantic_contract_results(
         matches = {}
         transparency = {}
 
-    for specification, _evidence, route in requested:
+    for specification, route in requested:
         match_result = matches.get(route)
         specification.semantic_contract_lean_match_verified = (
             match_result if isinstance(match_result, bool) else None
@@ -8754,6 +9282,10 @@ def parse_interface_items(
         paper_folder,
         parsed,
     )
+    direct_source_item_routes = resolved_direct_source_item_routes(
+        paper_folder,
+        parsed,
+    )
 
     semantic_parsed = parsed
     if include_names is not None:
@@ -8937,7 +9469,30 @@ def parse_interface_items(
             direct_statement_routes=direct_statement_routes,
         )
         comment_text, source_status, source_note = split_source_metadata(doc_comment or "")
-        if paper_text:
+        source_item_key = ""
+        source_input_bundle_sha256 = ""
+        verbatim_source_input = ""
+        direct_source_item = direct_source_item_routes.get(full_name)
+        if direct_source_item is not None:
+            source_item_key, source_item = direct_source_item
+            (
+                verbatim_source_input,
+                source_input_bundle_sha256,
+                source_input_error,
+            ) = source_semantic_input_bundle(source_item)
+            if source_input_error:
+                verbatim_source_input = ""
+                source_input_bundle_sha256 = ""
+                source_note = (
+                    f"{source_note}; " if source_note else ""
+                ) + f"raw semantic source input unavailable: {source_input_error}"
+        if verbatim_source_input:
+            # This is the only source text that a v11 semantic judgment may
+            # receive.  It is intentionally distinct from the map's readable
+            # ``statement`` summary, which remains navigation metadata.
+            displayed_paper_statement = verbatim_source_input
+            source_status = source_status or "byte-pinned verbatim source input"
+        elif paper_text:
             displayed_paper_statement = paper_text
             source_status = source_status or "direct source text"
         else:
@@ -8957,6 +9512,7 @@ def parse_interface_items(
                 lean_statement=lean_statement,
                 paper_statement=displayed_paper_statement,
                 agent_statement=agent_statement,
+                source_input_bundle_sha256=source_input_bundle_sha256,
                 judgments=llm_judgments,
                 identity_index=semantic_judgment_index,
             )
@@ -8974,6 +9530,7 @@ def parse_interface_items(
             lean_statement=lean_statement,
             paper_statement=displayed_paper_statement,
             agent_statement=agent_statement,
+            source_input_bundle_sha256=source_input_bundle_sha256,
         )
         is_assumption = name in assumption_names or full_name in assumption_names or is_assumption_item_name(name)
         is_proposition_spec = is_proposition_specification_manifest(signature_manifest)
@@ -9076,6 +9633,9 @@ def parse_interface_items(
                 llm_assumption_lean_statement_sha256=assumption_judgment.get("lean_statement_sha256", ""),
                 llm_assumption_paper_statement_sha256=assumption_judgment.get("paper_statement_sha256", ""),
                 llm_assumption_premise_judgments=assumption_judgment.get("premise_judgments") or {},
+                source_item_key=source_item_key,
+                source_input_bundle_sha256=source_input_bundle_sha256,
+                verbatim_source_input=verbatim_source_input,
                 line_number=line_number,
             )
         )
@@ -9154,6 +9714,7 @@ def cached_direct_source_route_statements_are_current(
 
     parsed = _statement_rebind_review_rows(folder)
     direct_routes = resolved_direct_source_statement_routes(folder, parsed)
+    direct_source_items = resolved_direct_source_item_routes(folder, parsed)
     by_name: dict[str, list[tuple[str, str, str, str, str | None, int, Path]]] = {}
     for row in parsed:
         if row[0] in REVIEW_DECL_KINDS:
@@ -9168,7 +9729,21 @@ def cached_direct_source_route_statements_are_current(
             # The ordinary cache rebind validates this carrier identity before
             # it can use a row.  Do not guess a direct route here.
             continue
-        expected = direct_routes.get(candidates[0][2])
+        full_name = candidates[0][2]
+        source_item_route = direct_source_items.get(full_name)
+        if source_item_route is not None:
+            source_key, source_item = source_item_route
+            source_input, source_identity, error = source_semantic_input_bundle(source_item)
+            if (
+                error
+                or item.source_item_key != source_key
+                or item.source_input_bundle_sha256 != source_identity
+                or item.verbatim_source_input != source_input
+                or item.paper_statement != source_input
+            ):
+                return False
+            continue
+        expected = direct_routes.get(full_name)
         if expected and normalize_statement(item.paper_statement) != expected:
             return False
     return True
@@ -9199,6 +9774,7 @@ def rebind_cached_report_statements(
         component_routes=component_navigation_routes,
     )
     direct_statement_routes = resolved_direct_source_statement_routes(folder, parsed)
+    direct_source_item_routes = resolved_direct_source_item_routes(folder, parsed)
 
     by_name: dict[str, list[tuple[str, str, str, str, str | None, int, Path]]] = {}
     for row in parsed:
@@ -9225,7 +9801,26 @@ def rebind_cached_report_statements(
             direct_statement_routes=direct_statement_routes,
         )
         comment_text, source_status, source_note = split_source_metadata(doc_comment or "")
-        if paper_text:
+        source_item_route = direct_source_item_routes.get(full_name)
+        if source_item_route is not None:
+            source_key, source_item = source_item_route
+            source_input, source_input_identity, source_input_error = (
+                source_semantic_input_bundle(source_item)
+            )
+            item.source_item_key = source_key
+            item.verbatim_source_input = "" if source_input_error else source_input
+            item.source_input_bundle_sha256 = (
+                "" if source_input_error else source_input_identity
+            )
+        else:
+            item.source_item_key = ""
+            item.verbatim_source_input = ""
+            item.source_input_bundle_sha256 = ""
+        if item.verbatim_source_input:
+            item.paper_statement = item.verbatim_source_input
+            item.source_status = source_status or "byte-pinned verbatim source input"
+            item.source_note = source_note
+        elif paper_text:
             item.paper_statement = paper_text
             item.source_status = source_status or "direct source text"
             item.source_note = source_note
@@ -9383,6 +9978,17 @@ def paper_review_log_file(paper: str | Path) -> Path:
     if find_review_source_file(folder) is None:
         raise ValueError(f"no human review Lean surface for paper: {paper}")
     return folder / ".review_traces" / DEFAULT_PAPER_LOG_FILE
+
+
+def paper_library_prerequisite_log_file(paper: str | Path) -> Path:
+    """Return the local human-review trace for library prerequisite cards."""
+
+    folder = PAPERS_DIR / str(paper)
+    if not folder.exists() or not folder.is_dir():
+        raise ValueError(f"unknown paper folder: {paper}")
+    if find_review_source_file(folder) is None:
+        raise ValueError(f"no human review Lean surface for paper: {paper}")
+    return folder / ".review_traces" / DEFAULT_LIBRARY_PREREQUISITE_LOG_FILE
 
 
 def paper_interface_cache_file(paper: str | Path) -> Path:
@@ -9870,18 +10476,14 @@ def _review_surface_rebind_status_digest(status_source: str) -> str:
     )
 
 
-def _cache_source_hashes(
-    folder: Path,
-    *,
-    build_input_provider: RepositoryBuildInputSnapshotProvider | None = None,
-) -> dict[str, str]:
-    owns_build_input_provider = build_input_provider is None
-    if build_input_provider is None:
-        # Cache writers already pass the run's Lean-authored provider.  A
-        # standalone cache reader must use the same authority instead of
-        # silently switching repository_build_input_snapshot to its legacy
-        # Python import-parser compatibility path.
-        build_input_provider = RepositoryBuildInputSnapshotProvider(ROOT)
+def _cache_nonlean_source_hashes(folder: Path) -> dict[str, str]:
+    """Hash the direct human-review surface without walking Lean imports.
+
+    This is deliberately limited to the files that determine what the browser
+    shows.  It is sufficient to reload an already extracted interactive cache;
+    it is *not* a substitute for the current Lean-closure validation used by
+    cache refreshes and frozen closeout checks.
+    """
     interface_path = review_source_file(folder)
     report_path = paper_relative_file(
         folder, FINAL_VALIDATION_REPORT_FILE, "FINAL_VALIDATION_REPORT.md"
@@ -9908,23 +10510,7 @@ def _cache_source_hashes(
     status_source = (
         _dashboard_read_text(status_path) if _dashboard_is_file(status_path) else ""
     )
-    selected_modules = {review_source_module(folder, interface_path)}
-    assumption_path = assumption_source_file(folder)
-    if _selected_assumption_source_is_required(
-        folder, interface_path, assumption_path
-    ):
-        selected_modules.add(review_source_module(folder, assumption_path))
-    lean_source_closure = {
-        module: repository_build_input_snapshot(
-            ROOT,
-            module,
-            provider=build_input_provider,
-        )
-        or ""
-        for module in sorted(selected_modules)
-    }
-
-    hashes = {
+    return {
         "review_source_file": interface_path.name,
         "interface_sha256": statement_digest(interface_source),
         "report_sha256": statement_digest(report_source),
@@ -9941,15 +10527,49 @@ def _cache_source_hashes(
         "review_surface_rebind_sha256": _review_surface_rebind_status_digest(
             status_source
         ),
-        "lean_source_closure_sha256": statement_digest(
-            json.dumps(
-                lean_source_closure,
-                ensure_ascii=True,
-                sort_keys=True,
-                separators=(",", ":"),
-            )
-        ),
     }
+
+
+def _cache_source_hashes(
+    folder: Path,
+    *,
+    build_input_provider: RepositoryBuildInputSnapshotProvider | None = None,
+) -> dict[str, str]:
+    """Hash the direct review surface and its current Lean import closure."""
+
+    owns_build_input_provider = build_input_provider is None
+    if build_input_provider is None:
+        # Cache writers already pass the run's Lean-authored provider.  A
+        # standalone cache reader must use the same authority instead of
+        # silently switching repository_build_input_snapshot to its legacy
+        # Python import-parser compatibility path.
+        build_input_provider = RepositoryBuildInputSnapshotProvider(ROOT)
+    interface_path = review_source_file(folder)
+    hashes = _cache_nonlean_source_hashes(folder)
+    selected_modules = {review_source_module(folder, interface_path)}
+    assumption_path = assumption_source_file(folder)
+    if _selected_assumption_source_is_required(
+        folder, interface_path, assumption_path
+    ):
+        selected_modules.add(review_source_module(folder, assumption_path))
+    lean_source_closure = {
+        module: repository_build_input_snapshot(
+            ROOT,
+            module,
+            provider=build_input_provider,
+        )
+        or ""
+        for module in sorted(selected_modules)
+    }
+
+    hashes["lean_source_closure_sha256"] = statement_digest(
+        json.dumps(
+            lean_source_closure,
+            ensure_ascii=True,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+    )
     if (
         owns_build_input_provider
         and not build_input_provider.finalize_unchanged()
@@ -10701,6 +11321,7 @@ def rebind_cached_review_sidecars(folder: Path, items: list[ReviewItem]) -> None
             lean_statement=item.lean_statement,
             paper_statement=item.paper_statement,
             agent_statement=item.agent_statement,
+            source_input_bundle_sha256=item.source_input_bundle_sha256,
         )
 
         assumption_judgment = assumption_judgments.get(item.name) or {}
@@ -11052,6 +11673,51 @@ def load_cached_review_rows(
     return out or None
 
 
+def load_interactive_cached_review_rows(folder: Path) -> list[ReviewItem] | None:
+    """Reuse a cache for human review without rewalking the Lean universe.
+
+    A dashboard page is a statement-review surface, not a new proof-closeout
+    run.  Its persisted rows already contain the elaborated interface
+    statements and manifests produced during the last cache refresh.  For an
+    interactive reload, verify every direct display input and rebind changed
+    report/map/status text, while retaining the cache's already-validated Lean
+    closure pin.  Strict closeout and explicit cache refreshes still call
+    :func:`_cache_source_hashes`, rebuild that closure through Lean, and fail
+    closed on any dependency change.
+
+    This separation makes the ordinary reviewer path responsive after a
+    completed closeout without weakening any release or audit gate.
+    """
+
+    cache_path = paper_interface_cache_file(folder)
+    try:
+        payload = json.loads(cache_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        return None
+    if (
+        not isinstance(payload, Mapping)
+        or payload.get("schema") != PAPER_INTERFACE_CACHE_SCHEMA
+        or payload.get("paper") != folder.name
+    ):
+        return None
+    recorded_hashes = payload.get("hashes")
+    if not isinstance(recorded_hashes, Mapping):
+        return None
+    recorded_closure = str(
+        recorded_hashes.get("lean_source_closure_sha256") or ""
+    ).strip()
+    if not re.fullmatch(r"[0-9a-f]{64}", recorded_closure):
+        return None
+
+    hashes = _cache_nonlean_source_hashes(folder)
+    hashes["lean_source_closure_sha256"] = recorded_closure
+    return load_cached_review_rows(
+        folder,
+        source_hashes=hashes,
+        cache_payload=payload,
+    )
+
+
 def write_cached_review_rows(
     folder: Path,
     items: list[ReviewItem],
@@ -11125,6 +11791,19 @@ def review_items_for_paper(
                 progress=progress,
                 publish_manifest_store=publish_manifest_store,
             )
+
+    # The ordinary browser path needs the current review statements, not a
+    # second proof-closeout traversal of every imported module.  Reuse the
+    # cached elaborated rows when their direct display inputs still match;
+    # `load_interactive_cached_review_rows` rebinds report/map/status text as
+    # needed.  Strict checks and explicit cache refreshes deliberately bypass
+    # this branch and retain the full Lean-closure validation below.
+    if use_cache and not require_current_signatures:
+        cached = load_interactive_cached_review_rows(folder)
+        if cached is not None:
+            if render_images:
+                attach_rendered_statement_images(folder, cached)
+            return cached
 
     owns_build_input_provider = build_input_provider is None
     if build_input_provider is None:
@@ -11352,8 +12031,9 @@ def review_surface_digest(items: list[ReviewItem]) -> str:
         {
             "name": item.name,
             "kind": item.kind,
-            "lean_statement": normalize_statement(item.interface_source or item.lean_statement),
+            "lean_statement": normalize_statement(item.lean_statement or item.interface_source),
             "paper_statement": normalize_statement(item.paper_statement),
+            "source_input_bundle_sha256": item.source_input_bundle_sha256,
             "source_status": normalize_statement(item.source_status),
             "source_note": normalize_statement(item.source_note),
             "is_assumption": bool(item.is_assumption),
@@ -11370,11 +12050,54 @@ def review_surface_digest(items: list[ReviewItem]) -> str:
     ).hexdigest()
 
 
+def semantic_statement_review_items(
+    folder: Path, items: Iterable[ReviewItem]
+) -> list[ReviewItem]:
+    """Select one semantic source-to-Spec target for each mapped source claim.
+
+    The raw dashboard declaration list remains useful for Lean proof and
+    import-closure checks.  It is not the source-semantic surface: a
+    transparent Spec and its theorem wrapper share one source claim.  A
+    legacy paper without declared Spec contracts retains its ordinary rows so
+    that missing migration evidence cannot disappear from the audit.
+    """
+
+    all_items = list(items)
+    source_map = paper_statement_map_payload(folder)
+    raw_items = source_map.get("items") if isinstance(source_map, Mapping) else None
+    specs: set[str] = set()
+    if isinstance(raw_items, Mapping):
+        for record in raw_items.values():
+            if not isinstance(record, Mapping):
+                continue
+            contract = record.get("semantic_contract")
+            if isinstance(contract, Mapping):
+                spec = str(contract.get("spec_declaration") or "").strip()
+                if spec:
+                    specs.add(spec)
+            values = record.get("spec_lean_declarations")
+            if isinstance(values, list):
+                specs.update(str(value).strip() for value in values if str(value).strip())
+    selected = [
+        item
+        for item in all_items
+        if item.full_name in specs or item.name in specs
+    ]
+    if selected:
+        return selected
+    return [
+        item
+        for item in all_items
+        if not item.is_assumption and not is_assumption_item_name(item.name)
+    ]
+
+
 def review_surface_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[str, Any]:
     """Summarize row-count thresholds and optional LLM review-surface audit status."""
 
-    row_count = len(items)
-    surface_hash = review_surface_digest(items)
+    semantic_items = semantic_statement_review_items(folder, items)
+    row_count = len(semantic_items)
+    surface_hash = review_surface_digest(semantic_items)
     audit = load_llm_review_surface_audit(folder)
     recorded_rows = audit.get("review_rows")
     recorded_hash = str(audit.get("review_surface_sha256") or "").strip()
@@ -11399,13 +12122,19 @@ def review_surface_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
     unknown = bool(has_completed_audit and judgment not in {"passes", "needs_curation", "uncertain"})
     non_evidence_scaffold = bool(audit.get("non_evidence_scaffold"))
     oversize = row_count >= REVIEW_SURFACE_WARN_THRESHOLD
-    needs_attention = (
-        missing_required
-        or stale
-        or needs_curation
-        or uncertain
-        or unknown
-        or non_evidence_scaffold
+    # An existing broad declaration-level review-surface sidecar is historical
+    # once a paper projects paired Specs/proof wrappers to claim rows.  Do not
+    # block a compact (below-threshold) human surface merely because that
+    # optional old presentation audit has a different row count.
+    needs_attention = missing_required or (
+        audit_required
+        and (
+            stale
+            or needs_curation
+            or uncertain
+            or unknown
+            or non_evidence_scaffold
+        )
     )
     return {
         "row_count": row_count,
@@ -11432,14 +12161,82 @@ def review_surface_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
     }
 
 
-def statement_translation_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[str, Any]:
-    """Summarize context-free Lean-to-TeX and semantic statement-match coverage."""
+def library_semantic_review_summary(
+    folder: Path,
+    items: Iterable[ReviewItem],
+    *,
+    entries_override: Iterable[Mapping[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Summarize material source-to-library semantic prerequisites.
 
-    statement_items = [
-        item
-        for item in items
-        if not item.is_assumption and not is_assumption_item_name(item.name)
+    This is deliberately supplementary to the paper-local Spec judgment.  A
+    new prerequisite receipt does not rewrite or falsely invalidate an already
+    hash-bound source-to-Spec receipt, but a closeout cannot call the combined
+    semantic surface complete while a material reused definition is unlinked,
+    stale, mismatched, or uncertain.
+    """
+
+    entries = (
+        [dict(entry) for entry in entries_override]
+        if entries_override is not None
+        else human_review_library_prerequisites(
+            folder, [item.__dict__ for item in items]
+        )
+    )
+    pending = [
+        str(entry.get("lean_name") or "")
+        for entry in entries
+        if not entry.get("verbatim_source_input")
+        or str(entry.get("semantic_judgment") or "") == "not recorded"
     ]
+    stale = [
+        str(entry.get("lean_name") or "")
+        for entry in entries
+        if str(entry.get("semantic_judgment") or "") != "not recorded"
+        and not bool(entry.get("semantic_current"))
+    ]
+    mismatch = [
+        str(entry.get("lean_name") or "")
+        for entry in entries
+        if bool(entry.get("semantic_current"))
+        and str(entry.get("semantic_judgment") or "") == "mismatch"
+    ]
+    uncertain = [
+        str(entry.get("lean_name") or "")
+        for entry in entries
+        if bool(entry.get("semantic_current"))
+        and str(entry.get("semantic_judgment") or "") == "uncertain"
+    ]
+    matches = sum(
+        1
+        for entry in entries
+        if bool(entry.get("semantic_current"))
+        and str(entry.get("semantic_judgment") or "") == "matches"
+    )
+    return {
+        "row_count": len(entries),
+        "current_matches": matches,
+        "pending": pending,
+        "pending_count": len(pending),
+        "stale": stale,
+        "stale_count": len(stale),
+        "mismatch": mismatch,
+        "mismatch_count": len(mismatch),
+        "uncertain": uncertain,
+        "uncertain_count": len(uncertain),
+        "needs_attention": bool(pending or stale or mismatch or uncertain),
+    }
+
+
+def statement_translation_audit_summary(
+    folder: Path,
+    items: list[ReviewItem],
+    *,
+    library_summary_override: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Summarize raw-source-to-expanded-Spec semantic statement coverage."""
+
+    statement_items = semantic_statement_review_items(folder, items)
     draft_entries = load_llm_lean_to_tex_draft_entries(folder)
     judgments = load_llm_statement_judgments(
         folder,
@@ -11464,6 +12261,11 @@ def statement_translation_audit_summary(folder: Path, items: list[ReviewItem]) -
     semantic_reused_stale_draft: list[str] = []
     semantic_current_judgment_count = 0
     matches = 0
+    library_prerequisites = (
+        dict(library_summary_override)
+        if library_summary_override is not None
+        else library_semantic_review_summary(folder, statement_items)
+    )
     semantic_judgment_index = _semantic_statement_judgment_index(judgments)
 
     for item in statement_items:
@@ -11481,15 +12283,11 @@ def statement_translation_audit_summary(folder: Path, items: list[ReviewItem]) -
             if semantic_key != item.name:
                 semantic_rebound_judgment.append(item.name)
 
-        # A stale context-free rendering is non-crediting formatting evidence.
-        # It need not force a repeat semantic review when one uniquely pinned,
-        # current semantic judgment already covers this exact current row. A
-        # missing rendering remains a blocker: this narrow reuse is not a
-        # substitute for materializing a review input from nothing.
+        # Lean-to-TeX drafts are optional explanatory renderings.  They are
+        # never v11 semantic inputs and therefore cannot make a raw-source /
+        # expanded-Spec judgment stale or complete.
         draft = draft_entries.get(item.name)
-        if not draft:
-            missing_draft.append(item.name)
-        else:
+        if draft:
             recorded_lean = str(draft.get("lean_statement_sha256") or "").strip()
             stale = (
                 (
@@ -11501,11 +12299,8 @@ def statement_translation_audit_summary(folder: Path, items: list[ReviewItem]) -
                 or bool(draft.get("prompt_version_stale"))
                 or bool(draft.get("metadata_missing"))
             )
-            if stale:
-                if str((semantic_judgment or {}).get("judgment") or "").strip() == "matches":
-                    semantic_reused_stale_draft.append(item.name)
-                else:
-                    stale_draft.append(item.name)
+            if stale and str((semantic_judgment or {}).get("judgment") or "").strip() == "matches":
+                semantic_reused_stale_draft.append(item.name)
 
         # Prefer the current exact semantic identity over the sidecar key. A
         # stale or nonmatching named entry remains visible below; an ambiguous
@@ -11537,6 +12332,7 @@ def statement_translation_audit_summary(folder: Path, items: list[ReviewItem]) -
             lean_statement=item.lean_statement,
             paper_statement=item.paper_statement,
             agent_statement=item.agent_statement,
+            source_input_bundle_sha256=item.source_input_bundle_sha256,
         ):
             stale_judgment.append(item.name)
         if judgment.get("obligation_ledger_error"):
@@ -11544,15 +12340,14 @@ def statement_translation_audit_summary(folder: Path, items: list[ReviewItem]) -
 
     all_uncertain = bool(statement_items) and len(uncertain) == len(statement_items)
     needs_attention = bool(
-        missing_draft
-        or stale_draft
-        or missing_judgment
+        missing_judgment
         or stale_judgment
         or missing_obligation_ledger
         or unresolved_mismatch
         or uncertain
         or unknown
         or ambiguous_semantic_judgment
+        or library_prerequisites["needs_attention"]
     )
     return {
         "row_count": len(statement_items),
@@ -11586,8 +12381,9 @@ def statement_translation_audit_summary(folder: Path, items: list[ReviewItem]) -
         "missing_judgment": missing_judgment,
         "stale_judgment": stale_judgment,
         "missing_obligation_ledger": missing_obligation_ledger,
-        "has_completed_audit": bool(draft_entries and judgments),
+        "has_completed_audit": bool(judgments),
         "all_uncertain": all_uncertain,
+        "library_prerequisites": library_prerequisites,
         "needs_attention": needs_attention,
     }
 
@@ -13784,6 +14580,11 @@ def _review_item_statement_audit_target_sha256(row_item: ReviewItem) -> str:
     """
 
     displayed_target = statement_digest(row_item.paper_statement)
+    if (
+        row_item.source_input_bundle_sha256
+        and not row_item.llm_match_stale
+    ):
+        return row_item.source_input_bundle_sha256
     if row_item.is_assumption or row_item.llm_match_stale:
         return displayed_target
     component_target = str(
@@ -13820,6 +14621,11 @@ def _row_statement_match_record(
     _source_statement, source_statement_sha256 = _source_item_coverage_statement(
         source_item
     )
+    _source_input, source_input_bundle_sha256, source_input_error = (
+        source_semantic_input_bundle(source_item)
+    )
+    if not source_input_error and source_input_bundle_sha256:
+        source_statement_sha256 = source_input_bundle_sha256
     row_paper_statement_sha256 = statement_digest(row_item.paper_statement)
     row_statement_audit_target_sha256 = (
         _review_item_statement_audit_target_sha256(row_item)
@@ -13871,7 +14677,8 @@ def _row_statement_match_record(
             row_statement_audit_target_sha256
         ),
         "review_row_paper_statement_matches_source": bool(
-            source_statement_sha256 and source_statement_sha256 == row_paper_statement_sha256
+            source_statement_sha256
+            and source_statement_sha256 == row_statement_audit_target_sha256
         ),
         "coverage": coverage,
         "row_correctness_lane": correctness_lane,
@@ -14669,6 +15476,28 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
             and not inventory_has_quarantined_defect
         )
     )
+    coverage_source_input_errors: list[str] = []
+    if audit_prompt_version == REQUIRED_LLM_PAPER_COVERAGE_PROMPT_VERSION:
+        if str(audit.get("source_input_protocol") or "").strip() != "verbatim_source_anchor_bundle_v1":
+            coverage_source_input_errors.append(
+                "coverage review does not declare the required verbatim_source_anchor_bundle_v1 input protocol"
+            )
+        for source_key, coverage_item in bound_audit_items.items():
+            expected_anchor_identity, anchor_error = source_anchor_quote_identity(
+                inventory[source_key]
+            )
+            recorded_anchor_identity = str(
+                coverage_item.get("source_anchor_quote_identity_sha256") or ""
+            ).strip().lower()
+            if anchor_error:
+                coverage_source_input_errors.append(
+                    f"{source_key}: {anchor_error}"
+                )
+            elif recorded_anchor_identity != expected_anchor_identity:
+                coverage_source_input_errors.append(
+                    f"{source_key}: coverage judgment lacks the current exact "
+                    "verbatim source-anchor identity"
+                )
     audit_metadata_missing = bool(audit_required and audit_items and audit.get("metadata_missing"))
     missing_source_grounded_audit = bool(
         audit_required
@@ -14678,6 +15507,7 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
             or audit_kind not in APPROVED_PAPER_COVERAGE_AUDIT_KINDS
             or not audit_source_grounded
             or audit_prompt_version_stale
+            or coverage_source_input_errors
             or audit_metadata_missing
         )
     )
@@ -15380,6 +16210,8 @@ def paper_coverage_audit_summary(folder: Path, items: list[ReviewItem]) -> dict[
         "prompt_version": str(audit.get("prompt_version") or "").strip(),
         "prompt_version_stale": audit_prompt_version_stale,
         "missing_source_grounded_audit": missing_source_grounded_audit,
+        "coverage_source_input_error_count": len(coverage_source_input_errors),
+        "coverage_source_input_errors": coverage_source_input_errors,
         "audit_metadata_missing": audit_metadata_missing,
         "defect_support_audit_required": quarantine_support_requested,
         "defect_support_audit_source": str(
@@ -15655,6 +16487,1112 @@ def read_all_log_entries(
     return entries
 
 
+# A material reusable primitive is a mathematical object from this repository's
+# library that appears in a paper-facing Spec.  These are not an opaque trusted
+# glossary: each record points to the exact Lean declaration that is shown to
+# reviewers and (for a current semantic judgment) must be paired with an exact
+# source item in ``audit/library_semantic_review.json``.  Foundational Lean and
+# Mathlib syntax such as ``Nat``, ``Finset``, or ``And`` remain foundation
+# terminals; they are version-pinned by Lean's closure receipt rather than
+# pretending that a paper independently defines natural numbers or finite sets.
+HUMAN_REVIEW_LIBRARY_PREREQUISITES: tuple[dict[str, Any], ...] = (
+    {
+        "lean_name": "EconCSLib.FairDivision.Bundle",
+        "label": "Bundle Item",
+        "source_path": "EconCSLib/SocialChoice/FairDivision/IndivisibleGoods.lean",
+        "line_start": 17,
+        "line_end": 18,
+    },
+    {
+        "lean_name": "EconCSLib.FairDivision.Allocation",
+        "label": "Allocation Agent Item",
+        "source_path": "EconCSLib/SocialChoice/FairDivision/IndivisibleGoods.lean",
+        "line_start": 20,
+        "line_end": 21,
+    },
+    {
+        "lean_name": "EconCSLib.FairDivision.IsAllocationOf",
+        "label": "IsAllocationOf allocation chores",
+        "source_path": "EconCSLib/SocialChoice/FairDivision/IndivisibleGoods.lean",
+        "line_start": 80,
+        "line_end": 83,
+    },
+    {
+        "lean_name": "EconCSLib.FairDivision.ChoreCost",
+        "label": "ChoreCost Agent Item",
+        "source_path": "EconCSLib/SocialChoice/FairDivision/Chores.lean",
+        "line_start": 28,
+        "line_end": 29,
+    },
+    {
+        "lean_name": "EconCSLib.FairDivision.additiveChoreCost",
+        "label": "additiveChoreCost",
+        "source_path": "EconCSLib/SocialChoice/FairDivision/Chores.lean",
+        "line_start": 70,
+        "line_end": 73,
+    },
+    {
+        "lean_name": "EconCSLib.FairDivision.EnvyFreeForChores",
+        "label": "EnvyFreeForChores",
+        "source_path": "EconCSLib/SocialChoice/FairDivision/Chores.lean",
+        "line_start": 242,
+        "line_end": 246,
+    },
+    {
+        "lean_name": "EconCSLib.FairDivision.EFXForChores",
+        "label": "EFXForChores",
+        "source_path": "EconCSLib/SocialChoice/FairDivision/Chores.lean",
+        "line_start": 248,
+        "line_end": 253,
+    },
+    {
+        "lean_name": "EconCSLib.FairDivision.ParetoDominatesForChores",
+        "label": "ParetoDominatesForChores",
+        "source_path": "EconCSLib/SocialChoice/FairDivision/Chores.lean",
+        "line_start": 1178,
+        "line_end": 1183,
+    },
+    {
+        "lean_name": "EconCSLib.FairDivision.ParetoOptimalForChores",
+        "label": "ParetoOptimalForChores",
+        "source_path": "EconCSLib/SocialChoice/FairDivision/Chores.lean",
+        "line_start": 1185,
+        "line_end": 1191,
+    },
+    {
+        "lean_name": "EconCSLib.FairDivision.AdditiveChoreInstance",
+        "label": "AdditiveChoreInstance",
+        "source_path": "EconCSLib/SocialChoice/FairDivision/Chores.lean",
+        "line_start": 1193,
+        "line_end": 1201,
+    },
+    {
+        "lean_name": "EconCSLib.Matching.Assignment",
+        "label": "Assignment M W",
+        "surface_aliases": ("Assignment",),
+        "source_path": "EconCSLib/Markets/Matching/Basic.lean",
+        "line_start": 9,
+        "line_end": 13,
+    },
+    {
+        "lean_name": "EconCSLib.Matching.valM",
+        "label": "valM",
+        "surface_aliases": ("valM",),
+        "source_path": "EconCSLib/Markets/Matching/Basic.lean",
+        "line_start": 168,
+        "line_end": 172,
+    },
+    {
+        "lean_name": "EconCSLib.Matching.valW",
+        "label": "valW",
+        "surface_aliases": ("valW",),
+        "source_path": "EconCSLib/Markets/Matching/Basic.lean",
+        "line_start": 174,
+        "line_end": 178,
+    },
+    {
+        "lean_name": "EconCSLib.Matching.ManyToOneAssignment",
+        "label": "ManyToOneAssignment Applicants Colleges",
+        "surface_aliases": ("ManyToOneAssignment",),
+        "source_path": "EconCSLib/Markets/Matching/ManyToOne.lean",
+        "line_start": 26,
+        "line_end": 30,
+    },
+    {
+        "lean_name": "EconCSLib.Matching.ManyToOneAssignment.RespectsQuota",
+        "label": "ManyToOneAssignment.RespectsQuota",
+        "surface_aliases": ("RespectsQuota",),
+        "source_path": "EconCSLib/Markets/Matching/ManyToOne.lean",
+        "line_start": 34,
+        "line_end": 37,
+    },
+    {
+        "lean_name": "EconCSLib.Matching.ManyToOne.valApplicant",
+        "label": "ManyToOne.valApplicant",
+        "surface_aliases": ("ManyToOne.valApplicant",),
+        "source_path": "EconCSLib/Markets/Matching/ManyToOne.lean",
+        "line_start": 245,
+        "line_end": 250,
+    },
+    {
+        "lean_name": "EconCSLib.Matching.MenStrictPreferenceProfile",
+        "label": "MenStrictPreferenceProfile",
+        "surface_aliases": ("MenStrictPreferenceProfile",),
+        "source_path": "EconCSLib/Markets/Matching/DeferredAcceptance.lean",
+        "line_start": 2986,
+        "line_end": 2988,
+    },
+    {
+        "lean_name": "EconCSLib.Matching.WomenStrictPreferenceProfile",
+        "label": "WomenStrictPreferenceProfile",
+        "surface_aliases": ("WomenStrictPreferenceProfile",),
+        "source_path": "EconCSLib/Markets/Matching/DeferredAcceptance.lean",
+        "line_start": 3083,
+        "line_end": 3085,
+    },
+    {
+        "lean_name": "EconCSLib.Matching.AllPairsAcceptable",
+        "label": "AllPairsAcceptable",
+        "surface_aliases": ("AllPairsAcceptable",),
+        "source_path": "EconCSLib/Markets/Matching/DeferredAcceptance.lean",
+        "line_start": 3087,
+        "line_end": 3092,
+    },
+)
+
+# Lean's direct-constant inventory reports structure projections separately.
+# A reviewer should see the one source-facing structure declaration that gives
+# those projections their mathematical meaning, not duplicate cards containing
+# the same record definition.  Any direct declaration absent from this map is
+# its own review target and must be registered with a bounded source range.
+LIBRARY_REVIEW_OWNER_BY_DIRECT_DECLARATION: dict[str, str] = {
+    "EconCSLib.Matching.Assignment.m_match": "EconCSLib.Matching.Assignment",
+    "EconCSLib.Matching.Assignment.w_match": "EconCSLib.Matching.Assignment",
+    "EconCSLib.Matching.ManyToOneAssignment.app_match": (
+        "EconCSLib.Matching.ManyToOneAssignment"
+    ),
+    "EconCSLib.Matching.ManyToOneAssignment.college_roster": (
+        "EconCSLib.Matching.ManyToOneAssignment"
+    ),
+    "EconCSLib.Matching.ManyToOneAssignment.mk": (
+        "EconCSLib.Matching.ManyToOneAssignment"
+    ),
+    "EconCSLib.FairDivision.AdditiveChoreInstance.chores": (
+        "EconCSLib.FairDivision.AdditiveChoreInstance"
+    ),
+    "EconCSLib.FairDivision.AdditiveChoreInstance.cost": (
+        "EconCSLib.FairDivision.AdditiveChoreInstance"
+    ),
+    "EconCSLib.FairDivision.AdditiveChoreInstance.nonneg": (
+        "EconCSLib.FairDivision.AdditiveChoreInstance"
+    ),
+}
+
+
+def library_review_owner_declaration(lean_name: object) -> str:
+    """Return the reviewable declaration owning one direct Lean constant."""
+
+    name = str(lean_name or "").strip()
+    return LIBRARY_REVIEW_OWNER_BY_DIRECT_DECLARATION.get(name, name)
+
+
+def _human_review_short_name(value: object) -> str:
+    return str(value or "").strip().rsplit(".", 1)[-1]
+
+
+_DIRECT_ECONCSLIB_DECLARATION_RE = re.compile(
+    r"(?<![A-Za-z0-9_.])(EconCSLib(?:\.[A-Za-z_][A-Za-z0-9_']*)+)"
+)
+
+
+def direct_material_library_declaration_names(
+    claims: Iterable[Mapping[str, Any]],
+) -> set[str]:
+    """Return explicitly named EconCSLib definitions on a review surface.
+
+    This is deliberately a completeness backstop, not a source-semantic
+    matcher: a source-facing Spec that spells a reusable EconCSLib declaration
+    must either register that declaration for its own raw-source review or
+    fail visibly.  We do not try to turn Lean/Mathlib terminals into paper
+    definitions, and we do not infer an unqualified name from its spelling.
+    The shared registry covers deliberately supported open-namespace aliases;
+    direct qualified references cannot disappear merely because a maintainer
+    forgot to add them to that convenience registry.
+    """
+
+    names: set[str] = set()
+    for claim in claims:
+        for field in ("interface_source", "lean_statement"):
+            source = str(claim.get(field) or "")
+            names.update(_DIRECT_ECONCSLIB_DECLARATION_RE.findall(source))
+        raw_owners = claim.get("library_review_owner_declarations")
+        if isinstance(raw_owners, (list, tuple, set)):
+            names.update(
+                library_review_owner_declaration(name)
+                for name in raw_owners
+                if str(name or "").strip().startswith("EconCSLib.")
+            )
+    return names
+
+
+_LIBRARY_SEMANTIC_TARGET_CACHE: dict[
+    tuple[str, str, tuple[str, ...], bool], tuple[dict[str, dict[str, Any]], dict[str, str]]
+] = {}
+
+
+def library_semantic_targets(
+    folder: Path,
+    direct_names: Iterable[str],
+    *,
+    require_build: bool = True,
+) -> tuple[dict[str, dict[str, Any]], dict[str, str]]:
+    """Return the source-review target for every material library primitive.
+
+    Lean delta-reduces each direct reusable `def` at its own root.  Any
+    reusable name left in that body becomes another card, so one wrapper
+    cannot hide a second library definition.  Compiler-generated recursive
+    helpers are opened by Lean under their source declaration root and never
+    become synthetic cards.  The exact bounded source code remains visible
+    beside every target, including opaque/non-definition declarations where
+    Lean correctly exposes only the elaborated signature.
+    """
+
+    roots = {
+        library_review_owner_declaration(name)
+        for name in direct_names
+        if str(name or "").strip().startswith("EconCSLib.")
+    }
+    if not roots:
+        return {}, {}
+    interface_path = folder / "PaperInterface.lean"
+    try:
+        source_module = review_source_module(folder, interface_path)
+        interface_digest = hashlib.sha256(interface_path.read_bytes()).hexdigest()
+    except (OSError, ValueError) as exc:
+        return {}, {name: "could not identify PaperInterface import: " + str(exc) for name in roots}
+    cache_key = (
+        str(folder.resolve()),
+        interface_digest,
+        tuple(sorted(roots)),
+        require_build,
+    )
+    cached = _LIBRARY_SEMANTIC_TARGET_CACHE.get(cache_key)
+    if cached is not None:
+        return cached
+
+    targets: dict[str, dict[str, Any]] = {}
+    errors: dict[str, str] = {}
+    pending = set(roots)
+    # A finite, explicit cap makes a pathological library dependency cycle a
+    # visible audit failure instead of an unbounded dashboard traversal.
+    while pending and len(targets) < 512:
+        batch = sorted(pending - set(targets) - set(errors))
+        if not batch:
+            break
+        displayed = run_lean_transparent_library_declaration_displays(
+            ROOT,
+            source_module,
+            batch,
+            timeout_seconds=180,
+            build_timeout_seconds=600,
+            require_build=require_build,
+        )
+        missing = set(batch) - set(displayed)
+        for name in sorted(missing):
+            errors[name] = "Lean could not produce the current library semantic target"
+        for name, target in displayed.items():
+            targets[name] = dict(target)
+            for dependency in target.get("direct_library_declarations", ()):
+                owner = library_review_owner_declaration(dependency)
+                if owner not in targets and owner not in errors:
+                    pending.add(owner)
+        pending.difference_update(batch)
+    pending.difference_update(set(targets) | set(errors))
+    if pending:
+        for name in sorted(pending):
+            errors[name] = "library semantic-target closure exceeded 512 declarations"
+    result = (targets, errors)
+    _LIBRARY_SEMANTIC_TARGET_CACHE[cache_key] = result
+    return result
+
+
+_DISCOVERED_LIBRARY_DECLARATION_SOURCES: dict[
+    str, tuple[str, str, str, str, int | None, int | None]
+] = {}
+_DISCOVERED_LIBRARY_DECLARATION_SOURCE_INDEX_READY = False
+
+
+def _prime_discovered_library_declaration_source_index() -> None:
+    """Index bounded EconCSLib declarations once for dynamic Lean targets."""
+
+    global _DISCOVERED_LIBRARY_DECLARATION_SOURCE_INDEX_READY
+    if _DISCOVERED_LIBRARY_DECLARATION_SOURCE_INDEX_READY:
+        return
+    _DISCOVERED_LIBRARY_DECLARATION_SOURCE_INDEX_READY = True
+    library_root = ROOT / "EconCSLib"
+    if not library_root.is_dir():
+        return
+    for path in sorted(library_root.rglob("*.lean")):
+        for _kind, _short, full_name, source, _comment, line, source_path in (
+            parse_review_source_declarations(path)
+        ):
+            name = str(full_name or "").strip()
+            declaration = str(source or "").strip()
+            if not name or not declaration or name in _DISCOVERED_LIBRARY_DECLARATION_SOURCES:
+                continue
+            try:
+                relative = source_path.resolve().relative_to(ROOT).as_posix()
+            except ValueError:
+                continue
+            line_start = int(line)
+            _DISCOVERED_LIBRARY_DECLARATION_SOURCES[name] = (
+                declaration,
+                hashlib.sha256(declaration.encode("utf-8")).hexdigest(),
+                "",
+                relative,
+                line_start,
+                line_start + declaration.count("\n"),
+            )
+
+
+def _discovered_library_definition_source(
+    lean_name: str,
+) -> tuple[str, str, str, str, int | None, int | None]:
+    """Locate an exact EconCSLib declaration when no static card exists yet.
+
+    This is source-location discovery only: it does not infer semantics from a
+    name.  The target name comes from Lean's elaborated dependency output, and
+    the returned declaration bytes are still pinned in the per-paper review
+    ledger before they count as reviewed.
+    """
+
+    cached = _DISCOVERED_LIBRARY_DECLARATION_SOURCES.get(lean_name)
+    if cached is not None:
+        return cached
+    library_root = ROOT / "EconCSLib"
+    if not library_root.is_dir():
+        result = ("", "", "EconCSLib source directory is unavailable", "", None, None)
+        _DISCOVERED_LIBRARY_DECLARATION_SOURCES[lean_name] = result
+        return result
+    _prime_discovered_library_declaration_source_index()
+    cached = _DISCOVERED_LIBRARY_DECLARATION_SOURCES.get(lean_name)
+    if cached is not None:
+        return cached
+    result = ("", "", "library declaration is not registered or discoverable", "", None, None)
+    _DISCOVERED_LIBRARY_DECLARATION_SOURCES[lean_name] = result
+    return result
+
+
+def _library_definition_source_details(
+    template: Mapping[str, Any],
+) -> tuple[str, str, str, str, int | None, int | None]:
+    """Return one registered library declaration and its exact code digest.
+
+    The registry stores bounded source locations rather than hand-written
+    paraphrases.  A missing or changed declaration is therefore visible as an
+    unavailable dependency, never silently shown as an old glossary entry.
+    """
+
+    raw_path = str(template.get("source_path") or "").strip()
+    start = template.get("line_start")
+    end = template.get("line_end")
+    if (
+        not raw_path
+        or not isinstance(start, int)
+        or not isinstance(end, int)
+        or start <= 0
+        or end < start
+    ):
+        lean_name = str(template.get("lean_name") or "").strip()
+        return _discovered_library_definition_source(lean_name)
+    path = ROOT / raw_path
+    try:
+        path.resolve().relative_to(ROOT)
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except (OSError, UnicodeDecodeError, ValueError) as exc:
+        return "", "", f"could not read registered library declaration: {exc}", "", None, None
+    if end > len(lines):
+        return "", "", "registered library declaration range is outside its source file", "", None, None
+    definition = "\n".join(lines[start - 1 : end]).strip()
+    if not definition:
+        return "", "", "registered library declaration range is empty", "", None, None
+    digest = hashlib.sha256(definition.encode("utf-8")).hexdigest()
+    return definition, digest, "", raw_path, start, end
+
+
+def _library_definition_source(
+    template: Mapping[str, Any],
+) -> tuple[str, str, str]:
+    """Backward-compatible declaration source extractor without its locator."""
+
+    definition, digest, error, _path, _start, _end = _library_definition_source_details(
+        template
+    )
+    return definition, digest, error
+
+
+def _library_semantic_review_payload(folder: Path) -> tuple[Mapping[str, Any], str]:
+    """Load an optional per-paper source-to-library review ledger.
+
+    This lane deliberately reuses the paper statement map's raw source item.
+    It never accepts a glossary explanation as the source side of the
+    comparison, and an absent ledger is an explicit pending review rather than
+    an implicit trust decision.
+    """
+
+    path = folder / DEFAULT_LIBRARY_SEMANTIC_REVIEW_FILE
+    if not _dashboard_is_file(path):
+        return {}, "no library semantic-review ledger is recorded"
+    payload = _dashboard_json_payload(path)
+    if not isinstance(payload, Mapping):
+        return {}, "library semantic-review ledger is unreadable"
+    if payload.get("schema") != LIBRARY_SEMANTIC_REVIEW_SCHEMA:
+        return {}, "library semantic-review ledger has an unsupported schema"
+    if str(payload.get("paper") or "").strip() != folder.name:
+        return {}, "library semantic-review ledger names a different paper"
+    if (
+        str(payload.get("prompt_version") or "").strip()
+        != REQUIRED_LLM_LIBRARY_SEMANTIC_REVIEW_PROMPT_VERSION
+    ):
+        return {}, "library semantic-review ledger has a stale or missing prompt version"
+    if (
+        str(payload.get("target_protocol") or "").strip()
+        != LIBRARY_SEMANTIC_TARGET_PROTOCOL
+    ):
+        return {}, "library semantic-review ledger has a stale or missing target protocol"
+    return payload, ""
+
+
+def _source_map_items_by_key(payload: Mapping[str, Any]) -> dict[str, Mapping[str, Any]]:
+    """Index the map's source items without treating navigation prose as evidence."""
+
+    raw_items = payload.get("items")
+    if isinstance(raw_items, Mapping):
+        return {
+            str(key): value
+            for key, value in raw_items.items()
+            if str(key).strip() and isinstance(value, Mapping)
+        }
+    if isinstance(raw_items, list):
+        out: dict[str, Mapping[str, Any]] = {}
+        for raw in raw_items:
+            if not isinstance(raw, Mapping):
+                continue
+            key = str(raw.get("id") or raw.get("source_item") or "").strip()
+            if key:
+                out[key] = raw
+        return out
+    return {}
+
+
+def human_review_library_prerequisites(
+    folder: Path,
+    claims: Iterable[Mapping[str, Any]],
+    *,
+    require_build: bool = True,
+    semantic_targets_override: Mapping[str, Mapping[str, Any]] | None = None,
+    semantic_target_errors_override: Mapping[str, str] | None = None,
+) -> list[dict[str, Any]]:
+    """Return material library definitions and their source-match status.
+
+    A reusable library name may simplify paper code, but it does not bypass
+    paper-source fidelity.  Each displayed prerequisite has (i) exact Lean
+    declaration text from the library, (ii) an explicitly selected byte-pinned
+    paper source item, and (iii) a freshness-checked raw-source-to-definition
+    semantic judgment.  The source item's own raw bundle is used verbatim,
+    exactly as for a paper-local Spec.  An absent connection or judgment is
+    shown as pending and cannot be mistaken for a checked definition.
+    """
+
+    surface = "\n".join(
+        str(claim.get(field) or "")
+        for claim in claims
+        for field in ("interface_source", "lean_statement")
+    )
+    direct_names = direct_material_library_declaration_names(claims)
+    if semantic_targets_override is None:
+        semantic_targets, semantic_target_errors = library_semantic_targets(
+            folder,
+            direct_names,
+            require_build=require_build,
+        )
+    else:
+        semantic_targets = {
+            str(name).strip(): dict(target)
+            for name, target in semantic_targets_override.items()
+            if str(name).strip() and isinstance(target, Mapping)
+        }
+        semantic_target_errors = {
+            str(name).strip(): str(error)
+            for name, error in (semantic_target_errors_override or {}).items()
+            if str(name).strip() and str(error).strip()
+        }
+    # Lean may report a structure projection while the review surface already
+    # maps that projection to its one owning structure.  Normalize every
+    # closure name here as well as at discovery time, so an older staged
+    # display cache cannot resurrect a duplicate projection card.
+    normalized_targets: dict[str, dict[str, Any]] = {}
+    for raw_name, target in semantic_targets.items():
+        owner = library_review_owner_declaration(raw_name)
+        if owner == raw_name or owner not in normalized_targets:
+            normalized_targets[owner] = target
+    normalized_target_errors: dict[str, str] = {}
+    for raw_name, error in semantic_target_errors.items():
+        owner = library_review_owner_declaration(raw_name)
+        if owner not in normalized_target_errors:
+            normalized_target_errors[owner] = error
+    semantic_targets = normalized_targets
+    semantic_target_errors = normalized_target_errors
+    material_names = set(direct_names) | set(semantic_targets) | set(semantic_target_errors)
+    try:
+        source_map = paper_statement_map_payload(folder)
+    except Exception:  # noqa: BLE001 - a missing map leaves a visible pending item.
+        source_map = {}
+    source_items = _source_map_items_by_key(source_map)
+    ledger, ledger_error = _library_semantic_review_payload(folder)
+    raw_ledger_items = ledger.get("items") if isinstance(ledger, Mapping) else {}
+    ledger_items = raw_ledger_items if isinstance(raw_ledger_items, Mapping) else {}
+
+    # The shared registry covers frequently used EconCSLib vocabulary.  A
+    # paper may additionally declare a material library primitive in its
+    # ledger, with the same bounded Lean source location fields.  This keeps
+    # the rule general rather than making semantic checking depend on whether a
+    # maintainer happened to add the name to this convenience list.
+    templates = list(HUMAN_REVIEW_LIBRARY_PREREQUISITES)
+    known_names = {
+        str(template.get("lean_name") or "").strip() for template in templates
+    }
+    for raw_name, raw in ledger_items.items():
+        if not isinstance(raw, Mapping):
+            continue
+        lean_name = str(raw.get("library_declaration") or raw_name or "").strip()
+        if not lean_name or lean_name in known_names:
+            continue
+        templates.append(
+            {
+                "lean_name": lean_name,
+                "label": str(raw.get("label") or lean_name).strip(),
+                "source_path": str(raw.get("library_source_path") or "").strip(),
+                "line_start": raw.get("library_line_start"),
+                "line_end": raw.get("library_line_end"),
+            }
+        )
+        known_names.add(lean_name)
+
+    # A direct declaration selected by Lean's expanded semantic target may be
+    # newer than the convenience registry.  Locate its exact library source
+    # declaration deterministically so the reviewer sees code rather than an
+    # opaque name; absence remains an explicit review failure below.
+    for lean_name in sorted(material_names - known_names):
+        templates.append({"lean_name": lean_name, "label": lean_name})
+        known_names.add(lean_name)
+
+    entries: list[dict[str, Any]] = []
+    for template in templates:
+        lean_name = str(template.get("lean_name") or "").strip()
+        aliases = template.get("surface_aliases")
+        alias_values = (
+            [str(alias).strip() for alias in aliases if str(alias).strip()]
+            if isinstance(aliases, (list, tuple))
+            else []
+        )
+        used = lean_name in material_names or lean_name in surface or any(
+            re.search(rf"(?<![A-Za-z0-9_.]){re.escape(alias)}(?![A-Za-z0-9_])", surface)
+            for alias in alias_values
+        )
+        if not lean_name or not used:
+            continue
+        (
+            definition,
+            definition_digest,
+            definition_error,
+            definition_source_path,
+            definition_line_start,
+            definition_line_end,
+        ) = _library_definition_source_details(template)
+        semantic_target = semantic_targets.get(lean_name, {})
+        semantic_target_display = str(semantic_target.get("display") or "").strip()
+        semantic_target_digest = str(
+            semantic_target.get("display_sha256") or ""
+        ).strip().lower()
+        semantic_target_kind = str(
+            semantic_target.get("declaration_kind") or ""
+        ).strip()
+        semantic_target_error = str(semantic_target_errors.get(lean_name) or "").strip()
+        if not semantic_target_display and not semantic_target_error:
+            semantic_target_error = "Lean produced no library semantic target"
+        raw = ledger_items.get(lean_name)
+        if not isinstance(raw, Mapping):
+            raw = next(
+                (
+                    candidate
+                    for candidate in ledger_items.values()
+                    if isinstance(candidate, Mapping)
+                    and str(candidate.get("library_declaration") or "").strip()
+                    == lean_name
+                ),
+                {},
+            )
+        raw = raw if isinstance(raw, Mapping) else {}
+        source_item_key = str(raw.get("source_item") or "").strip()
+        source_item = source_items.get(source_item_key)
+        source_input = ""
+        source_digest = ""
+        source_error = ""
+        source_locator = ""
+        if source_item_key and source_item is None:
+            source_error = (
+                f"registered source item `{source_item_key}` is absent from the statement map"
+            )
+        elif source_item is not None:
+            source_locator = str(source_item.get("source_location") or "not recorded")
+            source_error = source_anchor_file_error(folder, source_item)
+            if not source_error:
+                source_input, source_digest, source_error = source_semantic_input_bundle(
+                    source_item, require_context_roles=True
+                )
+        elif isinstance(raw.get("source_anchor_evidence"), list):
+            # A source model/definition may be material to a library primitive
+            # without being an independently counted paper claim.  Permit that
+            # precise source connector, but give it the same byte-pinned bundle
+            # validation and context-role restrictions as a map item.
+            source_locator = str(raw.get("source_location") or "not recorded")
+            source_error = source_anchor_file_error(folder, raw)
+            if not source_error:
+                source_input, source_digest, source_error = source_semantic_input_bundle(
+                    raw, require_context_roles=True
+                )
+        else:
+            source_error = "no explicit byte-pinned paper source connection is registered"
+
+        judgment = str(raw.get("judgment") or "").strip().lower()
+        has_metadata = bool(
+            str(raw.get("validator") or "").strip()
+            and str(raw.get("validated_at") or "").strip()
+        )
+        current = bool(
+            not ledger_error
+            and not definition_error
+            and not semantic_target_error
+            and bool(semantic_target_display)
+            and not source_error
+            and judgment in {"matches", "mismatch", "uncertain"}
+            and str(raw.get("library_declaration") or "").strip() == lean_name
+            and (
+                (source_item_key and str(raw.get("source_item") or "").strip() == source_item_key)
+                or (not source_item_key and isinstance(raw.get("source_anchor_evidence"), list))
+            )
+            and str(raw.get("source_input_bundle_sha256") or "").strip().lower()
+            == source_digest
+            and str(raw.get("library_definition_sha256") or "").strip().lower()
+            == definition_digest
+            and str(raw.get("library_semantic_target_sha256") or "").strip().lower()
+            == semantic_target_digest
+            and str(raw.get("library_semantic_target_protocol") or "").strip()
+            == LIBRARY_SEMANTIC_TARGET_PROTOCOL
+            and str(raw.get("library_source_path") or "").strip()
+            == definition_source_path
+            and raw.get("library_line_start") == definition_line_start
+            and raw.get("library_line_end") == definition_line_end
+            and has_metadata
+        )
+        if ledger_error:
+            review_status = ledger_error
+        elif definition_error:
+            review_status = definition_error
+        elif semantic_target_error:
+            review_status = semantic_target_error
+        elif source_error:
+            review_status = source_error
+        elif not judgment:
+            review_status = "source connection is registered; semantic judgment is pending"
+        elif not current:
+            review_status = "recorded library semantic judgment is stale or incomplete"
+        else:
+            review_status = "current"
+        entries.append(
+            {
+                "lean_name": lean_name,
+                "label": str(template.get("label") or lean_name).strip(),
+                "library_source_path": definition_source_path,
+                "library_line_start": definition_line_start,
+                "library_line_end": definition_line_end,
+                "library_definition": definition,
+                "library_definition_sha256": definition_digest,
+                "library_definition_error": definition_error,
+                "library_semantic_target": semantic_target_display,
+                "library_semantic_target_sha256": semantic_target_digest,
+                "library_semantic_target_kind": semantic_target_kind,
+                "library_semantic_target_error": semantic_target_error,
+                # Preserve Lean-reported direct edges for the packet's
+                # dependency-first display ordering.  These are presentation
+                # edges only; the Lean closure itself remains the audit
+                # authority.
+                "direct_library_declarations": list(
+                    semantic_target.get("direct_library_declarations", ())
+                ),
+                "source_item": source_item_key,
+                "source_locator": source_locator,
+                "verbatim_source_input": source_input,
+                "source_input_bundle_sha256": source_digest,
+                "source_connection_error": source_error,
+                "semantic_judgment": judgment or "not recorded",
+                "semantic_reason": str(raw.get("reason") or "").strip(),
+                "semantic_current": current,
+                "semantic_status": review_status,
+            }
+        )
+    return entries
+
+
+def _human_review_intake_order(folder: Path) -> dict[str, int]:
+    """Load the explicit source-claim reading order for human review.
+
+    An intake freeze remains the strongest source of a recorded DAG order.  A
+    v11 interface without such a freeze may declare its claim order in
+    ``review_surface.include_names``.  This is an explicit presentation/DAG
+    order, not an inferred declaration-name order; the packet rejects any
+    section headings that would subsequently reorder it.
+    """
+
+    payload = _dashboard_json_payload(folder / PAPER_AUDIT_DIR / "intake_freeze.json")
+    raw_items = payload.get("items") if isinstance(payload, Mapping) else None
+    order: dict[str, int] = {}
+    if isinstance(raw_items, list):
+        for raw_item in raw_items:
+            if not isinstance(raw_item, Mapping):
+                continue
+            rank = raw_item.get("dependency_order")
+            if not isinstance(rank, int) or rank < 0:
+                continue
+            for field in ("spec_declaration", "proof_declaration"):
+                name = _human_review_short_name(raw_item.get(field))
+                if name:
+                    order[name] = rank
+        if order:
+            return order
+    status = _dashboard_json_payload(folder / DEFAULT_PAPER_STATUS_FILE)
+    surface = status.get("review_surface") if isinstance(status, Mapping) else None
+    configured = surface.get("include_names") if isinstance(surface, Mapping) else None
+    if not isinstance(configured, list):
+        return {}
+    for rank, raw_name in enumerate(configured, start=1):
+        name = _human_review_short_name(raw_name)
+        if name and name not in order:
+            order[name] = rank
+    return order
+
+
+def human_review_claim_items(folder: Path, items: list[ReviewItem]) -> list[dict[str, Any]]:
+    """Project raw Lean declarations to one human row per source claim.
+
+    A transparent ``Spec`` and its paired theorem are deliberately separate
+    Lean declarations: the former is the auditable paper statement and the
+    latter proves it.  Showing both as independent human rows duplicates the
+    same source claim.  This presentation projection keeps the raw list intact
+    for evidence gates while showing the Spec once, with the proof endpoint
+    named on that row.  The source-map/intake order is the claim-DAG reading
+    order; unmapped legacy declarations remain visible after those claims.
+    """
+
+    item_by_full_name = {
+        item.full_name: item for item in items if item.full_name
+    }
+    source_map = paper_statement_map_payload(folder)
+    raw_map_items = source_map.get("items") if isinstance(source_map, Mapping) else None
+    map_records = (
+        list(raw_map_items.items()) if isinstance(raw_map_items, Mapping) else []
+    )
+    intake_order = _human_review_intake_order(folder)
+    selected: list[tuple[int, int, dict[str, Any]]] = []
+    covered: set[str] = set()
+    for source_index, (source_key, raw_record) in enumerate(map_records):
+        if not isinstance(raw_record, Mapping):
+            continue
+        contract = raw_record.get("semantic_contract")
+        spec = (
+            str(contract.get("spec_declaration") or "").strip()
+            if isinstance(contract, Mapping)
+            else ""
+        )
+        proof = (
+            str(contract.get("evidence_declaration") or "").strip()
+            if isinstance(contract, Mapping)
+            else ""
+        )
+        if not spec:
+            routes = raw_record.get("spec_lean_declarations")
+            if isinstance(routes, list):
+                spec = next((str(route).strip() for route in routes if str(route).strip()), "")
+        item = item_by_full_name.get(spec)
+        if item is None:
+            continue
+        record = dict(item.__dict__)
+        # This is a coverage identity, not reviewer-facing prose.  It lets
+        # closeout verify that every selected byte-pinned source item has its
+        # own current source-to-Spec comparison; neighbouring bundle context
+        # never supplies coverage for another map item.
+        record["human_claim_source_key"] = str(source_key)
+        record["human_claim_title"] = str(
+            raw_record.get("source_item") or raw_record.get("title") or source_key
+        ).strip()
+        record["human_claim_proof_endpoint"] = proof
+        record["human_claim_dag_order"] = intake_order.get(
+            _human_review_short_name(spec), source_index + 1
+        )
+        selected.append((int(record["human_claim_dag_order"]), source_index, record))
+        covered.add(spec)
+        if proof:
+            covered.add(proof)
+
+    for fallback_index, item in enumerate(items, start=len(selected)):
+        if item.full_name in covered:
+            continue
+        record = dict(item.__dict__)
+        record["human_claim_title"] = item.name
+        record["human_claim_proof_endpoint"] = ""
+        record["human_claim_dag_order"] = 20_000 + fallback_index
+        selected.append((20_000 + fallback_index, fallback_index, record))
+    records = [record for _rank, _index, record in sorted(selected, key=lambda entry: entry[:2])]
+    specification_names = sorted(
+        {
+            str(record.get("full_name") or "").strip()
+            for record in records
+            if str(record.get("full_name") or "").strip().endswith("Spec")
+        }
+    )
+    if not specification_names:
+        return records
+    # A packet closeout has already obtained these exact Lean-elaborated
+    # displays in bounded stages.  Reuse that cache for an interactive page
+    # only when the packet helper authenticates the current paper-local Lean
+    # tree and exact Spec name set; otherwise fall back to a fresh Lean walk.
+    cached_targets: Mapping[str, Any] | None = None
+    try:
+        try:
+            from scripts import review_dashboard_packet as packet
+        except ModuleNotFoundError:
+            import review_dashboard_packet as packet  # type: ignore
+        packet_cache = packet._current_packet_lean_cache(  # type: ignore[attr-defined]
+            folder, specification_names
+        )
+        raw_targets = (
+            packet_cache.get("semantic_targets")
+            if isinstance(packet_cache, Mapping)
+            else None
+        )
+        if isinstance(raw_targets, Mapping) and set(raw_targets) == set(specification_names):
+            cached_targets = raw_targets
+    except Exception:  # noqa: BLE001 - a cache is an interactive optimization.
+        cached_targets = None
+    try:
+        if cached_targets is not None:
+            targets = cached_targets
+        else:
+            source_path = folder / REVIEW_SOURCE_FILENAME
+            source_module = review_source_module(folder, source_path)
+            paper_modules = paper_owned_module_names_in_import_closure(
+                ROOT, folder, source_module
+            )
+            targets = run_lean_transparent_paper_spec_displays(
+                ROOT,
+                source_module,
+                specification_names,
+                paper_modules,
+            )
+    except Exception as exc:  # The dashboard must show a missing expansion visibly.
+        targets = {}
+        expansion_error = str(exc)
+    else:
+        expansion_error = ""
+    for record in records:
+        name = str(record.get("full_name") or "").strip()
+        target = targets.get(name)
+        if target is not None:
+            record["semantic_expanded_statement"] = str(target.get("display") or "")
+            record["semantic_expanded_statement_sha256"] = str(
+                target.get("display_sha256") or ""
+            )
+            record["library_review_owner_declarations"] = list(
+                target.get("library_declarations", ())
+            )
+            record["paper_semantic_prerequisite_declarations"] = list(
+                target.get("prerequisite_declarations", ())
+            )
+        elif name.endswith("Spec"):
+            record["semantic_expansion_error"] = (
+                expansion_error or "Lean did not return a complete semantic expansion"
+            )
+    return records
+
+
+def bind_current_v11_source_spec_screening(
+    folder: Path,
+    claim_rows: list[dict[str, Any]],
+) -> None:
+    """Attach a current v11 raw-source/expanded-Spec verdict to claim cards.
+
+    The interactive dashboard and the mark-up packet share one semantic row
+    per paper source claim.  A legacy ``statement_match_llm.json`` may still
+    describe paired implementation declarations, so it is not a substitute
+    for the v11 source-to-transparent-Spec screen.  This projection accepts a
+    v11 row only when it binds the exact displayed source bundle, current
+    PaperInterface bytes, and the Lean-elaborated expanded Spec shown on the
+    card.
+    """
+
+    path = folder / V11_RAW_SOURCE_SPEC_SCREENING_FILE
+    payload = _dashboard_json_payload(path)
+    if not isinstance(payload, Mapping):
+        return
+    if (
+        payload.get("schema") != V11_RAW_SOURCE_SPEC_SCREENING_SCHEMA
+        or payload.get("paper") != folder.name
+        or payload.get("prompt_version")
+        != V11_RAW_SOURCE_SPEC_SCREENING_PROMPT_VERSION
+    ):
+        return
+    raw_items = payload.get("items")
+    if not isinstance(raw_items, Mapping):
+        return
+    interface_sha256 = _file_sha256(folder / REVIEW_SOURCE_FILENAME)
+    payload_validator = str(payload.get("validator") or "").strip()
+    payload_validated_at = str(payload.get("validated_at") or "").strip()
+    for row in claim_rows:
+        full_name = str(row.get("full_name") or "").strip()
+        raw = raw_items.get(full_name)
+        if not full_name or not isinstance(raw, Mapping):
+            continue
+        verdict = _normalize_llm_match_judgment(raw.get("judgment"))
+        source_sha256 = str(row.get("source_input_bundle_sha256") or "").strip()
+        expanded_sha256 = str(
+            row.get("semantic_expanded_statement_sha256") or ""
+        ).strip()
+        current = bool(
+            verdict in {"matches", "mismatch", "uncertain"}
+            and source_sha256
+            and raw.get("source_input_bundle_sha256") == source_sha256
+            and raw.get("paper_statement_sha256") == source_sha256
+            and raw.get("lean_expanded_statement_sha256") == expanded_sha256
+            and raw.get("paper_interface_sha256") == interface_sha256
+            and raw.get("source_input_protocol")
+            == "verbatim_source_anchor_bundle_v1"
+            and raw.get("lean_target_protocol")
+            == V11_RAW_SOURCE_SPEC_LEAN_TARGET_PROTOCOL
+            and raw.get("semantic_target_declaration") == full_name
+            and bool(str(raw.get("validator") or payload_validator).strip())
+            and bool(str(raw.get("validated_at") or payload_validated_at).strip())
+        )
+        if not current:
+            continue
+        row.update(
+            {
+                "llm_match_judgment": verdict,
+                "llm_match_reason": str(raw.get("reason") or "").strip(),
+                "llm_match_stale": False,
+                "llm_match_source": path.name,
+                "llm_match_validator": str(
+                    raw.get("validator") or payload_validator
+                ).strip(),
+                "llm_match_validator_type": str(
+                    raw.get("validator_type")
+                    or payload.get("validator_type")
+                    or "llm_as_judge"
+                ).strip(),
+                "llm_match_validated_at": str(
+                    raw.get("validated_at") or payload_validated_at
+                ).strip(),
+                "llm_match_lean_statement_sha256": expanded_sha256,
+                "llm_match_paper_statement_sha256": source_sha256,
+                "llm_match_resolution": "",
+                "llm_match_boundary_type": "",
+                "llm_match_boundary_names": [],
+                "llm_match_conditional_premises": [],
+                "llm_match_resolution_reason": "",
+                "llm_match_source_routes": [],
+            }
+        )
+
+
+def human_review_presentation_sections(
+    folder: Path,
+    claim_rows: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Return source-claim headings without disturbing the approved DAG order.
+
+    ``presentation_sections`` may distinguish main text from an appendix, but
+    it is not a second ordering authority.  The approved source/DAG
+    linearization remains fixed; headings are inserted around its contiguous
+    runs.  A title can therefore recur as ``(continued)`` when a prerequisite
+    from another source section must be shown first.
+    """
+
+    status = _dashboard_json_payload(folder / DEFAULT_PAPER_STATUS_FILE)
+    review_surface = status.get("review_surface") if isinstance(status, Mapping) else None
+    configured = (
+        review_surface.get("presentation_sections")
+        if isinstance(review_surface, Mapping)
+        else None
+    )
+    ordered_names = [str(row.get("full_name") or "").strip() for row in claim_rows]
+    if not configured:
+        return [{"title": "Source claims", "names": ordered_names}]
+    if not isinstance(configured, list) or not configured:
+        raise ValueError("review_surface.presentation_sections must be a nonempty list")
+
+    lookup: dict[str, str] = {}
+    for full_name in ordered_names:
+        short_name = full_name.rsplit(".", 1)[-1]
+        for candidate in (
+            full_name,
+            short_name,
+            short_name[: -len("Spec")] if short_name.endswith("Spec") else "",
+        ):
+            if candidate:
+                lookup[candidate] = full_name
+
+    section_for_name: dict[str, str] = {}
+    seen: set[str] = set()
+    for raw_section in configured:
+        if not isinstance(raw_section, Mapping):
+            raise ValueError("each presentation section must be an object")
+        title = str(raw_section.get("title") or "").strip()
+        raw_names = raw_section.get("names")
+        if not title or not isinstance(raw_names, list) or not raw_names:
+            raise ValueError("each presentation section needs a title and nonempty names")
+        for raw_name in raw_names:
+            full_name = lookup.get(str(raw_name).strip())
+            if not full_name:
+                raise ValueError(
+                    "presentation section references an unknown source card: "
+                    + str(raw_name)
+                )
+            if full_name in seen:
+                raise ValueError("presentation sections repeat source card: " + full_name)
+            seen.add(full_name)
+            section_for_name[full_name] = title
+    if seen != set(ordered_names):
+        missing = [name for name in ordered_names if name not in seen]
+        raise ValueError(
+            "presentation sections must cover every source card; missing "
+            + ", ".join(missing)
+        )
+    sections: list[dict[str, Any]] = []
+    used_titles: dict[str, int] = {}
+    for full_name in ordered_names:
+        configured_title = section_for_name[full_name]
+        if (
+            sections
+            and str(sections[-1]["title"]).split(" (continued", 1)[0]
+            == configured_title
+        ):
+            sections[-1]["names"].append(full_name)
+            continue
+        used_titles[configured_title] = used_titles.get(configured_title, 0) + 1
+        occurrence = used_titles[configured_title]
+        displayed_title = (
+            configured_title
+            if occurrence == 1
+            else configured_title + " (continued" + ("" if occurrence == 2 else " " + str(occurrence - 1)) + ")"
+        )
+        sections.append({"title": displayed_title, "names": [full_name]})
+    return sections
+
+
+def browser_review_item(item: Mapping[str, Any]) -> dict[str, Any]:
+    """Return the card data needed by the browser, without Lean audit internals.
+
+    ``lean_signature_manifest`` can contain a large recursive elaboration
+    graph.  It is a server-side evidence input, not a human-review card
+    field; serializing it with every card made an otherwise compact dashboard
+    take tens of megabytes and delayed the page that a reviewer sees.
+    """
+
+    payload = dict(item)
+    payload.pop("lean_signature_manifest", None)
+    return payload
+
+
 def gather_paper_data(
     paper_filter: str | None = None,
     slice_filter: str | None = None,
@@ -15683,16 +17621,99 @@ def gather_paper_data(
                 "url": paper_asset_url(folder.name, paper_text),
                 "extension": paper_text.suffix.lower(),
             }
+        human_claims = human_review_claim_items(folder, items)
+        bind_current_v11_source_spec_screening(folder, human_claims)
+        presentation_sections = human_review_presentation_sections(
+            folder, human_claims
+        )
+        try:
+            from scripts import review_dashboard_packet
+        except ModuleNotFoundError:
+            import review_dashboard_packet  # type: ignore[no-redef]
+        all_specification_names = sorted(
+            {
+                str(item.full_name or "").strip()
+                for item in all_items
+                if str(item.full_name or "").strip().endswith("Spec")
+            }
+        )
+        try:
+            packet_cache = review_dashboard_packet._current_packet_lean_cache(
+                folder, all_specification_names
+            )
+        except Exception:  # noqa: BLE001 - cache reuse is only a speed path.
+            packet_cache = None
+        cached_paper_targets = (
+            packet_cache.get("paper_prerequisite_targets")
+            if isinstance(packet_cache, Mapping)
+            and isinstance(packet_cache.get("paper_prerequisite_targets"), Mapping)
+            else None
+        )
+        cached_library_targets = (
+            packet_cache.get("library_semantic_targets")
+            if isinstance(packet_cache, Mapping)
+            and isinstance(packet_cache.get("library_semantic_targets"), Mapping)
+            else None
+        )
+        cached_library_target_errors = (
+            packet_cache.get("library_semantic_target_errors")
+            if isinstance(packet_cache, Mapping)
+            and isinstance(packet_cache.get("library_semantic_target_errors"), Mapping)
+            else None
+        )
+        semantic_targets = {
+            str(item.get("full_name") or "").strip(): {
+                "prerequisite_declarations": item.get(
+                    "paper_semantic_prerequisite_declarations", ()
+                )
+            }
+            for item in human_claims
+            if str(item.get("full_name") or "").strip()
+        }
+        paper_prerequisites = review_dashboard_packet.paper_semantic_prerequisites(
+            folder,
+            semantic_targets,
+            semantic_targets_by_name_override=cached_paper_targets,
+        )
+        library_review_inputs: list[Mapping[str, Any]] = [*human_claims]
+        library_review_inputs.extend(
+            {
+                "library_review_owner_declarations": prerequisite.get(
+                    "direct_library_declarations", ()
+                )
+            }
+            for prerequisite in paper_prerequisites
+        )
+        library_prerequisites = human_review_library_prerequisites(
+            folder,
+            library_review_inputs,
+            semantic_targets_override=cached_library_targets,
+            semantic_target_errors_override=cached_library_target_errors,
+        )
+        library_summary = library_semantic_review_summary(
+            folder,
+            all_items,
+            entries_override=library_prerequisites,
+        )
+        statement_summary = statement_translation_audit_summary(
+            folder,
+            all_items,
+            library_summary_override=library_summary,
+        )
         papers.append(
             {
                 "name": folder.name,
                 "title": paper_title(folder),
-                "items": [item.__dict__ for item in items],
+                "items": [browser_review_item(item.__dict__) for item in items],
+                "human_claims": [browser_review_item(item) for item in human_claims],
+                "presentation_sections": presentation_sections,
+                "human_review_prerequisites": library_prerequisites,
+                "library_semantic_audit": library_summary,
                 "slices": summarize_review_slices(all_items),
                 "active_slice": slice_filter or "",
                 "assets": assets,
                 "surface_audit": review_surface_audit_summary(folder, all_items),
-                "statement_audit": statement_translation_audit_summary(folder, all_items),
+                "statement_audit": statement_summary,
                 "paper_coverage_audit": paper_coverage_audit_summary(folder, all_items),
                 "assumption_audit": assumption_provenance_audit_summary(folder, all_items),
             }
@@ -15855,7 +17876,12 @@ def build_review_status(papers: list[dict[str, Any]], reviews: list[dict[str, An
     rows: list[dict[str, Any]] = []
     for paper in papers:
         paper_name = paper["name"]
-        for item in paper["items"]:
+        # The interactive surface has one row per paper source claim.  A
+        # paired theorem proves its Spec but is not a second review target.
+        display_items = paper.get("human_claims")
+        if not isinstance(display_items, list) or not display_items:
+            display_items = paper["items"]
+        for item in display_items:
             theorem = item["name"]
             key = (paper_name, theorem)
             history = sorted(by_key.get(key, []), key=lambda row: row.get("timestamp", ""))
@@ -16814,8 +18840,14 @@ def append_review(log_file: Path, payload: dict[str, Any], default_user: str) ->
     agent_statement = str(payload.get("agent_statement") or "").strip()
     source_status = str(payload.get("source_status") or "").strip()
     source_note = str(payload.get("source_note") or "").strip()
+    review_scope = str(payload.get("review_scope") or "source_claim").strip()
+    prerequisite_key = str(payload.get("prerequisite_key") or "").strip()
     if not paper or not theorem:
         raise ValueError("missing paper/theorem")
+    if review_scope not in {"source_claim", "library_prerequisite", "paper_prerequisite"}:
+        raise ValueError("invalid review scope")
+    if review_scope != "source_claim" and not prerequisite_key:
+        raise ValueError("missing prerequisite review key")
     if not lean_statement or not paper_statement or not agent_statement or not source_status or not source_note:
         (
             current_lean_statement,
@@ -16846,6 +18878,8 @@ def append_review(log_file: Path, payload: dict[str, Any], default_user: str) ->
         "agent_statement": agent_statement,
         "source_status": source_status,
         "source_note": source_note,
+        "review_scope": review_scope,
+        "prerequisite_key": prerequisite_key,
         "lean_statement_sha256": statement_digest(lean_statement),
         "paper_statement_sha256": statement_digest(paper_statement),
         "agent_statement_sha256": statement_digest(agent_statement),
@@ -16995,6 +19029,9 @@ HTML_PAGE = """
       margin-bottom: 10px;
     }
     .paper-source-heading { margin: 0 0 8px; font-size: 14px; }
+    .review-contents ul { margin: 0; padding-left: 22px; columns: 2; column-gap: 28px; }
+    .review-contents li { break-inside: avoid; margin: 2px 0; font-size: 12px; }
+    .review-contents-nested { margin-left: 12px !important; list-style-type: circle; }
     .paper-source-subtle {
       color: #334155;
       margin-bottom: 6px;
@@ -17166,15 +19203,6 @@ HTML_PAGE = """
       border: 1px solid #d8e0ec;
       border-radius: 6px;
       margin-bottom: 8px;
-    }
-    .statement-preview {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      max-width: 100%;
     }
     .agent-statement {
       white-space: pre-wrap;
@@ -17358,6 +19386,13 @@ HTML_PAGE = """
         processEscapes: true,
         tags: "none",
       },
+      // Exact source excerpts are review evidence, not MathJax input.  In
+      // particular, a source may legitimately contain LaTex environments
+      // such as `\\begin{definition}` that are not standalone math. This is
+      // a global MathJax option rather than a TeX-input option.
+      options: {
+        ignoreHtmlClass: "verbatim-source-input",
+      },
       startup: {
         typeset: false,
       },
@@ -17434,6 +19469,7 @@ HTML_PAGE = """
       logPath: __LOG_PATH__,
       user: __USER__,
       reviews: [],
+      libraryReviews: [],
       statusRows: [],
     };
 
@@ -17484,21 +19520,12 @@ HTML_PAGE = """
       return looksLikeLatex(value) && value.length < 1800;
     }
 
-    function renderPaperStatement(value) {
-      const text = escapeHtml(value || "No paper-facing summary found.");
-      if (!value || !String(value).trim()) {
-        return text;
-      }
-
-      if (isFormulaValue(String(value))) {
-        return `\\\\(${text}\\\\)`;
-      }
-
-      const marked = text.replace(/`([^`]+)`/g, (match, content) => {
-        const body = content.trim();
-        return looksLikeLatex(body) ? `\\(${body}\\)` : `<code>${body}</code>`;
-      });
-      return marked.replace(/\\n/g, "<br/>");
+    function renderVerbatimSourceInput(value) {
+      // A v11 source input is an exact byte-pinned excerpt, not dashboard TeX.
+      // Keep raw `\\begin{lemma}` and `\\begin{definition}` visible instead
+      // of passing unsupported environments to MathJax.
+      const text = escapeHtml(value || "No source input recorded.");
+      return `<div class="verbatim-source-input">${text.replace(/\\n/g, "<br/>")}</div>`;
     }
 
     function renderTexDraft(value) {
@@ -17555,7 +19582,7 @@ HTML_PAGE = """
       heading.className = "llm-judge-heading";
       const title = document.createElement("span");
       title.className = "small muted";
-      title.textContent = "LLM statement-match note";
+      title.textContent = "LLM raw-source / expanded-Spec assessment";
       const badge = document.createElement("span");
       badge.className = `status-pill ${llmJudgmentClass(item)}`.trim();
       badge.textContent = llmJudgmentLabel(item);
@@ -17569,7 +19596,7 @@ HTML_PAGE = """
         bits.push(String(item.llm_match_reason));
       }
       if (item.llm_match_stale) {
-        bits.push("The saved judgment predates the current Lean, paper, or TeX statement.");
+        bits.push("The saved judgment does not bind the current verbatim source input and expanded Spec.");
       }
       if (item.llm_match_resolution) {
         bits.push(`Resolution: ${item.llm_match_resolution}`);
@@ -17589,7 +19616,7 @@ HTML_PAGE = """
       if (!bits.length) {
         bits.push(item.llm_match_judgment
           ? "No reason recorded."
-          : "Run the independent semantic paper-vs-TeX statement check and save statement_match_llm.json.");
+          : "Run the independent semantic raw-source-to-expanded-Spec check and save statement_match_llm.json.");
       }
       if (item.llm_match_source) {
         bits.push(`Source: ${item.llm_match_source}`);
@@ -17780,17 +19807,6 @@ HTML_PAGE = """
       return wrapLeanLines(prettyLeanIdentifiers(text));
     }
 
-    function compactPreview(value, maxLength = 150) {
-      const text = normalizeStatement(value || "");
-      if (!text) {
-        return "No statement text.";
-      }
-      if (text.length <= maxLength) {
-        return text;
-      }
-      return `${text.slice(0, maxLength - 1)}…`;
-    }
-
     function makeStatementBox(label, value, options = {}) {
       const details = document.createElement("details");
       details.className = "statement-box";
@@ -17799,10 +19815,6 @@ HTML_PAGE = """
       }
       const summary = document.createElement("summary");
       summary.textContent = label;
-      const preview = document.createElement("span");
-      preview.className = "statement-preview";
-      preview.textContent = compactPreview(value, options.previewLength || 150);
-      summary.appendChild(preview);
       const body = document.createElement("div");
       body.className = "statement-body";
       if (options.html) {
@@ -17838,11 +19850,44 @@ HTML_PAGE = """
     function findCurrentItem(paper, theorem) {
       for (const p of state.papers) {
         if (p.name !== paper) continue;
-        for (const item of p.items) {
+        for (const item of displayItems(p)) {
           if (item.name === theorem) return item;
         }
       }
       return null;
+    }
+
+    function displayItems(paper) {
+      const claims = Array.isArray(paper.human_claims) ? paper.human_claims : [];
+      return claims.length ? claims : (paper.items || []);
+    }
+
+    function reviewAnchorId(paper, kind, name) {
+      return `review-${safeId(paper)}-${safeId(kind)}-${safeId(name)}`;
+    }
+
+    function claimPresentationSections(paper) {
+      const claims = displayItems(paper);
+      const byName = new Map(claims.map((claim) => [claim.full_name || claim.name, claim]));
+      const configured = Array.isArray(paper.presentation_sections)
+        ? paper.presentation_sections
+        : [];
+      const sections = [];
+      const seen = new Set();
+      for (const section of configured) {
+        const selected = (section.names || [])
+          .map((name) => byName.get(name))
+          .filter(Boolean);
+        if (selected.length) {
+          selected.forEach((claim) => seen.add(claim.full_name || claim.name));
+          sections.push({ title: section.title || "Source claims", items: selected });
+        }
+      }
+      const remaining = claims.filter((claim) => !seen.has(claim.full_name || claim.name));
+      if (remaining.length) {
+        sections.push({ title: configured.length ? "Other source claims" : "Source claims", items: remaining });
+      }
+      return sections;
     }
 
     function statusKey(paper, theorem) {
@@ -17850,7 +19895,7 @@ HTML_PAGE = """
     }
 
     function allItemsCount() {
-      return state.papers.reduce((acc, paper) => acc + paper.items.length, 0);
+      return state.papers.reduce((acc, paper) => acc + displayItems(paper).length, 0);
     }
 
     function sliceKey(paper, sliceId) {
@@ -18048,6 +20093,155 @@ HTML_PAGE = """
       return panel;
     }
 
+    function makeHumanReviewSurfacePanel(paper) {
+      const claims = displayItems(paper);
+      const prerequisites = Array.isArray(paper.human_review_prerequisites)
+        ? paper.human_review_prerequisites
+        : [];
+      const libraryAudit = paper.library_semantic_audit || {};
+      const panel = document.createElement("section");
+      panel.className = "paper-source-panel";
+      const heading = document.createElement("h3");
+      heading.className = "paper-source-heading";
+      const librarySuffix = libraryAudit.row_count
+        ? ` · ${libraryAudit.current_matches || 0}/${libraryAudit.row_count} prerequisite checks current`
+        : "";
+      heading.textContent = `Review packet: ${claims.length} paper source claim${claims.length === 1 ? "" : "s"}${librarySuffix}`;
+      panel.appendChild(heading);
+      const text = document.createElement("div");
+      text.className = "paper-source-subtle";
+      text.textContent = "The paper-claim denominator is the source-claim count above. Review the semantic prerequisites first, then the counted source-claim cards below.";
+      panel.appendChild(text);
+      if (prerequisites.length) {
+        const sectionHeading = document.createElement("h4");
+        sectionHeading.className = "paper-source-heading";
+        sectionHeading.id = reviewAnchorId(paper.name, "library-prerequisites", "section");
+        sectionHeading.textContent = `Step 1 — semantic library prerequisites (${prerequisites.length}; excluded from the paper-claim count)`;
+        panel.appendChild(sectionHeading);
+        const explanation = document.createElement("div");
+        explanation.className = "paper-source-subtle";
+        explanation.textContent = "These definitions supply the model vocabulary used by the source-claim specifications below. They are review inputs, not additional claims from this paper.";
+        panel.appendChild(explanation);
+        for (const prerequisite of prerequisites) {
+          const card = document.createElement("details");
+          card.className = "review-statement-box";
+          card.id = reviewAnchorId(paper.name, "library-prerequisite", prerequisite.lean_name || prerequisite.label || "item");
+          const summary = document.createElement("summary");
+          const verdict = prerequisite.semantic_judgment || "not recorded";
+          const status = prerequisite.semantic_current ? "current" : prerequisite.semantic_status || "needs review";
+          summary.textContent = `${prerequisite.label || prerequisite.lean_name} — library screening: ${verdict} (${status})`;
+          card.appendChild(summary);
+          const body = document.createElement("div");
+          body.className = "statement-full";
+          const sourceInput = String(prerequisite.verbatim_source_input || "").trim();
+          if (sourceInput) {
+            const locator = document.createElement("div");
+            locator.className = "small muted";
+            locator.textContent = `Source locator: ${prerequisite.source_locator || "not recorded"}`;
+            body.appendChild(locator);
+            body.appendChild(
+              makeStatementBox("Verbatim paper-source connection", sourceInput, {
+                html: renderVerbatimSourceInput(sourceInput),
+                previewLength: sourceInput.length > 650 ? 180 : 220,
+                open: true,
+              })
+            );
+          } else {
+            const missing = document.createElement("div");
+            missing.className = "small warn";
+            missing.textContent = `Source connection: ${prerequisite.source_connection_error || "not recorded"}.`;
+            body.appendChild(missing);
+          }
+          const semanticTarget = prerequisite.library_semantic_target || prerequisite.library_semantic_target_error || "[Lean semantic target unavailable.]";
+          const semanticKind = prerequisite.library_semantic_target_kind || "";
+          const semanticTitle = semanticKind === "definition"
+            ? "Lean-expanded library semantic target"
+            : "Lean declaration type (metadata)";
+          body.appendChild(
+            makeStatementBox(semanticTitle, semanticTarget, {
+              html: `<code>${escapeHtml(prettyLeanStatement(semanticTarget))}</code>`,
+              previewLength: 170,
+              open: true,
+            })
+          );
+          body.appendChild(
+            makeStatementBox("Exact Lean library declaration", prerequisite.library_definition || prerequisite.library_definition_error || "[Declaration unavailable.]", {
+              html: `<code>${escapeHtml(prettyLeanStatement(prerequisite.library_definition || prerequisite.library_definition_error || "[Declaration unavailable.]"))}</code>`,
+              previewLength: 170,
+              open: true,
+            })
+          );
+          const diagnostic = document.createElement("div");
+          diagnostic.className = prerequisite.semantic_current ? "small ok" : "small warn";
+          diagnostic.textContent = `Raw-source-to-library-definition screening: ${verdict}. ${prerequisite.semantic_status || "not recorded"}${prerequisite.semantic_reason ? ` Reason: ${prerequisite.semantic_reason}` : ""}`;
+          body.appendChild(diagnostic);
+          body.appendChild(makePrerequisiteReviewControls(paper, prerequisite, "library_prerequisite"));
+          card.appendChild(body);
+          panel.appendChild(card);
+        }
+      }
+      const claimsHeading = document.createElement("h4");
+      claimsHeading.className = "paper-source-heading";
+      claimsHeading.id = reviewAnchorId(paper.name, "source-claims", "section");
+      claimsHeading.textContent = `Step 2 — paper source claims (${claims.length}; counted below)`;
+      panel.appendChild(claimsHeading);
+      return panel;
+    }
+
+    function makeReviewContents(paper) {
+      const panel = document.createElement("nav");
+      panel.className = "paper-source-panel review-contents";
+      panel.setAttribute("aria-label", "Review packet contents");
+      const heading = document.createElement("h3");
+      heading.className = "paper-source-heading";
+      heading.textContent = "Contents";
+      panel.appendChild(heading);
+
+      const list = document.createElement("ul");
+      const addLink = (label, id, nested) => {
+        const entry = document.createElement("li");
+        if (nested) entry.className = "review-contents-nested";
+        const link = document.createElement("a");
+        link.href = `#${id}`;
+        link.dataset.reviewAnchor = id;
+        link.textContent = label;
+        entry.appendChild(link);
+        list.appendChild(entry);
+      };
+      const library = Array.isArray(paper.human_review_prerequisites)
+        ? paper.human_review_prerequisites
+        : [];
+      if (library.length) {
+        addLink(
+          `Semantic library prerequisites (${library.length}; not paper claims)`,
+          reviewAnchorId(paper.name, "library-prerequisites", "section"),
+          false
+        );
+        for (const prerequisite of library) {
+          const label = prerequisite.label || prerequisite.lean_name || "Library prerequisite";
+          addLink(
+            label,
+            reviewAnchorId(paper.name, "library-prerequisite", prerequisite.lean_name || label),
+            true
+          );
+        }
+      }
+      for (const section of claimPresentationSections(paper)) {
+        const sectionId = reviewAnchorId(paper.name, "source-section", section.title);
+        addLink(`${section.title} (${section.items.length})`, sectionId, false);
+        for (const claim of section.items) {
+          const label = claim.human_claim_title || claim.name || "Source claim";
+          addLink(
+            label,
+            reviewAnchorId(paper.name, "source-claim", claim.name),
+            true
+          );
+        }
+      }
+      panel.appendChild(list);
+      return panel;
+    }
+
     function surfaceAuditClass(audit) {
       if (!audit || !audit.audit_required) {
         return "";
@@ -18085,7 +20279,11 @@ HTML_PAGE = """
 
     function makeSurfaceAuditPanel(paper) {
       const audit = paper.surface_audit || {};
-      if (!audit.audit_required && !audit.oversize && !audit.source) {
+      // A legacy declaration-level review-surface sidecar is not useful on a
+      // compact source-claim dashboard.  Only show this exceptional panel
+      // when the current claim surface is actually large enough to require
+      // separate curation.
+      if (!audit.audit_required && !audit.oversize) {
         const empty = document.createElement("div");
         empty.style.display = "none";
         return empty;
@@ -18097,7 +20295,7 @@ HTML_PAGE = """
       const heading = document.createElement("div");
       heading.className = "surface-audit-heading";
       const title = document.createElement("span");
-      title.textContent = `Review surface: ${audit.row_count || paper.items.length} rows`;
+      title.textContent = `Machine audit surface: ${audit.row_count || paper.items.length} Lean declarations`;
       const badge = document.createElement("span");
       badge.className = `status-pill ${cls}`.trim();
       badge.textContent = surfaceAuditLabel(audit);
@@ -18223,13 +20421,21 @@ HTML_PAGE = """
       let needsAttention = 0;
 
       if (statusRows && statusRows.length) {
-        reviewed = statusRows.filter((row) => row.has_review).length;
-        stale = statusRows.filter((row) => row.lean_stale || row.paper_stale || row.source_stale).length;
-        mismatch = statusRows.filter((row) => row.has_review && reviewJudgment(row) === "mismatch").length;
-        needsAttention = statusRows.filter((row) => row.needs_attention || reviewJudgment(row) === "mismatch").length;
+        const claimKeys = new Set(
+          state.papers.flatMap((paper) =>
+            displayItems(paper).map((item) => statusKey(paper.name, item.name))
+          )
+        );
+        const claimStatusRows = statusRows.filter((row) =>
+          claimKeys.has(statusKey(row.paper, row.theorem))
+        );
+        reviewed = claimStatusRows.filter((row) => row.has_review).length;
+        stale = claimStatusRows.filter((row) => row.lean_stale || row.paper_stale || row.source_stale).length;
+        mismatch = claimStatusRows.filter((row) => row.has_review && reviewJudgment(row) === "mismatch").length;
+        needsAttention = claimStatusRows.filter((row) => row.needs_attention || reviewJudgment(row) === "mismatch").length;
       } else {
         for (const paper of state.papers) {
-          for (const item of paper.items) {
+          for (const item of displayItems(paper)) {
             const latest = latestEntryForItem(entries, paper.name, item.name);
             if (!latest) {
               continue;
@@ -18360,7 +20566,10 @@ HTML_PAGE = """
         notes: note ? note.value.trim() : "",
         lean_statement: item.lean_statement,
         paper_statement: item.paper_statement,
-        agent_statement: item.agent_statement,
+        // Human review compares the raw source input to the expanded Lean
+        // specification.  Lean-to-TeX drafts are intentionally not part of
+        // this v11 review record.
+        agent_statement: "",
         source_status: item.source_status || "",
         source_note: item.source_note || "",
       };
@@ -18377,6 +20586,149 @@ HTML_PAGE = """
         throw new Error(data.error || "Failed to save.");
       }
       return data;
+    }
+
+    function prerequisiteReviewKey(paper, scope, prerequisite) {
+      return `${paper}::${scope}::${prerequisite.lean_name || prerequisite.label || "unnamed"}`;
+    }
+
+    function latestPrerequisiteReview(key) {
+      const matching = (state.libraryReviews || []).filter((entry) => entry.prerequisite_key === key);
+      if (!matching.length) return null;
+      byLatest(matching);
+      return matching[0];
+    }
+
+    async function postPrerequisiteReviewPayload(payload) {
+      const response = await fetch("/api/library-reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to save prerequisite review.");
+      }
+      return data;
+    }
+
+    function makePrerequisiteReviewControls(paper, prerequisite, scope) {
+      const key = prerequisiteReviewKey(paper.name, scope, prerequisite);
+      const id = safeId(key);
+      const shell = document.createElement("div");
+      shell.className = "review-controls prerequisite-review-controls";
+      shell.dataset.prerequisiteReviewKey = key;
+      const heading = document.createElement("div");
+      heading.className = "small muted";
+      heading.textContent = "Human review of this prerequisite (not counted as a paper claim)";
+      shell.appendChild(heading);
+      const status = document.createElement("div");
+      status.id = `prerequisite-status-${id}`;
+      status.className = "status-pill";
+      status.textContent = "Unreviewed";
+      shell.appendChild(status);
+      const fieldset = document.createElement("fieldset");
+      fieldset.className = "review-decision";
+      const legend = document.createElement("legend");
+      legend.textContent = "Review decision";
+      fieldset.appendChild(legend);
+      for (const [value, label] of [["matches", "Matches source input"], ["mismatch", "Does not match"], ["uncertain", "Uncertain"]]) {
+        const option = document.createElement("label");
+        option.className = "review-decision-option";
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = `prerequisite-decision-${id}`;
+        input.value = value;
+        input.id = `prerequisite-${value}-${id}`;
+        option.appendChild(input);
+        option.appendChild(document.createTextNode(label));
+        fieldset.appendChild(option);
+      }
+      shell.appendChild(fieldset);
+      const note = document.createElement("textarea");
+      note.id = `prerequisite-note-${id}`;
+      note.rows = 2;
+      note.placeholder = "Reviewer notes (optional)";
+      shell.appendChild(note);
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "btn";
+      button.textContent = "Save prerequisite review";
+      const saveStatus = document.createElement("span");
+      saveStatus.className = "save-status small muted";
+      button.addEventListener("click", async () => {
+        const selected = shell.querySelector(`input[name='prerequisite-decision-${id}']:checked`);
+        if (!selected) {
+          saveStatus.textContent = "Choose a review decision first.";
+          saveStatus.className = "save-status small warn";
+          return;
+        }
+        button.disabled = true;
+        saveStatus.textContent = "Saving…";
+        saveStatus.className = "save-status small muted";
+        const sourceInput = String(prerequisite.verbatim_source_input || "").trim();
+        const leanTarget = String(
+          prerequisite.library_semantic_target
+          || prerequisite.paper_semantic_target
+          || prerequisite.library_definition
+          || prerequisite.paper_declaration_source
+          || ""
+        ).trim();
+        try {
+          const response = await postPrerequisiteReviewPayload({
+            paper: paper.name,
+            theorem: prerequisite.lean_name || prerequisite.label,
+            prerequisite_key: key,
+            review_scope: scope,
+            user: document.getElementById("userHandle").value.trim() || state.user,
+            judgment: selected.value,
+            notes: note.value.trim(),
+            lean_statement: leanTarget,
+            paper_statement: sourceInput,
+            agent_statement: "",
+            source_status: "byte-pinned prerequisite source connection",
+            source_note: String(prerequisite.source_locator || "").trim(),
+          });
+          state.libraryReviews.push(response.entry);
+          refreshPrerequisiteReviewControls();
+          saveStatus.textContent = "Saved";
+          saveStatus.className = "save-status small ok";
+        } catch (err) {
+          saveStatus.textContent = err.message || "Save failed";
+          saveStatus.className = "save-status small bad";
+        } finally {
+          button.disabled = false;
+        }
+      });
+      shell.appendChild(button);
+      shell.appendChild(saveStatus);
+      return shell;
+    }
+
+    function refreshPrerequisiteReviewControls() {
+      for (const shell of document.querySelectorAll("[data-prerequisite-review-key]")) {
+        const key = shell.dataset.prerequisiteReviewKey;
+        const entry = latestPrerequisiteReview(key);
+        const id = safeId(key);
+        const status = document.getElementById(`prerequisite-status-${id}`);
+        if (!entry) {
+          if (status) {
+            status.textContent = "Unreviewed";
+            status.className = "status-pill";
+          }
+          continue;
+        }
+        const judgment = reviewJudgment(entry);
+        if (status) {
+          status.textContent = judgment === "matches" ? "Reviewed: matches" : judgment || "Reviewed";
+          status.className = `status-pill ${judgment === "matches" ? "ok" : judgment === "mismatch" ? "bad" : "warn"}`;
+          status.title = `${entry.user || "reviewer"} @ ${entry.timestamp || ""}`;
+        }
+        const selected = document.getElementById(`prerequisite-${judgment}-${id}`);
+        if (selected) selected.checked = true;
+        const note = document.getElementById(`prerequisite-note-${id}`);
+        if (note && document.activeElement !== note) note.value = entry.notes || "";
+      }
     }
 
     async function saveAllSelectedReviews() {
@@ -18485,7 +20837,7 @@ HTML_PAGE = """
 
       const paperCell = document.createElement("section");
       paperCell.className = "review-section col-paper";
-      const paperHtml = renderPaperStatement(item.paper_statement);
+      const paperHtml = renderVerbatimSourceInput(item.paper_statement);
       if (item.paper_statement_image_url) {
         paperCell.appendChild(makeReviewSectionLabel("Paper source image"));
         const image = document.createElement("img");
@@ -18502,7 +20854,7 @@ HTML_PAGE = """
         );
       } else {
         paperCell.appendChild(
-          makeStatementBox("Paper source statement", item.paper_statement, {
+          makeStatementBox("Verbatim source input", item.paper_statement, {
             html: paperHtml,
             previewLength: (item.paper_statement || "").length > 650 ? 180 : 220,
             open: true,
@@ -18514,23 +20866,20 @@ HTML_PAGE = """
       leanCell.className = "review-section col-lean";
       const interfaceSource = String(item.interface_source || "").trim();
       const leanStatement = String(item.lean_statement || "").trim();
-      if (interfaceSource && (item.kind === "def" || item.kind === "abbrev")) {
-        leanCell.appendChild(
-          makeStatementBox(item.kind === "def" ? "Lean definition code" : "Lean alias code", interfaceSource, {
-            html: `<code>${escapeHtml(prettyLeanStatement(interfaceSource))}</code>`,
-            previewLength: 170,
-            open: true,
-          })
-        );
-      }
-      if (!interfaceSource || normalizeStatement(interfaceSource) !== normalizeStatement(leanStatement)) {
-        leanCell.appendChild(
-          makeStatementBox("Expanded Lean statement", item.lean_statement, {
-            html: `<code>${escapeHtml(prettyLeanStatement(item.lean_statement))}</code>`,
-            previewLength: 170,
-            open: true,
-          })
-        );
+      const semanticExpanded = String(item.semantic_expanded_statement || "").trim();
+      const displayedLean = semanticExpanded || leanStatement || interfaceSource;
+      leanCell.appendChild(
+        makeStatementBox("Expanded PaperInterface specification", displayedLean, {
+          html: `<code>${escapeHtml(prettyLeanStatement(displayedLean))}</code>`,
+          previewLength: 170,
+          open: true,
+        })
+      );
+      if (item.semantic_expansion_error) {
+        const expansionWarning = document.createElement("div");
+        expansionWarning.className = "small warn";
+        expansionWarning.textContent = `Lean semantic expansion unavailable: ${item.semantic_expansion_error}`;
+        leanCell.appendChild(expansionWarning);
       }
 
       const agentCell = document.createElement("section");
@@ -18538,19 +20887,8 @@ HTML_PAGE = """
       const agentHeader = document.createElement("div");
       agentHeader.className = "small muted";
       agentHeader.textContent =
-        "LLM Lean-to-TeX draft";
-      const agentText = document.createElement("div");
-      agentText.className = "agent-statement";
-      agentText.appendChild(
-        makeStatementBox("Lean-to-TeX draft", item.agent_statement || "", {
-          html: renderTexDraft(item.agent_statement || ""),
-          previewLength: 130,
-          open: true,
-        })
-      );
-      agentText.style.margin = "0";
+        "LLM assessment of these exact inputs";
       agentCell.appendChild(agentHeader);
-      agentCell.appendChild(agentText);
       agentCell.appendChild(makeLlmJudgePanel(item));
       if (item.is_assumption || item.llm_assumption_judgment) {
         agentCell.appendChild(makeAssumptionJudgePanel(item));
@@ -18595,7 +20933,7 @@ HTML_PAGE = """
       matchRadio.dataset.theorem = item.name;
       matchRadio.id = `match-${rowId}`;
       matchLabel.appendChild(matchRadio);
-      matchLabel.appendChild(document.createTextNode("Matches paper statement"));
+      matchLabel.appendChild(document.createTextNode("Matches source input"));
       decision.appendChild(matchLabel);
 
       const mismatchLabel = document.createElement("label");
@@ -18678,7 +21016,7 @@ HTML_PAGE = """
               ? ` · proposition specification; proof row ${item.proposition_spec_proof || "missing"}`
               : " · unproved proposition specification"
         : "";
-      header.textContent = `${item.kind} ${item.name}${propSpecLabel}`;
+      header.textContent = item.human_claim_title || `${item.kind} ${item.name}${propSpecLabel}`;
       const sliceMeta = document.createElement("div");
       sliceMeta.className = "slice-meta";
       const lineText = item.line_number ? `line ${item.line_number}` : "line unavailable";
@@ -18693,6 +21031,12 @@ HTML_PAGE = """
         : item.source_status || "Source status not labeled";
 
       reviewCell.appendChild(header);
+      if (item.human_claim_proof_endpoint) {
+        const proofEndpoint = document.createElement("div");
+        proofEndpoint.className = "small muted";
+        proofEndpoint.textContent = `Verified proof endpoint: ${item.human_claim_proof_endpoint}`;
+        reviewCell.appendChild(proofEndpoint);
+      }
       reviewCell.appendChild(sliceMeta);
       reviewCell.appendChild(sourceBadge);
       reviewCell.appendChild(statusLine);
@@ -18755,8 +21099,11 @@ HTML_PAGE = """
     function updatePaperProgress() {
       const statusRows = state.statusRows || [];
       for (const paper of state.papers) {
-        const paperRows = statusRows.filter((row) => row.paper === paper.name);
-        const total = paper.items.length;
+        const visibleNames = new Set(displayItems(paper).map((item) => item.name));
+        const paperRows = statusRows.filter(
+          (row) => row.paper === paper.name && visibleNames.has(row.theorem)
+        );
+        const total = visibleNames.size;
         const reviewed = paperRows.filter((row) => row.has_review).length;
         const attention = paperRows.filter((row) => row.needs_attention || row.latest_matches === false).length;
         const node = document.querySelector(`[data-paper-progress="${paper.name}"]`);
@@ -18805,10 +21152,12 @@ HTML_PAGE = """
     async function refreshReviews() {
       let entries = [];
       let statusRows = [];
+      let libraryEntries = [];
       try {
-        const [reviewResponse, statusResponse] = await Promise.all([
+        const [reviewResponse, statusResponse, libraryResponse] = await Promise.all([
           fetch("/api/reviews"),
           fetch("/api/status"),
+          fetch("/api/library-reviews"),
         ]);
         if (reviewResponse.ok) {
           const payload = await reviewResponse.json();
@@ -18818,17 +21167,24 @@ HTML_PAGE = """
           const statusPayload = await statusResponse.json();
           statusRows = statusPayload.status || [];
         }
+        if (libraryResponse.ok) {
+          const libraryPayload = await libraryResponse.json();
+          libraryEntries = libraryPayload.reviews || [];
+        }
       } catch (_err) {
         entries = state.reviews || [];
         statusRows = state.statusRows || [];
+        libraryEntries = state.libraryReviews || [];
       }
       state.reviews = entries;
       state.statusRows = statusRows;
+      state.libraryReviews = libraryEntries;
       refreshSummary(entries, statusRows);
       const total = entries.length;
       document.getElementById("count").textContent = `Reviews logged: ${total}`;
       updateStatusBadges();
       updatePaperProgress();
+      refreshPrerequisiteReviewControls();
 
       const statusNodes = document.querySelectorAll(".history[data-paper][data-theorem]");
       for (const node of statusNodes) {
@@ -18879,7 +21235,8 @@ HTML_PAGE = """
       for (const paper of data) {
         const block = document.createElement("details");
         block.className = "paper-block";
-        block.open = data.length === 1 || paper.items.length <= 80;
+        const visibleItems = displayItems(paper);
+        block.open = data.length === 1 || visibleItems.length <= 80;
         block.classList.add("paper-details");
         const summary = document.createElement("summary");
         const header = document.createElement("div");
@@ -18889,7 +21246,7 @@ HTML_PAGE = """
         const progress = document.createElement("div");
         progress.className = "paper-progress";
         progress.dataset.paperProgress = paper.name;
-        progress.textContent = `0/${paper.items.length} reviewed; ${paper.items.length} rows`;
+        progress.textContent = `0/${visibleItems.length} reviewed; ${visibleItems.length} source claims`;
         header.appendChild(heading);
         header.appendChild(progress);
         summary.appendChild(header);
@@ -18897,15 +21254,28 @@ HTML_PAGE = """
         block.appendChild(makeSurfaceAuditPanel(paper));
         block.appendChild(makeAssumptionAuditPanel(paper));
         block.appendChild(makeSourcePanel(paper));
+        block.appendChild(makeReviewContents(paper));
+        block.appendChild(makeHumanReviewSurfacePanel(paper));
         const table = document.createElement("table");
         const head = document.createElement("thead");
         head.innerHTML =
           "<tr><th>Paper statement, expanded Lean statement, LLM checks, and review</th></tr>";
         table.appendChild(head);
         const body = document.createElement("tbody");
-        for (const item of paper.items) {
-          const rowInfo = makeRow(paper.name, item);
-          body.appendChild(rowInfo.row);
+        for (const section of claimPresentationSections(paper)) {
+          const sectionRow = document.createElement("tr");
+          sectionRow.id = reviewAnchorId(paper.name, "source-section", section.title);
+          const sectionCell = document.createElement("th");
+          sectionCell.colSpan = 1;
+          sectionCell.className = "review-section-label";
+          sectionCell.textContent = `${section.title} (${section.items.length} source claim${section.items.length === 1 ? "" : "s"})`;
+          sectionRow.appendChild(sectionCell);
+          body.appendChild(sectionRow);
+          for (const item of section.items) {
+            const rowInfo = makeRow(paper.name, item);
+            rowInfo.row.id = reviewAnchorId(paper.name, "source-claim", item.name);
+            body.appendChild(rowInfo.row);
+          }
         }
         table.appendChild(body);
         const tableWrap = document.createElement("div");
@@ -18924,6 +21294,17 @@ HTML_PAGE = """
     document.getElementById("sliceFilter").addEventListener("change", applyFilters);
     document.getElementById("hideAgentDraft").addEventListener("change", (event) => {
       document.body.classList.toggle("hide-agent", event.target.checked);
+    });
+    document.addEventListener("click", (event) => {
+      const link = event.target.closest("a[data-review-anchor]");
+      if (!link) return;
+      const target = document.getElementById(link.dataset.reviewAnchor);
+      if (!target) return;
+      const paperBlock = target.closest("details.paper-block");
+      if (paperBlock) paperBlock.open = true;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      history.replaceState(null, "", `#${link.dataset.reviewAnchor}`);
     });
     document.getElementById("saveAllReviews").addEventListener("click", saveAllSelectedReviews);
     const mathjaxTag = document.getElementById("mathjax-script");
@@ -19067,6 +21448,23 @@ def print_statement_audit_warnings(rows: list[dict[str, Any]], label: str) -> bo
             reasons.append(f"{row['uncertain_count']} uncertain judgment(s)")
         if row.get("unknown_count"):
             reasons.append(f"{row['unknown_count']} unknown judgment value(s)")
+        library = row.get("library_prerequisites") or {}
+        if library.get("pending_count"):
+            reasons.append(
+                f"{library['pending_count']} material library definition(s) lack a source connection or semantic judgment"
+            )
+        if library.get("stale_count"):
+            reasons.append(
+                f"{library['stale_count']} stale material library semantic judgment(s)"
+            )
+        if library.get("mismatch_count"):
+            reasons.append(
+                f"{library['mismatch_count']} material library mismatch judgment(s)"
+            )
+        if library.get("uncertain_count"):
+            reasons.append(
+                f"{library['uncertain_count']} uncertain material library judgment(s)"
+            )
         if row.get("all_uncertain"):
             reasons.append("all rows are uncertain, suggesting a source-statement extraction or parser issue")
         if not reasons:
@@ -19088,8 +21486,17 @@ def print_statement_audit_warnings(rows: list[dict[str, Any]], label: str) -> bo
             ("missing_judgment", "missing judgment"),
             ("missing_draft", "missing draft"),
             ("unknown", "unknown"),
+            ("library_pending", "library pending"),
+            ("library_stale", "library stale"),
+            ("library_mismatch", "library mismatch"),
+            ("library_uncertain", "library uncertain"),
         ]:
-            sample = _format_name_sample(list(row.get(key) or []))
+            if key.startswith("library_"):
+                sample = _format_name_sample(
+                    list((row.get("library_prerequisites") or {}).get(key.removeprefix("library_") or "") or [])
+                )
+            else:
+                sample = _format_name_sample(list(row.get(key) or []))
             if sample:
                 samples.append(f"{label_text}: {sample}")
         for sample in samples[:3]:
@@ -19911,6 +22318,22 @@ class ReviewHTTPHandler(BaseHTTPRequestHandler):
                 reviews = read_all_log_entries(self.paper_filter, self.log_file)
             self._json_response(200, {"reviews": reviews})
             return
+        if path == "/api/library-reviews":
+            paper = query.get("paper")
+            if paper:
+                try:
+                    reviews = read_log_entries(paper_library_prerequisite_log_file(paper))
+                except ValueError:
+                    reviews = []
+            else:
+                reviews = []
+                for folder in iter_paper_folders(self.paper_filter):
+                    reviews.extend(
+                        read_log_entries(paper_library_prerequisite_log_file(folder.name))
+                    )
+                reviews.sort(key=lambda entry: str(entry.get("timestamp") or ""))
+            self._json_response(200, {"reviews": reviews})
+            return
         if path == "/api/status":
             requested_paper = query.get("paper")
             user_filter = query.get("user")
@@ -19953,7 +22376,7 @@ class ReviewHTTPHandler(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:
         path, _ = self._collect_path()
-        if path != "/api/reviews":
+        if path not in {"/api/reviews", "/api/library-reviews"}:
             self.send_error(404, "not found")
             return
         length = int(self.headers.get("Content-Length", "0"))
@@ -19965,7 +22388,12 @@ class ReviewHTTPHandler(BaseHTTPRequestHandler):
             return
         try:
             paper_name = str(payload.get("paper") or "").strip()
-            if self.log_file is None:
+            review_scope = str(payload.get("review_scope") or "source_claim").strip()
+            if path == "/api/library-reviews":
+                if review_scope not in {"library_prerequisite", "paper_prerequisite"}:
+                    raise ValueError("library review endpoint needs a prerequisite scope")
+                log_file = paper_library_prerequisite_log_file(paper_name)
+            elif self.log_file is None:
                 log_file = paper_review_log_file(paper_name)
             else:
                 log_file = self.log_file
@@ -20157,7 +22585,6 @@ def main() -> None:
         handler.default_user = user
         handler.paper_filter = args.paper
         handler.slice_filter = args.slice_filter
-        print_stale_review_warning(args.paper, log_file, args.slice_filter)
         try:
             server = ReusableThreadingHTTPServer((args.host, args.port), handler)
         except OSError as exc:
@@ -20177,6 +22604,7 @@ def main() -> None:
             sys.exit(1)
         print(f"Review dashboard: http://{args.host}:{args.port}/")
         print(f"Log target: {describe_log_target(log_file, args.paper)}")
+        print("Run with --precheck or --check for the full launch-time status summary.")
         print("Press Ctrl-C to stop.")
         server.serve_forever()
 

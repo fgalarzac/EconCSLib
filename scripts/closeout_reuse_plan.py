@@ -3170,6 +3170,42 @@ def fast_saved_source_record_preflight(folder: Path) -> dict[str, Any]:
     result["identity"] = dict(identity)
     identity_reason = str(identity.get("reason") or "").strip()
     if proc.returncode == 0 and identity.get("current") is True:
+        # A current v11 raw-source-to-expanded-Spec lane deliberately replaces
+        # the historical generated source-record LLM ledger.  Do not schedule
+        # a legacy judgment rebind merely because its raw-receipt digest is
+        # old: the direct lane separately verifies every selected source item,
+        # its transparent Spec, and material library semantics.  The final
+        # closure receipt remains the acceptance authority.
+        try:
+            try:
+                from scripts.audit_evidence_integrity import (
+                    v11_direct_semantic_review_state,
+                )
+            except ModuleNotFoundError:  # Direct script execution.
+                from audit_evidence_integrity import (  # type: ignore
+                    v11_direct_semantic_review_state,
+                )
+            current_v11, v11_error = v11_direct_semantic_review_state(
+                folder,
+                str(status_payload.get("status") or "").strip(),
+            )
+        except Exception as exc:  # noqa: BLE001 - a v11 probe cannot authorize.
+            current_v11, v11_error = False, str(exc)
+        if current_v11:
+            result.update(
+                {
+                    "state": "current_v11_direct_semantic_review",
+                    "raw_audit_sha256": str(
+                        identity.get("source_record_audit_sha256") or ""
+                    ).strip(),
+                    "raw_fingerprint_schema": 10,
+                    "v11_direct_semantic_review": "current",
+                    "reason": "",
+                }
+            )
+            return result
+        if v11_error:
+            result["v11_direct_semantic_review"] = "not_current: " + v11_error
         try:
             match = json.loads(match_path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError) as exc:
@@ -3721,7 +3757,10 @@ def source_record_preflight_action(
 
     state = str(preflight.get("state") or "").strip()
     reason = str(preflight.get("reason") or "").strip()
-    if state == "current_raw_judgment_bound":
+    if state in {
+        "current_raw_judgment_bound",
+        "current_v11_direct_semantic_review",
+    }:
         return None
     if state == "current_raw_judgment_delta":
         return {
@@ -4264,7 +4303,7 @@ def execute_freeze_then_raw_reissue(folder: Path) -> int:
     preflight = fast_saved_source_record_preflight(folder)
     result["preflight"] = preflight
     state = str(preflight.get("state") or "")
-    if state == "current_raw_judgment_bound":
+    if state in {"current_raw_judgment_bound", "current_v11_direct_semantic_review"}:
         result.update({"state": "already_current", "raw_scan_started": False})
         return finish(0)
     if state != "raw_reissue_required":
@@ -4538,6 +4577,7 @@ def execute_freeze_then_raw_reissue(folder: Path) -> int:
         post_state = str(postflight.get("state") or "")
         if post_state not in {
             "current_raw_judgment_bound",
+            "current_v11_direct_semantic_review",
             "current_raw_judgment_delta",
             "current_raw_judgment_rebuild_required",
             "current_raw_semantic_repair_required",

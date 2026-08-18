@@ -6,6 +6,7 @@ defaultTargets = [
   "GCG24UserItemFairness",
   "DSWG24DiscretizationBias",
   "MBJG25ProducerFairness",
+  "GLM20DroppingStandardizedTesting",
   "LG21TestOptionalPolicies",
   "GN21DriverSurgePricing",
   "Roth82StableMatching",
@@ -23,8 +24,19 @@ defaultTargets = [
   "LBG24SpatialUnderreporting",
   "GKGMM19IterativeLocalVoting",
   "GGRS26CombattingGerrymanderingRCV",
+  "DGJ24OptimalStrategiesRCV",
+  "DGJ26PracticalDynamicsRCV",
   "DGD26AdmissionsPredictability",
+  "CGGG20SelectiveInformationAcquisition",
+  "GKP26LinearRepresentationHypothesis",
   "KR21Monoculture",
+  "JGR26SubjectivityMonoculture",
+  "JGS23SupplySideRecommenderSystems",
+  "GGP18MarketsPublicDecisionMaking",
+  "PG23MonocultureMatching",
+  "PG24NoisyMatchingMarkets",
+  "IM05MarriageHonestyStability",
+  "LBG22StrategicRanking",
 ]
 
 [leanOptions]
@@ -64,6 +76,10 @@ srcDir = "papers"
 
 [[lean_lib]]
 name = "MBJG25ProducerFairness"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "GLM20DroppingStandardizedTesting"
 srcDir = "papers"
 
 [[lean_lib]]
@@ -131,6 +147,14 @@ name = "GKGMM19IterativeLocalVoting"
 srcDir = "papers"
 
 [[lean_lib]]
+name = "DGJ24OptimalStrategiesRCV"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "DGJ26PracticalDynamicsRCV"
+srcDir = "papers"
+
+[[lean_lib]]
 name = "GGRS26CombattingGerrymanderingRCV"
 srcDir = "papers"
 
@@ -139,5 +163,57 @@ name = "DGD26AdmissionsPredictability"
 srcDir = "papers"
 
 [[lean_lib]]
+name = "CGGG20SelectiveInformationAcquisition"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "GKP26LinearRepresentationHypothesis"
+srcDir = "papers"
+
+[[lean_lib]]
 name = "KR21Monoculture"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "HG26Multiplicity"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "JGR26SubjectivityMonoculture"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "LG24ServiceLevelAgreements"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "GGP18MarketsPublicDecisionMaking"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "IM05MarriageHonestyStability"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "LBG22StrategicRanking"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "PG23MonocultureMatching"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "PG24NoisyMatchingMarkets"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "AL16SupplyDemandMatching"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "JGS23SupplySideRecommenderSystems"
+srcDir = "papers"
+
+[[lean_lib]]
+name = "HT26EFXChores"
 srcDir = "papers"

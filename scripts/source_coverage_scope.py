@@ -3116,10 +3116,46 @@ def source_index_byte_pinned_anchor_item_ids(
         )
     except ValueError:
         return set()
+    # Preserve the legacy named-presentation path unless a paper deliberately
+    # supplies the source-only component ledger.  That ledger is an opt-in
+    # refinement for source files that put more than one definition clause in
+    # one physical presentation; it must not make ordinary theorem-only maps
+    # acquire a new validation dependency.
+    raw_inventory_review = map_payload.get(
+        _SOURCE_NAMED_RESULT_INVENTORY_REVIEW_FIELD
+    )
+    has_prose_definition_ledger = bool(
+        isinstance(raw_inventory_review, Mapping)
+        and isinstance(
+            raw_inventory_review.get(SOURCE_PROSE_DEFINITION_PRESENTATIONS_FIELD),
+            list,
+        )
+    )
+    if has_prose_definition_ledger:
+        prose_definition_ids, prose_definition_errors = (
+            source_vocabulary_definition_binding_item_ids(
+                folder,
+                map_payload,
+                repository_root=repository_root,
+                file_bytes_override=file_bytes_override,
+            )
+        )
+    else:
+        prose_definition_ids, prose_definition_errors = set(), []
+    # A source may place several independently stated definitions inside one
+    # TeX `definition` environment.  Once the source-only prose-definition
+    # ledger has separately and currently bound those clauses, it is the more
+    # precise human/audit surface.  Do not force that environment to collapse
+    # to one row or let it compete with its semantic components.
+    use_prose_definition_components = bool(prose_definition_ids) and not prose_definition_errors
     in_scope_presentations = [
         presentation
         for presentation in presentations
         if source_named_presentation_in_coverage_scope(presentation.kind, mode)
+        and not (
+            use_prose_definition_components
+            and presentation.kind == "definition"
+        )
     ]
     items: dict[str, object] = {}
     for raw_key, raw_item in raw_items.items():
@@ -3167,14 +3203,6 @@ def source_index_byte_pinned_anchor_item_ids(
         for item_id, matched_presentations in presentations_by_item.items()
         if len(matched_presentations) == 1
     }
-    prose_definition_ids, prose_definition_errors = (
-        source_vocabulary_definition_binding_item_ids(
-            folder,
-            map_payload,
-            repository_root=repository_root,
-            file_bytes_override=file_bytes_override,
-        )
-    )
     if not prose_definition_errors:
         selected_item_ids.update(prose_definition_ids)
     return selected_item_ids

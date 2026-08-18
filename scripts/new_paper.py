@@ -174,12 +174,9 @@ def statement_spec_name(target: StatementTarget) -> str:
 
 
 def statement_first_review_names(targets: list[StatementTarget]) -> list[str]:
-    """Return the source-order review surface for statement/proof pairs."""
+    """Return one expanded semantic target per source claim, in source order."""
 
-    names: list[str] = []
-    for target in targets:
-        names.extend((statement_spec_name(target), target.lean_name))
-    return names
+    return [statement_spec_name(target) for target in targets]
 
 
 def statement_first_spec_proof_routes(targets: list[StatementTarget]) -> dict[str, str]:
@@ -548,19 +545,12 @@ def validate_rendered_statement_interface(
     rendered: str,
     timeout_seconds: int = 120,
 ) -> None:
-    """Statically partition, then Lean-check, the generated proof-hole surface."""
+    """Statically partition, then Lean-check the human semantic surface."""
 
     masked = _mask_lean_comments_and_strings(rendered)
     declarations = list(LEAN_RENDERED_DECL_RE.finditer(masked))
     actual = [(match.group(1), match.group(2)) for match in declarations]
-    expected = [
-        declaration
-        for target in targets
-        for declaration in (
-            ("def", statement_spec_name(target)),
-            (target.kind, target.lean_name),
-        )
-    ]
+    expected = [("def", statement_spec_name(target)) for target in targets]
     if actual != expected:
         raise ValueError(
             "rendered statement interface contains declarations outside the requested targets"
@@ -576,33 +566,20 @@ def validate_rendered_statement_interface(
         return re.sub(r"\s+", " ", text).strip()
 
     for target_index, target in enumerate(targets):
-        spec_offset = 2 * target_index
-        spec_declaration = declarations[spec_offset]
-        proof_declaration = declarations[spec_offset + 1]
-        spec_end = proof_declaration.start()
-        proof_end = (
-            declarations[spec_offset + 2].start()
-            if spec_offset + 2 < len(declarations)
+        spec_declaration = declarations[target_index]
+        spec_end = (
+            declarations[target_index + 1].start()
+            if target_index + 1 < len(declarations)
             else namespace_end
         )
         spec_block = masked[spec_declaration.start() : spec_end].strip()
-        proof_block = masked[proof_declaration.start() : proof_end].strip()
         expected_spec = (
             f"def {statement_spec_name(target)} : Prop := {target.lean_type}"
-        )
-        expected_proof = (
-            f"{target.kind} {target.lean_name} : "
-            f"{statement_spec_name(target)} := by sorry"
         )
         if normalized_code(spec_block) != normalized_code(expected_spec):
             raise ValueError(
                 f"rendered target `{target.lean_name}` does not have the exact generated "
                 "transparent `...Spec : Prop` declaration"
-            )
-        if normalized_code(proof_block) != normalized_code(expected_proof):
-            raise ValueError(
-                f"rendered target `{target.lean_name}` does not have the generated "
-                "`...Spec := by sorry` proof body"
             )
 
     start_marker = f"namespace {namespace}\n\n"
@@ -613,11 +590,10 @@ def validate_rendered_statement_interface(
     declarations_source = rendered[payload_start + len(start_marker) : payload_end]
     meta_helper = r"""
 open Lean Meta Elab Command
-syntax "#assert_scaffold_spec_proof " str str : command
-elab_rules : command
-  | `(#assert_scaffold_spec_proof $spec:str $proof:str) => do
+    syntax "#assert_scaffold_spec " str : command
+    elab_rules : command
+  | `(#assert_scaffold_spec $spec:str) => do
       let specName := spec.getString.toName
-      let proofName := proof.getString.toName
       let specInfo ← liftTermElabM (getConstInfo specName)
       match specInfo with
       | .defnInfo definitionInfo =>
@@ -628,24 +604,11 @@ elab_rules : command
             throwError "scaffold specification contains sorryAx"
       | _ =>
           throwError "scaffold specification is not a transparent definition"
-      let proofInfo ← liftTermElabM (getConstInfo proofName)
-      match proofInfo with
-      | .thmInfo theoremInfo =>
-          unless theoremInfo.value.hasSorry do
-            throwError "scaffold target does not contain sorryAx"
-          let exactSpecification ← liftTermElabM <|
-            withTransparency .reducible do
-              isDefEq theoremInfo.type (mkConst specName)
-          unless exactSpecification do
-            throwError "scaffold proof does not have exactly its specification type"
-      | _ =>
-          throwError "scaffold target is not a theorem"
-      IO.println s!"ECONCS_SCAFFOLD_TARGET_OK:{proofName}"
+      IO.println s!"ECONCS_SCAFFOLD_TARGET_OK:{specName}"
 """
     commands = "\n".join(
-        "#assert_scaffold_spec_proof "
-        f"{json.dumps(f'{namespace}.{statement_spec_name(target)}')} "
-        f"{json.dumps(f'{namespace}.{target.lean_name}')}"
+        "#assert_scaffold_spec "
+        f"{json.dumps(f'{namespace}.{statement_spec_name(target)}')}"
         for target in targets
     )
     validation_import = "import EconCSLib\n\n" if targets else "import Lean\n\n"
@@ -683,11 +646,53 @@ elab_rules : command
         for line in proc.stdout.splitlines()
         if SCAFFOLD_META_SENTINEL in line
     }
-    expected_names = {f"{namespace}.{target.lean_name}" for target in targets}
+    expected_names = {f"{namespace}.{statement_spec_name(target)}" for target in targets}
     if reported != expected_names:
         raise ValueError(
             "Lean did not validate exactly the requested statement targets"
         )
+
+
+def validate_rendered_proof_interface(
+    namespace: str,
+    targets: list[StatementTarget],
+    rendered: str,
+) -> None:
+    """Require one exact-type draft proof endpoint outside the human interface."""
+
+    masked = _mask_lean_comments_and_strings(rendered)
+    declarations = list(LEAN_RENDERED_DECL_RE.finditer(masked))
+    actual = [(match.group(1), match.group(2)) for match in declarations]
+    expected = [(target.kind, target.lean_name) for target in targets]
+    if actual != expected:
+        raise ValueError(
+            "rendered proof interface contains declarations outside the requested targets"
+        )
+    end_marker = f"\n\nend {namespace}"
+    namespace_end = masked.rfind(end_marker)
+    if namespace_end < 0:
+        raise ValueError("rendered proof interface has no expected namespace terminator")
+
+    def normalized_code(text: str) -> str:
+        return re.sub(r"\s+", " ", text).strip()
+
+    for index, target in enumerate(targets):
+        declaration = declarations[index]
+        declaration_end = (
+            declarations[index + 1].start()
+            if index + 1 < len(declarations)
+            else namespace_end
+        )
+        block = masked[declaration.start() : declaration_end].strip()
+        expected_block = (
+            f"{target.kind} {target.lean_name} : "
+            f"{statement_spec_name(target)} := by sorry"
+        )
+        if normalized_code(block) != normalized_code(expected_block):
+            raise ValueError(
+                f"rendered proof endpoint `{target.lean_name}` does not have the generated "
+                "`...Spec := by sorry` proof body"
+            )
 
 
 def write_file(path: Path, contents: str, force: bool) -> None:
@@ -852,7 +857,7 @@ def readme_text(
         f"`{statement_spec_name(target)}` -> `{target.lean_name}` | "
         f"statement specification + proof stub | `PaperInterface.lean` | "
         "The transparent `...Spec : Prop` is the statement-audit target; the proof "
-        "body is `by sorry`; premise provenance and v10 statement judgment pending |"
+        "body is `by sorry`; raw-source-to-expanded-Spec judgment and premise provenance pending |"
         for target in targets
     )
     if not theorem_rows:
@@ -930,14 +935,16 @@ the exact pinned source quote bytes. The inventory is source-side work: do not
 derive it from theorem, binder, field, function, or source-map names. After that
 inventory and the first compact `PaperInterface.lean` statement skeleton exist,
 give every in-scope theorem/formula claim one transparent
-`<name>Spec : Prop := <complete source-shaped statement>` followed by
-`theorem/lemma <name> : <name>Spec := by sorry`. Audit the specification, not
-the theorem name; Lean Meta must later confirm that the proof declaration has
-exactly that type. Do not put a desired conclusion in `Assumptions.lean`, a
-record field, or a helper theorem to avoid the hole. `scripts/new_paper.py`
-accepts these targets through `--statement-spec`; without that source-pinned
-input it intentionally generates an empty interface rather than a fake `True`
-target. Audit each skeleton row's statement and premise provenance before
+`<name>Spec : Prop := <complete source-shaped statement>` in
+`PaperInterface.lean`, with its separate
+`theorem/lemma <name> : <name>Spec := by sorry` endpoint in
+`ProofInterface.lean`. Audit the specification, not the theorem name; Lean
+Meta must later confirm that the proof declaration has exactly that type. Do
+not put a desired conclusion in `Assumptions.lean`, a record field, or a
+helper theorem to avoid the hole. `scripts/new_paper.py` accepts these targets
+through `--statement-spec`; without that source-pinned input it intentionally
+generates an empty interface rather than a fake `True` target. Audit each
+skeleton row's statement and premise provenance before
 treating it as a source-faithful target; perform broader source-record and
 report work at the next material audit boundary. Then run the statement
 target-setting pass:
@@ -1000,7 +1007,7 @@ Then run `python3 scripts/review_dashboard.py --paper {folder}
 that theorem premises are source assumptions or derived facts. Use this pass
 only to correct theorem targets and premise provenance; do not update the DAG,
 final validation report, human-review log, or review-surface audit just because
-this early check ran. Freeze the current v10 Lean declaration manifest/digest for
+this early check ran. Freeze the current v11 Lean declaration manifest/digest for
 every matched specification/proof route in the plan before proof work. Replace
 each `sorry` without changing the elaborated specification or its paired proof
 type; any signature change invalidates the statement audit and must repeat this
@@ -1014,29 +1021,30 @@ or name-based exemptions. Reuse this evidence only per unchanged item identity:
 source atoms, Spec closure, narrow closure environment, and exact theorem type;
 legacy v10 evidence remains readable but is not a v11 credential.
 
-At review boundaries, populate `audit/lean_to_tex_llm.json` with context-free
-Lean-to-TeX/prose translations generated from `PaperInterface.lean` alone. The
-translator must preserve every visible variable, binder, hypothesis, domain
-condition, named predicate/wrapper application, equivalence direction, and
-conclusion; it must not summarize a theorem as an endpoint label, source-like
-phrase, or proof route, or omit conditions that appear in the Lean statement.
-New tracked entries should use `{{ "tex_statement": "...",
-"lean_statement_sha256": "..." }}`. Then populate `audit/statement_match_llm.json`
-with an independent no-context judgment of whether each translation matches the
-original full paper statement, including all hypotheses, subparts, quantifiers,
-domains, constants, normalizations, signs, inequality directions, conclusions,
-and visible inputs. A row may be judged `matches` only if it is semantically
-equivalent to the full source statement or to a clearly identified source
-subpart, and every input premise is accounted for as a paper primitive/source
-assumption, a Lean-derived consequence of those primitives, or an explicit
-conditional boundary. The judge must inspect named Lean predicates/wrappers
-semantically, not approve by theorem label, phrase overlap, or source-looking
-name. If the Lean translation is a conditional wrapper, source-row package,
+At review boundaries, populate `audit/statement_match_llm.json` with one
+judgment per source claim. The only source-side input is the exact ordered
+bundle of byte-pinned `source_anchor_evidence` quotes plus any separately
+byte-pinned `semantic_context_requirements` quotes. The only Lean-side input is
+the fully expanded transparent `...Spec : Prop`. Do not give the judge a
+source-map summary, source-claim paraphrase, theorem label, Lean-to-TeX
+translation, explanation, or thin proof wrapper. The receipt records
+`source_input_protocol: verbatim_source_anchor_bundle_v1`, its bundle digest,
+`lean_target_protocol: expanded_paperinterface_spec_v1`, the semantic Spec
+declaration, and the expanded-Spec digest. A row may be judged `matches` only
+if those exact raw inputs are semantically equivalent, including all
+hypotheses, subparts, quantifiers, domains, constants, normalizations, signs,
+inequality directions, conclusions, and visible inputs. Every input premise
+must be accounted for as a paper primitive/source assumption, a Lean-derived
+consequence of those primitives, or an explicit conditional boundary. Inspect
+named Lean predicates/wrappers semantically; never approve from labels or
+phrase overlap. A Lean-to-TeX rendering is optional display metadata, never an
+input to or prerequisite for this semantic judgment. If the expanded Spec is a
+conditional wrapper, source-row package,
 certificate/replay/process/bridge package, omitted subclaim,
 weakened/strengthened statement, hidden strengthening inside a named predicate,
 or broad aggregate for several displayed formulas, the judge must mark
-`mismatch` or `uncertain`. Include Lean, paper, and TeX statement digests plus
-the judge model/agent name, validator type, validation timestamp, and any
+`mismatch` or `uncertain`. Include raw-source-input and expanded-Spec digests
+plus the judge model/agent name, validator type, validation timestamp, and any
 validator comment. If the judge flags a mismatch
    or uncertainty, iterate on the Lean statement before treating it as the paper
    theorem target. At an active statement-review handoff, use
@@ -1133,9 +1141,10 @@ whole-surface manifest extraction for a few failing declarations.
       shape as a substitute for source semantics.
 - [ ] Run source-record/conclusion-provenance on the complete skeleton before
       any proof implementation; resolve circular or conclusion-bearing inputs.
-- [ ] Run the lightweight v10 statement target-setting pass and fix mismatched
-      theorem targets before serious proof work; record/freeze every canonical
-      signature digest.
+- [ ] Run the raw-source-to-expanded-Spec statement target-setting pass and fix
+      mismatched theorem targets before serious proof work. Review one
+      transparent `Spec` per source claim, retain the paired theorem only as
+      the proof endpoint, and record/freeze every canonical signature digest.
 - [ ] Complete the five fidelity-risk dimensions semantically; bind each
       applicable match to a Lean conclusion, and never use declaration or
       function names as the evidence.
@@ -1168,8 +1177,9 @@ whole-surface manifest extraction for a few failing declarations.
       `Assumptions.lean`, then run the assumption-provenance LLM judge.
 - [ ] If the dashboard has more than 30 rows, run the LLM review-surface audit;
       if it has 120 or more rows, curate the interface before broad review.
-- [ ] Run the context-free Lean-to-TeX translation and independent semantic match judgment
-      workflow before asking for human dashboard review.
+- [ ] Run the byte-pinned raw-source-to-expanded-Spec semantic judgment before
+      asking for human dashboard review. A Lean-to-TeX translation may be kept
+      as optional display metadata but must not be used as semantic evidence.
 - [ ] Update `status.json`, then run `python3 scripts/sync_paper_status.py
       --paper {folder}`. Defer the unscoped aggregate/site sync to integration
       or release.
@@ -1251,15 +1261,19 @@ def status_text(
                 },
                 "artifacts": {
                     "paper_interface": f"papers/{folder}/PaperInterface.lean",
+                    "proof_interface": f"papers/{folder}/ProofInterface.lean",
                     "assumptions": f"papers/{folder}/Assumptions.lean",
                     "final_validation_report": f"papers/{folder}/FINAL_VALIDATION_REPORT.md",
                     "dependency_dag_tex": f"papers/{folder}/docs/DependencyDAG.tex",
                     "dependency_dag_pdf": f"papers/{folder}/docs/DependencyDAG.pdf",
                     "source_proof_fidelity": f"papers/{folder}/audit/source_proof_fidelity.json",
                     "defect_support_match": f"papers/{folder}/audit/defect_support_match_llm.json",
+                    "library_semantic_review": f"papers/{folder}/audit/library_semantic_review.json",
+                    "v11_raw_source_spec_screening": f"papers/{folder}/audit/v11_raw_source_spec_screening.json",
                 },
                 "review_surface": {
                     "source_file": f"papers/{folder}/PaperInterface.lean",
+                    "proof_module": folder,
                     "assumption_source_file": f"papers/{folder}/Assumptions.lean",
                     # This is a closeout requirement. A `not started` scaffold has
                     # no atom inventory or closure receipt yet, so the v11 lane
@@ -1268,6 +1282,8 @@ def status_text(
                     "llm_statement_review": {
                         "lean_to_tex_file": f"papers/{folder}/audit/lean_to_tex_llm.json",
                         "match_judgment_file": f"papers/{folder}/audit/statement_match_llm.json",
+                        "library_semantic_review_file": f"papers/{folder}/audit/library_semantic_review.json",
+                        "v11_screening_file": f"papers/{folder}/audit/v11_raw_source_spec_screening.json",
                         "review_surface_audit_file": f"papers/{folder}/audit/review_surface_llm.json",
                         "paper_coverage_audit_file": f"papers/{folder}/audit/paper_coverage_llm.json",
                         "defect_support_judgment_file": f"papers/{folder}/audit/defect_support_match_llm.json",
@@ -1275,23 +1291,22 @@ def status_text(
                         "surface_audit_threshold": 30,
                         "surface_warning_threshold": 120,
                         "require_explicit_source_routes": True,
+                        "require_source_claim_atoms": True,
                         "require_direct_expression_semantics_review": "v1",
+                        "required_prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
                         "policy": (
-                            "Translate each Lean statement with an LLM that has no paper context "
-                            "and require it to preserve every visible binder, hypothesis, domain "
-                            "condition, equivalence direction, conclusion, and named predicate "
-                            "application. Have an independent semantic LLM judge "
-                            "compare that TeX/prose translation with the original full paper "
-                            "statement, not just the theorem label or phrase. A `matches` verdict requires "
-                            "equivalence of hypotheses, subparts, quantifiers, domains, constants, "
-                            "normalizations, signs, inequality directions, conclusions, and the "
-                            "semantics of every Lean premise. If a Lean premise is a named predicate "
-                            "or wrapper, the judge must inspect what that predicate means in the "
-                            "paper model; source-looking names are not evidence. A premise that a "
-                            "statement-first row uses a transparent `...Spec : Prop` definition as "
-                            "the audit target; inspect that expanded proposition, and require its "
-                            "paired theorem/lemma to have exactly the specification type through "
-                            "the configured proposition_spec_proofs Lean-Meta route. "
+                            "For one source claim, give the LLM only the ordered byte-pinned source "
+                            "anchor bundle plus any byte-pinned semantic context, and the fully "
+                            "expanded transparent `...Spec : Prop`. Never compare a source-map "
+                            "summary, curator paraphrase, theorem label, Lean-to-TeX translation, "
+                            "or proof wrapper. Record the raw source-input bundle digest and the "
+                            "expanded-Spec digest under the v11 protocols. The paired theorem/lemma "
+                            "lives in ProofInterface.lean and receives only Lean-Meta exact-type "
+                            "proof credit through the configured proposition_spec_proofs route. "
+                            "For every material reused EconCSLib definition that appears in a source-facing "
+                            "Spec, separately register an exact bounded library declaration and source-map "
+                            "item in library_semantic_review.json; compare the raw source bundle with that "
+                            "actual library code, never with its name or a glossary. "
                             "For formalized closeout, independently inventory every material source "
                             "atom from exact pinned source quote bytes before consulting Lean, then "
                             "bind the atoms to the elaborated Spec and account for the complete Lean "
@@ -1624,13 +1639,17 @@ def statement_match_llm_text(folder: str) -> str:
             {
                 "schema": 1,
                 "paper": folder,
-                "prompt_version": "statement-match-v10-semantic-fidelity-seat-stopping",
+                "prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
                 "validator": "",
                 "validator_type": "",
                 "validated_at": "",
-                "comment": "Compare the complete original source statement against the context-free Lean-to-TeX translation. Use no proof context, but do semantically inspect every named Lean premise/predicate in the statement.",
+                "comment": "Compare verbatim byte-pinned source-anchor text against the fully expanded transparent Lean Spec. The source-map statement is navigation metadata only and must not be used as semantic-review input.",
                 "prompt_summary": [
                     "A matches verdict requires semantic equivalence of the full source statement and Lean statement: same hypotheses, subparts, quantifiers, domains, constants, normalizations, signs, inequality directions, conclusions, and visible inputs.",
+                    "The only permitted source-side semantic input is the exact concatenation of the source map item's byte-pinned source_anchor_evidence quoted_text slices followed by its semantic_context_requirements source_anchor_evidence slices, all in declared order. Do not use or rewrite the source-map statement, source_claim_atoms.semantic_claim, a curator summary, a theorem label, context explanation, or inferred surrounding context. If the displayed theorem needs surrounding assumptions, add those exact source slices as semantic_context_requirements before judging; otherwise return uncertain rather than reconstructing them.",
+                    "Set source_input_protocol to verbatim_source_anchor_bundle_v1 and source_input_bundle_sha256 to the canonical digest of that exact quote sequence. Set paper_statement_sha256 equal to that source_input_bundle_sha256: it is the source-side semantic target, not the map statement digest. For every source_routes entry and every direct endpoint source_obligation, record source_anchor_quote_identity_sha256 for the cited item's displayed source anchor; direct endpoint obligations also record source_input_bundle_sha256. The auditor must be able to reconstruct the LLM source input solely from that digest and the byte-pinned source map.",
+                    "The only permitted Lean-side semantic input is the exact expanded transparent Spec declaration. Set lean_target_protocol to expanded_paperinterface_spec_v1 and semantic_target_declaration to that Spec's fully qualified PaperInterface declaration. Set lean_statement_sha256 to the exact expanded Spec text digest. Do not use a Lean-to-TeX draft, agent paraphrase, declaration label, or thin proof wrapper as source or Lean semantic input.",
+                    "When a source item has a transparent Spec plus a paired theorem/lemma, compare the verbatim source text only to the fully expanded Spec. Do not issue an independent semantic match for a thin proof wrapper of the form theorem T : TSpec; Lean Meta's exact proof-to-Spec check is the proof credential for that endpoint.",
                     "Do not approve by theorem label, phrase overlap, or source-looking Lean names. Expand or otherwise semantically inspect every named predicate/wrapper appearing as a Lean hypothesis or conclusion.",
                     "Every input premise must be one of: a paper primitive/source assumption, a Lean-derived consequence of paper primitives, an approved external boundary, or an explicit conditional boundary.",
                     "For a composite source result, audit premise scope atom by atom: map each source conclusion atom to the exact Lean implication or conjunction branch that proves it. A witness, endpoint, cardinality, typeclass, or other premise needed only by one sibling atom must not gate an independent atom. Treat an unseparated or unnecessarily narrowed atom as mismatch or partial coverage even when the composite theorem is otherwise true.",
@@ -1640,7 +1659,7 @@ def statement_match_llm_text(folder: str) -> str:
                     "For formula-bearing rows, check the exact formula rather than only the theorem label or qualitative interpretation.",
                     "For every row, complete numeric_semantics_review and partition every source/Lean obligation between reviewed numeric items and the explicit nonnumeric lists. For each source/Lean formula pair, separately record both value domains, coercions, division convention, rounding or truncation, normalization, strictness, zero-denominator behavior, and the exact relation. Natural floor division is not rational or real division. A proved or witness-specific equivalence must point to an explicit equality/iff Lean conclusion and state that conclusion; a matching function name is never evidence.",
                     "For every row, enumerate source_obligations and lean_obligations as semantic parameter/assumption/conclusion atoms. Every Lean obligation must reference exactly one atom in the machine-generated elaborated declaration manifest through signature_ref and signature_atom_sha256, and all manifest atoms must be covered exactly once. Record the current lean_signature_sha256, give every alignment an explicit mathematical bridge_statement, and record exact unmatched_source_conclusions, unmatched_source_inputs, unjustified_lean_inputs, and unmatched_lean_conclusions lists. Names are routing, not evidence.",
-                    "For every source_routes entry, pin source_item, source_statement_sha256, source_location, and route_kind, then give semantic scope/evidence. direct is only an exact equivalent paper-facing endpoint with an exact source-conclusion/Lean-conclusion equivalence. A source-map item marked corrected_source_statement is different: retain its archival statement, compare Lean only with corrected_target.statement, use route_kind approved_corrected_target and resolution approved_corrected_target, and pin the archival statement digest, corrected_target_sha256, governing_defect_ids, approval artifact hash, and archival_equivalence_claimed=false. It must never use direct or certify the archival statement. A corrected target has exactly one complete PaperInterface endpoint in lean_declarations; use one explicit conjunction when it has several clauses. Aliases, proof helpers, support declarations, and semantic bridges never receive corrected-target text, source-route credit, or coverage credit. Composite rows use source_component for each scoped source component and a Lean conclusion as evidence, not a fabricated full-theorem endpoint. source_model_convention is only an explicit model reading; defect_or_remark_support is only quarantined-defect or support-only prose; proof_support needs a substantive source_support_scope and never provides endpoint credit.",
+                    "For every source_routes entry, pin source_item, source_statement_sha256, source_location, source_anchor_quote_identity_sha256, and route_kind. These route fields are locators and integrity pins only: their map statement digest or explanation must never be semantic LLM input. direct is only an exact equivalent paper-facing endpoint with an exact source-conclusion/Lean-conclusion equivalence. A source-map item marked corrected_source_statement is different: retain its archival statement, compare Lean only with corrected_target.statement, use route_kind approved_corrected_target and resolution approved_corrected_target, and pin the archival statement digest, corrected_target_sha256, governing_defect_ids, approval artifact hash, and archival_equivalence_claimed=false. It must never use direct or certify the archival statement. A corrected target has exactly one complete PaperInterface endpoint in lean_declarations; use one explicit conjunction when it has several clauses. Aliases, proof helpers, support declarations, and semantic bridges never receive corrected-target text, source-route credit, or coverage credit. Composite rows use source_component for each scoped source component and a Lean conclusion as evidence, not a fabricated full-theorem endpoint. source_model_convention is only an explicit model reading; defect_or_remark_support is only quarantined-defect or support-only prose; proof_support needs a substantive source_support_scope and never provides endpoint credit.",
                     "For each direct or approved-corrected-target route whose pinned source item is a definition or predicate vocabulary item, complete source_definition_semantics_review. When status.json review_surface.llm_statement_review.require_direct_expression_semantics_review is exactly v1, apply that same review to formula, equation, and algorithmic_formula items. Expand the source and Lean legal domains, their behavior outside the source domain (including any Lean totalization), and the actual operational object rather than relying on a source-looking function name. Explicitly classify every advertised definition property: for example, that revenue counts only winners, a formula defines a normalized probability law on its stated support, or a selected threshold attains the advertised optimum. A total Lean function, an unnormalised formula, or a bare selector is not equivalent merely because it has a convenient name. If the source definition has no additional advertised property, say why in no_advertised_properties_basis. A full source-definition endpoint cannot be routed only as a source_component to skip this review.",
                     "For every row, complete semantic_scope_review from expanded definitions. Record fixed-profile versus all-profile quantification; do not infer scope from generic parameters or declaration names.",
                     "For every row, complete the versioned fidelity_risk_review. Its five dimensions are semantic checks, not declaration-name heuristics: source output arity/shape and terminal projection; adversarial action-space carrier, capacity, nonvacuity, and duplicate interactions; coherent realization of candidatewise extrema with actual-runner/refinement evidence; syntactic-family cardinality versus nonempty realized fibers with surjectivity for equality; and execution scope across input domains, state transitions, termination, numeric representation, cost claims, and any bridge from local execution to the advertised global claim.",
@@ -2085,6 +2104,60 @@ def statement_match_llm_text(folder: str) -> str:
     )
 
 
+def library_semantic_review_text(folder: str) -> str:
+    """Scaffold the source-to-library semantic-review lane for a new paper."""
+
+    return (
+        json.dumps(
+            {
+                "schema": 1,
+                "paper": folder,
+                "prompt_version": "library-statement-match-v1-verbatim-source-anchor-expanded-definition",
+                "target_protocol": "expanded_library_definition_v1",
+                "comment": (
+                    "For every material reusable EconCSLib definition used by a source-facing "
+                    "Spec, record the exact declaration and a source-map item. Compare only that "
+                    "item's byte-pinned verbatim source bundle with the exact bounded library Lean "
+                    "definition. A name, docstring, glossary, Lean-to-TeX prose, or theorem label "
+                    "is not semantic input. Leave a primitive absent until an exact source connection "
+                    "is identified; do not manufacture a matches judgment."
+                ),
+                "items": {},
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+
+
+def v11_raw_source_spec_screening_text(folder: str) -> str:
+    """Scaffold the canonical raw-source-to-expanded-Spec screening ledger."""
+
+    return (
+        json.dumps(
+            {
+                "schema": 1,
+                "paper": folder,
+                "audit_kind": "raw_source_to_expanded_spec_screening",
+                "prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
+                "validator": "",
+                "validated_at": "",
+                "comment": (
+                    "Each row must compare only the exact byte-pinned source-anchor bundle "
+                    "and required source context with one direct expanded PaperInterface "
+                    "Spec. The paired proof endpoint is separate Lean evidence. Reissue with "
+                    "scripts/reissue_v11_raw_source_spec_screening.py after an explicit "
+                    "reviewer decision; do not enter a map summary, theorem name, wrapper, "
+                    "or Lean-to-TeX paraphrase as semantic input."
+                ),
+                "items": {},
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+
+
 def review_surface_llm_text(folder: str) -> str:
     return (
         json.dumps(
@@ -2125,9 +2198,10 @@ def paper_coverage_llm_text(
             {
                 "schema": 1,
                 "paper": folder,
-                "prompt_version": "paper-coverage-v5-semantic-proof-row-signature-pins",
+                "prompt_version": "paper-coverage-v6-verbatim-source-anchor-proof-row-signature-pins",
                 "audit_kind": "source_to_dashboard_llm",
                 "source_grounded": True,
+                "source_input_protocol": "verbatim_source_anchor_bundle_v1",
                 "seed_scaffold": False,
                 "validator": "",
                 "validator_type": "",
@@ -2138,6 +2212,7 @@ def paper_coverage_llm_text(
                 "source_artifact_sha256": source_artifact_sha256,
                 "prompt_summary": [
                     "For each source inventory item, identify the exact dashboard row(s) that cover the mathematical content.",
+                    "Set source_input_protocol to verbatim_source_anchor_bundle_v1. Read the exact byte-pinned source_anchor_evidence quote bundle plus semantic_context_requirements quotes, never a source-map statement/paraphrase, as the source-side input. Record source_anchor_quote_identity_sha256 for each item. If the result depends on surrounding source context, that context must be included as exact anchors before coverage is judged.",
                     "The default coverage surface is source-labelled named theory only: named definitions, theorem-like results, and explicitly numbered formulas, algorithms, or assumptions. Figures, captions, numerical examples, simulations, empirical observations, and general prose belong only to an explicit deep_paper_with_all_prose_claims audit. A source-map key, claim_bearing flag, or Lean declaration/function name cannot suppress a labelled source result.",
                     "A covered verdict requires semantic coverage of the source hypotheses, objects, quantifiers, constants, formulas, and conclusions, not just a matching title or phrase.",
                     "Do not mark source-labelled formal results (definitions, propositions, theorems/corollaries, named claims, or main-text lemmas) out of scope for compactness. Expose dashboard rows so the row-local statement judge can inspect them. An unnumbered prose assertion may instead use the dedicated user_approved_scope_exclusion lane only with a byte-pinned source anchor and an explicit user instruction; it remains claim-bearing and receives no Lean proof credit. Appendix lemmas are a judgment call, but appendix theorem/corollary targets should be covered.",
@@ -2157,6 +2232,7 @@ def paper_coverage_llm_text(
                         "review_row_signature_sha256",
                         "reason",
                         "source_evidence",
+                        "source_anchor_quote_identity_sha256",
                         "statement_sha256",
                         "source_item_coverage_digest_schema",
                         "source_item_coverage_sha256",
@@ -2264,7 +2340,7 @@ def assumption_match_llm_text(folder: str) -> str:
             {
                 "schema": 1,
                 "paper": folder,
-                "prompt_version": "assumption-provenance-v3-semantic-exact-premise-source",
+                "prompt_version": "assumption-provenance-v4-verbatim-source-anchor-exact-premise",
                 "validator": "",
                 "validator_type": "",
                 "validated_at": "",
@@ -2274,7 +2350,7 @@ def assumption_match_llm_text(folder: str) -> str:
                     "For every exact -- audit-premise entry, give an independent premise_judgments entry. Group-level approval is insufficient.",
                     "Scrutinize each premise against the source model, not by declaration name, theorem label, or phrase overlap. Expand named predicates/wrappers enough to identify the actual mathematical assumption.",
                     "Certificate, replay, process, bridge, source-row, or broad package premises need a specific source primitive or a Lean-checked instantiation path from paper primitives; otherwise mark partial_boundary/not_paper_assumption.",
-                    "Use source_text_model_primitive, source_text, or paper_condition only for premises explicitly stated by the source; cite source_location.",
+                    "Use source_text_model_primitive, source_text, or paper_condition only for premises explicitly stated by the source. Supply the exact byte-pinned source-anchor quote bundle, cite source_location, and record source_anchor_quote_identity_sha256; do not use a paraphrase, map statement, or reconstructed context as source evidence.",
                     "Use derived_from_source_primitives only when the Lean development derives the premise from prior source primitives.",
                     "Displayed formulas, capacity equations, threshold identities, density/mass rows, source-row packages, certificates, and proof conveniences are not paper assumptions unless the source explicitly assumes them; otherwise mark partial_boundary or not_paper_assumption.",
                 ],
@@ -2555,9 +2631,9 @@ compact human-review subset in `PaperInterface.lean`.
 
 During the statement-first phase, each exact paper-facing proposition lives in a
 transparent `<name>Spec : Prop` declaration in `PaperInterface.lean`; the paired
-theorem/lemma has exactly that type and a temporary `by sorry` body. Add proof
-implementations here only after those specifications pass v10 semantic statement
-review and recursive premise provenance audit. Before full closeout, the v11
+theorem/lemma endpoint belongs in `ProofInterface.lean` and has exactly that
+type. Add proof implementations here only after those specifications pass v11
+raw-source-to-expanded-Spec review and recursive premise provenance audit. Before full closeout, the v11
 realization audit independently binds pinned source atoms to the elaborated Spec
 and accounts for the complete Lean closure; a proof hole or a declaration name
 is never evidence for that correspondence.
@@ -2629,28 +2705,14 @@ Source location: {target.source_location}
 Source status: pinned statement-spec transcription; independent source audit pending
 
 This transparent proposition is the exact statement-audit target. It is not
-proof evidence; `{target.lean_name}` must remain a theorem/lemma of exactly this
-type and must eventually replace its temporary proof hole. At closeout, its
-source atoms must be independently inventoried from pinned source quote bytes
-and bound to this elaborated proposition rather than inferred from identifiers.
+proof evidence. Its exact-type proof endpoint is declared in
+`ProofInterface.lean`, so this human-facing file presents the full semantic
+proposition once. At closeout, source atoms must be independently inventoried
+from pinned source quote bytes and bound to this elaborated proposition rather
+than inferred from identifiers.
 -/
 def {statement_spec_name(target)} : Prop :=
-  {lean_type}
-
-/--
-Proof route for {target.source_item}.
-
-The statement audit belongs to `{statement_spec_name(target)}`. This
-theorem/lemma is deliberately typed by that transparent specification so the
-configured proposition-spec route and any later semantic contract can use
-Lean-Meta definitional equality rather than declaration names.
-
-Source location: {target.source_location}
-Source status: temporary private proof hole; not source or proof certification
--/
-{target.kind} {target.lean_name} :
-  {statement_spec_name(target)} := by
-  sorry"""
+  {lean_type}"""
         )
     declaration_text = "\n\n".join(declarations)
     if not declaration_text:
@@ -2677,6 +2739,12 @@ Rules for completing this file:
 - Keep the paper's definitions/formatted objects first, in source order.
 - Expose the actual paper formulas here; do not only point to generic library
   definitions or implementation witnesses.
+- A material reusable `EconCSLib` primitive may remain a reference here only
+  after `audit/library_semantic_review.json` records its exact bounded library
+  declaration and an explicit byte-pinned paper-source connection. The
+  dashboard and human-review packet show and source-check that declaration
+  before the dependent Spec; a library name, docstring, or glossary is not a
+  semantic bridge. Do not add a duplicate paper claim merely to restate it.
 - If a named theorem needs a hypothesis that is not derived from earlier Lean
   declarations, declare that hypothesis in `Assumptions.lean` and list it in
   `status.json` `review_surface.assumption_names`.
@@ -2684,32 +2752,41 @@ Rules for completing this file:
   theorem signature by referencing named paper assumptions imported from
   `Assumptions.lean`.
 - In the statement-first phase, write every complete source-facing statement as
-  a transparent `<name>Spec : Prop` here, followed by a theorem/lemma whose
-  entire type is `<name>Spec` and whose temporary proof body is `by sorry`. This
-  is allowed only in a private draft and only so the exact proposition can be
-  elaborated and audited before proof engineering begins.
+  a transparent `<name>Spec : Prop` here, exactly once. Put the paired
+  theorem/lemma of that exact type in `ProofInterface.lean`; its temporary
+  proof body may be `by sorry` only in a private draft. This separation keeps
+  the human semantic surface free of thin wrapper declarations.
 - Before drafting that Lean surface, independently inventory every material
   source atom from exact pinned source quote bytes. Do not infer source atoms
   from declaration, binder, field, function, or source-map names.
-- Run v10 statement matching plus recursive premise/conclusion provenance on the
-  skeleton, then freeze each canonical Lean declaration-manifest digest.
-- In the proof phase, replace `sorry` with a short proof that calls into
-  `MainTheorems.lean` or lower proof files without changing the specification or
-  theorem type. Any specification/type change invalidates the freeze and
-  requires a fresh statement audit.
+- Run raw-source-to-expanded-Spec statement matching plus recursive
+  premise/conclusion provenance on the skeleton. The semantic comparison uses
+  only byte-pinned source quotes (and separately pinned source context) against
+  the expanded transparent Spec; map summaries and proof wrappers are not
+  semantic inputs. Then freeze each canonical Lean declaration-manifest digest.
+- In the proof phase, replace the `ProofInterface.lean` `sorry` with a short
+  proof that calls into `MainTheorems.lean` or lower proof files without
+  changing the specification or theorem type. Any specification/type change
+  invalidates the freeze and requires a fresh statement audit.
 - At formalized closeout, complete the v11 realization receipt: Lean Meta checks
   the theorem has exactly the transparent Spec type; each source atom is bound
   to the elaborated Spec surface; closure traversal includes proof and instance
   arguments; and every material terminal has a source, approved correction or
   additional assumption, checked derivation, or version-pinned foundation
   disposition. No data, container, or identifier-based exemption is allowed.
-- If implementation endpoints become broad or helper-heavy, move them to
-  `ProofInterface.lean`; keep this filename as the single review surface.
-- Keep exhaustive endpoint aliases and proof-seam checks in implementation
-  modules, `ProofInterface.lean`, or `ProofLedger.lean`, not here. Do not create
-  new `PostPaperAudit.lean` or `AuditLedger.lean` files; those names are legacy.
+- The transparent `...Spec` is the sole semantic-review target for its source
+  claim. The paired theorem/lemma is a proof endpoint whose exact Spec type is
+  verified by Lean Meta, not a duplicate source-to-Lean comparison row.
+- Keep proof endpoints, exhaustive endpoint aliases, and proof-seam checks in
+  `ProofInterface.lean`, implementation modules, or `ProofLedger.lean`, not
+  here. Do not create new `PostPaperAudit.lean` or `AuditLedger.lean` files;
+  those names are legacy.
 
 ## Named Results
+
+Each entry has one semantic-review target (`Spec`) and one proof endpoint (the
+paired theorem/lemma). The human dashboard and review packet present that pair
+once rather than treating the two declarations as duplicate paper claims.
 
 {inventory}
 -/
@@ -2717,6 +2794,49 @@ Rules for completing this file:
 namespace {namespace}
 
 {declaration_text}
+
+end {namespace}
+"""
+
+
+def proof_interface_text(
+    title: str,
+    folder: str,
+    namespace: str,
+    targets: list[StatementTarget] | None = None,
+) -> str:
+    """Render the non-human proof endpoints paired with PaperInterface Specs."""
+
+    targets = targets or []
+    display_title = title or "[Paper Title]"
+    declarations = "\n\n".join(
+        f"""/--
+Lean proof endpoint for `{statement_spec_name(target)}`.
+
+This theorem is intentionally outside `PaperInterface.lean`: Lean Meta checks
+that it has exactly the transparent Spec type, while source-to-Lean semantic
+review compares the raw source bundle only to that Spec.
+-/
+{target.kind} {target.lean_name} :
+  {statement_spec_name(target)} := by
+  sorry"""
+        for target in targets
+    )
+    if not declarations:
+        declarations = "-- No proof endpoint until a source-pinned Spec is added."
+    return f"""import {folder}.PaperInterface
+
+/-!
+# Proof Interface: {display_title}
+
+This file contains exact-type proof endpoints for the transparent propositions
+in `PaperInterface.lean`. It is not a human semantic-review surface: one source
+claim is reviewed once, against its expanded `...Spec : Prop` declaration.
+-/
+
+namespace {namespace}
+
+{declarations}
 
 end {namespace}
 """
@@ -2747,7 +2867,7 @@ exec \"${ROOT_DIR}/scripts/launch_review_dashboard.sh\" --paper \"$PAPER_DIR\" \
 
 
 def root_import_text(folder: str) -> str:
-    return f"""import {folder}.PaperInterface
+    return f"""import {folder}.ProofInterface
 """
 
 
@@ -3024,8 +3144,10 @@ Planned commands, in order:
       elaborated Spec and account for every material closure terminal, including
       proof and instance arguments; no declaration, data, or container category
       is an automatic exemption.
-- [ ] Run recursive source-record/conclusion-provenance checks and v10 statement
-      matching on every skeleton row; record and freeze each signature digest.
+- [ ] Run recursive source-record/conclusion-provenance checks and raw
+      byte-pinned-source-to-expanded-Spec matching on every skeleton claim;
+      record and freeze each signature digest. The paired theorem is only proof
+      evidence, not a second semantic match.
 - [ ] Complete numeric and discrete obligation partitions; do not claim absence
       when the elaborated manifest exposes arithmetic or list operations.
 - [ ] Complete the applicable fidelity-risk dimensions from expanded semantics:
@@ -3215,8 +3337,14 @@ def main() -> int:
     rendered_interface = paper_interface_text(
         args.title or "", folder, namespace, targets
     )
+    rendered_proof_interface = proof_interface_text(
+        args.title or "", folder, namespace, targets
+    )
     try:
         validate_rendered_statement_interface(namespace, targets, rendered_interface)
+        validate_rendered_proof_interface(
+            namespace, targets, rendered_proof_interface
+        )
     except ValueError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
@@ -3232,6 +3360,16 @@ def main() -> int:
     write_file(
         audit_dir / "statement_match_llm.json",
         statement_match_llm_text(folder),
+        args.force,
+    )
+    write_file(
+        audit_dir / "library_semantic_review.json",
+        library_semantic_review_text(folder),
+        args.force,
+    )
+    write_file(
+        audit_dir / "v11_raw_source_spec_screening.json",
+        v11_raw_source_spec_screening_text(folder),
         args.force,
     )
     write_file(
@@ -3333,6 +3471,11 @@ def main() -> int:
     write_file(
         paper_dir / "PaperInterface.lean",
         rendered_interface,
+        args.force,
+    )
+    write_file(
+        paper_dir / "ProofInterface.lean",
+        rendered_proof_interface,
         args.force,
     )
     write_file(PAPERS / f"{folder}.lean", root_import_text(folder), args.force)

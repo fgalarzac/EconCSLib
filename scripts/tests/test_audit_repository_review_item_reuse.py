@@ -1346,6 +1346,12 @@ class PaperCloseoutRunContextTests(unittest.TestCase):
             folder = Path(temp_dir)
             interface = folder / "PaperInterface.lean"
             interface.write_text("-- mocked review surface\n", encoding="utf-8")
+            # The v11 surface keeps semantic Specs in PaperInterface and their
+            # proof endpoints in a distinct module.  This fixture exercises
+            # arbitrary declaration names, not the missing-module gate.
+            (folder / "ProofInterface.lean").write_text(
+                "-- mocked proof endpoints\n", encoding="utf-8"
+            )
 
             rows = (
                 SimpleNamespace(
@@ -1399,6 +1405,9 @@ class PaperCloseoutRunContextTests(unittest.TestCase):
             dashboard.review_source_file = mock.Mock(return_value=interface)  # type: ignore[attr-defined]
             dashboard.review_source_module = mock.Mock(  # type: ignore[attr-defined]
                 return_value="OpaqueNamespace.PaperInterface"
+            )
+            dashboard.review_proof_module = mock.Mock(  # type: ignore[attr-defined]
+                return_value="OpaqueNamespace.ProofInterface"
             )
 
             evidence = types.ModuleType("audit_evidence_integrity")

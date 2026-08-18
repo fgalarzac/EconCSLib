@@ -111,6 +111,211 @@ class ReviewDashboardSurfaceSelectionTests(unittest.TestCase):
             self.assertEqual(items[0].paper_statement, corrected)
             review_dashboard.SIGNATURE_MANIFEST_CACHE.pop(cache_key, None)
 
+    def test_v11_screening_binds_only_current_source_and_expanded_spec(self) -> None:
+        """The browser must show a v11 verdict only for the exact card inputs."""
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            folder = Path(temp_dir) / "ScreenedPaper"
+            audit = folder / "audit"
+            audit.mkdir(parents=True)
+            interface = folder / "PaperInterface.lean"
+            interface.write_text("def endpointSpec : Prop := True\n", encoding="utf-8")
+            source_digest = "a" * 64
+            expanded_digest = "b" * 64
+            interface_digest = hashlib.sha256(interface.read_bytes()).hexdigest()
+            (audit / "v11_raw_source_spec_screening.json").write_text(
+                json.dumps(
+                    {
+                        "schema": 2,
+                        "paper": folder.name,
+                        "prompt_version": review_dashboard.V11_RAW_SOURCE_SPEC_SCREENING_PROMPT_VERSION,
+                        "validator": "independent LLM",
+                        "validated_at": "2026-08-18T00:00:00Z",
+                        "items": {
+                            "ScreenedPaper.endpointSpec": {
+                                "judgment": "matches",
+                                "reason": "Exact raw source and expanded Spec agree.",
+                                "source_input_bundle_sha256": source_digest,
+                                "paper_statement_sha256": source_digest,
+                                "lean_expanded_statement_sha256": expanded_digest,
+                                "paper_interface_sha256": interface_digest,
+                                "source_input_protocol": "verbatim_source_anchor_bundle_v1",
+                                "lean_target_protocol": "lean_transparent_paper_expansion_v1",
+                                "semantic_target_declaration": "ScreenedPaper.endpointSpec",
+                            }
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            rows = [
+                {
+                    "full_name": "ScreenedPaper.endpointSpec",
+                    "source_input_bundle_sha256": source_digest,
+                    "semantic_expanded_statement_sha256": expanded_digest,
+                }
+            ]
+
+            review_dashboard.bind_current_v11_source_spec_screening(folder, rows)
+
+        self.assertEqual(rows[0]["llm_match_judgment"], "matches")
+        self.assertFalse(rows[0]["llm_match_stale"])
+        self.assertEqual(
+            rows[0]["llm_match_source"], "v11_raw_source_spec_screening.json"
+        )
+
+    def test_review_slice_preserves_configured_proof_endpoint_module(self) -> None:
+        """Separated proof endpoints must not silently fall back to PaperInterface."""
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            folder = Path(temp_dir) / "SeparatedPaper"
+            folder.mkdir()
+            (folder / "PaperInterface.lean").write_text(
+                "def claimSpec : Prop := True\n", encoding="utf-8"
+            )
+            (folder / "ProofInterface.lean").write_text(
+                "theorem claim : True := trivial\n", encoding="utf-8"
+            )
+            (folder / "status.json").write_text(
+                json.dumps(
+                    {
+                        "review_surface": {
+                            "include_names": ["claimSpec"],
+                            "source_file": "PaperInterface.lean",
+                            "proof_file": "ProofInterface.lean",
+                            "proof_module": "SeparatedPaper.ProofInterface",
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            source = review_dashboard.review_source_file(folder)
+            payload = review_dashboard.load_review_slice_payload(folder)
+            proof_module = review_dashboard.review_proof_module(folder, source)
+
+        self.assertEqual(payload["proof_file"], "ProofInterface.lean")
+        self.assertEqual(payload["proof_module"], "SeparatedPaper.ProofInterface")
+        self.assertEqual(
+            proof_module,
+            "SeparatedPaper.ProofInterface",
+        )
+
+    def test_presentation_sections_must_preserve_source_dag_order(self) -> None:
+        """Main/appendix headings cannot silently move a dependency card."""
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            folder = Path(temp_dir) / "SectionedPaper"
+            folder.mkdir()
+            (folder / "status.json").write_text(
+                json.dumps(
+                    {
+                        "review_surface": {
+                            "presentation_sections": [
+                                {"title": "Main", "names": ["mainSpec"]},
+                                {"title": "Appendix", "names": ["appendixSpec"]},
+                            ]
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            rows = [
+                {"full_name": "SectionedPaper.mainSpec"},
+                {"full_name": "SectionedPaper.appendixSpec"},
+            ]
+            self.assertEqual(
+                review_dashboard.human_review_presentation_sections(folder, rows),
+                [
+                    {"title": "Main", "names": ["SectionedPaper.mainSpec"]},
+                    {"title": "Appendix", "names": ["SectionedPaper.appendixSpec"]},
+                ],
+            )
+
+    def test_v11_include_order_is_the_explicit_claim_reading_order_without_intake(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            folder = Path(temp_dir) / "OrderedPaper"
+            folder.mkdir()
+            (folder / "status.json").write_text(
+                json.dumps(
+                    {
+                        "review_surface": {
+                            "include_names": ["definitionSpec", "theoremSpec"]
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            self.assertEqual(
+                review_dashboard._human_review_intake_order(folder),
+                {"definitionSpec": 1, "theoremSpec": 2},
+            )
+
+    def test_dashboard_keeps_verbatim_source_out_of_mathjax(self) -> None:
+        """Raw TeX environments are source evidence, not MathJax input."""
+
+        self.assertIn("function renderVerbatimSourceInput", review_dashboard.HTML_PAGE)
+        self.assertIn('ignoreHtmlClass: "verbatim-source-input"', review_dashboard.HTML_PAGE)
+        self.assertIn('class="verbatim-source-input"', review_dashboard.HTML_PAGE)
+        self.assertIn(
+            "const paperHtml = renderVerbatimSourceInput(item.paper_statement);",
+            review_dashboard.HTML_PAGE,
+        )
+        self.assertNotIn("statement-preview", review_dashboard.HTML_PAGE)
+        self.assertNotIn("compactPreview", review_dashboard.HTML_PAGE)
+        self.assertNotIn("function renderPaperStatement", review_dashboard.HTML_PAGE)
+
+    def test_dashboard_contents_are_linked_without_misleading_nested_numbers(self) -> None:
+        """The on-page outline uses linked bullets for prerequisite and claim cards."""
+
+        self.assertIn("function makeReviewContents", review_dashboard.HTML_PAGE)
+        self.assertIn('const list = document.createElement("ul");', review_dashboard.HTML_PAGE)
+        self.assertIn("link.dataset.reviewAnchor = id;", review_dashboard.HTML_PAGE)
+
+    def test_library_prerequisite_review_uses_a_separate_explicit_scope(self) -> None:
+        """Prerequisite annotations stay distinct from paper-claim review rows."""
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            log = Path(temp_dir) / "library_prerequisite_validations.jsonl"
+            entry = review_dashboard.append_review(
+                log,
+                {
+                    "paper": "FixturePaper",
+                    "theorem": "EconCSLib.Fixture.Model",
+                    "prerequisite_key": "FixturePaper::library_prerequisite::EconCSLib.Fixture.Model",
+                    "review_scope": "library_prerequisite",
+                    "user": "reviewer",
+                    "judgment": "matches",
+                    "notes": "The source model connection is correct.",
+                    "lean_statement": "def Model := True",
+                    "paper_statement": "The model is true.",
+                    "agent_statement": "",
+                    "source_status": "byte-pinned prerequisite source connection",
+                    "source_note": "source/main.tex:1",
+                },
+                "default",
+            )
+
+        self.assertEqual(entry["review_scope"], "library_prerequisite")
+        self.assertEqual(
+            entry["prerequisite_key"],
+            "FixturePaper::library_prerequisite::EconCSLib.Fixture.Model",
+        )
+
+    def test_browser_card_omits_recursive_lean_manifest(self) -> None:
+        """The live dashboard must not ship server-side audit graphs to a browser."""
+
+        projected = review_dashboard.browser_review_item(
+            {
+                "name": "claimSpec",
+                "paper_statement": "A source claim.",
+                "lean_signature_manifest": {"recursive_graph": ["large"]},
+            }
+        )
+
+        self.assertEqual(projected["name"], "claimSpec")
+        self.assertNotIn("lean_signature_manifest", projected)
+
     def test_parser_keeps_the_full_theorem_type_after_an_inner_let_assignment(self) -> None:
         """An inner `let :=` must not truncate the declaration reuse binding."""
 

@@ -9,6 +9,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -1053,6 +1054,35 @@ class ScopedDashboardAuditTests(unittest.TestCase):
         self.assertIn("GOVERNING.md", rendered)
         self.assertIn("contract.json", rendered)
 
+    def test_generated_readme_links_present_human_review_packet(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            folder = root / "papers" / "ReviewedPaper"
+            docs = folder / "docs"
+            docs.mkdir(parents=True)
+            (docs / "HUMAN_REVIEW_PACKET.pdf").write_bytes(b"%PDF-fixture\n")
+            payload = paper_status(folder.name)
+            payload.update(
+                {
+                    "status": "formalized",
+                    "artifacts": {
+                        "human_review_packet_pdf": (
+                            "papers/ReviewedPaper/docs/HUMAN_REVIEW_PACKET.pdf"
+                        )
+                    },
+                }
+            )
+            with mock.patch.object(sync_paper_status, "ROOT", root):
+                rendered = sync_paper_status.generated_paper_readme_block(
+                    folder, payload
+                )
+
+        self.assertIn(
+            "Human review packet: [HUMAN_REVIEW_PACKET.pdf]"
+            "(docs/HUMAN_REVIEW_PACKET.pdf)",
+            rendered,
+        )
+
     def test_current_corrected_scope_uses_contract_label_not_stale_archive_sidecars(
         self,
     ) -> None:
@@ -1318,6 +1348,13 @@ class AggregateSidecarFreshnessTests(unittest.TestCase):
             inventory_digest = review_dashboard.paper_statement_inventory_digest(
                 review_dashboard.paper_statement_inventory(folder)
             )
+            source_item = review_dashboard.paper_statement_inventory(folder)[
+                "source_claim"
+            ]
+            source_anchor_identity, source_anchor_error = (
+                review_dashboard.source_anchor_quote_identity(source_item)
+            )
+            self.assertEqual(source_anchor_error, "")
             write_json(
                 audit / "paper_coverage_llm.json",
                 {
@@ -1325,6 +1362,7 @@ class AggregateSidecarFreshnessTests(unittest.TestCase):
                     "paper": folder.name,
                     "audit_kind": "source_to_dashboard_llm",
                     "source_grounded": True,
+                    "source_input_protocol": "verbatim_source_anchor_bundle_v1",
                     "prompt_version": review_dashboard.REQUIRED_LLM_PAPER_COVERAGE_PROMPT_VERSION,
                     "validator": "fixture-agent",
                     "validator_type": "agent",
@@ -1339,6 +1377,7 @@ class AggregateSidecarFreshnessTests(unittest.TestCase):
                             "coverage": "covered",
                             "reason": "The source item is covered by the reviewed proof row.",
                             "source_evidence": "source.txt:1-1 contains the source claim.",
+                            "source_anchor_quote_identity_sha256": source_anchor_identity,
                         }
                     },
                 },
@@ -1733,11 +1772,19 @@ class AggregateSidecarFreshnessTests(unittest.TestCase):
             inventory_digest = review_dashboard.paper_statement_inventory_digest(
                 review_dashboard.paper_statement_inventory(folder)
             )
+            source_item = review_dashboard.paper_statement_inventory(folder)[
+                "source_claim"
+            ]
+            source_anchor_identity, source_anchor_error = (
+                review_dashboard.source_anchor_quote_identity(source_item)
+            )
+            self.assertEqual(source_anchor_error, "")
             coverage = {
                 "schema": 1,
                 "paper": folder.name,
                 "audit_kind": "source_to_dashboard_llm",
                 "source_grounded": True,
+                "source_input_protocol": "verbatim_source_anchor_bundle_v1",
                 "prompt_version": review_dashboard.REQUIRED_LLM_PAPER_COVERAGE_PROMPT_VERSION,
                 "validator": "fixture-agent",
                 "validator_type": "agent",
@@ -1752,6 +1799,7 @@ class AggregateSidecarFreshnessTests(unittest.TestCase):
                         "coverage": "covered",
                         "reason": "The source item is covered by the reviewed proof row.",
                         "source_evidence": "source.txt:1-1 contains the source claim.",
+                        "source_anchor_quote_identity_sha256": source_anchor_identity,
                     }
                 },
             }
@@ -1808,6 +1856,13 @@ class AggregateSidecarFreshnessTests(unittest.TestCase):
                 review_dashboard.paper_statement_inventory(folder)
             )
             surface_digest = review_dashboard.review_surface_digest([])
+            source_item = review_dashboard.paper_statement_inventory(folder)[
+                "source_claim"
+            ]
+            source_anchor_identity, source_anchor_error = (
+                review_dashboard.source_anchor_quote_identity(source_item)
+            )
+            self.assertEqual(source_anchor_error, "")
             write_json(
                 audit / "paper_coverage_llm.json",
                 {
@@ -1815,6 +1870,7 @@ class AggregateSidecarFreshnessTests(unittest.TestCase):
                     "paper": folder.name,
                     "audit_kind": "source_to_dashboard_llm",
                     "source_grounded": True,
+                    "source_input_protocol": "verbatim_source_anchor_bundle_v1",
                     "prompt_version": review_dashboard.REQUIRED_LLM_PAPER_COVERAGE_PROMPT_VERSION,
                     "validator": "fixture-agent",
                     "validator_type": "agent",
@@ -1829,6 +1885,7 @@ class AggregateSidecarFreshnessTests(unittest.TestCase):
                             "coverage": "covered",
                             "reason": "The reviewed semantic source item has a matching proof row.",
                             "source_evidence": "source.txt:1-1 records the exact source claim.",
+                            "source_anchor_quote_identity_sha256": source_anchor_identity,
                         }
                     },
                 },
@@ -1883,6 +1940,10 @@ class AggregateSidecarFreshnessTests(unittest.TestCase):
             source_item = review_dashboard.paper_statement_inventory(folder)[
                 "source_claim"
             ]
+            source_anchor_identity, source_anchor_error = (
+                review_dashboard.source_anchor_quote_identity(source_item)
+            )
+            self.assertEqual(source_anchor_error, "")
             surface_digest = review_dashboard.review_surface_digest([])
             write_json(
                 audit / "paper_coverage_llm.json",
@@ -1891,6 +1952,7 @@ class AggregateSidecarFreshnessTests(unittest.TestCase):
                     "paper": folder.name,
                     "audit_kind": "source_to_dashboard_llm",
                     "source_grounded": True,
+                    "source_input_protocol": "verbatim_source_anchor_bundle_v1",
                     "prompt_version": review_dashboard.REQUIRED_LLM_PAPER_COVERAGE_PROMPT_VERSION,
                     "validator": "fixture-agent",
                     "validator_type": "agent",
@@ -1915,6 +1977,7 @@ class AggregateSidecarFreshnessTests(unittest.TestCase):
                                     "named_theoretical_statements",
                                 )
                             ),
+                            "source_anchor_quote_identity_sha256": source_anchor_identity,
                         }
                     },
                 },
@@ -1973,6 +2036,108 @@ class AggregateSidecarFreshnessTests(unittest.TestCase):
         )
         self.assertIn(">4/4</td>", html)
         self.assertNotIn("needs refresh", html)
+
+    def test_v11_direct_source_spec_lane_supersedes_retired_sidecars(self) -> None:
+        """A v11 closeout must display its raw-source judgment, not `not run`."""
+
+        folder = Path("/tmp") / "V11DirectSourceSpecPaper"
+        payload = paper_status(folder.name)
+        payload["review_surface"] = {
+            "require_v11_raw_source_spec_screening": True,
+        }
+        payload["human_review"] = {"total_rows": 2}
+        counts = {
+            "total": 2,
+            "matches": 2,
+            "mismatch": 0,
+            "uncertain": 0,
+            "unknown": 0,
+        }
+        with mock.patch.object(
+            sync_paper_status,
+            "current_v11_source_spec_counts",
+            return_value=(counts, ""),
+        ) as v11_counts:
+            self.assertEqual(
+                sync_paper_status.llm_translation_label(folder, payload),
+                "2/2 raw-source-to-Spec match",
+            )
+            self.assertEqual(
+                sync_paper_status.llm_paper_coverage_label(folder, payload),
+                "2/2 source claims covered",
+            )
+
+        self.assertEqual(v11_counts.call_count, 2)
+
+    def test_v11_status_counts_read_the_pinned_ledger_without_elaboration(self) -> None:
+        """The static status projection must not turn a receipt check into Lean work."""
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            folder = root / "papers" / "Fixture"
+            audit = folder / "audit"
+            audit.mkdir(parents=True)
+            screening_path = audit / "v11_raw_source_spec_screening.json"
+            write_json(
+                screening_path,
+                {
+                    "schema": 2,
+                    "paper": "Fixture",
+                    "validator": "fixture reviewer",
+                    "validated_at": "2026-08-18",
+                    "items": {"Fixture.PaperInterface.claimSpec": {"judgment": "matches"}},
+                },
+            )
+            payload = paper_status("Fixture")
+            payload["review_surface"] = {
+                "require_v11_raw_source_spec_screening": True,
+            }
+            payload["human_review"] = {"total_rows": 1}
+            receipt = SimpleNamespace(
+                payload={
+                    "paper": "Fixture",
+                    "closure_status": "current",
+                    "evidence_lane": "direct-source-row-review",
+                    "review_ledger": {
+                        "path": "papers/Fixture/audit/v11_raw_source_spec_screening.json",
+                        "sha256": hashlib.sha256(screening_path.read_bytes()).hexdigest(),
+                    },
+                }
+            )
+
+            with mock.patch.object(sync_paper_status, "ROOT", root), mock.patch(
+                "final_closure_receipt.load_final_closure_receipt",
+                return_value=receipt,
+            ):
+                counts, problem = sync_paper_status.current_v11_source_spec_counts(
+                    folder,
+                    payload,
+                )
+
+        self.assertEqual(problem, "")
+        self.assertEqual(
+            counts,
+            {"total": 1, "matches": 1, "mismatch": 0, "uncertain": 0, "unknown": 0},
+        )
+
+    def test_draft_human_summary_is_not_projected_as_public_note(self) -> None:
+        payload = paper_status("DraftSummary")
+        payload["status"] = "formalized"
+        payload["human_summary"] = "Draft wording that is not user-approved."
+        payload["human_summary_review"] = {"status": "draft"}
+        self.assertEqual(sync_paper_status.human_note(payload), "")
+
+        payload["human_summary_review"] = {"status": "human_approved"}
+        self.assertEqual(
+            sync_paper_status.human_note(payload),
+            "Draft wording that is not user-approved.",
+        )
+
+        payload["human_summary_review"] = {"status": "human_written"}
+        self.assertEqual(
+            sync_paper_status.human_note(payload),
+            "Draft wording that is not user-approved.",
+        )
 
 
 if __name__ == "__main__":

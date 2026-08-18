@@ -45,7 +45,7 @@ class RuntimeComplexityAuditGuidanceTests(unittest.TestCase):
         payload = json.loads(NEW_PAPER.statement_match_llm_text("EX00Example"))
         self.assertEqual(
             payload["prompt_version"],
-            "statement-match-v10-semantic-fidelity-seat-stopping",
+            "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-v2",
         )
         schema = payload["operational_complexity_review_schema"]
         self.assertEqual(

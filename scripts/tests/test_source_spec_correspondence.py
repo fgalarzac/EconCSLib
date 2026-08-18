@@ -531,7 +531,7 @@ class SourceSpecCorrespondenceTests(unittest.TestCase):
                     paper, "formalized"
                 )
             ]
-            self.assertTrue(
+            self.assertFalse(
                 any(
                     "items.appendix_alias: v11 requires claim_bearing: true"
                     in message
