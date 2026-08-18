@@ -10,7 +10,7 @@ internal class-emptying event before its external batch is applied. Thus an
 arrival at the right endpoint of a gap is applied after the service accrued on
 the preceding half-open interval, including exact arrival/completion ties.
 
-The construction is deterministic. A paper-specific adapter supplies the
+The construction is deterministic. A concrete adapter supplies the
 batch-time list and batch-work vectors from a concrete stochastic carrier.
 -/
 

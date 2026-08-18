@@ -786,11 +786,11 @@ theorem restrictedIsometryProperty_mono
   intro x hx
   exact hrip x (hx.trans hs)
 
-/-- Source-paper box convention `z in [-1,1]^m`, stated as absolute-value bounds. -/
+/-- Unit-box convention `z in [-1,1]^m`, stated as absolute-value bounds. -/
 def InUnitBox (z : Feature → ℝ) : Prop :=
   ∀ i, |z i| ≤ 1
 
-/-- Boolean feature vectors, stated over reals as the source paper does. -/
+/-- Boolean feature vectors, represented over reals. -/
 def InZeroOne (z : Feature → ℝ) : Prop :=
   ∀ i, z i = 0 ∨ z i = 1
 
@@ -3877,7 +3877,7 @@ theorem supErrorLt_of_muIncoherentLE_self
   exact lt_of_le_of_lt (hsum.trans hcard) hbound
 
 /--
-Testing recovery on a singleton indicator gives the paper's diagonal
+Testing recovery on a singleton indicator gives the diagonal
 observation: each diagonal entry of `B^T A` is within `ε` of `1`.
 -/
 theorem diag_abs_sub_one_lt_of_linearRecovery
@@ -3914,7 +3914,7 @@ theorem one_sub_lt_diag_of_linearRecovery
 
 /--
 Testing recovery on a `{0,1}` indicator set disjoint from row `i` gives the
-paper's row-sum observation.
+row-sum observation.
 -/
 theorem abs_row_sum_lt_of_linearRecovery_finsetIndicator_not_mem
     [Fintype Feature] [DecidableEq Feature] [Fintype Coord]

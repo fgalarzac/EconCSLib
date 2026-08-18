@@ -11,7 +11,7 @@ whose endpoint queues are explicitly empty in every slot.  The shape predicate
 uses the executable next-event comparison directly; it never recognizes an
 inactive slot by comparing a default segment with a real one.
 
-The interface is generic in the input carrier.  Paper-specific code supplies
+The interface is generic in the input carrier.  A concrete adapter supplies
 the Borel workload and clock coordinates, and glues these source-empty slots
 to the preceding source-labelled trace.
 -/

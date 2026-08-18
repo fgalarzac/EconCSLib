@@ -14,7 +14,7 @@ literal terminal batch.  The fence is computational only; the conclusion
 still concerns the original external batch trace.
 
 This is a finite deterministic identity.  It has no stochastic, Palm, or
-paper-specific assumptions.
+model-specific assumptions.
 -/
 
 namespace EconCSLib.Probability.Queueing

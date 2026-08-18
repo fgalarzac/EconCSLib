@@ -843,7 +843,7 @@ end TaggedJobAENormalizedGPSBacklogSourcePath
 
 /--
 Local tagged-job GPS source data where the tagged class is required to be
-backlogged pointwise on the open service interval.  This is the source-facing
+backlogged pointwise on the open service interval.  This is the open-interval
 variant of `TaggedJobAENormalizedGPSBacklogSourcePath`; endpoint values are
 irrelevant for the a.e. allocation proof.
 -/

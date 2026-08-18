@@ -1150,7 +1150,7 @@ theorem efxForChores_addItem_after_rotation_of_minimal_path
             hpathMin agent hagentSink hagentOwner hfixed (next comparison)
           simpa [addItem, rotateBundles, hagentOwner, hcomparisonOwner] using hself.trans hcomp
 
-/-- The direct-sink branch of the paper's M₃₄ insertion lemma, packaged with
+/-- The direct-sink branch of the M₃₄ insertion lemma, packaged with
 the resulting feasible extended allocation. -/
 theorem exists_efx_allocation_addItem_of_small_cost_sink
     {Item : Type*} [DecidableEq Item]
@@ -1220,7 +1220,7 @@ def IsParetoOptimal {Agent Item : Type*} [DecidableEq Item]
     (allocation : Allocation Agent Item) : Prop :=
   ParetoOptimalForChores (additiveChoreCost choreInstance.cost) choreInstance.chores allocation
 
-/-- The source threshold characterization of EFX, specialized to an additive
+/-- The threshold characterization of EFX, specialized to an additive
 chore instance. -/
 theorem isEFX_iff_threshold_le {Agent Item : Type*} [DecidableEq Item]
     (choreInstance : AdditiveChoreInstance Agent Item)
@@ -2163,7 +2163,7 @@ noncomputable def ownSmallChoreSet (cost : ChoreCost Agent Item)
 
 /-- A quota allocation is canonical when every agent receives exactly her quota
 and as many own-small chores as that quota permits. This is the reusable core
-of the paper's canonical `M₀₁` allocation definition. -/
+of the canonical `M₀₁` allocation definition. -/
 noncomputable def IsCanonicalSmallChoreAllocation [DecidableEq Item]
     (cost : ChoreCost Agent Item) (chores : Finset Item) (quota : Agent → ℕ)
     (allocation : Allocation Agent Item) : Prop :=

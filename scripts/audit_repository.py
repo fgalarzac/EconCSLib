@@ -1595,7 +1595,10 @@ NUMBERED_SOURCE_RESULT_RE = re.compile(
 )
 GENERIC_SOURCE_THEOREM_LABEL_RE = re.compile(
     r"\b(?:Definition|Lemma|Proposition|Theorem|Corollary|Claim)\s+"
-    r"[A-Z]?\d+(?:\.\d+)*(?:\s*\([^)]+\))?",
+    # Require the numeric label to end at a token boundary.  In particular,
+    # reusable Lean names such as `theorem l2Sq_add_eq` are mathematical
+    # `l2` APIs, not references to a numbered source theorem.
+    r"[A-Z]?\d+(?:\.\d+)*(?![A-Za-z_])(?:\s*\([^)]+\))?",
     re.I,
 )
 NUMBERED_SOURCE_NAME_RE = re.compile(

@@ -585,7 +585,7 @@ noncomputable def fixedPairTailBound (Coord : Type*) [Fintype Coord] (μ : ℝ) 
         (2 * ((∑ _r : Coord,
           ((‖(1 : ℝ) - (-1)‖₊ / 2) ^ 2 : NNReal)) : ℝ)))
 
-/-- The fixed-pair tail bound in the paper's simplified `d mu^2 / 2` form. -/
+/-- The fixed-pair tail bound in the simplified `d mu^2 / 2` form. -/
 theorem fixedPairTailBound_eq
     (Coord : Type*) [Fintype Coord] (μ : ℝ) :
     fixedPairTailBound Coord μ =

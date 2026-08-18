@@ -80,7 +80,7 @@ theorem finiteGPSFCFSConsume_add
         rw [hservice_sum]
         exact htail
 
-/-- The source-facing part of a completion record.  `completedWork` and
+/-- The segment-local part of a completion record.  `completedWork` and
 `completionOffset` are local to the service segment which emitted the record;
 the source identifier, arrival time, and absolute completion time are the
 invariants needed to compare a refinement with an unsplit execution. -/

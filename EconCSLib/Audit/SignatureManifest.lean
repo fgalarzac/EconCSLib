@@ -539,7 +539,7 @@ private def conclusionAtom
 
 /--
 Zeta-reduce only result-type `let` bindings before serializing a reviewed
-declaration.  A source-facing theorem may name a raw law locally in its
+declaration.  A reviewed theorem may name a raw law locally in its
 proposition; retaining that name as a de Bruijn variable would make the audit
 unable to check that the same law is used by the terminal comparison.  This
 never reads a theorem proof body.
@@ -1249,7 +1249,7 @@ For a transparent proposition definition, retain the outer telescope written
 in its elaborated definition value without reducing terminal proposition
 wrappers.  This is deliberately distinct from the ordinary signature
 manifest: the latter unfolds proposition wrappers so the semantic/dependency
-audits cannot hide binders.  A source-facing `Spec` owner instead needs the
+audits cannot hide binders.  A transparent `Spec` owner instead needs the
 definition-value boundary in order to distinguish its written inputs from
 binders introduced only by reducing an opaque terminal proposition.
 
@@ -1712,10 +1712,10 @@ private def operationalOutcomeStateTransitionBridgeMatches
 
 /--
 The semantic-contract type check establishes exactness, but it does not by
-itself establish that the proposition assigned to the source-facing `Spec` is
+itself establish that the proposition assigned to the reviewed `Spec` is
 transparent.  This bounded traversal follows only declarations owned by the
-paper's explicit module set.  Imported foundation declarations are terminals;
-paper-local definitions must be reducible all the way to those terminals.
+explicit module set.  Imported foundation declarations are terminals; local
+definitions must be reducible all the way to those terminals.
 
 The output is intentionally a structural dependency verdict rather than a
 name-pattern heuristic.  A declaration name is reported only as a diagnostic
@@ -1843,7 +1843,7 @@ terminal candidate for Python's separately pinned source-model review; every
 Prop, function-valued, type-valued, unresolved, or otherwise non-executable
 cycle remains a transparency failure.  The declaration's recursive group is
 checked directly, rather than waiting until its body re-enters itself, so the
-receipt records the call occurrence in the source-facing Spec.
+receipt records the call occurrence in the reviewed Spec.
 -/
 private def semanticContractTransparencyRecursiveApplicationTerminal?
     (auditModules : Array Name) (rootModule : Option ModuleIdx)
@@ -3533,7 +3533,7 @@ private def sourcePremiseFalseEliminators
     ("reviewed_inputs", Json.arr reviewedInputs)]
 
 /--
-Return the directly elaborated EconCSLib constants used by each source-facing
+Return the directly elaborated EconCSLib constants used by each reviewed
 Spec.  This deliberately inspects Lean's resolved declaration body, rather
 than its tokens: `open` declarations, notation, coercions, and synthesized
 arguments therefore cannot hide a reusable library primitive from the
@@ -3577,10 +3577,10 @@ private def parseDirectLibraryDependencyRequests
   | _ => none
 
 /--
-One Lean-owned, readable expansion of a source-facing `Spec`.  The review
-target unfolds transparent declarations owned by the paper, but deliberately
-leaves imported library declarations named: those are reviewed as their own
-source-connected prerequisites.  An opaque or theorem-valued paper-local
+One Lean-owned, readable expansion of a reviewed `Spec`.  The review
+target unfolds transparent declarations owned by the selected module scope,
+but deliberately leaves imported library declarations named: those are
+reviewed as their own direct prerequisites.  An opaque or theorem-valued local
 dependency cannot silently become a black box; it is reported and makes this
 display incomplete.
 

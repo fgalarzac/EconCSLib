@@ -421,17 +421,17 @@ theorem measurable_sourceReverseOne :
     Measurable (sourceReverseOne (α := α)) := by
   exact (measurable_pi_apply 1).comp measurable_snd
 
-def sourceCrossWindow (n : ℕ) (z : (ℕ → α) × (ℕ → α)) : Fin (n + 2) → α :=
+def pairedCrossWindow (n : ℕ) (z : (ℕ → α) × (ℕ → α)) : Fin (n + 2) → α :=
   prependWindow (sourceReverseOne z) (sourcePrefix n z)
 
-theorem measurable_sourceCrossWindow (n : ℕ) :
-    Measurable (sourceCrossWindow (α := α) n) := by
+theorem measurable_pairedCrossWindow (n : ℕ) :
+    Measurable (pairedCrossWindow (α := α) n) := by
   exact (measurable_prependWindow (α := α) (n + 1)).comp
     (measurable_sourceReverseOne.prodMk (measurable_sourcePrefix n))
 
 theorem crossZeroWindow_spliceForwardReverse (n : ℕ)
     (z : (ℕ → α) × (ℕ → α)) :
-    crossZeroWindow n (spliceForwardReverse z) = sourceCrossWindow n z := by
+    crossZeroWindow n (spliceForwardReverse z) = pairedCrossWindow n z := by
   funext i
   refine Fin.cases ?_ (fun j => ?_) i
   · rfl
@@ -453,9 +453,9 @@ theorem prefixReverseToCross_last (n : ℕ) (p : (Fin (n + 1) → α) × α) :
   change Matrix.vecCons p.2 p.1 (Fin.last (n + 1)) = p.1 (Fin.last n)
   rw [← Fin.succ_last, Matrix.cons_val_succ]
 
-theorem sourceCrossWindow_eq_prefixReverseToCross (n : ℕ)
+theorem pairedCrossWindow_eq_prefixReverseToCross (n : ℕ)
     (z : (ℕ → α) × (ℕ → α)) :
-    sourceCrossWindow n z =
+    pairedCrossWindow n z =
       prefixReverseToCross (sourcePrefix n z, sourceReverseOne z) := by
   rfl
 
@@ -514,7 +514,7 @@ theorem forwardReverseTwoSidedSourceMeasure_prefix_reverseOne
 theorem forwardReverseTwoSidedSourceMeasure_crossWindow_law
     {π : Measure α} [IsProbabilityMeasure π] {K Kr : Kernel α α}
     [IsMarkovKernel K] [IsMarkovKernel Kr] (n : ℕ) :
-    (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceCrossWindow n) =
+    (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedCrossWindow n) =
       (((stationaryTrajMeasure π K).map (natPrefix n) ⊗ₘ
         (Kr ∘ₖ Kernel.deterministic (prefixFirst (α := α) (n := n))
           (measurable_prefixFirst n))).map
@@ -523,12 +523,12 @@ theorem forwardReverseTwoSidedSourceMeasure_crossWindow_law
     fun z => (sourcePrefix n z, sourceReverseOne z)
   have hpair : Measurable pair :=
     (measurable_sourcePrefix n).prodMk measurable_sourceReverseOne
-  have hpairCross : sourceCrossWindow n =
+  have hpairCross : pairedCrossWindow n =
       prefixReverseToCross (α := α) (n := n) ∘ pair := by
     funext z
-    exact sourceCrossWindow_eq_prefixReverseToCross n z
+    exact pairedCrossWindow_eq_prefixReverseToCross n z
   calc
-    (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceCrossWindow n) =
+    (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedCrossWindow n) =
         ((forwardReverseTwoSidedSourceMeasure π K Kr).map pair).map
           (prefixReverseToCross (α := α) (n := n)) := by
           rw [Measure.map_map (measurable_prefixReverseToCross n) hpair]
@@ -552,16 +552,16 @@ theorem forwardReverseTwoSidedTrajMeasure_crossWindow_law
           (prefixReverseToCross (α := α) (n := n))) := by
   unfold forwardReverseTwoSidedTrajMeasure
   rw [Measure.map_map (measurable_crossZeroWindow n) measurable_spliceForwardReverse]
-  change (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceCrossWindow n) = _
+  change (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedCrossWindow n) = _
   rw [forwardReverseTwoSidedSourceMeasure_crossWindow_law]
 
 def sourceCrossNext (n : ℕ) (z : (ℕ → α) × (ℕ → α)) :
     (Fin (n + 2) → α) × α :=
-  (sourceCrossWindow n z, z.1 (n + 1))
+  (pairedCrossWindow n z, z.1 (n + 1))
 
 theorem measurable_sourceCrossNext (n : ℕ) :
     Measurable (sourceCrossNext (α := α) n) := by
-  exact (measurable_sourceCrossWindow n).prodMk
+  exact (measurable_pairedCrossWindow n).prodMk
     ((measurable_pi_apply _).comp measurable_fst)
 
 def swappedPrefixReverseNextToCrossNext {n : ℕ}
@@ -666,7 +666,7 @@ theorem forwardReverseTwoSidedSourceMeasure_crossWindow_next
     {π : Measure α} [IsProbabilityMeasure π] {K Kr : Kernel α α}
     [IsMarkovKernel K] [IsMarkovKernel Kr] (n : ℕ) :
     (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceCrossNext n) =
-      (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceCrossWindow n) ⊗ₘ
+      (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedCrossWindow n) ⊗ₘ
         (K ∘ₖ Kernel.deterministic
           (fun w : Fin (n + 2) → α => w (Fin.last (n + 1)))
           (measurable_pi_apply _)) := by
@@ -738,7 +738,7 @@ theorem forwardReverseTwoSidedSourceMeasure_crossWindow_next
           (K ∘ₖ Kernel.deterministic gCross hgCross) := by
     exact Measure.compProd_map_through (P ⊗ₘ B) K fCross hfCross gCross hgCross
   have hcrossLaw :
-      (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceCrossWindow n) =
+      (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedCrossWindow n) =
         (P ⊗ₘ B).map fCross := by
     simpa [P, B, fCross] using
       (forwardReverseTwoSidedSourceMeasure_crossWindow_law
@@ -762,7 +762,7 @@ theorem forwardReverseTwoSidedSourceMeasure_crossWindow_next
     _ = ((P ⊗ₘ B).map fCross) ⊗ₘ
           (K ∘ₖ Kernel.deterministic gCross hgCross) := by
           exact htransport
-    _ = (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceCrossWindow n) ⊗ₘ
+    _ = (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedCrossWindow n) ⊗ₘ
           (K ∘ₖ Kernel.deterministic
             (fun w : Fin (n + 2) → α => w (Fin.last (n + 1)))
             (measurable_pi_apply _)) := by
@@ -782,11 +782,11 @@ theorem forwardReverseTwoSidedTrajMeasure_crossWindow_next
     (measurable_crossZeroWindow n).prodMk (measurable_pi_apply _)
   have hcross :
       (forwardReverseTwoSidedTrajMeasure π K Kr).map (crossZeroWindow n) =
-        (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceCrossWindow n) := by
+        (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedCrossWindow n) := by
     unfold forwardReverseTwoSidedTrajMeasure
     rw [Measure.map_map (measurable_crossZeroWindow n) measurable_spliceForwardReverse]
     have hfun : (crossZeroWindow (α := α) n) ∘
-        (spliceForwardReverse (α := α)) = sourceCrossWindow (α := α) n := by
+        (spliceForwardReverse (α := α)) = pairedCrossWindow (α := α) n := by
       funext z
       exact crossZeroWindow_spliceForwardReverse n z
     rw [hfun]

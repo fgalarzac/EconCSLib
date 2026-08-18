@@ -74,47 +74,47 @@ theorem measurable_twoSidedWindow (m n : ℕ) :
   intro i
   exact measurable_pi_apply _
 
-/-- The nonpositive part `X_{-m}, ..., X_0` of a source path. -/
-def sourcePastWindow (m : ℕ) (z : (ℕ → α) × (ℕ → α)) : Fin (m + 1) → α :=
+/-- The nonpositive part `X_{-m}, ..., X_0` of a paired forward/reverse path. -/
+def pairedPastWindow (m : ℕ) (z : (ℕ → α) × (ℕ → α)) : Fin (m + 1) → α :=
   snocWindow (reverseStrictPrefix m z) (z.1 0)
 
-theorem measurable_sourcePastWindow (m : ℕ) :
-    Measurable (sourcePastWindow (α := α) m) := by
+theorem measurable_pairedPastWindow (m : ℕ) :
+    Measurable (pairedPastWindow (α := α) m) := by
   exact (measurable_snocWindow (α := α) m).comp
     ((measurable_reverseStrictPrefix m).prodMk
       ((measurable_pi_apply 0).comp measurable_fst))
 
-/-- The source-level realization split into past and strict-future pieces. -/
-def sourceTwoSidedWindow (m n : ℕ) (z : (ℕ → α) × (ℕ → α)) :
+/-- The paired-path realization split into past and strict-future pieces. -/
+def pairedTwoSidedWindow (m n : ℕ) (z : (ℕ → α) × (ℕ → α)) :
     Fin ((m + 1) + n) → α :=
-  Fin.append (sourcePastWindow m z) (futureStrictPrefix n z)
+  Fin.append (pairedPastWindow m z) (futureStrictPrefix n z)
 
-theorem measurable_sourceTwoSidedWindow (m n : ℕ) :
-    Measurable (sourceTwoSidedWindow (α := α) m n) := by
+theorem measurable_pairedTwoSidedWindow (m n : ℕ) :
+    Measurable (pairedTwoSidedWindow (α := α) m n) := by
   apply measurable_pi_lambda
   intro i
   refine Fin.addCases (fun j => ?_) (fun j => ?_) i
-  · simpa [sourceTwoSidedWindow] using
-      (measurable_pi_apply _).comp (measurable_sourcePastWindow m)
-  · simpa [sourceTwoSidedWindow] using
+  · simpa [pairedTwoSidedWindow] using
+      (measurable_pi_apply _).comp (measurable_pairedPastWindow m)
+  · simpa [pairedTwoSidedWindow] using
       (measurable_pi_apply _).comp (measurable_futureStrictPrefix n)
 
 theorem twoSidedWindow_spliceForwardReverse (m n : ℕ)
     (z : (ℕ → α) × (ℕ → α)) :
-    twoSidedWindow m n (spliceForwardReverse z) = sourceTwoSidedWindow m n z := by
+    twoSidedWindow m n (spliceForwardReverse z) = pairedTwoSidedWindow m n z := by
   funext i
   refine Fin.addCases (fun j => ?_) (fun j => ?_) i
-  · simp only [sourceTwoSidedWindow, Fin.append_left]
+  · simp only [pairedTwoSidedWindow, Fin.append_left]
     refine Fin.lastCases ?_ (fun k => ?_) j
-    · simp [sourcePastWindow, snocWindow, twoSidedWindow, spliceForwardReverse]
-    · simp only [sourcePastWindow, snocWindow, Fin.snoc_castSucc]
+    · simp [pairedPastWindow, snocWindow, twoSidedWindow, spliceForwardReverse]
+    · simp only [pairedPastWindow, snocWindow, Fin.snoc_castSucc]
       change (spliceForwardReverse z) ((k.1 : ℤ) - m) = z.2 (m - k.1)
       have hk : k.1 < m := k.isLt
       rw [show (k.1 : ℤ) - m = Int.negSucc (m - k.1 - 1) by omega]
       simp only [spliceForwardReverse]
       exact congrArg z.2
         (Nat.sub_add_cancel (Nat.succ_le_iff.mpr (Nat.sub_pos_of_lt hk)))
-  · simp only [sourceTwoSidedWindow, Fin.append_right]
+  · simp only [pairedTwoSidedWindow, Fin.append_right]
     change (spliceForwardReverse z) (((m + 1 + j.1 : ℕ) : ℤ) - m) = z.1 (j.1 + 1)
     have hindex : ((m + 1 + j.1 : ℕ) : ℤ) - m = (j.1 + 1 : ℕ) := by
       omega
@@ -138,11 +138,11 @@ theorem reverseStrictPrefix_eq_map (m : ℕ) :
 /-- The mixed finite window together with its next forward state. -/
 def sourceTwoSidedNext (m n : ℕ) (z : (ℕ → α) × (ℕ → α)) :
     (Fin ((m + 1) + n) → α) × α :=
-  (sourceTwoSidedWindow m n z, z.1 (n + 1))
+  (pairedTwoSidedWindow m n z, z.1 (n + 1))
 
 theorem measurable_sourceTwoSidedNext (m n : ℕ) :
     Measurable (sourceTwoSidedNext (α := α) m n) := by
-  exact (measurable_sourceTwoSidedWindow m n).prodMk
+  exact (measurable_pairedTwoSidedWindow m n).prodMk
     ((measurable_pi_apply _).comp measurable_fst)
 
 theorem twoSidedWindow_succ (m n : ℕ) (x : ℤ → α) :
@@ -162,10 +162,10 @@ theorem twoSidedWindow_succ (m n : ℕ) (x : ℤ → α) :
     rw [Fin.snoc_castSucc]
     simp only [Fin.val_castSucc]
 
-theorem sourceTwoSidedWindow_succ (m n : ℕ)
+theorem pairedTwoSidedWindow_succ (m n : ℕ)
     (z : (ℕ → α) × (ℕ → α)) :
-    sourceTwoSidedWindow m (n + 1) z =
-      snocWindow (sourceTwoSidedWindow m n z) (z.1 (n + 1)) := by
+    pairedTwoSidedWindow m (n + 1) z =
+      snocWindow (pairedTwoSidedWindow m n z) (z.1 (n + 1)) := by
   rw [← twoSidedWindow_spliceForwardReverse m (n + 1) z,
     ← twoSidedWindow_spliceForwardReverse m n z, twoSidedWindow_succ]
   rfl
@@ -173,7 +173,7 @@ theorem sourceTwoSidedWindow_succ (m n : ℕ)
 theorem sourceTwoSidedNext_factor (m n : ℕ)
     (z : (ℕ → α) × (ℕ → α)) :
     sourceTwoSidedNext m n z =
-      (sourceTwoSidedWindow m n z, z.1 (n + 1)) := by
+      (pairedTwoSidedWindow m n z, z.1 (n + 1)) := by
   rfl
 
 private theorem mixed_compProd_prodMkRight_eq_prod
@@ -293,15 +293,15 @@ theorem measurable_mixedBranchesToWindow (m n : ℕ) :
 theorem mixedBranchesToWindow_source (m n : ℕ)
     (z : (ℕ → α) × (ℕ → α)) :
     mixedBranchesToWindow m n (sourcePrefix n z, reverseStrictPrefix m z) =
-      sourceTwoSidedWindow m n z := by
+      pairedTwoSidedWindow m n z := by
   funext i
   refine Fin.addCases (fun j => ?_) (fun j => ?_) i
   · refine Fin.lastCases ?_ (fun k => ?_) j
-    · simp [mixedBranchesToWindow, sourceTwoSidedWindow, sourcePastWindow,
+    · simp [mixedBranchesToWindow, pairedTwoSidedWindow, pairedPastWindow,
         snocWindow, sourcePrefix, natPrefix]
-    · simp [mixedBranchesToWindow, sourceTwoSidedWindow, sourcePastWindow,
+    · simp [mixedBranchesToWindow, pairedTwoSidedWindow, pairedPastWindow,
         snocWindow, sourcePrefix, natPrefix, reverseStrictPrefix]
-  · simp [mixedBranchesToWindow, sourceTwoSidedWindow, futureStrictPrefix,
+  · simp [mixedBranchesToWindow, pairedTwoSidedWindow, futureStrictPrefix,
       sourcePrefix, natPrefix]
 
 def mixedBranchesNextToWindowNext (m n : ℕ)
@@ -556,7 +556,7 @@ theorem forwardReverseTwoSidedSourceMeasure_mixedWindow_next
     {π : Measure α} [IsProbabilityMeasure π] {K Kr : Kernel α α}
     [IsMarkovKernel K] [IsMarkovKernel Kr] (m n : ℕ) :
     (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceTwoSidedNext m n) =
-      (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceTwoSidedWindow m n) ⊗ₘ
+      (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedTwoSidedWindow m n) ⊗ₘ
         (K ∘ₖ Kernel.deterministic
           (fun w : Fin ((m + 1) + n) → α => w (mixedWindowLast m n))
           (measurable_mixedWindowLast m n)) := by
@@ -611,7 +611,7 @@ theorem forwardReverseTwoSidedSourceMeasure_mixedWindow_next
   have hfactor : sourceTwoSidedNext m n = qwindow ∘ qswap ∘ triple := by
     funext z
     exact mixedBranchesNextToWindowNext_source m n z
-  have hwindowfun : sourceTwoSidedWindow m n = fwindow ∘ pair := by
+  have hwindowfun : pairedTwoSidedWindow m n = fwindow ∘ pair := by
     funext z
     exact mixedBranchesToWindow_source m n z
   have htripleLaw :
@@ -638,10 +638,10 @@ theorem forwardReverseTwoSidedSourceMeasure_mixedWindow_next
           (K ∘ₖ Kernel.deterministic gwindow hgwindow) := by
     exact Measure.compProd_map_through (P ⊗ₘ B) K fwindow hfwindow gwindow hgwindow
   have hwindowLaw :
-      (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceTwoSidedWindow m n) =
+      (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedTwoSidedWindow m n) =
         (P ⊗ₘ B).map fwindow := by
     calc
-      (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceTwoSidedWindow m n) =
+      (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedTwoSidedWindow m n) =
           ((forwardReverseTwoSidedSourceMeasure π K Kr).map pair).map fwindow := by
             rw [Measure.map_map hfwindow hpair]
             rw [hwindowfun]
@@ -668,7 +668,7 @@ theorem forwardReverseTwoSidedSourceMeasure_mixedWindow_next
     _ = ((P ⊗ₘ B).map fwindow) ⊗ₘ
           (K ∘ₖ Kernel.deterministic gwindow hgwindow) := by
           exact htransport
-    _ = (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceTwoSidedWindow m n) ⊗ₘ
+    _ = (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedTwoSidedWindow m n) ⊗ₘ
           (K ∘ₖ Kernel.deterministic
             (fun w : Fin ((m + 1) + n) → α => w (mixedWindowLast m n))
             (measurable_mixedWindowLast m n)) := by
@@ -742,39 +742,39 @@ theorem ae_forwardReverseTwoSidedSourceMeasure_reverse_zero_eq_forward_zero
   intro x
   simpa [L] using ae_conditionalReverseTailKernel_zero_eq (Kr := Kr) x
 
-theorem sourcePastWindow_eq_reverseNatPrefixSub_of_anchor
+theorem pairedPastWindow_eq_reverseNatPrefixSub_of_anchor
     (m : ℕ) (z : (ℕ → α) × (ℕ → α)) (hzero : z.2 0 = z.1 0) :
-    sourcePastWindow m z = reverseNatPrefixSub m z.2 := by
+    pairedPastWindow m z = reverseNatPrefixSub m z.2 := by
   funext i
   refine Fin.lastCases ?_ (fun j => ?_) i
-  · simp [sourcePastWindow, snocWindow, reverseNatPrefixSub, hzero]
-  · simp [sourcePastWindow, snocWindow, reverseNatPrefixSub, reverseStrictPrefix]
+  · simp [pairedPastWindow, snocWindow, reverseNatPrefixSub, hzero]
+  · simp [pairedPastWindow, snocWindow, reverseNatPrefixSub, reverseStrictPrefix]
 
-theorem ae_sourcePastWindow_eq_reverseNatPrefix
+theorem ae_pairedPastWindow_eq_reverseNatPrefix
     {π : Measure α} [IsProbabilityMeasure π] {K Kr : Kernel α α}
     [IsMarkovKernel K] [IsMarkovKernel Kr] [MeasurableEq α] (m : ℕ) :
-    sourcePastWindow (α := α) m =ᵐ[forwardReverseTwoSidedSourceMeasure π K Kr]
+    pairedPastWindow (α := α) m =ᵐ[forwardReverseTwoSidedSourceMeasure π K Kr]
       fun z => reverseNatPrefix m z.2 := by
   filter_upwards [ae_forwardReverseTwoSidedSourceMeasure_reverse_zero_eq_forward_zero
     (π := π) (K := K) (Kr := Kr)] with z hzero
   rw [reverseNatPrefix_eq_sub]
-  exact sourcePastWindow_eq_reverseNatPrefixSub_of_anchor m z hzero
+  exact pairedPastWindow_eq_reverseNatPrefixSub_of_anchor m z hzero
 
-/-- Under reverse-pair balance, every source past window has the ordinary
+/-- Under reverse-pair balance, every paired past window has the ordinary
 forward stationary-prefix law. -/
-theorem forwardReverseTwoSidedSourceMeasure_sourcePastWindow
+theorem forwardReverseTwoSidedMeasure_pairedPastWindow
     {π : Measure α} [IsProbabilityMeasure π] {K Kr : Kernel α α}
     [IsMarkovKernel K] [IsMarkovKernel Kr] [MeasurableEq α]
     (hbalance : Kernel.ReversePairBalance π K Kr)
     (hstationary : Kernel.Invariant K π) (m : ℕ) :
-    (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourcePastWindow m) =
+    (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedPastWindow m) =
       (stationaryTrajMeasure π K).map (natPrefix m) := by
   calc
-    (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourcePastWindow m) =
+    (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedPastWindow m) =
         (forwardReverseTwoSidedSourceMeasure π K Kr).map
           (fun z => reverseNatPrefix m z.2) := by
             exact Measure.map_congr
-              (ae_sourcePastWindow_eq_reverseNatPrefix
+              (ae_pairedPastWindow_eq_reverseNatPrefix
                 (π := π) (K := K) (Kr := Kr) m)
     _ = ((forwardReverseTwoSidedSourceMeasure π K Kr).map Prod.snd).map
           (reverseNatPrefix m) := by
@@ -930,12 +930,12 @@ theorem stationaryTrajMeasure_forwardMixedWindow_succ_factor
               (fun p => snocWindow p.1 p.2) := by
           rw [stationaryTrajMeasure_forwardMixedWindow_next (π := π) (K := K) m n]
 
-theorem sourceTwoSidedWindow_zero (m : ℕ)
+theorem pairedTwoSidedWindow_zero (m : ℕ)
     (z : (ℕ → α) × (ℕ → α)) :
-    sourceTwoSidedWindow m 0 z = sourcePastWindow m z := by
+    pairedTwoSidedWindow m 0 z = pairedPastWindow m z := by
   funext i
   refine Fin.addCases (fun j => ?_) (fun j => ?_) i
-  · unfold sourceTwoSidedWindow
+  · unfold pairedTwoSidedWindow
     rw [Fin.append_left]
     simp
   · exact Fin.elim0 j
@@ -943,8 +943,8 @@ theorem sourceTwoSidedWindow_zero (m : ℕ)
 theorem forwardReverseTwoSidedSourceMeasure_mixedWindow_succ_factor
     {π : Measure α} [IsProbabilityMeasure π] {K Kr : Kernel α α}
     [IsMarkovKernel K] [IsMarkovKernel Kr] (m n : ℕ) :
-    (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceTwoSidedWindow m (n + 1)) =
-      ((forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceTwoSidedWindow m n) ⊗ₘ
+    (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedTwoSidedWindow m (n + 1)) =
+      ((forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedTwoSidedWindow m n) ⊗ₘ
         (K ∘ₖ Kernel.deterministic
           (fun w : Fin ((m + 1) + n) → α => w (mixedWindowLast m n))
           (measurable_mixedWindowLast m n))).map
@@ -954,17 +954,17 @@ theorem forwardReverseTwoSidedSourceMeasure_mixedWindow_succ_factor
   have hpair : Measurable pair := measurable_sourceTwoSidedNext m n
   have hsnoc : Measurable (fun p : (Fin ((m + 1) + n) → α) × α =>
       snocWindow p.1 p.2) := measurable_snocWindow ((m + 1) + n)
-  have hfun : sourceTwoSidedWindow m (n + 1) =
+  have hfun : pairedTwoSidedWindow m (n + 1) =
       (fun p => snocWindow p.1 p.2) ∘ pair := by
     funext z
-    exact sourceTwoSidedWindow_succ m n z
+    exact pairedTwoSidedWindow_succ m n z
   calc
-    (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceTwoSidedWindow m (n + 1)) =
+    (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedTwoSidedWindow m (n + 1)) =
         ((forwardReverseTwoSidedSourceMeasure π K Kr).map pair).map
           (fun p => snocWindow p.1 p.2) := by
           rw [Measure.map_map hsnoc hpair]
           rw [hfun]
-    _ = ((forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceTwoSidedWindow m n) ⊗ₘ
+    _ = ((forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedTwoSidedWindow m n) ⊗ₘ
           (K ∘ₖ Kernel.deterministic
             (fun w : Fin ((m + 1) + n) → α => w (mixedWindowLast m n))
             (measurable_mixedWindowLast m n))).map
@@ -979,18 +979,18 @@ theorem Kernel.ReversePairBalance.forwardReverseTwoSidedSourceMeasure_mixedWindo
     [IsMarkovKernel K] [IsMarkovKernel Kr] [MeasurableEq α]
     (hbalance : Kernel.ReversePairBalance π K Kr)
     (hstationary : Kernel.Invariant K π) (m n : ℕ) :
-    (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceTwoSidedWindow m n) =
+    (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedTwoSidedWindow m n) =
       (stationaryTrajMeasure π K).map (forwardMixedWindow m n) := by
   induction n with
   | zero =>
       calc
-        (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceTwoSidedWindow m 0) =
-            (forwardReverseTwoSidedSourceMeasure π K Kr).map (sourcePastWindow m) := by
+        (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedTwoSidedWindow m 0) =
+            (forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedPastWindow m) := by
               congr 1
               funext z
-              exact sourceTwoSidedWindow_zero m z
+              exact pairedTwoSidedWindow_zero m z
         _ = (stationaryTrajMeasure π K).map (natPrefix m) := by
-              exact forwardReverseTwoSidedSourceMeasure_sourcePastWindow
+              exact forwardReverseTwoSidedMeasure_pairedPastWindow
                 hbalance hstationary m
         _ = (stationaryTrajMeasure π K).map (forwardMixedWindow m 0) := by
               symm
@@ -1001,8 +1001,8 @@ theorem Kernel.ReversePairBalance.forwardReverseTwoSidedSourceMeasure_mixedWindo
   | succ n ih =>
       calc
         (forwardReverseTwoSidedSourceMeasure π K Kr).map
-            (sourceTwoSidedWindow m (n + 1)) =
-            ((forwardReverseTwoSidedSourceMeasure π K Kr).map (sourceTwoSidedWindow m n) ⊗ₘ
+            (pairedTwoSidedWindow m (n + 1)) =
+            ((forwardReverseTwoSidedSourceMeasure π K Kr).map (pairedTwoSidedWindow m n) ⊗ₘ
               (K ∘ₖ Kernel.deterministic
                 (fun w : Fin ((m + 1) + n) → α => w (mixedWindowLast m n))
                 (measurable_mixedWindowLast m n))).map
@@ -1020,7 +1020,7 @@ theorem Kernel.ReversePairBalance.forwardReverseTwoSidedSourceMeasure_mixedWindo
                     exact stationaryTrajMeasure_forwardMixedWindow_succ_factor
                       (π := π) (K := K) m n
 
-/-- The corresponding finite-window law after the source branches are spliced
+/-- The corresponding finite-window law after the forward/reverse branches are spliced
 into an integer-indexed trajectory. -/
 theorem Kernel.ReversePairBalance.forwardReverseTwoSidedTrajMeasure_mixedWindow_law
     {π : Measure α} [IsProbabilityMeasure π] {K Kr : Kernel α α}
@@ -1032,7 +1032,7 @@ theorem Kernel.ReversePairBalance.forwardReverseTwoSidedTrajMeasure_mixedWindow_
   unfold forwardReverseTwoSidedTrajMeasure
   rw [Measure.map_map (measurable_twoSidedWindow m n) measurable_spliceForwardReverse]
   have hfun : twoSidedWindow (α := α) m n ∘ spliceForwardReverse =
-      sourceTwoSidedWindow m n := by
+      pairedTwoSidedWindow m n := by
     funext z
     exact twoSidedWindow_spliceForwardReverse m n z
   rw [hfun]

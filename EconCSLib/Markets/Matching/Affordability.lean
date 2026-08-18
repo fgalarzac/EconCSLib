@@ -1344,7 +1344,7 @@ If a value region has a uniform CDF cap `q` at the scalar floor, the
 constant-cutoff maximum-crossing integral is bounded below by the region mass
 times `1 - q^m`.
 
-This is the reusable integral step behind PG24 Lemma 11-style arguments: once
+This is the reusable integral step behind maximum-crossing arguments: once
 many colleges have cutoff below a scalar floor, a positive value region with a
 uniformly nonterminal noise CDF forces the integrated maximum-crossing lower
 bound above any target below this two-piece lower bound.
